@@ -791,6 +791,36 @@ ruleTester.run("lines-around-comment", rule, {
                 allowArrayEnd: true
             }],
             parserOptions: { ecmaVersion: 6 }
+        },
+
+        // ignorePattern
+        {
+            code:
+            "foo;\n\n" +
+            "/* eslint-disable no-underscore-dangle */\n\n" +
+            "this._values = values;\n" +
+            "this._values2 = true;\n" +
+            "/* eslint-enable no-underscore-dangle */\n" +
+            "bar",
+            options: [{
+                beforeBlockComment: true,
+                afterBlockComment: true
+            }]
+        },
+        "foo;\n/* eslint */",
+        "foo;\n/* jshint */",
+        "foo;\n/* jslint */",
+        "foo;\n/* istanbul */",
+        "foo;\n/* global */",
+        "foo;\n/* globals */",
+        "foo;\n/* exported */",
+        "foo;\n/* jscs */",
+        "foo;\n/* fallthrough */",
+        "foo;\n/* fallsthrough */",
+        "foo;\n/* fall through */",
+        "foo;\n/* falls through */",
+        {
+            code: "foo\n/* pragma */", options: [{ ignorePattern: "pragma" }]
         }
     ],
 
@@ -1414,6 +1444,98 @@ ruleTester.run("lines-around-comment", rule, {
             }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{ message: afterMessage, type: "Block", line: 4 }]
+        },
+
+        // ignorePattern
+        {
+            code:
+            "foo;\n\n" +
+            "/* eslint-disable no-underscore-dangle */\n\n" +
+            "this._values = values;\n" +
+            "this._values2 = true;\n" +
+            "/* eslint-enable no-underscore-dangle */\n" +
+            "bar",
+            options: [{
+                beforeBlockComment: true,
+                afterBlockComment: true,
+                applyDefaultPatterns: false
+            }],
+            errors: [
+                { message: beforeMessage, type: "Block", line: 7 },
+                { message: afterMessage, type: "Block", line: 7 }
+            ]
+        },
+        {
+            code: "foo;\n/* eslint */",
+            output: "foo;\n\n/* eslint */",
+            options: [{ applyDefaultPatterns: false }],
+            errors: [{ message: beforeMessage, type: "Block" }]
+        },
+        {
+            code: "foo;\n/* jshint */",
+            output: "foo;\n\n/* jshint */",
+            options: [{ applyDefaultPatterns: false }],
+            errors: [{ message: beforeMessage, type: "Block" }]
+        },
+        {
+            code: "foo;\n/* jslint */",
+            output: "foo;\n\n/* jslint */",
+            options: [{ applyDefaultPatterns: false }],
+            errors: [{ message: beforeMessage, type: "Block" }]
+        },
+        {
+            code: "foo;\n/* istanbul */",
+            output: "foo;\n\n/* istanbul */",
+            options: [{ applyDefaultPatterns: false }],
+            errors: [{ message: beforeMessage, type: "Block" }]
+        },
+        {
+            code: "foo;\n/* global */",
+            output: "foo;\n\n/* global */",
+            options: [{ applyDefaultPatterns: false }],
+            errors: [{ message: beforeMessage, type: "Block" }]
+        },
+        {
+            code: "foo;\n/* globals */",
+            output: "foo;\n\n/* globals */",
+            options: [{ applyDefaultPatterns: false }],
+            errors: [{ message: beforeMessage, type: "Block" }]
+        },
+        {
+            code: "foo;\n/* exported */",
+            output: "foo;\n\n/* exported */",
+            options: [{ applyDefaultPatterns: false }],
+            errors: [{ message: beforeMessage, type: "Block" }]
+        },
+        {
+            code: "foo;\n/* jscs */",
+            output: "foo;\n\n/* jscs */",
+            options: [{ applyDefaultPatterns: false }],
+            errors: [{ message: beforeMessage, type: "Block" }]
+        },
+        {
+            code: "foo;\n/* fallthrough */",
+            output: "foo;\n\n/* fallthrough */",
+            options: [{ applyDefaultPatterns: false }],
+            errors: [{ message: beforeMessage, type: "Block" }]
+        },
+        {
+            code: "foo;\n/* fallsthrough */",
+            output: "foo;\n\n/* fallsthrough */",
+            options: [{ applyDefaultPatterns: false }],
+            errors: [{ message: beforeMessage, type: "Block" }]
+        },
+        {
+            code: "foo;\n/* fall through */",
+            output: "foo;\n\n/* fall through */",
+            options: [{ applyDefaultPatterns: false }],
+            errors: [{ message: beforeMessage, type: "Block" }]
+        },
+        {
+            code: "foo;\n/* falls through */",
+            output: "foo;\n\n/* falls through */",
+            options: [{ applyDefaultPatterns: false }],
+            errors: [{ message: beforeMessage, type: "Block" }]
         }
     ]
 
