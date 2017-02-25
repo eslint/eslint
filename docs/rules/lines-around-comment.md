@@ -21,6 +21,9 @@ This rule has an object option:
 * `"allowObjectEnd": true` allows comments to appear at the end of object literals
 * `"allowArrayStart": true` allows comments to appear at the start of array literals
 * `"allowArrayEnd": true` allows comments to appear at the end of array literals
+* `"applyDefaultPatterns"` enables or disables the default comment patterns to be ignored by the rule
+* `"ignorePattern"` custom patterns to be ignored by the rule
+
 
 ### beforeBlockComment
 
@@ -333,6 +336,60 @@ const [
     /* what a great and wonderful day */
 ] = ["great", "not great"];
 ```
+
+
+### ignorePattern
+
+By default this rule ignores comments starting with the following words: `eslint`, `jshint`, `jslint`, `istanbul`, `global`, `exported`, `jscs`, `falls through`. An alternative regular expression can be provided.
+
+Examples of **correct** code for the `ignorePattern` option:
+
+```js
+/*eslint lines-around-comment: ["error"]*/
+
+foo();
+/* eslint mentioned in this comment */,
+bar();
+
+
+/*eslint lines-around-comment: ["error", { "ignorePattern": "pragma" }] */
+
+foo();
+/* a valid comment using pragma in it */
+```
+
+Examples of **incorrect** code for the `ignorePattern` option:
+
+```js
+/*eslint lines-around-comment: ["error", { "ignorePattern": "pragma" }] */
+
+1 + 1;
+/* something else */
+```
+
+### applyDefaultPatterns
+
+Default ignore patterns are applied even when `ignorePattern` is provided. If you want to omit default patterns, set this option to `false`.
+
+Examples of **correct** code for the `{ "applyDefaultPatterns": false }` option:
+
+```js
+/*eslint lines-around-comment: ["error", { "ignorePattern": "pragma", applyDefaultPatterns: false }] */
+
+foo();
+/* a valid comment using pragma in it */
+```
+
+Examples of **incorrect** code for the `{ "applyDefaultPatterns": false }` option:
+
+```js
+/*eslint lines-around-comment: ["error", { "applyDefaultPatterns": false }] */
+
+foo();
+/* eslint mentioned in comment */
+
+```
+
 
 ## When Not To Use It
 
