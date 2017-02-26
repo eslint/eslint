@@ -141,14 +141,6 @@ ruleTester.run("prefer-destructuring", rule, {
                 message: "Use object destructuring",
                 type: "AssignmentExpression"
             }]
-        },
-        {
-            code: "var blah foo = array['foo'];",
-            output: "var blah foo = array['foo'];",
-            errors: [{
-                message: "Use object destructuring",
-                type: "AssignmentExpression"
-            }]
         }
     ]
 });
