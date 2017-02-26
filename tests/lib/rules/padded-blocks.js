@@ -466,7 +466,7 @@ ruleTester.run("padded-blocks", rule, {
         },
         {
             code: "function foo() { // a\n\n  b;\n}",
-            output: "function foo() {\n // a\n\n  b;\n}",
+            output: "function foo() { // a\n\n  b;\n}",
             options: ["never"],
             errors: [NEVER_MESSAGE]
         }

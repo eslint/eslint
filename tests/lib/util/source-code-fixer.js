@@ -192,6 +192,13 @@ describe("SourceCodeFixer", () => {
                 assert.equal(result.messages.length, 0);
             });
 
+
+            it("should ignore reversed ranges", () => {
+                const result = SourceCodeFixer.applyFixes(sourceCode, [REVERSED_RANGE]);
+
+                assert.equal(result.output, TEST_CODE);
+            });
+
         });
 
 
@@ -414,10 +421,10 @@ describe("SourceCodeFixer", () => {
                 assert.equal(result.messages.length, 0);
             });
 
-            it("should handle reversed ranges gracefully", () => {
+            it("should ignore reversed ranges", () => {
                 const result = SourceCodeFixer.applyFixes(sourceCode, [REVERSED_RANGE]);
 
-                assert.equal(result.output, "\uFEFFvar  answer = 6 * 7;");
+                assert.equal(result.output, `\uFEFF${TEST_CODE}`);
             });
 
         });
