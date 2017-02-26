@@ -911,53 +911,6 @@ describe("ast-utils", () => {
         });
     });
 
-    describe("getLocationFromRangeIndex()", () => {
-        it("should return the location of a range index", () => {
-
-            const CODE =
-                "foo\n" +
-                "bar\r\n" +
-                "baz\r" +
-                "qux\u2028" +
-                "foo\u2029" +
-                "qux\n";
-            const ast = espree.parse(CODE, ESPREE_CONFIG);
-            const sourceCode = new SourceCode(CODE, ast);
-
-            assert.deepEqual(astUtils.getLocationFromRangeIndex(sourceCode, 5), { line: 2, column: 1 });
-            assert.deepEqual(astUtils.getLocationFromRangeIndex(sourceCode, 3), { line: 1, column: 3 });
-            assert.deepEqual(astUtils.getLocationFromRangeIndex(sourceCode, 4), { line: 2, column: 0 });
-            assert.deepEqual(astUtils.getLocationFromRangeIndex(sourceCode, 21), { line: 6, column: 0 });
-        });
-
-    });
-
-    describe("getRangeIndexFromLocation()", () => {
-        it("should return the range index of a location", () => {
-            const CODE =
-                "foo\n" +
-                "bar\r\n" +
-                "baz\r" +
-                "qux\u2028" +
-                "foo\u2029" +
-                "qux\n";
-            const ast = espree.parse(CODE, ESPREE_CONFIG);
-            const sourceCode = new SourceCode(CODE, ast);
-
-            assert.strictEqual(astUtils.getRangeIndexFromLocation(sourceCode, { line: 2, column: 1 }), 5);
-            assert.strictEqual(astUtils.getRangeIndexFromLocation(sourceCode, { line: 1, column: 3 }), 3);
-            assert.strictEqual(astUtils.getRangeIndexFromLocation(sourceCode, { line: 2, column: 0 }), 4);
-            assert.strictEqual(astUtils.getRangeIndexFromLocation(sourceCode, { line: 6, column: 0 }), 21);
-
-            sourceCode.lines.forEach((line, index) => {
-                assert.strictEqual(
-                    line[0],
-                    sourceCode.text[astUtils.getRangeIndexFromLocation(sourceCode, { line: index + 1, column: 0 })]
-                );
-            });
-        });
-    });
-
     describe("getParenthesisedText", () => {
         const expectedResults = {
             "(((foo))); bar;": "(((foo)))",
