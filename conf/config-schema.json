@@ -9,7 +9,8 @@
         "settings": { "type": "object" },
         "extends": { "type": ["string", "array"] },
         "rules": { "type": "object" },
-        "parserOptions": { "type": "object" }
+        "parserOptions": { "type": "object" },
+        "overrides": { "type": "array" }
     },
     "additionalProperties": false
 }

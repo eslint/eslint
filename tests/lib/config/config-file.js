@@ -16,7 +16,6 @@ const assert = require("chai").assert,
     os = require("os"),
     yaml = require("js-yaml"),
     shell = require("shelljs"),
-    environments = require("../../../conf/environments"),
     ConfigFile = require("../../../lib/config/config-file"),
     Linter = require("../../../lib/linter"),
     Config = require("../../../lib/config");
@@ -567,17 +566,6 @@ describe("ConfigFile", () => {
             }, /Cannot read config file/);
         });
 
-        it("should load information from a package.json file and apply environments", () => {
-            const config = ConfigFile.load(getFixturePath("package-json/package.json"), configContext, true);
-
-            assert.deepEqual(config, {
-                parserOptions: { ecmaVersion: 6 },
-                env: { es6: true },
-                globals: environments.es6.globals,
-                rules: {}
-            });
-        });
-
         it("should load fresh information from a package.json file", () => {
             const initialConfig = {
                     eslintConfig: {
@@ -658,17 +646,6 @@ describe("ConfigFile", () => {
             });
         });
 
-        it("should load information from a YAML file and apply environments", () => {
-            const config = ConfigFile.load(getFixturePath("yaml/.eslintrc.yaml"), configContext, true);
-
-            assert.deepEqual(config, {
-                parserOptions: {},
-                env: { browser: true },
-                globals: environments.browser.globals,
-                rules: {}
-            });
-        });
-
         it("should load information from a YML file", () => {
             const config = ConfigFile.load(getFixturePath("yml/.eslintrc.yml"), configContext);
 
@@ -680,25 +657,14 @@ describe("ConfigFile", () => {
             });
         });
 
-        it("should load information from a YML file and apply environments", () => {
-            const config = ConfigFile.load(getFixturePath("yml/.eslintrc.yml"), configContext, true);
-
-            assert.deepEqual(config, {
-                parserOptions: { ecmaFeatures: { globalReturn: true } },
-                env: { node: true },
-                globals: environments.node.globals,
-                rules: {}
-            });
-        });
-
         it("should load information from a YML file and apply extensions", () => {
             const config = ConfigFile.load(getFixturePath("extends/.eslintrc.yml"), configContext, true);
 
             assert.deepEqual(config, {
-                extends: "../package-json/package.json",
-                parserOptions: { ecmaVersion: 6 },
                 env: { es6: true },
-                globals: environments.es6.globals,
+                extends: "../package-json/package.json",
+                globals: {},
+                parserOptions: {},
                 rules: { booya: 2 }
             });
         });
