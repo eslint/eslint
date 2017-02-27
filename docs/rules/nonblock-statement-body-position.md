@@ -1,7 +1,5 @@
 # enforce the location of single-line statements (nonblock-statement-body-position)
 
-(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
-
 When writing `if`, `else`, `while`, `do-while`, and `for` statements, the body can be a single statement instead of a block. It can be useful to enforce a consistent location for these single statements.
 
 For example, some developers avoid writing code like this:
