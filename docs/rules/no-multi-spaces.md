@@ -56,12 +56,35 @@ a ? b: c
 
 This rule's configuration consists of an object with the following properties:
 
-* `"ignoreEOLComments": false` (defaults to `true`) ignores multiple spaces before comments that occur at the end of lines
+* `"ignoreEOLComments": true` (defaults to `false`) ignores multiple spaces before comments that occur at the end of lines
 * `"exceptions": { "Property": true }` (`"Property"` is the only node specified by default) specifies nodes to ignore
 
 ### ignoreEOLComments
 
-Examples of **correct** code for this rule with the `{ "ignoreEOLComments": true }` (default) option:
+
+Examples of **incorrect** code for this rule with the `{ "ignoreEOLComments": false }` (default) option:
+
+```js
+/*eslint no-multi-spaces: ["error", { ignoreEOLComments: false }]*/
+
+var x = 5;      // comment
+var x = 5;      /* multiline
+ * comment
+ */
+```
+
+Examples of **correct** code for this rule with the `{ "ignoreEOLComments": false }` (default) option:
+
+```js
+/*eslint no-multi-spaces: ["error", { ignoreEOLComments: false }]*/
+
+var x = 5; // comment
+var x = 5; /* multiline
+ * comment
+ */
+```
+
+Examples of **correct** code for this rule with the `{ "ignoreEOLComments": true }` option:
 
 ```js
 /*eslint no-multi-spaces: ["error", { ignoreEOLComments: true }]*/
@@ -76,27 +99,6 @@ var x = 5;      /* multiline
  */
 ```
 
-Examples of **incorrect** code for this rule with the `{ "ignoreEOLComments": false }` option:
-
-```js
-/*eslint no-multi-spaces: ["error", { ignoreEOLComments: false }]*/
-
-var x = 5;      // comment
-var x = 5;      /* multiline
- * comment
- */
-```
-
-Examples of **correct** code for this rule with the `{ "ignoreEOLComments": false }` option:
-
-```js
-/*eslint no-multi-spaces: ["error", { ignoreEOLComments: false }]*/
-
-var x = 5; // comment
-var x = 5; /* multiline
- * comment
- */
-```
 
 ### exceptions
 
