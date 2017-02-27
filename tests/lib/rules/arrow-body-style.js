@@ -104,7 +104,7 @@ ruleTester.run("arrow-body-style", rule, {
         },
         {
             code: "var foo = () => { return; };",
-            output: "var foo = () => { return; };", // not fixed
+            output: null, // not fixed
             options: ["as-needed", { requireReturnForObjectLiteral: true }],
             errors: [
                 { line: 1, column: 17, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
@@ -136,7 +136,7 @@ ruleTester.run("arrow-body-style", rule, {
         },
         {
             code: "var foo = (retv, name) => {\nretv[name] = true;\nreturn retv;\n};",
-            output: "var foo = (retv, name) => {\nretv[name] = true;\nreturn retv;\n};", // not fixed
+            output: null, // not fixed
             options: ["never"],
             errors: [
                 { line: 1, column: 27, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
@@ -188,9 +188,7 @@ ruleTester.run("arrow-body-style", rule, {
             code:
             "var foo = () => { return bar }\n" +
             "[1, 2, 3].map(foo)",
-            output:
-            "var foo = () => { return bar }\n" +
-            "[1, 2, 3].map(foo)",
+            output: null,
             options: ["never"],
             errors: [
                 { line: 1, column: 17, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
@@ -202,9 +200,7 @@ ruleTester.run("arrow-body-style", rule, {
             code:
             "var foo = () => { return bar }\n" +
             "(1).toString();",
-            output:
-            "var foo = () => { return bar }\n" +
-            "(1).toString();",
+            output: null,
             options: ["never"],
             errors: [
                 { line: 1, column: 17, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }

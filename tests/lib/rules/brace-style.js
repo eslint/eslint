@@ -558,7 +558,7 @@ ruleTester.run("brace-style", rule, {
         // Comment interferes with fix
         {
             code: "if (foo) // comment \n{\nbar();\n}",
-            output: "if (foo) // comment \n{\nbar();\n}",
+            output: null,
             errors: [{ message: OPEN_MESSAGE, type: "Punctuator" }]
         },
 

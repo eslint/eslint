@@ -87,6 +87,6 @@ ruleTester.run("eqeqeq", rule, {
         { code: "(a == b) == (c)", errors: [{ message: "Expected '===' and instead saw '=='.", type: "BinaryExpression", line: 1 }, { message: "Expected '===' and instead saw '=='.", type: "BinaryExpression", line: 1 }] },
         { code: "(a != b) != (c)", errors: [{ message: "Expected '!==' and instead saw '!='.", type: "BinaryExpression", line: 1 }, { message: "Expected '!==' and instead saw '!='.", type: "BinaryExpression", line: 1 }] }
 
-    // If no output is provided, assert that the output is the same as the original code.
-    ].map(invalidCase => Object.assign({ output: invalidCase.code }, invalidCase))
+    // If no output is provided, assert that no output is produced.
+    ].map(invalidCase => Object.assign({ output: null }, invalidCase))
 });

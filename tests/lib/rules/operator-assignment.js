@@ -98,11 +98,11 @@ ruleTester.run("operator-assignment", rule, {
         errors: EXPECTED_OPERATOR_ASSIGNMENT
     }, {
         code: "x = y * x",
-        output: "x = y * x", // not fixed (possible change in behavior if y and x have valueOf() functions)
+        output: null, // not fixed (possible change in behavior if y and x have valueOf() functions)
         errors: EXPECTED_OPERATOR_ASSIGNMENT
     }, {
         code: "x = (y * z) * x",
-        output: "x = (y * z) * x", // not fixed (possible change in behavior if y/z and x have valueOf() functions)
+        output: null, // not fixed (possible change in behavior if y/z and x have valueOf() functions)
         errors: EXPECTED_OPERATOR_ASSIGNMENT
     }, {
         code: "x = x / y",
@@ -142,7 +142,7 @@ ruleTester.run("operator-assignment", rule, {
         errors: EXPECTED_OPERATOR_ASSIGNMENT
     }, {
         code: "x.y[z['a']][0].b = x.y[z['a']][0].b * 2",
-        output: "x.y[z['a']][0].b = x.y[z['a']][0].b * 2", // not fixed; might activate getters more than before
+        output: null, // not fixed; might activate getters more than before
         errors: EXPECTED_OPERATOR_ASSIGNMENT
     }, {
         code: "x = x + y",
@@ -165,20 +165,20 @@ ruleTester.run("operator-assignment", rule, {
         errors: UNEXPECTED_OPERATOR_ASSIGNMENT
     }, {
         code: "foo.bar.baz = foo.bar.baz + qux",
-        output: "foo.bar.baz = foo.bar.baz + qux", // not fixed; fixing would cause a foo.bar getter to activate once rather than twice
+        output: null, // not fixed; fixing would cause a foo.bar getter to activate once rather than twice
         errors: EXPECTED_OPERATOR_ASSIGNMENT
     }, {
         code: "foo.bar.baz += qux",
-        output: "foo.bar.baz += qux", // not fixed; fixing would cause a foo.bar getter to activate twice rather than once
+        output: null, // not fixed; fixing would cause a foo.bar getter to activate twice rather than once
         options: ["never"],
         errors: UNEXPECTED_OPERATOR_ASSIGNMENT
     }, {
         code: "foo[bar] = foo[bar] + baz",
-        output: "foo[bar] = foo[bar] + baz", // not fixed; fixing would cause bar.toString() to get called once instead of twice
+        output: null, // not fixed; fixing would cause bar.toString() to get called once instead of twice
         errors: EXPECTED_OPERATOR_ASSIGNMENT
     }, {
         code: "foo[bar] >>>= baz",
-        output: "foo[bar] >>>= baz", // not fixed; fixing would cause bar.toString() to get called twice instead of once
+        output: null, // not fixed; fixing would cause bar.toString() to get called twice instead of once
         options: ["never"],
         errors: UNEXPECTED_OPERATOR_ASSIGNMENT
     }, {

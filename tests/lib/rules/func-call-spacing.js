@@ -271,27 +271,27 @@ ruleTester.run("func-call-spacing", rule, {
         {
             code: "f\n();",
             errors: [{ message: "Unexpected space between function name and paren.", type: "CallExpression" }],
-            output: "f\n();" // no change
+            output: null // no change
         },
         {
             code: "f\r();",
             errors: [{ message: "Unexpected space between function name and paren.", type: "CallExpression" }],
-            output: "f\r();" // no change
+            output: null // no change
         },
         {
             code: "f\u2028();",
             errors: [{ message: "Unexpected space between function name and paren.", type: "CallExpression" }],
-            output: "f\u2028();" // no change
+            output: null // no change
         },
         {
             code: "f\u2029();",
             errors: [{ message: "Unexpected space between function name and paren.", type: "CallExpression" }],
-            output: "f\u2029();" // no change
+            output: null // no change
         },
         {
             code: "f\r\n();",
             errors: [{ message: "Unexpected space between function name and paren.", type: "CallExpression" }],
-            output: "f\r\n();" // no change
+            output: null // no change
         },
 
         // "never"
@@ -375,7 +375,7 @@ ruleTester.run("func-call-spacing", rule, {
                     type: "CallExpression"
                 }
             ],
-            output: "f\n();" // no change
+            output: null // no change
         },
         {
             code: [
@@ -392,11 +392,7 @@ ruleTester.run("func-call-spacing", rule, {
                     column: 23
                 }
             ],
-            output: [
-                "this.cancelled.add(request)",
-                "this.decrement(request)",
-                "(0, request.reject)(new api.Cancel())"
-            ].join("\n") // no change
+            output: null // no change
         },
         {
             code: [
@@ -412,10 +408,7 @@ ruleTester.run("func-call-spacing", rule, {
                     column: 9
                 }
             ],
-            output: [
-                "var a = foo",
-                "(function(global) {}(this));"
-            ].join("\n") // no change
+            output: null // no change
         },
         {
             code: [
@@ -431,10 +424,7 @@ ruleTester.run("func-call-spacing", rule, {
                     column: 9
                 }
             ],
-            output: [
-                "var a = foo",
-                "(0, baz())"
-            ].join("\n") // no change
+            output: null // no change
         },
         {
             code: "f\r();",
@@ -445,7 +435,7 @@ ruleTester.run("func-call-spacing", rule, {
                     type: "CallExpression"
                 }
             ],
-            output: "f\r();" // no change
+            output: null // no change
         },
         {
             code: "f\u2028();",
@@ -456,7 +446,7 @@ ruleTester.run("func-call-spacing", rule, {
                     type: "CallExpression"
                 }
             ],
-            output: "f\u2028();" // no change
+            output: null // no change
         },
         {
             code: "f\u2029();",
@@ -467,7 +457,7 @@ ruleTester.run("func-call-spacing", rule, {
                     type: "CallExpression"
                 }
             ],
-            output: "f\u2029();" // no change
+            output: null // no change
         },
         {
             code: "f\r\n();",
@@ -478,7 +468,7 @@ ruleTester.run("func-call-spacing", rule, {
                     type: "CallExpression"
                 }
             ],
-            output: "f\r\n();" // no change
+            output: null // no change
         },
 
         // "always"

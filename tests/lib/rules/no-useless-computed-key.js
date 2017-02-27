@@ -58,13 +58,13 @@ ruleTester.run("no-useless-computed-key", rule, {
             }]
         }, {
             code: "({ [/* this comment prevents a fix */ 'x']: 0 })",
-            output: "({ [/* this comment prevents a fix */ 'x']: 0 })",
+            output: null,
             errors: [{
                 message: "Unnecessarily computed property ['x'] found.", type: "Property"
             }]
         }, {
             code: "({ ['x' /* this comment also prevents a fix */]: 0 })",
-            output: "({ ['x' /* this comment also prevents a fix */]: 0 })",
+            output: null,
             errors: [{
                 message: "Unnecessarily computed property ['x'] found.", type: "Property"
             }]

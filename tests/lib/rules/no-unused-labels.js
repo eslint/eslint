@@ -66,12 +66,12 @@ ruleTester.run("no-unused-labels", rule, {
         },
         {
             code: "A: /* comment */ foo",
-            output: "A: /* comment */ foo",
+            output: null,
             errors: ["'A:' is defined but never used."]
         },
         {
             code: "A /* comment */: foo",
-            output: "A /* comment */: foo",
+            output: null,
             errors: ["'A:' is defined but never used."]
         }
 
