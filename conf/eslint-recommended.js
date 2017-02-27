@@ -84,6 +84,7 @@ module.exports = {
         "no-case-declarations": "error",
         "no-catch-shadow": "off",
         "no-class-assign": "error",
+        "no-compare-neg-zero": "off",
         "no-cond-assign": "error",
         "no-confusing-arrow": "off",
         "no-console": "error",
