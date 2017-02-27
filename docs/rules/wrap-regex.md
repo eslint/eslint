@@ -1,7 +1,5 @@
 # Require Regex Literals to be Wrapped (wrap-regex)
 
-(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
-
 When a regular expression is used in certain situations, it can end up looking like a division operator. For example:
 
 ```js

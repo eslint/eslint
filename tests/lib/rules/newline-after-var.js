@@ -285,7 +285,7 @@ ruleTester.run("newline-after-var", rule, {
         { code: TWO_BLANKS, output: NO_BLANK, options: ["never"], errors: [NEVER_ERROR] },
         { code: THREE_BLANKS, output: NO_BLANK, options: ["never"], errors: [NEVER_ERROR] },
         { code: ONE_BLANK_WITH_TRAILING_WS, output: NO_BLANK_WITH_TRAILING_WS, options: ["never"], errors: [NEVER_ERROR] },
-        { code: ONE_BLANK_WITH_INLINE_COMMENT, NO_BLANK_WITH_INLINE_COMMENT, options: ["never"], errors: [NEVER_ERROR] },
+        { code: ONE_BLANK_WITH_INLINE_COMMENT, output: NO_BLANK_WITH_INLINE_COMMENT, options: ["never"], errors: [NEVER_ERROR] },
         { code: MULTI_VAR_ONE_BLANK, output: MULTI_VAR_NO_BLANK, options: ["never"], errors: [NEVER_ERROR] },
         { code: MULTI_DEC_ONE_BLANK, output: MULTI_DEC_NO_BLANK, options: ["never"], errors: [NEVER_ERROR] },
         { code: MULTI_LINE_ONE_BLANK, output: MULTI_LINE_NO_BLANK, options: ["never"], errors: [NEVER_ERROR] },

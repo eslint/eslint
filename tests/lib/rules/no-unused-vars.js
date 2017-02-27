@@ -287,7 +287,13 @@ ruleTester.run("no-unused-vars", rule, {
         {
             code: "class Foo { set bar(UNUSED) {} } console.log(Foo)",
             parserOptions: { ecmaVersion: 6 }
-        }
+        },
+
+        // https://github.com/eslint/eslint/issues/8119
+        includeRestPropertyParser({
+            code: "(({a, ...rest}) => rest)",
+            options: [{ args: "all", ignoreRestSiblings: true }]
+        })
     ],
     invalid: [
         { code: "function foox() { return foox(); }", errors: [definedError("foox")] },
@@ -394,6 +400,13 @@ ruleTester.run("no-unused-vars", rule, {
             errors: [
                 { line: 2, column: 21, message: "'x' is assigned a value but never used." }
             ]
+        }),
+
+        // https://github.com/eslint/eslint/issues/8119
+        includeRestPropertyParser({
+            code: "(({a, ...rest}) => {})",
+            options: [{ args: "all", ignoreRestSiblings: true }],
+            errors: ["'rest' is defined but never used."]
         }),
 
         // https://github.com/eslint/eslint/issues/3714

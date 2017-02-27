@@ -9,7 +9,8 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const rule = require("../../../lib/rules/keyword-spacing"),
+const parser = require("../../fixtures/fixture-parser"),
+    rule = require("../../../lib/rules/keyword-spacing"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
@@ -1331,7 +1332,21 @@ ruleTester.run("keyword-spacing", rule, {
 
         // not conflict with `jsx-curly-spacing`
         { code: "function* foo() { <Foo onClick={yield} /> }", parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
-        { code: "function* foo() { <Foo onClick={ yield } /> }", options: [NEITHER], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } }
+        { code: "function* foo() { <Foo onClick={ yield } /> }", options: [NEITHER], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
+
+        //----------------------------------------------------------------------
+        // typescript parser
+        //----------------------------------------------------------------------
+
+        // class declaration don't error with decorator
+        { code: "@dec class Foo {}", parser: parser("typescript-parsers/decorator-with-class") },
+
+        // get, set, async methods don't error with decorator
+        { code: "class Foo { @dec get bar() {} @dec set baz() {} @dec async baw() {} }", parser: parser("typescript-parsers/decorator-with-class-methods") },
+        { code: "class Foo { @dec static qux() {} @dec static get bar() {} @dec static set baz() {} @dec static async baw() {} }", parser: parser("typescript-parsers/decorator-with-static-class-methods") },
+
+        // type keywords can be used as parameters in arrow functions
+        { code: "symbol => 4;", parser: parser("typescript-parsers/keyword-with-arrow-function") }
     ],
 
     invalid: [
@@ -3070,6 +3085,18 @@ ruleTester.run("keyword-spacing", rule, {
             errors: unexpectedBefore("yield"),
             options: [override("yield", NEITHER)],
             parserOptions: { ecmaVersion: 6 }
+        },
+
+        //----------------------------------------------------------------------
+        // typescript parser
+        //----------------------------------------------------------------------
+
+        // get, set, async decorator keywords shouldn't be detected
+        {
+            code: "class Foo { @desc({set a(value) {}, get a() {}, async c() {}}) async[foo]() {} }",
+            output: "class Foo { @desc({set a(value) {}, get a() {}, async c() {}}) async [foo]() {} }",
+            errors: expectedAfter("async"),
+            parser: parser("typescript-parsers/decorator-with-keywords-class-method")
         }
     ]
 });

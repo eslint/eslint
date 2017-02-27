@@ -1,7 +1,5 @@
 # Enforce spacing between rest and spread operators and their expressions (rest-spread-spacing)
 
-(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
-
 ES2015 introduced the rest and spread operators, which expand an iterable structure into its individual parts. Some examples of their usage are as follows:
 
 ```js

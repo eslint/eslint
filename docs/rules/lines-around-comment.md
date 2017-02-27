@@ -12,7 +12,6 @@ This rule requires empty lines before and/or after comments. It can be enabled s
 This rule has an object option:
 
 * `"beforeBlockComment": true` (default) requires an empty line before block comments
-* `"beforeBlockComment": false` disallows an empty line before block comments
 * `"afterBlockComment": true` requires an empty line after block comments
 * `"beforeLineComment": true` requires an empty line before line comments
 * `"afterLineComment": true` requires an empty line after line comments

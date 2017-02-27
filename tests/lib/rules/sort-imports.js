@@ -57,7 +57,7 @@ ruleTester.run("sort-imports", rule, {
         {
             code:
                 "import {a, b} from 'bar.js';\n" +
-                "import {b, c} from 'foo.js';"
+                "import {c, d} from 'foo.js';"
         },
         {
             code:
@@ -72,7 +72,7 @@ ruleTester.run("sort-imports", rule, {
         {
             code:
                 "import a, * as b from 'foo.js';\n" +
-                "import b from 'bar.js';"
+                "import c from 'bar.js';"
         },
         {
             code:
@@ -147,7 +147,7 @@ ruleTester.run("sort-imports", rule, {
         {
             code:
                 "import {b, c} from 'foo.js';\n" +
-                "import {a, b} from 'bar.js';",
+                "import {a, d} from 'bar.js';",
             errors: [expectedError]
         },
         {

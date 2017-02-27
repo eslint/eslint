@@ -1,7 +1,5 @@
 # disallow unnecessary parentheses (no-extra-parens)
 
-(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
-
 This rule restricts the use of parentheses to only where they are necessary.
 
 ## Rule Details

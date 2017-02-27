@@ -760,7 +760,7 @@ ruleTester.run("comma-dangle", rule, {
         },
         {
             code: "var foo = { bar: 'baz', }",
-            ouput: "var foo = { bar: 'baz' }",
+            output: "var foo = { bar: 'baz' }",
             options: ["only-multiline"],
             errors: [
                 {
@@ -799,7 +799,7 @@ ruleTester.run("comma-dangle", rule, {
         },
         {
             code: "foo({ bar: 'baz', qux: 'quux', });",
-            ouput: "foo({ bar: 'baz', qux: 'quux' });",
+            output: "foo({ bar: 'baz', qux: 'quux' });",
             options: ["only-multiline"],
             errors: [
                 {

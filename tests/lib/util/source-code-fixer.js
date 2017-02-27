@@ -122,6 +122,13 @@ const INSERT_AT_END = {
         message: "nofix2",
         line: 1,
         column: 7
+    },
+    REVERSED_RANGE = {
+        message: "reversed range",
+        fix: {
+            range: [3, 0],
+            text: " "
+        }
     };
 
 //------------------------------------------------------------------------------
@@ -183,6 +190,13 @@ describe("SourceCodeFixer", () => {
 
                 assert.equal(result.output, INSERT_AT_START.fix.text + TEST_CODE.replace("6 *", `${INSERT_IN_MIDDLE.fix.text}6 *`) + INSERT_AT_END.fix.text);
                 assert.equal(result.messages.length, 0);
+            });
+
+
+            it("should ignore reversed ranges", () => {
+                const result = SourceCodeFixer.applyFixes(sourceCode, [REVERSED_RANGE]);
+
+                assert.equal(result.output, TEST_CODE);
             });
 
         });
@@ -405,6 +419,12 @@ describe("SourceCodeFixer", () => {
 
                 assert.equal(result.output, `\uFEFF${INSERT_AT_START.fix.text}${insertInMiddle}${INSERT_AT_END.fix.text}`);
                 assert.equal(result.messages.length, 0);
+            });
+
+            it("should ignore reversed ranges", () => {
+                const result = SourceCodeFixer.applyFixes(sourceCode, [REVERSED_RANGE]);
+
+                assert.equal(result.output, `\uFEFF${TEST_CODE}`);
             });
 
         });

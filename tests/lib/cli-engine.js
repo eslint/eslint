@@ -246,6 +246,34 @@ describe("CLIEngine", () => {
             });
         });
 
+        it("correctly autofixes semicolon-conflicting-fixes", () => {
+            engine = new CLIEngine({
+                cwd: path.join(fixtureDir, ".."),
+                useEslintrc: false,
+                fix: true
+            });
+            const inputPath = getFixturePath("autofix/semicolon-conflicting-fixes.js");
+            const outputPath = getFixturePath("autofix/semicolon-conflicting-fixes.expected.js");
+            const report = engine.executeOnFiles([inputPath]);
+            const expectedOutput = fs.readFileSync(outputPath, "utf8");
+
+            assert.strictEqual(report.results[0].output, expectedOutput);
+        });
+
+        it("correctly autofixes return-conflicting-fixes", () => {
+            engine = new CLIEngine({
+                cwd: path.join(fixtureDir, ".."),
+                useEslintrc: false,
+                fix: true
+            });
+            const inputPath = getFixturePath("autofix/return-conflicting-fixes.js");
+            const outputPath = getFixturePath("autofix/return-conflicting-fixes.expected.js");
+            const report = engine.executeOnFiles([inputPath]);
+            const expectedOutput = fs.readFileSync(outputPath, "utf8");
+
+            assert.strictEqual(report.results[0].output, expectedOutput);
+        });
+
         it("should return a message and omit fixed text when in fix mode and fixes aren't done", () => {
 
             engine = new CLIEngine({
@@ -1387,7 +1415,7 @@ describe("CLIEngine", () => {
                 assert.equal(report.results[0].messages[0].severity, 1);
             });
 
-             // Project configuration - second level package.json
+            // Project configuration - second level package.json
             it("should return zero messages when executing with local package.json that overrides parent package.json", () => {
 
                 engine = new CLIEngine({
