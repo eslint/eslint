@@ -1,4 +1,4 @@
-# The rule should warn against code that tries to compare against -0. (no-compare-neg-zero)
+# disallow comparing against -0 (no-compare-neg-zero)
 
 ## Rule Details
 
