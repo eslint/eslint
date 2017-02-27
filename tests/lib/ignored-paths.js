@@ -85,7 +85,7 @@ function countDefaultPatterns(ignoredPaths) {
     let count = ignoredPaths.defaultPatterns.length;
 
     if (!ignoredPaths.options || (ignoredPaths.options.dotfiles !== true)) {
-        count = count + 2;  // Two patterns for ignoring dotfiles
+        count = count + 2; // Two patterns for ignoring dotfiles
     }
     return count;
 }

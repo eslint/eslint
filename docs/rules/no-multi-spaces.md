@@ -61,7 +61,6 @@ This rule's configuration consists of an object with the following properties:
 
 ### ignoreEOLComments
 
-
 Examples of **incorrect** code for this rule with the `{ "ignoreEOLComments": false }` (default) option:
 
 ```js
@@ -98,7 +97,6 @@ var x = 5;      /* multiline
  * comment
  */
 ```
-
 
 ### exceptions
 
