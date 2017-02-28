@@ -81,6 +81,9 @@ describe("RuleContext", () => {
                 mockESLint.expects("report")
                     .once()
                     .withArgs("fake-rule", 2, node, location, message, messageOpts, fixerObj);
+                mockESLint.expects("getSourceCode")
+                    .once()
+                    .returns(null);
 
                 ruleContext.report({
                     node,
@@ -91,6 +94,71 @@ describe("RuleContext", () => {
                 });
 
                 fix.verify();
+                mockESLint.verify();
+            });
+
+            it("should merge fixes to one if 'fix' function returns an array of fixes.", () => {
+                const mockESLint = sandbox.mock(eslint);
+
+                mockESLint.expects("getSourceCode")
+                    .returns({ text: "var foo = 100;" });
+                mockESLint.expects("report")
+                    .once()
+                    .withArgs(
+                        sinon.match.any,
+                        sinon.match.any,
+                        sinon.match.any,
+                        sinon.match.any,
+                        sinon.match.any,
+                        sinon.match.any,
+                        sinon.match({
+                            range: [4, 13],
+                            text: "bar = 234"
+                        })
+                    );
+
+                ruleContext.report({
+                    node: {},
+                    loc: {},
+                    message: "Message",
+                    fix(fixer) {
+                        return [
+                            fixer.replaceTextRange([10, 13], "234"),
+                            fixer.replaceTextRange([4, 7], "bar")
+                        ];
+                    }
+                });
+
+                mockESLint.verify();
+            });
+
+            it("should merge fixes to one if 'fix' function returns an iterator of fixes.", () => {
+                const mockESLint = sandbox.mock(eslint);
+
+                mockESLint.expects("getSourceCode").returns({ text: "var foo = 100;" });
+                mockESLint.expects("report").once().withArgs(
+                    sinon.match.any,
+                    sinon.match.any,
+                    sinon.match.any,
+                    sinon.match.any,
+                    sinon.match.any,
+                    sinon.match.any,
+                    sinon.match({
+                        range: [4, 13],
+                        text: "bar = 234"
+                    })
+                );
+
+                ruleContext.report({
+                    node: {},
+                    loc: {},
+                    message: "Message",
+                    *fix(fixer) {
+                        yield fixer.replaceTextRange([10, 13], "234");
+                        yield fixer.replaceTextRange([4, 7], "bar");
+                    }
+                });
+
                 mockESLint.verify();
             });
         });
