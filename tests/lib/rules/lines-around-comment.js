@@ -1456,6 +1456,15 @@ ruleTester.run("lines-around-comment", rule, {
             "this._values2 = true;\n" +
             "/* eslint-enable no-underscore-dangle */\n" +
             "bar",
+            output:
+            "foo;\n\n" +
+            "/* eslint-disable no-underscore-dangle */\n\n" +
+            "this._values = values;\n" +
+            "this._values2 = true;\n" +
+            "\n" +
+            "/* eslint-enable no-underscore-dangle */\n" +
+            "\n" +
+            "bar",
             options: [{
                 beforeBlockComment: true,
                 afterBlockComment: true,
