@@ -44,19 +44,19 @@ ruleTester.run("prefer-numeric-literals", rule, {
             errors: [{ message: "Use hexadecimal literals instead of parseInt()." }]
         }, {
             code: "parseInt('7999', 8);",
-            output: "parseInt('7999', 8);", // not fixed, unexpected 9 in parseInt string
+            output: null, // not fixed, unexpected 9 in parseInt string
             errors: [{ message: "Use octal literals instead of parseInt()." }]
         }, {
             code: "parseInt('1234', 2);",
-            output: "parseInt('1234', 2);", // not fixed, invalid binary string
+            output: null, // not fixed, invalid binary string
             errors: [{ message: "Use binary literals instead of parseInt()." }]
         }, {
             code: "parseInt('1234.5', 8);",
-            output: "parseInt('1234.5', 8);", // not fixed, this isn't an integer
+            output: null, // not fixed, this isn't an integer
             errors: [{ message: "Use octal literals instead of parseInt()." }]
         }, {
             code: "parseInt('1️⃣3️⃣3️⃣7️⃣', 16);",
-            output: "parseInt('1️⃣3️⃣3️⃣7️⃣', 16);", // not fixed, javascript doesn't support emoji literals
+            output: null, // not fixed, javascript doesn't support emoji literals
             errors: [{ message: "Use hexadecimal literals instead of parseInt()." }]
         }
     ]

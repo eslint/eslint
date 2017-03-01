@@ -87,12 +87,12 @@ ruleTester.run("no-else-return", rule, {
         },
         {
             code: "function foo11() { if (foo) return bar \nelse { [1, 2, 3].map(foo) } }",
-            output: "function foo11() { if (foo) return bar \nelse { [1, 2, 3].map(foo) } }",
+            output: null,
             errors: [{ message: "Unnecessary 'else' after 'return'.", type: "BlockStatement" }]
         },
         {
             code: "function foo12() { if (foo) return bar \nelse { baz() } \n[1, 2, 3].map(foo) }",
-            output: "function foo12() { if (foo) return bar \nelse { baz() } \n[1, 2, 3].map(foo) }",
+            output: null,
             errors: [{ message: "Unnecessary 'else' after 'return'.", type: "BlockStatement" }]
         },
         {
@@ -107,12 +107,12 @@ ruleTester.run("no-else-return", rule, {
         },
         {
             code: "function foo15() { if (foo) return bar; else { baz() } qaz() }",
-            output: "function foo15() { if (foo) return bar; else { baz() } qaz() }",
+            output: null,
             errors: [{ message: "Unnecessary 'else' after 'return'.", type: "BlockStatement" }]
         },
         {
             code: "function foo16() { if (foo) return bar \nelse { baz() } qaz() }",
-            output: "function foo16() { if (foo) return bar \nelse { baz() } qaz() }",
+            output: null,
             errors: [{ message: "Unnecessary 'else' after 'return'.", type: "BlockStatement" }]
         },
         {
@@ -122,7 +122,7 @@ ruleTester.run("no-else-return", rule, {
         },
         {
             code: "function foo18() { if (foo) return function() {} \nelse [1, 2, 3].map(bar) }",
-            output: "function foo18() { if (foo) return function() {} \nelse [1, 2, 3].map(bar) }",
+            output: null,
             errors: [{ message: "Unnecessary 'else' after 'return'.", type: "ExpressionStatement" }]
         }
     ]

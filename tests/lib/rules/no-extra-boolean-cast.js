@@ -189,7 +189,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         },
         {
             code: "!Boolean(...foo);",
-            output: "!Boolean(...foo);",
+            output: null,
             parserOptions: { ecmaVersion: 2015 },
             errors: [{
                 message: "Redundant Boolean call.",
@@ -198,7 +198,7 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         },
         {
             code: "!Boolean(foo, bar());",
-            output: "!Boolean(foo, bar());",
+            output: null,
             errors: [{
                 message: "Redundant Boolean call.",
                 type: "CallExpression"

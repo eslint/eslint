@@ -249,6 +249,55 @@ describe("RuleTester", () => {
         }, /Output is incorrect/);
     });
 
+    it("should not throw an error when the expected output is null and no errors produce output", () => {
+        assert.doesNotThrow(() => {
+            ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
+                valid: [
+                    "bar = baz;"
+                ],
+                invalid: [
+                    { code: "eval(x)", errors: 1, output: null },
+                    { code: "eval(x); eval(y);", errors: 2, output: null }
+                ]
+            });
+        });
+    });
+
+    it("should throw an error when the expected output is null and problems produce output", () => {
+        assert.throws(() => {
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: [
+                    "bar = baz;"
+                ],
+                invalid: [
+                    { code: "var foo = bar;", output: null, errors: 1 }
+                ]
+            });
+        }, /Expected no autofixes to be suggested/);
+
+        assert.throws(() => {
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: [
+                    "bar = baz;"
+                ],
+                invalid: [
+                    { code: "var foo = bar; var qux = boop;", output: null, errors: 2 }
+                ]
+            });
+        }, /Expected no autofixes to be suggested/);
+    });
+
+    it("should throw an error when the expected output is null and only some problems produce output", () => {
+        assert.throws(() => {
+            ruleTester.run("fixes-one-problem", require("../../fixtures/testers/rule-tester/fixes-one-problem"), {
+                valid: [],
+                invalid: [
+                    { code: "foo", output: null, errors: 2 }
+                ]
+            });
+        }, /Expected no autofixes to be suggested/);
+    });
+
     it("should throw an error if invalid code specifies wrong type", () => {
 
         assert.throws(() => {
