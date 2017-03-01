@@ -815,10 +815,6 @@ ruleTester.run("lines-around-comment", rule, {
         "foo;\n/* globals */",
         "foo;\n/* exported */",
         "foo;\n/* jscs */",
-        "foo;\n/* fallthrough */",
-        "foo;\n/* fallsthrough */",
-        "foo;\n/* fall through */",
-        "foo;\n/* falls through */",
         {
             code: "foo\n/* this is pragmatic */",
             options: [{ ignorePattern: "pragma" }]
@@ -1519,30 +1515,6 @@ ruleTester.run("lines-around-comment", rule, {
             errors: [{ message: beforeMessage, type: "Block" }]
         },
         {
-            code: "foo;\n/* fallthrough */",
-            output: "foo;\n\n/* fallthrough */",
-            options: [{ applyDefaultPatterns: false }],
-            errors: [{ message: beforeMessage, type: "Block" }]
-        },
-        {
-            code: "foo;\n/* fallsthrough */",
-            output: "foo;\n\n/* fallsthrough */",
-            options: [{ applyDefaultPatterns: false }],
-            errors: [{ message: beforeMessage, type: "Block" }]
-        },
-        {
-            code: "foo;\n/* fall through */",
-            output: "foo;\n\n/* fall through */",
-            options: [{ applyDefaultPatterns: false }],
-            errors: [{ message: beforeMessage, type: "Block" }]
-        },
-        {
-            code: "foo;\n/* falls through */",
-            output: "foo;\n\n/* falls through */",
-            options: [{ applyDefaultPatterns: false }],
-            errors: [{ message: beforeMessage, type: "Block" }]
-        },
-        {
             code: "foo\n/* something else */",
             output: "foo\n\n/* something else */",
             options: [{ ignorePattern: "pragma" }],
@@ -1552,6 +1524,14 @@ ruleTester.run("lines-around-comment", rule, {
             code: "foo\n/* eslint */",
             output: "foo\n\n/* eslint */",
             options: [{ applyDefaultPatterns: false }],
+            errors: [{ message: beforeMessage, type: "Block" }]
+        },
+
+        // "fallthrough" patterns are not ignored by default
+        {
+            code: "foo;\n/* fallthrough */",
+            output: "foo;\n\n/* fallthrough */",
+            options: [],
             errors: [{ message: beforeMessage, type: "Block" }]
         }
     ]

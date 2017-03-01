@@ -340,7 +340,7 @@ const [
 
 ### ignorePattern
 
-By default this rule ignores comments starting with the following words: `eslint`, `jshint`, `jslint`, `istanbul`, `global`, `exported`, `jscs`, `falls through`. An alternative regular expression can be provided.
+By default this rule ignores comments starting with the following words: `eslint`, `jshint`, `jslint`, `istanbul`, `global`, `exported`, `jscs`. An alternative regular expression can be provided.
 
 Examples of **correct** code for the `ignorePattern` option:
 
