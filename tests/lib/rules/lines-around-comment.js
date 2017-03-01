@@ -821,7 +821,7 @@ ruleTester.run("lines-around-comment", rule, {
         },
         {
             code: "foo\n/* this is pragmatic */",
-            options: [{ applyDefaultPatterns: false, ignorePattern: "pragma" }]
+            options: [{ applyDefaultIgnorePatterns: false, ignorePattern: "pragma" }]
         }
     ],
 
@@ -1459,7 +1459,7 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{
                 beforeBlockComment: true,
                 afterBlockComment: true,
-                applyDefaultPatterns: false
+                applyDefaultIgnorePatterns: false
             }],
             errors: [
                 { message: beforeMessage, type: "Block", line: 7 },
@@ -1469,49 +1469,49 @@ ruleTester.run("lines-around-comment", rule, {
         {
             code: "foo;\n/* eslint */",
             output: "foo;\n\n/* eslint */",
-            options: [{ applyDefaultPatterns: false }],
+            options: [{ applyDefaultIgnorePatterns: false }],
             errors: [{ message: beforeMessage, type: "Block" }]
         },
         {
             code: "foo;\n/* jshint */",
             output: "foo;\n\n/* jshint */",
-            options: [{ applyDefaultPatterns: false }],
+            options: [{ applyDefaultIgnorePatterns: false }],
             errors: [{ message: beforeMessage, type: "Block" }]
         },
         {
             code: "foo;\n/* jslint */",
             output: "foo;\n\n/* jslint */",
-            options: [{ applyDefaultPatterns: false }],
+            options: [{ applyDefaultIgnorePatterns: false }],
             errors: [{ message: beforeMessage, type: "Block" }]
         },
         {
             code: "foo;\n/* istanbul */",
             output: "foo;\n\n/* istanbul */",
-            options: [{ applyDefaultPatterns: false }],
+            options: [{ applyDefaultIgnorePatterns: false }],
             errors: [{ message: beforeMessage, type: "Block" }]
         },
         {
             code: "foo;\n/* global */",
             output: "foo;\n\n/* global */",
-            options: [{ applyDefaultPatterns: false }],
+            options: [{ applyDefaultIgnorePatterns: false }],
             errors: [{ message: beforeMessage, type: "Block" }]
         },
         {
             code: "foo;\n/* globals */",
             output: "foo;\n\n/* globals */",
-            options: [{ applyDefaultPatterns: false }],
+            options: [{ applyDefaultIgnorePatterns: false }],
             errors: [{ message: beforeMessage, type: "Block" }]
         },
         {
             code: "foo;\n/* exported */",
             output: "foo;\n\n/* exported */",
-            options: [{ applyDefaultPatterns: false }],
+            options: [{ applyDefaultIgnorePatterns: false }],
             errors: [{ message: beforeMessage, type: "Block" }]
         },
         {
             code: "foo;\n/* jscs */",
             output: "foo;\n\n/* jscs */",
-            options: [{ applyDefaultPatterns: false }],
+            options: [{ applyDefaultIgnorePatterns: false }],
             errors: [{ message: beforeMessage, type: "Block" }]
         },
         {
@@ -1523,7 +1523,7 @@ ruleTester.run("lines-around-comment", rule, {
         {
             code: "foo\n/* eslint */",
             output: "foo\n\n/* eslint */",
-            options: [{ applyDefaultPatterns: false }],
+            options: [{ applyDefaultIgnorePatterns: false }],
             errors: [{ message: beforeMessage, type: "Block" }]
         },
 

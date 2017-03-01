@@ -21,7 +21,7 @@ This rule has an object option:
 * `"allowObjectEnd": true` allows comments to appear at the end of object literals
 * `"allowArrayStart": true` allows comments to appear at the start of array literals
 * `"allowArrayEnd": true` allows comments to appear at the end of array literals
-* `"applyDefaultPatterns"` enables or disables the default comment patterns to be ignored by the rule
+* `"applyDefaultIgnorePatterns"` enables or disables the default comment patterns to be ignored by the rule
 * `"ignorePattern"` custom patterns to be ignored by the rule
 
 
@@ -367,23 +367,23 @@ Examples of **incorrect** code for the `ignorePattern` option:
 /* something else */
 ```
 
-### applyDefaultPatterns
+### applyDefaultIgnorePatterns
 
 Default ignore patterns are applied even when `ignorePattern` is provided. If you want to omit default patterns, set this option to `false`.
 
-Examples of **correct** code for the `{ "applyDefaultPatterns": false }` option:
+Examples of **correct** code for the `{ "applyDefaultIgnorePatterns": false }` option:
 
 ```js
-/*eslint lines-around-comment: ["error", { "ignorePattern": "pragma", applyDefaultPatterns: false }] */
+/*eslint lines-around-comment: ["error", { "ignorePattern": "pragma", applyDefaultIgnorePatterns: false }] */
 
 foo();
 /* a valid comment using pragma in it */
 ```
 
-Examples of **incorrect** code for the `{ "applyDefaultPatterns": false }` option:
+Examples of **incorrect** code for the `{ "applyDefaultIgnorePatterns": false }` option:
 
 ```js
-/*eslint lines-around-comment: ["error", { "applyDefaultPatterns": false }] */
+/*eslint lines-around-comment: ["error", { "applyDefaultIgnorePatterns": false }] */
 
 foo();
 /* eslint mentioned in comment */
