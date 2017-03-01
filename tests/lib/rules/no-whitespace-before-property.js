@@ -511,12 +511,12 @@ ruleTester.run("no-whitespace-before-property", rule, {
         },
         {
             code: "5 .toExponential()",
-            output: "5 .toExponential()", // This case is not fixed; can't be sure whether 5..toExponential or (5).toExponential is preferred
+            output: null, // This case is not fixed; can't be sure whether 5..toExponential or (5).toExponential is preferred
             errors: ["Unexpected whitespace before property toExponential."]
         },
         {
             code: "5       .toExponential()",
-            output: "5       .toExponential()", // Not fixed
+            output: null, // Not fixed
             errors: ["Unexpected whitespace before property toExponential."]
         },
         {

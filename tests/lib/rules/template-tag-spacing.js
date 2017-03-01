@@ -99,14 +99,14 @@ ruleTester.run("template-tag-spacing", rule, {
         },
         {
             code: "tag // here's a comment \n`bar`",
-            output: "tag // here's a comment \n`bar`",
+            output: null,
             errors: [
                 { message: "Unexpected space between template tag and template literal." }
             ]
         },
         {
             code: "tag // here's a comment \n`bar`",
-            output: "tag // here's a comment \n`bar`",
+            output: null,
             errors: [
                 { message: "Unexpected space between template tag and template literal." }
             ],

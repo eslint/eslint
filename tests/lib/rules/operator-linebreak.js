@@ -446,23 +446,23 @@ ruleTester.run("operator-linebreak", rule, {
         },
         {
             code: "foo//comment\n+\nbar",
-            output: "foo//comment\n+\nbar",
+            output: null,
             errors: [{ message: util.format(BAD_LN_BRK_MSG, "+"), type: "BinaryExpression", line: 2, column: 2 }]
         },
         {
             code: "foo\n+//comment\nbar",
-            output: "foo\n+//comment\nbar",
+            output: null,
             options: ["before"],
             errors: [{ message: util.format(BAD_LN_BRK_MSG, "+"), type: "BinaryExpression", line: 2, column: 2 }]
         },
         {
             code: "foo /* a */ \n+ /* b */ bar",
-            output: "foo /* a */ \n+ /* b */ bar", // Not fixed because there is a comment on both sides
+            output: null, // Not fixed because there is a comment on both sides
             errors: [{ message: util.format(AFTER_MSG, "+"), type: "BinaryExpression", line: 2, column: 2 }]
         },
         {
             code: "foo /* a */ +\n /* b */ bar",
-            output: "foo /* a */ +\n /* b */ bar", // Not fixed because there is a comment on both sides
+            output: null, // Not fixed because there is a comment on both sides
             options: ["before"],
             errors: [{ message: util.format(BEFORE_MSG, "+"), type: "BinaryExpression", line: 1, column: 14 }]
         }

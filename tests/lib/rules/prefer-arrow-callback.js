@@ -111,13 +111,13 @@ ruleTester.run("prefer-arrow-callback", rule, {
             code: "foo(function() { this; });",
             options: [{ allowUnboundThis: false }],
             errors,
-            output: "foo(function() { this; });" // No fix applied
+            output: null // No fix applied
         },
         {
             code: "foo(function() { (() => this); });",
             options: [{ allowUnboundThis: false }],
             errors,
-            output: "foo(function() { (() => this); });" // No fix applied
+            output: null // No fix applied
         },
         {
             code: "qux(function(foo, bar, baz) { return foo * 2; })",
@@ -142,7 +142,7 @@ ruleTester.run("prefer-arrow-callback", rule, {
         {
             code: "qux(function(baz, baz) { })",
             errors,
-            output: "qux(function(baz, baz) { })" // Duplicate parameter names are a SyntaxError in arrow functions
+            output: null // Duplicate parameter names are a SyntaxError in arrow functions
         },
         {
             code: "qux(function( /* no params */ ) { })",

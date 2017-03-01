@@ -138,7 +138,7 @@ ruleTester.run("no-unneeded-ternary", rule, {
         },
         {
             code: "var a = foo() ? false : false;",
-            output: "var a = foo() ? false : false;",
+            output: null,
             errors: [{
                 message: "Unnecessary use of boolean literals in conditional expression.",
                 type: "ConditionalExpression",

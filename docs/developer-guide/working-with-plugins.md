@@ -175,7 +175,7 @@ In addition to the properties above, invalid test cases can also have the follow
     * `column` (number): The 0-based column number of the reported location
     * `endLine` (number): The 1-based line number of the end of the reported location
     * `endColumn` (number): The 0-based column number of the end of the reported location
-* `output` (string, optional): Asserts the output that will be produced when using this rule for a single pass of autofixing (e.g. with the `--fix` command line flag).
+* `output` (string, optional): Asserts the output that will be produced when using this rule for a single pass of autofixing (e.g. with the `--fix` command line flag). If this is `null`, asserts that none of the reported problems suggest autofixes.
 
 Any additional properties of a test case will be passed directly to the linter as config options. For example, a test case can have a `parserOptions` property to configure parser behavior.
 

@@ -42,13 +42,13 @@ ruleTester.run("no-undef-init", rule, {
         },
         {
             code: "var [a] = undefined;",
-            output: "var [a] = undefined;",
+            output: null,
             parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "It's not necessary to initialize '[a]' to undefined.", type: "VariableDeclarator" }]
         },
         {
             code: "var {a} = undefined;",
-            output: "var {a} = undefined;",
+            output: null,
             parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "It's not necessary to initialize '{a}' to undefined.", type: "VariableDeclarator" }]
         }
