@@ -419,7 +419,7 @@ ruleTester.run("space-unary-ops", rule, {
         },
         {
             code: "+ +foo",
-            output: "+ +foo",
+            output: null,
             options: [{ nonwords: false }],
             errors: [{
                 message: "Unexpected space after unary operator '+'."
@@ -427,7 +427,7 @@ ruleTester.run("space-unary-ops", rule, {
         },
         {
             code: "+ ++foo",
-            output: "+ ++foo",
+            output: null,
             options: [{ nonwords: false }],
             errors: [{
                 message: "Unexpected space after unary operator '+'."
@@ -435,7 +435,7 @@ ruleTester.run("space-unary-ops", rule, {
         },
         {
             code: "- -foo",
-            output: "- -foo",
+            output: null,
             options: [{ nonwords: false }],
             errors: [{
                 message: "Unexpected space after unary operator '-'."
@@ -443,7 +443,7 @@ ruleTester.run("space-unary-ops", rule, {
         },
         {
             code: "- --foo",
-            output: "- --foo",
+            output: null,
             options: [{ nonwords: false }],
             errors: [{
                 message: "Unexpected space after unary operator '-'."
