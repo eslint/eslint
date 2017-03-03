@@ -1233,6 +1233,11 @@ ruleTester.run("key-spacing", rule, {
             "          , cats: cats",
             "};"
         ].join("\n"),
+        output: [
+            "var obj = { foo : foo",
+            "          , cats: cats",
+            "};"
+        ].join("\n"),
         options: [{ align: "colon" }],
         errors: [
             { message: "Extra space after key 'foo'.", line: 1, column: 13, type: "Identifier" }
@@ -1683,6 +1688,16 @@ ruleTester.run("key-spacing", rule, {
             "    key4: 4",
             "}"
         ].join("\n"),
+        output: [
+            "var obj = {",
+            "    key1: 1,",
+            "",
+            "    key2: 2,",
+            "    key3: 3,",
+            "",
+            "    key4: 4",
+            "}"
+        ].join("\n"),
         options: [{
             multiLine: {
                 beforeColon: false,
@@ -1707,6 +1722,16 @@ ruleTester.run("key-spacing", rule, {
             "",
             "    key2:    2,",
             "    key3:    3,",
+            "",
+            "    key4: 4",
+            "}"
+        ].join("\n"),
+        output: [
+            "var obj = {",
+            "    key1: 1,",
+            "",
+            "    key2: 2,",
+            "    key3: 3,",
             "",
             "    key4: 4",
             "}"

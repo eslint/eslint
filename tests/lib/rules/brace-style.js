@@ -479,6 +479,7 @@ ruleTester.run("brace-style", rule, {
         },
         {
             code: "try {  bar(); }\ncatch (e) { baz();  }",
+            output: "try {  bar(); }catch (e) { baz();  }",
             options: ["1tbs", { allowSingleLine: true }],
             errors: [{ message: CLOSE_MESSAGE, type: "Punctuator" }]
         },
