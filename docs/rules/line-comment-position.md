@@ -77,23 +77,25 @@ Examples of **incorrect** code for the `ignorePattern` option:
 1 + 1; // invalid comment
 ```
 
-### applyDefaultPatterns
+### applyDefaultIgnorePatterns
 
 Default ignore patterns are applied even when `ignorePattern` is provided. If you want to omit default patterns, set this option to `false`.
 
-Examples of **correct** code for the `{ "applyDefaultPatterns": false }` option:
+Examples of **correct** code for the `{ "applyDefaultIgnorePatterns": false }` option:
 
 ```js
-/*eslint line-comment-position: ["error", { "ignorePattern": "pragma", "applyDefaultPatterns": false }]*/
+/*eslint line-comment-position: ["error", { "ignorePattern": "pragma", "applyDefaultIgnorePatterns": false }]*/
 1 + 1; // pragma valid comment
 ```
 
-Examples of **incorrect** code for the `{ "applyDefaultPatterns": false }` option:
+Examples of **incorrect** code for the `{ "applyDefaultIgnorePatterns": false }` option:
 
 ```js
-/*eslint line-comment-position: ["error", { "ignorePattern": "pragma", "applyDefaultPatterns": false }]*/
+/*eslint line-comment-position: ["error", { "ignorePattern": "pragma", "applyDefaultIgnorePatterns": false }]*/
 1 + 1; // falls through
 ```
+
+**Deprecated:** the object property `applyDefaultPatterns` is deprecated. Please use the property `applyDefaultIgnorePatterns` instead.
 
 ## When Not To Use It
 
