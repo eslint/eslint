@@ -1,3 +1,33 @@
+v3.17.0 - March 3, 2017
+
+* 4fdf6d7 Update: deprecate `applyDefaultPatterns` in `line-comment-position` (#8183) (alberto)
+* 25e5817 Fix: Don't autofix `+ +a` to `++a` in space-unary-ops (#8176) (Alan Pierce)
+* a6ce8f9 Build: Sort rules before dumping them to doc files (#8154) (Danny Andrews)
+* 0af9057 Chore: Upgrade to a patched version of mock-fs (fixes #8177) (#8188) (Teddy Katz)
+* bf4d8cf Update: ignore eslint comments in lines-arount-comment (fixes #4345) (#8155) (alberto)
+* dad20ad New: add SourceCode#getLocFromIndex and #getIndexFromLoc (fixes #8073) (#8158) (Teddy Katz)
+* 18a519f Update: let RuleTester cases assert that no autofix occurs (fixes #8157) (#8163) (Teddy Katz)
+* a30eb8d Docs: improve documentation for RuleTester cases (#8162) (Teddy Katz)
+* a78ec9f Chore: upgrade `coveralls` to ^2.11.16 (#8161) (alberto)
+* d02bd11 Fix: padded-blocks autofix problems with comments (#8149) (alberto)
+* 9994889 Docs: Add missing space to `create` in `no-use-before-define` (#8166) (Justin Anastos)
+* 4d542ba Docs: Remove unneeded statement about autofix (#8164) (alberto)
+* 20daea5 New: no-compare-neg-zero rule (#8091) (薛定谔的猫)
+* 4d35a81 Fix: Add a utility to avoid autofix conflicts (fixes #7928, fixes #8026) (#8067) (Alan Pierce)
+* 287e882 New: nonblock-statement-body-position rule (fixes #6067) (#8108) (Teddy Katz)
+* 7f1f4e5 Chore: remove unneeded devDeps `linefix` and `gh-got` (#8160) (alberto)
+* ca1694b Update: ignore negative ranges in fixes (#8133) (alberto)
+* 163d751 Docs: `lines-around-comment` doesn't disallow empty lines (#8151) (alberto)
+* 1c84922 Chore: upgrade eslint-plugin-node (#8156) (alberto)
+* 1ee5c27 Fix: Make RuleTester handle empty-string cases gracefully (fixes #8142) (#8143) (Teddy Katz)
+* 044bc10 Docs: Add details about "--fix" option for "sort-imports" rule (#8077) (Olivier Audard)
+* 3fec54a Add option to ignore property in no-param-reassign (#8087) (Christian Bundy)
+* 4e52cfc Fix: Improve keyword-spacing typescript support (fixes #8110) (#8111) (Reyad Attiyat)
+* 7ff42e8 New: Allow regexes in RuleTester (fixes #7837) (#8115) (Daniel Lo Nigro)
+* cbd7ded Build: display rules’ meta data in their docs (fixes #5774) (#8127) (Wilson Kurniawan)
+* da8e8af Update: include function name in report message if possible (fixes #7260) (#8058) (Dieter Luypaert)
+* 8f91e32 Fix: `ignoreRestSiblings` option didn't cover arguments (fixes #8119) (#8120) (Toru Nagashima)
+
 v3.16.1 - February 22, 2017
 
 * ff8a80c Fix: duplicated autofix output for inverted fix ranges (fixes #8116) (#8117) (Teddy Katz)
