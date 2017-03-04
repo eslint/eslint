@@ -81,6 +81,7 @@
     "coveralls": "^2.11.16",
     "dateformat": "^1.0.8",
     "ejs": "^2.3.3",
+    "eslint-plugin-eslint-plugin": "^0.7.1",
     "eslint-plugin-node": "^4.1.0",
     "eslint-release": "^0.10.0",
     "esprima": "^2.4.1",
