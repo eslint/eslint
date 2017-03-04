@@ -36,7 +36,7 @@ JavaScript suspends the control flow statements of `try` and `catch` blocks unti
     try {
         throw new Error("Try")
     } catch(err) {
-        throw err; // The error thrown from try block is catched and rethrown
+        throw err; // The error thrown from try block is caught and rethrown
     } finally {
         throw new Error("Finally"); // Finally(...) is thrown, which we did not expect
     }

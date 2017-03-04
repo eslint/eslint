@@ -79,10 +79,10 @@ The following are the fields of the result object:
 - **ruleId**: the id of the rule that produced the error or warning.
 - **severity**: the severity of the failure, `1` for warnings and `2` for errors.
 - **message**: the human readable description of the error.
-- **line**: the line where where the issue is located.
-- **column**: the colum where the issue is located.
+- **line**: the line where the issue is located.
+- **column**: the column where the issue is located.
 - **nodeType**: the type of the node in the [AST](https://github.com/estree/estree/blob/master/spec.md#node-objects)
-- **source**: a extract of the code the line where the failure happened.
+- **source**: an extract of the code the line where the failure happened.
 
 **Please note**: the `source` property will be removed from the message object in an upcoming breaking release. If you depend on this property, you should now use the `source` or `output` properties from [the result object](#the-result-object) instead.
 
@@ -271,7 +271,7 @@ And then the formatter can read from stdin
 eslint -f './json.js' | ./my-awesome-formatter-cli.js --skip-warnings
 ```
 
-And the the content of **my-awesome-formatter-cli.js** would be something like:
+And the content of **my-awesome-formatter-cli.js** would be something like:
 
 ```javascript
 #!/usr/bin/env node

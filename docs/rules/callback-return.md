@@ -76,7 +76,7 @@ function bar(err, send) {
 }
 ```
 
-Examples of **correct** code for this rule with the the option `["done", "send.error", "send.success"]`:
+Examples of **correct** code for this rule with the option `["done", "send.error", "send.success"]`:
 
 ```js
 /*eslint callback-return: ["error", ["done", "send.error", "send.success"]]*/
