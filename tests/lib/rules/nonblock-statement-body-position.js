@@ -32,6 +32,11 @@ ruleTester.run("nonblock-statement-body-position", rule, {
         "for (foo in bar) baz;",
         "for (foo of bar) baz;",
         "if (foo) bar; else baz;",
+        `
+            if (foo) bar(
+                baz
+            );
+        `,
         {
             code: "if (foo) bar();",
             options: ["beside"]
