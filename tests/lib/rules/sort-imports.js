@@ -136,30 +136,35 @@ ruleTester.run("sort-imports", rule, {
             code:
                 "import a from 'foo.js';\n" +
                 "import A from 'bar.js';",
+            output: null,
             errors: [expectedError]
         },
         {
             code:
                 "import b from 'foo.js';\n" +
                 "import a from 'bar.js';",
+            output: null,
             errors: [expectedError]
         },
         {
             code:
                 "import {b, c} from 'foo.js';\n" +
                 "import {a, d} from 'bar.js';",
+            output: null,
             errors: [expectedError]
         },
         {
             code:
                 "import * as foo from 'foo.js';\n" +
                 "import * as bar from 'bar.js';",
+            output: null,
             errors: [expectedError]
         },
         {
             code:
                 "import a from 'foo.js';\n" +
                 "import {b, c} from 'bar.js';",
+            output: null,
             errors: [{
                 message: "Expected 'multiple' syntax before 'single' syntax.",
                 type: "ImportDeclaration"
@@ -169,6 +174,7 @@ ruleTester.run("sort-imports", rule, {
             code:
                 "import a from 'foo.js';\n" +
                 "import * as b from 'bar.js';",
+            output: null,
             errors: [{
                 message: "Expected 'all' syntax before 'single' syntax.",
                 type: "ImportDeclaration"
@@ -178,6 +184,7 @@ ruleTester.run("sort-imports", rule, {
             code:
                 "import a from 'foo.js';\n" +
                 "import 'bar.js';",
+            output: null,
             errors: [{
                 message: "Expected 'none' syntax before 'single' syntax.",
                 type: "ImportDeclaration"
@@ -187,6 +194,7 @@ ruleTester.run("sort-imports", rule, {
             code:
                 "import b from 'bar.js';\n" +
                 "import * as a from 'foo.js';",
+            output: null,
             options: [{
                 memberSyntaxSortOrder: ["all", "single", "multiple", "none"]
             }],

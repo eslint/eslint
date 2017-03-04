@@ -738,16 +738,19 @@ ruleTester.run("object-shorthand", rule, {
         // consistent
         {
             code: "var x = {a: a, b}",
+            output: null,
             options: ["consistent"],
             errors: [MIXED_SHORTHAND_ERROR]
         },
         {
             code: "var x = {b, c: d, f: g}",
+            output: null,
             options: ["consistent"],
             errors: [MIXED_SHORTHAND_ERROR]
         },
         {
             code: "var x = {foo, bar: baz, ...qux}",
+            output: null,
             parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } },
             options: ["consistent"],
             errors: [MIXED_SHORTHAND_ERROR]
@@ -756,28 +759,33 @@ ruleTester.run("object-shorthand", rule, {
         // consistent-as-needed
         {
             code: "var x = {a: a, b: b}",
+            output: null,
             options: ["consistent-as-needed"],
             errors: [ALL_SHORTHAND_ERROR]
         },
         {
             code: "var x = {a, z: function z(){}}",
+            output: null,
             options: ["consistent-as-needed"],
             errors: [MIXED_SHORTHAND_ERROR]
 
         },
         {
             code: "var x = {foo: function() {}}",
+            output: null,
             options: ["consistent-as-needed"],
             errors: [ALL_SHORTHAND_ERROR]
         },
         {
             code: "var x = {a: a, b: b, ...baz}",
+            output: null,
             parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } },
             options: ["consistent-as-needed"],
             errors: [ALL_SHORTHAND_ERROR]
         },
         {
             code: "var x = {foo, bar: bar, ...qux}",
+            output: null,
             parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } },
             options: ["consistent-as-needed"],
             errors: [MIXED_SHORTHAND_ERROR]

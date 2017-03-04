@@ -1169,6 +1169,15 @@ ruleTester.run("lines-around-comment", rule, {
             "    // hi\n" +
             "  }\n" +
             "}",
+            output:
+            "function hi() {\n" +
+            "  return {\n" +
+            "    test: function() {\n" +
+            "    }\n" +
+            "    // hi\n" +
+            "\n" +
+            "  }\n" +
+            "}",
             options: [{
                 afterLineComment: true
             }],
