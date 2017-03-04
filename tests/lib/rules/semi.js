@@ -140,10 +140,10 @@ ruleTester.run("semi", rule, {
         { code: "import theDefault, { named1, named2 } from 'src/mylib';", output: "import theDefault, { named1, named2 } from 'src/mylib'", options: ["never"], parserOptions: { sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "ImportDeclaration" }] },
         { code: "do{}while(true);", output: "do{}while(true)", options: ["never"], errors: [{ message: "Extra semicolon.", type: "DoWhileStatement", line: 1 }] },
 
-        { code: "if (foo) { bar()\n }", options: ["always", { omitLastInOneLineBlock: true }], errors: [{ message: "Missing semicolon." }] },
-        { code: "if (foo) {\n bar() }", options: ["always", { omitLastInOneLineBlock: true }], errors: [{ message: "Missing semicolon." }] },
-        { code: "if (foo) {\n bar(); baz() }", options: ["always", { omitLastInOneLineBlock: true }], errors: [{ message: "Missing semicolon." }] },
-        { code: "if (foo) { bar(); }", options: ["always", { omitLastInOneLineBlock: true }], errors: [{ message: "Extra semicolon." }] },
+        { code: "if (foo) { bar()\n }", output: "if (foo) { bar();\n }", options: ["always", { omitLastInOneLineBlock: true }], errors: [{ message: "Missing semicolon." }] },
+        { code: "if (foo) {\n bar() }", output: "if (foo) {\n bar(); }", options: ["always", { omitLastInOneLineBlock: true }], errors: [{ message: "Missing semicolon." }] },
+        { code: "if (foo) {\n bar(); baz() }", output: "if (foo) {\n bar(); baz(); }", options: ["always", { omitLastInOneLineBlock: true }], errors: [{ message: "Missing semicolon." }] },
+        { code: "if (foo) { bar(); }", output: "if (foo) { bar() }", options: ["always", { omitLastInOneLineBlock: true }], errors: [{ message: "Extra semicolon." }] },
 
 
         // exports, "always"
