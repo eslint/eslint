@@ -128,7 +128,7 @@ class Test{
     getDate(){}
 }
 
-setTimeout(() => {}, 10); // since its an anonymous arrow function
+setTimeout(() => {}, 10); // since it's an anonymous arrow function
 ```
 
 ## When Not To Use It

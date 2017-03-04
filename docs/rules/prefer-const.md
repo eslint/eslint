@@ -172,7 +172,7 @@ function initialize() {
 timer = setInterval(initialize, 100);
 ```
 
-Examples of **correct** code for the defaut `{"ignoreReadBeforeAssign": false}` option:
+Examples of **correct** code for the default `{"ignoreReadBeforeAssign": false}` option:
 
 ```js
 /*eslint prefer-const: ["error", {"ignoreReadBeforeAssign": false}]*/

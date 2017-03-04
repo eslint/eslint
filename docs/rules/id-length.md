@@ -67,7 +67,7 @@ var data = { "x": 1 };  // excused because of quotes
 data["y"] = 3;  // excused because of calculated property access
 ```
 
-This rule has an shorthand integer option for the `"min"` object property.
+This rule has a shorthand integer option for the `"min"` object property.
 
 Examples of **incorrect** code for this rule with a minimum of 4:
 
