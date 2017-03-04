@@ -241,37 +241,6 @@ ruleTester.run("internal-no-invalid-meta", rule, {
                 line: 2,
                 column: 5
             }]
-        },
-        {
-            code: [
-                "module.exports = {",
-                "    meta: {",
-                "        docs: {",
-                "            description: 'some rule',",
-                "            category: 'Internal',",
-                "            recommended: false",
-                "        },",
-                "        schema: []",
-                "    },",
-                "    create: function(context) {",
-                "        return {",
-                "            Program: function(node) {",
-                "                context.report({",
-                "                    node: node,",
-                "                    fix: function(fixer) {",
-                "                        return fixer.insertTextAfter(node, ' ');",
-                "                    }",
-                "                });",
-                "            }",
-                "        };",
-                "    }",
-                "};"
-            ].join("\n"),
-            errors: [{
-                message: "Rule is fixable, but is missing a meta.fixable property.",
-                line: 2,
-                column: 5
-            }]
         }
     ]
 });
