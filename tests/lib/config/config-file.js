@@ -233,20 +233,63 @@ describe("ConfigFile", () => {
 
         });
 
-        it("should throw an error when a plugin config is not found", () => {
+        it("should throw an error when a parser in a plugin config is not found", () => {
+            const resolvedPath = path.resolve(PROJECT_PATH, "./node_modules/eslint-plugin-test/index.js");
 
             const configDeps = {
-                "../util/module-resolver": createStubModuleResolver({})
+                "../util/module-resolver": createStubModuleResolver({
+                    "eslint-plugin-test": resolvedPath
+                }),
+                "require-uncached"(filename) {
+                    return configDeps[filename];
+                }
+            };
+
+            configDeps[resolvedPath] = {
+                configs: {
+                    bar: {
+                        parser: "babel-eslint"
+                    }
+                }
             };
 
             const StubbedConfigFile = proxyquire("../../../lib/config/config-file", configDeps);
 
             assert.throws(() => {
                 StubbedConfigFile.applyExtends({
-                    extends: "plugin:foo",
+                    extends: "plugin:test/bar",
                     rules: { eqeqeq: 2 }
                 }, "/whatever");
-            }, /Failed to load config "plugin:foo" to extend from./);
+            }, /Cannot find module 'babel-eslint'/);
+
+        });
+
+        it("should throw an error when a plugin config is not found", () => {
+            const resolvedPath = path.resolve(PROJECT_PATH, "./node_modules/eslint-plugin-test/index.js");
+
+            const configDeps = {
+                "../util/module-resolver": createStubModuleResolver({
+                    "eslint-plugin-test": resolvedPath
+                }),
+                "require-uncached"(filename) {
+                    return configDeps[filename];
+                }
+            };
+
+            configDeps[resolvedPath] = {
+                configs: {
+                    baz: {}
+                }
+            };
+
+            const StubbedConfigFile = proxyquire("../../../lib/config/config-file", configDeps);
+
+            assert.throws(() => {
+                StubbedConfigFile.applyExtends({
+                    extends: "plugin:test/bar",
+                    rules: { eqeqeq: 2 }
+                }, "/whatever");
+            }, /Failed to load config "plugin:test\/bar" to extend from./);
 
         });
 
