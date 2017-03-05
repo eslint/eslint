@@ -40,6 +40,7 @@ Examples of **correct** code for this rule:
 const quotient = dividend / divisor;
 const cubed = x ** 3;
 ```
+
 ## Options
 
 * `all` set to `always` requires spaces around all operators that do not override this (the default).
