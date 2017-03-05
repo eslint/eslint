@@ -112,6 +112,12 @@ ruleTester.run("spaced-comment", rule, {
             }]
         },
         {
+            code: "/*\u2028x*/",
+            options: ["always", {
+                markers: ["/", "!<"]
+            }]
+        },
+        {
             code: "///xmldoc style comment",
             options: ["never", {
                 markers: ["/", "!<"]
@@ -173,11 +179,11 @@ ruleTester.run("spaced-comment", rule, {
         },
         {
             code: "// space only at start; valid since balanced doesn't apply to line comments",
-            options: ["always", { block: { balanced: true }}]
+            options: ["always", { block: { balanced: true } }]
         },
         {
             code: "//space only at end; valid since balanced doesn't apply to line comments ",
-            options: ["never", { block: { balanced: true }}]
+            options: ["never", { block: { balanced: true } }]
         },
 
         // block comments
@@ -241,19 +247,19 @@ ruleTester.run("spaced-comment", rule, {
         // balanced block comments
         {
             code: "var a = 1; /* comment */",
-            options: ["always", { block: { balanced: true }}]
+            options: ["always", { block: { balanced: true } }]
         },
         {
             code: "var a = 1; /*comment*/",
-            options: ["never", { block: { balanced: true }}]
+            options: ["never", { block: { balanced: true } }]
         },
         {
             code: "function foo(/* height */a) { \n }",
-            options: ["always", { block: { balanced: true }}]
+            options: ["always", { block: { balanced: true } }]
         },
         {
             code: "function foo(/*height*/a) { \n }",
-            options: ["never", { block: { balanced: true }}]
+            options: ["never", { block: { balanced: true } }]
         },
         {
             code: "var a = 1; /*######*/",
@@ -283,7 +289,7 @@ ruleTester.run("spaced-comment", rule, {
         },
         {
             code: "/*global ABC */",
-            options: ["always", { markers: ["global"], block: { balanced: true }}]
+            options: ["always", { markers: ["global"], block: { balanced: true } }]
         },
 
         // markers & exceptions
@@ -294,6 +300,10 @@ ruleTester.run("spaced-comment", rule, {
         {
             code: "///--------\r\n/// test\r\n///--------\r\n/* blah */",
             options: ["always", { markers: ["/"], exceptions: ["-"], block: { markers: [] } }]
+        },
+        {
+            code: "/***\u2028*/",
+            options: ["always", { exceptions: ["*"] }]
         }
     ],
 
@@ -376,18 +386,6 @@ ruleTester.run("spaced-comment", rule, {
             }]
         },
         {
-            code: invalidShebangProgram,
-            output: "#!/path/to/node\n#!/second/shebang\nvar a = 3;",
-            errors: 1,
-            options: ["always"]
-        },
-        {
-            code: invalidShebangProgram,
-            output: "#!/path/to/node\n#!/second/shebang\nvar a = 3;",
-            errors: 1,
-            options: ["never"]
-        },
-        {
             code: "var a = 1; /* A valid comment starting with space */",
             output: "var a = 1; /*A valid comment starting with space */",
             options: ["never"],
@@ -459,8 +457,8 @@ ruleTester.run("spaced-comment", rule, {
                 block: { exceptions: ["-", "=", "*", "#", "!@#"] }
             }],
             errors: [
-                { message: "Expected space or tab after '//' in comment.", type: "Line"},
-                { message: "Expected space or tab after '//' in comment.", type: "Line"}
+                { message: "Expected space or tab after '//' in comment.", type: "Line" },
+                { message: "Expected space or tab after '//' in comment.", type: "Line" }
             ]
         },
         {
@@ -524,7 +522,7 @@ ruleTester.run("spaced-comment", rule, {
         {
             code: "var a = 1; /* A balanced comment starting with space*/",
             output: "var a = 1; /* A balanced comment starting with space */",
-            options: ["always", {block: { balanced: true }}],
+            options: ["always", { block: { balanced: true } }],
             errors: [{
                 message: "Expected space or tab before '*/' in comment.",
                 type: "Block"
@@ -533,7 +531,7 @@ ruleTester.run("spaced-comment", rule, {
         {
             code: "var a = 1; /*A balanced comment NOT starting with space */",
             output: "var a = 1; /*A balanced comment NOT starting with space*/",
-            options: ["never", {block: { balanced: true }}],
+            options: ["never", { block: { balanced: true } }],
             errors: [{
                 message: "Unexpected space or tab before '*/' in comment.",
                 type: "Block"
@@ -542,7 +540,7 @@ ruleTester.run("spaced-comment", rule, {
         {
             code: "function foo(/* height*/a) { \n }",
             output: "function foo(/* height */a) { \n }",
-            options: ["always", { block: { balanced: true }}],
+            options: ["always", { block: { balanced: true } }],
             errors: [{
                 message: "Expected space or tab before '*/' in comment.",
                 type: "Block"
@@ -551,7 +549,7 @@ ruleTester.run("spaced-comment", rule, {
         {
             code: "function foo(/*height */a) { \n }",
             output: "function foo(/*height*/a) { \n }",
-            options: ["never", { block: { balanced: true }}],
+            options: ["never", { block: { balanced: true } }],
             errors: [{
                 message: "Unexpected space or tab before '*/' in comment.",
                 type: "Block"
@@ -574,6 +572,20 @@ ruleTester.run("spaced-comment", rule, {
                 message: "Unexpected space or tab before '*/' in comment.",
                 type: "Block"
             }]
+        },
+
+        // Parser errors
+        {
+            code: invalidShebangProgram,
+            output: null,
+            errors: 1,
+            options: ["always"]
+        },
+        {
+            code: invalidShebangProgram,
+            output: null,
+            errors: 1,
+            options: ["never"]
         }
     ]
 

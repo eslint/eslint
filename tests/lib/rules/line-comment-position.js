@@ -39,7 +39,7 @@ ruleTester.run("line-comment-position", rule, {
         "1 + 1; // istanbul ignore next",
         {
             code: "1 + 1; // linter excepted comment",
-            options: [{position: "above", ignorePattern: "linter" } ]
+            options: [{ position: "above", ignorePattern: "linter" }]
         },
         {
             code: "// Meep\nconsole.log('Meep');",
@@ -75,7 +75,7 @@ ruleTester.run("line-comment-position", rule, {
         },
         {
             code: "// pragma valid comment\n1 + 1;",
-            options: [{position: "beside", ignorePattern: "pragma|linter" } ]
+            options: [{ position: "beside", ignorePattern: "pragma|linter" }]
         }
     ],
 
@@ -100,7 +100,27 @@ ruleTester.run("line-comment-position", rule, {
         },
         {
             code: "// jscs: disable\n1 + 1;",
+            options: [{ position: "beside", applyDefaultIgnorePatterns: false }],
+            errors: [{
+                message: "Expected comment to be beside code.",
+                type: "Line",
+                line: 1,
+                column: 1
+            }]
+        },
+        {   // deprecated option still works
+            code: "// jscs: disable\n1 + 1;",
             options: [{ position: "beside", applyDefaultPatterns: false }],
+            errors: [{
+                message: "Expected comment to be beside code.",
+                type: "Line",
+                line: 1,
+                column: 1
+            }]
+        },
+        {   // new option name takes precedence
+            code: "// jscs: disable\n1 + 1;",
+            options: [{ position: "beside", applyDefaultIgnorePatterns: false, applyDefaultPatterns: true }],
             errors: [{
                 message: "Expected comment to be beside code.",
                 type: "Line",
@@ -139,7 +159,7 @@ ruleTester.run("line-comment-position", rule, {
         },
         {
             code: "1 + 1; // linter\n2 + 2; // invalid comment",
-            options: [{position: "above", ignorePattern: "linter" } ],
+            options: [{ position: "above", ignorePattern: "linter" }],
             errors: [{
                 message: "Expected comment to be above code.",
                 type: "Line",

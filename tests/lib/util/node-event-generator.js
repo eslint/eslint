@@ -32,7 +32,7 @@ describe("NodeEventGenerator", () => {
     });
 
     it("should generate events for entering AST node.", () => {
-        const dummyNode = {type: "Foo", value: 1};
+        const dummyNode = { type: "Foo", value: 1 };
 
         generator.enterNode(dummyNode);
 
@@ -41,7 +41,7 @@ describe("NodeEventGenerator", () => {
     });
 
     it("should generate events for exitting AST node.", () => {
-        const dummyNode = {type: "Foo", value: 1};
+        const dummyNode = { type: "Foo", value: 1 };
 
         generator.leaveNode(dummyNode);
 

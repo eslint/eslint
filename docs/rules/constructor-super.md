@@ -10,7 +10,7 @@ This rule checks whether or not there is a valid `super()` call.
 
 This rule is aimed to flag invalid/missing `super()` calls.
 
-The following patterns are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint constructor-super: "error"*/
@@ -38,7 +38,7 @@ class A extends null {
 }
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint constructor-super: "error"*/

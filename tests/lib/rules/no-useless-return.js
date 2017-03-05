@@ -108,23 +108,23 @@ ruleTester.run("no-useless-return", rule, {
                 for (var foo of bar) return;
               }
             `,
-            parserOptions: {ecmaVersion: 6}
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "() => { if (foo) return; bar(); }",
-            parserOptions: {ecmaVersion: 6}
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "() => 5",
-            parserOptions: {ecmaVersion: 6}
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "() => { return; doSomething(); }",
-            parserOptions: {ecmaVersion: 6}
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "if (foo) { return; } doSomething();",
-            parserOptions: {ecmaFeatures: {globalReturn: true}}
+            parserOptions: { ecmaFeatures: { globalReturn: true } }
         },
 
         // https://github.com/eslint/eslint/issues/7477
@@ -148,6 +148,23 @@ ruleTester.run("no-useless-return", rule, {
             else return;
             return 5;
           }
+        `,
+
+        // https://github.com/eslint/eslint/issues/7583
+        `
+          function foo() {
+            return;
+            while (foo) return;
+            foo;
+          }
+        `,
+
+        // https://github.com/eslint/eslint/issues/7855
+        `
+          try {
+            throw new Error('foo');
+            while (false);
+          } catch (err) {}
         `
     ],
 
@@ -171,12 +188,12 @@ ruleTester.run("no-useless-return", rule, {
         {
             code: "foo(); return;",
             output: "foo(); ",
-            parserOptions: {ecmaFeatures: {globalReturn: true}}
+            parserOptions: { ecmaFeatures: { globalReturn: true } }
         },
         {
             code: "if (foo) { bar(); return; } else { baz(); }",
             output: "if (foo) { bar();  } else { baz(); }",
-            parserOptions: {ecmaFeatures: {globalReturn: true}}
+            parserOptions: { ecmaFeatures: { globalReturn: true } }
         },
         {
             code: `
@@ -192,12 +209,12 @@ ruleTester.run("no-useless-return", rule, {
                 if (foo) {
                   
                 }
-                
+                return;
               }
-            `,
+            `,  // Other case is fixed in the second pass.
             errors: [
-                {message: "Unnecessary return statement.", type: "ReturnStatement"},
-                {message: "Unnecessary return statement.", type: "ReturnStatement"},
+                { message: "Unnecessary return statement.", type: "ReturnStatement" },
+                { message: "Unnecessary return statement.", type: "ReturnStatement" }
             ]
         },
         {
@@ -395,15 +412,15 @@ ruleTester.run("no-useless-return", rule, {
         {
             code: "() => { return; }",
             output: "() => {  }",
-            parserOptions: {ecmaVersion: 6}
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "function foo() { return; return; }",
-            output: "function foo() {   }",
+            output: "function foo() {  return; }",  // Other case is fixed in the second pass.
             errors: [
-                {message: "Unnecessary return statement.", type: "ReturnStatement"},
-                {message: "Unnecessary return statement.", type: "ReturnStatement"},
+                { message: "Unnecessary return statement.", type: "ReturnStatement" },
+                { message: "Unnecessary return statement.", type: "ReturnStatement" }
             ]
         }
-    ].map(invalidCase => Object.assign({errors: [{message: "Unnecessary return statement.", type: "ReturnStatement"}]}, invalidCase))
+    ].map(invalidCase => Object.assign({ errors: [{ message: "Unnecessary return statement.", type: "ReturnStatement" }] }, invalidCase))
 });

@@ -77,7 +77,7 @@ describe("SourceCode", () => {
 
         });
 
-        it("should throw an error when called with an AST that's missing comments", () => {
+        it("should throw an error when called with an AST that's missing location", () => {
 
             assert.throws(() => {
                 new SourceCode("foo;", { comments: [], tokens: [], range: [] });
@@ -85,7 +85,7 @@ describe("SourceCode", () => {
 
         });
 
-        it("should throw an error when called with an AST that's missing comments", () => {
+        it("should throw an error when called with an AST that's missing range", () => {
 
             assert.throws(() => {
                 new SourceCode("foo;", { comments: [], tokens: [], loc: {} });
@@ -217,7 +217,7 @@ describe("SourceCode", () => {
             const spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionExpression", spy);
-            eslint.verify(code, { rules: {}}, filename, true);
+            eslint.verify(code, { rules: {} }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
 
         });
@@ -245,7 +245,7 @@ describe("SourceCode", () => {
             const spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionExpression", spy);
-            eslint.verify(code, { rules: {}}, filename, true);
+            eslint.verify(code, { rules: {} }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
 
         });
@@ -275,7 +275,7 @@ describe("SourceCode", () => {
             const spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionExpression", spy);
-            eslint.verify(code, { rules: {}}, filename, true);
+            eslint.verify(code, { rules: {} }, filename, true);
             assert.isTrue(spy.calledTwice, "Event handler should be called twice.");
 
         });
@@ -307,7 +307,7 @@ describe("SourceCode", () => {
             const spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionExpression", spy);
-            eslint.verify(code, {rules: {}}, filename, true);
+            eslint.verify(code, { rules: {} }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -335,7 +335,7 @@ describe("SourceCode", () => {
             const spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionDeclaration", spy);
-            eslint.verify(code, { rules: {}}, filename, true);
+            eslint.verify(code, { rules: {} }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
 
         });
@@ -364,7 +364,7 @@ describe("SourceCode", () => {
             const spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionDeclaration", spy);
-            eslint.verify(code, { parserOptions: { sourceType: "module" }, rules: {}}, filename, true);
+            eslint.verify(code, { parserOptions: { sourceType: "module" }, rules: {} }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
 
         });
@@ -395,7 +395,7 @@ describe("SourceCode", () => {
             const spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionDeclaration", spy);
-            eslint.verify(code, { rules: {}}, filename, true);
+            eslint.verify(code, { rules: {} }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
 
         });
@@ -426,7 +426,7 @@ describe("SourceCode", () => {
             const spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionDeclaration", spy);
-            eslint.verify(code, { rules: {}}, filename, true);
+            eslint.verify(code, { rules: {} }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
 
         });
@@ -456,7 +456,7 @@ describe("SourceCode", () => {
             const spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionDeclaration", spy);
-            eslint.verify(code, { rules: {}}, filename, true);
+            eslint.verify(code, { rules: {} }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
 
         });
@@ -488,7 +488,7 @@ describe("SourceCode", () => {
             const spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionDeclaration", spy);
-            eslint.verify(code, { rules: {}}, filename, true);
+            eslint.verify(code, { rules: {} }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -519,7 +519,7 @@ describe("SourceCode", () => {
             const spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionExpression", spy);
-            eslint.verify(code, { rules: {}}, filename, true);
+            eslint.verify(code, { rules: {} }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -550,7 +550,7 @@ describe("SourceCode", () => {
             const spy = sandbox.spy(assertJSDoc);
 
             eslint.on("ArrowFunctionExpression", spy);
-            eslint.verify(code, { parserOptions: { ecmaVersion: 6 }, rules: {}}, filename, true);
+            eslint.verify(code, { parserOptions: { ecmaVersion: 6 }, rules: {} }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -579,7 +579,7 @@ describe("SourceCode", () => {
             const spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionExpression", spy);
-            eslint.verify(code, { rules: {}}, filename, true);
+            eslint.verify(code, { rules: {} }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -612,7 +612,7 @@ describe("SourceCode", () => {
             const spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionExpression", spy);
-            eslint.verify(code, { rules: {}}, filename, true);
+            eslint.verify(code, { rules: {} }, filename, true);
             assert.isTrue(spy.calledTwice, "Event handler should be called.");
         });
 
@@ -644,7 +644,7 @@ describe("SourceCode", () => {
             const spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionExpression", spy);
-            eslint.verify(code, { rules: {}}, filename, true);
+            eslint.verify(code, { rules: {} }, filename, true);
             assert.isTrue(spy.calledTwice, "Event handler should be called.");
         });
 
@@ -674,7 +674,7 @@ describe("SourceCode", () => {
             const spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionExpression", spy);
-            eslint.verify(code, { rules: {}}, filename, true);
+            eslint.verify(code, { rules: {} }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -712,7 +712,7 @@ describe("SourceCode", () => {
             const spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionExpression", spy);
-            eslint.verify(code, { rules: {}}, filename, true);
+            eslint.verify(code, { rules: {} }, filename, true);
             assert.isTrue(spy.calledTwice, "Event handler should be called.");
         });
 
@@ -741,7 +741,7 @@ describe("SourceCode", () => {
             const spy = sandbox.spy(assertJSDoc);
 
             eslint.on("ClassExpression", spy);
-            eslint.verify(code, { rules: {}, parserOptions: { ecmaVersion: 6 }}, filename, true);
+            eslint.verify(code, { rules: {}, parserOptions: { ecmaVersion: 6 } }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -770,7 +770,7 @@ describe("SourceCode", () => {
             const spy = sandbox.spy(assertJSDoc);
 
             eslint.on("ClassDeclaration", spy);
-            eslint.verify(code, { rules: {}, parserOptions: { ecmaVersion: 6 }}, filename, true);
+            eslint.verify(code, { rules: {}, parserOptions: { ecmaVersion: 6 } }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -799,7 +799,7 @@ describe("SourceCode", () => {
             const spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionExpression", spy);
-            eslint.verify(code, { rules: {}, parserOptions: { ecmaVersion: 6 }}, filename, true);
+            eslint.verify(code, { rules: {}, parserOptions: { ecmaVersion: 6 } }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -832,7 +832,7 @@ describe("SourceCode", () => {
             const spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionExpression", spy);
-            eslint.verify(code, { rules: {}, parserOptions: { ecmaVersion: 6 }}, filename, true);
+            eslint.verify(code, { rules: {}, parserOptions: { ecmaVersion: 6 } }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -863,7 +863,7 @@ describe("SourceCode", () => {
             const spy = sandbox.spy(assertJSDoc);
 
             eslint.on("FunctionDeclaration", spy);
-            eslint.verify(code, { rules: {}, parserOptions: { ecmaVersion: 6 }}, filename, true);
+            eslint.verify(code, { rules: {}, parserOptions: { ecmaVersion: 6 } }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -1200,6 +1200,128 @@ describe("SourceCode", () => {
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].message, "'foo' is assigned a value but never used.");
+        });
+    });
+
+    describe("getLocFromIndex()", () => {
+        const CODE =
+            "foo\n" +
+            "bar\r\n" +
+            "baz\r" +
+            "qux\u2028" +
+            "foo\u2029" +
+            "\n" +
+            "qux\n";
+
+        let sourceCode;
+
+        beforeEach(() => {
+            sourceCode = new SourceCode(CODE, espree.parse(CODE, DEFAULT_CONFIG));
+        });
+
+        it("should return the location of a range index", () => {
+            assert.deepEqual(sourceCode.getLocFromIndex(5), { line: 2, column: 1 });
+            assert.deepEqual(sourceCode.getLocFromIndex(3), { line: 1, column: 3 });
+            assert.deepEqual(sourceCode.getLocFromIndex(4), { line: 2, column: 0 });
+            assert.deepEqual(sourceCode.getLocFromIndex(21), { line: 6, column: 0 });
+        });
+
+        it("should throw if given a bad input", () => {
+            assert.throws(
+                () => sourceCode.getLocFromIndex({ line: 1, column: 1 }),
+                /Expected `index` to be a number\./
+            );
+        });
+
+        it("should not throw if given sourceCode.text.length", () => {
+            assert.deepEqual(sourceCode.getLocFromIndex(CODE.length), { line: 8, column: 0 });
+        });
+
+        it("should throw if given an out-of-range input", () => {
+            assert.throws(
+                () => sourceCode.getLocFromIndex(CODE.length + 1),
+                /Index out of range \(requested index 27, but source text has length 26\)\./
+            );
+        });
+
+        it("is symmetric with getIndexFromLoc()", () => {
+            for (let index = 0; index <= CODE.length; index++) {
+                assert.strictEqual(index, sourceCode.getIndexFromLoc(sourceCode.getLocFromIndex(index)));
+            }
+        });
+    });
+
+    describe("getIndexFromLoc()", () => {
+        const CODE =
+            "foo\n" +
+            "bar\r\n" +
+            "baz\r" +
+            "qux\u2028" +
+            "foo\u2029" +
+            "\n" +
+            "qux\n";
+
+        let sourceCode;
+
+        beforeEach(() => {
+            sourceCode = new SourceCode(CODE, espree.parse(CODE, DEFAULT_CONFIG));
+        });
+        it("should return the range index of a location", () => {
+            assert.strictEqual(sourceCode.getIndexFromLoc({ line: 2, column: 1 }), 5);
+            assert.strictEqual(sourceCode.getIndexFromLoc({ line: 1, column: 3 }), 3);
+            assert.strictEqual(sourceCode.getIndexFromLoc({ line: 2, column: 0 }), 4);
+            assert.strictEqual(sourceCode.getIndexFromLoc({ line: 7, column: 0 }), 22);
+            assert.strictEqual(sourceCode.getIndexFromLoc({ line: 7, column: 3 }), 25);
+        });
+
+        it("should throw a useful error if given a malformed location", () => {
+            assert.throws(
+                () => sourceCode.getIndexFromLoc(5),
+                /Expected `loc` to be an object with numeric `line` and `column` properties\./
+            );
+
+            assert.throws(
+                () => sourceCode.getIndexFromLoc({ line: "three", column: "four" }),
+                /Expected `loc` to be an object with numeric `line` and `column` properties\./
+            );
+        });
+
+        it("should throw a useful error if `line` is out of range", () => {
+            assert.throws(
+                () => sourceCode.getIndexFromLoc({ line: 9, column: 0 }),
+                /Line number out of range \(line 9 requested, but only 8 lines present\)\./
+            );
+
+            assert.throws(
+                () => sourceCode.getIndexFromLoc({ line: 50, column: 3 }),
+                /Line number out of range \(line 50 requested, but only 8 lines present\)\./
+            );
+
+            assert.throws(
+                () => sourceCode.getIndexFromLoc({ line: 0, column: 0 }),
+                /Line number out of range \(line 0 requested\)\. Line numbers should be 1-based\./
+            );
+        });
+
+        it("should throw a useful error if `column` is out of range", () => {
+            assert.throws(
+                () => sourceCode.getIndexFromLoc({ line: 3, column: 4 }),
+                /Column number out of range \(column 4 requested, but the length of line 3 is 4\)\./
+            );
+
+            assert.throws(
+                () => sourceCode.getIndexFromLoc({ line: 3, column: 50 }),
+                /Column number out of range \(column 50 requested, but the length of line 3 is 4\)\./
+            );
+
+            assert.throws(
+                () => sourceCode.getIndexFromLoc({ line: 8, column: 1 }),
+                /Column number out of range \(column 1 requested, but the length of line 8 is 0\)\./
+            );
+        });
+
+        it("should not throw if the location one spot past the last character is given", () => {
+            assert.strictEqual(sourceCode.getIndexFromLoc({ line: 8, column: 0 }), CODE.length);
         });
     });
 });

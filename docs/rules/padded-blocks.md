@@ -1,7 +1,5 @@
 # require or disallow padding within blocks (padded-blocks)
 
-(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
-
 Some style guides require block statements to start and end with blank lines. The goal is
 to improve readability by visually separating the block content and the surrounding code.
 
@@ -27,7 +25,7 @@ This rule has one option, which can be a string option or an object option.
 String option:
 
 * `"always"` (default) requires empty lines at the beginning and ending of block statements (except `switch` statements and classes)
-* `"never"` disallows empty lines at the beginning and ending of block statements
+* `"never"` disallows empty lines at the beginning and ending of block statements (except `switch` statements and classes)
 
 Object option:
 

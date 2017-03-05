@@ -1,7 +1,5 @@
 # Suggest using `const` (prefer-const)
 
-(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes some instances of problems reported by this rule.
-
 If a variable is never reassigned, using the `const` declaration is better.
 
 `const` declaration tells readers, "this variable is never reassigned," reducing cognitive load and improving maintainability.

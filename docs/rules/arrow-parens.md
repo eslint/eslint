@@ -1,7 +1,5 @@
 # Require parens in arrow function arguments (arrow-parens)
 
-(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
-
 Arrow functions can omit parentheses when they have exactly one parameter. In all other cases the parameter(s) must
 be wrapped in parentheses. This rule enforces the consistent use of parentheses in arrow functions.
 
@@ -58,7 +56,7 @@ String options are:
 
 Object properties for variants of the `"as-needed"` option:
 
-* `"requireForBlockBody": true` modifies the as-needed rule in order to require parens if the function body is in an intructions block (surrounded by braces).
+* `"requireForBlockBody": true` modifies the as-needed rule in order to require parens if the function body is in an instructions block (surrounded by braces).
 
 ### always
 

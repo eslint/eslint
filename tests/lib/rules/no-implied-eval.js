@@ -53,7 +53,10 @@ ruleTester.run("no-implied-eval", rule, {
         "setTimeout(foobar, foo + 'bar')",
 
         // only checks immediate subtrees of the argument
-        "setTimeout(function() { return 'foobar'; }, 10)"
+        "setTimeout(function() { return 'foobar'; }, 10)",
+
+        // https://github.com/eslint/eslint/issues/7821
+        "setTimeoutFooBar('Foo Bar')"
     ],
 
     invalid: [

@@ -187,6 +187,22 @@ ruleTester.run("func-call-spacing", rule, {
         {
             code: "f\n/*\n*/\n()",
             options: ["always", { allowNewlines: true }]
+        },
+        {
+            code: "f\r();",
+            options: ["always", { allowNewlines: true }]
+        },
+        {
+            code: "f\u2028();",
+            options: ["always", { allowNewlines: true }]
+        },
+        {
+            code: "f\u2029();",
+            options: ["always", { allowNewlines: true }]
+        },
+        {
+            code: "f\r\n();",
+            options: ["always", { allowNewlines: true }]
         }
     ],
     invalid: [
@@ -203,11 +219,6 @@ ruleTester.run("func-call-spacing", rule, {
             output: "f(a, b);"
         },
         {
-            code: "f\n();",
-            errors: [{ message: "Unexpected space between function name and paren.", type: "CallExpression" }],
-            output: "f();"
-        },
-        {
             code: "f.b ();",
             errors: [{ message: "Unexpected space between function name and paren.", type: "CallExpression", column: 3 }],
             output: "f.b();"
@@ -256,6 +267,33 @@ ruleTester.run("func-call-spacing", rule, {
             output: "f();\n t();"
         },
 
+        // https://github.com/eslint/eslint/issues/7787
+        {
+            code: "f\n();",
+            errors: [{ message: "Unexpected space between function name and paren.", type: "CallExpression" }],
+            output: null // no change
+        },
+        {
+            code: "f\r();",
+            errors: [{ message: "Unexpected space between function name and paren.", type: "CallExpression" }],
+            output: null // no change
+        },
+        {
+            code: "f\u2028();",
+            errors: [{ message: "Unexpected space between function name and paren.", type: "CallExpression" }],
+            output: null // no change
+        },
+        {
+            code: "f\u2029();",
+            errors: [{ message: "Unexpected space between function name and paren.", type: "CallExpression" }],
+            output: null // no change
+        },
+        {
+            code: "f\r\n();",
+            errors: [{ message: "Unexpected space between function name and paren.", type: "CallExpression" }],
+            output: null // no change
+        },
+
         // "never"
         {
             code: "f ();",
@@ -268,12 +306,6 @@ ruleTester.run("func-call-spacing", rule, {
             options: ["never"],
             errors: [{ message: "Unexpected space between function name and paren.", type: "CallExpression" }],
             output: "f(a, b);"
-        },
-        {
-            code: "f\n();",
-            options: ["never"],
-            errors: [{ message: "Unexpected space between function name and paren.", type: "CallExpression" }],
-            output: "f();"
         },
         {
             code: "f.b ();",
@@ -331,6 +363,112 @@ ruleTester.run("func-call-spacing", rule, {
                 { message: "Unexpected space between function name and paren.", type: "CallExpression" }
             ],
             output: "f();\n t();"
+        },
+
+        // https://github.com/eslint/eslint/issues/7787
+        {
+            code: "f\n();",
+            options: ["never"],
+            errors: [
+                {
+                    message: "Unexpected space between function name and paren.",
+                    type: "CallExpression"
+                }
+            ],
+            output: null // no change
+        },
+        {
+            code: [
+                "this.cancelled.add(request)",
+                "this.decrement(request)",
+                "(0, request.reject)(new api.Cancel())"
+            ].join("\n"),
+            options: ["never"],
+            errors: [
+                {
+                    message: "Unexpected space between function name and paren.",
+                    type: "CallExpression",
+                    line: 2,
+                    column: 23
+                }
+            ],
+            output: null // no change
+        },
+        {
+            code: [
+                "var a = foo",
+                "(function(global) {}(this));"
+            ].join("\n"),
+            options: ["never"],
+            errors: [
+                {
+                    message: "Unexpected space between function name and paren.",
+                    type: "CallExpression",
+                    line: 1,
+                    column: 9
+                }
+            ],
+            output: null // no change
+        },
+        {
+            code: [
+                "var a = foo",
+                "(0, baz())"
+            ].join("\n"),
+            options: ["never"],
+            errors: [
+                {
+                    message: "Unexpected space between function name and paren.",
+                    type: "CallExpression",
+                    line: 1,
+                    column: 9
+                }
+            ],
+            output: null // no change
+        },
+        {
+            code: "f\r();",
+            options: ["never"],
+            errors: [
+                {
+                    message: "Unexpected space between function name and paren.",
+                    type: "CallExpression"
+                }
+            ],
+            output: null // no change
+        },
+        {
+            code: "f\u2028();",
+            options: ["never"],
+            errors: [
+                {
+                    message: "Unexpected space between function name and paren.",
+                    type: "CallExpression"
+                }
+            ],
+            output: null // no change
+        },
+        {
+            code: "f\u2029();",
+            options: ["never"],
+            errors: [
+                {
+                    message: "Unexpected space between function name and paren.",
+                    type: "CallExpression"
+                }
+            ],
+            output: null // no change
+        },
+        {
+            code: "f\r\n();",
+            options: ["never"],
+            errors: [
+                {
+                    message: "Unexpected space between function name and paren.",
+                    type: "CallExpression"
+                }
+            ],
+            output: null // no change
         },
 
         // "always"
@@ -441,6 +579,30 @@ ruleTester.run("func-call-spacing", rule, {
                 { message: "Missing space between function name and paren.", type: "CallExpression" }
             ],
             output: "f ();\n t ();"
+        },
+        {
+            code: "f\r();",
+            options: ["always"],
+            errors: [{ message: "Unexpected newline between function name and paren.", type: "CallExpression" }],
+            output: "f ();"
+        },
+        {
+            code: "f\u2028();",
+            options: ["always"],
+            errors: [{ message: "Unexpected newline between function name and paren.", type: "CallExpression" }],
+            output: "f ();"
+        },
+        {
+            code: "f\u2029();",
+            options: ["always"],
+            errors: [{ message: "Unexpected newline between function name and paren.", type: "CallExpression" }],
+            output: "f ();"
+        },
+        {
+            code: "f\r\n();",
+            options: ["always"],
+            errors: [{ message: "Unexpected newline between function name and paren.", type: "CallExpression" }],
+            output: "f ();"
         },
 
         // "always", "allowNewlines": true

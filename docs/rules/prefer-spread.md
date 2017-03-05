@@ -1,7 +1,5 @@
 # Suggest using the spread operator instead of `.apply()`. (prefer-spread)
 
-(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
-
 Before ES2015, one must use `Function.prototype.apply()` to call variadic functions.
 
 ```js
@@ -30,9 +28,7 @@ Examples of **incorrect** code for this rule:
 /*eslint prefer-spread: "error"*/
 
 foo.apply(undefined, args);
-
 foo.apply(null, args);
-
 obj.foo.apply(obj, args);
 ```
 
@@ -40,6 +36,10 @@ Examples of **correct** code for this rule:
 
 ```js
 /*eslint prefer-spread: "error"*/
+
+// Using the spread operator
+foo(...args);
+obj.foo(...args);
 
 // The `this` binding is different.
 foo.apply(obj, args);

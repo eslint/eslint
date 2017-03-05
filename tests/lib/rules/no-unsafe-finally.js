@@ -77,7 +77,7 @@ ruleTester.run("no-unsafe-finally", rule, {
         },
         {
             code: "var foo = function() { label: try { return 0; } finally { break label; } return 1; }",
-            errors: [{ message: "Unsafe usage of BreakStatement.", type: "BreakStatement", line: 1, column: 59}]
+            errors: [{ message: "Unsafe usage of BreakStatement.", type: "BreakStatement", line: 1, column: 59 }]
         },
         {
             code: "var foo = function() { \n a: try { \n return 1; \n } catch(err) { \n return 2; \n } finally { \n break a; \n } \n }",

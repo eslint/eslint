@@ -145,6 +145,10 @@ ruleTester.run("newline-per-chained-call", rule, {
         }, {
             message: "Expected line break before `[aCondition ?`."
         }]
+    }, {
+        code: "foo.bar()['foo' + \u2029 + 'bar']()",
+        options: [{ ignoreChainWithDepth: 1 }],
+        errors: [{ message: "Expected line break before `['foo' + `." }]
     }]
 
 });

@@ -159,7 +159,18 @@ function execSilent(cmd) {
  * @private
  */
 function generateBlogPost(releaseInfo) {
-    const output = ejs.render(cat("./templates/blogpost.md.ejs"), releaseInfo),
+    const ruleList = ls("lib/rules")
+
+        // Strip the .js extension
+        .map(ruleFileName => ruleFileName.replace(/\.js$/, ""))
+
+        /*
+         * Sort by length descending. This ensures that rule names which are substrings of other rule names are not
+         * matched incorrectly. For example, the string "no-undefined" should get matched with the `no-undefined` rule,
+         * instead of getting matched with the `no-undef` rule followed by the string "ined".
+         */
+        .sort((ruleA, ruleB) => ruleB.length - ruleA.length);
+    const output = ejs.render(cat("./templates/blogpost.md.ejs"), Object.assign({ ruleList }, releaseInfo)),
         now = new Date(),
         month = now.getMonth() + 1,
         day = now.getDate(),
@@ -202,33 +213,37 @@ function generateRuleIndexPage(basedir) {
         categoryList = "conf/category-list.json",
         categoriesData = JSON.parse(cat(path.resolve(categoryList)));
 
-    find(path.join(basedir, "/lib/rules/")).filter(fileType("js")).forEach(filename => {
-        const rule = require(filename);
-        const basename = path.basename(filename, ".js");
+    find(path.join(basedir, "/lib/rules/")).filter(fileType("js"))
+        .map(filename => [filename, path.basename(filename, ".js")])
+        .sort((a, b) => a[1].localeCompare(b[1]))
+        .forEach(pair => {
+            const filename = pair[0];
+            const basename = pair[1];
+            const rule = require(filename);
 
-        if (rule.meta.deprecated) {
-            categoriesData.deprecated.rules.push({
-                name: basename,
-                replacedBy: rule.meta.docs.replacedBy || []
-            });
-        } else {
-            const output = {
+            if (rule.meta.deprecated) {
+                categoriesData.deprecated.rules.push({
                     name: basename,
-                    description: rule.meta.docs.description,
-                    recommended: rule.meta.docs.recommended || false,
-                    fixable: !!rule.meta.fixable
-                },
-                category = lodash.find(categoriesData.categories, {name: rule.meta.docs.category});
+                    replacedBy: rule.meta.docs.replacedBy || []
+                });
+            } else {
+                const output = {
+                        name: basename,
+                        description: rule.meta.docs.description,
+                        recommended: rule.meta.docs.recommended || false,
+                        fixable: !!rule.meta.fixable
+                    },
+                    category = lodash.find(categoriesData.categories, { name: rule.meta.docs.category });
 
-            if (!category.rules) {
-                category.rules = [];
+                if (!category.rules) {
+                    category.rules = [];
+                }
+
+                category.rules.push(output);
             }
+        });
 
-            category.rules.push(output);
-        }
-    });
-
-    const output = yaml.safeDump(categoriesData, {sortKeys: true});
+    const output = yaml.safeDump(categoriesData, { sortKeys: true });
 
     output.to(outputFile);
 }
@@ -416,7 +431,8 @@ function lintMarkdown(files) {
         },
         result = markdownlint.sync({
             files,
-            config
+            config,
+            resultVersion: 1
         }),
         resultString = result.toString(),
         returnCode = resultString ? 1 : 0;
@@ -623,6 +639,11 @@ target.gensite = function(prereleaseVersion) {
         };
     }
 
+    const rules = require(".").linter.getRules();
+
+    const RECOMMENDED_TEXT = "\n\n(recommended) The `\"extends\": \"eslint:recommended\"` property in a configuration file enables this rule.";
+    const FIXABLE_TEXT = "\n\n(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) can automatically fix some of the problems reported by this rule.";
+
     // 4. Loop through all files in temporary directory
     find(TEMP_DIR).forEach(filename => {
         if (test("-f", filename) && path.extname(filename) === ".md") {
@@ -638,6 +659,19 @@ target.gensite = function(prereleaseVersion) {
 
             // 5. Prepend page title and layout variables at the top of rules
             if (path.dirname(filename).indexOf("rules") >= 0) {
+
+                // Find out if the rule requires a special docs portion (e.g. if it is recommended and/or fixable)
+                const rule = rules.get(ruleName);
+                const isRecommended = rule && rule.meta.docs.recommended;
+                const isFixable = rule && rule.meta.fixable;
+
+                // Incorporate the special portion into the documentation content
+                const textSplit = text.split("\n");
+                const ruleHeading = textSplit[0];
+                const ruleDocsContent = textSplit.slice(1).join("\n");
+
+                text = `${ruleHeading}${isRecommended ? RECOMMENDED_TEXT : ""}${isFixable ? FIXABLE_TEXT : ""}\n${ruleDocsContent}`;
+
                 text = `---\ntitle: ${ruleName} - Rules\nlayout: doc\n---\n<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->\n\n${text}`;
             } else {
 
@@ -750,7 +784,7 @@ target.checkRuleFiles = function() {
 
     echo("Validating rules");
 
-    const eslintConf = require("./conf/eslint.json").rules;
+    const eslintRecommended = require("./conf/eslint-recommended").rules;
 
     const ruleFiles = find("lib/rules/").filter(fileType("js"));
     let errors = 0;
@@ -760,12 +794,12 @@ target.checkRuleFiles = function() {
         const docFilename = `docs/rules/${basename}.md`;
 
         /**
-         * Check if basename is present in eslint conf
+         * Check if basename is present in eslint:recommended configuration.
          * @returns {boolean} true if present
          * @private
          */
         function isInConfig() {
-            return eslintConf.hasOwnProperty(basename);
+            return eslintRecommended.hasOwnProperty(basename);
         }
 
         /**
@@ -798,9 +832,9 @@ target.checkRuleFiles = function() {
             }
         }
 
-        // check for default configuration
+        // check for recommended configuration
         if (!isInConfig()) {
-            console.error("Missing default setting for %s in conf/eslint.json", basename);
+            console.error("Missing eslint:recommended setting for %s in conf/eslint-recommendd.js", basename);
             errors++;
         }
 
@@ -924,7 +958,7 @@ function downloadMultifilesTestTarget(cb) {
     } else {
         mkdir("-p", PERF_MULTIFILES_TARGET_DIR);
         echo("Downloading the repository of multi-files performance test target.");
-        exec(`git clone -b v1.10.3 --depth 1 https://github.com/eslint/eslint.git "${PERF_MULTIFILES_TARGET_DIR}"`, {silent: true}, cb);
+        exec(`git clone -b v1.10.3 --depth 1 https://github.com/eslint/eslint.git "${PERF_MULTIFILES_TARGET_DIR}"`, { silent: true }, cb);
     }
 }
 
@@ -983,9 +1017,9 @@ function time(cmd, runs, runNumber, results, cb) {
         echo(`  Performance Run #${runNumber}:  %dms`, actual);
         if (runs > 1) {
             return time(cmd, runs - 1, runNumber + 1, results, cb);
-        } else {
-            return cb(results);
         }
+        return cb(results);
+
     });
 
 }

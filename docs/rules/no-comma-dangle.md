@@ -15,7 +15,7 @@ var foo = {
 
 This rule is aimed at detecting trailing commas in object literals. As such, it will warn whenever it encounters a trailing comma in an object literal.
 
-The following are considered problems:
+Examples of **incorrect** code for this rule:
 
 ```js
 var foo = {
@@ -31,7 +31,7 @@ foo({
 });
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 var foo = {

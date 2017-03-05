@@ -35,3 +35,11 @@ function foo() {
 // This rule does not warn on empty generator functions.
 function* foo() { }
 ```
+
+## When Not To Use It
+
+If you don't want to notify generator functions that have no `yield` expression, then it's safe to disable this rule.
+
+## Related Rules
+
+* [require-await](require-await.md)

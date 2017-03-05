@@ -86,7 +86,7 @@ var {a=0}=bar;
 function foo(a=0) { }
 ```
 
-The following patterns are not considered problems:
+Examples of **correct** code for this rule:
 
 ```js
 /*eslint space-infix-ops: "error"*/

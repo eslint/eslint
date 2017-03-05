@@ -146,6 +146,87 @@ ruleTester.run("no-extra-boolean-cast", rule, {
                 message: "Redundant Boolean call.",
                 type: "CallExpression"
             }]
+        },
+        {
+            code: "!Boolean(foo && bar)",
+            output: "!(foo && bar)",
+            errors: [{
+                message: "Redundant Boolean call.",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "!Boolean(foo + bar)",
+            output: "!(foo + bar)",
+            errors: [{
+                message: "Redundant Boolean call.",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "!Boolean(+foo)",
+            output: "!+foo",
+            errors: [{
+                message: "Redundant Boolean call.",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "!Boolean(foo())",
+            output: "!foo()",
+            errors: [{
+                message: "Redundant Boolean call.",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "!Boolean(foo = bar)",
+            output: "!(foo = bar)",
+            errors: [{
+                message: "Redundant Boolean call.",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "!Boolean(...foo);",
+            output: null,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{
+                message: "Redundant Boolean call.",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "!Boolean(foo, bar());",
+            output: null,
+            errors: [{
+                message: "Redundant Boolean call.",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "!Boolean((foo, bar()));",
+            output: "!(foo, bar());",
+            errors: [{
+                message: "Redundant Boolean call.",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "!Boolean();",
+            output: "true;",
+            errors: [{
+                message: "Redundant Boolean call.",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "!(Boolean());",
+            output: "true;",
+            errors: [{
+                message: "Redundant Boolean call.",
+                type: "CallExpression"
+            }]
         }
     ]
 });

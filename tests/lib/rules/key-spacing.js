@@ -843,7 +843,7 @@ ruleTester.run("key-spacing", rule, {
         errors: [
             { message: "Missing space after key 'key'.", type: "Identifier", line: 2, column: 5 },
             { message: "Extra space before value for key 'key'.", type: "Identifier", line: 2, column: 12 },
-            { message: "Missing space before value for key 'foobar'.", type: "CallExpression", line: 3, column: 12}
+            { message: "Missing space before value for key 'foobar'.", type: "CallExpression", line: 3, column: 12 }
         ]
     }, {
         code: [
@@ -1230,6 +1230,11 @@ ruleTester.run("key-spacing", rule, {
     }, {
         code: [
             "var obj = { foo  : foo",
+            "          , cats: cats",
+            "};"
+        ].join("\n"),
+        output: [
+            "var obj = { foo : foo",
             "          , cats: cats",
             "};"
         ].join("\n"),
@@ -1683,6 +1688,16 @@ ruleTester.run("key-spacing", rule, {
             "    key4: 4",
             "}"
         ].join("\n"),
+        output: [
+            "var obj = {",
+            "    key1: 1,",
+            "",
+            "    key2: 2,",
+            "    key3: 3,",
+            "",
+            "    key4: 4",
+            "}"
+        ].join("\n"),
         options: [{
             multiLine: {
                 beforeColon: false,
@@ -1691,7 +1706,7 @@ ruleTester.run("key-spacing", rule, {
                 align: {
                     beforeColon: false,
                     afterColon: true,
-                    on: "colon",
+                    on: "colon"
                 }
             }
         }],
@@ -1711,6 +1726,16 @@ ruleTester.run("key-spacing", rule, {
             "    key4: 4",
             "}"
         ].join("\n"),
+        output: [
+            "var obj = {",
+            "    key1: 1,",
+            "",
+            "    key2: 2,",
+            "    key3: 3,",
+            "",
+            "    key4: 4",
+            "}"
+        ].join("\n"),
         options: [{
             multiLine: {
                 beforeColon: false,
@@ -1720,13 +1745,33 @@ ruleTester.run("key-spacing", rule, {
             align: {
                 beforeColon: false,
                 afterColon: true,
-                on: "colon",
+                on: "colon"
             }
         }],
         parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } },
         errors: [
             { message: "Extra space before value for key 'key2'.", line: 4, column: 14, type: "Literal" },
             { message: "Extra space before value for key 'key3'.", line: 5, column: 14, type: "Literal" }
+        ]
+    }, {
+
+        // https://github.com/eslint/eslint/issues/7603
+        code: "({ foo/* comment */ : bar })",
+        output: "({ foo/* comment */: bar })",
+        errors: [{ message: "Extra space after key 'foo'.", line: 1, column: 7, type: "Identifier" }]
+    }, {
+        code: "({ foo: /* comment */bar })",
+        output: "({ foo:/* comment */bar })",
+        options: [{ afterColon: false }],
+        errors: [{ message: "Extra space before value for key 'foo'.", line: 1, column: 9, type: "Identifier" }]
+    },
+    {
+        code: "({ foo/*comment*/:/*comment*/bar })",
+        output: "({ foo/*comment*/ : /*comment*/bar })",
+        options: [{ beforeColon: true, afterColon: true }],
+        errors: [
+            { message: "Missing space after key 'foo'.", line: 1, column: 7, type: "Identifier" },
+            { message: "Missing space before value for key 'foo'.", line: 1, column: 19, type: "Identifier" }
         ]
     }]
 });

@@ -1,7 +1,5 @@
 # disallow unnecessary parentheses (no-extra-parens)
 
-(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
-
 This rule restricts the use of parentheses to only where they are necessary.
 
 ## Rule Details
@@ -23,6 +21,7 @@ This rule has an object option for exceptions to the `"all"` option:
 * `"conditionalAssign": false` allows extra parentheses around assignments in conditional test expressions
 * `"returnAssign": false` allows extra parentheses around assignments in `return` statements
 * `"nestedBinaryExpressions": false` allows extra parentheses in nested binary expressions
+* `"ignoreJSX": "none|all|multi-line|single-line"` allows extra parentheses around no/all/multi-line/single-line JSX components. Defaults to `none`.
 
 ### all
 
@@ -46,6 +45,8 @@ Examples of **correct** code for this rule with the default `"all"` option:
 /* eslint no-extra-parens: "error" */
 
 (0).toString();
+
+(Object.prototype.toString.call());
 
 ({}.toString.call());
 
@@ -92,7 +93,7 @@ b => b ? (c = d) : (c = e);
 
 ### nestedBinaryExpressions
 
-Examples of **correct** for this rule with the `"all"` and `{ "nestedBinaryExpressions": false }` options:
+Examples of **correct** code for this rule with the `"all"` and `{ "nestedBinaryExpressions": false }` options:
 
 ```js
 /* eslint no-extra-parens: ["error", "all", { "nestedBinaryExpressions": false }] */
@@ -100,6 +101,68 @@ Examples of **correct** for this rule with the `"all"` and `{ "nestedBinaryExpre
 x = a || (b && c);
 x = a + (b * c);
 x = (a * b) / c;
+```
+
+### ignoreJSX
+
+Examples of **correct** code for this rule with the `all` and `{ "ignoreJSX": "all" }` options:
+
+```js
+/* eslint no-extra-parens: ["error", "all", { ignoreJSX: "all" }] */
+const Component = (<div />)
+const Component = (
+    <div
+        prop={true}
+    />
+)
+```
+
+Examples of **incorrect** code for this rule with the `all` and `{ "ignoreJSX": "multi-line" }` options:
+
+```js
+/* eslint no-extra-parens: ["error", "all", { ignoreJSX: "multi-line" }] */
+const Component = (<div />)
+const Component = (<div><p /></div>)
+```
+
+Examples of **correct** code for this rule with the `all` and `{ "ignoreJSX": "multi-line" }` options:
+
+```js
+/* eslint no-extra-parens: ["error", "all", { ignoreJSX: "multi-line" }] */
+const Component = (
+    <div>
+        <p />
+    </div>
+)
+const Component = (
+    <div
+        prop={true}
+    />
+)
+```
+
+Examples of **incorrect** code for this rule with the `all` and `{ "ignoreJSX": "single-line" }` options:
+
+```js
+/* eslint no-extra-parens: ["error", "all", { ignoreJSX: "single-line" }] */
+const Component = (
+    <div>
+        <p />
+    </div>
+)
+const Component = (
+    <div
+        prop={true}
+    />
+)
+```
+
+Examples of **correct** code for this rule with the `all` and `{ "ignoreJSX": "single-line" }` options:
+
+```js
+/* eslint no-extra-parens: ["error", "all", { ignoreJSX: "single-line" }] */
+const Component = (<div />)
+const Component = (<div><p /></div>)
 ```
 
 ### functions
@@ -120,6 +183,8 @@ Examples of **correct** code for this rule with the `"functions"` option:
 /* eslint no-extra-parens: ["error", "functions"] */
 
 (0).toString();
+
+(Object.prototype.toString.call());
 
 ({}.toString.call());
 

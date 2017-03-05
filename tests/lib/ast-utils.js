@@ -20,6 +20,14 @@ const assert = require("chai").assert,
 // Tests
 //------------------------------------------------------------------------------
 
+const ESPREE_CONFIG = {
+    ecmaVersion: 6,
+    comment: true,
+    tokens: true,
+    range: true,
+    loc: true
+};
+
 describe("ast-utils", () => {
     const filename = "filename.js";
     let sandbox;
@@ -163,6 +171,10 @@ describe("ast-utils", () => {
             eslint.on("CallExpression", checker);
             eslint.verify("foo.apply({}, a, b);", {}, filename, true);
         });
+
+        it("should return false if it's a unicode regex", () => {
+            assert.isFalse(astUtils.isNullOrUndefined(espree.parse("/abc/u", { ecmaVersion: 6 }).body[0].expression));
+        });
     });
 
     describe("checkReference", () => {
@@ -202,7 +214,7 @@ describe("ast-utils", () => {
 
             eslint.reset();
             eslint.on("VariableDeclaration", checker);
-            eslint.verify("const a = 1; a = 2;", {ecmaFeatures: {blockBindings: true}}, filename, true);
+            eslint.verify("const a = 1; a = 2;", { ecmaFeatures: { blockBindings: true } }, filename, true);
         });
 
         it("should return false if reference is not assigned for const", () => {
@@ -220,7 +232,7 @@ describe("ast-utils", () => {
 
             eslint.reset();
             eslint.on("VariableDeclaration", checker);
-            eslint.verify("const a = 1; c = 2;", {ecmaFeatures: {blockBindings: true}}, filename, true);
+            eslint.verify("const a = 1; c = 2;", { ecmaFeatures: { blockBindings: true } }, filename, true);
         });
 
         // class
@@ -240,7 +252,7 @@ describe("ast-utils", () => {
 
             eslint.reset();
             eslint.on("ClassDeclaration", checker);
-            eslint.verify("class A { }\n A = 1;", {ecmaFeatures: {classes: true}}, filename, true);
+            eslint.verify("class A { }\n A = 1;", { ecmaFeatures: { classes: true } }, filename, true);
         });
 
         it("should return false if reference is not assigned for class", () => {
@@ -258,7 +270,7 @@ describe("ast-utils", () => {
 
             eslint.reset();
             eslint.on("ClassDeclaration", checker);
-            eslint.verify("class A { } foo(A);", {ecmaFeatures: {classes: true}}, filename, true);
+            eslint.verify("class A { } foo(A);", { ecmaFeatures: { classes: true } }, filename, true);
         });
     });
 
@@ -321,14 +333,6 @@ describe("ast-utils", () => {
     });
 
     describe("isParenthesised", () => {
-        const ESPREE_CONFIG = {
-            ecmaVersion: 6,
-            comment: true,
-            tokens: true,
-            range: true,
-            loc: true
-        };
-
         it("should return false for not parenthesised nodes", () => {
             const code = "condition ? 1 : 2";
             const ast = espree.parse(code, ESPREE_CONFIG);
@@ -362,7 +366,7 @@ describe("ast-utils", () => {
         });
 
         it("should return true for AllowFunctionExpression", () => {
-            const ast = espree.parse("(() => {})", {ecmaVersion: 6});
+            const ast = espree.parse("(() => {})", { ecmaVersion: 6 });
             const node = ast.body[0].expression;
 
             assert(astUtils.isFunction(node));
@@ -393,7 +397,7 @@ describe("ast-utils", () => {
         });
 
         it("should return true for ForOfStatement", () => {
-            const ast = espree.parse("for (var x of list) {}", {ecmaVersion: 6});
+            const ast = espree.parse("for (var x of list) {}", { ecmaVersion: 6 });
             const node = ast.body[0];
 
             assert(astUtils.isLoop(node));
@@ -422,6 +426,55 @@ describe("ast-utils", () => {
         });
     });
 
+    describe("isInLoop", () => {
+
+        /**
+         * Asserts that the unique node of the given type in the code is either
+         * in a loop or not in a loop.
+         *
+         * @param {string} code the code to check.
+         * @param {string} nodeType the type of the node to consider. The code
+         *      must have exactly one node of ths type.
+         * @param {boolean} expectedInLoop the expected result for whether the
+         *      node is in a loop.
+         * @returns {void}
+         */
+        function assertNodeTypeInLoop(code, nodeType, expectedInLoop) {
+            const results = [];
+
+            eslint.reset();
+            eslint.on(nodeType, node => results.push(astUtils.isInLoop(node)));
+            eslint.verify(code, { parserOptions: { ecmaVersion: 6 } }, filename, true);
+
+            assert.lengthOf(results, 1);
+            assert.equal(results[0], expectedInLoop);
+        }
+
+        it("should return true for a loop itself", () => {
+            assertNodeTypeInLoop("while (a) {}", "WhileStatement", true);
+        });
+
+        it("should return true for a loop condition", () => {
+            assertNodeTypeInLoop("while (a) {}", "Identifier", true);
+        });
+
+        it("should return true for a loop assignee", () => {
+            assertNodeTypeInLoop("for (var a in b) {}", "VariableDeclaration", true);
+        });
+
+        it("should return true for a node within a loop body", () => {
+            assertNodeTypeInLoop("for (var a of b) { console.log('Hello'); }", "Literal", true);
+        });
+
+        it("should return false for a node outside a loop body", () => {
+            assertNodeTypeInLoop("while (true) {} a(b);", "CallExpression", false);
+        });
+
+        it("should return false when the loop is not in the current function", () => {
+            assertNodeTypeInLoop("while (true) { funcs.push(() => { var a; }); }", "VariableDeclaration", false);
+        });
+    });
+
     describe("getStaticPropertyName", () => {
         it("should return 'b' for `a.b`", () => {
             const ast = espree.parse("a.b");
@@ -438,7 +491,7 @@ describe("ast-utils", () => {
         });
 
         it("should return 'b' for `a[`b`]`", () => {
-            const ast = espree.parse("a[`b`]", {ecmaVersion: 6});
+            const ast = espree.parse("a[`b`]", { ecmaVersion: 6 });
             const node = ast.body[0].expression;
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), "b");
@@ -466,14 +519,14 @@ describe("ast-utils", () => {
         });
 
         it("should return null for `a[tag`b`]`", () => {
-            const ast = espree.parse("a[tag`b`]", {ecmaVersion: 6});
+            const ast = espree.parse("a[tag`b`]", { ecmaVersion: 6 });
             const node = ast.body[0].expression;
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), null);
         });
 
         it("should return null for `a[`${b}`]`", () => {
-            const ast = espree.parse("a[`${b}`]", {ecmaVersion: 6});
+            const ast = espree.parse("a[`${b}`]", { ecmaVersion: 6 });
             const node = ast.body[0].expression;
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), null);
@@ -487,70 +540,70 @@ describe("ast-utils", () => {
         });
 
         it("should return 'b' for `b() {}`", () => {
-            const ast = espree.parse("({b() {}})", {ecmaVersion: 6});
+            const ast = espree.parse("({b() {}})", { ecmaVersion: 6 });
             const node = ast.body[0].expression.properties[0];
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), "b");
         });
 
         it("should return 'b' for `get b() {}`", () => {
-            const ast = espree.parse("({get b() {}})", {ecmaVersion: 6});
+            const ast = espree.parse("({get b() {}})", { ecmaVersion: 6 });
             const node = ast.body[0].expression.properties[0];
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), "b");
         });
 
         it("should return 'b' for `['b']: 1`", () => {
-            const ast = espree.parse("({['b']: 1})", {ecmaVersion: 6});
+            const ast = espree.parse("({['b']: 1})", { ecmaVersion: 6 });
             const node = ast.body[0].expression.properties[0];
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), "b");
         });
 
         it("should return 'b' for `['b']() {}`", () => {
-            const ast = espree.parse("({['b']() {}})", {ecmaVersion: 6});
+            const ast = espree.parse("({['b']() {}})", { ecmaVersion: 6 });
             const node = ast.body[0].expression.properties[0];
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), "b");
         });
 
         it("should return 'b' for `[`b`]: 1`", () => {
-            const ast = espree.parse("({[`b`]: 1})", {ecmaVersion: 6});
+            const ast = espree.parse("({[`b`]: 1})", { ecmaVersion: 6 });
             const node = ast.body[0].expression.properties[0];
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), "b");
         });
 
         it("should return '100' for` [100]: 1`", () => {
-            const ast = espree.parse("({[100]: 1})", {ecmaVersion: 6});
+            const ast = espree.parse("({[100]: 1})", { ecmaVersion: 6 });
             const node = ast.body[0].expression.properties[0];
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), "100");
         });
 
         it("should return null for `[b]: 1`", () => {
-            const ast = espree.parse("({[b]: 1})", {ecmaVersion: 6});
+            const ast = espree.parse("({[b]: 1})", { ecmaVersion: 6 });
             const node = ast.body[0].expression.properties[0];
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), null);
         });
 
         it("should return null for `['a' + 'b']: 1`", () => {
-            const ast = espree.parse("({['a' + 'b']: 1})", {ecmaVersion: 6});
+            const ast = espree.parse("({['a' + 'b']: 1})", { ecmaVersion: 6 });
             const node = ast.body[0].expression.properties[0];
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), null);
         });
 
         it("should return null for `[tag`b`]: 1`", () => {
-            const ast = espree.parse("({[tag`b`]: 1})", {ecmaVersion: 6});
+            const ast = espree.parse("({[tag`b`]: 1})", { ecmaVersion: 6 });
             const node = ast.body[0].expression.properties[0];
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), null);
         });
 
         it("should return null for `[`${b}`]: 1`", () => {
-            const ast = espree.parse("({[`${b}`]: 1})", {ecmaVersion: 6});
+            const ast = espree.parse("({[`${b}`]: 1})", { ecmaVersion: 6 });
             const node = ast.body[0].expression.properties[0];
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), null);
@@ -663,6 +716,537 @@ describe("ast-utils", () => {
         Object.keys(expectedResults).forEach(key => {
             it(`should return ${expectedResults[key]} for ${key}`, () => {
                 assert.strictEqual(astUtils.isDecimalInteger(espree.parse(key).body[0].expression), expectedResults[key]);
+            });
+        });
+    });
+
+    describe("getFunctionNameWithKind", () => {
+        const expectedResults = {
+            "function foo() {}": "function 'foo'",
+            "(function foo() {})": "function 'foo'",
+            "(function() {})": "function",
+            "function* foo() {}": "generator function 'foo'",
+            "(function* foo() {})": "generator function 'foo'",
+            "(function*() {})": "generator function",
+            "() => {}": "arrow function",
+            "async () => {}": "async arrow function",
+            "({ foo: function foo() {} })": "method 'foo'",
+            "({ foo: function() {} })": "method 'foo'",
+            "({ ['foo']: function() {} })": "method 'foo'",
+            "({ [foo]: function() {} })": "method",
+            "({ foo() {} })": "method 'foo'",
+            "({ foo: function* foo() {} })": "generator method 'foo'",
+            "({ foo: function*() {} })": "generator method 'foo'",
+            "({ ['foo']: function*() {} })": "generator method 'foo'",
+            "({ [foo]: function*() {} })": "generator method",
+            "({ *foo() {} })": "generator method 'foo'",
+            "({ foo: async function foo() {} })": "async method 'foo'",
+            "({ foo: async function() {} })": "async method 'foo'",
+            "({ ['foo']: async function() {} })": "async method 'foo'",
+            "({ [foo]: async function() {} })": "async method",
+            "({ async foo() {} })": "async method 'foo'",
+            "({ get foo() {} })": "getter 'foo'",
+            "({ set foo(a) {} })": "setter 'foo'",
+            "class A { constructor() {} }": "constructor",
+            "class A { foo() {} }": "method 'foo'",
+            "class A { *foo() {} }": "generator method 'foo'",
+            "class A { async foo() {} }": "async method 'foo'",
+            "class A { ['foo']() {} }": "method 'foo'",
+            "class A { *['foo']() {} }": "generator method 'foo'",
+            "class A { async ['foo']() {} }": "async method 'foo'",
+            "class A { [foo]() {} }": "method",
+            "class A { *[foo]() {} }": "generator method",
+            "class A { async [foo]() {} }": "async method",
+            "class A { get foo() {} }": "getter 'foo'",
+            "class A { set foo(a) {} }": "setter 'foo'",
+            "class A { static foo() {} }": "static method 'foo'",
+            "class A { static *foo() {} }": "static generator method 'foo'",
+            "class A { static async foo() {} }": "static async method 'foo'",
+            "class A { static get foo() {} }": "static getter 'foo'",
+            "class A { static set foo(a) {} }": "static setter 'foo'"
+        };
+
+        Object.keys(expectedResults).forEach(key => {
+            it(`should return "${expectedResults[key]}" for "${key}".`, () => {
+                let called = false;
+
+                /**
+                 * Verify.
+                 * @param {ASTNode} node - The function node to verify.
+                 * @returns {void}
+                 */
+                function verify(node) {
+                    assert.strictEqual(
+                        astUtils.getFunctionNameWithKind(node),
+                        expectedResults[key]
+                    );
+                    called = true;
+                }
+
+                eslint.on("FunctionDeclaration", verify);
+                eslint.on("FunctionExpression", verify);
+                eslint.on("ArrowFunctionExpression", verify);
+                eslint.verify(key, { parserOptions: { ecmaVersion: 8 } }, "test.js", true);
+
+                assert(called);
+            });
+        });
+    });
+
+    describe("getFunctionHeadLoc", () => {
+        const expectedResults = {
+            "function foo() {}": [0, 12],
+            "(function foo() {})": [1, 13],
+            "(function() {})": [1, 9],
+            "function* foo() {}": [0, 13],
+            "(function* foo() {})": [1, 14],
+            "(function*() {})": [1, 10],
+            "() => {}": [3, 5],
+            "async () => {}": [9, 11],
+            "({ foo: function foo() {} })": [3, 20],
+            "({ foo: function() {} })": [3, 16],
+            "({ ['foo']: function() {} })": [3, 20],
+            "({ [foo]: function() {} })": [3, 18],
+            "({ foo() {} })": [3, 6],
+            "({ foo: function* foo() {} })": [3, 21],
+            "({ foo: function*() {} })": [3, 17],
+            "({ ['foo']: function*() {} })": [3, 21],
+            "({ [foo]: function*() {} })": [3, 19],
+            "({ *foo() {} })": [3, 7],
+            "({ foo: async function foo() {} })": [3, 26],
+            "({ foo: async function() {} })": [3, 22],
+            "({ ['foo']: async function() {} })": [3, 26],
+            "({ [foo]: async function() {} })": [3, 24],
+            "({ async foo() {} })": [3, 12],
+            "({ get foo() {} })": [3, 10],
+            "({ set foo(a) {} })": [3, 10],
+            "class A { constructor() {} }": [10, 21],
+            "class A { foo() {} }": [10, 13],
+            "class A { *foo() {} }": [10, 14],
+            "class A { async foo() {} }": [10, 19],
+            "class A { ['foo']() {} }": [10, 17],
+            "class A { *['foo']() {} }": [10, 18],
+            "class A { async ['foo']() {} }": [10, 23],
+            "class A { [foo]() {} }": [10, 15],
+            "class A { *[foo]() {} }": [10, 16],
+            "class A { async [foo]() {} }": [10, 21],
+            "class A { get foo() {} }": [10, 17],
+            "class A { set foo(a) {} }": [10, 17],
+            "class A { static foo() {} }": [10, 20],
+            "class A { static *foo() {} }": [10, 21],
+            "class A { static async foo() {} }": [10, 26],
+            "class A { static get foo() {} }": [10, 24],
+            "class A { static set foo(a) {} }": [10, 24]
+        };
+
+        Object.keys(expectedResults).forEach(key => {
+            const expectedLoc = {
+                start: {
+                    line: 1,
+                    column: expectedResults[key][0]
+                },
+                end: {
+                    line: 1,
+                    column: expectedResults[key][1]
+                }
+            };
+
+            it(`should return "${JSON.stringify(expectedLoc)}" for "${key}".`, () => {
+                let called = false;
+
+                /**
+                 * Verify.
+                 * @param {ASTNode} node - The function node to verify.
+                 * @returns {void}
+                 */
+                function verify(node) {
+                    assert.deepEqual(
+                        astUtils.getFunctionHeadLoc(node, eslint.getSourceCode()),
+                        expectedLoc
+                    );
+                    called = true;
+                }
+
+                eslint.on("FunctionDeclaration", verify);
+                eslint.on("FunctionExpression", verify);
+                eslint.on("ArrowFunctionExpression", verify);
+                eslint.verify(key, { parserOptions: { ecmaVersion: 8 } }, "test.js", true);
+
+                assert(called);
+            });
+        });
+    });
+
+    describe("isEmptyBlock", () => {
+        const expectedResults = {
+            "{}": true,
+            "{ a }": false,
+            a: false
+        };
+
+        Object.keys(expectedResults).forEach(key => {
+            it(`should return ${expectedResults[key]} for ${key}`, () => {
+                const ast = espree.parse(key);
+
+                assert.strictEqual(astUtils.isEmptyBlock(ast.body[0]), expectedResults[key]);
+            });
+        });
+    });
+
+    describe("isEmptyFunction", () => {
+        const expectedResults = {
+            "(function foo() {})": true,
+            "(function foo() { a })": false,
+            "(a) => {}": true,
+            "(a) => { a }": false,
+            "(a) => a": false
+        };
+
+        Object.keys(expectedResults).forEach(key => {
+            it(`should return ${expectedResults[key]} for ${key}`, () => {
+                const ast = espree.parse(key, { ecmaVersion: 6 });
+
+                assert.strictEqual(astUtils.isEmptyFunction(ast.body[0].expression), expectedResults[key]);
+            });
+        });
+    });
+
+    describe("getParenthesisedText", () => {
+        const expectedResults = {
+            "(((foo))); bar;": "(((foo)))",
+            "(/* comment */(((foo.bar())))); baz();": "(/* comment */(((foo.bar()))))",
+            "(foo, bar)": "(foo, bar)"
+        };
+
+        Object.keys(expectedResults).forEach(key => {
+            it(`should return ${expectedResults[key]} for ${key}`, () => {
+                const ast = espree.parse(key, { tokens: true, comment: true, range: true, loc: true });
+                const sourceCode = new SourceCode(key, ast);
+
+                assert.strictEqual(astUtils.getParenthesisedText(sourceCode, ast.body[0].expression), expectedResults[key]);
+            });
+        });
+    });
+
+    describe("couldBeError", () => {
+        const EXPECTED_RESULTS = {
+            5: false,
+            null: false,
+            true: false,
+            "'foo'": false,
+            "`foo`": false,
+            foo: true,
+            "new Foo": true,
+            "Foo()": true,
+            "foo`bar`": true,
+            "foo.bar": true,
+            "(foo = bar)": true,
+            "(foo = 1)": false,
+            "(1, 2, 3)": false,
+            "(foo, 2, 3)": false,
+            "(1, 2, foo)": true,
+            "1 && 2": false,
+            "1 && foo": true,
+            "foo && 2": true,
+            "foo ? 1 : 2": false,
+            "foo ? bar : 2": true,
+            "foo ? 1 : bar": true,
+            "[1, 2, 3]": false,
+            "({ foo: 1 })": false
+        };
+
+        Object.keys(EXPECTED_RESULTS).forEach(key => {
+            it(`returns ${EXPECTED_RESULTS[key]} for ${key}`, () => {
+                const ast = espree.parse(key, { ecmaVersion: 6 });
+
+                assert.strictEqual(astUtils.couldBeError(ast.body[0].expression), EXPECTED_RESULTS[key]);
+            });
+        });
+    });
+
+    describe("isArrowToken", () => {
+        const code = "() => 5";
+        const tokens = espree.parse(code, { ecmaVersion: 6, tokens: true }).tokens;
+        const expected = [false, false, true, false];
+
+        tokens.forEach((token, index) => {
+            it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                assert.equal(astUtils.isArrowToken(token), expected[index]);
+            });
+        });
+    });
+
+    {
+        const code = "if (obj && foo) { obj[foo](); }";
+        const tokens = espree.parse(code, { ecmaVersion: 6, tokens: true }).tokens;
+        const expected = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, true];
+
+        describe("isClosingBraceToken", () => {
+            tokens.forEach((token, index) => {
+                it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                    assert.equal(astUtils.isClosingBraceToken(token), expected[index]);
+                });
+            });
+        });
+
+        describe("isNotClosingBraceToken", () => {
+            tokens.forEach((token, index) => {
+                it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                    assert.equal(astUtils.isNotClosingBraceToken(token), !expected[index]);
+                });
+            });
+        });
+    }
+
+    {
+        const code = "if (obj && foo) { obj[foo](); }";
+        const tokens = espree.parse(code, { ecmaVersion: 6, tokens: true }).tokens;
+        const expected = [false, false, false, false, false, false, false, false, false, false, true, false, false, false, false];
+
+        describe("isClosingBracketToken", () => {
+            tokens.forEach((token, index) => {
+                it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                    assert.equal(astUtils.isClosingBracketToken(token), expected[index]);
+                });
+            });
+        });
+
+        describe("isNotClosingBracketToken", () => {
+            tokens.forEach((token, index) => {
+                it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                    assert.equal(astUtils.isNotClosingBracketToken(token), !expected[index]);
+                });
+            });
+        });
+    }
+
+    {
+        const code = "if (obj && foo) { obj[foo](); }";
+        const tokens = espree.parse(code, { ecmaVersion: 6, tokens: true }).tokens;
+        const expected = [false, false, false, false, false, true, false, false, false, false, false, false, true, false, false];
+
+        describe("isClosingParenToken", () => {
+            tokens.forEach((token, index) => {
+                it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                    assert.equal(astUtils.isClosingParenToken(token), expected[index]);
+                });
+            });
+        });
+
+        describe("isNotClosingParenToken", () => {
+            tokens.forEach((token, index) => {
+                it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                    assert.equal(astUtils.isNotClosingParenToken(token), !expected[index]);
+                });
+            });
+        });
+    }
+
+    {
+        const code = "const obj = {foo: 1, bar: 2};";
+        const tokens = espree.parse(code, { ecmaVersion: 6, tokens: true }).tokens;
+        const expected = [false, false, false, false, false, true, false, false, false, true, false, false, false];
+
+        describe("isColonToken", () => {
+            tokens.forEach((token, index) => {
+                it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                    assert.equal(astUtils.isColonToken(token), expected[index]);
+                });
+            });
+        });
+
+        describe("isNotColonToken", () => {
+            tokens.forEach((token, index) => {
+                it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                    assert.equal(astUtils.isNotColonToken(token), !expected[index]);
+                });
+            });
+        });
+    }
+
+    {
+        const code = "const obj = {foo: 1, bar: 2};";
+        const tokens = espree.parse(code, { ecmaVersion: 6, tokens: true }).tokens;
+        const expected = [false, false, false, false, false, false, false, true, false, false, false, false, false];
+
+        describe("isCommaToken", () => {
+            tokens.forEach((token, index) => {
+                it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                    assert.equal(astUtils.isCommaToken(token), expected[index]);
+                });
+            });
+        });
+
+        describe("isNotCommaToken", () => {
+            tokens.forEach((token, index) => {
+                it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                    assert.equal(astUtils.isNotCommaToken(token), !expected[index]);
+                });
+            });
+        });
+    }
+
+    describe("isCommentToken", () => {
+        const code = "const obj = /*block*/ {foo: 1, bar: 2}; //line";
+        const ast = espree.parse(code, { ecmaVersion: 6, tokens: true, comment: true });
+
+        ast.tokens.forEach(token => {
+            it(`should return false for '${token.value}'.`, () => {
+                assert.equal(astUtils.isCommentToken(token), false);
+            });
+        });
+        ast.comments.forEach(comment => {
+            it(`should return true for '${comment.value}'.`, () => {
+                assert.equal(astUtils.isCommentToken(comment), true);
+            });
+        });
+    });
+
+    describe("isKeywordToken", () => {
+        const code = "const obj = {foo: 1, bar: 2};";
+        const tokens = espree.parse(code, { ecmaVersion: 6, tokens: true }).tokens;
+        const expected = [true, false, false, false, false, false, false, false, false, false, false, false, false];
+
+        tokens.forEach((token, index) => {
+            it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                assert.equal(astUtils.isKeywordToken(token), expected[index]);
+            });
+        });
+    });
+
+    {
+        const code = "if (obj && foo) { obj[foo](); }";
+        const tokens = espree.parse(code, { ecmaVersion: 6, tokens: true }).tokens;
+        const expected = [false, false, false, false, false, false, true, false, false, false, false, false, false, false, false];
+
+        describe("isOpeningBraceToken", () => {
+            tokens.forEach((token, index) => {
+                it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                    assert.equal(astUtils.isOpeningBraceToken(token), expected[index]);
+                });
+            });
+        });
+
+        describe("isNotOpeningBraceToken", () => {
+            tokens.forEach((token, index) => {
+                it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                    assert.equal(astUtils.isNotOpeningBraceToken(token), !expected[index]);
+                });
+            });
+        });
+    }
+
+    {
+        const code = "if (obj && foo) { obj[foo](); }";
+        const tokens = espree.parse(code, { ecmaVersion: 6, tokens: true }).tokens;
+        const expected = [false, false, false, false, false, false, false, false, true, false, false, false, false, false, false];
+
+        describe("isOpeningBracketToken", () => {
+            tokens.forEach((token, index) => {
+                it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                    assert.equal(astUtils.isOpeningBracketToken(token), expected[index]);
+                });
+            });
+        });
+
+        describe("isNotOpeningBracketToken", () => {
+            tokens.forEach((token, index) => {
+                it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                    assert.equal(astUtils.isNotOpeningBracketToken(token), !expected[index]);
+                });
+            });
+        });
+    }
+
+    {
+        const code = "if (obj && foo) { obj[foo](); }";
+        const tokens = espree.parse(code, { ecmaVersion: 6, tokens: true }).tokens;
+        const expected = [false, true, false, false, false, false, false, false, false, false, false, true, false, false, false];
+
+        describe("isOpeningParenToken", () => {
+            tokens.forEach((token, index) => {
+                it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                    assert.equal(astUtils.isOpeningParenToken(token), expected[index]);
+                });
+            });
+        });
+
+        describe("isNotOpeningParenToken", () => {
+            tokens.forEach((token, index) => {
+                it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                    assert.equal(astUtils.isNotOpeningParenToken(token), !expected[index]);
+                });
+            });
+        });
+    }
+
+    {
+        const code = "if (obj && foo) { obj[foo](); }";
+        const tokens = espree.parse(code, { ecmaVersion: 6, tokens: true }).tokens;
+        const expected = [false, false, false, false, false, false, false, false, false, false, false, false, false, true, false];
+
+        describe("isSemicolonToken", () => {
+            tokens.forEach((token, index) => {
+                it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                    assert.equal(astUtils.isSemicolonToken(token), expected[index]);
+                });
+            });
+        });
+
+        describe("isNotSemicolonToken", () => {
+            tokens.forEach((token, index) => {
+                it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                    assert.equal(astUtils.isNotSemicolonToken(token), !expected[index]);
+                });
+            });
+        });
+    }
+
+    describe("isNullLiteral", () => {
+        const EXPECTED_RESULTS = {
+            null: true,
+            "/abc/u": false,
+            5: false,
+            true: false,
+            "'null'": false,
+            foo: false
+        };
+
+        Object.keys(EXPECTED_RESULTS).forEach(key => {
+            it(`returns ${EXPECTED_RESULTS[key]} for ${key}`, () => {
+                const ast = espree.parse(key, { ecmaVersion: 6 });
+
+                assert.strictEqual(astUtils.isNullLiteral(ast.body[0].expression), EXPECTED_RESULTS[key]);
+            });
+        });
+    });
+
+    describe("createGlobalLinebreakMatcher", () => {
+        it("returns a regular expression with the g flag", () => {
+            assert.instanceOf(astUtils.createGlobalLinebreakMatcher(), RegExp);
+            assert(astUtils.createGlobalLinebreakMatcher().toString().endsWith("/g"));
+        });
+        it("returns unique objects on each call", () => {
+            const firstObject = astUtils.createGlobalLinebreakMatcher();
+            const secondObject = astUtils.createGlobalLinebreakMatcher();
+
+            assert.notStrictEqual(firstObject, secondObject);
+        });
+        describe("correctly matches linebreaks", () => {
+            const LINE_COUNTS = {
+                foo: 1,
+                "foo\rbar": 2,
+                "foo\n": 2,
+                "foo\nbar": 2,
+                "foo\r\nbar": 2,
+                "foo\r\u2028bar": 3,
+                "foo\u2029bar": 2
+            };
+
+            Object.keys(LINE_COUNTS).forEach(text => {
+                it(text, () => {
+                    assert.strictEqual(text.split(astUtils.createGlobalLinebreakMatcher()).length, LINE_COUNTS[text]);
+                });
             });
         });
     });

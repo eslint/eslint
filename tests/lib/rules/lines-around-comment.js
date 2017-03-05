@@ -791,6 +791,37 @@ ruleTester.run("lines-around-comment", rule, {
                 allowArrayEnd: true
             }],
             parserOptions: { ecmaVersion: 6 }
+        },
+
+        // ignorePattern
+        {
+            code:
+            "foo;\n\n" +
+            "/* eslint-disable no-underscore-dangle */\n\n" +
+            "this._values = values;\n" +
+            "this._values2 = true;\n" +
+            "/* eslint-enable no-underscore-dangle */\n" +
+            "bar",
+            options: [{
+                beforeBlockComment: true,
+                afterBlockComment: true
+            }]
+        },
+        "foo;\n/* eslint */",
+        "foo;\n/* jshint */",
+        "foo;\n/* jslint */",
+        "foo;\n/* istanbul */",
+        "foo;\n/* global */",
+        "foo;\n/* globals */",
+        "foo;\n/* exported */",
+        "foo;\n/* jscs */",
+        {
+            code: "foo\n/* this is pragmatic */",
+            options: [{ ignorePattern: "pragma" }]
+        },
+        {
+            code: "foo\n/* this is pragmatic */",
+            options: [{ applyDefaultIgnorePatterns: false, ignorePattern: "pragma" }]
         }
     ],
 
@@ -1138,6 +1169,15 @@ ruleTester.run("lines-around-comment", rule, {
             "    // hi\n" +
             "  }\n" +
             "}",
+            output:
+            "function hi() {\n" +
+            "  return {\n" +
+            "    test: function() {\n" +
+            "    }\n" +
+            "    // hi\n" +
+            "\n" +
+            "  }\n" +
+            "}",
             options: [{
                 afterLineComment: true
             }],
@@ -1414,6 +1454,103 @@ ruleTester.run("lines-around-comment", rule, {
             }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{ message: afterMessage, type: "Block", line: 4 }]
+        },
+
+        // ignorePattern
+        {
+            code:
+            "foo;\n\n" +
+            "/* eslint-disable no-underscore-dangle */\n\n" +
+            "this._values = values;\n" +
+            "this._values2 = true;\n" +
+            "/* eslint-enable no-underscore-dangle */\n" +
+            "bar",
+            output:
+            "foo;\n\n" +
+            "/* eslint-disable no-underscore-dangle */\n\n" +
+            "this._values = values;\n" +
+            "this._values2 = true;\n" +
+            "\n" +
+            "/* eslint-enable no-underscore-dangle */\n" +
+            "\n" +
+            "bar",
+            options: [{
+                beforeBlockComment: true,
+                afterBlockComment: true,
+                applyDefaultIgnorePatterns: false
+            }],
+            errors: [
+                { message: beforeMessage, type: "Block", line: 7 },
+                { message: afterMessage, type: "Block", line: 7 }
+            ]
+        },
+        {
+            code: "foo;\n/* eslint */",
+            output: "foo;\n\n/* eslint */",
+            options: [{ applyDefaultIgnorePatterns: false }],
+            errors: [{ message: beforeMessage, type: "Block" }]
+        },
+        {
+            code: "foo;\n/* jshint */",
+            output: "foo;\n\n/* jshint */",
+            options: [{ applyDefaultIgnorePatterns: false }],
+            errors: [{ message: beforeMessage, type: "Block" }]
+        },
+        {
+            code: "foo;\n/* jslint */",
+            output: "foo;\n\n/* jslint */",
+            options: [{ applyDefaultIgnorePatterns: false }],
+            errors: [{ message: beforeMessage, type: "Block" }]
+        },
+        {
+            code: "foo;\n/* istanbul */",
+            output: "foo;\n\n/* istanbul */",
+            options: [{ applyDefaultIgnorePatterns: false }],
+            errors: [{ message: beforeMessage, type: "Block" }]
+        },
+        {
+            code: "foo;\n/* global */",
+            output: "foo;\n\n/* global */",
+            options: [{ applyDefaultIgnorePatterns: false }],
+            errors: [{ message: beforeMessage, type: "Block" }]
+        },
+        {
+            code: "foo;\n/* globals */",
+            output: "foo;\n\n/* globals */",
+            options: [{ applyDefaultIgnorePatterns: false }],
+            errors: [{ message: beforeMessage, type: "Block" }]
+        },
+        {
+            code: "foo;\n/* exported */",
+            output: "foo;\n\n/* exported */",
+            options: [{ applyDefaultIgnorePatterns: false }],
+            errors: [{ message: beforeMessage, type: "Block" }]
+        },
+        {
+            code: "foo;\n/* jscs */",
+            output: "foo;\n\n/* jscs */",
+            options: [{ applyDefaultIgnorePatterns: false }],
+            errors: [{ message: beforeMessage, type: "Block" }]
+        },
+        {
+            code: "foo\n/* something else */",
+            output: "foo\n\n/* something else */",
+            options: [{ ignorePattern: "pragma" }],
+            errors: [{ message: beforeMessage, type: "Block" }]
+        },
+        {
+            code: "foo\n/* eslint */",
+            output: "foo\n\n/* eslint */",
+            options: [{ applyDefaultIgnorePatterns: false }],
+            errors: [{ message: beforeMessage, type: "Block" }]
+        },
+
+        // "fallthrough" patterns are not ignored by default
+        {
+            code: "foo;\n/* fallthrough */",
+            output: "foo;\n\n/* fallthrough */",
+            options: [],
+            errors: [{ message: beforeMessage, type: "Block" }]
         }
     ]
 

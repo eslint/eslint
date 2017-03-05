@@ -18,7 +18,8 @@ const assert = require("chai").assert,
     Plugins = require("../../lib/config/plugins"),
     fs = require("fs"),
     os = require("os"),
-    hash = require("../../lib/util/hash");
+    hash = require("../../lib/util/hash"),
+    rules = require("../../lib/rules");
 
 require("shelljs/global");
 
@@ -82,6 +83,7 @@ describe("CLIEngine", () => {
     after(() => {
         rm("-r", fixtureDir);
         Plugins.testReset();
+        rules.testReset();
     });
 
     describe("new CLIEngine(options)", () => {
@@ -242,6 +244,34 @@ describe("CLIEngine", () => {
                 errorCount: 0,
                 warningCount: 0
             });
+        });
+
+        it("correctly autofixes semicolon-conflicting-fixes", () => {
+            engine = new CLIEngine({
+                cwd: path.join(fixtureDir, ".."),
+                useEslintrc: false,
+                fix: true
+            });
+            const inputPath = getFixturePath("autofix/semicolon-conflicting-fixes.js");
+            const outputPath = getFixturePath("autofix/semicolon-conflicting-fixes.expected.js");
+            const report = engine.executeOnFiles([inputPath]);
+            const expectedOutput = fs.readFileSync(outputPath, "utf8");
+
+            assert.strictEqual(report.results[0].output, expectedOutput);
+        });
+
+        it("correctly autofixes return-conflicting-fixes", () => {
+            engine = new CLIEngine({
+                cwd: path.join(fixtureDir, ".."),
+                useEslintrc: false,
+                fix: true
+            });
+            const inputPath = getFixturePath("autofix/return-conflicting-fixes.js");
+            const outputPath = getFixturePath("autofix/return-conflicting-fixes.expected.js");
+            const report = engine.executeOnFiles([inputPath]);
+            const expectedOutput = fs.readFileSync(outputPath, "utf8");
+
+            assert.strictEqual(report.results[0].output, expectedOutput);
         });
 
         it("should return a message and omit fixed text when in fix mode and fixes aren't done", () => {
@@ -2702,6 +2732,16 @@ describe("CLIEngine", () => {
             assert.equal(messages.length, 0);
         });
 
+    });
+
+    describe("when retreiving version number", () => {
+        it("should return current version number", () => {
+            const eslintCLI = require("../../lib/cli-engine");
+            const version = eslintCLI.version;
+
+            assert.isString(version);
+            assert.isTrue(parseInt(version[0], 10) >= 3);
+        });
     });
 
 });

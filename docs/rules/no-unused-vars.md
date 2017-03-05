@@ -44,6 +44,11 @@ function fact(n) {
     if (n < 2) return 1;
     return n * fact(n - 1);
 }
+
+// When a function definition destructures an array, unused entries from the array also cause warnings.
+function getY([x, y]) {
+    return y;
+}
 ```
 
 Examples of **correct** code for this rule:
@@ -68,6 +73,11 @@ myFunc = setTimeout(function() {
     // myFunc is considered used
     myFunc();
 }, 50);
+
+// Only the second argument from the descructured array is used.
+function getY([, y]) {
+    return y;
+}
 ```
 
 ### exported
@@ -80,6 +90,16 @@ Note that `/* exported */` has no effect for any of the following:
 * when `parserOptions.sourceType` is `module`
 * when `ecmaFeatures.globalReturn` is `true`
 
+The line comment `// exported variableName` will not work as `exported` is not line-specific.
+
+Examples of **correct** code for `/* exported variableName */` operation:
+
+```js
+/* exported global_var */
+
+var global_var = 42;
+```
+
 ## Options
 
 This rule takes one argument which can be a string or an object. The string settings are the same as those of the `vars` property (explained below).
@@ -89,7 +109,7 @@ By default this rule is enabled with `all` option for variables and `after-used`
 ```json
 {
     "rules": {
-        "no-unused-vars": ["error", { "vars": "all", "args": "after-used" }]
+        "no-unused-vars": ["error", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }]
     }
 }
 ```
@@ -183,6 +203,18 @@ Examples of **correct** code for the `{ "args": "none" }` option:
 (function(foo, bar, baz) {
     return bar;
 })();
+```
+
+### ignoreRestSiblings
+
+The `ignoreRestSiblings` option is a boolean (default: `false`). Using a [Rest Property](https://github.com/sebmarkbage/ecmascript-rest-spread) it is possible to "omit" properties from an object, but by default the sibling properties are marked as "unused". With this option enabled the rest property's siblings are ignored.
+
+Examples of **correct** code for the `{ "ignoreRestSiblings": true }` option:
+
+```js
+/*eslint no-unused-vars: ["error", { "ignoreRestSiblings": true }]*/
+// 'type' is ignored because it has a rest property sibling.
+var { type, ...coords } = data;
 ```
 
 ### argsIgnorePattern

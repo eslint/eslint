@@ -28,9 +28,14 @@ ruleTester.run("no-param-reassign", rule, {
         "function foo(a) { delete a.b; }",
         "function foo(a) { ++a.b; }",
         { code: "function foo(a) { [a.b] = []; }", parserOptions: { ecmaVersion: 6 } },
-        { code: "function foo(a) { bar(a.b).c = 0; }", options: [{props: true}] },
-        { code: "function foo(a) { data[a.b] = 0; }", options: [{props: true}] },
-        { code: "function foo(a) { +a.b; }", options: [{props: true}] }
+        { code: "function foo(a) { bar(a.b).c = 0; }", options: [{ props: true }] },
+        { code: "function foo(a) { data[a.b] = 0; }", options: [{ props: true }] },
+        { code: "function foo(a) { +a.b; }", options: [{ props: true }] },
+        { code: "function foo(a) { a.b = 0; }", options: [{ props: true, ignorePropertyModificationsFor: ["a"] }] },
+        { code: "function foo(a) { ++a.b; }", options: [{ props: true, ignorePropertyModificationsFor: ["a"] }] },
+        { code: "function foo(a) { delete a.b; }", options: [{ props: true, ignorePropertyModificationsFor: ["a"] }] },
+        { code: "function foo(a, z) { a.b = 0; x.y = 0; }", options: [{ props: true, ignorePropertyModificationsFor: ["a", "x"] }] },
+        { code: "function foo(a) { a.b.c = 0;}", options: [{ props: true, ignorePropertyModificationsFor: ["a"] }] }
     ],
 
     invalid: [
@@ -43,33 +48,39 @@ ruleTester.run("no-param-reassign", rule, {
         { code: "function foo(bar) { bar--; }", errors: [{ message: "Assignment to function parameter 'bar'." }] },
         { code: "function foo({bar}) { bar = 13; }", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Assignment to function parameter 'bar'." }] },
         { code: "function foo([, {bar}]) { bar = 13; }", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Assignment to function parameter 'bar'." }] },
-        { code: "function foo(bar) { ({bar}) = {}; }", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Assignment to function parameter 'bar'." }] },
-        { code: "function foo(bar) { ({x: [, bar = 0]}) = {}; }", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Assignment to function parameter 'bar'." }] },
+        { code: "function foo(bar) { ({bar} = {}); }", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Assignment to function parameter 'bar'." }] },
+        { code: "function foo(bar) { ({x: [, bar = 0]} = {}); }", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Assignment to function parameter 'bar'." }] },
 
         {
             code: "function foo(bar) { bar.a = 0; }",
-            options: [{props: true}],
+            options: [{ props: true }],
             errors: [{ message: "Assignment to property of function parameter 'bar'." }]
         },
         {
             code: "function foo(bar) { bar.get(0).a = 0; }",
-            options: [{props: true}],
+            options: [{ props: true }],
             errors: [{ message: "Assignment to property of function parameter 'bar'." }]
         },
         {
             code: "function foo(bar) { delete bar.a; }",
-            options: [{props: true}],
+            options: [{ props: true }],
             errors: [{ message: "Assignment to property of function parameter 'bar'." }]
         },
         {
             code: "function foo(bar) { ++bar.a; }",
-            options: [{props: true}],
+            options: [{ props: true }],
             errors: [{ message: "Assignment to property of function parameter 'bar'." }]
         },
         {
             code: "function foo(bar) { [bar.a] = []; }",
             parserOptions: { ecmaVersion: 6 },
-            options: [{props: true}],
+            options: [{ props: true }],
+            errors: [{ message: "Assignment to property of function parameter 'bar'." }]
+        },
+        {
+            code: "function foo(bar) { [bar.a] = []; }",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{ props: true, ignorePropertyModificationsFor: ["a"] }],
             errors: [{ message: "Assignment to property of function parameter 'bar'." }]
         }
     ]

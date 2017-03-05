@@ -1,7 +1,5 @@
 # Require braces in arrow function body (arrow-body-style)
 
-(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
-
 Arrow functions have two syntactic forms for their function bodies.  They may be defined with a *block* body (denoted by curly braces) `() => { ... }` or with a single expression `() => ...`, whose value is implicitly returned.
 
 ## Rule Details
@@ -98,7 +96,7 @@ let foo = () => ({ bar: 0 });
 Examples of **incorrect** code for this rule with the `{ "requireReturnForObjectLiteral": true }` option:
 
 ```js
-/*eslint arrow-body-style: ["error", "as-needed", { requireReturnForObjectLiteral: true }]*/
+/*eslint arrow-body-style: ["error", "as-needed", { "requireReturnForObjectLiteral": true }]*/
 /*eslint-env es6*/
 let foo = () => ({});
 let foo = () => ({ bar: 0 });
@@ -107,7 +105,7 @@ let foo = () => ({ bar: 0 });
 Examples of **correct** code for this rule with the `{ "requireReturnForObjectLiteral": true }` option:
 
 ```js
-/*eslint arrow-body-style: ["error", "as-needed", { requireReturnForObjectLiteral: true }]*/
+/*eslint arrow-body-style: ["error", "as-needed", { "requireReturnForObjectLiteral": true }]*/
 /*eslint-env es6*/
 
 let foo = () => {};

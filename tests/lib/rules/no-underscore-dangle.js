@@ -26,23 +26,23 @@ ruleTester.run("no-underscore-dangle", rule, {
         "console.log(__filename); console.log(__dirname);",
         "var _ = require('underscore');",
         "var a = b._;",
-        { code: "export default function() {}", parserOptions: { sourceType: "module" }},
-        { code: "var _foo = 1", options: [{ allow: ["_foo"] }]},
-        { code: "var __proto__ = 1;", options: [{ allow: ["__proto__"] }]},
-        { code: "foo._bar;", options: [{ allow: ["_bar"] }]},
-        { code: "function _foo() {}", options: [{ allow: ["_foo"] }]},
-        { code: "this._bar;", options: [{allowAfterThis: true}]},
-        { code: "class foo { constructor() { super._bar; } }", parserOptions: { ecmaVersion: 6 }, options: [{allowAfterSuper: true}]}
+        { code: "export default function() {}", parserOptions: { sourceType: "module" } },
+        { code: "var _foo = 1", options: [{ allow: ["_foo"] }] },
+        { code: "var __proto__ = 1;", options: [{ allow: ["__proto__"] }] },
+        { code: "foo._bar;", options: [{ allow: ["_bar"] }] },
+        { code: "function _foo() {}", options: [{ allow: ["_foo"] }] },
+        { code: "this._bar;", options: [{ allowAfterThis: true }] },
+        { code: "class foo { constructor() { super._bar; } }", parserOptions: { ecmaVersion: 6 }, options: [{ allowAfterSuper: true }] }
     ],
     invalid: [
-        { code: "var _foo = 1", errors: [{ message: "Unexpected dangling '_' in '_foo'.", type: "VariableDeclarator"}] },
-        { code: "var foo_ = 1", errors: [{ message: "Unexpected dangling '_' in 'foo_'.", type: "VariableDeclarator"}] },
-        { code: "function _foo() {}", errors: [{ message: "Unexpected dangling '_' in '_foo'.", type: "FunctionDeclaration"}] },
-        { code: "function foo_() {}", errors: [{ message: "Unexpected dangling '_' in 'foo_'.", type: "FunctionDeclaration"}] },
-        { code: "var __proto__ = 1;", errors: [{ message: "Unexpected dangling '_' in '__proto__'.", type: "VariableDeclarator"}] },
-        { code: "foo._bar;", errors: [{ message: "Unexpected dangling '_' in '_bar'.", type: "MemberExpression"}] },
-        { code: "this._prop;", errors: [{ message: "Unexpected dangling '_' in '_prop'.", type: "MemberExpression"}] },
-        { code: "class foo { constructor() { super._prop; } }", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Unexpected dangling '_' in '_prop'.", type: "MemberExpression"}] },
-        { code: "class foo { constructor() { this._prop; } }", options: [{allowAfterSuper: true}], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Unexpected dangling '_' in '_prop'.", type: "MemberExpression"}] }
+        { code: "var _foo = 1", errors: [{ message: "Unexpected dangling '_' in '_foo'.", type: "VariableDeclarator" }] },
+        { code: "var foo_ = 1", errors: [{ message: "Unexpected dangling '_' in 'foo_'.", type: "VariableDeclarator" }] },
+        { code: "function _foo() {}", errors: [{ message: "Unexpected dangling '_' in '_foo'.", type: "FunctionDeclaration" }] },
+        { code: "function foo_() {}", errors: [{ message: "Unexpected dangling '_' in 'foo_'.", type: "FunctionDeclaration" }] },
+        { code: "var __proto__ = 1;", errors: [{ message: "Unexpected dangling '_' in '__proto__'.", type: "VariableDeclarator" }] },
+        { code: "foo._bar;", errors: [{ message: "Unexpected dangling '_' in '_bar'.", type: "MemberExpression" }] },
+        { code: "this._prop;", errors: [{ message: "Unexpected dangling '_' in '_prop'.", type: "MemberExpression" }] },
+        { code: "class foo { constructor() { super._prop; } }", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Unexpected dangling '_' in '_prop'.", type: "MemberExpression" }] },
+        { code: "class foo { constructor() { this._prop; } }", options: [{ allowAfterSuper: true }], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Unexpected dangling '_' in '_prop'.", type: "MemberExpression" }] }
     ]
 });

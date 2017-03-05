@@ -48,7 +48,7 @@ function expectedErrors(indentType, errors) {
 
             message = `Expected indentation of ${err[1]} ${chars} but found ${err[2]}.`;
         }
-        return {message, type: err[3], line: err[0]};
+        return { message, type: err[3], line: err[0] };
     });
 }
 
@@ -63,6 +63,16 @@ ruleTester.run("indent", rule, {
             "    window.ah.mobileAppVersion = responseData;\n" +
             "  }\n" +
             ");\n",
+            options: [2]
+        },
+        {
+            code:
+            "var a = [\n" +
+            "  , /*{\n" +
+            "  }, */{\n" +
+            "    name: 'foo',\n" +
+            "  }\n" +
+            "];\n",
             options: [2]
         },
         {
@@ -260,13 +270,13 @@ ruleTester.run("indent", rule, {
             "        return true;\n" +
             "    });\n" +
             "}",
-            options: [4, {MemberExpression: 0}]
+            options: [4, { MemberExpression: 0 }]
         },
 
         {
             code:
             "// hi",
-            options: [2, {VariableDeclarator: 1, SwitchCase: 1}]
+            options: [2, { VariableDeclarator: 1, SwitchCase: 1 }]
         },
         {
             code:
@@ -276,26 +286,26 @@ ruleTester.run("indent", rule, {
             "\n" +
             "  files.concat(fileList)\n" +
             "};\n",
-            options: [2, {VariableDeclarator: { var: 2, let: 2, const: 3}}]
+            options: [2, { VariableDeclarator: { var: 2, let: 2, const: 3 } }]
         },
         {
             code:
                 "  ",
-            options: [2, {VariableDeclarator: 1, SwitchCase: 1}]
+            options: [2, { VariableDeclarator: 1, SwitchCase: 1 }]
         },
         {
             code:
             "if(data) {\n" +
             "  console.log('hi');\n" +
             "  b = true;};",
-            options: [2, {VariableDeclarator: 1, SwitchCase: 1}]
+            options: [2, { VariableDeclarator: 1, SwitchCase: 1 }]
         },
         {
             code:
             "foo = () => {\n" +
             "  console.log('hi');\n" +
             "  return true;};",
-            options: [2, {VariableDeclarator: 1, SwitchCase: 1}],
+            options: [2, { VariableDeclarator: 1, SwitchCase: 1 }],
             parserOptions: { ecmaVersion: 6 }
         },
         {
@@ -303,14 +313,14 @@ ruleTester.run("indent", rule, {
             "function test(data) {\n" +
             "  console.log('hi');\n" +
             "  return true;};",
-            options: [2, {VariableDeclarator: 1, SwitchCase: 1}]
+            options: [2, { VariableDeclarator: 1, SwitchCase: 1 }]
         },
         {
             code:
             "var test = function(data) {\n" +
             "  console.log('hi');\n" +
             "};",
-            options: [2, {VariableDeclarator: 1, SwitchCase: 1}]
+            options: [2, { VariableDeclarator: 1, SwitchCase: 1 }]
         },
         {
             code:
@@ -318,14 +328,14 @@ ruleTester.run("indent", rule, {
             "  otherdata.forEach(function(zero) {\n" +
             "    console.log('hi');\n" +
             "  }) });",
-            options: [2, {VariableDeclarator: 1, SwitchCase: 1}]
+            options: [2, { VariableDeclarator: 1, SwitchCase: 1 }]
         },
         {
             code:
             "a = [\n" +
             "    ,3\n" +
             "]",
-            options: [4, {VariableDeclarator: 1, SwitchCase: 1}]
+            options: [4, { VariableDeclarator: 1, SwitchCase: 1 }]
         },
         {
             code:
@@ -337,7 +347,7 @@ ruleTester.run("indent", rule, {
             "].forEach(function(method) {\n" +
             "  console.log(method);\n" +
             "});\n",
-            options: [2, {SwitchCase: 1, VariableDeclarator: 2}]
+            options: [2, { SwitchCase: 1, VariableDeclarator: 2 }]
         },
         {
             code:
@@ -350,7 +360,7 @@ ruleTester.run("indent", rule, {
             "        ]\n" +
             "    }\n" +
             "});",
-            options: [4, {VariableDeclarator: 1, SwitchCase: 1}]
+            options: [4, { VariableDeclarator: 1, SwitchCase: 1 }]
         },
         {
             code:
@@ -360,7 +370,7 @@ ruleTester.run("indent", rule, {
             "            a: 1\n" +
             "        }\n" +
             "    ];",
-            options: [4, {VariableDeclarator: 1, SwitchCase: 1}]
+            options: [4, { VariableDeclarator: 1, SwitchCase: 1 }]
         },
         {
             code:
@@ -373,7 +383,7 @@ ruleTester.run("indent", rule, {
             "{\n" +
             "    x: 2\n" +
             "}];",
-            options: [4, {VariableDeclarator: 1, SwitchCase: 1}]
+            options: [4, { VariableDeclarator: 1, SwitchCase: 1 }]
         },
         {
             code:
@@ -386,7 +396,7 @@ ruleTester.run("indent", rule, {
             "        ].join(',')\n" +
             "    ]\n" +
             "});",
-            options: [4, {VariableDeclarator: 1, SwitchCase: 1}]
+            options: [4, { VariableDeclarator: 1, SwitchCase: 1 }]
         },
         {
             code:
@@ -399,7 +409,7 @@ ruleTester.run("indent", rule, {
             "    ]\n" +
             "  ]\n" +
             "};",
-            options: [2, {VariableDeclarator: 1, SwitchCase: 1}]
+            options: [2, { VariableDeclarator: 1, SwitchCase: 1 }]
         },
         {
             code:
@@ -409,7 +419,7 @@ ruleTester.run("indent", rule, {
             "    b: 2\n" +
             "  }\n" +
             ");",
-            options: [2, {VariableDeclarator: 1, SwitchCase: 1}]
+            options: [2, { VariableDeclarator: 1, SwitchCase: 1 }]
         },
         {
             code:
@@ -417,7 +427,7 @@ ruleTester.run("indent", rule, {
             "    a: 1,\n" +
             "    b: 2\n" +
             "});",
-            options: [4, {VariableDeclarator: 1, SwitchCase: 1}]
+            options: [4, { VariableDeclarator: 1, SwitchCase: 1 }]
         },
         {
             code:
@@ -430,7 +440,7 @@ ruleTester.run("indent", rule, {
             "      b: 2\n" +
             "    }\n" +
             "  ];",
-            options: [2, {VariableDeclarator: 1, SwitchCase: 1}]
+            options: [2, { VariableDeclarator: 1, SwitchCase: 1 }]
         },
         {
             code:
@@ -442,7 +452,7 @@ ruleTester.run("indent", rule, {
             "    b: 2\n" +
             "  }\n" +
             "];",
-            options: [2, {VariableDeclarator: 1, SwitchCase: 1}]
+            options: [2, { VariableDeclarator: 1, SwitchCase: 1 }]
         },
         {
             code:
@@ -453,7 +463,7 @@ ruleTester.run("indent", rule, {
             "      a: 1,\n" +
             "      b: 2\n" +
             "    };",
-            options: [2, {VariableDeclarator: 2, SwitchCase: 1}]
+            options: [2, { VariableDeclarator: 2, SwitchCase: 1 }]
         },
         {
             code:
@@ -462,7 +472,7 @@ ruleTester.run("indent", rule, {
             "      a: 1,\n" +
             "      b: 2\n" +
             "    };",
-            options: [2, {VariableDeclarator: 2, SwitchCase: 1}]
+            options: [2, { VariableDeclarator: 2, SwitchCase: 1 }]
         },
         {
             code:
@@ -471,7 +481,7 @@ ruleTester.run("indent", rule, {
             "        b: 2\n" +
             "    }),\n" +
             "    b = 2;",
-            options: [4, {VariableDeclarator: 1, SwitchCase: 1}]
+            options: [4, { VariableDeclarator: 1, SwitchCase: 1 }]
         },
         {
             code:
@@ -481,7 +491,7 @@ ruleTester.run("indent", rule, {
             "    b: 2\n" +
             "  },\n" +
             "  b = 2;",
-            options: [2, {VariableDeclarator: 1, SwitchCase: 1}]
+            options: [2, { VariableDeclarator: 1, SwitchCase: 1 }]
         },
         {
             code:
@@ -491,7 +501,7 @@ ruleTester.run("indent", rule, {
             "      b: 2\n" +
             "    },\n" +
             "    b = 2;",
-            options: [2, {VariableDeclarator: 2, SwitchCase: 1}]
+            options: [2, { VariableDeclarator: 2, SwitchCase: 1 }]
         },
         {
             code:
@@ -500,7 +510,7 @@ ruleTester.run("indent", rule, {
             "      b: 2\n" +
             "    },\n" +
             "    b = 2;",
-            options: [2, {VariableDeclarator: 2, SwitchCase: 1}]
+            options: [2, { VariableDeclarator: 2, SwitchCase: 1 }]
         },
         {
             code:
@@ -508,7 +518,7 @@ ruleTester.run("indent", rule, {
             "  a: 1,\n" +
             "  b: 2\n" +
             "};",
-            options: [2, {VariableDeclarator: 2, SwitchCase: 1}]
+            options: [2, { VariableDeclarator: 2, SwitchCase: 1 }]
         },
         {
             code:
@@ -518,14 +528,14 @@ ruleTester.run("indent", rule, {
             "    console.log(val);\n" +
             "  }\n" +
             "}",
-            options: [2, {VariableDeclarator: 2, SwitchCase: 1}]
+            options: [2, { VariableDeclarator: 2, SwitchCase: 1 }]
         },
         {
             code:
             "for (var val in obj)\n" +
             "  if (true)\n" +
             "    console.log(val);",
-            options: [2, {VariableDeclarator: 2, SwitchCase: 1}]
+            options: [2, { VariableDeclarator: 2, SwitchCase: 1 }]
         },
         {
             code:
@@ -533,21 +543,21 @@ ruleTester.run("indent", rule, {
             "  if (true)\n" +
             "    if (true)\n" +
             "      console.log(val);",
-            options: [2, {VariableDeclarator: 2, SwitchCase: 1}]
+            options: [2, { VariableDeclarator: 2, SwitchCase: 1 }]
         },
         {
             code:
             "function hi(){     var a = 1;\n" +
             "  y++;                   x++;\n" +
             "}",
-            options: [2, {VariableDeclarator: 2, SwitchCase: 1}]
+            options: [2, { VariableDeclarator: 2, SwitchCase: 1 }]
         },
         {
             code:
             "for(;length > index; index++)if(NO_HOLES || index in self){\n" +
             "  x++;\n" +
             "}",
-            options: [2, {VariableDeclarator: 2, SwitchCase: 1}]
+            options: [2, { VariableDeclarator: 2, SwitchCase: 1 }]
         },
         {
             code:
@@ -558,62 +568,62 @@ ruleTester.run("indent", rule, {
             "    };\n" +
             "  }\n" +
             "}",
-            options: [2, {VariableDeclarator: 2, SwitchCase: 1}]
+            options: [2, { VariableDeclarator: 2, SwitchCase: 1 }]
         },
         {
             code:
             "var geometry = 2,\n" +
             "rotate = 2;",
-            options: [2, {VariableDeclarator: 0}]
+            options: [2, { VariableDeclarator: 0 }]
         },
         {
             code:
             "var geometry,\n" +
             "    rotate;",
-            options: [4, {VariableDeclarator: 1}]
+            options: [4, { VariableDeclarator: 1 }]
         },
         {
             code:
             "var geometry,\n" +
             "\trotate;",
-            options: ["tab", {VariableDeclarator: 1}]
+            options: ["tab", { VariableDeclarator: 1 }]
         },
         {
             code:
             "var geometry,\n" +
             "  rotate;",
-            options: [2, {VariableDeclarator: 1}]
+            options: [2, { VariableDeclarator: 1 }]
         },
         {
             code:
             "var geometry,\n" +
             "    rotate;",
-            options: [2, {VariableDeclarator: 2}]
+            options: [2, { VariableDeclarator: 2 }]
         },
         {
             code:
             "let geometry,\n" +
             "    rotate;",
-            options: [2, {VariableDeclarator: 2}],
+            options: [2, { VariableDeclarator: 2 }],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
             "const geometry = 2,\n" +
             "    rotate = 3;",
-            options: [2, {VariableDeclarator: 2}],
+            options: [2, { VariableDeclarator: 2 }],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
             "var geometry, box, face1, face2, colorT, colorB, sprite, padding, maxWidth,\n" +
             "  height, rotate;",
-            options: [2, {SwitchCase: 1}]
+            options: [2, { SwitchCase: 1 }]
         },
         {
             code:
             "var geometry, box, face1, face2, colorT, colorB, sprite, padding, maxWidth;",
-            options: [2, {SwitchCase: 1}]
+            options: [2, { SwitchCase: 1 }]
         },
         {
             code:
@@ -677,7 +687,7 @@ ruleTester.run("indent", rule, {
             "    case \"test\":\n" +
             "        break;\n" +
             "}",
-            options: [4, {SwitchCase: 1}]
+            options: [4, { SwitchCase: 1 }]
         },
         {
             code:
@@ -696,7 +706,7 @@ ruleTester.run("indent", rule, {
             "        case \"test\":\n" +
             "            break;\n" +
             "}",
-            options: [4, {SwitchCase: 2}]
+            options: [4, { SwitchCase: 2 }]
         },
         {
             code:
@@ -791,7 +801,7 @@ ruleTester.run("indent", rule, {
             "    default:\n" +
             "        break;\n" +
             "}",
-            options: [4, {SwitchCase: 1}]
+            options: [4, { SwitchCase: 1 }]
         },
         {
             code:
@@ -850,7 +860,7 @@ ruleTester.run("indent", rule, {
                 "    foo: 'bar'\n" +
                 "  }\n" +
                 "];\n",
-            options: [2, {VariableDeclarator: 2}]
+            options: [2, { VariableDeclarator: 2 }]
         },
         {
             code:
@@ -866,7 +876,7 @@ ruleTester.run("indent", rule, {
                 "    foo: 'bar'\n" +
                 "  }\n" +
                 ");\n",
-            options: [2, {VariableDeclarator: 3}],
+            options: [2, { VariableDeclarator: 3 }],
             parserOptions: { ecmaVersion: 6 }
 
         },
@@ -890,21 +900,21 @@ ruleTester.run("indent", rule, {
             "        a: 1,\n" +
             "        b: 2\n" +
             "      };\n" +
-            "let abc = 5,\n" +
-            "  c = 2,\n" +
-            "  xyz = \n" +
+            "let abc2 = 5,\n" +
+            "  c2 = 2,\n" +
+            "  xyz2 = \n" +
             "  {\n" +
             "    a: 1,\n" +
             "    b: 2\n" +
             "  };\n" +
-            "var abc = 5,\n" +
-            "    c = 2,\n" +
-            "    xyz = \n" +
+            "var abc3 = 5,\n" +
+            "    c3 = 2,\n" +
+            "    xyz3 = \n" +
             "    {\n" +
             "      a: 1,\n" +
             "      b: 2\n" +
             "    };\n",
-            options: [2, { VariableDeclarator: { var: 2, const: 3 }, SwitchCase: 1}],
+            options: [2, { VariableDeclarator: { var: 2, const: 3 }, SwitchCase: 1 }],
             parserOptions: { ecmaVersion: 6 }
         },
         {
@@ -995,7 +1005,7 @@ ruleTester.run("indent", rule, {
                 "    a = 5,\n" +
                 "    b = 4\n",
             parserOptions: { ecmaVersion: 6 },
-            options: [2, {VariableDeclarator: { var: 2, let: 2, const: 3}}]
+            options: [2, { VariableDeclarator: { var: 2, let: 2, const: 3 } }]
         },
         {
             code:
@@ -1008,7 +1018,7 @@ ruleTester.run("indent", rule, {
                 "\n" +
                 "if (YO) console.log(TE)",
             parserOptions: { ecmaVersion: 6 },
-            options: [2, {VariableDeclarator: { var: 2, let: 2, const: 3}}]
+            options: [2, { VariableDeclarator: { var: 2, let: 2, const: 3 } }]
         },
         {
             code:
@@ -1053,7 +1063,7 @@ ruleTester.run("indent", rule, {
                 "    });\n" +
                 "  }\n" +
                 "};\n",
-            options: [2, {MemberExpression: 0}]
+            options: [2, { MemberExpression: 0 }]
         },
         {
             code:
@@ -1082,7 +1092,7 @@ ruleTester.run("indent", rule, {
             "      a(){}\n" +
             "      get b(){}\n" +
             "    };",
-            options: [2, {VariableDeclarator: 2, SwitchCase: 1}],
+            options: [2, { VariableDeclarator: 2, SwitchCase: 1 }],
             parserOptions: { ecmaVersion: 6 }
         },
         {
@@ -1095,7 +1105,7 @@ ruleTester.run("indent", rule, {
             "      get b(){}\n" +
             "    },\n" +
             "    c = 3;",
-            options: [2, {VariableDeclarator: 2, SwitchCase: 1}],
+            options: [2, { VariableDeclarator: 2, SwitchCase: 1 }],
             parserOptions: { ecmaVersion: 6 }
         },
         {
@@ -1105,7 +1115,7 @@ ruleTester.run("indent", rule, {
             "    a(){}\n" +
             "    get b(){}\n" +
             "}",
-            options: [4, {VariableDeclarator: 1, SwitchCase: 1}],
+            options: [4, { VariableDeclarator: 1, SwitchCase: 1 }],
             parserOptions: { ecmaVersion: 6 }
         },
         {
@@ -1115,7 +1125,7 @@ ruleTester.run("indent", rule, {
             "    a(){}\n" +
             "    get b(){}\n" +
             "}",
-            options: [4, {VariableDeclarator: 1, SwitchCase: 1}],
+            options: [4, { VariableDeclarator: 1, SwitchCase: 1 }],
             parserOptions: { ecmaVersion: 6 }
         },
         {
@@ -1150,7 +1160,7 @@ ruleTester.run("indent", rule, {
             "        }\n" +
             "    ]\n" +
             "};\n",
-            options: [4, {VariableDeclarator: 0, SwitchCase: 1}]
+            options: [4, { VariableDeclarator: 0, SwitchCase: 1 }]
         },
         {
             code:
@@ -1160,7 +1170,7 @@ ruleTester.run("indent", rule, {
             "        name: 'compile'\n" +
             "    }\n" +
             "];\n",
-            options: [4, {VariableDeclarator: 0, SwitchCase: 1}]
+            options: [4, { VariableDeclarator: 0, SwitchCase: 1 }]
         },
         {
             code:
@@ -1173,7 +1183,7 @@ ruleTester.run("indent", rule, {
             "    });\n" +
             "};",
             parserOptions: { ecmaVersion: 6 },
-            options: [4, {MemberExpression: 0}]
+            options: [4, { MemberExpression: 0 }]
         },
         {
             code:
@@ -1447,7 +1457,7 @@ ruleTester.run("indent", rule, {
             "Buffer\n" +
             "    .foo\n" +
             "    .bar",
-            options: [2, {MemberExpression: 2}]
+            options: [2, { MemberExpression: 2 }]
         },
         {
             code:
@@ -1462,7 +1472,7 @@ ruleTester.run("indent", rule, {
             code:
             "foo = bar.baz()\n" +
             "        .bip();",
-            options: [4, {MemberExpression: 1}]
+            options: [4, { MemberExpression: 1 }]
         },
         {
             code:
@@ -1481,7 +1491,7 @@ ruleTester.run("indent", rule, {
             "  bbb, ccc, ddd) {\n" +
             "    bar();\n" +
             "}",
-            options: [2, {FunctionDeclaration: {parameters: 1, body: 2}}]
+            options: [2, { FunctionDeclaration: { parameters: 1, body: 2 } }]
         },
         {
             code:
@@ -1489,7 +1499,7 @@ ruleTester.run("indent", rule, {
             "      ccc, ddd) {\n" +
             "  bar();\n" +
             "}",
-            options: [2, {FunctionDeclaration: {parameters: 3, body: 1}}]
+            options: [2, { FunctionDeclaration: { parameters: 3, body: 1 } }]
         },
         {
             code:
@@ -1498,7 +1508,7 @@ ruleTester.run("indent", rule, {
             "    ccc) {\n" +
             "            bar();\n" +
             "}",
-            options: [4, {FunctionDeclaration: {parameters: 1, body: 3}}]
+            options: [4, { FunctionDeclaration: { parameters: 1, body: 3 } }]
         },
         {
             code:
@@ -1507,7 +1517,7 @@ ruleTester.run("indent", rule, {
             "             ddd, eee, fff) {\n" +
             "  bar();\n" +
             "}",
-            options: [2, {FunctionDeclaration: {parameters: "first", body: 1}}]
+            options: [2, { FunctionDeclaration: { parameters: "first", body: 1 } }]
         },
         {
             code:
@@ -1515,7 +1525,7 @@ ruleTester.run("indent", rule, {
             "{\n" +
             "      bar();\n" +
             "}",
-            options: [2, {FunctionDeclaration: {body: 3}}]
+            options: [2, { FunctionDeclaration: { body: 3 } }]
         },
         {
             code:
@@ -1524,7 +1534,7 @@ ruleTester.run("indent", rule, {
             "  bbb) {\n" +
             "    bar();\n" +
             "}",
-            options: [2, {FunctionDeclaration: {parameters: "first", body: 2}}]
+            options: [2, { FunctionDeclaration: { parameters: "first", body: 2 } }]
         },
         {
             code:
@@ -1534,7 +1544,7 @@ ruleTester.run("indent", rule, {
             "    ddd) {\n" +
             "bar();\n" +
             "}",
-            options: [2, {FunctionExpression: {parameters: 2, body: 0}}]
+            options: [2, { FunctionExpression: { parameters: 2, body: 0 } }]
         },
         {
             code:
@@ -1543,7 +1553,7 @@ ruleTester.run("indent", rule, {
             "  ccc) {\n" +
             "                    bar();\n" +
             "}",
-            options: [2, {FunctionExpression: {parameters: 1, body: 10}}]
+            options: [2, { FunctionExpression: { parameters: 1, body: 10 } }]
         },
         {
             code:
@@ -1552,7 +1562,7 @@ ruleTester.run("indent", rule, {
             "                   eee, fff) {\n" +
             "    bar();\n" +
             "}",
-            options: [4, {FunctionExpression: {parameters: "first", body: 1}}]
+            options: [4, { FunctionExpression: { parameters: "first", body: 1 } }]
         },
         {
             code:
@@ -1561,7 +1571,7 @@ ruleTester.run("indent", rule, {
             "  ddd, eee) {\n" +
             "      bar();\n" +
             "}",
-            options: [2, {FunctionExpression: {parameters: "first", body: 3}}]
+            options: [2, { FunctionExpression: { parameters: "first", body: 3 } }]
         },
         {
             code:
@@ -1579,7 +1589,7 @@ ruleTester.run("indent", rule, {
             "    baz();\n" +
             "  }\n" +
             "}",
-            options: [2, {FunctionDeclaration: {body: 1}}]
+            options: [2, { FunctionDeclaration: { body: 1 } }]
         },
         {
             code:
@@ -1596,7 +1606,7 @@ ruleTester.run("indent", rule, {
             "    foobar();\n" +
             "  }\n" +
             "}",
-            options: [2, {FunctionDeclaration: {body: 1, parameters: 2}}]
+            options: [2, { FunctionDeclaration: { body: 1, parameters: 2 } }]
         },
         {
             code:
@@ -1606,7 +1616,7 @@ ruleTester.run("indent", rule, {
             "    foobar();\n" +
             "  };\n" +
             "}",
-            options: [2, {FunctionExpression: {parameters: 3}}]
+            options: [2, { FunctionExpression: { parameters: 3 } }]
         },
         {
             code:
@@ -1648,7 +1658,7 @@ ruleTester.run("indent", rule, {
             "  baz,\n" +
             "  qux\n" +
             ");",
-            options: [2, {CallExpression: {arguments: 1}}]
+            options: [2, { CallExpression: { arguments: 1 } }]
         }, {
             code:
             "foo(\n" +
@@ -1656,13 +1666,13 @@ ruleTester.run("indent", rule, {
             "\tbaz,\n" +
             "\tqux\n" +
             ");",
-            options: ["tab", {CallExpression: {arguments: 1}}]
+            options: ["tab", { CallExpression: { arguments: 1 } }]
         }, {
             code:
             "foo(bar,\n" +
             "        baz,\n" +
             "        qux);",
-            options: [4, {CallExpression: {arguments: 2}}]
+            options: [4, { CallExpression: { arguments: 2 } }]
         }, {
             code:
             "foo(\n" +
@@ -1670,26 +1680,26 @@ ruleTester.run("indent", rule, {
             "baz,\n" +
             "qux\n" +
             ");",
-            options: [2, {CallExpression: {arguments: 0}}]
+            options: [2, { CallExpression: { arguments: 0 } }]
         }, {
             code:
             "foo(bar,\n" +
             "    baz,\n" +
             "    qux\n" +
             ");",
-            options: [2, {CallExpression: {arguments: "first"}}]
+            options: [2, { CallExpression: { arguments: "first" } }]
         }, {
             code:
             "foo(bar, baz,\n" +
             "    qux, barbaz,\n" +
             "    barqux, bazqux);",
-            options: [2, {CallExpression: {arguments: "first"}}]
+            options: [2, { CallExpression: { arguments: "first" } }]
         }, {
             code:
             "foo(\n" +
             "                        bar, baz,\n" +
             "                        qux);",
-            options: [2, {CallExpression: {arguments: "first"}}]
+            options: [2, { CallExpression: { arguments: "first" } }]
         }, {
             code:
             "foo(bar,\n" +
@@ -1697,7 +1707,7 @@ ruleTester.run("indent", rule, {
             "        !baz,\n" +
             "        new Car('!')\n" +
             ");",
-            options: [2, {CallExpression: {arguments: 4}}]
+            options: [2, { CallExpression: { arguments: 4 } }]
         },
 
         // https://github.com/eslint/eslint/issues/7484
@@ -1710,6 +1720,210 @@ ruleTester.run("indent", rule, {
             "  );\n" +
             "};",
             options: [2]
+        },
+
+        // https://github.com/eslint/eslint/issues/7573
+        {
+            code:
+            "return (\n" +
+            "    foo\n" +
+            ");",
+            parserOptions: { ecmaFeatures: { globalReturn: true } }
+        },
+        {
+            code:
+            "return (\n" +
+            "    foo\n" +
+            ")",
+            parserOptions: { ecmaFeatures: { globalReturn: true } }
+        },
+        {
+            code:
+            "var foo = [\n" +
+            "    bar,\n" +
+            "    baz\n" +
+            "]"
+        },
+        {
+            code:
+            "var foo = [bar,\n" +
+            "    baz,\n" +
+            "    qux\n" +
+            "]"
+        },
+        {
+            code:
+            "var foo = [bar,\n" +
+            "baz,\n" +
+            "qux\n" +
+            "]",
+            options: [2, { ArrayExpression: 0 }]
+        },
+        {
+            code:
+            "var foo = [bar,\n" +
+            "                baz,\n" +
+            "                qux\n" +
+            "]",
+            options: [2, { ArrayExpression: 8 }]
+        },
+        {
+            code:
+            "var foo = [bar,\n" +
+            "           baz,\n" +
+            "           qux\n" +
+            "]",
+            options: [2, { ArrayExpression: "first" }]
+        },
+        {
+            code:
+            "var foo = [bar,\n" +
+            "           baz, qux\n" +
+            "]",
+            options: [2, { ArrayExpression: "first" }]
+        },
+        {
+            code:
+            "var foo = [\n" +
+            "        { bar: 1,\n" +
+            "          baz: 2 },\n" +
+            "        { bar: 3,\n" +
+            "          qux: 4 }\n" +
+            "]",
+            options: [4, { ArrayExpression: 2, ObjectExpression: "first" }]
+        },
+        {
+            code:
+            "var foo = {\n" +
+            "bar: 1,\n" +
+            "baz: 2\n" +
+            "};",
+            options: [2, { ObjectExpression: 0 }]
+        },
+        {
+            code:
+            "var foo = { foo: 1, bar: 2,\n" +
+            "            baz: 3 }",
+            options: [2, { ObjectExpression: "first" }]
+        },
+        {
+            code:
+            "var foo = [\n" +
+            "        {\n" +
+            "            foo: 1\n" +
+            "        }\n" +
+            "]",
+            options: [4, { ArrayExpression: 2 }]
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "  [\n" +
+            "          foo\n" +
+            "  ]\n" +
+            "}",
+            options: [2, { ArrayExpression: 4 }]
+        },
+        {
+            code: "[\n]",
+            options: [2, { ArrayExpression: "first" }]
+        },
+        {
+            code: "[\n]",
+            options: [2, { ArrayExpression: 1 }]
+        },
+        {
+            code: "{\n}",
+            options: [2, { ObjectExpression: "first" }]
+        },
+        {
+            code: "{\n}",
+            options: [2, { ObjectExpression: 1 }]
+        },
+        {
+            code:
+            "var foo = [\n" +
+            "  [\n" +
+            "    1\n" +
+            "  ]\n" +
+            "]",
+            options: [2, { ArrayExpression: "first" }]
+        },
+        {
+            code:
+            "var foo = [ 1,\n" +
+            "            [\n" +
+            "              2\n" +
+            "            ]\n" +
+            "];",
+            options: [2, { ArrayExpression: "first" }]
+        },
+        {
+            code:
+            "var foo = bar(1,\n" +
+            "              [ 2,\n" +
+            "                3\n" +
+            "              ]\n" +
+            ");",
+            options: [4, { ArrayExpression: "first", CallExpression: { arguments: "first" } }]
+        },
+        {
+            code:
+            "var foo =\n" +
+            "    [\n" +
+            "    ]()",
+            options: [4, { CallExpression: { arguments: "first" }, ArrayExpression: "first" }]
+        },
+
+        // https://github.com/eslint/eslint/issues/7732
+        {
+            code:
+            "const lambda = foo => {\n" +
+            "  Object.assign({},\n" +
+            "    filterName,\n" +
+            "    {\n" +
+            "      display\n" +
+            "    }\n" +
+            "  );" +
+            "}",
+            options: [2, { ObjectExpression: 1 }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code:
+            "const lambda = foo => {\n" +
+            "  Object.assign({},\n" +
+            "    filterName,\n" +
+            "    {\n" +
+            "      display\n" +
+            "    }\n" +
+            "  );" +
+            "}",
+            options: [2, { ObjectExpression: "first" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+
+        // https://github.com/eslint/eslint/issues/7733
+        {
+            code:
+            "var foo = function() {\n" +
+            "\twindow.foo('foo',\n" +
+            "\t\t{\n" +
+            "\t\t\tfoo: 'bar'," +
+            "\t\t\tbar: {\n" +
+            "\t\t\t\tfoo: 'bar'\n" +
+            "\t\t\t}\n" +
+            "\t\t}\n" +
+            "\t);\n" +
+            "}",
+            options: ["tab"]
+        },
+        {
+            code:
+            "echo = spawn('cmd.exe',\n" +
+            "             ['foo', 'bar',\n" +
+            "              'baz']);",
+            options: [2, { ArrayExpression: "first", CallExpression: { arguments: "first" } }]
         }
     ],
     invalid: [
@@ -1776,7 +1990,7 @@ ruleTester.run("indent", rule, {
         {
             code: fixture,
             output: fixedFixture,
-            options: [2, {SwitchCase: 1, MemberExpression: 1}],
+            options: [2, { SwitchCase: 1, MemberExpression: 1 }],
             errors: expectedErrors([
                 [5, 2, 4, "VariableDeclaration"],
                 [10, 4, 6, "BlockStatement"],
@@ -1897,7 +2111,7 @@ ruleTester.run("indent", rule, {
                 "        a();\n" +
                 "        break;\n" +
                 "}",
-            options: [4, {SwitchCase: 1}],
+            options: [4, { SwitchCase: 1 }],
             errors: expectedErrors([[4, 8, 4, "BreakStatement"], [7, 8, 4, "BreakStatement"]])
         },
         {
@@ -1939,7 +2153,7 @@ ruleTester.run("indent", rule, {
                 "    default:\n" +
                 "        break;\n" +
                 "}",
-            options: [4, {SwitchCase: 1}],
+            options: [4, { SwitchCase: 1 }],
             errors: expectedErrors([9, 8, 4, "BreakStatement"])
         },
         {
@@ -1981,7 +2195,7 @@ ruleTester.run("indent", rule, {
                 "        a();\n" +
                 "        break;\n" +
                 "}",
-            options: [4, {SwitchCase: 1}],
+            options: [4, { SwitchCase: 1 }],
             errors: expectedErrors([[11, 8, 4, "BreakStatement"], [14, 8, 4, "BreakStatement"], [17, 8, 4, "BreakStatement"]])
         },
         {
@@ -2047,7 +2261,7 @@ ruleTester.run("indent", rule, {
                 "        c();\n" +
                 "        break;\n" +
                 "}\n",
-            options: [4, {SwitchCase: 1}],
+            options: [4, { SwitchCase: 1 }],
             errors: expectedErrors([
                 [2, 4, 0, "SwitchCase"],
                 [3, 8, 0, "ExpressionStatement"],
@@ -2063,7 +2277,12 @@ ruleTester.run("indent", rule, {
             "    foo\n" +
             "          .bar\n" +
             "}",
-            options: [4, {MemberExpression: 1}],
+            output:
+            "var foo = function(){\n" +
+            "    foo\n" +
+            "        .bar\n" +
+            "}",
+            options: [4, { MemberExpression: 1 }],
             errors: expectedErrors(
                 [3, 8, 10, "Punctuator"]
             )
@@ -2074,7 +2293,12 @@ ruleTester.run("indent", rule, {
             "    foo\n" +
             "             .bar\n" +
             "}",
-            options: [4, {MemberExpression: 2}],
+            output:
+            "var foo = function(){\n" +
+            "    foo\n" +
+            "            .bar\n" +
+            "}",
+            options: [4, { MemberExpression: 2 }],
             errors: expectedErrors(
                 [3, 12, 13, "Punctuator"]
             )
@@ -2085,7 +2309,12 @@ ruleTester.run("indent", rule, {
             "    foo\n" +
             "             .bar\n" +
             "}",
-            options: [4, {MemberExpression: 2}],
+            output:
+            "var foo = () => {\n" +
+            "    foo\n" +
+            "            .bar\n" +
+            "}",
+            options: [4, { MemberExpression: 2 }],
             parserOptions: { ecmaVersion: 6 },
             errors: expectedErrors(
                 [3, 12, 13, "Punctuator"]
@@ -2099,7 +2328,14 @@ ruleTester.run("indent", rule, {
             "        return x;\n" +
             "      });\n" +
             "};",
-            options: [2, {MemberExpression: 1}],
+            output:
+            "TestClass.prototype.method = function () {\n" +
+            "  return Promise.resolve(3)\n" +
+            "    .then(function (x) {\n" +
+            "        return x;\n" +
+            "      });\n" +
+            "};",
+            options: [2, { MemberExpression: 1 }],
             parserOptions: { ecmaVersion: 6 },
             errors: expectedErrors(
                 [
@@ -2418,7 +2654,7 @@ ruleTester.run("indent", rule, {
             output:
             "var geometry, box, face1, face2, colorT, colorB, sprite, padding, maxWidth,\n" +
             "  height, rotate;",
-            options: [2, {SwitchCase: 1}],
+            options: [2, { SwitchCase: 1 }],
             errors: expectedErrors([
                 [2, 2, 0, "VariableDeclarator"]
             ])
@@ -2442,7 +2678,7 @@ ruleTester.run("indent", rule, {
             "            c();\n" +
             "            break;\n" +
             "}\n",
-            options: [4, {SwitchCase: 2}],
+            options: [4, { SwitchCase: 2 }],
             errors: expectedErrors([
                 [2, 8, 0, "SwitchCase"],
                 [3, 12, 0, "ExpressionStatement"],
@@ -2459,7 +2695,7 @@ ruleTester.run("indent", rule, {
             output:
             "var geometry,\n" +
             "  rotate;",
-            options: [2, {VariableDeclarator: 1}],
+            options: [2, { VariableDeclarator: 1 }],
             errors: expectedErrors([
                 [2, 2, 0, "VariableDeclarator"]
             ])
@@ -2471,7 +2707,7 @@ ruleTester.run("indent", rule, {
             output:
             "var geometry,\n" +
             "    rotate;",
-            options: [2, {VariableDeclarator: 2}],
+            options: [2, { VariableDeclarator: 2 }],
             errors: expectedErrors([
                 [2, 4, 2, "VariableDeclarator"]
             ])
@@ -2483,7 +2719,7 @@ ruleTester.run("indent", rule, {
             output:
             "var geometry,\n" +
             "\t\trotate;",
-            options: ["tab", {VariableDeclarator: 2}],
+            options: ["tab", { VariableDeclarator: 2 }],
             errors: expectedErrors("tab", [
                 [2, 2, 1, "VariableDeclarator"]
             ])
@@ -2495,7 +2731,7 @@ ruleTester.run("indent", rule, {
             output:
             "let geometry,\n" +
             "    rotate;",
-            options: [2, {VariableDeclarator: 2}],
+            options: [2, { VariableDeclarator: 2 }],
             parserOptions: { ecmaVersion: 6 },
             errors: expectedErrors([
                 [2, 4, 2, "VariableDeclarator"]
@@ -2512,7 +2748,7 @@ ruleTester.run("indent", rule, {
             "  if (true)\n" +
             "    if (true)\n" +
             "      console.log(val);",
-            options: [2, {VariableDeclarator: 2, SwitchCase: 1}],
+            options: [2, { VariableDeclarator: 2, SwitchCase: 1 }],
             errors: expectedErrors([
                 [4, 6, 4, "ExpressionStatement"]
             ])
@@ -2528,7 +2764,7 @@ ruleTester.run("indent", rule, {
             "  a: 1,\n" +
             "  b: 2\n" +
             "}",
-            options: [2, {VariableDeclarator: 2, SwitchCase: 1}],
+            options: [2, { VariableDeclarator: 2, SwitchCase: 1 }],
             errors: expectedErrors([
                 [2, 2, 4, "Property"],
                 [3, 2, 4, "Property"]
@@ -2545,7 +2781,7 @@ ruleTester.run("indent", rule, {
             "  a,\n" +
             "  b\n" +
             "]",
-            options: [2, {VariableDeclarator: 2, SwitchCase: 1}],
+            options: [2, { VariableDeclarator: 2, SwitchCase: 1 }],
             errors: expectedErrors([
                 [2, 2, 4, "Identifier"],
                 [3, 2, 4, "Identifier"]
@@ -2562,7 +2798,7 @@ ruleTester.run("indent", rule, {
             "  a,\n" +
             "  b\n" +
             "]",
-            options: [2, {VariableDeclarator: { let: 2 }, SwitchCase: 1}],
+            options: [2, { VariableDeclarator: { let: 2 }, SwitchCase: 1 }],
             parserOptions: { ecmaVersion: 6 },
             errors: expectedErrors([
                 [2, 2, 4, "Identifier"],
@@ -2592,20 +2828,20 @@ ruleTester.run("indent", rule, {
             "      a: 1\n" +
             "    }),\n" +
             "    b = 4;\n" +
-            "const a = new Test({\n" +
+            "const c = new Test({\n" +
             "      a: 1\n" +
             "    }),\n" +
-            "    b = 4;\n",
+            "    d = 4;\n",
             output:
             "var a = new Test({\n" +
             "      a: 1\n" +
             "    }),\n" +
             "    b = 4;\n" +
-            "const a = new Test({\n" +
+            "const c = new Test({\n" +
             "    a: 1\n" +
             "  }),\n" +
-            "  b = 4;\n",
-            options: [2, { VariableDeclarator: { var: 2 }}],
+            "  d = 4;\n",
+            options: [2, { VariableDeclarator: { var: 2 } }],
             parserOptions: { ecmaVersion: 6 },
             errors: expectedErrors([
                 [6, 4, 6, "Property"],
@@ -2630,7 +2866,7 @@ ruleTester.run("indent", rule, {
             "      a: 1,\n" +
             "      b: 2\n" +
             "    };",
-            options: [2, {VariableDeclarator: 2, SwitchCase: 1}],
+            options: [2, { VariableDeclarator: 2, SwitchCase: 1 }],
             errors: expectedErrors([
                 [4, 4, 5, "ObjectExpression"],
                 [5, 6, 7, "Property"],
@@ -2651,7 +2887,7 @@ ruleTester.run("indent", rule, {
             "      a: 1,\n" +
             "      b: 2\n" +
             "    };",
-            options: [2, {VariableDeclarator: 2, SwitchCase: 1}],
+            options: [2, { VariableDeclarator: 2, SwitchCase: 1 }],
             errors: expectedErrors([
                 [2, 4, 5, "ObjectExpression"],
                 [3, 6, 7, "Property"],
@@ -2699,7 +2935,7 @@ ruleTester.run("indent", rule, {
             "    a(){}\n" +
             "    get b(){}\n" +
             "}",
-            options: [4, {VariableDeclarator: 1, SwitchCase: 1}],
+            options: [4, { VariableDeclarator: 1, SwitchCase: 1 }],
             parserOptions: { ecmaVersion: 6 },
             errors: expectedErrors([[2, 4, 2, "MethodDefinition"]])
         },
@@ -2716,7 +2952,7 @@ ruleTester.run("indent", rule, {
             "    a(){}\n" +
             "    get b(){}\n" +
             "};",
-            options: [4, {VariableDeclarator: 1, SwitchCase: 1}],
+            options: [4, { VariableDeclarator: 1, SwitchCase: 1 }],
             parserOptions: { ecmaVersion: 6 },
             errors: expectedErrors([[2, 4, 2, "MethodDefinition"], [4, 4, 2, "MethodDefinition"]])
         },
@@ -2735,7 +2971,7 @@ ruleTester.run("indent", rule, {
             "      a(){}\n" +
             "      get b(){}\n" +
             "    };",
-            options: [2, {VariableDeclarator: 2, SwitchCase: 1}],
+            options: [2, { VariableDeclarator: 2, SwitchCase: 1 }],
             parserOptions: { ecmaVersion: 6 },
             errors: expectedErrors([[3, 6, 4, "MethodDefinition"]])
         },
@@ -2808,6 +3044,12 @@ ruleTester.run("indent", rule, {
             "    return x + 1;\n" +
             "  }\n" +
             "})();",
+            output:
+            "(function(){\n" +
+            "function foo(x) {\n" +
+            "    return x + 1;\n" +
+            "  }\n" +
+            "})();",
             options: [2, { outerIIFEBody: 0 }],
             errors: expectedErrors([[2, 0, 2, "FunctionDeclaration"]])
         },
@@ -2815,6 +3057,12 @@ ruleTester.run("indent", rule, {
             code:
             "(function(){\n" +
             "    function foo(x) {\n" +
+            "        return x + 1;\n" +
+            "    }\n" +
+            "})();",
+            output:
+            "(function(){\n" +
+            "        function foo(x) {\n" +
             "        return x + 1;\n" +
             "    }\n" +
             "})();",
@@ -2826,6 +3074,10 @@ ruleTester.run("indent", rule, {
             "if(data) {\n" +
             "console.log('hi');\n" +
             "}",
+            output:
+            "if(data) {\n" +
+            "  console.log('hi');\n" +
+            "}",
             options: [2, { outerIIFEBody: 0 }],
             errors: expectedErrors([[2, 2, 0, "ExpressionStatement"]])
         },
@@ -2833,6 +3085,12 @@ ruleTester.run("indent", rule, {
             code:
             "var ns = function(){\n" +
             "    function fooVar(x) {\n" +
+            "        return x + 1;\n" +
+            "    }\n" +
+            "}(x);",
+            output:
+            "var ns = function(){\n" +
+            "        function fooVar(x) {\n" +
             "        return x + 1;\n" +
             "    }\n" +
             "}(x);",
@@ -2846,6 +3104,12 @@ ruleTester.run("indent", rule, {
             "  return true;\n" +
             "  }()\n" +
             "};\n",
+            output:
+            "var obj = {\n" +
+            "  foo: function() {\n" +
+            "    return true;\n" +
+            "  }()\n" +
+            "};\n",
             options: [2, { outerIIFEBody: 0 }],
             errors: expectedErrors([[3, 4, 2, "ReturnStatement"]])
         },
@@ -2853,6 +3117,12 @@ ruleTester.run("indent", rule, {
             code:
             "typeof function() {\n" +
             "    function fooVar(x) {\n" +
+            "      return x + 1;\n" +
+            "    }\n" +
+            "}();",
+            output:
+            "typeof function() {\n" +
+            "  function fooVar(x) {\n" +
             "      return x + 1;\n" +
             "    }\n" +
             "}();",
@@ -3013,7 +3283,7 @@ ruleTester.run("indent", rule, {
             "  bbb, ccc, ddd) {\n" +
             "    bar();\n" +
             "}",
-            options: [2, {FunctionDeclaration: {parameters: 1, body: 2}}],
+            options: [2, { FunctionDeclaration: { parameters: 1, body: 2 } }],
             errors: expectedErrors([[2, 2, 4, "Identifier"], [3, 4, 6, "ExpressionStatement"]])
         },
         {
@@ -3027,7 +3297,7 @@ ruleTester.run("indent", rule, {
             "      ccc, ddd) {\n" +
             "  bar();\n" +
             "}",
-            options: [2, {FunctionDeclaration: {parameters: 3, body: 1}}],
+            options: [2, { FunctionDeclaration: { parameters: 3, body: 1 } }],
             errors: expectedErrors([[2, 6, 2, "Identifier"], [3, 2, 0, "ExpressionStatement"]])
         },
         {
@@ -3043,7 +3313,7 @@ ruleTester.run("indent", rule, {
             "    ccc) {\n" +
             "            bar();\n" +
             "}",
-            options: [4, {FunctionDeclaration: {parameters: 1, body: 3}}],
+            options: [4, { FunctionDeclaration: { parameters: 1, body: 3 } }],
             errors: expectedErrors([[2, 4, 8, "Identifier"], [3, 4, 2, "Identifier"], [4, 12, 6, "ExpressionStatement"]])
         },
         {
@@ -3059,7 +3329,7 @@ ruleTester.run("indent", rule, {
             "             ddd, eee, fff) {\n" +
             "  bar();\n" +
             "}",
-            options: [2, {FunctionDeclaration: {parameters: "first", body: 1}}],
+            options: [2, { FunctionDeclaration: { parameters: "first", body: 1 } }],
             errors: expectedErrors([[2, 13, 2, "Identifier"], [3, 13, 19, "Identifier"], [4, 2, 3, "ExpressionStatement"]])
         },
         {
@@ -3073,7 +3343,7 @@ ruleTester.run("indent", rule, {
             "{\n" +
             "      bar();\n" +
             "}",
-            options: [2, {FunctionDeclaration: {body: 3}}],
+            options: [2, { FunctionDeclaration: { body: 3 } }],
             errors: expectedErrors([3, 6, 0, "ExpressionStatement"])
         },
         {
@@ -3089,7 +3359,7 @@ ruleTester.run("indent", rule, {
             "bbb) {\n" +
             "    bar();\n" +
             "}",
-            options: [2, {FunctionDeclaration: {parameters: "first", body: 2}}],
+            options: [2, { FunctionDeclaration: { parameters: "first", body: 2 } }],
             errors: expectedErrors([[3, 0, 4, "Identifier"], [4, 4, 0, "ExpressionStatement"]])
         },
         {
@@ -3107,7 +3377,7 @@ ruleTester.run("indent", rule, {
             "    ddd) {\n" +
             "bar();\n" +
             "}",
-            options: [2, {FunctionExpression: {parameters: 2, body: 0}}],
+            options: [2, { FunctionExpression: { parameters: 2, body: 0 } }],
             errors: expectedErrors([[2, 4, 2, "Identifier"], [4, 4, 6, "Identifier"], [5, 0, 2, "ExpressionStatement"]])
         },
         {
@@ -3123,7 +3393,7 @@ ruleTester.run("indent", rule, {
             "  ccc) {\n" +
             "                    bar();\n" +
             "}",
-            options: [2, {FunctionExpression: {parameters: 1, body: 10}}],
+            options: [2, { FunctionExpression: { parameters: 1, body: 10 } }],
             errors: expectedErrors([[2, 2, 3, "Identifier"], [3, 2, 1, "Identifier"], [4, 20, 2, "ExpressionStatement"]])
         },
         {
@@ -3139,7 +3409,7 @@ ruleTester.run("indent", rule, {
             "                   eee, fff) {\n" +
             "    bar();\n" +
             "}",
-            options: [4, {FunctionExpression: {parameters: "first", body: 1}}],
+            options: [4, { FunctionExpression: { parameters: "first", body: 1 } }],
             errors: expectedErrors([[2, 19, 2, "Identifier"], [3, 19, 24, "Identifier"], [4, 4, 8, "ExpressionStatement"]])
         },
         {
@@ -3155,7 +3425,7 @@ ruleTester.run("indent", rule, {
             "ddd, eee) {\n" +
             "      bar();\n" +
             "}",
-            options: [2, {FunctionExpression: {parameters: "first", body: 3}}],
+            options: [2, { FunctionExpression: { parameters: "first", body: 3 } }],
             errors: expectedErrors([[3, 0, 4, "Identifier"], [4, 6, 2, "ExpressionStatement"]])
         },
         {
@@ -3209,7 +3479,7 @@ ruleTester.run("indent", rule, {
             "    baz();\n" +
             "  }\n" +
             "}",
-            options: [2, {FunctionDeclaration: {body: 1}}],
+            options: [2, { FunctionDeclaration: { body: 1 } }],
             errors: expectedErrors([3, 4, 8, "ExpressionStatement"])
         },
         {
@@ -3227,7 +3497,7 @@ ruleTester.run("indent", rule, {
             "    foobar();\n" +
             "  }\n" +
             "}",
-            options: [2, {FunctionDeclaration: {body: 1, parameters: 2}}],
+            options: [2, { FunctionDeclaration: { body: 1, parameters: 2 } }],
             errors: expectedErrors([3, 6, 4, "Identifier"])
         },
         {
@@ -3245,7 +3515,7 @@ ruleTester.run("indent", rule, {
             "    foobar();\n" +
             "  };\n" +
             "}",
-            options: [2, {FunctionExpression: {parameters: 3}}],
+            options: [2, { FunctionExpression: { parameters: 3 } }],
             errors: expectedErrors([3, 8, 10, "Identifier"])
         },
         {
@@ -3360,7 +3630,7 @@ ruleTester.run("indent", rule, {
             "    };\n" +
             "  }\n" +
             "}",
-            options: [2, {VariableDeclarator: 2, SwitchCase: 1}],
+            options: [2, { VariableDeclarator: 2, SwitchCase: 1 }],
             errors: expectedErrors([[4, "6 spaces", "4", "ReturnStatement"]])
         },
         {
@@ -3398,7 +3668,7 @@ ruleTester.run("indent", rule, {
             "  bar,\n" +
             "  baz,\n" +
             "  qux);",
-            options: [2, {CallExpression: {arguments: 1}}],
+            options: [2, { CallExpression: { arguments: 1 } }],
             errors: expectedErrors([[2, 2, 0, "Identifier"], [4, 2, 4, "Identifier"]])
         },
         {
@@ -3410,7 +3680,7 @@ ruleTester.run("indent", rule, {
             "foo(\n" +
             "    bar,\n" +
             "    baz);",
-            options: [2, {CallExpression: {arguments: 2}}],
+            options: [2, { CallExpression: { arguments: 2 } }],
             errors: expectedErrors([[2, "4 spaces", "1 tab", "Identifier"], [3, "4 spaces", "1 tab", "Identifier"]])
         },
         {
@@ -3422,7 +3692,7 @@ ruleTester.run("indent", rule, {
             "foo(bar,\n" +
             "\tbaz,\n" +
             "\tqux);",
-            options: ["tab", {CallExpression: {arguments: 1}}],
+            options: ["tab", { CallExpression: { arguments: 1 } }],
             errors: expectedErrors("tab", [[2, 1, 2, "Identifier"], [3, 1, 2, "Identifier"]])
         },
         {
@@ -3432,7 +3702,7 @@ ruleTester.run("indent", rule, {
             output:
             "foo(bar, baz,\n" +
             "    qux);",
-            options: [2, {CallExpression: {arguments: "first"}}],
+            options: [2, { CallExpression: { arguments: "first" } }],
             errors: expectedErrors([2, 4, 9, "Identifier"])
         },
         {
@@ -3444,7 +3714,7 @@ ruleTester.run("indent", rule, {
             "foo(\n" +
             "          bar,\n" +
             "          baz);",
-            options: [2, {CallExpression: {arguments: "first"}}],
+            options: [2, { CallExpression: { arguments: "first" } }],
             errors: expectedErrors([3, 10, 4, "Identifier"])
         },
         {
@@ -3460,8 +3730,210 @@ ruleTester.run("indent", rule, {
             "      !baz,\n" +
             "      new Car('!')\n" +
             ");",
-            options: [2, {CallExpression: {arguments: 3}}],
+            options: [2, { CallExpression: { arguments: 3 } }],
             errors: expectedErrors([[2, 6, 2, "BinaryExpression"], [3, 6, 14, "UnaryExpression"], [4, 6, 8, "NewExpression"]])
+        },
+
+        // https://github.com/eslint/eslint/issues/7573
+        {
+            code:
+            "return (\n" +
+            "    foo\n" +
+            "    );",
+            output:
+            "return (\n" +
+            "    foo\n" +
+            ");",
+            parserOptions: { ecmaFeatures: { globalReturn: true } },
+            errors: expectedErrors([3, 0, 4, "ReturnStatement"])
+        },
+        {
+            code:
+            "return (\n" +
+            "    foo\n" +
+            "    )",
+            output:
+            "return (\n" +
+            "    foo\n" +
+            ")",
+            parserOptions: { ecmaFeatures: { globalReturn: true } },
+            errors: expectedErrors([3, 0, 4, "ReturnStatement"])
+        },
+
+        // https://github.com/eslint/eslint/issues/7604
+        {
+            code:
+            "if (foo) {\n" +
+            "        /* comment */bar();\n" +
+            "}",
+            output:
+            "if (foo) {\n" +
+            "    /* comment */bar();\n" +
+            "}",
+            errors: expectedErrors([2, 4, 8, "ExpressionStatement"])
+        },
+        {
+            code:
+            "foo('bar',\n" +
+            "        /** comment */{\n" +
+            "        ok: true" +
+            "    });",
+            output:
+            "foo('bar',\n" +
+            "    /** comment */{\n" +
+            "        ok: true" +
+            "    });",
+            errors: expectedErrors([2, 4, 8, "ObjectExpression"])
+        },
+        {
+            code:
+            "var foo = [\n" +
+            "           bar,\n" +
+            "  baz\n" +
+            "          ]",
+            output:
+            "var foo = [\n" +
+            "    bar,\n" +
+            "    baz\n" +
+            "]",
+            errors: expectedErrors([[2, 4, 11, "Identifier"], [3, 4, 2, "Identifier"], [4, 0, 10, "ArrayExpression"]])
+        },
+        {
+            code:
+            "var foo = [bar,\n" +
+            "baz,\n" +
+            "    qux\n" +
+            "]",
+            output:
+            "var foo = [bar,\n" +
+            "    baz,\n" +
+            "    qux\n" +
+            "]",
+            errors: expectedErrors([2, 4, 0, "Identifier"])
+        },
+        {
+            code:
+            "var foo = [bar,\n" +
+            "  baz,\n" +
+            "  qux\n" +
+            "]",
+            output:
+            "var foo = [bar,\n" +
+            "baz,\n" +
+            "qux\n" +
+            "]",
+            options: [2, { ArrayExpression: 0 }],
+            errors: expectedErrors([[2, 0, 2, "Identifier"], [3, 0, 2, "Identifier"]])
+        },
+        {
+            code:
+            "var foo = [bar,\n" +
+            "  baz,\n" +
+            "  qux\n" +
+            "]",
+            output:
+            "var foo = [bar,\n" +
+            "                baz,\n" +
+            "                qux\n" +
+            "]",
+            options: [2, { ArrayExpression: 8 }],
+            errors: expectedErrors([[2, 16, 2, "Identifier"], [3, 16, 2, "Identifier"]])
+        },
+        {
+            code:
+            "var foo = [bar,\n" +
+            "    baz,\n" +
+            "    qux\n" +
+            "]",
+            output:
+            "var foo = [bar,\n" +
+            "           baz,\n" +
+            "           qux\n" +
+            "]",
+            options: [2, { ArrayExpression: "first" }],
+            errors: expectedErrors([[2, 11, 4, "Identifier"], [3, 11, 4, "Identifier"]])
+        },
+        {
+            code:
+            "var foo = [bar,\n" +
+            "    baz, qux\n" +
+            "]",
+            output:
+            "var foo = [bar,\n" +
+            "           baz, qux\n" +
+            "]",
+            options: [2, { ArrayExpression: "first" }],
+            errors: expectedErrors([2, 11, 4, "Identifier"])
+        },
+        {
+            code:
+            "var foo = [\n" +
+            "        { bar: 1,\n" +
+            "            baz: 2 },\n" +
+            "        { bar: 3,\n" +
+            "            qux: 4 }\n" +
+            "]",
+            output:
+            "var foo = [\n" +
+            "        { bar: 1,\n" +
+            "          baz: 2 },\n" +
+            "        { bar: 3,\n" +
+            "          qux: 4 }\n" +
+            "]",
+            options: [4, { ArrayExpression: 2, ObjectExpression: "first" }],
+            errors: expectedErrors([[3, 10, 12, "Property"], [5, 10, 12, "Property"]])
+        },
+        {
+            code:
+            "var foo = {\n" +
+            "  bar: 1,\n" +
+            "  baz: 2\n" +
+            "};",
+            output:
+            "var foo = {\n" +
+            "bar: 1,\n" +
+            "baz: 2\n" +
+            "};",
+            options: [2, { ObjectExpression: 0 }],
+            errors: expectedErrors([[2, 0, 2, "Property"], [3, 0, 2, "Property"]])
+        },
+        {
+            code:
+            "var quux = { foo: 1, bar: 2,\n" +
+            "baz: 3 }",
+            output:
+            "var quux = { foo: 1, bar: 2,\n" +
+            "             baz: 3 }",
+            options: [2, { ObjectExpression: "first" }],
+            errors: expectedErrors([2, 13, 0, "Property"])
+        },
+        {
+            code:
+            "function foo() {\n" +
+            "    [\n" +
+            "            foo\n" +
+            "    ]\n" +
+            "}",
+            output:
+            "function foo() {\n" +
+            "  [\n" +
+            "            foo\n" +
+            "    ]\n" +
+            "}",
+            options: [2, { ArrayExpression: 4 }],
+            errors: expectedErrors([2, 2, 4, "ExpressionStatement"])
+        },
+        {
+            code:
+            "echo = spawn('cmd.exe',\n" +
+            "            ['foo', 'bar',\n" +
+            "             'baz']);",
+            output:
+            "echo = spawn('cmd.exe',\n" +
+            "             ['foo', 'bar',\n" +
+            "             'baz']);",
+            options: [2, { ArrayExpression: "first", CallExpression: { arguments: "first" } }],
+            errors: expectedErrors([2, 13, 12, "ArrayExpression"])
         }
     ]
 });

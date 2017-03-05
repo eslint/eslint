@@ -62,7 +62,7 @@ ruleTester.run("no-regex-spaces", rule, {
             // `RegExp` is not shadowed in the scope where it's called
             code: "{ let RegExp = function() {}; } var foo = RegExp('bar    baz');",
             output: "{ let RegExp = function() {}; } var foo = RegExp('bar {4}baz');",
-            parserOptions: {ecmaVersion: 6},
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "Spaces are hard to count. Use {4}.",

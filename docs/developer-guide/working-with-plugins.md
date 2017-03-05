@@ -139,16 +139,45 @@ ruleTester.run("custom-plugin-rule", rule, {
         {
             code: "var invalidVariable = true",
             errors: [ { message: "Unexpected invalid variable." } ]
+        },
+        {
+            code: "var invalidVariable = true",
+            errors: [ { message: /^Unexpected.+variable/ } ]
         }
     ]
 });
 ```
 
-The `RuleTester` constructor optionally accepts an object argument, which can be used to specify defaults for your test cases. For example, if all of your test cases use ES2015, you can set it as a default:
+The `RuleTester` constructor accepts an optional object argument, which can be used to specify defaults for your test cases. For example, if all of your test cases use ES2015, you can set it as a default:
 
 ```js
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2015 } });
 ```
+
+The `RuleTester#run()` method is used to run the tests. It should be passed the following arguments:
+
+* The name of the rule (string)
+* The rule object itself (see ["working with rules"](./working-with-rules))
+* An object containing `valid` and `invalid` properties, each of which is an array containing test cases.
+
+A test case is an object with the following properties:
+
+* `code` (string, required): The source code that the rule should be run on
+* `options` (array, optional): The options passed to the rule. The rule severity should not be included in this list.
+* `filename` (string, optional): The filename for the given case (useful for rules that make assertions about filenames)
+
+In addition to the properties above, invalid test cases can also have the following properties:
+
+* `errors` (number or array, required): Asserts some properties of the errors that the rule is expected to produce when run on this code. If this is a number, asserts the number of errors produced. Otherwise, this should be a list of objects, each containing information about a single reported error. The following properties can be used for an error (all are optional):
+    * `message` (string/regexp): The message for the error
+    * `type` (string): The type of the reported AST node
+    * `line` (number): The 1-based line number of the reported location
+    * `column` (number): The 0-based column number of the reported location
+    * `endLine` (number): The 1-based line number of the end of the reported location
+    * `endColumn` (number): The 0-based column number of the end of the reported location
+* `output` (string, optional): Asserts the output that will be produced when using this rule for a single pass of autofixing (e.g. with the `--fix` command line flag). If this is `null`, asserts that none of the reported problems suggest autofixes.
+
+Any additional properties of a test case will be passed directly to the linter as config options. For example, a test case can have a `parserOptions` property to configure parser behavior.
 
 #### Customizing RuleTester
 

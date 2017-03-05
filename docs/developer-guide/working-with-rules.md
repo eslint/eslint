@@ -154,6 +154,7 @@ The node contains all of the information necessary to figure out the line and co
 You can also use placeholders in the message and provide `data`:
 
 ```js
+{% raw %}
 context.report({
     node: node,
     message: "Unexpected identifier: {{ identifier }}",
@@ -161,6 +162,7 @@ context.report({
         identifier: node.name
     }
 });
+{% endraw %}
 ```
 
 Note that leading and trailing whitespace is optional in message parameters.
@@ -181,7 +183,7 @@ context.report({
 });
 ```
 
-Here, the `fix()` function is used to insert a semicolon after the node. Note that the fix is not immediately applied and may not be applied at all if there are conflicts with other fixes. If the fix cannot be applied, then the problem message is reported as usual; if the fix can be applied, then the problem message is not reported.
+Here, the `fix()` function is used to insert a semicolon after the node. Note that a fix is not immediately applied, and may not be applied at all if there are conflicts with other fixes. After applying fixes, ESLint will run all of the enabled rules again on the fixed code, potentially applying more fixes. This process will repeat up to 10 times, or until no more fixable problems are found. Afterwards, any remaining problems will be reported as usual.
 
 **Important:** Unless the rule [exports](#rule-basics) the `meta.fixable` property, ESLint does not apply fixes even if the rule implements `fix` functions.
 
@@ -198,9 +200,24 @@ The `fixer` object has the following methods:
 
 Best practices for fixes:
 
-1. Make fixes that are as small as possible. Anything more than a single character is risky and could prevent other, simpler fixes from being made.
+1. Avoid any fixes that could change the runtime behavior of code and cause it to stop working.
+1. Make fixes as small as possible. Fixes that are unnecessarily large could conflict with other fixes, and prevent them from being applied.
 1. Only make one fix per message. This is enforced because you must return the result of the fixer operation from `fix()`.
-1. Fixes should not introduce clashes with other rules. You can accidentally introduce a new problem that won't be reported until ESLint is run again. Another good reason to make as small a fix as possible.
+1. Since all rules are run again after the initial round of fixes is applied, it's not necessary for a rule to check whether the code style of a fix will cause errors to be reported by another rule.
+    * For example, suppose a fixer would like to surround an object key with quotes, but it's not sure whether the user would prefer single or double quotes.
+
+        ```js
+        ({ foo : 1 })
+
+        // should get fixed to either
+
+        ({ 'foo': 1 })
+
+        // or
+
+        ({ "foo": 1 })
+        ```
+    * This fixer can just select a quote type arbitrarily. If it guesses wrong, the resulting code will be automatically reported and fixed by the [`quotes`](/docs/rules/quotes) rule.
 
 ### context.options
 
@@ -244,23 +261,42 @@ module.exports = {
 
 Once you have an instance of `SourceCode`, you can use the methods on it to work with the code:
 
+* `getText(node)` - returns the source code for the given node. Omit `node` to get the whole source.
 * `getAllComments()` - returns an array of all comments in the source.
 * `getComments(node)` - returns the leading and trailing comments arrays for the given node.
-* `getFirstToken(node)` - returns the first token representing the given node.
-* `getFirstTokens(node, count)` - returns the first `count` tokens representing the given node.
 * `getJSDocComment(node)` - returns the JSDoc comment for a given node or `null` if there is none.
-* `getLastToken(node)` - returns the last token representing the given node.
-* `getLastTokens(node, count)` - returns the last `count` tokens representing the given node.
-* `getNodeByRangeIndex(index)` - returns the deepest node in the AST containing the given source index.
 * `isSpaceBetweenTokens(first, second)` - returns true if there is a whitespace character between the two tokens.
-* `getText(node)` - returns the source code for the given node. Omit `node` to get the whole source.
-* `getTokenAfter(nodeOrToken)` - returns the first token after the given node or token.
-* `getTokenBefore(nodeOrToken)` - returns the first token before the given node or token.
-* `getTokenByRangeStart(index)` - returns the token whose range starts at the given index in the source.
+* `getFirstToken(node, skipOptions)` - returns the first token representing the given node.
+* `getFirstTokens(node, countOptions)` - returns the first `count` tokens representing the given node.
+* `getLastToken(node, skipOptions)` - returns the last token representing the given node.
+* `getLastTokens(node, countOptions)` - returns the last `count` tokens representing the given node.
+* `getTokenAfter(nodeOrToken, skipOptions)` - returns the first token after the given node or token.
+* `getTokensAfter(nodeOrToken, countOptions)` - returns `count` tokens after the given node or token.
+* `getTokenBefore(nodeOrToken, skipOptions)` - returns the first token before the given node or token.
+* `getTokensBefore(nodeOrToken, countOptions)` - returns `count` tokens before the given node or token.
+* `getFirstTokenBetween(nodeOrToken1, nodeOrToken2, skipOptions)` - returns the first token between two nodes or tokens.
+* `getFirstTokensBetween(nodeOrToken1, nodeOrToken2, countOptions)` - returns the first `count` tokens between two nodes or tokens.
+* `getLastTokenBetween(nodeOrToken1, nodeOrToken2, skipOptions)` - returns the last token between two nodes or tokens.
+* `getLastTokensBetween(nodeOrToken1, nodeOrToken2, countOptions)` - returns the last `count` tokens between two nodes or tokens.
 * `getTokens(node)` - returns all tokens for the given node.
-* `getTokensAfter(nodeOrToken, count)` - returns `count` tokens after the given node or token.
-* `getTokensBefore(nodeOrToken, count)` - returns `count` tokens before the given node or token.
-* `getTokensBetween(node1, node2)` - returns the tokens between two nodes.
+* `getTokensBetween(nodeOrToken1, nodeOrToken2)` - returns all tokens between two nodes.
+* `getTokenByRangeStart(index, rangeOptions)` - returns the token whose range starts at the given index in the source.
+* `getNodeByRangeIndex(index)` - returns the deepest node in the AST containing the given source index.
+* `getLocFromIndex(index)` - returns an object with `line` and `column` properties, corresponding to the location of the given source index. `line` is 1-based and `column` is 0-based.
+* `getIndexFromLoc(loc)` - returns the index of a given location in the source code, where `loc` is an object with a 1-based `line` key and a 0-based `column` key.
+
+> `skipOptions` is an object which has 3 properties; `skip`, `includeComments`, and `filter`. Default is `{skip: 0, includeComments: false, filter: null}`.
+> - `skip` is a positive integer, the number of skipping tokens. If `filter` option is given at the same time, it doesn't count filtered tokens as skipped.
+> - `includeComments` is a boolean value, the flag to include comment tokens into the result.
+> - `filter` is a function which gets a token as the first argument, if the function returns `false` then the result excludes the token.
+>
+> `countOptions` is an object which has 3 properties; `count`, `includeComments`, and `filter`. Default is `{count: 0, includeComments: false, filter: null}`.
+> - `count` is a positive integer, the maximum number of returning tokens.
+> - `includeComments` is a boolean value, the flag to include comment tokens into the result.
+> - `filter` is a function which gets a token as the first argument, if the function returns `false` then the result excludes the token.
+>
+> `rangeOptions` is an object which has 1 property: `includeComments`.
+> - `includeComments` is a boolean value, the flag to include comment tokens into the result.
 
 There are also some properties you can access:
 

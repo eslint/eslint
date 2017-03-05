@@ -146,7 +146,7 @@ describe("formatter:codeframe", () => {
                 line: 1,
                 column: 7,
                 ruleId: "no-unused-vars"
-            }],
+            }]
         }];
 
         it("should return a string with multiple entries", () => {

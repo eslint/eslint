@@ -110,22 +110,22 @@ ruleTester.run("wrap-iife", rule, {
         {
             code: "0, function(){ }();",
             output: "0, (function(){ }());",
-            errors: [{ message: "Wrap an immediate function invocation in parentheses.", type: "CallExpression"}]
+            errors: [{ message: "Wrap an immediate function invocation in parentheses.", type: "CallExpression" }]
         },
         {
             code: "[function(){ }()];",
             output: "[(function(){ }())];",
-            errors: [{ message: "Wrap an immediate function invocation in parentheses.", type: "CallExpression"}]
+            errors: [{ message: "Wrap an immediate function invocation in parentheses.", type: "CallExpression" }]
         },
         {
             code: "var a = function(){ }();",
             output: "var a = (function(){ }());",
-            errors: [{ message: "Wrap an immediate function invocation in parentheses.", type: "CallExpression"}]
+            errors: [{ message: "Wrap an immediate function invocation in parentheses.", type: "CallExpression" }]
         },
         {
             code: "(function(){ }(), 0);",
             output: "((function(){ }()), 0);",
-            errors: [{ message: "Wrap an immediate function invocation in parentheses.", type: "CallExpression"}]
+            errors: [{ message: "Wrap an immediate function invocation in parentheses.", type: "CallExpression" }]
         },
         {
             code: "(function a(){ })();",
@@ -157,13 +157,13 @@ ruleTester.run("wrap-iife", rule, {
             code: "+function(){return 1;}()",
             output: "+(function(){return 1;}())",
             options: ["outside"],
-            errors: [{ message: "Wrap an immediate function invocation in parentheses.", type: "CallExpression"}]
+            errors: [{ message: "Wrap an immediate function invocation in parentheses.", type: "CallExpression" }]
         },
         {
             code: "+function(){return 1;}()",
             output: "+(function(){return 1;})()",
             options: ["inside"],
-            errors: [{ message: "Wrap an immediate function invocation in parentheses.", type: "CallExpression"}]
+            errors: [{ message: "Wrap an immediate function invocation in parentheses.", type: "CallExpression" }]
         },
         {
             code: "window.bar = function() { return 3; }.call(this, arg1);",

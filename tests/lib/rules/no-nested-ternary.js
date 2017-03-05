@@ -24,7 +24,7 @@ ruleTester.run("no-nested-ternary", rule, {
         "var foo = bar === baz ? qux : quxx;"
     ],
     invalid: [
-        { code: "foo ? bar : baz === qux ? quxx : foobar;", errors: [{ message: "Do not nest ternary expressions.", type: "ConditionalExpression"}] },
-        { code: "foo ? baz === qux ? quxx : foobar : bar;", errors: [{ message: "Do not nest ternary expressions.", type: "ConditionalExpression"}] }
+        { code: "foo ? bar : baz === qux ? quxx : foobar;", errors: [{ message: "Do not nest ternary expressions.", type: "ConditionalExpression" }] },
+        { code: "foo ? baz === qux ? quxx : foobar : bar;", errors: [{ message: "Do not nest ternary expressions.", type: "ConditionalExpression" }] }
     ]
 });

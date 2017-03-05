@@ -27,6 +27,8 @@ When declaring multiple imports, a sorted list of import declarations make it ea
 
 This rule checks all import declarations and verifies that all imports are first sorted by the used member syntax and then alphabetically by the first member or alias name.
 
+The `--fix` option on the command line automatically fixes some problems reported by this rule: multiple members on a single line are automatically sorted (e.g. `import { b, a } from 'foo.js'` is corrected to `import { a, b } from 'foo.js'`), but multiple lines are not reordered.
+
 ## Options
 
 This rule accepts an object with its properties as

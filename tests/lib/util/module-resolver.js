@@ -30,10 +30,10 @@ describe("ModuleResolver", () => {
         leche.withData([
 
             // resolve just like Node.js
-            [ "leche", "", require.resolve("leche") ],
+            ["leche", "", require.resolve("leche")],
 
             // resolve with a different location
-            [ "foo", path.resolve(FIXTURES_PATH, "node_modules"), path.resolve(FIXTURES_PATH, "node_modules/foo.js")]
+            ["foo", path.resolve(FIXTURES_PATH, "node_modules"), path.resolve(FIXTURES_PATH, "node_modules/foo.js")]
 
         ], (name, lookupPath, expected) => {
             it("should find the correct location of a file", () => {

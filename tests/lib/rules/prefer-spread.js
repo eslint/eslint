@@ -16,33 +16,30 @@ const RuleTester = require("../../../lib/testers/rule-tester");
 // Tests
 //------------------------------------------------------------------------------
 
-const errors = [{message: "Use the spread operator instead of '.apply()'.", type: "CallExpression"}];
+const errors = [{ message: "Use the spread operator instead of '.apply()'.", type: "CallExpression" }];
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 
 ruleTester.run("prefer-spread", rule, {
     valid: [
-        {code: "foo.apply(obj, args);"},
-        {code: "obj.foo.apply(null, args);"},
-        {code: "obj.foo.apply(otherObj, args);"},
-        {code: "a.b(x, y).c.foo.apply(a.b(x, z).c, args);"},
-        {code: "a.b.foo.apply(a.b.c, args);"},
+        "foo.apply(obj, args);",
+        "obj.foo.apply(null, args);",
+        "obj.foo.apply(otherObj, args);",
+        "a.b(x, y).c.foo.apply(a.b(x, z).c, args);",
+        "a.b.foo.apply(a.b.c, args);",
 
         // ignores non variadic.
-        {code: "foo.apply(undefined, [1, 2]);"},
-        {code: "foo.apply(null, [1, 2]);"},
-        {code: "obj.foo.apply(obj, [1, 2]);"},
+        "foo.apply(undefined, [1, 2]);",
+        "foo.apply(null, [1, 2]);",
+        "obj.foo.apply(obj, [1, 2]);",
 
         // ignores computed property.
-        {code: "var apply; foo[apply](null, args);"},
+        "var apply; foo[apply](null, args);",
 
         // ignores incomplete things.
-        {code: "foo.apply();"},
-        {code: "obj.foo.apply();"},
-        {
-            code: "obj.foo.apply(obj, ...args)",
-            parserOptions: {ecmaVersion: 6}
-        }
+        "foo.apply();",
+        "obj.foo.apply();",
+        "obj.foo.apply(obj, ...args)"
     ],
     invalid: [
         {
@@ -69,28 +66,28 @@ ruleTester.run("prefer-spread", rule, {
 
             // Not fixed: a.b.c might activate getters
             code: "a.b.c.foo.apply(a.b.c, args);",
-            output: "a.b.c.foo.apply(a.b.c, args);",
+            output: null,
             errors
         },
         {
 
             // Not fixed: a.b(x, y).c might activate getters
             code: "a.b(x, y).c.foo.apply(a.b(x, y).c, args);",
-            output: "a.b(x, y).c.foo.apply(a.b(x, y).c, args);",
+            output: null,
             errors
         },
         {
 
             // Not fixed (not an identifier)
             code: "[].concat.apply([ ], args);",
-            output: "[].concat.apply([ ], args);",
+            output: null,
             errors
         },
         {
 
             // Not fixed (not an identifier)
             code: "[].concat.apply([\n/*empty*/\n], args);",
-            output: "[].concat.apply([\n/*empty*/\n], args);",
+            output: null,
             errors
         }
     ]
