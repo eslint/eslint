@@ -1,3 +1,11 @@
+v3.17.1 - March 6, 2017
+
+* f8c8e6e Build: change mock-fs path without SSH (fixes #8207) (#8208) (Toru Nagashima)
+* f713f11 Fix: nonblock-statement-body-position multiline error (fixes #8202) (#8203) (Teddy Katz)
+* 41e3d9c Fix: `operator-assignment` with parenthesized expression (fixes #8190) (#8197) (alberto)
+* 5e3bca7 Chore: add eslint-plugin-eslint-plugin (#8198) (Teddy Katz)
+* 580da36 Chore: add missing `output` property to tests (#8195) (alberto)
+
 v3.17.0 - March 3, 2017
 
 * 4fdf6d7 Update: deprecate `applyDefaultPatterns` in `line-comment-position` (#8183) (alberto)
