@@ -150,6 +150,11 @@ ruleTester.run("operator-assignment", rule, {
         options: ["always"],
         errors: EXPECTED_OPERATOR_ASSIGNMENT
     }, {
+        code: "x = (x + y)",
+        output: "x += y",
+        options: ["always"],
+        errors: EXPECTED_OPERATOR_ASSIGNMENT
+    }, {
         code: "x += y",
         output: "x = x + y",
         options: ["never"],
