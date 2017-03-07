@@ -127,6 +127,7 @@ module.exports = {
         "no-invalid-this": "off",
         "no-irregular-whitespace": "error",
         "no-iterator": "off",
+        "no-java-constructor": "error",
         "no-label-var": "off",
         "no-labels": "off",
         "no-lone-blocks": "off",
