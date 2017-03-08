@@ -31,4 +31,5 @@ class Point {
 }
 ```
 
-`no-java-constructor` flags this issue and provides an autofix.
+`no-java-constructor` flags this issue. It does not provide an autofix because
+that would change the behavior of the original code.

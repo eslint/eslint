@@ -41,14 +41,6 @@ class Point {
   }
 }
 `,
-            output: `
-class Point {
-  constructor(x, y) {
-    this._x = x;
-    this._y = y;
-  }
-}
-`,
             errors: [
                 {
                     message: "Method name should not match class name. Did you mean to use `constructor`?",
