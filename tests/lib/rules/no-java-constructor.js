@@ -21,6 +21,14 @@ class Point {
   }
 }
 `
+        },
+        {
+            code: `
+(class {
+  foo() {
+  }
+})
+`
         }
     ],
     invalid: [
