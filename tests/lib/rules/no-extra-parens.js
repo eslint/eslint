@@ -367,7 +367,35 @@ ruleTester.run("no-extra-parens", rule, {
             "const Component = (<div",
             "  prop={true}",
             "/>)"
-        ].join("\n"), options: ["all", { ignoreJSX: "multi-line" }] }
+        ].join("\n"), options: ["all", { ignoreJSX: "multi-line" }] },
+
+        {
+            code: "let a = [ ...b ]",
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: "let a = { ...b }",
+            parserOptions: {
+                ecmaVersion: 2015,
+                ecmaFeatures: { experimentalObjectRestSpread: true }
+            }
+        },
+        {
+            code: "class A extends B {}",
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: "const A = class extends B {}",
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: "class A extends (B=C) {}",
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: "const A = class extends (B=C) {}",
+            parserOptions: { ecmaVersion: 2015 }
+        }
     ],
 
     invalid: [
@@ -841,6 +869,55 @@ ruleTester.run("no-extra-parens", rule, {
             "</div>)"
         ].join("\n"), "const Component = <div>\n<p />\n</div>", "JSXElement", 1, {
             options: ["all", { ignoreJSX: "none" }]
-        })
+        }),
+
+        // https://github.com/eslint/eslint/issues/8175
+        invalid(
+            "let a = [...(b)]",
+            "let a = [...b]",
+            "Identifier",
+            1,
+            { parserOptions: { ecmaVersion: 2015 } }
+        ),
+        invalid(
+            "let a = {...(b)}",
+            "let a = {...b}",
+            "Identifier",
+            1,
+            {
+                parserOptions: {
+                    ecmaVersion: 2015,
+                    ecmaFeatures: { experimentalObjectRestSpread: true }
+                }
+            }
+        ),
+        invalid(
+            "class A extends (B) {}",
+            "class A extends B {}",
+            "Identifier",
+            1,
+            { parserOptions: { ecmaVersion: 2015 } }
+        ),
+        invalid(
+            "const A = class extends (B) {}",
+            "const A = class extends B {}",
+            "Identifier",
+            1,
+            { parserOptions: { ecmaVersion: 2015 } }
+        ),
+        invalid(
+            "class A extends ((B=C)) {}",
+            "class A extends (B=C) {}",
+            "AssignmentExpression",
+            1,
+            { parserOptions: { ecmaVersion: 2015 } }
+        ),
+        invalid(
+            "const A = class extends ((B=C)) {}",
+            "const A = class extends (B=C) {}",
+            "AssignmentExpression",
+            1,
+            { parserOptions: { ecmaVersion: 2015 } }
+        )
     ]
 });
