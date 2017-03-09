@@ -24,12 +24,12 @@ const assert = require("assert"),
 
 describe("NodeEventGenerator", () => {
     EventGeneratorTester.testEventGeneratorInterface(
-        new CommentEventGenerator(new NodeEventGenerator(new EventEmitter()))
+        new CommentEventGenerator(new NodeEventGenerator(new EventEmitter(), new Set()))
     );
 
     it("should generate comment events without duplicate.", () => {
         const emitter = new EventEmitter();
-        let generator = new NodeEventGenerator(emitter);
+        let generator = new NodeEventGenerator(emitter, new Set());
         const code = "//foo\nvar zzz /*aaa*/ = 777;\n//bar";
         const ast = espree.parse(code, {
             range: true,

@@ -20,7 +20,7 @@ const assert = require("assert"),
 
 describe("NodeEventGenerator", () => {
     EventGeneratorTester.testEventGeneratorInterface(
-        new NodeEventGenerator(new EventEmitter())
+        new NodeEventGenerator(new EventEmitter(), new Set())
     );
 
     let emitter, generator;
