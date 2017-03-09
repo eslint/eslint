@@ -82,6 +82,6 @@ ruleTester.run("no-restricted-syntax", rule, {
             code: "function foo(bar, baz, qux) {}",
             options: ["FunctionDeclaration[params.length>2]"],
             errors: [{ message: "Using 'FunctionDeclaration[params.length>2]' is not allowed.", type: "FunctionDeclaration" }]
-        },
+        }
     ]
 });
