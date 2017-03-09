@@ -39,7 +39,7 @@ describe("NodeEventGenerator", () => {
         beforeEach(() => {
             emitter = new EventEmitter();
             emitter.emit = sinon.spy(emitter.emit);
-            generator = new NodeEventGenerator(emitter, ["Foo", "Foo > Bar"]);
+            generator = new NodeEventGenerator(emitter, ["Foo", "Bar", "Foo > Bar", "Foo:exit"]);
         });
 
         it("should generate events for entering AST node.", () => {
@@ -103,25 +103,35 @@ describe("NodeEventGenerator", () => {
          * Creates a test case that asserts a particular sequence of generator emissions
          * @param {string} sourceText The source text that should be parsed and traversed
          * @param {Array<string>} possibleQueries A collection of selectors that rules are listening for
-         * @param {Array<string>} expectedEmissions The emissions that the generator is expected to produce, in order
-         * @param {Function} emissionFilter A filter for the emission list. Defaults to only containing selectors
+         * @param {Array<string>} expectedEmissions The emissions that the generator is expected to produce, in order.
+         * This should only include emissions that appear in possibleQueries.
          * that appear in possibleQueries.
          * @returns {void}
          */
-        function assertEmissions(sourceText, possibleQueries, expectedEmissions, emissionFilter) {
+        function assertEmissions(sourceText, possibleQueries, expectedEmissions) {
             it(possibleQueries.join("; "), () => {
                 const emissions = getEmissions(sourceText, possibleQueries)
-                    .filter(emissionFilter || (emission => possibleQueries.indexOf(emission) !== -1));
+                    .filter(emission => possibleQueries.indexOf(emission) !== -1);
 
                 assert.deepEqual(emissions, expectedEmissions);
             });
         }
 
         assertEmissions(
-            "foo + bar",
-            [],
-            ["Program", "ExpressionStatement", "BinaryExpression", "Identifier", "Identifier:exit", "Identifier", "Identifier:exit", "BinaryExpression:exit", "ExpressionStatement:exit", "Program:exit"],
-            () => true
+            "foo + bar;",
+            ["Program", "Program:exit", "ExpressionStatement", "ExpressionStatement:exit", "BinaryExpression", "BinaryExpression:exit", "Identifier", "Identifier:exit"],
+            [
+                "Program", // entering program
+                "ExpressionStatement", // entering 'foo + bar;'
+                "BinaryExpression", // entering 'foo + bar'
+                "Identifier", // entering 'foo'
+                "Identifier:exit", // exiting 'foo'
+                "Identifier", // entering 'bar'
+                "Identifier:exit", // exiting 'bar'
+                "BinaryExpression:exit", // exiting 'foo + bar'
+                "ExpressionStatement:exit", // exiting 'foo + bar;'
+                "Program:exit" // exiting program
+            ]
         );
 
         assertEmissions(
@@ -207,6 +217,44 @@ describe("NodeEventGenerator", () => {
             "[foo, {}, 5]",
             ["Identifier + Literal", "Identifier ~ Literal"],
             ["Identifier ~ Literal"]  // 5
+        );
+
+        assertEmissions(
+            "foo;",
+            [
+                "*",
+                ":not(*)",
+                "Identifier",
+                "ExpressionStatement > *",
+                "ExpressionStatement > Identifier",
+                "ExpressionStatement > [name='foo']",
+                "Identifier, ReturnStatement",
+                "FooStatement",
+                "[name = 'foo']",
+                "[name='foo']",
+                "Identifier[name='foo']",
+                "[name='foo'][name.length=3]",
+                ":not(Program, ExpressionStatement)",
+                ":not(Program, Identifier) > [name.length=3]"
+            ],
+            [
+                "*", // Program
+                "*", // ExpressionStatement
+
+                // selectors for the 'foo' identifier, in order of increasing specificity
+                "*", // 0 identifiers, 0 pseudoclasses
+                "ExpressionStatement > *", // 0 pseudoclasses, 1 identifier
+                "Identifier", // 0 pseudoclasses, 1 identifier
+                ":not(Program, ExpressionStatement)", // 0 pseudoclasses, 2 identifiers
+                "ExpressionStatement > Identifier", // 0 pseudoclasses, 2 identifiers
+                "Identifier, ReturnStatement", // 0 pseudoclasses, 2 identifiers
+                "[name = 'foo']", // 0 pseudoclass, 0 identifiers
+                "[name='foo']", // 1 pseudoclass, 0 identifiers
+                "ExpressionStatement > [name='foo']", // 1 attribute, 1 identifier
+                "Identifier[name='foo']", // 1 attribute, 1 identifier
+                ":not(Program, Identifier) > [name.length=3]", // 1 attribute, 2 identifiers
+                "[name='foo'][name.length=3]" // 2 attributes, 0 identifiers
+            ]
         );
     });
 });
