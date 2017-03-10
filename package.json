@@ -36,7 +36,7 @@
   "dependencies": {
     "babel-code-frame": "^6.16.0",
     "chalk": "^1.1.3",
-    "concat-stream": "^1.4.6",
+    "concat-stream": "^1.5.2",
     "debug": "^2.1.1",
     "doctrine": "^1.2.2",
     "escope": "^3.6.0",
