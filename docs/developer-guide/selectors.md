@@ -52,7 +52,41 @@ This syntax is very powerful, and can be used to precisely select many syntactic
 
 ## What can selectors be used for?
 
-If you're configuring ESLint for your codebase, you might be interested in restricting particular syntax patterns with selectors. If you're writing custom ESLint rules, you might be interested in using selectors to examine specific parts of the AST.
+If you're writing custom ESLint rules, you might be interested in using selectors to examine specific parts of the AST. If you're configuring ESLint for your codebase, you might be interested in restricting particular syntax patterns with selectors.
+
+### Listening for selectors in rules
+
+When writing a custom ESLint rule, you can listen for nodes that match a particular selector as the AST is traversed.
+
+```js
+module.exports = {
+  create(context) {
+    // ...
+
+    return {
+
+      // This listener will be called for all IfStatement nodes with blocks.
+      "IfStatement > BlockStatement": function(blockStatementNode) {
+        // ...your logic here
+      },
+
+      // This listener will be called for all function declarations with more than 3 parameters.
+      "FunctionDeclaration[params.length>3]": function(functionDeclarationNode) {
+        // ...your logic here
+      }
+    };
+  }
+};
+```
+
+Adding `:exit` to the end of a selector will cause the listener to be called when the matching nodes are exited during traversal, rather than when they are entered.
+
+If two or more selectors match the same node, their listeners will be called in order of increasing specificity. The specificity of an AST selector is similar to the specificity of a CSS selector:
+
+* When comparing two selectors, the selector that contains more class selectors, attribute selectors, and pseudo-class selectors (excluding `:not()`) has higher specificity.
+* If the class/attribute/pseudo-class count is tied, the selector that contains more node type selectors has higher specificity.
+
+If multiple selectors have equal specificity, their listeners will be called in alphabetical order for that node.
 
 ### Restricting syntax with selectors
 
@@ -97,37 +131,3 @@ Or you can enforce that calls to `setTimeout` always have two arguments:
 ```
 
 Using selectors in the `no-restricted-syntax` rule can give you a lot of control over problematic patterns in your codebase, without needing to write custom rules to detect each pattern.
-
-### Listening for selectors in rules
-
-When writing a custom ESLint rule, you can listen for nodes that match a particular selector as the AST is traversed.
-
-```js
-module.exports = {
-  create(context) {
-    // ...
-
-    return {
-
-      // This listener will be called for all IfStatement nodes with blocks.
-      "IfStatement > BlockStatement": function(blockStatementNode) {
-        // ...your logic here
-      },
-
-      // This listener will be called for all function declarations with more than 3 parameters.
-      "FunctionDeclaration[params.length>3]": function(functionDeclarationNode) {
-        // ...your logic here
-      }
-    };
-  }
-};
-```
-
-Adding `:exit` to the end of a selector will cause the listener to be called when the matching nodes are exited during traversal, rather than when they are entered.
-
-If two or more selectors match the same node, their listeners will be called in order of increasing specificity. The specificity of an AST selector is similar to the specificity of a CSS selector:
-
-* When comparing two selectors, the selector that contains more class selectors, attribute selectors, and pseudo-class selectors (excluding `:not()`) has higher specificity.
-* If the class/attribute/pseudo-class count is tied, the selector that contains more node type selectors has higher specificity.
-
-If multiple selectors have equal specificity, their listeners will be called in alphabetical order for that node.
