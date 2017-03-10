@@ -108,7 +108,6 @@ describe("NodeEventGenerator", () => {
          * @param {Array<string>} possibleQueries A collection of selectors that rules are listening for
          * @param {Array<string>} expectedEmissions The emissions that the generator is expected to produce, in order.
          * This should only include emissions that appear in possibleQueries.
-         * that appear in possibleQueries.
          * @returns {void}
          */
         function assertEmissions(sourceText, possibleQueries, expectedEmissions) {
@@ -251,7 +250,7 @@ describe("NodeEventGenerator", () => {
                 ":not(Program, ExpressionStatement)", // 0 pseudoclasses, 2 identifiers
                 "ExpressionStatement > Identifier", // 0 pseudoclasses, 2 identifiers
                 "Identifier, ReturnStatement", // 0 pseudoclasses, 2 identifiers
-                "[name = 'foo']", // 0 pseudoclass, 0 identifiers
+                "[name = 'foo']", // 1 pseudoclass, 0 identifiers
                 "[name='foo']", // 1 pseudoclass, 0 identifiers
                 "ExpressionStatement > [name='foo']", // 1 attribute, 1 identifier
                 "Identifier[name='foo']", // 1 attribute, 1 identifier
