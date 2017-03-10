@@ -38,10 +38,10 @@ The following selectors are supported:
 * First or last child: `:first-child` or `:last-child`
 * nth-child (no ax+b support): `:nth-child(2)`
 * nth-last-child (no ax+b support): `:nth-last-child(1)`
-* descendant: `ancestor descendant`
-* child: `parent > child`
-* following sibling: `node ~ sibling`
-* adjacent sibling: `node + adjacent`
+* descendant: `FunctionExpression ReturnStatement`
+* child: `UnaryExpression > Literal`
+* following sibling: `ArrayExpression > Literal + SpreadElement`
+* adjacent sibling: `VariableDeclaration ~ VariableDeclaration`
 * negation: `:not(ForStatement)`
 * matches-any: `:matches([attr] > :first-child, :last-child)`
 * class of AST node: `:statement`, `:expression`, `:declaration`, `:function`, or `:pattern`
