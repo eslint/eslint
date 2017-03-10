@@ -59,7 +59,7 @@ describe("CodePathAnalyzer", () => {
     });
 
     EventGeneratorTester.testEventGeneratorInterface(
-        new CodePathAnalyzer(new NodeEventGenerator(new EventEmitter(), new Set()))
+        new CodePathAnalyzer(new NodeEventGenerator(new EventEmitter()))
     );
 
     describe("interface of code paths", () => {

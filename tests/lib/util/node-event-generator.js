@@ -30,7 +30,7 @@ const ESPREE_CONFIG = {
 
 describe("NodeEventGenerator", () => {
     EventGeneratorTester.testEventGeneratorInterface(
-        new NodeEventGenerator(new EventEmitter(), new Set())
+        new NodeEventGenerator(new EventEmitter())
     );
 
     describe("entering a single AST node", () => {
@@ -38,8 +38,9 @@ describe("NodeEventGenerator", () => {
 
         beforeEach(() => {
             emitter = new EventEmitter();
+            ["Foo", "Bar", "Foo > Bar", "Foo:exit"].forEach(selector => emitter.on(selector, () => {}));
             emitter.emit = sinon.spy(emitter.emit);
-            generator = new NodeEventGenerator(emitter, ["Foo", "Bar", "Foo > Bar", "Foo:exit"]);
+            generator = new NodeEventGenerator(emitter);
         });
 
         it("should generate events for entering AST node.", () => {
@@ -81,7 +82,9 @@ describe("NodeEventGenerator", () => {
         function getEmissions(sourceText, possibleQueries) {
             const emissions = [];
             const emitter = new EventEmitter();
-            const generator = new NodeEventGenerator(emitter, possibleQueries);
+
+            possibleQueries.forEach(query => emitter.on(query, () => {}));
+            const generator = new NodeEventGenerator(emitter);
             const ast = espree.parse(sourceText, ESPREE_CONFIG);
 
             emitter.emit = type => emissions.push(type);

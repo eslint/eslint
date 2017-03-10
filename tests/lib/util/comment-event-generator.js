@@ -24,12 +24,11 @@ const assert = require("assert"),
 
 describe("NodeEventGenerator", () => {
     EventGeneratorTester.testEventGeneratorInterface(
-        new CommentEventGenerator(new NodeEventGenerator(new EventEmitter(), new Set()))
+        new CommentEventGenerator(new NodeEventGenerator(new EventEmitter()))
     );
 
     it("should generate comment events without duplicate.", () => {
         const emitter = new EventEmitter();
-        let generator = new NodeEventGenerator(emitter, new Set());
         const code = "//foo\nvar zzz /*aaa*/ = 777;\n//bar";
         const ast = espree.parse(code, {
             range: true,
@@ -58,6 +57,10 @@ describe("NodeEventGenerator", () => {
             ["LineComment:exit", ast.comments[0]], // foo
             ["Program:exit", ast]
         ];
+
+        expected.forEach(expectedValues => emitter.on(expectedValues[0], () => {}));
+
+        let generator = new NodeEventGenerator(emitter);
 
         emitter.emit = sinon.spy(emitter.emit);
         generator = new CommentEventGenerator(generator, sourceCode);
