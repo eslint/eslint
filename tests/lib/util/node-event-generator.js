@@ -269,4 +269,15 @@ describe("NodeEventGenerator", () => {
             ]
         );
     });
+
+    describe("parsing an invalid selector", () => {
+        it("throws a useful error", () => {
+            assert.throws(() => {
+                const emitter = new EventEmitter();
+
+                emitter.on("Foo >", () => {});
+                return new NodeEventGenerator(emitter);
+            }, /Syntax error in selector "Foo >" at position 5: Expected " ", "!", .*/);
+        });
+    });
 });
