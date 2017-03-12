@@ -1,6 +1,6 @@
 # Maintainer Guide
 
-This guide is intended for those who work as partof the ESLint project team.
+This guide is intended for those who work as part of the ESLint project team.
 
 ## [Managing Issues](issues.html)
 

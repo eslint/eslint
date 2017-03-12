@@ -339,7 +339,7 @@ This saves the output into the `results.txt` file.
 
 #### `--color`, `--no-color`
 
-This option forces the enabling/disabling of colorized output. You can use this to override the default behavior, which is to enable colorized output unless no TTY is detected, such as when when piping `eslint` through `cat` or `less`.
+This option forces the enabling/disabling of colorized output. You can use this to override the default behavior, which is to enable colorized output unless no TTY is detected, such as when piping `eslint` through `cat` or `less`.
 
 Examples:
 
