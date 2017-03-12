@@ -47,7 +47,8 @@ ruleTester.run("space-infix-ops", rule, {
         { code: "a + b-c * d*e", options: [{ all: "ignore", "+": "always", "-": "never", "*": "ignore" }] },
         { code: "a + b-c*d", options: { all: "never", "+": "always" } },
         { code: "foo in bar", options: { all: "never" } },
-        { code: "foo instanceof bar", options: { all: "never" } }
+        { code: "foo instanceof bar", options: { all: "never" } },
+        { code: "foo + +bar", options: { all: "never" } }
     ],
     invalid: [
         {
