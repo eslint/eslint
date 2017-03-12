@@ -841,6 +841,8 @@ describe("eslint", () => {
                 nodeType: "Program",
                 line: 1,
                 column: 1,
+                endLine: 1,
+                endColumn: 2,
                 source: "0"
             });
         });
@@ -859,6 +861,8 @@ describe("eslint", () => {
                 nodeType: "Program",
                 line: 1,
                 column: 1,
+                endLine: 1,
+                endColumn: 2,
                 source: "0"
             });
         });
@@ -877,6 +881,8 @@ describe("eslint", () => {
                 nodeType: "Program",
                 line: 1,
                 column: 1,
+                endLine: 1,
+                endColumn: 2,
                 source: "0",
                 fix: { range: [1, 1], text: "" }
             });
@@ -1066,7 +1072,7 @@ describe("eslint", () => {
             });
         });
 
-        it("should not have 'endLine' and 'endColumn' when there is not 'loc' property.", () => {
+        it("should have 'endLine' and 'endColumn' when there is not 'loc' property.", () => {
             eslint.on("Program", node => {
                 eslint.report(
                     "test-rule",
@@ -1076,10 +1082,12 @@ describe("eslint", () => {
                 );
             });
 
-            const messages = eslint.verify("0", config, "", true);
+            const sourceText = "foo + bar;";
 
-            assert.strictEqual(messages[0].endLine, void 0);
-            assert.strictEqual(messages[0].endColumn, void 0);
+            const messages = eslint.verify(sourceText, config, "", true);
+
+            assert.strictEqual(messages[0].endLine, 1);
+            assert.strictEqual(messages[0].endColumn, sourceText.length + 1); // (1-based column)
         });
 
         it("should have 'endLine' and 'endColumn' when 'loc' property has 'end' property.", () => {
