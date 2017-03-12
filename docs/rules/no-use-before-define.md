@@ -83,7 +83,7 @@ function g() {
   Otherwise, the rule ignores a reference if the declaration is in an upper scope, while still reporting the reference if it's in the same scope as the declaration.
   Default is `true`.
 
-This rule accepts `"nofunc"` string as a option.
+This rule accepts `"nofunc"` string as an option.
 `"nofunc"` is the same as `{ "functions": false, "classes": true }`.
 
 ### functions

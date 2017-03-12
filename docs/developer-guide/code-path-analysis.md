@@ -26,7 +26,7 @@ This has references of both the initial segment and the final segments of a code
 
 `CodePath` has the following properties:
 
-* `id` (`string`) - An unique string. Respective rules can use `id` to save additional information for each code path.
+* `id` (`string`) - A unique string. Respective rules can use `id` to save additional information for each code path.
 * `initialSegment` (`CodePathSegment`) - The initial segment of this code path.
 * `finalSegments` (`CodePathSegment[]`) - The final segments which includes both returned and thrown.
 * `returnedSegments` (`CodePathSegment[]`) - The final segments which includes only returned.
@@ -43,7 +43,7 @@ Difference from doubly linked list is what there are forking and merging (the ne
 
 `CodePathSegment` has the following properties:
 
-* `id` (`string`) - An unique string. Respective rules can use `id` to save additional information for each segment.
+* `id` (`string`) - A unique string. Respective rules can use `id` to save additional information for each segment.
 * `nextSegments` (`CodePathSegment[]`) - The next segments. If forking, there are two or more. If final, there is nothing.
 * `prevSegments` (`CodePathSegment[]`) - The previous segments. If merging, there are two or more. If initial, there is nothing.
 * `reachable` (`boolean`) - A flag which shows whether or not it's reachable. This becomes `false` when preceded by `return`, `throw`, `break`, or `continue`.

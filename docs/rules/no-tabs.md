@@ -12,7 +12,7 @@ Examples of **incorrect** code for this rule:
 var a /t= 2;
 
 /**
-* /t/t its a test function
+* /t/t it's a test function
 */
 function test(){}
 
@@ -25,7 +25,7 @@ Examples of **correct** code for this rule:
 var a = 2;
 
 /**
-* its a test function
+* it's a test function
 */
 function test(){}
 
