@@ -269,6 +269,11 @@ ruleTester.run("no-useless-escape", rule, {
             code: "`multiline template\nliteral with useless \\escape`",
             parserOptions: { ecmaVersion: 6 },
             errors: [{ line: 2, column: 22, message: "Unnecessary escape character: \\e.", type: "TemplateElement" }]
+        },
+        {
+            code: "`\\a```",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ line: 1, column: 2, message: "Unnecessary escape character: \\a.", type: "TemplateElement" }]
         }
     ]
 });
