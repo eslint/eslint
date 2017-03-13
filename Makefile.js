@@ -740,7 +740,6 @@ target.gensite = function(prereleaseVersion) {
     // 13. Update demos, but only for non-prereleases
     if (!prereleaseVersion) {
         cp("-f", "build/eslint.js", `${SITE_DIR}js/app/eslint.js`);
-        cp("-f", "conf/eslint.json", `${SITE_DIR}js/app/eslint.json`);
     }
 
     // 14. Create Example Formatter Output Page
