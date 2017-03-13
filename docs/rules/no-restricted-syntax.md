@@ -17,15 +17,15 @@ This rule takes a list of strings:
 ```json
 {
     "rules": {
-        "no-restricted-syntax": ["error", "FunctionExpression", "WithStatement", "CallExpression[name='require']"]
+        "no-restricted-syntax": ["error", "FunctionExpression", "WithStatement", "BinaryExpression[operator='in']"]
     }
 }
 ```
 
-Examples of **incorrect** code for this rule with the `"FunctionExpression", "WithStatement", CallExpression[name='require']` options:
+Examples of **incorrect** code for this rule with the `"FunctionExpression", "WithStatement", BinaryExpression[operator='in']` options:
 
 ```js
-/* eslint no-restricted-syntax: ["error", "FunctionExpression", "WithStatement"] */
+/* eslint no-restricted-syntax: ["error", "FunctionExpression", "WithStatement", "BinaryExpression[operator='in']"] */
 
 with (me) {
     dontMess();
@@ -33,19 +33,19 @@ with (me) {
 
 var doSomething = function () {};
 
-require('foo');
+foo in bar;
 ```
 
-Examples of **correct** code for this rule with the `"FunctionExpression", "WithStatement", CallExpression[name='require']` options:
+Examples of **correct** code for this rule with the `"FunctionExpression", "WithStatement", BinaryExpression[operator='in']` options:
 
 ```js
-/* eslint no-restricted-syntax: ["error", "FunctionExpression", "WithStatement"] */
+/* eslint no-restricted-syntax: ["error", "FunctionExpression", "WithStatement", "BinaryExpression[operator='in']"] */
 
 me.dontMess();
 
 function doSomething() {};
 
-foo();
+foo instanceof bar;
 ```
 
 ## When Not To Use It
