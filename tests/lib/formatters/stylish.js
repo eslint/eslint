@@ -59,7 +59,9 @@ describe("formatter:stylish", () => {
     describe("when passed no messages", () => {
         const code = [{
             filePath: "foo.js",
-            messages: []
+            messages: [],
+            errorCount: 0,
+            warningCount: 0
         }];
 
         it("should not return message", () => {
@@ -74,6 +76,8 @@ describe("formatter:stylish", () => {
     describe("when passed a single message", () => {
         const code = [{
             filePath: "foo.js",
+            errorCount: 1,
+            warningCount: 0,
             messages: [{
                 message: "Unexpected foo.",
                 severity: 2,
@@ -93,6 +97,9 @@ describe("formatter:stylish", () => {
 
         it("should return a string in the correct format for warnings", () => {
             code[0].messages[0].severity = 1;
+            code[0].errorCount = 0;
+            code[0].warningCount = 1;
+
             const result = formatter(code);
 
             assert.equal(result, "\nfoo.js\n  5:10  warning  Unexpected foo  foo\n\n\u2716 1 problem (0 errors, 1 warning)\n");
@@ -104,6 +111,8 @@ describe("formatter:stylish", () => {
     describe("when passed a fatal error message", () => {
         const code = [{
             filePath: "foo.js",
+            errorCount: 1,
+            warningCount: 0,
             messages: [{
                 fatal: true,
                 message: "Unexpected foo.",
@@ -125,6 +134,8 @@ describe("formatter:stylish", () => {
     describe("when passed multiple messages", () => {
         const code = [{
             filePath: "foo.js",
+            errorCount: 1,
+            warningCount: 1,
             messages: [{
                 message: "Unexpected foo.",
                 severity: 2,
@@ -152,6 +163,8 @@ describe("formatter:stylish", () => {
     describe("when passed multiple files with 1 message each", () => {
         const code = [{
             filePath: "foo.js",
+            errorCount: 1,
+            warningCount: 0,
             messages: [{
                 message: "Unexpected foo.",
                 severity: 2,
@@ -160,6 +173,8 @@ describe("formatter:stylish", () => {
                 ruleId: "foo"
             }]
         }, {
+            errorCount: 0,
+            warningCount: 1,
             filePath: "bar.js",
             messages: [{
                 message: "Unexpected bar.",
@@ -177,11 +192,39 @@ describe("formatter:stylish", () => {
             assert.equal(chalkStub.yellow.bold.callCount, 0);
             assert.equal(chalkStub.red.bold.callCount, 1);
         });
+
+        it("should add errorCount", () => {
+            code.forEach(c => {
+                c.errorCount = 1;
+                c.warningCount = 0;
+            });
+
+            const result = formatter(code);
+
+            assert.equal(result, "\nfoo.js\n  5:10  error  Unexpected foo  foo\n\nbar.js\n  6:11  warning  Unexpected bar  bar\n\n\u2716 2 problems (2 errors, 0 warnings)\n");
+            assert.equal(chalkStub.yellow.bold.callCount, 0);
+            assert.equal(chalkStub.red.bold.callCount, 1);
+        });
+
+        it("should add warningCount", () => {
+            code.forEach(c => {
+                c.errorCount = 0;
+                c.warningCount = 1;
+            });
+
+            const result = formatter(code);
+
+            assert.equal(result, "\nfoo.js\n  5:10  error  Unexpected foo  foo\n\nbar.js\n  6:11  warning  Unexpected bar  bar\n\n\u2716 2 problems (0 errors, 2 warnings)\n");
+            assert.equal(chalkStub.yellow.bold.callCount, 0);
+            assert.equal(chalkStub.red.bold.callCount, 1);
+        });
     });
 
     describe("when passed one file not found message", () => {
         const code = [{
             filePath: "foo.js",
+            errorCount: 1,
+            warningCount: 0,
             messages: [{
                 fatal: true,
                 message: "Couldn't find foo.js."
