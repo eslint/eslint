@@ -117,6 +117,14 @@ ruleTester.run("func-name-matching", rule, {
         {
             code: "({[foo]: function bar() {}})",
             parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "({[null]: function foo() {}})",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "({[1]: function foo() {}})",
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
     invalid: [
