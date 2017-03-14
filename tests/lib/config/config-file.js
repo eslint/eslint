@@ -14,11 +14,11 @@ const assert = require("chai").assert,
     path = require("path"),
     fs = require("fs"),
     yaml = require("js-yaml"),
-    userHome = require("user-home"),
     shell = require("shelljs"),
     environments = require("../../../conf/environments"),
     ConfigFile = require("../../../lib/config/config-file");
 
+const userHome = require("os").homedir();
 const temp = require("temp").track();
 const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
 
