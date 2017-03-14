@@ -77,7 +77,13 @@ ruleTester.run("sort-vars", rule, {
             "            c;",
             "    }",
             "}"
-        ].join("\n"), env: { es6: true }, parserOptions: { sourceType: "module" } }
+        ].join("\n"), env: { es6: true }, parserOptions: { sourceType: "module" } },
+
+        {
+            code: "var {} = 1, a",
+            options: ignoreCaseArgs,
+            parserOptions: { ecmaVersion: 6 }
+        }
     ],
     invalid: [
         { code: "var b, a", errors: [expectedError] },
@@ -93,6 +99,13 @@ ruleTester.run("sort-vars", rule, {
         { code: "var d, a, [b, c] = {};", options: ignoreCaseArgs,
             parserOptions: { ecmaVersion: 6 }, errors: [expectedError] },
         { code: "var d, a, [b, {x: {c, e}}] = {};", options: ignoreCaseArgs,
-            parserOptions: { ecmaVersion: 6 }, errors: [expectedError] }
+            parserOptions: { ecmaVersion: 6 }, errors: [expectedError] },
+
+        {
+            code: "var {} = 1, b, a",
+            options: ignoreCaseArgs,
+            parserOptions: { ecmaVersion: 6 },
+            errors: [expectedError]
+        }
     ]
 });
