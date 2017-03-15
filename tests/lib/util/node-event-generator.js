@@ -232,6 +232,22 @@ describe("NodeEventGenerator", () => {
         );
 
         assertEmissions(
+            "foo; bar + baz; qux()",
+            [":expression", ":statement"],
+            ast => [
+                [":statement", ast.body[0]],
+                [":expression", ast.body[0].expression],
+                [":statement", ast.body[1]],
+                [":expression", ast.body[1].expression],
+                [":expression", ast.body[1].expression.left],
+                [":expression", ast.body[1].expression.right],
+                [":statement", ast.body[2]],
+                [":expression", ast.body[2].expression],
+                [":expression", ast.body[2].expression.callee]
+            ]
+        );
+
+        assertEmissions(
             "foo;",
             [
                 "*",
