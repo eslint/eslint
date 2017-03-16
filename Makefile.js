@@ -833,7 +833,7 @@ target.checkRuleFiles = function() {
 
         // check for recommended configuration
         if (!isInConfig()) {
-            console.error("Missing eslint:recommended setting for %s in conf/eslint-recommendd.js", basename);
+            console.error("Missing eslint:recommended setting for %s in conf/eslint-recommended.js", basename);
             errors++;
         }
 
