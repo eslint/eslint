@@ -381,6 +381,21 @@ ruleTester.run("no-extra-parens", rule, {
             }
         },
         {
+            code: "let a = [ ...(b, c) ]",
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: "let a = { ...(b, c) }",
+            parserOptions: {
+                ecmaVersion: 2015,
+                ecmaFeatures: { experimentalObjectRestSpread: true }
+            }
+        },
+        {
+            code: "var [x = (1, foo)] = bar",
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
             code: "class A extends B {}",
             parserOptions: { ecmaVersion: 2015 }
         },
@@ -883,6 +898,25 @@ ruleTester.run("no-extra-parens", rule, {
             "let a = {...(b)}",
             "let a = {...b}",
             "Identifier",
+            1,
+            {
+                parserOptions: {
+                    ecmaVersion: 2015,
+                    ecmaFeatures: { experimentalObjectRestSpread: true }
+                }
+            }
+        ),
+        invalid(
+            "let a = [...((b, c))]",
+            "let a = [...(b, c)]",
+            "SequenceExpression",
+            1,
+            { parserOptions: { ecmaVersion: 2015 } }
+        ),
+        invalid(
+            "let a = {...((b, c))}",
+            "let a = {...(b, c)}",
+            "SequenceExpression",
             1,
             {
                 parserOptions: {
