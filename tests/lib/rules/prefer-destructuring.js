@@ -81,21 +81,21 @@ ruleTester.run("prefer-destructuring", rule, {
         {
             code: "var foo = array[0];",
             errors: [{
-                message: "Use array destructuring",
+                message: "Use array destructuring.",
                 type: "VariableDeclarator"
             }]
         },
         {
             code: "foo = array[0];",
             errors: [{
-                message: "Use array destructuring",
+                message: "Use array destructuring.",
                 type: "AssignmentExpression"
             }]
         },
         {
             code: "var foo = object.foo;",
             errors: [{
-                message: "Use object destructuring",
+                message: "Use object destructuring.",
                 type: "VariableDeclarator"
             }]
         },
@@ -103,7 +103,7 @@ ruleTester.run("prefer-destructuring", rule, {
             code: "var foobar = object.bar;",
             options: [{ object: true }, { enforceForRenamedProperties: true }],
             errors: [{
-                message: "Use object destructuring",
+                message: "Use object destructuring.",
                 type: "VariableDeclarator"
             }]
         },
@@ -111,28 +111,28 @@ ruleTester.run("prefer-destructuring", rule, {
             code: "var foo = object[bar];",
             options: [{ object: true }, { enforceForRenamedProperties: true }],
             errors: [{
-                message: "Use object destructuring",
+                message: "Use object destructuring.",
                 type: "VariableDeclarator"
             }]
         },
         {
             code: "var foo = array['foo'];",
             errors: [{
-                message: "Use object destructuring",
+                message: "Use object destructuring.",
                 type: "VariableDeclarator"
             }]
         },
         {
             code: "foo = array.foo;",
             errors: [{
-                message: "Use object destructuring",
+                message: "Use object destructuring.",
                 type: "AssignmentExpression"
             }]
         },
         {
             code: "foo = array['foo'];",
             errors: [{
-                message: "Use object destructuring",
+                message: "Use object destructuring.",
                 type: "AssignmentExpression"
             }]
         }

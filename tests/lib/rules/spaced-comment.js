@@ -577,11 +577,13 @@ ruleTester.run("spaced-comment", rule, {
         // Parser errors
         {
             code: invalidShebangProgram,
+            output: null,
             errors: 1,
             options: ["always"]
         },
         {
             code: invalidShebangProgram,
+            output: null,
             errors: 1,
             options: ["never"]
         }

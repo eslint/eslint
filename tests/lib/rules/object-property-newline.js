@@ -389,7 +389,7 @@ ruleTester.run("object-property-newline", rule, {
         },
         {
             code: "({ foo: 1, /* comment */ bar: 2 })",
-            output: "({ foo: 1, /* comment */ bar: 2 })", // not fixed due to comment
+            output: null, // not fixed due to comment
             errors: [
                 {
                     message: "Object properties must go on a new line.",

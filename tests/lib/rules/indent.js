@@ -2277,6 +2277,11 @@ ruleTester.run("indent", rule, {
             "    foo\n" +
             "          .bar\n" +
             "}",
+            output:
+            "var foo = function(){\n" +
+            "    foo\n" +
+            "        .bar\n" +
+            "}",
             options: [4, { MemberExpression: 1 }],
             errors: expectedErrors(
                 [3, 8, 10, "Punctuator"]
@@ -2287,6 +2292,11 @@ ruleTester.run("indent", rule, {
             "var foo = function(){\n" +
             "    foo\n" +
             "             .bar\n" +
+            "}",
+            output:
+            "var foo = function(){\n" +
+            "    foo\n" +
+            "            .bar\n" +
             "}",
             options: [4, { MemberExpression: 2 }],
             errors: expectedErrors(
@@ -2299,6 +2309,11 @@ ruleTester.run("indent", rule, {
             "    foo\n" +
             "             .bar\n" +
             "}",
+            output:
+            "var foo = () => {\n" +
+            "    foo\n" +
+            "            .bar\n" +
+            "}",
             options: [4, { MemberExpression: 2 }],
             parserOptions: { ecmaVersion: 6 },
             errors: expectedErrors(
@@ -2310,6 +2325,13 @@ ruleTester.run("indent", rule, {
             "TestClass.prototype.method = function () {\n" +
             "  return Promise.resolve(3)\n" +
             "      .then(function (x) {\n" +
+            "        return x;\n" +
+            "      });\n" +
+            "};",
+            output:
+            "TestClass.prototype.method = function () {\n" +
+            "  return Promise.resolve(3)\n" +
+            "    .then(function (x) {\n" +
             "        return x;\n" +
             "      });\n" +
             "};",
@@ -3022,6 +3044,12 @@ ruleTester.run("indent", rule, {
             "    return x + 1;\n" +
             "  }\n" +
             "})();",
+            output:
+            "(function(){\n" +
+            "function foo(x) {\n" +
+            "    return x + 1;\n" +
+            "  }\n" +
+            "})();",
             options: [2, { outerIIFEBody: 0 }],
             errors: expectedErrors([[2, 0, 2, "FunctionDeclaration"]])
         },
@@ -3029,6 +3057,12 @@ ruleTester.run("indent", rule, {
             code:
             "(function(){\n" +
             "    function foo(x) {\n" +
+            "        return x + 1;\n" +
+            "    }\n" +
+            "})();",
+            output:
+            "(function(){\n" +
+            "        function foo(x) {\n" +
             "        return x + 1;\n" +
             "    }\n" +
             "})();",
@@ -3040,6 +3074,10 @@ ruleTester.run("indent", rule, {
             "if(data) {\n" +
             "console.log('hi');\n" +
             "}",
+            output:
+            "if(data) {\n" +
+            "  console.log('hi');\n" +
+            "}",
             options: [2, { outerIIFEBody: 0 }],
             errors: expectedErrors([[2, 2, 0, "ExpressionStatement"]])
         },
@@ -3047,6 +3085,12 @@ ruleTester.run("indent", rule, {
             code:
             "var ns = function(){\n" +
             "    function fooVar(x) {\n" +
+            "        return x + 1;\n" +
+            "    }\n" +
+            "}(x);",
+            output:
+            "var ns = function(){\n" +
+            "        function fooVar(x) {\n" +
             "        return x + 1;\n" +
             "    }\n" +
             "}(x);",
@@ -3060,6 +3104,12 @@ ruleTester.run("indent", rule, {
             "  return true;\n" +
             "  }()\n" +
             "};\n",
+            output:
+            "var obj = {\n" +
+            "  foo: function() {\n" +
+            "    return true;\n" +
+            "  }()\n" +
+            "};\n",
             options: [2, { outerIIFEBody: 0 }],
             errors: expectedErrors([[3, 4, 2, "ReturnStatement"]])
         },
@@ -3067,6 +3117,12 @@ ruleTester.run("indent", rule, {
             code:
             "typeof function() {\n" +
             "    function fooVar(x) {\n" +
+            "      return x + 1;\n" +
+            "    }\n" +
+            "}();",
+            output:
+            "typeof function() {\n" +
+            "  function fooVar(x) {\n" +
             "      return x + 1;\n" +
             "    }\n" +
             "}();",

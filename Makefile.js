@@ -213,31 +213,35 @@ function generateRuleIndexPage(basedir) {
         categoryList = "conf/category-list.json",
         categoriesData = JSON.parse(cat(path.resolve(categoryList)));
 
-    find(path.join(basedir, "/lib/rules/")).filter(fileType("js")).forEach(filename => {
-        const rule = require(filename);
-        const basename = path.basename(filename, ".js");
+    find(path.join(basedir, "/lib/rules/")).filter(fileType("js"))
+        .map(filename => [filename, path.basename(filename, ".js")])
+        .sort((a, b) => a[1].localeCompare(b[1]))
+        .forEach(pair => {
+            const filename = pair[0];
+            const basename = pair[1];
+            const rule = require(filename);
 
-        if (rule.meta.deprecated) {
-            categoriesData.deprecated.rules.push({
-                name: basename,
-                replacedBy: rule.meta.docs.replacedBy || []
-            });
-        } else {
-            const output = {
+            if (rule.meta.deprecated) {
+                categoriesData.deprecated.rules.push({
                     name: basename,
-                    description: rule.meta.docs.description,
-                    recommended: rule.meta.docs.recommended || false,
-                    fixable: !!rule.meta.fixable
-                },
-                category = lodash.find(categoriesData.categories, { name: rule.meta.docs.category });
+                    replacedBy: rule.meta.docs.replacedBy || []
+                });
+            } else {
+                const output = {
+                        name: basename,
+                        description: rule.meta.docs.description,
+                        recommended: rule.meta.docs.recommended || false,
+                        fixable: !!rule.meta.fixable
+                    },
+                    category = lodash.find(categoriesData.categories, { name: rule.meta.docs.category });
 
-            if (!category.rules) {
-                category.rules = [];
+                if (!category.rules) {
+                    category.rules = [];
+                }
+
+                category.rules.push(output);
             }
-
-            category.rules.push(output);
-        }
-    });
+        });
 
     const output = yaml.safeDump(categoriesData, { sortKeys: true });
 
@@ -736,7 +740,6 @@ target.gensite = function(prereleaseVersion) {
     // 13. Update demos, but only for non-prereleases
     if (!prereleaseVersion) {
         cp("-f", "build/eslint.js", `${SITE_DIR}js/app/eslint.js`);
-        cp("-f", "conf/eslint.json", `${SITE_DIR}js/app/eslint.json`);
     }
 
     // 14. Create Example Formatter Output Page
@@ -830,7 +833,7 @@ target.checkRuleFiles = function() {
 
         // check for recommended configuration
         if (!isInConfig()) {
-            console.error("Missing eslint:recommended setting for %s in conf/eslint-recommendd.js", basename);
+            console.error("Missing eslint:recommended setting for %s in conf/eslint-recommended.js", basename);
             errors++;
         }
 

@@ -30,6 +30,11 @@ ruleTester.run("padded-blocks", rule, {
         { code: "{\n\na()\n//comment\n\n}" },
         { code: "{\n\na = 1\n\n}" },
         { code: "{//comment\n\na();\n\n}" },
+        { code: "{ /* comment */\n\na();\n\n}" },
+        { code: "{ /* comment \n */\n\na();\n\n}" },
+        { code: "{ /* comment \n */ /* another comment \n */\n\na();\n\n}" },
+        { code: "{ /* comment \n */ /* another comment \n */\n\na();\n\n/* comment \n */ /* another comment \n */}" },
+
         { code: "{\n\na();\n\n/* comment */ }" },
         { code: "{\n\na();\n\n/* comment */ }", options: ["always"] },
         { code: "{\n\na();\n\n/* comment */ }", options: [{ blocks: "always" }] },
@@ -82,6 +87,17 @@ ruleTester.run("padded-blocks", rule, {
                     message: ALWAYS_MESSAGE,
                     line: 1,
                     column: 1
+                }
+            ]
+        },
+        {
+            code: "{ //comment\na();\n\n}",
+            output: "{ //comment\n\na();\n\n}",
+            errors: [
+                {
+                    message: ALWAYS_MESSAGE,
+                    line: 1,
+                    column: 3
                 }
             ]
         },
@@ -466,9 +482,39 @@ ruleTester.run("padded-blocks", rule, {
         },
         {
             code: "function foo() { // a\n\n  b;\n}",
-            output: "function foo() {\n // a\n\n  b;\n}",
+            output: "function foo() { // a\n  b;\n}",
             options: ["never"],
             errors: [NEVER_MESSAGE]
+        },
+        {
+            code: "function foo() { /* a\n */\n\n  bar;\n}",
+            output: "function foo() { /* a\n */\n  bar;\n}",
+            options: ["never"],
+            errors: [NEVER_MESSAGE]
+        },
+        {
+            code: "function foo() {\n\n  bar;\n/* a\n */}",
+            output: "function foo() {\n\n  bar;\n\n/* a\n */}",
+            options: ["always"],
+            errors: [ALWAYS_MESSAGE]
+        },
+        {
+            code: "function foo() { /* a\n */\n/* b\n */\n  bar;\n}",
+            output: "function foo() { /* a\n */\n\n/* b\n */\n  bar;\n\n}",
+            options: ["always"],
+            errors: [ALWAYS_MESSAGE, ALWAYS_MESSAGE]
+        },
+        {
+            code: "function foo() { /* a\n */ /* b\n */\n  bar;\n}",
+            output: "function foo() { /* a\n */ /* b\n */\n\n  bar;\n\n}",
+            options: ["always"],
+            errors: [ALWAYS_MESSAGE, ALWAYS_MESSAGE]
+        },
+        {
+            code: "function foo() { /* a\n */ /* b\n */\n  bar;\n/* c\n *//* d\n */}",
+            output: "function foo() { /* a\n */ /* b\n */\n\n  bar;\n\n/* c\n *//* d\n */}",
+            options: ["always"],
+            errors: [ALWAYS_MESSAGE, ALWAYS_MESSAGE]
         }
     ]
 });

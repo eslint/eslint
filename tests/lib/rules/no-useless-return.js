@@ -209,9 +209,9 @@ ruleTester.run("no-useless-return", rule, {
                 if (foo) {
                   
                 }
-                
+                return;
               }
-            `,
+            `,  // Other case is fixed in the second pass.
             errors: [
                 { message: "Unnecessary return statement.", type: "ReturnStatement" },
                 { message: "Unnecessary return statement.", type: "ReturnStatement" }
@@ -416,7 +416,7 @@ ruleTester.run("no-useless-return", rule, {
         },
         {
             code: "function foo() { return; return; }",
-            output: "function foo() {   }",
+            output: "function foo() {  return; }",  // Other case is fixed in the second pass.
             errors: [
                 { message: "Unnecessary return statement.", type: "ReturnStatement" },
                 { message: "Unnecessary return statement.", type: "ReturnStatement" }

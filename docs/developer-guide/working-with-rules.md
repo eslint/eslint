@@ -65,8 +65,8 @@ The source file for a rule exports an object with the following properties.
 
 `create` (function) returns an object with methods that ESLint calls to "visit" nodes while traversing the abstract syntax tree (AST as defined by [ESTree](https://github.com/estree/estree)) of JavaScript code:
 
-* if a key is a node type, ESLint calls that **visitor** function while going **down** the tree
-* if a key is a node type plus `:exit`, ESLint calls that **visitor** function while going **up** the tree
+* if a key is a node type or a [selector](./selectors), ESLint calls that **visitor** function while going **down** the tree
+* if a key is a node type or a [selector](./selectors) plus `:exit`, ESLint calls that **visitor** function while going **up** the tree
 * if a key is an event name, ESLint calls that **handler** function for [code path analysis](./code-path-analysis.md)
 
 A rule can use the current node and its surrounding tree to report or fix problems.
@@ -282,6 +282,8 @@ Once you have an instance of `SourceCode`, you can use the methods on it to work
 * `getTokensBetween(nodeOrToken1, nodeOrToken2)` - returns all tokens between two nodes.
 * `getTokenByRangeStart(index, rangeOptions)` - returns the token whose range starts at the given index in the source.
 * `getNodeByRangeIndex(index)` - returns the deepest node in the AST containing the given source index.
+* `getLocFromIndex(index)` - returns an object with `line` and `column` properties, corresponding to the location of the given source index. `line` is 1-based and `column` is 0-based.
+* `getIndexFromLoc(loc)` - returns the index of a given location in the source code, where `loc` is an object with a 1-based `line` key and a 0-based `column` key.
 
 > `skipOptions` is an object which has 3 properties; `skip`, `includeComments`, and `filter`. Default is `{skip: 0, includeComments: false, filter: null}`.
 > - `skip` is a positive integer, the number of skipping tokens. If `filter` option is given at the same time, it doesn't count filtered tokens as skipped.

@@ -136,12 +136,12 @@ ruleTester.run("dot-notation", rule, {
         {
             code: "foo[ /* comment */ 'bar' ]",
             errors: [{ message: "[\"bar\"] is better written in dot notation." }],
-            output: "foo[ /* comment */ 'bar' ]" // Not fixed due to comment
+            output: null // Not fixed due to comment
         },
         {
             code: "foo[ 'bar' /* comment */ ]",
             errors: [{ message: "[\"bar\"] is better written in dot notation." }],
-            output: "foo[ 'bar' /* comment */ ]" // Not fixed due to comment
+            output: null // Not fixed due to comment
         },
         {
             code: "foo[    'bar'    ];",
@@ -152,7 +152,7 @@ ruleTester.run("dot-notation", rule, {
             code: "foo. /* comment */ while",
             options: [{ allowKeywords: false }],
             errors: [{ message: ".while is a syntax error." }],
-            output: "foo. /* comment */ while" // Not fixed due to comment
+            output: null // Not fixed due to comment
         }
     ]
 });

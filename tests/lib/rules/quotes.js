@@ -249,25 +249,25 @@ ruleTester.run("quotes", rule, {
         // https://github.com/eslint/eslint/issues/7610
         {
             code: "`use strict`;",
-            output: "`use strict`;",
+            output: null,
             parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Strings must use doublequote.", type: "TemplateLiteral" }]
         },
         {
             code: "function foo() { `use strict`; foo(); }",
-            output: "function foo() { `use strict`; foo(); }",
+            output: null,
             parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Strings must use doublequote.", type: "TemplateLiteral" }]
         },
         {
             code: "foo = function() { `use strict`; foo(); }",
-            output: "foo = function() { `use strict`; foo(); }",
+            output: null,
             parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Strings must use doublequote.", type: "TemplateLiteral" }]
         },
         {
             code: "() => { `use strict`; foo(); }",
-            output: "() => { `use strict`; foo(); }",
+            output: null,
             parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Strings must use doublequote.", type: "TemplateLiteral" }]
         },

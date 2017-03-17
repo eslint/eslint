@@ -46,7 +46,7 @@ ruleTester.run("no-else-return", rule, {
             errors: [{ message: "Unnecessary 'else' after 'return'.", type: "ReturnStatement" }] },
         {
             code: "function foo4() { if (true) { if (false) return x; else return y; } else { return z; } }",
-            output: "function foo4() { if (true) { if (false) return x; return y; }  return z;  }",
+            output: "function foo4() { if (true) { if (false) return x; return y; } else { return z; } }",  // Other case is fixed in the second pass.
             errors: [{ message: "Unnecessary 'else' after 'return'.", type: "ReturnStatement" }, { message: "Unnecessary 'else' after 'return'.", type: "BlockStatement" }]
         },
         {
@@ -61,7 +61,7 @@ ruleTester.run("no-else-return", rule, {
         },
         {
             code: "function foo7() { if (true) { if (false) { if (true) return x; else return y; } return w; } else { return z; } }",
-            output: "function foo7() { if (true) { if (false) { if (true) return x; return y; } return w; }  return z;  }",
+            output: "function foo7() { if (true) { if (false) { if (true) return x; return y; } return w; } else { return z; } }",  // Other case is fixed in the second pass.
             errors: [
                 { message: "Unnecessary 'else' after 'return'.", type: "ReturnStatement" },
                 { message: "Unnecessary 'else' after 'return'.", type: "BlockStatement" }
@@ -69,7 +69,7 @@ ruleTester.run("no-else-return", rule, {
         },
         {
             code: "function foo8() { if (true) { if (false) { if (true) return x; else return y; } else { w = x; } } else { return z; } }",
-            output: "function foo8() { if (true) { if (false) { if (true) return x; return y; }  w = x;  } else { return z; } }",
+            output: "function foo8() { if (true) { if (false) { if (true) return x; return y; } else { w = x; } } else { return z; } }",  // Other case is fixed in the second pass.
             errors: [
                 { message: "Unnecessary 'else' after 'return'.", type: "ReturnStatement" },
                 { message: "Unnecessary 'else' after 'return'.", type: "BlockStatement" }
@@ -87,12 +87,12 @@ ruleTester.run("no-else-return", rule, {
         },
         {
             code: "function foo11() { if (foo) return bar \nelse { [1, 2, 3].map(foo) } }",
-            output: "function foo11() { if (foo) return bar \nelse { [1, 2, 3].map(foo) } }",
+            output: null,
             errors: [{ message: "Unnecessary 'else' after 'return'.", type: "BlockStatement" }]
         },
         {
             code: "function foo12() { if (foo) return bar \nelse { baz() } \n[1, 2, 3].map(foo) }",
-            output: "function foo12() { if (foo) return bar \nelse { baz() } \n[1, 2, 3].map(foo) }",
+            output: null,
             errors: [{ message: "Unnecessary 'else' after 'return'.", type: "BlockStatement" }]
         },
         {
@@ -107,12 +107,12 @@ ruleTester.run("no-else-return", rule, {
         },
         {
             code: "function foo15() { if (foo) return bar; else { baz() } qaz() }",
-            output: "function foo15() { if (foo) return bar; else { baz() } qaz() }",
+            output: null,
             errors: [{ message: "Unnecessary 'else' after 'return'.", type: "BlockStatement" }]
         },
         {
             code: "function foo16() { if (foo) return bar \nelse { baz() } qaz() }",
-            output: "function foo16() { if (foo) return bar \nelse { baz() } qaz() }",
+            output: null,
             errors: [{ message: "Unnecessary 'else' after 'return'.", type: "BlockStatement" }]
         },
         {
@@ -122,7 +122,7 @@ ruleTester.run("no-else-return", rule, {
         },
         {
             code: "function foo18() { if (foo) return function() {} \nelse [1, 2, 3].map(bar) }",
-            output: "function foo18() { if (foo) return function() {} \nelse [1, 2, 3].map(bar) }",
+            output: null,
             errors: [{ message: "Unnecessary 'else' after 'return'.", type: "ExpressionStatement" }]
         }
     ]

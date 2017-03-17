@@ -117,6 +117,66 @@ ruleTester.run("func-name-matching", rule, {
         {
             code: "({[foo]: function bar() {}})",
             parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "({[null]: function foo() {}})",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "({[1]: function foo() {}})",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "({[true]: function foo() {}})",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "({[`x`]: function foo() {}})",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "({[/abc/]: function foo() {}})",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "({[[1, 2, 3]]: function foo() {}})",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "({[{x: 1}]: function foo() {}})",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "[] = function foo() {}",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "({} = function foo() {})",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "[a] = function foo() {}",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "({a} = function foo() {})",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var [] = function foo() {}",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var {} = function foo() {}",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var [a] = function foo() {}",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var {a} = function foo() {}",
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
     invalid: [

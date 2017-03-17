@@ -418,6 +418,46 @@ ruleTester.run("space-unary-ops", rule, {
             }]
         },
         {
+            code: "+ +foo",
+            output: null,
+            options: [{ nonwords: false }],
+            errors: [{
+                message: "Unexpected space after unary operator '+'."
+            }]
+        },
+        {
+            code: "+ ++foo",
+            output: null,
+            options: [{ nonwords: false }],
+            errors: [{
+                message: "Unexpected space after unary operator '+'."
+            }]
+        },
+        {
+            code: "- -foo",
+            output: null,
+            options: [{ nonwords: false }],
+            errors: [{
+                message: "Unexpected space after unary operator '-'."
+            }]
+        },
+        {
+            code: "- --foo",
+            output: null,
+            options: [{ nonwords: false }],
+            errors: [{
+                message: "Unexpected space after unary operator '-'."
+            }]
+        },
+        {
+            code: "+ -foo",
+            output: "+-foo",
+            options: [{ nonwords: false }],
+            errors: [{
+                message: "Unexpected space after unary operator '+'."
+            }]
+        },
+        {
             code: "function *foo() { yield(0) }",
             output: "function *foo() { yield (0) }",
             parserOptions: { ecmaVersion: 6 },
