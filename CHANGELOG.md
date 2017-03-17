@@ -1,3 +1,29 @@
+v3.18.0 - March 17, 2017
+
+* 85f74ca Fix: broken code path of direct nested loops (fixes #8248) (#8274) (Toru Nagashima)
+* a61c359 Fix: Ignore hidden folders when resolving globs (fixes #8259) (#8270) (Ian VanSchooten)
+* 6f05546 Chore: convert StubModuleResolver in config tests to ES6 class (#8265) (Teddy Katz)
+* 0c0fc31 Fix: false positive of no-extra-parens about spread and sequense (#8275) (Toru Nagashima)
+* e104973 Docs: remove self-reference in no-restricted-syntax docs (#8277) (Vitor Balocco)
+* 23eca51 Update: Add allowTaggedTemplates to no-unused-expressions (fixes #7632) (#8253) (Kevin Partington)
+* f9ede3f Upgrade: doctrine to 2.0.0 (#8269) (alberto)
+* 1b678a6 New: allow rules to listen for AST selectors (fixes #5407) (#7833) (Teddy Katz)
+* 63ca0c5 Chore: use precalculated counts in stylish formatter (#8251) (alberto)
+* 47c3171 Fix: typo in console.error (#8258) (Jan Peer Stöcklmair)
+* e74ed6d Chore: convert Traverser to ES6 class (refs #7849) (#8232) (Teddy Katz)
+* 13eead9 Fix: sort-vars crash on mixed destructuring declarations (#8245) (Teddy Katz)
+* 133f489 Fix: func-name-matching crash on destructuring assignment to functions (#8247) (Teddy Katz)
+* a34b9c4 Fix: func-name-matching crash on non-string literal computed keys (#8246) (Teddy Katz)
+* 7276e6d Docs: remove unneeded semicolons in arrow-parens.md (#8249) (Dmitry Gershun)
+* 8c40a25 concat-stream known to be vulnerable prior 1.5.2 (#8228) (Samuel)
+* 149c055 Upgrade: mock-fs to v4.2.0 (fixes #8194) (#8243) (Teddy Katz)
+* a83bff9 Build: remove unneeded json config in demo (fixes #8237) (#8242) (alberto)
+* df12137 Docs: fix typos (#8235) (Gyandeep Singh)
+* b5e9788 Chore: rename no-extra-parens methods (#8225) (Vitor Balocco)
+* 7f8afe6 Update: no-extra-parens overlooked spread and superClass (fixes #8175) (#8209) (Toru Nagashima)
+* ce6ff56 Docs: set recommended true for no-global-assign (fixes #8215) (#8218) (BinYi LIU)
+* 5b5c236 Fix: wrong comment when module not found in config (fixes #8192) (#8196) (alberto)
+
 v3.17.1 - March 6, 2017
 
 * f8c8e6e Build: change mock-fs path without SSH (fixes #8207) (#8208) (Toru Nagashima)
