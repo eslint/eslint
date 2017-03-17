@@ -65,8 +65,8 @@ The source file for a rule exports an object with the following properties.
 
 `create` (function) returns an object with methods that ESLint calls to "visit" nodes while traversing the abstract syntax tree (AST as defined by [ESTree](https://github.com/estree/estree)) of JavaScript code:
 
-* if a key is a node type, ESLint calls that **visitor** function while going **down** the tree
-* if a key is a node type plus `:exit`, ESLint calls that **visitor** function while going **up** the tree
+* if a key is a node type or a [selector](./selectors), ESLint calls that **visitor** function while going **down** the tree
+* if a key is a node type or a [selector](./selectors) plus `:exit`, ESLint calls that **visitor** function while going **up** the tree
 * if a key is an event name, ESLint calls that **handler** function for [code path analysis](./code-path-analysis.md)
 
 A rule can use the current node and its surrounding tree to report or fix problems.
