@@ -550,9 +550,10 @@ describe("IgnoredPaths", () => {
             assert.isTrue(shouldIgnore(resolve("bower_components/a")));
             assert.isTrue(shouldIgnore(resolve("bower_components/a/b")));
             assert.isFalse(shouldIgnore(resolve(".hidden")));
+            assert.isTrue(shouldIgnore(resolve(".hidden/a")));
         });
 
-        it("should ignore default folders there is an ignore file without unignored defaults", () => {
+        it("should ignore default folders when there is an ignore file without unignored defaults", () => {
             const cwd = getFixturePath();
             const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: getFixturePath(".eslintignore"), cwd });
 
@@ -564,6 +565,7 @@ describe("IgnoredPaths", () => {
             assert.isTrue(shouldIgnore(resolve("bower_components/a")));
             assert.isTrue(shouldIgnore(resolve("bower_components/a/b")));
             assert.isFalse(shouldIgnore(resolve(".hidden")));
+            assert.isTrue(shouldIgnore(resolve(".hidden/a")));
         });
 
         it("should not ignore things which are re-included in ignore file", () => {
@@ -578,8 +580,10 @@ describe("IgnoredPaths", () => {
             assert.isTrue(shouldIgnore(resolve("bower_components/a")));
             assert.isTrue(shouldIgnore(resolve("bower_components/a/b")));
             assert.isFalse(shouldIgnore(resolve(".hidden")));
+            assert.isTrue(shouldIgnore(resolve(".hidden/a")));
             assert.isFalse(shouldIgnore(resolve("node_modules/package")));
             assert.isFalse(shouldIgnore(resolve("bower_components/package")));
+            assert.isFalse(shouldIgnore(resolve(".hidden/package")));
         });
 
         it("should ignore files which we try to re-include in ignore file when ignore option is disabled", () => {
@@ -594,8 +598,10 @@ describe("IgnoredPaths", () => {
             assert.isTrue(shouldIgnore(resolve("bower_components/a")));
             assert.isTrue(shouldIgnore(resolve("bower_components/a/b")));
             assert.isFalse(shouldIgnore(resolve(".hidden")));
+            assert.isTrue(shouldIgnore(resolve(".hidden/a")));
             assert.isTrue(shouldIgnore(resolve("node_modules/package")));
             assert.isTrue(shouldIgnore(resolve("bower_components/package")));
+            assert.isTrue(shouldIgnore(resolve(".hidden/package")));
         });
 
         it("should not ignore dirs which are re-included by ignorePattern", () => {
@@ -610,8 +616,20 @@ describe("IgnoredPaths", () => {
             assert.isTrue(shouldIgnore(resolve("bower_components/a")));
             assert.isTrue(shouldIgnore(resolve("bower_components/a/b")));
             assert.isFalse(shouldIgnore(resolve(".hidden")));
+            assert.isTrue(shouldIgnore(resolve(".hidden/a")));
             assert.isFalse(shouldIgnore(resolve("node_modules/package")));
             assert.isTrue(shouldIgnore(resolve("bower_components/package")));
+        });
+
+        it("should not ignore hidden dirs when dotfiles is enabled", () => {
+            const cwd = getFixturePath("no-ignore-file");
+            const ignoredPaths = new IgnoredPaths({ ignore: true, cwd, dotfiles: true });
+
+            const shouldIgnore = ignoredPaths.getIgnoredFoldersGlobChecker();
+            const resolve = createResolve(cwd);
+
+            assert.isFalse(shouldIgnore(resolve(".hidden")));
+            assert.isFalse(shouldIgnore(resolve(".hidden/a")));
         });
     });
 
