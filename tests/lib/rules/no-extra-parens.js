@@ -381,6 +381,17 @@ ruleTester.run("no-extra-parens", rule, {
             }
         },
         {
+            code: "let a = [ ...(b, c) ]",
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: "let a = { ...(b, c) }",
+            parserOptions: {
+                ecmaVersion: 2015,
+                ecmaFeatures: { experimentalObjectRestSpread: true }
+            }
+        },
+        {
             code: "class A extends B {}",
             parserOptions: { ecmaVersion: 2015 }
         },
