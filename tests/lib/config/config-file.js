@@ -123,17 +123,15 @@ function createStubModuleResolver(mapping) {
      * @constructor
      * @private
      */
-    function StubModuleResolver() {}
+    return class StubModuleResolver {
+        resolve(name) { // eslint-disable-line class-methods-use-this
+            if (mapping.hasOwnProperty(name)) {
+                return mapping[name];
+            }
 
-    StubModuleResolver.prototype.resolve = function(name) {
-        if (mapping.hasOwnProperty(name)) {
-            return mapping[name];
+            throw new Error(`Cannot find module '${name}'`);
         }
-
-        throw new Error(`Cannot find module '${name}'`);
     };
-
-    return StubModuleResolver;
 }
 
 //------------------------------------------------------------------------------
