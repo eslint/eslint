@@ -95,7 +95,7 @@ With the [no-restricted-syntax](/docs/rules/no-restricted-syntax) rule, you can 
 ```json
 {
   "rules": {
-    "no-restricted-syntax": ["error", "IfStatement > :not(BlockStatement).body"]
+    "no-restricted-syntax": ["error", "IfStatement > :not(BlockStatement).consequent"]
   }
 }
 ```
@@ -105,7 +105,7 @@ With the [no-restricted-syntax](/docs/rules/no-restricted-syntax) rule, you can 
 ```json
 {
   "rules": {
-    "no-restricted-syntax": ["error", "IfStatement[body.type!='BlockStatement']"]
+    "no-restricted-syntax": ["error", "IfStatement[consequent.type!='BlockStatement']"]
   }
 }
 ```
