@@ -216,7 +216,7 @@ ruleTester.run("constructor-super", rule, {
                 constructor() {
                     for (a in b) for (c in d);
                 }
-            } /*WIP*/`,
+            }`,
             errors: [{ message: "Expected to call 'super()'.", type: "MethodDefinition" }]
         }
     ]
