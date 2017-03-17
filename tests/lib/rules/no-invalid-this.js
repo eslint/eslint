@@ -317,6 +317,14 @@ const patterns = [
         invalid: []
     },
 
+    // Class Property Initializer.
+    {
+        code: "class A { foo = () => { this.foo = 'foo'; };};",
+        parserOptions: { ecmaVersion: 7 },
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        invalid: []
+    },
+
     // Bind/Call/Apply
     {
         code: "var foo = function() { console.log(this); z(x => console.log(x, this)); }.bind(obj);",
