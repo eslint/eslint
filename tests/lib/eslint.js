@@ -48,7 +48,7 @@ const TEST_CODE = "var answer = 6 * 7;",
 //------------------------------------------------------------------------------
 
 /**
- * Get variables in the current escope
+ * Get variables in the current scope
  * @param {Object} scope current scope
  * @param {string} name name of the variable to look for
  * @returns {ASTNode} The variable object
