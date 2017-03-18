@@ -93,6 +93,12 @@ ruleTester.run("no-param-reassign", rule, {
             parserOptions: { ecmaVersion: 6 },
             options: [{ props: true }],
             errors: [{ message: "Assignment to property of function parameter 'bar'." }]
+        },
+        {
+            code: "function foo(a) { ({a} = obj); }",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{ props: true }],
+            errors: [{ message: "Assignment to function parameter 'a'." }]
         }
     ]
 });
