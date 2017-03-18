@@ -260,6 +260,7 @@ describe("NodeEventGenerator", () => {
                 "FooStatement",
                 "[name = 'foo']",
                 "[name='foo']",
+                "[name ='foo']",
                 "Identifier[name='foo']",
                 "[name='foo'][name.length=3]",
                 ":not(Program, ExpressionStatement)",
@@ -277,11 +278,30 @@ describe("NodeEventGenerator", () => {
                 ["ExpressionStatement > Identifier", ast.body[0].expression], // 0 pseudoclasses, 2 identifiers
                 ["Identifier, ReturnStatement", ast.body[0].expression], // 0 pseudoclasses, 2 identifiers
                 ["[name = 'foo']", ast.body[0].expression], // 1 pseudoclass, 0 identifiers
+                ["[name ='foo']", ast.body[0].expression], // 1 pseudoclass, 0 identifiers
                 ["[name='foo']", ast.body[0].expression], // 1 pseudoclass, 0 identifiers
                 ["ExpressionStatement > [name='foo']", ast.body[0].expression], // 1 attribute, 1 identifier
                 ["Identifier[name='foo']", ast.body[0].expression], // 1 attribute, 1 identifier
                 [":not(Program, Identifier) > [name.length=3]", ast.body[0].expression], // 1 attribute, 2 identifiers
                 ["[name='foo'][name.length=3]", ast.body[0].expression] // 2 attributes, 0 identifiers
+            ]
+        );
+
+        assertEmissions(
+            "foo(); bar; baz;",
+            ["CallExpression, [name='bar']"],
+            ast => [
+                ["CallExpression, [name='bar']", ast.body[0].expression],
+                ["CallExpression, [name='bar']", ast.body[1].expression]
+            ]
+        );
+
+        assertEmissions(
+            "foo; bar;",
+            ["[name.length=3]:exit"],
+            ast => [
+                ["[name.length=3]:exit", ast.body[0].expression],
+                ["[name.length=3]:exit", ast.body[1].expression]
             ]
         );
     });
