@@ -782,7 +782,7 @@ describe("Config", () => {
                 const expected = {
                     rules: {},
                     env: { commonjs: true },
-                    parserOptions: { ecmaFeatures: { globalReturn: true } }
+                    parserOptions: { ecmaFeatures: { globalReturn: true, impliedStrict: true } }
                 };
                 const actual = config.getConfig(targetPath);
 
