@@ -48,7 +48,7 @@ function expectedErrors(indentType, errors) {
 
             message = `Expected indentation of ${err[1]} ${chars} but found ${err[2]}.`;
         }
-        return { message, type: err[3], line: err[0] };
+        return { message, type: err[3], line: err[0], endLine: err[0], column: 1, endColumn: parseInt(err[2], 10) + 1 };
     });
 }
 
