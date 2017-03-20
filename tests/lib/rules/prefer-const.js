@@ -87,6 +87,11 @@ ruleTester.run("prefer-const", rule, {
             code: "let a, b; ({a, b} = obj); b++;",
             options: [{ destructuring: "all" }]
         },
+        {
+            code: "let { name, ...otherStuff } = obj; otherStuff = {};",
+            options: [{ destructuring: "all" }],
+            parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } }
+        },
 
         // ignoreReadBeforeAssign
         {
@@ -288,6 +293,13 @@ ruleTester.run("prefer-const", rule, {
             output: null,
             options: [{ destructuring: "all" }],
             errors: [{ message: "'c' is never reassigned. Use 'const' instead.", type: "Identifier" }]
+        },
+        {
+            code: "let { name, ...otherStuff } = obj; otherStuff = {};",
+            output: null,
+            options: [{ destructuring: "any" }],
+            parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } },
+            errors: [{ message: "'name' is never reassigned. Use 'const' instead.", type: "Identifier", column: 7 }]
         },
 
         // Warnings are located at declaration if there are reading references before assignments.
