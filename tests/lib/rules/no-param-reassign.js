@@ -35,7 +35,12 @@ ruleTester.run("no-param-reassign", rule, {
         { code: "function foo(a) { ++a.b; }", options: [{ props: true, ignorePropertyModificationsFor: ["a"] }] },
         { code: "function foo(a) { delete a.b; }", options: [{ props: true, ignorePropertyModificationsFor: ["a"] }] },
         { code: "function foo(a, z) { a.b = 0; x.y = 0; }", options: [{ props: true, ignorePropertyModificationsFor: ["a", "x"] }] },
-        { code: "function foo(a) { a.b.c = 0;}", options: [{ props: true, ignorePropertyModificationsFor: ["a"] }] }
+        { code: "function foo(a) { a.b.c = 0;}", options: [{ props: true, ignorePropertyModificationsFor: ["a"] }] },
+        {
+            code: "function foo(a) { ({ [a]: variable }) = value }",
+            options: [{ props: true }],
+            parserOptions: { ecmaVersion: 6 }
+        }
     ],
 
     invalid: [
@@ -82,6 +87,18 @@ ruleTester.run("no-param-reassign", rule, {
             parserOptions: { ecmaVersion: 6 },
             options: [{ props: true, ignorePropertyModificationsFor: ["a"] }],
             errors: [{ message: "Assignment to property of function parameter 'bar'." }]
+        },
+        {
+            code: "function foo(bar) { ({foo: bar.a} = {}); }",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{ props: true }],
+            errors: [{ message: "Assignment to property of function parameter 'bar'." }]
+        },
+        {
+            code: "function foo(a) { ({a} = obj); }",
+            parserOptions: { ecmaVersion: 6 },
+            options: [{ props: true }],
+            errors: [{ message: "Assignment to function parameter 'a'." }]
         }
     ]
 });
