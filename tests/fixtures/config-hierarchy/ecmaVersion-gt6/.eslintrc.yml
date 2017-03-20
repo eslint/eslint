@@ -1,0 +1,5 @@
+root: true
+parserOptions:
+    ecmaVersion: 7
+env:
+    commonjs: true

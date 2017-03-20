@@ -788,6 +788,33 @@ describe("Config", () => {
 
                 assertConfigsEqual(actual, expected);
             });
+
+
+            it("should not overwrite ecmaVersion when env of the child is es6 and parent ecmaVersion is > 6", () => {
+                const config = new Config({ cwd: process.cwd() });
+                const targetPath = getFixturePath("ecmaVersion-gt6", "child", "foo.js");
+                const expected = {
+                    env: { es6: true, commonjs: true },
+                    globals: Object.assign({}, environments.es6.globals, environments.commonjs.globals),
+                    parserOptions: { ecmaVersion: 7, ecmaFeatures: { globalReturn: true } }
+                };
+                const actual = config.getConfig(targetPath);
+
+                assertConfigsEqual(actual, expected);
+            });
+
+            it("should overwrite ecmaVersion when env of the child is es6 and parent ecmaVersion is < 6", () => {
+                const config = new Config({ cwd: process.cwd() });
+                const targetPath = getFixturePath("ecmaVersion-lt6", "child", "foo.js");
+                const expected = {
+                    env: { es6: true, commonjs: true },
+                    globals: Object.assign({}, environments.es6.globals, environments.commonjs.globals),
+                    parserOptions: { ecmaVersion: 6, ecmaFeatures: { globalReturn: true } }
+                };
+                const actual = config.getConfig(targetPath);
+
+                assertConfigsEqual(actual, expected);
+            });
         });
 
         describe("personal config file within home directory", () => {
