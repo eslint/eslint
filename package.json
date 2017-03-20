@@ -97,7 +97,7 @@
     "leche": "^2.1.1",
     "load-perf": "^0.2.0",
     "markdownlint": "^0.3.1",
-    "mocha": "^2.4.5",
+    "mocha": "^3.2.0",
     "mock-fs": "^4.2.0",
     "npm-license": "^0.3.2",
     "phantomjs-prebuilt": "^2.1.7",
