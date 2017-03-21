@@ -867,6 +867,132 @@ describe("SourceCode", () => {
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
+        it("should get JSDoc comment for class declaration when the class has decorator before comment", () => {
+            const alternateParser = path.resolve(__dirname, "../../fixtures/parsers/babel-parser.js");
+
+            const code = [
+                "@decorator",
+                "/** Documentation. */",
+                "class A {",
+                "}"
+            ].join("\n");
+
+            /**
+             * Check jsdoc presence
+             * @param {ASTNode} node not to check
+             * @returns {void}
+             * @private
+             */
+            function assertJSDoc(node) {
+                const sourceCode = eslint.getSourceCode();
+                const jsdoc = sourceCode.getJSDocComment(node);
+
+                assert.equal(jsdoc.type, "Block");
+                assert.equal(jsdoc.value, "* Documentation. ");
+            }
+
+            const spy = sandbox.spy(assertJSDoc);
+
+            eslint.on("ClassDeclaration", spy);
+            eslint.verify(code, { rules: {}, parser: alternateParser }, filename, true);
+            assert.isTrue(spy.calledOnce, "Event handler should be called.");
+        });
+
+        it("should get JSDoc comment for class declaration when the class has decorator after comment", () => {
+            const alternateParser = path.resolve(__dirname, "../../fixtures/parsers/babel-parser.js");
+
+            const code = [
+                "/** Documentation. */",
+                "@decorator",
+                "class A {",
+                "}"
+            ].join("\n");
+
+            /**
+             * Check jsdoc presence
+             * @param {ASTNode} node not to check
+             * @returns {void}
+             * @private
+             */
+            function assertJSDoc(node) {
+                const sourceCode = eslint.getSourceCode();
+                const jsdoc = sourceCode.getJSDocComment(node);
+
+                assert.equal(jsdoc.type, "Block");
+                assert.equal(jsdoc.value, "* Documentation. ");
+            }
+
+            const spy = sandbox.spy(assertJSDoc);
+
+            eslint.on("ClassDeclaration", spy);
+            eslint.verify(code, { rules: {}, parser: alternateParser }, filename, true);
+            assert.isTrue(spy.calledOnce, "Event handler should be called.");
+        });
+
+        it("should get JSDoc comment for class method when the method has decorator before comment", () => {
+            const alternateParser = path.resolve(__dirname, "../../fixtures/parsers/babel-parser.js");
+
+            const code = [
+                "class A {",
+                "  @decorator",
+                "  /** Documentation. */",
+                "  method() {}",
+                "};"
+            ].join("\n");
+
+            /**
+             * Check jsdoc presence
+             * @param {ASTNode} node not to check
+             * @returns {void}
+             * @private
+             */
+            function assertJSDoc(node) {
+                const sourceCode = eslint.getSourceCode();
+                const jsdoc = sourceCode.getJSDocComment(node);
+
+                assert.equal(jsdoc.type, "Block");
+                assert.equal(jsdoc.value, "* Documentation. ");
+            }
+
+            const spy = sandbox.spy(assertJSDoc);
+
+            eslint.on("FunctionExpression", spy);
+            eslint.verify(code, { rules: {}, parser: alternateParser }, filename, true);
+            assert.isTrue(spy.calledOnce, "Event handler should be called.");
+        });
+
+        it("should get JSDoc comment for class method when the method has decorator after comment", () => {
+            const alternateParser = path.resolve(__dirname, "../../fixtures/parsers/babel-parser.js");
+
+            const code = [
+                "class A {",
+                "  /** Documentation. */",
+                "  @decorator",
+                "  method() {}",
+                "};"
+            ].join("\n");
+
+            /**
+             * Check jsdoc presence
+             * @param {ASTNode} node not to check
+             * @returns {void}
+             * @private
+             */
+            function assertJSDoc(node) {
+                const sourceCode = eslint.getSourceCode();
+                const jsdoc = sourceCode.getJSDocComment(node);
+
+                assert.equal(jsdoc.type, "Block");
+                assert.equal(jsdoc.value, "* Documentation. ");
+            }
+
+            const spy = sandbox.spy(assertJSDoc);
+
+            eslint.on("FunctionExpression", spy);
+            eslint.verify(code, { rules: {}, parser: alternateParser }, filename, true);
+            assert.isTrue(spy.calledOnce, "Event handler should be called.");
+        });
+
     });
 
     describe("getComments()", () => {
