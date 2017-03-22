@@ -2,8 +2,7 @@
     "type": "object",
     "properties": {
         "root": { "type": "boolean" },
-        "globals": { "type": ["object", "array"] },
-        "global": { "type": ["object", "array"] },
+        "globals": { "type": ["object"] },
         "parser": { "type": ["string", "null"] },
         "env": { "type": "object" },
         "plugins": { "type": ["array"] },

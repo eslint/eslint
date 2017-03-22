@@ -141,24 +141,10 @@ describe("Validator", () => {
                 assert.throws(fn, "Property \"globals\" is the wrong type. Current value is: `\"jQuery\"`");
             });
 
-            it("should not throw with an array value", () => {
+            it("should throw with an array value", () => {
                 const fn = validator.validate.bind(null, { globals: ["jQuery"] });
 
-                assert.doesNotThrow(fn);
-            });
-        });
-
-        describe("global", () => {
-            it("should throw with a string value", () => {
-                const fn = validator.validate.bind(null, { global: "jQuery" });
-
-                assert.throws(fn, "Property \"global\" is the wrong type. Current value is: `\"jQuery\"`");
-            });
-
-            it("should not throw with an array value", () => {
-                const fn = validator.validate.bind(null, { global: ["jQuery"] });
-
-                assert.doesNotThrow(fn);
+                assert.throws(fn, "Property \"globals\" is the wrong type. Current value is: `[\"jQuery\"]`");
             });
         });
 
