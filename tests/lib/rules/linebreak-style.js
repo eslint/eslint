@@ -24,8 +24,7 @@ ruleTester.run("linebreak-style", rule, {
 
     valid: [
         {
-            code: "var a = 'a',\n b = 'b';\n\n function foo(params) {\n /* do stuff */ \n }\n",
-            args: [2]
+            code: "var a = 'a',\n b = 'b';\n\n function foo(params) {\n /* do stuff */ \n }\n"
         },
         {
             code: "var a = 'a',\n b = 'b';\n\n function foo(params) {\n /* do stuff */ \n }\n",
@@ -49,7 +48,6 @@ ruleTester.run("linebreak-style", rule, {
         {
             code: "var a = 'a';\r\n",
             output: "var a = 'a';\n",
-            args: [2],
             errors: [{
                 line: 1,
                 column: 13,
@@ -79,7 +77,6 @@ ruleTester.run("linebreak-style", rule, {
         {
             code: "var a = 'a',\n b = 'b';\n\n function foo(params) {\r\n /* do stuff */ \n }\r\n",
             output: "var a = 'a',\n b = 'b';\n\n function foo(params) {\n /* do stuff */ \n }\n",
-            args: [2],
             errors: [{
                 line: 4,
                 column: 24,
