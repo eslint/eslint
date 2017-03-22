@@ -120,6 +120,16 @@ describe("Validator", () => {
             assert.doesNotThrow(fn);
         });
 
+        it("should throw with an unknown property", () => {
+            const fn = validator.validate.bind(null,
+                {
+                    foo: true
+                },
+                "tests");
+
+            assert.throws(fn, "Property \"data\" has additional properties. Current value is: `\"data.foo\"`.");
+        });
+
         describe("root", () => {
             it("should throw with a string value", () => {
                 const fn = validator.validate.bind(null, { root: "true" });

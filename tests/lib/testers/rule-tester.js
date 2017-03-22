@@ -612,6 +612,30 @@ describe("RuleTester", () => {
 
     });
 
+    it("throw an error when an unknown config option is included", () => {
+
+        assert.throws(() => {
+            ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
+                valid: [
+                    { code: "Eval(foo)", foo: "bar" }
+                ],
+                invalid: []
+            });
+        }, /ESLint configuration is invalid./);
+    });
+
+    it("throw an error when an invalid config value is included", () => {
+
+        assert.throws(() => {
+            ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
+                valid: [
+                    { code: "Eval(foo)", env: ["es6"] }
+                ],
+                invalid: []
+            });
+        }, /Property "env" is the wrong type./);
+    });
+
     it("should pass-through the tester config to the rule", () => {
         ruleTester = new RuleTester({
             globals: { test: true }
