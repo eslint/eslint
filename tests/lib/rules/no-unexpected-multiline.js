@@ -47,60 +47,79 @@ ruleTester.run("no-unexpected-multiline", rule, {
     invalid: [
         {
             code: "var a = b\n(x || y).doSomething()",
-            line: 2,
-            column: 1,
-            errors: [{ message: "Unexpected newline between function and ( of function call." }]
+            errors: [{
+                message: "Unexpected newline between function and ( of function call.",
+                line: 2,
+                column: 1
+
+            }]
         },
         {
             code: "var a = (a || b)\n(x || y).doSomething()",
-            line: 2,
-            column: 1,
-            errors: [{ message: "Unexpected newline between function and ( of function call." }]
+            errors: [{
+                line: 2,
+                column: 1,
+                message: "Unexpected newline between function and ( of function call."
+            }]
         },
         {
             code: "var a = (a || b)\n(x).doSomething()",
-            line: 2,
-            column: 1,
-            errors: [{ message: "Unexpected newline between function and ( of function call." }]
+            errors: [{
+                line: 2,
+                column: 1,
+                message: "Unexpected newline between function and ( of function call."
+            }]
         },
         {
             code: "var a = b\n[a, b, c].forEach(doSomething)",
-            line: 2,
-            column: 1,
-            errors: [{ message: "Unexpected newline between object and [ of property access." }]
+            errors: [{
+                line: 2,
+                column: 1,
+                message: "Unexpected newline between object and [ of property access."
+            }]
         },
         {
             code: "var a = b\n    (x || y).doSomething()",
-            line: 2,
-            column: 5,
-            errors: [{ message: "Unexpected newline between function and ( of function call." }]
+            errors: [{
+                line: 2,
+                column: 5,
+                message: "Unexpected newline between function and ( of function call."
+            }]
         },
         {
             code: "var a = b\n  [a, b, c].forEach(doSomething)",
-            line: 2,
-            column: 3,
-            errors: [{ message: "Unexpected newline between object and [ of property access." }]
+            errors: [{
+                line: 2,
+                column: 3,
+                message: "Unexpected newline between object and [ of property access."
+            }]
         },
         {
             code: "let x = function() {}\n `hello`",
             parserOptions: { ecmaVersion: 6 },
-            line: 1,
-            column: 9,
-            errors: [{ message: "Unexpected newline between template tag and template literal." }]
+            errors: [{
+                line: 1,
+                column: 9,
+                message: "Unexpected newline between template tag and template literal."
+            }]
         },
         {
             code: "let x = function() {}\nx\n`hello`",
             parserOptions: { ecmaVersion: 6 },
-            line: 2,
-            column: 1,
-            errors: [{ message: "Unexpected newline between template tag and template literal." }]
+            errors: [{
+                line: 2,
+                column: 1,
+                message: "Unexpected newline between template tag and template literal."
+            }]
         },
         {
             code: "x\n.y\nz\n`Invalid Test Case`",
             parserOptions: { ecmaVersion: 6 },
-            line: 3,
-            column: 1,
-            errors: [{ message: "Unexpected newline between template tag and template literal." }]
+            errors: [{
+                line: 3,
+                column: 1,
+                message: "Unexpected newline between template tag and template literal."
+            }]
         }
     ]
 });
