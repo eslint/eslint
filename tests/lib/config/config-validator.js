@@ -124,13 +124,13 @@ describe("Validator", () => {
             it("should throw with a string value", () => {
                 const fn = validator.validate.bind(null, { root: "true" });
 
-                assert.throws(fn, "Property \"root\" is the wrong type. Current value is: \"\"true\"\"");
+                assert.throws(fn, "Property \"root\" is the wrong type. Current value is: `\"true\"`");
             });
 
             it("should throw with a numeric value", () => {
                 const fn = validator.validate.bind(null, { root: 0 });
 
-                assert.throws(fn, "Property \"root\" is the wrong type. Current value is: \"0\"");
+                assert.throws(fn, "Property \"root\" is the wrong type. Current value is: `0`");
             });
         });
 
@@ -138,7 +138,7 @@ describe("Validator", () => {
             it("should throw with a string value", () => {
                 const fn = validator.validate.bind(null, { globals: "jQuery" });
 
-                assert.throws(fn, "Property \"globals\" is the wrong type. Current value is: \"\"jQuery\"\"");
+                assert.throws(fn, "Property \"globals\" is the wrong type. Current value is: `\"jQuery\"`");
             });
 
             it("should not throw with an array value", () => {
@@ -152,7 +152,7 @@ describe("Validator", () => {
             it("should throw with a string value", () => {
                 const fn = validator.validate.bind(null, { global: "jQuery" });
 
-                assert.throws(fn, "Property \"global\" is the wrong type. Current value is: \"\"jQuery\"\"");
+                assert.throws(fn, "Property \"global\" is the wrong type. Current value is: `\"jQuery\"`");
             });
 
             it("should not throw with an array value", () => {
@@ -175,13 +175,13 @@ describe("Validator", () => {
             it("should throw with an array environment", () => {
                 const fn = validator.validate.bind(null, { env: [] });
 
-                assert.throws(fn, "Property \"env\" is the wrong type. Current value is: \"[]\"");
+                assert.throws(fn, "Property \"env\" is the wrong type. Current value is: `[]`");
             });
 
             it("should throw with a primitive environment", () => {
                 const fn = validator.validate.bind(null, { env: 1 });
 
-                assert.throws(fn, "Property \"env\" is the wrong type. Current value is: \"1\"");
+                assert.throws(fn, "Property \"env\" is the wrong type. Current value is: `1`");
             });
 
             it("should catch invalid environments", () => {
@@ -211,10 +211,10 @@ describe("Validator", () => {
                 assert.doesNotThrow(fn);
             });
 
-            it("should throw with an string", () => {
+            it("should throw with a string", () => {
                 const fn = validator.validate.bind(null, { plugins: "react" });
 
-                assert.throws(fn, "Property \"plugins\" is the wrong type. Current value is: \"\"react\"\"");
+                assert.throws(fn, "Property \"plugins\" is the wrong type. Current value is: `\"react\"`");
             });
         });
 
@@ -228,7 +228,7 @@ describe("Validator", () => {
             it("should throw with an array", () => {
                 const fn = validator.validate.bind(null, { settings: ["foo"] });
 
-                assert.throws(fn, "Property \"settings\" is the wrong type. Current value is: \"[\"foo\"]\"");
+                assert.throws(fn, "Property \"settings\" is the wrong type. Current value is: `[\"foo\"]");
             });
         });
 
@@ -239,7 +239,7 @@ describe("Validator", () => {
                 assert.doesNotThrow(fn);
             });
 
-            it("should not throw with an string", () => {
+            it("should not throw with a string", () => {
                 const fn = validator.validate.bind(null, { extends: "react" });
 
                 assert.doesNotThrow(fn);
@@ -248,7 +248,7 @@ describe("Validator", () => {
             it("should throw with an object", () => {
                 const fn = validator.validate.bind(null, { extends: {} });
 
-                assert.throws(fn, "Property \"extends\" is the wrong type. Current value is: \"{}\"");
+                assert.throws(fn, "Property \"extends\" is the wrong type. Current value is: `{}`");
             });
         });
 
@@ -262,7 +262,7 @@ describe("Validator", () => {
             it("should throw with an array", () => {
                 const fn = validator.validate.bind(null, { parserOptions: ["foo"] });
 
-                assert.throws(fn, "Property \"parserOptions\" is the wrong type. Current value is: \"[\"foo\"]\"");
+                assert.throws(fn, "Property \"parserOptions\" is the wrong type. Current value is: `[\"foo\"]`");
             });
         });
 
