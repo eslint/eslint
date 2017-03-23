@@ -74,7 +74,7 @@ describe("pathUtil", () => {
             const filePath = "file/path.js";
             const basePath = "/absolute/file";
 
-            sinon.stub(process, "cwd", () => "/absolute/");
+            sinon.stub(process, "cwd").returns("/absolute/");
             const result = pathUtil.getRelativePath(filePath, basePath);
 
             assert.equal(result, "path.js");
