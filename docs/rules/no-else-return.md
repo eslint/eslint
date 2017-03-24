@@ -88,9 +88,10 @@ function foo() {
 
 function foo() {
     if (x) {
-        if (z) {
+        if (y) {
             return y;
         }
+        return x;
     } else {
         return z;
     }
