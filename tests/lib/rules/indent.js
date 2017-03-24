@@ -3034,6 +3034,13 @@ ruleTester.run("indent", rule, {
                 else if (baz)
                     qux;
             `
+        },
+        {
+            code: unIndent`
+                if (foo) bar()
+
+                ; [1, 2, 3].map(baz)
+            `
         }
     ],
 
@@ -6211,6 +6218,19 @@ ruleTester.run("indent", rule, {
             `,
             options: [2, { CallExpression: { arguments: "first" } }],
             errors: expectedErrors([[2, 2, 24, "Identifier"], [3, 2, 24, "Identifier"]])
+        },
+        {
+            code: unIndent`
+                if (foo) bar()
+
+                    ; [1, 2, 3].map(baz)
+            `,
+            output: unIndent`
+                if (foo) bar()
+
+                ; [1, 2, 3].map(baz)
+            `,
+            errors: expectedErrors([3, 0, 4, "Punctuator"])
         }
     ]
 });
