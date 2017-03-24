@@ -3026,6 +3026,14 @@ ruleTester.run("indent", rule, {
                 ];
             `,
             options: [4, { MemberExpression: 1 }]
+        },
+        {
+            code: unIndent`
+                if (foo)
+                    bar;
+                else if (baz)
+                    qux;
+            `
         }
     ],
 
