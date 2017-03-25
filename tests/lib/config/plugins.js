@@ -106,6 +106,21 @@ describe("Plugins", () => {
             }, /Failed to load plugin/);
         });
 
+        it("should rethrow an error that a plugin throws on load", () => {
+            try {
+                StubbedPlugins.load("throws-on-load");
+            } catch (err) {
+                assert.strictEqual(
+                    err.message,
+                    "error thrown while loading this module",
+                    "should rethrow the same error that was thrown on plugin load"
+                );
+
+                return;
+            }
+            assert.fail(null, null, "should throw an error if a plugin fails to load");
+        });
+
         it("should load a scoped plugin when referenced by short name", () => {
             StubbedPlugins.load("@scope/example");
             assert.equal(StubbedPlugins.get("@scope/example"), scopedPlugin);
