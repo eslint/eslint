@@ -1,5 +1,4 @@
 /node_modules
-test.js
 coverage/
 build/
 npm-debug.log
@@ -9,7 +8,6 @@ tmp/
 jsdoc/
 versions.json
 *.iml
-.eslintcache
 .cache
 /packages/**/node_modules
 /.vscode
