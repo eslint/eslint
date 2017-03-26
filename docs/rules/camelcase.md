@@ -8,12 +8,15 @@ This rule looks for any underscores (`_`) located within the source code. It ign
 
 ## Options
 
-This rule has an object option:
+This rule has object options:
 
 * `"properties": "always"` (default) enforces camelcase style for property names
 * `"properties": "never"` does not check property names
+* `"ignorePattern"` custom patterns to be ignored by the rule
 
-### always
+### properties
+
+#### always
 
 Examples of **incorrect** code for this rule with the default `{ "properties": "always" }` option:
 
@@ -58,7 +61,7 @@ new do_something();
 var { category_id: category } = query;
 ```
 
-### never
+#### never
 
 Examples of **correct** code for this rule with the `{ "properties": "never" }` option:
 
@@ -68,6 +71,16 @@ Examples of **correct** code for this rule with the `{ "properties": "never" }` 
 var obj = {
     my_pref: 1
 };
+```
+
+### ignorePattern
+
+Examples of correct code for this rule with the `{ "ignorePattern": "ignored_.*" }` option:
+
+```js
+/*eslint camelcase: ["error", { "ignorePattern": "ignored_.*" }]*/
+
+var ignored_foo = 1;
 ```
 
 ## When Not To Use It
