@@ -153,6 +153,21 @@ ruleTester.run("dot-notation", rule, {
             options: [{ allowKeywords: false }],
             errors: [{ message: ".while is a syntax error." }],
             output: null // Not fixed due to comment
+        },
+        {
+            code: "foo[('bar')]",
+            output: "foo.bar",
+            errors: [{ message: "[\"bar\"] is better written in dot notation." }]
+        },
+        {
+            code: "foo[(null)]",
+            output: "foo.null",
+            errors: [{ message: "[null] is better written in dot notation." }]
+        },
+        {
+            code: "(foo)['bar']",
+            output: "(foo).bar",
+            errors: [{ message: "[\"bar\"] is better written in dot notation." }]
         }
     ]
 });
