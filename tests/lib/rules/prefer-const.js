@@ -10,6 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/prefer-const"),
+    fixtureParser = require("../../fixtures/fixture-parser"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
@@ -87,10 +88,17 @@ ruleTester.run("prefer-const", rule, {
             code: "let a, b; ({a, b} = obj); b++;",
             options: [{ destructuring: "all" }]
         },
+
+        // https://github.com/eslint/eslint/issues/8187
         {
             code: "let { name, ...otherStuff } = obj; otherStuff = {};",
             options: [{ destructuring: "all" }],
             parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } }
+        },
+        {
+            code: "let { name, ...otherStuff } = obj; otherStuff = {};",
+            options: [{ destructuring: "all" }],
+            parser: fixtureParser("babel-eslint5/destructuring-object-spread")
         },
 
         // ignoreReadBeforeAssign
@@ -294,11 +302,20 @@ ruleTester.run("prefer-const", rule, {
             options: [{ destructuring: "all" }],
             errors: [{ message: "'c' is never reassigned. Use 'const' instead.", type: "Identifier" }]
         },
+
+        // https://github.com/eslint/eslint/issues/8187
         {
             code: "let { name, ...otherStuff } = obj; otherStuff = {};",
             output: null,
             options: [{ destructuring: "any" }],
             parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } },
+            errors: [{ message: "'name' is never reassigned. Use 'const' instead.", type: "Identifier", column: 7 }]
+        },
+        {
+            code: "let { name, ...otherStuff } = obj; otherStuff = {};",
+            output: null,
+            options: [{ destructuring: "any" }],
+            parser: fixtureParser("babel-eslint5/destructuring-object-spread"),
             errors: [{ message: "'name' is never reassigned. Use 'const' instead.", type: "Identifier", column: 7 }]
         },
 
