@@ -569,6 +569,11 @@ ruleTester.run("comma-style", rule, {
                 message: BAD_LN_BRK_MSG,
                 type: "Identifier"
             }]
+        },
+        {
+            code: "[(foo),\n,\nbar]",
+            output: "[(foo),,\nbar]",
+            errors: [{ message: BAD_LN_BRK_MSG }]
         }
     ]
 });
