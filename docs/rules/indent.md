@@ -71,6 +71,8 @@ This rule has an object option:
 * `"SwitchCase"` (default: 0) enforces indentation level for `case` clauses in `switch` statements
 * `"VariableDeclarator"` (default: 1) enforces indentation level for `var` declarators; can also take an object to define separate rules for `var`, `let` and `const` declarations.
 * `"outerIIFEBody"` (default: 1) enforces indentation level for file-level IIFEs.
+* `"ImportDeclaration"` (default: 1) enforces indentation level for `import` specifiers.
+* `"ExportDeclaration"` (default: 1) enforces indentation level for `export` specifiers.
 * `"MemberExpression"` (off by default) enforces indentation level for multi-line property chains (except in variable declarations and assignments)
 * `"FunctionDeclaration"` takes an object to define rules for function declarations.
     * `parameters` (off by default) enforces indentation level for parameters in a function declaration. This can either be a number indicating indentation level, or the string `"first"` indicating that all parameters of the declaration must be aligned with the first parameter.
@@ -224,6 +226,273 @@ let a,
 const a = 1,
       b = 2,
       c = 3;
+```
+
+### ImportDeclaration
+
+Examples of **incorrect** code for this rule with the options `2, 2, { "ImportDeclaration": 0 }`:
+
+```js
+/*eslint indent: ["error", 2, { "ImportDeclaration": 0 }]*/
+
+import {
+  foo
+} from 'bar';
+```
+
+```js
+/*eslint indent: ["error", 2, { "ImportDeclaration": 0 }]*/
+
+  import {
+foo
+} from 'bar';
+```
+
+```js
+/*eslint indent: ["error", 2, { "ImportDeclaration": 0 }]*/
+
+import {
+foo
+  } from 'bar';
+```
+
+```js
+/*eslint indent: ["error", 2, { "ImportDeclaration": 0 }]*/
+
+import {
+foo
+}
+  from 'bar';
+```
+
+Examples of **correct** code for this rule with the options `2, 2, { "ImportDeclaration": 0 }`:
+
+```js
+/*eslint indent: ["error", 2, { "ImportDeclaration": 0 }]*/
+/*eslint-env es6*/
+
+import {
+foo
+} from 'bar';
+```
+
+```js
+/*eslint indent: ["error", 2, { "ImportDeclaration": 0 }]*/
+/*eslint-env es6*/
+
+import {
+foo
+}
+from 'bar';
+```
+
+```js
+/*eslint indent: ["error", 2, { "ImportDeclaration": 0 }]*/
+/*eslint-env es6*/
+
+import foo
+from 'bar';
+```
+
+Examples of **incorrect** code for this rule with the options `2, 2, { "ImportDeclaration": 1 }`:
+
+```js
+/*eslint indent: ["error", 2, { "ImportDeclaration": 1 }]*/
+
+import {
+foo
+} from 'bar';
+```
+
+```js
+/*eslint indent: ["error", 2, { "ImportDeclaration": 1 }]*/
+
+  import {
+  foo
+} from 'bar';
+```
+
+```js
+/*eslint indent: ["error", 2, { "ImportDeclaration": 1 }]*/
+
+import {
+  foo
+  } from 'bar';
+```
+
+```js
+/*eslint indent: ["error", 2, { "ImportDeclaration": 1 }]*/
+
+import {
+    foo
+} from 'bar';
+```
+
+```js
+/*eslint indent: ["error", 2, { "ImportDeclaration": 1 }]*/
+
+import {
+  foo
+}
+from 'bar';
+```
+
+```js
+/*eslint indent: ["error", 2, { "ImportDeclaration": 1 }]*/
+
+import foo
+from 'bar';
+```
+
+Examples of **correct** code for this rule with the options `2, 2, { "ImportDeclaration": 1 }`:
+
+```js
+/*eslint indent: ["error", 2, { "ImportDeclaration": 1 }]*/
+/*eslint-env es6*/
+
+import {
+  foo
+} from 'bar';
+```
+
+```js
+/*eslint indent: ["error", 2, { "ImportDeclaration": 1 }]*/
+/*eslint-env es6*/
+
+import {
+  foo
+}
+  from 'bar';
+```
+
+```js
+/*eslint indent: ["error", 2, { "ImportDeclaration": 1 }]*/
+/*eslint-env es6*/
+
+import foo
+  from 'bar';
+```
+
+### ExportDeclaration
+
+Examples of **incorrect** code for this rule with the options `2, 2, { "ExportDeclaration": 0 }`:
+
+```js
+/*eslint indent: ["error", 2, { "ExportDeclaration": 0 }]*/
+
+export {
+  foo
+} from 'bar';
+```
+
+```js
+/*eslint indent: ["error", 2, { "ExportDeclaration": 0 }]*/
+
+  export {
+foo
+} from 'bar';
+```
+
+```js
+/*eslint indent: ["error", 2, { "ExportDeclaration": 0 }]*/
+
+export {
+foo
+  } from 'bar';
+```
+
+```js
+/*eslint indent: ["error", 2, { "ExportDeclaration": 0 }]*/
+
+export {
+foo
+}
+  from 'bar';
+```
+
+Examples of **correct** code for this rule with the options `2, 2, { "ExportDeclaration": 0 }`:
+
+```js
+/*eslint indent: ["error", 2, { "ExportDeclaration": 0 }]*/
+/*eslint-env es6*/
+
+export {
+foo
+} from 'bar';
+```
+
+```js
+/*eslint indent: ["error", 2, { "ExportDeclaration": 0 }]*/
+/*eslint-env es6*/
+
+export {
+foo
+}
+from 'bar';
+```
+
+Examples of **incorrect** code for this rule with the options `2, 2, { "ExportDeclaration": 1 }`:
+
+```js
+/*eslint indent: ["error", 2, { "ExportDeclaration": 1 }]*/
+
+export {
+foo
+} from 'bar';
+```
+
+```js
+/*eslint indent: ["error", 2, { "ExportDeclaration": 1 }]*/
+
+  export {
+  foo
+} from 'bar';
+```
+
+```js
+/*eslint indent: ["error", 2, { "ExportDeclaration": 1 }]*/
+
+export {
+  foo
+  } from 'bar';
+```
+
+```js
+/*eslint indent: ["error", 2, { "ExportDeclaration": 1 }]*/
+
+export {
+    foo
+} from 'bar';
+```
+
+```js
+/*eslint indent: ["error", 2, { "ExportDeclaration": 1 }]*/
+
+export {
+  foo
+}
+from 'bar';
+```
+
+Examples of **correct** code for this rule with the options `2, 2, { "ExportDeclaration": 1 }`:
+
+```js
+/*eslint indent: ["error", 2, { "ExportDeclaration": 1 }]*/
+/*eslint-env es6*/
+
+export {
+  foo
+} from 'bar';
+```
+
+```js
+/*eslint indent: ["error", 2, { "ExportDeclaration": 1 }]*/
+/*eslint-env es6*/
+
+export {
+  foo
+}
+  from 'bar';
 ```
 
 ### outerIIFEBody
