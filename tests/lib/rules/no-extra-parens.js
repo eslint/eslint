@@ -952,6 +952,13 @@ ruleTester.run("no-extra-parens", rule, {
             "AssignmentExpression",
             1,
             { parserOptions: { ecmaVersion: 2015 } }
+        ),
+        invalid(
+            "for (foo of(bar));",
+            "for (foo of bar);",
+            "Identifier",
+            1,
+            { parserOptions: { ecmaVersion: 2015 } }
         )
     ]
 });
