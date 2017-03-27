@@ -27,7 +27,22 @@ ruleTester.run("no-else-return", rule, {
         "function foo() { if (true) notAReturn(); else return y; }",
         "function foo() {if (x) { notAReturn(); } else if (y) { return true; } else { notAReturn(); } }",
         "function foo() {if (x) { return true; } else if (y) { notAReturn() } else { notAReturn(); } }",
-        "if (0) { if (0) {} else {} } else {}"
+        "if (0) { if (0) {} else {} } else {}",
+        `
+            function foo() {
+                if (foo)
+                    if (bar) return;
+                    else baz;
+                else qux;
+            }
+        `,
+        `
+            function foo() {
+                while (foo)
+                    if (bar) return;
+                    else baz;
+            }
+        `
     ],
     invalid: [
         {
