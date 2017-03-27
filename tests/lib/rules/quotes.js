@@ -68,8 +68,10 @@ ruleTester.run("quotes", rule, {
         { code: "import a from \"a\"; import b from 'b';", options: ["backtick"], parserOptions: { sourceType: "module" } },
         { code: "export * from \"a\"; export * from 'b';", options: ["backtick"], parserOptions: { sourceType: "module" } },
 
-        // `backtick` should not warn property names (not computed).
-        { code: "var obj = {\"key0\": 0, 'key1': 1};", options: ["backtick"], parserOptions: { ecmaVersion: 6 } }
+        // `backtick` should not warn property/method names (not computed).
+        { code: "var obj = {\"key0\": 0, 'key1': 1};", options: ["backtick"], parserOptions: { ecmaVersion: 6 } },
+        { code: "class Foo { 'bar'(){} }", options: ["backtick"], parserOptions: { ecmaVersion: 6 } },
+        { code: "class Foo { static ''(){} }", options: ["backtick"], parserOptions: { ecmaVersion: 6 } }
     ],
     invalid: [
         {
@@ -205,10 +207,20 @@ ruleTester.run("quotes", rule, {
             errors: [{ message: "Strings must use backtick.", type: "Literal" }]
         },
 
-        // `backtick` should not warn computed property names.
+        // `backtick` should warn computed property names.
         {
             code: "var obj = {[\"key0\"]: 0, ['key1']: 1};",
             output: "var obj = {[`key0`]: 0, [`key1`]: 1};",
+            options: ["backtick"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                { message: "Strings must use backtick.", type: "Literal" },
+                { message: "Strings must use backtick.", type: "Literal" }
+            ]
+        },
+        {
+            code: "class Foo { ['a'](){} static ['b'](){} }",
+            output: "class Foo { [`a`](){} static [`b`](){} }",
             options: ["backtick"],
             parserOptions: { ecmaVersion: 6 },
             errors: [
