@@ -1924,6 +1924,112 @@ ruleTester.run("indent", rule, {
             "             ['foo', 'bar',\n" +
             "              'baz']);",
             options: [2, { ArrayExpression: "first", CallExpression: { arguments: "first" } }]
+        },
+        {
+            code:
+            "import {\n" +
+            "  foo\n" +
+            "} from 'bar';\n",
+            options: [2],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code:
+            "import {\n" +
+            "  foo\n" +
+            "} from 'bar';\n",
+            options: [2],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code:
+            "import {\n" +
+            "    foo\n" +
+            "} from 'bar';\n",
+            options: [4],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code:
+            "import {\n" +
+            "\tfoo\n" +
+            "} from 'bar';\n",
+            options: ["tab"],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code:
+            "import foo\n" +
+            "\tfrom 'bart';\n",
+            options: ["tab"],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code:
+            "import { foo }\n" +
+            "\tfrom 'bar';\n",
+            options: ["tab"],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code:
+            "import foo\n" +
+            "\tfrom 'bar';\n",
+            options: ["tab"],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code:
+            "import { foo }\n" +
+            "  from 'bar';\n",
+            options: [2],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code:
+            "export {\n" +
+            "  foo\n" +
+            "} from 'bar';\n",
+            options: [2],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code:
+            "export {\n" +
+            "  foo\n" +
+            "} from 'bar';\n",
+            options: [2],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code:
+            "export {\n" +
+            "    foo\n" +
+            "} from 'bar';\n",
+            options: [4],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code:
+            "export {\n" +
+            "\tfoo\n" +
+            "} from 'bar';\n",
+            options: ["tab"],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code:
+            "export { foo }\n" +
+            "\tfrom 'bar';\n",
+            options: ["tab"],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code:
+            "export { foo }\n" +
+            "  from 'bar';\n",
+            options: [2],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         }
     ],
     invalid: [
@@ -3934,6 +4040,183 @@ ruleTester.run("indent", rule, {
             "             'baz']);",
             options: [2, { ArrayExpression: "first", CallExpression: { arguments: "first" } }],
             errors: expectedErrors([2, 13, 12, "ArrayExpression"])
+        },
+        {
+            code:
+            "import {\n" +
+            "    foo\n" +
+            "} from 'bar';\n",
+            options: [2],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: expectedErrors([2, 2, 4, "ImportSpecifier"]),
+            output:
+            "import {\n" +
+            "  foo\n" +
+            "} from 'bar';\n"
+        },
+        {
+            code:
+            "import {\n" +
+            "foo\n" +
+            "} from 'bar';\n",
+            options: [2],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: expectedErrors([2, 2, 0, "ImportSpecifier"]),
+            output:
+            "import {\n" +
+            "  foo\n" +
+            "} from 'bar';\n"
+        },
+        {
+            code:
+            "  import {\n" +
+            "  foo\n" +
+            "} from 'bar';\n",
+            options: [2],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: expectedErrors([1, 0, 2, "ImportDeclaration"]),
+            output:
+            "import {\n" +
+            "  foo\n" +
+            "} from 'bar';\n"
+        },
+        {
+            code:
+            "import {\n" +
+            "  foo\n" +
+            "  }\n" +
+            "from 'bar';\n",
+            options: [2],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: expectedErrors([
+                [3, 0, 2, "Punctuator"],
+                [4, 2, 0, "Identifier"]
+            ]),
+            output:
+            "import {\n" +
+            "  foo\n" +
+            "}\n" +
+            "  from 'bar';\n"
+        },
+        {
+            code:
+            "import {\n" +
+            "  foo\n" +
+            "  } from 'bar';\n",
+            options: [2],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: expectedErrors([3, 0, 2, "Punctuator"]),
+            output:
+            "import {\n" +
+            "  foo\n" +
+            "} from 'bar';\n"
+        },
+        {
+            code:
+            "import {\n" +
+            "\tfoo\n" +
+            "} from 'bar';\n",
+            options: [2],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: expectedErrors([2, 2, "1 tab", "ImportSpecifier"]),
+            output:
+            "import {\n" +
+            "  foo\n" +
+            "} from 'bar';\n"
+        },
+        {
+            code:
+            "import foo\n" +
+            "from 'bar';\n",
+            options: [2],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: expectedErrors([2, 2, 0, "Identifier"]),
+            output:
+            "import foo\n" +
+            "  from 'bar';\n"
+        },
+        {
+            code:
+            "export {\n" +
+            "    foo\n" +
+            "} from 'bar';\n",
+            options: [2],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: expectedErrors([2, 2, 4, "ExportSpecifier"]),
+            output:
+            "export {\n" +
+            "  foo\n" +
+            "} from 'bar';\n"
+        },
+        {
+            code:
+            "export {\n" +
+            "foo\n" +
+            "} from 'bar';\n",
+            options: [2],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: expectedErrors([2, 2, 0, "ExportSpecifier"]),
+            output:
+            "export {\n" +
+            "  foo\n" +
+            "} from 'bar';\n"
+        },
+        {
+            code:
+            "  export {\n" +
+            "  foo\n" +
+            "} from 'bar';\n",
+            options: [2],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: expectedErrors([1, 0, 2, "ExportNamedDeclaration"]),
+            output:
+            "export {\n" +
+            "  foo\n" +
+            "} from 'bar';\n"
+        },
+        {
+            code:
+            "export {\n" +
+            "  foo\n" +
+            "  }\n" +
+            "from 'bar';\n",
+            options: [2],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: expectedErrors([
+                [3, 0, 2, "Punctuator"],
+                [4, 2, 0, "Identifier"]
+            ]),
+            output:
+            "export {\n" +
+            "  foo\n" +
+            "}\n" +
+            "  from 'bar';\n"
+        },
+        {
+            code:
+            "export {\n" +
+            "  foo\n" +
+            "  } from 'bar';\n",
+            options: [2],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: expectedErrors([3, 0, 2, "Punctuator"]),
+            output:
+            "export {\n" +
+            "  foo\n" +
+            "} from 'bar';\n"
+        },
+        {
+            code:
+            "export {\n" +
+            "\tfoo\n" +
+            "} from 'bar';\n",
+            options: [2],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: expectedErrors([2, 2, "1 tab", "ExportSpecifier"]),
+            output:
+            "export {\n" +
+            "  foo\n" +
+            "} from 'bar';\n"
         }
     ]
 });
