@@ -87,13 +87,12 @@ function foo() {
 }
 
 function foo() {
-    if (x) {
-        if (y) {
-            return y;
-        }
-        return x;
-    } else {
+    if (!x) {
         return z;
     }
+    if (y) {
+        return y;
+    }
+    return x;
 }
 ```
