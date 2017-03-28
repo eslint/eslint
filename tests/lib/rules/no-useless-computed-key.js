@@ -87,6 +87,81 @@ ruleTester.run("no-useless-computed-key", rule, {
             errors: [{
                 message: "Unnecessarily computed property ['x'] found.", type: "Property"
             }]
+        }, {
+            code: "({ get[.2]() {} })",
+            output: "({ get.2() {} })",
+            errors: [{
+                message: "Unnecessarily computed property [.2] found.", type: "Property"
+            }]
+        }, {
+            code: "({ set[.2](value) {} })",
+            output: "({ set.2(value) {} })",
+            errors: [{
+                message: "Unnecessarily computed property [.2] found.", type: "Property"
+            }]
+        }, {
+            code: "({ async[.2]() {} })",
+            output: "({ async.2() {} })",
+            parserOptions: { ecmaVersion: 8 },
+            errors: [{
+                message: "Unnecessarily computed property [.2] found.", type: "Property"
+            }]
+        }, {
+            code: "({ [2]() {} })",
+            output: "({ 2() {} })",
+            errors: [{
+                message: "Unnecessarily computed property [2] found.", type: "Property"
+            }]
+        }, {
+            code: "({ get [2]() {} })",
+            output: "({ get 2() {} })",
+            errors: [{
+                message: "Unnecessarily computed property [2] found.", type: "Property"
+            }]
+        }, {
+            code: "({ set [2](value) {} })",
+            output: "({ set 2(value) {} })",
+            errors: [{
+                message: "Unnecessarily computed property [2] found.", type: "Property"
+            }]
+        }, {
+            code: "({ async [2]() {} })",
+            output: "({ async 2() {} })",
+            parserOptions: { ecmaVersion: 8 },
+            errors: [{
+                message: "Unnecessarily computed property [2] found.", type: "Property"
+            }]
+        }, {
+            code: "({ get[2]() {} })",
+            output: "({ get 2() {} })",
+            errors: [{
+                message: "Unnecessarily computed property [2] found.", type: "Property"
+            }]
+        }, {
+            code: "({ set[2](value) {} })",
+            output: "({ set 2(value) {} })",
+            errors: [{
+                message: "Unnecessarily computed property [2] found.", type: "Property"
+            }]
+        }, {
+            code: "({ async[2]() {} })",
+            output: "({ async 2() {} })",
+            parserOptions: { ecmaVersion: 8 },
+            errors: [{
+                message: "Unnecessarily computed property [2] found.", type: "Property"
+            }]
+        }, {
+            code: "({ get['foo']() {} })",
+            output: "({ get'foo'() {} })",
+            errors: [{
+                message: "Unnecessarily computed property ['foo'] found.", type: "Property"
+            }]
+        }, {
+            code: "({ *[2]() {} })",
+            output: "({ *2() {} })",
+            errors: [{
+                message: "Unnecessarily computed property [2] found.", type: "Property"
+            }]
         }
     ]
 });
