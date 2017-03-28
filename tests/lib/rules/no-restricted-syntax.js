@@ -19,6 +19,8 @@ const ruleTester = new RuleTester();
 
 ruleTester.run("no-restricted-syntax", rule, {
     valid: [
+
+        // string format
         { code: "doSomething();" },
         { code: "var foo = 42;", options: ["ConditionalExpression"] },
         { code: "foo += 42;", options: ["VariableDeclaration", "FunctionExpression"] },
@@ -26,9 +28,20 @@ ruleTester.run("no-restricted-syntax", rule, {
         { code: "() => 5", options: ["ArrowFunctionExpression > BlockStatement"], parserOptions: { ecmaVersion: 6 } },
         { code: "({ foo: 1, bar: 2 })", options: ["Property > Literal.key"] },
         { code: "A: for (;;) break;", options: ["BreakStatement[label]"] },
-        { code: "function foo(bar, baz) {}", options: ["FunctionDeclaration[params.length>2]"] }
+        { code: "function foo(bar, baz) {}", options: ["FunctionDeclaration[params.length>2]"] },
+
+        //  object format
+        { code: "var foo = 42;", options: [{ selector: "ConditionalExpression" }] },
+        { code: "({ foo: 1, bar: 2 })", options: [{ selector: "Property > Literal.key" }] },
+        {
+            code: "({ foo: 1, bar: 2 })",
+            options: [{ selector: "FunctionDeclaration[params.length>2]", message: "custom error message." }]
+        }
+
     ],
     invalid: [
+
+        // string format
         {
             code: "var foo = 41;",
             options: ["VariableDeclaration"],
@@ -82,6 +95,23 @@ ruleTester.run("no-restricted-syntax", rule, {
             code: "function foo(bar, baz, qux) {}",
             options: ["FunctionDeclaration[params.length>2]"],
             errors: [{ message: "Using 'FunctionDeclaration[params.length>2]' is not allowed.", type: "FunctionDeclaration" }]
+        },
+
+        // object format
+        {
+            code: "var foo = 41;",
+            options: [{ selector: "VariableDeclaration" }],
+            errors: [{ message: "Using 'VariableDeclaration' is not allowed.", type: "VariableDeclaration" }]
+        },
+        {
+            code: "function foo(bar, baz, qux) {}",
+            options: [{ selector: "FunctionDeclaration[params.length>2]" }],
+            errors: [{ message: "Using 'FunctionDeclaration[params.length>2]' is not allowed.", type: "FunctionDeclaration" }]
+        },
+        {
+            code: "function foo(bar, baz, qux) {}",
+            options: [{ selector: "FunctionDeclaration[params.length>2]", message: "custom error message." }],
+            errors: [{ message: "custom error message.", type: "FunctionDeclaration" }]
         }
     ]
 });

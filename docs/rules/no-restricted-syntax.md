@@ -12,7 +12,7 @@ This rule disallows specified (that is, user-defined) syntax.
 
 ## Options
 
-This rule takes a list of strings:
+This rule takes a list of strings, where each string is a node type or AST selector:
 
 ```json
 {
@@ -21,6 +21,28 @@ This rule takes a list of strings:
     }
 }
 ```
+
+Alternatively, the rule also accepts objects, where the selector and an optional custom message are specified:
+
+```json
+{
+    "rules": {
+        "no-restricted-syntax": [
+            "error",
+            {
+                "selector": "FunctionExpression",
+                "message": "Function expressions are not allowed."
+            },
+            {
+                "selector": "CallExpression[callee.name='setTimeout'][arguments.length!=2]",
+                "message": "setTimeout must always be invoked with two arguments."
+            }
+        ]
+    }
+}
+```
+
+If a custom message is specified with the `message` property, ESLint will use that message when reporting occurrences of the syntax specified in the `selector` property.
 
 Examples of **incorrect** code for this rule with the `"FunctionExpression", "WithStatement", BinaryExpression[operator='in']` options:
 
