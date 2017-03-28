@@ -410,6 +410,22 @@ ruleTester.run("no-extra-parens", rule, {
         {
             code: "const A = class extends (B=C) {}",
             parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: "() => ({ foo: 1 })",
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: "() => ({ foo: 1 }).foo",
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: "() => ({ foo: 1 }.foo().bar).baz.qux()",
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: "() => ({ foo: 1 }.foo().bar + baz)",
+            parserOptions: { ecmaVersion: 2015 }
         }
     ],
 
@@ -959,6 +975,18 @@ ruleTester.run("no-extra-parens", rule, {
             "Identifier",
             1,
             { parserOptions: { ecmaVersion: 2015 } }
-        )
+        ),
+        {
+            code: "() => (({ foo: 1 }).foo)",
+            output: "() => ({ foo: 1 }).foo",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+
+                // 2 errors are reported, but fixing one gets rid of the other
+                { message: "Gratuitous parentheses around expression.", type: "MemberExpression" },
+                { message: "Gratuitous parentheses around expression.", type: "ObjectExpression" }
+            ]
+
+        }
     ]
 });
