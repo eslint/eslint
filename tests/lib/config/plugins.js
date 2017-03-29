@@ -43,7 +43,12 @@ describe("Plugins", () => {
                 "eslint-plugin-example": plugin,
                 "@scope/eslint-plugin-example": scopedPlugin,
                 "./environments": Environments,
-                "../rules": Rules
+                "../rules": Rules,
+                "eslint-plugin-throws-on-load": {
+                    get rules() {
+                        throw new Error("error thrown while loading this module");
+                    }
+                }
             });
         });
 
