@@ -346,6 +346,7 @@ describe("formatter:stylish", () => {
 
         it("should output the total number of fixable errors and warnings", () => {
             const code = [{
+                filePath: "foo.js",
                 errorCount: 5,
                 warningCount: 3,
                 fixableErrorCount: 5,
@@ -354,6 +355,7 @@ describe("formatter:stylish", () => {
                     message: "Unexpected foo."
                 }]
             }, {
+                filePath: "bar.js",
                 errorCount: 4,
                 warningCount: 2,
                 fixableErrorCount: 4,
