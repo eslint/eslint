@@ -81,7 +81,8 @@ ruleTester.run("operator-assignment", rule, {
         "x = x === y",
         "x = x !== y",
         "x = x && y",
-        "x = x || y"
+        "x = x || y",
+        "x = x * y + z"
     ],
 
     invalid: [{
@@ -212,6 +213,26 @@ ruleTester.run("operator-assignment", rule, {
     }, {
         code: "foo **= bar",
         output: "foo = foo ** bar",
+        options: ["never"],
+        errors: UNEXPECTED_OPERATOR_ASSIGNMENT
+    }, {
+        code: "foo *= bar + 1",
+        output: "foo = foo * (bar + 1)",
+        options: ["never"],
+        errors: UNEXPECTED_OPERATOR_ASSIGNMENT
+    }, {
+        code: "foo -= bar - baz",
+        output: "foo = foo - (bar - baz)",
+        options: ["never"],
+        errors: UNEXPECTED_OPERATOR_ASSIGNMENT
+    }, {
+        code: "foo += bar = 1",
+        output: "foo = foo + (bar = 1)",
+        options: ["never"],
+        errors: UNEXPECTED_OPERATOR_ASSIGNMENT
+    }, {
+        code: "foo *= (bar + 1)",
+        output: "foo = foo * (bar + 1)",
         options: ["never"],
         errors: UNEXPECTED_OPERATOR_ASSIGNMENT
     }]
