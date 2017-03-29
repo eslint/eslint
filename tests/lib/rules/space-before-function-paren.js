@@ -8,8 +8,9 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const rule = require("../../../lib/rules/space-before-function-paren"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+const rule = require("../../../lib/rules/space-before-function-paren");
+const RuleTester = require("../../../lib/testers/rule-tester");
+const baseParser = require("../../fixtures/fixture-parser");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -94,6 +95,10 @@ ruleTester.run("space-before-function-paren", rule, {
         },
         { code: "var bar = function foo () {}",
             options: [{ named: "ignore", anonymous: "always" }]
+        },
+        {
+            code: "type TransformFunction = (el: ASTElement, code: string) => string;",
+            parser: baseParser("space-before-function-paren", "function-type-annotation")
         },
 
         // Async arrow functions
