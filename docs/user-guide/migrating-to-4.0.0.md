@@ -4,8 +4,6 @@ ESLint v4.0.0 is the fourth major version release. We have made several breaking
 
 The lists below are ordered roughly by the number of users each change is expected to affect, where the first items are expected to affect the most users.
 
-## Summary:
-
 ### Breaking changes for users
 
 1. [New rules have been added to `eslint:recommended`](#eslint-recommended-changes)
