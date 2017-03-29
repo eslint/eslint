@@ -226,6 +226,11 @@ ruleTester.run("operator-assignment", rule, {
         options: ["never"],
         errors: UNEXPECTED_OPERATOR_ASSIGNMENT
     }, {
+        code: "foo += bar + baz",
+        output: "foo = foo + (bar + baz)", // addition is not associative in JS, e.g. (1 + 2) + '3' !== 1 + (2 + '3')
+        options: ["never"],
+        errors: UNEXPECTED_OPERATOR_ASSIGNMENT
+    }, {
         code: "foo += bar = 1",
         output: "foo = foo + (bar = 1)",
         options: ["never"],
