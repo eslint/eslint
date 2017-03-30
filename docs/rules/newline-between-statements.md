@@ -9,7 +9,7 @@ For example, the following configuration requires a blank line between a variabl
 
 ```js
 /*eslint newline-between-statements: ["error", [
-    ["always", "var", "return"]
+    { blankline: "always", prev: "var", next: "return" }
 ]]*/
 
 function foo() {
@@ -23,16 +23,16 @@ function foo() {
 
 This rule does nothing if no configuration.
 
-A configuration is an array which has 3 elements; a linebreak type and 2 kind of statements. For example, `["always", "var", "return"]` is meaning "it requires one or more blank lines between a variable declaration and a `return` statement."
+A configuration is an array which has 3 elements; a linebreak type and 2 kind of statements. For example, `{ blankline: "always", prev: "var", next: "return" }` is meaning "it requires one or more blank lines between a variable declaration and a `return` statement."
 You can supply any number of the configuration. If an statement pair matches some configurations, it chooses the last matched configuration.
 
 ```json
 {
     "newline-between-statements": ["error", [
-        [LINEBREAK_TYPE, STATEMENT_TYPE, STATEMENT_TYPE],
-        [LINEBREAK_TYPE, STATEMENT_TYPE, STATEMENT_TYPE],
-        [LINEBREAK_TYPE, STATEMENT_TYPE, STATEMENT_TYPE],
-        [LINEBREAK_TYPE, STATEMENT_TYPE, STATEMENT_TYPE],
+        { "blankline": LINEBREAK_TYPE, "prev": STATEMENT_TYPE, "next": STATEMENT_TYPE },
+        { "blankline": LINEBREAK_TYPE, "prev": STATEMENT_TYPE, "next": STATEMENT_TYPE },
+        { "blankline": LINEBREAK_TYPE, "prev": STATEMENT_TYPE, "next": STATEMENT_TYPE },
+        { "blankline": LINEBREAK_TYPE, "prev": STATEMENT_TYPE, "next": STATEMENT_TYPE },
         ...
     ]]
 }
@@ -79,11 +79,11 @@ You can supply any number of the configuration. If an statement pair matches som
 
 It configures as [newline-before-return].
 
-Examples of **incorrect** code for the `[["always", "*", "return"]]` configuration:
+Examples of **incorrect** code for the `[{ blankline: "always", prev: "*", next: "return" }]` configuration:
 
 ```js
 /*eslint newline-between-statements: ["error", [
-    ["always", "*", "return"]
+    { blankline: "always", prev: "*", next: "return" }
 ]]*/
 
 function foo() {
@@ -92,11 +92,11 @@ function foo() {
 }
 ```
 
-Examples of **correct** code for the `[["always", "*", "return"]]` configuration:
+Examples of **correct** code for the `[{ blankline: "always", prev: "*", next: "return" }]` configuration:
 
 ```js
 /*eslint newline-between-statements: ["error", [
-    ["always", "*", "return"]
+    { blankline: "always", prev: "*", next: "return" }
 ]]*/
 
 function foo() {
@@ -114,12 +114,12 @@ function foo() {
 
 It configures as [newline-after-var].
 
-Examples of **incorrect** code for the `[["always", ["const", "let", "var"], "*"], ["any", ["const", "let", "var"], ["const", "let", "var"]]]` configuration:
+Examples of **incorrect** code for the `[{ blankline: "always", prev: ["const", "let", "var"], next: "*"}, { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"]}]` configuration:
 
 ```js
 /*eslint newline-between-statements: ["error", [
-    ["always", ["const", "let", "var"], "*"],
-    ["any", ["const", "let", "var"], ["const", "let", "var"]]
+    { blankline: "always", prev: ["const", "let", "var"], next: "*"},
+    { blankline: "any",    prev: ["const", "let", "var"], next: ["const", "let", "var"]}
 ]]*/
 
 function foo() {
@@ -138,12 +138,12 @@ function foo() {
 }
 ```
 
-Examples of **correct** code for the `[["always", ["const", "let", "var"], "*"], ["any", ["const", "let", "var"], ["const", "let", "var"]]]` configuration:
+Examples of **correct** code for the `[{ blankline: "always", prev: ["const", "let", "var"], next: "*"}, { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"]}]` configuration:
 
 ```js
 /*eslint newline-between-statements: ["error", [
-    ["always", ["const", "let", "var"], "*"],
-    ["any", ["const", "let", "var"], ["const", "let", "var"]]
+    { blankline: "always", prev: ["const", "let", "var"], next: "*"},
+    { blankline: "any",    prev: ["const", "let", "var"], next: ["const", "let", "var"]}
 ]]*/
 
 function foo() {
@@ -172,24 +172,24 @@ function foo() {
 
 It configures as [newline-around-directive].
 
-Examples of **incorrect** code for the `[["always", "directive", "*"], ["any", "directive", "directive"]]` configuration:
+Examples of **incorrect** code for the `[{ blankline: "always", prev: "directive", next: "*" }, { blankline: "any", prev: "directive", next: "directive" }]` configuration:
 
 ```js
 /*eslint newline-between-statements: ["error", [
-    ["always", "directive", "*"],
-    ["any", "directive", "directive"]
+    { blankline: "always", prev: "directive", next: "*" },
+    { blankline: "any",    prev: "directive", next: "directive" }
 ]]*/
 
 "use strict";
 foo();
 ```
 
-Examples of **correct** code for the `[["always", "directive", "*"], ["any", "directive", "directive"]]` configuration:
+Examples of **correct** code for the `[{ blankline: "always", prev: "directive", next: "*" }, { blankline: "any", prev: "directive", next: "directive" }]` configuration:
 
 ```js
 /*eslint newline-between-statements: ["error", [
-    ["always", "directive", "*"],
-    ["any", "directive", "directive"]
+    { blankline: "always", prev: "directive", next: "*" },
+    { blankline: "any",    prev: "directive", next: "directive" }
 ]]*/
 
 "use strict";

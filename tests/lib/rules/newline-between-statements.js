@@ -5,11 +5,6 @@
 
 "use strict";
 
-/* eslint
-    object-curly-newline: [error, {minProperties:2}],
-    object-property-newline: error
- */
-
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
@@ -33,13 +28,13 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "foo()",
             options: [[
-                ["never", "*", "*"]
+                { blankline: "never", prev: "*", next: "*" }
             ]]
         },
         {
             code: "foo()",
             options: [[
-                ["always", "*", "*"]
+                { blankline: "always", prev: "*", next: "*" }
             ]]
         },
 
@@ -50,49 +45,49 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "foo();bar();",
             options: [[
-                ["never", "*", "*"]
+                { blankline: "never", prev: "*", next: "*" }
             ]]
         },
         {
             code: "foo();\nbar();",
             options: [[
-                ["never", "*", "*"]
+                { blankline: "never", prev: "*", next: "*" }
             ]]
         },
         {
             code: "foo();\n//comment\nbar();",
             options: [[
-                ["never", "*", "*"]
+                { blankline: "never", prev: "*", next: "*" }
             ]]
         },
         {
             code: "foo();\n/*comment*/\nbar();",
             options: [[
-                ["never", "*", "*"]
+                { blankline: "never", prev: "*", next: "*" }
             ]]
         },
         {
             code: "foo();\n\nbar();",
             options: [[
-                ["always", "*", "*"]
+                { blankline: "always", prev: "*", next: "*" }
             ]]
         },
         {
             code: "foo();\n\n//comment\nbar();",
             options: [[
-                ["always", "*", "*"]
+                { blankline: "always", prev: "*", next: "*" }
             ]]
         },
         {
             code: "foo();\n//comment\n\nbar();",
             options: [[
-                ["always", "*", "*"]
+                { blankline: "always", prev: "*", next: "*" }
             ]]
         },
         {
             code: "foo();\n//comment\n\n//comment\nbar();",
             options: [[
-                ["always", "*", "*"]
+                { blankline: "always", prev: "*", next: "*" }
             ]]
         },
 
@@ -103,78 +98,78 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "foo();\n\n{ foo() }\n\nfoo();",
             options: [[
-                ["always", "*", "*"],
-                ["never", "block-like", "block-like"]
+                { blankline: "always", prev: "*", next: "*" },
+                { blankline: "never", prev: "block-like", next: "block-like" }
             ]]
         },
         {
             code: "{ foo() } { foo() }",
             options: [[
-                ["always", "*", "*"],
-                ["never", "block-like", "block-like"]
+                { blankline: "always", prev: "*", next: "*" },
+                { blankline: "never", prev: "block-like", next: "block-like" }
             ]]
         },
         {
             code: "{ foo() }\n{ foo() }",
             options: [[
-                ["always", "*", "*"],
-                ["never", "block-like", "block-like"]
+                { blankline: "always", prev: "*", next: "*" },
+                { blankline: "never", prev: "block-like", next: "block-like" }
             ]]
         },
         {
             code: "{ foo() }\n\n{ foo() }",
             options: [[
-                ["never", "*", "*"],
-                ["always", "block-like", "block-like"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "block-like", next: "block-like" }
             ]]
         },
         {
             code: "{ foo() }\n\n//comment\n{ foo() }",
             options: [[
-                ["never", "*", "*"],
-                ["always", "block-like", "block-like"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "block-like", next: "block-like" }
             ]]
         },
         {
             code: "if(a);\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "block-like", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "block-like", next: "*" }
             ]]
         },
         {
             code: "do;while(a);\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "block-like", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "block-like", next: "*" }
             ]]
         },
         {
             code: "do{}while(a);\n\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "block-like", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "block-like", next: "*" }
             ]]
         },
         {
             code: "a={}\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "block-like", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "block-like", next: "*" }
             ]]
         },
         {
             code: "let a={}\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "block-like", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "block-like", next: "*" }
             ]]
         },
         {
             code: "foo(function(){})\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "block-like", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "block-like", next: "*" }
             ]]
         },
 
@@ -185,43 +180,43 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "module.exports=1",
             options: [[
-                ["never", "*", "*"],
-                ["always", "cjs-export", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "cjs-export", next: "*" }
             ]]
         },
         {
             code: "module.exports=1\n\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "cjs-export", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "cjs-export", next: "*" }
             ]]
         },
         {
             code: "module.exports.foo=1\n\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "cjs-export", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "cjs-export", next: "*" }
             ]]
         },
         {
             code: "exports.foo=1\n\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "cjs-export", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "cjs-export", next: "*" }
             ]]
         },
         {
             code: "m.exports=1\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "cjs-export", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "cjs-export", next: "*" }
             ]]
         },
         {
             code: "module.foo=1\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "cjs-export", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "cjs-export", next: "*" }
             ]]
         },
 
@@ -232,15 +227,15 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "foo=require(\"foo\")\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "cjs-import", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "cjs-import", next: "*" }
             ]]
         },
         {
             code: "const foo=a.require(\"foo\")\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "cjs-import", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "cjs-import", next: "*" }
             ]]
         },
 
@@ -251,78 +246,78 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "\"use strict\"\n\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "directive", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "directive", next: "*" }
             ]]
         },
         {
             code: "function foo(){\"use strict\"\n\nfoo()}",
             options: [[
-                ["never", "*", "*"],
-                ["always", "directive", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "directive", next: "*" }
             ]]
         },
         {
             code: "(function foo(){\"use strict\"\n\nfoo()})",
             options: [[
-                ["never", "*", "*"],
-                ["always", "directive", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "directive", next: "*" }
             ]]
         },
         {
             code: "(()=>{\"use strict\"\n\nfoo()})",
             options: [[
-                ["never", "*", "*"],
-                ["always", "directive", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "directive", next: "*" }
             ]]
         },
         {
             code: "'use strict'\n\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "directive", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "directive", next: "*" }
             ]]
         },
         {
             code: "foo(\"use strict\")\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "directive", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "directive", next: "*" }
             ]]
         },
         {
             code: "`use strict`\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "directive", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "directive", next: "*" }
             ]]
         },
         {
             code: "(\"use strict\")\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "directive", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "directive", next: "*" }
             ]]
         },
         {
             code: "'use '+'strict'\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "directive", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "directive", next: "*" }
             ]]
         },
         {
             code: "foo()\n\"use strict\"\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "directive", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "directive", next: "*" }
             ]]
         },
         {
             code: "{\"use strict\"\nfoo()}",
             options: [[
-                ["never", "*", "*"],
-                ["always", "directive", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "directive", next: "*" }
             ]]
         },
 
@@ -333,92 +328,92 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "{}\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "multiline-block-like", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "multiline-block-like", next: "*" }
             ]]
         },
         {
             code: "if(a){}\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "multiline-block-like", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "multiline-block-like", next: "*" }
             ]]
         },
         {
             code: "while(a){}\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "multiline-block-like", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "multiline-block-like", next: "*" }
             ]]
         },
         {
             code: "{\n}\n\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "multiline-block-like", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "multiline-block-like", next: "*" }
             ]]
         },
         {
             code: "if(a){\n}\n\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "multiline-block-like", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "multiline-block-like", next: "*" }
             ]]
         },
         {
             code: "while(a){\n}\n\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "multiline-block-like", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "multiline-block-like", next: "*" }
             ]]
         },
         {
             code: "do{\n}while(a)\n\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "multiline-block-like", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "multiline-block-like", next: "*" }
             ]]
         },
         {
             code: "for(;;){\n}\n\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "multiline-block-like", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "multiline-block-like", next: "*" }
             ]]
         },
         {
             code: "for(a in b){\n}\n\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "multiline-block-like", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "multiline-block-like", next: "*" }
             ]]
         },
         {
             code: "for(a of b){\n}\n\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "multiline-block-like", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "multiline-block-like", next: "*" }
             ]]
         },
         {
             code: "switch(a){\n}\n\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "multiline-block-like", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "multiline-block-like", next: "*" }
             ]]
         },
         {
             code: "function foo(a){\n}\n\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "multiline-block-like", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "multiline-block-like", next: "*" }
             ]]
         },
         {
             code: "var a=function foo(a){\n}\n\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "multiline-block-like", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "multiline-block-like", next: "*" }
             ]]
         },
 
@@ -429,36 +424,36 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "{}\n\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "block", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "block", next: "*" }
             ]]
         },
         {
             code: "{\n}\n\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "block", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "block", next: "*" }
             ]]
         },
         {
             code: "{\nfoo()\n}\n\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "block", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "block", next: "*" }
             ]]
         },
         {
             code: "if(a){}\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "block", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "block", next: "*" }
             ]]
         },
         {
             code: "a={}\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "block", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "block", next: "*" }
             ]]
         },
 
@@ -469,15 +464,15 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: ";\n\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "empty", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "empty", next: "*" }
             ]]
         },
         {
             code: "1;\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "empty", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "empty", next: "*" }
             ]]
         },
 
@@ -488,29 +483,29 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "foo()\n\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "expression", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "expression", next: "*" }
             ]]
         },
         {
             code: "a=b+c\n\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "expression", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "expression", next: "*" }
             ]]
         },
         {
             code: "var a=1\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "expression", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "expression", next: "*" }
             ]]
         },
         {
             code: "'use strict'\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "expression", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "expression", next: "*" }
             ]]
         },
 
@@ -521,29 +516,29 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "A:{break A\n\nfoo()}",
             options: [[
-                ["never", "*", "*"],
-                ["always", "break", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "break", next: "*" }
             ]]
         },
         {
             code: "while(a){break\n\nfoo()}",
             options: [[
-                ["never", "*", "*"],
-                ["always", "break", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "break", next: "*" }
             ]]
         },
         {
             code: "switch(a){case 0:break\n\nfoo()}",
             options: [[
-                ["never", "*", "*"],
-                ["always", "break", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "break", next: "*" }
             ]]
         },
         {
             code: "switch(a){case 0:break\ncase 1:break}",
             options: [[
-                ["never", "*", "*"],
-                ["always", "break", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "break", next: "*" }
             ]]
         },
 
@@ -554,15 +549,15 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "switch(a){case 0:\nfoo()\n\ncase 1:\nfoo()}",
             options: [[
-                ["never", "*", "*"],
-                ["always", "case", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "case", next: "*" }
             ]]
         },
         {
             code: "switch(a){case 0:\nfoo()\n\ndefault:\nfoo()}",
             options: [[
-                ["never", "*", "*"],
-                ["always", "case", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "case", next: "*" }
             ]]
         },
 
@@ -573,15 +568,15 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "class A{}\n\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "class", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "class", next: "*" }
             ]]
         },
         {
             code: "var A = class{}\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "class", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "class", next: "*" }
             ]]
         },
 
@@ -592,15 +587,15 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "const a=1\n\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "const", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "const", next: "*" }
             ]]
         },
         {
             code: "let a=1\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "const", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "const", next: "*" }
             ]]
         },
 
@@ -611,15 +606,15 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "while(a){continue\n\nfoo()}",
             options: [[
-                ["never", "*", "*"],
-                ["always", "continue", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "continue", next: "*" }
             ]]
         },
         {
             code: "while(a){break\nfoo()}",
             options: [[
-                ["never", "*", "*"],
-                ["always", "continue", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "continue", next: "*" }
             ]]
         },
 
@@ -630,8 +625,8 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "debugger\n\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "debugger", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "debugger", next: "*" }
             ]]
         },
 
@@ -642,8 +637,8 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "switch(a){default:\nfoo()\n\ncase 0:\nfoo()\ncase 1:}",
             options: [[
-                ["never", "*", "*"],
-                ["always", "default", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "default", next: "*" }
             ]]
         },
 
@@ -654,15 +649,15 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "do;while(a)\n\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "do", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "do", next: "*" }
             ]]
         },
         {
             code: "while(a);\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "do", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "do", next: "*" }
             ]]
         },
 
@@ -674,40 +669,40 @@ ruleTester.run("newline-between-statements", rule, {
             code: "export default 1\n\nfoo()",
             parserOptions: { sourceType: "module" },
             options: [[
-                ["never", "*", "*"],
-                ["always", "export", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "export", next: "*" }
             ]]
         },
         {
             code: "export let a=1\n\nfoo()",
             parserOptions: { sourceType: "module" },
             options: [[
-                ["never", "*", "*"],
-                ["always", "export", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "export", next: "*" }
             ]]
         },
         {
             code: "export {a}\n\nfoo()",
             parserOptions: { sourceType: "module" },
             options: [[
-                ["never", "*", "*"],
-                ["always", "export", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "export", next: "*" }
             ]]
         },
         {
             code: "exports.foo=1\nfoo()",
             parserOptions: { sourceType: "module" },
             options: [[
-                ["never", "*", "*"],
-                ["always", "export", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "export", next: "*" }
             ]]
         },
         {
             code: "module.exports={}\nfoo()",
             parserOptions: { sourceType: "module" },
             options: [[
-                ["never", "*", "*"],
-                ["always", "export", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "export", next: "*" }
             ]]
         },
 
@@ -718,29 +713,29 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "for(;;);\n\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "for", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "for", next: "*" }
             ]]
         },
         {
             code: "for(a in b);\n\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "for", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "for", next: "*" }
             ]]
         },
         {
             code: "for(a of b);\n\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "for", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "for", next: "*" }
             ]]
         },
         {
             code: "while(a);\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "for", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "for", next: "*" }
             ]]
         },
 
@@ -751,15 +746,15 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "function foo(){}\n\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "function", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "function", next: "*" }
             ]]
         },
         {
             code: "var foo=function(){}\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "function", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "function", next: "*" }
             ]]
         },
 
@@ -770,29 +765,29 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "if(a);\n\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "if", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "if", next: "*" }
             ]]
         },
         {
             code: "if(a);else;\n\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "if", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "if", next: "*" }
             ]]
         },
         {
             code: "if(a);else if(b);else;\n\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "if", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "if", next: "*" }
             ]]
         },
         {
             code: "for(;;);\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "if", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "if", next: "*" }
             ]]
         },
 
@@ -804,40 +799,40 @@ ruleTester.run("newline-between-statements", rule, {
             code: "import 'a'\n\nfoo()",
             parserOptions: { sourceType: "module" },
             options: [[
-                ["never", "*", "*"],
-                ["always", "import", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "import", next: "*" }
             ]]
         },
         {
             code: "import a from 'a'\n\nfoo()",
             parserOptions: { sourceType: "module" },
             options: [[
-                ["never", "*", "*"],
-                ["always", "import", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "import", next: "*" }
             ]]
         },
         {
             code: "import * as a from 'a'\n\nfoo()",
             parserOptions: { sourceType: "module" },
             options: [[
-                ["never", "*", "*"],
-                ["always", "import", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "import", next: "*" }
             ]]
         },
         {
             code: "import {a} from 'a'\n\nfoo()",
             parserOptions: { sourceType: "module" },
             options: [[
-                ["never", "*", "*"],
-                ["always", "import", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "import", next: "*" }
             ]]
         },
         {
             code: "const a=require('a')\nfoo()",
             parserOptions: { sourceType: "module" },
             options: [[
-                ["never", "*", "*"],
-                ["always", "import", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "import", next: "*" }
             ]]
         },
 
@@ -848,15 +843,15 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "let a=1\n\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "let", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "let", next: "*" }
             ]]
         },
         {
             code: "var a=1\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "let", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "let", next: "*" }
             ]]
         },
 
@@ -867,15 +862,15 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "function foo(){return\n\nfoo()}",
             options: [[
-                ["never", "*", "*"],
-                ["always", "return", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "return", next: "*" }
             ]]
         },
         {
             code: "throw a\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "return", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "return", next: "*" }
             ]]
         },
 
@@ -886,15 +881,15 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "switch(a){}\n\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "switch", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "switch", next: "*" }
             ]]
         },
         {
             code: "if(a){}\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "switch", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "switch", next: "*" }
             ]]
         },
 
@@ -905,8 +900,8 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "throw a\n\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "throw", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "throw", next: "*" }
             ]]
         },
 
@@ -917,22 +912,22 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "try{}catch(e){}\n\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "try", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "try", next: "*" }
             ]]
         },
         {
             code: "try{}finally{}\n\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "try", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "try", next: "*" }
             ]]
         },
         {
             code: "try{}catch(e){}finally{}\n\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "try", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "try", next: "*" }
             ]]
         },
 
@@ -943,15 +938,15 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "var a=1\n\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "var", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "var", next: "*" }
             ]]
         },
         {
             code: "const a=1\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "var", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "var", next: "*" }
             ]]
         },
 
@@ -962,15 +957,15 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "while(a);\n\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "while", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "while", next: "*" }
             ]]
         },
         {
             code: "do;while(a)\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "while", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "while", next: "*" }
             ]]
         },
 
@@ -981,8 +976,8 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "with(a);\n\nfoo()",
             options: [[
-                ["never", "*", "*"],
-                ["always", "with", "*"]
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "with", next: "*" }
             ]]
         },
 
@@ -994,15 +989,15 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "console.log(greet);",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "console.log(greet);",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
 
@@ -1010,15 +1005,15 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "var greet = 'hello';",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "var greet = 'hello';",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
 
@@ -1026,8 +1021,8 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "var greet = 'hello';console.log(greet);",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
 
@@ -1035,8 +1030,8 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "var greet = 'hello';\nconsole.log(greet);",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
 
@@ -1044,8 +1039,8 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "var greet = 'hello';\n\nconsole.log(greet);",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
 
@@ -1053,15 +1048,15 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "var greet = 'hello';\n\n\nconsole.log(greet);",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "var greet = 'hello';\n\n\n\nconsole.log(greet);",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
 
@@ -1069,15 +1064,15 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "var greet = 'hello';    \n\nconsole.log(greet);",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "var greet = 'hello';    \nconsole.log(greet);",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
 
@@ -1085,15 +1080,15 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "var greet = 'hello'; // inline comment\n\nconsole.log(greet);",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "var greet = 'hello'; // inline comment\nconsole.log(greet);",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
 
@@ -1101,15 +1096,15 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "var greet = 'hello';\n// next-line comment\nconsole.log(greet);",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "var greet = 'hello';\n/* block comment\nblock comment */\nconsole.log(greet);",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
 
@@ -1117,22 +1112,22 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "var greet = 'hello';\n// next-line comment\n\nconsole.log(greet);",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "var greet = 'hello';\n/* block comment\nblock comment */\n\nconsole.log(greet);",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "var greet = 'hello';\n// next-line comment\n// second-line comment\n\nconsole.log(greet);",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
 
@@ -1140,15 +1135,15 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "var greet = 'hello';\n// next-line comment\n// second-line comment\nconsole.log(greet);",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "var greet = 'hello';\n// next-line comment\n/* block comment\nblock comment */\nconsole.log(greet);",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
 
@@ -1156,22 +1151,22 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "var greet = 'hello';var name = 'world';console.log(greet, name);",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "var greet = 'hello';\nvar name = 'world';\nconsole.log(greet, name);",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "var greet = 'hello';\nvar name = 'world';\n\nconsole.log(greet, name);",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
 
@@ -1179,29 +1174,29 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "var greet = 'hello';\n// inline comment\nvar name = 'world';\n\nconsole.log(greet, name);",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "var greet = 'hello';\n/* block comment\nblock comment */\nvar name = 'world';\n\nconsole.log(greet, name);",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "var greet = 'hello';\n// inline comment\nvar name = 'world';\nconsole.log(greet, name);",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "var greet = 'hello';\n/* block comment\nblock comment */\nvar name = 'world';\nconsole.log(greet, name);",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
 
@@ -1209,22 +1204,22 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "var greet = 'hello', name = 'world';console.log(greet, name);",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "var greet = 'hello', name = 'world';\nconsole.log(greet, name);",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "var greet = 'hello', name = 'world';\n\nconsole.log(greet, name);",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
 
@@ -1232,43 +1227,43 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "var greet = 'hello',\nname = 'world';\n\nconsole.log(greet, name);",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "var greet = 'hello',\nname = 'world';\nconsole.log(greet, name);",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "var greet = 'hello', // inline comment\nname = 'world'; // inline comment\n\nconsole.log(greet, name);",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "var greet = 'hello', // inline comment\nname = 'world'; // inline comment\nconsole.log(greet, name);",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "var greet = 'hello',\nname = 'world';\n// next-line comment\nconsole.log(greet);",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "var greet = 'hello',\nname = 'world';\n/* block comment\nblock comment */\nconsole.log(greet);",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
 
@@ -1276,15 +1271,15 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "let greet = 'hello';\n\nconsole.log(greet);",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "let greet = 'hello';\nconsole.log(greet);",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
 
@@ -1292,15 +1287,15 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "const greet = 'hello';\n\nconsole.log(greet);",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "const greet = 'hello';\nconsole.log(greet);",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
 
@@ -1308,22 +1303,22 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "let greet = 'hello';\nvar name = 'world';\n\nconsole.log(greet, name);",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "const greet = 'hello';\nvar name = 'world';\n\nconsole.log(greet, name);",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "let greet = 'hello';\nconst name = 'world';\n\nconsole.log(greet, name);",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
 
@@ -1331,85 +1326,85 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "for(let a = 1; a < 1; a++){\n break;\n}",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "for(var a = 1; a < 1; a++){\n break;\n}",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "for(let a = 1; a < 1; a++){\n break;\n}",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "for(var a = 1; a < 1; a++){\n break;\n}",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "for(let a in obj){\n break;\n}",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "for(var a in obj){\n break;\n}",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "for(let a in obj){\n break;\n}",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "for(var a in obj){\n break;\n}",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "for(let a in obj){\n break;\n}",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "for(var a in obj){\n break;\n}",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "for(let a in obj){\n break;\n}",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "for(var a in obj){\n break;\n}",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
 
@@ -1417,48 +1412,48 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "export let a = 1;\nexport let b = 2;",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]],
             parserOptions: { sourceType: "module" }
         },
         {
             code: "export let a = 1;\nexport let b = 2;",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]],
             parserOptions: { sourceType: "module" }
         },
         {
             code: "export var a = 1;\nexport var b = 2;",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]],
             parserOptions: { sourceType: "module" }
         },
         {
             code: "export var a = 1;\nexport var b = 2;",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]],
             parserOptions: { sourceType: "module" }
         },
         {
             code: "export const a = 1;\nexport const b = 2;",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]],
             parserOptions: { sourceType: "module" }
         },
         {
             code: "export const a = 1;\nexport const b = 2;",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]],
             parserOptions: { sourceType: "module" }
         },
@@ -1467,106 +1462,106 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "function example() {\nvar greet = 'hello'\n}",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "function example() {\nvar greet = 'hello'\n}",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "function example() {\nvar greet = 'hello';\nconsole.log(greet);\n}",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "var f = function() {\nvar greet = 'hello'\n};",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "var f = function() {\nvar greet = 'hello'\n};",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "var f = function() {\nvar greet = 'hello';\nconsole.log(greet);\n};",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "() => {\nvar greet = 'hello';\n}",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "() => {\nvar greet = 'hello';\n}",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "() => {\nvar greet = 'hello';\nconsole.log(greet);\n}",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "{\nvar foo;\n}",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "{\nvar foo;\n}",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "if(true) {\nvar foo;\n}",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "if(true) {\nvar foo;\n}",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "switch(a) {\ncase 0:\nvar foo;\n}",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "switch(a) {\ncase 0:\nvar foo;\n}",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
 
@@ -1574,15 +1569,15 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "switch(a) {\ncase 0:\nvar foo;\n\ncase 1:}",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "switch(a) {\ncase 0:\nvar foo;\ncase 1:}",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
 
@@ -1594,8 +1589,8 @@ ruleTester.run("newline-between-statements", rule, {
                 ;(b || c).doSomething()
             `,
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
@@ -1604,8 +1599,8 @@ ruleTester.run("newline-between-statements", rule, {
                 ;(b || c).doSomething()
             `,
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
@@ -1615,23 +1610,23 @@ ruleTester.run("newline-between-statements", rule, {
                 (b || c).doSomething();
             `,
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
 
         {
             code: "switch(a) {\ncase 0:\nvar foo;\n\ncase 1:}",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
             code: "switch(a) {\ncase 0:\nvar foo;\ncase 1:}",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
         {
@@ -1642,8 +1637,8 @@ ruleTester.run("newline-between-statements", rule, {
                 (b || c).doSomething();
             `,
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]]
         },
 
@@ -1654,372 +1649,372 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "function a() {\nreturn;\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\n\nreturn;\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\nvar b;\n\nreturn;\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\nif (b) return;\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\nif (b) { return; }\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\nif (b) {\nreturn;\n}\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\nif (b) {\n\nreturn;\n}\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\nif (b) {\nreturn;\n}\n\nreturn c;\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\nif (b) {\n\nreturn;\n}\n\nreturn c;\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\nif (!b) {\nreturn;\n} else {\nreturn b;\n}\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\nif (!b) {\nreturn;\n} else {\n\nreturn b;\n}\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\nif (b) {\nreturn b;\n} else if (c) {\nreturn c;\n}\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\nif (b) {\nreturn b;\n} else if (c) {\nreturn c;\n} else {\nreturn d;\n}\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\nif (b) {\nreturn b;\n} else if (c) {\nreturn c;\n} else {\nreturn d;\n}\n\nreturn a;\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\nif (b) return b;\nelse if (c) return c;\nelse return d;\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\nif (b) return b;\nelse if (c) return c;\nelse {\nreturn d;\n}\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\nif (b) return b;\nelse if (c) return c;\nelse {\ne();\n\nreturn d;\n}\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\nwhile (b) return;\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\n while (b) \nreturn;\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\n while (b) { return; }\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\n while (b) {\nreturn;\n}\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\n while (b) {\nc();\n\nreturn;\n}\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\nvar c;\nwhile (b) {\n c = d; //comment\n}\n\nreturn c;\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\ndo return;\nwhile (b);\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\ndo \nreturn;\nwhile (b);\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\ndo { return; } while (b);\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\ndo { return; }\nwhile (b);\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\ndo {\nreturn;\n} while (b);\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\ndo {\nc();\n\nreturn;\n} while (b);\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\nfor (var b; b < c; b++) return;\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\nfor (var b; b < c; b++)\nreturn;\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\nfor (var b; b < c; b++) {\nreturn;\n}\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\nfor (var b; b < c; b++) {\nc();\n\nreturn;\n}\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\nfor (var b; b < c; b++) {\nif (d) {\nbreak; //comment\n}\n\nreturn;\n}\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\nfor (b in c)\nreturn;\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\nfor (b in c) { return; }\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\nfor (b in c) {\nreturn;\n}\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\nfor (b in c) {\nd();\n\nreturn;\n}\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\nfor (b of c) return;\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\nfor (b of c)\nreturn;\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\nfor (b of c) {\nreturn;\n}\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\nfor (b of c) {\nd();\n\nreturn;\n}\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\nswitch (b) {\ncase 'b': return;\n}\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\nswitch (b) {\ncase 'b':\nreturn;\n}\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\nswitch (b) {\ncase 'b': {\nreturn;\n}\n}\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\n//comment\nreturn b;\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\n{\n//comment\n}\n\nreturn\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\nvar b = {\n//comment\n};\n\nreturn;\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {/*multi-line\ncomment*/return b;\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\n/*comment\ncomment*/\n//comment\nreturn b;\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\n/*comment\ncomment*/\n//comment\nif (b) return;\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\n/*comment\ncomment*/\n//comment\nif (b) {\nc();\n\nreturn b;\n} else {\n//comment\nreturn d;\n}\n\n/*multi-line\ncomment*/\nreturn e;\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\nif (b) { //comment\nreturn;\n}\n\nreturn c;\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\nif (b) { return; } //comment\n\nreturn c;\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\nif (b) { return; } /*multi-line\ncomment*/\n\nreturn c;\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "function a() {\nif (b) { return; }\n\n/*multi-line\ncomment*/ return c;\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "return;",
             parserOptions: { ecmaFeatures: { globalReturn: true } },
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "var a;\n\nreturn;",
             parserOptions: { ecmaFeatures: { globalReturn: true } },
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "// comment\nreturn;",
             parserOptions: { ecmaFeatures: { globalReturn: true } },
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "/* comment */\nreturn;",
             parserOptions: { ecmaFeatures: { globalReturn: true } },
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
             code: "/* multi-line\ncomment */\nreturn;",
             parserOptions: { ecmaFeatures: { globalReturn: true } },
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
 
@@ -2031,85 +2026,85 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "if(true){}",
             options: [[
-                ["never", "block-like", "*"]
+                { blankline: "never", prev: "block-like", next: "*" }
             ]]
         },
         {
             code: "if(true){}\n",
             options: [[
-                ["never", "block-like", "*"]
+                { blankline: "never", prev: "block-like", next: "*" }
             ]]
         },
         {
             code: "if(true){}\nvar a = 2;",
             options: [[
-                ["never", "block-like", "*"]
+                { blankline: "never", prev: "block-like", next: "*" }
             ]]
         },
         {
             code: "if(true){\nif(true) {}\n}",
             options: [[
-                ["never", "block-like", "*"]
+                { blankline: "never", prev: "block-like", next: "*" }
             ]]
         },
         {
             code: "var a = {\nfoo: function() {\n},\nbar: function() {\n}}",
             options: [[
-                ["never", "block-like", "*"]
+                { blankline: "never", prev: "block-like", next: "*" }
             ]]
         },
         {
             code: "(function(){\n})()\nvar a = 2;",
             options: [[
-                ["never", "block-like", "*"]
+                { blankline: "never", prev: "block-like", next: "*" }
             ]]
         },
         {
             code: "if(true) {\n}\nelse\n{\n}",
             options: [[
-                ["never", "block-like", "*"]
+                { blankline: "never", prev: "block-like", next: "*" }
             ]]
         },
         {
             code: "if(true) {\n} else {\n var a = 2; }",
             options: [[
-                ["never", "block-like", "*"]
+                { blankline: "never", prev: "block-like", next: "*" }
             ]]
         },
         {
             code: "if(true) {\n}\nelse if(true)\n{\n}\nelse {\n}",
             options: [[
-                ["never", "block-like", "*"]
+                { blankline: "never", prev: "block-like", next: "*" }
             ]]
         },
         {
             code: "do{\n}\nwhile(true)",
             options: [[
-                ["never", "block-like", "*"]
+                { blankline: "never", prev: "block-like", next: "*" }
             ]]
         },
         {
             code: "try{\n}\ncatch(e) {}",
             options: [[
-                ["never", "block-like", "*"]
+                { blankline: "never", prev: "block-like", next: "*" }
             ]]
         },
         {
             code: "try{\n}\nfinally {}",
             options: [[
-                ["never", "block-like", "*"]
+                { blankline: "never", prev: "block-like", next: "*" }
             ]]
         },
         {
             code: "try{\n}\ncatch(e) {\n}\nfinally {\n}",
             options: [[
-                ["never", "block-like", "*"]
+                { blankline: "never", prev: "block-like", next: "*" }
             ]]
         },
         {
             code: "[].map(function() {})\n.filter(function(){})",
             options: [[
-                ["never", "block-like", "*"]
+                { blankline: "never", prev: "block-like", next: "*" }
             ]]
         },
 
@@ -2121,19 +2116,19 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "var a = 2;\nmodule.exports = a;",
             options: [[
-                ["never", "*", "cjs-export"]
+                { blankline: "never", prev: "*", next: "cjs-export" }
             ]]
         },
         {
             code: "module.exports = 2;",
             options: [[
-                ["never", "*", "cjs-export"]
+                { blankline: "never", prev: "*", next: "cjs-export" }
             ]]
         },
         {
             code: "var a = 2;\n// foo\nmodule.exports = a;",
             options: [[
-                ["never", "*", "cjs-export"]
+                { blankline: "never", prev: "*", next: "cjs-export" }
             ]]
         },
 
@@ -2141,26 +2136,26 @@ ruleTester.run("newline-between-statements", rule, {
          * {
          *     code: "var a = 2;\n\n// foo\nmodule.exports = a;",
          *     options: [[
-         *         ["never", "*", "cjs-export"]
+         *         { blankline: "never", prev: "*", next: "cjs-export" }
          *     ]]
          * },
          */
         {
             code: "var a = 2;\n\nfoo.exports = a;",
             options: [[
-                ["never", "*", "cjs-export"]
+                { blankline: "never", prev: "*", next: "cjs-export" }
             ]]
         },
         {
             code: "var a = 2;\n\nmodule.foo = a;",
             options: [[
-                ["never", "*", "cjs-export"]
+                { blankline: "never", prev: "*", next: "cjs-export" }
             ]]
         },
         {
             code: "var a = 2;\n\nfoo = a;",
             options: [[
-                ["never", "*", "cjs-export"]
+                { blankline: "never", prev: "*", next: "cjs-export" }
             ]]
         },
 
@@ -2172,134 +2167,134 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "{}",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]]
         },
         {
             code: "if(true){}",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]]
         },
         {
             code: "if(true){}\n",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]]
         },
         {
             code: "if(true){}\n\nvar a = 2;",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]]
         },
         {
             code: "if(true){}\n\n\nvar a = 2;",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]]
         },
         {
             code: "if(true){\nif(true) {}\n}",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]]
         },
         {
             code: "var a = {\nfoo: function() {\n},\n\nbar: function() {\n}}",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]]
         },
         {
             code: "(function(){\n})()\n\nvar a = 2;",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]]
         },
         {
             code: "if(true) {\n}\nelse\n{\n}",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]]
         },
         {
             code: "if(true) {\n} else {\n var a = 2; }",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]]
         },
         {
             code: "if(true) {\n}\nelse if(true)\n{\n}\nelse {\n}",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]]
         },
         {
             code: "do{\n}\nwhile(true)",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]]
         },
         {
             code: "try{\n}\ncatch(e) {}",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]]
         },
         {
             code: "try{\n}\nfinally {}",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]]
         },
         {
             code: "try{\n}\ncatch(e) {\n}\nfinally {\n}",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]]
         },
         {
             code: "[].map(function() {})\n.filter(function(){})",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]]
         },
         {
             code: "func(\n2,\n3,\nfunction() {\n}\n)",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]]
         },
         {
             code: "[\n2,\n3,\nfunction() {\n}\n]",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]]
         },
         {
             code: "a(res => {\n})\n.b();",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]]
         },
         {
             code: "var foo = (\n<div\nref={function() {\n}}\n>\nfoo\n</div>\n);",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]],
             parserOptions: { ecmaFeatures: { jsx: true } }
         },
         {
             code: "var i = 0;\nwhile (i < 100) {\nif(i % 2 === 0) {continue;}\n++i;\n}",
             options: [[
-                ["always", "multiline-block-like", "*"]
+                { blankline: "always", prev: "multiline-block-like", next: "*" }
             ]]
         },
         {
             code: "var i = 0;\nwhile (i < 100) {\nif(i % 2 === 0) {if(i === 4) {continue;}}\n++i;\n}",
             options: [[
-                ["always", "multiline-block-like", "*"]
+                { blankline: "always", prev: "multiline-block-like", next: "*" }
             ]]
         },
 
@@ -2311,31 +2306,31 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "module.exports = 2;",
             options: [[
-                ["always", "*", "cjs-export"]
+                { blankline: "always", prev: "*", next: "cjs-export" }
             ]]
         },
         {
             code: "var a = 2;\n\nmodule.exports = a;",
             options: [[
-                ["always", "*", "cjs-export"]
+                { blankline: "always", prev: "*", next: "cjs-export" }
             ]]
         },
         {
             code: "var a = 2;\nfoo.exports = a;",
             options: [[
-                ["always", "*", "cjs-export"]
+                { blankline: "always", prev: "*", next: "cjs-export" }
             ]]
         },
         {
             code: "var a = 2;\nmodule.foo = a;",
             options: [[
-                ["always", "*", "cjs-export"]
+                { blankline: "always", prev: "*", next: "cjs-export" }
             ]]
         },
         {
             code: "if (true) {\nmodule.exports = a;\n}",
             options: [[
-                ["always", "*", "cjs-export"]
+                { blankline: "always", prev: "*", next: "cjs-export" }
             ]]
         },
 
@@ -2347,25 +2342,25 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "function x() { return; }",
             options: [[
-                ["always", "*", ["if", "for", "return", "switch", "case", "break", "throw", "while", "default"]]
+                { blankline: "always", prev: "*", next: ["if", "for", "return", "switch", "case", "break", "throw", "while", "default"] }
             ]]
         },
         {
             code: "if (true) {} else if (false) {}",
             options: [[
-                ["always", "*", ["if", "for", "return", "switch", "case", "break", "throw", "while", "default"]]
+                { blankline: "always", prev: "*", next: ["if", "for", "return", "switch", "case", "break", "throw", "while", "default"] }
             ]]
         },
         {
             code: "function x() { var a = true; do { a = !a; } while (a); }",
             options: [[
-                ["always", "*", ["if", "for", "return", "switch", "case", "break", "throw", "while", "default"]]
+                { blankline: "always", prev: "*", next: ["if", "for", "return", "switch", "case", "break", "throw", "while", "default"] }
             ]]
         },
         {
             code: "function x() { if (true) return; }",
             options: [[
-                ["always", "*", ["if", "for", "return", "switch", "case", "break", "throw", "while", "default"]]
+                { blankline: "always", prev: "*", next: ["if", "for", "return", "switch", "case", "break", "throw", "while", "default"] }
             ]]
         }
     ],
@@ -2379,7 +2374,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "foo();\n\nfoo();",
             output: "foo();\nfoo();",
             options: [[
-                ["never", "*", "*"]
+                { blankline: "never", prev: "*", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -2387,7 +2382,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "foo();\n\n//comment\nfoo();",
             output: "foo();\n//comment\nfoo();",
             options: [[
-                ["never", "*", "*"]
+                { blankline: "never", prev: "*", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -2395,7 +2390,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "    foo();\n    \n    //comment\n    foo();",
             output: "    foo();\n    //comment\n    foo();",
             options: [[
-                ["never", "*", "*"]
+                { blankline: "never", prev: "*", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -2403,7 +2398,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "if (a) {}\n\nfor (;;) {}",
             output: "if (a) {}\nfor (;;) {}",
             options: [[
-                ["never", "*", "*"]
+                { blankline: "never", prev: "*", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -2411,7 +2406,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "foo();\nfoo();",
             output: "foo();\n\nfoo();",
             options: [[
-                ["always", "*", "*"]
+                { blankline: "always", prev: "*", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2419,7 +2414,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "    function a() {}\n    do {} while (a)",
             output: "    function a() {}\n\n    do {} while (a)",
             options: [[
-                ["always", "*", "*"]
+                { blankline: "always", prev: "*", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2427,7 +2422,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "foo();//trailing-comment\n//comment\n//comment\nfoo();",
             output: "foo();//trailing-comment\n\n//comment\n//comment\nfoo();",
             options: [[
-                ["always", "*", "*"]
+                { blankline: "always", prev: "*", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2440,7 +2435,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "{}\n\nfoo()",
             output: "{}\nfoo()",
             options: [[
-                ["never", "block-like", "*"]
+                { blankline: "never", prev: "block-like", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -2448,7 +2443,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "{}\nfoo()",
             output: "{}\n\nfoo()",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2456,7 +2451,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "{}\nfoo()",
             output: "{}\n\nfoo()",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2464,7 +2459,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "if(a){}\nfoo()",
             output: "if(a){}\n\nfoo()",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2472,7 +2467,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "if(a){}else{}\nfoo()",
             output: "if(a){}else{}\n\nfoo()",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2480,7 +2475,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "if(a){}else if(b){}\nfoo()",
             output: "if(a){}else if(b){}\n\nfoo()",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2488,7 +2483,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "if(a){}else if(b){}else{}\nfoo()",
             output: "if(a){}else if(b){}else{}\n\nfoo()",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2496,7 +2491,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "switch(a){}\nfoo()",
             output: "switch(a){}\n\nfoo()",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2504,7 +2499,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "switch(a){case 0:}\nfoo()",
             output: "switch(a){case 0:}\n\nfoo()",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2512,7 +2507,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "try{}catch(e){}\nfoo()",
             output: "try{}catch(e){}\n\nfoo()",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2520,7 +2515,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "try{}finally{}\nfoo()",
             output: "try{}finally{}\n\nfoo()",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2528,7 +2523,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "try{}catch(e){}finally{}\nfoo()",
             output: "try{}catch(e){}finally{}\n\nfoo()",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2536,7 +2531,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "while(a){}\nfoo()",
             output: "while(a){}\n\nfoo()",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2544,7 +2539,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "do{}while(a)\nfoo()",
             output: "do{}while(a)\n\nfoo()",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2552,7 +2547,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "for(;;){}\nfoo()",
             output: "for(;;){}\n\nfoo()",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2560,7 +2555,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "for(a in b){}\nfoo()",
             output: "for(a in b){}\n\nfoo()",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2568,7 +2563,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "for(a of b){}\nfoo()",
             output: "for(a of b){}\n\nfoo()",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2576,7 +2571,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "a=function(){}\nfoo()",
             output: "a=function(){}\n\nfoo()",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2584,7 +2579,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "a=()=>{}\nfoo()",
             output: "a=()=>{}\n\nfoo()",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2592,7 +2587,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "function a(){}\nfoo()",
             output: "function a(){}\n\nfoo()",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2600,7 +2595,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "let a=function(){}\nfoo()",
             output: "let a=function(){}\n\nfoo()",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2613,7 +2608,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "module.exports=1\n\nfoo()",
             output: "module.exports=1\nfoo()",
             options: [[
-                ["never", "cjs-export", "*"]
+                { blankline: "never", prev: "cjs-export", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -2621,7 +2616,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "module.exports=1\nfoo()",
             output: "module.exports=1\n\nfoo()",
             options: [[
-                ["always", "cjs-export", "*"]
+                { blankline: "always", prev: "cjs-export", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2629,7 +2624,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "module.exports.foo=1\nfoo()",
             output: "module.exports.foo=1\n\nfoo()",
             options: [[
-                ["always", "cjs-export", "*"]
+                { blankline: "always", prev: "cjs-export", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2637,7 +2632,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "module.exports[foo]=1\nfoo()",
             output: "module.exports[foo]=1\n\nfoo()",
             options: [[
-                ["always", "cjs-export", "*"]
+                { blankline: "always", prev: "cjs-export", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2645,7 +2640,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "exports.foo=1\nfoo()",
             output: "exports.foo=1\n\nfoo()",
             options: [[
-                ["always", "cjs-export", "*"]
+                { blankline: "always", prev: "cjs-export", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2653,7 +2648,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "exports[foo]=1\nfoo()",
             output: "exports[foo]=1\n\nfoo()",
             options: [[
-                ["always", "cjs-export", "*"]
+                { blankline: "always", prev: "cjs-export", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2666,7 +2661,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "const foo=require(\"foo\")\n\nfoo()",
             output: "const foo=require(\"foo\")\nfoo()",
             options: [[
-                ["never", "cjs-import", "*"]
+                { blankline: "never", prev: "cjs-import", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -2674,7 +2669,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "const foo=require(\"foo\")\nfoo()",
             output: "const foo=require(\"foo\")\n\nfoo()",
             options: [[
-                ["always", "cjs-import", "*"]
+                { blankline: "always", prev: "cjs-import", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2682,7 +2677,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "const foo=require(\"foo\").Foo\nfoo()",
             output: "const foo=require(\"foo\").Foo\n\nfoo()",
             options: [[
-                ["always", "cjs-import", "*"]
+                { blankline: "always", prev: "cjs-import", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2690,7 +2685,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "const foo=require(\"foo\")[a]\nfoo()",
             output: "const foo=require(\"foo\")[a]\n\nfoo()",
             options: [[
-                ["always", "cjs-import", "*"]
+                { blankline: "always", prev: "cjs-import", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2703,7 +2698,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "\"use strict\"\n\nfoo()",
             output: "\"use strict\"\nfoo()",
             options: [[
-                ["never", "directive", "*"]
+                { blankline: "never", prev: "directive", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -2711,7 +2706,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "\"use strict\"\nfoo()",
             output: "\"use strict\"\n\nfoo()",
             options: [[
-                ["always", "directive", "*"]
+                { blankline: "always", prev: "directive", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2719,7 +2714,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "'use strict'\nfoo()",
             output: "'use strict'\n\nfoo()",
             options: [[
-                ["always", "directive", "*"]
+                { blankline: "always", prev: "directive", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2727,7 +2722,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "'use asm'\nfoo()",
             output: "'use asm'\n\nfoo()",
             options: [[
-                ["always", "directive", "*"]
+                { blankline: "always", prev: "directive", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2740,7 +2735,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "{\n}\n\nfoo()",
             output: "{\n}\nfoo()",
             options: [[
-                ["never", "block-like", "*"]
+                { blankline: "never", prev: "block-like", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -2748,7 +2743,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "{\n}\nfoo()",
             output: "{\n}\n\nfoo()",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2756,7 +2751,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "{\n}\nfoo()",
             output: "{\n}\n\nfoo()",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2764,7 +2759,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "if(a){\n}\nfoo()",
             output: "if(a){\n}\n\nfoo()",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2772,7 +2767,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "if(a){\n}else{\n}\nfoo()",
             output: "if(a){\n}else{\n}\n\nfoo()",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2780,7 +2775,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "if(a){\n}else if(b){\n}\nfoo()",
             output: "if(a){\n}else if(b){\n}\n\nfoo()",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2788,7 +2783,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "if(a){\n}else if(b){\n}else{\n}\nfoo()",
             output: "if(a){\n}else if(b){\n}else{\n}\n\nfoo()",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2796,7 +2791,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "switch(a){\n}\nfoo()",
             output: "switch(a){\n}\n\nfoo()",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2804,7 +2799,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "switch(a){case 0:}\nfoo()",
             output: "switch(a){case 0:}\n\nfoo()",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2812,7 +2807,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "try{\n}catch(e){\n}\nfoo()",
             output: "try{\n}catch(e){\n}\n\nfoo()",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2820,7 +2815,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "try{\n}finally{\n}\nfoo()",
             output: "try{\n}finally{\n}\n\nfoo()",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2828,7 +2823,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "try{\n}catch(e){\n}finally{\n}\nfoo()",
             output: "try{\n}catch(e){\n}finally{\n}\n\nfoo()",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2836,7 +2831,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "while(a){\n}\nfoo()",
             output: "while(a){\n}\n\nfoo()",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2844,7 +2839,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "do{\n}while(a)\nfoo()",
             output: "do{\n}while(a)\n\nfoo()",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2852,7 +2847,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "for(;;){\n}\nfoo()",
             output: "for(;;){\n}\n\nfoo()",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2860,7 +2855,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "for(a in b){\n}\nfoo()",
             output: "for(a in b){\n}\n\nfoo()",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2868,7 +2863,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "for(a of b){\n}\nfoo()",
             output: "for(a of b){\n}\n\nfoo()",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2876,7 +2871,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "a=function(){\n}\nfoo()",
             output: "a=function(){\n}\n\nfoo()",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2884,7 +2879,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "a=()=>{\n}\nfoo()",
             output: "a=()=>{\n}\n\nfoo()",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2892,7 +2887,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "function a(){\n}\nfoo()",
             output: "function a(){\n}\n\nfoo()",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2900,7 +2895,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "let a=function(){\n}\nfoo()",
             output: "let a=function(){\n}\n\nfoo()",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2913,7 +2908,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "{}\n\nfoo()",
             output: "{}\nfoo()",
             options: [[
-                ["never", "block", "*"]
+                { blankline: "never", prev: "block", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -2921,7 +2916,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "{}\nfoo()",
             output: "{}\n\nfoo()",
             options: [[
-                ["always", "block", "*"]
+                { blankline: "always", prev: "block", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2934,7 +2929,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: ";\n\nfoo()",
             output: ";\nfoo()",
             options: [[
-                ["never", "empty", "*"]
+                { blankline: "never", prev: "empty", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -2942,7 +2937,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: ";\nfoo()",
             output: ";\n\nfoo()",
             options: [[
-                ["always", "empty", "*"]
+                { blankline: "always", prev: "empty", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2955,7 +2950,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "foo()\n\nfoo()",
             output: "foo()\nfoo()",
             options: [[
-                ["never", "expression", "*"]
+                { blankline: "never", prev: "expression", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -2963,7 +2958,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "foo()\nfoo()",
             output: "foo()\n\nfoo()",
             options: [[
-                ["always", "expression", "*"]
+                { blankline: "always", prev: "expression", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -2976,7 +2971,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "while(a){break\n\nfoo()}",
             output: "while(a){break\nfoo()}",
             options: [[
-                ["never", "break", "*"]
+                { blankline: "never", prev: "break", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -2984,7 +2979,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "switch(a){case 0:break\n\nfoo()}",
             output: "switch(a){case 0:break\nfoo()}",
             options: [[
-                ["never", "break", "*"]
+                { blankline: "never", prev: "break", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -2992,7 +2987,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "while(a){break\nfoo()}",
             output: "while(a){break\n\nfoo()}",
             options: [[
-                ["always", "break", "*"]
+                { blankline: "always", prev: "break", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3000,7 +2995,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "switch(a){case 0:break\nfoo()}",
             output: "switch(a){case 0:break\n\nfoo()}",
             options: [[
-                ["always", "break", "*"]
+                { blankline: "always", prev: "break", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3013,7 +3008,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "switch(a){case 0:\nfoo()\n\ndefault:}",
             output: "switch(a){case 0:\nfoo()\ndefault:}",
             options: [[
-                ["never", "case", "*"]
+                { blankline: "never", prev: "case", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -3021,7 +3016,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "switch(a){case 0:\nfoo()\ndefault:}",
             output: "switch(a){case 0:\nfoo()\n\ndefault:}",
             options: [[
-                ["always", "case", "*"]
+                { blankline: "always", prev: "case", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3034,7 +3029,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "class A{}\n\nfoo()",
             output: "class A{}\nfoo()",
             options: [[
-                ["never", "class", "*"]
+                { blankline: "never", prev: "class", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -3042,7 +3037,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "class A{}\nfoo()",
             output: "class A{}\n\nfoo()",
             options: [[
-                ["always", "class", "*"]
+                { blankline: "always", prev: "class", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3055,7 +3050,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "const a=1\n\nfoo()",
             output: "const a=1\nfoo()",
             options: [[
-                ["never", "const", "*"]
+                { blankline: "never", prev: "const", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -3063,7 +3058,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "const a=1\nfoo()",
             output: "const a=1\n\nfoo()",
             options: [[
-                ["always", "const", "*"]
+                { blankline: "always", prev: "const", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3076,7 +3071,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "while(a){continue\n\nfoo()}",
             output: "while(a){continue\nfoo()}",
             options: [[
-                ["never", "continue", "*"]
+                { blankline: "never", prev: "continue", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -3084,7 +3079,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "while(a){continue\nfoo()}",
             output: "while(a){continue\n\nfoo()}",
             options: [[
-                ["always", "continue", "*"]
+                { blankline: "always", prev: "continue", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3097,7 +3092,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "debugger\n\nfoo()",
             output: "debugger\nfoo()",
             options: [[
-                ["never", "debugger", "*"]
+                { blankline: "never", prev: "debugger", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -3105,7 +3100,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "debugger\nfoo()",
             output: "debugger\n\nfoo()",
             options: [[
-                ["always", "debugger", "*"]
+                { blankline: "always", prev: "debugger", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3118,7 +3113,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "switch(a){default:\nfoo()\n\ncase 0:}",
             output: "switch(a){default:\nfoo()\ncase 0:}",
             options: [[
-                ["never", "default", "*"]
+                { blankline: "never", prev: "default", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -3126,7 +3121,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "switch(a){default:\nfoo()\ncase 0:}",
             output: "switch(a){default:\nfoo()\n\ncase 0:}",
             options: [[
-                ["always", "default", "*"]
+                { blankline: "always", prev: "default", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3139,7 +3134,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "do;while(a)\n\nfoo()",
             output: "do;while(a)\nfoo()",
             options: [[
-                ["never", "do", "*"]
+                { blankline: "never", prev: "do", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -3147,7 +3142,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "do;while(a)\nfoo()",
             output: "do;while(a)\n\nfoo()",
             options: [[
-                ["always", "do", "*"]
+                { blankline: "always", prev: "do", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3161,7 +3156,7 @@ ruleTester.run("newline-between-statements", rule, {
             output: "export default 1\nfoo()",
             parserOptions: { sourceType: "module" },
             options: [[
-                ["never", "export", "*"]
+                { blankline: "never", prev: "export", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -3170,7 +3165,7 @@ ruleTester.run("newline-between-statements", rule, {
             output: "export let a=1\nfoo()",
             parserOptions: { sourceType: "module" },
             options: [[
-                ["never", "export", "*"]
+                { blankline: "never", prev: "export", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -3179,7 +3174,7 @@ ruleTester.run("newline-between-statements", rule, {
             output: "export {a}\nfoo()",
             parserOptions: { sourceType: "module" },
             options: [[
-                ["never", "export", "*"]
+                { blankline: "never", prev: "export", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -3188,7 +3183,7 @@ ruleTester.run("newline-between-statements", rule, {
             output: "export default 1\n\nfoo()",
             parserOptions: { sourceType: "module" },
             options: [[
-                ["always", "export", "*"]
+                { blankline: "always", prev: "export", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3197,7 +3192,7 @@ ruleTester.run("newline-between-statements", rule, {
             output: "export let a=1\n\nfoo()",
             parserOptions: { sourceType: "module" },
             options: [[
-                ["always", "export", "*"]
+                { blankline: "always", prev: "export", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3206,7 +3201,7 @@ ruleTester.run("newline-between-statements", rule, {
             output: "export {a}\n\nfoo()",
             parserOptions: { sourceType: "module" },
             options: [[
-                ["always", "export", "*"]
+                { blankline: "always", prev: "export", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3219,7 +3214,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "for(;;);\n\nfoo()",
             output: "for(;;);\nfoo()",
             options: [[
-                ["never", "for", "*"]
+                { blankline: "never", prev: "for", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -3227,7 +3222,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "for(a in b);\n\nfoo()",
             output: "for(a in b);\nfoo()",
             options: [[
-                ["never", "for", "*"]
+                { blankline: "never", prev: "for", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -3235,7 +3230,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "for(a of b);\n\nfoo()",
             output: "for(a of b);\nfoo()",
             options: [[
-                ["never", "for", "*"]
+                { blankline: "never", prev: "for", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -3243,7 +3238,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "for(;;);\nfoo()",
             output: "for(;;);\n\nfoo()",
             options: [[
-                ["always", "for", "*"]
+                { blankline: "always", prev: "for", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3251,7 +3246,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "for(a in b);\nfoo()",
             output: "for(a in b);\n\nfoo()",
             options: [[
-                ["always", "for", "*"]
+                { blankline: "always", prev: "for", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3259,7 +3254,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "for(a of b);\nfoo()",
             output: "for(a of b);\n\nfoo()",
             options: [[
-                ["always", "for", "*"]
+                { blankline: "always", prev: "for", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3272,7 +3267,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "function foo(){}\n\nfoo()",
             output: "function foo(){}\nfoo()",
             options: [[
-                ["never", "function", "*"]
+                { blankline: "never", prev: "function", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -3280,7 +3275,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "function foo(){}\nfoo()",
             output: "function foo(){}\n\nfoo()",
             options: [[
-                ["always", "function", "*"]
+                { blankline: "always", prev: "function", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3293,7 +3288,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "if(a);\n\nfoo()",
             output: "if(a);\nfoo()",
             options: [[
-                ["never", "if", "*"]
+                { blankline: "never", prev: "if", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -3301,7 +3296,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "if(a);else;\n\nfoo()",
             output: "if(a);else;\nfoo()",
             options: [[
-                ["never", "if", "*"]
+                { blankline: "never", prev: "if", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -3309,7 +3304,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "if(a);\nfoo()",
             output: "if(a);\n\nfoo()",
             options: [[
-                ["always", "if", "*"]
+                { blankline: "always", prev: "if", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3317,7 +3312,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "if(a);else;\nfoo()",
             output: "if(a);else;\n\nfoo()",
             options: [[
-                ["always", "if", "*"]
+                { blankline: "always", prev: "if", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3331,7 +3326,7 @@ ruleTester.run("newline-between-statements", rule, {
             output: "import a from 'a'\nfoo()",
             parserOptions: { sourceType: "module" },
             options: [[
-                ["never", "import", "*"]
+                { blankline: "never", prev: "import", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -3340,7 +3335,7 @@ ruleTester.run("newline-between-statements", rule, {
             output: "import * as a from 'a'\nfoo()",
             parserOptions: { sourceType: "module" },
             options: [[
-                ["never", "import", "*"]
+                { blankline: "never", prev: "import", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -3349,7 +3344,7 @@ ruleTester.run("newline-between-statements", rule, {
             output: "import {a} from 'a'\nfoo()",
             parserOptions: { sourceType: "module" },
             options: [[
-                ["never", "import", "*"]
+                { blankline: "never", prev: "import", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -3358,7 +3353,7 @@ ruleTester.run("newline-between-statements", rule, {
             output: "import a from 'a'\n\nfoo()",
             parserOptions: { sourceType: "module" },
             options: [[
-                ["always", "import", "*"]
+                { blankline: "always", prev: "import", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3367,7 +3362,7 @@ ruleTester.run("newline-between-statements", rule, {
             output: "import * as a from 'a'\n\nfoo()",
             parserOptions: { sourceType: "module" },
             options: [[
-                ["always", "import", "*"]
+                { blankline: "always", prev: "import", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3376,7 +3371,7 @@ ruleTester.run("newline-between-statements", rule, {
             output: "import {a} from 'a'\n\nfoo()",
             parserOptions: { sourceType: "module" },
             options: [[
-                ["always", "import", "*"]
+                { blankline: "always", prev: "import", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3389,7 +3384,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "let a\n\nfoo()",
             output: "let a\nfoo()",
             options: [[
-                ["never", "let", "*"]
+                { blankline: "never", prev: "let", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -3397,7 +3392,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "let a\nfoo()",
             output: "let a\n\nfoo()",
             options: [[
-                ["always", "let", "*"]
+                { blankline: "always", prev: "let", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3410,7 +3405,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "function foo(){return\n\nfoo()}",
             output: "function foo(){return\nfoo()}",
             options: [[
-                ["never", "return", "*"]
+                { blankline: "never", prev: "return", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -3418,7 +3413,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "function foo(){return\nfoo()}",
             output: "function foo(){return\n\nfoo()}",
             options: [[
-                ["always", "return", "*"]
+                { blankline: "always", prev: "return", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3431,7 +3426,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "switch(a){}\n\nfoo()",
             output: "switch(a){}\nfoo()",
             options: [[
-                ["never", "switch", "*"]
+                { blankline: "never", prev: "switch", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -3439,7 +3434,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "switch(a){}\nfoo()",
             output: "switch(a){}\n\nfoo()",
             options: [[
-                ["always", "switch", "*"]
+                { blankline: "always", prev: "switch", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3452,7 +3447,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "throw a\n\nfoo()",
             output: "throw a\nfoo()",
             options: [[
-                ["never", "throw", "*"]
+                { blankline: "never", prev: "throw", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -3460,7 +3455,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "throw a\nfoo()",
             output: "throw a\n\nfoo()",
             options: [[
-                ["always", "throw", "*"]
+                { blankline: "always", prev: "throw", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3473,7 +3468,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "try{}catch(e){}\n\nfoo()",
             output: "try{}catch(e){}\nfoo()",
             options: [[
-                ["never", "try", "*"]
+                { blankline: "never", prev: "try", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -3481,7 +3476,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "try{}finally{}\n\nfoo()",
             output: "try{}finally{}\nfoo()",
             options: [[
-                ["never", "try", "*"]
+                { blankline: "never", prev: "try", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -3489,7 +3484,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "try{}catch(e){}finally{}\n\nfoo()",
             output: "try{}catch(e){}finally{}\nfoo()",
             options: [[
-                ["never", "try", "*"]
+                { blankline: "never", prev: "try", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -3497,7 +3492,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "try{}catch(e){}\nfoo()",
             output: "try{}catch(e){}\n\nfoo()",
             options: [[
-                ["always", "try", "*"]
+                { blankline: "always", prev: "try", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3505,7 +3500,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "try{}finally{}\nfoo()",
             output: "try{}finally{}\n\nfoo()",
             options: [[
-                ["always", "try", "*"]
+                { blankline: "always", prev: "try", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3513,7 +3508,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "try{}catch(e){}finally{}\nfoo()",
             output: "try{}catch(e){}finally{}\n\nfoo()",
             options: [[
-                ["always", "try", "*"]
+                { blankline: "always", prev: "try", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3526,7 +3521,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "var a\n\nfoo()",
             output: "var a\nfoo()",
             options: [[
-                ["never", "var", "*"]
+                { blankline: "never", prev: "var", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -3534,7 +3529,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "var a\nfoo()",
             output: "var a\n\nfoo()",
             options: [[
-                ["always", "var", "*"]
+                { blankline: "always", prev: "var", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3547,7 +3542,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "while(a);\n\nfoo()",
             output: "while(a);\nfoo()",
             options: [[
-                ["never", "while", "*"]
+                { blankline: "never", prev: "while", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -3555,7 +3550,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "while(a);\nfoo()",
             output: "while(a);\n\nfoo()",
             options: [[
-                ["always", "while", "*"]
+                { blankline: "always", prev: "while", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3568,7 +3563,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "with(a);\n\nfoo()",
             output: "with(a);\nfoo()",
             options: [[
-                ["never", "with", "*"]
+                { blankline: "never", prev: "with", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -3576,7 +3571,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "with(a);\nfoo()",
             output: "with(a);\n\nfoo()",
             options: [[
-                ["always", "with", "*"]
+                { blankline: "always", prev: "with", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3590,8 +3585,8 @@ ruleTester.run("newline-between-statements", rule, {
             code: "var greet = 'hello';console.log(greet);",
             output: "var greet = 'hello';\n\nconsole.log(greet);",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3599,8 +3594,8 @@ ruleTester.run("newline-between-statements", rule, {
             code: "var greet = 'hello';var name = 'world';console.log(greet, name);",
             output: "var greet = 'hello';var name = 'world';\n\nconsole.log(greet, name);",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3608,8 +3603,8 @@ ruleTester.run("newline-between-statements", rule, {
             code: "var greet = 'hello', name = 'world';console.log(greet, name);",
             output: "var greet = 'hello', name = 'world';\n\nconsole.log(greet, name);",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3619,8 +3614,8 @@ ruleTester.run("newline-between-statements", rule, {
             code: "var greet = 'hello';\nconsole.log(greet);",
             output: "var greet = 'hello';\n\nconsole.log(greet);",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3628,8 +3623,8 @@ ruleTester.run("newline-between-statements", rule, {
             code: "var greet = 'hello';    \nconsole.log(greet);",
             output: "var greet = 'hello';\n    \nconsole.log(greet);",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3637,8 +3632,8 @@ ruleTester.run("newline-between-statements", rule, {
             code: "var greet = 'hello'; // inline comment\nconsole.log(greet);",
             output: "var greet = 'hello'; // inline comment\n\nconsole.log(greet);",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3646,8 +3641,8 @@ ruleTester.run("newline-between-statements", rule, {
             code: "var greet = 'hello';\nvar name = 'world';\nconsole.log(greet, name);",
             output: "var greet = 'hello';\nvar name = 'world';\n\nconsole.log(greet, name);",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3655,8 +3650,8 @@ ruleTester.run("newline-between-statements", rule, {
             code: "var greet = 'hello', name = 'world';\nconsole.log(greet, name);",
             output: "var greet = 'hello', name = 'world';\n\nconsole.log(greet, name);",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3664,8 +3659,8 @@ ruleTester.run("newline-between-statements", rule, {
             code: "var greet = 'hello',\nname = 'world';\nconsole.log(greet, name);",
             output: "var greet = 'hello',\nname = 'world';\n\nconsole.log(greet, name);",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3673,8 +3668,8 @@ ruleTester.run("newline-between-statements", rule, {
             code: "let greet = 'hello';\nconsole.log(greet);",
             output: "let greet = 'hello';\n\nconsole.log(greet);",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3682,8 +3677,8 @@ ruleTester.run("newline-between-statements", rule, {
             code: "const greet = 'hello';\nconsole.log(greet);",
             output: "const greet = 'hello';\n\nconsole.log(greet);",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3691,8 +3686,8 @@ ruleTester.run("newline-between-statements", rule, {
             code: "function example() {\nvar greet = 'hello';\nconsole.log(greet);\n}",
             output: "function example() {\nvar greet = 'hello';\n\nconsole.log(greet);\n}",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3700,8 +3695,8 @@ ruleTester.run("newline-between-statements", rule, {
             code: "var f = function() {\nvar greet = 'hello';\nconsole.log(greet);\n};",
             output: "var f = function() {\nvar greet = 'hello';\n\nconsole.log(greet);\n};",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3709,8 +3704,8 @@ ruleTester.run("newline-between-statements", rule, {
             code: "() => {\nvar greet = 'hello';\nconsole.log(greet);\n}",
             output: "() => {\nvar greet = 'hello';\n\nconsole.log(greet);\n}",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3720,8 +3715,8 @@ ruleTester.run("newline-between-statements", rule, {
             code: "var greet = 'hello';\n\nconsole.log(greet);",
             output: "var greet = 'hello';\nconsole.log(greet);",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -3729,8 +3724,8 @@ ruleTester.run("newline-between-statements", rule, {
             code: "var greet = 'hello';\n\n\nconsole.log(greet);",
             output: "var greet = 'hello';\nconsole.log(greet);",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -3738,8 +3733,8 @@ ruleTester.run("newline-between-statements", rule, {
             code: "var greet = 'hello';\n\n\n\nconsole.log(greet);",
             output: "var greet = 'hello';\nconsole.log(greet);",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -3747,8 +3742,8 @@ ruleTester.run("newline-between-statements", rule, {
             code: "var greet = 'hello';    \n\nconsole.log(greet);",
             output: "var greet = 'hello';    \nconsole.log(greet);",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -3756,8 +3751,8 @@ ruleTester.run("newline-between-statements", rule, {
             code: "var greet = 'hello'; // inline comment\n\nconsole.log(greet);",
             output: "var greet = 'hello'; // inline comment\nconsole.log(greet);",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -3765,8 +3760,8 @@ ruleTester.run("newline-between-statements", rule, {
             code: "var greet = 'hello';\nvar name = 'world';\n\nconsole.log(greet, name);",
             output: "var greet = 'hello';\nvar name = 'world';\nconsole.log(greet, name);",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -3774,8 +3769,8 @@ ruleTester.run("newline-between-statements", rule, {
             code: "var greet = 'hello', name = 'world';\n\nconsole.log(greet, name);",
             output: "var greet = 'hello', name = 'world';\nconsole.log(greet, name);",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -3783,8 +3778,8 @@ ruleTester.run("newline-between-statements", rule, {
             code: "var greet = 'hello',\nname = 'world';\n\nconsole.log(greet, name);",
             output: "var greet = 'hello',\nname = 'world';\nconsole.log(greet, name);",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -3792,8 +3787,8 @@ ruleTester.run("newline-between-statements", rule, {
             code: "var greet = 'hello', // inline comment\nname = 'world'; // inline comment\n\nconsole.log(greet, name);",
             output: "var greet = 'hello', // inline comment\nname = 'world'; // inline comment\nconsole.log(greet, name);",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -3801,8 +3796,8 @@ ruleTester.run("newline-between-statements", rule, {
             code: "let greet = 'hello';\n\nconsole.log(greet);",
             output: "let greet = 'hello';\nconsole.log(greet);",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -3810,8 +3805,8 @@ ruleTester.run("newline-between-statements", rule, {
             code: "const greet = 'hello';\n\nconsole.log(greet);",
             output: "const greet = 'hello';\nconsole.log(greet);",
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -3821,8 +3816,8 @@ ruleTester.run("newline-between-statements", rule, {
             code: "var greet = 'hello';\n// next-line comment\nconsole.log(greet);",
             output: "var greet = 'hello';\n\n// next-line comment\nconsole.log(greet);",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3830,8 +3825,8 @@ ruleTester.run("newline-between-statements", rule, {
             code: "var greet = 'hello';\n/* block comment\nblock comment */\nconsole.log(greet);",
             output: "var greet = 'hello';\n\n/* block comment\nblock comment */\nconsole.log(greet);",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3839,8 +3834,8 @@ ruleTester.run("newline-between-statements", rule, {
             code: "var greet = 'hello',\nname = 'world';\n// next-line comment\nconsole.log(greet);",
             output: "var greet = 'hello',\nname = 'world';\n\n// next-line comment\nconsole.log(greet);",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3848,8 +3843,8 @@ ruleTester.run("newline-between-statements", rule, {
             code: "var greet = 'hello',\nname = 'world';\n/* block comment\nblock comment */\nconsole.log(greet);",
             output: "var greet = 'hello',\nname = 'world';\n\n/* block comment\nblock comment */\nconsole.log(greet);",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3857,8 +3852,8 @@ ruleTester.run("newline-between-statements", rule, {
             code: "var greet = 'hello';\n// next-line comment\n// second-line comment\nconsole.log(greet);",
             output: "var greet = 'hello';\n\n// next-line comment\n// second-line comment\nconsole.log(greet);",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3866,8 +3861,8 @@ ruleTester.run("newline-between-statements", rule, {
             code: "var greet = 'hello';\n// next-line comment\n/* block comment\nblock comment */\nconsole.log(greet);",
             output: "var greet = 'hello';\n\n// next-line comment\n/* block comment\nblock comment */\nconsole.log(greet);",
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3884,8 +3879,8 @@ ruleTester.run("newline-between-statements", rule, {
                 ;(b || c).doSomething()
             `,
             options: [[
-                ["always", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "always", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -3900,8 +3895,8 @@ ruleTester.run("newline-between-statements", rule, {
                 ;(b || c).doSomething()
             `,
             options: [[
-                ["never", ["const", "let", "var"], "*"],
-                ["any", ["const", "let", "var"], ["const", "let", "var"]]
+                { blankline: "never", prev: ["const", "let", "var"], next: "*" },
+                { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -3915,7 +3910,7 @@ ruleTester.run("newline-between-statements", rule, {
             errors: ["Expected one or more blank lines before this statement."],
             output: "function a() {\nvar b;\n\n return;\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
@@ -3923,7 +3918,7 @@ ruleTester.run("newline-between-statements", rule, {
             errors: ["Expected one or more blank lines before this statement."],
             output: "function a() {\nvar b;\n\nreturn;\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
@@ -3931,7 +3926,7 @@ ruleTester.run("newline-between-statements", rule, {
             errors: ["Expected one or more blank lines before this statement."],
             output: "function a() {\nif (b) return b;\nelse if (c) return c;\nelse {\ne();\n\nreturn d;\n}\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
@@ -3939,7 +3934,7 @@ ruleTester.run("newline-between-statements", rule, {
             errors: ["Expected one or more blank lines before this statement."],
             output: "function a() {\nif (b) return b;\nelse if (c) return c;\nelse {\ne();\n\n return d;\n}\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
@@ -3947,7 +3942,7 @@ ruleTester.run("newline-between-statements", rule, {
             errors: ["Expected one or more blank lines before this statement."],
             output: "function a() {\n while (b) {\nc();\n\nreturn;\n}\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
@@ -3955,7 +3950,7 @@ ruleTester.run("newline-between-statements", rule, {
             errors: ["Expected one or more blank lines before this statement."],
             output: "function a() {\ndo {\nc();\n\nreturn;\n} while (b);\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
@@ -3963,7 +3958,7 @@ ruleTester.run("newline-between-statements", rule, {
             errors: ["Expected one or more blank lines before this statement."],
             output: "function a() {\nfor (var b; b < c; b++) {\nc();\n\nreturn;\n}\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
@@ -3971,7 +3966,7 @@ ruleTester.run("newline-between-statements", rule, {
             errors: ["Expected one or more blank lines before this statement."],
             output: "function a() {\nfor (b in c) {\nd();\n\nreturn;\n}\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
@@ -3979,7 +3974,7 @@ ruleTester.run("newline-between-statements", rule, {
             errors: ["Expected one or more blank lines before this statement."],
             output: "function a() {\nfor (b of c) {\nd();\n\nreturn;\n}\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
@@ -3987,7 +3982,7 @@ ruleTester.run("newline-between-statements", rule, {
             errors: ["Expected one or more blank lines before this statement."],
             output: "function a() {\nif (b) {\nc();\n}\n\n//comment\nreturn b;\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
@@ -3995,7 +3990,7 @@ ruleTester.run("newline-between-statements", rule, {
             errors: ["Expected one or more blank lines before this statement.", "Expected one or more blank lines before this statement."],
             output: "function a() {\n/*comment\ncomment*/\nif (b) {\nc();\n\nreturn b;\n} else {\n//comment\n\nreturn d;\n}\n\n/*multi-line\ncomment*/\nreturn e;\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
@@ -4003,7 +3998,7 @@ ruleTester.run("newline-between-statements", rule, {
             errors: ["Expected one or more blank lines before this statement."],
             output: "function a() {\nif (b) { return; } //comment\n\nreturn c;\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
@@ -4011,7 +4006,7 @@ ruleTester.run("newline-between-statements", rule, {
             errors: ["Expected one or more blank lines before this statement."],
             output: "function a() {\nif (b) { return; } /*multi-line\ncomment*/\n\nreturn c;\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
@@ -4019,7 +4014,7 @@ ruleTester.run("newline-between-statements", rule, {
             errors: ["Expected one or more blank lines before this statement."],
             output: "function a() {\nif (b) { return; }\n\n/*multi-line\ncomment*/ return c;\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
@@ -4027,7 +4022,7 @@ ruleTester.run("newline-between-statements", rule, {
             errors: ["Expected one or more blank lines before this statement."],
             output: "function a() {\nif (b) { return; } /*multi-line\ncomment*/\n\n return c;\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
@@ -4036,7 +4031,7 @@ ruleTester.run("newline-between-statements", rule, {
             errors: ["Expected one or more blank lines before this statement."],
             output: "var a;\n\nreturn;",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
@@ -4045,7 +4040,7 @@ ruleTester.run("newline-between-statements", rule, {
             errors: ["Expected one or more blank lines before this statement."],
             output: "var a;\n\n return;",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
@@ -4053,7 +4048,7 @@ ruleTester.run("newline-between-statements", rule, {
             errors: ["Expected one or more blank lines before this statement."],
             output: "function a() {\n{\n//comment\n}\n\nreturn\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
@@ -4061,7 +4056,7 @@ ruleTester.run("newline-between-statements", rule, {
             errors: ["Expected one or more blank lines before this statement."],
             output: "function a() {\n{\n//comment\n}\n\n return\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
@@ -4069,7 +4064,7 @@ ruleTester.run("newline-between-statements", rule, {
             errors: ["Expected one or more blank lines before this statement."],
             output: "function a() {\nvar c;\nwhile (b) {\n c = d; //comment\n}\n\nreturn c;\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
@@ -4077,7 +4072,7 @@ ruleTester.run("newline-between-statements", rule, {
             errors: ["Expected one or more blank lines before this statement."],
             output: "function a() {\nfor (var b; b < c; b++) {\nif (d) {\nbreak; //comment\n}\n\nreturn;\n}\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
@@ -4085,7 +4080,7 @@ ruleTester.run("newline-between-statements", rule, {
             errors: ["Expected one or more blank lines before this statement."],
             output: "function a() {\nvar b; /*multi-line\ncomment*/\n\nreturn c;\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
@@ -4093,7 +4088,7 @@ ruleTester.run("newline-between-statements", rule, {
             errors: ["Expected one or more blank lines before this statement."],
             output: "function a() {\nvar b;\n\n/*multi-line\ncomment*/ return c;\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
@@ -4101,7 +4096,7 @@ ruleTester.run("newline-between-statements", rule, {
             errors: ["Expected one or more blank lines before this statement."],
             output: "function a() {\nvar b; /*multi-line\ncomment*/\n\n return c;\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
@@ -4109,7 +4104,7 @@ ruleTester.run("newline-between-statements", rule, {
             errors: ["Expected one or more blank lines before this statement."],
             output: "function a() {\nvar b;\n\n//comment\nreturn;\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
@@ -4117,7 +4112,7 @@ ruleTester.run("newline-between-statements", rule, {
             errors: ["Expected one or more blank lines before this statement."],
             output: "function a() {\nvar b; //comment\n\nreturn;\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
@@ -4125,7 +4120,7 @@ ruleTester.run("newline-between-statements", rule, {
             errors: ["Expected one or more blank lines before this statement."],
             output: "function a() {\nvar b;\n\n/* comment */ return;\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
@@ -4133,7 +4128,7 @@ ruleTester.run("newline-between-statements", rule, {
             errors: ["Expected one or more blank lines before this statement."],
             output: "function a() {\nvar b;\n\n//comment\n/* comment */ return;\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
@@ -4141,7 +4136,7 @@ ruleTester.run("newline-between-statements", rule, {
             errors: ["Expected one or more blank lines before this statement."],
             output: "function a() {\nvar b; /* comment */\n\n return;\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
@@ -4149,7 +4144,7 @@ ruleTester.run("newline-between-statements", rule, {
             errors: ["Expected one or more blank lines before this statement."],
             output: "function a() {\nvar b; /* comment */\n\nreturn;\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
@@ -4157,7 +4152,7 @@ ruleTester.run("newline-between-statements", rule, {
             errors: ["Expected one or more blank lines before this statement."],
             output: "function a() {\nvar b;\n\nreturn; //comment\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
         {
@@ -4165,7 +4160,7 @@ ruleTester.run("newline-between-statements", rule, {
             errors: ["Expected one or more blank lines before this statement."],
             output: "function a() {\nvar b;\n\n return; //comment\n}",
             options: [[
-                ["always", "*", "return"]
+                { blankline: "always", prev: "*", next: "return" }
             ]]
         },
 
@@ -4178,7 +4173,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "if(true){}\n\nvar a = 2;",
             output: "if(true){}\nvar a = 2;",
             options: [[
-                ["never", "block-like", "*"]
+                { blankline: "never", prev: "block-like", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -4186,7 +4181,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "if(true){\nif(true) {}\n\nvar a = 2;}",
             output: "if(true){\nif(true) {}\nvar a = 2;}",
             options: [[
-                ["never", "block-like", "*"]
+                { blankline: "never", prev: "block-like", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -4194,7 +4189,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "(function(){\n})()\n\nvar a = 2;",
             output: "(function(){\n})()\nvar a = 2;",
             options: [[
-                ["never", "block-like", "*"]
+                { blankline: "never", prev: "block-like", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -4202,7 +4197,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "var a = function() {};\n\nvar b = 2;",
             output: "var a = function() {};\nvar b = 2;",
             options: [[
-                ["never", "block-like", "*"]
+                { blankline: "never", prev: "block-like", next: "*" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -4216,7 +4211,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "var a = 2;\n\nmodule.exports = a;",
             output: "var a = 2;\nmodule.exports = a;",
             options: [[
-                ["never", "*", "cjs-export"]
+                { blankline: "never", prev: "*", next: "cjs-export" }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -4230,7 +4225,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "function x() { var a;\n\nreturn; }",
             output: "function x() { var a;\nreturn; }",
             options: [[
-                ["never", "*", ["if", "for", "return", "switch", "case", "break", "throw"]]
+                { blankline: "never", prev: "*", next: ["if", "for", "return", "switch", "case", "break", "throw"] }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -4238,7 +4233,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "function x() { var a = true;\n\nif (a) { a = !a; }; }",
             output: "function x() { var a = true;\nif (a) { a = !a; }; }",
             options: [[
-                ["never", "*", ["if", "for", "return", "switch", "case", "break", "throw"]]
+                { blankline: "never", prev: "*", next: ["if", "for", "return", "switch", "case", "break", "throw"] }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -4246,7 +4241,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "function x() { var a = true;\n\nfor (var i = 0; i < 10; i++) { a = !a; }; }",
             output: "function x() { var a = true;\nfor (var i = 0; i < 10; i++) { a = !a; }; }",
             options: [[
-                ["never", "*", ["if", "for", "return", "switch", "case", "break", "throw"]]
+                { blankline: "never", prev: "*", next: ["if", "for", "return", "switch", "case", "break", "throw"] }
             ]],
             errors: ["Unexpected blank lines before this statement."]
         },
@@ -4254,7 +4249,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "function x() { var y = true;\n\nswitch (\"Oranges\") { case \"Oranges\": y = !y;\n\nbreak;\n\ncase \"Apples\": y = !y;\n\nbreak; default: y = !y; } }",
             output: "function x() { var y = true;\nswitch (\"Oranges\") { case \"Oranges\": y = !y;\nbreak;\ncase \"Apples\": y = !y;\nbreak; default: y = !y; } }",
             options: [[
-                ["never", "*", ["if", "for", "return", "switch", "case", "break", "throw"]]
+                { blankline: "never", prev: "*", next: ["if", "for", "return", "switch", "case", "break", "throw"] }
             ]],
             errors: [
                 "Unexpected blank lines before this statement.",
@@ -4267,7 +4262,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "function x() {try { var a;\n\nthrow 0; } catch (e) { var b = 0;\n\nthrow e; } }",
             output: "function x() {try { var a;\nthrow 0; } catch (e) { var b = 0;\nthrow e; } }",
             options: [[
-                ["never", "*", ["if", "for", "return", "switch", "case", "break", "throw"]]
+                { blankline: "never", prev: "*", next: ["if", "for", "return", "switch", "case", "break", "throw"] }
             ]],
             errors: [
                 "Unexpected blank lines before this statement.",
@@ -4278,7 +4273,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "function x(a) { var b = 0;\n\nif (!a) { return false; };\n\nfor (var i = 0; i < b; i++) { if (!a[i]) return false; }\n\nreturn true; }",
             output: "function x(a) { var b = 0;\nif (!a) { return false; };\nfor (var i = 0; i < b; i++) { if (!a[i]) return false; }\nreturn true; }",
             options: [[
-                ["never", "*", ["if", "for", "return", "switch", "case", "break", "throw"]]
+                { blankline: "never", prev: "*", next: ["if", "for", "return", "switch", "case", "break", "throw"] }
             ]],
             errors: [
                 "Unexpected blank lines before this statement.",
@@ -4296,7 +4291,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "if(true){}\nvar a = 2;",
             output: "if(true){}\n\nvar a = 2;",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -4304,7 +4299,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "var a = function() {\n};\nvar b = 2;",
             output: "var a = function() {\n};\n\nvar b = 2;",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -4312,7 +4307,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "if(true){\nif(true) {}\nvar a = 2;}",
             output: "if(true){\nif(true) {}\n\nvar a = 2;}",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -4320,7 +4315,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "(function(){\n})()\nvar a = 2;",
             output: "(function(){\n})()\n\nvar a = 2;",
             options: [[
-                ["always", "block-like", "*"]
+                { blankline: "always", prev: "block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -4328,7 +4323,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "var a = function() {\n};\nvar b = 2;",
             output: "var a = function() {\n};\n\nvar b = 2;",
             options: [[
-                ["always", "multiline-block-like", "*"]
+                { blankline: "always", prev: "multiline-block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -4336,7 +4331,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "(function(){\n})()\nvar a = 2;",
             output: "(function(){\n})()\n\nvar a = 2;",
             options: [[
-                ["always", "multiline-block-like", "*"]
+                { blankline: "always", prev: "multiline-block-like", next: "*" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -4350,7 +4345,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "var a = 2;\nmodule.exports = a;",
             output: "var a = 2;\n\nmodule.exports = a;",
             options: [[
-                ["always", "*", "cjs-export"]
+                { blankline: "always", prev: "*", next: "cjs-export" }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -4364,7 +4359,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "function x() { var a; return; }",
             output: "function x() { var a;\n\n return; }",
             options: [[
-                ["always", "*", ["if", "for", "return", "switch", "case", "break", "throw", "while", "default"]]
+                { blankline: "always", prev: "*", next: ["if", "for", "return", "switch", "case", "break", "throw", "while", "default"] }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -4372,7 +4367,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "function x() { var a = true; for (var i = 0; i < 10; i++) { a = !a; }; }",
             output: "function x() { var a = true;\n\n for (var i = 0; i < 10; i++) { a = !a; }; }",
             options: [[
-                ["always", "*", ["if", "for", "return", "switch", "case", "break", "throw", "while", "default"]]
+                { blankline: "always", prev: "*", next: ["if", "for", "return", "switch", "case", "break", "throw", "while", "default"] }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -4380,7 +4375,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "function x() { var y = true; switch (\"Oranges\") { case \"Oranges\": y = !y; break; case \"Apples\": y = !y; break; default: y = !y; } }",
             output: "function x() { var y = true;\n\n switch (\"Oranges\") { case \"Oranges\": y = !y;\n\n break;\n\n case \"Apples\": y = !y;\n\n break;\n\n default: y = !y; } }",
             options: [[
-                ["always", "*", ["if", "for", "return", "switch", "case", "break", "throw", "while", "default"]]
+                { blankline: "always", prev: "*", next: ["if", "for", "return", "switch", "case", "break", "throw", "while", "default"] }
             ]],
             errors: [
                 "Expected one or more blank lines before this statement.",
@@ -4394,7 +4389,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "function x() { var a = true; while (!a) { a = !a; }; }",
             output: "function x() { var a = true;\n\n while (!a) { a = !a; }; }",
             options: [[
-                ["always", "*", ["if", "for", "return", "switch", "case", "break", "throw", "while", "default"]]
+                { blankline: "always", prev: "*", next: ["if", "for", "return", "switch", "case", "break", "throw", "while", "default"] }
             ]],
             errors: ["Expected one or more blank lines before this statement."]
         },
@@ -4402,7 +4397,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "function x() {try { var a; throw 0; } catch (e) { var b = 0; throw e; } }",
             output: "function x() {try { var a;\n\n throw 0; } catch (e) { var b = 0;\n\n throw e; } }",
             options: [[
-                ["always", "*", ["if", "for", "return", "switch", "case", "break", "throw", "while", "default"]]
+                { blankline: "always", prev: "*", next: ["if", "for", "return", "switch", "case", "break", "throw", "while", "default"] }
             ]],
             errors: [
                 "Expected one or more blank lines before this statement.",
@@ -4413,7 +4408,7 @@ ruleTester.run("newline-between-statements", rule, {
             code: "function x(a) { var b = 0; if (!a) { return false; }; for (var i = 0; i < b; i++) { if (!a[i]) return false; } return true; }",
             output: "function x(a) { var b = 0;\n\n if (!a) { return false; };\n\n for (var i = 0; i < b; i++) { if (!a[i]) return false; }\n\n return true; }",
             options: [[
-                ["always", "*", ["if", "for", "return", "switch", "case", "break", "throw", "while", "default"]]
+                { blankline: "always", prev: "*", next: ["if", "for", "return", "switch", "case", "break", "throw", "while", "default"] }
             ]],
             errors: [
                 "Expected one or more blank lines before this statement.",
