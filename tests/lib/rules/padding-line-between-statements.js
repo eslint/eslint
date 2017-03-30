@@ -1,5 +1,5 @@
 /**
- * @fileoverview Tests for newline-between-statements rule.
+ * @fileoverview Tests for padding-line-between-statements rule.
  * @author Toru Nagashima
  */
 
@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const rule = require("../../../lib/rules/newline-between-statements");
+const rule = require("../../../lib/rules/padding-line-between-statements");
 const RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
@@ -18,7 +18,7 @@ const RuleTester = require("../../../lib/testers/rule-tester");
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2015 } });
 
-ruleTester.run("newline-between-statements", rule, {
+ruleTester.run("padding-line-between-statements", rule, {
     valid: [
 
         // do nothing if no options.

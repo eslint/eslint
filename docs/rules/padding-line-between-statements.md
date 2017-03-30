@@ -1,4 +1,4 @@
-# Require or disallow newlines between statements (newline-between-statements)
+# Require or disallow padding lines between statements (padding-line-between-statements)
 
 (fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
 
@@ -8,7 +8,7 @@ Properly blank lines help developers to understand the code.
 For example, the following configuration requires a blank line between a variable declaration and a `return` statement.
 
 ```js
-/*eslint newline-between-statements: ["error", [
+/*eslint padding-line-between-statements: ["error", [
     { blankline: "always", prev: "var", next: "return" }
 ]]*/
 
@@ -28,7 +28,7 @@ You can supply any number of the configuration. If an statement pair matches som
 
 ```json
 {
-    "newline-between-statements": ["error", [
+    "padding-line-between-statements": ["error", [
         { "blankline": LINEBREAK_TYPE, "prev": STATEMENT_TYPE, "next": STATEMENT_TYPE },
         { "blankline": LINEBREAK_TYPE, "prev": STATEMENT_TYPE, "next": STATEMENT_TYPE },
         { "blankline": LINEBREAK_TYPE, "prev": STATEMENT_TYPE, "next": STATEMENT_TYPE },
@@ -82,7 +82,7 @@ It configures as [newline-before-return].
 Examples of **incorrect** code for the `[{ blankline: "always", prev: "*", next: "return" }]` configuration:
 
 ```js
-/*eslint newline-between-statements: ["error", [
+/*eslint padding-line-between-statements: ["error", [
     { blankline: "always", prev: "*", next: "return" }
 ]]*/
 
@@ -95,7 +95,7 @@ function foo() {
 Examples of **correct** code for the `[{ blankline: "always", prev: "*", next: "return" }]` configuration:
 
 ```js
-/*eslint newline-between-statements: ["error", [
+/*eslint padding-line-between-statements: ["error", [
     { blankline: "always", prev: "*", next: "return" }
 ]]*/
 
@@ -117,7 +117,7 @@ It configures as [newline-after-var].
 Examples of **incorrect** code for the `[{ blankline: "always", prev: ["const", "let", "var"], next: "*"}, { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"]}]` configuration:
 
 ```js
-/*eslint newline-between-statements: ["error", [
+/*eslint padding-line-between-statements: ["error", [
     { blankline: "always", prev: ["const", "let", "var"], next: "*"},
     { blankline: "any",    prev: ["const", "let", "var"], next: ["const", "let", "var"]}
 ]]*/
@@ -141,7 +141,7 @@ function foo() {
 Examples of **correct** code for the `[{ blankline: "always", prev: ["const", "let", "var"], next: "*"}, { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"]}]` configuration:
 
 ```js
-/*eslint newline-between-statements: ["error", [
+/*eslint padding-line-between-statements: ["error", [
     { blankline: "always", prev: ["const", "let", "var"], next: "*"},
     { blankline: "any",    prev: ["const", "let", "var"], next: ["const", "let", "var"]}
 ]]*/
@@ -175,7 +175,7 @@ It configures as [newline-around-directive].
 Examples of **incorrect** code for the `[{ blankline: "always", prev: "directive", next: "*" }, { blankline: "any", prev: "directive", next: "directive" }]` configuration:
 
 ```js
-/*eslint newline-between-statements: ["error", [
+/*eslint padding-line-between-statements: ["error", [
     { blankline: "always", prev: "directive", next: "*" },
     { blankline: "any",    prev: "directive", next: "directive" }
 ]]*/
@@ -187,7 +187,7 @@ foo();
 Examples of **correct** code for the `[{ blankline: "always", prev: "directive", next: "*" }, { blankline: "any", prev: "directive", next: "directive" }]` configuration:
 
 ```js
-/*eslint newline-between-statements: ["error", [
+/*eslint padding-line-between-statements: ["error", [
     { blankline: "always", prev: "directive", next: "*" },
     { blankline: "any",    prev: "directive", next: "directive" }
 ]]*/
