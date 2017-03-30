@@ -3425,6 +3425,16 @@ describe("eslint", () => {
 
             assert(result.length === 0);
         });
+
+
+        it("should not modify config object passed as argument", () => {
+            const config = {};
+
+            Object.freeze(config);
+            assert.doesNotThrow(() => {
+                eslint.verify("var foo", config);
+            });
+        });
     });
 
     describe("Variables and references", () => {

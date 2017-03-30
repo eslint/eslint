@@ -43,7 +43,12 @@ describe("Plugins", () => {
                 "eslint-plugin-example": plugin,
                 "@scope/eslint-plugin-example": scopedPlugin,
                 "./environments": Environments,
-                "../rules": Rules
+                "../rules": Rules,
+                "eslint-plugin-throws-on-load": {
+                    get rules() {
+                        throw new Error("error thrown while loading this module");
+                    }
+                }
             });
         });
 
@@ -104,6 +109,21 @@ describe("Plugins", () => {
             assert.throws(() => {
                 StubbedPlugins.load("nonexistentplugin");
             }, /Failed to load plugin/);
+        });
+
+        it("should rethrow an error that a plugin throws on load", () => {
+            try {
+                StubbedPlugins.load("throws-on-load");
+            } catch (err) {
+                assert.strictEqual(
+                    err.message,
+                    "error thrown while loading this module",
+                    "should rethrow the same error that was thrown on plugin load"
+                );
+
+                return;
+            }
+            assert.fail(null, null, "should throw an error if a plugin fails to load");
         });
 
         it("should load a scoped plugin when referenced by short name", () => {

@@ -381,6 +381,21 @@ ruleTester.run("no-extra-parens", rule, {
             }
         },
         {
+            code: "let a = [ ...(b, c) ]",
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: "let a = { ...(b, c) }",
+            parserOptions: {
+                ecmaVersion: 2015,
+                ecmaFeatures: { experimentalObjectRestSpread: true }
+            }
+        },
+        {
+            code: "var [x = (1, foo)] = bar",
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
             code: "class A extends B {}",
             parserOptions: { ecmaVersion: 2015 }
         },
@@ -394,6 +409,22 @@ ruleTester.run("no-extra-parens", rule, {
         },
         {
             code: "const A = class extends (B=C) {}",
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: "() => ({ foo: 1 })",
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: "() => ({ foo: 1 }).foo",
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: "() => ({ foo: 1 }.foo().bar).baz.qux()",
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: "() => ({ foo: 1 }.foo().bar + baz)",
             parserOptions: { ecmaVersion: 2015 }
         }
     ],
@@ -892,6 +923,25 @@ ruleTester.run("no-extra-parens", rule, {
             }
         ),
         invalid(
+            "let a = [...((b, c))]",
+            "let a = [...(b, c)]",
+            "SequenceExpression",
+            1,
+            { parserOptions: { ecmaVersion: 2015 } }
+        ),
+        invalid(
+            "let a = {...((b, c))}",
+            "let a = {...(b, c)}",
+            "SequenceExpression",
+            1,
+            {
+                parserOptions: {
+                    ecmaVersion: 2015,
+                    ecmaFeatures: { experimentalObjectRestSpread: true }
+                }
+            }
+        ),
+        invalid(
             "class A extends (B) {}",
             "class A extends B {}",
             "Identifier",
@@ -918,6 +968,25 @@ ruleTester.run("no-extra-parens", rule, {
             "AssignmentExpression",
             1,
             { parserOptions: { ecmaVersion: 2015 } }
-        )
+        ),
+        invalid(
+            "for (foo of(bar));",
+            "for (foo of bar);",
+            "Identifier",
+            1,
+            { parserOptions: { ecmaVersion: 2015 } }
+        ),
+        {
+            code: "() => (({ foo: 1 }).foo)",
+            output: "() => ({ foo: 1 }).foo",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+
+                // 2 errors are reported, but fixing one gets rid of the other
+                { message: "Gratuitous parentheses around expression.", type: "MemberExpression" },
+                { message: "Gratuitous parentheses around expression.", type: "ObjectExpression" }
+            ]
+
+        }
     ]
 });

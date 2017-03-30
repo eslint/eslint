@@ -221,6 +221,16 @@ ruleTester.run("no-implicit-coercion", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "use `String(foo)` instead.", type: "BinaryExpression" }],
             output: "var a = String(foo)"
+        },
+        {
+            code: "typeof+foo",
+            output: "typeof Number(foo)",
+            errors: [{ message: "use `Number(foo)` instead.", type: "UnaryExpression" }]
+        },
+        {
+            code: "typeof +foo",
+            output: "typeof Number(foo)",
+            errors: [{ message: "use `Number(foo)` instead.", type: "UnaryExpression" }]
         }
     ]
 });

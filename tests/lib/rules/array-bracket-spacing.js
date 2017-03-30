@@ -695,7 +695,7 @@ ruleTester.run("array-bracket-spacing", rule, {
             code: "([ a, b ]: Array<any>) => {}",
             output: "([a, b]: Array<any>) => {}",
             options: ["never"],
-            ecmaFeatures: {
+            parserOptions: {
                 ecmaVersion: 6
             },
             errors: [
@@ -718,7 +718,7 @@ ruleTester.run("array-bracket-spacing", rule, {
             code: "([a, b]: Array< any >) => {}",
             output: "([ a, b ]: Array< any >) => {}",
             options: ["always"],
-            ecmaFeatures: {
+            parserOptions: {
                 ecmaVersion: 6
             },
             errors: [

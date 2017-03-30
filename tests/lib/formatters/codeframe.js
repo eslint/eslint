@@ -54,7 +54,9 @@ describe("formatter:codeframe", () => {
     describe("when passed no messages", () => {
         const code = [{
             filePath: "foo.js",
-            messages: []
+            messages: [],
+            errorCount: 0,
+            warningCount: 0
         }];
 
         it("should return nothing", () => {
@@ -64,7 +66,47 @@ describe("formatter:codeframe", () => {
         });
     });
 
-    describe("when passed a single message", () => {
+    describe("when passed a single warning message", () => {
+        const code = [{
+            filePath: path.join(process.cwd(), "lib", "foo.js"),
+            source: "var foo = 1;\n var bar = 2;\n",
+            messages: [{
+                message: "Unexpected foo.",
+                severity: 1,
+                line: 1,
+                column: 5,
+                ruleId: "foo"
+            }],
+            errorCount: 0,
+            warningCount: 1
+        }];
+
+        it("should return a string in the correct format for warnings", () => {
+            const result = formatter(code);
+
+            assert.equal(chalk.stripColor(result), [
+                `warning: Unexpected foo (foo) at ${path.join("lib", "foo.js")}:1:5:`,
+                "> 1 | var foo = 1;",
+                "    |     ^",
+                "  2 |  var bar = 2;",
+                "  3 | ",
+                "\n",
+                "1 warning found."
+            ].join("\n"));
+        });
+
+        it("should return bold yellow summary when there are only warnings", () => {
+            sandbox.spy(chalkStub.yellow, "bold");
+            sandbox.spy(chalkStub.red, "bold");
+
+            formatter(code);
+
+            assert.equal(chalkStub.yellow.bold.callCount, 1);
+            assert.equal(chalkStub.red.bold.callCount, 0);
+        });
+    });
+
+    describe("when passed a single error message", () => {
         const code = [{
             filePath: path.join(process.cwd(), "lib", "foo.js"),
             source: "var foo = 1;\n var bar = 2;\n",
@@ -74,7 +116,9 @@ describe("formatter:codeframe", () => {
                 line: 1,
                 column: 5,
                 ruleId: "foo"
-            }]
+            }],
+            errorCount: 1,
+            warningCount: 0
         }];
 
         it("should return a string in the correct format for errors", () => {
@@ -91,42 +135,14 @@ describe("formatter:codeframe", () => {
             ].join("\n"));
         });
 
-        it("should return a string in the correct format for warnings", () => {
-            code[0].messages[0].severity = 1;
-
-            const result = formatter(code);
-
-            assert.equal(chalk.stripColor(result), [
-                `warning: Unexpected foo (foo) at ${path.join("lib", "foo.js")}:1:5:`,
-                "> 1 | var foo = 1;",
-                "    |     ^",
-                "  2 |  var bar = 2;",
-                "  3 | ",
-                "\n",
-                "1 warning found."
-            ].join("\n"));
-        });
-
         it("should return bold red summary when there are errors", () => {
             sandbox.spy(chalkStub.yellow, "bold");
             sandbox.spy(chalkStub.red, "bold");
-            code[0].messages[0].severity = 2;
 
             formatter(code);
 
             assert.equal(chalkStub.yellow.bold.callCount, 0);
             assert.equal(chalkStub.red.bold.callCount, 1);
-        });
-
-        it("should return bold yellow summary when there are only warnings", () => {
-            sandbox.spy(chalkStub.yellow, "bold");
-            sandbox.spy(chalkStub.red, "bold");
-            code[0].messages[0].severity = 1;
-
-            formatter(code);
-
-            assert.equal(chalkStub.yellow.bold.callCount, 1);
-            assert.equal(chalkStub.red.bold.callCount, 0);
         });
     });
 
@@ -146,7 +162,9 @@ describe("formatter:codeframe", () => {
                 line: 1,
                 column: 7,
                 ruleId: "no-unused-vars"
-            }]
+            }],
+            errorCount: 2,
+            warningCount: 0
         }];
 
         it("should return a string with multiple entries", () => {
@@ -171,6 +189,8 @@ describe("formatter:codeframe", () => {
             sandbox.spy(chalkStub.yellow, "bold");
             sandbox.spy(chalkStub.red, "bold");
             code[0].messages[0].severity = 1;
+            code[0].warningCount = 1;
+            code[0].errorCount = 1;
 
             formatter(code);
 
@@ -190,6 +210,8 @@ describe("formatter:codeframe", () => {
                 column: 11,
                 source: "    const foo = 1;"
             }],
+            errorCount: 1,
+            warningCount: 0,
             output: "function foo() {\n\n    // a comment\n    const foo = 1;\n}\n\n"
         }];
 
@@ -221,7 +243,9 @@ describe("formatter:codeframe", () => {
                 line: 1,
                 column: 14,
                 ruleId: "semi"
-            }]
+            }],
+            errorCount: 1,
+            warningCount: 0
         }, {
             filePath: "bar.js",
             source: "const bar = 2\n",
@@ -231,7 +255,9 @@ describe("formatter:codeframe", () => {
                 line: 1,
                 column: 14,
                 ruleId: "semi"
-            }]
+            }],
+            errorCount: 1,
+            warningCount: 0
         }];
 
         it("should return a string with multiple entries", () => {
@@ -265,7 +291,9 @@ describe("formatter:codeframe", () => {
                 message: "Parsing error: Unexpected token {",
                 line: 1,
                 column: 2
-            }]
+            }],
+            errorCount: 1,
+            warningCount: 0
         }];
 
         it("should return a string in the correct format", () => {
@@ -288,7 +316,9 @@ describe("formatter:codeframe", () => {
             messages: [{
                 fatal: true,
                 message: "Couldn't find foo.js."
-            }]
+            }],
+            errorCount: 1,
+            warningCount: 0
         }];
 
         it("should return a string without code preview (codeframe)", () => {
@@ -306,7 +336,9 @@ describe("formatter:codeframe", () => {
                 message: "Unexpected foo.",
                 severity: 2,
                 source: "foo"
-            }]
+            }],
+            errorCount: 1,
+            warningCount: 0
         }];
 
         it("should return a string without code preview (codeframe)", () => {
