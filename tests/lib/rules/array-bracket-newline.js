@@ -19,21 +19,21 @@ const RuleTester = require("../../../lib/testers/rule-tester");
 
 const ruleTester = new RuleTester();
 
-const ERR_NO_BREAK_AFTER = "There should be no break after '['.";
-const ERR_BREAK_AFTER = "A break is required after '['.";
-const ERR_NO_BREAK_BEFORE = "There should be no break before ']'.";
-const ERR_BREAK_BEFORE = "A break is required before ']'.";
+const ERR_NO_BREAK_AFTER = "There should be no linebreak after '['.";
+const ERR_BREAK_AFTER = "A linebreak is required after '['.";
+const ERR_NO_BREAK_BEFORE = "There should be no linebreak before ']'.";
+const ERR_BREAK_BEFORE = "A linebreak is required before ']'.";
 
 ruleTester.run("array-bracket-newline", rule, {
 
     valid: [
 
         // "always"
-        "var foo = [\n];",
-        "var foo = [\n1\n];",
-        "var foo = [\n1, 2\n];",
-        "var foo = [\n1,\n2\n];",
-        "var foo = [\nfunction foo() {\ndosomething();\n}\n];",
+        { code: "var foo = [\n];", options: ["always"] },
+        { code: "var foo = [\n1\n];", options: ["always"] },
+        { code: "var foo = [\n1, 2\n];", options: ["always"] },
+        { code: "var foo = [\n1,\n2\n];", options: ["always"] },
+        { code: "var foo = [\nfunction foo() {\ndosomething();\n}\n];", options: ["always"] },
 
         // "never"
         { code: "var foo = [];", options: ["never"] },
@@ -48,6 +48,13 @@ ruleTester.run("array-bracket-newline", rule, {
         { code: "var foo = [1, 2];", options: [{ multiline: true }] },
         { code: "var foo = [\n1,\n2\n];", options: [{ multiline: true }] },
         { code: "var foo = [\nfunction foo() {\nreturn dosomething();\n}\n];", options: [{ multiline: true }] },
+
+        // { multiline: false }
+        { code: "var foo = [];", options: [{ multiline: false }] },
+        { code: "var foo = [1];", options: [{ multiline: false }] },
+        { code: "var foo = [1, 2];", options: [{ multiline: false }] },
+        { code: "var foo = [1,\n2];", options: [{ multiline: false }] },
+        { code: "var foo = [function foo() {\nreturn dosomething();\n}];", options: [{ multiline: false }] },
 
         // { minItems: 2 }
         { code: "var foo = [];", options: [{ minItems: 2 }] },
@@ -70,6 +77,8 @@ ruleTester.run("array-bracket-newline", rule, {
         // "always"
         {
             code: "var foo = [];",
+            options: ["always"],
+            output: "var foo = [\n];",
             errors: [
                 {
                     message: ERR_BREAK_AFTER,
@@ -87,6 +96,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [1];",
+            options: ["always"],
+            output: "var foo = [\n1\n];",
             errors: [
                 {
                     message: ERR_BREAK_AFTER,
@@ -104,6 +115,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [1, 2];",
+            options: ["always"],
+            output: "var foo = [\n1, 2\n];",
             errors: [
                 {
                     message: ERR_BREAK_AFTER,
@@ -121,6 +134,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [1,\n2];",
+            options: ["always"],
+            output: "var foo = [\n1,\n2\n];",
             errors: [
                 {
                     message: ERR_BREAK_AFTER,
@@ -138,6 +153,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [function foo() {\ndosomething();\n}];",
+            options: ["always"],
+            output: "var foo = [\nfunction foo() {\ndosomething();\n}\n];",
             errors: [
                 {
                     message: ERR_BREAK_AFTER,
@@ -158,6 +175,7 @@ ruleTester.run("array-bracket-newline", rule, {
         {
             code: "var foo = [\n];",
             options: ["never"],
+            output: "var foo = [];",
             errors: [
                 {
                     message: ERR_NO_BREAK_AFTER,
@@ -176,6 +194,7 @@ ruleTester.run("array-bracket-newline", rule, {
         {
             code: "var foo = [\n1\n];",
             options: ["never"],
+            output: "var foo = [1];",
             errors: [
                 {
                     message: ERR_NO_BREAK_AFTER,
@@ -194,6 +213,7 @@ ruleTester.run("array-bracket-newline", rule, {
         {
             code: "var foo = [\n1, 2\n];",
             options: ["never"],
+            output: "var foo = [1, 2];",
             errors: [
                 {
                     message: ERR_NO_BREAK_AFTER,
@@ -211,6 +231,7 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [\n1,\n2\n];",
+            output: "var foo = [1,\n2];",
             options: ["never"],
             errors: [
                 {
@@ -230,6 +251,7 @@ ruleTester.run("array-bracket-newline", rule, {
         {
             code: "var foo = [\nfunction foo() {\ndosomething();\n}\n];",
             options: ["never"],
+            output: "var foo = [function foo() {\ndosomething();\n}];",
             errors: [
                 {
                     message: ERR_NO_BREAK_AFTER,
@@ -250,6 +272,7 @@ ruleTester.run("array-bracket-newline", rule, {
         {
             code: "var foo = [\n];",
             options: [{ multiline: true }],
+            output: "var foo = [];",
             errors: [
                 {
                     message: ERR_NO_BREAK_AFTER,
@@ -268,6 +291,7 @@ ruleTester.run("array-bracket-newline", rule, {
         {
             code: "var foo = [\n1\n];",
             options: [{ multiline: true }],
+            output: "var foo = [1];",
             errors: [
                 {
                     message: ERR_NO_BREAK_AFTER,
@@ -286,6 +310,7 @@ ruleTester.run("array-bracket-newline", rule, {
         {
             code: "var foo = [\n1, 2\n];",
             options: [{ multiline: true }],
+            output: "var foo = [1, 2];",
             errors: [
                 {
                     message: ERR_NO_BREAK_AFTER,
@@ -304,6 +329,7 @@ ruleTester.run("array-bracket-newline", rule, {
         {
             code: "var foo = [1,\n2];",
             options: [{ multiline: true }],
+            output: "var foo = [\n1,\n2\n];",
             errors: [
                 {
                     message: ERR_BREAK_AFTER,
@@ -322,6 +348,7 @@ ruleTester.run("array-bracket-newline", rule, {
         {
             code: "var foo = [function foo() {\ndosomething();\n}];",
             options: [{ multiline: true }],
+            output: "var foo = [\nfunction foo() {\ndosomething();\n}\n];",
             errors: [
                 {
                     message: ERR_BREAK_AFTER,
@@ -342,6 +369,7 @@ ruleTester.run("array-bracket-newline", rule, {
         {
             code: "var foo = [\n];",
             options: [{ minItems: 2 }],
+            output: "var foo = [];",
             errors: [
                 {
                     message: ERR_NO_BREAK_AFTER,
@@ -360,6 +388,7 @@ ruleTester.run("array-bracket-newline", rule, {
         {
             code: "var foo = [\n1\n];",
             options: [{ minItems: 2 }],
+            output: "var foo = [1];",
             errors: [
                 {
                     message: ERR_NO_BREAK_AFTER,
@@ -378,6 +407,7 @@ ruleTester.run("array-bracket-newline", rule, {
         {
             code: "var foo = [1, 2];",
             options: [{ minItems: 2 }],
+            output: "var foo = [\n1, 2\n];",
             errors: [
                 {
                     message: ERR_BREAK_AFTER,
@@ -396,6 +426,7 @@ ruleTester.run("array-bracket-newline", rule, {
         {
             code: "var foo = [1,\n2];",
             options: [{ minItems: 2 }],
+            output: "var foo = [\n1,\n2\n];",
             errors: [
                 {
                     message: ERR_BREAK_AFTER,
@@ -414,6 +445,7 @@ ruleTester.run("array-bracket-newline", rule, {
         {
             code: "var foo = [\nfunction foo() {\ndosomething();\n}\n];",
             options: [{ minItems: 2 }],
+            output: "var foo = [function foo() {\ndosomething();\n}];",
             errors: [
                 {
                     message: ERR_NO_BREAK_AFTER,
@@ -434,6 +466,7 @@ ruleTester.run("array-bracket-newline", rule, {
         {
             code: "var foo = [\n];",
             options: [{ multiline: true, minItems: 2 }],
+            output: "var foo = [];",
             errors: [
                 {
                     message: ERR_NO_BREAK_AFTER,
@@ -452,6 +485,7 @@ ruleTester.run("array-bracket-newline", rule, {
         {
             code: "var foo = [\n1\n];",
             options: [{ multiline: true, minItems: 2 }],
+            output: "var foo = [1];",
             errors: [
                 {
                     message: ERR_NO_BREAK_AFTER,
@@ -470,6 +504,7 @@ ruleTester.run("array-bracket-newline", rule, {
         {
             code: "var foo = [1, 2];",
             options: [{ multiline: true, minItems: 2 }],
+            output: "var foo = [\n1, 2\n];",
             errors: [
                 {
                     message: ERR_BREAK_AFTER,
@@ -488,6 +523,7 @@ ruleTester.run("array-bracket-newline", rule, {
         {
             code: "var foo = [1,\n2];",
             options: [{ multiline: true, minItems: 2 }],
+            output: "var foo = [\n1,\n2\n];",
             errors: [
                 {
                     message: ERR_BREAK_AFTER,
@@ -506,6 +542,7 @@ ruleTester.run("array-bracket-newline", rule, {
         {
             code: "var foo = [function foo() {\ndosomething();\n}];",
             options: [{ multiline: true, minItems: 2 }],
+            output: "var foo = [\nfunction foo() {\ndosomething();\n}\n];",
             errors: [
                 {
                     message: ERR_BREAK_AFTER,
@@ -520,7 +557,152 @@ ruleTester.run("array-bracket-newline", rule, {
                     column: 2
                 }
             ]
-        }
-    ]
+        },
 
+        // extra test cases
+        // "always"
+        {
+            code: "var foo = [\n1, 2];",
+            options: ["always"],
+            output: "var foo = [\n1, 2\n];",
+            errors: [
+                {
+                    message: ERR_BREAK_BEFORE,
+                    type: "ArrayExpression",
+                    line: 2,
+                    column: 5
+                }
+            ]
+        },
+        {
+            code: "var foo = [\t1, 2];",
+            options: ["always"],
+            output: "var foo = [\n\t1, 2\n];",
+            errors: [
+                {
+                    message: ERR_BREAK_AFTER,
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 11
+                },
+                {
+                    message: ERR_BREAK_BEFORE,
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 17
+                }
+            ]
+        },
+        {
+            code: "var foo = [1,\n2\n];",
+            options: ["always"],
+            output: "var foo = [\n1,\n2\n];",
+            errors: [
+                {
+                    message: ERR_BREAK_AFTER,
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 11
+                }
+            ]
+        },
+
+        //  { multiline: false }
+        {
+            code: "var foo = [\n];",
+            options: [{ multiline: false }],
+            output: "var foo = [];",
+            errors: [
+                {
+                    message: ERR_NO_BREAK_AFTER,
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 11
+                },
+                {
+                    message: ERR_NO_BREAK_BEFORE,
+                    type: "ArrayExpression",
+                    line: 2,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "var foo = [\n1\n];",
+            options: [{ multiline: false }],
+            output: "var foo = [1];",
+            errors: [
+                {
+                    message: ERR_NO_BREAK_AFTER,
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 11
+                },
+                {
+                    message: ERR_NO_BREAK_BEFORE,
+                    type: "ArrayExpression",
+                    line: 3,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "var foo = [\n1, 2\n];",
+            options: [{ multiline: false }],
+            output: "var foo = [1, 2];",
+            errors: [
+                {
+                    message: ERR_NO_BREAK_AFTER,
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 11
+                },
+                {
+                    message: ERR_NO_BREAK_BEFORE,
+                    type: "ArrayExpression",
+                    line: 3,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "var foo = [\n1,\n2\n];",
+            options: [{ multiline: false }],
+            output: "var foo = [1,\n2];",
+            errors: [
+                {
+                    message: ERR_NO_BREAK_AFTER,
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 11
+                },
+                {
+                    message: ERR_NO_BREAK_BEFORE,
+                    type: "ArrayExpression",
+                    line: 4,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "var foo = [\nfunction foo() {\ndosomething();\n}\n];",
+            options: [{ multiline: false }],
+            output: "var foo = [function foo() {\ndosomething();\n}];",
+            errors: [
+                {
+                    message: ERR_NO_BREAK_AFTER,
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 11
+                },
+                {
+                    message: ERR_NO_BREAK_BEFORE,
+                    type: "ArrayExpression",
+                    line: 5,
+                    column: 1
+                }
+            ]
+        }
+
+    ]
 });
