@@ -28,6 +28,18 @@ ruleTester.run("array-bracket-newline", rule, {
 
     valid: [
 
+        // "default" { multiline: true }
+        { code: "var foo = [];" },
+        { code: "var foo = [1];" },
+        { code: "var foo = /* any comment */[1];" },
+        { code: "var foo = /* any comment */\n[1];" },
+        { code: "var foo = [1, 2];" },
+        { code: "var foo = [ // any comment\n1, 2\n];" },
+        { code: "var foo = [\n// any comment\n1, 2\n];" },
+        { code: "var foo = [\n1, 2\n// any comment\n];" },
+        { code: "var foo = [\n1,\n2\n];" },
+        { code: "var foo = [\nfunction foo() {\nreturn dosomething();\n}\n];" },
+
         // "always"
         { code: "var foo = [\n];", options: ["always"] },
         { code: "var foo = [\n1\n];", options: ["always"] },
@@ -101,13 +113,17 @@ ruleTester.run("array-bracket-newline", rule, {
                     message: ERR_BREAK_AFTER,
                     type: "ArrayExpression",
                     line: 1,
-                    column: 11
+                    column: 11,
+                    endLine: 1,
+                    endColumn: 12
                 },
                 {
                     message: ERR_BREAK_BEFORE,
                     type: "ArrayExpression",
                     line: 1,
-                    column: 12
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 13
                 }
             ]
         },
@@ -139,7 +155,9 @@ ruleTester.run("array-bracket-newline", rule, {
                     message: ERR_BREAK_BEFORE,
                     type: "ArrayExpression",
                     line: 2,
-                    column: 2
+                    column: 2,
+                    endLine: 2,
+                    endColumn: 3
                 }
             ]
         },
@@ -165,13 +183,17 @@ ruleTester.run("array-bracket-newline", rule, {
                     message: ERR_BREAK_AFTER,
                     type: "ArrayExpression",
                     line: 1,
-                    column: 11
+                    column: 11,
+                    endLine: 1,
+                    endColumn: 12
                 },
                 {
                     message: ERR_BREAK_BEFORE,
                     type: "ArrayExpression",
                     line: 1,
-                    column: 16
+                    column: 16,
+                    endLine: 1,
+                    endColumn: 17
                 }
             ]
         },
@@ -275,13 +297,17 @@ ruleTester.run("array-bracket-newline", rule, {
                     message: ERR_NO_BREAK_AFTER,
                     type: "ArrayExpression",
                     line: 1,
-                    column: 11
+                    column: 11,
+                    endLine: 1,
+                    endColumn: 12
                 },
                 {
                     message: ERR_NO_BREAK_BEFORE,
                     type: "ArrayExpression",
                     line: 3,
-                    column: 1
+                    column: 1,
+                    endLine: 3,
+                    endColumn: 2
                 }
             ]
         },
