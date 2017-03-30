@@ -15,8 +15,8 @@ This rule has either a string option:
 
 Or an object option (Requires line breaks if any of properties is satisfied. Otherwise, disallows line breaks):
 
-* `"multiline": false` (default) requires line breaks if there are line breaks inside elements or between elements. If this is false, this condition is disabled.
-* `"minItems": 0` (default) requires line breaks if the number of elements is at least the given integer. If this is 0, this condition is disabled.
+* `"multiline": true` (default) requires line breaks if there are line breaks inside elements or between elements. If this is false, this condition is disabled.
+* `"minItems": null` (default) requires line breaks if the number of elements is at least the given integer. If this is 0, this condition is disabled.
 
 ### always
 
