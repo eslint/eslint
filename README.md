@@ -130,6 +130,7 @@ These folks keep the project moving and are resources for help.
 * Kevin Partington ([@platinumazure](https://github.com/platinumazure))
 * Vitor Balocco ([@vitorbal](https://github.com/vitorbal))
 * James Henry ([@JamesHenry](https://github.com/JamesHenry))
+* Reyad Attiyat ([@soda0289](https://github.com/soda0289))
 
 ## Releases
 
