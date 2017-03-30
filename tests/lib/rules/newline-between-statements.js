@@ -103,60 +103,77 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "foo();\n\n{ foo() }\n\nfoo();",
             options: [[
+                ["always", "*", "*"],
                 ["never", "block-like", "block-like"]
             ]]
         },
         {
             code: "{ foo() } { foo() }",
             options: [[
+                ["always", "*", "*"],
                 ["never", "block-like", "block-like"]
             ]]
         },
         {
             code: "{ foo() }\n{ foo() }",
             options: [[
+                ["always", "*", "*"],
                 ["never", "block-like", "block-like"]
             ]]
         },
         {
             code: "{ foo() }\n\n{ foo() }",
             options: [[
+                ["never", "*", "*"],
                 ["always", "block-like", "block-like"]
             ]]
         },
         {
             code: "{ foo() }\n\n//comment\n{ foo() }",
             options: [[
+                ["never", "*", "*"],
                 ["always", "block-like", "block-like"]
             ]]
         },
         {
             code: "if(a);\nfoo()",
             options: [[
+                ["never", "*", "*"],
                 ["always", "block-like", "*"]
             ]]
         },
         {
-            code: "do{}while(a);\nfoo()",
+            code: "do;while(a);\nfoo()",
             options: [[
+                ["never", "*", "*"],
+                ["always", "block-like", "*"]
+            ]]
+        },
+        {
+            code: "do{}while(a);\n\nfoo()",
+            options: [[
+                ["never", "*", "*"],
                 ["always", "block-like", "*"]
             ]]
         },
         {
             code: "a={}\nfoo()",
             options: [[
+                ["never", "*", "*"],
                 ["always", "block-like", "*"]
             ]]
         },
         {
             code: "let a={}\nfoo()",
             options: [[
+                ["never", "*", "*"],
                 ["always", "block-like", "*"]
             ]]
         },
         {
             code: "foo(function(){})\nfoo()",
             options: [[
+                ["never", "*", "*"],
                 ["always", "block-like", "*"]
             ]]
         },
@@ -168,36 +185,42 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "module.exports=1",
             options: [[
+                ["never", "*", "*"],
                 ["always", "cjs-export", "*"]
             ]]
         },
         {
             code: "module.exports=1\n\nfoo()",
             options: [[
+                ["never", "*", "*"],
                 ["always", "cjs-export", "*"]
             ]]
         },
         {
             code: "module.exports.foo=1\n\nfoo()",
             options: [[
+                ["never", "*", "*"],
                 ["always", "cjs-export", "*"]
             ]]
         },
         {
             code: "exports.foo=1\n\nfoo()",
             options: [[
+                ["never", "*", "*"],
                 ["always", "cjs-export", "*"]
             ]]
         },
         {
             code: "m.exports=1\nfoo()",
             options: [[
+                ["never", "*", "*"],
                 ["always", "cjs-export", "*"]
             ]]
         },
         {
             code: "module.foo=1\nfoo()",
             options: [[
+                ["never", "*", "*"],
                 ["always", "cjs-export", "*"]
             ]]
         },
@@ -209,12 +232,14 @@ ruleTester.run("newline-between-statements", rule, {
         {
             code: "foo=require(\"foo\")\nfoo()",
             options: [[
+                ["never", "*", "*"],
                 ["always", "cjs-import", "*"]
             ]]
         },
         {
             code: "const foo=a.require(\"foo\")\nfoo()",
             options: [[
+                ["never", "*", "*"],
                 ["always", "cjs-import", "*"]
             ]]
         },
@@ -224,26 +249,79 @@ ruleTester.run("newline-between-statements", rule, {
         //----------------------------------------------------------------------
 
         {
+            code: "\"use strict\"\n\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "directive", "*"]
+            ]]
+        },
+        {
+            code: "function foo(){\"use strict\"\n\nfoo()}",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "directive", "*"]
+            ]]
+        },
+        {
+            code: "(function foo(){\"use strict\"\n\nfoo()})",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "directive", "*"]
+            ]]
+        },
+        {
+            code: "(()=>{\"use strict\"\n\nfoo()})",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "directive", "*"]
+            ]]
+        },
+        {
+            code: "'use strict'\n\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "directive", "*"]
+            ]]
+        },
+        {
             code: "foo(\"use strict\")\nfoo()",
             options: [[
+                ["never", "*", "*"],
                 ["always", "directive", "*"]
             ]]
         },
         {
             code: "`use strict`\nfoo()",
             options: [[
+                ["never", "*", "*"],
                 ["always", "directive", "*"]
             ]]
         },
         {
             code: "(\"use strict\")\nfoo()",
             options: [[
+                ["never", "*", "*"],
                 ["always", "directive", "*"]
             ]]
         },
         {
             code: "'use '+'strict'\nfoo()",
             options: [[
+                ["never", "*", "*"],
+                ["always", "directive", "*"]
+            ]]
+        },
+        {
+            code: "foo()\n\"use strict\"\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "directive", "*"]
+            ]]
+        },
+        {
+            code: "{\"use strict\"\nfoo()}",
+            options: [[
+                ["never", "*", "*"],
                 ["always", "directive", "*"]
             ]]
         },
@@ -252,101 +330,661 @@ ruleTester.run("newline-between-statements", rule, {
         // multiline-block-like
         //----------------------------------------------------------------------
 
+        {
+            code: "{}\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "multiline-block-like", "*"]
+            ]]
+        },
+        {
+            code: "if(a){}\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "multiline-block-like", "*"]
+            ]]
+        },
+        {
+            code: "while(a){}\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "multiline-block-like", "*"]
+            ]]
+        },
+        {
+            code: "{\n}\n\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "multiline-block-like", "*"]
+            ]]
+        },
+        {
+            code: "if(a){\n}\n\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "multiline-block-like", "*"]
+            ]]
+        },
+        {
+            code: "while(a){\n}\n\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "multiline-block-like", "*"]
+            ]]
+        },
+        {
+            code: "do{\n}while(a)\n\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "multiline-block-like", "*"]
+            ]]
+        },
+        {
+            code: "for(;;){\n}\n\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "multiline-block-like", "*"]
+            ]]
+        },
+        {
+            code: "for(a in b){\n}\n\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "multiline-block-like", "*"]
+            ]]
+        },
+        {
+            code: "for(a of b){\n}\n\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "multiline-block-like", "*"]
+            ]]
+        },
+        {
+            code: "switch(a){\n}\n\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "multiline-block-like", "*"]
+            ]]
+        },
+        {
+            code: "function foo(a){\n}\n\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "multiline-block-like", "*"]
+            ]]
+        },
+        {
+            code: "var a=function foo(a){\n}\n\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "multiline-block-like", "*"]
+            ]]
+        },
+
         //----------------------------------------------------------------------
         // block
         //----------------------------------------------------------------------
+
+        {
+            code: "{}\n\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "block", "*"]
+            ]]
+        },
+        {
+            code: "{\n}\n\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "block", "*"]
+            ]]
+        },
+        {
+            code: "{\nfoo()\n}\n\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "block", "*"]
+            ]]
+        },
+        {
+            code: "if(a){}\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "block", "*"]
+            ]]
+        },
+        {
+            code: "a={}\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "block", "*"]
+            ]]
+        },
 
         //----------------------------------------------------------------------
         // empty
         //----------------------------------------------------------------------
 
+        {
+            code: ";\n\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "empty", "*"]
+            ]]
+        },
+        {
+            code: "1;\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "empty", "*"]
+            ]]
+        },
+
         //----------------------------------------------------------------------
         // expression
         //----------------------------------------------------------------------
+
+        {
+            code: "foo()\n\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "expression", "*"]
+            ]]
+        },
+        {
+            code: "a=b+c\n\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "expression", "*"]
+            ]]
+        },
+        {
+            code: "var a=1\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "expression", "*"]
+            ]]
+        },
+        {
+            code: "'use strict'\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "expression", "*"]
+            ]]
+        },
 
         //----------------------------------------------------------------------
         // break
         //----------------------------------------------------------------------
 
+        {
+            code: "A:{break A\n\nfoo()}",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "break", "*"]
+            ]]
+        },
+        {
+            code: "while(a){break\n\nfoo()}",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "break", "*"]
+            ]]
+        },
+        {
+            code: "switch(a){case 0:break\n\nfoo()}",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "break", "*"]
+            ]]
+        },
+        {
+            code: "switch(a){case 0:break\ncase 1:break}",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "break", "*"]
+            ]]
+        },
+
         //----------------------------------------------------------------------
         // case
         //----------------------------------------------------------------------
+
+        {
+            code: "switch(a){case 0:\nfoo()\n\ncase 1:\nfoo()}",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "case", "*"]
+            ]]
+        },
+        {
+            code: "switch(a){case 0:\nfoo()\n\ndefault:\nfoo()}",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "case", "*"]
+            ]]
+        },
 
         //----------------------------------------------------------------------
         // class
         //----------------------------------------------------------------------
 
+        {
+            code: "class A{}\n\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "class", "*"]
+            ]]
+        },
+        {
+            code: "var A = class{}\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "class", "*"]
+            ]]
+        },
+
         //----------------------------------------------------------------------
         // const
         //----------------------------------------------------------------------
+
+        {
+            code: "const a=1\n\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "const", "*"]
+            ]]
+        },
+        {
+            code: "let a=1\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "const", "*"]
+            ]]
+        },
 
         //----------------------------------------------------------------------
         // continue
         //----------------------------------------------------------------------
 
+        {
+            code: "while(a){continue\n\nfoo()}",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "continue", "*"]
+            ]]
+        },
+        {
+            code: "while(a){break\nfoo()}",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "continue", "*"]
+            ]]
+        },
+
         //----------------------------------------------------------------------
         // debugger
         //----------------------------------------------------------------------
+
+        {
+            code: "debugger\n\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "debugger", "*"]
+            ]]
+        },
 
         //----------------------------------------------------------------------
         // default
         //----------------------------------------------------------------------
 
+        {
+            code: "switch(a){default:\nfoo()\n\ncase 0:\nfoo()\ncase 1:}",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "default", "*"]
+            ]]
+        },
+
         //----------------------------------------------------------------------
         // do
         //----------------------------------------------------------------------
+
+        {
+            code: "do;while(a)\n\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "do", "*"]
+            ]]
+        },
+        {
+            code: "while(a);\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "do", "*"]
+            ]]
+        },
 
         //----------------------------------------------------------------------
         // export
         //----------------------------------------------------------------------
 
+        {
+            code: "export default 1\n\nfoo()",
+            parserOptions: { sourceType: "module" },
+            options: [[
+                ["never", "*", "*"],
+                ["always", "export", "*"]
+            ]]
+        },
+        {
+            code: "export let a=1\n\nfoo()",
+            parserOptions: { sourceType: "module" },
+            options: [[
+                ["never", "*", "*"],
+                ["always", "export", "*"]
+            ]]
+        },
+        {
+            code: "export {a}\n\nfoo()",
+            parserOptions: { sourceType: "module" },
+            options: [[
+                ["never", "*", "*"],
+                ["always", "export", "*"]
+            ]]
+        },
+        {
+            code: "exports.foo=1\nfoo()",
+            parserOptions: { sourceType: "module" },
+            options: [[
+                ["never", "*", "*"],
+                ["always", "export", "*"]
+            ]]
+        },
+        {
+            code: "module.exports={}\nfoo()",
+            parserOptions: { sourceType: "module" },
+            options: [[
+                ["never", "*", "*"],
+                ["always", "export", "*"]
+            ]]
+        },
+
         //----------------------------------------------------------------------
         // for
         //----------------------------------------------------------------------
+
+        {
+            code: "for(;;);\n\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "for", "*"]
+            ]]
+        },
+        {
+            code: "for(a in b);\n\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "for", "*"]
+            ]]
+        },
+        {
+            code: "for(a of b);\n\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "for", "*"]
+            ]]
+        },
+        {
+            code: "while(a);\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "for", "*"]
+            ]]
+        },
 
         //----------------------------------------------------------------------
         // function
         //----------------------------------------------------------------------
 
+        {
+            code: "function foo(){}\n\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "function", "*"]
+            ]]
+        },
+        {
+            code: "var foo=function(){}\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "function", "*"]
+            ]]
+        },
+
         //----------------------------------------------------------------------
         // if
         //----------------------------------------------------------------------
+
+        {
+            code: "if(a);\n\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "if", "*"]
+            ]]
+        },
+        {
+            code: "if(a);else;\n\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "if", "*"]
+            ]]
+        },
+        {
+            code: "if(a);else if(b);else;\n\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "if", "*"]
+            ]]
+        },
+        {
+            code: "for(;;);\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "if", "*"]
+            ]]
+        },
 
         //----------------------------------------------------------------------
         // import
         //----------------------------------------------------------------------
 
+        {
+            code: "import 'a'\n\nfoo()",
+            parserOptions: { sourceType: "module" },
+            options: [[
+                ["never", "*", "*"],
+                ["always", "import", "*"]
+            ]]
+        },
+        {
+            code: "import a from 'a'\n\nfoo()",
+            parserOptions: { sourceType: "module" },
+            options: [[
+                ["never", "*", "*"],
+                ["always", "import", "*"]
+            ]]
+        },
+        {
+            code: "import * as a from 'a'\n\nfoo()",
+            parserOptions: { sourceType: "module" },
+            options: [[
+                ["never", "*", "*"],
+                ["always", "import", "*"]
+            ]]
+        },
+        {
+            code: "import {a} from 'a'\n\nfoo()",
+            parserOptions: { sourceType: "module" },
+            options: [[
+                ["never", "*", "*"],
+                ["always", "import", "*"]
+            ]]
+        },
+        {
+            code: "const a=require('a')\nfoo()",
+            parserOptions: { sourceType: "module" },
+            options: [[
+                ["never", "*", "*"],
+                ["always", "import", "*"]
+            ]]
+        },
+
         //----------------------------------------------------------------------
         // let
         //----------------------------------------------------------------------
+
+        {
+            code: "let a=1\n\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "let", "*"]
+            ]]
+        },
+        {
+            code: "var a=1\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "let", "*"]
+            ]]
+        },
 
         //----------------------------------------------------------------------
         // return
         //----------------------------------------------------------------------
 
+        {
+            code: "function foo(){return\n\nfoo()}",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "return", "*"]
+            ]]
+        },
+        {
+            code: "throw a\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "return", "*"]
+            ]]
+        },
+
         //----------------------------------------------------------------------
         // switch
         //----------------------------------------------------------------------
+
+        {
+            code: "switch(a){}\n\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "switch", "*"]
+            ]]
+        },
+        {
+            code: "if(a){}\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "switch", "*"]
+            ]]
+        },
 
         //----------------------------------------------------------------------
         // throw
         //----------------------------------------------------------------------
 
+        {
+            code: "throw a\n\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "throw", "*"]
+            ]]
+        },
+
         //----------------------------------------------------------------------
         // try
         //----------------------------------------------------------------------
+
+        {
+            code: "try{}catch(e){}\n\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "try", "*"]
+            ]]
+        },
+        {
+            code: "try{}finally{}\n\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "try", "*"]
+            ]]
+        },
+        {
+            code: "try{}catch(e){}finally{}\n\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "try", "*"]
+            ]]
+        },
 
         //----------------------------------------------------------------------
         // var
         //----------------------------------------------------------------------
 
+        {
+            code: "var a=1\n\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "var", "*"]
+            ]]
+        },
+        {
+            code: "const a=1\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "var", "*"]
+            ]]
+        },
+
         //----------------------------------------------------------------------
         // while
         //----------------------------------------------------------------------
 
+        {
+            code: "while(a);\n\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "while", "*"]
+            ]]
+        },
+        {
+            code: "do;while(a)\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "while", "*"]
+            ]]
+        },
+
         //----------------------------------------------------------------------
         // with
         //----------------------------------------------------------------------
+
+        {
+            code: "with(a);\n\nfoo()",
+            options: [[
+                ["never", "*", "*"],
+                ["always", "with", "*"]
+            ]]
+        },
 
         //----------------------------------------------------------------------
         // Tests from newline-after-var
@@ -1903,6 +2541,14 @@ ruleTester.run("newline-between-statements", rule, {
             errors: ["Expected one or more blank lines before this statement."]
         },
         {
+            code: "do{}while(a)\nfoo()",
+            output: "do{}while(a)\n\nfoo()",
+            options: [[
+                ["always", "block-like", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
+        {
             code: "for(;;){}\nfoo()",
             output: "for(;;){}\n\nfoo()",
             options: [[
@@ -1943,24 +2589,8 @@ ruleTester.run("newline-between-statements", rule, {
             errors: ["Expected one or more blank lines before this statement."]
         },
         {
-            code: "a=class{}\nfoo()",
-            output: "a=class{}\n\nfoo()",
-            options: [[
-                ["always", "block-like", "*"]
-            ]],
-            errors: ["Expected one or more blank lines before this statement."]
-        },
-        {
             code: "function a(){}\nfoo()",
             output: "function a(){}\n\nfoo()",
-            options: [[
-                ["always", "block-like", "*"]
-            ]],
-            errors: ["Expected one or more blank lines before this statement."]
-        },
-        {
-            code: "class A{}\nfoo()",
-            output: "class A{}\n\nfoo()",
             options: [[
                 ["always", "block-like", "*"]
             ]],
@@ -2106,101 +2736,850 @@ ruleTester.run("newline-between-statements", rule, {
         // multiline-block-like
         //----------------------------------------------------------------------
 
+        {
+            code: "{\n}\n\nfoo()",
+            output: "{\n}\nfoo()",
+            options: [[
+                ["never", "block-like", "*"]
+            ]],
+            errors: ["Unexpected blank lines before this statement."]
+        },
+        {
+            code: "{\n}\nfoo()",
+            output: "{\n}\n\nfoo()",
+            options: [[
+                ["always", "block-like", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
+        {
+            code: "{\n}\nfoo()",
+            output: "{\n}\n\nfoo()",
+            options: [[
+                ["always", "block-like", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
+        {
+            code: "if(a){\n}\nfoo()",
+            output: "if(a){\n}\n\nfoo()",
+            options: [[
+                ["always", "block-like", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
+        {
+            code: "if(a){\n}else{\n}\nfoo()",
+            output: "if(a){\n}else{\n}\n\nfoo()",
+            options: [[
+                ["always", "block-like", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
+        {
+            code: "if(a){\n}else if(b){\n}\nfoo()",
+            output: "if(a){\n}else if(b){\n}\n\nfoo()",
+            options: [[
+                ["always", "block-like", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
+        {
+            code: "if(a){\n}else if(b){\n}else{\n}\nfoo()",
+            output: "if(a){\n}else if(b){\n}else{\n}\n\nfoo()",
+            options: [[
+                ["always", "block-like", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
+        {
+            code: "switch(a){\n}\nfoo()",
+            output: "switch(a){\n}\n\nfoo()",
+            options: [[
+                ["always", "block-like", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
+        {
+            code: "switch(a){case 0:}\nfoo()",
+            output: "switch(a){case 0:}\n\nfoo()",
+            options: [[
+                ["always", "block-like", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
+        {
+            code: "try{\n}catch(e){\n}\nfoo()",
+            output: "try{\n}catch(e){\n}\n\nfoo()",
+            options: [[
+                ["always", "block-like", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
+        {
+            code: "try{\n}finally{\n}\nfoo()",
+            output: "try{\n}finally{\n}\n\nfoo()",
+            options: [[
+                ["always", "block-like", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
+        {
+            code: "try{\n}catch(e){\n}finally{\n}\nfoo()",
+            output: "try{\n}catch(e){\n}finally{\n}\n\nfoo()",
+            options: [[
+                ["always", "block-like", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
+        {
+            code: "while(a){\n}\nfoo()",
+            output: "while(a){\n}\n\nfoo()",
+            options: [[
+                ["always", "block-like", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
+        {
+            code: "do{\n}while(a)\nfoo()",
+            output: "do{\n}while(a)\n\nfoo()",
+            options: [[
+                ["always", "block-like", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
+        {
+            code: "for(;;){\n}\nfoo()",
+            output: "for(;;){\n}\n\nfoo()",
+            options: [[
+                ["always", "block-like", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
+        {
+            code: "for(a in b){\n}\nfoo()",
+            output: "for(a in b){\n}\n\nfoo()",
+            options: [[
+                ["always", "block-like", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
+        {
+            code: "for(a of b){\n}\nfoo()",
+            output: "for(a of b){\n}\n\nfoo()",
+            options: [[
+                ["always", "block-like", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
+        {
+            code: "a=function(){\n}\nfoo()",
+            output: "a=function(){\n}\n\nfoo()",
+            options: [[
+                ["always", "block-like", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
+        {
+            code: "a=()=>{\n}\nfoo()",
+            output: "a=()=>{\n}\n\nfoo()",
+            options: [[
+                ["always", "block-like", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
+        {
+            code: "function a(){\n}\nfoo()",
+            output: "function a(){\n}\n\nfoo()",
+            options: [[
+                ["always", "block-like", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
+        {
+            code: "let a=function(){\n}\nfoo()",
+            output: "let a=function(){\n}\n\nfoo()",
+            options: [[
+                ["always", "block-like", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
+
         //----------------------------------------------------------------------
         // block
         //----------------------------------------------------------------------
+
+        {
+            code: "{}\n\nfoo()",
+            output: "{}\nfoo()",
+            options: [[
+                ["never", "block", "*"]
+            ]],
+            errors: ["Unexpected blank lines before this statement."]
+        },
+        {
+            code: "{}\nfoo()",
+            output: "{}\n\nfoo()",
+            options: [[
+                ["always", "block", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
 
         //----------------------------------------------------------------------
         // empty
         //----------------------------------------------------------------------
 
+        {
+            code: ";\n\nfoo()",
+            output: ";\nfoo()",
+            options: [[
+                ["never", "empty", "*"]
+            ]],
+            errors: ["Unexpected blank lines before this statement."]
+        },
+        {
+            code: ";\nfoo()",
+            output: ";\n\nfoo()",
+            options: [[
+                ["always", "empty", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
+
         //----------------------------------------------------------------------
         // expression
         //----------------------------------------------------------------------
+
+        {
+            code: "foo()\n\nfoo()",
+            output: "foo()\nfoo()",
+            options: [[
+                ["never", "expression", "*"]
+            ]],
+            errors: ["Unexpected blank lines before this statement."]
+        },
+        {
+            code: "foo()\nfoo()",
+            output: "foo()\n\nfoo()",
+            options: [[
+                ["always", "expression", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
 
         //----------------------------------------------------------------------
         // break
         //----------------------------------------------------------------------
 
+        {
+            code: "while(a){break\n\nfoo()}",
+            output: "while(a){break\nfoo()}",
+            options: [[
+                ["never", "break", "*"]
+            ]],
+            errors: ["Unexpected blank lines before this statement."]
+        },
+        {
+            code: "switch(a){case 0:break\n\nfoo()}",
+            output: "switch(a){case 0:break\nfoo()}",
+            options: [[
+                ["never", "break", "*"]
+            ]],
+            errors: ["Unexpected blank lines before this statement."]
+        },
+        {
+            code: "while(a){break\nfoo()}",
+            output: "while(a){break\n\nfoo()}",
+            options: [[
+                ["always", "break", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
+        {
+            code: "switch(a){case 0:break\nfoo()}",
+            output: "switch(a){case 0:break\n\nfoo()}",
+            options: [[
+                ["always", "break", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
+
         //----------------------------------------------------------------------
         // case
         //----------------------------------------------------------------------
+
+        {
+            code: "switch(a){case 0:\nfoo()\n\ndefault:}",
+            output: "switch(a){case 0:\nfoo()\ndefault:}",
+            options: [[
+                ["never", "case", "*"]
+            ]],
+            errors: ["Unexpected blank lines before this statement."]
+        },
+        {
+            code: "switch(a){case 0:\nfoo()\ndefault:}",
+            output: "switch(a){case 0:\nfoo()\n\ndefault:}",
+            options: [[
+                ["always", "case", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
 
         //----------------------------------------------------------------------
         // class
         //----------------------------------------------------------------------
 
+        {
+            code: "class A{}\n\nfoo()",
+            output: "class A{}\nfoo()",
+            options: [[
+                ["never", "class", "*"]
+            ]],
+            errors: ["Unexpected blank lines before this statement."]
+        },
+        {
+            code: "class A{}\nfoo()",
+            output: "class A{}\n\nfoo()",
+            options: [[
+                ["always", "class", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
+
         //----------------------------------------------------------------------
         // const
         //----------------------------------------------------------------------
+
+        {
+            code: "const a=1\n\nfoo()",
+            output: "const a=1\nfoo()",
+            options: [[
+                ["never", "const", "*"]
+            ]],
+            errors: ["Unexpected blank lines before this statement."]
+        },
+        {
+            code: "const a=1\nfoo()",
+            output: "const a=1\n\nfoo()",
+            options: [[
+                ["always", "const", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
 
         //----------------------------------------------------------------------
         // continue
         //----------------------------------------------------------------------
 
+        {
+            code: "while(a){continue\n\nfoo()}",
+            output: "while(a){continue\nfoo()}",
+            options: [[
+                ["never", "continue", "*"]
+            ]],
+            errors: ["Unexpected blank lines before this statement."]
+        },
+        {
+            code: "while(a){continue\nfoo()}",
+            output: "while(a){continue\n\nfoo()}",
+            options: [[
+                ["always", "continue", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
+
         //----------------------------------------------------------------------
         // debugger
         //----------------------------------------------------------------------
+
+        {
+            code: "debugger\n\nfoo()",
+            output: "debugger\nfoo()",
+            options: [[
+                ["never", "debugger", "*"]
+            ]],
+            errors: ["Unexpected blank lines before this statement."]
+        },
+        {
+            code: "debugger\nfoo()",
+            output: "debugger\n\nfoo()",
+            options: [[
+                ["always", "debugger", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
 
         //----------------------------------------------------------------------
         // default
         //----------------------------------------------------------------------
 
+        {
+            code: "switch(a){default:\nfoo()\n\ncase 0:}",
+            output: "switch(a){default:\nfoo()\ncase 0:}",
+            options: [[
+                ["never", "default", "*"]
+            ]],
+            errors: ["Unexpected blank lines before this statement."]
+        },
+        {
+            code: "switch(a){default:\nfoo()\ncase 0:}",
+            output: "switch(a){default:\nfoo()\n\ncase 0:}",
+            options: [[
+                ["always", "default", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
+
         //----------------------------------------------------------------------
         // do
         //----------------------------------------------------------------------
+
+        {
+            code: "do;while(a)\n\nfoo()",
+            output: "do;while(a)\nfoo()",
+            options: [[
+                ["never", "do", "*"]
+            ]],
+            errors: ["Unexpected blank lines before this statement."]
+        },
+        {
+            code: "do;while(a)\nfoo()",
+            output: "do;while(a)\n\nfoo()",
+            options: [[
+                ["always", "do", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
 
         //----------------------------------------------------------------------
         // export
         //----------------------------------------------------------------------
 
+        {
+            code: "export default 1\n\nfoo()",
+            output: "export default 1\nfoo()",
+            parserOptions: { sourceType: "module" },
+            options: [[
+                ["never", "export", "*"]
+            ]],
+            errors: ["Unexpected blank lines before this statement."]
+        },
+        {
+            code: "export let a=1\n\nfoo()",
+            output: "export let a=1\nfoo()",
+            parserOptions: { sourceType: "module" },
+            options: [[
+                ["never", "export", "*"]
+            ]],
+            errors: ["Unexpected blank lines before this statement."]
+        },
+        {
+            code: "export {a}\n\nfoo()",
+            output: "export {a}\nfoo()",
+            parserOptions: { sourceType: "module" },
+            options: [[
+                ["never", "export", "*"]
+            ]],
+            errors: ["Unexpected blank lines before this statement."]
+        },
+        {
+            code: "export default 1\nfoo()",
+            output: "export default 1\n\nfoo()",
+            parserOptions: { sourceType: "module" },
+            options: [[
+                ["always", "export", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
+        {
+            code: "export let a=1\nfoo()",
+            output: "export let a=1\n\nfoo()",
+            parserOptions: { sourceType: "module" },
+            options: [[
+                ["always", "export", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
+        {
+            code: "export {a}\nfoo()",
+            output: "export {a}\n\nfoo()",
+            parserOptions: { sourceType: "module" },
+            options: [[
+                ["always", "export", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
+
         //----------------------------------------------------------------------
         // for
         //----------------------------------------------------------------------
+
+        {
+            code: "for(;;);\n\nfoo()",
+            output: "for(;;);\nfoo()",
+            options: [[
+                ["never", "for", "*"]
+            ]],
+            errors: ["Unexpected blank lines before this statement."]
+        },
+        {
+            code: "for(a in b);\n\nfoo()",
+            output: "for(a in b);\nfoo()",
+            options: [[
+                ["never", "for", "*"]
+            ]],
+            errors: ["Unexpected blank lines before this statement."]
+        },
+        {
+            code: "for(a of b);\n\nfoo()",
+            output: "for(a of b);\nfoo()",
+            options: [[
+                ["never", "for", "*"]
+            ]],
+            errors: ["Unexpected blank lines before this statement."]
+        },
+        {
+            code: "for(;;);\nfoo()",
+            output: "for(;;);\n\nfoo()",
+            options: [[
+                ["always", "for", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
+        {
+            code: "for(a in b);\nfoo()",
+            output: "for(a in b);\n\nfoo()",
+            options: [[
+                ["always", "for", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
+        {
+            code: "for(a of b);\nfoo()",
+            output: "for(a of b);\n\nfoo()",
+            options: [[
+                ["always", "for", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
 
         //----------------------------------------------------------------------
         // function
         //----------------------------------------------------------------------
 
+        {
+            code: "function foo(){}\n\nfoo()",
+            output: "function foo(){}\nfoo()",
+            options: [[
+                ["never", "function", "*"]
+            ]],
+            errors: ["Unexpected blank lines before this statement."]
+        },
+        {
+            code: "function foo(){}\nfoo()",
+            output: "function foo(){}\n\nfoo()",
+            options: [[
+                ["always", "function", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
+
         //----------------------------------------------------------------------
         // if
         //----------------------------------------------------------------------
+
+        {
+            code: "if(a);\n\nfoo()",
+            output: "if(a);\nfoo()",
+            options: [[
+                ["never", "if", "*"]
+            ]],
+            errors: ["Unexpected blank lines before this statement."]
+        },
+        {
+            code: "if(a);else;\n\nfoo()",
+            output: "if(a);else;\nfoo()",
+            options: [[
+                ["never", "if", "*"]
+            ]],
+            errors: ["Unexpected blank lines before this statement."]
+        },
+        {
+            code: "if(a);\nfoo()",
+            output: "if(a);\n\nfoo()",
+            options: [[
+                ["always", "if", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
+        {
+            code: "if(a);else;\nfoo()",
+            output: "if(a);else;\n\nfoo()",
+            options: [[
+                ["always", "if", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
 
         //----------------------------------------------------------------------
         // import
         //----------------------------------------------------------------------
 
+        {
+            code: "import a from 'a'\n\nfoo()",
+            output: "import a from 'a'\nfoo()",
+            parserOptions: { sourceType: "module" },
+            options: [[
+                ["never", "import", "*"]
+            ]],
+            errors: ["Unexpected blank lines before this statement."]
+        },
+        {
+            code: "import * as a from 'a'\n\nfoo()",
+            output: "import * as a from 'a'\nfoo()",
+            parserOptions: { sourceType: "module" },
+            options: [[
+                ["never", "import", "*"]
+            ]],
+            errors: ["Unexpected blank lines before this statement."]
+        },
+        {
+            code: "import {a} from 'a'\n\nfoo()",
+            output: "import {a} from 'a'\nfoo()",
+            parserOptions: { sourceType: "module" },
+            options: [[
+                ["never", "import", "*"]
+            ]],
+            errors: ["Unexpected blank lines before this statement."]
+        },
+        {
+            code: "import a from 'a'\nfoo()",
+            output: "import a from 'a'\n\nfoo()",
+            parserOptions: { sourceType: "module" },
+            options: [[
+                ["always", "import", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
+        {
+            code: "import * as a from 'a'\nfoo()",
+            output: "import * as a from 'a'\n\nfoo()",
+            parserOptions: { sourceType: "module" },
+            options: [[
+                ["always", "import", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
+        {
+            code: "import {a} from 'a'\nfoo()",
+            output: "import {a} from 'a'\n\nfoo()",
+            parserOptions: { sourceType: "module" },
+            options: [[
+                ["always", "import", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
+
         //----------------------------------------------------------------------
         // let
         //----------------------------------------------------------------------
+
+        {
+            code: "let a\n\nfoo()",
+            output: "let a\nfoo()",
+            options: [[
+                ["never", "let", "*"]
+            ]],
+            errors: ["Unexpected blank lines before this statement."]
+        },
+        {
+            code: "let a\nfoo()",
+            output: "let a\n\nfoo()",
+            options: [[
+                ["always", "let", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
 
         //----------------------------------------------------------------------
         // return
         //----------------------------------------------------------------------
 
+        {
+            code: "function foo(){return\n\nfoo()}",
+            output: "function foo(){return\nfoo()}",
+            options: [[
+                ["never", "return", "*"]
+            ]],
+            errors: ["Unexpected blank lines before this statement."]
+        },
+        {
+            code: "function foo(){return\nfoo()}",
+            output: "function foo(){return\n\nfoo()}",
+            options: [[
+                ["always", "return", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
+
         //----------------------------------------------------------------------
         // switch
         //----------------------------------------------------------------------
+
+        {
+            code: "switch(a){}\n\nfoo()",
+            output: "switch(a){}\nfoo()",
+            options: [[
+                ["never", "switch", "*"]
+            ]],
+            errors: ["Unexpected blank lines before this statement."]
+        },
+        {
+            code: "switch(a){}\nfoo()",
+            output: "switch(a){}\n\nfoo()",
+            options: [[
+                ["always", "switch", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
 
         //----------------------------------------------------------------------
         // throw
         //----------------------------------------------------------------------
 
+        {
+            code: "throw a\n\nfoo()",
+            output: "throw a\nfoo()",
+            options: [[
+                ["never", "throw", "*"]
+            ]],
+            errors: ["Unexpected blank lines before this statement."]
+        },
+        {
+            code: "throw a\nfoo()",
+            output: "throw a\n\nfoo()",
+            options: [[
+                ["always", "throw", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
+
         //----------------------------------------------------------------------
         // try
         //----------------------------------------------------------------------
+
+        {
+            code: "try{}catch(e){}\n\nfoo()",
+            output: "try{}catch(e){}\nfoo()",
+            options: [[
+                ["never", "try", "*"]
+            ]],
+            errors: ["Unexpected blank lines before this statement."]
+        },
+        {
+            code: "try{}finally{}\n\nfoo()",
+            output: "try{}finally{}\nfoo()",
+            options: [[
+                ["never", "try", "*"]
+            ]],
+            errors: ["Unexpected blank lines before this statement."]
+        },
+        {
+            code: "try{}catch(e){}finally{}\n\nfoo()",
+            output: "try{}catch(e){}finally{}\nfoo()",
+            options: [[
+                ["never", "try", "*"]
+            ]],
+            errors: ["Unexpected blank lines before this statement."]
+        },
+        {
+            code: "try{}catch(e){}\nfoo()",
+            output: "try{}catch(e){}\n\nfoo()",
+            options: [[
+                ["always", "try", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
+        {
+            code: "try{}finally{}\nfoo()",
+            output: "try{}finally{}\n\nfoo()",
+            options: [[
+                ["always", "try", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
+        {
+            code: "try{}catch(e){}finally{}\nfoo()",
+            output: "try{}catch(e){}finally{}\n\nfoo()",
+            options: [[
+                ["always", "try", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
 
         //----------------------------------------------------------------------
         // var
         //----------------------------------------------------------------------
 
+        {
+            code: "var a\n\nfoo()",
+            output: "var a\nfoo()",
+            options: [[
+                ["never", "var", "*"]
+            ]],
+            errors: ["Unexpected blank lines before this statement."]
+        },
+        {
+            code: "var a\nfoo()",
+            output: "var a\n\nfoo()",
+            options: [[
+                ["always", "var", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
+
         //----------------------------------------------------------------------
         // while
         //----------------------------------------------------------------------
 
+        {
+            code: "while(a);\n\nfoo()",
+            output: "while(a);\nfoo()",
+            options: [[
+                ["never", "while", "*"]
+            ]],
+            errors: ["Unexpected blank lines before this statement."]
+        },
+        {
+            code: "while(a);\nfoo()",
+            output: "while(a);\n\nfoo()",
+            options: [[
+                ["always", "while", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
+
         //----------------------------------------------------------------------
         // with
         //----------------------------------------------------------------------
+
+        {
+            code: "with(a);\n\nfoo()",
+            output: "with(a);\nfoo()",
+            options: [[
+                ["never", "with", "*"]
+            ]],
+            errors: ["Unexpected blank lines before this statement."]
+        },
+        {
+            code: "with(a);\nfoo()",
+            output: "with(a);\n\nfoo()",
+            options: [[
+                ["always", "with", "*"]
+            ]],
+            errors: ["Expected one or more blank lines before this statement."]
+        },
 
         //----------------------------------------------------------------------
         // Tests from newline-after-var
