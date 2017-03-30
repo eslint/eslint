@@ -1,10 +1,10 @@
-# enforce line breaks after open and before close array brackets (array-bracket-newline)
+# enforce line breaks after opening and before closing array brackets (array-bracket-newline)
 
 A number of style guides require or disallow line breaks inside of array brackets.
 
 ## Rule Details
 
-This rule enforces line breaks after open and before close array brackets
+This rule enforces line breaks after opening and before closing array brackets.
 
 ## Options
 
@@ -13,10 +13,10 @@ This rule has either a string option:
 * `"always"` requires line breaks inside braces
 * `"never"` disallows line breaks inside braces
 
-Or an object option:
+Or an object option (Requires line breaks if any of properties is satisfied. Otherwise, disallows line breaks):
 
-* `"multiline": true` (default) requires line breaks if there are line breaks inside properties or between properties
-* `"minItems"` requires line breaks if the number of properties is more than the given integer
+* `"multiline": false` (default) requires line breaks if there are line breaks inside elements or between elements. If this is false, this condition is disabled.
+* `"minItems": 0` (default) requires line breaks if the number of elements is at least the given integer. If this is 0, this condition is disabled.
 
 ### always
 
@@ -24,14 +24,13 @@ Examples of **incorrect** code for this rule with the `"always"` option:
 
 ```js
 /*eslint array-bracket-newline: ["error", "always"]*/
-/*eslint-env es6*/
 
-let a = [];
-let b = [1];
-let c = [1, 2];
-let d = [1,
+var a = [];
+var b = [1];
+var c = [1, 2];
+var d = [1,
     2];
-let e = [function foo() {
+var e = [function foo() {
     dosomething();
 }];
 ```
@@ -40,21 +39,20 @@ Examples of **correct** code for this rule with the `"always"` option:
 
 ```js
 /*eslint array-bracket-newline: ["error", "always"]*/
-/*eslint-env es6*/
 
-let a = [
+var a = [
 ];
-let b = [
+var b = [
     1
 ];
-let c = [
+var c = [
     1, 2
 ];
-let d = [
+var d = [
     1,
     2
 ];
-let e = [
+var e = [
     function foo() {
         dosomething();
     }
@@ -67,21 +65,20 @@ Examples of **incorrect** code for this rule with the `"never"` option:
 
 ```js
 /*eslint array-bracket-newline: ["error", "never"]*/
-/*eslint-env es6*/
 
-let a = [
+var a = [
 ];
-let b = [
+var b = [
     1
 ];
-let c = [
+var c = [
     1, 2
 ];
-let d = [
+var d = [
     1,
     2
 ];
-let e = [
+var e = [
     function foo() {
         dosomething();
     }
@@ -92,14 +89,13 @@ Examples of **correct** code for this rule with the `"never"` option:
 
 ```js
 /*eslint array-bracket-newline: ["error", "never"]*/
-/*eslint-env es6*/
 
-let a = [];
-let b = [1];
-let c = [1, 2];
-let d = [1,
+var a = [];
+var b = [1];
+var c = [1, 2];
+var d = [1,
     2];
-let e = [function foo() {
+var e = [function foo() {
     dosomething();
 }];
 ```
@@ -110,19 +106,18 @@ Examples of **incorrect** code for this rule with the default `{ "multiline": tr
 
 ```js
 /*eslint array-bracket-newline: ["error", { "multiline": true }]*/
-/*eslint-env es6*/
 
-let a = [
+var a = [
 ];
-let b = [
+var b = [
     1
 ];
-let c = [
+var c = [
     1, 2
 ];
-let d = [1,
+var d = [1,
     2];
-let e = [function foo() {
+var e = [function foo() {
     dosomething();
 }];
 ```
@@ -131,16 +126,15 @@ Examples of **correct** code for this rule with the default `{ "multiline": true
 
 ```js
 /*eslint array-bracket-newline: ["error", { "multiline": true }]*/
-/*eslint-env es6*/
 
-let a = [];
-let b = [1];
-let c = [1, 2];
-let d = [
+var a = [];
+var b = [1];
+var c = [1, 2];
+var d = [
     1,
     2
 ];
-let e = [
+var e = [
     function foo() {
         dosomething();
     }
@@ -153,17 +147,16 @@ Examples of **incorrect** code for this rule with the `{ "minItems": 2 }` option
 
 ```js
 /*eslint array-bracket-newline: ["error", { "minItems": 2 }]*/
-/*eslint-env es6*/
 
-let a = [
+var a = [
 ];
-let b = [
+var b = [
     1
 ];
-let c = [1, 2];
-let d = [1,
+var c = [1, 2];
+var d = [1,
     2];
-let e = [
+var e = [
   function foo() {
     dosomething();
   }
@@ -174,18 +167,17 @@ Examples of **correct** code for this rule with the `{ "minItems": 2 }` option:
 
 ```js
 /*eslint array-bracket-newline: ["error", { "minItems": 2 }]*/
-/*eslint-env es6*/
 
-let a = [];
-let b = [1];
-let c = [
+var a = [];
+var b = [1];
+var c = [
     1, 2
 ];
-let d = [
+var d = [
     1,
     2
 ];
-let e = [function foo() {
+var e = [function foo() {
     dosomething();
 }];
 ```
@@ -196,17 +188,16 @@ Examples of **incorrect** code for this rule with the `{ "multiline": true, "min
 
 ```js
 /*eslint array-bracket-newline: ["error", { "multiline": true, "minItems": 2 }]*/
-/*eslint-env es6*/
 
-let a = [
+var a = [
 ];
-let b = [
+var b = [
     1
 ];
-let c = [1, 2];
-let d = [1,
+var c = [1, 2];
+var d = [1,
     2];
-let e = [function foo() {
+var e = [function foo() {
     dosomething();
 }];
 ```
@@ -215,18 +206,17 @@ Examples of **correct** code for this rule with the `{ "multiline": true, "minIt
 
 ```js
 /*eslint array-bracket-newline: ["error", { "multiline": true, "minItems": 2 }]*/
-/*eslint-env es6*/
 
-let a = [];
-let b = [1];
-let c = [
+var a = [];
+var b = [1];
+var c = [
     1, 2
 ];
-let d = [
+var d = [
     1,
     2
 ];
-let e = [
+var e = [
     function foo() {
         dosomething();
     }
@@ -236,7 +226,10 @@ let e = [
 
 ## When Not To Use It
 
-If you do not want to enforce line breaks after open and before close array brackets
+If you don't want to enforce line breaks after opening and before closing array brackets, don't enable this rule.
+
+## Compatibility
+* **JSCS:** [validateNewlineAfterArrayElements](http://jscs.info/rule/validateNewlineAfterArrayElements)
 
 ## Related Rules
 
