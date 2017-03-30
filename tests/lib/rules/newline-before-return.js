@@ -1,6 +1,7 @@
 /**
  * @fileoverview Tests for require newline before `return` statement
  * @author Kai Cataldo
+ * @deprecated
  */
 "use strict";
 
