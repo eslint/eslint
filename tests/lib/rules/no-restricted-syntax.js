@@ -37,7 +37,6 @@ ruleTester.run("no-restricted-syntax", rule, {
             code: "({ foo: 1, bar: 2 })",
             options: [{ selector: "FunctionDeclaration[params.length>2]", message: "custom error message." }]
         }
-
     ],
     invalid: [
 
@@ -112,6 +111,13 @@ ruleTester.run("no-restricted-syntax", rule, {
             code: "function foo(bar, baz, qux) {}",
             options: [{ selector: "FunctionDeclaration[params.length>2]", message: "custom error message." }],
             errors: [{ message: "custom error message.", type: "FunctionDeclaration" }]
+        },
+
+        // with object format, the custom message may contain the string '{{selector}}'
+        {
+            code: "function foo(bar, baz, qux) {}",
+            options: [{ selector: "FunctionDeclaration[params.length>2]", message: "custom message with {{selector}}" }],
+            errors: [{ message: "custom message with {{selector}}", type: "FunctionDeclaration" }]
         }
     ]
 });

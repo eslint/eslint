@@ -12,7 +12,7 @@ This rule disallows specified (that is, user-defined) syntax.
 
 ## Options
 
-This rule takes a list of strings, where each string is a node type or AST selector:
+This rule takes a list of strings, where each string is an AST selector:
 
 ```json
 {
@@ -43,6 +43,8 @@ Alternatively, the rule also accepts objects, where the selector and an optional
 ```
 
 If a custom message is specified with the `message` property, ESLint will use that message when reporting occurrences of the syntax specified in the `selector` property.
+
+The string and object formats can be freely mixed in the configuration as needed.
 
 Examples of **incorrect** code for this rule with the `"FunctionExpression", "WithStatement", BinaryExpression[operator='in']` options:
 
