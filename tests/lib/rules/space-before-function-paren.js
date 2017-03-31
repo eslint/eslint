@@ -98,7 +98,7 @@ ruleTester.run("space-before-function-paren", rule, {
         },
         {
             code: "type TransformFunction = (el: ASTElement, code: string) => string;",
-            parser: baseParser("space-before-function-paren", "function-type-annotation")
+            parser: baseParser("babel-eslint7", "function-type-annotation")
         },
 
         // Async arrow functions
