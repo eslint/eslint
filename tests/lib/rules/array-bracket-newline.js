@@ -89,6 +89,13 @@ ruleTester.run("array-bracket-newline", rule, {
         { code: "var foo = [\n1,\n2\n];", options: [{ minItems: 2 }] },
         { code: "var foo = [function foo() {\ndosomething();\n}];", options: [{ minItems: 2 }] },
 
+        // { minItems: 0 }
+        { code: "var foo = [\n];", options: [{ minItems: 0 }] },
+        { code: "var foo = [\n1\n];", options: [{ minItems: 0 }] },
+        { code: "var foo = [\n1, 2\n];", options: [{ minItems: 0 }] },
+        { code: "var foo = [\n1,\n2\n];", options: [{ minItems: 0 }] },
+        { code: "var foo = [\nfunction foo() {\ndosomething();\n}\n];", options: [{ minItems: 0 }] },
+
         // { multiline: true, minItems: 2 }
         { code: "var a = [];", options: [{ multiline: true, minItems: 2 }] },
         { code: "var b = [1];", options: [{ multiline: true, minItems: 2 }] },
@@ -651,6 +658,104 @@ ruleTester.run("array-bracket-newline", rule, {
                     type: "ArrayExpression",
                     line: 5,
                     column: 1
+                }
+            ]
+        },
+
+        // { minItems: 0 }
+        {
+            code: "var foo = [];",
+            options: [{ minItems: 0 }],
+            output: "var foo = [\n];",
+            errors: [
+                {
+                    message: ERR_BREAK_AFTER,
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 11
+                },
+                {
+                    message: ERR_BREAK_BEFORE,
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 12
+                }
+            ]
+        },
+        {
+            code: "var foo = [1];",
+            options: [{ minItems: 0 }],
+            output: "var foo = [\n1\n];",
+            errors: [
+                {
+                    message: ERR_BREAK_AFTER,
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 11
+                },
+                {
+                    message: ERR_BREAK_BEFORE,
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 13
+                }
+            ]
+        },
+        {
+            code: "var foo = [1, 2];",
+            options: [{ minItems: 0 }],
+            output: "var foo = [\n1, 2\n];",
+            errors: [
+                {
+                    message: ERR_BREAK_AFTER,
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 11
+                },
+                {
+                    message: ERR_BREAK_BEFORE,
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 16
+                }
+            ]
+        },
+        {
+            code: "var foo = [1,\n2];",
+            options: [{ minItems: 0 }],
+            output: "var foo = [\n1,\n2\n];",
+            errors: [
+                {
+                    message: ERR_BREAK_AFTER,
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 11
+                },
+                {
+                    message: ERR_BREAK_BEFORE,
+                    type: "ArrayExpression",
+                    line: 2,
+                    column: 2
+                }
+
+            ]
+        },
+        {
+            code: "var foo = [function foo() {\ndosomething();\n}];",
+            options: [{ minItems: 0 }],
+            output: "var foo = [\nfunction foo() {\ndosomething();\n}\n];",
+            errors: [
+                {
+                    message: ERR_BREAK_AFTER,
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 11
+                },
+                {
+                    message: ERR_BREAK_BEFORE,
+                    type: "ArrayExpression",
+                    line: 3,
+                    column: 2
                 }
             ]
         },
