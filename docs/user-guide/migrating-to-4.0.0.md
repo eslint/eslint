@@ -9,7 +9,6 @@ The lists below are ordered roughly by the number of users each change is expect
 1. [New rules have been added to `eslint:recommended`](#eslint-recommended-changes)
 1. [The `indent` rule is more strict](#indent-rewrite)
 1. [Unrecognized properties in config files will cause a fatal error](#config-validation)
-1. [Referencing a missing file with the CLI will cause a fatal error](#file-not-found-errors)
 1. [.eslintignore patterns are now resolved from the location of the file](#eslintignore-patterns)
 1. [The `padded-blocks` rule is more strict by default](#padded-blocks-defaults)
 1. [The `space-before-function-paren` rule is more strict by default](#space-before-function-paren-defaults)
@@ -75,18 +74,6 @@ To make the upgrade process easier, we've introduced the [`indent-legacy`](/docs
 When creating a config, users sometimes make typos or misunderstand how the config is supposed to be structured. Previously, ESLint did not validate the properties of a config file, so a typo in a config could be very tedious to debug. Starting in 4.0.0, ESLint will raise an error if a property in a config file is unrecognized or has the wrong type.
 
 **To address:** If you see a config validation error after upgrading, verify that your config doesn't contain any typos. If you are using an unrecognized property, you should be able to remove it from your config to restore the previous behavior.
-
-## <a name="file-not-found-errors"/> Referencing a missing file with the CLI will cause a fatal error
-
-Previously, ESLint would raise no errors when invoked with missing files:
-
-```bash
-eslint 'missing-file.js' 'missing-folder/' 'empty-folder/**/*.js'
-```
-
-This caused confusion for users, because it was possible to set up a broken linting task that would always succeed if there was a typo in the file/folder name and no files were matched. Starting in 4.0, referencing a file that does not exist or a glob that matches no files from the CLI is now a fatal error.
-
-**To address:** If you see an error about missing files after upgrading, verify that all of the files that you're linting actually exist. Remove any files that don't exist from the command-line arguments.
 
 ## <a name="eslintignore-patterns"/> .eslintignore patterns are now resolved from the location of the file
 
