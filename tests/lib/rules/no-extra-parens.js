@@ -426,6 +426,27 @@ ruleTester.run("no-extra-parens", rule, {
         {
             code: "() => ({ foo: 1 }.foo().bar + baz)",
             parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: "export default (function(){}).foo",
+            parserOptions: { ecmaVersion: 2015, sourceType: "module" }
+        },
+        {
+            code: "export default (class{}).foo",
+            parserOptions: { ecmaVersion: 2015, sourceType: "module" }
+        },
+        "({}).hasOwnProperty.call(foo, bar)",
+        "({}) ? foo() : bar()",
+        "({}) + foo",
+        "(function(){}) + foo",
+        "(let[foo]) = 1", // setting the 'foo' property of the 'let' variable to 1
+        {
+            code: "((function(){}).foo.bar)();",
+            options: ["functions"]
+        },
+        {
+            code: "((function(){}).foo)();",
+            options: ["functions"]
         }
     ],
 
@@ -545,8 +566,6 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("bar((function(){}).foo(), 0);", "bar(function(){}.foo(), 0);", "FunctionExpression"),
         invalid("bar[(function(){}).foo()];", "bar[function(){}.foo()];", "FunctionExpression"),
         invalid("var bar = (function(){}).foo();", "var bar = function(){}.foo();", "FunctionExpression"),
-        invalid("((function(){}).foo.bar)();", "(function(){}.foo.bar)();", "FunctionExpression", null, { options: ["functions"] }),
-        invalid("((function(){}).foo)();", "(function(){}.foo)();", "FunctionExpression", null, { options: ["functions"] }),
 
         invalid("((class{})).foo();", "(class{}).foo();", "ClassExpression", null, { parserOptions: { ecmaVersion: 6 } }),
         invalid("((class{}).foo());", "(class{}).foo();", "CallExpression", null, { parserOptions: { ecmaVersion: 6 } }),
@@ -976,17 +995,12 @@ ruleTester.run("no-extra-parens", rule, {
             1,
             { parserOptions: { ecmaVersion: 2015 } }
         ),
-        {
-            code: "() => (({ foo: 1 }).foo)",
-            output: "() => ({ foo: 1 }).foo",
-            parserOptions: { ecmaVersion: 2015 },
-            errors: [
-
-                // 2 errors are reported, but fixing one gets rid of the other
-                { message: "Gratuitous parentheses around expression.", type: "MemberExpression" },
-                { message: "Gratuitous parentheses around expression.", type: "ObjectExpression" }
-            ]
-
-        }
+        invalid(
+            "() => (({ foo: 1 }).foo)",
+            "() => ({ foo: 1 }).foo",
+            "MemberExpression",
+            1,
+            { parserOptions: { ecmaVersion: 2015 } }
+        )
     ]
 });
