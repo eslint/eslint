@@ -31,7 +31,25 @@ The lists below are ordered roughly by the number of users each change is expect
 
 ## <a name="eslint-recommended-changes"/> `eslint:recommended` changes
 
-TODO
+Three new rules have been added to the [`eslint:recommended`](http://eslint.org/docs/user-guide/configuring#using-eslintrecommended) config:
+
+* [`array-callback-return`](/docs/rules/array-callback-return) requires predicate functions to return a value when using functional patterns such as `map` and `filter`.
+* [`no-compare-neg-zero`](/docs/rules/no-compare-neg-zero) disallows comparisons to `-0`
+* [`no-useless-escape`](/docs/rules/no-useless-escape) disallows uselessly-escaped characters in strings and regular expressions
+
+**To address:** To mimic the `eslint:recommended` behavior from 3.x, you can disable these rules in a config file:
+
+```json
+{
+  "extends": "eslint:recommended",
+
+  "rules": {
+    "array-callback-return": "off",
+    "no-compare-neg-zero": "off",
+    "no-useless-escape": "off"
+  }
+}
+```
 
 ## <a name="indent-rewrite"/> The `indent` rule is more strict
 
