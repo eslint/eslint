@@ -16,6 +16,8 @@ const RuleTester = require("../../../lib/testers/rule-tester");
 // Tests
 //------------------------------------------------------------------------------
 
+const UNEXPECTED_SPACE_ERROR_MESSAGE = "There should be no spaces inside this bracket.";
+
 const errors = [{
     message: "Unexpected string concatenation.",
     type: "BinaryExpression"
@@ -187,6 +189,48 @@ ruleTester.run("prefer-template", rule, {
             code: "foo + 'handles unicode escapes correctly: \\x27'", // "\x27" === "'"
             output: "`${foo  }handles unicode escapes correctly: \\x27`",
             errors
+        },
+        {
+            code: "foo + \"does not unescape an escaped single quote in a double-quoted string: \\'\"",
+            output: "`${foo}does not unescape an escaped single quote in a double-quoted string: \\'`",
+            options: [{ trim: true }],
+            errors
+        },
+        {
+            code: "foo + 'handles unicode escapes correctly: \\x27'", // "\x27" === "'"
+            output: "`${foo}handles unicode escapes correctly: \\x27`",
+            options: [{ trim: true }],
+            errors
+        },
+        {
+            code: "var foo = bar + ('baz') + 'qux' + (boop);",
+            output: "var foo = `${bar}baz` + `qux${boop}`;",
+            options: [{ trim: true }],
+            errors
+        },
+        {
+            code: "var foo = `${ bar }baz` + `qux${ boop }`;",
+            output: "var foo = `${bar}baz` + `qux${boop}`;",
+            options: [{ trim: true }],
+            errors: [UNEXPECTED_SPACE_ERROR_MESSAGE, UNEXPECTED_SPACE_ERROR_MESSAGE, UNEXPECTED_SPACE_ERROR_MESSAGE, UNEXPECTED_SPACE_ERROR_MESSAGE]
+        },
+        {
+            code: "var foo = `${                bar                }baz` + `qux${                boop                }`;",
+            output: "var foo = `${bar}baz` + `qux${boop}`;",
+            options: [{ trim: true }],
+            errors: [UNEXPECTED_SPACE_ERROR_MESSAGE, UNEXPECTED_SPACE_ERROR_MESSAGE, UNEXPECTED_SPACE_ERROR_MESSAGE, UNEXPECTED_SPACE_ERROR_MESSAGE]
+        },
+        {
+            code: "var foo = `bar${ baz }qux${ quux }`;",
+            output: "var foo = `bar${baz}qux${quux}`;",
+            options: [{ trim: true }],
+            errors: [UNEXPECTED_SPACE_ERROR_MESSAGE, UNEXPECTED_SPACE_ERROR_MESSAGE, UNEXPECTED_SPACE_ERROR_MESSAGE, UNEXPECTED_SPACE_ERROR_MESSAGE]
+        },
+        {
+            code: "var foo = `3 backslashes: \\\\\\${bar}${  baz}`;",
+            output: "var foo = `3 backslashes: \\\\\\${bar}${baz}`;",
+            options: [{ trim: true }],
+            errors: [UNEXPECTED_SPACE_ERROR_MESSAGE]
         }
     ]
 });
