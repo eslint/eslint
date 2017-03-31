@@ -23,6 +23,7 @@ The lists below are ordered roughly by the number of users each change is expect
 
 ### Breaking changes for integration developers
 
+1. [The `global` property in the `linter.verify()` API is no longer supported](#global-property)
 1. [More report messages have full location ranges](#report-locations)
 1. [Some exposed APIs are now ES2015 classes](#exposed-es2015-classes)
 
@@ -174,6 +175,12 @@ Starting in 4.0, if a parser produces type annotation nodes, they will be traver
 **To address:** If you have a custom rule that relies on having a particular traversal depth, and your rule is run on code with type annotations, you should update the rule logic to account for the new traversal.
 
 ---
+
+## <a name="global-property"/> The `global` property in the `linter.verify()` API is no longer supported
+
+Previously, the `linter.verify()` API accepted a `global` config option, which was a synonym for the documented `globals` property. The `global` option was never documented or officially supported, and did not work in config files. It has been removed in 4.0.
+
+**To address:** If you were using the `global` property, please use the `globals` property instead, which does the same thing.
 
 ## <a name="report-locations"/> More report messages have full location ranges
 
