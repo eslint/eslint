@@ -10,8 +10,6 @@
 /* eslint-disable sort-keys */
 
 module.exports = {
-    parser: "espree",
-
     rules: {
 
         /* eslint-enable sort-keys */

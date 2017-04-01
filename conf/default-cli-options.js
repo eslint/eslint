@@ -12,11 +12,9 @@ module.exports = {
     useEslintrc: true,
     envs: [],
     globals: [],
-    rules: {},
     extensions: [".js"],
     ignore: true,
     ignorePath: null,
-    parser: "", // must be empty
     cache: false,
 
     // in order to honor the cacheFile option if specified
