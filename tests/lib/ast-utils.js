@@ -1250,4 +1250,45 @@ describe("ast-utils", () => {
             });
         });
     });
+
+    describe("canTokensBeAdjacent", () => {
+        const CASES = new Map([
+            [["foo", "bar"], false],
+            [[";foo", "bar"], false],
+            [[";", "bar"], true],
+            [[")", "bar"], true],
+            [["foo0", "bar"], false],
+            [["foo;", "bar"], true],
+            [["foo", "0"], false],
+            [["of", ".2"], true],
+            [["2", ".2"], false],
+            [["of", "'foo'"], true],
+            [["foo", "`bar`"], true],
+            [["`foo`", "in"], true],
+            [["of", "0.2"], false],
+            [["of", "0."], false],
+            [[".2", "foo"], false],
+            [["2.", "foo"], false],
+            [["+", "-"], true],
+            [["++", "-"], true],
+            [["+", "--"], true],
+            [["++", "--"], true],
+            [["-", "+"], true],
+            [["--", "+"], true],
+            [["-", "++"], true],
+            [["--", "++"], true],
+            [["+", "+"], false],
+            [["-", "-"], false],
+            [["++", "+"], false],
+            [["--", "-"], false],
+            [["+", "++"], false],
+            [["-", "--"], false]
+        ]);
+
+        CASES.forEach((expectedResult, tokenStrings) => {
+            it(tokenStrings.join(", "), () => {
+                assert.strictEqual(astUtils.canTokensBeAdjacent(tokenStrings[0], tokenStrings[1]), expectedResult);
+            });
+        });
+    });
 });
