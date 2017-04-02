@@ -201,4 +201,153 @@ describe("Traverser", () => {
             assert.deepEqual(traversalResults.exitedNodes, [fakeAst.body[0].typeAnnotation, fakeAst.body[0], fakeAst]);
         });
     });
+
+    describe("decorators", () => {
+        it("traverses decorators in Identifier", () => {
+            const fakeAst = {
+                type: "Program",
+                body: [
+                    {
+                        type: "Identifier",
+                        decorators: [
+                            {
+                                type: "Identifier",
+                                name: "Foo"
+                            }
+                        ]
+                    }
+                ]
+            };
+            const traversalResults = traverseAst(fakeAst);
+
+            assert.deepEqual(traversalResults.enteredNodes, [fakeAst, fakeAst.body[0], fakeAst.body[0].decorators[0]]);
+            assert.deepEqual(traversalResults.exitedNodes, [fakeAst.body[0].decorators[0], fakeAst.body[0], fakeAst]);
+        });
+
+        it("traverses decorators in ClassDeclaration", () => {
+            const fakeAst = {
+                type: "Program",
+                body: [
+                    {
+                        type: "ClassDeclaration",
+                        decorators: [
+                            {
+                                type: "Identifier",
+                                name: "Foo"
+                            }
+                        ]
+                    }
+                ]
+            };
+            const traversalResults = traverseAst(fakeAst);
+
+            assert.deepEqual(traversalResults.enteredNodes, [fakeAst, fakeAst.body[0], fakeAst.body[0].decorators[0]]);
+            assert.deepEqual(traversalResults.exitedNodes, [fakeAst.body[0].decorators[0], fakeAst.body[0], fakeAst]);
+        });
+
+        it("traverses decorators in FunctionExpression", () => {
+            const fakeAst = {
+                type: "Program",
+                body: [
+                    {
+                        type: "FunctionExpression",
+                        decorators: [
+                            {
+                                type: "Identifier",
+                                name: "Foo"
+                            }
+                        ]
+                    }
+                ]
+            };
+            const traversalResults = traverseAst(fakeAst);
+
+            assert.deepEqual(traversalResults.enteredNodes, [fakeAst, fakeAst.body[0], fakeAst.body[0].decorators[0]]);
+            assert.deepEqual(traversalResults.exitedNodes, [fakeAst.body[0].decorators[0], fakeAst.body[0], fakeAst]);
+        });
+
+        it("traverses decorators in ObjectPattern", () => {
+            const fakeAst = {
+                type: "Program",
+                body: [
+                    {
+                        type: "ObjectPattern",
+                        decorators: [
+                            {
+                                type: "Identifier",
+                                name: "Foo"
+                            }
+                        ]
+                    }
+                ]
+            };
+            const traversalResults = traverseAst(fakeAst);
+
+            assert.deepEqual(traversalResults.enteredNodes, [fakeAst, fakeAst.body[0], fakeAst.body[0].decorators[0]]);
+            assert.deepEqual(traversalResults.exitedNodes, [fakeAst.body[0].decorators[0], fakeAst.body[0], fakeAst]);
+        });
+
+        it("traverses decorators in ArrayPattern", () => {
+            const fakeAst = {
+                type: "Program",
+                body: [
+                    {
+                        type: "ArrayPattern",
+                        decorators: [
+                            {
+                                type: "Identifier",
+                                name: "Foo"
+                            }
+                        ]
+                    }
+                ]
+            };
+            const traversalResults = traverseAst(fakeAst);
+
+            assert.deepEqual(traversalResults.enteredNodes, [fakeAst, fakeAst.body[0], fakeAst.body[0].decorators[0]]);
+            assert.deepEqual(traversalResults.exitedNodes, [fakeAst.body[0].decorators[0], fakeAst.body[0], fakeAst]);
+        });
+
+        it("traverses decorators in RestElement", () => {
+            const fakeAst = {
+                type: "Program",
+                body: [
+                    {
+                        type: "RestElement",
+                        decorators: [
+                            {
+                                type: "Identifier",
+                                name: "Foo"
+                            }
+                        ]
+                    }
+                ]
+            };
+            const traversalResults = traverseAst(fakeAst);
+
+            assert.deepEqual(traversalResults.enteredNodes, [fakeAst, fakeAst.body[0], fakeAst.body[0].decorators[0]]);
+            assert.deepEqual(traversalResults.exitedNodes, [fakeAst.body[0].decorators[0], fakeAst.body[0], fakeAst]);
+        });
+
+        it("traverses decorators in ClassProperty", () => {
+            const fakeAst = {
+                type: "Program",
+                body: [
+                    {
+                        type: "ClassProperty",
+                        decorators: [
+                            {
+                                type: "Identifier",
+                                name: "Foo"
+                            }
+                        ]
+                    }
+                ]
+            };
+            const traversalResults = traverseAst(fakeAst);
+
+            assert.deepEqual(traversalResults.enteredNodes, [fakeAst, fakeAst.body[0], fakeAst.body[0].decorators[0]]);
+            assert.deepEqual(traversalResults.exitedNodes, [fakeAst.body[0].decorators[0], fakeAst.body[0], fakeAst]);
+        });
+    });
 });
