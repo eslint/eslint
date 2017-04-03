@@ -74,7 +74,27 @@ ruleTester.run("no-multi-spaces", rule, {
         {
             code: "var  answer = 6 *  7;",
             options: [{ exceptions: { VariableDeclaration: true, BinaryExpression: true } }]
-        }
+        },
+
+        // https://github.com/eslint/eslint/issues/7693
+        "var x = 5; // comment",
+        "var x = 5; /* multiline\n * comment\n */",
+        "var x = 5;\n  // comment",
+        "var x = 5;  \n// comment",
+        "var x = 5;\n  /* multiline\n * comment\n */",
+        "var x = 5;  \n/* multiline\n * comment\n */",
+        { code: "var x = 5; // comment", options: [{ ignoreEOLComments: false }] },
+        { code: "var x = 5; /* multiline\n * comment\n */", options: [{ ignoreEOLComments: false }] },
+        { code: "var x = 5;\n  // comment", options: [{ ignoreEOLComments: false }] },
+        { code: "var x = 5;  \n// comment", options: [{ ignoreEOLComments: false }] },
+        { code: "var x = 5;\n  /* multiline\n * comment\n */", options: [{ ignoreEOLComments: false }] },
+        { code: "var x = 5;  \n/* multiline\n * comment\n */", options: [{ ignoreEOLComments: false }] },
+        { code: "var x = 5;  // comment", options: [{ ignoreEOLComments: true }] },
+        { code: "var x = 5;  /* multiline\n * comment\n */", options: [{ ignoreEOLComments: true }] },
+        { code: "var x = 5;\n  // comment", options: [{ ignoreEOLComments: true }] },
+        { code: "var x = 5;  \n// comment", options: [{ ignoreEOLComments: true }] },
+        { code: "var x = 5;\n  /* multiline\n * comment\n */", options: [{ ignoreEOLComments: true }] },
+        { code: "var x = 5;  \n/* multiline\n * comment\n */", options: [{ ignoreEOLComments: true }] }
     ],
 
     invalid: [
@@ -378,6 +398,199 @@ ruleTester.run("no-multi-spaces", rule, {
             errors: [{
                 message: "Multiple spaces found before '5'.",
                 type: "Numeric"
+            }]
+        },
+
+        // https://github.com/eslint/eslint/issues/7693
+        {
+            code: "var x =  /* comment */ 5;",
+            output: "var x = /* comment */ 5;",
+            errors: [{
+                message: "Multiple spaces found before '/* comment */'.",
+                type: "Block"
+            }]
+        },
+        {
+            code: "var x = /* comment */  5;",
+            output: "var x = /* comment */ 5;",
+            errors: [{
+                message: "Multiple spaces found before '5'.",
+                type: "Numeric"
+            }]
+        },
+        {
+            code: "var x = 5;  // comment",
+            output: "var x = 5; // comment",
+            errors: [{
+                message: "Multiple spaces found before '// comment'.",
+                type: "Line"
+            }]
+        },
+        {
+            code: "var x = 5;  // comment\nvar y = 6;",
+            output: "var x = 5; // comment\nvar y = 6;",
+            errors: [{
+                message: "Multiple spaces found before '// comment'.",
+                type: "Line"
+            }]
+        },
+        {
+            code: "var x = 5;  /* multiline\n * comment\n */",
+            output: "var x = 5; /* multiline\n * comment\n */",
+            errors: [{
+                message: "Multiple spaces found before '/* multiline...*/'.",
+                type: "Block"
+            }]
+        },
+        {
+            code: "var x = 5;  /* multiline\n * comment\n */\nvar y = 6;",
+            output: "var x = 5; /* multiline\n * comment\n */\nvar y = 6;",
+            errors: [{
+                message: "Multiple spaces found before '/* multiline...*/'.",
+                type: "Block"
+            }]
+        },
+        {
+            code: "var x = 5;  // this is a long comment",
+            output: "var x = 5; // this is a long comment",
+            errors: [{
+                message: "Multiple spaces found before '// this is a l...'.",
+                type: "Line"
+            }]
+        },
+        {
+            code: "var x =  /* comment */ 5;",
+            output: "var x = /* comment */ 5;",
+            options: [{ ignoreEOLComments: false }],
+            errors: [{
+                message: "Multiple spaces found before '/* comment */'.",
+                type: "Block"
+            }]
+        },
+        {
+            code: "var x = /* comment */  5;",
+            output: "var x = /* comment */ 5;",
+            options: [{ ignoreEOLComments: false }],
+            errors: [{
+                message: "Multiple spaces found before '5'.",
+                type: "Numeric"
+            }]
+        },
+        {
+            code: "var x = 5;  // comment",
+            output: "var x = 5; // comment",
+            options: [{ ignoreEOLComments: false }],
+            errors: [{
+                message: "Multiple spaces found before '// comment'.",
+                type: "Line"
+            }]
+        },
+        {
+            code: "var x = 5;  // comment\nvar y = 6;",
+            output: "var x = 5; // comment\nvar y = 6;",
+            options: [{ ignoreEOLComments: false }],
+            errors: [{
+                message: "Multiple spaces found before '// comment'.",
+                type: "Line"
+            }]
+        },
+        {
+            code: "var x = 5;  /* multiline\n * comment\n */",
+            output: "var x = 5; /* multiline\n * comment\n */",
+            options: [{ ignoreEOLComments: false }],
+            errors: [{
+                message: "Multiple spaces found before '/* multiline...*/'.",
+                type: "Block"
+            }]
+        },
+        {
+            code: "var x = 5;  /* multiline\n * comment\n */\nvar y = 6;",
+            output: "var x = 5; /* multiline\n * comment\n */\nvar y = 6;",
+            options: [{ ignoreEOLComments: false }],
+            errors: [{
+                message: "Multiple spaces found before '/* multiline...*/'.",
+                type: "Block"
+            }]
+        },
+        {
+            code: "var x = 5;  // this is a long comment",
+            output: "var x = 5; // this is a long comment",
+            options: [{ ignoreEOLComments: false }],
+            errors: [{
+                message: "Multiple spaces found before '// this is a l...'.",
+                type: "Line"
+            }]
+        },
+        {
+            code: "var x =  /* comment */ 5;  // EOL comment",
+            output: "var x = /* comment */ 5;  // EOL comment",
+            options: [{ ignoreEOLComments: true }],
+            errors: [{
+                message: "Multiple spaces found before '/* comment */'.",
+                type: "Block"
+            }]
+        },
+        {
+            code: "var x =  /* comment */ 5;  // EOL comment\nvar y = 6;",
+            output: "var x = /* comment */ 5;  // EOL comment\nvar y = 6;",
+            options: [{ ignoreEOLComments: true }],
+            errors: [{
+                message: "Multiple spaces found before '/* comment */'.",
+                type: "Block"
+            }]
+        },
+        {
+            code: "var x = /* comment */  5;  /* EOL comment */",
+            output: "var x = /* comment */ 5;  /* EOL comment */",
+            options: [{ ignoreEOLComments: true }],
+            errors: [{
+                message: "Multiple spaces found before '5'.",
+                type: "Numeric"
+            }]
+        },
+        {
+            code: "var x = /* comment */  5;  /* EOL comment */\nvar y = 6;",
+            output: "var x = /* comment */ 5;  /* EOL comment */\nvar y = 6;",
+            options: [{ ignoreEOLComments: true }],
+            errors: [{
+                message: "Multiple spaces found before '5'.",
+                type: "Numeric"
+            }]
+        },
+        {
+            code: "var x =  /*comment without spaces*/ 5;",
+            output: "var x = /*comment without spaces*/ 5;",
+            options: [{ ignoreEOLComments: true }],
+            errors: [{
+                message: "Multiple spaces found before '/*comment with...*/'.",
+                type: "Block"
+            }]
+        },
+        {
+            code: "var x = 5;  //comment without spaces",
+            output: "var x = 5; //comment without spaces",
+            options: [{ ignoreEOLComments: false }],
+            errors: [{
+                message: "Multiple spaces found before '//comment with...'.",
+                type: "Line"
+            }]
+        },
+        {
+            code: "var x = 5;  /*comment without spaces*/",
+            output: "var x = 5; /*comment without spaces*/",
+            options: [{ ignoreEOLComments: false }],
+            errors: [{
+                message: "Multiple spaces found before '/*comment with...*/'.",
+                type: "Block"
+            }]
+        },
+        {
+            code: "var x = 5;  /*comment\n without spaces*/",
+            output: "var x = 5; /*comment\n without spaces*/",
+            options: [{ ignoreEOLComments: false }],
+            errors: [{
+                message: "Multiple spaces found before '/*comment...*/'.",
+                type: "Block"
             }]
         }
     ]

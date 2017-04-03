@@ -412,7 +412,7 @@ function lintMarkdown(files) {
             // Exclusions for deliberate/widespread violations
             MD001: false, // Header levels should only increment by one level at a time
             MD002: false, // First header should be a h1 header
-            MD007: {      // Unordered list indentation
+            MD007: { // Unordered list indentation
                 indent: 4
             },
             MD012: false, // Multiple consecutive blank lines
@@ -427,7 +427,7 @@ function lintMarkdown(files) {
             MD033: false, // Allow inline HTML
             MD034: false, // Bare URL used
             MD040: false, // Fenced code blocks should have a language specified
-            MD041: false  // First line in file should be a top level header
+            MD041: false // First line in file should be a top level header
         },
         result = markdownlint.sync({
             files,
@@ -1042,7 +1042,7 @@ function runPerformanceTest(title, targets, multiplier, cb) {
     echo("  CPU Speed is %d with multiplier %d", cpuSpeed, multiplier);
 
     time(cmd, 5, 1, [], results => {
-        if (!results || results.length === 0) {  // No results? Something is wrong.
+        if (!results || results.length === 0) { // No results? Something is wrong.
             throw new Error("Performance test failed.");
         }
 
