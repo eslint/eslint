@@ -783,23 +783,12 @@ target.checkRuleFiles = function() {
 
     echo("Validating rules");
 
-    const eslintRecommended = require("./conf/eslint-recommended").rules;
-
     const ruleFiles = find("lib/rules/").filter(fileType("js"));
     let errors = 0;
 
     ruleFiles.forEach(filename => {
         const basename = path.basename(filename, ".js");
         const docFilename = `docs/rules/${basename}.md`;
-
-        /**
-         * Check if basename is present in eslint:recommended configuration.
-         * @returns {boolean} true if present
-         * @private
-         */
-        function isInConfig() {
-            return eslintRecommended.hasOwnProperty(basename);
-        }
 
         /**
          * Check if id is present in title
@@ -829,12 +818,6 @@ target.checkRuleFiles = function() {
                 console.error("Missing id in the doc page's title of rule %s", basename);
                 errors++;
             }
-        }
-
-        // check for recommended configuration
-        if (!isInConfig()) {
-            console.error("Missing eslint:recommended setting for %s in conf/eslint-recommended.js", basename);
-            errors++;
         }
 
         // check for tests

@@ -9,22 +9,10 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const load = require("../lib/load-rules"),
-    rules = require("../lib/rules");
-
-//------------------------------------------------------------------------------
-// Helpers
-//------------------------------------------------------------------------------
-
-const enabledRules = Object.keys(load()).reduce((result, ruleId) => {
-    if (!rules.get(ruleId).meta.deprecated) {
-        result[ruleId] = "error";
-    }
-    return result;
-}, {});
+const createFilteredConfig = require("./create-filtered-config");
 
 //------------------------------------------------------------------------------
 // Public Interface
 //------------------------------------------------------------------------------
 
-module.exports = { rules: enabledRules };
+module.exports = createFilteredConfig(rule => !rule.meta.deprecated);
