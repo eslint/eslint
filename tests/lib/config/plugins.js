@@ -154,33 +154,33 @@ describe("Plugins", () => {
             assert.equal(Rules.get("@scope/example/foo"), scopedPlugin.rules.foo);
         });
 
-        describe("(NOTE: those behavior will be removed by 4.0.0)", () => {
-            it("should load a scoped plugin when referenced by short name, and should get the plugin even if '@scope/' is omitted", () => {
+        describe("when referencing a scope plugin and omitting @scope/", () => {
+            it("should load a scoped plugin when referenced by short name, but should not get the plugin if '@scope/' is omitted", () => {
                 StubbedPlugins.load("@scope/example");
-                assert.equal(StubbedPlugins.get("example"), scopedPlugin);
+                assert.equal(StubbedPlugins.get("example"), null);
             });
 
-            it("should load a scoped plugin when referenced by long name, and should get the plugin even if '@scope/' is omitted", () => {
+            it("should load a scoped plugin when referenced by long name, but should not get the plugin if '@scope/' is omitted", () => {
                 StubbedPlugins.load("@scope/eslint-plugin-example");
-                assert.equal(StubbedPlugins.get("example"), scopedPlugin);
+                assert.equal(StubbedPlugins.get("example"), null);
             });
 
-            it("should register environments when scoped plugin has environments, and should get the environment even if '@scope/' is omitted", () => {
+            it("should register environments when scoped plugin has environments, but should not get the environment if '@scope/' is omitted", () => {
                 scopedPlugin.environments = {
                     foo: {}
                 };
                 StubbedPlugins.load("@scope/eslint-plugin-example");
 
-                assert.equal(Environments.get("example/foo"), scopedPlugin.environments.foo);
+                assert.equal(Environments.get("example/foo"), null);
             });
 
-            it("should register rules when scoped plugin has rules, and should get the rule even if '@scope/' is omitted", () => {
+            it("should register rules when scoped plugin has rules, but should not get the rule if '@scope/' is omitted", () => {
                 scopedPlugin.rules = {
                     foo: {}
                 };
                 StubbedPlugins.load("@scope/eslint-plugin-example");
 
-                assert.equal(Rules.get("example/foo"), scopedPlugin.rules.foo);
+                assert.equal(Rules.get("example/foo"), null);
             });
         });
     });
