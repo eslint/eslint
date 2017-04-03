@@ -767,7 +767,7 @@ target.browserify = function() {
     generateRulesIndex(TEMP_DIR);
 
     // 5. browserify the temp directory
-    nodeCLI.exec("browserify", "-x espree", `${TEMP_DIR}eslint.js`, "-o", `${BUILD_DIR}eslint.js`, "-s eslint", "-t [ babelify --presets [ es2015 ] ]");
+    nodeCLI.exec("browserify", "-x espree", `${TEMP_DIR}eslint.js`, "-o", `${BUILD_DIR}eslint.js`, "-s eslint", "--global-transform [ babelify --presets [ es2015 ] ]");
 
     // 6. Browserify espree
     nodeCLI.exec("browserify", "-r espree", "-o", `${TEMP_DIR}espree.js`);

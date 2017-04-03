@@ -39,7 +39,7 @@
     "concat-stream": "^1.5.2",
     "debug": "^2.1.1",
     "doctrine": "^2.0.0",
-    "escope": "^3.6.0",
+    "eslint-scope": "^3.6.0",
     "espree": "^3.4.0",
     "esquery": "^1.0.0",
     "estraverse": "^4.2.0",
