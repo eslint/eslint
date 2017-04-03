@@ -11,7 +11,6 @@
 
 module.exports = {
     parser: "espree",
-    ecmaFeatures: {},
 
     rules: {
 
