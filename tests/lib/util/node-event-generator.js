@@ -222,13 +222,13 @@ describe("NodeEventGenerator", () => {
         assertEmissions(
             "[foo, 5, foo]",
             ["Identifier + Literal"],
-            ast => [["Identifier + Literal", ast.body[0].expression.elements[1]]]  // 5
+            ast => [["Identifier + Literal", ast.body[0].expression.elements[1]]] // 5
         );
 
         assertEmissions(
             "[foo, {}, 5]",
             ["Identifier + Literal", "Identifier ~ Literal"],
-            ast => [["Identifier ~ Literal", ast.body[0].expression.elements[2]]]  // 5
+            ast => [["Identifier ~ Literal", ast.body[0].expression.elements[2]]] // 5
         );
 
         assertEmissions(
