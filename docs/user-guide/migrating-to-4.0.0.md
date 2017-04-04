@@ -19,6 +19,7 @@ The lists below are ordered roughly by the number of users each change is expect
 
 1. [`RuleTester` now validates properties of test cases](#rule-tester-validation)
 1. [AST nodes no longer have comment properties](#comment-attachment)
+1. [Shebangs are now returned from comment APIs](#shebangs)
 1. [Type annotation nodes in an AST will now be traversed](#type-annotation-traversal)
 
 ### Breaking changes for integration developers
@@ -164,9 +165,17 @@ Starting in 4.0, the `RuleTester` utility will validate properties of test case 
 
 Prior to 4.0, ESLint required parsers to implement comment attachment, a process where AST nodes would gain additional properties corresponding to their leading and trailing comments in the source file. This made it difficult for users to develop custom parsers, because they would have to replicate the confusing comment attachment semantics required by ESLint.
 
-In 4.0, comment attachment logic has been moved into ESLint itself. This should make it easier to develop custom parsers, but it also means that AST nodes will no longer have `leadingComments` and `trailingComments` properties.
+In 4.0, comment attachment logic has been moved into ESLint itself. This should make it easier to develop custom parsers, but it also means that AST nodes will no longer have `leadingComments` and `trailingComments` properties. Additionally, `LineComment` and `BlockComment` events will no longer be emitted during AST traversal.
 
 **To address:** If you have a custom rule that depends on the `leadingComments` or `trailingComments` properties of an AST node, you can switch to `sourceCode.getComments(node).leading` or `sourceCode.getComments(node).trailing` instead. You should also consider using `sourceCode.getAllComments()` or `sourceCode.getTokenBefore(node, { includeComments: true })`.
+
+## <a name="shebangs"/> Shebangs are now returned from comment APIs
+
+Prior to 4.0, shebang comments in a source file would not appear in the output of `sourceCode.getAllComments()` or `sourceCode.getComments()`, but they would appear in the output of `sourceCode.getTokenOrCommentBefore` as line comments. This inconsistency led to some confusion for rule developers.
+
+In 4.0, shebang comments are included in the results of all of these methods. Instead of being converted to line comments, they will now have the `Shebang` type.
+
+**To address:** If you have a custom rule that performs operations on comments, make sure to handle shebang comments appropriately.
 
 ## <a name="type-annotation-traversal"/> Type annotation nodes in an AST will now be traversed
 
