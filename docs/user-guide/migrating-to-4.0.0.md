@@ -8,24 +8,24 @@ The lists below are ordered roughly by the number of users each change is expect
 
 1. [New rules have been added to `eslint:recommended`](#eslint-recommended-changes)
 1. [The `indent` rule is more strict](#indent-rewrite)
-1. [Unrecognized properties in config files will cause a fatal error](#config-validation)
+1. [Unrecognized properties in config files now cause a fatal error](#config-validation)
 1. [.eslintignore patterns are now resolved from the location of the file](#eslintignore-patterns)
 1. [The `padded-blocks` rule is more strict by default](#padded-blocks-defaults)
 1. [The `space-before-function-paren` rule is more strict by default](#space-before-function-paren-defaults)
 1. [The `no-multi-spaces` rule is more strict by default](#no-multi-spaces-eol-comments)
-1. [References to scoped plugins in config files must include the scope](#scoped-plugin-resolution)
+1. [References to scoped plugins in config files are now required to include the scope](#scoped-plugin-resolution)
 
 ### Breaking changes for plugin/custom rule developers
 
 1. [`RuleTester` now validates properties of test cases](#rule-tester-validation)
 1. [AST nodes no longer have comment properties](#comment-attachment)
 1. [Shebangs are now returned from comment APIs](#shebangs)
-1. [Type annotation nodes in an AST will now be traversed](#type-annotation-traversal)
+1. [Type annotation nodes in an AST are now traversed](#type-annotation-traversal)
 
 ### Breaking changes for integration developers
 
 1. [The `global` property in the `linter.verify()` API is no longer supported](#global-property)
-1. [More report messages have full location ranges](#report-locations)
+1. [More report messages now have full location ranges](#report-locations)
 1. [Some exposed APIs are now ES2015 classes](#exposed-es2015-classes)
 
 ---
@@ -71,7 +71,7 @@ To make the upgrade process easier, we've introduced the [`indent-legacy`](/docs
 }
 ```
 
-## <a name="config-validation"/> Unrecognized properties in config files will cause a fatal error
+## <a name="config-validation"/> Unrecognized properties in config files now cause a fatal error
 
 When creating a config, users sometimes make typos or misunderstand how the config is supposed to be structured. Previously, ESLint did not validate the properties of a config file, so a typo in a config could be very tedious to debug. Starting in 4.0.0, ESLint will raise an error if a property in a config file is unrecognized or has the wrong type.
 
@@ -121,7 +121,7 @@ By default, the [`no-multi-spaces`](/docs/rules/no-multi-spaces) rule will now d
 }
 ```
 
-## <a name="scoped-plugin-resolution"/> References to scoped plugins in config files must include the scope
+## <a name="scoped-plugin-resolution"/> References to scoped plugins in config files are now required to include the scope
 
 In 3.x, there was a bug where references to scoped NPM packages as plugins in config files could omit the scope. For example, in 3.x the following config was legal:
 
@@ -177,7 +177,7 @@ In 4.0, shebang comments are included in the results of all of these methods. In
 
 **To address:** If you have a custom rule that performs operations on comments, make sure to handle shebang comments appropriately.
 
-## <a name="type-annotation-traversal"/> Type annotation nodes in an AST will now be traversed
+## <a name="type-annotation-traversal"/> Type annotation nodes in an AST are now traversed
 
 Starting in 4.0, if a parser produces type annotation nodes, they will be traversed as part of ESLint's AST traversal.
 
@@ -191,7 +191,7 @@ Previously, the `linter.verify()` API accepted a `global` config option, which w
 
 **To address:** If you were using the `global` property, please use the `globals` property instead, which does the same thing.
 
-## <a name="report-locations"/> More report messages have full location ranges
+## <a name="report-locations"/> More report messages now have full location ranges
 
 Starting in 3.1.0, rules have been able to specify the *end* location of a reported problem, in addition to the start location, by explicitly specifying an end location in the `report` call. This is useful for tools like editor integrations, which can use the range to precisely display where a reported problem occurs. Starting in 4.0, if a *node* is reported rather than a location, the end location of the range will automatically be inferred from the end location of the node. As a result, many more reported problems will have end locations.
 
