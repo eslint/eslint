@@ -230,13 +230,37 @@ describe("ConfigRule", () => {
             });
         });
 
-        describe("for a schema with an enum and an object with no usable properties", () => {
+        describe("for a schema with an enum followed by an object with no usable properties", () => {
             before(() => {
                 actualConfigs = ConfigRule.generateConfigsFromSchema(schema.mixedEnumObjectWithNothing);
             });
 
             it("should create config only for the enum", () => {
                 const expectedConfigs = [2, [2, "always"], [2, "never"]];
+
+                assert.sameDeepMembers(actualConfigs, expectedConfigs);
+            });
+        });
+
+        describe("for a schema with an enum preceded by an object with no usable properties", () => {
+            before(() => {
+                actualConfigs = ConfigRule.generateConfigsFromSchema(schema.mixedObjectWithNothingEnum);
+            });
+
+            it("should not create a config for the enum", () => {
+                const expectedConfigs = [2];
+
+                assert.sameDeepMembers(actualConfigs, expectedConfigs);
+            });
+        });
+
+        describe("for a schema with an enum preceded by a string", () => {
+            before(() => {
+                actualConfigs = ConfigRule.generateConfigsFromSchema(schema.mixedStringEnum);
+            });
+
+            it("should not create a config for the enum", () => {
+                const expectedConfigs = [2];
 
                 assert.sameDeepMembers(actualConfigs, expectedConfigs);
             });

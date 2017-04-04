@@ -69,6 +69,22 @@ module.exports = {
         "additionalProperties": false
     }],
 
+    mixedObjectWithNothingEnum: [{
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+    },
+    {
+        "enum": ["always", "never"]
+    }],
+
+    mixedStringEnum: [{
+        "type": "string"
+    },
+    {
+        "enum": ["always", "never"]
+    }],
+
     oneOf: [{
         "oneOf": [
             {

@@ -8,8 +8,9 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const rule = require("../../../lib/rules/space-before-function-paren"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+const rule = require("../../../lib/rules/space-before-function-paren");
+const RuleTester = require("../../../lib/testers/rule-tester");
+const baseParser = require("../../fixtures/fixture-parser");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -95,6 +96,10 @@ ruleTester.run("space-before-function-paren", rule, {
         { code: "var bar = function foo () {}",
             options: [{ named: "ignore", anonymous: "always" }]
         },
+        {
+            code: "type TransformFunction = (el: ASTElement, code: string) => string;",
+            parser: baseParser("babel-eslint7", "function-type-annotation")
+        },
 
         // Async arrow functions
         { code: "() => 1", parserOptions: { ecmaVersion: 6 } },
@@ -105,13 +110,8 @@ ruleTester.run("space-before-function-paren", rule, {
         { code: "async() => 1", options: [{ asyncArrow: "never" }], parserOptions: { ecmaVersion: 8 } },
         { code: "async () => 1", options: [{ asyncArrow: "ignore" }], parserOptions: { ecmaVersion: 8 } },
         { code: "async() => 1", options: [{ asyncArrow: "ignore" }], parserOptions: { ecmaVersion: 8 } },
-
-        // ignore by default for now.
         { code: "async () => 1", parserOptions: { ecmaVersion: 8 } },
-        { code: "async() => 1", parserOptions: { ecmaVersion: 8 } },
         { code: "async () => 1", options: ["always"], parserOptions: { ecmaVersion: 8 } },
-        { code: "async() => 1", options: ["always"], parserOptions: { ecmaVersion: 8 } },
-        { code: "async () => 1", options: ["never"], parserOptions: { ecmaVersion: 8 } },
         { code: "async() => 1", options: ["never"], parserOptions: { ecmaVersion: 8 } }
     ],
 
@@ -489,6 +489,26 @@ ruleTester.run("space-before-function-paren", rule, {
             options: [{ asyncArrow: "never" }],
             parserOptions: { ecmaVersion: 8 },
             errors: ["Unexpected space before function parentheses."]
+        },
+        {
+            code: "async() => 1",
+            output: "async () => 1",
+            parserOptions: { ecmaVersion: 8 },
+            errors: [{ message: "Missing space before function parentheses.", type: "ArrowFunctionExpression" }]
+        },
+        {
+            code: "async() => 1",
+            output: "async () => 1",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 8 },
+            errors: [{ message: "Missing space before function parentheses.", type: "ArrowFunctionExpression" }]
+        },
+        {
+            code: "async () => 1",
+            output: "async() => 1",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 8 },
+            errors: [{ message: "Unexpected space before function parentheses.", type: "ArrowFunctionExpression" }]
         }
     ]
 });

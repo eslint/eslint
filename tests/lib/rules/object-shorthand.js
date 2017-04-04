@@ -973,6 +973,17 @@ ruleTester.run("object-shorthand", rule, {
             `,
             options: ["always", { avoidExplicitReturnArrows: true }],
             errors: [METHOD_ERROR]
+        },
+        {
+            code: "({ a: (function(){ return foo; }) })",
+            output: "({ a(){ return foo; } })",
+            errors: [METHOD_ERROR]
+        },
+        {
+            code: "({ a: (() => { return foo; }) })",
+            output: "({ a() { return foo; } })",
+            options: ["always", { avoidExplicitReturnArrows: true }],
+            errors: [METHOD_ERROR]
         }
     ]
 });

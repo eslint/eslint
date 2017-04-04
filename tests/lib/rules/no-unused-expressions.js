@@ -60,6 +60,16 @@ ruleTester.run("no-unused-expressions", rule, {
             code: "async function foo() { foo ? await bar : await baz; }",
             options: [{ allowTernary: true }],
             parserOptions: { ecmaVersion: 8 }
+        },
+        {
+            code: "tag`tagged template literal`",
+            options: [{ allowTaggedTemplates: true }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "shouldNotBeAffectedByAllowTemplateTagsOption()",
+            options: [{ allowTaggedTemplates: true }],
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
     invalid: [
@@ -72,6 +82,16 @@ ruleTester.run("no-unused-expressions", rule, {
         { code: "a() || false", errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement" }] },
         { code: "a || (b = c)", errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement" }] },
         { code: "a ? b() || (c = d) : e", errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement" }] },
+        {
+            code: "`untagged template literal`",
+            errors: ["Expected an assignment or function call and instead saw an expression."],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "tag`tagged template literal`",
+            errors: ["Expected an assignment or function call and instead saw an expression."],
+            parserOptions: { ecmaVersion: 6 }
+        },
         { code: "a && b()", options: [{ allowTernary: true }], errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement" }] },
         { code: "a ? b() : c()", options: [{ allowShortCircuit: true }], errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement" }] },
         { code: "a || b", options: [{ allowShortCircuit: true }], errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement" }] },
@@ -85,6 +105,24 @@ ruleTester.run("no-unused-expressions", rule, {
         { code: "function foo() {\"directive one\"; f(); \"directive two\"; }", errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement" }] },
         { code: "if (0) { \"not a directive\"; f(); }", errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement" }] },
         { code: "function foo() { var foo = true; \"use strict\"; }", errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement" }] },
-        { code: "var foo = () => { var foo = true; \"use strict\"; }", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement" }] }
+        { code: "var foo = () => { var foo = true; \"use strict\"; }", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement" }] },
+        {
+            code: "`untagged template literal`",
+            errors: ["Expected an assignment or function call and instead saw an expression."],
+            options: [{ allowTaggedTemplates: true }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "`untagged template literal`",
+            errors: ["Expected an assignment or function call and instead saw an expression."],
+            options: [{ allowTaggedTemplates: false }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "tag`tagged template literal`",
+            errors: ["Expected an assignment or function call and instead saw an expression."],
+            options: [{ allowTaggedTemplates: false }],
+            parserOptions: { ecmaVersion: 6 }
+        }
     ]
 });

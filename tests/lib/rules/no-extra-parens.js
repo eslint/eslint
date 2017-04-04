@@ -381,6 +381,21 @@ ruleTester.run("no-extra-parens", rule, {
             }
         },
         {
+            code: "let a = [ ...(b, c) ]",
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: "let a = { ...(b, c) }",
+            parserOptions: {
+                ecmaVersion: 2015,
+                ecmaFeatures: { experimentalObjectRestSpread: true }
+            }
+        },
+        {
+            code: "var [x = (1, foo)] = bar",
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
             code: "class A extends B {}",
             parserOptions: { ecmaVersion: 2015 }
         },
@@ -395,6 +410,43 @@ ruleTester.run("no-extra-parens", rule, {
         {
             code: "const A = class extends (B=C) {}",
             parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: "() => ({ foo: 1 })",
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: "() => ({ foo: 1 }).foo",
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: "() => ({ foo: 1 }.foo().bar).baz.qux()",
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: "() => ({ foo: 1 }.foo().bar + baz)",
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: "export default (function(){}).foo",
+            parserOptions: { ecmaVersion: 2015, sourceType: "module" }
+        },
+        {
+            code: "export default (class{}).foo",
+            parserOptions: { ecmaVersion: 2015, sourceType: "module" }
+        },
+        "({}).hasOwnProperty.call(foo, bar)",
+        "({}) ? foo() : bar()",
+        "({}) + foo",
+        "(function(){}) + foo",
+        "(let[foo]) = 1", // setting the 'foo' property of the 'let' variable to 1
+        {
+            code: "((function(){}).foo.bar)();",
+            options: ["functions"]
+        },
+        {
+            code: "((function(){}).foo)();",
+            options: ["functions"]
         }
     ],
 
@@ -514,8 +566,6 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("bar((function(){}).foo(), 0);", "bar(function(){}.foo(), 0);", "FunctionExpression"),
         invalid("bar[(function(){}).foo()];", "bar[function(){}.foo()];", "FunctionExpression"),
         invalid("var bar = (function(){}).foo();", "var bar = function(){}.foo();", "FunctionExpression"),
-        invalid("((function(){}).foo.bar)();", "(function(){}.foo.bar)();", "FunctionExpression", null, { options: ["functions"] }),
-        invalid("((function(){}).foo)();", "(function(){}.foo)();", "FunctionExpression", null, { options: ["functions"] }),
 
         invalid("((class{})).foo();", "(class{}).foo();", "ClassExpression", null, { parserOptions: { ecmaVersion: 6 } }),
         invalid("((class{}).foo());", "(class{}).foo();", "CallExpression", null, { parserOptions: { ecmaVersion: 6 } }),
@@ -892,6 +942,25 @@ ruleTester.run("no-extra-parens", rule, {
             }
         ),
         invalid(
+            "let a = [...((b, c))]",
+            "let a = [...(b, c)]",
+            "SequenceExpression",
+            1,
+            { parserOptions: { ecmaVersion: 2015 } }
+        ),
+        invalid(
+            "let a = {...((b, c))}",
+            "let a = {...(b, c)}",
+            "SequenceExpression",
+            1,
+            {
+                parserOptions: {
+                    ecmaVersion: 2015,
+                    ecmaFeatures: { experimentalObjectRestSpread: true }
+                }
+            }
+        ),
+        invalid(
             "class A extends (B) {}",
             "class A extends B {}",
             "Identifier",
@@ -916,6 +985,20 @@ ruleTester.run("no-extra-parens", rule, {
             "const A = class extends ((B=C)) {}",
             "const A = class extends (B=C) {}",
             "AssignmentExpression",
+            1,
+            { parserOptions: { ecmaVersion: 2015 } }
+        ),
+        invalid(
+            "for (foo of(bar));",
+            "for (foo of bar);",
+            "Identifier",
+            1,
+            { parserOptions: { ecmaVersion: 2015 } }
+        ),
+        invalid(
+            "() => (({ foo: 1 }).foo)",
+            "() => ({ foo: 1 }).foo",
+            "MemberExpression",
             1,
             { parserOptions: { ecmaVersion: 2015 } }
         )
