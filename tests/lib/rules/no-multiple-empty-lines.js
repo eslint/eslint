@@ -316,6 +316,14 @@ ruleTester.run("no-multiple-empty-lines", rule, {
             code: `a\n\n\n\n${"a".repeat(1e5)}`,
             output: `a\n\n\n${"a".repeat(1e5)}`,
             errors: [getExpectedError(2)]
+        },
+        {
+
+            // https://github.com/eslint/eslint/issues/8401
+            code: "foo\n ",
+            output: "foo\n",
+            options: [{ max: 1, maxEOF: 0 }],
+            errors: [getExpectedErrorEOF(0)]
         }
     ]
 });
