@@ -16,6 +16,9 @@ const RuleTester = require("../../../lib/testers/rule-tester");
 // Tests
 //------------------------------------------------------------------------------
 
+const MESSAGE_NEVER = "Unexpected blank lines before this statement.";
+const MESSAGE_ALWAYS = "Expected one or more blank lines before this statement.";
+
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2015 } });
 
 ruleTester.run("padding-line-between-statements", rule, {
@@ -2398,7 +2401,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "*", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "foo();\n\n//comment\nfoo();",
@@ -2406,7 +2409,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "*", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "    foo();\n    \n    //comment\n    foo();",
@@ -2414,7 +2417,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "*", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "if (a) {}\n\nfor (;;) {}",
@@ -2422,7 +2425,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "*", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "foo();\nfoo();",
@@ -2430,7 +2433,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "*", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "    function a() {}\n    do {} while (a)",
@@ -2438,7 +2441,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "*", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "foo();//trailing-comment\n//comment\n//comment\nfoo();",
@@ -2446,7 +2449,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "*", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
 
         //----------------------------------------------------------------------
@@ -2459,7 +2462,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "block-like", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "{}\nfoo()",
@@ -2467,7 +2470,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "{}\nfoo()",
@@ -2475,7 +2478,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "if(a){}\nfoo()",
@@ -2483,7 +2486,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "if(a){}else{}\nfoo()",
@@ -2491,7 +2494,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "if(a){}else if(b){}\nfoo()",
@@ -2499,7 +2502,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "if(a){}else if(b){}else{}\nfoo()",
@@ -2507,7 +2510,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "switch(a){}\nfoo()",
@@ -2515,7 +2518,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "switch(a){case 0:}\nfoo()",
@@ -2523,7 +2526,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "try{}catch(e){}\nfoo()",
@@ -2531,7 +2534,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "try{}finally{}\nfoo()",
@@ -2539,7 +2542,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "try{}catch(e){}finally{}\nfoo()",
@@ -2547,7 +2550,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "while(a){}\nfoo()",
@@ -2555,7 +2558,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "do{}while(a)\nfoo()",
@@ -2563,7 +2566,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "for(;;){}\nfoo()",
@@ -2571,7 +2574,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "for(a in b){}\nfoo()",
@@ -2579,7 +2582,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "for(a of b){}\nfoo()",
@@ -2587,7 +2590,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "a=function(){}\nfoo()",
@@ -2595,7 +2598,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "a=()=>{}\nfoo()",
@@ -2603,7 +2606,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "function a(){}\nfoo()",
@@ -2611,7 +2614,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "let a=function(){}\nfoo()",
@@ -2619,7 +2622,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
 
         //----------------------------------------------------------------------
@@ -2632,7 +2635,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "cjs-export", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "module.exports=1\nfoo()",
@@ -2640,7 +2643,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "cjs-export", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "module.exports.foo=1\nfoo()",
@@ -2648,7 +2651,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "cjs-export", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "module.exports[foo]=1\nfoo()",
@@ -2656,7 +2659,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "cjs-export", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "exports.foo=1\nfoo()",
@@ -2664,7 +2667,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "cjs-export", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "exports[foo]=1\nfoo()",
@@ -2672,7 +2675,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "cjs-export", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
 
         //----------------------------------------------------------------------
@@ -2685,7 +2688,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "cjs-import", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "const foo=require(\"foo\")\nfoo()",
@@ -2693,7 +2696,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "cjs-import", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "const foo=require(\"foo\").Foo\nfoo()",
@@ -2701,7 +2704,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "cjs-import", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "const foo=require(\"foo\")[a]\nfoo()",
@@ -2709,7 +2712,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "cjs-import", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
 
         //----------------------------------------------------------------------
@@ -2722,7 +2725,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "directive", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "\"use strict\"\nfoo()",
@@ -2730,7 +2733,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "directive", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "'use strict'\nfoo()",
@@ -2738,7 +2741,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "directive", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "'use asm'\nfoo()",
@@ -2746,7 +2749,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "directive", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
 
         //----------------------------------------------------------------------
@@ -2759,7 +2762,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "block-like", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "{\n}\nfoo()",
@@ -2767,7 +2770,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "{\n}\nfoo()",
@@ -2775,7 +2778,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "if(a){\n}\nfoo()",
@@ -2783,7 +2786,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "if(a){\n}else{\n}\nfoo()",
@@ -2791,7 +2794,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "if(a){\n}else if(b){\n}\nfoo()",
@@ -2799,7 +2802,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "if(a){\n}else if(b){\n}else{\n}\nfoo()",
@@ -2807,7 +2810,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "switch(a){\n}\nfoo()",
@@ -2815,7 +2818,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "switch(a){case 0:}\nfoo()",
@@ -2823,7 +2826,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "try{\n}catch(e){\n}\nfoo()",
@@ -2831,7 +2834,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "try{\n}finally{\n}\nfoo()",
@@ -2839,7 +2842,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "try{\n}catch(e){\n}finally{\n}\nfoo()",
@@ -2847,7 +2850,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "while(a){\n}\nfoo()",
@@ -2855,7 +2858,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "do{\n}while(a)\nfoo()",
@@ -2863,7 +2866,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "for(;;){\n}\nfoo()",
@@ -2871,7 +2874,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "for(a in b){\n}\nfoo()",
@@ -2879,7 +2882,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "for(a of b){\n}\nfoo()",
@@ -2887,7 +2890,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "a=function(){\n}\nfoo()",
@@ -2895,7 +2898,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "a=()=>{\n}\nfoo()",
@@ -2903,7 +2906,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "function a(){\n}\nfoo()",
@@ -2911,7 +2914,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "let a=function(){\n}\nfoo()",
@@ -2919,7 +2922,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
 
         //----------------------------------------------------------------------
@@ -2932,7 +2935,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "block", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "{}\nfoo()",
@@ -2940,7 +2943,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "block", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
 
         //----------------------------------------------------------------------
@@ -2953,7 +2956,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "empty", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: ";\nfoo()",
@@ -2961,7 +2964,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "empty", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
 
         //----------------------------------------------------------------------
@@ -2974,7 +2977,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "expression", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "foo()\nfoo()",
@@ -2982,7 +2985,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "expression", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
 
         //----------------------------------------------------------------------
@@ -2995,7 +2998,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "break", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "switch(a){case 0:break\n\nfoo()}",
@@ -3003,7 +3006,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "break", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "while(a){break\nfoo()}",
@@ -3011,7 +3014,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "break", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "switch(a){case 0:break\nfoo()}",
@@ -3019,7 +3022,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "break", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
 
         //----------------------------------------------------------------------
@@ -3032,7 +3035,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "case", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "switch(a){case 0:\nfoo()\ndefault:}",
@@ -3040,7 +3043,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "case", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
 
         //----------------------------------------------------------------------
@@ -3053,7 +3056,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "class", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "class A{}\nfoo()",
@@ -3061,7 +3064,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "class", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
 
         //----------------------------------------------------------------------
@@ -3074,7 +3077,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "const", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "const a=1\nfoo()",
@@ -3082,7 +3085,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "const", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
 
         //----------------------------------------------------------------------
@@ -3095,7 +3098,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "continue", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "while(a){continue\nfoo()}",
@@ -3103,7 +3106,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "continue", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
 
         //----------------------------------------------------------------------
@@ -3116,7 +3119,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "debugger", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "debugger\nfoo()",
@@ -3124,7 +3127,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "debugger", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
 
         //----------------------------------------------------------------------
@@ -3137,7 +3140,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "default", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "switch(a){default:\nfoo()\ncase 0:}",
@@ -3145,7 +3148,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "default", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
 
         //----------------------------------------------------------------------
@@ -3158,7 +3161,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "do", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "do;while(a)\nfoo()",
@@ -3166,7 +3169,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "do", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
 
         //----------------------------------------------------------------------
@@ -3180,7 +3183,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "export", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "export let a=1\n\nfoo()",
@@ -3189,7 +3192,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "export", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "export {a}\n\nfoo()",
@@ -3198,7 +3201,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "export", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "export default 1\nfoo()",
@@ -3207,7 +3210,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "export", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "export let a=1\nfoo()",
@@ -3216,7 +3219,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "export", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "export {a}\nfoo()",
@@ -3225,7 +3228,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "export", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
 
         //----------------------------------------------------------------------
@@ -3238,7 +3241,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "for", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "for(a in b);\n\nfoo()",
@@ -3246,7 +3249,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "for", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "for(a of b);\n\nfoo()",
@@ -3254,7 +3257,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "for", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "for(;;);\nfoo()",
@@ -3262,7 +3265,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "for", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "for(a in b);\nfoo()",
@@ -3270,7 +3273,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "for", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "for(a of b);\nfoo()",
@@ -3278,7 +3281,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "for", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
 
         //----------------------------------------------------------------------
@@ -3291,7 +3294,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "function", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "function foo(){}\nfoo()",
@@ -3299,7 +3302,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "function", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
 
         //----------------------------------------------------------------------
@@ -3312,7 +3315,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "if", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "if(a);else;\n\nfoo()",
@@ -3320,7 +3323,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "if", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "if(a);\nfoo()",
@@ -3328,7 +3331,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "if", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "if(a);else;\nfoo()",
@@ -3336,7 +3339,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "if", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
 
         //----------------------------------------------------------------------
@@ -3350,7 +3353,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "import", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "import * as a from 'a'\n\nfoo()",
@@ -3359,7 +3362,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "import", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "import {a} from 'a'\n\nfoo()",
@@ -3368,7 +3371,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "import", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "import a from 'a'\nfoo()",
@@ -3377,7 +3380,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "import", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "import * as a from 'a'\nfoo()",
@@ -3386,7 +3389,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "import", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "import {a} from 'a'\nfoo()",
@@ -3395,7 +3398,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "import", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
 
         //----------------------------------------------------------------------
@@ -3408,7 +3411,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "let", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "let a\nfoo()",
@@ -3416,7 +3419,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "let", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
 
         //----------------------------------------------------------------------
@@ -3429,7 +3432,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "return", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "function foo(){return\nfoo()}",
@@ -3437,7 +3440,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "return", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
 
         //----------------------------------------------------------------------
@@ -3450,7 +3453,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "switch", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "switch(a){}\nfoo()",
@@ -3458,7 +3461,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "switch", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
 
         //----------------------------------------------------------------------
@@ -3471,7 +3474,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "throw", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "throw a\nfoo()",
@@ -3479,7 +3482,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "throw", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
 
         //----------------------------------------------------------------------
@@ -3492,7 +3495,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "try", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "try{}finally{}\n\nfoo()",
@@ -3500,7 +3503,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "try", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "try{}catch(e){}finally{}\n\nfoo()",
@@ -3508,7 +3511,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "try", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "try{}catch(e){}\nfoo()",
@@ -3516,7 +3519,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "try", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "try{}finally{}\nfoo()",
@@ -3524,7 +3527,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "try", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "try{}catch(e){}finally{}\nfoo()",
@@ -3532,7 +3535,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "try", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
 
         //----------------------------------------------------------------------
@@ -3545,7 +3548,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "var", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "var a\nfoo()",
@@ -3553,7 +3556,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "var", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
 
         //----------------------------------------------------------------------
@@ -3566,7 +3569,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "while", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "while(a);\nfoo()",
@@ -3574,7 +3577,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "while", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
 
         //----------------------------------------------------------------------
@@ -3587,7 +3590,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "with", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "with(a);\nfoo()",
@@ -3595,7 +3598,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "with", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
 
         //----------------------------------------------------------------------
@@ -3610,7 +3613,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankline: "always", prev: ["const", "let", "var"], next: "*" },
                 { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "var greet = 'hello';var name = 'world';console.log(greet, name);",
@@ -3619,7 +3622,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankline: "always", prev: ["const", "let", "var"], next: "*" },
                 { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "var greet = 'hello', name = 'world';console.log(greet, name);",
@@ -3628,7 +3631,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankline: "always", prev: ["const", "let", "var"], next: "*" },
                 { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
 
         // should disallow no blank line in "always" mode
@@ -3639,7 +3642,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankline: "always", prev: ["const", "let", "var"], next: "*" },
                 { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "var greet = 'hello';    \nconsole.log(greet);",
@@ -3648,7 +3651,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankline: "always", prev: ["const", "let", "var"], next: "*" },
                 { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "var greet = 'hello'; // inline comment\nconsole.log(greet);",
@@ -3657,7 +3660,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankline: "always", prev: ["const", "let", "var"], next: "*" },
                 { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "var greet = 'hello';\nvar name = 'world';\nconsole.log(greet, name);",
@@ -3666,7 +3669,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankline: "always", prev: ["const", "let", "var"], next: "*" },
                 { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "var greet = 'hello', name = 'world';\nconsole.log(greet, name);",
@@ -3675,7 +3678,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankline: "always", prev: ["const", "let", "var"], next: "*" },
                 { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "var greet = 'hello',\nname = 'world';\nconsole.log(greet, name);",
@@ -3684,7 +3687,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankline: "always", prev: ["const", "let", "var"], next: "*" },
                 { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "let greet = 'hello';\nconsole.log(greet);",
@@ -3693,7 +3696,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankline: "always", prev: ["const", "let", "var"], next: "*" },
                 { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "const greet = 'hello';\nconsole.log(greet);",
@@ -3702,7 +3705,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankline: "always", prev: ["const", "let", "var"], next: "*" },
                 { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "function example() {\nvar greet = 'hello';\nconsole.log(greet);\n}",
@@ -3711,7 +3714,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankline: "always", prev: ["const", "let", "var"], next: "*" },
                 { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "var f = function() {\nvar greet = 'hello';\nconsole.log(greet);\n};",
@@ -3720,7 +3723,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankline: "always", prev: ["const", "let", "var"], next: "*" },
                 { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "() => {\nvar greet = 'hello';\nconsole.log(greet);\n}",
@@ -3729,7 +3732,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankline: "always", prev: ["const", "let", "var"], next: "*" },
                 { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
 
         // should disallow blank lines in "never" mode
@@ -3740,7 +3743,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankline: "never", prev: ["const", "let", "var"], next: "*" },
                 { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "var greet = 'hello';\n\n\nconsole.log(greet);",
@@ -3749,7 +3752,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankline: "never", prev: ["const", "let", "var"], next: "*" },
                 { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "var greet = 'hello';\n\n\n\nconsole.log(greet);",
@@ -3758,7 +3761,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankline: "never", prev: ["const", "let", "var"], next: "*" },
                 { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "var greet = 'hello';    \n\nconsole.log(greet);",
@@ -3767,7 +3770,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankline: "never", prev: ["const", "let", "var"], next: "*" },
                 { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "var greet = 'hello'; // inline comment\n\nconsole.log(greet);",
@@ -3776,7 +3779,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankline: "never", prev: ["const", "let", "var"], next: "*" },
                 { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "var greet = 'hello';\nvar name = 'world';\n\nconsole.log(greet, name);",
@@ -3785,7 +3788,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankline: "never", prev: ["const", "let", "var"], next: "*" },
                 { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "var greet = 'hello', name = 'world';\n\nconsole.log(greet, name);",
@@ -3794,7 +3797,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankline: "never", prev: ["const", "let", "var"], next: "*" },
                 { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "var greet = 'hello',\nname = 'world';\n\nconsole.log(greet, name);",
@@ -3803,7 +3806,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankline: "never", prev: ["const", "let", "var"], next: "*" },
                 { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "var greet = 'hello', // inline comment\nname = 'world'; // inline comment\n\nconsole.log(greet, name);",
@@ -3812,7 +3815,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankline: "never", prev: ["const", "let", "var"], next: "*" },
                 { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "let greet = 'hello';\n\nconsole.log(greet);",
@@ -3821,7 +3824,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankline: "never", prev: ["const", "let", "var"], next: "*" },
                 { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "const greet = 'hello';\n\nconsole.log(greet);",
@@ -3830,7 +3833,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankline: "never", prev: ["const", "let", "var"], next: "*" },
                 { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
 
         // should disallow a comment on the next line that's not in turn followed by a blank in "always" mode
@@ -3841,7 +3844,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankline: "always", prev: ["const", "let", "var"], next: "*" },
                 { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "var greet = 'hello';\n/* block comment\nblock comment */\nconsole.log(greet);",
@@ -3850,7 +3853,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankline: "always", prev: ["const", "let", "var"], next: "*" },
                 { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "var greet = 'hello',\nname = 'world';\n// next-line comment\nconsole.log(greet);",
@@ -3859,7 +3862,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankline: "always", prev: ["const", "let", "var"], next: "*" },
                 { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "var greet = 'hello',\nname = 'world';\n/* block comment\nblock comment */\nconsole.log(greet);",
@@ -3868,7 +3871,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankline: "always", prev: ["const", "let", "var"], next: "*" },
                 { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "var greet = 'hello';\n// next-line comment\n// second-line comment\nconsole.log(greet);",
@@ -3877,7 +3880,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankline: "always", prev: ["const", "let", "var"], next: "*" },
                 { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "var greet = 'hello';\n// next-line comment\n/* block comment\nblock comment */\nconsole.log(greet);",
@@ -3886,7 +3889,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankline: "always", prev: ["const", "let", "var"], next: "*" },
                 { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
 
         // https://github.com/eslint/eslint/issues/6834
@@ -3904,7 +3907,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankline: "always", prev: ["const", "let", "var"], next: "*" },
                 { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: `
@@ -3920,7 +3923,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankline: "never", prev: ["const", "let", "var"], next: "*" },
                 { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
 
         //----------------------------------------------------------------------
@@ -3929,7 +3932,7 @@ ruleTester.run("padding-line-between-statements", rule, {
 
         {
             code: "function a() {\nvar b; return;\n}",
-            errors: ["Expected one or more blank lines before this statement."],
+            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nvar b;\n\n return;\n}",
             options: [
                 { blankline: "always", prev: "*", next: "return" }
@@ -3937,7 +3940,7 @@ ruleTester.run("padding-line-between-statements", rule, {
         },
         {
             code: "function a() {\nvar b;\nreturn;\n}",
-            errors: ["Expected one or more blank lines before this statement."],
+            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nvar b;\n\nreturn;\n}",
             options: [
                 { blankline: "always", prev: "*", next: "return" }
@@ -3945,7 +3948,7 @@ ruleTester.run("padding-line-between-statements", rule, {
         },
         {
             code: "function a() {\nif (b) return b;\nelse if (c) return c;\nelse {\ne();\nreturn d;\n}\n}",
-            errors: ["Expected one or more blank lines before this statement."],
+            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nif (b) return b;\nelse if (c) return c;\nelse {\ne();\n\nreturn d;\n}\n}",
             options: [
                 { blankline: "always", prev: "*", next: "return" }
@@ -3953,7 +3956,7 @@ ruleTester.run("padding-line-between-statements", rule, {
         },
         {
             code: "function a() {\nif (b) return b;\nelse if (c) return c;\nelse {\ne(); return d;\n}\n}",
-            errors: ["Expected one or more blank lines before this statement."],
+            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nif (b) return b;\nelse if (c) return c;\nelse {\ne();\n\n return d;\n}\n}",
             options: [
                 { blankline: "always", prev: "*", next: "return" }
@@ -3961,7 +3964,7 @@ ruleTester.run("padding-line-between-statements", rule, {
         },
         {
             code: "function a() {\n while (b) {\nc();\nreturn;\n}\n}",
-            errors: ["Expected one or more blank lines before this statement."],
+            errors: [MESSAGE_ALWAYS],
             output: "function a() {\n while (b) {\nc();\n\nreturn;\n}\n}",
             options: [
                 { blankline: "always", prev: "*", next: "return" }
@@ -3969,7 +3972,7 @@ ruleTester.run("padding-line-between-statements", rule, {
         },
         {
             code: "function a() {\ndo {\nc();\nreturn;\n} while (b);\n}",
-            errors: ["Expected one or more blank lines before this statement."],
+            errors: [MESSAGE_ALWAYS],
             output: "function a() {\ndo {\nc();\n\nreturn;\n} while (b);\n}",
             options: [
                 { blankline: "always", prev: "*", next: "return" }
@@ -3977,7 +3980,7 @@ ruleTester.run("padding-line-between-statements", rule, {
         },
         {
             code: "function a() {\nfor (var b; b < c; b++) {\nc();\nreturn;\n}\n}",
-            errors: ["Expected one or more blank lines before this statement."],
+            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nfor (var b; b < c; b++) {\nc();\n\nreturn;\n}\n}",
             options: [
                 { blankline: "always", prev: "*", next: "return" }
@@ -3985,7 +3988,7 @@ ruleTester.run("padding-line-between-statements", rule, {
         },
         {
             code: "function a() {\nfor (b in c) {\nd();\nreturn;\n}\n}",
-            errors: ["Expected one or more blank lines before this statement."],
+            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nfor (b in c) {\nd();\n\nreturn;\n}\n}",
             options: [
                 { blankline: "always", prev: "*", next: "return" }
@@ -3993,7 +3996,7 @@ ruleTester.run("padding-line-between-statements", rule, {
         },
         {
             code: "function a() {\nfor (b of c) {\nd();\nreturn;\n}\n}",
-            errors: ["Expected one or more blank lines before this statement."],
+            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nfor (b of c) {\nd();\n\nreturn;\n}\n}",
             options: [
                 { blankline: "always", prev: "*", next: "return" }
@@ -4001,7 +4004,7 @@ ruleTester.run("padding-line-between-statements", rule, {
         },
         {
             code: "function a() {\nif (b) {\nc();\n}\n//comment\nreturn b;\n}",
-            errors: ["Expected one or more blank lines before this statement."],
+            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nif (b) {\nc();\n}\n\n//comment\nreturn b;\n}",
             options: [
                 { blankline: "always", prev: "*", next: "return" }
@@ -4009,7 +4012,7 @@ ruleTester.run("padding-line-between-statements", rule, {
         },
         {
             code: "function a() {\n/*comment\ncomment*/\nif (b) {\nc();\nreturn b;\n} else {\n//comment\n\nreturn d;\n}\n/*multi-line\ncomment*/\nreturn e;\n}",
-            errors: ["Expected one or more blank lines before this statement.", "Expected one or more blank lines before this statement."],
+            errors: [MESSAGE_ALWAYS, MESSAGE_ALWAYS],
             output: "function a() {\n/*comment\ncomment*/\nif (b) {\nc();\n\nreturn b;\n} else {\n//comment\n\nreturn d;\n}\n\n/*multi-line\ncomment*/\nreturn e;\n}",
             options: [
                 { blankline: "always", prev: "*", next: "return" }
@@ -4017,7 +4020,7 @@ ruleTester.run("padding-line-between-statements", rule, {
         },
         {
             code: "function a() {\nif (b) { return; } //comment\nreturn c;\n}",
-            errors: ["Expected one or more blank lines before this statement."],
+            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nif (b) { return; } //comment\n\nreturn c;\n}",
             options: [
                 { blankline: "always", prev: "*", next: "return" }
@@ -4025,7 +4028,7 @@ ruleTester.run("padding-line-between-statements", rule, {
         },
         {
             code: "function a() {\nif (b) { return; } /*multi-line\ncomment*/\nreturn c;\n}",
-            errors: ["Expected one or more blank lines before this statement."],
+            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nif (b) { return; } /*multi-line\ncomment*/\n\nreturn c;\n}",
             options: [
                 { blankline: "always", prev: "*", next: "return" }
@@ -4033,7 +4036,7 @@ ruleTester.run("padding-line-between-statements", rule, {
         },
         {
             code: "function a() {\nif (b) { return; }\n/*multi-line\ncomment*/ return c;\n}",
-            errors: ["Expected one or more blank lines before this statement."],
+            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nif (b) { return; }\n\n/*multi-line\ncomment*/ return c;\n}",
             options: [
                 { blankline: "always", prev: "*", next: "return" }
@@ -4041,7 +4044,7 @@ ruleTester.run("padding-line-between-statements", rule, {
         },
         {
             code: "function a() {\nif (b) { return; } /*multi-line\ncomment*/ return c;\n}",
-            errors: ["Expected one or more blank lines before this statement."],
+            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nif (b) { return; } /*multi-line\ncomment*/\n\n return c;\n}",
             options: [
                 { blankline: "always", prev: "*", next: "return" }
@@ -4050,7 +4053,7 @@ ruleTester.run("padding-line-between-statements", rule, {
         {
             code: "var a;\nreturn;",
             parserOptions: { ecmaFeatures: { globalReturn: true } },
-            errors: ["Expected one or more blank lines before this statement."],
+            errors: [MESSAGE_ALWAYS],
             output: "var a;\n\nreturn;",
             options: [
                 { blankline: "always", prev: "*", next: "return" }
@@ -4059,7 +4062,7 @@ ruleTester.run("padding-line-between-statements", rule, {
         {
             code: "var a; return;",
             parserOptions: { ecmaFeatures: { globalReturn: true } },
-            errors: ["Expected one or more blank lines before this statement."],
+            errors: [MESSAGE_ALWAYS],
             output: "var a;\n\n return;",
             options: [
                 { blankline: "always", prev: "*", next: "return" }
@@ -4067,7 +4070,7 @@ ruleTester.run("padding-line-between-statements", rule, {
         },
         {
             code: "function a() {\n{\n//comment\n}\nreturn\n}",
-            errors: ["Expected one or more blank lines before this statement."],
+            errors: [MESSAGE_ALWAYS],
             output: "function a() {\n{\n//comment\n}\n\nreturn\n}",
             options: [
                 { blankline: "always", prev: "*", next: "return" }
@@ -4075,7 +4078,7 @@ ruleTester.run("padding-line-between-statements", rule, {
         },
         {
             code: "function a() {\n{\n//comment\n} return\n}",
-            errors: ["Expected one or more blank lines before this statement."],
+            errors: [MESSAGE_ALWAYS],
             output: "function a() {\n{\n//comment\n}\n\n return\n}",
             options: [
                 { blankline: "always", prev: "*", next: "return" }
@@ -4083,7 +4086,7 @@ ruleTester.run("padding-line-between-statements", rule, {
         },
         {
             code: "function a() {\nvar c;\nwhile (b) {\n c = d; //comment\n}\nreturn c;\n}",
-            errors: ["Expected one or more blank lines before this statement."],
+            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nvar c;\nwhile (b) {\n c = d; //comment\n}\n\nreturn c;\n}",
             options: [
                 { blankline: "always", prev: "*", next: "return" }
@@ -4091,7 +4094,7 @@ ruleTester.run("padding-line-between-statements", rule, {
         },
         {
             code: "function a() {\nfor (var b; b < c; b++) {\nif (d) {\nbreak; //comment\n}\nreturn;\n}\n}",
-            errors: ["Expected one or more blank lines before this statement."],
+            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nfor (var b; b < c; b++) {\nif (d) {\nbreak; //comment\n}\n\nreturn;\n}\n}",
             options: [
                 { blankline: "always", prev: "*", next: "return" }
@@ -4099,7 +4102,7 @@ ruleTester.run("padding-line-between-statements", rule, {
         },
         {
             code: "function a() {\nvar b; /*multi-line\ncomment*/\nreturn c;\n}",
-            errors: ["Expected one or more blank lines before this statement."],
+            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nvar b; /*multi-line\ncomment*/\n\nreturn c;\n}",
             options: [
                 { blankline: "always", prev: "*", next: "return" }
@@ -4107,7 +4110,7 @@ ruleTester.run("padding-line-between-statements", rule, {
         },
         {
             code: "function a() {\nvar b;\n/*multi-line\ncomment*/ return c;\n}",
-            errors: ["Expected one or more blank lines before this statement."],
+            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nvar b;\n\n/*multi-line\ncomment*/ return c;\n}",
             options: [
                 { blankline: "always", prev: "*", next: "return" }
@@ -4115,7 +4118,7 @@ ruleTester.run("padding-line-between-statements", rule, {
         },
         {
             code: "function a() {\nvar b; /*multi-line\ncomment*/ return c;\n}",
-            errors: ["Expected one or more blank lines before this statement."],
+            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nvar b; /*multi-line\ncomment*/\n\n return c;\n}",
             options: [
                 { blankline: "always", prev: "*", next: "return" }
@@ -4123,7 +4126,7 @@ ruleTester.run("padding-line-between-statements", rule, {
         },
         {
             code: "function a() {\nvar b;\n//comment\nreturn;\n}",
-            errors: ["Expected one or more blank lines before this statement."],
+            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nvar b;\n\n//comment\nreturn;\n}",
             options: [
                 { blankline: "always", prev: "*", next: "return" }
@@ -4131,7 +4134,7 @@ ruleTester.run("padding-line-between-statements", rule, {
         },
         {
             code: "function a() {\nvar b; //comment\nreturn;\n}",
-            errors: ["Expected one or more blank lines before this statement."],
+            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nvar b; //comment\n\nreturn;\n}",
             options: [
                 { blankline: "always", prev: "*", next: "return" }
@@ -4139,7 +4142,7 @@ ruleTester.run("padding-line-between-statements", rule, {
         },
         {
             code: "function a() {\nvar b;\n/* comment */ return;\n}",
-            errors: ["Expected one or more blank lines before this statement."],
+            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nvar b;\n\n/* comment */ return;\n}",
             options: [
                 { blankline: "always", prev: "*", next: "return" }
@@ -4147,7 +4150,7 @@ ruleTester.run("padding-line-between-statements", rule, {
         },
         {
             code: "function a() {\nvar b;\n//comment\n/* comment */ return;\n}",
-            errors: ["Expected one or more blank lines before this statement."],
+            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nvar b;\n\n//comment\n/* comment */ return;\n}",
             options: [
                 { blankline: "always", prev: "*", next: "return" }
@@ -4155,7 +4158,7 @@ ruleTester.run("padding-line-between-statements", rule, {
         },
         {
             code: "function a() {\nvar b; /* comment */ return;\n}",
-            errors: ["Expected one or more blank lines before this statement."],
+            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nvar b; /* comment */\n\n return;\n}",
             options: [
                 { blankline: "always", prev: "*", next: "return" }
@@ -4163,7 +4166,7 @@ ruleTester.run("padding-line-between-statements", rule, {
         },
         {
             code: "function a() {\nvar b; /* comment */\nreturn;\n}",
-            errors: ["Expected one or more blank lines before this statement."],
+            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nvar b; /* comment */\n\nreturn;\n}",
             options: [
                 { blankline: "always", prev: "*", next: "return" }
@@ -4171,7 +4174,7 @@ ruleTester.run("padding-line-between-statements", rule, {
         },
         {
             code: "function a() {\nvar b;\nreturn; //comment\n}",
-            errors: ["Expected one or more blank lines before this statement."],
+            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nvar b;\n\nreturn; //comment\n}",
             options: [
                 { blankline: "always", prev: "*", next: "return" }
@@ -4179,7 +4182,7 @@ ruleTester.run("padding-line-between-statements", rule, {
         },
         {
             code: "function a() {\nvar b; return; //comment\n}",
-            errors: ["Expected one or more blank lines before this statement."],
+            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nvar b;\n\n return; //comment\n}",
             options: [
                 { blankline: "always", prev: "*", next: "return" }
@@ -4197,7 +4200,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "block-like", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "if(true){\nif(true) {}\n\nvar a = 2;}",
@@ -4205,7 +4208,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "block-like", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "(function(){\n})()\n\nvar a = 2;",
@@ -4213,7 +4216,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "block-like", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "var a = function() {};\n\nvar b = 2;",
@@ -4221,7 +4224,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "block-like", next: "*" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
 
         //----------------------------------------------------------------------
@@ -4235,7 +4238,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "*", next: "cjs-export" }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
 
         //----------------------------------------------------------------------
@@ -4249,7 +4252,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "*", next: ["if", "for", "return", "switch", "case", "break", "throw"] }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "function x() { var a = true;\n\nif (a) { a = !a; }; }",
@@ -4257,7 +4260,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "*", next: ["if", "for", "return", "switch", "case", "break", "throw"] }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "function x() { var a = true;\n\nfor (var i = 0; i < 10; i++) { a = !a; }; }",
@@ -4265,7 +4268,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "never", prev: "*", next: ["if", "for", "return", "switch", "case", "break", "throw"] }
             ],
-            errors: ["Unexpected blank lines before this statement."]
+            errors: [MESSAGE_NEVER]
         },
         {
             code: "function x() { var y = true;\n\nswitch (\"Oranges\") { case \"Oranges\": y = !y;\n\nbreak;\n\ncase \"Apples\": y = !y;\n\nbreak; default: y = !y; } }",
@@ -4274,10 +4277,10 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankline: "never", prev: "*", next: ["if", "for", "return", "switch", "case", "break", "throw"] }
             ],
             errors: [
-                "Unexpected blank lines before this statement.",
-                "Unexpected blank lines before this statement.",
-                "Unexpected blank lines before this statement.",
-                "Unexpected blank lines before this statement."
+                MESSAGE_NEVER,
+                MESSAGE_NEVER,
+                MESSAGE_NEVER,
+                MESSAGE_NEVER
             ]
         },
         {
@@ -4287,8 +4290,8 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankline: "never", prev: "*", next: ["if", "for", "return", "switch", "case", "break", "throw"] }
             ],
             errors: [
-                "Unexpected blank lines before this statement.",
-                "Unexpected blank lines before this statement."
+                MESSAGE_NEVER,
+                MESSAGE_NEVER
             ]
         },
         {
@@ -4298,9 +4301,9 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankline: "never", prev: "*", next: ["if", "for", "return", "switch", "case", "break", "throw"] }
             ],
             errors: [
-                "Unexpected blank lines before this statement.",
-                "Unexpected blank lines before this statement.",
-                "Unexpected blank lines before this statement."
+                MESSAGE_NEVER,
+                MESSAGE_NEVER,
+                MESSAGE_NEVER
             ]
         },
 
@@ -4315,7 +4318,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "var a = function() {\n};\nvar b = 2;",
@@ -4323,7 +4326,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "if(true){\nif(true) {}\nvar a = 2;}",
@@ -4331,7 +4334,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "(function(){\n})()\nvar a = 2;",
@@ -4339,7 +4342,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "var a = function() {\n};\nvar b = 2;",
@@ -4347,7 +4350,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "multiline-block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "(function(){\n})()\nvar a = 2;",
@@ -4355,7 +4358,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "multiline-block-like", next: "*" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
 
         //----------------------------------------------------------------------
@@ -4369,7 +4372,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "*", next: "cjs-export" }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
 
         //----------------------------------------------------------------------
@@ -4383,7 +4386,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "*", next: ["if", "for", "return", "switch", "case", "break", "throw", "while", "default"] }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "function x() { var a = true; for (var i = 0; i < 10; i++) { a = !a; }; }",
@@ -4391,7 +4394,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "*", next: ["if", "for", "return", "switch", "case", "break", "throw", "while", "default"] }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "function x() { var y = true; switch (\"Oranges\") { case \"Oranges\": y = !y; break; case \"Apples\": y = !y; break; default: y = !y; } }",
@@ -4400,11 +4403,11 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankline: "always", prev: "*", next: ["if", "for", "return", "switch", "case", "break", "throw", "while", "default"] }
             ],
             errors: [
-                "Expected one or more blank lines before this statement.",
-                "Expected one or more blank lines before this statement.",
-                "Expected one or more blank lines before this statement.",
-                "Expected one or more blank lines before this statement.",
-                "Expected one or more blank lines before this statement."
+                MESSAGE_ALWAYS,
+                MESSAGE_ALWAYS,
+                MESSAGE_ALWAYS,
+                MESSAGE_ALWAYS,
+                MESSAGE_ALWAYS
             ]
         },
         {
@@ -4413,7 +4416,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankline: "always", prev: "*", next: ["if", "for", "return", "switch", "case", "break", "throw", "while", "default"] }
             ],
-            errors: ["Expected one or more blank lines before this statement."]
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "function x() {try { var a; throw 0; } catch (e) { var b = 0; throw e; } }",
@@ -4422,8 +4425,8 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankline: "always", prev: "*", next: ["if", "for", "return", "switch", "case", "break", "throw", "while", "default"] }
             ],
             errors: [
-                "Expected one or more blank lines before this statement.",
-                "Expected one or more blank lines before this statement."
+                MESSAGE_ALWAYS,
+                MESSAGE_ALWAYS
             ]
         },
         {
@@ -4433,9 +4436,9 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankline: "always", prev: "*", next: ["if", "for", "return", "switch", "case", "break", "throw", "while", "default"] }
             ],
             errors: [
-                "Expected one or more blank lines before this statement.",
-                "Expected one or more blank lines before this statement.",
-                "Expected one or more blank lines before this statement."
+                MESSAGE_ALWAYS,
+                MESSAGE_ALWAYS,
+                MESSAGE_ALWAYS
             ]
         }
     ]
