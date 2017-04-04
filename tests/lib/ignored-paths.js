@@ -85,7 +85,7 @@ function countDefaultPatterns(ignoredPaths) {
     let count = ignoredPaths.defaultPatterns.length;
 
     if (!ignoredPaths.options || (ignoredPaths.options.dotfiles !== true)) {
-        count = count + 2;  // Two patterns for ignoring dotfiles
+        count = count + 2; // Two patterns for ignoring dotfiles
     }
     return count;
 }
@@ -341,6 +341,13 @@ describe("IgnoredPaths", () => {
 
             assert.isFalse(ignoredPaths.contains(getFixturePath("sampleignorepattern")));
 
+        });
+
+        it("should resolve relative paths from the ignorePath, not cwd", () => {
+            const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: getFixturePath(".eslintignoreForDifferentCwd"), cwd: getFixturePath("subdir") });
+
+            assert.isFalse(ignoredPaths.contains(getFixturePath("subdir/undef.js")));
+            assert.isTrue(ignoredPaths.contains(getFixturePath("undef.js")));
         });
     });
 
@@ -630,6 +637,17 @@ describe("IgnoredPaths", () => {
 
             assert.isFalse(shouldIgnore(resolve(".hidden")));
             assert.isFalse(shouldIgnore(resolve(".hidden/a")));
+        });
+
+        it("should use the ignorePath's directory as the base to resolve relative paths, not cwd", () => {
+            const cwd = getFixturePath("subdir");
+            const ignoredPaths = new IgnoredPaths({ ignore: true, cwd, ignorePath: getFixturePath(".eslintignoreForDifferentCwd") });
+
+            const shouldIgnore = ignoredPaths.getIgnoredFoldersGlobChecker();
+            const resolve = createResolve(cwd);
+
+            assert.isFalse(shouldIgnore(resolve("undef.js")));
+            assert.isTrue(shouldIgnore(resolve("../undef.js")));
         });
     });
 

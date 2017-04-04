@@ -11,14 +11,13 @@
 
 module.exports = {
     parser: "espree",
-    ecmaFeatures: {},
 
     rules: {
 
         /* eslint-enable sort-keys */
         "accessor-pairs": "off",
         "array-bracket-spacing": "off",
-        "array-callback-return": "off",
+        "array-callback-return": "error",
         "arrow-body-style": "off",
         "arrow-parens": "off",
         "arrow-spacing": "off",
@@ -84,7 +83,7 @@ module.exports = {
         "no-case-declarations": "error",
         "no-catch-shadow": "off",
         "no-class-assign": "error",
-        "no-compare-neg-zero": "off",
+        "no-compare-neg-zero": "error",
         "no-cond-assign": "error",
         "no-confusing-arrow": "off",
         "no-console": "error",
@@ -202,7 +201,7 @@ module.exports = {
         "no-useless-computed-key": "off",
         "no-useless-concat": "off",
         "no-useless-constructor": "off",
-        "no-useless-escape": "off",
+        "no-useless-escape": "error",
         "no-useless-rename": "off",
         "no-useless-return": "off",
         "no-var": "off",
@@ -212,7 +211,7 @@ module.exports = {
         "no-with": "off",
         "nonblock-statement-body-position": "off",
         "object-curly-newline": "off",
-        "object-curly-spacing": ["off", "never"],
+        "object-curly-spacing": "off",
         "object-property-newline": "off",
         "object-shorthand": "off",
         "one-var": "off",

@@ -255,7 +255,7 @@ describe("configInitializer", () => {
                     process.chdir(originalDir);
                     throw err;
                 } finally {
-                    sandbox.restore();  // restore console.log()
+                    sandbox.restore(); // restore console.log()
                 }
             });
 

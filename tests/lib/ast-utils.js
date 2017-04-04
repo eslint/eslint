@@ -214,7 +214,7 @@ describe("ast-utils", () => {
 
             eslint.reset();
             eslint.on("VariableDeclaration", checker);
-            eslint.verify("const a = 1; a = 2;", { ecmaFeatures: { blockBindings: true } }, filename, true);
+            eslint.verify("const a = 1; a = 2;", {}, filename, true);
         });
 
         it("should return false if reference is not assigned for const", () => {
@@ -232,7 +232,7 @@ describe("ast-utils", () => {
 
             eslint.reset();
             eslint.on("VariableDeclaration", checker);
-            eslint.verify("const a = 1; c = 2;", { ecmaFeatures: { blockBindings: true } }, filename, true);
+            eslint.verify("const a = 1; c = 2;", {}, filename, true);
         });
 
         // class
@@ -252,7 +252,7 @@ describe("ast-utils", () => {
 
             eslint.reset();
             eslint.on("ClassDeclaration", checker);
-            eslint.verify("class A { }\n A = 1;", { ecmaFeatures: { classes: true } }, filename, true);
+            eslint.verify("class A { }\n A = 1;", {}, filename, true);
         });
 
         it("should return false if reference is not assigned for class", () => {
@@ -270,7 +270,7 @@ describe("ast-utils", () => {
 
             eslint.reset();
             eslint.on("ClassDeclaration", checker);
-            eslint.verify("class A { } foo(A);", { ecmaFeatures: { classes: true } }, filename, true);
+            eslint.verify("class A { } foo(A);", {}, filename, true);
         });
     });
 
