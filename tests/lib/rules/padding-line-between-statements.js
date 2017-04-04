@@ -90,6 +90,14 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankline: "always", prev: "*", next: "*" }
             ]]
         },
+        {
+            code: "if(a){}\n\n;[].map(b)",
+            options: [[
+                { blankline: "always", prev: "if", next: "*" },
+                { blankline: "never", prev: "empty", next: "*" }
+            ]]
+        },
+
 
         //----------------------------------------------------------------------
         // block-like
