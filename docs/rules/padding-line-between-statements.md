@@ -1,16 +1,15 @@
 # Require or disallow padding lines between statements (padding-line-between-statements)
 
-(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
-
 This rule requires or disallows blank lines between the given 2 kinds of statements.
 Properly blank lines help developers to understand the code.
 
 For example, the following configuration requires a blank line between a variable declaration and a `return` statement.
 
 ```js
-/*eslint padding-line-between-statements: ["error", [
+/*eslint padding-line-between-statements: [
+    "error",
     { blankline: "always", prev: "var", next: "return" }
-]]*/
+]*/
 
 function foo() {
     var a = 1;
@@ -23,27 +22,28 @@ function foo() {
 
 This rule does nothing if no configuration.
 
-A configuration is an array which has 3 elements; a linebreak type and 2 kind of statements. For example, `{ blankline: "always", prev: "var", next: "return" }` is meaning "it requires one or more blank lines between a variable declaration and a `return` statement."
-You can supply any number of the configuration. If an statement pair matches some configurations, it chooses the last matched configuration.
+A configuration is an object which has 3 properties; `blankline`, `prev` and `next`. For example, `{ blankline: "always", prev: "var", next: "return" }` is meaning "it requires one or more blank lines between a variable declaration and a `return` statement."
+You can supply any number of configurations. If an statement pair matches multiple configurations, the last matched configuration will be used.
 
 ```json
 {
-    "padding-line-between-statements": ["error", [
+    "padding-line-between-statements": [
+        "error",
         { "blankline": LINEBREAK_TYPE, "prev": STATEMENT_TYPE, "next": STATEMENT_TYPE },
         { "blankline": LINEBREAK_TYPE, "prev": STATEMENT_TYPE, "next": STATEMENT_TYPE },
         { "blankline": LINEBREAK_TYPE, "prev": STATEMENT_TYPE, "next": STATEMENT_TYPE },
         { "blankline": LINEBREAK_TYPE, "prev": STATEMENT_TYPE, "next": STATEMENT_TYPE },
         ...
-    ]]
+    ]
 }
 ```
 
-- `LINEBREAK_TYPE` is one of them.
+- `LINEBREAK_TYPE` is one of the following.
     - `"any"` just ignores the statement pair.
     - `"never"` disallows blank lines.
     - `"always"` requires one or more blank lines. Note it does not count lines that comments exist as blank lines.
 
-- `STATEMENT_TYPE` is one of them, or an array of them.
+- `STATEMENT_TYPE` is one of the following, or an array of the following.
     - `"*"` is wildcard. This matches any statements.
     - `"block"` is lonely blocks.
     - `"block-like"` is block like statements. This matches statements that the last token is the closing brace of blocks; e.g. `{ }`, `if (a) { }`, and `while (a) { }`.
@@ -77,14 +77,15 @@ You can supply any number of the configuration. If an statement pair matches som
 
 ## Examples
 
-It configures as [newline-before-return].
+This configuration would require blank lines before all `return` statements, like the [newline-before-return] rule.
 
 Examples of **incorrect** code for the `[{ blankline: "always", prev: "*", next: "return" }]` configuration:
 
 ```js
-/*eslint padding-line-between-statements: ["error", [
+/*eslint padding-line-between-statements: [
+    "error",
     { blankline: "always", prev: "*", next: "return" }
-]]*/
+]*/
 
 function foo() {
     bar();
@@ -95,9 +96,10 @@ function foo() {
 Examples of **correct** code for the `[{ blankline: "always", prev: "*", next: "return" }]` configuration:
 
 ```js
-/*eslint padding-line-between-statements: ["error", [
+/*eslint padding-line-between-statements: [
+    "error",
     { blankline: "always", prev: "*", next: "return" }
-]]*/
+]*/
 
 function foo() {
     bar();
@@ -112,15 +114,16 @@ function foo() {
 
 ----
 
-It configures as [newline-after-var].
+This configuration would require blank lines after every sequence of variable declarations, like the [newline-after-var] rule.
 
 Examples of **incorrect** code for the `[{ blankline: "always", prev: ["const", "let", "var"], next: "*"}, { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"]}]` configuration:
 
 ```js
-/*eslint padding-line-between-statements: ["error", [
+/*eslint padding-line-between-statements: [
+    "error",
     { blankline: "always", prev: ["const", "let", "var"], next: "*"},
     { blankline: "any",    prev: ["const", "let", "var"], next: ["const", "let", "var"]}
-]]*/
+]*/
 
 function foo() {
     var a = 0;
@@ -141,10 +144,11 @@ function foo() {
 Examples of **correct** code for the `[{ blankline: "always", prev: ["const", "let", "var"], next: "*"}, { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"]}]` configuration:
 
 ```js
-/*eslint padding-line-between-statements: ["error", [
+/*eslint padding-line-between-statements: [
+    "error",
     { blankline: "always", prev: ["const", "let", "var"], next: "*"},
     { blankline: "any",    prev: ["const", "let", "var"], next: ["const", "let", "var"]}
-]]*/
+]*/
 
 function foo() {
     var a = 0;
@@ -170,15 +174,16 @@ function foo() {
 
 ----
 
-It configures as [newline-around-directive].
+This configuration would require blank lines after all directive prologues, like the [lines-around-directive] rule.
 
 Examples of **incorrect** code for the `[{ blankline: "always", prev: "directive", next: "*" }, { blankline: "any", prev: "directive", next: "directive" }]` configuration:
 
 ```js
-/*eslint padding-line-between-statements: ["error", [
+/*eslint padding-line-between-statements: [
+    "error",
     { blankline: "always", prev: "directive", next: "*" },
     { blankline: "any",    prev: "directive", next: "directive" }
-]]*/
+]*/
 
 "use strict";
 foo();
@@ -187,10 +192,11 @@ foo();
 Examples of **correct** code for the `[{ blankline: "always", prev: "directive", next: "*" }, { blankline: "any", prev: "directive", next: "directive" }]` configuration:
 
 ```js
-/*eslint padding-line-between-statements: ["error", [
+/*eslint padding-line-between-statements: [
+    "error",
     { blankline: "always", prev: "directive", next: "*" },
     { blankline: "any",    prev: "directive", next: "directive" }
-]]*/
+]*/
 
 "use strict";
 "use asm";
@@ -215,8 +221,8 @@ foo();
 If you don't want to notify warnings about linebreaks, then it's safe to disable this rule.
 
 
+[lines-around-directive]: http://eslint.org/docs/rules/lines-around-directive
 [newline-after-var]: http://eslint.org/docs/rules/newline-after-var
-[newline-around-directive]: http://eslint.org/docs/rules/newline-around-directive
 [newline-before-return]: http://eslint.org/docs/rules/newline-before-return
 [requirePaddingNewLineAfterVariableDeclaration]: http://jscs.info/rule/requirePaddingNewLineAfterVariableDeclaration
 [requirePaddingNewLinesAfterBlocks]: http://jscs.info/rule/requirePaddingNewLinesAfterBlocks
