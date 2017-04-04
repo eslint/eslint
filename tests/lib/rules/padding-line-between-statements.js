@@ -172,6 +172,20 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankline: "always", prev: "block-like", next: "*" }
             ]]
         },
+        {
+            code: "(function(){})()\n\nfoo()",
+            options: [[
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "block-like", next: "*" }
+            ]]
+        },
+        {
+            code: "!function(){}()\n\nfoo()",
+            options: [[
+                { blankline: "never", prev: "*", next: "*" },
+                { blankline: "always", prev: "block-like", next: "*" }
+            ]]
+        },
 
         //----------------------------------------------------------------------
         // cjs-export
