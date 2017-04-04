@@ -1035,13 +1035,13 @@ describe("SourceCode", () => {
         });
 
         it("should return leading comments", () => {
-            let varDeclCount = 0;
             const code = [
                 "// Leading comment for first VariableDeclaration",
                 "var a;",
                 "// Leading comment for previous VariableDeclaration and trailing comment for next VariableDeclaration",
                 "var b;"
             ].join("\n");
+            let varDeclCount = 0;
 
             eslint.on("Program", assertCommentCount(0, 0));
             eslint.on("VariableDeclaration", node => {
@@ -1059,13 +1059,13 @@ describe("SourceCode", () => {
         });
 
         it("should return shebang comments", () => {
-            let varDeclCount = 0;
             const code = [
                 "#!/usr/bin/env node", // Leading comment for following VariableDeclaration
                 "var a;",
                 "// Leading comment for previous VariableDeclaration and trailing comment for next VariableDeclaration",
                 "var b;"
             ].join("\n");
+            let varDeclCount = 0;
 
             eslint.on("Program", assertCommentCount(0, 0));
             eslint.on("VariableDeclaration", node => {
@@ -1201,7 +1201,6 @@ describe("SourceCode", () => {
         });
 
         it("should return switch case fallthrough comments in functions", () => {
-            let switchCaseCount = 0;
             const code = [
                 "function bar(foo) {",
                 "    switch(foo) {",
@@ -1213,6 +1212,7 @@ describe("SourceCode", () => {
                 "    }",
                 "}"
             ].join("\n");
+            let switchCaseCount = 0;
 
             eslint.on("Program", assertCommentCount(0, 0));
             eslint.on("FunctionDeclaration", assertCommentCount(0, 0));
@@ -1235,7 +1235,6 @@ describe("SourceCode", () => {
         });
 
         it("should return switch case fallthrough comments", () => {
-            let switchCaseCount = 0;
             const code = [
                 "switch(foo) {",
                 "    /* Leading comment for SwitchCase */",
@@ -1245,6 +1244,7 @@ describe("SourceCode", () => {
                 "    doIt();",
                 "}"
             ].join("\n");
+            let switchCaseCount = 0;
 
             eslint.on("Program", assertCommentCount(0, 0));
             eslint.on("SwitchStatement", assertCommentCount(0, 0));
@@ -1264,7 +1264,6 @@ describe("SourceCode", () => {
         });
 
         it("should return switch case no-default comments in functions", () => {
-            let breakStatementCount = 0;
             const code = [
                 "function bar(a) {",
                 "    switch (a) {",
@@ -1276,6 +1275,7 @@ describe("SourceCode", () => {
                 "    }",
                 "}"
             ].join("\n");
+            let breakStatementCount = 0;
 
             eslint.on("Program", assertCommentCount(0, 0));
             eslint.on("FunctionDeclaration", assertCommentCount(0, 0));
@@ -1433,7 +1433,6 @@ describe("SourceCode", () => {
         });
 
         it("should return comments for multiple declarations with a single variable", () => {
-            let varDeclCount = 0;
             const code = [
                 "// Leading comment for VariableDeclaration",
                 "var a, // Leading comment for next VariableDeclarator",
@@ -1441,6 +1440,7 @@ describe("SourceCode", () => {
                 "    c; // Trailing comment for VariableDeclaration",
                 "// Trailing comment for VariableDeclaration"
             ].join("\n");
+            let varDeclCount = 0;
 
             eslint.on("Program", assertCommentCount(0, 0));
             eslint.on("VariableDeclaration", assertCommentCount(1, 2));
@@ -1470,6 +1470,46 @@ describe("SourceCode", () => {
             eslint.on("VariableDeclaration", assertCommentCount(0, 0));
             eslint.on("VariableDeclarator", assertCommentCount(2, 0));
             eslint.on("Identifier", assertCommentCount(0, 0));
+
+            eslint.verify(code, config, "", true);
+        });
+
+        it("should return attached comments between tokens to the correct nodes for empty function declarations", () => {
+            const code = "/* 1 */ function /* 2 */ foo(/* 3 */) /* 4 */ { /* 5 */ } /* 6 */";
+
+            eslint.on("Program", assertCommentCount(0, 0));
+            eslint.on("FunctionDeclaration", assertCommentCount(1, 1));
+            eslint.on("Identifier", assertCommentCount(1, 0));
+            eslint.on("BlockStatement", assertCommentCount(1, 1));
+
+            eslint.verify(code, config, "", true);
+        });
+
+        it("should return attached comments between tokens to the correct nodes for empty class declarations", () => {
+            const code = "/* 1 */ class /* 2 */ Foo /* 3 */ extends /* 4 */ Bar /* 5 */ { /* 6 */ } /* 7 */";
+            let idCount = 0;
+
+            eslint.on("Program", assertCommentCount(0, 0));
+            eslint.on("ClassDeclaration", assertCommentCount(1, 1));
+            eslint.on("Identifier", node => {
+                if (idCount === 0) {
+                    assertCommentCount(1, 1)(node);
+                } else {
+                    assertCommentCount(1, 1)(node);
+                }
+                idCount++;
+            });
+            eslint.on("ClassBody", assertCommentCount(1, 1));
+
+            eslint.verify(code, config, "", true);
+        });
+
+        it("should return attached comments between tokens to the correct nodes for empty switch statements", () => {
+            const code = "/* 1 */ switch /* 2 */ (/* 3 */ foo /* 4 */) /* 5 */ { /* 6 */ } /* 7 */";
+
+            eslint.on("Program", assertCommentCount(0, 0));
+            eslint.on("SwitchStatement", assertCommentCount(1, 6));
+            eslint.on("Identifier", assertCommentCount(1, 1));
 
             eslint.verify(code, config, "", true);
         });
