@@ -26,6 +26,9 @@ ruleTester.run("no-implied-eval", rule, {
         // normal usage
         "setInterval(function() { x = 1; }, 100);",
 
+        // Make sure we don't blow up on arrow functions
+        { code: "window.setTimeout(() => { x = 1; }, 100)", parserOptions: { ecmaVersion: 6 } },
+
         // only checks on top-level statements or window.*
         "foo.setTimeout('hi')",
 
@@ -61,6 +64,7 @@ ruleTester.run("no-implied-eval", rule, {
 
     invalid: [
         { code: "setTimeout(\"x = 1;\");", errors: [expectedError] },
+        { code: "var foo = \"x = 1;\"; setTimeout(foo);", errors: [expectedError] },
         { code: "setTimeout(\"x = 1;\", 100);", errors: [expectedError] },
         { code: "setInterval(\"x = 1;\");", errors: [expectedError] },
         { code: "execScript(\"x = 1;\");", errors: [expectedError] },
