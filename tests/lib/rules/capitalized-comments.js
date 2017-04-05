@@ -81,6 +81,9 @@ ruleTester.run("capitalized-comments", rule, {
         "/* exported myVar */",
 
         // Ignores shebangs
+        "#!foo",
+        { code: "#!foo", options: ["always"] },
+        { code: "#!Foo", options: ["never"] },
         "#!/usr/bin/env node",
         { code: "#!/usr/bin/env node", options: ["always"] },
         { code: "#!/usr/bin/env node", options: ["never"] },
