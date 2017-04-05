@@ -34,7 +34,9 @@ ruleTester.run("no-buffer-constructor", rule, {
         "Buffer.allocUnsafe(5)",
         "new Buffer.Foo()",
         "Buffer.from([1, 2, 3])",
-        "foo(Buffer)"
+        "foo(Buffer)",
+        "Buffer.alloc(res.body.amount)",
+        "Buffer.from(res.body.values)"
     ],
 
     invalid: [
@@ -52,6 +54,14 @@ ruleTester.run("no-buffer-constructor", rule, {
         },
         {
             code: "new Buffer([1, 2, 3])",
+            errors: [CONSTRUCT_ERROR]
+        },
+        {
+            code: "new Buffer(res.body.amount)",
+            errors: [CONSTRUCT_ERROR]
+        },
+        {
+            code: "new Buffer(res.body.values)",
             errors: [CONSTRUCT_ERROR]
         }
     ]
