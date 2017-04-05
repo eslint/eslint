@@ -3934,6 +3934,28 @@ ruleTester.run("indent", rule, {
             "             'baz']);",
             options: [2, { ArrayExpression: "first", CallExpression: { arguments: "first" } }],
             errors: expectedErrors([2, 13, 12, "ArrayExpression"])
+        },
+        {
+            code:
+            "<foo\n" +
+            "  prop1={true}\n" +
+            "  prop2={false}\n" +
+            "  prop3={32}\n" +
+            ">\n" +
+            "  bar" +
+            "</foo>",
+            parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } },
+            options: ["tab"],
+            errors: [
+            ],
+            output:
+            "<foo\n" +
+            "	prop1={true}\n" + // eslint-disable-line no-tabs
+            "	prop2={false}\n" + // eslint-disable-line no-tabs
+            "	prop3={32}\n" + // eslint-disable-line no-tabs
+            ">\n" +
+            "	bar" + // eslint-disable-line no-tabs
+            "</foo>"
         }
     ]
 });
