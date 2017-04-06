@@ -79,6 +79,7 @@ module.exports = {
         "no-array-constructor": "off",
         "no-await-in-loop": "off",
         "no-bitwise": "off",
+        "no-buffer-constructor": "off",
         "no-caller": "off",
         "no-case-declarations": "error",
         "no-catch-shadow": "off",
