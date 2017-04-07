@@ -233,11 +233,15 @@ The return value is an object containing the results of the linting operation. H
             }],
             errorCount: 1,
             warningCount: 0,
+            fixableErrorCount: 1,
+            fixableWarningCount: 0,
             source: "\"use strict\"\n"
         }
     ],
     errorCount: 1,
-    warningCount: 0
+    warningCount: 0,
+    fixableErrorCount: 1,
+    fixableWarningCount: 0
 }
 ```
 
@@ -286,13 +290,17 @@ var report = cli.executeOnFiles(["myfile.js", "lib/"]);
                     source: "var foo = function bar() {};"
                 }
             ],
-            errorCount: 1,
+            errorCount: 2,
             warningCount: 0,
+            fixableErrorCount: 1,
+            fixableWarningCount: 0,
             output: "\"use strict\";\nvar foo = function bar() {};\nfoo();\n"
         }
     ],
-    errorCount: 1,
-    warningCount: 0
+    errorCount: 2,
+    warningCount: 0,
+    fixableErrorCount: 1,
+    fixableWarningCount: 0,
 }
 ```
 
@@ -316,11 +324,15 @@ If the operation ends with a parsing error, you will get a single message for th
             ],
             errorCount: 1,
             warningCount: 0,
+            fixableErrorCount: 0,
+            fixableWarningCount: 0,
             source: "fucntion foo() {}"
         }
     ],
     errorCount: 1,
-    warningCount: 0
+    warningCount: 0,
+    fixableErrorCount: 0,
+    fixableWarningCount: 0,
 }
 ```
 

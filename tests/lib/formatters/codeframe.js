@@ -78,7 +78,9 @@ describe("formatter:codeframe", () => {
                 ruleId: "foo"
             }],
             errorCount: 0,
-            warningCount: 1
+            warningCount: 1,
+            fixableErrorCount: 0,
+            fixableWarningCount: 0
         }];
 
         it("should return a string in the correct format for warnings", () => {
@@ -103,6 +105,27 @@ describe("formatter:codeframe", () => {
 
             assert.equal(chalkStub.yellow.bold.callCount, 1);
             assert.equal(chalkStub.red.bold.callCount, 0);
+        });
+
+        describe("when the warning is fixable", () => {
+            beforeEach(() => {
+                code[0].fixableWarningCount = 1;
+            });
+
+            it("should return a string in the correct format", () => {
+                const result = formatter(code);
+
+                assert.equal(chalk.stripColor(result), [
+                    `warning: Unexpected foo (foo) at ${path.join("lib", "foo.js")}:1:5:`,
+                    "> 1 | var foo = 1;",
+                    "    |     ^",
+                    "  2 |  var bar = 2;",
+                    "  3 | ",
+                    "\n",
+                    "1 warning found.",
+                    "1 warning potentially fixable with the `--fix` option."
+                ].join("\n"));
+            });
         });
     });
 
@@ -353,4 +376,93 @@ describe("formatter:codeframe", () => {
             assert.equal(chalk.stripColor(result), "error: Unexpected foo (foo) at foo.js\n\n\n1 error found.");
         });
     });
+
+
+    describe("fixable problems", () => {
+        it("should not output fixable problems message when no errors or warnings are fixable", () => {
+            const code = [{
+                filePath: "foo.js",
+                errorCount: 1,
+                warningCount: 0,
+                fixableErrorCount: 0,
+                fixableWarningCount: 0,
+                messages: [{
+                    message: "Unexpected foo.",
+                    severity: 2,
+                    line: 5,
+                    column: 10,
+                    ruleId: "foo"
+                }]
+            }];
+
+            const result = formatter(code);
+
+            assert.notInclude(result, "potentially fixable");
+        });
+
+        it("should output the fixable problems message when errors are fixable", () => {
+            const code = [{
+                filePath: "foo.js",
+                errorCount: 1,
+                warningCount: 0,
+                fixableErrorCount: 1,
+                fixableWarningCount: 0,
+                messages: [{
+                    message: "Unexpected foo.",
+                    severity: 2,
+                    line: 5,
+                    column: 10,
+                    ruleId: "foo"
+                }]
+            }];
+
+            const result = formatter(code);
+
+            assert.include(result, "1 error potentially fixable with the `--fix` option.");
+        });
+
+        it("should output fixable problems message when warnings are fixable", () => {
+            const code = [{
+                filePath: "foo.js",
+                errorCount: 0,
+                warningCount: 3,
+                fixableErrorCount: 0,
+                fixableWarningCount: 2,
+                messages: [{
+                    message: "Unexpected foo."
+                }]
+            }];
+
+            const result = formatter(code);
+
+            assert.include(result, "2 warnings potentially fixable with the `--fix` option.");
+        });
+
+        it("should output the total number of fixable errors and warnings", () => {
+            const code = [{
+                filePath: "foo.js",
+                errorCount: 5,
+                warningCount: 3,
+                fixableErrorCount: 5,
+                fixableWarningCount: 2,
+                messages: [{
+                    message: "Unexpected foo."
+                }]
+            }, {
+                filePath: "bar.js",
+                errorCount: 4,
+                warningCount: 2,
+                fixableErrorCount: 4,
+                fixableWarningCount: 1,
+                messages: [{
+                    message: "Unexpected bar."
+                }]
+            }];
+
+            const result = formatter(code);
+
+            assert.include(result, "9 errors and 3 warnings potentially fixable with the `--fix` option.");
+        });
+    });
+
 });
