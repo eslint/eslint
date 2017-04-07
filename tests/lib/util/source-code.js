@@ -15,7 +15,8 @@ const fs = require("fs"),
     sinon = require("sinon"),
     leche = require("leche"),
     eslint = require("../../../lib/eslint"),
-    SourceCode = require("../../../lib/util/source-code");
+    SourceCode = require("../../../lib/util/source-code"),
+    astUtils = require("../../../lib/ast-utils");
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -1582,7 +1583,7 @@ describe("SourceCode", () => {
             it("should retrieve unaltered shebang text", () => {
 
                 // Shebangs are normalized to line comments before parsing.
-                ast = espree.parse(SHEBANG_TEST_CODE.replace(/^#!([^\r\n]+)/, (match, captured) => `//${captured}`), DEFAULT_CONFIG);
+                ast = espree.parse(SHEBANG_TEST_CODE.replace(astUtils.SHEBANG_MATCHER, (match, captured) => `//${captured}`), DEFAULT_CONFIG);
                 sourceCode = new SourceCode(SHEBANG_TEST_CODE, ast);
 
                 const shebangToken = sourceCode.getAllComments()[0];
