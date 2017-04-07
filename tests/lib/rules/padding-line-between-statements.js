@@ -16,8 +16,8 @@ const RuleTester = require("../../../lib/testers/rule-tester");
 // Tests
 //------------------------------------------------------------------------------
 
-const MESSAGE_NEVER = "Unexpected blank lines before this statement.";
-const MESSAGE_ALWAYS = "Expected one or more blank lines before this statement.";
+const MESSAGE_NEVER = "Unexpected blank line before this statement.";
+const MESSAGE_ALWAYS = "Expected blank line before this statement.";
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2015 } });
 
