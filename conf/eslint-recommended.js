@@ -54,6 +54,7 @@ module.exports = {
         "id-length": "off",
         "id-match": "off",
         "indent": "off",
+        "indent-legacy": "off",
         "init-declarations": "off",
         "jsx-quotes": "off",
         "key-spacing": "off",
