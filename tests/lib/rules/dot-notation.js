@@ -173,6 +173,11 @@ ruleTester.run("dot-notation", rule, {
             code: "1['toString']",
             output: "1 .toString",
             errors: [{ message: "[\"toString\"] is better written in dot notation." }]
+        },
+        {
+            code: "foo['bar']instanceof baz",
+            output: "foo.bar instanceof baz",
+            errors: [{ message: "[\"bar\"] is better written in dot notation." }]
         }
     ]
 });
