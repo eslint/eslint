@@ -43,6 +43,17 @@ ruleTester.run("no-floating-decimal", rule, {
             code: "var x = -2.;",
             output: "var x = -2.0;",
             errors: [{ message: "A trailing decimal point can be confused with a dot.", type: "Literal" }]
+        },
+        {
+            code: "typeof.2",
+            output: "typeof 0.2",
+            errors: [{ message: "A leading decimal point can be confused with a dot.", type: "Literal" }]
+        },
+        {
+            code: "for(foo of.2);",
+            output: "for(foo of 0.2);",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{ message: "A leading decimal point can be confused with a dot.", type: "Literal" }]
         }
     ]
 });
