@@ -103,7 +103,7 @@ describe("CLIEngine", () => {
 
         let engine;
 
-        it("should report 5 message when using local cwd .eslintrc", () => {
+        it("should report the total and per file errors when using local cwd .eslintrc", () => {
 
             engine = new CLIEngine();
 
@@ -112,12 +112,45 @@ describe("CLIEngine", () => {
             assert.equal(report.results.length, 1);
             assert.equal(report.errorCount, 5);
             assert.equal(report.warningCount, 0);
+            assert.equal(report.fixableErrorCount, 3);
+            assert.equal(report.fixableWarningCount, 0);
             assert.equal(report.results[0].messages.length, 5);
             assert.equal(report.results[0].messages[0].ruleId, "strict");
             assert.equal(report.results[0].messages[1].ruleId, "no-var");
             assert.equal(report.results[0].messages[2].ruleId, "no-unused-vars");
             assert.equal(report.results[0].messages[3].ruleId, "quotes");
             assert.equal(report.results[0].messages[4].ruleId, "eol-last");
+            assert.equal(report.results[0].fixableErrorCount, 3);
+            assert.equal(report.results[0].fixableWarningCount, 0);
+        });
+
+        it("should report the toatl and per file warnings when using local cwd .eslintrc", () => {
+
+            engine = new CLIEngine({
+                rules: {
+                    quotes: 1,
+                    "no-var": 1,
+                    "eol-last": 1,
+                    strict: 1,
+                    "no-unused-vars": 1
+                }
+            });
+
+            const report = engine.executeOnText("var foo = 'bar';");
+
+            assert.equal(report.results.length, 1);
+            assert.equal(report.errorCount, 0);
+            assert.equal(report.warningCount, 5);
+            assert.equal(report.fixableErrorCount, 0);
+            assert.equal(report.fixableWarningCount, 3);
+            assert.equal(report.results[0].messages.length, 5);
+            assert.equal(report.results[0].messages[0].ruleId, "strict");
+            assert.equal(report.results[0].messages[1].ruleId, "no-var");
+            assert.equal(report.results[0].messages[2].ruleId, "no-unused-vars");
+            assert.equal(report.results[0].messages[3].ruleId, "quotes");
+            assert.equal(report.results[0].messages[4].ruleId, "eol-last");
+            assert.equal(report.results[0].fixableErrorCount, 0);
+            assert.equal(report.results[0].fixableWarningCount, 3);
         });
 
         it("should report one message when using specific config file", () => {
@@ -133,10 +166,13 @@ describe("CLIEngine", () => {
             assert.equal(report.results.length, 1);
             assert.equal(report.errorCount, 1);
             assert.equal(report.warningCount, 0);
+            assert.equal(report.fixableErrorCount, 1);
+            assert.equal(report.fixableWarningCount, 0);
             assert.equal(report.results[0].messages.length, 1);
             assert.equal(report.results[0].messages[0].ruleId, "quotes");
             assert.isUndefined(report.results[0].messages[0].output);
             assert.equal(report.results[0].errorCount, 1);
+            assert.equal(report.results[0].fixableErrorCount, 1);
             assert.equal(report.results[0].warningCount, 0);
         });
 
@@ -163,12 +199,16 @@ describe("CLIEngine", () => {
             assert.equal(report.results.length, 1);
             assert.equal(report.errorCount, 0);
             assert.equal(report.warningCount, 1);
+            assert.equal(report.fixableErrorCount, 0);
+            assert.equal(report.fixableWarningCount, 0);
             assert.equal(report.results[0].filePath, getFixturePath("passing.js"));
             assert.equal(report.results[0].messages[0].severity, 1);
             assert.equal(report.results[0].messages[0].message, "File ignored because of a matching ignore pattern. Use \"--no-ignore\" to override.");
             assert.isUndefined(report.results[0].messages[0].output);
             assert.equal(report.results[0].errorCount, 0);
             assert.equal(report.results[0].warningCount, 1);
+            assert.equal(report.results[0].fixableErrorCount, 0);
+            assert.equal(report.results[0].fixableWarningCount, 0);
         });
 
         it("should not return a warning when given a filename by --stdin-filename in excluded files list if warnIgnored is false", () => {
@@ -238,11 +278,15 @@ describe("CLIEngine", () => {
                         messages: [],
                         errorCount: 0,
                         warningCount: 0,
+                        fixableErrorCount: 0,
+                        fixableWarningCount: 0,
                         output: "var bar = foo;"
                     }
                 ],
                 errorCount: 0,
-                warningCount: 0
+                warningCount: 0,
+                fixableErrorCount: 0,
+                fixableWarningCount: 0
             });
         });
 
@@ -305,11 +349,15 @@ describe("CLIEngine", () => {
                         ],
                         errorCount: 1,
                         warningCount: 0,
+                        fixableErrorCount: 0,
+                        fixableWarningCount: 0,
                         source: "var bar = foo"
                     }
                 ],
                 errorCount: 1,
-                warningCount: 0
+                warningCount: 0,
+                fixableErrorCount: 0,
+                fixableWarningCount: 0
             });
         });
 
@@ -343,11 +391,15 @@ describe("CLIEngine", () => {
                         ],
                         errorCount: 1,
                         warningCount: 0,
+                        fixableErrorCount: 0,
+                        fixableWarningCount: 0,
                         output: "var bar = foothis is a syntax error."
                     }
                 ],
                 errorCount: 1,
-                warningCount: 0
+                warningCount: 0,
+                fixableErrorCount: 0,
+                fixableWarningCount: 0
             });
         });
 
@@ -381,11 +433,15 @@ describe("CLIEngine", () => {
                         ],
                         errorCount: 1,
                         warningCount: 0,
+                        fixableErrorCount: 0,
+                        fixableWarningCount: 0,
                         source: "var bar ="
                     }
                 ],
                 errorCount: 1,
-                warningCount: 0
+                warningCount: 0,
+                fixableErrorCount: 0,
+                fixableWarningCount: 0
             });
         });
 
@@ -465,11 +521,15 @@ describe("CLIEngine", () => {
                         ],
                         errorCount: 1,
                         warningCount: 0,
+                        fixableErrorCount: 0,
+                        fixableWarningCount: 0,
                         source: "var bar = foothis is a syntax error.\n return bar;"
                     }
                 ],
                 errorCount: 1,
-                warningCount: 0
+                warningCount: 0,
+                fixableErrorCount: 0,
+                fixableWarningCount: 0
             });
         });
 
@@ -636,6 +696,8 @@ describe("CLIEngine", () => {
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].errorCount, 0);
             assert.equal(report.results[0].warningCount, 1);
+            assert.equal(report.results[0].fixableErrorCount, 0);
+            assert.equal(report.results[0].fixableWarningCount, 0);
             assert.equal(report.results[0].messages[0].message, expectedMsg);
         });
 
@@ -653,6 +715,8 @@ describe("CLIEngine", () => {
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].errorCount, 1);
             assert.equal(report.results[0].warningCount, 0);
+            assert.equal(report.results[0].fixableErrorCount, 1);
+            assert.equal(report.results[0].fixableWarningCount, 0);
         });
 
         it("should not check default ignored files without --no-ignore flag", () => {
@@ -695,6 +759,8 @@ describe("CLIEngine", () => {
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].errorCount, 0);
             assert.equal(report.results[0].warningCount, 1);
+            assert.equal(report.results[0].fixableErrorCount, 0);
+            assert.equal(report.results[0].fixableWarningCount, 0);
             assert.equal(report.results[0].messages[0].message, expectedMsg);
         });
 
@@ -714,6 +780,8 @@ describe("CLIEngine", () => {
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].warningCount, 0);
             assert.equal(report.results[0].errorCount, 1);
+            assert.equal(report.results[0].fixableErrorCount, 1);
+            assert.equal(report.results[0].fixableWarningCount, 0);
             assert.equal(report.results[0].messages[0].ruleId, "quotes");
         });
 
@@ -734,6 +802,8 @@ describe("CLIEngine", () => {
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].warningCount, 0);
             assert.equal(report.results[0].errorCount, 1);
+            assert.equal(report.results[0].fixableErrorCount, 1);
+            assert.equal(report.results[0].fixableWarningCount, 0);
             assert.equal(report.results[0].messages[0].ruleId, "quotes");
         });
 
@@ -764,13 +834,17 @@ describe("CLIEngine", () => {
             assert.equal(report.results[0].messages.length, 1);
             assert.equal(report.errorCount, 1);
             assert.equal(report.warningCount, 0);
+            assert.equal(report.fixableErrorCount, 1);
+            assert.equal(report.fixableWarningCount, 0);
             assert.equal(report.results[0].messages[0].ruleId, "quotes");
             assert.equal(report.results[0].messages[0].severity, 2);
             assert.equal(report.results[0].errorCount, 1);
             assert.equal(report.results[0].warningCount, 0);
+            assert.equal(report.results[0].fixableErrorCount, 1);
+            assert.equal(report.results[0].fixableWarningCount, 0);
         });
 
-        it("should return two messages when given a config file and a directory of files", () => {
+        it("should return 3 messages when given a config file and a directory of 3 valid files", () => {
 
             engine = new CLIEngine({
                 cwd: path.join(fixtureDir, ".."),
@@ -782,15 +856,51 @@ describe("CLIEngine", () => {
             assert.equal(report.results.length, 3);
             assert.equal(report.errorCount, 0);
             assert.equal(report.warningCount, 0);
+            assert.equal(report.fixableErrorCount, 0);
+            assert.equal(report.fixableWarningCount, 0);
             assert.equal(report.results[0].messages.length, 0);
             assert.equal(report.results[1].messages.length, 0);
             assert.equal(report.results[2].messages.length, 0);
             assert.equal(report.results[0].errorCount, 0);
             assert.equal(report.results[0].warningCount, 0);
+            assert.equal(report.results[0].fixableErrorCount, 0);
+            assert.equal(report.results[0].fixableWarningCount, 0);
             assert.equal(report.results[1].errorCount, 0);
             assert.equal(report.results[1].warningCount, 0);
+            assert.equal(report.results[1].fixableErrorCount, 0);
+            assert.equal(report.results[1].fixableWarningCount, 0);
             assert.equal(report.results[2].errorCount, 0);
             assert.equal(report.results[2].warningCount, 0);
+            assert.equal(report.results[2].fixableErrorCount, 0);
+            assert.equal(report.results[2].fixableWarningCount, 0);
+        });
+
+
+        it("should return the total number of errors when given multiple files", () => {
+
+            engine = new CLIEngine({
+                cwd: path.join(fixtureDir, ".."),
+                configFile: getFixturePath("configurations", "single-quotes-error.json")
+            });
+
+            const report = engine.executeOnFiles([getFixturePath("formatters")]);
+
+            assert.equal(report.errorCount, 6);
+            assert.equal(report.warningCount, 0);
+            assert.equal(report.fixableErrorCount, 6);
+            assert.equal(report.fixableWarningCount, 0);
+            assert.equal(report.results[0].errorCount, 0);
+            assert.equal(report.results[0].warningCount, 0);
+            assert.equal(report.results[0].fixableErrorCount, 0);
+            assert.equal(report.results[0].fixableWarningCount, 0);
+            assert.equal(report.results[1].errorCount, 3);
+            assert.equal(report.results[1].warningCount, 0);
+            assert.equal(report.results[1].fixableErrorCount, 3);
+            assert.equal(report.results[1].fixableWarningCount, 0);
+            assert.equal(report.results[2].errorCount, 3);
+            assert.equal(report.results[2].warningCount, 0);
+            assert.equal(report.results[2].fixableErrorCount, 3);
+            assert.equal(report.results[2].fixableWarningCount, 0);
         });
 
         it("should process when file is given by not specifying extensions", () => {
@@ -924,6 +1034,8 @@ describe("CLIEngine", () => {
             assert.equal(report.results.length, 1);
             assert.equal(report.results[0].errorCount, 0);
             assert.equal(report.results[0].warningCount, 0);
+            assert.equal(report.results[0].fixableErrorCount, 0);
+            assert.equal(report.results[0].fixableWarningCount, 0);
         });
 
         // https://github.com/eslint/eslint/issues/3812
@@ -964,11 +1076,15 @@ describe("CLIEngine", () => {
             assert.equal(report.results.length, 1);
             assert.equal(report.errorCount, 0);
             assert.equal(report.warningCount, 1);
+            assert.equal(report.fixableErrorCount, 0);
+            assert.equal(report.fixableWarningCount, 0);
             assert.equal(report.results[0].filePath, filePath);
             assert.equal(report.results[0].messages[0].severity, 1);
             assert.equal(report.results[0].messages[0].message, "File ignored because of a matching ignore pattern. Use \"--no-ignore\" to override.");
             assert.equal(report.results[0].errorCount, 0);
             assert.equal(report.results[0].warningCount, 1);
+            assert.equal(report.results[0].fixableErrorCount, 0);
+            assert.equal(report.results[0].fixableWarningCount, 0);
         });
 
         it("should return two messages when given a file in excluded files list while ignore is off", () => {
@@ -1246,13 +1362,17 @@ describe("CLIEngine", () => {
                             messages: [],
                             errorCount: 0,
                             warningCount: 0,
+                            fixableErrorCount: 0,
+                            fixableWarningCount: 0,
                             output: "true ? \"yes\" : \"no\";\n"
                         },
                         {
                             filePath: fs.realpathSync(path.resolve(fixtureDir, "fixmode/ok.js")),
                             messages: [],
                             errorCount: 0,
-                            warningCount: 0
+                            warningCount: 0,
+                            fixableErrorCount: 0,
+                            fixableWarningCount: 0
                         },
                         {
                             filePath: fs.realpathSync(path.resolve(fixtureDir, "fixmode/quotes-semi-eqeqeq.js")),
@@ -1269,6 +1389,8 @@ describe("CLIEngine", () => {
                             ],
                             errorCount: 1,
                             warningCount: 0,
+                            fixableErrorCount: 0,
+                            fixableWarningCount: 0,
                             output: "var msg = \"hi\";\nif (msg == \"hi\") {\n\n}\n"
                         },
                         {
@@ -1286,11 +1408,15 @@ describe("CLIEngine", () => {
                             ],
                             errorCount: 1,
                             warningCount: 0,
+                            fixableErrorCount: 0,
+                            fixableWarningCount: 0,
                             output: "var msg = \"hi\" + foo;\n"
                         }
                     ],
                     errorCount: 2,
-                    warningCount: 0
+                    warningCount: 0,
+                    fixableErrorCount: 0,
+                    fixableWarningCount: 0
                 });
             });
 
@@ -2513,6 +2639,8 @@ describe("CLIEngine", () => {
 
             assert.lengthOf(errorResults[0].messages, 5);
             assert.equal(errorResults[0].errorCount, 5);
+            assert.equal(errorResults[0].fixableErrorCount, 3);
+            assert.equal(errorResults[0].fixableWarningCount, 0);
             assert.equal(errorResults[0].messages[0].ruleId, "strict");
             assert.equal(errorResults[0].messages[0].severity, 2);
             assert.equal(errorResults[0].messages[1].ruleId, "no-var");
@@ -2534,6 +2662,7 @@ describe("CLIEngine", () => {
             const errorResults = CLIEngine.getErrorResults(report.results);
 
             assert.equal(errorResults[0].warningCount, 0);
+            assert.equal(errorResults[0].fixableWarningCount, 0);
         });
 
         it("should return 0 error or warning messages even when the file has warnings", () => {
@@ -2549,8 +2678,12 @@ describe("CLIEngine", () => {
             assert.lengthOf(report.results, 1);
             assert.equal(report.errorCount, 0);
             assert.equal(report.warningCount, 1);
+            assert.equal(report.fixableErrorCount, 0);
+            assert.equal(report.fixableWarningCount, 0);
             assert.equal(report.results[0].errorCount, 0);
             assert.equal(report.results[0].warningCount, 1);
+            assert.equal(report.fixableErrorCount, 0);
+            assert.equal(report.fixableWarningCount, 0);
         });
 
         it("should return source code of file in the `source` property", () => {
