@@ -80,6 +80,14 @@ ruleTester.run("capitalized-comments", rule, {
         "/* globals var1:true, var2 */",
         "/* exported myVar */",
 
+        // Ignores shebangs
+        "#!foo",
+        { code: "#!foo", options: ["always"] },
+        { code: "#!Foo", options: ["never"] },
+        "#!/usr/bin/env node",
+        { code: "#!/usr/bin/env node", options: ["always"] },
+        { code: "#!/usr/bin/env node", options: ["never"] },
+
         // Using "always" string option
         { code: "//Uppercase", options: ["always"] },
         { code: "// Uppercase", options: ["always"] },
