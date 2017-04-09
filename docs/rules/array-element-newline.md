@@ -1,22 +1,22 @@
-# enforce line breaks after each array element (array-element-newline)
+# enforce line breaks between array elements (array-element-newline)
 
-A number of style guides require or disallow line breaks after each array element.
+A number of style guides require or disallow line breaks between array elements.
 
 ## Rule Details
 
-This rule enforces line breaks after each array element.
+This rule enforces line breaks between array elements.
 
 ## Options
 
 This rule has either a string option:
 
-* `"always"` (default) requires line breaks inside braces
-* `"never"` disallows line breaks inside braces
+* `"always"` (default) requires line breaks between array elements
+* `"never"` disallows line breaks between array elements
 
 Or an object option (Requires line breaks if any of properties is satisfied. Otherwise, disallows line breaks):
 
 * `"multiline": <boolean>` requires line breaks if there are line breaks inside elements or between elements. If this is false, this condition is disabled.
-* `"minItems": <number>` requires line breaks if the number of elements is at least the given integer. If this is 0, this condition is disabled.
+* `"minItems": null` requires line breaks if the number of elements is at least the given integer. If this is 0, this condition will act the same as the option `"always"`. If this is `null` (the default), this condition is disabled.
 
 ### always
 
@@ -223,7 +223,7 @@ var e = [
 
 ## When Not To Use It
 
-If you don't want to enforce linebreaks after each array element, don't enable this rule.
+If you don't want to enforce linebreaks between array elements, don't enable this rule.
 
 ## Compatibility
 
@@ -239,4 +239,3 @@ If you don't want to enforce linebreaks after each array element, don't enable t
 * [max-statements-per-line](max-statements-per-line.md)
 * [block-spacing](block-spacing.md)
 * [brace-style](brace-style.md)
-* [array-bracket-spacing](array-bracket-spacing.md)
