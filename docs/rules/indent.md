@@ -71,7 +71,7 @@ This rule has an object option:
 * `"SwitchCase"` (default: 0) enforces indentation level for `case` clauses in `switch` statements
 * `"VariableDeclarator"` (default: 1) enforces indentation level for `var` declarators; can also take an object to define separate rules for `var`, `let` and `const` declarations.
 * `"outerIIFEBody"` (default: 1) enforces indentation level for file-level IIFEs.
-* `"MemberExpression"` (default: 1) enforces indentation level for multi-line property chains (except in variable declarations and assignments). This can also be set to `"off"` to disable checking for MemberExpression indentation.
+* `"MemberExpression"` (default: 1) enforces indentation level for multi-line property chains. This can also be set to `"off"` to disable checking for MemberExpression indentation.
 * `"FunctionDeclaration"` takes an object to define rules for function declarations.
     * `parameters` (default: 1) enforces indentation level for parameters in a function declaration. This can either be a number indicating indentation level, or the string `"first"` indicating that all parameters of the declaration must be aligned with the first parameter. This can also be set to `"off"` to disable checking for FunctionDeclaration parameters.
     * `body` (default: 1) enforces indentation level for the body of a function declaration.
