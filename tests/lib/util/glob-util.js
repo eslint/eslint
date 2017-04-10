@@ -144,6 +144,16 @@ describe("globUtil", () => {
             assert.deepEqual(result, ["one-js-file/example.js"]);
         });
 
+        it("should ignore empty patterns", () => {
+            const patterns = [""];
+            const opts = {
+                cwd: getFixturePath()
+            };
+            const result = globUtil.resolveFileGlobPatterns(patterns, opts);
+
+            assert.deepEqual(result, []);
+        });
+
     });
 
     describe("listFilesToProcess()", () => {

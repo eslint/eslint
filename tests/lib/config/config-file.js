@@ -53,7 +53,7 @@ function getFixturePath(filepath) {
  * @private
  */
 function readJSModule(code) {
-    return eval(`var module = {};\n${code}`);  // eslint-disable-line no-eval
+    return eval(`var module = {};\n${code}`); // eslint-disable-line no-eval
 }
 
 /**
@@ -123,17 +123,15 @@ function createStubModuleResolver(mapping) {
      * @constructor
      * @private
      */
-    function StubModuleResolver() {}
+    return class StubModuleResolver {
+        resolve(name) { // eslint-disable-line class-methods-use-this
+            if (mapping.hasOwnProperty(name)) {
+                return mapping[name];
+            }
 
-    StubModuleResolver.prototype.resolve = function(name) {
-        if (mapping.hasOwnProperty(name)) {
-            return mapping[name];
+            throw new Error(`Cannot find module '${name}'`);
         }
-
-        throw new Error(`Cannot find module '${name}'`);
     };
-
-    return StubModuleResolver;
 }
 
 //------------------------------------------------------------------------------
@@ -712,7 +710,7 @@ describe("ConfigFile", () => {
                 rules: {
                     a: 2, // from node_modules/eslint-config-a
                     b: 2, // from node_modules/eslint-config-a/node_modules/eslint-config-b
-                    c: 2  // from node_modules/eslint-config-a/node_modules/eslint-config-b/node_modules/eslint-config-c
+                    c: 2 // from node_modules/eslint-config-a/node_modules/eslint-config-b/node_modules/eslint-config-c
                 }
             });
         });
@@ -726,7 +724,7 @@ describe("ConfigFile", () => {
                 globals: {},
                 parserOptions: {},
                 rules: {
-                    a: 2,       // from node_modules/eslint-config-a/index.js
+                    a: 2, // from node_modules/eslint-config-a/index.js
                     relative: 2 // from node_modules/eslint-config-a/relative.js
                 }
             });
@@ -741,7 +739,7 @@ describe("ConfigFile", () => {
                 globals: {},
                 parserOptions: {},
                 rules: {
-                    a: 2,       // from node_modules/eslint-config-a/index.js
+                    a: 2, // from node_modules/eslint-config-a/index.js
                     relative: 2 // from node_modules/eslint-config-a/relative.js
                 }
             });
@@ -784,7 +782,7 @@ describe("ConfigFile", () => {
                     globals: {},
                     parserOptions: {},
                     rules: {
-                        a: 2,       // from node_modules/eslint-config-a/index.js
+                        a: 2, // from node_modules/eslint-config-a/index.js
                         relative: 2 // from node_modules/eslint-config-a/relative.js
                     }
                 });

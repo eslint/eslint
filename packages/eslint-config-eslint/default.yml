@@ -34,6 +34,7 @@ rules:
         beforeLineComment: true,
         afterLineComment: false
     }]
+    max-statements-per-line: "error"
     new-cap: "error"
     newline-after-var: "error"
     new-parens: "error"

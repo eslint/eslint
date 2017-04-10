@@ -81,7 +81,8 @@ ruleTester.run("operator-assignment", rule, {
         "x = x === y",
         "x = x !== y",
         "x = x && y",
-        "x = x || y"
+        "x = x || y",
+        "x = x * y + z"
     ],
 
     invalid: [{
@@ -155,6 +156,16 @@ ruleTester.run("operator-assignment", rule, {
         options: ["always"],
         errors: EXPECTED_OPERATOR_ASSIGNMENT
     }, {
+        code: "x = x + (y)",
+        output: "x += (y)",
+        options: ["always"],
+        errors: EXPECTED_OPERATOR_ASSIGNMENT
+    }, {
+        code: "x += (y)",
+        output: "x = x + (y)",
+        options: ["never"],
+        errors: UNEXPECTED_OPERATOR_ASSIGNMENT
+    }, {
         code: "x += y",
         output: "x = x + y",
         options: ["never"],
@@ -202,6 +213,31 @@ ruleTester.run("operator-assignment", rule, {
     }, {
         code: "foo **= bar",
         output: "foo = foo ** bar",
+        options: ["never"],
+        errors: UNEXPECTED_OPERATOR_ASSIGNMENT
+    }, {
+        code: "foo *= bar + 1",
+        output: "foo = foo * (bar + 1)",
+        options: ["never"],
+        errors: UNEXPECTED_OPERATOR_ASSIGNMENT
+    }, {
+        code: "foo -= bar - baz",
+        output: "foo = foo - (bar - baz)",
+        options: ["never"],
+        errors: UNEXPECTED_OPERATOR_ASSIGNMENT
+    }, {
+        code: "foo += bar + baz",
+        output: "foo = foo + (bar + baz)", // addition is not associative in JS, e.g. (1 + 2) + '3' !== 1 + (2 + '3')
+        options: ["never"],
+        errors: UNEXPECTED_OPERATOR_ASSIGNMENT
+    }, {
+        code: "foo += bar = 1",
+        output: "foo = foo + (bar = 1)",
+        options: ["never"],
+        errors: UNEXPECTED_OPERATOR_ASSIGNMENT
+    }, {
+        code: "foo *= (bar + 1)",
+        output: "foo = foo * (bar + 1)",
         options: ["never"],
         errors: UNEXPECTED_OPERATOR_ASSIGNMENT
     }]

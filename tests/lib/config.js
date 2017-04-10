@@ -358,9 +358,6 @@ describe("Config", () => {
                         browser: true,
                         node: false
                     },
-                    ecmaFeatures: {
-                        globalReturn: false
-                    },
                     globals: environments.browser.globals
                 },
                 actual = configHelper.getConfig(file);

@@ -27,7 +27,22 @@ ruleTester.run("no-else-return", rule, {
         "function foo() { if (true) notAReturn(); else return y; }",
         "function foo() {if (x) { notAReturn(); } else if (y) { return true; } else { notAReturn(); } }",
         "function foo() {if (x) { return true; } else if (y) { notAReturn() } else { notAReturn(); } }",
-        "if (0) { if (0) {} else {} } else {}"
+        "if (0) { if (0) {} else {} } else {}",
+        `
+            function foo() {
+                if (foo)
+                    if (bar) return;
+                    else baz;
+                else qux;
+            }
+        `,
+        `
+            function foo() {
+                while (foo)
+                    if (bar) return;
+                    else baz;
+            }
+        `
     ],
     invalid: [
         {
@@ -46,7 +61,7 @@ ruleTester.run("no-else-return", rule, {
             errors: [{ message: "Unnecessary 'else' after 'return'.", type: "ReturnStatement" }] },
         {
             code: "function foo4() { if (true) { if (false) return x; else return y; } else { return z; } }",
-            output: "function foo4() { if (true) { if (false) return x; return y; } else { return z; } }",  // Other case is fixed in the second pass.
+            output: "function foo4() { if (true) { if (false) return x; return y; } else { return z; } }", // Other case is fixed in the second pass.
             errors: [{ message: "Unnecessary 'else' after 'return'.", type: "ReturnStatement" }, { message: "Unnecessary 'else' after 'return'.", type: "BlockStatement" }]
         },
         {
@@ -61,7 +76,7 @@ ruleTester.run("no-else-return", rule, {
         },
         {
             code: "function foo7() { if (true) { if (false) { if (true) return x; else return y; } return w; } else { return z; } }",
-            output: "function foo7() { if (true) { if (false) { if (true) return x; return y; } return w; } else { return z; } }",  // Other case is fixed in the second pass.
+            output: "function foo7() { if (true) { if (false) { if (true) return x; return y; } return w; } else { return z; } }", // Other case is fixed in the second pass.
             errors: [
                 { message: "Unnecessary 'else' after 'return'.", type: "ReturnStatement" },
                 { message: "Unnecessary 'else' after 'return'.", type: "BlockStatement" }
@@ -69,7 +84,7 @@ ruleTester.run("no-else-return", rule, {
         },
         {
             code: "function foo8() { if (true) { if (false) { if (true) return x; else return y; } else { w = x; } } else { return z; } }",
-            output: "function foo8() { if (true) { if (false) { if (true) return x; return y; } else { w = x; } } else { return z; } }",  // Other case is fixed in the second pass.
+            output: "function foo8() { if (true) { if (false) { if (true) return x; return y; } else { w = x; } } else { return z; } }", // Other case is fixed in the second pass.
             errors: [
                 { message: "Unnecessary 'else' after 'return'.", type: "ReturnStatement" },
                 { message: "Unnecessary 'else' after 'return'.", type: "BlockStatement" }

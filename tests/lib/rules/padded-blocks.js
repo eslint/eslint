@@ -39,23 +39,14 @@ ruleTester.run("padded-blocks", rule, {
         { code: "{\n\na();\n\n/* comment */ }", options: ["always"] },
         { code: "{\n\na();\n\n/* comment */ }", options: [{ blocks: "always" }] },
 
-        // Ignore switches by default
-        { code: "switch (a) {\n\ncase 0: foo();\ncase 1: bar();\n\n}", options: ["always"] },
-        { code: "switch (a) {\n\ncase 0: foo();\ncase 1: bar();\n\n}", options: ["never"] },
-
-        // Ignore block statements if not configured
-        { code: "{\na();\n}", options: [{ switches: "always" }] },
-        { code: "{\n\na();\n\n}", options: [{ switches: "never" }] },
-
         { code: "switch (a) {}", options: [{ switches: "always" }] },
+        { code: "switch (a) {\n\ncase 0: foo();\ncase 1: bar();\n\n}", options: ["always"] },
         { code: "switch (a) {\n\ncase 0: foo();\ncase 1: bar();\n\n}", options: [{ switches: "always" }] },
         { code: "switch (a) {\n\n//comment\ncase 0: foo();//comment\n\n}", options: [{ switches: "always" }] },
         { code: "switch (a) {//coment\n\ncase 0: foo();\ncase 1: bar();\n\n/* comment */}", options: [{ switches: "always" }] },
 
-        // Ignore classes by default
-        { code: "class A{\nfoo(){}\n}", parserOptions: { ecmaVersion: 6 } },
         { code: "class A{\n\nfoo(){}\n\n}", parserOptions: { ecmaVersion: 6 } },
-
+        { code: "class A{\n\nfoo(){}\n\n}", parserOptions: { ecmaVersion: 6 }, options: ["always"] },
         { code: "class A{}", parserOptions: { ecmaVersion: 6 }, options: [{ classes: "always" }] },
         { code: "class A{\n\n}", parserOptions: { ecmaVersion: 6 }, options: [{ classes: "always" }] },
         { code: "class A{\n\nfoo(){}\n\n}", parserOptions: { ecmaVersion: 6 }, options: [{ classes: "always" }] },
@@ -75,8 +66,27 @@ ruleTester.run("padded-blocks", rule, {
         { code: "{\n\n// comment\nif (\n// comment\n a) {}\n\n }", options: ["always"] },
         { code: "{\n// comment\nif (\n// comment\n a) {}\n }", options: ["never"] },
         { code: "{\n// comment\nif (\n// comment\n a) {}\n }", options: [{ blocks: "never" }] },
+
+        { code: "switch (a) {\ncase 0: foo();\n}", options: ["never"] },
         { code: "switch (a) {\ncase 0: foo();\n}", options: [{ switches: "never" }] },
-        { code: "class A{\nfoo(){}\n}", parserOptions: { ecmaVersion: 6 }, options: [{ classes: "never" }] }
+
+
+        { code: "class A{\nfoo(){}\n}", parserOptions: { ecmaVersion: 6 }, options: ["never"] },
+        { code: "class A{\nfoo(){}\n}", parserOptions: { ecmaVersion: 6 }, options: [{ classes: "never" }] },
+
+        // Ignore block statements if not configured
+        { code: "{\na();\n}", options: [{ switches: "always" }] },
+        { code: "{\n\na();\n\n}", options: [{ switches: "never" }] },
+
+        // Ignore switch statements if not configured
+        { code: "switch (a) {\ncase 0: foo();\ncase 1: bar();\n}", options: [{ blocks: "always", classes: "always" }] },
+        { code: "switch (a) {\n\ncase 0: foo();\ncase 1: bar();\n\n}", options: [{ blocks: "never", classes: "never" }] },
+
+
+        // Ignore class statements if not configured
+        { code: "class A{\nfoo(){}\n}", parserOptions: { ecmaVersion: 6 }, options: [{ blocks: "always" }] },
+        { code: "class A{\n\nfoo(){}\n\n}", parserOptions: { ecmaVersion: 6 }, options: [{ blocks: "never" }] }
+
     ],
     invalid: [
         {
@@ -217,6 +227,23 @@ ruleTester.run("padded-blocks", rule, {
         {
             code: "switch (a) {\ncase 0: foo();\ncase 1: bar();\n}",
             output: "switch (a) {\n\ncase 0: foo();\ncase 1: bar();\n\n}",
+            options: ["always"],
+            errors: [
+                {
+                    message: ALWAYS_MESSAGE,
+                    line: 1,
+                    column: 12
+                },
+                {
+                    message: ALWAYS_MESSAGE,
+                    line: 4,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "switch (a) {\ncase 0: foo();\ncase 1: bar();\n}",
+            output: "switch (a) {\n\ncase 0: foo();\ncase 1: bar();\n\n}",
             options: [{ switches: "always" }],
             errors: [
                 {
@@ -244,6 +271,24 @@ ruleTester.run("padded-blocks", rule, {
                 {
                     message: ALWAYS_MESSAGE,
                     line: 4,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "class A {\nconstructor(){}\n}",
+            output: "class A {\n\nconstructor(){}\n\n}",
+            parserOptions: { ecmaVersion: 6 },
+            options: ["always"],
+            errors: [
+                {
+                    message: ALWAYS_MESSAGE,
+                    line: 1,
+                    column: 9
+                },
+                {
+                    message: ALWAYS_MESSAGE,
+                    line: 3,
                     column: 1
                 }
             ]
@@ -417,6 +462,23 @@ ruleTester.run("padded-blocks", rule, {
             ]
         },
         {
+            code: "switch (a) {\n\ncase 0: foo();\n\n}",
+            output: "switch (a) {\ncase 0: foo();\n}",
+            options: ["never"],
+            errors: [
+                {
+                    message: NEVER_MESSAGE,
+                    line: 1,
+                    column: 12
+                },
+                {
+                    message: NEVER_MESSAGE,
+                    line: 5,
+                    column: 1
+                }
+            ]
+        },
+        {
             code: "switch (a) {\n\ncase 0: foo();\n}",
             output: "switch (a) {\ncase 0: foo();\n}",
             options: [{ switches: "never" }],
@@ -437,6 +499,30 @@ ruleTester.run("padded-blocks", rule, {
                     message: NEVER_MESSAGE,
                     line: 4,
                     column: 3
+                }
+            ]
+        },
+        {
+            code: "class A {\n\nconstructor(){\n\nfoo();\n\n}\n\n}",
+            output: "class A {\nconstructor(){\nfoo();\n}\n}",
+            parserOptions: { ecmaVersion: 6 },
+            options: ["never"],
+            errors: [
+                {
+                    message: NEVER_MESSAGE,
+                    line: 1
+                },
+                {
+                    message: NEVER_MESSAGE,
+                    line: 3
+                },
+                {
+                    message: NEVER_MESSAGE,
+                    line: 7
+                },
+                {
+                    message: NEVER_MESSAGE,
+                    line: 9
                 }
             ]
         },

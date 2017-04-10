@@ -208,6 +208,16 @@ ruleTester.run("constructor-super", rule, {
         {
             code: "class A extends B { constructor() { return; super(); } }",
             errors: [{ message: "Expected to call 'super()'.", type: "MethodDefinition" }]
+        },
+
+        // https://github.com/eslint/eslint/issues/8248
+        {
+            code: `class Foo extends Bar {
+                constructor() {
+                    for (a in b) for (c in d);
+                }
+            }`,
+            errors: [{ message: "Expected to call 'super()'.", type: "MethodDefinition" }]
         }
     ]
 });

@@ -71,7 +71,7 @@ describe("configInitializer", () => {
 
     beforeEach(() => {
         npmInstallStub = sinon.stub(npmUtil, "installSyncSaveDev");
-        npmCheckStub = sinon.stub(npmUtil, "checkDevDeps", packages => packages.reduce((status, pkg) => {
+        npmCheckStub = sinon.stub(npmUtil, "checkDevDeps").callsFake(packages => packages.reduce((status, pkg) => {
             status[pkg] = false;
             return status;
         }, {}));
@@ -255,7 +255,7 @@ describe("configInitializer", () => {
                     process.chdir(originalDir);
                     throw err;
                 } finally {
-                    sandbox.restore();  // restore console.log()
+                    sandbox.restore(); // restore console.log()
                 }
             });
 
