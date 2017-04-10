@@ -22,6 +22,7 @@ This rule has an object option for exceptions to the `"all"` option:
 * `"returnAssign": false` allows extra parentheses around assignments in `return` statements
 * `"nestedBinaryExpressions": false` allows extra parentheses in nested binary expressions
 * `"ignoreJSX": "none|all|multi-line|single-line"` allows extra parentheses around no/all/multi-line/single-line JSX components. Defaults to `none`.
+* `"enforceForArrowConditionals": false` allows extra parentheses around ternary expressions which are the body of an arrow function
 
 ### all
 
@@ -163,6 +164,17 @@ Examples of **correct** code for this rule with the `all` and `{ "ignoreJSX": "s
 /* eslint no-extra-parens: ["error", "all", { ignoreJSX: "single-line" }] */
 const Component = (<div />)
 const Component = (<div><p /></div>)
+```
+
+### enforceForArrowConditionals
+
+Examples of **correct** code for this rule with the `"all"` and `{ "enforceForArrowConditionals": false }` options:
+
+```js
+/* eslint no-extra-parens: ["error", "all", { "enforceForArrowConditionals": false }] */
+
+const b = a => 1 ? 2 : 3;
+const d = c => (1 ? 2 : 3);
 ```
 
 ### functions
