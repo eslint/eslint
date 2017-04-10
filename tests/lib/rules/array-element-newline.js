@@ -19,8 +19,8 @@ const RuleTester = require("../../../lib/testers/rule-tester");
 
 const ruleTester = new RuleTester();
 
-const ERR_NO_BREAK_BEFORE = "There should be no line break before this item.";
-const ERR_BREAK_BEFORE = "A line break is required before this item.";
+const ERR_NO_BREAK_HERE = "Here should be no linebreak.";
+const ERR_BREAK_HERE = "Here should be a linebreak.";
 
 ruleTester.run("array-element-newline", rule, {
 
@@ -35,6 +35,7 @@ ruleTester.run("array-element-newline", rule, {
         "var foo = [// any comment \n1,\n2];",
         "var foo = [1,\n2 // any comment\n];",
         "var foo = [1,\n2,\n3];",
+        "var foo = [1,\n2,\n,\n3];",
         "var foo = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\nosomething();\n}\n];",
 
         { code: "var foo = [];", options: ["always"] },
@@ -63,6 +64,20 @@ ruleTester.run("array-element-newline", rule, {
         { code: "var foo = [1, 2, 3];", options: [{ multiline: true }] },
         { code: "var foo = [1,\n2,\n3];", options: [{ multiline: true }] },
         { code: "var f = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n}\n];", options: [{ multiline: true }] },
+
+        // { minItems: null }
+        { code: "var foo = [];", options: [{ minItems: null }] },
+        { code: "var foo = [1];", options: [{ minItems: null }] },
+        { code: "var foo = [1, 2];", options: [{ minItems: null }] },
+        { code: "var foo = [1, 2, 3];", options: [{ minItems: null }] },
+        { code: "var foo = [\nfunction foo() {\ndosomething();\n}, function bar() {\ndosomething();\n}\n];", options: [{ minItems: null }] },
+
+        // { minItems: 0 }
+        { code: "var foo = [];", options: [{ minItems: 0 }] },
+        { code: "var foo = [1];", options: [{ minItems: 0 }] },
+        { code: "var foo = [1,\n2];", options: [{ minItems: 0 }] },
+        { code: "var foo = [1,\n2,\n3];", options: [{ minItems: 0 }] },
+        { code: "var foo = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n}\n];", options: [{ minItems: 0 }] },
 
         // { minItems: 3 }
         { code: "var foo = [];", options: [{ minItems: 3 }] },
@@ -108,12 +123,12 @@ ruleTester.run("array-element-newline", rule, {
             output: "var foo = [1,\n2];",
             errors: [
                 {
-                    message: ERR_BREAK_BEFORE,
+                    message: ERR_BREAK_HERE,
                     type: "ArrayExpression",
                     line: 1,
-                    column: 15,
+                    column: 14,
                     endLine: 1,
-                    endColumn: 16
+                    endColumn: 15
                 }
             ]
         },
@@ -123,20 +138,20 @@ ruleTester.run("array-element-newline", rule, {
             output: "var foo = [1,\n2,\n3];",
             errors: [
                 {
-                    message: ERR_BREAK_BEFORE,
+                    message: ERR_BREAK_HERE,
                     type: "ArrayExpression",
                     line: 1,
-                    column: 15,
+                    column: 14,
                     endLine: 1,
-                    endColumn: 16
+                    endColumn: 15
                 },
                 {
-                    message: ERR_BREAK_BEFORE,
+                    message: ERR_BREAK_HERE,
                     type: "ArrayExpression",
                     line: 1,
-                    column: 18,
+                    column: 17,
                     endLine: 1,
-                    endColumn: 19
+                    endColumn: 18
                 }
             ]
         },
@@ -146,10 +161,10 @@ ruleTester.run("array-element-newline", rule, {
             output: "var foo = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n}\n];",
             errors: [
                 {
-                    message: ERR_BREAK_BEFORE,
+                    message: ERR_BREAK_HERE,
                     type: "ArrayExpression",
                     line: 4,
-                    column: 4
+                    column: 3
                 }
             ]
         },
@@ -161,10 +176,36 @@ ruleTester.run("array-element-newline", rule, {
             output: "var foo = [\n1, 2\n];",
             errors: [
                 {
-                    message: ERR_NO_BREAK_BEFORE,
+                    message: ERR_NO_BREAK_HERE,
+                    type: "ArrayExpression",
+                    line: 2,
+                    column: 3
+                }
+            ]
+        },
+        {
+            code: "var foo = [\n1\n, 2\n];",
+            options: ["never"],
+            output: "var foo = [\n1, 2\n];",
+            errors: [
+                {
+                    message: ERR_NO_BREAK_HERE,
                     type: "ArrayExpression",
                     line: 3,
-                    column: 1
+                    column: 2
+                }
+            ]
+        },
+        {
+            code: "var foo = [\n1 // any comment\n, 2\n];",
+            options: ["never"],
+            output: "var foo = [\n1 // any comment\n, 2\n];",
+            errors: [
+                {
+                    message: ERR_NO_BREAK_HERE,
+                    type: "ArrayExpression",
+                    line: 3,
+                    column: 2
                 }
             ]
         },
@@ -174,10 +215,10 @@ ruleTester.run("array-element-newline", rule, {
             output: "var foo = [\n1, // any comment\n2\n];",
             errors: [
                 {
-                    message: ERR_NO_BREAK_BEFORE,
+                    message: ERR_NO_BREAK_HERE,
                     type: "ArrayExpression",
-                    line: 3,
-                    column: 1
+                    line: 2,
+                    column: 18
                 }
             ]
         },
@@ -187,10 +228,10 @@ ruleTester.run("array-element-newline", rule, {
             output: "var foo = [\n1, 2 // any comment\n];",
             errors: [
                 {
-                    message: ERR_NO_BREAK_BEFORE,
+                    message: ERR_NO_BREAK_HERE,
                     type: "ArrayExpression",
-                    line: 3,
-                    column: 1
+                    line: 2,
+                    column: 3
                 }
             ]
         },
@@ -200,20 +241,20 @@ ruleTester.run("array-element-newline", rule, {
             output: "var foo = [\n1, 2, 3\n];",
             errors: [
                 {
-                    message: ERR_NO_BREAK_BEFORE,
+                    message: ERR_NO_BREAK_HERE,
                     type: "ArrayExpression",
-                    line: 3,
-                    column: 1,
+                    line: 2,
+                    column: 3,
                     endLine: 3,
-                    endColumn: 2
+                    endColumn: 1
                 },
                 {
-                    message: ERR_NO_BREAK_BEFORE,
+                    message: ERR_NO_BREAK_HERE,
                     type: "ArrayExpression",
-                    line: 4,
-                    column: 1,
+                    line: 3,
+                    column: 3,
                     endLine: 4,
-                    endColumn: 2
+                    endColumn: 1
                 }
             ]
         },
@@ -223,10 +264,10 @@ ruleTester.run("array-element-newline", rule, {
             output: "var foo = [\nfunction foo() {\ndosomething();\n}, function bar() {\ndosomething();\n}\n];",
             errors: [
                 {
-                    message: ERR_NO_BREAK_BEFORE,
+                    message: ERR_NO_BREAK_HERE,
                     type: "ArrayExpression",
-                    line: 5,
-                    column: 1
+                    line: 4,
+                    column: 3
                 }
             ]
         },
@@ -236,10 +277,10 @@ ruleTester.run("array-element-newline", rule, {
             output: "var foo = [\nfunction foo() {\ndosomething();\n}, /* any comment */\nfunction bar() {\ndosomething();\n}\n];",
             errors: [
                 {
-                    message: ERR_NO_BREAK_BEFORE,
+                    message: ERR_NO_BREAK_HERE,
                     type: "ArrayExpression",
-                    line: 5,
-                    column: 1
+                    line: 4,
+                    column: 21
                 }
             ]
         },
@@ -251,10 +292,10 @@ ruleTester.run("array-element-newline", rule, {
             output: "var foo = [1,\n2,\n3];",
             errors: [
                 {
-                    message: ERR_BREAK_BEFORE,
+                    message: ERR_BREAK_HERE,
                     type: "ArrayExpression",
                     line: 2,
-                    column: 4
+                    column: 3
                 }
             ]
         },
@@ -264,10 +305,10 @@ ruleTester.run("array-element-newline", rule, {
             output: "var foo = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n}\n];",
             errors: [
                 {
-                    message: ERR_BREAK_BEFORE,
+                    message: ERR_BREAK_HERE,
                     type: "ArrayExpression",
                     line: 4,
-                    column: 4
+                    column: 3
                 }
             ]
         },
@@ -277,10 +318,104 @@ ruleTester.run("array-element-newline", rule, {
             output: "var foo = [\nfunction foo() {\ndosomething();\n}, /* any comment */\nfunction bar() {\ndosomething();\n}\n];",
             errors: [
                 {
-                    message: ERR_BREAK_BEFORE,
+                    message: ERR_BREAK_HERE,
                     type: "ArrayExpression",
                     line: 4,
-                    column: 22
+                    column: 21
+                }
+            ]
+        },
+
+        // { minItems: null }
+        {
+            code: "var foo = [1,\n2];",
+            options: [{ minItems: null }],
+            output: "var foo = [1, 2];",
+            errors: [
+                {
+                    message: ERR_NO_BREAK_HERE,
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 14
+                }
+            ]
+        },
+        {
+            code: "var foo = [1,\n2,\n3];",
+            options: [{ minItems: null }],
+            output: "var foo = [1, 2, 3];",
+            errors: [
+                {
+                    message: ERR_NO_BREAK_HERE,
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 14
+                },
+                {
+                    message: ERR_NO_BREAK_HERE,
+                    type: "ArrayExpression",
+                    line: 2,
+                    column: 3
+                }
+            ]
+        },
+        {
+            code: "var foo = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n}\n];",
+            options: [{ minItems: null }],
+            output: "var foo = [\nfunction foo() {\ndosomething();\n}, function bar() {\ndosomething();\n}\n];",
+            errors: [
+                {
+                    message: ERR_NO_BREAK_HERE,
+                    type: "ArrayExpression",
+                    line: 4,
+                    column: 3
+                }
+            ]
+        },
+
+        // { minItems: 0 }
+        {
+            code: "var foo = [1, 2];",
+            options: [{ minItems: 0 }],
+            output: "var foo = [1,\n2];",
+            errors: [
+                {
+                    message: ERR_BREAK_HERE,
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 14
+                }
+            ]
+        },
+        {
+            code: "var foo = [1, 2, 3];",
+            options: [{ minItems: 0 }],
+            output: "var foo = [1,\n2,\n3];",
+            errors: [
+                {
+                    message: ERR_BREAK_HERE,
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 14
+                },
+                {
+                    message: ERR_BREAK_HERE,
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 17
+                }
+            ]
+        },
+        {
+            code: "var foo = [\nfunction foo() {\ndosomething();\n}, function bar() {\ndosomething();\n}\n];",
+            options: [{ minItems: 0 }],
+            output: "var foo = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n}\n];",
+            errors: [
+                {
+                    message: ERR_BREAK_HERE,
+                    type: "ArrayExpression",
+                    line: 4,
+                    column: 3
                 }
             ]
         },
@@ -292,10 +427,10 @@ ruleTester.run("array-element-newline", rule, {
             output: "var foo = [1, 2];",
             errors: [
                 {
-                    message: ERR_NO_BREAK_BEFORE,
+                    message: ERR_NO_BREAK_HERE,
                     type: "ArrayExpression",
-                    line: 2,
-                    column: 1
+                    line: 1,
+                    column: 14
                 }
             ]
         },
@@ -305,16 +440,16 @@ ruleTester.run("array-element-newline", rule, {
             output: "var foo = [1,\n2,\n3];",
             errors: [
                 {
-                    message: ERR_BREAK_BEFORE,
+                    message: ERR_BREAK_HERE,
                     type: "ArrayExpression",
                     line: 1,
-                    column: 15
+                    column: 14
                 },
                 {
-                    message: ERR_BREAK_BEFORE,
+                    message: ERR_BREAK_HERE,
                     type: "ArrayExpression",
                     line: 1,
-                    column: 18
+                    column: 17
                 }
             ]
         },
@@ -324,10 +459,10 @@ ruleTester.run("array-element-newline", rule, {
             output: "var foo = [\nfunction foo() {\ndosomething();\n}, function bar() {\ndosomething();\n}\n];",
             errors: [
                 {
-                    message: ERR_NO_BREAK_BEFORE,
+                    message: ERR_NO_BREAK_HERE,
                     type: "ArrayExpression",
-                    line: 5,
-                    column: 1
+                    line: 4,
+                    column: 3
                 }
             ]
         },
@@ -339,16 +474,16 @@ ruleTester.run("array-element-newline", rule, {
             output: "var foo = [1,\n2,\n3];",
             errors: [
                 {
-                    message: ERR_BREAK_BEFORE,
+                    message: ERR_BREAK_HERE,
                     type: "ArrayExpression",
                     line: 1,
-                    column: 15
+                    column: 14
                 },
                 {
-                    message: ERR_BREAK_BEFORE,
+                    message: ERR_BREAK_HERE,
                     type: "ArrayExpression",
                     line: 1,
-                    column: 18
+                    column: 17
                 }
             ]
         },
@@ -358,10 +493,10 @@ ruleTester.run("array-element-newline", rule, {
             output: "var foo = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n}\n];",
             errors: [
                 {
-                    message: ERR_BREAK_BEFORE,
+                    message: ERR_BREAK_HERE,
                     type: "ArrayExpression",
                     line: 4,
-                    column: 4
+                    column: 3
                 }
             ]
         },
@@ -375,10 +510,10 @@ ruleTester.run("array-element-newline", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: ERR_BREAK_BEFORE,
+                    message: ERR_BREAK_HERE,
                     type: "ArrayPattern",
                     line: 1,
-                    column: 9
+                    column: 8
                 }
             ]
         },
@@ -389,16 +524,16 @@ ruleTester.run("array-element-newline", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: ERR_BREAK_BEFORE,
+                    message: ERR_BREAK_HERE,
                     type: "ArrayPattern",
                     line: 1,
-                    column: 9
+                    column: 8
                 },
                 {
-                    message: ERR_BREAK_BEFORE,
+                    message: ERR_BREAK_HERE,
                     type: "ArrayPattern",
                     line: 1,
-                    column: 12
+                    column: 11
                 }
             ]
         },
@@ -411,10 +546,10 @@ ruleTester.run("array-element-newline", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: ERR_NO_BREAK_BEFORE,
+                    message: ERR_NO_BREAK_HERE,
                     type: "ArrayPattern",
-                    line: 2,
-                    column: 1
+                    line: 1,
+                    column: 8
                 }
             ]
         },
@@ -425,16 +560,16 @@ ruleTester.run("array-element-newline", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: ERR_BREAK_BEFORE,
+                    message: ERR_BREAK_HERE,
                     type: "ArrayPattern",
                     line: 1,
-                    column: 9
+                    column: 8
                 },
                 {
-                    message: ERR_BREAK_BEFORE,
+                    message: ERR_BREAK_HERE,
                     type: "ArrayPattern",
                     line: 1,
-                    column: 12
+                    column: 11
                 }
             ]
         }
