@@ -609,6 +609,54 @@ ruleTester.run("no-unused-vars", rule, {
         {
             code: "/*global\rfoo*/",
             errors: [{ message: "'foo' is defined but never used.", line: 2, column: 1 }]
+        },
+
+        // https://github.com/eslint/eslint/issues/8442
+        {
+            code: "(function ({ a }, b ) { return b; })();",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                "'a' is defined but never used."
+            ]
+        },
+        {
+            code: "(function ({ a }, { b, c } ) { return b; })();",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                "'a' is defined but never used.",
+                "'c' is defined but never used."
+            ]
+        },
+        {
+            code: "(function ({ a, b }, { c } ) { return b; })();",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                "'a' is defined but never used.",
+                "'c' is defined but never used."
+            ]
+        },
+        {
+            code: "(function ([ a ], b ) { return b; })();",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                "'a' is defined but never used."
+            ]
+        },
+        {
+            code: "(function ([ a ], [ b, c ] ) { return b; })();",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                "'a' is defined but never used.",
+                "'c' is defined but never used."
+            ]
+        },
+        {
+            code: "(function ([ a, b ], [ c ] ) { return b; })();",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                "'a' is defined but never used.",
+                "'c' is defined but never used."
+            ]
         }
     ]
 });
