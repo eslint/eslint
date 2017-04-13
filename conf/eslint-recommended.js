@@ -17,7 +17,7 @@ module.exports = {
         /* eslint-enable sort-keys */
         "accessor-pairs": "off",
         "array-bracket-spacing": "off",
-        "array-callback-return": "error",
+        "array-callback-return": "off",
         "arrow-body-style": "off",
         "arrow-parens": "off",
         "arrow-spacing": "off",
