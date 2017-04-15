@@ -11,9 +11,10 @@
 const assert = require("chai").assert,
     leche = require("leche"),
     environments = require("../../../conf/environments"),
+    Environments = require("../../../lib/config/environments"),
     ConfigOps = require("../../../lib/config/config-ops");
 
-const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
+const envContext = new Environments();
 
 //------------------------------------------------------------------------------
 // Tests
@@ -32,7 +33,7 @@ describe("ConfigOps", () => {
                 }
             };
 
-            const result = ConfigOps.applyEnvironments(config);
+            const result = ConfigOps.applyEnvironments(config, envContext);
 
             assert.deepEqual(result, {
                 env: config.env,
@@ -51,7 +52,7 @@ describe("ConfigOps", () => {
                 }
             };
 
-            const result = ConfigOps.applyEnvironments(config);
+            const result = ConfigOps.applyEnvironments(config, envContext);
 
             assert.equal(result, config);
         });
@@ -67,7 +68,7 @@ describe("ConfigOps", () => {
                 }
             };
 
-            const result = ConfigOps.applyEnvironments(config);
+            const result = ConfigOps.applyEnvironments(config, envContext);
 
             assert.deepEqual(result, {
                 env: config.env,
@@ -84,7 +85,7 @@ describe("ConfigOps", () => {
     describe("createEnvironmentConfig()", () => {
 
         it("should return empty config if called without any config", () => {
-            const config = ConfigOps.createEnvironmentConfig(null);
+            const config = ConfigOps.createEnvironmentConfig(null, envContext);
 
             assert.deepEqual(config, {
                 globals: {},
@@ -95,19 +96,7 @@ describe("ConfigOps", () => {
         });
 
         it("should return correct config for env with no globals", () => {
-            const StubbedConfigOps = proxyquire("../../../lib/config/config-ops", {
-                "./environments": {
-                    get() {
-                        return {
-                            parserOptions: {
-                                sourceType: "module"
-                            }
-                        };
-                    }
-                }
-            });
-
-            const config = StubbedConfigOps.createEnvironmentConfig({ test: true });
+            const config = ConfigOps.createEnvironmentConfig({ test: true }, new Environments());
 
             assert.deepEqual(config, {
                 globals: {},
@@ -115,14 +104,12 @@ describe("ConfigOps", () => {
                     test: true
                 },
                 rules: {},
-                parserOptions: {
-                    sourceType: "module"
-                }
+                parserOptions: {}
             });
         });
 
         it("should create the correct config for Node.js environment", () => {
-            const config = ConfigOps.createEnvironmentConfig({ node: true });
+            const config = ConfigOps.createEnvironmentConfig({ node: true }, envContext);
 
             assert.deepEqual(config, {
                 env: {
@@ -137,7 +124,7 @@ describe("ConfigOps", () => {
         });
 
         it("should create the correct config for ES6 environment", () => {
-            const config = ConfigOps.createEnvironmentConfig({ es6: true });
+            const config = ConfigOps.createEnvironmentConfig({ es6: true }, envContext);
 
             assert.deepEqual(config, {
                 env: {
@@ -152,7 +139,7 @@ describe("ConfigOps", () => {
         });
 
         it("should create empty config when no environments are specified", () => {
-            const config = ConfigOps.createEnvironmentConfig({});
+            const config = ConfigOps.createEnvironmentConfig({}, envContext);
 
             assert.deepEqual(config, {
                 env: {},
@@ -163,7 +150,7 @@ describe("ConfigOps", () => {
         });
 
         it("should create empty config when an unknown environment is specified", () => {
-            const config = ConfigOps.createEnvironmentConfig({ foo: true });
+            const config = ConfigOps.createEnvironmentConfig({ foo: true }, envContext);
 
             assert.deepEqual(config, {
                 env: {

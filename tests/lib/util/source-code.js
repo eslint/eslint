@@ -14,7 +14,7 @@ const fs = require("fs"),
     espree = require("espree"),
     sinon = require("sinon"),
     leche = require("leche"),
-    eslint = require("../../../lib/eslint"),
+    Linter = require("../../../lib/linter"),
     SourceCode = require("../../../lib/util/source-code"),
     astUtils = require("../../../lib/ast-utils");
 
@@ -29,7 +29,7 @@ const DEFAULT_CONFIG = {
     range: true,
     loc: true
 };
-
+const linter = new Linter();
 const AST = espree.parse("let foo = bar;", DEFAULT_CONFIG),
     TEST_CODE = "var answer = 6 * 7;",
     SHEBANG_TEST_CODE = `#!/usr/bin/env node\n${TEST_CODE}`;
@@ -215,7 +215,7 @@ describe("SourceCode", () => {
             filename = "foo.js";
 
         beforeEach(() => {
-            eslint.reset();
+            linter.reset();
         });
 
         afterEach(() => {
@@ -236,7 +236,7 @@ describe("SourceCode", () => {
              * @private
              */
             function assertJSDoc(node) {
-                const sourceCode = eslint.getSourceCode();
+                const sourceCode = linter.getSourceCode();
                 const jsdoc = sourceCode.getJSDocComment(node);
 
                 assert.equal(jsdoc, null);
@@ -244,8 +244,8 @@ describe("SourceCode", () => {
 
             const spy = sandbox.spy(assertJSDoc);
 
-            eslint.on("FunctionExpression", spy);
-            eslint.verify(code, { rules: {} }, filename, true);
+            linter.on("FunctionExpression", spy);
+            linter.verify(code, { rules: {} }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
 
         });
@@ -264,7 +264,7 @@ describe("SourceCode", () => {
              * @private
              */
             function assertJSDoc(node) {
-                const sourceCode = eslint.getSourceCode();
+                const sourceCode = linter.getSourceCode();
                 const jsdoc = sourceCode.getJSDocComment(node);
 
                 assert.equal(jsdoc, null);
@@ -272,8 +272,8 @@ describe("SourceCode", () => {
 
             const spy = sandbox.spy(assertJSDoc);
 
-            eslint.on("FunctionExpression", spy);
-            eslint.verify(code, { rules: {} }, filename, true);
+            linter.on("FunctionExpression", spy);
+            linter.verify(code, { rules: {} }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
 
         });
@@ -293,7 +293,7 @@ describe("SourceCode", () => {
              */
             function assertJSDoc(node) {
                 if (node.params.length === 1) {
-                    const sourceCode = eslint.getSourceCode();
+                    const sourceCode = linter.getSourceCode();
                     const jsdoc = sourceCode.getJSDocComment(node);
 
                     assert.equal(jsdoc, null);
@@ -302,8 +302,8 @@ describe("SourceCode", () => {
 
             const spy = sandbox.spy(assertJSDoc);
 
-            eslint.on("FunctionExpression", spy);
-            eslint.verify(code, { rules: {} }, filename, true);
+            linter.on("FunctionExpression", spy);
+            linter.verify(code, { rules: {} }, filename, true);
             assert.isTrue(spy.calledTwice, "Event handler should be called twice.");
 
         });
@@ -325,7 +325,7 @@ describe("SourceCode", () => {
              * @private
              */
             function assertJSDoc(node) {
-                const sourceCode = eslint.getSourceCode();
+                const sourceCode = linter.getSourceCode();
                 const jsdoc = sourceCode.getJSDocComment(node);
 
                 assert.equal(jsdoc.type, "Block");
@@ -334,8 +334,8 @@ describe("SourceCode", () => {
 
             const spy = sandbox.spy(assertJSDoc);
 
-            eslint.on("FunctionExpression", spy);
-            eslint.verify(code, { rules: {} }, filename, true);
+            linter.on("FunctionExpression", spy);
+            linter.verify(code, { rules: {} }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -353,7 +353,7 @@ describe("SourceCode", () => {
              * @private
              */
             function assertJSDoc(node) {
-                const sourceCode = eslint.getSourceCode();
+                const sourceCode = linter.getSourceCode();
                 const jsdoc = sourceCode.getJSDocComment(node);
 
                 assert.equal(jsdoc.type, "Block");
@@ -362,8 +362,8 @@ describe("SourceCode", () => {
 
             const spy = sandbox.spy(assertJSDoc);
 
-            eslint.on("FunctionDeclaration", spy);
-            eslint.verify(code, { rules: {} }, filename, true);
+            linter.on("FunctionDeclaration", spy);
+            linter.verify(code, { rules: {} }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
 
         });
@@ -382,7 +382,7 @@ describe("SourceCode", () => {
              * @private
              */
             function assertJSDoc(node) {
-                const sourceCode = eslint.getSourceCode();
+                const sourceCode = linter.getSourceCode();
                 const jsdoc = sourceCode.getJSDocComment(node);
 
                 assert.equal(jsdoc.type, "Block");
@@ -391,8 +391,8 @@ describe("SourceCode", () => {
 
             const spy = sandbox.spy(assertJSDoc);
 
-            eslint.on("FunctionDeclaration", spy);
-            eslint.verify(code, { parserOptions: { sourceType: "module" }, rules: {} }, filename, true);
+            linter.on("FunctionDeclaration", spy);
+            linter.verify(code, { parserOptions: { sourceType: "module" }, rules: {} }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
 
         });
@@ -413,7 +413,7 @@ describe("SourceCode", () => {
              * @private
              */
             function assertJSDoc(node) {
-                const sourceCode = eslint.getSourceCode();
+                const sourceCode = linter.getSourceCode();
                 const jsdoc = sourceCode.getJSDocComment(node);
 
                 assert.equal(jsdoc.type, "Block");
@@ -422,8 +422,8 @@ describe("SourceCode", () => {
 
             const spy = sandbox.spy(assertJSDoc);
 
-            eslint.on("FunctionDeclaration", spy);
-            eslint.verify(code, { rules: {} }, filename, true);
+            linter.on("FunctionDeclaration", spy);
+            linter.verify(code, { rules: {} }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
 
         });
@@ -445,7 +445,7 @@ describe("SourceCode", () => {
              * @private
              */
             function assertJSDoc(node) {
-                const sourceCode = eslint.getSourceCode();
+                const sourceCode = linter.getSourceCode();
                 const jsdoc = sourceCode.getJSDocComment(node);
 
                 assert.isNull(jsdoc);
@@ -453,8 +453,8 @@ describe("SourceCode", () => {
 
             const spy = sandbox.spy(assertJSDoc);
 
-            eslint.on("FunctionDeclaration", spy);
-            eslint.verify(code, { rules: {} }, filename, true);
+            linter.on("FunctionDeclaration", spy);
+            linter.verify(code, { rules: {} }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
 
         });
@@ -474,7 +474,7 @@ describe("SourceCode", () => {
              * @private
              */
             function assertJSDoc(node) {
-                const sourceCode = eslint.getSourceCode();
+                const sourceCode = linter.getSourceCode();
                 const jsdoc = sourceCode.getJSDocComment(node);
 
                 assert.equal(jsdoc.type, "Block");
@@ -483,8 +483,8 @@ describe("SourceCode", () => {
 
             const spy = sandbox.spy(assertJSDoc);
 
-            eslint.on("FunctionDeclaration", spy);
-            eslint.verify(code, { rules: {} }, filename, true);
+            linter.on("FunctionDeclaration", spy);
+            linter.verify(code, { rules: {} }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
 
         });
@@ -506,7 +506,7 @@ describe("SourceCode", () => {
              * @private
              */
             function assertJSDoc(node) {
-                const sourceCode = eslint.getSourceCode();
+                const sourceCode = linter.getSourceCode();
                 const jsdoc = sourceCode.getJSDocComment(node);
 
                 assert.equal(jsdoc.type, "Block");
@@ -515,8 +515,8 @@ describe("SourceCode", () => {
 
             const spy = sandbox.spy(assertJSDoc);
 
-            eslint.on("FunctionDeclaration", spy);
-            eslint.verify(code, { rules: {} }, filename, true);
+            linter.on("FunctionDeclaration", spy);
+            linter.verify(code, { rules: {} }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -537,7 +537,7 @@ describe("SourceCode", () => {
              * @private
              */
             function assertJSDoc(node) {
-                const sourceCode = eslint.getSourceCode();
+                const sourceCode = linter.getSourceCode();
                 const jsdoc = sourceCode.getJSDocComment(node);
 
                 assert.equal(jsdoc.type, "Block");
@@ -546,8 +546,8 @@ describe("SourceCode", () => {
 
             const spy = sandbox.spy(assertJSDoc);
 
-            eslint.on("FunctionExpression", spy);
-            eslint.verify(code, { rules: {} }, filename, true);
+            linter.on("FunctionExpression", spy);
+            linter.verify(code, { rules: {} }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -568,7 +568,7 @@ describe("SourceCode", () => {
              * @private
              */
             function assertJSDoc(node) {
-                const sourceCode = eslint.getSourceCode();
+                const sourceCode = linter.getSourceCode();
                 const jsdoc = sourceCode.getJSDocComment(node);
 
                 assert.equal(jsdoc.type, "Block");
@@ -577,8 +577,8 @@ describe("SourceCode", () => {
 
             const spy = sandbox.spy(assertJSDoc);
 
-            eslint.on("ArrowFunctionExpression", spy);
-            eslint.verify(code, { parserOptions: { ecmaVersion: 6 }, rules: {} }, filename, true);
+            linter.on("ArrowFunctionExpression", spy);
+            linter.verify(code, { parserOptions: { ecmaVersion: 6 }, rules: {} }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -597,7 +597,7 @@ describe("SourceCode", () => {
              * @private
              */
             function assertJSDoc(node) {
-                const sourceCode = eslint.getSourceCode();
+                const sourceCode = linter.getSourceCode();
                 const jsdoc = sourceCode.getJSDocComment(node);
 
                 assert.equal(jsdoc.type, "Block");
@@ -606,8 +606,8 @@ describe("SourceCode", () => {
 
             const spy = sandbox.spy(assertJSDoc);
 
-            eslint.on("FunctionExpression", spy);
-            eslint.verify(code, { rules: {} }, filename, true);
+            linter.on("FunctionExpression", spy);
+            linter.verify(code, { rules: {} }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -629,7 +629,7 @@ describe("SourceCode", () => {
              */
             function assertJSDoc(node) {
                 if (!node.id) {
-                    const sourceCode = eslint.getSourceCode();
+                    const sourceCode = linter.getSourceCode();
                     const jsdoc = sourceCode.getJSDocComment(node);
 
                     assert.equal(jsdoc.type, "Block");
@@ -639,8 +639,8 @@ describe("SourceCode", () => {
 
             const spy = sandbox.spy(assertJSDoc);
 
-            eslint.on("FunctionExpression", spy);
-            eslint.verify(code, { rules: {} }, filename, true);
+            linter.on("FunctionExpression", spy);
+            linter.verify(code, { rules: {} }, filename, true);
             assert.isTrue(spy.calledTwice, "Event handler should be called.");
         });
 
@@ -662,7 +662,7 @@ describe("SourceCode", () => {
              */
             function assertJSDoc(node) {
                 if (!node.id) {
-                    const sourceCode = eslint.getSourceCode();
+                    const sourceCode = linter.getSourceCode();
                     const jsdoc = sourceCode.getJSDocComment(node);
 
                     assert.isNull(jsdoc);
@@ -671,8 +671,8 @@ describe("SourceCode", () => {
 
             const spy = sandbox.spy(assertJSDoc);
 
-            eslint.on("FunctionExpression", spy);
-            eslint.verify(code, { rules: {} }, filename, true);
+            linter.on("FunctionExpression", spy);
+            linter.verify(code, { rules: {} }, filename, true);
             assert.isTrue(spy.calledTwice, "Event handler should be called.");
         });
 
@@ -692,7 +692,7 @@ describe("SourceCode", () => {
              */
             function assertJSDoc(node) {
                 if (!node.id) {
-                    const sourceCode = eslint.getSourceCode();
+                    const sourceCode = linter.getSourceCode();
                     const jsdoc = sourceCode.getJSDocComment(node);
 
                     assert.isNull(jsdoc);
@@ -701,8 +701,8 @@ describe("SourceCode", () => {
 
             const spy = sandbox.spy(assertJSDoc);
 
-            eslint.on("FunctionExpression", spy);
-            eslint.verify(code, { rules: {} }, filename, true);
+            linter.on("FunctionExpression", spy);
+            linter.verify(code, { rules: {} }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -730,7 +730,7 @@ describe("SourceCode", () => {
              */
             function assertJSDoc(node) {
                 if (node.id) {
-                    const sourceCode = eslint.getSourceCode();
+                    const sourceCode = linter.getSourceCode();
                     const jsdoc = sourceCode.getJSDocComment(node);
 
                     assert.isNull(jsdoc);
@@ -739,8 +739,8 @@ describe("SourceCode", () => {
 
             const spy = sandbox.spy(assertJSDoc);
 
-            eslint.on("FunctionExpression", spy);
-            eslint.verify(code, { rules: {} }, filename, true);
+            linter.on("FunctionExpression", spy);
+            linter.verify(code, { rules: {} }, filename, true);
             assert.isTrue(spy.calledTwice, "Event handler should be called.");
         });
 
@@ -759,7 +759,7 @@ describe("SourceCode", () => {
              * @private
              */
             function assertJSDoc(node) {
-                const sourceCode = eslint.getSourceCode();
+                const sourceCode = linter.getSourceCode();
                 const jsdoc = sourceCode.getJSDocComment(node);
 
                 assert.equal(jsdoc.type, "Block");
@@ -768,8 +768,8 @@ describe("SourceCode", () => {
 
             const spy = sandbox.spy(assertJSDoc);
 
-            eslint.on("ClassExpression", spy);
-            eslint.verify(code, { rules: {}, parserOptions: { ecmaVersion: 6 } }, filename, true);
+            linter.on("ClassExpression", spy);
+            linter.verify(code, { rules: {}, parserOptions: { ecmaVersion: 6 } }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -788,7 +788,7 @@ describe("SourceCode", () => {
              * @private
              */
             function assertJSDoc(node) {
-                const sourceCode = eslint.getSourceCode();
+                const sourceCode = linter.getSourceCode();
                 const jsdoc = sourceCode.getJSDocComment(node);
 
                 assert.equal(jsdoc.type, "Block");
@@ -797,8 +797,8 @@ describe("SourceCode", () => {
 
             const spy = sandbox.spy(assertJSDoc);
 
-            eslint.on("ClassDeclaration", spy);
-            eslint.verify(code, { rules: {}, parserOptions: { ecmaVersion: 6 } }, filename, true);
+            linter.on("ClassDeclaration", spy);
+            linter.verify(code, { rules: {}, parserOptions: { ecmaVersion: 6 } }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -818,7 +818,7 @@ describe("SourceCode", () => {
              * @private
              */
             function assertJSDoc(node) {
-                const sourceCode = eslint.getSourceCode();
+                const sourceCode = linter.getSourceCode();
                 const jsdoc = sourceCode.getJSDocComment(node);
 
                 assert.isNull(jsdoc);
@@ -826,8 +826,8 @@ describe("SourceCode", () => {
 
             const spy = sandbox.spy(assertJSDoc);
 
-            eslint.on("FunctionExpression", spy);
-            eslint.verify(code, { rules: {}, parserOptions: { ecmaVersion: 6 } }, filename, true);
+            linter.on("FunctionExpression", spy);
+            linter.verify(code, { rules: {}, parserOptions: { ecmaVersion: 6 } }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -850,7 +850,7 @@ describe("SourceCode", () => {
              * @private
              */
             function assertJSDoc(node) {
-                const sourceCode = eslint.getSourceCode();
+                const sourceCode = linter.getSourceCode();
                 const jsdoc = sourceCode.getJSDocComment(node);
 
                 assert.equal(jsdoc.type, "Block");
@@ -859,8 +859,8 @@ describe("SourceCode", () => {
 
             const spy = sandbox.spy(assertJSDoc);
 
-            eslint.on("FunctionExpression", spy);
-            eslint.verify(code, { rules: {}, parserOptions: { ecmaVersion: 6 } }, filename, true);
+            linter.on("FunctionExpression", spy);
+            linter.verify(code, { rules: {}, parserOptions: { ecmaVersion: 6 } }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -882,7 +882,7 @@ describe("SourceCode", () => {
              * @private
              */
             function assertJSDoc(node) {
-                const sourceCode = eslint.getSourceCode();
+                const sourceCode = linter.getSourceCode();
                 const jsdoc = sourceCode.getJSDocComment(node);
 
                 assert.isNull(jsdoc);
@@ -890,8 +890,8 @@ describe("SourceCode", () => {
 
             const spy = sandbox.spy(assertJSDoc);
 
-            eslint.on("FunctionDeclaration", spy);
-            eslint.verify(code, { rules: {}, parserOptions: { ecmaVersion: 6 } }, filename, true);
+            linter.on("FunctionDeclaration", spy);
+            linter.verify(code, { rules: {}, parserOptions: { ecmaVersion: 6 } }, filename, true);
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -909,7 +909,7 @@ describe("SourceCode", () => {
          */
         function assertCommentCount(leading, trailing) {
             return function(node) {
-                const sourceCode = eslint.getSourceCode();
+                const sourceCode = linter.getSourceCode();
                 const comments = sourceCode.getComments(node);
 
                 assert.equal(comments.leading.length, leading);
@@ -918,7 +918,7 @@ describe("SourceCode", () => {
         }
 
         beforeEach(() => {
-            eslint.reset();
+            linter.reset();
         });
 
         it("should return comments around nodes", () => {
@@ -928,13 +928,13 @@ describe("SourceCode", () => {
                 "/* Trailing comment for VariableDeclaration */"
             ].join("\n");
 
-            eslint.on("Program", assertCommentCount(0, 0));
-            eslint.on("VariableDeclaration", assertCommentCount(1, 1));
-            eslint.on("VariableDeclarator", assertCommentCount(0, 0));
-            eslint.on("Identifier", assertCommentCount(0, 0));
-            eslint.on("Literal", assertCommentCount(0, 0));
+            linter.on("Program", assertCommentCount(0, 0));
+            linter.on("VariableDeclaration", assertCommentCount(1, 1));
+            linter.on("VariableDeclarator", assertCommentCount(0, 0));
+            linter.on("Identifier", assertCommentCount(0, 0));
+            linter.on("Literal", assertCommentCount(0, 0));
 
-            eslint.verify(code, config, "", true);
+            linter.verify(code, config, "", true);
         });
 
         it("should return trailing comments inside a block", () => {
@@ -945,13 +945,13 @@ describe("SourceCode", () => {
                 "}"
             ].join("\n");
 
-            eslint.on("Program", assertCommentCount(0, 0));
-            eslint.on("BlockStatement", assertCommentCount(0, 0));
-            eslint.on("ExpressionStatement", assertCommentCount(0, 1));
-            eslint.on("CallExpression", assertCommentCount(0, 0));
-            eslint.on("Identifier", assertCommentCount(0, 0));
+            linter.on("Program", assertCommentCount(0, 0));
+            linter.on("BlockStatement", assertCommentCount(0, 0));
+            linter.on("ExpressionStatement", assertCommentCount(0, 1));
+            linter.on("CallExpression", assertCommentCount(0, 0));
+            linter.on("Identifier", assertCommentCount(0, 0));
 
-            eslint.verify(code, config, "", true);
+            linter.verify(code, config, "", true);
         });
 
         it("should return comments within a conditional", () => {
@@ -960,12 +960,12 @@ describe("SourceCode", () => {
                 "if (/* Leading comment for Identifier */ a) {}"
             ].join("\n");
 
-            eslint.on("Program", assertCommentCount(0, 0));
-            eslint.on("IfStatement", assertCommentCount(1, 0));
-            eslint.on("Identifier", assertCommentCount(1, 0));
-            eslint.on("BlockStatement", assertCommentCount(0, 0));
+            linter.on("Program", assertCommentCount(0, 0));
+            linter.on("IfStatement", assertCommentCount(1, 0));
+            linter.on("Identifier", assertCommentCount(1, 0));
+            linter.on("BlockStatement", assertCommentCount(0, 0));
 
-            eslint.verify(code, config, "", true);
+            linter.verify(code, config, "", true);
         });
 
         it("should not return comments within a previous node", () => {
@@ -978,15 +978,15 @@ describe("SourceCode", () => {
                 "}"
             ].join("\n");
 
-            eslint.on("Program", assertCommentCount(0, 0));
-            eslint.on("Identifier", assertCommentCount(0, 0));
-            eslint.on("BlockStatement", assertCommentCount(0, 0));
-            eslint.on("VariableDeclaration", assertCommentCount(0, 0));
-            eslint.on("VariableDeclarator", assertCommentCount(0, 0));
-            eslint.on("ObjectExpression", assertCommentCount(0, 1));
-            eslint.on("ReturnStatement", assertCommentCount(0, 0));
+            linter.on("Program", assertCommentCount(0, 0));
+            linter.on("Identifier", assertCommentCount(0, 0));
+            linter.on("BlockStatement", assertCommentCount(0, 0));
+            linter.on("VariableDeclaration", assertCommentCount(0, 0));
+            linter.on("VariableDeclarator", assertCommentCount(0, 0));
+            linter.on("ObjectExpression", assertCommentCount(0, 1));
+            linter.on("ReturnStatement", assertCommentCount(0, 0));
 
-            eslint.verify(code, config, "", true);
+            linter.verify(code, config, "", true);
         });
 
         it("should return comments only for children of parent node", () => {
@@ -998,15 +998,15 @@ describe("SourceCode", () => {
                 "var baz;"
             ].join("\n");
 
-            eslint.on("Program", assertCommentCount(0, 0));
-            eslint.on("VariableDeclaration", assertCommentCount(0, 0));
-            eslint.on("VariableDeclerator", assertCommentCount(0, 0));
-            eslint.on("Identifier", assertCommentCount(0, 0));
-            eslint.on("ObjectExpression", assertCommentCount(0, 0));
-            eslint.on("Property", assertCommentCount(0, 1));
-            eslint.on("Literal", assertCommentCount(0, 0));
+            linter.on("Program", assertCommentCount(0, 0));
+            linter.on("VariableDeclaration", assertCommentCount(0, 0));
+            linter.on("VariableDeclerator", assertCommentCount(0, 0));
+            linter.on("Identifier", assertCommentCount(0, 0));
+            linter.on("ObjectExpression", assertCommentCount(0, 0));
+            linter.on("Property", assertCommentCount(0, 1));
+            linter.on("Literal", assertCommentCount(0, 0));
 
-            eslint.verify(code, config, "", true);
+            linter.verify(code, config, "", true);
         });
 
         it("should return comments for an export default anonymous class", () => {
@@ -1023,16 +1023,16 @@ describe("SourceCode", () => {
                 "}"
             ].join("\n");
 
-            eslint.on("Program", assertCommentCount(0, 0));
-            eslint.on("ExportDefaultDeclaration", assertCommentCount(1, 0));
-            eslint.on("ClassDeclaration", assertCommentCount(0, 0));
-            eslint.on("ClassBody", assertCommentCount(0, 0));
-            eslint.on("MethodDefinition", assertCommentCount(1, 0));
-            eslint.on("Identifier", assertCommentCount(0, 0));
-            eslint.on("FunctionExpression", assertCommentCount(0, 0));
-            eslint.on("BlockStatement", assertCommentCount(0, 0));
+            linter.on("Program", assertCommentCount(0, 0));
+            linter.on("ExportDefaultDeclaration", assertCommentCount(1, 0));
+            linter.on("ClassDeclaration", assertCommentCount(0, 0));
+            linter.on("ClassBody", assertCommentCount(0, 0));
+            linter.on("MethodDefinition", assertCommentCount(1, 0));
+            linter.on("Identifier", assertCommentCount(0, 0));
+            linter.on("FunctionExpression", assertCommentCount(0, 0));
+            linter.on("BlockStatement", assertCommentCount(0, 0));
 
-            eslint.verify(code, config, "", true);
+            linter.verify(code, config, "", true);
         });
 
         it("should return leading comments", () => {
@@ -1044,8 +1044,8 @@ describe("SourceCode", () => {
             ].join("\n");
             let varDeclCount = 0;
 
-            eslint.on("Program", assertCommentCount(0, 0));
-            eslint.on("VariableDeclaration", node => {
+            linter.on("Program", assertCommentCount(0, 0));
+            linter.on("VariableDeclaration", node => {
                 if (varDeclCount === 0) {
                     assertCommentCount(1, 1)(node);
                 } else {
@@ -1053,10 +1053,10 @@ describe("SourceCode", () => {
                 }
                 varDeclCount++;
             });
-            eslint.on("VariableDeclarator", assertCommentCount(0, 0));
-            eslint.on("Identifier", assertCommentCount(0, 0));
+            linter.on("VariableDeclarator", assertCommentCount(0, 0));
+            linter.on("Identifier", assertCommentCount(0, 0));
 
-            eslint.verify(code, config, "", true);
+            linter.verify(code, config, "", true);
         });
 
         it("should return shebang comments", () => {
@@ -1068,8 +1068,8 @@ describe("SourceCode", () => {
             ].join("\n");
             let varDeclCount = 0;
 
-            eslint.on("Program", assertCommentCount(0, 0));
-            eslint.on("VariableDeclaration", node => {
+            linter.on("Program", assertCommentCount(0, 0));
+            linter.on("VariableDeclaration", node => {
                 if (varDeclCount === 0) {
                     assertCommentCount(1, 1)(node);
                 } else {
@@ -1077,17 +1077,17 @@ describe("SourceCode", () => {
                 }
                 varDeclCount++;
             });
-            eslint.on("VariableDeclarator", assertCommentCount(0, 0));
-            eslint.on("Identifier", assertCommentCount(0, 0));
+            linter.on("VariableDeclarator", assertCommentCount(0, 0));
+            linter.on("Identifier", assertCommentCount(0, 0));
 
-            eslint.verify(code, config, "", true);
+            linter.verify(code, config, "", true);
         });
 
         it("should include shebang comment when program only contains shebang", () => {
             const code = "#!/usr/bin/env node";
 
-            eslint.on("Program", assertCommentCount(1, 0));
-            eslint.verify(code, config, "", true);
+            linter.on("Program", assertCommentCount(1, 0));
+            linter.verify(code, config, "", true);
         });
 
         it("should return mixture of line and block comments", () => {
@@ -1097,13 +1097,13 @@ describe("SourceCode", () => {
                 "// Trailing comment for VariableDeclaration"
             ].join("\n");
 
-            eslint.on("Program", assertCommentCount(0, 0));
-            eslint.on("VariableDeclaration", assertCommentCount(1, 1));
-            eslint.on("VariableDeclarator", assertCommentCount(0, 0));
-            eslint.on("Identifier", assertCommentCount(0, 1));
-            eslint.on("Literal", assertCommentCount(0, 0));
+            linter.on("Program", assertCommentCount(0, 0));
+            linter.on("VariableDeclaration", assertCommentCount(1, 1));
+            linter.on("VariableDeclarator", assertCommentCount(0, 0));
+            linter.on("Identifier", assertCommentCount(0, 1));
+            linter.on("Literal", assertCommentCount(0, 0));
 
-            eslint.verify(code, config, "", true);
+            linter.verify(code, config, "", true);
         });
 
         it("should return comments surrounding a call expression", () => {
@@ -1115,14 +1115,14 @@ describe("SourceCode", () => {
                 "}"
             ].join("\n");
 
-            eslint.on("Program", assertCommentCount(0, 0));
-            eslint.on("FunctionDeclaration", assertCommentCount(0, 0));
-            eslint.on("Identifier", assertCommentCount(0, 0));
-            eslint.on("BlockStatement", assertCommentCount(0, 0));
-            eslint.on("ExpressionStatement", assertCommentCount(1, 1));
-            eslint.on("CallExpression", assertCommentCount(0, 0));
+            linter.on("Program", assertCommentCount(0, 0));
+            linter.on("FunctionDeclaration", assertCommentCount(0, 0));
+            linter.on("Identifier", assertCommentCount(0, 0));
+            linter.on("BlockStatement", assertCommentCount(0, 0));
+            linter.on("ExpressionStatement", assertCommentCount(1, 1));
+            linter.on("CallExpression", assertCommentCount(0, 0));
 
-            eslint.verify(code, config, "", true);
+            linter.verify(code, config, "", true);
         });
 
         it("should return comments surrounding a debugger statement", () => {
@@ -1134,13 +1134,13 @@ describe("SourceCode", () => {
                 "}"
             ].join("\n");
 
-            eslint.on("Program", assertCommentCount(0, 0));
-            eslint.on("FunctionDeclaration", assertCommentCount(0, 0));
-            eslint.on("Identifier", assertCommentCount(0, 0));
-            eslint.on("BlockStatement", assertCommentCount(0, 0));
-            eslint.on("DebuggerStatement", assertCommentCount(1, 1));
+            linter.on("Program", assertCommentCount(0, 0));
+            linter.on("FunctionDeclaration", assertCommentCount(0, 0));
+            linter.on("Identifier", assertCommentCount(0, 0));
+            linter.on("BlockStatement", assertCommentCount(0, 0));
+            linter.on("DebuggerStatement", assertCommentCount(1, 1));
 
-            eslint.verify(code, config, "", true);
+            linter.verify(code, config, "", true);
         });
 
         it("should return comments surrounding a return statement", () => {
@@ -1152,13 +1152,13 @@ describe("SourceCode", () => {
                 "}"
             ].join("\n");
 
-            eslint.on("Program", assertCommentCount(0, 0));
-            eslint.on("FunctionDeclaration", assertCommentCount(0, 0));
-            eslint.on("Identifier", assertCommentCount(0, 0));
-            eslint.on("BlockStatement", assertCommentCount(0, 0));
-            eslint.on("ReturnStatement", assertCommentCount(1, 1));
+            linter.on("Program", assertCommentCount(0, 0));
+            linter.on("FunctionDeclaration", assertCommentCount(0, 0));
+            linter.on("Identifier", assertCommentCount(0, 0));
+            linter.on("BlockStatement", assertCommentCount(0, 0));
+            linter.on("ReturnStatement", assertCommentCount(1, 1));
 
-            eslint.verify(code, config, "", true);
+            linter.verify(code, config, "", true);
         });
 
         it("should return comments surrounding a throw statement", () => {
@@ -1170,13 +1170,13 @@ describe("SourceCode", () => {
                 "}"
             ].join("\n");
 
-            eslint.on("Program", assertCommentCount(0, 0));
-            eslint.on("FunctionDeclaration", assertCommentCount(0, 0));
-            eslint.on("Identifier", assertCommentCount(0, 0));
-            eslint.on("BlockStatement", assertCommentCount(0, 0));
-            eslint.on("ThrowStatement", assertCommentCount(1, 1));
+            linter.on("Program", assertCommentCount(0, 0));
+            linter.on("FunctionDeclaration", assertCommentCount(0, 0));
+            linter.on("Identifier", assertCommentCount(0, 0));
+            linter.on("BlockStatement", assertCommentCount(0, 0));
+            linter.on("ThrowStatement", assertCommentCount(1, 1));
 
-            eslint.verify(code, config, "", true);
+            linter.verify(code, config, "", true);
         });
 
         it("should return comments surrounding a while loop", () => {
@@ -1189,16 +1189,16 @@ describe("SourceCode", () => {
                 "}"
             ].join("\n");
 
-            eslint.on("Program", assertCommentCount(0, 0));
-            eslint.on("FunctionDeclaration", assertCommentCount(0, 0));
-            eslint.on("Identifier", assertCommentCount(0, 0));
-            eslint.on("BlockStatement", assertCommentCount(0, 0));
-            eslint.on("WhileStatement", assertCommentCount(1, 1));
-            eslint.on("Literal", assertCommentCount(0, 0));
-            eslint.on("VariableDeclaration", assertCommentCount(1, 0));
-            eslint.on("VariableDeclarator", assertCommentCount(0, 0));
+            linter.on("Program", assertCommentCount(0, 0));
+            linter.on("FunctionDeclaration", assertCommentCount(0, 0));
+            linter.on("Identifier", assertCommentCount(0, 0));
+            linter.on("BlockStatement", assertCommentCount(0, 0));
+            linter.on("WhileStatement", assertCommentCount(1, 1));
+            linter.on("Literal", assertCommentCount(0, 0));
+            linter.on("VariableDeclaration", assertCommentCount(1, 0));
+            linter.on("VariableDeclarator", assertCommentCount(0, 0));
 
-            eslint.verify(code, config, "", true);
+            linter.verify(code, config, "", true);
         });
 
         it("should return switch case fallthrough comments in functions", () => {
@@ -1215,12 +1215,12 @@ describe("SourceCode", () => {
             ].join("\n");
             let switchCaseCount = 0;
 
-            eslint.on("Program", assertCommentCount(0, 0));
-            eslint.on("FunctionDeclaration", assertCommentCount(0, 0));
-            eslint.on("Identifier", assertCommentCount(0, 0));
-            eslint.on("BlockStatement", assertCommentCount(0, 0));
-            eslint.on("SwitchStatement", assertCommentCount(0, 0));
-            eslint.on("SwitchCase", node => {
+            linter.on("Program", assertCommentCount(0, 0));
+            linter.on("FunctionDeclaration", assertCommentCount(0, 0));
+            linter.on("Identifier", assertCommentCount(0, 0));
+            linter.on("BlockStatement", assertCommentCount(0, 0));
+            linter.on("SwitchStatement", assertCommentCount(0, 0));
+            linter.on("SwitchCase", node => {
                 if (switchCaseCount === 0) {
                     assertCommentCount(1, 1)(node);
                 } else {
@@ -1228,11 +1228,11 @@ describe("SourceCode", () => {
                 }
                 switchCaseCount++;
             });
-            eslint.on("Literal", assertCommentCount(0, 0));
-            eslint.on("ExpressionStatement", assertCommentCount(0, 0));
-            eslint.on("CallExpression", assertCommentCount(0, 0));
+            linter.on("Literal", assertCommentCount(0, 0));
+            linter.on("ExpressionStatement", assertCommentCount(0, 0));
+            linter.on("CallExpression", assertCommentCount(0, 0));
 
-            eslint.verify(code, config, "", true);
+            linter.verify(code, config, "", true);
         });
 
         it("should return switch case fallthrough comments", () => {
@@ -1247,9 +1247,9 @@ describe("SourceCode", () => {
             ].join("\n");
             let switchCaseCount = 0;
 
-            eslint.on("Program", assertCommentCount(0, 0));
-            eslint.on("SwitchStatement", assertCommentCount(0, 0));
-            eslint.on("SwitchCase", node => {
+            linter.on("Program", assertCommentCount(0, 0));
+            linter.on("SwitchStatement", assertCommentCount(0, 0));
+            linter.on("SwitchCase", node => {
                 if (switchCaseCount === 0) {
                     assertCommentCount(1, 1)(node);
                 } else {
@@ -1257,11 +1257,11 @@ describe("SourceCode", () => {
                 }
                 switchCaseCount++;
             });
-            eslint.on("Literal", assertCommentCount(0, 0));
-            eslint.on("ExpressionStatement", assertCommentCount(0, 0));
-            eslint.on("CallExpression", assertCommentCount(0, 0));
+            linter.on("Literal", assertCommentCount(0, 0));
+            linter.on("ExpressionStatement", assertCommentCount(0, 0));
+            linter.on("CallExpression", assertCommentCount(0, 0));
 
-            eslint.verify(code, config, "", true);
+            linter.verify(code, config, "", true);
         });
 
         it("should return switch case no-default comments in functions", () => {
@@ -1278,12 +1278,12 @@ describe("SourceCode", () => {
             ].join("\n");
             let breakStatementCount = 0;
 
-            eslint.on("Program", assertCommentCount(0, 0));
-            eslint.on("FunctionDeclaration", assertCommentCount(0, 0));
-            eslint.on("Identifier", assertCommentCount(0, 0));
-            eslint.on("BlockStatement", assertCommentCount(0, 0));
-            eslint.on("SwitchStatement", assertCommentCount(0, 0));
-            eslint.on("SwitchCase", node => {
+            linter.on("Program", assertCommentCount(0, 0));
+            linter.on("FunctionDeclaration", assertCommentCount(0, 0));
+            linter.on("Identifier", assertCommentCount(0, 0));
+            linter.on("BlockStatement", assertCommentCount(0, 0));
+            linter.on("SwitchStatement", assertCommentCount(0, 0));
+            linter.on("SwitchCase", node => {
                 if (breakStatementCount === 0) {
                     assertCommentCount(0, 0)(node);
                 } else {
@@ -1291,10 +1291,10 @@ describe("SourceCode", () => {
                 }
                 breakStatementCount++;
             });
-            eslint.on("BreakStatement", assertCommentCount(0, 0));
-            eslint.on("Literal", assertCommentCount(0, 0));
+            linter.on("BreakStatement", assertCommentCount(0, 0));
+            linter.on("Literal", assertCommentCount(0, 0));
 
-            eslint.verify(code, config, "", true);
+            linter.verify(code, config, "", true);
         });
 
         it("should return switch case no-default comments", () => {
@@ -1306,14 +1306,14 @@ describe("SourceCode", () => {
                 "}"
             ].join("\n");
 
-            eslint.on("Program", assertCommentCount(0, 0));
-            eslint.on("SwitchStatement", assertCommentCount(0, 0));
-            eslint.on("Identifier", assertCommentCount(0, 0));
-            eslint.on("SwitchCase", assertCommentCount(0, 1));
-            eslint.on("BreakStatement", assertCommentCount(0, 0));
-            eslint.on("Literal", assertCommentCount(0, 0));
+            linter.on("Program", assertCommentCount(0, 0));
+            linter.on("SwitchStatement", assertCommentCount(0, 0));
+            linter.on("Identifier", assertCommentCount(0, 0));
+            linter.on("SwitchCase", assertCommentCount(0, 1));
+            linter.on("BreakStatement", assertCommentCount(0, 0));
+            linter.on("Literal", assertCommentCount(0, 0));
 
-            eslint.verify(code, config, "", true);
+            linter.verify(code, config, "", true);
         });
 
         it("should return switch case no-default comments in nested functions", () => {
@@ -1330,22 +1330,22 @@ describe("SourceCode", () => {
                 "};"
             ].join("\n");
 
-            eslint.on("Program", assertCommentCount(0, 0));
-            eslint.on("ExpressionStatement", assertCommentCount(0, 0));
-            eslint.on("AssignmentExpression", assertCommentCount(0, 0));
-            eslint.on("MemberExpression", assertCommentCount(0, 0));
-            eslint.on("Identifier", assertCommentCount(0, 0));
-            eslint.on("FunctionExpression", assertCommentCount(0, 0));
-            eslint.on("BlockStatement", assertCommentCount(0, 0));
-            eslint.on("FunctionDeclaration", assertCommentCount(0, 0));
-            eslint.on("SwitchStatement", assertCommentCount(0, 0));
-            eslint.on("SwitchCase", assertCommentCount(0, 1));
-            eslint.on("ReturnStatement", assertCommentCount(0, 0));
-            eslint.on("CallExpression", assertCommentCount(0, 0));
-            eslint.on("BinaryExpression", assertCommentCount(0, 0));
-            eslint.on("Literal", assertCommentCount(0, 0));
+            linter.on("Program", assertCommentCount(0, 0));
+            linter.on("ExpressionStatement", assertCommentCount(0, 0));
+            linter.on("AssignmentExpression", assertCommentCount(0, 0));
+            linter.on("MemberExpression", assertCommentCount(0, 0));
+            linter.on("Identifier", assertCommentCount(0, 0));
+            linter.on("FunctionExpression", assertCommentCount(0, 0));
+            linter.on("BlockStatement", assertCommentCount(0, 0));
+            linter.on("FunctionDeclaration", assertCommentCount(0, 0));
+            linter.on("SwitchStatement", assertCommentCount(0, 0));
+            linter.on("SwitchCase", assertCommentCount(0, 1));
+            linter.on("ReturnStatement", assertCommentCount(0, 0));
+            linter.on("CallExpression", assertCommentCount(0, 0));
+            linter.on("BinaryExpression", assertCommentCount(0, 0));
+            linter.on("Literal", assertCommentCount(0, 0));
 
-            eslint.verify(code, config, "", true);
+            linter.verify(code, config, "", true);
         });
 
         it("should return leading comments if the code only contains comments", () => {
@@ -1354,9 +1354,9 @@ describe("SourceCode", () => {
                 "/*another comment*/"
             ].join("\n");
 
-            eslint.on("Program", assertCommentCount(2, 0));
+            linter.on("Program", assertCommentCount(2, 0));
 
-            eslint.verify(code, config, "", true);
+            linter.verify(code, config, "", true);
         });
 
         it("should return trailing comments if a block statement only contains comments", () => {
@@ -1367,10 +1367,10 @@ describe("SourceCode", () => {
                 "}"
             ].join("\n");
 
-            eslint.on("Program", assertCommentCount(0, 0));
-            eslint.on("BlockStatement", assertCommentCount(0, 2));
+            linter.on("Program", assertCommentCount(0, 0));
+            linter.on("BlockStatement", assertCommentCount(0, 2));
 
-            eslint.verify(code, config, "", true);
+            linter.verify(code, config, "", true);
         });
 
         it("should return trailing comments if a class body only contains comments", () => {
@@ -1381,11 +1381,11 @@ describe("SourceCode", () => {
                 "}"
             ].join("\n");
 
-            eslint.on("Program", assertCommentCount(0, 0));
-            eslint.on("ClassDeclaration", assertCommentCount(0, 0));
-            eslint.on("ClassBody", assertCommentCount(0, 2));
+            linter.on("Program", assertCommentCount(0, 0));
+            linter.on("ClassDeclaration", assertCommentCount(0, 0));
+            linter.on("ClassBody", assertCommentCount(0, 2));
 
-            eslint.verify(code, config, "", true);
+            linter.verify(code, config, "", true);
         });
 
         it("should return trailing comments if an object only contains comments", () => {
@@ -1396,11 +1396,11 @@ describe("SourceCode", () => {
                 "})"
             ].join("\n");
 
-            eslint.on("Program", assertCommentCount(0, 0));
-            eslint.on("ExpressionStatement", assertCommentCount(0, 0));
-            eslint.on("ObjectExpression", assertCommentCount(0, 2));
+            linter.on("Program", assertCommentCount(0, 0));
+            linter.on("ExpressionStatement", assertCommentCount(0, 0));
+            linter.on("ObjectExpression", assertCommentCount(0, 2));
 
-            eslint.verify(code, config, "", true);
+            linter.verify(code, config, "", true);
         });
 
         it("should return trailing comments if an array only contains comments", () => {
@@ -1411,11 +1411,11 @@ describe("SourceCode", () => {
                 "]"
             ].join("\n");
 
-            eslint.on("Program", assertCommentCount(0, 0));
-            eslint.on("ExpressionStatement", assertCommentCount(0, 0));
-            eslint.on("ArrayExpression", assertCommentCount(0, 2));
+            linter.on("Program", assertCommentCount(0, 0));
+            linter.on("ExpressionStatement", assertCommentCount(0, 0));
+            linter.on("ArrayExpression", assertCommentCount(0, 2));
 
-            eslint.verify(code, config, "", true);
+            linter.verify(code, config, "", true);
         });
 
         it("should return trailing comments if a switch statement only contains comments", () => {
@@ -1426,11 +1426,11 @@ describe("SourceCode", () => {
                 "}"
             ].join("\n");
 
-            eslint.on("Program", assertCommentCount(0, 0));
-            eslint.on("SwitchStatement", assertCommentCount(0, 2));
-            eslint.on("Identifier", assertCommentCount(0, 0));
+            linter.on("Program", assertCommentCount(0, 0));
+            linter.on("SwitchStatement", assertCommentCount(0, 2));
+            linter.on("Identifier", assertCommentCount(0, 0));
 
-            eslint.verify(code, config, "", true);
+            linter.verify(code, config, "", true);
         });
 
         it("should return comments for multiple declarations with a single variable", () => {
@@ -1443,9 +1443,9 @@ describe("SourceCode", () => {
             ].join("\n");
             let varDeclCount = 0;
 
-            eslint.on("Program", assertCommentCount(0, 0));
-            eslint.on("VariableDeclaration", assertCommentCount(1, 2));
-            eslint.on("VariableDeclarator", node => {
+            linter.on("Program", assertCommentCount(0, 0));
+            linter.on("VariableDeclaration", assertCommentCount(1, 2));
+            linter.on("VariableDeclarator", node => {
                 if (varDeclCount === 0) {
                     assertCommentCount(0, 0)(node);
                 } else if (varDeclCount === 1) {
@@ -1455,9 +1455,9 @@ describe("SourceCode", () => {
                 }
                 varDeclCount++;
             });
-            eslint.on("Identifier", assertCommentCount(0, 0));
+            linter.on("Identifier", assertCommentCount(0, 0));
 
-            eslint.verify(code, config, "", true);
+            linter.verify(code, config, "", true);
         });
 
         it("should return comments when comments exist between var keyword and VariableDeclarator", () => {
@@ -1467,32 +1467,32 @@ describe("SourceCode", () => {
                 "    a;"
             ].join("\n");
 
-            eslint.on("Program", assertCommentCount(0, 0));
-            eslint.on("VariableDeclaration", assertCommentCount(0, 0));
-            eslint.on("VariableDeclarator", assertCommentCount(2, 0));
-            eslint.on("Identifier", assertCommentCount(0, 0));
+            linter.on("Program", assertCommentCount(0, 0));
+            linter.on("VariableDeclaration", assertCommentCount(0, 0));
+            linter.on("VariableDeclarator", assertCommentCount(2, 0));
+            linter.on("Identifier", assertCommentCount(0, 0));
 
-            eslint.verify(code, config, "", true);
+            linter.verify(code, config, "", true);
         });
 
         it("should return attached comments between tokens to the correct nodes for empty function declarations", () => {
             const code = "/* 1 */ function /* 2 */ foo(/* 3 */) /* 4 */ { /* 5 */ } /* 6 */";
 
-            eslint.on("Program", assertCommentCount(0, 0));
-            eslint.on("FunctionDeclaration", assertCommentCount(1, 1));
-            eslint.on("Identifier", assertCommentCount(1, 0));
-            eslint.on("BlockStatement", assertCommentCount(1, 1));
+            linter.on("Program", assertCommentCount(0, 0));
+            linter.on("FunctionDeclaration", assertCommentCount(1, 1));
+            linter.on("Identifier", assertCommentCount(1, 0));
+            linter.on("BlockStatement", assertCommentCount(1, 1));
 
-            eslint.verify(code, config, "", true);
+            linter.verify(code, config, "", true);
         });
 
         it("should return attached comments between tokens to the correct nodes for empty class declarations", () => {
             const code = "/* 1 */ class /* 2 */ Foo /* 3 */ extends /* 4 */ Bar /* 5 */ { /* 6 */ } /* 7 */";
             let idCount = 0;
 
-            eslint.on("Program", assertCommentCount(0, 0));
-            eslint.on("ClassDeclaration", assertCommentCount(1, 1));
-            eslint.on("Identifier", node => {
+            linter.on("Program", assertCommentCount(0, 0));
+            linter.on("ClassDeclaration", assertCommentCount(1, 1));
+            linter.on("Identifier", node => {
                 if (idCount === 0) {
                     assertCommentCount(1, 1)(node);
                 } else {
@@ -1500,19 +1500,19 @@ describe("SourceCode", () => {
                 }
                 idCount++;
             });
-            eslint.on("ClassBody", assertCommentCount(1, 1));
+            linter.on("ClassBody", assertCommentCount(1, 1));
 
-            eslint.verify(code, config, "", true);
+            linter.verify(code, config, "", true);
         });
 
         it("should return attached comments between tokens to the correct nodes for empty switch statements", () => {
             const code = "/* 1 */ switch /* 2 */ (/* 3 */ foo /* 4 */) /* 5 */ { /* 6 */ } /* 7 */";
 
-            eslint.on("Program", assertCommentCount(0, 0));
-            eslint.on("SwitchStatement", assertCommentCount(1, 6));
-            eslint.on("Identifier", assertCommentCount(1, 1));
+            linter.on("Program", assertCommentCount(0, 0));
+            linter.on("SwitchStatement", assertCommentCount(1, 6));
+            linter.on("Identifier", assertCommentCount(1, 1));
 
-            eslint.verify(code, config, "", true);
+            linter.verify(code, config, "", true);
         });
     });
 
@@ -1751,9 +1751,9 @@ describe("SourceCode", () => {
         });
     });
 
-    // need to check that eslint.verify() works with SourceCode
+    // need to check that linter.verify() works with SourceCode
 
-    describe("eslint.verify()", () => {
+    describe("linter.verify()", () => {
 
         const CONFIG = {
             parserOptions: { ecmaVersion: 6 }
@@ -1763,21 +1763,21 @@ describe("SourceCode", () => {
             const ast = espree.parse(TEST_CODE, DEFAULT_CONFIG);
 
             const sourceCode = new SourceCode(TEST_CODE, ast),
-                messages = eslint.verify(sourceCode);
+                messages = linter.verify(sourceCode);
 
             assert.equal(messages.length, 0);
         });
 
         it("should work when passed a SourceCode object containing ES6 syntax and config", () => {
             const sourceCode = new SourceCode("let foo = bar;", AST),
-                messages = eslint.verify(sourceCode, CONFIG);
+                messages = linter.verify(sourceCode, CONFIG);
 
             assert.equal(messages.length, 0);
         });
 
         it("should report an error when using let and blockBindings is false", () => {
             const sourceCode = new SourceCode("let foo = bar;", AST),
-                messages = eslint.verify(sourceCode, {
+                messages = linter.verify(sourceCode, {
                     parserOptions: { ecmaVersion: 6 },
                     rules: { "no-unused-vars": 2 }
                 });

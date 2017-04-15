@@ -12,7 +12,6 @@
 
 const sinon = require("sinon"),
     EventEmitter = require("events"),
-    eslint = require("../../../lib/eslint"),
     RuleTester = require("../../../lib/testers/rule-tester"),
     assert = require("chai").assert;
 
@@ -588,7 +587,7 @@ describe("RuleTester", () => {
     it("should pass-through the parser to the rule", () => {
 
         assert.doesNotThrow(() => {
-            const spy = sinon.spy(eslint, "verify");
+            const spy = sinon.spy(ruleTester.linter, "verify");
 
             ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
                 valid: [
