@@ -3045,6 +3045,17 @@ ruleTester.run("indent", rule, {
         {
             code: "x => {}",
             parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: unIndent`
+                import {foo}
+                    from 'bar';
+            `,
+            parserOptions: { sourceType: "module" }
+        },
+        {
+            code: "import 'foo'",
+            parserOptions: { sourceType: "module" }
         }
     ],
 
@@ -6235,6 +6246,18 @@ ruleTester.run("indent", rule, {
                 ; [1, 2, 3].map(baz)
             `,
             errors: expectedErrors([3, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                import {foo}
+                from 'bar';
+            `,
+            output: unIndent`
+                import {foo}
+                    from 'bar';
+            `,
+            parserOptions: { sourceType: "module" },
+            errors: expectedErrors([2, 4, 0, "Identifier"])
         }
     ]
 });
