@@ -509,20 +509,10 @@ target.all = function() {
 
 target.lint = function() {
     let errors = 0,
-        makeFileCache = " ",
-        jsCache = " ",
-        testCache = " ",
         lastReturn;
 
-    // using the cache locally to speed up linting process
-    if (!process.env.TRAVIS) {
-        makeFileCache = " --cache --cache-file .cache/makefile_cache ";
-        jsCache = " --cache --cache-file .cache/js_cache ";
-        testCache = " --cache --cache-file .cache/test_cache ";
-    }
-
     echo("Validating Makefile.js");
-    lastReturn = exec(ESLINT + makeFileCache + MAKEFILE);
+    lastReturn = exec(`${ESLINT} ${MAKEFILE}`);
     if (lastReturn.code !== 0) {
         errors++;
     }
@@ -537,13 +527,13 @@ target.lint = function() {
     }
 
     echo("Validating JavaScript files");
-    lastReturn = exec(ESLINT + jsCache + JS_FILES);
+    lastReturn = exec(`${ESLINT} ${JS_FILES}`);
     if (lastReturn.code !== 0) {
         errors++;
     }
 
     echo("Validating JavaScript test files");
-    lastReturn = exec(`${ESLINT}${testCache}"tests/**/*.js"`);
+    lastReturn = exec(`${ESLINT} "tests/**/*.js"`);
     if (lastReturn.code !== 0) {
         errors++;
     }
