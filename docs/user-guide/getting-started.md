@@ -29,7 +29,7 @@ You should then setup a configuration file:
 $ ./node_modules/.bin/eslint --init
 ```
 
-After that, you can run ESLint on any file or directory like this:
+After that, you can run ESLint in your project's root directory like this:
 
 ```
 $ ./node_modules/.bin/eslint yourfile.js
