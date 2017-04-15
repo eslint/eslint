@@ -94,7 +94,11 @@ ruleTester.run("no-multi-spaces", rule, {
         { code: "var x = 5;\n  // comment", options: [{ ignoreEOLComments: true }] },
         { code: "var x = 5;  \n// comment", options: [{ ignoreEOLComments: true }] },
         { code: "var x = 5;\n  /* multiline\n * comment\n */", options: [{ ignoreEOLComments: true }] },
-        { code: "var x = 5;  \n/* multiline\n * comment\n */", options: [{ ignoreEOLComments: true }] }
+        { code: "var x = 5;  \n/* multiline\n * comment\n */", options: [{ ignoreEOLComments: true }] },
+
+        "foo\n\f  bar",
+        "foo\n\u2003  bar",
+        "foo\n \f  bar"
     ],
 
     invalid: [
@@ -591,6 +595,14 @@ ruleTester.run("no-multi-spaces", rule, {
             errors: [{
                 message: "Multiple spaces found before '/*comment...*/'.",
                 type: "Block"
+            }]
+        },
+        {
+            code: "foo\n\f  bar  + baz",
+            output: "foo\n\f  bar + baz",
+            errors: [{
+                message: "Multiple spaces found before '+'.",
+                type: "Punctuator"
             }]
         }
     ]

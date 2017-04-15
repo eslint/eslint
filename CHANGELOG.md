@@ -1,3 +1,32 @@
+v4.0.0-alpha.0 - April 7, 2017
+
+* 950874f Docs: add 4.0.0 migration guide (fixes #8306) (#8313) (Teddy Katz)
+* 2754141 Fix: more autofix token-combining bugs (#8394) (Teddy Katz)
+* f5a7e42 Breaking: log number of fixable problems (fixes #7364) (#8324) (alberto)
+* 769b121 Chore: Fix indentation errors in indent-legacy (#8424) (Kai Cataldo)
+* 8394e48 Update: add deprecated indent-legacy rule as v3.x indent rule snapshot (#8286) (Teddy Katz)
+* 3c87e85 Fix: no-multi-spaces false positive with irregular indent whitespace (#8412) (Teddy Katz)
+* cc53481 Breaking: rewrite indent (fixes #1801, #3737, #3845, #6007, ...16 more) (#7618) (Teddy Katz)
+* 867dd2e Breaking: Calculate leading/trailing comments in core (#7516) (Kai Cataldo)
+* de9f1a0 Docs: ES6 syntax vs globals configuration (fixes #7984) (#8350) (Zander Mackie)
+* 66af53e Breaking: Traverse into type annotations (fixes #7129) (#8365) (Kai Cataldo)
+* 86cf3e4 New: no-buffer-constructor rule (fixes #5614) (#8413) (Teddy Katz)
+* f560c06 Update: fix space-unary-ops behavior with postfix UpdateExpressions (#8391) (Teddy Katz)
+* 936af66 Fix: no-multiple-empty-lines crash on space after last \n (fixes #8401) (#8402) (Teddy Katz)
+* e395919 Breaking: Resolve patterns from .eslintignore directory (fixes #6759) (#7678) (Ian VanSchooten)
+* c778676 Breaking: convert RuleTester to ES6 class (refs #8231) (#8263) (Teddy Katz)
+* 6f7757e Breaking: convert SourceCode to ES6 class (refs #8231) (#8264) (Teddy Katz)
+* 8842d7e Chore: fix comment spacing in tests (#8405) (Teddy Katz)
+* 9a9d916 Breaking: update eslint:recommended for 4.0.0 (fixes #8236) (#8372) (Teddy Katz)
+* b0c63f0 Breaking: infer endLine and endColumn from a reported node (fixes #8004) (#8234) (Teddy Katz)
+* 40b8c69 Breaking: no-multi-spaces check around inline comments (fixes #7693) (#7696) (Kai Cataldo)
+* 034a575 Breaking: convert CLIEngine to ES6 class (refs #8231) (#8262) (Teddy Katz)
+* 7dd890d Breaking: tweak space-before-function-paren default option (fixes #8267) (#8285) (Teddy Katz)
+* 0e0dd27 Breaking: Remove `ecmaFeatures` from `eslint:recommended` (#8239) (alberto)
+* 2fa7502 Breaking: disallow scoped plugin references without scope (fixes #6362) (#8233) (Teddy Katz)
+* 4673f6e Chore: Switch to eslint-scope from escope (#8280) (Corbin Uselton)
+* e232464 Breaking: change defaults for padded-blocks (fixes #7879) (#8134) (alberto)
+
 v3.19.0 - March 31, 2017
 
 * e09132f Fix: no-extra-parens false positive with exports and object literals (#8359) (Teddy Katz)

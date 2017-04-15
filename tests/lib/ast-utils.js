@@ -295,40 +295,60 @@ describe("ast-utils", () => {
         }
 
         it("should return false if it is not a directive line comment", () => {
-            eslint.reset();
-            eslint.on("LineComment", assertFalse);
-            eslint.verify("// lalala I'm a normal comment", {}, filename, true);
-            eslint.verify("// trying to confuse eslint ", {}, filename, true);
-            eslint.verify("//trying to confuse eslint-directive-detection", {}, filename, true);
-            eslint.verify("//eslint is awesome", {}, filename, true);
+            const code = [
+                "// lalala I'm a normal comment",
+                "// trying to confuse eslint ",
+                "//trying to confuse eslint-directive-detection",
+                "//eslint is awesome"
+            ].join("\n");
+            const ast = espree.parse(code, ESPREE_CONFIG);
+            const sourceCode = new SourceCode(code, ast);
+            const comments = sourceCode.getAllComments();
+
+            comments.forEach(assertFalse);
         });
 
         it("should return false if it is not a directive block comment", () => {
-            eslint.reset();
-            eslint.on("BlockComment", assertFalse);
-            eslint.verify("/* lalala I'm a normal comment */", {}, filename, true);
-            eslint.verify("/* trying to confuse eslint */", {}, filename, true);
-            eslint.verify("/* trying to confuse eslint-directive-detection */", {}, filename, true);
-            eslint.verify("/*eSlInT is awesome*/", {}, filename, true);
+            const code = [
+                "/* lalala I'm a normal comment */",
+                "/* trying to confuse eslint */",
+                "/* trying to confuse eslint-directive-detection */",
+                "/*eSlInT is awesome*/"
+            ].join("\n");
+            const ast = espree.parse(code, ESPREE_CONFIG);
+            const sourceCode = new SourceCode(code, ast);
+            const comments = sourceCode.getAllComments();
+
+            comments.forEach(assertFalse);
         });
 
         it("should return true if it is a directive line comment", () => {
-            eslint.reset();
-            eslint.on("LineComment", assertTrue);
-            eslint.verify("// eslint-disable-line no-undef", {}, filename, true);
-            eslint.verify("// eslint-secret-directive 4 8 15 16 23 42   ", {}, filename, true);
-            eslint.verify("// eslint-directive-without-argument", {}, filename, true);
-            eslint.verify("//eslint-directive-without-padding", {}, filename, true);
+            const code = [
+                "// eslint-disable-line no-undef",
+                "// eslint-secret-directive 4 8 15 16 23 42   ",
+                "// eslint-directive-without-argument",
+                "//eslint-directive-without-padding"
+            ].join("\n");
+            const ast = espree.parse(code, ESPREE_CONFIG);
+            const sourceCode = new SourceCode(code, ast);
+            const comments = sourceCode.getAllComments();
+
+            comments.forEach(assertTrue);
         });
 
         it("should return true if it is a directive block comment", () => {
-            eslint.reset();
-            eslint.on("BlockComment", assertTrue);
-            eslint.verify("/* eslint-disable no-undef", {}, filename, true);
-            eslint.verify("/*eslint-enable no-undef", {}, filename, true);
-            eslint.verify("/* eslint-env {\"es6\": true}", {}, filename, true);
-            eslint.verify("/* eslint foo", {}, filename, true);
-            eslint.verify("/*eslint bar", {}, filename, true);
+            const code = [
+                "/* eslint-disable no-undef */",
+                "/*eslint-enable no-undef*/",
+                "/* eslint-env {\"es6\": true} */",
+                "/* eslint foo */",
+                "/*eslint bar*/"
+            ].join("\n");
+            const ast = espree.parse(code, ESPREE_CONFIG);
+            const sourceCode = new SourceCode(code, ast);
+            const comments = sourceCode.getAllComments();
+
+            comments.forEach(assertTrue);
         });
     });
 
@@ -1247,6 +1267,47 @@ describe("ast-utils", () => {
                 it(text, () => {
                     assert.strictEqual(text.split(astUtils.createGlobalLinebreakMatcher()).length, LINE_COUNTS[text]);
                 });
+            });
+        });
+    });
+
+    describe("canTokensBeAdjacent", () => {
+        const CASES = new Map([
+            [["foo", "bar"], false],
+            [[";foo", "bar"], false],
+            [[";", "bar"], true],
+            [[")", "bar"], true],
+            [["foo0", "bar"], false],
+            [["foo;", "bar"], true],
+            [["foo", "0"], false],
+            [["of", ".2"], true],
+            [["2", ".2"], false],
+            [["of", "'foo'"], true],
+            [["foo", "`bar`"], true],
+            [["`foo`", "in"], true],
+            [["of", "0.2"], false],
+            [["of", "0."], false],
+            [[".2", "foo"], false],
+            [["2.", "foo"], false],
+            [["+", "-"], true],
+            [["++", "-"], true],
+            [["+", "--"], true],
+            [["++", "--"], true],
+            [["-", "+"], true],
+            [["--", "+"], true],
+            [["-", "++"], true],
+            [["--", "++"], true],
+            [["+", "+"], false],
+            [["-", "-"], false],
+            [["++", "+"], false],
+            [["--", "-"], false],
+            [["+", "++"], false],
+            [["-", "--"], false]
+        ]);
+
+        CASES.forEach((expectedResult, tokenStrings) => {
+            it(tokenStrings.join(", "), () => {
+                assert.strictEqual(astUtils.canTokensBeAdjacent(tokenStrings[0], tokenStrings[1]), expectedResult);
             });
         });
     });
