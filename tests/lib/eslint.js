@@ -2620,8 +2620,8 @@ describe("eslint", () => {
 
             eslint.reset();
 
-            eslint.on("Program", node => {
-                const comments = eslint.getAllComments(node);
+            eslint.on("Program", () => {
+                const comments = eslint.getAllComments();
 
                 assert.equal(comments.length, 1);
                 assert.equal(comments[0].type, "Shebang");
