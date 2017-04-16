@@ -14,23 +14,14 @@ function doSomething(data) {
 }
 ```
 
-This represents a problem for `undefined` that doesn't exist for `null`, which is a keyword and primitive value that can neither be overwritten nor shadowed.
+Because `undefined` can be overwritten or shadowed, reading `undefined` can give an unexpected value. (This is not the case for `null`, which is a keyword that always produces the same value.) To guard against this, you can use the [no-global-assign](no-global-assign.md) and [no-shadow-restricted-names](no-shadow-restricted-names.md) rules.
 
-All uninitialized variables automatically get the value of `undefined`:
+Alternatively, you can avoid all uses of `undefined`, which is what some style guides recommend. Those style guides then recommend:
 
-```js
-var foo;
-
-console.log(foo === undefined);     // true (assuming no shadowing)
-```
-
-For this reason, it's not necessary to explicitly initialize a variable to `undefined`.
-
-Taking all of this into account, some style guides forbid the use of `undefined`, recommending instead:
-
-* Variables that should be `undefined` are simply left uninitialized.
+* Variables that should be `undefined` are simply left uninitialized. (All uninitialized variables automatically get the value of `undefined` in JavaScript.)
 * Checking if a value is `undefined` should be done with `typeof`.
 * Using the `void` operator to generate the value of `undefined` if necessary.
+
 
 ## Rule Details
 
@@ -84,3 +75,5 @@ If you want to allow the use of `undefined` in your code, then you can safely tu
 
 * [no-undef-init](no-undef-init.md)
 * [no-void](no-void.md)
+* [no-shadow-restricted-names](no-shadow-restricted-names.md)
+* [no-global-assign](no-global-assign.md)
