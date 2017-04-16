@@ -68,8 +68,9 @@ The default for each option is `"never"` unless otherwise specified.
 * `objects` is for object literals and object patterns of destructuring. (e.g. `let {a,} = {a: 1};`)
 * `imports` is for import declarations of ES Modules. (e.g. `import {a,} from "foo";`)
 * `exports` is for export declarations of ES Modules. (e.g. `export {a,};`)
-* `functions` is for function declarations and function calls. (e.g. `(function(a,){ })(b,);`)<br>
-  `functions` is set to `"ignore"` by default for consistency with the string option.
+* `functions` is for function declarations and function calls. (e.g. `(function(a,){ })(b,);`)
+    * `functions` is set to `"ignore"` by default for consistency with the string option.
+    * `functions` should only be enabled when linting ECMAScript 2017 or higher.
 
 ### never
 
