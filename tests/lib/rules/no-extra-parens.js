@@ -487,6 +487,7 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("typeof (0)", "typeof 0", "Literal"),
         invalid("typeof([])", "typeof[]", "ArrayExpression"),
         invalid("typeof ([])", "typeof []", "ArrayExpression"),
+        invalid("typeof( 0)", "typeof 0", "Literal"),
         invalid("typeof(typeof 5)", "typeof typeof 5", "UnaryExpression"),
         invalid("typeof (typeof 5)", "typeof typeof 5", "UnaryExpression"),
         invalid("+(+foo)", "+ +foo", "UnaryExpression"),

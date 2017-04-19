@@ -43,7 +43,7 @@ ruleTester.run("no-constant-condition", rule, {
         "if (void a || a);",
         "if (a || void a);",
 
-         // #5693
+        // #5693
         "if(xyz === 'str1' && abc==='str2'){}",
         "if(xyz === 'str1' || abc==='str2'){}",
         "if(xyz === 'str1' || abc==='str2' && pqr === 5){}",
@@ -98,11 +98,11 @@ ruleTester.run("no-constant-condition", rule, {
         { code: "if(a && void x);", errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }] },
 
         // #5693
-         { code: "if(false && abc==='str'){}", errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }] },
-         { code: "if(true || abc==='str'){}", errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }] },
-         { code: "if(abc==='str' || true){}", errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }] },
-         { code: "if(abc==='str' || true || def ==='str'){}", errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }] },
-         { code: "if(false || true){}", errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }] },
-         { code: "if(typeof abc==='str' || true){}", errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }] }
+        { code: "if(false && abc==='str'){}", errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }] },
+        { code: "if(true || abc==='str'){}", errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }] },
+        { code: "if(abc==='str' || true){}", errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }] },
+        { code: "if(abc==='str' || true || def ==='str'){}", errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }] },
+        { code: "if(false || true){}", errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }] },
+        { code: "if(typeof abc==='str' || true){}", errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }] }
     ]
 });

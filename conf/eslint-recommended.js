@@ -16,6 +16,7 @@ module.exports = {
 
         /* eslint-enable sort-keys */
         "accessor-pairs": "off",
+        "array-bracket-newline": "off",
         "array-bracket-spacing": "off",
         "array-callback-return": "error",
         "array-element-newline": "off",
@@ -55,6 +56,7 @@ module.exports = {
         "id-length": "off",
         "id-match": "off",
         "indent": "off",
+        "indent-legacy": "off",
         "init-declarations": "off",
         "jsx-quotes": "off",
         "key-spacing": "off",
@@ -80,6 +82,7 @@ module.exports = {
         "no-array-constructor": "off",
         "no-await-in-loop": "off",
         "no-bitwise": "off",
+        "no-buffer-constructor": "off",
         "no-caller": "off",
         "no-case-declarations": "error",
         "no-catch-shadow": "off",

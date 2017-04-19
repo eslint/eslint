@@ -362,19 +362,27 @@ var nodeSourceWithFollowing = sourceCode.getText(node, 0, 2);
 
 In this way, you can look for patterns in the JavaScript text itself when the AST isn't providing the appropriate data (such as location of commas, semicolons, parentheses, etc.).
 
-### Accessing comments
+### Accessing Comments
 
-If you need to access comments for a specific node you can use `sourceCode.getComments(node)`:
+While comments are not technically part of the AST, ESLint provides a few ways for rules to access them:
 
-```js
-// the "comments" variable has a "leading" and "trailing" property containing
-// its leading and trailing comments, respectively
-var comments = sourceCode.getComments(node);
-```
+#### sourceCode.getAllComments()
 
-Keep in mind that comments are technically not a part of the AST and are only attached to it on demand, i.e. when you call `getComments()`.
+This method returns an array of all the comments found in the program. This is useful for rules that need to check all comments regardless of location.
 
-**Note:** One of the libraries adds AST node properties for comments - do not use these properties. Always use `sourceCode.getComments()` as this is the only guaranteed API for accessing comments (we will likely change how comments are handled later).
+#### sourceCode.getComments(node)
+
+This method returns comments for a specific node in the form of an object containing arrays of "leading" (occurring before the given node) and "trailing" (occurring after the given node) comment tokens. This is useful for rules that need to check comments around a given node.
+
+Keep in mind that the results of this method are calculated on demand.
+
+#### Token traversal methods
+
+Finally, comments can be accessed through many of `sourceCode`'s methods using the `includeComments` option.
+
+### Accessing Shebangs
+
+Shebangs are represented by tokens of type `"Shebang"`. They are treated as comments and can be accessed by the methods outlined above.
 
 ### Accessing Code Paths
 

@@ -18,7 +18,10 @@ All of these options give you fine-grained control over how ESLint treats your c
 ESLint allows you to specify the JavaScript language options you want to support. By default, ESLint expects ECMAScript 5 syntax. You can override that setting to enable support for other ECMAScript versions as well as JSX by using parser options.
 
 Please note that supporting JSX syntax is not the same as supporting React. React applies specific semantics to JSX syntax that ESLint doesn't recognize. We recommend using [eslint-plugin-react](https://github.com/yannickcr/eslint-plugin-react) if you are using React and want React semantics.
-
+By the same token, supporting ES6 syntax is not the same as supporting new ES6 globals (e.g., new types such as
+`Set`).
+For ES6 syntax, use `{ "parserOptions": { "ecmaVersion": 6 } }`; for new ES6 global variables, use `{ "env":
+{ "es6": true } }` (this setting enables ES6 syntax automatically).
 Parser options are set in your `.eslintrc.*` file by using the `parserOptions` property. The available options are:
 
 * `ecmaVersion` - set to 3, 5 (default), 6, 7, or 8 to specify the version of ECMAScript syntax you want to use. You can also set to 2015 (same as 6), 2016 (same as 7), or 2017 (same as 8) to use the year-based naming.
