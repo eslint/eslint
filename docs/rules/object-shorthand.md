@@ -48,7 +48,7 @@ Each of the following properties would warn:
 
 ```js
 /*eslint object-shorthand: "error"*/
-/*eslint-env es6*/
+/*eslint-env es5*/
 
 var foo = {
     w: function() {},
