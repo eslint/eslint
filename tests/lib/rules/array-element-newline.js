@@ -62,7 +62,6 @@ ruleTester.run("array-element-newline", rule, {
         { code: "var foo = [1];", options: [{ multiline: true }] },
         { code: "var foo = [1, 2];", options: [{ multiline: true }] },
         { code: "var foo = [1, 2, 3];", options: [{ multiline: true }] },
-        { code: "var foo = [1,\n2,\n3];", options: [{ multiline: true }] },
         { code: "var f = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n}\n];", options: [{ multiline: true }] },
 
         // { minItems: null }
@@ -90,9 +89,8 @@ ruleTester.run("array-element-newline", rule, {
         { code: "var foo = [];", options: [{ multiline: true, minItems: 3 }] },
         { code: "var foo = [1];", options: [{ multiline: true, minItems: 3 }] },
         { code: "var foo = [1, 2];", options: [{ multiline: true, minItems: 3 }] },
-        { code: "var foo = [1,\n2,\n];", options: [{ multiline: true, minItems: 3 }] },
-        { code: "var foo = [1, // any comment\n2,\n];", options: [{ multiline: true, minItems: 3 }] },
-        { code: "var foo = [1,\n2,\n// any comment\n];", options: [{ multiline: true, minItems: 3 }] },
+        { code: "var foo = [1, // any comment\n2,\n, 3];", options: [{ multiline: true, minItems: 3 }] },
+        { code: "var foo = [1,\n2,\n// any comment\n, 3];", options: [{ multiline: true, minItems: 3 }] },
         { code: "var foo = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n}\n];", options: [{ multiline: true, minItems: 3 }] },
 
         // ArrayPattern
@@ -289,13 +287,13 @@ ruleTester.run("array-element-newline", rule, {
         {
             code: "var foo = [1,\n2, 3];",
             options: [{ multiline: true }],
-            output: "var foo = [1,\n2,\n3];",
+            output: "var foo = [1, 2, 3];",
             errors: [
                 {
-                    message: ERR_BREAK_HERE,
+                    message: ERR_NO_BREAK_HERE,
                     type: "ArrayExpression",
-                    line: 2,
-                    column: 3
+                    line: 1,
+                    column: 14
                 }
             ]
         },
@@ -484,6 +482,19 @@ ruleTester.run("array-element-newline", rule, {
                     type: "ArrayExpression",
                     line: 1,
                     column: 17
+                }
+            ]
+        },
+        {
+            code: "var foo = [1,\n2];",
+            options: [{ multiline: true, minItems: 3 }],
+            output: "var foo = [1, 2];",
+            errors: [
+                {
+                    message: ERR_NO_BREAK_HERE,
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 14
                 }
             ]
         },
