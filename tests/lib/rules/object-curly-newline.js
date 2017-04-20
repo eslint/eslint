@@ -430,12 +430,57 @@ ruleTester.run("object-curly-newline", rule, {
         },
         {
             code: [
+                "var a = {",
+                "  /* comment */ ",
+                "};"
+            ].join("\n"),
+            output: [
+                "var a = {/* comment */};"
+            ].join("\n"),
+            options: [{ multiline: true }],
+            errors: [
+                { line: 1, column: 9, message: "Unexpected line break after this opening brace." },
+                { line: 3, column: 1, message: "Unexpected line break before this closing brace." }
+            ]
+        },
+        {
+            code: [
                 "var b = {",
                 "    a: 1",
                 "};"
             ].join("\n"),
             output: [
                 "var b = {a: 1};"
+            ].join("\n"),
+            options: [{ multiline: true }],
+            errors: [
+                { line: 1, column: 9, message: "Unexpected line break after this opening brace." },
+                { line: 3, column: 1, message: "Unexpected line break before this closing brace." }
+            ]
+        },
+        {
+            code: [
+                "var a = {",
+                "  /* comment */ b: 1",
+                "};"
+            ].join("\n"),
+            output: [
+                "var a = {/* comment */ b: 1};"
+            ].join("\n"),
+            options: [{ multiline: true }],
+            errors: [
+                { line: 1, column: 9, message: "Unexpected line break after this opening brace." },
+                { line: 3, column: 1, message: "Unexpected line break before this closing brace." }
+            ]
+        },
+        {
+            code: [
+                "var a = {",
+                "  b: 1 /* comment */ ",
+                "};"
+            ].join("\n"),
+            output: [
+                "var a = {b: 1 /* comment */};"
             ].join("\n"),
             options: [{ multiline: true }],
             errors: [
