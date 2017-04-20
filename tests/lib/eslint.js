@@ -2620,19 +2620,11 @@ describe("eslint", () => {
 
             eslint.reset();
 
-            eslint.on("Program", node => {
-                assert.equal(node.comments.length, 1);
-                assert.equal(node.comments[0].type, "Shebang");
+            eslint.on("Program", () => {
+                const comments = eslint.getAllComments();
 
-                let comments = eslint.getComments(node);
-
-                assert.equal(comments.leading.length, 0);
-                assert.equal(comments.trailing.length, 0);
-
-                comments = eslint.getComments(node.body[0]);
-                assert.equal(comments.leading.length, 1);
-                assert.equal(comments.trailing.length, 0);
-                assert.equal(comments.leading[0].type, "Shebang");
+                assert.equal(comments.length, 1);
+                assert.equal(comments[0].type, "Shebang");
             });
             eslint.verify(code, config, "foo.js", true);
         });
