@@ -263,7 +263,9 @@ Once you have an instance of `SourceCode`, you can use the methods on it to work
 
 * `getText(node)` - returns the source code for the given node. Omit `node` to get the whole source.
 * `getAllComments()` - returns an array of all comments in the source.
-* `getComments(node)` - returns the leading and trailing comments arrays for the given node.
+* `getCommentsBefore(nodeOrToken)` - returns an array of comment tokens that occur directly before the given node or token.
+* `getCommentsAfter(nodeOrToken)` - returns an array of comment tokens that occur directly after the given node or token.
+* `getCommentsInside(node)` - returns an array of all comment tokens inside a given node.
 * `getJSDocComment(node)` - returns the JSDoc comment for a given node or `null` if there is none.
 * `isSpaceBetweenTokens(first, second)` - returns true if there is a whitespace character between the two tokens.
 * `getFirstToken(node, skipOptions)` - returns the first token representing the given node.
@@ -306,6 +308,14 @@ There are also some properties you can access:
 * `lines` - an array of lines, split according to the specification's definition of line breaks.
 
 You should use a `SourceCode` object whenever you need to get more information about the code being linted.
+
+#### Deprecated
+
+Please note that the following methods have been deprecated and will be removed in a future version of ESLint:
+
+* `getComments()` - replaced by `getCommentsBefore()`, `getCommentsAfter()`, and `getCommentsInside()`
+* `getTokenOrCommentBefore()` - replaced by `getTokenBefore()` with the `{ includeComments: true }` option
+* `getTokenOrCommentAfter()` - replaced by `getTokenAfter()` with the `{ includeComments: true }` option
 
 ### Options Schemas
 
@@ -370,9 +380,9 @@ While comments are not technically part of the AST, ESLint provides a few ways f
 
 This method returns an array of all the comments found in the program. This is useful for rules that need to check all comments regardless of location.
 
-#### sourceCode.getComments(node)
+#### sourceCode.getCommentsBefore(), sourceCode.getCommentsAfter(), and sourceCode.getCommentsInside()
 
-This method returns comments for a specific node in the form of an object containing arrays of "leading" (occurring before the given node) and "trailing" (occurring after the given node) comment tokens. This is useful for rules that need to check comments around a given node.
+These methods return an array of comments that appear directly before, directly after, and inside nodes, respectively. They are useful for rules that need to check comments in relation to a given node or token.
 
 Keep in mind that the results of this method are calculated on demand.
 

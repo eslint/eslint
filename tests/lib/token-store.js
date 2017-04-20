@@ -1272,4 +1272,116 @@ describe("TokenStore", () => {
             );
         });
     });
+
+    describe("getCommentsBefore", () => {
+        it("should retrieve comments before a node", () => {
+            assert.equal(
+                store.getCommentsBefore(VariableDeclaration)[0].value,
+                "A"
+            );
+        });
+
+        it("should retrieve comments before a token", () => {
+            assert.equal(
+                store.getCommentsBefore(TOKENS[2] /* "=" token */)[0].value,
+                "B"
+            );
+        });
+
+        it("should retrieve multiple comments before a node", () => {
+            const comments = store.getCommentsBefore(CallExpression);
+
+            assert.equal(comments.length, 2);
+            assert.equal(comments[0].value, "E");
+            assert.equal(comments[1].value, "F");
+        });
+
+        it("should retrieve comments before a Program node", () => {
+            assert.equal(
+                store.getCommentsBefore(Program)[0].value,
+                "A"
+            );
+        });
+
+        it("should return an empty array if there are no comments before a node or token", () => {
+            check(
+                store.getCommentsBefore(BinaryExpression.right),
+                []
+            );
+            check(
+                store.getCommentsBefore(TOKENS[1]),
+                []
+            );
+        });
+    });
+
+    describe("getCommentsAfter", () => {
+        it("should retrieve comments after a node", () => {
+            assert.equal(
+                store.getCommentsAfter(VariableDeclarator.id)[0].value,
+                "B"
+            );
+        });
+
+        it("should retrieve comments after a token", () => {
+            assert.equal(
+                store.getCommentsAfter(TOKENS[2] /* "=" token */)[0].value,
+                "C"
+            );
+        });
+
+        it("should retrieve multiple comments after a node", () => {
+            const comments = store.getCommentsAfter(VariableDeclaration);
+
+            assert.equal(comments.length, 2);
+            assert.equal(comments[0].value, "E");
+            assert.equal(comments[1].value, "F");
+        });
+
+        it("should retrieve comments after a Program node", () => {
+            assert.equal(
+                store.getCommentsAfter(Program)[0].value,
+                "Z"
+            );
+        });
+
+        it("should return an empty array if there are no comments after a node or token", () => {
+            check(
+                store.getCommentsAfter(CallExpression.callee),
+                []
+            );
+            check(
+                store.getCommentsAfter(TOKENS[0]),
+                []
+            );
+        });
+    });
+
+    describe("getCommentsInside", () => {
+        it("should retrieve comments inside a node", () => {
+            check(
+                store.getCommentsInside(Program),
+                ["B", "C", "D", "E", "F"]
+            );
+            check(
+                store.getCommentsInside(VariableDeclaration),
+                ["B", "C", "D"]
+            );
+            check(
+                store.getCommentsInside(VariableDeclarator),
+                ["B", "C", "D"]
+            );
+            check(
+                store.getCommentsInside(BinaryExpression),
+                ["D"]
+            );
+        });
+
+        it("should return an empty array if a node does not contain any comments", () => {
+            check(
+                store.getCommentsInside(TOKENS[2]),
+                []
+            );
+        });
+    });
 });
