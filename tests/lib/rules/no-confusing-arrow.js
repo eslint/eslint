@@ -28,19 +28,41 @@ ruleTester.run("no-confusing-arrow", rule, {
     invalid: [
         {
             code: "a => 1 ? 2 : 3",
+            output: null,
             errors: [{ message: "Arrow function used ambiguously with a conditional expression." }]
         },
         {
             code: "var x = a => 1 ? 2 : 3",
+            output: null,
             errors: [{ message: "Arrow function used ambiguously with a conditional expression." }]
         },
         {
             code: "var x = (a) => 1 ? 2 : 3",
+            output: null,
             errors: [{ message: "Arrow function used ambiguously with a conditional expression." }]
         },
         {
             code: "var x = a => (1 ? 2 : 3)",
+            output: null,
             errors: [{ message: "Arrow function used ambiguously with a conditional expression." }]
+        },
+        {
+            code: "a => 1 ? 2 : 3",
+            output: "a => (1 ? 2 : 3)",
+            errors: [{ message: "Arrow function used ambiguously with a conditional expression." }],
+            options: [{ allowParens: true }]
+        },
+        {
+            code: "var x = a => 1 ? 2 : 3",
+            output: "var x = a => (1 ? 2 : 3)",
+            errors: [{ message: "Arrow function used ambiguously with a conditional expression." }],
+            options: [{ allowParens: true }]
+        },
+        {
+            code: "var x = (a) => 1 ? 2 : 3",
+            output: "var x = (a) => (1 ? 2 : 3)",
+            errors: [{ message: "Arrow function used ambiguously with a conditional expression." }],
+            options: [{ allowParens: true }]
         }
     ]
 });
