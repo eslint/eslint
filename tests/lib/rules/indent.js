@@ -3041,6 +3041,10 @@ ruleTester.run("indent", rule, {
 
                 ; [1, 2, 3].map(baz)
             `
+        },
+        {
+            code: "x => {}",
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
 
