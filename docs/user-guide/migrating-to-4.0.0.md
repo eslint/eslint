@@ -167,7 +167,15 @@ Prior to 4.0, ESLint required parsers to implement comment attachment, a process
 
 In 4.0, comment attachment logic has been moved into ESLint itself. This should make it easier to develop custom parsers, but it also means that AST nodes will no longer have `leadingComments` and `trailingComments` properties. Additionally, `LineComment` and `BlockComment` events will no longer be emitted during AST traversal.
 
-**To address:** If you have a custom rule that depends on the `leadingComments` or `trailingComments` properties of an AST node, you can switch to `sourceCode.getComments(node).leading` or `sourceCode.getComments(node).trailing` instead. You should also consider using `sourceCode.getAllComments()` or `sourceCode.getTokenBefore(node, { includeComments: true })`.
+**To address:** If you have a custom rule that depends on the `leadingComments` or `trailingComments` properties of an AST node, you can now use `sourceCode.getCommentsBefore()` and `sourceCode.getCommentsAfter()` instead, respectively.
+
+Additionally, the `sourceCode` object now also has `sourceCode.getCommentsInside()` (which returns all the comments inside a node), `sourceCode.getAllComments()` (which returns all the comments in the file), and allows comments to be accessed through various other token iterator methods (such as `getTokenBefore()` and `getTokenAfter()`) with the `{ includeComments: true }` option.
+
+Finally, please note that the following methods have been deprecated and will be removed in a future version of ESLint:
+
+* `getComments()` - replaced by `getCommentsBefore()`, `getCommentsAfter()`, and `getCommentsInside()`
+* `getTokenOrCommentBefore()` - replaced by `getTokenBefore()` with the `{ includeComments: true }` option
+* `getTokenOrCommentAfter()` - replaced by `getTokenAfter()` with the `{ includeComments: true }` option
 
 ## <a name="shebangs"/> Shebangs are now returned from comment APIs
 
