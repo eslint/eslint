@@ -189,8 +189,8 @@ Starting in 4.0, `LineComment` and `BlockComments` events will not be emitted du
 **To address:** Instead of relying on `LineComment` and `BlockComment`, rules can now use `sourceCode.getAllComments()` to get all comments in a file. To check all comments of a specific type, rules can use the following pattern:
 
 ```
-sourceCode.getAllComments().filter(comment => comment.type === "LineComment");
-sourceCode.getAllComments().filter(comment => comment.type === "BlockComment");
+sourceCode.getAllComments().filter(comment => comment.type === "Line");
+sourceCode.getAllComments().filter(comment => comment.type === "Block");
 ```
 
 ## <a name="shebangs"/> Shebangs are now returned from comment APIs
