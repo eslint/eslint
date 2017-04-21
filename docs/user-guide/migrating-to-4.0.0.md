@@ -165,17 +165,31 @@ Starting in 4.0, the `RuleTester` utility will validate properties of test case 
 
 Prior to 4.0, ESLint required parsers to implement comment attachment, a process where AST nodes would gain additional properties corresponding to their leading and trailing comments in the source file. This made it difficult for users to develop custom parsers, because they would have to replicate the confusing comment attachment semantics required by ESLint.
 
-In 4.0, comment attachment logic has been moved into ESLint itself. This should make it easier to develop custom parsers, but it also means that AST nodes will no longer have `leadingComments` and `trailingComments` properties. Additionally, `LineComment` and `BlockComment` events will no longer be emitted during AST traversal.
+In 4.0, we have moved away from the concept of comment attachment and have moved all comment handling logic into ESLint itself. This should make it easier to develop custom parsers, but it also means that AST nodes will no longer have `leadingComments` and `trailingComments` properties. Conceptually, rule authors can now think of comments in the context of tokens rather than AST nodes.
 
 **To address:** If you have a custom rule that depends on the `leadingComments` or `trailingComments` properties of an AST node, you can now use `sourceCode.getCommentsBefore()` and `sourceCode.getCommentsAfter()` instead, respectively.
 
 Additionally, the `sourceCode` object now also has `sourceCode.getCommentsInside()` (which returns all the comments inside a node), `sourceCode.getAllComments()` (which returns all the comments in the file), and allows comments to be accessed through various other token iterator methods (such as `getTokenBefore()` and `getTokenAfter()`) with the `{ includeComments: true }` option.
 
-Finally, please note that the following methods have been deprecated and will be removed in a future version of ESLint:
+Finally, please note that the following `SourceCode` methods have been deprecated and will be removed in a future version of ESLint:
 
 * `getComments()` - replaced by `getCommentsBefore()`, `getCommentsAfter()`, and `getCommentsInside()`
 * `getTokenOrCommentBefore()` - replaced by `getTokenBefore()` with the `{ includeComments: true }` option
 * `getTokenOrCommentAfter()` - replaced by `getTokenAfter()` with the `{ includeComments: true }` option
+
+## <a name="event-comments"/> `LineComment` and `BlockComment` events will no longer be emitted during AST traversal
+
+Starting in 4.0, `LineComment` and `BlockComments` events will not be emitted during AST traversal. The reasoning for this is twofold:
+
+* This behavior was relying on comment attachment happening at the parser level to ensure that all comments would be accounted for
+* Thinking of comments in the context of tokens is more predictable and easier to reason about than thinking about comment tokens in the context of AST nodes
+
+**To address:** Instead of relying on `LineComment` and `BlockComment`, rules can now use `sourceCode.getAllComments()` to get all comments in a file. To check all comments of a specific type, rules can use the following pattern:
+
+```
+sourceCode.getAllComments().filter(comment => comment.type === "LineComment");
+sourceCode.getAllComments().filter(comment => comment.type === "BlockComment");
+```
 
 ## <a name="shebangs"/> Shebangs are now returned from comment APIs
 
