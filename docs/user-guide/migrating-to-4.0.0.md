@@ -171,6 +171,8 @@ In 4.0, we have moved away from the concept of comment attachment and have moved
 
 Additionally, the `sourceCode` object now also has `sourceCode.getCommentsInside()` (which returns all the comments inside a node), `sourceCode.getAllComments()` (which returns all the comments in the file), and allows comments to be accessed through various other token iterator methods (such as `getTokenBefore()` and `getTokenAfter()`) with the `{ includeComments: true }` option.
 
+For rule authors concerned about supporting ESLint v3.0 in addition to v4.0, the now deprecated `sourceCode.getComments()` is still available and will work for both versions.
+
 Finally, please note that the following `SourceCode` methods have been deprecated and will be removed in a future version of ESLint:
 
 * `getComments()` - replaced by `getCommentsBefore()`, `getCommentsAfter()`, and `getCommentsInside()`
@@ -195,9 +197,13 @@ sourceCode.getAllComments().filter(comment => comment.type === "BlockComment");
 
 Prior to 4.0, shebang comments in a source file would not appear in the output of `sourceCode.getAllComments()` or `sourceCode.getComments()`, but they would appear in the output of `sourceCode.getTokenOrCommentBefore` as line comments. This inconsistency led to some confusion for rule developers.
 
-In 4.0, shebang comments are included in the results of all of these methods. Instead of being converted to line comments, they will now have the `Shebang` type.
+In 4.0, shebang comments are treated as comment tokens of type `Shebang` and will be returned by any `SourceCode` method that returns comments. The goal of this change is to make working with shebang comments more consistent with how other tokens are handled.
 
-**To address:** If you have a custom rule that performs operations on comments, make sure to handle shebang comments appropriately.
+**To address:** If you have a custom rule that performs operations on comments, some additional logic might be required to ensure that shebang comments are correctly handled or filtered out:
+
+```
+sourceCode.getAllComments().filter(comment => comment.type !== "Shebang");
+```
 
 ## <a name="type-annotation-traversal"/> Type annotation nodes in an AST are now traversed
 
