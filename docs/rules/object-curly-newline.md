@@ -16,7 +16,8 @@ This rule has either a string option:
 Or an object option:
 
 * `"multiline": true` (default) requires line breaks if there are line breaks inside properties or between properties
-* `"minProperties"` requires line breaks if the number of properties is more than the given integer
+* `"minProperties"` requires line breaks if the number of properties is more than the given integer. By default, an error will also be reported if an object contains linebreaks and has fewer properties than the given integer. However, the second behavior is disabled if the `consistent` option is set to `true`
+* `"consistent": true` requires that either both curly braces, or neither, directly enclose newlines. Note that enabling this option will also change the behavior of the `minProperties` option. (See `minProperties` above for more information)
 
 You can specify different options for object literals and destructuring assignments:
 
@@ -310,6 +311,86 @@ let {
 let {k = function() {
     dosomething();
 }} = obj;
+```
+
+### consistent
+
+Examples of **incorrect** code for this rule with the `{ "consistent": true }` option:
+
+```js
+/*eslint object-curly-newline: ["error", { "consistent": true }]*/
+/*eslint-env es6*/
+
+let a = {foo: 1
+};
+let b = {
+    foo: 1};
+let c = {foo: 1, bar: 2
+};
+let d = {
+    foo: 1, bar: 2};
+let e = {foo: 1,
+    bar: 2};
+let f = {foo: function() {
+    dosomething();
+}};
+
+let {g
+} = obj;
+let {
+    h} = obj;
+let {i, j
+} = obj;
+let {
+    k, l} = obj;
+let {m,
+    n} = obj;
+let {o = function() {
+    dosomething();
+}} = obj;
+```
+
+Examples of **correct** code for this rule with the `{ "consistent": true }` option:
+
+```js
+/*eslint object-curly-newline: ["error", { "consistent": true }]*/
+/*eslint-env es6*/
+
+let a = {};
+let b = {foo: 1};
+let c = {
+    foo: 1
+};
+let d = {
+    foo: 1, bar: 2
+};
+let e = {
+    foo: 1,
+    bar: 2
+};
+let f = {foo: function() {dosomething();}};
+let g = {
+    foo: function() {
+        dosomething();
+    }
+};
+
+let {} = obj;
+let {h} = obj;
+let {i, j} = obj;
+let {
+    k, l
+} = obj;
+let {
+    m,
+    n
+} = obj;
+let {o = function() {dosomething();}} = obj;
+let {
+    p = function() {
+        dosomething();
+    }
+} = obj;
 ```
 
 ### ObjectExpression and ObjectPattern
