@@ -181,9 +181,9 @@ Finally, please note that the following `SourceCode` methods have been deprecate
 
 ## <a name="event-comments"/> `LineComment` and `BlockComment` events will no longer be emitted during AST traversal
 
-Starting in 4.0, `LineComment` and `BlockComments` events will not be emitted during AST traversal. The reasoning for this is twofold:
+Starting in 4.0, `LineComment` and `BlockComments` events will not be emitted during AST traversal. There are two reasons for this:
 
-* This behavior was relying on comment attachment happening at the parser level to ensure that all comments would be accounted for
+* This behavior was relying on comment attachment happening at the parser level, which does not happen anymore, to ensure that all comments would be accounted for
 * Thinking of comments in the context of tokens is more predictable and easier to reason about than thinking about comment tokens in the context of AST nodes
 
 **To address:** Instead of relying on `LineComment` and `BlockComment`, rules can now use `sourceCode.getAllComments()` to get all comments in a file. To check all comments of a specific type, rules can use the following pattern:
