@@ -16,11 +16,11 @@ This rule has either a string option:
 Or an object option (Requires line breaks if any of properties is satisfied. Otherwise, disallows line breaks):
 
 * `"multiline": <boolean>` requires line breaks if there are line breaks inside elements. If this is false, this condition is disabled.
-* `"minItems": null` requires line breaks if the number of elements is at least the given integer. If this is 0, this condition will act the same as the option `"always"`. If this is `null` (the default), this condition is disabled.
+* `"minItems": <number>` requires line breaks if the number of elements is at least the given integer. If this is 0, this condition will act the same as the option `"always"`. If this is `null` (the default), this condition is disabled.
 
 ### always
 
-Examples of **incorrect** code for this rule with the `"always"` option:
+Examples of **incorrect** code for this rule with the default `"always"` option:
 
 ```js
 /*eslint array-element-newline: ["error", "always"]*/
@@ -129,10 +129,7 @@ var a = [];
 var b = [1];
 var c = [1, 2];
 var d = [1, 2, 3];
-var e = [1,
-    2,
-    3];
-var f = [
+var e = [
     function foo() {
         dosomething();
     },
@@ -189,6 +186,8 @@ Examples of **incorrect** code for this rule with the `{ "multiline": true, "min
 ```js
 /*eslint array-element-newline: ["error", { "multiline": true, "minItems": 3 }]*/
 
+var c = [1,
+2];
 var d = [1, 2, 3];
 var e = [
     function foo() {
