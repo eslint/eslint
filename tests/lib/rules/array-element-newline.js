@@ -19,8 +19,8 @@ const RuleTester = require("../../../lib/testers/rule-tester");
 
 const ruleTester = new RuleTester();
 
-const ERR_NO_BREAK_HERE = "Here should be no linebreak.";
-const ERR_BREAK_HERE = "Here should be a linebreak.";
+const ERR_NO_BREAK_HERE = "There should be no linebreak here.";
+const ERR_BREAK_HERE = "There should be a linebreak after this element.";
 
 ruleTester.run("array-element-newline", rule, {
 
@@ -35,12 +35,20 @@ ruleTester.run("array-element-newline", rule, {
         "var foo = [// any comment \n1,\n2];",
         "var foo = [1,\n2 // any comment\n];",
         "var foo = [1,\n2,\n3];",
+        "var foo = [1\n, (2\n, 3)];",
+        "var foo = [1,\n(  2   ),\n3];",
+        "var foo = [1,\n(\n2\n),\n3];",
+        "var foo = [1,\n(2),\n3];",
+        "var foo = [1,\n(2)\n, 3];",
+        "var foo = [1\n, 2\n, 3];",
         "var foo = [1,\n2,\n,\n3];",
         "var foo = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\nosomething();\n}\n];",
 
         { code: "var foo = [];", options: ["always"] },
         { code: "var foo = [1];", options: ["always"] },
         { code: "var foo = [1,\n2];", options: ["always"] },
+        { code: "var foo = [1,\n(2)];", options: ["always"] },
+        { code: "var foo = [1\n, (2)];", options: ["always"] },
         { code: "var foo = [1, // any comment\n2];", options: ["always"] },
         { code: "var foo = [// any comment \n1,\n2];", options: ["always"] },
         { code: "var foo = [1,\n2 // any comment\n];", options: ["always"] },
@@ -154,6 +162,121 @@ ruleTester.run("array-element-newline", rule, {
             ]
         },
         {
+            code: "var foo = [1,2, 3];",
+            options: ["always"],
+            output: "var foo = [1,\n2,\n3];",
+            errors: [
+                {
+                    message: ERR_BREAK_HERE,
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 14,
+                    endLine: 1,
+                    endColumn: 14
+                },
+                {
+                    message: ERR_BREAK_HERE,
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 16,
+                    endLine: 1,
+                    endColumn: 17
+                }
+            ]
+        },
+        {
+            code: "var foo = [1, (2), 3];",
+            options: ["always"],
+            output: "var foo = [1,\n(2),\n3];",
+            errors: [
+                {
+                    message: ERR_BREAK_HERE,
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 14,
+                    endLine: 1,
+                    endColumn: 15
+                },
+                {
+                    message: ERR_BREAK_HERE,
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 19,
+                    endLine: 1,
+                    endColumn: 20
+                }
+            ]
+        },
+        {
+            code: "var foo = [1,/* any comment */(2), 3];",
+            options: ["always"],
+            output: "var foo = [1,/* any comment */\n(2),\n3];",
+            errors: [
+                {
+                    message: ERR_BREAK_HERE,
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 31,
+                    endLine: 1,
+                    endColumn: 31
+                },
+                {
+                    message: ERR_BREAK_HERE,
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 35,
+                    endLine: 1,
+                    endColumn: 36
+                }
+            ]
+        },
+        {
+            code: "var foo = [1,(  2), 3];",
+            options: ["always"],
+            output: "var foo = [1,\n(  2),\n3];",
+            errors: [
+                {
+                    message: ERR_BREAK_HERE,
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 14,
+                    endLine: 1,
+                    endColumn: 14
+                },
+                {
+                    message: ERR_BREAK_HERE,
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 20,
+                    endLine: 1,
+                    endColumn: 21
+                }
+            ]
+        },
+        {
+            code: "var foo = [1, [2], 3];",
+            options: ["always"],
+            output: "var foo = [1,\n[2],\n3];",
+            errors: [
+                {
+                    message: ERR_BREAK_HERE,
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 14,
+                    endLine: 1,
+                    endColumn: 15
+                },
+                {
+                    message: ERR_BREAK_HERE,
+                    type: "ArrayExpression",
+                    line: 1,
+                    column: 19,
+                    endLine: 1,
+                    endColumn: 20
+                }
+            ]
+        },
+        {
             code: "var foo = [\nfunction foo() {\ndosomething();\n}, function bar() {\ndosomething();\n}\n];",
             options: ["always"],
             output: "var foo = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n}\n];",
@@ -163,6 +286,19 @@ ruleTester.run("array-element-newline", rule, {
                     type: "ArrayExpression",
                     line: 4,
                     column: 3
+                }
+            ]
+        },
+        {
+            code: "var foo = [\n(function foo() {\ndosomething();\n}), function bar() {\ndosomething();\n}\n];",
+            options: ["always"],
+            output: "var foo = [\n(function foo() {\ndosomething();\n}),\nfunction bar() {\ndosomething();\n}\n];",
+            errors: [
+                {
+                    message: ERR_BREAK_HERE,
+                    type: "ArrayExpression",
+                    line: 4,
+                    column: 4
                 }
             ]
         },
