@@ -21,10 +21,9 @@ const ruleTester = new RuleTester();
 ruleTester.run("no-self-compare", rule, {
     valid: [
         "if (x === y) { }",
-        "if (f() === f()) { }",
-        "if (a[1] === a[1]) { }",
         "if (1 === 2) { }",
-        "y=x*x"
+        "y=x*x",
+        "foo.bar.baz === foo.bar.qux"
     ],
     invalid: [
         { code: "if (x === x) { }", errors: [{ message: "Comparing to itself is potentially pointless.", type: "BinaryExpression" }] },
@@ -39,6 +38,7 @@ ruleTester.run("no-self-compare", rule, {
         { code: "x > x", errors: [{ message: "Comparing to itself is potentially pointless.", type: "BinaryExpression" }] },
         { code: "x < x", errors: [{ message: "Comparing to itself is potentially pointless.", type: "BinaryExpression" }] },
         { code: "x >= x", errors: [{ message: "Comparing to itself is potentially pointless.", type: "BinaryExpression" }] },
-        { code: "x <= x", errors: [{ message: "Comparing to itself is potentially pointless.", type: "BinaryExpression" }] }
+        { code: "x <= x", errors: [{ message: "Comparing to itself is potentially pointless.", type: "BinaryExpression" }] },
+        { code: "foo.bar().baz.qux >= foo.bar ().baz .qux", errors: [{ message: "Comparing to itself is potentially pointless.", type: "BinaryExpression" }] }
     ]
 });
