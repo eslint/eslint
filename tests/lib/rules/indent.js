@@ -1001,6 +1001,16 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                export {
+                    foo,
+                    bar,
+                    baz
+                } from 'qux';
+            `,
+            parserOptions: { sourceType: "module" }
+        },
+        {
+            code: unIndent`
                 var a = 1,
                     b = 2,
                     c = 3;
@@ -5589,6 +5599,42 @@ ruleTester.run("indent", rule, {
             errors: expectedErrors([[2, 4, 0, "Identifier"], [3, 4, 2, "Identifier"]])
         },
         {
+            code: unIndent`
+                export {
+                foo,
+                  bar,
+                    baz
+                };
+            `,
+            output: unIndent`
+                export {
+                    foo,
+                    bar,
+                    baz
+                };
+            `,
+            parserOptions: { sourceType: "module" },
+            errors: expectedErrors([[2, 4, 0, "Identifier"], [3, 4, 2, "Identifier"]])
+        },
+        {
+            code: unIndent`
+                export {
+                foo,
+                  bar,
+                    baz
+                } from 'qux';
+            `,
+            output: unIndent`
+                export {
+                    foo,
+                    bar,
+                    baz
+                } from 'qux';
+            `,
+            parserOptions: { sourceType: "module" },
+            errors: expectedErrors([[2, 4, 0, "Identifier"], [3, 4, 2, "Identifier"]])
+        },
+        {
 
             // https://github.com/eslint/eslint/issues/7233
             code: unIndent`
@@ -6254,6 +6300,18 @@ ruleTester.run("indent", rule, {
             `,
             output: unIndent`
                 import {foo}
+                    from 'bar';
+            `,
+            parserOptions: { sourceType: "module" },
+            errors: expectedErrors([2, 4, 0, "Identifier"])
+        },
+        {
+            code: unIndent`
+                export {foo}
+                from 'bar';
+            `,
+            output: unIndent`
+                export {foo}
                     from 'bar';
             `,
             parserOptions: { sourceType: "module" },
