@@ -492,11 +492,11 @@ describe("ConfigFile", () => {
             });
         });
 
-        it("should not interpret parser module name or path when parser is set to default parser in a JavaScript file", () => {
+        it("should interpret parser module name or path when parser is set to default parser in a JavaScript file", () => {
             const config = ConfigFile.load(getFixturePath("js/.eslintrc.parser3.js"));
 
             assert.deepEqual(config, {
-                parser: null,
+                parser: require.resolve("espree"),
                 parserOptions: {},
                 env: {},
                 globals: {},
