@@ -33,7 +33,7 @@ Basic configuration:
   -c, --config path::String    Use configuration from this file or shareable config
   --no-eslintrc                Disable use of configuration from .eslintrc
   --env [String]               Specify environments
-  --ext [String]               Specify JavaScript file extensions - default: .js
+  --ext [String]               Specify JavaScript file extensions - default: .js,.jsx
   --global [String]            Define global variables
   --parser String              Specify the parser to be used
   --parser-options Object      Specify parser options

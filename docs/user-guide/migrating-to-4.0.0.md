@@ -14,6 +14,7 @@ The lists below are ordered roughly by the number of users each change is expect
 1. [The `space-before-function-paren` rule is more strict by default](#space-before-function-paren-defaults)
 1. [The `no-multi-spaces` rule is more strict by default](#no-multi-spaces-eol-comments)
 1. [References to scoped plugins in config files are now required to include the scope](#scoped-plugin-resolution)
+1. [The `--ext` file extensions default now includes `.jsx`](#file-extensions-default)
 
 ### Breaking changes for plugin/custom rule developers
 
@@ -152,6 +153,12 @@ To avoid this ambiguity, in 4.0 references to scoped plugins must include the sc
 ```
 
 **To address:** If you reference a scoped NPM package as a plugin in a config file, be sure to include the scope wherever you reference it.
+
+## <a name="file-extensions-default"/> The `--ext` file extensions default now includes `.jsx`
+
+The CLI now defaults to including files with the extension `.jsx` in addition to `.js`.
+
+**To address:** To restore the 3.x behaviour, pass `--ext .js` on the command line. Alternatively, add `*.jsx` to `.eslintignore` to suppress any new lint errors.
 
 ---
 
