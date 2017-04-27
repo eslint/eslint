@@ -244,7 +244,7 @@ describe("Validator", () => {
             it("should throw with an object", () => {
                 const fn = validator.validate.bind(null, { extends: {} });
 
-                assert.throws(fn, "Property \"extends\" is the wrong type (expected string,array but got `{}`).");
+                assert.throws(fn, "Property \"extends\" is the wrong type (expected string/array but got `{}`).");
             });
         });
 
