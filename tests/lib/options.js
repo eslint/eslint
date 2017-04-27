@@ -60,6 +60,7 @@ describe("options", () => {
             const currentOptions = options.parse("--ext .jsx");
 
             assert.isArray(currentOptions.ext);
+            assert.equal(currentOptions.ext.length, 1);
             assert.equal(currentOptions.ext[0], ".jsx");
         });
 
@@ -67,6 +68,7 @@ describe("options", () => {
             const currentOptions = options.parse("--ext .jsx --ext .js");
 
             assert.isArray(currentOptions.ext);
+            assert.equal(currentOptions.ext.length, 2);
             assert.equal(currentOptions.ext[0], ".jsx");
             assert.equal(currentOptions.ext[1], ".js");
         });
@@ -75,6 +77,7 @@ describe("options", () => {
             const currentOptions = options.parse("--ext .jsx,.js");
 
             assert.isArray(currentOptions.ext);
+            assert.equal(currentOptions.ext.length, 2);
             assert.equal(currentOptions.ext[0], ".jsx");
             assert.equal(currentOptions.ext[1], ".js");
         });
@@ -83,6 +86,7 @@ describe("options", () => {
             const currentOptions = options.parse("");
 
             assert.isArray(currentOptions.ext);
+            assert.equal(currentOptions.ext.length, 1);
             assert.equal(currentOptions.ext[0], ".js");
         });
     });
