@@ -809,16 +809,16 @@ target.checkRuleFiles = function() {
         }
 
         // check for docs
-        if (!test("-f", docFilename)) {
-            console.error("Missing documentation for rule %s", basename);
-            errors++;
-        } else {
+        if (test("-f", docFilename)) {
 
             // check for proper doc format
             if (!hasIdInTitle(basename)) {
                 console.error("Missing id in the doc page's title of rule %s", basename);
                 errors++;
             }
+        } else {
+            console.error("Missing documentation for rule %s", basename);
+            errors++;
         }
 
         // check for recommended configuration

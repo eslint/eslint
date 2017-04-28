@@ -62,6 +62,7 @@ rules:
     no-multi-spaces: "error"
     no-multi-str: "error"
     no-native-reassign: "off"
+    no-negated-condition: "error"
     no-nested-ternary: "error"
     no-new: "error"
     no-new-func: "error"
