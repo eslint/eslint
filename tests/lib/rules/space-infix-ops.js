@@ -35,10 +35,10 @@ ruleTester.run("space-infix-ops", rule, {
         { code: "a |0", options: [{ int32Hint: true }] },
 
         // Type Annotations
-        { code: "function foo(a: number = 0) { }", parser: parser("flow-stub-parser"), parserOptions: { ecmaVersion: 6 } },
-        { code: "function foo(): Bar { }", parser: parser("typescript-parsers/function-declaration-type-annotation"), parserOptions: { ecmaVersion: 6 } },
-        { code: "var foo: Bar = '';", parser: parser("typescript-parsers/variable-declaration-init-type-annotation"), parserOptions: { ecmaVersion: 6 } },
-        { code: "const foo = function(a: number = 0): Bar { };", parser: parser("typescript-parsers/function-expression-type-annotation"), parserOptions: { ecmaVersion: 6 } }
+        { code: "function foo(a: number = 0) { }", parser: parser("type-annotations/function-parameter-type-annotation"), parserOptions: { ecmaVersion: 6 } },
+        { code: "function foo(): Bar { }", parser: parser("type-annotations/function-return-type-annotation"), parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo: Bar = '';", parser: parser("type-annotations/variable-declaration-init-type-annotation"), parserOptions: { ecmaVersion: 6 } },
+        { code: "const foo = function(a: number = 0): Bar { };", parser: parser("type-annotations/function-expression-type-annotation"), parserOptions: { ecmaVersion: 6 } }
     ],
     invalid: [
         {
@@ -359,7 +359,7 @@ ruleTester.run("space-infix-ops", rule, {
         {
             code: "var a: Foo= b;",
             output: "var a: Foo = b;",
-            parser: parser("typescript-parsers/variable-declaration-init-type-annotation-no-space"),
+            parser: parser("type-annotations/variable-declaration-init-type-annotation-no-space"),
             errors: [{
                 message: "Infix operators must be spaced.",
                 type: "VariableDeclarator",
@@ -370,7 +370,7 @@ ruleTester.run("space-infix-ops", rule, {
         {
             code: "function foo(a: number=0): Foo { }",
             output: "function foo(a: number = 0): Foo { }",
-            parser: parser("typescript-parsers/function-declaration-type-annotation-no-space"),
+            parser: parser("type-annotations/function-declaration-type-annotation-no-space"),
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Infix operators must be spaced.",

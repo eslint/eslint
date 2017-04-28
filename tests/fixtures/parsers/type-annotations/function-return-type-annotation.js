@@ -1,5 +1,4 @@
 /**
- * Parser: typescript-eslint-parser v2.0.0 (TS 2.2.1)
  * Source code:
  * function foo(): Bar { }
  */
@@ -94,7 +93,7 @@ exports.parse = () => ({
                     19
                 ],
                 "typeAnnotation": {
-                    "type": "TSTypeReference",
+                    "type": "TypeReference",
                     "range": [
                         16,
                         19
