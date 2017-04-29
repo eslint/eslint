@@ -40,9 +40,17 @@ ruleTester.run("for-direction", rule, {
         { code: "for(var i = 10; i <= 0;){}" }
     ],
     invalid: [
+
+        // test if '++', '--'
         { code: "for(var i = 0; i < 10; i--){}", errors: [{ message: "enforce \"for\" loop update clause moving the counter in the right direction." }] },
         { code: "for(var i = 0; i <= 10; i--){}", errors: [{ message: "enforce \"for\" loop update clause moving the counter in the right direction." }] },
         { code: "for(var i = 10; i > 10; i++){}", errors: [{ message: "enforce \"for\" loop update clause moving the counter in the right direction." }] },
-        { code: "for(var i = 10; i >= 0; i++){}", errors: [{ message: "enforce \"for\" loop update clause moving the counter in the right direction." }] }
+        { code: "for(var i = 10; i >= 0; i++){}", errors: [{ message: "enforce \"for\" loop update clause moving the counter in the right direction." }] },
+
+        // test if '+=', '-='
+        { code: "for(var i = 0; i < 10; i-=1){}", errors: [{ message: "enforce \"for\" loop update clause moving the counter in the right direction." }] },
+        { code: "for(var i = 0; i <= 10; i-=1){}", errors: [{ message: "enforce \"for\" loop update clause moving the counter in the right direction." }] },
+        { code: "for(var i = 10; i > 10; i+=1){}", errors: [{ message: "enforce \"for\" loop update clause moving the counter in the right direction." }] },
+        { code: "for(var i = 10; i >= 0; i+=1){}", errors: [{ message: "enforce \"for\" loop update clause moving the counter in the right direction." }] }
     ]
 });
