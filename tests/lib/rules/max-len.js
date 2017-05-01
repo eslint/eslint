@@ -314,7 +314,7 @@ ruleTester.run("max-len", rule, {
                 }
             ]
         }, {
-            code: "// A comment that exceeds the max comment length",
+            code: "// A comment that exceeds the max comment length and the max code length, but will fail for being too long of a comment",
             options: [40, 4, { comments: 80 }],
             errors: [
                 {
