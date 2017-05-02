@@ -51,6 +51,7 @@ ruleTester.run("enforce-return-in-getter", rule, {
 
         // TODO: why data: { name: "getter 'bar'"} is not working?
         // test obj: get
+        { code: "var foo = { get bar() {} };", parserOptions, errors: [{ message: noReturnMessage, data: { name: "getter 'bar'" } }] },
         { code: "var foo = { get bar() {return;} };", parserOptions, errors: [{ message: noReturnMessage, data: { name: "getter 'bar'" } }] },
         { code: "var foo = { get bar() {return; ;} };", parserOptions, errors: [{ message: noReturnMessage, data: { name: "getter 'bar'" } }] },
         { code: "var foo = { get bar() {return 1; return;} };", parserOptions, errors: [{ message: noReturnMessage, data: { name: "getter 'bar'" } }] },
@@ -61,6 +62,7 @@ ruleTester.run("enforce-return-in-getter", rule, {
         { code: "var foo = { get bar(){if(bar) {return;} return true;} };", parserOptions, errors: [{ message: noReturnMessage, data: { name: "getter 'bar'" } }] },
 
         // test class: get
+        { code: "class foo { get bar(){} }", parserOptions, errors: [{ message: noReturnMessage, data: { name: "getter 'bar'" } }] },
         { code: "class foo { get bar(){return;} }", parserOptions, errors: [{ message: noReturnMessage, data: { name: "getter 'bar'" } }] },
         { code: "class foo { get bar(){if(bar) {return true;}} }", parserOptions, errors: [{ message: noLastReturnMessage, data: { name: "getter 'bar'" } }] },
         { code: "class foo { get bar(){if(bar) {return;} return true;} }", parserOptions, errors: [{ message: noReturnMessage, data: { name: "getter 'bar'" } }] },
