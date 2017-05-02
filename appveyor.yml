@@ -7,6 +7,8 @@ version: "{build}"
 # What combinations to test
 environment:
   matrix:
+    - nodejs_version: 6
+    - nodejs_version: 5
     - nodejs_version: 4
 
 install:
