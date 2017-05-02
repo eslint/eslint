@@ -5,7 +5,7 @@ node_js:
     - "6"
     - "7"
 sudo: false
-script: "npm test && npm run docs"
+script: "npm install && npm test && npm run docs"
 after_success:
     - npm run coveralls
 addons:
