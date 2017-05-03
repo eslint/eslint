@@ -31,7 +31,7 @@ This rule aims to enforce consistent style of conditions which compare a variabl
 This rule can take a string option:
 
 * If it is the default `"never"`, then comparisons must never be Yoda conditions.
-* If it is `"always"`, then the literal value must always come first.
+* If it is `"always"`, then first, the literal value must always come.
 
 The default `"never"` option can have exception options in an object literal:
 
