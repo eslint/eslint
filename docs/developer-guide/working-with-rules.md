@@ -219,6 +219,8 @@ Best practices for fixes:
         ```
     * This fixer can just select a quote type arbitrarily. If it guesses wrong, the resulting code will be automatically reported and fixed by the [`quotes`](/docs/rules/quotes) rule.
 
+**Note:** Going forward eslint's builtin rules will only fix whitespace.  For other fixes, please use [Runtime Rules](#runtime-rules).
+
 ### context.options
 
 Some rules require options in order to function correctly. These options appear in configuration (`.eslintrc`, command line, or in comments). For example:
