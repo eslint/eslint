@@ -3364,6 +3364,40 @@ ruleTester.run("indent", rule, {
                 }
             `,
             parser: parser("unknown-nodes/abstract-class-valid")
+        },
+        {
+            code: unIndent`
+                function foo() {
+                    function bar() {
+                        abstract class X {
+                            public baz() {
+                                if (true) {
+                                    qux();
+                                }
+                            }
+                        }
+                    }
+                }
+            `,
+            parser: parser("unknown-nodes/functions-with-abstract-class-valid")
+        },
+        {
+            code: unIndent`
+                namespace Unknown {
+                    function foo() {
+                        function bar() {
+                            abstract class X {
+                                public baz() {
+                                    if (true) {
+                                        qux();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            `,
+            parser: parser("unknown-nodes/namespace-with-functions-with-abstract-class-valid")
         }
     ],
 
@@ -6740,6 +6774,77 @@ ruleTester.run("indent", rule, {
             `,
             parser: parser("unknown-nodes/abstract-class-invalid"),
             errors: expectedErrors([[4, 12, 8, "Identifier"], [7, 12, 8, "Identifier"], [10, 8, 4, "Identifier"]])
+        },
+        {
+            code: unIndent`
+                function foo() {
+                    function bar() {
+                        abstract class X {
+                        public baz() {
+                        if (true) {
+                        qux();
+                        }
+                        }
+                        }
+                    }
+                }
+            `,
+            output: unIndent`
+                function foo() {
+                    function bar() {
+                        abstract class X {
+                        public baz() {
+                            if (true) {
+                                qux();
+                            }
+                        }
+                        }
+                    }
+                }
+            `,
+            parser: parser("unknown-nodes/functions-with-abstract-class-invalid"),
+            errors: expectedErrors([
+                [5, 12, 8, "Keyword"],
+                [6, 16, 8, "Identifier"],
+                [7, 12, 8, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                namespace Unknown {
+                    function foo() {
+                    function bar() {
+                            abstract class X {
+                                public baz() {
+                                    if (true) {
+                                    qux();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            `,
+            output: unIndent`
+                namespace Unknown {
+                    function foo() {
+                        function bar() {
+                            abstract class X {
+                                public baz() {
+                                    if (true) {
+                                        qux();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            `,
+            parser: parser("unknown-nodes/namespace-with-functions-with-abstract-class-invalid"),
+            errors: expectedErrors([
+                [3, 8, 4, "Keyword"],
+                [7, 24, 20, "Identifier"]
+            ])
         }
     ]
 });
