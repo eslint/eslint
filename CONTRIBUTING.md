@@ -2,6 +2,8 @@
 
 Please be sure to read the contribution guidelines before making or requesting a change.
 
+**N.B. We are not accepting new autofixes at this time.  We may begin accepting autofixes for new rules in 3.0.0.**
+
 ## Filing Issues
 
 Before filing an issue, please be sure to read the guidelines for what you're reporting:
