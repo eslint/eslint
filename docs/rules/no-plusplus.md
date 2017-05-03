@@ -21,6 +21,29 @@ j
 // i = 10, j = 21
 ```
 
+## Automatic Semicolon Insertion
+
+The `++` and `--` operators are subject to automatic semicolon insertion. When their use is allowed, introducing whitespace may change semantics of source code. Enabling the rule may prevent this kind of errors.
+
+```js
+var i = 10;
+var j = 20;
+
+i ++
+j
+// i = 11, j = 20
+```
+
+```js
+var i = 10;
+var j = 20;
+
+i
+++
+j
+// i = 10, j = 21
+```
+
 ## Rule Details
 
 This rule disallows the unary operators `++` and `--`.
