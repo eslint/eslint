@@ -238,6 +238,7 @@ module.exports = {
         "rest-spread-spacing": "off",
         "semi": "off",
         "semi-spacing": "off",
+        "semi-style": "off",
         "sort-imports": "off",
         "sort-keys": "off",
         "sort-vars": "off",
