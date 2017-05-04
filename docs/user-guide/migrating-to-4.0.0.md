@@ -71,8 +71,6 @@ To make the upgrade process easier, we've introduced the [`indent-legacy`](/docs
 
 ## <a name="config-validation"/> Unrecognized properties in config files now cause a fatal error
 
-**Note:** This feature is a work in progress and has not been released yet.
-
 When creating a config, users sometimes make typos or misunderstand how the config is supposed to be structured. Previously, ESLint did not validate the properties of a config file, so a typo in a config could be very tedious to debug. Starting in 4.0.0, ESLint will raise an error if a property in a config file is unrecognized or has the wrong type.
 
 **To address:** If you see a config validation error after upgrading, verify that your config doesn't contain any typos. If you are using an unrecognized property, you should be able to remove it from your config to restore the previous behavior.
