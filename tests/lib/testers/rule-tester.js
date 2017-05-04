@@ -473,10 +473,6 @@ describe("RuleTester", () => {
                     {
                         code: "var test2 = 'bar'",
                         globals: { test: true }
-                    },
-                    {
-                        code: "var test2 = 'bar'",
-                        global: { test: true }
                     }
                 ],
                 invalid: [{ code: "bar", errors: 1 }]
@@ -496,11 +492,6 @@ describe("RuleTester", () => {
                     {
                         code: "var test = 'foo'",
                         globals: { foo: true },
-                        errors: [{ message: "Global variable foo should not be used." }]
-                    },
-                    {
-                        code: "var test = 'foo'",
-                        global: { foo: true },
                         errors: [{ message: "Global variable foo should not be used." }]
                     }
                 ]
@@ -621,9 +612,33 @@ describe("RuleTester", () => {
 
     });
 
+    it("throw an error when an unknown config option is included", () => {
+
+        assert.throws(() => {
+            ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
+                valid: [
+                    { code: "Eval(foo)", foo: "bar" }
+                ],
+                invalid: []
+            });
+        }, /ESLint configuration is invalid./);
+    });
+
+    it("throw an error when an invalid config value is included", () => {
+
+        assert.throws(() => {
+            ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
+                valid: [
+                    { code: "Eval(foo)", env: ["es6"] }
+                ],
+                invalid: []
+            });
+        }, /Property "env" is the wrong type./);
+    });
+
     it("should pass-through the tester config to the rule", () => {
         ruleTester = new RuleTester({
-            global: { test: true }
+            globals: { test: true }
         });
 
         assert.doesNotThrow(() => {
@@ -632,23 +647,23 @@ describe("RuleTester", () => {
                     "var test = 'foo'",
                     "var test2 = test"
                 ],
-                invalid: [{ code: "bar", errors: 1, global: { foo: true } }]
+                invalid: [{ code: "bar", errors: 1, globals: { foo: true } }]
             });
         });
     });
 
-    it("should correctly set the global configuration", () => {
-        const config = { global: { test: true } };
+    it("should correctly set the globals configuration", () => {
+        const config = { globals: { test: true } };
 
         RuleTester.setDefaultConfig(config);
         assert(
-            RuleTester.getDefaultConfig().global.test,
+            RuleTester.getDefaultConfig().globals.test,
             "The default config object is incorrect"
         );
     });
 
     it("should correctly reset the global configuration", () => {
-        const config = { global: { test: true } };
+        const config = { globals: { test: true } };
 
         RuleTester.setDefaultConfig(config);
         RuleTester.resetDefaultConfig();
@@ -680,8 +695,8 @@ describe("RuleTester", () => {
         assert.throw(setConfig(true));
     });
 
-    it("should pass-through the global config to the tester then to the to rule", () => {
-        const config = { global: { test: true } };
+    it("should pass-through the globals config to the tester then to the to rule", () => {
+        const config = { globals: { test: true } };
 
         RuleTester.setDefaultConfig(config);
         ruleTester = new RuleTester();
@@ -692,7 +707,7 @@ describe("RuleTester", () => {
                     "var test = 'foo'",
                     "var test2 = test"
                 ],
-                invalid: [{ code: "bar", errors: 1, global: { foo: true } }]
+                invalid: [{ code: "bar", errors: 1, globals: { foo: true } }]
             });
         });
     });

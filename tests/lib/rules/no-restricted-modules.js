@@ -22,7 +22,7 @@ ruleTester.run("no-restricted-modules", rule, {
     valid: [
         { code: "require(\"fs\")", options: ["crypto"] },
         { code: "require(\"path\")", options: ["crypto", "stream", "os"] },
-        { code: "require(\"fs \")", args: 0 },
+        { code: "require(\"fs \")" },
         { code: "require(2)", options: ["crypto"] },
         { code: "require(foo)", options: ["crypto"] },
         { code: "var foo = bar('crypto');", options: ["crypto"] },

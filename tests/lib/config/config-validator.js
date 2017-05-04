@@ -102,116 +102,249 @@ describe("Validator", () => {
             assert.doesNotThrow(fn);
         });
 
-        it("should do nothing with an empty rules object", () => {
-            const fn = validator.validate.bind(null, { rules: {} }, "tests");
+        it("should do nothing with a valid eslint config", () => {
+            const fn = validator.validate.bind(null,
+                {
+                    root: true,
+                    globals: { globalFoo: "bar" },
+                    parser: "parserFoo",
+                    env: { browser: true },
+                    plugins: ["pluginFoo", "pluginBar"],
+                    settings: { foo: "bar" },
+                    extends: ["configFoo", "configBar"],
+                    parserOptions: { foo: "bar" },
+                    rules: {}
+                },
+                "tests");
 
             assert.doesNotThrow(fn);
         });
 
-        it("should do nothing with a valid config", () => {
-            const fn = validator.validate.bind(null, { rules: { "mock-rule": [2, "second"] } }, "tests");
+        it("should throw with an unknown property", () => {
+            const fn = validator.validate.bind(null,
+                {
+                    foo: true
+                },
+                "tests");
 
-            assert.doesNotThrow(fn);
+            assert.throws(fn, "Unexpected top-level property \"foo\".");
         });
 
-        it("should do nothing with a valid config when severity is off", () => {
-            const fn = validator.validate.bind(null, { rules: { "mock-rule": ["off", "second"] } }, "tests");
+        describe("root", () => {
+            it("should throw with a string value", () => {
+                const fn = validator.validate.bind(null, { root: "true" });
 
-            assert.doesNotThrow(fn);
+                assert.throws(fn, "Property \"root\" is the wrong type (expected boolean but got `\"true\"`).");
+            });
+
+            it("should throw with a numeric value", () => {
+                const fn = validator.validate.bind(null, { root: 0 });
+
+                assert.throws(fn, "Property \"root\" is the wrong type (expected boolean but got `0`).");
+            });
         });
 
-        it("should do nothing with an invalid config when severity is off", () => {
-            const fn = validator.validate.bind(null, { rules: { "mock-required-options-rule": "off" } }, "tests");
+        describe("globals", () => {
+            it("should throw with a string value", () => {
+                const fn = validator.validate.bind(null, { globals: "jQuery" });
 
-            assert.doesNotThrow(fn);
+                assert.throws(fn, "Property \"globals\" is the wrong type (expected object but got `\"jQuery\"`).");
+            });
+
+            it("should throw with an array value", () => {
+                const fn = validator.validate.bind(null, { globals: ["jQuery"] });
+
+                assert.throws(fn, "Property \"globals\" is the wrong type (expected object but got `[\"jQuery\"]`).");
+            });
         });
 
-        it("should do nothing with an invalid config when severity is an array with 'off'", () => {
-            const fn = validator.validate.bind(null, { rules: { "mock-required-options-rule": ["off"] } }, "tests");
+        describe("parser", () => {
+            it("should not throw with a null value", () => {
+                const fn = validator.validate.bind(null, { parser: null });
 
-            assert.doesNotThrow(fn);
+                assert.doesNotThrow(fn);
+            });
         });
 
-        it("should do nothing with a valid config when severity is warn", () => {
-            const fn = validator.validate.bind(null, { rules: { "mock-rule": ["warn", "second"] } }, "tests");
+        describe("env", () => {
 
-            assert.doesNotThrow(fn);
+            it("should throw with an array environment", () => {
+                const fn = validator.validate.bind(null, { env: [] });
+
+                assert.throws(fn, "Property \"env\" is the wrong type (expected object but got `[]`).");
+            });
+
+            it("should throw with a primitive environment", () => {
+                const fn = validator.validate.bind(null, { env: 1 });
+
+                assert.throws(fn, "Property \"env\" is the wrong type (expected object but got `1`).");
+            });
+
+            it("should catch invalid environments", () => {
+                const fn = validator.validate.bind(null, { env: { browser: true, invalid: true } });
+
+                assert.throws(fn, "Environment key \"invalid\" is unknown\n");
+            });
+
+            it("should catch disabled invalid environments", () => {
+                const fn = validator.validate.bind(null, { env: { browser: true, invalid: false } });
+
+                assert.throws(fn, "Environment key \"invalid\" is unknown\n");
+            });
+
+            it("should do nothing with an undefined environment", () => {
+                const fn = validator.validate.bind(null, {});
+
+                assert.doesNotThrow(fn);
+            });
+
         });
 
-        it("should do nothing with a valid config when severity is error", () => {
-            const fn = validator.validate.bind(null, { rules: { "mock-rule": ["error", "second"] } }, "tests");
+        describe("plugins", () => {
+            it("should not throw with an empty array", () => {
+                const fn = validator.validate.bind(null, { plugins: [] });
 
-            assert.doesNotThrow(fn);
+                assert.doesNotThrow(fn);
+            });
+
+            it("should throw with a string", () => {
+                const fn = validator.validate.bind(null, { plugins: "react" });
+
+                assert.throws(fn, "Property \"plugins\" is the wrong type (expected array but got `\"react\"`).");
+            });
         });
 
-        it("should do nothing with a valid config when severity is Off", () => {
-            const fn = validator.validate.bind(null, { rules: { "mock-rule": ["Off", "second"] } }, "tests");
+        describe("settings", () => {
+            it("should not throw with an empty object", () => {
+                const fn = validator.validate.bind(null, { settings: {} });
 
-            assert.doesNotThrow(fn);
+                assert.doesNotThrow(fn);
+            });
+
+            it("should throw with an array", () => {
+                const fn = validator.validate.bind(null, { settings: ["foo"] });
+
+                assert.throws(fn, "Property \"settings\" is the wrong type (expected object but got `[\"foo\"]`).");
+            });
         });
 
-        it("should do nothing with a valid config when severity is Warn", () => {
-            const fn = validator.validate.bind(null, { rules: { "mock-rule": ["Warn", "second"] } }, "tests");
+        describe("extends", () => {
+            it("should not throw with an empty array", () => {
+                const fn = validator.validate.bind(null, { extends: [] });
 
-            assert.doesNotThrow(fn);
+                assert.doesNotThrow(fn);
+            });
+
+            it("should not throw with a string", () => {
+                const fn = validator.validate.bind(null, { extends: "react" });
+
+                assert.doesNotThrow(fn);
+            });
+
+            it("should throw with an object", () => {
+                const fn = validator.validate.bind(null, { extends: {} });
+
+                assert.throws(fn, "Property \"extends\" is the wrong type (expected string/array but got `{}`).");
+            });
         });
 
-        it("should do nothing with a valid config when severity is Error", () => {
-            const fn = validator.validate.bind(null, { rules: { "mock-rule": ["Error", "second"] } }, "tests");
+        describe("parserOptions", () => {
+            it("should not throw with an empty object", () => {
+                const fn = validator.validate.bind(null, { parserOptions: {} });
 
-            assert.doesNotThrow(fn);
+                assert.doesNotThrow(fn);
+            });
+
+            it("should throw with an array", () => {
+                const fn = validator.validate.bind(null, { parserOptions: ["foo"] });
+
+                assert.throws(fn, "Property \"parserOptions\" is the wrong type (expected object but got `[\"foo\"]`).");
+            });
         });
 
-        it("should catch invalid rule options", () => {
-            const fn = validator.validate.bind(null, { rules: { "mock-rule": [3, "third"] } }, "tests");
+        describe("rules", () => {
 
-            assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-rule\" is invalid:\n\tSeverity should be one of the following: 0 = off, 1 = warn, 2 = error (you passed '3').\n");
-        });
+            it("should do nothing with an empty rules object", () => {
+                const fn = validator.validate.bind(null, { rules: {} }, "tests");
 
-        it("should allow for rules with no options", () => {
-            eslint.defineRule("mock-no-options-rule", mockNoOptionsRule);
+                assert.doesNotThrow(fn);
+            });
 
-            const fn = validator.validate.bind(null, { rules: { "mock-no-options-rule": 2 } }, "tests");
+            it("should do nothing with a valid config with rules", () => {
+                const fn = validator.validate.bind(null, { rules: { "mock-rule": [2, "second"] } }, "tests");
 
-            assert.doesNotThrow(fn);
-        });
+                assert.doesNotThrow(fn);
+            });
 
-        it("should not allow options for rules with no options", () => {
-            eslint.defineRule("mock-no-options-rule", mockNoOptionsRule);
+            it("should do nothing with a valid config when severity is off", () => {
+                const fn = validator.validate.bind(null, { rules: { "mock-rule": ["off", "second"] } }, "tests");
 
-            const fn = validator.validate.bind(null, { rules: { "mock-no-options-rule": [2, "extra"] } }, "tests");
+                assert.doesNotThrow(fn);
+            });
 
-            assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-no-options-rule\" is invalid:\n\tValue \"extra\" has more items than allowed.\n");
-        });
+            it("should do nothing with an invalid config when severity is off", () => {
+                const fn = validator.validate.bind(null, { rules: { "mock-required-options-rule": "off" } }, "tests");
 
-        it("should throw with an array environment", () => {
-            const fn = validator.validate.bind(null, { env: [] });
+                assert.doesNotThrow(fn);
+            });
 
-            assert.throws(fn, "Environment must not be an array");
-        });
+            it("should do nothing with an invalid config when severity is an array with 'off'", () => {
+                const fn = validator.validate.bind(null, { rules: { "mock-required-options-rule": ["off"] } }, "tests");
 
-        it("should throw with a primitive environment", () => {
-            const fn = validator.validate.bind(null, { env: 1 });
+                assert.doesNotThrow(fn);
+            });
 
-            assert.throws(fn, "Environment must be an object");
-        });
+            it("should do nothing with a valid config when severity is warn", () => {
+                const fn = validator.validate.bind(null, { rules: { "mock-rule": ["warn", "second"] } }, "tests");
 
-        it("should catch invalid environments", () => {
-            const fn = validator.validate.bind(null, { env: { browser: true, invalid: true } });
+                assert.doesNotThrow(fn);
+            });
 
-            assert.throws(fn, "Environment key \"invalid\" is unknown\n");
-        });
+            it("should do nothing with a valid config when severity is error", () => {
+                const fn = validator.validate.bind(null, { rules: { "mock-rule": ["error", "second"] } }, "tests");
 
-        it("should catch disabled invalid environments", () => {
-            const fn = validator.validate.bind(null, { env: { browser: true, invalid: false } });
+                assert.doesNotThrow(fn);
+            });
 
-            assert.throws(fn, "Environment key \"invalid\" is unknown\n");
-        });
+            it("should do nothing with a valid config when severity is Off", () => {
+                const fn = validator.validate.bind(null, { rules: { "mock-rule": ["Off", "second"] } }, "tests");
 
-        it("should do nothing with an undefined environment", () => {
-            const fn = validator.validate.bind(null, {});
+                assert.doesNotThrow(fn);
+            });
 
-            assert.doesNotThrow(fn);
+            it("should do nothing with a valid config when severity is Warn", () => {
+                const fn = validator.validate.bind(null, { rules: { "mock-rule": ["Warn", "second"] } }, "tests");
+
+                assert.doesNotThrow(fn);
+            });
+
+            it("should do nothing with a valid config when severity is Error", () => {
+                const fn = validator.validate.bind(null, { rules: { "mock-rule": ["Error", "second"] } }, "tests");
+
+                assert.doesNotThrow(fn);
+            });
+
+            it("should catch invalid rule options", () => {
+                const fn = validator.validate.bind(null, { rules: { "mock-rule": [3, "third"] } }, "tests");
+
+                assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-rule\" is invalid:\n\tSeverity should be one of the following: 0 = off, 1 = warn, 2 = error (you passed '3').\n");
+            });
+
+            it("should allow for rules with no options", () => {
+                eslint.defineRule("mock-no-options-rule", mockNoOptionsRule);
+
+                const fn = validator.validate.bind(null, { rules: { "mock-no-options-rule": 2 } }, "tests");
+
+                assert.doesNotThrow(fn);
+            });
+
+            it("should not allow options for rules with no options", () => {
+                eslint.defineRule("mock-no-options-rule", mockNoOptionsRule);
+
+                const fn = validator.validate.bind(null, { rules: { "mock-no-options-rule": [2, "extra"] } }, "tests");
+
+                assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-no-options-rule\" is invalid:\n\tValue \"extra\" has more items than allowed.\n");
+            });
         });
 
     });

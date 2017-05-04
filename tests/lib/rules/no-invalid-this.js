@@ -79,7 +79,7 @@ function extractPatterns(patterns, type) {
             thisPattern.code += " /* should error */";
         }
 
-        return thisPattern;
+        return lodash.omit(thisPattern, ["valid", "invalid"]);
     }));
 
     // Flatten.
