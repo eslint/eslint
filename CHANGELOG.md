@@ -1,3 +1,23 @@
+v4.0.0-alpha.1 - April 21, 2017
+
+* b0dadfe3 Docs: Update comments section of Migrating to v4.0.0 (#8486) (Kai Cataldo)
+* b337738f Update: Add `consistent` option to `object-curly-newline` (fixes #6488) (#7720) (Evilebot Tnawi)
+* 53fefb3b Update: add fix for no-confusing-arrow (#8347) (Mordy Tikotzky)
+* 735d02d5 Update: Deprecate sourceCode.getComments() (fixes #8408) (#8434) (Kai Cataldo)
+* ac39e3b0 Update: no-unexpected-multiline to flag confusing division (fixes #8469) (#8475) (Teddy Katz)
+* e35107f0 Fix: indent crash on arrow functions without parens at start of line (#8477) (Teddy Katz)
+* 973adeb6 Docs: State that functions option only applies in ES2017 (fixes #7809) (#8468) (Thenaesh Elango)
+* 7bc6fe0a New: array-bracket-newline rule (#8314) (Jan Peer Stöcklmair)
+* 10a1a2d7 Chore: Do not use cache when testing (#8464) (Kai Cataldo)
+* 9f540fd2 Update: no-unused-vars false negative about destructuring (fixes #8442) (#8459) (Toru Nagashima)
+* 741ed393 Docs: Clarify how to run local ESLint installation (#8463) (Kai Cataldo)
+* fac53890 Breaking: Remove array-callback-return from recommended (fixes #8428) (#8433) (Kai Cataldo)
+* 288c96c1 Upgrade: dependencies (#8304) (alberto)
+* 48700fc8 Docs: Remove extra header line from LICENSE (#8448) (Teddy Katz)
+* 161ee4ea Chore: avoid cloning comments array in TokenStore (#8436) (Teddy Katz)
+* 0c2a386e Docs: clarify new indent behavior with MemberExpressions (#8432) (Teddy Katz)
+* 446b8876 Docs: update space-before-function-paren docs for 4.0 (fixes #8430) (#8431) (Teddy Katz)
+
 v4.0.0-alpha.0 - April 7, 2017
 
 * 950874f Docs: add 4.0.0 migration guide (fixes #8306) (#8313) (Teddy Katz)

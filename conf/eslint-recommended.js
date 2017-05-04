@@ -10,12 +10,11 @@
 /* eslint-disable sort-keys */
 
 module.exports = {
-    parser: "espree",
-
     rules: {
 
         /* eslint-enable sort-keys */
         "accessor-pairs": "off",
+        "array-bracket-newline": "off",
         "array-bracket-spacing": "off",
         "array-callback-return": "off",
         "arrow-body-style": "off",

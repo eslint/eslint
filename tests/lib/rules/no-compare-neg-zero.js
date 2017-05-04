@@ -39,7 +39,6 @@ ruleTester.run("no-compare-neg-zero", rule, {
         { code: "x < 0" },
         { code: "0 < x" },
         { code: "x <= 0" },
-        { code: "x <= 0" },
         { code: "0 <= x" },
         { code: "x > 0" },
         { code: "0 > x" },

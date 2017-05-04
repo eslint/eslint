@@ -42,7 +42,43 @@ ruleTester.run("no-unexpected-multiline", rule, {
         {
             code: "x\n.y\nz `Valid Test Case`",
             parserOptions: { ecmaVersion: 6 }
-        }
+        },
+        `
+            foo
+            / bar /2
+        `,
+        `
+            foo
+            / bar / mgy
+        `,
+        `
+            foo
+            / bar /
+            gym
+        `,
+        `
+            foo
+            / bar
+            / ygm
+        `,
+        `
+            foo
+            / bar /GYM
+        `,
+        `
+            foo
+            / bar / baz
+        `,
+        "foo /bar/g",
+        `
+            foo
+            /denominator/
+            2
+        `,
+        `
+            foo
+            / /abc/
+        `
     ],
     invalid: [
         {
@@ -119,6 +155,50 @@ ruleTester.run("no-unexpected-multiline", rule, {
                 line: 3,
                 column: 1,
                 message: "Unexpected newline between template tag and template literal."
+            }]
+        },
+        {
+            code: `
+                foo
+                / bar /gym
+            `,
+            errors: [{
+                line: 3,
+                column: 17,
+                message: "Unexpected newline between numerator and division operator."
+            }]
+        },
+        {
+            code: `
+                foo
+                / bar /g
+            `,
+            errors: [{
+                line: 3,
+                column: 17,
+                message: "Unexpected newline between numerator and division operator."
+            }]
+        },
+        {
+            code: `
+                foo
+                / bar /g.test(baz)
+            `,
+            errors: [{
+                line: 3,
+                column: 17,
+                message: "Unexpected newline between numerator and division operator."
+            }]
+        },
+        {
+            code: `
+                foo
+                /bar/gimuygimuygimuy.test(baz)
+            `,
+            errors: [{
+                line: 3,
+                column: 17,
+                message: "Unexpected newline between numerator and division operator."
             }]
         }
     ]

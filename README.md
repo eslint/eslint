@@ -5,6 +5,7 @@
 [![Downloads][downloads-image]][downloads-url]
 [![Bountysource](https://www.bountysource.com/badge/tracker?tracker_id=282608)](https://www.bountysource.com/trackers/282608-eslint?utm_source=282608&utm_medium=shield&utm_campaign=TRACKER_BADGE)
 [![Join the chat at https://gitter.im/eslint/eslint](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/eslint/eslint?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Feslint%2Feslint.svg?type=shield)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Feslint%2Feslint?ref=badge_shield)
 
 # ESLint
 
@@ -13,7 +14,7 @@
 [Rules](http://eslint.org/docs/rules/) |
 [Contributing](http://eslint.org/docs/developer-guide/contributing) |
 [Reporting Bugs](http://eslint.org/docs/developer-guide/contributing/reporting-bugs) |
-[Code of Conduct](https://js.foundation/conduct/) |
+[Code of Conduct](https://js.foundation/community/code-of-conduct) |
 [Twitter](https://twitter.com/geteslint) |
 [Mailing List](https://groups.google.com/group/eslint) |
 [Chat Room](https://gitter.im/eslint/eslint)
@@ -171,6 +172,10 @@ ESLint follows [semantic versioning](http://semver.org). However, due to the nat
     * Part of the public API is removed or changed in an incompatible way.
 
 According to our policy, any minor update may report more errors than the previous release (ex: from a bug fix). As such, we recommend using the tilde (`~`) in `package.json` e.g. `"eslint": "~3.1.0"` to guarantee the results of your builds.
+
+## License
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Feslint%2Feslint.svg?type=large)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Feslint%2Feslint?ref=badge_large)
 
 ## Frequently Asked Questions
 
