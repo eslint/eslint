@@ -1,3 +1,23 @@
+v4.0.0-alpha.2 - May 5, 2017
+
+* 74ab344 Update: check allman-style blocks correctly in indent rule (fixes #8493) (#8499) (Teddy Katz)
+* f6256d4 Update: no-extend-native checks global scope refs only (fixes #8461) (#8528) (Kevin Partington)
+* b463045 Docs: add typescript-eslint-parser (#8388) (#8534) (薛定谔的猫)
+* 99c56d5 Update: handle multiline parents consistently in indent (fixes #8455) (#8498) (Teddy Katz)
+* cf940c6 Update: indent `from` tokens in import statements (fixes #8438) (#8466) (Teddy Katz)
+* 0a9a90f Fix: max-len doesn't allow comments longer than code (#8532) (Ken Gregory)
+* 734846b Breaking: validate eslintrc properties (fixes #8213) (#8295) (alberto)
+* 025e97a Chore: delete duplicated test. (#8527) (薛定谔的猫)
+* 6a333ff Upgrade: espree@^3.4.2 (#8526) (Kevin Partington)
+* e52d998 Docs: Configuring Cascading and Hierarchy example correction (#8512) (Cheong Yip)
+* e135aa5 Docs: Correct code of conduct link on Readme.md (#8517) (Zander Mackie)
+* 37e3ba1 Chore: Add license report and scan status (#8503) (Kevin Wang)
+* afbea78 Chore: don't pull default options from eslint:recommended (fixes #8374) (#8381) (Teddy Katz)
+* d49acc3 Update: fix no-self-compare false negative on non-literals (fixes #7677) (#8492) (Teddy Katz)
+* aaa1a81 Fix: avoid creating extra whitespace in brace-style fixer (fixes #7621) (#8491) (Teddy Katz)
+* 9c3da77 Docs: list another related rule in no-undefined (#8467) (Ethan)
+* f987814 Docs: Update CHANGELOG.md for v4.0.0-alpha.1 release (#8488) (Kai Cataldo)
+
 v4.0.0-alpha.1 - April 21, 2017
 
 * b0dadfe3 Docs: Update comments section of Migrating to v4.0.0 (#8486) (Kai Cataldo)
