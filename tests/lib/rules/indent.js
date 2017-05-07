@@ -3272,6 +3272,15 @@ ruleTester.run("indent", rule, {
                     baz();
                 })
             `
+        },
+        {
+            code: unIndent`
+                new Foo(
+                    bar
+                        .baz
+                        .qux
+                )
+            `
         }
     ],
 
