@@ -557,7 +557,7 @@ describe("RuleTester", () => {
         });
     });
 
-    it("should throw an error if the options an object", () => {
+    it("should throw an error if the options are an object", () => {
         assert.throws(() => {
             ruleTester.run("no-invalid-args", require("../../fixtures/testers/rule-tester/no-invalid-args"), {
                 valid: [
@@ -571,7 +571,7 @@ describe("RuleTester", () => {
         }, /options must be an array/);
     });
 
-    it("should throw an error if the options a number", () => {
+    it("should throw an error if the options are a number", () => {
         assert.throws(() => {
             ruleTester.run("no-invalid-args", require("../../fixtures/testers/rule-tester/no-invalid-args"), {
                 valid: [
