@@ -18,14 +18,14 @@ const RuleTester = require("../../../lib/testers/rule-tester");
 
 const ruleTester = new RuleTester();
 
-// TODO: data is not working, so specify a name: "getter 'bar'"
+// data is not working, so specify a name: "getter 'bar'"
 const name = "getter 'bar'";
 const noReturnMessage = `Expected to return a value in ${name}.`;
 const noLastReturnMessage = `Expected to return a value at the end of ${name}.`;
 const parserOptions = { ecmaVersion: 6 };
 const options = [{ noImplicit: true }];
 
-ruleTester.run("enforce-return-in-getter", rule, {
+ruleTester.run("getter-return", rule, {
 
     valid: [
 
