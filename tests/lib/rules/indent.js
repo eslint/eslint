@@ -1508,6 +1508,18 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                class Foo extends
+                  (
+                    Bar
+                  ) {
+                  baz() {}
+                }
+            `,
+            parserOptions: { ecmaVersion: 6 },
+            options: [2]
+        },
+        {
+            code: unIndent`
                 fs.readdirSync(path.join(__dirname, '../rules')).forEach(name => {
                   files[name] = foo;
                 });
@@ -3166,6 +3178,52 @@ ruleTester.run("indent", rule, {
                 }
             `,
             parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: unIndent`
+                class Foo
+                {
+                    constructor()
+                    {
+                        foo();
+                    }
+
+                    bar()
+                    {
+                        baz();
+                    }
+                }
+            `,
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: unIndent`
+                (
+                    class Foo
+                    {
+                        constructor()
+                        {
+                            foo();
+                        }
+
+                        bar()
+                        {
+                            baz();
+                        }
+                    }
+                )
+            `,
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: unIndent`
+                switch (foo)
+                {
+                    case 1:
+                        bar();
+                }
+            `,
+            options: [4, { SwitchCase: 1 }]
         }
     ],
 
