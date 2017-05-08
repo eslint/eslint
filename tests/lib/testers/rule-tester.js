@@ -557,6 +557,34 @@ describe("RuleTester", () => {
         });
     });
 
+    it("should throw an error if the options are an object", () => {
+        assert.throws(() => {
+            ruleTester.run("no-invalid-args", require("../../fixtures/testers/rule-tester/no-invalid-args"), {
+                valid: [
+                    {
+                        code: "foo",
+                        options: { ok: true }
+                    }
+                ],
+                invalid: []
+            });
+        }, /options must be an array/);
+    });
+
+    it("should throw an error if the options are a number", () => {
+        assert.throws(() => {
+            ruleTester.run("no-invalid-args", require("../../fixtures/testers/rule-tester/no-invalid-args"), {
+                valid: [
+                    {
+                        code: "foo",
+                        options: 0
+                    }
+                ],
+                invalid: []
+            });
+        }, /options must be an array/);
+    });
+
     it("should pass-through the parser to the rule", () => {
 
         assert.doesNotThrow(() => {
