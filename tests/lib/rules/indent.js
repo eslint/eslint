@@ -3198,6 +3198,24 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                class Foo
+                    extends Bar
+                {
+                    constructor()
+                    {
+                        foo();
+                    }
+
+                    bar()
+                    {
+                        baz();
+                    }
+                }
+            `,
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: unIndent`
                 (
                     class Foo
                     {
