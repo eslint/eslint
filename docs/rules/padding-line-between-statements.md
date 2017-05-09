@@ -8,7 +8,7 @@ For example, the following configuration requires a blank line between a variabl
 ```js
 /*eslint padding-line-between-statements: [
     "error",
-    { blankline: "always", prev: "var", next: "return" }
+    { blankLine: "always", prev: "var", next: "return" }
 ]*/
 
 function foo() {
@@ -22,17 +22,17 @@ function foo() {
 
 This rule does nothing if no configuration.
 
-A configuration is an object which has 3 properties; `blankline`, `prev` and `next`. For example, `{ blankline: "always", prev: "var", next: "return" }` is meaning "it requires one or more blank lines between a variable declaration and a `return` statement."
+A configuration is an object which has 3 properties; `blankLine`, `prev` and `next`. For example, `{ blankLine: "always", prev: "var", next: "return" }` is meaning "it requires one or more blank lines between a variable declaration and a `return` statement."
 You can supply any number of configurations. If an statement pair matches multiple configurations, the last matched configuration will be used.
 
 ```json
 {
     "padding-line-between-statements": [
         "error",
-        { "blankline": LINEBREAK_TYPE, "prev": STATEMENT_TYPE, "next": STATEMENT_TYPE },
-        { "blankline": LINEBREAK_TYPE, "prev": STATEMENT_TYPE, "next": STATEMENT_TYPE },
-        { "blankline": LINEBREAK_TYPE, "prev": STATEMENT_TYPE, "next": STATEMENT_TYPE },
-        { "blankline": LINEBREAK_TYPE, "prev": STATEMENT_TYPE, "next": STATEMENT_TYPE },
+        { "blankLine": LINEBREAK_TYPE, "prev": STATEMENT_TYPE, "next": STATEMENT_TYPE },
+        { "blankLine": LINEBREAK_TYPE, "prev": STATEMENT_TYPE, "next": STATEMENT_TYPE },
+        { "blankLine": LINEBREAK_TYPE, "prev": STATEMENT_TYPE, "next": STATEMENT_TYPE },
+        { "blankLine": LINEBREAK_TYPE, "prev": STATEMENT_TYPE, "next": STATEMENT_TYPE },
         ...
     ]
 }
@@ -79,12 +79,12 @@ You can supply any number of configurations. If an statement pair matches multip
 
 This configuration would require blank lines before all `return` statements, like the [newline-before-return] rule.
 
-Examples of **incorrect** code for the `[{ blankline: "always", prev: "*", next: "return" }]` configuration:
+Examples of **incorrect** code for the `[{ blankLine: "always", prev: "*", next: "return" }]` configuration:
 
 ```js
 /*eslint padding-line-between-statements: [
     "error",
-    { blankline: "always", prev: "*", next: "return" }
+    { blankLine: "always", prev: "*", next: "return" }
 ]*/
 
 function foo() {
@@ -93,12 +93,12 @@ function foo() {
 }
 ```
 
-Examples of **correct** code for the `[{ blankline: "always", prev: "*", next: "return" }]` configuration:
+Examples of **correct** code for the `[{ blankLine: "always", prev: "*", next: "return" }]` configuration:
 
 ```js
 /*eslint padding-line-between-statements: [
     "error",
-    { blankline: "always", prev: "*", next: "return" }
+    { blankLine: "always", prev: "*", next: "return" }
 ]*/
 
 function foo() {
@@ -116,13 +116,13 @@ function foo() {
 
 This configuration would require blank lines after every sequence of variable declarations, like the [newline-after-var] rule.
 
-Examples of **incorrect** code for the `[{ blankline: "always", prev: ["const", "let", "var"], next: "*"}, { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"]}]` configuration:
+Examples of **incorrect** code for the `[{ blankLine: "always", prev: ["const", "let", "var"], next: "*"}, { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"]}]` configuration:
 
 ```js
 /*eslint padding-line-between-statements: [
     "error",
-    { blankline: "always", prev: ["const", "let", "var"], next: "*"},
-    { blankline: "any",    prev: ["const", "let", "var"], next: ["const", "let", "var"]}
+    { blankLine: "always", prev: ["const", "let", "var"], next: "*"},
+    { blankLine: "any",    prev: ["const", "let", "var"], next: ["const", "let", "var"]}
 ]*/
 
 function foo() {
@@ -141,13 +141,13 @@ function foo() {
 }
 ```
 
-Examples of **correct** code for the `[{ blankline: "always", prev: ["const", "let", "var"], next: "*"}, { blankline: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"]}]` configuration:
+Examples of **correct** code for the `[{ blankLine: "always", prev: ["const", "let", "var"], next: "*"}, { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"]}]` configuration:
 
 ```js
 /*eslint padding-line-between-statements: [
     "error",
-    { blankline: "always", prev: ["const", "let", "var"], next: "*"},
-    { blankline: "any",    prev: ["const", "let", "var"], next: ["const", "let", "var"]}
+    { blankLine: "always", prev: ["const", "let", "var"], next: "*"},
+    { blankLine: "any",    prev: ["const", "let", "var"], next: ["const", "let", "var"]}
 ]*/
 
 function foo() {
@@ -176,26 +176,26 @@ function foo() {
 
 This configuration would require blank lines after all directive prologues, like the [lines-around-directive] rule.
 
-Examples of **incorrect** code for the `[{ blankline: "always", prev: "directive", next: "*" }, { blankline: "any", prev: "directive", next: "directive" }]` configuration:
+Examples of **incorrect** code for the `[{ blankLine: "always", prev: "directive", next: "*" }, { blankLine: "any", prev: "directive", next: "directive" }]` configuration:
 
 ```js
 /*eslint padding-line-between-statements: [
     "error",
-    { blankline: "always", prev: "directive", next: "*" },
-    { blankline: "any",    prev: "directive", next: "directive" }
+    { blankLine: "always", prev: "directive", next: "*" },
+    { blankLine: "any",    prev: "directive", next: "directive" }
 ]*/
 
 "use strict";
 foo();
 ```
 
-Examples of **correct** code for the `[{ blankline: "always", prev: "directive", next: "*" }, { blankline: "any", prev: "directive", next: "directive" }]` configuration:
+Examples of **correct** code for the `[{ blankLine: "always", prev: "directive", next: "*" }, { blankLine: "any", prev: "directive", next: "directive" }]` configuration:
 
 ```js
 /*eslint padding-line-between-statements: [
     "error",
-    { blankline: "always", prev: "directive", next: "*" },
-    { blankline: "any",    prev: "directive", next: "directive" }
+    { blankLine: "always", prev: "directive", next: "*" },
+    { blankLine: "any",    prev: "directive", next: "directive" }
 ]*/
 
 "use strict";
