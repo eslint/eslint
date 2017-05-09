@@ -3166,6 +3166,121 @@ ruleTester.run("indent", rule, {
                 }
             `,
             parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: unIndent`
+                foo
+                    .bar(function() {
+                        baz
+                    })
+            `
+        },
+        {
+            code: unIndent`
+                foo
+                        .bar(function() {
+                            baz
+                        })
+            `,
+            options: [4, { MemberExpression: 2 }]
+        },
+        {
+            code: unIndent`
+                foo
+                    [bar](function() {
+                        baz
+                    })
+            `
+        },
+        {
+            code: unIndent`
+                foo.
+                    bar.
+                    baz
+            `
+        },
+        {
+            code: unIndent`
+                foo
+                    .bar(function() {
+                        baz
+                    })
+            `,
+            options: [4, { MemberExpression: "off" }]
+        },
+        {
+            code: unIndent`
+                foo
+                                .bar(function() {
+                                    baz
+                                })
+            `,
+            options: [4, { MemberExpression: "off" }]
+        },
+        {
+            code: unIndent`
+                foo
+                                [bar](function() {
+                                    baz
+                                })
+            `,
+            options: [4, { MemberExpression: "off" }]
+        },
+        {
+            code: unIndent`
+                  foo.
+                          bar.
+                                      baz
+            `,
+            options: [4, { MemberExpression: "off" }]
+        },
+        {
+            code: unIndent`
+                  foo
+                      [
+                          bar
+                      ]
+                      .baz(function() {
+                          quz();
+                      })
+            `
+        },
+        {
+            code: unIndent`
+                  [
+                      foo
+                  ][
+                      "map"](function() {
+                      qux();
+                  })
+            `
+        },
+        {
+            code: unIndent`
+                (
+                    a.b(function() {
+                        c;
+                    })
+                )
+            `
+        },
+        {
+            code: unIndent`
+                (
+                    foo
+                ).bar(function() {
+                    baz();
+                })
+            `
+        },
+        {
+            code: unIndent`
+                new Foo(
+                    bar
+                        .baz
+                        .qux
+                )
+            `
         }
     ],
 
@@ -6467,6 +6582,19 @@ ruleTester.run("indent", rule, {
                 );
             `,
             errors: expectedErrors([[4, 4, 8, "Identifier"], [5, 0, 4, "Punctuator"]])
+        },
+        {
+            code: unIndent`
+                foo.
+                  bar.
+                      baz
+            `,
+            output: unIndent`
+                foo.
+                    bar.
+                    baz
+            `,
+            errors: expectedErrors([[2, 4, 2, "Identifier"], [3, 4, 6, "Identifier"]])
         }
     ]
 });
