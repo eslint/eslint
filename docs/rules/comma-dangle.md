@@ -58,6 +58,17 @@ This rule has a string option or an object option:
 * `"always-multiline"` requires trailing commas when the last element or property is in a *different* line than the closing `]` or `}` and disallows trailing commas when the last element or property is on the *same* line as the closing `]` or `}`
 * `"only-multiline"` allows (but does not require) trailing commas when the last element or property is in a *different* line than the closing `]` or `}` and disallows trailing commas when the last element or property is on the *same* line as the closing `]` or `}`
 
+Trailing commas when the last element is a spread are not allowed even when always is on.
+
+Always ***incorrect***
+
+```js
+const {
+ first,
+ ...rest,
+} = array;
+```
+
 Trailing commas in function declarations and function calls are valid syntax since ECMAScript 2017; however, the string option does not check these situations for backwards compatibility.
 
 You can also use an object option to configure this rule for each type of syntax.
