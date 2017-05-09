@@ -42,15 +42,15 @@ ruleTester.run("for-direction", rule, {
     invalid: [
 
         // test if '++', '--'
-        { code: "for(var i = 0; i < 10; i--){}", errors: [{ message: "enforce \"for\" loop update clause moving the counter in the right direction." }] },
-        { code: "for(var i = 0; i <= 10; i--){}", errors: [{ message: "enforce \"for\" loop update clause moving the counter in the right direction." }] },
-        { code: "for(var i = 10; i > 10; i++){}", errors: [{ message: "enforce \"for\" loop update clause moving the counter in the right direction." }] },
-        { code: "for(var i = 10; i >= 0; i++){}", errors: [{ message: "enforce \"for\" loop update clause moving the counter in the right direction." }] },
+        { code: "for(var i = 0; i < 10; i--){}", errors: [{ message: "The update clause in this loop moves the variable in the wrong direction." }] },
+        { code: "for(var i = 0; i <= 10; i--){}", errors: [{ message: "The update clause in this loop moves the variable in the wrong direction." }] },
+        { code: "for(var i = 10; i > 10; i++){}", errors: [{ message: "The update clause in this loop moves the variable in the wrong direction." }] },
+        { code: "for(var i = 10; i >= 0; i++){}", errors: [{ message: "The update clause in this loop moves the variable in the wrong direction." }] },
 
         // test if '+=', '-='
-        { code: "for(var i = 0; i < 10; i-=1){}", errors: [{ message: "enforce \"for\" loop update clause moving the counter in the right direction." }] },
-        { code: "for(var i = 0; i <= 10; i-=1){}", errors: [{ message: "enforce \"for\" loop update clause moving the counter in the right direction." }] },
-        { code: "for(var i = 10; i > 10; i+=1){}", errors: [{ message: "enforce \"for\" loop update clause moving the counter in the right direction." }] },
-        { code: "for(var i = 10; i >= 0; i+=1){}", errors: [{ message: "enforce \"for\" loop update clause moving the counter in the right direction." }] }
+        { code: "for(var i = 0; i < 10; i-=1){}", errors: [{ message: "The update clause in this loop moves the variable in the wrong direction." }] },
+        { code: "for(var i = 0; i <= 10; i-=1){}", errors: [{ message: "The update clause in this loop moves the variable in the wrong direction." }] },
+        { code: "for(var i = 10; i > 10; i+=1){}", errors: [{ message: "The update clause in this loop moves the variable in the wrong direction." }] },
+        { code: "for(var i = 10; i >= 0; i+=1){}", errors: [{ message: "The update clause in this loop moves the variable in the wrong direction." }] }
     ]
 });
