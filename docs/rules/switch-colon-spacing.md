@@ -6,6 +6,20 @@ Spacing around colons improves readability of `case`/`default` closures.
 
 This rule reports around colons of `case`/`default` closures if it's different to configured spacing.
 
+This rule has 2 options that are boolean value.
+
+```json
+{
+    "switch-colon-spacing": ["error", {"after": true, "before": false}]
+}
+```
+
+- `"after": true` (Default) ... requires one or more spaces after colons.
+- `"after": false` ... disallows spaces after colons.
+- `"before": true` ... requires one or more spaces before colons.
+- `"before": false` (Default) ... disallows before colons.
+
+
 Examples of **incorrect** code for this rule:
 
 ```js
@@ -32,19 +46,6 @@ switch (a) {
         break;
 }
 ```
-
-## Options
-
-```json
-{
-    "switch-colon-spacing": ["error", {"after": true, "before": false}]
-}
-```
-
-- `"after": true` (Default) ... requires one or more spaces after colons.
-- `"after": false` ... disallows spaces after colons.
-- `"before": true` ... requires one or more spaces before colons.
-- `"before": false` (Default) ... disallows before colons.
 
 ## When Not To Use It
 
