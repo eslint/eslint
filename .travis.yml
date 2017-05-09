@@ -11,3 +11,7 @@ after_success:
 addons:
     code_climate:
         repo_token: 1945f7420d920a59f1ff8bf8d1a7b60ccd9e2838a692f73a5a74accd8df30146
+cache:
+  npm: true
+  directories:
+  - node_modules
