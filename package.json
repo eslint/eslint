@@ -37,7 +37,6 @@
     "ajv": "^5.3.0",
     "babel-code-frame": "^6.26.0",
     "chalk": "^2.1.0",
-    "concat-stream": "^1.6.2",
     "cross-spawn": "^5.1.0",
     "debug": "^3.1.0",
     "doctrine": "^2.1.0",
