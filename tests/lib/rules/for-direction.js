@@ -37,7 +37,15 @@ ruleTester.run("for-direction", rule, {
         { code: "for(var i = 10; i > 0;){}" },
         { code: "for(var i = 10; i >= 0;){}" },
         { code: "for(var i = 10; i < 0;){}" },
-        { code: "for(var i = 10; i <= 0;){}" }
+        { code: "for(var i = 10; i <= 0;){}" },
+        { code: "for(var i = 10; i <= 0; j++){}" },
+        { code: "for(var i = 10; i <= 0; j--){}" },
+        { code: "for(var i = 10; i >= 0; j++){}" },
+        { code: "for(var i = 10; i >= 0; j--){}" },
+        { code: "for(var i = 10; i >= 0; j += 2){}" },
+        { code: "for(var i = 10; i >= 0; j -= 2){}" },
+        { code: "for(var i = 10; i >= 0; i |= 2){}" },
+        { code: "for(var i = 10; i >= 0; i %= 2){}" }
     ],
     invalid: [
 
