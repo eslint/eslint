@@ -43,106 +43,106 @@ ruleTester.run("semi-style", rule, {
         {
             code: "foo\n;bar",
             output: "foo;\nbar",
-            errors: ["Expected this semicolon to be at the last of the previous line."]
+            errors: ["Expected this semicolon to be at the end of the previous line."]
         },
         {
             code: "if(a)foo\n;bar",
             output: "if(a)foo;\nbar",
-            errors: ["Expected this semicolon to be at the last of the previous line."]
+            errors: ["Expected this semicolon to be at the end of the previous line."]
         },
         {
             code: "var foo\n;bar",
             output: "var foo;\nbar",
-            errors: ["Expected this semicolon to be at the last of the previous line."]
+            errors: ["Expected this semicolon to be at the end of the previous line."]
         },
         {
             code: "foo\n;\nbar",
             output: "foo;\nbar",
-            errors: ["Expected this semicolon to be at the last of the previous line."]
+            errors: ["Expected this semicolon to be at the end of the previous line."]
         },
         {
             code: "for(a\n;b;c)d",
             output: "for(a;\nb;c)d",
-            errors: ["Expected this semicolon to be at the last of the previous line."]
+            errors: ["Expected this semicolon to be at the end of the previous line."]
         },
         {
             code: "for(a;b\n;c)d",
             output: "for(a;b;\nc)d",
-            errors: ["Expected this semicolon to be at the last of the previous line."]
+            errors: ["Expected this semicolon to be at the end of the previous line."]
         },
 
         {
             code: "foo\n;bar",
             output: "foo;\nbar",
             options: ["last"],
-            errors: ["Expected this semicolon to be at the last of the previous line."]
+            errors: ["Expected this semicolon to be at the end of the previous line."]
         },
         {
             code: "if(a)foo\n;bar",
             output: "if(a)foo;\nbar",
             options: ["last"],
-            errors: ["Expected this semicolon to be at the last of the previous line."]
+            errors: ["Expected this semicolon to be at the end of the previous line."]
         },
         {
             code: "var foo\n;bar",
             output: "var foo;\nbar",
             options: ["last"],
-            errors: ["Expected this semicolon to be at the last of the previous line."]
+            errors: ["Expected this semicolon to be at the end of the previous line."]
         },
         {
             code: "foo\n;\nbar",
             output: "foo;\nbar",
             options: ["last"],
-            errors: ["Expected this semicolon to be at the last of the previous line."]
+            errors: ["Expected this semicolon to be at the end of the previous line."]
         },
         {
             code: "for(a\n;b;c)d",
             output: "for(a;\nb;c)d",
             options: ["last"],
-            errors: ["Expected this semicolon to be at the last of the previous line."]
+            errors: ["Expected this semicolon to be at the end of the previous line."]
         },
         {
             code: "for(a;b\n;c)d",
             output: "for(a;b;\nc)d",
             options: ["last"],
-            errors: ["Expected this semicolon to be at the last of the previous line."]
+            errors: ["Expected this semicolon to be at the end of the previous line."]
         },
 
         {
             code: "foo;\nbar",
             output: "foo\n;bar",
             options: ["first"],
-            errors: ["Expected this semicolon to be at the head of the next line."]
+            errors: ["Expected this semicolon to be at the beginning of the next line."]
         },
         {
             code: "if(a)foo;\nbar",
             output: "if(a)foo\n;bar",
             options: ["first"],
-            errors: ["Expected this semicolon to be at the head of the next line."]
+            errors: ["Expected this semicolon to be at the beginning of the next line."]
         },
         {
             code: "var foo;\nbar",
             output: "var foo\n;bar",
             options: ["first"],
-            errors: ["Expected this semicolon to be at the head of the next line."]
+            errors: ["Expected this semicolon to be at the beginning of the next line."]
         },
         {
             code: "foo\n;\nbar",
             output: "foo\n;bar",
             options: ["first"],
-            errors: ["Expected this semicolon to be at the head of the next line."]
+            errors: ["Expected this semicolon to be at the beginning of the next line."]
         },
         {
             code: "for(a;\nb;c)d",
             output: "for(a\n;b;c)d",
             options: ["first"],
-            errors: ["Expected this semicolon to be at the head of the next line."]
+            errors: ["Expected this semicolon to be at the beginning of the next line."]
         },
         {
             code: "for(a;b;\nc)d",
             output: "for(a;b\n;c)d",
             options: ["first"],
-            errors: ["Expected this semicolon to be at the head of the next line."]
+            errors: ["Expected this semicolon to be at the beginning of the next line."]
         },
 
         {
@@ -150,8 +150,8 @@ ruleTester.run("semi-style", rule, {
             output: "for(a\n;;)d;\ne",
             options: [{ statements: "last", forLoopHead: "first" }],
             errors: [
-                { line: 1, message: "Expected this semicolon to be at the head of the next line." },
-                { line: 3, message: "Expected this semicolon to be at the last of the previous line." }
+                { line: 1, message: "Expected this semicolon to be at the beginning of the next line." },
+                { line: 3, message: "Expected this semicolon to be at the end of the previous line." }
             ]
         },
         {
@@ -159,33 +159,33 @@ ruleTester.run("semi-style", rule, {
             output: "for(a;\n;)d\n;e",
             options: [{ statements: "first", forLoopHead: "last" }],
             errors: [
-                { line: 2, message: "Expected this semicolon to be at the last of the previous line." },
-                { line: 2, message: "Expected this semicolon to be at the head of the next line." }
+                { line: 2, message: "Expected this semicolon to be at the end of the previous line." },
+                { line: 2, message: "Expected this semicolon to be at the beginning of the next line." }
             ]
         },
 
         {
             code: "foo\n;/**/bar",
             output: null,
-            errors: ["Expected this semicolon to be at the last of the previous line."]
+            errors: ["Expected this semicolon to be at the end of the previous line."]
         },
         {
             code: "foo\n/**/;bar",
             output: null,
-            errors: ["Expected this semicolon to be at the last of the previous line."]
+            errors: ["Expected this semicolon to be at the end of the previous line."]
         },
 
         {
             code: "foo;\n/**/bar",
             output: null,
             options: ["first"],
-            errors: ["Expected this semicolon to be at the head of the next line."]
+            errors: ["Expected this semicolon to be at the beginning of the next line."]
         },
         {
             code: "foo/**/;\nbar",
             output: null,
             options: ["first"],
-            errors: ["Expected this semicolon to be at the head of the next line."]
+            errors: ["Expected this semicolon to be at the beginning of the next line."]
         }
     ]
 });
