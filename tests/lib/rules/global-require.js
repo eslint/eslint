@@ -30,7 +30,8 @@ const valid = [
     { code: "var logger = require(DEBUG ? 'dev-logger' : 'logger');" },
     { code: "var logger = DEBUG ? require('dev-logger') : require('logger');" },
     { code: "function localScopedRequire(require) { require('y'); }" },
-    { code: "var someFunc = require('./someFunc'); someFunc(function(require) { return('bananas'); });" }
+    { code: "var someFunc = require('./someFunc'); someFunc(function(require) { return('bananas'); });" },
+    { code: "var x = {\n\ty: require('z')\n};" }
 ];
 
 const message = "Unexpected require().";
@@ -58,6 +59,15 @@ const invalid = [
         }]
     },
     {
+        code: "var x; if (y) { x = { z: require('debug') }; }",
+        errors: [{
+            line: 1,
+            column: 26,
+            message: message,
+            type: type
+        }]
+    },
+    {
         code: "var x; if (y) { x = require('debug').baz; }",
         errors: [{
             line: 1,
@@ -76,12 +86,30 @@ const invalid = [
         }]
     },
     {
+        code: "function x() { var z = { y: require('y') }; }",
+        errors: [{
+            line: 1,
+            column: 29,
+            message: message,
+            type: type
+        }]
+    },
+    {
         code: "try { require('x'); } catch (e) { console.log(e); }",
         errors: [{
             line: 1,
             column: 7,
             message,
             type
+        }]
+    },
+    {
+        code: "try { var y = { x: require('x') }; } catch (e) { console.log(e); }",
+        errors: [{
+            line: 1,
+            column: 20,
+            message: message,
+            type: type
         }]
     },
 
@@ -113,6 +141,15 @@ const invalid = [
             column: 23,
             message,
             type
+        }]
+    },
+    {
+        code: "switch(x) { case '1': var v = { mod: require('1') }; break; }",
+        errors: [{
+            line: 1,
+            column: 38,
+            message: message,
+            type: type
         }]
     }
 ];
