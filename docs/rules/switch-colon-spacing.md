@@ -4,7 +4,8 @@ Spacing around colons improves readability of `case`/`default` clauses.
 
 ## Rule Details
 
-This rule reports around colons of `case`/`default` clauses if it's different to configured spacing.
+This rule controls spacing around colons of `case` and `default` clauses in `switch` statements.
+This rule does the check only if the consecutive tokens exist on the same line.
 
 This rule has 2 options that are boolean value.
 
@@ -42,6 +43,33 @@ switch (a) {
         bar();
         break;
     default:
+        baz();
+        break;
+}
+```
+
+Examples of **incorrect** code for this rule with `{"after": false, "before": true}` option:
+
+```js
+/*eslint switch-colon-spacing: ["error", {"after": false, "before": true}]*/
+
+switch (a) {
+    case 0: break;
+    default: foo();
+}
+```
+
+Examples of **correct** code for this rule with `{"after": false, "before": true}` option:
+
+```js
+/*eslint switch-colon-spacing: ["error", {"after": false, "before": true}]*/
+
+switch (a) {
+    case 0 :foo(); break;
+    case 1 :
+        bar();
+        break;
+    default :
         baz();
         break;
 }
