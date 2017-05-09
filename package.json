@@ -28,7 +28,8 @@
     "bin",
     "conf",
     "lib",
-    "messages"
+    "messages",
+    "docs/rules"
   ],
   "repository": "eslint/eslint",
   "homepage": "http://eslint.org",
