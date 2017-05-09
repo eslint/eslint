@@ -131,6 +131,10 @@ ruleTester.run("valid-jsdoc", rule, {
             code: "/**\n* Description\n* @param {string} p mytest\n* @returns {Object}*/\nFoo.bar = function(p){return name;};",
             options: [{ requireReturnDescription: false }]
         },
+        {
+            code: "/**\n* Description\n* @param {string} p mytest\n* @chainable */\nFoo.bar = function(p){return this;};",
+            options: [{allowChainable: true}]
+        },
         "var obj = {\n /**\n * Getter\n * @type {string}\n */\n get location() {\n return this._location;\n }\n }",
         "var obj = {\n /**\n * Setter\n * @param {string} value The location\n */\n set location(value) {\n this._location = value;\n }\n }",
         {
