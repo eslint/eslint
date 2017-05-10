@@ -1,5 +1,7 @@
 {
-    "ecmaFeatures": {
-        "globalReturn": false
+    "parserOptions": {
+        "ecmaFeatures": {
+            "globalReturn": false
+        }
     }
 }

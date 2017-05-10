@@ -78,6 +78,10 @@ ruleTester.run("no-unexpected-multiline", rule, {
         `
             foo
             / /abc/
+        `,
+        `
+            5 / (5
+            / 5)
         `
     ],
     invalid: [
