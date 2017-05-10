@@ -532,6 +532,43 @@ ruleTester.run("indent", rule, {
         {
             code: unIndent`
                 var foo = 1,
+                  bar
+                    = 2
+            `,
+            options: [2, { VariableDeclarator: 1 }]
+        },
+        {
+            code: unIndent`
+                var foo
+                  = 1,
+                  bar
+                    = 2
+            `,
+            options: [2, { VariableDeclarator: 1 }]
+        },
+        {
+            code: unIndent`
+                var foo
+                  =
+                  1,
+                  bar
+                    =
+                    2
+            `,
+            options: [2, { VariableDeclarator: 1 }]
+        },
+        {
+            code: unIndent`
+                var foo
+                  = (1),
+                  bar
+                    = (2)
+            `,
+            options: [2, { VariableDeclarator: 1 }]
+        },
+        {
+            code: unIndent`
+                var foo = 1,
                     bar = 2,
                     baz = 3
                 ;
