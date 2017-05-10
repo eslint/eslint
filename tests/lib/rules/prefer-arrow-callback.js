@@ -70,7 +70,7 @@ ruleTester.run("prefer-arrow-callback", rule, {
         {
             code: "foo(nativeCb || function() {});",
             errors,
-            output: "foo(nativeCb || () => {});"
+            output: "foo(nativeCb || (() => {}));"
         },
         {
             code: "foo(bar ? function() {} : function() {});",
@@ -86,6 +86,11 @@ ruleTester.run("prefer-arrow-callback", rule, {
             code: "foo(function() { this; }.bind(this));",
             errors,
             output: "foo(() => { this; });"
+        },
+        {
+            code: "foo(bar || function() { this; }.bind(this));",
+            errors,
+            output: "foo(bar || (() => { this; }));"
         },
         {
             code: "foo(function() { (() => this); }.bind(this));",
@@ -133,6 +138,11 @@ ruleTester.run("prefer-arrow-callback", rule, {
             code: "qux(function(foo, bar, baz) { return foo * this.qux; }.bind(this))",
             errors,
             output: "qux((foo, bar, baz) => { return foo * this.qux; })"
+        },
+        {
+            code: "foo(function() {}.bind(this, somethingElse))",
+            errors,
+            output: "foo((() => {}).bind(this, somethingElse))"
         },
         {
             code: "qux(function(foo = 1, [bar = 2] = [], {qux: baz = 3} = {foo: 'bar'}) { return foo + bar; });",
