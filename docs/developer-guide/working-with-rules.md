@@ -665,6 +665,21 @@ valid: [
 
 The options available and the expected syntax for `parserOptions` is the same as those used in [configuration](../user-guide/configuring#specifying-parser-options).
 
+## Specifying Description Of Code
+
+By default the code in the case will be printed on running test. If the code is too long to be displayed, you may provide a message as replacement by using the `desc` property.
+
+For example:
+
+```js
+valid: [
+    {
+        code: "/* something too long to be displayed on screen ... */",
+        desc: "code about ..."
+    }
+]
+```
+
 ## Performance Testing
 
 To keep the linting process efficient and unobtrusive, it is useful to verify the performance impact of new rules or modifications to existing rules.
