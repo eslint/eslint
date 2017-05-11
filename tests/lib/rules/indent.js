@@ -3205,7 +3205,6 @@ ruleTester.run("indent", rule, {
             `,
             parserOptions: { ecmaVersion: 6 }
         },
-<<<<<<< de0b4ad7bd820ade41b1f606008bea68683dc11a
         {
             code: unIndent`
                 foo
@@ -6718,7 +6717,6 @@ ruleTester.run("indent", rule, {
             `,
             errors: expectedErrors([[4, 4, 8, "Identifier"], [5, 0, 4, "Punctuator"]])
         },
-<<<<<<< de0b4ad7bd820ade41b1f606008bea68683dc11a
         {
             code: unIndent`
                 foo.
