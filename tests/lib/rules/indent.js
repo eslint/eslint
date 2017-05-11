@@ -3398,6 +3398,24 @@ ruleTester.run("indent", rule, {
                 }
             `,
             parser: parser("unknown-nodes/namespace-with-functions-with-abstract-class-valid")
+        },
+        {
+            code: unIndent`
+              type httpMethod = 'GET'
+                | 'POST'
+                | 'PUT';
+            `,
+            options: [2, { VariableDeclarator: 0 }],
+            parser: parser("unknown-nodes/variable-declarator-type-indent-two-spaces")
+        },
+        {
+            code: unIndent`
+              type httpMethod = 'GET'
+              | 'POST'
+              | 'PUT';
+            `,
+            options: [2, { VariableDeclarator: 1 }],
+            parser: parser("unknown-nodes/variable-declarator-type-no-indent")
         }
     ],
 
