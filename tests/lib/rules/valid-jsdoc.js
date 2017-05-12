@@ -124,6 +124,18 @@ ruleTester.run("valid-jsdoc", rule, {
             options: [{ requireReturn: false }]
         },
         {
+            code: "/**\n* Description\n* @param {function} callback mytest\n*/\nfunction asyncFunc(callback){if (false) {return callback(null);}};",
+            options: [{ requireReturn: false, matchReturnOptional: "return\\s+(?:callback|done|next)" }]
+        },
+        {
+            code: "/**\n* Description\n* @param {function} done mytest\n*/\nfunction asyncFunc(done){if (false) {return done(null);}};",
+            options: [{ requireReturn: false, matchReturnOptional: "return\\s+(?:callback|done|next)" }]
+        },
+        {
+            code: "/**\n* Description\n* @param {function} next mytest\n*/\nfunction asyncFunc(next){if (false) {return next(null);}};",
+            options: [{ requireReturn: false, matchReturnOptional: "return\\s+(?:callback|done|next)" }]
+        },
+        {
             code: "/**\n* Description\n* @param {string} p\n* @returns {void}*/\nFoo.bar = function(p){var t = function(){function name(){}; return name;}};",
             options: [{ requireParamDescription: false }]
         },
@@ -675,6 +687,16 @@ ruleTester.run("valid-jsdoc", rule, {
                 message: "Use @returns instead.",
                 type: "Block"
             }]
+        },
+        {
+            code: "/**\n* Description\n* @param {function} next mytest\n*/\nfunction asyncFunc(next){if (false) {return next(null);}};",
+            options: [{ requireReturn: false, matchReturnOptional: "return\\s+callback" }],
+            errors: [
+                {
+                    message: "Missing JSDoc @returns for function.",
+                    type: "Block"
+                }
+            ]
         },
         {
             code: "/** Foo \n@argument {int} bar baz\n */\nfunction foo(bar){}",
