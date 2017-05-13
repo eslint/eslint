@@ -6885,20 +6885,22 @@ ruleTester.run("indent", rule, {
                 function foo() {
                     function bar() {
                         abstract class X {
-                        public baz() {
-                            if (true) {
-                                qux();
+                            public baz() {
+                                if (true) {
+                                    qux();
+                                }
                             }
-                        }
                         }
                     }
                 }
             `,
             parser: parser("unknown-nodes/functions-with-abstract-class-invalid"),
             errors: expectedErrors([
-                [5, 12, 8, "Keyword"],
-                [6, 16, 8, "Identifier"],
-                [7, 12, 8, "Punctuator"]
+                [4, 12, 8, "Keyword"],
+                [5, 16, 8, "Keyword"],
+                [6, 20, 8, "Identifier"],
+                [7, 16, 8, "Punctuator"],
+                [8, 12, 8, "Punctuator"]
             ])
         },
         {
