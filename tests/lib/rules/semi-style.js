@@ -25,20 +25,20 @@ ruleTester.run("semi-style", rule, {
         "foo;\nbar;",
         "for(a;b;c);",
         "for(a;\nb;\nc);",
+        "for((a\n);\n(b\n);\n(c));",
         "if(a)foo;\nbar",
         { code: ";foo;bar;baz;", options: ["last"] },
         { code: "foo;\nbar;", options: ["last"] },
         { code: "for(a;b;c);", options: ["last"] },
         { code: "for(a;\nb;\nc);", options: ["last"] },
+        { code: "for((a\n);\n(b\n);\n(c));", options: ["last"] },
         { code: "if(a)foo;\nbar", options: ["last"] },
         { code: ";foo;bar;baz;", options: ["first"] },
         { code: "foo\n;bar;", options: ["first"] },
         { code: "for(a;b;c);", options: ["first"] },
-        { code: "for(a\n;b\n;c);", options: ["first"] },
-        { code: "for((a)\n;(b)\n;(c));", options: ["first"] },
-        { code: "if(a)foo\n;bar", options: ["first"] },
-        { code: "for(a\n;;)d;\ne", options: [{ statements: "last", forLoopHead: "first" }] },
-        { code: "for(a;;\n)d\n;e", options: [{ statements: "first", forLoopHead: "last" }] }
+        { code: "for(a;\nb;\nc);", options: ["first"] },
+        { code: "for((a\n);\n(b\n);\n(c));", options: ["first"] },
+        { code: "if(a)foo\n;bar", options: ["first"] }
     ],
     invalid: [
         {
@@ -139,35 +139,16 @@ ruleTester.run("semi-style", rule, {
             errors: ["Expected this semicolon to be at the beginning of the next line."]
         },
         {
-            code: "for(a;\nb;c)d",
-            output: "for(a\n;b;c)d",
+            code: "for(a\n;b;c)d",
+            output: "for(a;\nb;c)d",
             options: ["first"],
-            errors: ["Expected this semicolon to be at the beginning of the next line."]
+            errors: ["Expected this semicolon to be at the end of the previous line."]
         },
         {
-            code: "for(a;b;\nc)d",
-            output: "for(a;b\n;c)d",
+            code: "for(a;b\n;c)d",
+            output: "for(a;b;\nc)d",
             options: ["first"],
-            errors: ["Expected this semicolon to be at the beginning of the next line."]
-        },
-
-        {
-            code: "for(a;\n;)d\n;e",
-            output: "for(a\n;;)d;\ne",
-            options: [{ statements: "last", forLoopHead: "first" }],
-            errors: [
-                { line: 1, message: "Expected this semicolon to be at the beginning of the next line." },
-                { line: 3, message: "Expected this semicolon to be at the end of the previous line." }
-            ]
-        },
-        {
-            code: "for(a\n;;)d;\ne",
-            output: "for(a;\n;)d\n;e",
-            options: [{ statements: "first", forLoopHead: "last" }],
-            errors: [
-                { line: 2, message: "Expected this semicolon to be at the end of the previous line." },
-                { line: 2, message: "Expected this semicolon to be at the beginning of the next line." }
-            ]
+            errors: ["Expected this semicolon to be at the end of the previous line."]
         },
 
         {
