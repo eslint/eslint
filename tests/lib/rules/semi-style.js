@@ -71,6 +71,11 @@ ruleTester.run("semi-style", rule, {
             output: "for(a;b;\nc)d",
             errors: ["Expected this semicolon to be at the end of the previous line."]
         },
+        {
+            code: "do;while(a)\n;b",
+            output: "do;while(a);\nb",
+            errors: ["Expected this semicolon to be at the end of the previous line."]
+        },
 
         {
             code: "foo\n;bar",
