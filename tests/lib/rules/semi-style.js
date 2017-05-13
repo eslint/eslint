@@ -35,6 +35,7 @@ ruleTester.run("semi-style", rule, {
         { code: "foo\n;bar;", options: ["first"] },
         { code: "for(a;b;c);", options: ["first"] },
         { code: "for(a\n;b\n;c);", options: ["first"] },
+        { code: "for((a)\n;(b)\n;(c));", options: ["first"] },
         { code: "if(a)foo\n;bar", options: ["first"] },
         { code: "for(a\n;;)d;\ne", options: [{ statements: "last", forLoopHead: "first" }] },
         { code: "for(a;;\n)d\n;e", options: [{ statements: "first", forLoopHead: "last" }] }
