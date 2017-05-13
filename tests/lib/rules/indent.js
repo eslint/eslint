@@ -2963,6 +2963,24 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                var a =
+                    foo ? bar :
+                    baz ? qux :
+                    foobar ? boop :
+                    /*else*/ beep
+            `,
+            options: [4, { flatTernaryExpressions: true }]
+        },
+        {
+            code: unIndent`
+                var a = foo
+                    ? bar
+                    : baz
+            `,
+            options: [4, { flatTernaryExpressions: true }]
+        },
+        {
+            code: unIndent`
                 foo
                     ? bar
                     : baz
@@ -6537,6 +6555,27 @@ ruleTester.run("indent", rule, {
                 [5, 4, 8, "Identifier"],
                 [6, 4, 12, "Identifier"],
                 [7, 4, 12, "Identifier"]
+            ])
+        },
+        {
+            code: unIndent`
+                var a =
+                    foo ? bar :
+                      baz ? qux :
+                  foobar ? boop :
+                    /*else*/ beep
+            `,
+            output: unIndent`
+                var a =
+                    foo ? bar :
+                    baz ? qux :
+                    foobar ? boop :
+                    /*else*/ beep
+            `,
+            options: [4, { flatTernaryExpressions: true }],
+            errors: expectedErrors([
+                [3, 4, 6, "Identifier"],
+                [4, 4, 2, "Identifier"]
             ])
         },
         {
