@@ -41,6 +41,7 @@ module.exports = {
         "dot-notation": "off",
         "eol-last": "off",
         "eqeqeq": "off",
+        "for-direction": "off",
         "func-call-spacing": "off",
         "func-name-matching": "off",
         "func-names": "off",
