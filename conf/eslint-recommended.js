@@ -248,6 +248,7 @@ module.exports = {
         "space-unary-ops": "off",
         "spaced-comment": "off",
         "strict": "off",
+        "switch-colon-spacing": "off",
         "symbol-description": "off",
         "template-curly-spacing": "off",
         "template-tag-spacing": "off",

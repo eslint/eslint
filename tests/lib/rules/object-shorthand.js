@@ -374,6 +374,10 @@ ruleTester.run("object-shorthand", rule, {
                 }
             `,
             options: ["always", { avoidExplicitReturnArrows: true }]
+        },
+        {
+            code: "({ [foo.bar]: () => {} })",
+            options: ["always", { ignoreConstructors: true }]
         }
     ],
     invalid: [
