@@ -2942,10 +2942,10 @@ ruleTester.run("indent", rule, {
                 foo
                     ? bar
                     : baz
-                    ? qux
-                    : foobar
-                    ? boop
-                    : beep
+                        ? qux
+                        : foobar
+                            ? boop
+                            : beep
             `,
             options: [4, { flatTernaryExpressions: true }]
         },
@@ -2954,10 +2954,10 @@ ruleTester.run("indent", rule, {
                 foo ?
                     bar :
                     baz ?
-                    qux :
-                    foobar ?
-                    boop :
-                    beep
+                        qux :
+                        foobar ?
+                            boop :
+                            beep
             `,
             options: [4, { flatTernaryExpressions: true }]
         },
@@ -2976,6 +2976,72 @@ ruleTester.run("indent", rule, {
                 var a = foo
                     ? bar
                     : baz
+            `,
+            options: [4, { flatTernaryExpressions: true }]
+        },
+        {
+            code: unIndent`
+                var a =
+                    foo
+                        ? bar
+                        : baz
+            `,
+            options: [4, { flatTernaryExpressions: true }]
+        },
+        {
+            code: unIndent`
+                a =
+                    foo ? bar :
+                    baz ? qux :
+                    foobar ? boop :
+                    /*else*/ beep
+            `,
+            options: [4, { flatTernaryExpressions: true }]
+        },
+        {
+            code: unIndent`
+                a = foo
+                    ? bar
+                    : baz
+            `,
+            options: [4, { flatTernaryExpressions: true }]
+        },
+        {
+            code: unIndent`
+                a =
+                    foo
+                        ? bar
+                        : baz
+            `,
+            options: [4, { flatTernaryExpressions: true }]
+        },
+        {
+            code: unIndent`
+                foo(
+                    foo ? bar :
+                    baz ? qux :
+                    foobar ? boop :
+                    /*else*/ beep
+                )
+            `,
+            options: [4, { flatTernaryExpressions: true }]
+        },
+        {
+            code: unIndent`
+                foo(
+                    foo
+                        ? bar
+                        : baz
+                )
+            `,
+            options: [4, { flatTernaryExpressions: true }]
+        },
+        {
+            code: unIndent`
+                foo(foo
+                    ? bar
+                    : baz
+                )
             `,
             options: [4, { flatTernaryExpressions: true }]
         },
@@ -6505,56 +6571,40 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
-                foo
-                    ? bar
-                    : baz
-                        ? qux
-                        : foobar
-                            ? boop
+                foo ? bar
+                    : baz ? qux
+                        : foobar ? boop
                             : beep
             `,
             output: unIndent`
-                foo
-                    ? bar
-                    : baz
-                    ? qux
-                    : foobar
-                    ? boop
+                foo ? bar
+                    : baz ? qux
+                    : foobar ? boop
                     : beep
             `,
             options: [4, { flatTernaryExpressions: true }],
             errors: expectedErrors([
-                [4, 4, 8, "Punctuator"],
-                [5, 4, 8, "Punctuator"],
-                [6, 4, 12, "Punctuator"],
-                [7, 4, 12, "Punctuator"]
+                [3, 4, 8, "Punctuator"],
+                [4, 4, 12, "Punctuator"]
             ])
         },
         {
             code: unIndent`
-                foo ?
-                    bar :
-                    baz ?
-                        qux :
-                        foobar ?
-                            boop :
+                foo ? bar :
+                    baz ? qux :
+                        foobar ? boop :
                             beep
             `,
             output: unIndent`
-                foo ?
-                    bar :
-                    baz ?
-                    qux :
-                    foobar ?
-                    boop :
+                foo ? bar :
+                    baz ? qux :
+                    foobar ? boop :
                     beep
             `,
             options: [4, { flatTernaryExpressions: true }],
             errors: expectedErrors([
-                [4, 4, 8, "Identifier"],
-                [5, 4, 8, "Identifier"],
-                [6, 4, 12, "Identifier"],
-                [7, 4, 12, "Identifier"]
+                [3, 4, 8, "Identifier"],
+                [4, 4, 12, "Identifier"]
             ])
         },
         {
@@ -6576,6 +6626,63 @@ ruleTester.run("indent", rule, {
             errors: expectedErrors([
                 [3, 4, 6, "Identifier"],
                 [4, 4, 2, "Identifier"]
+            ])
+        },
+        {
+            code: unIndent`
+                var a =
+                    foo
+                    ? bar
+                    : baz
+            `,
+            output: unIndent`
+                var a =
+                    foo
+                        ? bar
+                        : baz
+            `,
+            options: [4, { flatTernaryExpressions: true }],
+            errors: expectedErrors([
+                [3, 8, 4, "Punctuator"],
+                [4, 8, 4, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                foo ? bar
+                    : baz ? qux
+                    : foobar ? boop
+                    : beep
+            `,
+            output: unIndent`
+                foo ? bar
+                    : baz ? qux
+                        : foobar ? boop
+                            : beep
+            `,
+            options: [4, { flatTernaryExpressions: false }],
+            errors: expectedErrors([
+                [3, 8, 4, "Punctuator"],
+                [4, 12, 4, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                foo ? bar :
+                    baz ? qux :
+                    foobar ? boop :
+                    beep
+            `,
+            output: unIndent`
+                foo ? bar :
+                    baz ? qux :
+                        foobar ? boop :
+                            beep
+            `,
+            options: [4, { flatTernaryExpressions: false }],
+            errors: expectedErrors([
+                [3, 8, 4, "Identifier"],
+                [4, 12, 4, "Identifier"]
             ])
         },
         {
