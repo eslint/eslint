@@ -4172,6 +4172,33 @@ ruleTester.run("indent", rule, {
                         baz
                 >
             `
+        },
+        {
+            code: unIndent`
+                <
+                    input
+                    type=
+                        "number"
+                />
+            `
+        },
+        {
+            code: unIndent`
+                <
+                    input
+                    type=
+                        {'number'}
+                />
+            `
+        },
+        {
+            code: unIndent`
+                <
+                    input
+                    type
+                        ="number"
+                />
+            `
         }
     ],
 
@@ -7998,6 +8025,57 @@ ruleTester.run("indent", rule, {
                 [9, 8, 4, "JSXIdentifier"],
                 [10, 8, 4, "JSXIdentifier"]
             ])
+        },
+        {
+            code: unIndent`
+                <
+                    input
+                    type=
+                    "number"
+                />
+            `,
+            output: unIndent`
+                <
+                    input
+                    type=
+                        "number"
+                />
+            `,
+            errors: expectedErrors([4, 8, 4, "JSXText"])
+        },
+        {
+            code: unIndent`
+                <
+                    input
+                    type=
+                    {'number'}
+                />
+            `,
+            output: unIndent`
+                <
+                    input
+                    type=
+                        {'number'}
+                />
+            `,
+            errors: expectedErrors([4, 8, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                <
+                    input
+                    type
+                    ="number"
+                />
+            `,
+            output: unIndent`
+                <
+                    input
+                    type
+                        ="number"
+                />
+            `,
+            errors: expectedErrors([4, 8, 4, "Punctuator"])
         }
     ]
 });
