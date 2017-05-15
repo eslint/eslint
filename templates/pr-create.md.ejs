@@ -19,7 +19,13 @@ if (meta.title.length > 72) {
 }
 
 // It's only necessary to check the title when the PR is created or the title is edited.
-if ((payload.action === "opened" || payload.action === "edited") && problems.length) { %>
+if (
+    problems.length &&
+    (
+        payload.action === "opened" ||
+        (payload.action === "edited" && payload.changes.title.from !== meta.title)
+    )
+) { %>
 Thanks for the pull request, @<%= payload.sender.login %>! I took a look to make sure it's ready for merging and found some changes are needed:
 
 <% problems.forEach(function(problem) { %>
