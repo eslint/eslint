@@ -10,30 +10,31 @@ function isValidCommitFlag(log) {
 
 var problems = [];
 
-// Check for one commit per pull request
-if (meta.commits) {
-    // get just the first line of the commit message
-    var log = meta.commits[0].commit.message.split(/\r?\n/g)[0];
-
-    if (!isValidCommitFlag(log)) {
-        problems.push("The commit summary needs to begin with a tag (such as `Fix:` or `Update:`). Please check out our [guide](http://eslint.org/docs/developer-guide/contributing/pull-requests#step-2-make-your-changes) for how to properly format your commit summary and [update](http://eslint.org/docs/developer-guide/contributing/pull-requests#updating-the-commit-message) it on this pull request.")
-    }
-
-    if (log.length > 72) {
-        problems.push("The commit summary must be 72 characters or shorter. Please check out our [guide](http://eslint.org/docs/developer-guide/contributing/pull-requests#step-2-make-your-changes) for how to properly format your commit summary and [update](http://eslint.org/docs/developer-guide/contributing/pull-requests#updating-the-commit-message) it on this pull request.");
-    }
+if (!isValidCommitFlag(meta.title)) {
+    problems.push("The pull request title needs to begin with a tag (such as `Fix:` or `Update:`). Please check out our [guide](http://eslint.org/docs/developer-guide/contributing/pull-requests#step-2-make-your-changes) for how to properly format your commit summary and [update](http://eslint.org/docs/developer-guide/contributing/pull-requests#updating-the-commit-message) it on this pull request.")
 }
 
-if (problems.length) { %>
+if (meta.title.length > 72) {
+    problems.push("The pull request title must be 72 characters or shorter. Please check out our [guide](http://eslint.org/docs/developer-guide/contributing/pull-requests#step-2-make-your-changes) for how to properly format your commit summary and [update](http://eslint.org/docs/developer-guide/contributing/pull-requests#updating-the-commit-message) it on this pull request.");
+}
+
+// It's only necessary to check the title when the PR is created or the title is edited.
+if ((payload.action === "opened" || payload.action === "edited") && problems.length) { %>
 Thanks for the pull request, @<%= payload.sender.login %>! I took a look to make sure it's ready for merging and found some changes are needed:
 
 <% problems.forEach(function(problem) { %>
 * <%- problem %>
 <% }); %>
 
-Can you please update the pull request to address these?
+Can you please edit the pull request title to address these?
 
 (More information can be found in our [pull request guide](http://eslint.org/docs/developer-guide/contributing/pull-requests).)
+
+<details>
+  <summary>Why is this required?</summary>
+
+  It's important that commit messages have a consistent format, because this allows us to use tooling to save time (e.g. autogenerating organized changelogs from commit messages). When a team member merges your pull request with GitHub's UI, the default commit message for the squashed commits is the title of the pull request. We want the title to have the correct format so that we can minimize errors when merging.
+</details>
 <% } else { %>
 LGTM
 <% } %>
