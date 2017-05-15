@@ -107,6 +107,30 @@ ruleTester.run("newline-before-return", rule, {
         {
             code: "/* multi-line\ncomment */\nreturn;",
             parserOptions: { ecmaFeatures: { globalReturn: true } }
+        },
+
+        // { includeComments: true }
+        {
+            code: "function a() {\nif (b) { return; }\n//comment\nreturn c;\n}",
+            options: [{ includeComments: true }]
+        },
+        {
+            code: "function a() {\nif (b) { return; }\n/* comment */\nreturn c;\n}",
+            options: [{ includeComments: true }]
+        },
+        {
+            code: "function a() {\nif (b) { return; } /* multi-line\ncomment */\nreturn c;\n}",
+            options: [{ includeComments: true }]
+        },
+
+        // unlikely edge-cases for { includeComments: true }
+        {
+            code: "function a() {\nif (b) { return; } /* multi-line\ncomment\nsharing line */ return c;\n}",
+            options: [{ includeComments: true }]
+        },
+        {
+            code: "function a() {\nif (b) { return; }\n/* multi-line comment\nsharing line */ return c;\n}",
+            options: [{ includeComments: true }]
         }
     ],
 
@@ -276,6 +300,34 @@ ruleTester.run("newline-before-return", rule, {
             code: "function a() {\nvar b; return; //comment\n}",
             errors: ["Expected newline before return statement."],
             output: "function a() {\nvar b; \n\nreturn; //comment\n}"
+        },
+
+        // { includeComments: true }
+        {
+            code: "function a() {\nif (b) { return; } //comment\nreturn c;\n}",
+            options: [{ includeComments: true }],
+            errors: ["Expected newline before return statement."],
+            output: "function a() {\nif (b) { return; } //comment\n\nreturn c;\n}"
+        },
+        {
+            code: "function a() {\nif (b) { return; } /* comment */\nreturn c;\n}",
+            options: [{ includeComments: true }],
+            errors: ["Expected newline before return statement."],
+            output: "function a() {\nif (b) { return; } /* comment */\n\nreturn c;\n}"
+        },
+
+        // unlikely edge cases for { includeComments: true }
+        {
+            code: "function a() {\nif (b) { return; }\n/* comment sharing line */ return c;\n}",
+            options: [{ includeComments: true }],
+            errors: ["Expected newline before return statement."],
+            output: null
+        },
+        {
+            code: "function a() {\nif (b) { return; } /* multi-line comment\nsharing line */ return c;\n}",
+            options: [{ includeComments: true }],
+            errors: ["Expected newline before return statement."],
+            output: null
         }
     ]
 });
