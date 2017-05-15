@@ -10,22 +10,21 @@ function isValidCommitFlag(log) {
 
 var problems = [];
 
-if (!isValidCommitFlag(meta.title)) {
+if (!isValidCommitFlag(payload.pull_request.title)) {
     problems.push("The pull request title needs to begin with a tag (such as `Fix:` or `Update:`). Please check out our [guide](http://eslint.org/docs/developer-guide/contributing/pull-requests#step-2-make-your-changes) for how to properly format your commit summary and [update](http://eslint.org/docs/developer-guide/contributing/pull-requests#updating-the-commit-message) it on this pull request.")
 }
 
-if (meta.title.length > 72) {
+if (payload.pull_request.title.length > 72) {
     problems.push("The pull request title must be 72 characters or shorter. Please check out our [guide](http://eslint.org/docs/developer-guide/contributing/pull-requests#step-2-make-your-changes) for how to properly format your commit summary and [update](http://eslint.org/docs/developer-guide/contributing/pull-requests#updating-the-commit-message) it on this pull request.");
 }
 
 // It's only necessary to check the title when the PR is created or the title is edited.
 if (
-    problems.length &&
-    (
-        payload.action === "opened" ||
-        (payload.action === "edited" && payload.changes.title.from !== meta.title)
-    )
-) { %>
+    payload.action !== "opened" &&
+    !(payload.action === "edited" && payload.changes.title.from !== payload.pull_request.title)
+) {
+    // no response
+} else if (problems.length) { %>
 Thanks for the pull request, @<%= payload.sender.login %>! I took a look to make sure it's ready for merging and found some changes are needed:
 
 <% problems.forEach(function(problem) { %>
