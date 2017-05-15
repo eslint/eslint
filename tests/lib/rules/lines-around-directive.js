@@ -1,6 +1,7 @@
 /**
  * @fileoverview Require or disallow newlines around directives.
  * @author Kai Cataldo
+ * @deprecated
  */
 
 "use strict";

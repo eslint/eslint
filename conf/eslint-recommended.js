@@ -221,6 +221,7 @@ module.exports = {
         "operator-assignment": "off",
         "operator-linebreak": "off",
         "padded-blocks": "off",
+        "padding-line-between-statements": "off",
         "prefer-arrow-callback": "off",
         "prefer-const": "off",
         "prefer-destructuring": "off",
