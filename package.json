@@ -64,7 +64,6 @@
     "progress": "^1.1.8",
     "require-uncached": "^1.0.3",
     "shelljs": "^0.7.7",
-    "strip-bom": "^3.0.0",
     "strip-json-comments": "~2.0.1",
     "table": "^4.0.1",
     "text-table": "~0.2.0",
