@@ -2387,6 +2387,72 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: ["if", "for", "return", "switch", "case", "break", "throw", "while", "default"] }
             ]
+        },
+
+        //----------------------------------------------------------------------
+        // { blankLine: "always", includeComments: true }
+        // Comment lines are treated the same as blank lines
+        //----------------------------------------------------------------------
+        {
+            code: "foo();\n\nbar();",
+            options: [{ blankLine: "always", prev: "*", next: "*", includeComments: true }]
+        },
+        {
+            code: "foo();\n//comment\nbar();",
+            options: [{ blankLine: "always", prev: "*", next: "*", includeComments: true }]
+        },
+        {
+            code: "foo();\n/*multi-line\ncomment*/\nbar();",
+            options: [{ blankLine: "always", prev: "*", next: "*", includeComments: true }]
+        },
+        {
+            code: "foo();\n/*comment1*/\n//comment2\nbar();",
+            options: [{ blankLine: "always", prev: "*", next: "*", includeComments: true }]
+        },
+        {
+            code: "foo();/*multi-line\ncomment*/\nbar();",
+            options: [{ blankLine: "always", prev: "*", next: "*", includeComments: true }]
+        },
+        {
+            code: "foo();\n/*multi-line\ncomment*/ bar();",
+            options: [{ blankLine: "always", prev: "*", next: "*", includeComments: true }]
+        },
+        {
+            code: "foo();/*multi\nline\ncomment*/bar();",
+            options: [{ blankLine: "always", prev: "*", next: "*", includeComments: true }]
+        },
+
+        //----------------------------------------------------------------------
+        // { blankLine: "never", includeComments: true }
+        // Comment lines are treated the same as blank lines
+        //----------------------------------------------------------------------
+        {
+            code: "foo();bar();",
+            options: [{ blankLine: "never", prev: "*", next: "*", includeComments: true }]
+        },
+        {
+            code: "foo();\nbar();",
+            options: [{ blankLine: "never", prev: "*", next: "*", includeComments: true }]
+        },
+        {
+            code: "foo();//comment\nbar();",
+            options: [{ blankLine: "never", prev: "*", next: "*", includeComments: true }]
+        },
+        {
+            code: "foo();\n/*comment*/bar();",
+            options: [{ blankLine: "never", prev: "*", next: "*", includeComments: true }]
+        },
+        {
+            code: "foo();/*comment*/\n/*comment*/bar();",
+            options: [{ blankLine: "never", prev: "*", next: "*", includeComments: true }]
+        },
+        {
+            code: "foo();/*comment*//*comment*/bar();",
+            options: [{ blankLine: "never", prev: "*", next: "*", includeComments: true }]
+        },
+        {
+            code: "foo();/*multi-line\ncomment*/bar();",
+            options: [{ blankLine: "never", prev: "*", next: "*", includeComments: true }]
         }
     ],
     invalid: [
@@ -4440,6 +4506,100 @@ ruleTester.run("padding-line-between-statements", rule, {
                 MESSAGE_ALWAYS,
                 MESSAGE_ALWAYS
             ]
+        },
+
+        //----------------------------------------------------------------------
+        // { blankLine: "never", includeComments: true }
+        // Comment lines are treated the same as blank lines
+        //----------------------------------------------------------------------
+        {
+            code: "foo();\n\nbar();",
+            output: "foo();\nbar();",
+            options: [{ blankLine: "never", prev: "*", next: "*", includeComments: true }],
+            errors: [MESSAGE_NEVER]
+        },
+        {
+            code: "foo();\n//comment\nbar();",
+            output: null,
+            options: [{ blankLine: "never", prev: "*", next: "*", includeComments: true }],
+            errors: [MESSAGE_NEVER]
+        },
+        {
+            code: "foo();\n/*multi-line\ncomment*/\nbar();",
+            output: null,
+            options: [{ blankLine: "never", prev: "*", next: "*", includeComments: true }],
+            errors: [MESSAGE_NEVER]
+        },
+        {
+            code: "foo();\n/*comment1*/\n//comment2\nbar();",
+            output: null,
+            options: [{ blankLine: "never", prev: "*", next: "*", includeComments: true }],
+            errors: [MESSAGE_NEVER]
+        },
+        {
+            code: "foo();/*multi-line\ncomment*/\nbar();",
+            output: null,
+            options: [{ blankLine: "never", prev: "*", next: "*", includeComments: true }],
+            errors: [MESSAGE_NEVER]
+        },
+        {
+            code: "foo();\n/*multi-line\ncomment*/ bar();",
+            output: null,
+            options: [{ blankLine: "never", prev: "*", next: "*", includeComments: true }],
+            errors: [MESSAGE_NEVER]
+        },
+        {
+            code: "foo();/*multi\nline\ncomment*/bar();",
+            output: null,
+            options: [{ blankLine: "never", prev: "*", next: "*", includeComments: true }],
+            errors: [MESSAGE_NEVER]
+        },
+
+        //----------------------------------------------------------------------
+        // { blankLine: "always", includeComments: true }
+        // Comment lines are treated the same as blank lines
+        //----------------------------------------------------------------------
+        {
+            code: "foo();bar();",
+            output: "foo();\n\nbar();",
+            options: [{ blankLine: "always", prev: "*", next: "*", includeComments: true }],
+            errors: [MESSAGE_ALWAYS]
+        },
+        {
+            code: "foo();\nbar();",
+            output: "foo();\n\nbar();",
+            options: [{ blankLine: "always", prev: "*", next: "*", includeComments: true }],
+            errors: [MESSAGE_ALWAYS]
+        },
+        {
+            code: "foo();//comment\nbar();",
+            output: "foo();//comment\n\nbar();",
+            options: [{ blankLine: "always", prev: "*", next: "*", includeComments: true }],
+            errors: [MESSAGE_ALWAYS]
+        },
+        {
+            code: "foo();\n/*comment*/bar();",
+            output: "foo();\n\n/*comment*/bar();",
+            options: [{ blankLine: "always", prev: "*", next: "*", includeComments: true }],
+            errors: [MESSAGE_ALWAYS]
+        },
+        {
+            code: "foo();/*comment*/\n/*comment*/bar();",
+            output: "foo();/*comment*/\n\n/*comment*/bar();",
+            options: [{ blankLine: "always", prev: "*", next: "*", includeComments: true }],
+            errors: [MESSAGE_ALWAYS]
+        },
+        {
+            code: "foo();/*comment*//*comment*/bar();",
+            output: null,
+            options: [{ blankLine: "always", prev: "*", next: "*", includeComments: true }],
+            errors: [MESSAGE_ALWAYS]
+        },
+        {
+            code: "foo();/*multi-line\ncomment*/bar();",
+            output: null,
+            options: [{ blankLine: "always", prev: "*", next: "*", includeComments: true }],
+            errors: [MESSAGE_ALWAYS]
         }
     ]
 });
