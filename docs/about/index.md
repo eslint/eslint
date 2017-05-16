@@ -23,8 +23,8 @@ Everything is pluggable:
 Every rule:
 
 * Is standalone
-* Can be able to be turned off or on (nothing can be deemed "too important to turn off")
-* Can be set to be a warning or error individually
+* Can be turned off or on (nothing can be deemed "too important to turn off")
+* Can be set to a warning or error individually
 
 Additionally:
 
