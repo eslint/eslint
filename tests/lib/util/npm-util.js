@@ -9,8 +9,7 @@
 //------------------------------------------------------------------------------
 
 const assert = require("chai").assert,
-    fs = require("fs"),
-    shell = require("shelljs"),
+    childProcess = require("child_process"),
     sinon = require("sinon"),
     npmUtil = require("../../../lib/util/npm-util"),
     log = require("../../../lib/logging"),
@@ -30,6 +29,7 @@ describe("npmUtil", () => {
 
     afterEach(() => {
         sandbox.verifyAndRestore();
+        mockFs.restore();
     });
 
     describe("checkDevDeps()", () => {
@@ -61,11 +61,9 @@ describe("npmUtil", () => {
         });
 
         it("should handle missing devDependencies key", () => {
-            sandbox.stub(shell, "test").returns(true);
-            sandbox.stub(fs, "readFileSync").returns(JSON.stringify({
-                private: true,
-                dependencies: {}
-            }));
+            mockFs({
+                "package.json": JSON.stringify({ private: true, dependencies: {} })
+            });
 
             const fn = npmUtil.checkDevDeps.bind(null, ["some-package"]);
 
@@ -75,8 +73,9 @@ describe("npmUtil", () => {
         it("should throw with message when parsing invalid package.json", () => {
             const logInfo = sandbox.stub(log, "info");
 
-            sandbox.stub(shell, "test").returns(true);
-            sandbox.stub(fs, "readFileSync").returns("{ \"not: \"valid json\" }");
+            mockFs({
+                "package.json": "{ \"not: \"valid json\" }"
+            });
 
             const fn = npmUtil.checkDevDeps.bind(null, ["some-package"]);
 
@@ -91,6 +90,10 @@ describe("npmUtil", () => {
 
         before(() => {
             installStatus = npmUtil.checkDeps(["debug", "mocha", "notarealpackage", "jshint"]);
+        });
+
+        afterEach(() => {
+            mockFs.restore();
         });
 
         it("should find a direct dependency of the project", () => {
@@ -121,34 +124,27 @@ describe("npmUtil", () => {
         });
 
         it("should handle missing dependencies key", () => {
-            sandbox.stub(shell, "test").returns(true);
-            sandbox.stub(fs, "readFileSync").returns(JSON.stringify({
-                private: true,
-                devDependencies: {}
-            }));
+            mockFs({
+                "package.json": JSON.stringify({ private: true, devDependencies: {} })
+            });
 
             const fn = npmUtil.checkDeps.bind(null, ["some-package"]);
 
             assert.doesNotThrow(fn);
-
-            shell.test.restore();
-            fs.readFileSync.restore();
         });
 
         it("should throw with message when parsing invalid package.json", () => {
             const logInfo = sandbox.stub(log, "info");
 
-            sandbox.stub(shell, "test").returns(true);
-            sandbox.stub(fs, "readFileSync").returns("{ \"not: \"valid json\" }");
+            mockFs({
+                "package.json": "{ \"not: \"valid json\" }"
+            });
 
             const fn = npmUtil.checkDevDeps.bind(null, ["some-package"]);
 
             assert.throws(fn, "SyntaxError: Unexpected token v");
             assert(logInfo.calledOnce);
             assert.equal(logInfo.firstCall.args[0], "Could not read package.json file. Please check that the file contains valid JSON.");
-
-            shell.test.restore();
-            fs.readFileSync.restore();
             logInfo.restore();
         });
     });
@@ -174,7 +170,7 @@ describe("npmUtil", () => {
 
     describe("installSyncSaveDev()", () => {
         it("should invoke npm to install a single desired package", () => {
-            const stub = sandbox.stub(shell, "exec");
+            const stub = sandbox.stub(childProcess, "execSync");
 
             npmUtil.installSyncSaveDev("desired-package");
             assert(stub.calledOnce);
@@ -183,7 +179,7 @@ describe("npmUtil", () => {
         });
 
         it("should accept an array of packages to install", () => {
-            const stub = sandbox.stub(shell, "exec");
+            const stub = sandbox.stub(childProcess, "execSync");
 
             npmUtil.installSyncSaveDev(["first-package", "second-package"]);
             assert(stub.calledOnce);
