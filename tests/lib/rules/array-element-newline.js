@@ -26,7 +26,7 @@ ruleTester.run("array-element-newline", rule, {
 
     valid: [
 
-        // ArrayExpression
+        // // ArrayExpression
         // "always"
         "var foo = [];",
         "var foo = [1];",
@@ -37,6 +37,7 @@ ruleTester.run("array-element-newline", rule, {
         "var foo = [1,\n2,\n3];",
         "var foo = [1\n, (2\n, 3)];",
         "var foo = [1,\n(  2   ),\n3];",
+        "var foo = [1,\n((((2)))),\n3];",
         "var foo = [1,\n(\n2\n),\n3];",
         "var foo = [1,\n(2),\n3];",
         "var foo = [1,\n(2)\n, 3];",
@@ -63,6 +64,7 @@ ruleTester.run("array-element-newline", rule, {
         { code: "var foo = [/* any comment */ 1, 2];", options: ["never"] },
         { code: "var foo = /* any comment */ [1, 2];", options: ["never"] },
         { code: "var foo = [1, 2, 3];", options: ["never"] },
+        { code: "var foo = [1, (\n2\n), 3];", options: ["never"] },
         { code: "var foo = [\nfunction foo() {\ndosomething();\n}, function bar() {\ndosomething();\n}\n];", options: ["never"] },
 
         // { multiline: true }
@@ -130,7 +132,6 @@ ruleTester.run("array-element-newline", rule, {
             errors: [
                 {
                     message: ERR_BREAK_HERE,
-                    type: "ArrayExpression",
                     line: 1,
                     column: 14,
                     endLine: 1,
@@ -145,7 +146,6 @@ ruleTester.run("array-element-newline", rule, {
             errors: [
                 {
                     message: ERR_BREAK_HERE,
-                    type: "ArrayExpression",
                     line: 1,
                     column: 14,
                     endLine: 1,
@@ -153,7 +153,6 @@ ruleTester.run("array-element-newline", rule, {
                 },
                 {
                     message: ERR_BREAK_HERE,
-                    type: "ArrayExpression",
                     line: 1,
                     column: 17,
                     endLine: 1,
@@ -168,7 +167,6 @@ ruleTester.run("array-element-newline", rule, {
             errors: [
                 {
                     message: ERR_BREAK_HERE,
-                    type: "ArrayExpression",
                     line: 1,
                     column: 14,
                     endLine: 1,
@@ -176,7 +174,6 @@ ruleTester.run("array-element-newline", rule, {
                 },
                 {
                     message: ERR_BREAK_HERE,
-                    type: "ArrayExpression",
                     line: 1,
                     column: 16,
                     endLine: 1,
@@ -191,7 +188,6 @@ ruleTester.run("array-element-newline", rule, {
             errors: [
                 {
                     message: ERR_BREAK_HERE,
-                    type: "ArrayExpression",
                     line: 1,
                     column: 14,
                     endLine: 1,
@@ -199,11 +195,77 @@ ruleTester.run("array-element-newline", rule, {
                 },
                 {
                     message: ERR_BREAK_HERE,
-                    type: "ArrayExpression",
                     line: 1,
                     column: 19,
                     endLine: 1,
                     endColumn: 20
+                }
+            ]
+        },
+        {
+            code: "var foo = [1,(\n2\n), 3];",
+            options: ["always"],
+            output: "var foo = [1,\n(\n2\n),\n3];",
+            errors: [
+                {
+                    message: ERR_BREAK_HERE,
+                    line: 1,
+                    column: 14
+                },
+                {
+                    message: ERR_BREAK_HERE,
+                    line: 3,
+                    column: 3
+                }
+            ]
+        },
+        {
+            code: "var foo = [1,(\n2\n), 3];",
+            options: ["always"],
+            output: "var foo = [1,\n(\n2\n),\n3];",
+            errors: [
+                {
+                    message: ERR_BREAK_HERE,
+                    line: 1,
+                    column: 14
+                },
+                {
+                    message: ERR_BREAK_HERE,
+                    line: 3,
+                    column: 3
+                }
+            ]
+        },
+        {
+            code: "var foo = [1,        \t      (\n2\n),\n3];",
+            options: ["always"],
+            output: "var foo = [1,\n(\n2\n),\n3];",
+            errors: [
+                {
+                    message: ERR_BREAK_HERE,
+                    line: 1,
+                    column: 14
+                }
+            ]
+        },
+        {
+            code: "var foo = [1, ((((2)))), 3];",
+            options: ["always"],
+            output: "var foo = [1,\n((((2)))),\n3];",
+            errors: [
+                {
+                    message: ERR_BREAK_HERE,
+                    line: 1,
+                    column: 14,
+                    endLine: 1,
+                    endColumn: 15
+                },
+                {
+                    message: ERR_BREAK_HERE,
+                    line: 1,
+                    column: 25,
+                    endLine: 1,
+                    endColumn: 26
                 }
             ]
         },
@@ -214,7 +276,6 @@ ruleTester.run("array-element-newline", rule, {
             errors: [
                 {
                     message: ERR_BREAK_HERE,
-                    type: "ArrayExpression",
                     line: 1,
                     column: 31,
                     endLine: 1,
@@ -222,7 +283,6 @@ ruleTester.run("array-element-newline", rule, {
                 },
                 {
                     message: ERR_BREAK_HERE,
-                    type: "ArrayExpression",
                     line: 1,
                     column: 35,
                     endLine: 1,
@@ -237,7 +297,6 @@ ruleTester.run("array-element-newline", rule, {
             errors: [
                 {
                     message: ERR_BREAK_HERE,
-                    type: "ArrayExpression",
                     line: 1,
                     column: 14,
                     endLine: 1,
@@ -245,7 +304,6 @@ ruleTester.run("array-element-newline", rule, {
                 },
                 {
                     message: ERR_BREAK_HERE,
-                    type: "ArrayExpression",
                     line: 1,
                     column: 20,
                     endLine: 1,
@@ -260,7 +318,6 @@ ruleTester.run("array-element-newline", rule, {
             errors: [
                 {
                     message: ERR_BREAK_HERE,
-                    type: "ArrayExpression",
                     line: 1,
                     column: 14,
                     endLine: 1,
@@ -268,7 +325,6 @@ ruleTester.run("array-element-newline", rule, {
                 },
                 {
                     message: ERR_BREAK_HERE,
-                    type: "ArrayExpression",
                     line: 1,
                     column: 19,
                     endLine: 1,
@@ -283,7 +339,6 @@ ruleTester.run("array-element-newline", rule, {
             errors: [
                 {
                     message: ERR_BREAK_HERE,
-                    type: "ArrayExpression",
                     line: 4,
                     column: 3
                 }
@@ -296,7 +351,6 @@ ruleTester.run("array-element-newline", rule, {
             errors: [
                 {
                     message: ERR_BREAK_HERE,
-                    type: "ArrayExpression",
                     line: 4,
                     column: 4
                 }
@@ -311,7 +365,6 @@ ruleTester.run("array-element-newline", rule, {
             errors: [
                 {
                     message: ERR_NO_BREAK_HERE,
-                    type: "ArrayExpression",
                     line: 2,
                     column: 3
                 }
@@ -324,7 +377,6 @@ ruleTester.run("array-element-newline", rule, {
             errors: [
                 {
                     message: ERR_NO_BREAK_HERE,
-                    type: "ArrayExpression",
                     line: 3,
                     column: 2
                 }
@@ -337,7 +389,6 @@ ruleTester.run("array-element-newline", rule, {
             errors: [
                 {
                     message: ERR_NO_BREAK_HERE,
-                    type: "ArrayExpression",
                     line: 3,
                     column: 2
                 }
@@ -350,7 +401,6 @@ ruleTester.run("array-element-newline", rule, {
             errors: [
                 {
                     message: ERR_NO_BREAK_HERE,
-                    type: "ArrayExpression",
                     line: 2,
                     column: 18
                 }
@@ -363,7 +413,6 @@ ruleTester.run("array-element-newline", rule, {
             errors: [
                 {
                     message: ERR_NO_BREAK_HERE,
-                    type: "ArrayExpression",
                     line: 2,
                     column: 3
                 }
@@ -376,7 +425,6 @@ ruleTester.run("array-element-newline", rule, {
             errors: [
                 {
                     message: ERR_NO_BREAK_HERE,
-                    type: "ArrayExpression",
                     line: 2,
                     column: 3,
                     endLine: 3,
@@ -384,7 +432,6 @@ ruleTester.run("array-element-newline", rule, {
                 },
                 {
                     message: ERR_NO_BREAK_HERE,
-                    type: "ArrayExpression",
                     line: 3,
                     column: 3,
                     endLine: 4,
@@ -399,7 +446,6 @@ ruleTester.run("array-element-newline", rule, {
             errors: [
                 {
                     message: ERR_NO_BREAK_HERE,
-                    type: "ArrayExpression",
                     line: 4,
                     column: 3
                 }
@@ -412,7 +458,6 @@ ruleTester.run("array-element-newline", rule, {
             errors: [
                 {
                     message: ERR_NO_BREAK_HERE,
-                    type: "ArrayExpression",
                     line: 4,
                     column: 21
                 }
@@ -427,7 +472,6 @@ ruleTester.run("array-element-newline", rule, {
             errors: [
                 {
                     message: ERR_NO_BREAK_HERE,
-                    type: "ArrayExpression",
                     line: 1,
                     column: 14
                 }
@@ -440,7 +484,6 @@ ruleTester.run("array-element-newline", rule, {
             errors: [
                 {
                     message: ERR_BREAK_HERE,
-                    type: "ArrayExpression",
                     line: 4,
                     column: 3
                 }
@@ -453,7 +496,6 @@ ruleTester.run("array-element-newline", rule, {
             errors: [
                 {
                     message: ERR_BREAK_HERE,
-                    type: "ArrayExpression",
                     line: 4,
                     column: 21
                 }
@@ -468,7 +510,6 @@ ruleTester.run("array-element-newline", rule, {
             errors: [
                 {
                     message: ERR_NO_BREAK_HERE,
-                    type: "ArrayExpression",
                     line: 1,
                     column: 14
                 }
@@ -481,13 +522,11 @@ ruleTester.run("array-element-newline", rule, {
             errors: [
                 {
                     message: ERR_NO_BREAK_HERE,
-                    type: "ArrayExpression",
                     line: 1,
                     column: 14
                 },
                 {
                     message: ERR_NO_BREAK_HERE,
-                    type: "ArrayExpression",
                     line: 2,
                     column: 3
                 }
@@ -500,7 +539,6 @@ ruleTester.run("array-element-newline", rule, {
             errors: [
                 {
                     message: ERR_NO_BREAK_HERE,
-                    type: "ArrayExpression",
                     line: 4,
                     column: 3
                 }
@@ -515,7 +553,6 @@ ruleTester.run("array-element-newline", rule, {
             errors: [
                 {
                     message: ERR_BREAK_HERE,
-                    type: "ArrayExpression",
                     line: 1,
                     column: 14
                 }
@@ -528,13 +565,11 @@ ruleTester.run("array-element-newline", rule, {
             errors: [
                 {
                     message: ERR_BREAK_HERE,
-                    type: "ArrayExpression",
                     line: 1,
                     column: 14
                 },
                 {
                     message: ERR_BREAK_HERE,
-                    type: "ArrayExpression",
                     line: 1,
                     column: 17
                 }
@@ -547,7 +582,6 @@ ruleTester.run("array-element-newline", rule, {
             errors: [
                 {
                     message: ERR_BREAK_HERE,
-                    type: "ArrayExpression",
                     line: 4,
                     column: 3
                 }
@@ -562,7 +596,6 @@ ruleTester.run("array-element-newline", rule, {
             errors: [
                 {
                     message: ERR_NO_BREAK_HERE,
-                    type: "ArrayExpression",
                     line: 1,
                     column: 14
                 }
@@ -575,13 +608,11 @@ ruleTester.run("array-element-newline", rule, {
             errors: [
                 {
                     message: ERR_BREAK_HERE,
-                    type: "ArrayExpression",
                     line: 1,
                     column: 14
                 },
                 {
                     message: ERR_BREAK_HERE,
-                    type: "ArrayExpression",
                     line: 1,
                     column: 17
                 }
@@ -594,7 +625,6 @@ ruleTester.run("array-element-newline", rule, {
             errors: [
                 {
                     message: ERR_NO_BREAK_HERE,
-                    type: "ArrayExpression",
                     line: 4,
                     column: 3
                 }
@@ -609,13 +639,11 @@ ruleTester.run("array-element-newline", rule, {
             errors: [
                 {
                     message: ERR_BREAK_HERE,
-                    type: "ArrayExpression",
                     line: 1,
                     column: 14
                 },
                 {
                     message: ERR_BREAK_HERE,
-                    type: "ArrayExpression",
                     line: 1,
                     column: 17
                 }
@@ -628,7 +656,6 @@ ruleTester.run("array-element-newline", rule, {
             errors: [
                 {
                     message: ERR_NO_BREAK_HERE,
-                    type: "ArrayExpression",
                     line: 1,
                     column: 14
                 }
@@ -641,7 +668,6 @@ ruleTester.run("array-element-newline", rule, {
             errors: [
                 {
                     message: ERR_BREAK_HERE,
-                    type: "ArrayExpression",
                     line: 4,
                     column: 3
                 }
@@ -658,7 +684,6 @@ ruleTester.run("array-element-newline", rule, {
             errors: [
                 {
                     message: ERR_BREAK_HERE,
-                    type: "ArrayPattern",
                     line: 1,
                     column: 8
                 }
@@ -672,13 +697,11 @@ ruleTester.run("array-element-newline", rule, {
             errors: [
                 {
                     message: ERR_BREAK_HERE,
-                    type: "ArrayPattern",
                     line: 1,
                     column: 8
                 },
                 {
                     message: ERR_BREAK_HERE,
-                    type: "ArrayPattern",
                     line: 1,
                     column: 11
                 }
@@ -694,7 +717,6 @@ ruleTester.run("array-element-newline", rule, {
             errors: [
                 {
                     message: ERR_NO_BREAK_HERE,
-                    type: "ArrayPattern",
                     line: 1,
                     column: 8
                 }
@@ -708,13 +730,11 @@ ruleTester.run("array-element-newline", rule, {
             errors: [
                 {
                     message: ERR_BREAK_HERE,
-                    type: "ArrayPattern",
                     line: 1,
                     column: 8
                 },
                 {
                     message: ERR_BREAK_HERE,
-                    type: "ArrayPattern",
                     line: 1,
                     column: 11
                 }
