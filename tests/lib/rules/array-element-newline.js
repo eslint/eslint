@@ -26,7 +26,7 @@ ruleTester.run("array-element-newline", rule, {
 
     valid: [
 
-        // // ArrayExpression
+        // ArrayExpression
         // "always"
         "var foo = [];",
         "var foo = [1];",
