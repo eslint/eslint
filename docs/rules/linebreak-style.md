@@ -16,9 +16,29 @@ This rule enforces consistent line endings independent of operating system, VCS,
 
 This rule has a string option:
 
+* `"native"` enforces the usage of line endings appropriate for the current operating system.
 * `"unix"` (default) enforces the usage of Unix line endings: `\n` for LF.
 * `"windows"` enforces the usage of Windows line endings: `\r\n` for CRLF.
 
+### native
+
+Examples of **incorrect** code for this rule with the `"native"` option:
+
+```js
+/*eslint linebreak-style: ["error", "native"]*/
+
+var a = 'a'; // \r\n on Linux
+var b = 'b'; // \n on Windows
+```
+
+Examples of **correct** code for this rule with the `"native"` option:
+
+```js
+/*eslint linebreak-style: ["error", "native"]*/
+
+var a = 'a'; // \n on Linux
+var b = 'b'; // \r\n on Windows
+```
 
 ### unix
 
@@ -71,7 +91,7 @@ function foo(params) { // \r\n
 
 Version control systems sometimes have special behavior for linebreaks. To make it easy for developers to contribute to your codebase from different platforms, you may want to configure your VCS to handle linebreaks appropriately.
 
-For example, the default behavior of [git](https://git-scm.com/) on Windows systems is to convert LF linebreaks to CRLF when checking out files, but to store the linebreaks as LF when committing a change. This will cause the `linebreak-style` rule to report errors if configured with the `"unix"` setting, because the files that ESLint sees will have CRLF linebreaks. If you use git, you may want to add a line to your [`.gitattributes` file](https://git-scm.com/docs/gitattributes) to prevent git from converting linebreaks in `.js` files:
+For example, the default behavior of [git](https://git-scm.com/) on Windows systems is to convert LF linebreaks to CRLF when checking out files, but to store the linebreaks as LF when committing a change. This will cause the `linebreak-style` rule to report errors if configured with the `"unix"` setting, because the files that ESLint sees will have CRLF linebreaks. If you use git, you may want to set this to `"native"` or add a line to your [`.gitattributes` file](https://git-scm.com/docs/gitattributes) to prevent git from converting linebreaks in `.js` files:
 
 ```
 *.js text eol=lf
