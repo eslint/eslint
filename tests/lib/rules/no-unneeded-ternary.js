@@ -167,6 +167,25 @@ ruleTester.run("no-unneeded-ternary", rule, {
             }]
         },
         {
+            code: `
+                var value = 'a'
+                var canSet = true
+                var result = value ? value : canSet ? 'unset' : 'can not set'
+            `,
+            output: `
+                var value = 'a'
+                var canSet = true
+                var result = value || (canSet ? 'unset' : 'can not set')
+            `,
+            options: [{ defaultAssignment: false }],
+            errors: [{
+                message: "Unnecessary use of conditional expression for default assignment.",
+                type: "ConditionalExpression",
+                line: 4,
+                column: 38
+            }]
+        },
+        {
             code: "var a = foo ? foo : 'No';",
             output: "var a = foo || 'No';",
             options: [{ defaultAssignment: false }],
