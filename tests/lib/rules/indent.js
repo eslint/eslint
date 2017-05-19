@@ -3424,6 +3424,133 @@ ruleTester.run("indent", rule, {
                 )
             `
         },
+        {
+            code: unIndent`
+                const foo = a.b(),
+                    longName =
+                        (baz(
+                            'bar',
+                            'bar'
+                        ));
+            `
+        },
+        {
+            code: unIndent`
+                const foo = a.b(),
+                    longName =
+                    (baz(
+                        'bar',
+                        'bar'
+                    ));
+            `
+        },
+        {
+            code: unIndent`
+                const foo = a.b(),
+                    longName =
+                        baz(
+                            'bar',
+                            'bar'
+                        );
+            `
+        },
+        {
+            code: unIndent`
+                const foo = a.b(),
+                    longName =
+                    baz(
+                        'bar',
+                        'bar'
+                    );
+            `
+        },
+        {
+            code: unIndent`
+                const foo = a.b(),
+                    longName
+                        = baz(
+                            'bar',
+                            'bar'
+                        );
+            `
+        },
+        {
+            code: unIndent`
+                const foo = a.b(),
+                    longName
+                    = baz(
+                        'bar',
+                        'bar'
+                    );
+            `
+        },
+        {
+            code: unIndent`
+                const foo = a.b(),
+                    longName =
+                        ('fff');
+            `
+        },
+        {
+            code: unIndent`
+                const foo = a.b(),
+                    longName =
+                    ('fff');
+            `
+        },
+        {
+            code: unIndent`
+                const foo = a.b(),
+                    longName
+                        = ('fff');
+
+            `
+        },
+        {
+            code: unIndent`
+                const foo = a.b(),
+                    longName
+                    = ('fff');
+
+            `
+        },
+        {
+            code: unIndent`
+                const foo = a.b(),
+                    longName =
+                        (
+                            'fff'
+                        );
+            `
+        },
+        {
+            code: unIndent`
+                const foo = a.b(),
+                    longName =
+                    (
+                        'fff'
+                    );
+            `
+        },
+        {
+            code: unIndent`
+                const foo = a.b(),
+                    longName
+                        =(
+                            'fff'
+                        );
+            `
+        },
+        {
+            code: unIndent`
+                const foo = a.b(),
+                    longName
+                    =(
+                        'fff'
+                    );
+            `
+        },
+
 
         //----------------------------------------------------------------------
         // Ignore Unknown Nodes
@@ -7632,6 +7759,80 @@ ruleTester.run("indent", rule, {
                     baz
             `,
             errors: expectedErrors([[2, 4, 2, "Identifier"], [3, 4, 6, "Identifier"]])
+        },
+        {
+            code: unIndent`
+                const foo = a.b(),
+                    longName
+                    = (baz(
+                            'bar',
+                            'bar'
+                        ));
+            `,
+            output: unIndent`
+                const foo = a.b(),
+                    longName
+                    = (baz(
+                        'bar',
+                        'bar'
+                    ));
+            `,
+            errors: expectedErrors([[4, 8, 12, "String"], [5, 8, 12, "String"], [6, 4, 8, "Punctuator"]])
+        },
+        {
+            code: unIndent`
+                const foo = a.b(),
+                    longName =
+                    (baz(
+                            'bar',
+                            'bar'
+                        ));
+            `,
+            output: unIndent`
+                const foo = a.b(),
+                    longName =
+                    (baz(
+                        'bar',
+                        'bar'
+                    ));
+            `,
+            errors: expectedErrors([[4, 8, 12, "String"], [5, 8, 12, "String"], [6, 4, 8, "Punctuator"]])
+        },
+        {
+            code: unIndent`
+                const foo = a.b(),
+                    longName
+                        =baz(
+                            'bar',
+                            'bar'
+                    );
+            `,
+            output: unIndent`
+                const foo = a.b(),
+                    longName
+                        =baz(
+                            'bar',
+                            'bar'
+                        );
+            `,
+            errors: expectedErrors([[6, 8, 4, "Punctuator"]])
+        },
+        {
+            code: unIndent`
+                const foo = a.b(),
+                    longName
+                        =(
+                        'fff'
+                        );
+            `,
+            output: unIndent`
+                const foo = a.b(),
+                    longName
+                        =(
+                            'fff'
+                        );
+            `,
+            errors: expectedErrors([[4, 12, 8, "String"]])
         },
 
         //----------------------------------------------------------------------
