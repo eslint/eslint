@@ -65,8 +65,7 @@
     "require-uncached": "^1.0.3",
     "strip-json-comments": "~2.0.1",
     "table": "^4.0.1",
-    "text-table": "~0.2.0",
-    "user-home": "^2.0.0"
+    "text-table": "~0.2.0"
   },
   "devDependencies": {
     "babel-polyfill": "^6.23.0",

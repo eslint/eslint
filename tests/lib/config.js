@@ -117,6 +117,17 @@ describe("Config", () => {
             .returns(fakeCWDPath);
     }
 
+    /**
+     * Mocks the current user's home path
+     * @param {string} fakeUserHomePath - fake user's home path
+     * @returns {void}
+     * @private
+     */
+    function mockOsHomedir(fakeUserHomePath) {
+        sandbox.stub(os, "homedir")
+            .returns(fakeUserHomePath);
+    }
+
     // copy into clean area so as not to get "infected" by this project's .eslintrc files
     before(() => {
         fixtureDir = `${os.tmpdir()}/eslint/fixtures`;
@@ -269,7 +280,8 @@ describe("Config", () => {
             const configPath = path.resolve(__dirname, "..", "fixtures", "configurations", "foobaz", ".eslintrc");
             const homePath = "does-not-exist";
 
-            const StubbedConfig = proxyquire("../../lib/config", { "user-home": homePath });
+            mockOsHomedir(homePath);
+            const StubbedConfig = proxyquire("../../lib/config", {});
 
             const configHelper = new StubbedConfig({ cwd: process.cwd() }, linter);
 
@@ -831,7 +843,8 @@ describe("Config", () => {
                     homePath = getFakeFixturePath("personal-config", "home-folder"),
                     filePath = getFakeFixturePath("personal-config", "project-without-config", "foo.js");
 
-                const StubbedConfig = proxyquire("../../lib/config", { "user-home": homePath });
+                mockOsHomedir(homePath);
+                const StubbedConfig = proxyquire("../../lib/config", {});
 
                 mockPersonalConfigFileSystem();
                 mockCWDResponse(projectPath);
@@ -856,7 +869,8 @@ describe("Config", () => {
                     homePath = getFakeFixturePath("personal-config", "home-folder"),
                     filePath = getFakeFixturePath("personal-config", "home-folder", "project", "foo.js");
 
-                const StubbedConfig = proxyquire("../../lib/config", { "user-home": homePath });
+                mockOsHomedir(homePath);
+                const StubbedConfig = proxyquire("../../lib/config", {});
 
                 mockPersonalConfigFileSystem();
                 mockCWDResponse(projectPath);
@@ -882,7 +896,8 @@ describe("Config", () => {
                     homePath = getFakeFixturePath("personal-config", "home-folder"),
                     filePath = getFakeFixturePath("personal-config", "project-without-config", "foo.js");
 
-                const StubbedConfig = proxyquire("../../lib/config", { "user-home": homePath });
+                mockOsHomedir(homePath);
+                const StubbedConfig = proxyquire("../../lib/config", {});
 
                 mockPersonalConfigFileSystem();
                 mockCWDResponse(projectPath);
@@ -906,7 +921,8 @@ describe("Config", () => {
                 const projectPath = getFakeFixturePath("personal-config", "project-with-config"),
                     filePath = getFakeFixturePath("personal-config", "project-with-config", "subfolder", "foo.js");
 
-                const StubbedConfig = proxyquire("../../lib/config", { "user-home": projectPath });
+                mockOsHomedir(projectPath);
+                const StubbedConfig = proxyquire("../../lib/config", {});
 
                 mockPersonalConfigFileSystem();
                 mockCWDResponse(projectPath);
@@ -969,7 +985,8 @@ describe("Config", () => {
                     homePath = getFakeFixturePath("personal-config", "folder-does-not-exist"),
                     filePath = getFakeFixturePath("personal-config", "project-without-config", "foo.js");
 
-                const StubbedConfig = proxyquire("../../lib/config", { "user-home": homePath });
+                mockOsHomedir(homePath);
+                const StubbedConfig = proxyquire("../../lib/config", {});
 
                 mockPersonalConfigFileSystem();
                 mockCWDResponse(projectPath);
@@ -986,7 +1003,8 @@ describe("Config", () => {
                     homePath = getFakeFixturePath("personal-config", "home-folder-with-packagejson"),
                     filePath = getFakeFixturePath("personal-config", "project-without-config", "foo.js");
 
-                const StubbedConfig = proxyquire("../../lib/config", { "user-home": homePath });
+                mockOsHomedir(homePath);
+                const StubbedConfig = proxyquire("../../lib/config", {});
 
                 mockPersonalConfigFileSystem();
                 mockCWDResponse(projectPath);
@@ -1003,7 +1021,8 @@ describe("Config", () => {
                     homePath = getFakeFixturePath("personal-config", "folder-does-not-exist"),
                     filePath = getFakeFixturePath("personal-config", "project-without-config", "foo.js");
 
-                const StubbedConfig = proxyquire("../../lib/config", { "user-home": homePath });
+                mockOsHomedir(homePath);
+                const StubbedConfig = proxyquire("../../lib/config", {});
 
                 mockPersonalConfigFileSystem();
                 mockCWDResponse(projectPath);
@@ -1023,7 +1042,8 @@ describe("Config", () => {
                     homePath = getFakeFixturePath("personal-config", "folder-does-not-exist"),
                     filePath = getFakeFixturePath("personal-config", "project-without-config", "foo.js");
 
-                const StubbedConfig = proxyquire("../../lib/config", { "user-home": homePath });
+                mockOsHomedir(homePath);
+                const StubbedConfig = proxyquire("../../lib/config", {});
 
                 mockPersonalConfigFileSystem();
                 mockCWDResponse(projectPath);
@@ -1043,7 +1063,8 @@ describe("Config", () => {
                     homePath = getFakeFixturePath("personal-config", "folder-does-not-exist"),
                     filePath = getFakeFixturePath("personal-config", "project-without-config", "foo.js");
 
-                const StubbedConfig = proxyquire("../../lib/config", { "user-home": homePath });
+                mockOsHomedir(homePath);
+                const StubbedConfig = proxyquire("../../lib/config", {});
 
                 mockPersonalConfigFileSystem();
                 mockCWDResponse(projectPath);
