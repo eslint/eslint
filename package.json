@@ -62,6 +62,7 @@
     "path-is-inside": "^1.0.2",
     "pluralize": "^4.0.0",
     "progress": "^1.1.8",
+    "read-pkg-up": "^2.0.0",
     "require-uncached": "^1.0.3",
     "strip-json-comments": "~2.0.1",
     "table": "^4.0.1",
