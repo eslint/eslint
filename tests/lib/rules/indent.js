@@ -3428,7 +3428,7 @@ ruleTester.run("indent", rule, {
             code: unIndent`
                 const foo = a.b(),
                     longName =
-                        (memberFunction(
+                        (baz(
                             'bar',
                             'bar'
                         ));
@@ -3438,7 +3438,7 @@ ruleTester.run("indent", rule, {
             code: unIndent`
                 const foo = a.b(),
                     longName =
-                    (memberFunction(
+                    (baz(
                         'bar',
                         'bar'
                     ));
@@ -3448,7 +3448,7 @@ ruleTester.run("indent", rule, {
             code: unIndent`
                 const foo = a.b(),
                     longName =
-                        memberFunction(
+                        baz(
                             'bar',
                             'bar'
                         );
@@ -3458,7 +3458,7 @@ ruleTester.run("indent", rule, {
             code: unIndent`
                 const foo = a.b(),
                     longName =
-                    memberFunction(
+                    baz(
                         'bar',
                         'bar'
                     );
@@ -3468,7 +3468,7 @@ ruleTester.run("indent", rule, {
             code: unIndent`
                 const foo = a.b(),
                     longName
-                        = memberFunction(
+                        = baz(
                             'bar',
                             'bar'
                         );
@@ -3478,7 +3478,7 @@ ruleTester.run("indent", rule, {
             code: unIndent`
                 const foo = a.b(),
                     longName
-                    = memberFunction(
+                    = baz(
                         'bar',
                         'bar'
                     );
@@ -7764,7 +7764,7 @@ ruleTester.run("indent", rule, {
             code: unIndent`
                 const foo = a.b(),
                     longName
-                    = (memberFunction(
+                    = (baz(
                             'bar',
                             'bar'
                         ));
@@ -7772,7 +7772,7 @@ ruleTester.run("indent", rule, {
             output: unIndent`
                 const foo = a.b(),
                     longName
-                    = (memberFunction(
+                    = (baz(
                         'bar',
                         'bar'
                     ));
@@ -7783,7 +7783,7 @@ ruleTester.run("indent", rule, {
             code: unIndent`
                 const foo = a.b(),
                     longName =
-                    (memberFunction(
+                    (baz(
                             'bar',
                             'bar'
                         ));
@@ -7791,7 +7791,7 @@ ruleTester.run("indent", rule, {
             output: unIndent`
                 const foo = a.b(),
                     longName =
-                    (memberFunction(
+                    (baz(
                         'bar',
                         'bar'
                     ));
@@ -7802,7 +7802,7 @@ ruleTester.run("indent", rule, {
             code: unIndent`
                 const foo = a.b(),
                     longName
-                        =memberFunction(
+                        =baz(
                             'bar',
                             'bar'
                     );
@@ -7810,7 +7810,7 @@ ruleTester.run("indent", rule, {
             output: unIndent`
                 const foo = a.b(),
                     longName
-                        =memberFunction(
+                        =baz(
                             'bar',
                             'bar'
                         );
