@@ -15,11 +15,9 @@ const assert = require("chai").assert,
     leche = require("leche"),
     shell = require("shelljs"),
     Config = require("../../lib/config"),
-    Plugins = require("../../lib/config/plugins"),
     fs = require("fs"),
     os = require("os"),
-    hash = require("../../lib/util/hash"),
-    rules = require("../../lib/rules");
+    hash = require("../../lib/util/hash");
 
 require("shelljs/global");
 
@@ -64,16 +62,32 @@ describe("CLIEngine", () => {
         }
     }
 
+    /**
+     * Create the CLIEngine object by mocking some of the plugins
+     * @param {Object} options - options for CLIEngine
+     * @returns {CLIEngine} engine object
+     * @private
+     */
+    function cliEngineWithPlugins(options) {
+        const engine = new CLIEngine(Object.assign({}, options, { configFile: null }));
+
+        // load the mocked plugins
+        engine.config.plugins.define(examplePluginName, examplePlugin);
+        engine.config.plugins.define(examplePluginNameWithNamespace, examplePlugin);
+        engine.config.plugins.define(examplePreprocessorName, require("../fixtures/processors/custom-processor"));
+
+        // load the real file now so that it can consume the loaded plugins
+        engine.config.loadConfigFile(options.configFile);
+
+        return engine;
+    }
+
     // copy into clean area so as not to get "infected" by this project's .eslintrc files
     before(() => {
         fixtureDir = path.join(os.tmpdir(), "/eslint/fixtures");
         mkdir("-p", fixtureDir);
         cp("-r", "./tests/fixtures/.", fixtureDir);
         fixtureDir = fs.realpathSync(fixtureDir);
-        Plugins.testReset();
-        Plugins.define(examplePluginName, examplePlugin);
-        Plugins.define(examplePluginNameWithNamespace, examplePlugin);
-        Plugins.define(examplePreprocessorName, require("../fixtures/processors/custom-processor"));
     });
 
     beforeEach(() => {
@@ -82,8 +96,6 @@ describe("CLIEngine", () => {
 
     after(() => {
         rm("-r", fixtureDir);
-        Plugins.testReset();
-        rules.testReset();
     });
 
     describe("new CLIEngine(options)", () => {
@@ -362,7 +374,7 @@ describe("CLIEngine", () => {
         });
 
         it("should not delete code if there is a syntax error after trying to autofix.", () => {
-            engine = new CLIEngine({
+            engine = cliEngineWithPlugins({
                 useEslintrc: false,
                 fix: true,
                 rules: {
@@ -1706,7 +1718,7 @@ describe("CLIEngine", () => {
 
         describe("plugins", () => {
             it("should return two messages when executing with config file that specifies a plugin", () => {
-                engine = new CLIEngine({
+                engine = cliEngineWithPlugins({
                     cwd: path.join(fixtureDir, ".."),
                     configFile: getFixturePath("configurations", "plugins-with-prefix.json"),
                     useEslintrc: false
@@ -1720,7 +1732,7 @@ describe("CLIEngine", () => {
             });
 
             it("should return two messages when executing with config file that specifies a plugin with namespace", () => {
-                engine = new CLIEngine({
+                engine = cliEngineWithPlugins({
                     cwd: path.join(fixtureDir, ".."),
                     configFile: getFixturePath("configurations", "plugins-with-prefix-and-namespace.json"),
                     useEslintrc: false
@@ -1734,7 +1746,7 @@ describe("CLIEngine", () => {
             });
 
             it("should return two messages when executing with config file that specifies a plugin without prefix", () => {
-                engine = new CLIEngine({
+                engine = cliEngineWithPlugins({
                     cwd: path.join(fixtureDir, ".."),
                     configFile: getFixturePath("configurations", "plugins-without-prefix.json"),
                     useEslintrc: false
@@ -1748,7 +1760,7 @@ describe("CLIEngine", () => {
             });
 
             it("should return two messages when executing with config file that specifies a plugin without prefix and with namespace", () => {
-                engine = new CLIEngine({
+                engine = cliEngineWithPlugins({
                     cwd: path.join(fixtureDir, ".."),
                     configFile: getFixturePath("configurations", "plugins-without-prefix-with-namespace.json"),
                     useEslintrc: false
@@ -1762,7 +1774,7 @@ describe("CLIEngine", () => {
             });
 
             it("should return two messages when executing with cli option that specifies a plugin", () => {
-                engine = new CLIEngine({
+                engine = cliEngineWithPlugins({
                     cwd: path.join(fixtureDir, ".."),
                     useEslintrc: false,
                     plugins: ["example"],
@@ -2332,7 +2344,7 @@ describe("CLIEngine", () => {
 
         describe("processors", () => {
             it("should return two messages when executing with config file that specifies a processor", () => {
-                engine = new CLIEngine({
+                engine = cliEngineWithPlugins({
                     configFile: getFixturePath("configurations", "processors.json"),
                     useEslintrc: false,
                     extensions: ["js", "txt"],
@@ -2375,7 +2387,7 @@ describe("CLIEngine", () => {
                 assert.equal(report.results[0].messages.length, 2);
             });
             it("should run processors when calling executeOnFiles with config file that specifies a processor", () => {
-                engine = new CLIEngine({
+                engine = cliEngineWithPlugins({
                     configFile: getFixturePath("configurations", "processors.json"),
                     useEslintrc: false,
                     extensions: ["js", "txt"],
@@ -2419,7 +2431,7 @@ describe("CLIEngine", () => {
                 assert.equal(report.results[0].messages[0].ruleId, "post-processed");
             });
             it("should run processors when calling executeOnText with config file that specifies a processor", () => {
-                engine = new CLIEngine({
+                engine = cliEngineWithPlugins({
                     configFile: getFixturePath("configurations", "processors.json"),
                     useEslintrc: false,
                     extensions: ["js", "txt"],
@@ -2473,7 +2485,7 @@ describe("CLIEngine", () => {
                 configFile: getFixturePath("configurations", "quotes-error.json")
             });
 
-            const configHelper = new Config(engine.options);
+            const configHelper = new Config(engine.options, engine.linter);
 
             const filePath = getFixturePath("single-quoted.js");
 
@@ -2491,7 +2503,7 @@ describe("CLIEngine", () => {
                 cwd: getFixturePath("config-hierarchy", "root-true", "parent", "root", "subdir")
             });
 
-            const configHelper = new Config(engine.options);
+            const configHelper = new Config(engine.options, engine.linter);
 
             const filePath = getFixturePath("config-hierarchy", "root-true", "parent", "root", ".eslintrc");
             const config = engine.getConfigForFile("./.eslintrc");
@@ -2877,4 +2889,48 @@ describe("CLIEngine", () => {
         });
     });
 
+    describe("mutability", () => {
+        describe("plugins", () => {
+            it("Loading plugin in one instance doesnt mutate to another instance", () => {
+                const filePath = getFixturePath("single-quoted.js");
+                const engine1 = cliEngineWithPlugins({
+                    cwd: path.join(fixtureDir, ".."),
+                    useEslintrc: false,
+                    plugins: ["example"],
+                    rules: { "example/example-rule": 1 }
+                });
+                const engine2 = new CLIEngine({
+                    cwd: path.join(fixtureDir, ".."),
+                    useEslintrc: false
+                });
+                const fileConfig1 = engine1.getConfigForFile(filePath);
+                const fileConfig2 = engine2.getConfigForFile(filePath);
+
+                // plugin
+                assert.strictEqual(fileConfig1.plugins[0], "example", "Plugin is present for engine 1");
+                assert.isUndefined(fileConfig2.plugins, "Plugin is not present for engine 2");
+            });
+        });
+
+        describe("rules", () => {
+            it("Loading rules in one instance doesnt mutate to another instance", () => {
+                const filePath = getFixturePath("single-quoted.js");
+                const engine1 = new CLIEngine({
+                    cwd: path.join(fixtureDir, ".."),
+                    useEslintrc: false,
+                    rules: { "example/example-rule": 1 }
+                });
+                const engine2 = new CLIEngine({
+                    cwd: path.join(fixtureDir, ".."),
+                    useEslintrc: false
+                });
+                const fileConfig1 = engine1.getConfigForFile(filePath);
+                const fileConfig2 = engine2.getConfigForFile(filePath);
+
+                // plugin
+                assert.strictEqual(fileConfig1.rules["example/example-rule"], 1, "example is present for engine 1");
+                assert.isUndefined(fileConfig2.rules["example/example-rule"], "example is not present for engine 2");
+            });
+        });
+    });
 });

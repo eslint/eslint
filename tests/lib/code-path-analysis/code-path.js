@@ -10,7 +10,8 @@
 //------------------------------------------------------------------------------
 
 const assert = require("assert"),
-    eslint = require("../../../lib/eslint");
+    Linter = require("../../../lib/linter");
+const linter = new Linter();
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -25,13 +26,13 @@ const assert = require("assert"),
 function parseCodePaths(code) {
     const retv = [];
 
-    eslint.reset();
-    eslint.defineRule("test", () => ({
+    linter.reset();
+    linter.defineRule("test", () => ({
         onCodePathStart(codePath) {
             retv.push(codePath);
         }
     }));
-    eslint.verify(code, { rules: { test: 2 } });
+    linter.verify(code, { rules: { test: 2 } });
 
     return retv;
 }
