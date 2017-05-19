@@ -187,6 +187,17 @@ ruleTester.run("no-unneeded-ternary", rule, {
             }]
         },
         {
+            code: "foo ? foo : (bar ? baz : qux)",
+            output: "foo || (bar ? baz : qux)",
+            options: [{ defaultAssignment: false }],
+            errors: [{
+                message: "Unnecessary use of conditional expression for default assignment.",
+                type: "ConditionalExpression",
+                line: 1,
+                column: 7
+            }]
+        },
+        {
             code: "var a = foo ? foo : 'No';",
             output: "var a = foo || 'No';",
             options: [{ defaultAssignment: false }],
