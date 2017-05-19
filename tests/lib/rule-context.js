@@ -12,8 +12,10 @@
 const sinon = require("sinon"),
     assert = require("chai").assert,
     leche = require("leche"),
-    realESLint = require("../../lib/eslint"),
+    Linter = require("../../lib/linter"),
     RuleContext = require("../../lib/rule-context");
+
+const realESLint = new Linter();
 
 //------------------------------------------------------------------------------
 // Tests

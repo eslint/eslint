@@ -13,7 +13,7 @@ const assert = require("chai").assert,
     sinon = require("sinon"),
     espree = require("espree"),
     astUtils = require("../../lib/ast-utils"),
-    eslint = require("../../lib/eslint"),
+    Linter = require("../../lib/linter"),
     SourceCode = require("../../lib/util/source-code");
 
 //------------------------------------------------------------------------------
@@ -27,6 +27,7 @@ const ESPREE_CONFIG = {
     range: true,
     loc: true
 };
+const linter = new Linter();
 
 describe("ast-utils", () => {
     const filename = "filename.js";
@@ -37,7 +38,7 @@ describe("ast-utils", () => {
     });
 
     afterEach(() => {
-        eslint.reset();
+        linter.reset();
         sandbox.verifyAndRestore();
     });
 
@@ -50,12 +51,12 @@ describe("ast-utils", () => {
              * @returns {void}
              */
             function checker(node) {
-                assert.isFalse(astUtils.isTokenOnSameLine(eslint.getTokenBefore(node), node));
+                assert.isFalse(astUtils.isTokenOnSameLine(linter.getTokenBefore(node), node));
             }
 
-            eslint.reset();
-            eslint.on("BlockStatement", checker);
-            eslint.verify("if(a)\n{}", {}, filename, true);
+            linter.reset();
+            linter.on("BlockStatement", checker);
+            linter.verify("if(a)\n{}", {}, filename, true);
         });
 
         it("should return true if its on sameline", () => {
@@ -66,12 +67,12 @@ describe("ast-utils", () => {
              * @returns {void}
              */
             function checker(node) {
-                assert.isTrue(astUtils.isTokenOnSameLine(eslint.getTokenBefore(node), node));
+                assert.isTrue(astUtils.isTokenOnSameLine(linter.getTokenBefore(node), node));
             }
 
-            eslint.reset();
-            eslint.on("BlockStatement", checker);
-            eslint.verify("if(a){}", {}, filename, true);
+            linter.reset();
+            linter.on("BlockStatement", checker);
+            linter.verify("if(a){}", {}, filename, true);
         });
     });
 
@@ -87,9 +88,9 @@ describe("ast-utils", () => {
                 assert.isTrue(astUtils.isNullOrUndefined(node.arguments[0]));
             }
 
-            eslint.reset();
-            eslint.on("CallExpression", checker);
-            eslint.verify("foo.apply(null, a, b);", {}, filename, true);
+            linter.reset();
+            linter.on("CallExpression", checker);
+            linter.verify("foo.apply(null, a, b);", {}, filename, true);
         });
 
         it("should return true if its undefined", () => {
@@ -103,9 +104,9 @@ describe("ast-utils", () => {
                 assert.isTrue(astUtils.isNullOrUndefined(node.arguments[0]));
             }
 
-            eslint.reset();
-            eslint.on("CallExpression", checker);
-            eslint.verify("foo.apply(undefined, a, b);", {}, filename, true);
+            linter.reset();
+            linter.on("CallExpression", checker);
+            linter.verify("foo.apply(undefined, a, b);", {}, filename, true);
         });
 
         it("should return false if its a number", () => {
@@ -119,9 +120,9 @@ describe("ast-utils", () => {
                 assert.isFalse(astUtils.isNullOrUndefined(node.arguments[0]));
             }
 
-            eslint.reset();
-            eslint.on("CallExpression", checker);
-            eslint.verify("foo.apply(1, a, b);", {}, filename, true);
+            linter.reset();
+            linter.on("CallExpression", checker);
+            linter.verify("foo.apply(1, a, b);", {}, filename, true);
         });
 
         it("should return false if its a string", () => {
@@ -135,9 +136,9 @@ describe("ast-utils", () => {
                 assert.isFalse(astUtils.isNullOrUndefined(node.arguments[0]));
             }
 
-            eslint.reset();
-            eslint.on("CallExpression", checker);
-            eslint.verify("foo.apply(`test`, a, b);", {}, filename, true);
+            linter.reset();
+            linter.on("CallExpression", checker);
+            linter.verify("foo.apply(`test`, a, b);", {}, filename, true);
         });
 
         it("should return false if its a boolean", () => {
@@ -151,9 +152,9 @@ describe("ast-utils", () => {
                 assert.isFalse(astUtils.isNullOrUndefined(node.arguments[0]));
             }
 
-            eslint.reset();
-            eslint.on("CallExpression", checker);
-            eslint.verify("foo.apply(false, a, b);", {}, filename, true);
+            linter.reset();
+            linter.on("CallExpression", checker);
+            linter.verify("foo.apply(false, a, b);", {}, filename, true);
         });
 
         it("should return false if its an object", () => {
@@ -167,9 +168,9 @@ describe("ast-utils", () => {
                 assert.isFalse(astUtils.isNullOrUndefined(node.arguments[0]));
             }
 
-            eslint.reset();
-            eslint.on("CallExpression", checker);
-            eslint.verify("foo.apply({}, a, b);", {}, filename, true);
+            linter.reset();
+            linter.on("CallExpression", checker);
+            linter.verify("foo.apply({}, a, b);", {}, filename, true);
         });
 
         it("should return false if it's a unicode regex", () => {
@@ -188,14 +189,14 @@ describe("ast-utils", () => {
              * @returns {void}
              */
             function checker(node) {
-                const variables = eslint.getDeclaredVariables(node);
+                const variables = linter.getDeclaredVariables(node);
 
                 assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 1);
             }
 
-            eslint.reset();
-            eslint.on("CatchClause", checker);
-            eslint.verify("try { } catch (e) { e = 10; }", { rules: {} }, filename, true);
+            linter.reset();
+            linter.on("CatchClause", checker);
+            linter.verify("try { } catch (e) { e = 10; }", { rules: {} }, filename, true);
         });
 
         // const
@@ -207,14 +208,14 @@ describe("ast-utils", () => {
              * @returns {void}
              */
             function checker(node) {
-                const variables = eslint.getDeclaredVariables(node);
+                const variables = linter.getDeclaredVariables(node);
 
                 assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 1);
             }
 
-            eslint.reset();
-            eslint.on("VariableDeclaration", checker);
-            eslint.verify("const a = 1; a = 2;", {}, filename, true);
+            linter.reset();
+            linter.on("VariableDeclaration", checker);
+            linter.verify("const a = 1; a = 2;", {}, filename, true);
         });
 
         it("should return false if reference is not assigned for const", () => {
@@ -225,14 +226,14 @@ describe("ast-utils", () => {
              * @returns {void}
              */
             function checker(node) {
-                const variables = eslint.getDeclaredVariables(node);
+                const variables = linter.getDeclaredVariables(node);
 
                 assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 0);
             }
 
-            eslint.reset();
-            eslint.on("VariableDeclaration", checker);
-            eslint.verify("const a = 1; c = 2;", {}, filename, true);
+            linter.reset();
+            linter.on("VariableDeclaration", checker);
+            linter.verify("const a = 1; c = 2;", {}, filename, true);
         });
 
         // class
@@ -244,15 +245,15 @@ describe("ast-utils", () => {
              * @returns {void}
              */
             function checker(node) {
-                const variables = eslint.getDeclaredVariables(node);
+                const variables = linter.getDeclaredVariables(node);
 
                 assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 1);
                 assert.lengthOf(astUtils.getModifyingReferences(variables[1].references), 0);
             }
 
-            eslint.reset();
-            eslint.on("ClassDeclaration", checker);
-            eslint.verify("class A { }\n A = 1;", {}, filename, true);
+            linter.reset();
+            linter.on("ClassDeclaration", checker);
+            linter.verify("class A { }\n A = 1;", {}, filename, true);
         });
 
         it("should return false if reference is not assigned for class", () => {
@@ -263,14 +264,14 @@ describe("ast-utils", () => {
              * @returns {void}
              */
             function checker(node) {
-                const variables = eslint.getDeclaredVariables(node);
+                const variables = linter.getDeclaredVariables(node);
 
                 assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 0);
             }
 
-            eslint.reset();
-            eslint.on("ClassDeclaration", checker);
-            eslint.verify("class A { } foo(A);", {}, filename, true);
+            linter.reset();
+            linter.on("ClassDeclaration", checker);
+            linter.verify("class A { } foo(A);", {}, filename, true);
         });
     });
 
@@ -462,9 +463,9 @@ describe("ast-utils", () => {
         function assertNodeTypeInLoop(code, nodeType, expectedInLoop) {
             const results = [];
 
-            eslint.reset();
-            eslint.on(nodeType, node => results.push(astUtils.isInLoop(node)));
-            eslint.verify(code, { parserOptions: { ecmaVersion: 6 } }, filename, true);
+            linter.reset();
+            linter.on(nodeType, node => results.push(astUtils.isInLoop(node)));
+            linter.verify(code, { parserOptions: { ecmaVersion: 6 } }, filename, true);
 
             assert.lengthOf(results, 1);
             assert.equal(results[0], expectedInLoop);
@@ -803,10 +804,10 @@ describe("ast-utils", () => {
                     called = true;
                 }
 
-                eslint.on("FunctionDeclaration", verify);
-                eslint.on("FunctionExpression", verify);
-                eslint.on("ArrowFunctionExpression", verify);
-                eslint.verify(key, { parserOptions: { ecmaVersion: 8 } }, "test.js", true);
+                linter.on("FunctionDeclaration", verify);
+                linter.on("FunctionExpression", verify);
+                linter.on("ArrowFunctionExpression", verify);
+                linter.verify(key, { parserOptions: { ecmaVersion: 8 } }, "test.js", true);
 
                 assert(called);
             });
@@ -881,16 +882,16 @@ describe("ast-utils", () => {
                  */
                 function verify(node) {
                     assert.deepEqual(
-                        astUtils.getFunctionHeadLoc(node, eslint.getSourceCode()),
+                        astUtils.getFunctionHeadLoc(node, linter.getSourceCode()),
                         expectedLoc
                     );
                     called = true;
                 }
 
-                eslint.on("FunctionDeclaration", verify);
-                eslint.on("FunctionExpression", verify);
-                eslint.on("ArrowFunctionExpression", verify);
-                eslint.verify(key, { parserOptions: { ecmaVersion: 8 } }, "test.js", true);
+                linter.on("FunctionDeclaration", verify);
+                linter.on("FunctionExpression", verify);
+                linter.on("ArrowFunctionExpression", verify);
+                linter.verify(key, { parserOptions: { ecmaVersion: 8 } }, "test.js", true);
 
                 assert(called);
             });
