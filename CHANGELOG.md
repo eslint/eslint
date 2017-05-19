@@ -1,3 +1,31 @@
+v4.0.0-beta.0 - May 19, 2017
+
+* 2f7015b6 New: semi-style rule (fixes #8169) (#8542) (Toru Nagashima)
+* 1eaef580 Revert "Breaking: Traverse into type annotations (fixes #7129) (#8365)" (#8584) (Kai Cataldo)
+* eb14584a Fix: no-unneeded-ternary change code behavior after fix (fixes #8507) (#8624) (Jan Peer Stöcklmair)
+* 3ec436ee Breaking: New Linter API (fixes #8454) (#8465) (Gyandeep Singh)
+* 3fc9653a Fix: Call expression consistency in variable declaration (fixes #8607) (#8619) (Reyad Attiyat)
+* 5b6093ef Docs: Remove .eslintignore reference to transpiled file filtering (#8622) (Alex Summer)
+* 729bbcdb Chore: Fix lgtm alerts. (#8611) (Max Schaefer)
+* 3418479a Update: improve indent of `flatTernaryExpressions` (fixes #8481) (#8587) (Toru Nagashima)
+* 268d52ef Update: Use sane defaults for JSX indentation (fixes #8425) (#8593) (Teddy Katz)
+* d21f5283 Chore: make shelljs a devDependency instead of a dependency (#8608) (Teddy Katz)
+* 11493781 Docs: Rephrase in about section (#8609) (Sudarsan G P)
+* 23401626 Chore: remove strip-bom dependency (refs #8603) (#8606) (Teddy Katz)
+* a93a2f95 New: padding-line-between-statements rule (fixes #7356) (#8099) (Toru Nagashima)
+* 0ef09ea0 New: for-direction rule (fixes #8387) (#8519) (薛定谔的猫)
+* a73e6c09 Fix: Fix failing uknown node test since #8569 indents class bodies (#8588) (Reyad Attiyat)
+* c6c639d6 Fix: Ignore unknown nodes for Indent rule (fixes #8440) (#8504) (Reyad Attiyat)
+* df17bc87 Fix: object-shorthand crash on some computed keys (fixes #8576) (#8577) (Teddy Katz)
+* 482d5720 New: switch-colon-spacing rule (fixes #7981) (#8540) (Toru Nagashima)
+* afa35c68 Update: check allman-style classes correctly in indent (fixes #8493) (#8569) (Teddy Katz)
+* de0b4ad7 Fix: Indent Ignore Variable Declaration init operator (fixes #8546) (#8563) (Reyad Attiyat)
+* 927ca0dc Fix: invalid syntax from prefer-arrow-callback autofixer (fixes #8541) (#8555) (Teddy Katz)
+* 25db3d22 Chore: avoid skipping test for env overrides (refs #8291) (#8556) (Teddy Katz)
+* 456f519b Update: make indent MemberExpression handling more robust (fixes #8552) (#8554) (Teddy Katz)
+* 873310e5 Fix: run no-unexpected-multiline only if needed (fixes #8550) (#8551) (Ruben Bridgewater)
+* 833a0cad Fix: confusing RuleTester error message when options is not an array (#8557) (Teddy Katz)
+
 v4.0.0-alpha.2 - May 5, 2017
 
 * 74ab344 Update: check allman-style blocks correctly in indent rule (fixes #8493) (#8499) (Teddy Katz)
