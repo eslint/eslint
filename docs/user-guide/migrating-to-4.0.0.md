@@ -20,7 +20,6 @@ The lists below are ordered roughly by the number of users each change is expect
 1. [`RuleTester` now validates properties of test cases](#rule-tester-validation)
 1. [AST nodes no longer have comment properties](#comment-attachment)
 1. [Shebangs are now returned from comment APIs](#shebangs)
-1. [Type annotation nodes in an AST are now traversed](#type-annotation-traversal)
 
 ### Breaking changes for integration developers
 
@@ -202,12 +201,6 @@ In 4.0, shebang comments are treated as comment tokens of type `Shebang` and wil
 ```
 sourceCode.getAllComments().filter(comment => comment.type !== "Shebang");
 ```
-
-## <a name="type-annotation-traversal"/> Type annotation nodes in an AST are now traversed
-
-Starting in 4.0, if a parser produces type annotation nodes, they will be traversed as part of ESLint's AST traversal.
-
-**To address:** If you have a custom rule that relies on having a particular traversal depth, and your rule is run on code with type annotations, you should update the rule logic to account for the new traversal.
 
 ---
 
