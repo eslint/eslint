@@ -160,11 +160,11 @@ If we ask you to make code changes, there's no need to close the pull request an
 
 ```
 $ git add -A
-$ git commit --amend --no-edit
-$ git push origin issue1234 -f
+$ git commit
+$ git push origin issue1234
 ```
 
-This snippets adds all your new changes, then amends the previous commit with them. The `--no-edit` means you don't want to edit the commit message; you can omit that option if you need to make commit message changes as well.
+When updating the code, it's usually better to add additional commits to your branch rather than amending the original commit, because reviewers can easily tell which changes were made in response to a particular review. When we merge pull requests, we will squash all the commits from your branch into a single commit on the `master` branch.
 
 ### Rebasing
 
