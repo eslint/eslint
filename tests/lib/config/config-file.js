@@ -13,14 +13,15 @@ const assert = require("chai").assert,
     sinon = require("sinon"),
     path = require("path"),
     fs = require("fs"),
+    os = require("os"),
     yaml = require("js-yaml"),
-    userHome = require("user-home"),
     shell = require("shelljs"),
     environments = require("../../../conf/environments"),
     ConfigFile = require("../../../lib/config/config-file"),
     Linter = require("../../../lib/linter"),
     Config = require("../../../lib/config");
 
+const userHome = os.homedir();
 const temp = require("temp").track();
 const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
 const configContext = new Config({}, new Linter());
