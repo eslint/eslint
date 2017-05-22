@@ -316,6 +316,18 @@ describe("ConfigOps", () => {
             assert.deepEqual(config[1], { rules: { "no-mixed-requires": "error" } });
         });
 
+        it("should combine extends correctly", () => {
+
+            const config = [
+                { extends: ["a", "b", "c", "d", "e"] },
+                { extends: ["f", "g", "h", "i"] }
+            ];
+
+            const result = ConfigOps.merge(config[0], config[1]);
+
+            assert.sameDeepMembers(result.extends, ["a", "b", "c", "d", "e", "f", "g", "h", "i"]);
+        });
+
         it("should combine configs correctly", () => {
 
             const config = [
