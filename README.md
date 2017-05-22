@@ -124,7 +124,7 @@ These folks keep the project moving and are resources for help.
 * Michael Ficarra ([@michaelficarra](https://github.com/michaelficarra))
 * Mark Pedrotti ([@pedrottimark](https://github.com/pedrottimark))
 * Oleg Gaidarenko ([@markelog](https://github.com/markelog))
-* Mike Sherov [@mikesherov](https://github.com/mikesherov))
+* Mike Sherov ([@mikesherov](https://github.com/mikesherov))
 * Henry Zhu ([@hzoo](https://github.com/hzoo))
 * Marat Dulin ([@mdevils](https://github.com/mdevils))
 * Alexej Yaroshevich ([@zxqfox](https://github.com/zxqfox))
