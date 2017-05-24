@@ -77,7 +77,7 @@ describe("CLIEngine", () => {
         engine.config.plugins.define(examplePreprocessorName, require("../fixtures/processors/custom-processor"));
 
         // load the real file now so that it can consume the loaded plugins
-        engine.config.loadConfigFile(options.configFile);
+        engine.config.loadSpecificConfig(options.configFile);
 
         return engine;
     }
