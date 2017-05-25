@@ -41,7 +41,7 @@ const lodash = require("lodash"),
 const PERF_MULTIPLIER = 13e6;
 
 const OPEN_SOURCE_LICENSES = [
-    /MIT/, /BSD/, /Apache/, /ISC/, /WTF/, /Public Domain/
+    /MIT/, /BSD/, /Apache/, /ISC/, /WTF/, /Public Domain/, /LGPL/
 ];
 
 //------------------------------------------------------------------------------
