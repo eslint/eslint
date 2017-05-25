@@ -1117,7 +1117,7 @@ describe("Config", () => {
             });
 
             it("should merge override config when the pattern matches the file name", () => {
-                const config = new Config({ cwd: process.cwd() });
+                const config = new Config({ cwd: process.cwd() }, linter);
                 const targetPath = getFakeFixturePath("overrides", "foo.js");
                 const expected = {
                     rules: {
@@ -1130,7 +1130,7 @@ describe("Config", () => {
             });
 
             it("should merge override config when the pattern matches the file path relative to the config file", () => {
-                const config = new Config({ cwd: process.cwd() });
+                const config = new Config({ cwd: process.cwd() }, linter);
                 const targetPath = getFakeFixturePath("overrides", "child", "child-one.js");
                 const expected = {
                     rules: {
@@ -1144,7 +1144,7 @@ describe("Config", () => {
             });
 
             it("should merge override config when the pattern matches the file path relative to the config file", () => {
-                const config = new Config({ cwd: process.cwd() });
+                const config = new Config({ cwd: process.cwd() }, linter);
                 const targetPath = getFakeFixturePath("overrides", "child", "child-one.js");
                 const expected = {
                     rules: {
@@ -1170,7 +1170,7 @@ describe("Config", () => {
                         }],
                         useEslintrc: false
                     }
-                });
+                }, linter);
                 const expected = {
                     rules: {
                         quotes: [2, "double"]
@@ -1196,7 +1196,7 @@ describe("Config", () => {
                         }],
                         useEslintrc: false
                     }
-                });
+                }, linter);
                 const expected = {
                     rules: {
                         quotes: [2, "double"]
@@ -1208,7 +1208,7 @@ describe("Config", () => {
             });
 
             it("should merge all local configs (override and non-override) before non-local configs", () => {
-                const config = new Config({ cwd: process.cwd() });
+                const config = new Config({ cwd: process.cwd() }, linter);
                 const targetPath = getFakeFixturePath("overrides", "two", "child-two.js");
                 const expected = {
                     rules: {
@@ -1235,7 +1235,7 @@ describe("Config", () => {
                         }]
                     },
                     useEslintrc: false
-                });
+                }, linter);
                 const expected = {
                     rules: {
                         quotes: [2, "single"]
@@ -1269,7 +1269,7 @@ describe("Config", () => {
                         ]
                     },
                     useEslintrc: false
-                });
+                }, linter);
                 const expected = {
                     rules: {
                         semi: [2, "never"],
