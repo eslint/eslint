@@ -209,14 +209,14 @@ This defines two global variables, `var1` and `var2`. If you want to optionally 
 /* global var1:false, var2:false */
 ```
 
-To configure global variables inside of a configuration file, use the `globals` key and indicate the global variables you want to use. Set each global variable name equal to `true` to allow the variable to be overwritten or `false` to disallow overwriting. For example:
+To configure global variables inside of a configuration file, use the `globals` key and indicate the global variables you want to use in a list. Additionally, you may specify whether or not the variable can be overwritten by appending `:true` or `:false` (the default) to the variable name. For example:
 
 ```json
 {
-    "globals": {
-        "var1": true,
-        "var2": false
-    }
+    "globals": [
+        "var1:true",
+        "var2:false"
+    ]
 }
 ```
 
@@ -225,8 +225,8 @@ And in YAML:
 ```yaml
 ---
   globals:
-    var1: true
-    var2: false
+    - var1:true
+    - var2:false
 ```
 
 These examples allow `var1` to be overwritten in your code, but disallow it for `var2`.
