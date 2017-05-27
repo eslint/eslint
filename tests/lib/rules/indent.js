@@ -4410,6 +4410,26 @@ ruleTester.run("indent", rule, {
                         ="number"
                 />
             `
+        },
+        {
+            code: unIndent`
+                foo ? (
+                    bar
+                ) : (
+                    baz
+                )
+            `
+        },
+        {
+            code: unIndent`
+                foo ? (
+                    <div>
+                    </div>
+                ) : (
+                    <span>
+                    </span>
+                )
+            `
         }
     ],
 
@@ -8423,6 +8443,44 @@ ruleTester.run("indent", rule, {
                 />
             `,
             errors: expectedErrors([4, 8, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                foo ? (
+                    bar
+                ) : (
+                        baz
+                    )
+            `,
+            output: unIndent`
+                foo ? (
+                    bar
+                ) : (
+                    baz
+                )
+            `,
+            errors: expectedErrors([[4, 4, 8, "Identifier"], [5, 0, 4, "Punctuator"]])
+        },
+        {
+            code: unIndent`
+                foo ? (
+                    <div>
+                    </div>
+                ) : (
+                        <span>
+                        </span>
+                    )
+            `,
+            output: unIndent`
+                foo ? (
+                    <div>
+                    </div>
+                ) : (
+                    <span>
+                    </span>
+                )
+            `,
+            errors: expectedErrors([[5, 4, 8, "Punctuator"], [6, 4, 8, "Punctuator"], [7, 0, 4, "Punctuator"]])
         }
     ]
 });
