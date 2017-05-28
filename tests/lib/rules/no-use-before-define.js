@@ -56,6 +56,16 @@ ruleTester.run("no-use-before-define", rule, {
             code: "var foo = () => bar; var bar;",
             parserOptions: { ecmaVersion: 6 },
             options: [{ variables: false }]
+        },
+
+        // https://github.com/eslint/eslint/issues/7858
+        {
+            code: "export { foo as default }; const foo = new Set();",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "export { foo }; const foo = new Set();",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         }
     ],
     invalid: [
@@ -114,6 +124,16 @@ ruleTester.run("no-use-before-define", rule, {
             code: "foo; var foo;",
             options: [{ variables: false }],
             errors: [{ message: "'foo' was used before it was defined.", type: "Identifier" }]
+        },
+        {
+            code: "foo; export let foo = 1;",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{ message: "'foo' was used before it was defined.", type: "Identifier", line: 1, column: 1 }]
+        },
+        {
+            code: "foo; export { foo }; var foo = 1;",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{ message: "'foo' was used before it was defined.", type: "Identifier", line: 1, column: 1 }]
         }
     ]
 });
