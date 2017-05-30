@@ -4481,4 +4481,3 @@ ruleTester.run("padding-line-between-statements", rule, {
         }
     ]
 });
-
