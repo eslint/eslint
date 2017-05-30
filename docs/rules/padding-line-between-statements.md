@@ -22,8 +22,8 @@ function foo() {
 
 This rule does nothing if no configuration.
 
-A configuration is an object which has 3 properties; `blankLine`, `prev` and `next`. For example, `{ blankLine: "always", prev: "var", next: "return" }` is meaning "it requires one or more blank lines between a variable declaration and a `return` statement."
-You can supply any number of configurations. If an statement pair matches multiple configurations, the last matched configuration will be used.
+A configuration is an object which has 3 properties; `blankLine`, `prev` and `next`. For example, `{ blankLine: "always", prev: "var", next: "return" }` means "it requires one or more blank lines between a variable declaration and a `return` statement."
+You can supply any number of configurations. If a statement pair matches multiple configurations, the last matched configuration will be used.
 
 ```json
 {
@@ -66,7 +66,8 @@ You can supply any number of configurations. If an statement pair matches multip
     - `"if"` is `if` statements.
     - `"import"` is `import` declarations.
     - `"let"` is `let` variable declarations.
-    - `"multiline-block-like"` is block like statements. This is the same as `block-like` type, but only the block is multiline.
+    - `"multiline-block-like"` is block like statements. This is the same as `block-like` type, but only if the block is multiline.
+    - `"multiline-expression"` is expression statements. This is the same as `expression` type, but only if the statement is multiline.
     - `"return"` is `return` statements.
     - `"switch"` is `switch` statements.
     - `"throw"` is `throw` statements.
