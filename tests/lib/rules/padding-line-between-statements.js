@@ -535,6 +535,23 @@ ruleTester.run("padding-line-between-statements", rule, {
         },
 
         //----------------------------------------------------------------------
+        // multiline-expression
+        //----------------------------------------------------------------------
+
+        {
+            code: "foo()\n\nfoo(\n\tx,\n\ty\n)",
+            options: [
+                { blankLine: "always", prev: "*", next: "multiline-expression" }
+            ]
+        },
+        {
+            code: "foo()\nfoo()",
+            options: [
+                { blankLine: "always", prev: "*", next: "multiline-expression" }
+            ]
+        },
+
+        //----------------------------------------------------------------------
         // break
         //----------------------------------------------------------------------
 
@@ -2989,6 +3006,27 @@ ruleTester.run("padding-line-between-statements", rule, {
         },
 
         //----------------------------------------------------------------------
+        // multiline-expression
+        //----------------------------------------------------------------------
+
+        {
+            code: "foo()\n\nfoo(\n\tx,\n\ty\n)",
+            output: "foo()\nfoo(\n\tx,\n\ty\n)",
+            options: [
+                { blankLine: "never", prev: "*", next: "multiline-expression" }
+            ],
+            errors: [MESSAGE_NEVER]
+        },
+        {
+            code: "foo()\nfoo(\n\tx,\n\ty\n)",
+            output: "foo()\n\nfoo(\n\tx,\n\ty\n)",
+            options: [
+                { blankLine: "always", prev: "*", next: "multiline-expression" }
+            ],
+            errors: [MESSAGE_ALWAYS]
+        },
+
+        //----------------------------------------------------------------------
         // break
         //----------------------------------------------------------------------
 
@@ -4443,3 +4481,4 @@ ruleTester.run("padding-line-between-statements", rule, {
         }
     ]
 });
+
