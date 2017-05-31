@@ -35,7 +35,7 @@ describe("FileFinder", () => {
 
             it("should be found, and returned as the first element of an array", () => {
                 finder = new FileFinder(uniqueFileName, process.cwd());
-                actual = finder.findAllInDirectoryAndParents(fileFinderDir);
+                actual = Array.from(finder.findAllInDirectoryAndParents(fileFinderDir));
                 expected = path.join(fileFinderDir, uniqueFileName);
 
                 assert.isArray(actual);
@@ -47,7 +47,7 @@ describe("FileFinder", () => {
 
             it("should be found, and returned as the first element of an array", () => {
                 finder = new FileFinder(uniqueFileName, process.cwd());
-                actual = finder.findAllInDirectoryAndParents(subsubsubdir);
+                actual = Array.from(finder.findAllInDirectoryAndParents(subsubsubdir));
                 expected = path.join(fileFinderDir, "subdir", uniqueFileName);
 
                 assert.isArray(actual);
@@ -59,7 +59,7 @@ describe("FileFinder", () => {
 
             it("should be found, and returned as the first element of an array", () => {
                 finder = new FileFinder(uniqueFileName, subsubdir);
-                actual = finder.findAllInDirectoryAndParents("./subsubsubdir");
+                actual = Array.from(finder.findAllInDirectoryAndParents("./subsubsubdir"));
                 expected = path.join(fileFinderDir, "subdir", uniqueFileName);
 
                 assert.isArray(actual);
@@ -74,7 +74,7 @@ describe("FileFinder", () => {
                     secondExpected = path.join(fileFinderDir, "empty");
 
                 finder = new FileFinder(["empty", uniqueFileName], process.cwd());
-                actual = finder.findAllInDirectoryAndParents(subdir);
+                actual = Array.from(finder.findAllInDirectoryAndParents(subdir));
 
                 assert.equal(actual.length, 2);
                 assert.equal(actual[0], firstExpected);
@@ -86,7 +86,7 @@ describe("FileFinder", () => {
                     secondExpected = path.join(fileFinderDir, uniqueFileName);
 
                 finder = new FileFinder(["notreal", uniqueFileName], process.cwd());
-                actual = finder.findAllInDirectoryAndParents(subdir);
+                actual = Array.from(finder.findAllInDirectoryAndParents(subdir));
 
                 assert.equal(actual.length, 2);
                 assert.equal(actual[0], firstExpected);
@@ -98,7 +98,7 @@ describe("FileFinder", () => {
                     secondExpected = path.join(fileFinderDir, uniqueFileName);
 
                 finder = new FileFinder(["notreal", uniqueFileName, "empty2"], process.cwd());
-                actual = finder.findAllInDirectoryAndParents(subdir);
+                actual = Array.from(finder.findAllInDirectoryAndParents(subdir));
 
                 assert.equal(actual.length, 2);
                 assert.equal(actual[0], firstExpected);
@@ -116,7 +116,7 @@ describe("FileFinder", () => {
             });
 
             it("should both be found, and returned in an array", () => {
-                actual = finder.findAllInDirectoryAndParents(subsubsubdir);
+                actual = Array.from(finder.findAllInDirectoryAndParents(subsubsubdir));
 
                 assert.isArray(actual);
                 assert.equal(actual[0], firstExpected);
@@ -140,7 +140,7 @@ describe("FileFinder", () => {
 
             it("should not be found, and an empty array returned", () => {
                 finder = new FileFinder(absentFileName, process.cwd());
-                actual = finder.findAllInDirectoryAndParents();
+                actual = Array.from(finder.findAllInDirectoryAndParents());
 
                 assert.isArray(actual);
                 assert.lengthOf(actual, 0);
@@ -160,7 +160,7 @@ describe("FileFinder", () => {
             it("should only find one package.json from the root", () => {
                 expected = path.join(process.cwd(), "package.json");
                 finder = new FileFinder("package.json", process.cwd());
-                actual = finder.findAllInDirectoryAndParents(fileFinderDir);
+                actual = Array.from(finder.findAllInDirectoryAndParents(fileFinderDir));
 
                 /**
                  * Filter files outside of current workspace, otherwise test fails,

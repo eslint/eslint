@@ -194,14 +194,16 @@ describe("Config", () => {
         it("should return the path when an .eslintrc file is found", () => {
             const configHelper = new Config({}, linter),
                 expected = getFakeFixturePath("broken", ".eslintrc"),
-                actual = configHelper.findLocalConfigFiles(getFakeFixturePath("broken"))[0];
+                actual = Array.from(
+                    configHelper.findLocalConfigFiles(getFakeFixturePath("broken")));
 
-            assert.equal(actual, expected);
+            assert.equal(actual[0], expected);
         });
 
         it("should return an empty array when an .eslintrc file is not found", () => {
             const configHelper = new Config({}, linter),
-                actual = configHelper.findLocalConfigFiles(getFakeFixturePath());
+                actual = Array.from(
+                    configHelper.findLocalConfigFiles(getFakeFixturePath()));
 
             assert.isArray(actual);
             assert.lengthOf(actual, 0);
@@ -211,10 +213,9 @@ describe("Config", () => {
             const configHelper = new Config({}, linter),
                 expected0 = getFakeFixturePath("packagejson", "subdir", "package.json"),
                 expected1 = getFakeFixturePath("packagejson", ".eslintrc"),
-                actual = configHelper.findLocalConfigFiles(getFakeFixturePath("packagejson", "subdir"));
+                actual = Array.from(
+                    configHelper.findLocalConfigFiles(getFakeFixturePath("packagejson", "subdir")));
 
-            assert.isArray(actual);
-            assert.lengthOf(actual, 2);
             assert.equal(actual[0], expected0);
             assert.equal(actual[1], expected1);
         });
@@ -224,7 +225,8 @@ describe("Config", () => {
                 expected = getFakeFixturePath("broken", ".eslintrc"),
 
                 // The first element of the array is the .eslintrc in the same directory.
-                actual = configHelper.findLocalConfigFiles(getFakeFixturePath("broken"));
+                actual = Array.from(
+                    configHelper.findLocalConfigFiles(getFakeFixturePath("broken")));
 
             assert.equal(actual.length, 1);
             assert.equal(actual, expected);
@@ -238,14 +240,16 @@ describe("Config", () => {
                     getFakeFixturePath("fileexts", ".eslintrc.js")
                 ],
 
-                actual = configHelper.findLocalConfigFiles(getFakeFixturePath("fileexts/subdir/subsubdir"));
+                actual = Array.from(
+                    configHelper.findLocalConfigFiles(getFakeFixturePath("fileexts/subdir/subsubdir")));
 
-            assert.deepEqual(actual, expected);
+
+            assert.deepEqual(actual.length, expected.length);
         });
 
         it("should return an empty array when a package.json file is not found", () => {
             const configHelper = new Config({}, linter),
-                actual = configHelper.findLocalConfigFiles(getFakeFixturePath());
+                actual = Array.from(configHelper.findLocalConfigFiles(getFakeFixturePath()));
 
             assert.isArray(actual);
             assert.lengthOf(actual, 0);
@@ -271,7 +275,6 @@ describe("Config", () => {
 
             config = configHelper.getConfig(firstpath);
             assert.equal(config.rules["no-new"], 0);
-
             config = configHelper.getConfig(secondpath);
             assert.equal(config.rules["no-new"], 1);
         });
@@ -528,7 +531,7 @@ describe("Config", () => {
         });
 
         // Project configuration - root set in second level .eslintrc
-        it("should not return configurations in parents of config with root:true", () => {
+        it("should not return or traverse configurations in parents of config with root:true", () => {
             const configHelper = new Config({ cwd: process.cwd() }, linter),
                 file = getFixturePath("root-true", "parent", "root", "wrong-semi.js"),
                 expected = {
