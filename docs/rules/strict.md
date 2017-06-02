@@ -49,6 +49,8 @@ This rule disallows strict mode directives, no matter which option is specified,
 
 This rule disallows strict mode directives, no matter which option is specified, in functions with non-simple parameter lists (for example, parameter lists with default parameter values) because that is a syntax error in **ECMAScript 2016** and later. See the examples of the [function](#function) option.
 
+The `--fix` option on the command line does not insert new `"use strict"` statements, but only removes unneeded statements.
+
 ## Options
 
 This rule has a string option:
