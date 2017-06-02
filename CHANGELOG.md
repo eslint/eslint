@@ -1,3 +1,20 @@
+v4.0.0-rc.0 - June 2, 2017
+
+* 0058b0f8 Update: add --fix to no-debugger (#8660) (薛定谔的猫)
+* b4daa225 Docs: Note to --fix option for strict rule (#8680) (Vitaliy Potapov)
+* 4df33e7c Chore: check for root:true in project sooner (fixes #8561) (#8638) (Victor Hom)
+* c9b980ce Build: Add Node 8 on travis (#8669) (Gyandeep Singh)
+* 95248336 Fix: Don't check object destructing in integer property (fixes #8654) (#8657) (flowmemo)
+* c4ac969c Update: fix parenthesized ternary expression indentation (fixes #8637) (#8649) (Teddy Katz)
+* 4f2f9fcb Build: update license checker to allow LGPL (fixes #8647) (#8652) (Teddy Katz)
+* b0c83bd1 Docs: suggest pushing new commits to a PR instead of amending (#8632) (Teddy Katz)
+* d0e9fd2d Fix: Config merge to correctly account for extends (fixes #8193) (#8636) (Gyandeep Singh)
+* 705d88f7 Docs: Update CLA link on Pull Requests page (#8642) (Teddy Katz)
+* 794d4d6c Docs: missing paren on readme (#8640) (Dan Beam)
+* 7ebd9d6f New: array-element-newline rule (fixes #6075) (#8375) (Jan Peer Stöcklmair)
+* f62cff66 Chore: Remove dependency to user-home (fixes #8604) (#8629) (Pavol Madar)
+* 936bc174 Docs: Add missing documentation for scoped modules in sharable config developer-guide (#8610) (Jonathan Samines)
+
 v4.0.0-beta.0 - May 19, 2017
 
 * 2f7015b6 New: semi-style rule (fixes #8169) (#8542) (Toru Nagashima)
