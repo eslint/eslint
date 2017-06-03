@@ -1010,6 +1010,13 @@ ruleTester.run("no-extra-parens", rule, {
             { parserOptions: { ecmaVersion: 2015 } }
         ),
         invalid(
+            "for ((foo['bar'])of baz);",
+            "for (foo['bar']of baz);",
+            "MemberExpression",
+            1,
+            { parserOptions: { ecmaVersion: 2015 } }
+        ),
+        invalid(
             "() => (({ foo: 1 }).foo)",
             "() => ({ foo: 1 }).foo",
             "MemberExpression",
@@ -1018,3 +1025,5 @@ ruleTester.run("no-extra-parens", rule, {
         )
     ]
 });
+
+
