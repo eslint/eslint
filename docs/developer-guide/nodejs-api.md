@@ -149,8 +149,7 @@ In this way, you can retrieve the text and AST used for the last run of `linter.
 
 ### verifyAndFix()
 
-This method is similar to `verify` method when it comes to verifying the code against the rules but it also runs the fixer logic from all the fix compatible rules and return the object which has the fixed source code in it.
-The lifecycle is that it verifies the code and then runs the fix on it and this is done at most 10 times right now.
+This method is similar to verify except that it also runs autofixing logic, similar to the `--fix` flag on the command line. The result object will contain the autofixed code, along with any remaining linting messages for the code that were not autofixed.
 
 ```js
 var Linter = require("eslint").Linter;
