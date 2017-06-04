@@ -173,6 +173,13 @@ describe("configInitializer", () => {
 
                 assert.isTrue(config.env.commonjs);
             });
+
+            it("should backtick quotes when set", () => {
+                answers.quotes = "backtick";
+                const config = init.processAnswers(answers);
+
+                assert.deepEqual(config.rules.quotes, ["error", "backtick"]);
+            });
         });
 
         describe("guide", () => {
