@@ -1,6 +1,6 @@
 # Enforces that a return statement is present in property getters (getter-return)
 
-The get syntax binds an object property to a function that will be called when that property is looked up. It is firstly introduced in ECMAScript 5:
+The get syntax binds an object property to a function that will be called when that property is looked up. It was first introduced in ECMAScript 5:
 
 ```js
     var p = {
