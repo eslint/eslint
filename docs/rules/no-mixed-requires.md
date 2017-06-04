@@ -76,7 +76,7 @@ Examples of **incorrect** code for this rule with the `{ "grouping": true }` opt
 ```js
 /*eslint no-mixed-requires: ["error", { "grouping": true }]*/
 
-// invalid because of mixed types "core" and "file"
+// invalid because of mixed types "core" and "module"
 var fs = require('fs'),
     async = require('async');
 
