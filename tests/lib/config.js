@@ -158,6 +158,35 @@ describe("Config", () => {
             assert.deepEqual(customBaseConfig, { foo: "bar" });
             assert.equal(configHelper.options.format, "foo");
         });
+
+        it("should return an empty object when the globals property is undefined", () => {
+            const customConfig = { globals: undefined },
+                configHelper = new Config(customConfig);
+
+            assert.deepEqual(configHelper.globals, {});
+        });
+
+        // https://github.com/eslint/eslint/issues/7967
+        it("should return an empty object when the globals property is an empty object", () => {
+            const customConfig = { globals: {} },
+                configHelper = new Config(customConfig);
+
+            assert.deepEqual(configHelper.globals, {});
+        });
+
+        it("should return an empty object when the globals property is an empty array", () => {
+            const customConfig = { globals: [] },
+                configHelper = new Config(customConfig);
+
+            assert.deepEqual(configHelper.globals, {});
+        });
+
+        it("should return an object when the globals property has a variable property", () => {
+            const customConfig = { globals: { foo: true } },
+                configHelper = new Config(customConfig);
+
+            assert.deepEqual(configHelper.globals, { foo: true });
+        });
     });
 
     describe("findLocalConfigFiles()", () => {
