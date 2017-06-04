@@ -107,6 +107,36 @@ function foo() {
 }
 ```
 
+## Options
+
+### includeComments
+
+Set to `false` by default. Setting this option to `true` treats comment lines the same as empty lines.
+
+Examples of **correct** code when `includeComments` is `true`:
+
+```js
+/*eslint newline-before-return: ["error", { "includeComments": true }]*/
+
+function foo(bar) {
+    if (bar) {
+        return a;
+    }
+    // else
+    return b;
+}
+
+function foo(bar) {
+    if (bar) {
+        return a;
+    }
+    /* multi-line
+    comment */
+    return b;
+}
+
+```
+
 ## When Not To Use It
 
 You can safely disable this rule if you do not have any strict conventions about whitespace before `return` statements.
