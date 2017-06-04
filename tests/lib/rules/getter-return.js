@@ -23,13 +23,13 @@ const name = "getter 'bar'";
 const noReturnMessage = `Expected to return a value in ${name}.`;
 const noLastReturnMessage = `Expected to return a value at the end of ${name}.`;
 const parserOptions = { ecmaVersion: 6 };
-const options = [{ noImplicit: true }];
+const options = [{ allowImplicit: true }];
 
 ruleTester.run("getter-return", rule, {
 
     valid: [
 
-        // test obj: get, option: {noImplicit: false}
+        // test obj: get, option: {allowImplicit: false}
         { code: "var foo = { get bar(){return true;} };" },
         { code: "var foo = { get bar(){return;} };" },
         { code: "var foo = { bar: function(){return true;} };" },
@@ -39,7 +39,7 @@ ruleTester.run("getter-return", rule, {
         { code: "var foo = { bar(){~function (){}();return;} };", parserOptions },
         { code: "var foo = { bar(){~function (){return true;}();return;} };", parserOptions },
 
-        // test class: get, option: {noImplicit: false}
+        // test class: get, option: {allowImplicit: false}
         { code: "class foo { get bar(){return true;} }", parserOptions },
         { code: "class foo { get bar(){if(baz){return true;} else {return false;} } }", parserOptions },
         { code: "class foo { get bar(){if(baz){return;} else {return false;} } }", parserOptions },
@@ -48,7 +48,7 @@ ruleTester.run("getter-return", rule, {
         { code: "var foo = { get bar(){ ~function (){ return true; }(); return; } };", parserOptions, errors: [] },
         { code: "var foo = { get bar(){ ~function (){}(); return; } };", parserOptions, errors: [] },
 
-        // test object.defineProperty(s), option: {noImplicit: false}
+        // test object.defineProperty(s), option: {allowImplicit: false}
         { code: "Object.defineProperty(foo, \"bar\", { get: function () {return true;}});" },
         { code: "Object.defineProperty(foo, \"bar\", { get: function () {return;}});" },
         { code: "Object.defineProperies(foo, { bar: { get: function () {return true;}} });" },
@@ -58,7 +58,8 @@ ruleTester.run("getter-return", rule, {
         { code: "Object.defineProperies(foo, { bar: { get: function () { ~function (){ return true; }(); return true;}} });" },
         { code: "Object.defineProperies(foo, { bar: { get: function () { ~function (){}(); return;}} });" },
 
-        // test option: {noImplicit: true}
+
+        // test option: {allowImplicit: true}
         { code: "var foo = { get bar(){return true;} };", options },
         { code: "class foo { get bar(){return true;} }", options, parserOptions },
         { code: "Object.defineProperty(foo, \"bar\", { get: function () {return true;}});", options },
@@ -75,18 +76,18 @@ ruleTester.run("getter-return", rule, {
 
     invalid: [
 
-        // test obj: get, option: {noImplicit: false}
+        // test obj: get, option: {allowImplicit: false}
         { code: "var foo = { get bar() {} };", parserOptions, errors: [{ message: noReturnMessage }] },
         { code: "var foo = { get bar(){if(bar) {return true;}} };", parserOptions, errors: [{ message: noLastReturnMessage }] },
         { code: "var foo = { get bar(){if(bar) {return true;} ;} };", parserOptions, errors: [{ message: noLastReturnMessage }] },
 
-        // test class: get, option: {noImplicit: false}
+        // test class: get, option: {allowImplicit: false}
         { code: "class foo { get bar(){} }", parserOptions, errors: [{ message: noReturnMessage }] },
 
-        // test object.defineProperty, option: {noImplicit: false}
+        // test object.defineProperty, option: {allowImplicit: false}
         { code: "Object.defineProperty(foo, \"bar\", { get: function (){if(bar) {return true;}}});", errors: [{ message: "Expected to return a value at the end of method 'get'." }] },
 
-        // test option: {noImplicit: true}
+        // test option: {allowImplicit: true}
         { code: "var foo = { get bar() {return;} };", options, parserOptions, errors: [{ message: noReturnMessage }] },
         { code: "var foo = { get bar() {return; ;} };", options, parserOptions, errors: [{ message: noReturnMessage }] },
         { code: "var foo = { get bar() {return; return 1;} };", options, parserOptions, errors: [{ message: noReturnMessage }] },
