@@ -70,6 +70,12 @@ class P{
 }
 ```
 
+## Options
+
+This rule has an object option:
+
+* `"allowImplicit": false` (default) disallows implicitly return a value.
+
 ## When Not To Use It
 
 If your project will not be using getter you do not need this rule.
