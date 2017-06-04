@@ -2,18 +2,18 @@
 
 This guide is intended for those who work as part of the ESLint project team.
 
-## [Managing Issues](issues.html)
+## [Managing Issues](issues.md)
 
 Describes how to deal with issues when they're opened, when interacting with users, and how to close them effectively.
 
-## [Reviewing Pull Requests](pullrequests.html)
+## [Reviewing Pull Requests](pullrequests.md)
 
 Describes how to review incoming pull requests.
 
-## [Managing Releases](releases.html)
+## [Managing Releases](releases.md)
 
 Describes how to do an ESLint project release.
 
-## [Governance](governance.html)
+## [Governance](governance.md)
 
 Describes the governance policy for ESLint, including the rights and privileges of individuals inside the project.
