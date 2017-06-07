@@ -1025,5 +1025,3 @@ ruleTester.run("no-extra-parens", rule, {
         )
     ]
 });
-
-
