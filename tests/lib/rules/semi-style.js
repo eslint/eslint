@@ -113,6 +113,12 @@ ruleTester.run("semi-style", rule, {
             options: ["last"],
             errors: ["Expected this semicolon to be at the end of the previous line."]
         },
+        {
+            code: "foo()\n;",
+            output: "foo();\n",
+            options: ["last"],
+            errors: ["Expected this semicolon to be at the end of the previous line."]
+        },
 
         {
             code: "foo;\nbar",
