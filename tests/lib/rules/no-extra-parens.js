@@ -41,7 +41,6 @@ function invalid(code, output, type, line, config) {
     if (line) {
         result.errors[0].line = line;
     }
-
     return result;
 }
 
@@ -993,6 +992,27 @@ ruleTester.run("no-extra-parens", rule, {
             "for (foo of(bar));",
             "for (foo of bar);",
             "Identifier",
+            1,
+            { parserOptions: { ecmaVersion: 2015 } }
+        ),
+        invalid(
+            "for ((foo) of bar);",
+            "for (foo of bar);",
+            "Identifier",
+            1,
+            { parserOptions: { ecmaVersion: 2015 } }
+        ),
+        invalid(
+            "for ((foo)in bar);",
+            "for (foo in bar);",
+            "Identifier",
+            1,
+            { parserOptions: { ecmaVersion: 2015 } }
+        ),
+        invalid(
+            "for ((foo['bar'])of baz);",
+            "for (foo['bar']of baz);",
+            "MemberExpression",
             1,
             { parserOptions: { ecmaVersion: 2015 } }
         ),
