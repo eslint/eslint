@@ -124,3 +124,39 @@ var magic = {
 var dutyFreePrice = 100,
     finalPrice = dutyFreePrice + (dutyFreePrice * magic.tax);
 ```
+
+### detectDefaultValues
+
+A boolean to specify if we should detect numbers when defining default values for function parameters or object destructuring. `true` by default.
+
+Examples of **incorrect** code for the `{ "detectDefaultValues": true }` option:
+
+```js
+/*eslint no-magic-numbers: ["error", { "detectDefaultValues": true }]*/
+
+function makeRequest({ timeout = 1000 }) {};
+```
+
+```js
+/*eslint no-magic-numbers: ["error", { "detectDefaultValues": true }]*/
+
+var { timeout = 1000 } = {};
+```
+
+Examples of **correct** code for the `{ "detectDefaultValues": true }` option:
+
+```js
+/*eslint no-magic-numbers: ["error", { "detectDefaultValues": true }]*/
+
+var TIMEOUT = 1000;
+
+function makeRequest({ timeout = TIMEOUT }) {};
+```
+
+```js
+/*eslint no-magic-numbers: ["error", { "detectDefaultValues": true }]*/
+
+var TIMEOUT = 1000;
+
+var { timeout = TIMEOUT } = {};
+```
