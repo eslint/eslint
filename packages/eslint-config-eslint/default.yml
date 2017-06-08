@@ -28,6 +28,7 @@ rules:
     guard-for-in: "error"
     key-spacing: ["error", { beforeColon: false, afterColon: true }]
     keyword-spacing: "error"
+    linebreak-style: ["error", "unix"]
     lines-around-comment: ["error", {
         beforeBlockComment: true,
         afterBlockComment: false,
