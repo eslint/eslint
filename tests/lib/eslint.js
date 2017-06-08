@@ -469,7 +469,6 @@ describe("eslint", () => {
     });
 
 
-
     describe("when calling getScope", () => {
         const code = "function foo() { q: for(;;) { break q; } } function bar () { var q = t; } var baz = (() => { return 1; });";
 

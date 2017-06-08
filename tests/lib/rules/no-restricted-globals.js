@@ -63,4 +63,3 @@ ruleTester.run("no-restricted-globals", rule, {
         }
     ]
 });
-
