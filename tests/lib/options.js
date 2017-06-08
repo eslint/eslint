@@ -60,6 +60,7 @@ describe("options", () => {
             const currentOptions = options.parse("--ext .jsx");
 
             assert.isArray(currentOptions.ext);
+            assert.equal(currentOptions.ext.length, 1);
             assert.equal(currentOptions.ext[0], ".jsx");
         });
 
@@ -67,6 +68,7 @@ describe("options", () => {
             const currentOptions = options.parse("--ext .jsx --ext .js");
 
             assert.isArray(currentOptions.ext);
+            assert.equal(currentOptions.ext.length, 2);
             assert.equal(currentOptions.ext[0], ".jsx");
             assert.equal(currentOptions.ext[1], ".js");
         });
@@ -75,15 +77,18 @@ describe("options", () => {
             const currentOptions = options.parse("--ext .jsx,.js");
 
             assert.isArray(currentOptions.ext);
+            assert.equal(currentOptions.ext.length, 2);
             assert.equal(currentOptions.ext[0], ".jsx");
             assert.equal(currentOptions.ext[1], ".js");
         });
 
-        it("should return an array one item when not passed", () => {
+        it("should return an array with two items when not passed", () => {
             const currentOptions = options.parse("");
 
             assert.isArray(currentOptions.ext);
+            assert.equal(currentOptions.ext.length, 2);
             assert.equal(currentOptions.ext[0], ".js");
+            assert.equal(currentOptions.ext[1], ".jsx");
         });
     });
 
