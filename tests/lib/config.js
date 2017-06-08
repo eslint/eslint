@@ -725,7 +725,6 @@ describe("Config", () => {
         });
 
 
-
         it("should load user config globals", () => {
             const configPath = path.resolve(__dirname, "..", "fixtures", "globals", "conf.yaml"),
                 configHelper = new Config({ configFile: configPath, useEslintrc: false }, linter);

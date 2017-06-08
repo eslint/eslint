@@ -61,6 +61,7 @@ rules:
     no-mixed-spaces-and-tabs: ["error", false]
     no-multi-spaces: "error"
     no-multi-str: "error"
+    no-multiple-empty-lines: ["error", {max: 2, maxBOF: 0, maxEOF: 0}]
     no-native-reassign: "off"
     no-nested-ternary: "error"
     no-new: "error"
