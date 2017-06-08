@@ -43,6 +43,7 @@ rules:
     no-caller: "error"
     no-confusing-arrow: "error"
     no-console: "error"
+    no-debugger: "error"
     no-delete-var: "error"
     no-else-return: "error"
     no-eval: "error"
