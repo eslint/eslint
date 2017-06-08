@@ -804,7 +804,7 @@ describe("cli", () => {
 
         });
 
-        it("should rewrite files when in fix mode and quiet mode", () => {
+        it("should not rewrite files when in fix mode and quiet mode", () => {
 
             const report = {
                 errorCount: 0,
@@ -828,7 +828,9 @@ describe("cli", () => {
             sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns(report);
             sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
             fakeCLIEngine.getErrorResults = sandbox.stub().returns([]);
-            fakeCLIEngine.outputFixes = sandbox.mock().withExactArgs(report);
+            fakeCLIEngine.outputFixes = sandbox.mock()
+                .once()
+                .withExactArgs(sinon.match({ results: [] }));
 
             localCLI = proxyquire("../../lib/cli", {
                 "./cli-engine": fakeCLIEngine,
@@ -837,6 +839,7 @@ describe("cli", () => {
 
             const exitCode = localCLI.execute("--fix --quiet .");
 
+            fakeCLIEngine.outputFixes.verify();
             assert.equal(exitCode, 0);
 
         });
