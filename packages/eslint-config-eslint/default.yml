@@ -36,7 +36,6 @@ rules:
     }]
     max-statements-per-line: "error"
     new-cap: "error"
-    newline-after-var: "error"
     new-parens: "error"
     no-alert: "error"
     no-array-constructor: "error"
@@ -62,7 +61,6 @@ rules:
     no-multi-spaces: "error"
     no-multi-str: "error"
     no-multiple-empty-lines: ["error", {max: 2, maxBOF: 0, maxEOF: 0}]
-    no-native-reassign: "off"
     no-nested-ternary: "error"
     no-new: "error"
     no-new-func: "error"
@@ -101,6 +99,19 @@ rules:
     object-shorthand: "error"
     one-var-declaration-per-line: "error"
     operator-linebreak: "error"
+    padding-line-between-statements: [
+        "error",
+        {
+            blankLine: "always",
+            prev: ["const", "let", "var"],
+            next: "*"
+        },
+        {
+            blankLine: "any",
+            prev: ["const", "let", "var"],
+            next: ["const", "let", "var"]
+        }
+    ]
     prefer-arrow-callback: "error"
     prefer-const: "error"
     prefer-promise-reject-errors: "error"
