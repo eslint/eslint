@@ -185,19 +185,19 @@ describe("configInitializer", () => {
             it("should support the airbnb style guide", () => {
                 const config = init.getConfigForStyleGuide("airbnb");
 
-                assert.deepEqual(config, { extends: "airbnb", installedESLint: true, plugins: ["react", "jsx-a11y", "import"] });
+                assert.deepEqual(config, { extends: "airbnb", installedESLint: true });
             });
 
             it("should support the airbnb base style guide", () => {
                 const config = init.getConfigForStyleGuide("airbnb-base");
 
-                assert.deepEqual(config, { extends: "airbnb-base", installedESLint: true, plugins: ["import"] });
+                assert.deepEqual(config, { extends: "airbnb-base", installedESLint: true });
             });
 
             it("should support the standard style guide", () => {
                 const config = init.getConfigForStyleGuide("standard");
 
-                assert.deepEqual(config, { extends: "standard", installedESLint: true, plugins: ["standard", "promise"] });
+                assert.deepEqual(config, { extends: "standard", installedESLint: true });
             });
 
             it("should throw when encountering an unsupported style guide", () => {
@@ -209,13 +209,13 @@ describe("configInitializer", () => {
             it("should install required sharable config", () => {
                 init.getConfigForStyleGuide("google");
                 assert(npmInstallStub.calledOnce);
-                assert.deepEqual(npmInstallStub.firstCall.args[0][1], "eslint-config-google");
+                assert(npmInstallStub.firstCall.args[0].some(name => name.startsWith("eslint-config-google@")));
             });
 
             it("should install ESLint if not installed locally", () => {
                 init.getConfigForStyleGuide("google");
                 assert(npmInstallStub.calledOnce);
-                assert.deepEqual(npmInstallStub.firstCall.args[0][0], "eslint");
+                assert(npmInstallStub.firstCall.args[0].some(name => name.startsWith("eslint@")));
             });
         });
 
