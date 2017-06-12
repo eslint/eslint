@@ -1,3 +1,14 @@
+v4.0.0 - June 11, 2017
+
+* 4aefb49 Chore: avoid using deprecated rules on ESLint codebase (#8708) (Teddy Katz)
+* 389feba Chore: upgrade deps. (#8684) (薛定谔的猫)
+* 3da7b5e Fix: Semi-Style only check for comments when tokens exist (fixes #8696) (#8697) (Reyad Attiyat)
+* 3cfe9ee Fix: Add space between async and param on fix (fixes #8682) (#8693) (Reyad Attiyat)
+* c702858 Chore: enable no-multiple-empty-lines on ESLint codebase (#8694) (Teddy Katz)
+* 34c4020 Update: Add support for parens on left side for-loops (fixes: #8393) (#8679) (Victor Hom)
+* 735cd09 Docs: Correct the comment in an example for `no-mixed-requires` (#8686) (Fangzhou Li)
+* 026f048 Chore: remove dead code from prefer-const (#8683) (Teddy Katz)
+
 v4.0.0-rc.0 - June 2, 2017
 
 * 0058b0f8 Update: add --fix to no-debugger (#8660) (薛定谔的猫)
