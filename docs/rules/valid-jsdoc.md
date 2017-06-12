@@ -160,7 +160,9 @@ This rule has an object option:
     * `true` (default) **even if** the function or method does not have a `return` statement (this option value does not apply to constructors)
     * `false` **if and only if** the function or method has a `return` statement (this option value does apply to constructors)
 * `"requireReturnType": false` allows missing type in return tags
-* `"matchDescription"` specifies (as a string) a regular expression to match the description in each JSDoc comment (for example, `".+"` requires a description; this option does not apply to descriptions in parameter or return tags)
+* `"matchDescription"` specifies (as a string) a regular expression to match the description in each JSDoc comment (for example, `".+"` requires a description)
+* `"matchParamDescription"` specifies (as a string) a regular expression to match each parameter tag description
+* `"matchReturnDescription"` specifies (as a string) a regular expression to match each return tag description
 * `"requireParamDescription": false` allows missing description in parameter tags
 * `"requireReturnDescription": false` allows missing description in return tags
 
@@ -317,6 +319,38 @@ Example of additional **incorrect** code for this rule with a sample `"matchDesc
 /**
  * @param {string} name Whom to greet.
  * @returns {void}
+ */
+function greet(name) {
+    console.log("Hello " + name);
+}
+```
+
+### matchParamDescription
+
+Example of additional **correct** code for this rule with a sample `"matchParamDescription": "^[A-Z].*[.]$"` option:
+
+```js
+/*eslint valid-jsdoc: ["error", { "matchParamDescription": "^[A-Z].*[.]$" }]*/
+
+/**
+ * @param {string} name Whom to greet.
+ * @returns {void}
+ */
+function greet(name) {
+    console.log("Hello " + name);
+}
+```
+
+### matchReturnDescription
+
+Example of additional **incorrect** code for this rule with a sample `"matchReturnDescription": "^[A-Z].*[.]$"` option:
+
+```js
+/*eslint valid-jsdoc: ["error", { "matchReturnDescription": "^[A-Z].*[.]$" }]*/
+
+/**
+ * @param {string} name Whom to greet.
+ * @returns {void} returns nothing
  */
 function greet(name) {
     console.log("Hello " + name);
