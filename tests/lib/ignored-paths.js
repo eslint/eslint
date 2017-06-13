@@ -164,6 +164,30 @@ describe("IgnoredPaths", () => {
                 )
             );
         });
+
+
+    });
+
+    describe("caching file reads", () => {
+
+        let readFileSyncCount;
+
+        before(() => {
+            readFileSyncCount = sinon.spy(fs, "readFileSync");
+        });
+
+        after(() => {
+            readFileSyncCount.restore();
+        });
+
+        it("should cache readFileSync on same file paths", () => {
+            const ignoreFilePath = getFixturePath(".eslintignore");
+            const ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath() });
+
+            ignoredPaths.readIgnoreFile(ignoreFilePath);
+            assert.isTrue(ignoredPaths.contains(ignoreFilePath));
+            sinon.assert.calledOnce(readFileSyncCount);
+        });
     });
 
     describe("initialization with ignorePattern", () => {
