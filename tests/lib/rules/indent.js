@@ -2565,6 +2565,40 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                [
+                ] || [
+                ]
+            `
+        },
+        {
+            code: unIndent`
+                (
+                    [
+                    ] || [
+                    ]
+                )
+            `
+        },
+        {
+            code: unIndent`
+                1
+                + (
+                    1
+                )
+            `
+        },
+        {
+            code: unIndent`
+                (
+                    foo && (
+                        bar ||
+                        baz
+                    )
+                )
+            `
+        },
+        {
+            code: unIndent`
                 var foo =
                         1;
             `,
@@ -2980,6 +3014,41 @@ ruleTester.run("indent", rule, {
                     foobar ? boop :
                     /*else*/ beep
                 )
+            `,
+            options: [4, { flatTernaryExpressions: true }]
+        },
+        {
+            code: unIndent`
+                function wrap() {
+                    return (
+                        foo ? bar :
+                        baz ? qux :
+                        foobar ? boop :
+                        /*else*/ beep
+                    )
+                }
+            `,
+            options: [4, { flatTernaryExpressions: true }]
+        },
+        {
+            code: unIndent`
+                function wrap() {
+                    return foo
+                        ? bar
+                        : baz
+                }
+            `,
+            options: [4, { flatTernaryExpressions: true }]
+        },
+        {
+            code: unIndent`
+                function wrap() {
+                    return (
+                        foo
+                            ? bar
+                            : baz
+                    )
+                }
             `,
             options: [4, { flatTernaryExpressions: true }]
         },
@@ -7035,6 +7104,34 @@ ruleTester.run("indent", rule, {
             `,
             options: [4],
             errors: expectedErrors([2, 4, 8, "Identifier"])
+        },
+        {
+            code: unIndent`
+                [
+                ] || [
+                    ]
+            `,
+            output: unIndent`
+                [
+                ] || [
+                ]
+            `,
+            errors: expectedErrors([3, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                1
+                + (
+                        1
+                    )
+            `,
+            output: unIndent`
+                1
+                + (
+                    1
+                )
+            `,
+            errors: expectedErrors([[3, 4, 8, "Numeric"], [4, 0, 4, "Punctuator"]])
         },
 
         // Template curlies
