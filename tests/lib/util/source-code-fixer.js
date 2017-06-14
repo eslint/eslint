@@ -10,6 +10,7 @@
 
 const assert = require("chai").assert,
     espree = require("espree"),
+    sinon = require("sinon"),
     SourceCode = require("../../../lib/util/source-code"),
     SourceCodeFixer = require("../../../lib/util/source-code-fixer");
 
@@ -160,6 +161,48 @@ describe("SourceCodeFixer", () => {
             const result = SourceCodeFixer.applyFixes(null, [INSERT_AT_END]);
 
             assert.equal(result.output.length, 0);
+        });
+
+        describe("shouldFix parameter", () => {
+
+            beforeEach(() => {
+                sourceCode = new SourceCode(TEST_CODE, TEST_AST);
+            });
+
+            it("Should not perform any fixes if 'shouldFix' is false", () => {
+                const result = SourceCodeFixer.applyFixes(sourceCode, [INSERT_AT_END], false);
+
+                assert.isFalse(result.fixed);
+                assert.equal(result.output.length, 0);
+            });
+
+            it("should call a function provided as 'shouldFix' for each message", () => {
+                const shouldFixSpy = sinon.spy();
+
+                SourceCodeFixer.applyFixes(sourceCode, [INSERT_IN_MIDDLE, INSERT_AT_START, INSERT_AT_END], shouldFixSpy);
+                assert.isTrue(shouldFixSpy.calledThrice);
+            });
+
+            it("should provide a message object as an argument to 'shouldFix'", () => {
+                const shouldFixSpy = sinon.spy();
+
+                SourceCodeFixer.applyFixes(sourceCode, [INSERT_AT_START], shouldFixSpy);
+                assert.equal(shouldFixSpy.firstCall.args[0], INSERT_AT_START);
+            });
+
+            it("should not perform fixes if 'shouldFix' function returns false", () => {
+                const shouldFixSpy = sinon.spy(() => false);
+                const result = SourceCodeFixer.applyFixes(sourceCode, [INSERT_AT_START], shouldFixSpy);
+
+                assert.isFalse(result.fixed);
+            });
+
+            it("should return original text as output if 'shouldFix' function prevents all fixes", () => {
+                const shouldFixSpy = sinon.spy(() => false);
+                const result = SourceCodeFixer.applyFixes(sourceCode, [INSERT_AT_START], shouldFixSpy);
+
+                assert.equal(result.output, TEST_CODE);
+            });
         });
 
         describe("Text Insertion", () => {
