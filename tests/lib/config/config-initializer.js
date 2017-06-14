@@ -32,6 +32,7 @@ describe("configInitializer", () => {
     let fixtureDir,
         npmCheckStub,
         npmInstallStub,
+        npmFetchPeerDependenciesStub,
         init;
 
     const log = {
@@ -75,6 +76,14 @@ describe("configInitializer", () => {
             status[pkg] = false;
             return status;
         }, {}));
+        npmFetchPeerDependenciesStub = sinon
+            .stub(npmUtil, "fetchPeerDependencies")
+            .returns({
+                eslint: "^3.19.0",
+                "eslint-plugin-jsx-a11y": "^5.0.1",
+                "eslint-plugin-import": "^2.2.0",
+                "eslint-plugin-react": "^7.0.1"
+            });
         init = proxyquire("../../../lib/config/config-initializer", requireStubs);
     });
 
@@ -83,6 +92,7 @@ describe("configInitializer", () => {
         log.error.reset();
         npmInstallStub.restore();
         npmCheckStub.restore();
+        npmFetchPeerDependenciesStub.restore();
     });
 
     after(() => {
@@ -216,6 +226,24 @@ describe("configInitializer", () => {
                 init.getConfigForStyleGuide("google");
                 assert(npmInstallStub.calledOnce);
                 assert(npmInstallStub.firstCall.args[0].some(name => name.startsWith("eslint@")));
+            });
+
+            it("should install peerDependencies of the sharable config", () => {
+                init.getConfigForStyleGuide("airbnb");
+
+                assert(npmFetchPeerDependenciesStub.calledOnce);
+                assert(npmFetchPeerDependenciesStub.firstCall.args[0] === "eslint-config-airbnb@latest");
+                assert(npmInstallStub.calledOnce);
+                assert.deepEqual(
+                    npmInstallStub.firstCall.args[0],
+                    [
+                        "eslint-config-airbnb@latest",
+                        "eslint@^3.19.0",
+                        "eslint-plugin-jsx-a11y@^5.0.1",
+                        "eslint-plugin-import@^2.2.0",
+                        "eslint-plugin-react@^7.0.1"
+                    ]
+                );
             });
         });
 
