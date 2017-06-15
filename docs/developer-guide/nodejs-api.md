@@ -147,6 +147,37 @@ console.log(code.text);     // "var foo = bar;"
 
 In this way, you can retrieve the text and AST used for the last run of `linter.verify()`.
 
+### verifyAndFix()
+
+This method is similar to verify except that it also runs autofixing logic, similar to the `--fix` flag on the command line. The result object will contain the autofixed code, along with any remaining linting messages for the code that were not autofixed.
+
+```js
+var Linter = require("eslint").Linter;
+var linter = new Linter();
+
+var messages = linter.verifyAndFix("var foo", {
+    rules: {
+        semi: 2
+    }
+}, { filename: "foo.js" });
+```
+
+Output object from this method:
+
+```js
+{
+    fixed: true,
+    text: "var foo;",
+    messages: []
+}
+```
+
+The information available is:
+
+* `fixed` - True, if the code was fixed.
+* `text` - Fixed code text (might be the same as input if no fixes were applied).
+* `messages` - Collection of all messages for the given code (It has the same information as explained above under `verify` block).
+
 ## linter
 
 The `eslint.linter` object (deprecated) is an instance of the `Linter` class as defined [above](#Linter). `eslint.linter` exists for backwards compatibility, but we do not recommend using it because any mutations to it are shared among every module that uses `eslint`. Instead, please create your own instance of `eslint.Linter`.

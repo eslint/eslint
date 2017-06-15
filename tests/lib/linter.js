@@ -70,4 +70,18 @@ describe("Linter", () => {
             });
         });
     });
+
+    describe("verifyAndFix", () => {
+        it("Fixes the code", () => {
+            const linter = new Linter();
+            const messages = linter.verifyAndFix("var a", {
+                rules: {
+                    semi: 2
+                }
+            }, { filename: "test.js" });
+
+            assert.equal(messages.output, "var a;", "Fixes were applied correctly");
+            assert.isTrue(messages.fixed);
+        });
+    });
 });
