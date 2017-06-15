@@ -1210,6 +1210,32 @@ describe("Config", () => {
                 assertConfigsEqual(actual, expected);
             });
 
+            it("should apply overrides in parent .eslintrc over non-override rules in child .eslintrc", () => {
+                const targetPath = getFakeFixturePath("overrides", "three", "foo.js");
+                const config = new Config({
+                    cwd: getFakeFixturePath("overrides"),
+                    baseConfig: {
+                        overrides: [
+                            {
+                                files: "three/**/*.js",
+                                rules: {
+                                    "semi-style": [2, "last"],
+                                }
+                            }
+                        ]
+                    },
+                    useEslintrc: false
+                }, linter);
+                const expected = {
+                    rules: {
+                        "semi-style": [2, "last"],
+                    }
+                };
+                const actual = config.getConfig(targetPath);
+
+                assertConfigsEqual(actual, expected);
+            });
+
             it("should support a compounding array of patterns", () => {
                 const targetPath = getFakeFixturePath("overrides", "one", "child-one.js");
                 const config = new Config({
