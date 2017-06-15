@@ -775,6 +775,22 @@ You can also use your `.gitignore` file:
 
 Any file that follows the standard ignore file format can be used. Keep in mind that specifying `--ignore-path` means that any existing `.eslintignore` file will not be used. Note that globbing rules in `.eslintignore` follow those of `.gitignore`.
 
+### Using eslintIgnore in package.json
+
+If an `.eslintignore` file is not found and an alternate file is not specified, eslint will look in package.json for an `eslintIgnore` key to check for files to ignore.
+
+    {
+      "name": "mypackage",
+      "version": "0.0.1",
+      "eslintConfig": {
+          "env": {
+              "browser": true,
+              "node": true
+          }
+      },
+      "eslintIgnore": ["hello.js", "world.js"]
+    }
+
 ### Ignored File Warnings
 
 When you pass directories to ESLint, files and directories are silently ignored. If you pass a specific file to ESLint, then you will see a warning indicating that the file was skipped. For example, suppose you have an `.eslintignore` file that looks like this:
