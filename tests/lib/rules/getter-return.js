@@ -71,19 +71,24 @@ ruleTester.run("getter-return", rule, {
         // test obj: get, option: {allowImplicit: false}
         { code: "var foo = { get bar() {} };", parserOptions, errors: [{ message: noReturnMessage }] },
         { code: "var foo = { get bar(){if(bar) {return true;}} };", parserOptions, errors: [{ message: noLastReturnMessage }] },
-        { code: "var foo = { get bar(){if(bar) {return true;} ;} };", parserOptions, errors: [{ message: noLastReturnMessage }] },
+        { code: "var foo = { get bar() { ~function () {return true;}} };", parserOptions, errors: [{ message: noReturnMessage }] },
 
         // test class: get, option: {allowImplicit: false}
         { code: "class foo { get bar(){} }", parserOptions, errors: [{ message: noReturnMessage }] },
+        { code: "class foo { get bar(){ if (baz) { return true; }}}", parserOptions, errors: [{ noLastReturnMessage }] },
+        { code: "class foo { get bar(){ ~function () { return true; }}}", parserOptions, errors: [{ noLastReturnMessage }] },
 
-        // test object.defineProperty, option: {allowImplicit: false}
+        // test object.defineProperty(s), option: {allowImplicit: false}
+        { code: "Object.defineProperty(foo, \"bar\", { get: function (){}});", errors: [{ noReturnMessage}] },
         { code: "Object.defineProperty(foo, \"bar\", { get: function (){if(bar) {return true;}}});", errors: [{ message: "Expected to return a value at the end of method 'get'." }] },
+        { code: "Object.defineProperies(foo, { bar: { get: function () {}} });", options, errors: [{ noReturnMessage}] },
+        { code: "Object.defineProperies(foo, { bar: { get: function (){if(bar) {return true;}}}});", options, errors: [{ message: "Expected to return a value at the end of method 'get'." }] },
 
         // test option: {allowImplicit: true}
         { code: "var foo = { get bar() {} };", options, errors: [{ message: noReturnMessage }] },
+        { code: "class foo { get bar(){} }", options, parserOptions, errors: [{ message: noReturnMessage }] },
         { code: "var foo = { get bar() {if (baz) {return;}} };", options, errors: [{ message: noLastReturnMessage }] },
-        { code: "Object.defineProperty(foo, \"bar\", { get: function (){}});", options, parserOptions, errors: [{ message: "Expected to return a value in method 'get'." }] },
-        { code: "class foo { get bar(){} }", options, parserOptions, errors: [{ message: noReturnMessage }] }
+        { code: "Object.defineProperty(foo, \"bar\", { get: function (){}});", options, parserOptions, errors: [{ message: "Expected to return a value in method 'get'." }] }
 
     ]
 });
