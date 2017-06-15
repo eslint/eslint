@@ -180,6 +180,13 @@ describe("IgnoredPaths", () => {
             assert.isTrue(ignoredPaths.contains("sampleignorepattern"));
         });
 
+        it("should error if package.json's eslintIgnore is not an array of file paths", () => {
+            assert.throws(() => {
+                const ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath("bad-package-json-ignore") });
+
+                assert.ok(ignoredPaths);
+            }, "the package.json file eslintIgnore property requires an array of paths");
+        });
     });
 
     describe("caching file reads", () => {
