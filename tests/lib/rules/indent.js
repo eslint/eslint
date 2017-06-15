@@ -8595,6 +8595,30 @@ ruleTester.run("indent", rule, {
                 )
             `,
             errors: expectedErrors([[5, 4, 8, "Punctuator"], [6, 4, 8, "Punctuator"], [7, 0, 4, "Punctuator"]])
+        },
+        {
+            code: unIndent`
+              function test1() {
+                function test2() {
+                // eslint-disable-next-line indent
+                function test3() {
+                     var a = 1;
+                }
+                }
+              }
+            `,
+            output: unIndent`
+              function test1() {
+                function test2() {
+                // eslint-disable-next-line indent
+                function test3() {
+                  var a = 1;
+                }
+                }
+              }
+            `,
+            options: [2],
+            errors: expectedErrors([5, 4, 7, "VariableDeclaration"])
         }
     ]
 });

@@ -3934,6 +3934,28 @@ ruleTester.run("indent-legacy", rule, {
             "             'baz']);",
             options: [2, { ArrayExpression: "first", CallExpression: { arguments: "first" } }],
             errors: expectedErrors([2, 13, 12, "ArrayExpression"])
+        },
+        {
+            code:
+            "function test1() {\n" +
+            "  function test2() {\n" +
+            "  // eslint-disable-next-line indent-legacy\n" +
+            "  function test3() {\n" +
+            "       var a = 1;\n" +
+            "  }\n" +
+            "  }\n" +
+            "}",
+            output:
+            "function test1() {\n" +
+            "  function test2() {\n" +
+            "  // eslint-disable-next-line indent-legacy\n" +
+            "  function test3() {\n" +
+            "    var a = 1;\n" +
+            "  }\n" +
+            "  }\n" +
+            "}",
+            options: [2],
+            errors: expectedErrors([5, 4, 7, "VariableDeclaration"])
         }
     ]
 });
