@@ -80,10 +80,11 @@ ruleTester.run("getter-return", rule, {
 
         // test object.defineProperty(s), option: {allowImplicit: false}
         { code: "Object.defineProperty(foo, \"bar\", { get: function (){}});", errors: [{ noReturnMessage }] },
-        { code: "Object.defineProperty(foo, \"bar\", { get: function (){ ~function () { return true; }()}});", errors: [{ noReturnMessage }] },
         { code: "Object.defineProperty(foo, \"bar\", { get: function (){if(bar) {return true;}}});", errors: [{ message: "Expected to return a value at the end of method 'get'." }] },
+        { code: "Object.defineProperty(foo, \"bar\", { get: function (){ ~function () { return true; }()}});", errors: [{ noReturnMessage }] },
         { code: "Object.defineProperies(foo, { bar: { get: function () {}} });", options, errors: [{ noReturnMessage }] },
         { code: "Object.defineProperies(foo, { bar: { get: function (){if(bar) {return true;}}}});", options, errors: [{ message: "Expected to return a value at the end of method 'get'." }] },
+        { code: "Object.defineProperies(foo, { bar: { get: function () {~function () { return true; }()}} });", options, errors: [{ noReturnMessage }] },
 
         // test option: {allowImplicit: true}
         { code: "var foo = { get bar() {} };", options, errors: [{ message: noReturnMessage }] },
