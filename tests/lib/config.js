@@ -1171,14 +1171,8 @@ describe("Config", () => {
                         useEslintrc: false
                     }
                 }, linter);
-                const expected = {
-                    rules: {
-                        quotes: [2, "double"]
-                    }
-                };
-                const actual = config.getConfig(targetPath);
 
-                assertConfigsEqual(actual, expected);
+                assert.throws(() => config.getConfig(targetPath), /Invalid override pattern/);
             });
 
             it("should not merge override config when the pattern traverses up the directory tree", () => {
@@ -1197,14 +1191,8 @@ describe("Config", () => {
                         useEslintrc: false
                     }
                 }, linter);
-                const expected = {
-                    rules: {
-                        quotes: [2, "double"]
-                    }
-                };
-                const actual = config.getConfig(targetPath);
 
-                assertConfigsEqual(actual, expected);
+                assert.throws(() => config.getConfig(targetPath), /Invalid override pattern/);
             });
 
             it("should merge all local configs (override and non-override) before non-local configs", () => {
