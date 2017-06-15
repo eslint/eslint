@@ -185,7 +185,7 @@ describe("IgnoredPaths", () => {
                 const ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath("bad-package-json-ignore") });
 
                 assert.ok(ignoredPaths);
-            }, "the package.json file eslintIgnore property requires an array of paths");
+            }, "Package.json eslintIgnore property requires an array of paths");
         });
     });
 
