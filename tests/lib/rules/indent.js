@@ -2026,6 +2026,28 @@ ruleTester.run("indent", rule, {
             `,
             options: [2]
         },
+        // VICTOR passes
+        {
+            code: unIndent`
+                const {
+                  a
+                } = {
+                    a: 1
+                  }
+            `,
+            options: [2]
+        },
+        // VICTOR fails
+        {
+            code: unIndent`
+                const {
+                  a
+                } = {
+                  a: 1
+                }
+            `,
+            options: [2]
+        },
         {
 
             // https://github.com/eslint/eslint/issues/7233
