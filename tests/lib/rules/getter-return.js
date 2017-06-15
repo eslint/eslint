@@ -49,13 +49,11 @@ ruleTester.run("getter-return", rule, {
         // test option: {allowImplicit: true}
         { code: "var foo = { get bar() {return;} };", options },
         { code: "var foo = { get bar(){return true;} };", options },
+        { code: "var foo = { get bar(){if(bar) {return;} return true;} };", options },
         { code: "class foo { get bar(){return true;} }", options, parserOptions },
         { code: "class foo { get bar(){return;} }", options, parserOptions },
         { code: "Object.defineProperty(foo, \"bar\", { get: function () {return true;}});", options },
         { code: "Object.defineProperies(foo, { bar: { get: function () {return true;}} });", options },
-        { code: "var foo = { get bar() {return;} };", options, parserOptions },
-        { code: "var foo = { get bar(){if(bar) {return;} return true;} };", options, parserOptions },
-        { code: "class foo { get bar(){return;} }", options, parserOptions },
         { code: "Object.defineProperty(foo, \"bar\", { get: function (){return;}});", options },
         { code: "Object.defineProperies(foo, { bar: { get: function () {return;}} });", options },
 
