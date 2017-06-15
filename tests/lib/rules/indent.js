@@ -3378,6 +3378,23 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                  foo = bar(
+                  ).baz(
+                  )
+            `,
+            options: [4, { MemberExpression: "off" }]
+        },
+        {
+            code: unIndent`
+                foo[
+                    bar ? baz :
+                    qux
+                ]
+            `,
+            options: [4, { flatTernaryExpressions: true }]
+        },
+        {
+            code: unIndent`
                   foo
                       [
                           bar
