@@ -161,6 +161,80 @@ describe("RuleContext", () => {
 
                 mockESLint.verify();
             });
+
+
+            it("should handle inserting BOM correctly.", () => {
+                const mockESLint = sandbox.mock(eslint);
+
+                mockESLint.expects("getSourceCode")
+                    .returns({ text: "var foo = 100;" });
+                mockESLint.expects("report")
+                    .once()
+                    .withArgs(
+                        sinon.match.any,
+                        sinon.match.any,
+                        sinon.match.any,
+                        sinon.match.any,
+                        sinon.match.any,
+                        sinon.match.any,
+                        sinon.match({
+                            range: [0, 13],
+                            text: "\uFEFFvar bar = 234"
+                        })
+                    );
+
+                ruleContext.report({
+                    node: {},
+                    loc: {},
+                    message: "Message",
+                    fix(fixer) {
+                        return [
+                            fixer.insertTextBeforeRange([0, 1], "\uFEFF"),
+                            fixer.replaceTextRange([10, 13], "234"),
+                            fixer.replaceTextRange([4, 7], "bar")
+                        ];
+                    }
+                });
+
+                mockESLint.verify();
+            });
+
+
+            it("should handle removing BOM correctly.", () => {
+                const mockESLint = sandbox.mock(eslint);
+
+                mockESLint.expects("getSourceCode")
+                    .returns({ text: "var foo = 100;" });
+                mockESLint.expects("report")
+                    .once()
+                    .withArgs(
+                        sinon.match.any,
+                        sinon.match.any,
+                        sinon.match.any,
+                        sinon.match.any,
+                        sinon.match.any,
+                        sinon.match.any,
+                        sinon.match({
+                            range: [-1, 13],
+                            text: "var bar = 234"
+                        })
+                    );
+
+                ruleContext.report({
+                    node: {},
+                    loc: {},
+                    message: "Message",
+                    fix(fixer) {
+                        return [
+                            fixer.removeRange([-1, 0]),
+                            fixer.replaceTextRange([10, 13], "234"),
+                            fixer.replaceTextRange([4, 7], "bar")
+                        ];
+                    }
+                });
+
+                mockESLint.verify();
+            });
         });
     });
 
