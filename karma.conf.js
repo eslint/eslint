@@ -18,7 +18,7 @@ module.exports = function(config) {
             "node_modules/chai/chai.js",
             "node_modules/sinon/pkg/sinon.js",
             "build/eslint.js",
-            "tests/lib/eslint.js"
+            "tests/lib/linter.js"
         ],
 
 
@@ -30,7 +30,7 @@ module.exports = function(config) {
         // preprocess matching files before serving them to the browser
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
         preprocessors: {
-            "tests/lib/eslint.js": ["babel"]
+            "tests/lib/linter.js": ["babel"]
         },
         babelPreprocessor: {
             options: {
