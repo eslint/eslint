@@ -198,6 +198,15 @@ The `fixer` object has the following methods:
 * `replaceText(nodeOrToken, text)` - replaces the text in the given node or token
 * `replaceTextRange(range, text)` - replaces the text in the given range
 
+The above methods return a `fixing` object.
+The `fix()` function can return the following values:
+
+* A `fixing` object.
+* An array which includes `fixing` objects.
+* An iterable object which enumerates `fixing` objects. Especially, the `fix()` function can be a generator.
+
+If you make a `fix()` function which returns multiple `fixing` objects, those `fixing` objects must not be overlapped.
+
 Best practices for fixes:
 
 1. Avoid any fixes that could change the runtime behavior of code and cause it to stop working.
