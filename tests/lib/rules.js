@@ -10,16 +10,17 @@
 //------------------------------------------------------------------------------
 
 const assert = require("chai").assert,
-    rules = require("../../lib/rules");
+    Rules = require("../../lib/rules");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
 describe("rules", () => {
+    let rules = null;
 
     beforeEach(() => {
-        rules.testReset();
+        rules = new Rules();
     });
 
     describe("when given an invalid rules directory", () => {

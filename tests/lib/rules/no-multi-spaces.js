@@ -365,7 +365,6 @@ ruleTester.run("no-multi-spaces", rule, {
         {
             code: "({ a:  6  * 7 })",
             output: "({ a:  6 * 7 })",
-            args: 2,
             errors: [{
                 message: "Multiple spaces found before '*'.",
                 type: "Punctuator"

@@ -164,6 +164,51 @@ describe("IgnoredPaths", () => {
                 )
             );
         });
+
+        it("should use package.json's eslintIgnore files if no specified .eslintignore file", () => {
+            const ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath("package-json-ignore") });
+
+            assert.isTrue(ignoredPaths.contains("hello.js"));
+            assert.isTrue(ignoredPaths.contains("world.js"));
+        });
+
+        it("should not use package.json's eslintIgnore files if specified .eslintignore file", () => {
+            const ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath() });
+
+            assert.isFalse(ignoredPaths.contains("hello.js"));
+            assert.isFalse(ignoredPaths.contains("world.js"));
+            assert.isTrue(ignoredPaths.contains("sampleignorepattern"));
+        });
+
+        it("should error if package.json's eslintIgnore is not an array of file paths", () => {
+            assert.throws(() => {
+                const ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath("bad-package-json-ignore") });
+
+                assert.ok(ignoredPaths);
+            }, "Package.json eslintIgnore property requires an array of paths");
+        });
+    });
+
+    describe("caching file reads", () => {
+
+        let readFileSyncCount;
+
+        before(() => {
+            readFileSyncCount = sinon.spy(fs, "readFileSync");
+        });
+
+        after(() => {
+            readFileSyncCount.restore();
+        });
+
+        it("should cache readFileSync on same file paths", () => {
+            const ignoreFilePath = getFixturePath(".eslintignore");
+            const ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath() });
+
+            ignoredPaths.readIgnoreFile(ignoreFilePath);
+            assert.isTrue(ignoredPaths.contains(ignoreFilePath));
+            sinon.assert.calledOnce(readFileSyncCount);
+        });
     });
 
     describe("initialization with ignorePattern", () => {

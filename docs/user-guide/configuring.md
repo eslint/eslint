@@ -76,6 +76,7 @@ The following parsers are compatible with ESLint:
 
 * [Esprima](https://npmjs.com/package/esprima)
 * [Babel-ESLint](https://npmjs.com/package/babel-eslint) - A wrapper around the [Babel](http://babeljs.io) parser that makes it compatible with ESLint.
+* [typescript-eslint-parser(Experimental)](https://npmjs.com/package/typescript-eslint-parser) - A parser that converts TypeScript into an ESTree-compatible form so it can be used in ESLint. The goal is to allow TypeScript files to be parsed by ESLint (though not necessarily pass all ESLint rules).
 
 Note when using a custom parser, the `parserOptions` configuration property is still required for ESLint to work properly with features not in ECMAScript 5 by default. Parsers are all passed `parserOptions` and may or may not use them to determine which features to enable.
 
@@ -752,7 +753,7 @@ Globs are matched using [node-ignore](https://github.com/kaelzhang/node-ignore),
 
 In addition to any patterns in a `.eslintignore` file, ESLint always ignores files in `/node_modules/*` and `/bower_components/*`.
 
-For example, placing the following `.eslintignore` file in the current working directory will ignore all of `node_modules`, `bower_components`, any files with the extensions `.ts.js` or `.coffee.js` extension that might have been transpiled, and anything in the `build/` directory except `build/index.js`:
+For example, placing the following `.eslintignore` file in the current working directory will ignore all of `node_modules`, `bower_components` and anything in the `build/` directory except `build/index.js`:
 
 ```text
 # /node_modules/* and /bower_components/* ignored by default
@@ -773,6 +774,22 @@ You can also use your `.gitignore` file:
     eslint --ignore-path .gitignore file.js
 
 Any file that follows the standard ignore file format can be used. Keep in mind that specifying `--ignore-path` means that any existing `.eslintignore` file will not be used. Note that globbing rules in `.eslintignore` follow those of `.gitignore`.
+
+### Using eslintIgnore in package.json
+
+If an `.eslintignore` file is not found and an alternate file is not specified, eslint will look in package.json for an `eslintIgnore` key to check for files to ignore.
+
+    {
+      "name": "mypackage",
+      "version": "0.0.1",
+      "eslintConfig": {
+          "env": {
+              "browser": true,
+              "node": true
+          }
+      },
+      "eslintIgnore": ["hello.js", "world.js"]
+    }
 
 ### Ignored File Warnings
 

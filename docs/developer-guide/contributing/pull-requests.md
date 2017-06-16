@@ -6,7 +6,7 @@ If you want to contribute to an ESLint repo, please use a GitHub pull request. T
 
 If you'd like to work on a pull request and you've never submitted code before, follow these steps:
 
-1. Sign our [Contributor License Agreement](https://contribute.jquery.org/cla).
+1. Sign our [Contributor License Agreement](https://cla.js.foundation/eslint/eslint).
 1. Set up a [development environment](../development-environment).
 1. If you want to implement a breaking change or a change to the core, ensure there's an issue that describes what you're doing and the issue has been accepted. You can create a new issue or just indicate you're [working on an existing issue](working-on-issues). Bug fixes, documentation changes, and other pull requests do not require an issue.
 
@@ -160,11 +160,11 @@ If we ask you to make code changes, there's no need to close the pull request an
 
 ```
 $ git add -A
-$ git commit --amend --no-edit
-$ git push origin issue1234 -f
+$ git commit
+$ git push origin issue1234
 ```
 
-This snippets adds all your new changes, then amends the previous commit with them. The `--no-edit` means you don't want to edit the commit message; you can omit that option if you need to make commit message changes as well.
+When updating the code, it's usually better to add additional commits to your branch rather than amending the original commit, because reviewers can easily tell which changes were made in response to a particular review. When we merge pull requests, we will squash all the commits from your branch into a single commit on the `master` branch.
 
 ### Rebasing
 

@@ -49,15 +49,16 @@ var codeLines = SourceCode.splitLines(code);
  */
 ```
 
-## linter
+## Linter
 
-The `linter` object does the actual evaluation of the JavaScript code. It doesn't do any filesystem operations, it simply parses and reports on the code. In particular, the `linter` object does not process configuration objects or files. You can retrieve `linter` like this:
+The `Linter` object does the actual evaluation of the JavaScript code. It doesn't do any filesystem operations, it simply parses and reports on the code. In particular, the `Linter` object does not process configuration objects or files. You can retrieve instances of `Linter` like this:
 
 ```js
-var linter = require("eslint").linter;
+var Linter = require("eslint").Linter;
+var linter = new Linter();
 ```
 
-The most important method on `linter` is `verify()`, which initiates linting of the given text. This method accepts four arguments:
+The most important method on `Linter` is `verify()`, which initiates linting of the given text. This method accepts four arguments:
 
 * `code` - the source code to lint (a string or instance of `SourceCode`).
 * `config` - a configuration object that has been processed and normalized by CLIEngine using eslintrc files and/or other configuration arguments.
@@ -71,7 +72,8 @@ The most important method on `linter` is `verify()`, which initiates linting of 
 You can call `verify()` like this:
 
 ```js
-var linter = require("eslint").linter;
+var Linter = require("eslint").Linter;
+var linter = new Linter();
 
 var messages = linter.verify("var foo;", {
     rules: {
@@ -129,7 +131,8 @@ The information available for each linting message is:
 You can also get an instance of the `SourceCode` object used inside of `linter` by using the `getSourceCode()` method:
 
 ```js
-var linter = require("eslint").linter;
+var Linter = require("eslint").Linter;
+var linter = new Linter();
 
 var messages = linter.verify("var foo = bar;", {
     rules: {
@@ -143,6 +146,53 @@ console.log(code.text);     // "var foo = bar;"
 ```
 
 In this way, you can retrieve the text and AST used for the last run of `linter.verify()`.
+
+### verifyAndFix()
+
+This method is similar to verify except that it also runs autofixing logic, similar to the `--fix` flag on the command line. The result object will contain the autofixed code, along with any remaining linting messages for the code that were not autofixed.
+
+```js
+var Linter = require("eslint").Linter;
+var linter = new Linter();
+
+var messages = linter.verifyAndFix("var foo", {
+    rules: {
+        semi: 2
+    }
+}, { filename: "foo.js" });
+```
+
+Output object from this method:
+
+```js
+{
+    fixed: true,
+    text: "var foo;",
+    messages: []
+}
+```
+
+The information available is:
+
+* `fixed` - True, if the code was fixed.
+* `text` - Fixed code text (might be the same as input if no fixes were applied).
+* `messages` - Collection of all messages for the given code (It has the same information as explained above under `verify` block).
+
+## linter
+
+The `eslint.linter` object (deprecated) is an instance of the `Linter` class as defined [above](#Linter). `eslint.linter` exists for backwards compatibility, but we do not recommend using it because any mutations to it are shared among every module that uses `eslint`. Instead, please create your own instance of `eslint.Linter`.
+
+```js
+var linter = require("eslint").linter;
+
+var messages = linter.verify("var foo;", {
+    rules: {
+        semi: 2
+    }
+}, { filename: "foo.js" });
+```
+
+Note: This API is deprecated as of 4.0.0.
 
 ## CLIEngine
 
@@ -566,3 +616,4 @@ CLIEngine.outputFixes(report);
 ## Deprecated APIs
 
 * `cli` - the `cli` object has been deprecated in favor of `CLIEngine`. As of v1.0.0, `cli` is no longer exported and should not be used by external tools.
+* `linter` - the `linter` object has has been deprecated in favor of `Linter`, as of v4.0.0

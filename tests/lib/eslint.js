@@ -34,7 +34,8 @@ function compatRequire(name, windowName) {
 const assert = compatRequire("chai").assert,
     sinon = compatRequire("sinon"),
     path = compatRequire("path"),
-    eslint = compatRequire("../../lib/eslint", "eslint");
+    Rules = compatRequire("../../lib/rules", "rules"),
+    Linter = compatRequire("../../lib/linter", "eslint");
 
 //------------------------------------------------------------------------------
 // Constants
@@ -42,6 +43,8 @@ const assert = compatRequire("chai").assert,
 
 const TEST_CODE = "var answer = 6 * 7;",
     BROKEN_TEST_CODE = "var;";
+
+const linter = new Linter();
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -80,7 +83,8 @@ describe("eslint", () => {
     });
 
     afterEach(() => {
-        eslint.reset();
+        linter.reset();
+        linter.rules = new Rules();
         sandbox.verifyAndRestore();
     });
 
@@ -90,13 +94,13 @@ describe("eslint", () => {
         it("an error should be thrown when an error occurs inside of an event handler", () => {
             const config = { rules: {} };
 
-            eslint.reset();
-            eslint.on("Program", () => {
+            linter.reset();
+            linter.on("Program", () => {
                 throw new Error("Intentional error.");
             });
 
             assert.throws(() => {
-                eslint.verify(code, config, filename, true);
+                linter.verify(code, config, filename, true);
             }, Error);
         });
     });
@@ -106,9 +110,9 @@ describe("eslint", () => {
         it("should get proper lines when using \\n as a line break", () => {
             const code = "a;\nb;";
 
-            eslint.verify(code, {}, filename, true);
+            linter.verify(code, {}, filename, true);
 
-            const lines = eslint.getSourceLines();
+            const lines = linter.getSourceLines();
 
             assert.equal(lines[0], "a;");
             assert.equal(lines[1], "b;");
@@ -117,9 +121,9 @@ describe("eslint", () => {
         it("should get proper lines when using \\r\\n as a line break", () => {
             const code = "a;\r\nb;";
 
-            eslint.verify(code, {}, filename, true);
+            linter.verify(code, {}, filename, true);
 
-            const lines = eslint.getSourceLines();
+            const lines = linter.getSourceLines();
 
             assert.equal(lines[0], "a;");
             assert.equal(lines[1], "b;");
@@ -128,9 +132,9 @@ describe("eslint", () => {
         it("should get proper lines when using \\r as a line break", () => {
             const code = "a;\rb;";
 
-            eslint.verify(code, {}, filename, true);
+            linter.verify(code, {}, filename, true);
 
-            const lines = eslint.getSourceLines();
+            const lines = linter.getSourceLines();
 
             assert.equal(lines[0], "a;");
             assert.equal(lines[1], "b;");
@@ -139,9 +143,9 @@ describe("eslint", () => {
         it("should get proper lines when using \\u2028 as a line break", () => {
             const code = "a;\u2028b;";
 
-            eslint.verify(code, {}, filename, true);
+            linter.verify(code, {}, filename, true);
 
-            const lines = eslint.getSourceLines();
+            const lines = linter.getSourceLines();
 
             assert.equal(lines[0], "a;");
             assert.equal(lines[1], "b;");
@@ -150,9 +154,9 @@ describe("eslint", () => {
         it("should get proper lines when using \\u2029 as a line break", () => {
             const code = "a;\u2029b;";
 
-            eslint.verify(code, {}, filename, true);
+            linter.verify(code, {}, filename, true);
 
-            const lines = eslint.getSourceLines();
+            const lines = linter.getSourceLines();
 
             assert.equal(lines[0], "a;");
             assert.equal(lines[1], "b;");
@@ -165,10 +169,10 @@ describe("eslint", () => {
         const code = TEST_CODE;
 
         it("should retrieve SourceCode object after reset", () => {
-            eslint.reset();
-            eslint.verify(code, {}, filename, true);
+            linter.reset();
+            linter.verify(code, {}, filename, true);
 
-            const sourceCode = eslint.getSourceCode();
+            const sourceCode = linter.getSourceCode();
 
             assert.isObject(sourceCode);
             assert.equal(sourceCode.text, code);
@@ -176,10 +180,10 @@ describe("eslint", () => {
         });
 
         it("should retrieve SourceCode object without reset", () => {
-            eslint.reset();
-            eslint.verify(code, {}, filename);
+            linter.reset();
+            linter.verify(code, {}, filename);
 
-            const sourceCode = eslint.getSourceCode();
+            const sourceCode = linter.getSourceCode();
 
             assert.isObject(sourceCode);
             assert.equal(sourceCode.text, code);
@@ -198,7 +202,7 @@ describe("eslint", () => {
              * @returns {void}
              */
             function handler() {
-                const source = eslint.getSource();
+                const source = linter.getSource();
 
                 assert.equal(source, TEST_CODE);
             }
@@ -206,10 +210,10 @@ describe("eslint", () => {
             const config = { rules: {} },
                 spy = sandbox.spy(handler);
 
-            eslint.reset();
-            eslint.on("Program", spy);
+            linter.reset();
+            linter.on("Program", spy);
 
-            eslint.verify(code, config, filename, true);
+            linter.verify(code, config, filename, true);
             assert(spy.calledOnce);
         });
 
@@ -221,7 +225,7 @@ describe("eslint", () => {
              * @returns {void}
              */
             function handler(node) {
-                const source = eslint.getSource(node);
+                const source = linter.getSource(node);
 
                 assert.equal(source, TEST_CODE);
             }
@@ -229,10 +233,10 @@ describe("eslint", () => {
             const config = { rules: {} },
                 spy = sandbox.spy(handler);
 
-            eslint.reset();
-            eslint.on("Program", spy);
+            linter.reset();
+            linter.on("Program", spy);
 
-            eslint.verify(code, config, filename, true);
+            linter.verify(code, config, filename, true);
             assert(spy.calledOnce);
         });
 
@@ -244,7 +248,7 @@ describe("eslint", () => {
              * @returns {void}
              */
             function handler(node) {
-                const source = eslint.getSource(node, 2, 0);
+                const source = linter.getSource(node, 2, 0);
 
                 assert.equal(source, TEST_CODE);
             }
@@ -252,63 +256,63 @@ describe("eslint", () => {
             const config = { rules: {} },
                 spy = sandbox.spy(handler);
 
-            eslint.reset();
-            eslint.on("Program", spy);
+            linter.reset();
+            linter.on("Program", spy);
 
-            eslint.verify(code, config, filename, true);
+            linter.verify(code, config, filename, true);
             assert(spy.calledOnce);
         });
 
         it("should retrieve all text for binary expression", () => {
             const config = { rules: {} };
 
-            eslint.reset();
-            eslint.on("BinaryExpression", node => {
-                const source = eslint.getSource(node);
+            linter.reset();
+            linter.on("BinaryExpression", node => {
+                const source = linter.getSource(node);
 
                 assert.equal(source, "6 * 7");
             });
 
-            eslint.verify(code, config, filename, true);
+            linter.verify(code, config, filename, true);
         });
 
         it("should retrieve all text plus two characters before for binary expression", () => {
             const config = { rules: {} };
 
-            eslint.reset();
-            eslint.on("BinaryExpression", node => {
-                const source = eslint.getSource(node, 2);
+            linter.reset();
+            linter.on("BinaryExpression", node => {
+                const source = linter.getSource(node, 2);
 
                 assert.equal(source, "= 6 * 7");
             });
 
-            eslint.verify(code, config, filename, true);
+            linter.verify(code, config, filename, true);
         });
 
         it("should retrieve all text plus one character after for binary expression", () => {
             const config = { rules: {} };
 
-            eslint.reset();
-            eslint.on("BinaryExpression", node => {
-                const source = eslint.getSource(node, 0, 1);
+            linter.reset();
+            linter.on("BinaryExpression", node => {
+                const source = linter.getSource(node, 0, 1);
 
                 assert.equal(source, "6 * 7;");
             });
 
-            eslint.verify(code, config, filename, true);
+            linter.verify(code, config, filename, true);
         });
 
         it("should retrieve all text plus two characters before and one character after for binary expression", () => {
             const config = { rules: {} };
 
-            eslint.reset();
-            eslint.on("BinaryExpression", node => {
-                const source = eslint.getSource(node, 2, 1);
+            linter.reset();
+            linter.on("BinaryExpression", node => {
+                const source = linter.getSource(node, 2, 1);
 
                 assert.equal(source, "= 6 * 7;");
             });
 
-            eslint.verify(code, config, filename, true);
+            linter.verify(code, config, filename, true);
         });
 
     });
@@ -320,27 +324,27 @@ describe("eslint", () => {
 
             const config = { rules: {} };
 
-            eslint.reset();
-            eslint.on("BinaryExpression", () => {
-                const ancestors = eslint.getAncestors();
+            linter.reset();
+            linter.on("BinaryExpression", () => {
+                const ancestors = linter.getAncestors();
 
                 assert.equal(ancestors.length, 3);
             });
 
-            eslint.verify(code, config, filename, true);
+            linter.verify(code, config, filename, true);
         });
 
         it("should retrieve empty ancestors for root node", () => {
             const config = { rules: {} };
 
-            eslint.reset();
-            eslint.on("Program", () => {
-                const ancestors = eslint.getAncestors();
+            linter.reset();
+            linter.on("Program", () => {
+                const ancestors = linter.getAncestors();
 
                 assert.equal(ancestors.length, 0);
             });
 
-            eslint.verify(code, config, filename, true);
+            linter.verify(code, config, filename, true);
         });
     });
 
@@ -350,120 +354,119 @@ describe("eslint", () => {
         it("should retrieve a node starting at the given index", () => {
             const config = { rules: {} };
 
-            eslint.reset();
-            eslint.on("Program", () => {
-                const node = eslint.getNodeByRangeIndex(4);
+            linter.reset();
+            linter.on("Program", () => {
+                const node = linter.getNodeByRangeIndex(4);
 
                 assert.equal(node.type, "Identifier");
             });
 
-            eslint.verify(code, config, filename, true);
+            linter.verify(code, config, filename, true);
         });
 
         it("should retrieve a node containing the given index", () => {
             const config = { rules: {} };
 
-            eslint.reset();
-            eslint.on("Program", () => {
-                const node = eslint.getNodeByRangeIndex(6);
+            linter.reset();
+            linter.on("Program", () => {
+                const node = linter.getNodeByRangeIndex(6);
 
                 assert.equal(node.type, "Identifier");
             });
 
-            eslint.verify(code, config, filename, true);
+            linter.verify(code, config, filename, true);
         });
 
         it("should retrieve a node that is exactly the given index", () => {
             const config = { rules: {} };
 
-            eslint.reset();
-            eslint.on("Program", () => {
-                const node = eslint.getNodeByRangeIndex(13);
+            linter.reset();
+            linter.on("Program", () => {
+                const node = linter.getNodeByRangeIndex(13);
 
                 assert.equal(node.type, "Literal");
                 assert.equal(node.value, 6);
             });
 
-            eslint.verify(code, config, filename, true);
+            linter.verify(code, config, filename, true);
         });
 
         it("should retrieve a node ending with the given index", () => {
             const config = { rules: {} };
 
-            eslint.reset();
-            eslint.on("Program", () => {
-                const node = eslint.getNodeByRangeIndex(9);
+            linter.reset();
+            linter.on("Program", () => {
+                const node = linter.getNodeByRangeIndex(9);
 
                 assert.equal(node.type, "Identifier");
             });
 
-            eslint.verify(code, config, filename, true);
+            linter.verify(code, config, filename, true);
         });
 
         it("should retrieve the deepest node containing the given index", () => {
             const config = { rules: {} };
 
-            eslint.reset();
-            eslint.on("Program", () => {
-                let node = eslint.getNodeByRangeIndex(14);
+            linter.reset();
+            linter.on("Program", () => {
+                let node = linter.getNodeByRangeIndex(14);
 
                 assert.equal(node.type, "BinaryExpression");
-                node = eslint.getNodeByRangeIndex(3);
+                node = linter.getNodeByRangeIndex(3);
                 assert.equal(node.type, "VariableDeclaration");
             });
 
-            eslint.verify(code, config, filename, true);
+            linter.verify(code, config, filename, true);
         });
 
         it("should return null if the index is outside the range of any node", () => {
             const config = { rules: {} };
 
-            eslint.reset();
-            eslint.on("Program", () => {
-                let node = eslint.getNodeByRangeIndex(-1);
+            linter.reset();
+            linter.on("Program", () => {
+                let node = linter.getNodeByRangeIndex(-1);
 
                 assert.isNull(node);
-                node = eslint.getNodeByRangeIndex(-99);
+                node = linter.getNodeByRangeIndex(-99);
                 assert.isNull(node);
             });
 
-            eslint.verify(code, config, filename, true);
+            linter.verify(code, config, filename, true);
         });
 
         it("should attach the node's parent", () => {
             const config = { rules: {} };
 
-            eslint.reset();
-            eslint.on("Program", () => {
-                const node = eslint.getNodeByRangeIndex(14);
+            linter.reset();
+            linter.on("Program", () => {
+                const node = linter.getNodeByRangeIndex(14);
 
                 assert.property(node, "parent");
                 assert.equal(node.parent.type, "VariableDeclarator");
             });
 
-            eslint.verify(code, config, filename, true);
+            linter.verify(code, config, filename, true);
         });
 
         it("should not modify the node when attaching the parent", () => {
             const config = { rules: {} };
 
-            eslint.reset();
-            eslint.on("Program", () => {
-                let node = eslint.getNodeByRangeIndex(10);
+            linter.reset();
+            linter.on("Program", () => {
+                let node = linter.getNodeByRangeIndex(10);
 
                 assert.equal(node.type, "VariableDeclarator");
-                node = eslint.getNodeByRangeIndex(4);
+                node = linter.getNodeByRangeIndex(4);
                 assert.equal(node.type, "Identifier");
                 assert.property(node, "parent");
                 assert.equal(node.parent.type, "VariableDeclarator");
                 assert.notProperty(node.parent, "parent");
             });
 
-            eslint.verify(code, config, filename, true);
+            linter.verify(code, config, filename, true);
         });
 
     });
-
 
 
     describe("when calling getScope", () => {
@@ -472,165 +475,165 @@ describe("eslint", () => {
         it("should retrieve the global scope correctly from a Program", () => {
             const config = { rules: {} };
 
-            eslint.reset();
-            eslint.on("Program", () => {
-                const scope = eslint.getScope();
+            linter.reset();
+            linter.on("Program", () => {
+                const scope = linter.getScope();
 
                 assert.equal(scope.type, "global");
             });
 
-            eslint.verify(code, config, filename, true);
+            linter.verify(code, config, filename, true);
         });
 
         it("should retrieve the function scope correctly from a FunctionDeclaration", () => {
             const config = { rules: {} };
 
-            eslint.reset();
-            eslint.on("FunctionDeclaration", () => {
-                const scope = eslint.getScope();
+            linter.reset();
+            linter.on("FunctionDeclaration", () => {
+                const scope = linter.getScope();
 
                 assert.equal(scope.type, "function");
             });
 
-            eslint.verify(code, config, filename, true);
+            linter.verify(code, config, filename, true);
         });
 
         it("should retrieve the function scope correctly from a LabeledStatement", () => {
             const config = { rules: {} };
 
-            eslint.reset();
-            eslint.on("LabeledStatement", () => {
-                const scope = eslint.getScope();
+            linter.reset();
+            linter.on("LabeledStatement", () => {
+                const scope = linter.getScope();
 
                 assert.equal(scope.type, "function");
                 assert.equal(scope.block.id.name, "foo");
             });
 
-            eslint.verify(code, config, filename, true);
+            linter.verify(code, config, filename, true);
         });
 
         it("should retrieve the function scope correctly from within an ArrowFunctionExpression", () => {
             const config = { rules: {}, ecmaFeatures: { arrowFunctions: true } };
 
-            eslint.reset();
-            eslint.on("ReturnStatement", () => {
-                const scope = eslint.getScope();
+            linter.reset();
+            linter.on("ReturnStatement", () => {
+                const scope = linter.getScope();
 
                 assert.equal(scope.type, "function");
                 assert.equal(scope.block.type, "ArrowFunctionExpression");
             });
 
-            eslint.verify(code, config, filename, true);
+            linter.verify(code, config, filename, true);
         });
 
         it("should retrieve the function scope correctly from within an SwitchStatement", () => {
             const config = { rules: {}, parserOptions: { ecmaVersion: 6 } };
 
-            eslint.reset();
-            eslint.on("SwitchStatement", () => {
-                const scope = eslint.getScope();
+            linter.reset();
+            linter.on("SwitchStatement", () => {
+                const scope = linter.getScope();
 
                 assert.equal(scope.type, "switch");
                 assert.equal(scope.block.type, "SwitchStatement");
             });
 
-            eslint.verify("switch(foo){ case 'a': var b = 'foo'; }", config, filename, true);
+            linter.verify("switch(foo){ case 'a': var b = 'foo'; }", config, filename, true);
         });
 
         it("should retrieve the function scope correctly from within a BlockStatement", () => {
             const config = { rules: {}, parserOptions: { ecmaVersion: 6 } };
 
-            eslint.reset();
-            eslint.on("BlockStatement", () => {
-                const scope = eslint.getScope();
+            linter.reset();
+            linter.on("BlockStatement", () => {
+                const scope = linter.getScope();
 
                 assert.equal(scope.type, "block");
                 assert.equal(scope.block.type, "BlockStatement");
             });
 
-            eslint.verify("var x; {let y = 1}", config, filename, true);
+            linter.verify("var x; {let y = 1}", config, filename, true);
         });
 
         it("should retrieve the function scope correctly from within a nested block statement", () => {
             const config = { rules: {}, parserOptions: { ecmaVersion: 6 } };
 
-            eslint.reset();
-            eslint.on("BlockStatement", () => {
-                const scope = eslint.getScope();
+            linter.reset();
+            linter.on("BlockStatement", () => {
+                const scope = linter.getScope();
 
                 assert.equal(scope.type, "block");
                 assert.equal(scope.block.type, "BlockStatement");
             });
 
-            eslint.verify("if (true) { let x = 1 }", config, filename, true);
+            linter.verify("if (true) { let x = 1 }", config, filename, true);
         });
 
         it("should retrieve the function scope correctly from within a FunctionDeclaration", () => {
             const config = { rules: {}, parserOptions: { ecmaVersion: 6 } };
 
-            eslint.reset();
-            eslint.on("FunctionDeclaration", () => {
-                const scope = eslint.getScope();
+            linter.reset();
+            linter.on("FunctionDeclaration", () => {
+                const scope = linter.getScope();
 
                 assert.equal(scope.type, "function");
                 assert.equal(scope.block.type, "FunctionDeclaration");
             });
 
-            eslint.verify("function foo() {}", config, filename, true);
+            linter.verify("function foo() {}", config, filename, true);
         });
 
         it("should retrieve the function scope correctly from within a FunctionExpression", () => {
             const config = { rules: {}, parserOptions: { ecmaVersion: 6 } };
 
-            eslint.reset();
-            eslint.on("FunctionExpression", () => {
-                const scope = eslint.getScope();
+            linter.reset();
+            linter.on("FunctionExpression", () => {
+                const scope = linter.getScope();
 
                 assert.equal(scope.type, "function");
                 assert.equal(scope.block.type, "FunctionExpression");
             });
 
-            eslint.verify("(function foo() {})();", config, filename, true);
+            linter.verify("(function foo() {})();", config, filename, true);
         });
 
         it("should retrieve the catch scope correctly from within a CatchClause", () => {
             const config = { rules: {}, parserOptions: { ecmaVersion: 6 } };
 
-            eslint.reset();
-            eslint.on("CatchClause", () => {
-                const scope = eslint.getScope();
+            linter.reset();
+            linter.on("CatchClause", () => {
+                const scope = linter.getScope();
 
                 assert.equal(scope.type, "catch");
                 assert.equal(scope.block.type, "CatchClause");
             });
 
-            eslint.verify("try {} catch (err) {}", config, filename, true);
+            linter.verify("try {} catch (err) {}", config, filename, true);
         });
 
         it("should retrieve module scope correctly from an ES6 module", () => {
             const config = { rules: {}, parserOptions: { sourceType: "module" } };
 
-            eslint.reset();
-            eslint.on("AssignmentExpression", () => {
-                const scope = eslint.getScope();
+            linter.reset();
+            linter.on("AssignmentExpression", () => {
+                const scope = linter.getScope();
 
                 assert.equal(scope.type, "module");
             });
 
-            eslint.verify("var foo = {}; foo.bar = 1;", config, filename, true);
+            linter.verify("var foo = {}; foo.bar = 1;", config, filename, true);
         });
 
         it("should retrieve function scope correctly when globalReturn is true", () => {
             const config = { rules: {}, parserOptions: { ecmaFeatures: { globalReturn: true } } };
 
-            eslint.reset();
-            eslint.on("AssignmentExpression", () => {
-                const scope = eslint.getScope();
+            linter.reset();
+            linter.on("AssignmentExpression", () => {
+                const scope = linter.getScope();
 
                 assert.equal(scope.type, "function");
             });
 
-            eslint.verify("var foo = {}; foo.bar = 1;", config, filename, true);
+            linter.verify("var foo = {}; foo.bar = 1;", config, filename, true);
         });
     });
 
@@ -638,82 +641,82 @@ describe("eslint", () => {
         it("should mark variables in current scope as used", () => {
             const code = "var a = 1, b = 2;";
 
-            eslint.reset();
-            eslint.on("Program:exit", () => {
-                eslint.markVariableAsUsed("a");
+            linter.reset();
+            linter.on("Program:exit", () => {
+                linter.markVariableAsUsed("a");
 
-                const scope = eslint.getScope();
+                const scope = linter.getScope();
 
                 assert.isTrue(getVariable(scope, "a").eslintUsed);
                 assert.notOk(getVariable(scope, "b").eslintUsed);
             });
 
-            eslint.verify(code, {}, filename, true);
+            linter.verify(code, {}, filename, true);
         });
         it("should mark variables in function args as used", () => {
             const code = "function abc(a, b) { return 1; }";
 
-            eslint.reset();
-            eslint.on("ReturnStatement", () => {
-                eslint.markVariableAsUsed("a");
+            linter.reset();
+            linter.on("ReturnStatement", () => {
+                linter.markVariableAsUsed("a");
 
-                const scope = eslint.getScope();
+                const scope = linter.getScope();
 
                 assert.isTrue(getVariable(scope, "a").eslintUsed);
                 assert.notOk(getVariable(scope, "b").eslintUsed);
             });
 
-            eslint.verify(code, {}, filename, true);
+            linter.verify(code, {}, filename, true);
         });
         it("should mark variables in higher scopes as used", () => {
             const code = "var a, b; function abc() { return 1; }";
 
-            eslint.reset();
-            eslint.on("ReturnStatement", () => {
-                eslint.markVariableAsUsed("a");
+            linter.reset();
+            linter.on("ReturnStatement", () => {
+                linter.markVariableAsUsed("a");
             });
-            eslint.on("Program:exit", () => {
-                const scope = eslint.getScope();
+            linter.on("Program:exit", () => {
+                const scope = linter.getScope();
 
                 assert.isTrue(getVariable(scope, "a").eslintUsed);
                 assert.notOk(getVariable(scope, "b").eslintUsed);
             });
 
-            eslint.verify(code, {}, filename, true);
+            linter.verify(code, {}, filename, true);
         });
 
         it("should mark variables in Node.js environment as used", () => {
             const code = "var a = 1, b = 2;";
 
-            eslint.reset();
-            eslint.on("Program:exit", () => {
-                const globalScope = eslint.getScope(),
+            linter.reset();
+            linter.on("Program:exit", () => {
+                const globalScope = linter.getScope(),
                     childScope = globalScope.childScopes[0];
 
-                eslint.markVariableAsUsed("a");
+                linter.markVariableAsUsed("a");
 
                 assert.isTrue(getVariable(childScope, "a").eslintUsed);
                 assert.isUndefined(getVariable(childScope, "b").eslintUsed);
             });
 
-            eslint.verify(code, { env: { node: true } }, filename, true);
+            linter.verify(code, { env: { node: true } }, filename, true);
         });
 
         it("should mark variables in modules as used", () => {
             const code = "var a = 1, b = 2;";
 
-            eslint.reset();
-            eslint.on("Program:exit", () => {
-                const globalScope = eslint.getScope(),
+            linter.reset();
+            linter.on("Program:exit", () => {
+                const globalScope = linter.getScope(),
                     childScope = globalScope.childScopes[0];
 
-                eslint.markVariableAsUsed("a");
+                linter.markVariableAsUsed("a");
 
                 assert.isTrue(getVariable(childScope, "a").eslintUsed);
                 assert.isUndefined(getVariable(childScope, "b").eslintUsed);
             });
 
-            eslint.verify(code, { parserOptions: { sourceType: "module" } }, filename, true);
+            linter.verify(code, { parserOptions: { sourceType: "module" } }, filename, true);
         });
     });
 
@@ -722,16 +725,16 @@ describe("eslint", () => {
         let config;
 
         beforeEach(() => {
-            eslint.reset();
+            linter.reset();
             config = { rules: {} };
         });
 
         it("should correctly parse a message when being passed all options", () => {
-            eslint.on("Program", node => {
-                eslint.report("test-rule", 2, node, node.loc.end, "hello {{dynamic}}", { dynamic: node.type });
+            linter.on("Program", node => {
+                linter.report("test-rule", 2, node, node.loc.end, "hello {{dynamic}}", { dynamic: node.type });
             });
 
-            const messages = eslint.verify("0", config, "", true);
+            const messages = linter.verify("0", config, "", true);
 
             assert.deepEqual(messages[0], {
                 severity: 2,
@@ -745,11 +748,11 @@ describe("eslint", () => {
         });
 
         it("should use the report the provided location when given", () => {
-            eslint.on("Program", node => {
-                eslint.report("test-rule", 2, node, { line: 42, column: 13 }, "hello world");
+            linter.on("Program", node => {
+                linter.report("test-rule", 2, node, { line: 42, column: 13 }, "hello world");
             });
 
-            const messages = eslint.verify("0", config, "", true);
+            const messages = linter.verify("0", config, "", true);
 
             assert.deepEqual(messages[0], {
                 severity: 2,
@@ -763,42 +766,42 @@ describe("eslint", () => {
         });
 
         it("should not throw an error if node is provided and location is not", () => {
-            eslint.on("Program", node => {
-                eslint.report("test-rule", 2, node, "hello world");
+            linter.on("Program", node => {
+                linter.report("test-rule", 2, node, "hello world");
             });
 
             assert.doesNotThrow(() => {
-                eslint.verify("0", config, "", true);
+                linter.verify("0", config, "", true);
             });
         });
 
         it("should not throw an error if location is provided and node is not", () => {
-            eslint.on("Program", () => {
-                eslint.report("test-rule", 2, null, { line: 1, column: 1 }, "hello world");
+            linter.on("Program", () => {
+                linter.report("test-rule", 2, null, { line: 1, column: 1 }, "hello world");
             });
 
             assert.doesNotThrow(() => {
-                eslint.verify("0", config, "", true);
+                linter.verify("0", config, "", true);
             });
         });
 
         it("should throw an error if neither node nor location is provided", () => {
-            eslint.on("Program", () => {
-                eslint.report("test-rule", 2, null, "hello world");
+            linter.on("Program", () => {
+                linter.report("test-rule", 2, null, "hello world");
             });
 
             assert.throws(() => {
-                eslint.verify("0", config, "", true);
+                linter.verify("0", config, "", true);
             }, /Node must be provided when reporting error if location is not provided$/);
         });
 
         it("should throw an error if node is not an object", () => {
-            eslint.on("Program", () => {
-                eslint.report("test-rule", 2, "not a node", "hello world");
+            linter.on("Program", () => {
+                linter.report("test-rule", 2, "not a node", "hello world");
             });
 
             assert.throws(() => {
-                eslint.verify("0", config, "", true);
+                linter.verify("0", config, "", true);
             }, /Node must be an object$/);
         });
 
@@ -808,31 +811,31 @@ describe("eslint", () => {
                 schema: []
             };
 
-            eslint.on("Program", node => {
-                eslint.report("test-rule", 2, node, "hello world", [], { range: [1, 1], text: "" }, meta);
+            linter.on("Program", node => {
+                linter.report("test-rule", 2, node, "hello world", [], { range: [1, 1], text: "" }, meta);
             });
 
             assert.throws(() => {
-                eslint.verify("0", config, "", true);
+                linter.verify("0", config, "", true);
             }, /Fixable rules should export a `meta\.fixable` property.$/);
         });
 
         it("should not throw an error if fix is passed and no metadata is passed", () => {
-            eslint.on("Program", node => {
-                eslint.report("test-rule", 2, node, "hello world", [], { range: [1, 1], text: "" });
+            linter.on("Program", node => {
+                linter.report("test-rule", 2, node, "hello world", [], { range: [1, 1], text: "" });
             });
 
             assert.doesNotThrow(() => {
-                eslint.verify("0", config, "", true);
+                linter.verify("0", config, "", true);
             });
         });
 
         it("should correctly parse a message with object keys as numbers", () => {
-            eslint.on("Program", node => {
-                eslint.report("test-rule", 2, node, "my message {{name}}{{0}}", { 0: "!", name: "testing" });
+            linter.on("Program", node => {
+                linter.report("test-rule", 2, node, "my message {{name}}{{0}}", { 0: "!", name: "testing" });
             });
 
-            const messages = eslint.verify("0", config, "", true);
+            const messages = linter.verify("0", config, "", true);
 
             assert.deepEqual(messages[0], {
                 severity: 2,
@@ -848,11 +851,11 @@ describe("eslint", () => {
         });
 
         it("should correctly parse a message with array", () => {
-            eslint.on("Program", node => {
-                eslint.report("test-rule", 2, node, "my message {{1}}{{0}}", ["!", "testing"]);
+            linter.on("Program", node => {
+                linter.report("test-rule", 2, node, "my message {{1}}{{0}}", ["!", "testing"]);
             });
 
-            const messages = eslint.verify("0", config, "", true);
+            const messages = linter.verify("0", config, "", true);
 
             assert.deepEqual(messages[0], {
                 severity: 2,
@@ -868,11 +871,11 @@ describe("eslint", () => {
         });
 
         it("should include a fix passed as the last argument when location is not passed", () => {
-            eslint.on("Program", node => {
-                eslint.report("test-rule", 2, node, "my message {{1}}{{0}}", ["!", "testing"], { range: [1, 1], text: "" });
+            linter.on("Program", node => {
+                linter.report("test-rule", 2, node, "my message {{1}}{{0}}", ["!", "testing"], { range: [1, 1], text: "" });
             });
 
-            const messages = eslint.verify("0", config, "", true);
+            const messages = linter.verify("0", config, "", true);
 
             assert.deepEqual(messages[0], {
                 severity: 2,
@@ -889,8 +892,8 @@ describe("eslint", () => {
         });
 
         it("should allow template parameter with inner whitespace", () => {
-            eslint.reset();
-            eslint.defineRule("test-rule", context => ({
+            linter.reset();
+            linter.defineRule("test-rule", context => ({
                 Literal(node) {
                     context.report(node, "message {{parameter name}}", {
                         "parameter name": "yay!"
@@ -900,14 +903,14 @@ describe("eslint", () => {
 
             config.rules["test-rule"] = 1;
 
-            const messages = eslint.verify("0", config);
+            const messages = linter.verify("0", config);
 
             assert.equal(messages[0].message, "message yay!");
         });
 
         it("should not crash if no template parameters are passed", () => {
-            eslint.reset();
-            eslint.defineRule("test-rule", context => ({
+            linter.reset();
+            linter.defineRule("test-rule", context => ({
                 Literal(node) {
                     context.report(node, "message {{code}}");
                 }
@@ -915,14 +918,14 @@ describe("eslint", () => {
 
             config.rules["test-rule"] = 1;
 
-            const messages = eslint.verify("0", config);
+            const messages = linter.verify("0", config);
 
             assert.equal(messages[0].message, "message {{code}}");
         });
 
         it("should allow template parameter with non-identifier characters", () => {
-            eslint.reset();
-            eslint.defineRule("test-rule", context => ({
+            linter.reset();
+            linter.defineRule("test-rule", context => ({
                 Literal(node) {
                     context.report(node, "message {{parameter-name}}", {
                         "parameter-name": "yay!"
@@ -932,14 +935,14 @@ describe("eslint", () => {
 
             config.rules["test-rule"] = 1;
 
-            const messages = eslint.verify("0", config);
+            const messages = linter.verify("0", config);
 
             assert.equal(messages[0].message, "message yay!");
         });
 
         it("should allow template parameter wrapped in braces", () => {
-            eslint.reset();
-            eslint.defineRule("test-rule", context => ({
+            linter.reset();
+            linter.defineRule("test-rule", context => ({
                 Literal(node) {
                     context.report(node, "message {{{param}}}", {
                         param: "yay!"
@@ -949,14 +952,14 @@ describe("eslint", () => {
 
             config.rules["test-rule"] = 1;
 
-            const messages = eslint.verify("0", config);
+            const messages = linter.verify("0", config);
 
             assert.equal(messages[0].message, "message {yay!}");
         });
 
         it("should ignore template parameter with no specified value", () => {
-            eslint.reset();
-            eslint.defineRule("test-rule", context => ({
+            linter.reset();
+            linter.defineRule("test-rule", context => ({
                 Literal(node) {
                     context.report(node, "message {{parameter}}", {});
                 }
@@ -964,14 +967,14 @@ describe("eslint", () => {
 
             config.rules["test-rule"] = 1;
 
-            const messages = eslint.verify("0", config);
+            const messages = linter.verify("0", config);
 
             assert.equal(messages[0].message, "message {{parameter}}");
         });
 
         it("should ignore template parameter with no specified value with warn severity", () => {
-            eslint.reset();
-            eslint.defineRule("test-rule", context => ({
+            linter.reset();
+            linter.defineRule("test-rule", context => ({
                 Literal(node) {
                     context.report(node, "message {{parameter}}", {});
                 }
@@ -979,15 +982,15 @@ describe("eslint", () => {
 
             config.rules["test-rule"] = "warn";
 
-            const messages = eslint.verify("0", config);
+            const messages = linter.verify("0", config);
 
             assert.equal(messages[0].severity, 1);
             assert.equal(messages[0].message, "message {{parameter}}");
         });
 
         it("should handle leading whitespace in template parameter", () => {
-            eslint.reset();
-            eslint.defineRule("test-rule", context => ({
+            linter.reset();
+            linter.defineRule("test-rule", context => ({
                 Literal(node) {
                     context.report(node, "message {{ parameter}}", {
                         parameter: "yay!"
@@ -997,14 +1000,14 @@ describe("eslint", () => {
 
             config.rules["test-rule"] = 1;
 
-            const messages = eslint.verify("0", config);
+            const messages = linter.verify("0", config);
 
             assert.equal(messages[0].message, "message yay!");
         });
 
         it("should handle trailing whitespace in template parameter", () => {
-            eslint.reset();
-            eslint.defineRule("test-rule", context => ({
+            linter.reset();
+            linter.defineRule("test-rule", context => ({
                 Literal(node) {
                     context.report(node, "message {{parameter }}", {
                         parameter: "yay!"
@@ -1014,14 +1017,14 @@ describe("eslint", () => {
 
             config.rules["test-rule"] = 1;
 
-            const messages = eslint.verify("0", config);
+            const messages = linter.verify("0", config);
 
             assert.equal(messages[0].message, "message yay!");
         });
 
         it("should still allow inner whitespace as well as leading/trailing", () => {
-            eslint.reset();
-            eslint.defineRule("test-rule", context => ({
+            linter.reset();
+            linter.defineRule("test-rule", context => ({
                 Literal(node) {
                     context.report(node, "message {{ parameter name }}", {
                         "parameter name": "yay!"
@@ -1031,14 +1034,14 @@ describe("eslint", () => {
 
             config.rules["test-rule"] = 1;
 
-            const messages = eslint.verify("0", config);
+            const messages = linter.verify("0", config);
 
             assert.equal(messages[0].message, "message yay!");
         });
 
         it("should still allow non-identifier characters as well as leading/trailing whitespace", () => {
-            eslint.reset();
-            eslint.defineRule("test-rule", context => ({
+            linter.reset();
+            linter.defineRule("test-rule", context => ({
                 Literal(node) {
                     context.report(node, "message {{ parameter-name }}", {
                         "parameter-name": "yay!"
@@ -1048,17 +1051,17 @@ describe("eslint", () => {
 
             config.rules["test-rule"] = 1;
 
-            const messages = eslint.verify("0", config);
+            const messages = linter.verify("0", config);
 
             assert.equal(messages[0].message, "message yay!");
         });
 
         it("should include a fix passed as the last argument when location is passed", () => {
-            eslint.on("Program", node => {
-                eslint.report("test-rule", 2, node, { line: 42, column: 23 }, "my message {{1}}{{0}}", ["!", "testing"], { range: [1, 1], text: "" });
+            linter.on("Program", node => {
+                linter.report("test-rule", 2, node, { line: 42, column: 23 }, "my message {{1}}{{0}}", ["!", "testing"], { range: [1, 1], text: "" });
             });
 
-            const messages = eslint.verify("0", config, "", true);
+            const messages = linter.verify("0", config, "", true);
 
             assert.deepEqual(messages[0], {
                 severity: 2,
@@ -1073,8 +1076,8 @@ describe("eslint", () => {
         });
 
         it("should have 'endLine' and 'endColumn' when there is not 'loc' property.", () => {
-            eslint.on("Program", node => {
-                eslint.report(
+            linter.on("Program", node => {
+                linter.report(
                     "test-rule",
                     2,
                     node,
@@ -1084,15 +1087,15 @@ describe("eslint", () => {
 
             const sourceText = "foo + bar;";
 
-            const messages = eslint.verify(sourceText, config, "", true);
+            const messages = linter.verify(sourceText, config, "", true);
 
             assert.strictEqual(messages[0].endLine, 1);
             assert.strictEqual(messages[0].endColumn, sourceText.length + 1); // (1-based column)
         });
 
         it("should have 'endLine' and 'endColumn' when 'loc' property has 'end' property.", () => {
-            eslint.on("Program", node => {
-                eslint.report(
+            linter.on("Program", node => {
+                linter.report(
                     "test-rule",
                     2,
                     node,
@@ -1101,15 +1104,15 @@ describe("eslint", () => {
                 );
             });
 
-            const messages = eslint.verify("0", config, "", true);
+            const messages = linter.verify("0", config, "", true);
 
             assert.strictEqual(messages[0].endLine, 1);
             assert.strictEqual(messages[0].endColumn, 2);
         });
 
         it("should not have 'endLine' and 'endColumn' when 'loc' property doe not have 'end' property.", () => {
-            eslint.on("Program", node => {
-                eslint.report(
+            linter.on("Program", node => {
+                linter.report(
                     "test-rule",
                     2,
                     node,
@@ -1118,7 +1121,7 @@ describe("eslint", () => {
                 );
             });
 
-            const messages = eslint.verify("0", config, "", true);
+            const messages = linter.verify("0", config, "", true);
 
             assert.strictEqual(messages[0].endLine, void 0);
             assert.strictEqual(messages[0].endColumn, void 0);
@@ -1139,14 +1142,14 @@ describe("eslint", () => {
                 spyIdentifier = sinon.spy(),
                 spyBinaryExpression = sinon.spy();
 
-            eslint.reset();
-            eslint.on("Literal", spyLiteral);
-            eslint.on("VariableDeclarator", spyVariableDeclarator);
-            eslint.on("VariableDeclaration", spyVariableDeclaration);
-            eslint.on("Identifier", spyIdentifier);
-            eslint.on("BinaryExpression", spyBinaryExpression);
+            linter.reset();
+            linter.on("Literal", spyLiteral);
+            linter.on("VariableDeclarator", spyVariableDeclarator);
+            linter.on("VariableDeclaration", spyVariableDeclaration);
+            linter.on("Identifier", spyIdentifier);
+            linter.on("BinaryExpression", spyBinaryExpression);
 
-            const messages = eslint.verify(code, config, filename, true);
+            const messages = linter.verify(code, config, filename, true);
 
             assert.equal(messages.length, 0);
             sinon.assert.calledOnce(spyVariableDeclaration);
@@ -1161,8 +1164,8 @@ describe("eslint", () => {
         const code = "test-rule";
 
         it("should pass settings to all rules", () => {
-            eslint.reset();
-            eslint.defineRule(code, context => ({
+            linter.reset();
+            linter.defineRule(code, context => ({
                 Literal(node) {
                     context.report(node, context.settings.info);
                 }
@@ -1172,15 +1175,15 @@ describe("eslint", () => {
 
             config.rules[code] = 1;
 
-            const messages = eslint.verify("0", config, filename);
+            const messages = linter.verify("0", config, filename);
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].message, "Hello");
         });
 
         it("should not have any settings if they were not passed in", () => {
-            eslint.reset();
-            eslint.defineRule(code, context => ({
+            linter.reset();
+            linter.defineRule(code, context => ({
                 Literal(node) {
                     if (Object.getOwnPropertyNames(context.settings).length !== 0) {
                         context.report(node, "Settings should be empty");
@@ -1192,7 +1195,7 @@ describe("eslint", () => {
 
             config.rules[code] = 1;
 
-            const messages = eslint.verify("0", config, filename);
+            const messages = linter.verify("0", config, filename);
 
             assert.equal(messages.length, 0);
         });
@@ -1209,28 +1212,28 @@ describe("eslint", () => {
                 }
             };
 
-            eslint.reset();
-            eslint.defineRule("test-rule", sandbox.mock().withArgs(
+            linter.reset();
+            linter.defineRule("test-rule", sandbox.mock().withArgs(
                 sinon.match({ parserOptions })
             ).returns({}));
 
             const config = { rules: { "test-rule": 2 }, parserOptions };
 
-            eslint.verify("0", config, filename);
+            linter.verify("0", config, filename);
         });
 
         it("should pass parserOptions to all rules when default parserOptions is used", () => {
 
             const parserOptions = {};
 
-            eslint.reset();
-            eslint.defineRule("test-rule", sandbox.mock().withArgs(
+            linter.reset();
+            linter.defineRule("test-rule", sandbox.mock().withArgs(
                 sinon.match({ parserOptions })
             ).returns({}));
 
             const config = { rules: { "test-rule": 2 } };
 
-            eslint.verify("0", config, filename);
+            linter.verify("0", config, filename);
         });
 
     });
@@ -1243,24 +1246,24 @@ describe("eslint", () => {
 
                 const alternateParser = "esprima-fb";
 
-                eslint.reset();
-                eslint.defineRule("test-rule", sandbox.mock().withArgs(
+                linter.reset();
+                linter.defineRule("test-rule", sandbox.mock().withArgs(
                     sinon.match({ parserPath: alternateParser })
                 ).returns({}));
 
                 const config = { rules: { "test-rule": 2 }, parser: alternateParser };
 
-                eslint.verify("0", config, filename);
+                linter.verify("0", config, filename);
             });
 
             it("should use parseForESLint() in custom parser when custom parser is specified", () => {
 
                 const alternateParser = path.resolve(__dirname, "../fixtures/parsers/enhanced-parser.js");
 
-                eslint.reset();
+                linter.reset();
 
                 const config = { rules: {}, parser: alternateParser };
-                const messages = eslint.verify("0", config, filename);
+                const messages = linter.verify("0", config, filename);
 
                 assert.equal(messages.length, 0);
             });
@@ -1269,8 +1272,8 @@ describe("eslint", () => {
 
                 const alternateParser = path.resolve(__dirname, "../fixtures/parsers/enhanced-parser.js");
 
-                eslint.reset();
-                eslint.defineRule("test-service-rule", context => ({
+                linter.reset();
+                linter.defineRule("test-service-rule", context => ({
                     Literal(node) {
                         context.report({
                             node,
@@ -1280,7 +1283,7 @@ describe("eslint", () => {
                 }));
 
                 const config = { rules: { "test-service-rule": 2 }, parser: alternateParser };
-                const messages = eslint.verify("0", config, filename);
+                const messages = linter.verify("0", config, filename);
 
                 assert.equal(messages.length, 1);
                 assert.equal(messages[0].message, "Hi!");
@@ -1289,16 +1292,16 @@ describe("eslint", () => {
 
         it("should pass parser as parserPath to all rules when default parser is used", () => {
 
-            const DEFAULT_PARSER = eslint.defaults().parser;
+            const DEFAULT_PARSER = linter.defaults().parser;
 
-            eslint.reset();
-            eslint.defineRule("test-rule", sandbox.mock().withArgs(
+            linter.reset();
+            linter.defineRule("test-rule", sandbox.mock().withArgs(
                 sinon.match({ parserPath: DEFAULT_PARSER })
             ).returns({}));
 
             const config = { rules: { "test-rule": 2 } };
 
-            eslint.verify("0", config, filename);
+            linter.verify("0", config, filename);
         });
 
     });
@@ -1312,9 +1315,9 @@ describe("eslint", () => {
                 config = { rules: {} };
 
             config.rules[rule] = 1;
-            eslint.reset();
+            linter.reset();
 
-            const messages = eslint.verify(code, config, filename, true);
+            const messages = linter.verify(code, config, filename, true);
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, rule);
@@ -1325,9 +1328,9 @@ describe("eslint", () => {
                 config = { rules: {} };
 
             config.rules[rule] = "warn";
-            eslint.reset();
+            linter.reset();
 
-            const messages = eslint.verify(code, config, filename, true);
+            const messages = linter.verify(code, config, filename, true);
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].severity, 1);
@@ -1339,9 +1342,9 @@ describe("eslint", () => {
                 config = { rules: {} };
 
             config.rules[rule] = [1];
-            eslint.reset();
+            linter.reset();
 
-            const messages = eslint.verify(code, config, filename, true);
+            const messages = linter.verify(code, config, filename, true);
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, rule);
@@ -1352,9 +1355,9 @@ describe("eslint", () => {
                 config = { rules: {} };
 
             config.rules[rule] = ["warn"];
-            eslint.reset();
+            linter.reset();
 
-            const messages = eslint.verify(code, config, filename, true);
+            const messages = linter.verify(code, config, filename, true);
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].severity, 1);
@@ -1366,9 +1369,9 @@ describe("eslint", () => {
                 config = { rules: {} };
 
             config.rules[rule] = "1";
-            eslint.reset();
+            linter.reset();
 
-            const messages = eslint.verify(code, config, filename, true);
+            const messages = linter.verify(code, config, filename, true);
 
             assert.equal(messages.length, 0);
         });
@@ -1376,8 +1379,8 @@ describe("eslint", () => {
         it("should process empty config", () => {
             const config = {};
 
-            eslint.reset();
-            const messages = eslint.verify(code, config, filename, true);
+            linter.reset();
+            const messages = linter.verify(code, config, filename, true);
 
             assert.equal(messages.length, 0);
         });
@@ -1397,15 +1400,15 @@ describe("eslint", () => {
                 spyIdentifier = sinon.spy(),
                 spyBinaryExpression = sinon.spy();
 
-            eslint.reset();
-            eslint.on("Literal", spyLiteral);
-            eslint.on("VariableDeclarator", spyVariableDeclarator);
-            eslint.on("VariableDeclaration", spyVariableDeclaration);
-            eslint.on("Identifier", spyIdentifier);
-            eslint.on("BinaryExpression", spyBinaryExpression);
-            eslint.reset();
+            linter.reset();
+            linter.on("Literal", spyLiteral);
+            linter.on("VariableDeclarator", spyVariableDeclarator);
+            linter.on("VariableDeclaration", spyVariableDeclaration);
+            linter.on("Identifier", spyIdentifier);
+            linter.on("BinaryExpression", spyBinaryExpression);
+            linter.reset();
 
-            const messages = eslint.verify(code, config, filename, true);
+            const messages = linter.verify(code, config, filename, true);
 
             assert.equal(messages.length, 0);
             sinon.assert.notCalled(spyVariableDeclaration);
@@ -1418,25 +1421,25 @@ describe("eslint", () => {
         it("text should not be available", () => {
             const config = { rules: {} };
 
-            eslint.reset();
-            const messages = eslint.verify(code, config, filename, true);
+            linter.reset();
+            const messages = linter.verify(code, config, filename, true);
 
-            eslint.reset();
+            linter.reset();
 
             assert.equal(messages.length, 0);
-            assert.isNull(eslint.getSource());
+            assert.isNull(linter.getSource());
         });
 
         it("source for nodes should not be available", () => {
             const config = { rules: {} };
 
-            eslint.reset();
-            const messages = eslint.verify(code, config, filename, true);
+            linter.reset();
+            const messages = linter.verify(code, config, filename, true);
 
-            eslint.reset();
+            linter.reset();
 
             assert.equal(messages.length, 0);
-            assert.isNull(eslint.getSource({}));
+            assert.isNull(linter.getSource({}));
         });
     });
 
@@ -1446,9 +1449,9 @@ describe("eslint", () => {
         it("variables should be available in global scope", () => {
             const config = { rules: {} };
 
-            eslint.reset();
-            eslint.on("Program", () => {
-                const scope = eslint.getScope();
+            linter.reset();
+            linter.on("Program", () => {
+                const scope = linter.getScope();
                 const a = getVariable(scope, "a"),
                     b = getVariable(scope, "b"),
                     c = getVariable(scope, "c"),
@@ -1464,7 +1467,7 @@ describe("eslint", () => {
                 assert.equal(d.writeable, true);
             });
 
-            eslint.verify(code, config, filename, true);
+            linter.verify(code, config, filename, true);
         });
     });
 
@@ -1474,9 +1477,9 @@ describe("eslint", () => {
         it("variables should be available in global scope", () => {
             const config = { rules: {} };
 
-            eslint.reset();
-            eslint.on("Program", () => {
-                const scope = eslint.getScope(),
+            linter.reset();
+            linter.on("Program", () => {
+                const scope = linter.getScope(),
                     a = getVariable(scope, "a"),
                     b = getVariable(scope, "b"),
                     c = getVariable(scope, "c");
@@ -1489,7 +1492,7 @@ describe("eslint", () => {
                 assert.equal(c.writeable, false);
             });
 
-            eslint.verify(code, config, filename, true);
+            linter.verify(code, config, filename, true);
         });
     });
 
@@ -1498,16 +1501,16 @@ describe("eslint", () => {
             const code = "/*eslint-env node*/ function f() {} /*eslint-env browser, foo*/";
             const config = { rules: {} };
 
-            eslint.reset();
-            eslint.on("Program", () => {
-                const scope = eslint.getScope(),
+            linter.reset();
+            linter.on("Program", () => {
+                const scope = linter.getScope(),
                     exports = getVariable(scope, "exports"),
                     window = getVariable(scope, "window");
 
                 assert.equal(exports.writeable, true);
                 assert.equal(window.writeable, false);
             });
-            eslint.verify(code, config, filename, true);
+            linter.verify(code, config, filename, true);
         });
     });
 
@@ -1517,16 +1520,16 @@ describe("eslint", () => {
         it("variables should be available in global scope", () => {
             const config = { rules: {} };
 
-            eslint.reset();
-            eslint.on("Program", () => {
-                const scope = eslint.getScope(),
+            linter.reset();
+            linter.on("Program", () => {
+                const scope = linter.getScope(),
                     exports = getVariable(scope, "exports"),
                     window = getVariable(scope, "window");
 
                 assert.equal(exports.writeable, true);
                 assert.equal(window, null);
             });
-            eslint.verify(code, config, filename, true);
+            linter.verify(code, config, filename, true);
         });
     });
 
@@ -1536,78 +1539,78 @@ describe("eslint", () => {
             const code = "/* exported horse */";
             const config = { rules: {} };
 
-            eslint.reset();
-            eslint.verify(code, config, filename, true);
+            linter.reset();
+            linter.verify(code, config, filename, true);
         });
 
         it("variables should be exported", () => {
             const code = "/* exported horse */\n\nvar horse = 'circus'";
             const config = { rules: {} };
 
-            eslint.reset();
-            eslint.on("Program", () => {
-                const scope = eslint.getScope(),
+            linter.reset();
+            linter.on("Program", () => {
+                const scope = linter.getScope(),
                     horse = getVariable(scope, "horse");
 
                 assert.equal(horse.eslintUsed, true);
             });
-            eslint.verify(code, config, filename, true);
+            linter.verify(code, config, filename, true);
         });
 
         it("undefined variables should not be exported", () => {
             const code = "/* exported horse */\n\nhorse = 'circus'";
             const config = { rules: {} };
 
-            eslint.reset();
-            eslint.on("Program", () => {
-                const scope = eslint.getScope(),
+            linter.reset();
+            linter.on("Program", () => {
+                const scope = linter.getScope(),
                     horse = getVariable(scope, "horse");
 
                 assert.equal(horse, null);
             });
-            eslint.verify(code, config, filename, true);
+            linter.verify(code, config, filename, true);
         });
 
         it("variables should be exported in strict mode", () => {
             const code = "/* exported horse */\n'use strict';\nvar horse = 'circus'";
             const config = { rules: {} };
 
-            eslint.reset();
-            eslint.on("Program", () => {
-                const scope = eslint.getScope(),
+            linter.reset();
+            linter.on("Program", () => {
+                const scope = linter.getScope(),
                     horse = getVariable(scope, "horse");
 
                 assert.equal(horse.eslintUsed, true);
             });
-            eslint.verify(code, config, filename, true);
+            linter.verify(code, config, filename, true);
         });
 
         it("variables should not be exported in the es6 module environment", () => {
             const code = "/* exported horse */\nvar horse = 'circus'";
             const config = { rules: {}, parserOptions: { sourceType: "module" } };
 
-            eslint.reset();
-            eslint.on("Program", () => {
-                const scope = eslint.getScope(),
+            linter.reset();
+            linter.on("Program", () => {
+                const scope = linter.getScope(),
                     horse = getVariable(scope, "horse");
 
                 assert.equal(horse, null); // there is no global scope at all
             });
-            eslint.verify(code, config, filename, true);
+            linter.verify(code, config, filename, true);
         });
 
         it("variables should not be exported when in the node environment", () => {
             const code = "/* exported horse */\nvar horse = 'circus'";
             const config = { rules: {}, env: { node: true } };
 
-            eslint.reset();
-            eslint.on("Program", () => {
-                const scope = eslint.getScope(),
+            linter.reset();
+            linter.on("Program", () => {
+                const scope = linter.getScope(),
                     horse = getVariable(scope, "horse");
 
                 assert.equal(horse, null); // there is no global scope at all
             });
-            eslint.verify(code, config, filename, true);
+            linter.verify(code, config, filename, true);
         });
     });
 
@@ -1618,13 +1621,13 @@ describe("eslint", () => {
 
             const config = { rules: {} };
 
-            eslint.reset();
-            eslint.on("Program", () => {
-                const scope = eslint.getScope();
+            linter.reset();
+            linter.on("Program", () => {
+                const scope = linter.getScope();
 
                 assert.equal(getVariable(scope, "a"), null);
             });
-            eslint.verify(code, config, filename, true);
+            linter.verify(code, config, filename, true);
         });
     });
 
@@ -1634,16 +1637,16 @@ describe("eslint", () => {
         it("should not introduce a global variable", () => {
             const config = { rules: {} };
 
-            eslint.reset();
-            eslint.on("Program", () => {
-                const scope = eslint.getScope();
+            linter.reset();
+            linter.on("Program", () => {
+                const scope = linter.getScope();
 
                 assert.equal(getVariable(scope, "a"), null);
                 assert.equal(getVariable(scope, "b"), null);
                 assert.equal(getVariable(scope, "foo"), null);
                 assert.equal(getVariable(scope, "c"), null);
             });
-            eslint.verify(code, config, filename, true);
+            linter.verify(code, config, filename, true);
         });
     });
 
@@ -1653,43 +1656,43 @@ describe("eslint", () => {
         it("builtin global variables should be available in the global scope", () => {
             const config = { rules: {} };
 
-            eslint.reset();
-            eslint.on("Program", () => {
-                const scope = eslint.getScope();
+            linter.reset();
+            linter.on("Program", () => {
+                const scope = linter.getScope();
 
                 assert.notEqual(getVariable(scope, "Object"), null);
                 assert.notEqual(getVariable(scope, "Array"), null);
                 assert.notEqual(getVariable(scope, "undefined"), null);
             });
-            eslint.verify(code, config, filename, true);
+            linter.verify(code, config, filename, true);
         });
 
         it("ES6 global variables should not be available by default", () => {
             const config = { rules: {} };
 
-            eslint.reset();
-            eslint.on("Program", () => {
-                const scope = eslint.getScope();
+            linter.reset();
+            linter.on("Program", () => {
+                const scope = linter.getScope();
 
                 assert.equal(getVariable(scope, "Promise"), null);
                 assert.equal(getVariable(scope, "Symbol"), null);
                 assert.equal(getVariable(scope, "WeakMap"), null);
             });
-            eslint.verify(code, config, filename, true);
+            linter.verify(code, config, filename, true);
         });
 
         it("ES6 global variables should be available in the es6 environment", () => {
             const config = { rules: {} };
 
-            eslint.reset();
-            eslint.on("Program", () => {
-                const scope = eslint.getScope();
+            linter.reset();
+            linter.on("Program", () => {
+                const scope = linter.getScope();
 
                 assert.notEqual(getVariable(scope, "Promise"), null);
                 assert.notEqual(getVariable(scope, "Symbol"), null);
                 assert.notEqual(getVariable(scope, "WeakMap"), null);
             });
-            eslint.verify(code, config, filename, true);
+            linter.verify(code, config, filename, true);
         });
     });
 
@@ -1698,9 +1701,9 @@ describe("eslint", () => {
             config = { rules: {} };
 
         it("getSource() should return an empty string", () => {
-            eslint.reset();
-            eslint.verify(code, config, filename, true);
-            assert.equal(eslint.getSource(), "");
+            linter.reset();
+            linter.verify(code, config, filename, true);
+            assert.equal(linter.getSource(), "");
         });
     });
 
@@ -1708,8 +1711,8 @@ describe("eslint", () => {
         const code = "new-rule";
 
         it("can add a rule dynamically", () => {
-            eslint.reset();
-            eslint.defineRule(code, context => ({
+            linter.reset();
+            linter.defineRule(code, context => ({
                 Literal(node) {
                     context.report(node, "message");
                 }
@@ -1719,7 +1722,7 @@ describe("eslint", () => {
 
             config.rules[code] = 1;
 
-            const messages = eslint.verify("0", config, filename);
+            const messages = linter.verify("0", config, filename);
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, code);
@@ -1731,7 +1734,7 @@ describe("eslint", () => {
         const code = ["new-rule-0", "new-rule-1"];
 
         it("can add multiple rules dynamically", () => {
-            eslint.reset();
+            linter.reset();
             const config = { rules: {} };
             const newRules = {};
 
@@ -1745,9 +1748,9 @@ describe("eslint", () => {
                     };
                 };
             });
-            eslint.defineRules(newRules);
+            linter.defineRules(newRules);
 
-            const messages = eslint.verify("0", config, filename);
+            const messages = linter.verify("0", config, filename);
 
             assert.equal(messages.length, code.length);
             code.forEach(item => {
@@ -1763,8 +1766,8 @@ describe("eslint", () => {
         const code = "filename-rule";
 
         it("has access to the filename", () => {
-            eslint.reset();
-            eslint.defineRule(code, context => ({
+            linter.reset();
+            linter.defineRule(code, context => ({
                 Literal(node) {
                     context.report(node, context.getFilename());
                 }
@@ -1774,14 +1777,14 @@ describe("eslint", () => {
 
             config.rules[code] = 1;
 
-            const messages = eslint.verify("0", config, filename);
+            const messages = linter.verify("0", config, filename);
 
             assert.equal(messages[0].message, filename);
         });
 
         it("defaults filename to '<input>'", () => {
-            eslint.reset();
-            eslint.defineRule(code, context => ({
+            linter.reset();
+            linter.defineRule(code, context => ({
                 Literal(node) {
                     context.report(node, context.getFilename());
                 }
@@ -1791,7 +1794,7 @@ describe("eslint", () => {
 
             config.rules[code] = 1;
 
-            const messages = eslint.verify("0", config);
+            const messages = linter.verify("0", config);
 
             assert.equal(messages[0].message, "<input>");
         });
@@ -1803,7 +1806,7 @@ describe("eslint", () => {
             const code = "/*eslint no-alert:1*/ alert('test');";
             const config = { rules: {} };
 
-            const messages = eslint.verify(code, config, filename);
+            const messages = linter.verify(code, config, filename);
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, "no-alert");
@@ -1816,12 +1819,12 @@ describe("eslint", () => {
             const codeA = "/*eslint strict: 0*/ function bar() { return 2; }";
             const codeB = "function foo() { return 1; }";
 
-            eslint.reset();
-            let messages = eslint.verify(codeA, config, filename, false);
+            linter.reset();
+            let messages = linter.verify(codeA, config, filename, false);
 
             assert.equal(messages.length, 0);
 
-            messages = eslint.verify(codeB, config, filename, false);
+            messages = linter.verify(codeB, config, filename, false);
             assert.equal(messages.length, 1);
         });
 
@@ -1830,12 +1833,12 @@ describe("eslint", () => {
             const codeA = "/*eslint quotes: 0*/ function bar() { return '2'; }";
             const codeB = "function foo() { return '1'; }";
 
-            eslint.reset();
-            let messages = eslint.verify(codeA, config, filename, false);
+            linter.reset();
+            let messages = linter.verify(codeA, config, filename, false);
 
             assert.equal(messages.length, 0);
 
-            messages = eslint.verify(codeB, config, filename, false);
+            messages = linter.verify(codeB, config, filename, false);
             assert.equal(messages.length, 1);
         });
 
@@ -1844,12 +1847,12 @@ describe("eslint", () => {
             const codeA = "/*eslint quotes: [0, \"single\"]*/ function bar() { return '2'; }";
             const codeB = "function foo() { return '1'; }";
 
-            eslint.reset();
-            let messages = eslint.verify(codeA, config, filename, false);
+            linter.reset();
+            let messages = linter.verify(codeA, config, filename, false);
 
             assert.equal(messages.length, 0);
 
-            messages = eslint.verify(codeB, config, filename, false);
+            messages = linter.verify(codeB, config, filename, false);
             assert.equal(messages.length, 1);
         });
 
@@ -1858,12 +1861,12 @@ describe("eslint", () => {
             const codeA = "/*eslint no-unused-vars: [0, {\"vars\": \"local\"}]*/ var a = 44;";
             const codeB = "var b = 55;";
 
-            eslint.reset();
-            let messages = eslint.verify(codeA, config, filename, false);
+            linter.reset();
+            let messages = linter.verify(codeA, config, filename, false);
 
             assert.equal(messages.length, 0);
 
-            messages = eslint.verify(codeB, config, filename, false);
+            messages = linter.verify(codeB, config, filename, false);
             assert.equal(messages.length, 1);
         });
     });
@@ -1874,7 +1877,7 @@ describe("eslint", () => {
         it("should report a violation", () => {
             const config = { rules: {} };
 
-            const fn = eslint.verify.bind(eslint, code, config, filename);
+            const fn = linter.verify.bind(linter, code, config, filename);
 
             assert.throws(fn, "filename.js line 1:\n\tConfiguration for rule \"no-alert\" is invalid:\n\tSeverity should be one of the following: 0 = off, 1 = warn, 2 = error (you passed 'true').\n");
         });
@@ -1886,7 +1889,7 @@ describe("eslint", () => {
         it("should not report a violation", () => {
             const config = { rules: { "no-alert": 1 } };
 
-            const messages = eslint.verify(code, config, filename);
+            const messages = linter.verify(code, config, filename);
 
             assert.equal(messages.length, 0);
         });
@@ -1898,7 +1901,7 @@ describe("eslint", () => {
         it("should report a violation", () => {
             const config = { rules: {} };
 
-            const messages = eslint.verify(code, config, filename);
+            const messages = linter.verify(code, config, filename);
 
             assert.equal(messages.length, 2);
             assert.equal(messages[0].ruleId, "no-alert");
@@ -1914,7 +1917,7 @@ describe("eslint", () => {
         it("should report a violation", () => {
             const config = { rules: { "no-console": 1, "no-alert": 0 } };
 
-            const messages = eslint.verify(code, config, filename);
+            const messages = linter.verify(code, config, filename);
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, "no-alert");
@@ -1926,7 +1929,7 @@ describe("eslint", () => {
     describe("when evaluating code with comments to disable and enable configurable rule as part of plugin", () => {
 
         before(() => {
-            eslint.defineRule("test-plugin/test-rule", context => ({
+            linter.defineRule("test-plugin/test-rule", context => ({
                 Literal(node) {
                     if (node.value === "trigger violation") {
                         context.report(node, "Reporting violation.");
@@ -1939,8 +1942,8 @@ describe("eslint", () => {
             const config = { rules: {} };
             const code = "/*eslint test-plugin/test-rule: 2*/ var a = \"no violation\";";
 
-            eslint.reset();
-            const messages = eslint.verify(code, config, filename);
+            linter.reset();
+            const messages = linter.verify(code, config, filename);
 
             assert.equal(messages.length, 0);
         });
@@ -1949,7 +1952,7 @@ describe("eslint", () => {
             const code = "/*eslint test-plugin/test-rule:0*/ var a = \"trigger violation\"";
             const config = { rules: { "test-plugin/test-rule": 1 } };
 
-            const messages = eslint.verify(code, config, filename);
+            const messages = linter.verify(code, config, filename);
 
             assert.equal(messages.length, 0);
         });
@@ -1959,12 +1962,12 @@ describe("eslint", () => {
             const codeA = "/*eslint test-plugin/test-rule: 0*/ var a = \"trigger violation\";";
             const codeB = "var a = \"trigger violation\";";
 
-            eslint.reset();
-            let messages = eslint.verify(codeA, config, filename, false);
+            linter.reset();
+            let messages = linter.verify(codeA, config, filename, false);
 
             assert.equal(messages.length, 0);
 
-            messages = eslint.verify(codeB, config, filename, false);
+            messages = linter.verify(codeB, config, filename, false);
             assert.equal(messages.length, 1);
         });
     });
@@ -1980,7 +1983,7 @@ describe("eslint", () => {
             ].join("\n");
             const config = { rules: { "no-alert": 1 } };
 
-            const messages = eslint.verify(code, config, filename);
+            const messages = linter.verify(code, config, filename);
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, "no-alert");
@@ -1997,7 +2000,7 @@ describe("eslint", () => {
             ].join("\n");
             const config = { rules: { "no-alert": 1 } };
 
-            const messages = eslint.verify(code, config, filename);
+            const messages = linter.verify(code, config, filename);
 
             assert.equal(messages.length, 0);
         });
@@ -2011,7 +2014,7 @@ describe("eslint", () => {
             ].join("");
             const config = { rules: { "no-alert": 1 } };
 
-            const messages = eslint.verify(code, config, filename);
+            const messages = linter.verify(code, config, filename);
 
             assert.equal(messages.length, 2);
             assert.equal(messages[0].column, 21);
@@ -2032,7 +2035,7 @@ describe("eslint", () => {
 
             const config = { rules: { "no-alert": 1 } };
 
-            const messages = eslint.verify(code, config, filename);
+            const messages = linter.verify(code, config, filename);
 
             assert.equal(messages.length, 0);
         });
@@ -2047,7 +2050,7 @@ describe("eslint", () => {
 
             const config = { rules: { "no-unused-vars": 1 } };
 
-            const messages = eslint.verify(code, config, filename);
+            const messages = linter.verify(code, config, filename);
 
             assert.equal(messages.length, 0);
         });
@@ -2060,7 +2063,7 @@ describe("eslint", () => {
 
             const config = { rules: { "no-unused-vars": 1 } };
 
-            const messages = eslint.verify(code, config, filename);
+            const messages = linter.verify(code, config, filename);
 
             assert.equal(messages.length, 0);
         });
@@ -2081,7 +2084,7 @@ describe("eslint", () => {
                     }
                 };
 
-                const messages = eslint.verify(code, config, filename);
+                const messages = linter.verify(code, config, filename);
 
                 assert.equal(messages.length, 1);
 
@@ -2101,7 +2104,7 @@ describe("eslint", () => {
                     }
                 };
 
-                const messages = eslint.verify(code, config, filename);
+                const messages = linter.verify(code, config, filename);
 
                 assert.equal(messages.length, 1);
 
@@ -2119,7 +2122,7 @@ describe("eslint", () => {
                     }
                 };
 
-                const messages = eslint.verify(code, config, filename);
+                const messages = linter.verify(code, config, filename);
 
                 assert.equal(messages.length, 1);
 
@@ -2138,7 +2141,7 @@ describe("eslint", () => {
                     }
                 };
 
-                const messages = eslint.verify(code, config, filename);
+                const messages = linter.verify(code, config, filename);
 
                 assert.equal(messages.length, 0);
             });
@@ -2157,7 +2160,7 @@ describe("eslint", () => {
                     }
                 };
 
-                const messages = eslint.verify(code, config, filename);
+                const messages = linter.verify(code, config, filename);
 
                 assert.equal(messages.length, 0);
             });
@@ -2176,7 +2179,7 @@ describe("eslint", () => {
                         "no-console": 1
                     }
                 };
-                const messages = eslint.verify(code, config, filename);
+                const messages = linter.verify(code, config, filename);
 
                 assert.equal(messages.length, 1);
                 assert.equal(messages[0].ruleId, "no-console");
@@ -2194,7 +2197,7 @@ describe("eslint", () => {
                         "no-console": 1
                     }
                 };
-                const messages = eslint.verify(code, config, filename);
+                const messages = linter.verify(code, config, filename);
 
                 assert.equal(messages.length, 2);
                 assert.equal(messages[0].ruleId, "no-alert");
@@ -2214,7 +2217,7 @@ describe("eslint", () => {
                         "no-console": 1
                     }
                 };
-                const messages = eslint.verify(code, config, filename);
+                const messages = linter.verify(code, config, filename);
 
                 assert.equal(messages.length, 1);
                 assert.equal(messages[0].ruleId, "no-console");
@@ -2233,7 +2236,7 @@ describe("eslint", () => {
                         "no-console": 1
                     }
                 };
-                const messages = eslint.verify(code, config, filename);
+                const messages = linter.verify(code, config, filename);
 
                 assert.equal(messages.length, 2);
                 assert.equal(messages[0].ruleId, "no-alert");
@@ -2254,7 +2257,7 @@ describe("eslint", () => {
                         "no-console": 1
                     }
                 };
-                const messages = eslint.verify(code, config, filename);
+                const messages = linter.verify(code, config, filename);
 
                 assert.equal(messages.length, 1);
                 assert.equal(messages[0].ruleId, "no-console");
@@ -2273,7 +2276,7 @@ describe("eslint", () => {
                         "no-console": 1
                     }
                 };
-                const messages = eslint.verify(code, config, filename);
+                const messages = linter.verify(code, config, filename);
 
                 assert.equal(messages.length, 3);
                 assert.equal(messages[0].ruleId, "no-alert");
@@ -2293,7 +2296,7 @@ describe("eslint", () => {
             ].join("\n");
             const config = { rules: { "no-alert": 1, "no-console": 1 } };
 
-            const messages = eslint.verify(code, config, filename);
+            const messages = linter.verify(code, config, filename);
 
             assert.equal(messages.length, 1);
 
@@ -2312,7 +2315,7 @@ describe("eslint", () => {
             ].join("\n");
             const config = { rules: { "no-alert": 1, "no-console": 1 } };
 
-            const messages = eslint.verify(code, config, filename);
+            const messages = linter.verify(code, config, filename);
 
             assert.equal(messages.length, 2);
 
@@ -2333,7 +2336,7 @@ describe("eslint", () => {
             ].join("\n");
             const config = { rules: { "no-alert": 1, "no-console": 1 } };
 
-            const messages = eslint.verify(code, config, filename);
+            const messages = linter.verify(code, config, filename);
 
             assert.equal(messages.length, 1);
 
@@ -2353,7 +2356,7 @@ describe("eslint", () => {
             ].join("\n");
             const config = { rules: { "no-alert": 1, "no-console": 1 } };
 
-            const messages = eslint.verify(code, config, filename);
+            const messages = linter.verify(code, config, filename);
 
             assert.equal(messages.length, 1);
 
@@ -2383,7 +2386,7 @@ describe("eslint", () => {
             ].join("\n");
             const config = { rules: { "no-alert": 1, "no-console": 1 } };
 
-            const messages = eslint.verify(code, config, filename);
+            const messages = linter.verify(code, config, filename);
 
             assert.equal(messages.length, 3);
 
@@ -2417,7 +2420,7 @@ describe("eslint", () => {
             ].join("\n");
             const config = { rules: { "no-alert": 1, "no-console": 1 } };
 
-            const messages = eslint.verify(code, config, filename);
+            const messages = linter.verify(code, config, filename);
 
             assert.equal(messages.length, 3);
 
@@ -2451,7 +2454,7 @@ describe("eslint", () => {
             ].join("\n");
             const config = { rules: { "no-alert": "warn", "no-console": "warn" } };
 
-            const messages = eslint.verify(code, config, filename);
+            const messages = linter.verify(code, config, filename);
 
             assert.equal(messages.length, 3);
 
@@ -2473,7 +2476,7 @@ describe("eslint", () => {
         it("should report a violation", () => {
             const config = { rules: { "no-console": 1, "no-alert": 0 } };
 
-            const messages = eslint.verify(code, config, filename);
+            const messages = linter.verify(code, config, filename);
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, "no-alert");
@@ -2488,7 +2491,7 @@ describe("eslint", () => {
         it("should report a violation", () => {
             const config = { rules: { quotes: [2, "single"] } };
 
-            const messages = eslint.verify(code, config, filename);
+            const messages = linter.verify(code, config, filename);
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, "quotes");
@@ -2503,7 +2506,7 @@ describe("eslint", () => {
         it("should report a violation", () => {
             const config = { rules: { quotes: [2, "single"] } };
 
-            const messages = eslint.verify(code, config, filename);
+            const messages = linter.verify(code, config, filename);
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, "quotes");
@@ -2518,7 +2521,7 @@ describe("eslint", () => {
 
             const config = { rules: { "no-alert": 1 } };
 
-            const messages = eslint.verify(code, config, filename);
+            const messages = linter.verify(code, config, filename);
 
             assert.equal(messages.length, 2);
 
@@ -2543,7 +2546,7 @@ describe("eslint", () => {
 
             const config = { rules: { "no-alert": 1 } };
 
-            const messages = eslint.verify(code, config, filename);
+            const messages = linter.verify(code, config, filename);
 
             assert.equal(messages.length, 2);
 
@@ -2568,7 +2571,7 @@ describe("eslint", () => {
 
             const config = { rules: { "no-alert": 1 } };
 
-            const messages = eslint.verify(code, config, filename);
+            const messages = linter.verify(code, config, filename);
 
             assert.equal(messages.length, 2);
 
@@ -2593,7 +2596,7 @@ describe("eslint", () => {
         const code = "/* eslint max-len: [2, 100, 2, {ignoreUrls: true, ignorePattern: \"data:image\\/|\\s*require\\s*\\(|^\\s*loader\\.lazy|-\\*-\"}] */\nalert('test');";
 
         it("should not parse errors, should report a violation", () => {
-            const messages = eslint.verify(code, {}, filename);
+            const messages = linter.verify(code, {}, filename);
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, "max-len");
@@ -2607,7 +2610,7 @@ describe("eslint", () => {
 
         it("should preserve line numbers", () => {
             const config = { rules: { "no-extra-semi": 1 } };
-            const messages = eslint.verify(code, config);
+            const messages = linter.verify(code, config);
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, "no-extra-semi");
@@ -2618,15 +2621,15 @@ describe("eslint", () => {
         it("should have a comment with the shebang in it", () => {
             const config = { rules: { "no-extra-semi": 1 } };
 
-            eslint.reset();
+            linter.reset();
 
-            eslint.on("Program", () => {
-                const comments = eslint.getAllComments();
+            linter.on("Program", () => {
+                const comments = linter.getAllComments();
 
                 assert.equal(comments.length, 1);
                 assert.equal(comments[0].type, "Shebang");
             });
-            eslint.verify(code, config, "foo.js", true);
+            linter.verify(code, config, "foo.js", true);
         });
     });
 
@@ -2634,7 +2637,7 @@ describe("eslint", () => {
         const code = BROKEN_TEST_CODE;
 
         it("should report a violation with a useful parse error prefix", () => {
-            const messages = eslint.verify(code);
+            const messages = linter.verify(code);
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].severity, 2);
@@ -2653,7 +2656,7 @@ describe("eslint", () => {
                 "    x++;",
                 "}"
             ];
-            const messages = eslint.verify(inValidCode.join("\n"));
+            const messages = linter.verify(inValidCode.join("\n"));
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].severity, 2);
@@ -2665,12 +2668,12 @@ describe("eslint", () => {
 
     describe("when using an invalid (undefined) rule", () => {
         const code = TEST_CODE;
-        const results = eslint.verify(code, { rules: { foobar: 2 } });
+        const results = linter.verify(code, { rules: { foobar: 2 } });
         const result = results[0];
-        const warningResult = eslint.verify(code, { rules: { foobar: 1 } })[0];
-        const arrayOptionResults = eslint.verify(code, { rules: { foobar: [2, "always"] } });
-        const objectOptionResults = eslint.verify(code, { rules: { foobar: [1, { bar: false }] } });
-        const resultsMultiple = eslint.verify(code, { rules: { foobar: 2, barfoo: 1 } });
+        const warningResult = linter.verify(code, { rules: { foobar: 1 } })[0];
+        const arrayOptionResults = linter.verify(code, { rules: { foobar: [2, "always"] } });
+        const objectOptionResults = linter.verify(code, { rules: { foobar: [1, { bar: false }] } });
+        const resultsMultiple = linter.verify(code, { rules: { foobar: 2, barfoo: 1 } });
 
         it("should add a stub rule", () => {
             assert.isNotNull(result);
@@ -2704,7 +2707,7 @@ describe("eslint", () => {
 
     describe("when using a rule which has been replaced", () => {
         const code = TEST_CODE;
-        const results = eslint.verify(code, { rules: { "no-comma-dangle": 2 } });
+        const results = linter.verify(code, { rules: { "no-comma-dangle": 2 } });
 
         it("should report the new rule", () => {
             assert.equal(results[0].ruleId, "no-comma-dangle");
@@ -2717,14 +2720,14 @@ describe("eslint", () => {
 
         it("should throw an error", () => {
             assert.throws(() => {
-                eslint.verify(code, { rules: { foobar: null } });
+                linter.verify(code, { rules: { foobar: null } });
             }, /Invalid config for rule 'foobar'\./);
         });
     });
 
     describe("when calling defaults", () => {
         it("should return back config object", () => {
-            const config = eslint.defaults();
+            const config = linter.defaults();
 
             assert.isNotNull(config.rules);
         });
@@ -2732,7 +2735,7 @@ describe("eslint", () => {
 
     describe("when calling getRules", () => {
         it("should return all loaded rules", () => {
-            const rules = eslint.getRules();
+            const rules = linter.getRules();
 
             assert.isAbove(rules.size, 230);
             assert.isObject(rules.get("no-alert"));
@@ -2741,7 +2744,7 @@ describe("eslint", () => {
 
     describe("when calling version", () => {
         it("should return current version number", () => {
-            const version = eslint.version;
+            const version = linter.version;
 
             assert.isString(version);
             assert.isTrue(parseInt(version[0], 10) >= 3);
@@ -2754,7 +2757,7 @@ describe("eslint", () => {
 
             const config = { rules: { "no-undef": 1 } };
 
-            const messages = eslint.verify(code, config, filename);
+            const messages = linter.verify(code, config, filename);
 
             assert.equal(messages.length, 1);
         });
@@ -2764,7 +2767,7 @@ describe("eslint", () => {
 
             const config = { rules: { "no-undef": 1 } };
 
-            const messages = eslint.verify(code, config, filename);
+            const messages = linter.verify(code, config, filename);
 
             assert.equal(messages.length, 1);
         });
@@ -2776,7 +2779,7 @@ describe("eslint", () => {
 
             const config = { rules: { "no-undef": 1 } };
 
-            const messages = eslint.verify(code, config, filename);
+            const messages = linter.verify(code, config, filename);
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].ruleId, "no-undef");
@@ -2789,7 +2792,7 @@ describe("eslint", () => {
 
             const config = { rules: { "no-undef": 1 } };
 
-            const messages = eslint.verify(code, config, filename);
+            const messages = linter.verify(code, config, filename);
 
             assert.equal(messages.length, 0);
         });
@@ -2799,7 +2802,7 @@ describe("eslint", () => {
 
             const config = { rules: { "no-undef": 1 } };
 
-            const messages = eslint.verify(code, config, filename);
+            const messages = linter.verify(code, config, filename);
 
             assert.equal(messages.length, 0);
         });
@@ -2809,7 +2812,7 @@ describe("eslint", () => {
 
             const config = { rules: { "no-undef": 1 } };
 
-            const messages = eslint.verify(code, config, filename);
+            const messages = linter.verify(code, config, filename);
 
             assert.equal(messages.length, 0);
         });
@@ -2819,7 +2822,7 @@ describe("eslint", () => {
 
             const config = { rules: { "no-undef": 1 } };
 
-            const messages = eslint.verify(code, config, filename);
+            const messages = linter.verify(code, config, filename);
 
             assert.equal(messages.length, 0);
         });
@@ -2829,7 +2832,7 @@ describe("eslint", () => {
 
             const config = { rules: { "no-undef": 1 } };
 
-            const messages = eslint.verify(code, config, filename);
+            const messages = linter.verify(code, config, filename);
 
             assert.equal(messages.length, 0);
         });
@@ -2839,7 +2842,7 @@ describe("eslint", () => {
 
             const config = { rules: { "no-undef": 1 } };
 
-            const messages = eslint.verify(code, config, filename);
+            const messages = linter.verify(code, config, filename);
 
             assert.equal(messages.length, 0);
         });
@@ -2849,7 +2852,7 @@ describe("eslint", () => {
 
             const config = { rules: {} };
 
-            const messages = eslint.verify(code, config, filename);
+            const messages = linter.verify(code, config, filename);
 
             assert.equal(messages.length, 0);
         });
@@ -2859,7 +2862,7 @@ describe("eslint", () => {
 
             const config = { rules: { "no-undef": 1 } };
 
-            const messages = eslint.verify(code, config, filename);
+            const messages = linter.verify(code, config, filename);
 
             assert.equal(messages.length, 0);
         });
@@ -2876,7 +2879,7 @@ describe("eslint", () => {
                 }
             };
 
-            const messages = eslint.verify(code, config, {
+            const messages = linter.verify(code, config, {
                 filename,
                 allowInlineConfig: false
             });
@@ -2896,7 +2899,7 @@ describe("eslint", () => {
             };
             let ok = false;
 
-            eslint.defineRules({ test(context) {
+            linter.defineRules({ test(context) {
                 return {
                     Program() {
                         const scope = context.getScope();
@@ -2914,7 +2917,7 @@ describe("eslint", () => {
                 };
             } });
 
-            eslint.verify(code, config, { allowInlineConfig: false });
+            linter.verify(code, config, { allowInlineConfig: false });
             assert(ok);
         });
 
@@ -2929,7 +2932,7 @@ describe("eslint", () => {
                 }
             };
 
-            const messages = eslint.verify(code, config, {
+            const messages = linter.verify(code, config, {
                 filename,
                 allowInlineConfig: false
             });
@@ -2949,7 +2952,7 @@ describe("eslint", () => {
                 }
             };
 
-            const messages = eslint.verify(code, config, {
+            const messages = linter.verify(code, config, {
                 filename,
                 allowInlineConfig: false
             });
@@ -2967,7 +2970,7 @@ describe("eslint", () => {
                 }
             };
 
-            const messages = eslint.verify(code, config, {
+            const messages = linter.verify(code, config, {
                 filename,
                 allowInlineConfig: false
             });
@@ -2987,7 +2990,7 @@ describe("eslint", () => {
             };
             let ok = false;
 
-            eslint.defineRules({ test(context) {
+            linter.defineRules({ test(context) {
                 return {
                     Program() {
                         const scope = context.getScope();
@@ -3005,7 +3008,7 @@ describe("eslint", () => {
                 };
             } });
 
-            eslint.verify(code, config, { allowInlineConfig: false });
+            linter.verify(code, config, { allowInlineConfig: false });
             assert(ok);
         });
     });
@@ -3021,7 +3024,7 @@ describe("eslint", () => {
                 }
             };
 
-            const messages = eslint.verify(code, config, {
+            const messages = linter.verify(code, config, {
                 filename,
                 allowInlineConfig: true
             });
@@ -3037,12 +3040,12 @@ describe("eslint", () => {
 
             const config = { rules: {} };
 
-            eslint.reset();
-            eslint.on("ExpressionStatement", node => {
-                assert.equal(eslint.getSource(node), "'123';");
+            linter.reset();
+            linter.on("ExpressionStatement", node => {
+                assert.equal(linter.getSource(node), "'123';");
             });
 
-            eslint.verify(code, config, filename, true);
+            linter.verify(code, config, filename, true);
         });
     });
 
@@ -3050,32 +3053,32 @@ describe("eslint", () => {
         describe("filenames", () => {
             it("should allow filename to be passed on options object", () => {
 
-                eslint.verify("foo;", {}, { filename: "foo.js" });
-                const result = eslint.getFilename();
+                linter.verify("foo;", {}, { filename: "foo.js" });
+                const result = linter.getFilename();
 
                 assert.equal(result, "foo.js");
             });
 
             it("should allow filename to be passed as third argument", () => {
 
-                eslint.verify("foo;", {}, "foo.js");
-                const result = eslint.getFilename();
+                linter.verify("foo;", {}, "foo.js");
+                const result = linter.getFilename();
 
                 assert.equal(result, "foo.js");
             });
 
             it("should default filename to <input> when options object doesn't have filename", () => {
 
-                eslint.verify("foo;", {}, {});
-                const result = eslint.getFilename();
+                linter.verify("foo;", {}, {});
+                const result = linter.getFilename();
 
                 assert.equal(result, "<input>");
             });
 
             it("should default filename to <input> when only two arguments are passed", () => {
 
-                eslint.verify("foo;", {});
-                const result = eslint.getFilename();
+                linter.verify("foo;", {});
+                const result = linter.getFilename();
 
                 assert.equal(result, "<input>");
             });
@@ -3084,9 +3087,9 @@ describe("eslint", () => {
         describe("saveState", () => {
             it("should save the state when saveState is passed as an option", () => {
 
-                const spy = sinon.spy(eslint, "reset");
+                const spy = sinon.spy(linter, "reset");
 
-                eslint.verify("foo;", {}, { saveState: true });
+                linter.verify("foo;", {}, { saveState: true });
                 assert.equal(spy.callCount, 0);
             });
         });
@@ -3096,7 +3099,7 @@ describe("eslint", () => {
             const code = "foo()\n    alert('test')";
             const config = { rules: { "no-mixed-spaces-and-tabs": 1, "eol-last": 1, semi: [1, "always"] } };
 
-            const messages = eslint.verify(code, config, filename);
+            const messages = linter.verify(code, config, filename);
 
             assert.equal(messages.length, 3);
             assert.equal(messages[0].line, 1);
@@ -3110,7 +3113,7 @@ describe("eslint", () => {
         describe("ecmaVersion", () => {
             describe("it should properly parse let declaration when", () => {
                 it("the ECMAScript version number is 6", () => {
-                    const messages = eslint.verify("let x = 5;", {
+                    const messages = linter.verify("let x = 5;", {
                         parserOptions: {
                             ecmaVersion: 6
                         }
@@ -3120,7 +3123,7 @@ describe("eslint", () => {
                 });
 
                 it("the ECMAScript version number is 2015", () => {
-                    const messages = eslint.verify("let x = 5;", {
+                    const messages = linter.verify("let x = 5;", {
                         parserOptions: {
                             ecmaVersion: 2015
                         }
@@ -3131,7 +3134,7 @@ describe("eslint", () => {
             });
 
             it("should fail to parse exponentiation operator when the ECMAScript version number is 2015", () => {
-                const messages = eslint.verify("x ** y;", {
+                const messages = linter.verify("x ** y;", {
                     parserOptions: {
                         ecmaVersion: 2015
                     }
@@ -3142,7 +3145,7 @@ describe("eslint", () => {
 
             describe("should properly parse exponentiation operator when", () => {
                 it("the ECMAScript version number is 7", () => {
-                    const messages = eslint.verify("x ** y;", {
+                    const messages = linter.verify("x ** y;", {
                         parserOptions: {
                             ecmaVersion: 7
                         }
@@ -3152,7 +3155,7 @@ describe("eslint", () => {
                 });
 
                 it("the ECMAScript version number is 2016", () => {
-                    const messages = eslint.verify("x ** y;", {
+                    const messages = linter.verify("x ** y;", {
                         parserOptions: {
                             ecmaVersion: 2016
                         }
@@ -3165,7 +3168,7 @@ describe("eslint", () => {
 
         it("should properly parse object spread when passed ecmaFeatures", () => {
 
-            const messages = eslint.verify("var x = { ...y };", {
+            const messages = linter.verify("var x = { ...y };", {
                 parserOptions: {
                     ecmaVersion: 6,
                     ecmaFeatures: {
@@ -3179,7 +3182,7 @@ describe("eslint", () => {
 
         it("should properly parse global return when passed ecmaFeatures", () => {
 
-            const messages = eslint.verify("return;", {
+            const messages = linter.verify("return;", {
                 parserOptions: {
                     ecmaFeatures: {
                         globalReturn: true
@@ -3192,7 +3195,7 @@ describe("eslint", () => {
 
         it("should properly parse global return when in Node.js environment", () => {
 
-            const messages = eslint.verify("return;", {
+            const messages = linter.verify("return;", {
                 env: {
                     node: true
                 }
@@ -3203,7 +3206,7 @@ describe("eslint", () => {
 
         it("should not parse global return when in Node.js environment with globalReturn explicitly off", () => {
 
-            const messages = eslint.verify("return;", {
+            const messages = linter.verify("return;", {
                 env: {
                     node: true
                 },
@@ -3220,7 +3223,7 @@ describe("eslint", () => {
 
         it("should not parse global return when Node.js environment is false", () => {
 
-            const messages = eslint.verify("return;", {}, filename);
+            const messages = linter.verify("return;", {}, filename);
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].message, "Parsing error: 'return' outside of function");
@@ -3228,14 +3231,14 @@ describe("eslint", () => {
 
         it("should properly parse sloppy-mode code when impliedStrict is false", () => {
 
-            const messages = eslint.verify("var private;", {}, filename);
+            const messages = linter.verify("var private;", {}, filename);
 
             assert.equal(messages.length, 0);
         });
 
         it("should not parse sloppy-mode code when impliedStrict is true", () => {
 
-            const messages = eslint.verify("var private;", {
+            const messages = linter.verify("var private;", {
                 parserOptions: {
                     ecmaFeatures: {
                         impliedStrict: true
@@ -3249,7 +3252,7 @@ describe("eslint", () => {
 
         it("should properly parse valid code when impliedStrict is true", () => {
 
-            const messages = eslint.verify("var foo;", {
+            const messages = linter.verify("var foo;", {
                 parserOptions: {
                     ecmaFeatures: {
                         impliedStrict: true
@@ -3262,7 +3265,7 @@ describe("eslint", () => {
 
         it("should properly parse JSX when passed ecmaFeatures", () => {
 
-            const messages = eslint.verify("var x = <div/>;", {
+            const messages = linter.verify("var x = <div/>;", {
                 parserOptions: {
                     ecmaFeatures: {
                         jsx: true
@@ -3275,7 +3278,7 @@ describe("eslint", () => {
 
         it("should report an error when JSX code is encountered and JSX is not enabled", () => {
             const code = "var myDivElement = <div className=\"foo\" />;";
-            const messages = eslint.verify(code, {}, "filename");
+            const messages = linter.verify(code, {}, "filename");
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].line, 1);
@@ -3285,14 +3288,14 @@ describe("eslint", () => {
 
         it("should not report an error when JSX code is encountered and JSX is enabled", () => {
             const code = "var myDivElement = <div className=\"foo\" />;";
-            const messages = eslint.verify(code, { parserOptions: { ecmaFeatures: { jsx: true } } }, "filename");
+            const messages = linter.verify(code, { parserOptions: { ecmaFeatures: { jsx: true } } }, "filename");
 
             assert.equal(messages.length, 0);
         });
 
         it("should not report an error when JSX code contains a spread operator and JSX is enabled", () => {
             const code = "var myDivElement = <div {...this.props} />;";
-            const messages = eslint.verify(code, { parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } }, "filename");
+            const messages = linter.verify(code, { parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } }, "filename");
 
             assert.equal(messages.length, 0);
         });
@@ -3321,13 +3324,13 @@ describe("eslint", () => {
                 "var unicode = '\\u{20BB7}';"
             ].join("\n");
 
-            const messages = eslint.verify(code, null, "eslint-env es6");
+            const messages = linter.verify(code, null, "eslint-env es6");
 
             assert.equal(messages.length, 0);
         });
 
         it("should be able to return in global if there is a comment which has \"eslint-env node\"", () => {
-            const messages = eslint.verify("/* eslint-env node */ return;", null, "eslint-env node");
+            const messages = linter.verify("/* eslint-env node */ return;", null, "eslint-env node");
 
             assert.equal(messages.length, 0);
         });
@@ -3336,7 +3339,7 @@ describe("eslint", () => {
             const code = "/* global foo */\n/* global bar, baz */";
             let ok = false;
 
-            eslint.defineRules({ test(context) {
+            linter.defineRules({ test(context) {
                 return {
                     Program() {
                         const scope = context.getScope();
@@ -3365,17 +3368,17 @@ describe("eslint", () => {
                 };
             } });
 
-            eslint.verify(code, { rules: { test: 2 } });
+            linter.verify(code, { rules: { test: 2 } });
             assert(ok);
         });
 
         it("should not crash when we reuse the SourceCode object", () => {
-            eslint.verify("function render() { return <div className='test'>{hello}</div> }", { parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } });
-            eslint.verify(eslint.getSourceCode(), { parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } });
+            linter.verify("function render() { return <div className='test'>{hello}</div> }", { parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } });
+            linter.verify(linter.getSourceCode(), { parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } });
         });
 
         it("should allow 'await' as a property name in modules", () => {
-            const result = eslint.verify(
+            const result = linter.verify(
                 "obj.await",
                 { parserOptions: { ecmaVersion: 6, sourceType: "module" } }
             );
@@ -3389,7 +3392,7 @@ describe("eslint", () => {
 
             Object.freeze(config);
             assert.doesNotThrow(() => {
-                eslint.verify("var foo", config);
+                linter.verify("var foo", config);
             });
         });
     });
@@ -3412,7 +3415,7 @@ describe("eslint", () => {
         beforeEach(() => {
             let ok = false;
 
-            eslint.defineRules({ test(context) {
+            linter.defineRules({ test(context) {
                 return {
                     Program() {
                         scope = context.getScope();
@@ -3420,7 +3423,7 @@ describe("eslint", () => {
                     }
                 };
             } });
-            eslint.verify(code, { rules: { test: 2 }, globals: { e: true, f: false } });
+            linter.verify(code, { rules: { test: 2 }, globals: { e: true, f: false } });
             assert(ok);
         });
 
@@ -3501,7 +3504,7 @@ describe("eslint", () => {
          * @returns {void}
          */
         function checkEmpty(node) {
-            assert.equal(0, eslint.getDeclaredVariables(node).length);
+            assert.equal(0, linter.getDeclaredVariables(node).length);
         }
 
         /**
@@ -3512,7 +3515,7 @@ describe("eslint", () => {
          * @returns {void}
          */
         function verify(code, type, expectedNamesList) {
-            eslint.defineRules({ test(context) {
+            linter.defineRules({ test(context) {
                 const rule = {
                     Program: checkEmpty,
                     EmptyStatement: checkEmpty,
@@ -3576,7 +3579,7 @@ describe("eslint", () => {
                 };
                 return rule;
             } });
-            eslint.verify(code, {
+            linter.verify(code, {
                 rules: { test: 2 },
                 parserOptions: {
                     ecmaVersion: 6,
@@ -3734,39 +3737,39 @@ describe("eslint", () => {
 
         it("should properly parse import statements when sourceType is module", () => {
             const code = "import foo from 'foo';";
-            const messages = eslint.verify(code, { parserOptions: { sourceType: "module" } });
+            const messages = linter.verify(code, { parserOptions: { sourceType: "module" } });
 
             assert.equal(messages.length, 0);
         });
 
         it("should properly parse import all statements when sourceType is module", () => {
             const code = "import * as foo from 'foo';";
-            const messages = eslint.verify(code, { parserOptions: { sourceType: "module" } });
+            const messages = linter.verify(code, { parserOptions: { sourceType: "module" } });
 
             assert.equal(messages.length, 0);
         });
 
         it("should properly parse default export statements when sourceType is module", () => {
             const code = "export default function initialize() {}";
-            const messages = eslint.verify(code, { parserOptions: { sourceType: "module" } });
+            const messages = linter.verify(code, { parserOptions: { sourceType: "module" } });
 
             assert.equal(messages.length, 0);
         });
 
         it("should not crash when invalid parentheses syntax is encountered", () => {
-            eslint.verify("left = (aSize.width/2) - ()");
+            linter.verify("left = (aSize.width/2) - ()");
         });
 
         it("should not crash when let is used inside of switch case", () => {
-            eslint.verify("switch(foo) { case 1: let bar=2; }", { parserOptions: { ecmaVersion: 6 } });
+            linter.verify("switch(foo) { case 1: let bar=2; }", { parserOptions: { ecmaVersion: 6 } });
         });
 
         it("should not crash when parsing destructured assignment", () => {
-            eslint.verify("var { a='a' } = {};", { parserOptions: { ecmaVersion: 6 } });
+            linter.verify("var { a='a' } = {};", { parserOptions: { ecmaVersion: 6 } });
         });
 
         it("should report syntax error when a keyword exists in object property shorthand", () => {
-            const messages = eslint.verify("let a = {this}", { parserOptions: { ecmaVersion: 6 } });
+            const messages = linter.verify("let a = {this}", { parserOptions: { ecmaVersion: 6 } });
 
             assert.equal(messages.length, 1);
             assert.equal(messages[0].fatal, true);
@@ -3777,8 +3780,8 @@ describe("eslint", () => {
             // This test focuses on the instance of https://github.com/eslint/eslint/blob/v2.0.0-alpha-2/conf/environments.js#L26-L28
 
             // This `verify()` takes the instance and runs https://github.com/eslint/eslint/blob/v2.0.0-alpha-2/lib/eslint.js#L416
-            eslint.defineRule("test", () => ({}));
-            eslint.verify("var a = 0;", {
+            linter.defineRule("test", () => ({}));
+            linter.verify("var a = 0;", {
                 env: { node: true },
                 parserOptions: { sourceType: "module" },
                 rules: { test: 2 }
@@ -3787,7 +3790,7 @@ describe("eslint", () => {
             // This `verify()` takes the instance and tests that the instance was not modified.
             let ok = false;
 
-            eslint.defineRule("test", context => {
+            linter.defineRule("test", context => {
                 assert(
                     context.parserOptions.ecmaFeatures.globalReturn,
                     "`ecmaFeatures.globalReturn` of the node environment should not be modified."
@@ -3795,7 +3798,7 @@ describe("eslint", () => {
                 ok = true;
                 return {};
             });
-            eslint.verify("var a = 0;", {
+            linter.verify("var a = 0;", {
                 env: { node: true },
                 rules: { test: 2 }
             });
@@ -3817,21 +3820,21 @@ describe("eslint", () => {
                 const parser = path.join(parserFixtures, "stub-parser.js");
                 const parseSpy = sinon.spy(require(parser), "parse");
 
-                eslint.verify(code, { parser }, filename, true);
+                linter.verify(code, { parser }, filename, true);
 
                 sinon.assert.calledWithMatch(parseSpy, "", { filePath: filename });
             });
 
             it("should not report an error when JSX code contains a spread operator and JSX is enabled", () => {
                 const code = "var myDivElement = <div {...this.props} />;";
-                const messages = eslint.verify(code, { parser: "esprima-fb" }, "filename");
+                const messages = linter.verify(code, { parser: "esprima-fb" }, "filename");
 
                 assert.equal(messages.length, 0);
             });
 
             it("should return an error when the custom parser can't be found", () => {
                 const code = "var myDivElement = <div {...this.props} />;";
-                const messages = eslint.verify(code, { parser: "esprima-fbxyz" }, "filename");
+                const messages = linter.verify(code, { parser: "esprima-fbxyz" }, "filename");
 
                 assert.equal(messages.length, 1);
                 assert.equal(messages[0].severity, 2);
@@ -3840,7 +3843,7 @@ describe("eslint", () => {
 
             it("should strip leading line: prefix from parser error", () => {
                 const parser = path.join(parserFixtures, "line-error.js");
-                const messages = eslint.verify(";", { parser }, "filename");
+                const messages = linter.verify(";", { parser }, "filename");
 
                 assert.equal(messages.length, 1);
                 assert.equal(messages[0].severity, 2);
@@ -3850,7 +3853,7 @@ describe("eslint", () => {
 
             it("should not modify a parser error message without a leading line: prefix", () => {
                 const parser = path.join(parserFixtures, "no-line-error.js");
-                const messages = eslint.verify(";", { parser }, "filename");
+                const messages = linter.verify(";", { parser }, "filename");
 
                 assert.equal(messages.length, 1);
                 assert.equal(messages[0].severity, 2);

@@ -20,7 +20,6 @@ The lists below are ordered roughly by the number of users each change is expect
 1. [`RuleTester` now validates properties of test cases](#rule-tester-validation)
 1. [AST nodes no longer have comment properties](#comment-attachment)
 1. [Shebangs are now returned from comment APIs](#shebangs)
-1. [Type annotation nodes in an AST are now traversed](#type-annotation-traversal)
 
 ### Breaking changes for integration developers
 
@@ -70,8 +69,6 @@ To make the upgrade process easier, we've introduced the [`indent-legacy`](/docs
 ```
 
 ## <a name="config-validation"/> Unrecognized properties in config files now cause a fatal error
-
-**Note:** This feature is a work in progress and has not been released yet.
 
 When creating a config, users sometimes make typos or misunderstand how the config is supposed to be structured. Previously, ESLint did not validate the properties of a config file, so a typo in a config could be very tedious to debug. Starting in 4.0.0, ESLint will raise an error if a property in a config file is unrecognized or has the wrong type.
 
@@ -204,12 +201,6 @@ In 4.0, shebang comments are treated as comment tokens of type `Shebang` and wil
 ```
 sourceCode.getAllComments().filter(comment => comment.type !== "Shebang");
 ```
-
-## <a name="type-annotation-traversal"/> Type annotation nodes in an AST are now traversed
-
-Starting in 4.0, if a parser produces type annotation nodes, they will be traversed as part of ESLint's AST traversal.
-
-**To address:** If you have a custom rule that relies on having a particular traversal depth, and your rule is run on code with type annotations, you should update the rule logic to account for the new traversal.
 
 ---
 

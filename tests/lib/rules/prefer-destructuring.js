@@ -72,6 +72,12 @@ ruleTester.run("prefer-destructuring", rule, {
         {
             code: "({ foo } = object);"
         },
+        {
+
+            // Fix #8654
+            code: "var foo = array[0];",
+            options: [{ array: false }, { enforceForRenamedProperties: true }]
+        },
         "[foo] = array;",
         "foo += array[0]",
         "foo += bar.foo"

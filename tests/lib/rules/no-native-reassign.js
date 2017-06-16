@@ -54,7 +54,7 @@ ruleTester.run("no-native-reassign", rule, {
 
         // Notifications of readonly are moved from no-undef: https://github.com/eslint/eslint/issues/4504
         { code: "/*global b:false*/ function f() { b = 1; }", errors: [{ message: "Read-only global 'b' should not be modified.", type: "Identifier" }] },
-        { code: "function f() { b = 1; }", global: { b: false }, errors: [{ message: "Read-only global 'b' should not be modified.", type: "Identifier" }] },
+        { code: "function f() { b = 1; }", globals: { b: false }, errors: [{ message: "Read-only global 'b' should not be modified.", type: "Identifier" }] },
         { code: "/*global b:false*/ function f() { b++; }", errors: [{ message: "Read-only global 'b' should not be modified.", type: "Identifier" }] },
         { code: "/*global b*/ b = 1;", errors: [{ message: "Read-only global 'b' should not be modified.", type: "Identifier" }] },
         { code: "Array = 1;", errors: [{ message: "Read-only global 'Array' should not be modified.", type: "Identifier" }] }
