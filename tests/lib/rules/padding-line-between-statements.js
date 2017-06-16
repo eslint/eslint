@@ -2387,6 +2387,12 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: ["if", "for", "return", "switch", "case", "break", "throw", "while", "default"] }
             ]
+        },
+        {
+            code: "function test() {};",
+            options: [
+                { blankLine: "always", prev: "block-like", next: "block-like" }
+            ]
         }
     ],
     invalid: [
