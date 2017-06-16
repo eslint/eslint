@@ -187,4 +187,15 @@ describe("npmUtil", () => {
             stub.restore();
         });
     });
+
+    describe("fetchPeerDependencies()", () => {
+        it("should execute 'npm show --json <packageName> peerDependencies' command", () => {
+            const stub = sandbox.stub(childProcess, "execSync").returns("");
+
+            npmUtil.fetchPeerDependencies("desired-package");
+            assert(stub.calledOnce);
+            assert.equal(stub.firstCall.args[0], "npm show --json desired-package peerDependencies");
+            stub.restore();
+        });
+    });
 });

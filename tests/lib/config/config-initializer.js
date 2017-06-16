@@ -32,6 +32,7 @@ describe("configInitializer", () => {
     let fixtureDir,
         npmCheckStub,
         npmInstallStub,
+        npmFetchPeerDependenciesStub,
         init;
 
     const log = {
@@ -75,6 +76,14 @@ describe("configInitializer", () => {
             status[pkg] = false;
             return status;
         }, {}));
+        npmFetchPeerDependenciesStub = sinon
+            .stub(npmUtil, "fetchPeerDependencies")
+            .returns({
+                eslint: "^3.19.0",
+                "eslint-plugin-jsx-a11y": "^5.0.1",
+                "eslint-plugin-import": "^2.2.0",
+                "eslint-plugin-react": "^7.0.1"
+            });
         init = proxyquire("../../../lib/config/config-initializer", requireStubs);
     });
 
@@ -83,6 +92,7 @@ describe("configInitializer", () => {
         log.error.reset();
         npmInstallStub.restore();
         npmCheckStub.restore();
+        npmFetchPeerDependenciesStub.restore();
     });
 
     after(() => {
@@ -185,19 +195,19 @@ describe("configInitializer", () => {
             it("should support the airbnb style guide", () => {
                 const config = init.getConfigForStyleGuide("airbnb");
 
-                assert.deepEqual(config, { extends: "airbnb", installedESLint: true, plugins: ["react", "jsx-a11y", "import"] });
+                assert.deepEqual(config, { extends: "airbnb", installedESLint: true });
             });
 
             it("should support the airbnb base style guide", () => {
                 const config = init.getConfigForStyleGuide("airbnb-base");
 
-                assert.deepEqual(config, { extends: "airbnb-base", installedESLint: true, plugins: ["import"] });
+                assert.deepEqual(config, { extends: "airbnb-base", installedESLint: true });
             });
 
             it("should support the standard style guide", () => {
                 const config = init.getConfigForStyleGuide("standard");
 
-                assert.deepEqual(config, { extends: "standard", installedESLint: true, plugins: ["standard", "promise"] });
+                assert.deepEqual(config, { extends: "standard", installedESLint: true });
             });
 
             it("should throw when encountering an unsupported style guide", () => {
@@ -209,13 +219,31 @@ describe("configInitializer", () => {
             it("should install required sharable config", () => {
                 init.getConfigForStyleGuide("google");
                 assert(npmInstallStub.calledOnce);
-                assert.deepEqual(npmInstallStub.firstCall.args[0][1], "eslint-config-google");
+                assert(npmInstallStub.firstCall.args[0].some(name => name.startsWith("eslint-config-google@")));
             });
 
             it("should install ESLint if not installed locally", () => {
                 init.getConfigForStyleGuide("google");
                 assert(npmInstallStub.calledOnce);
-                assert.deepEqual(npmInstallStub.firstCall.args[0][0], "eslint");
+                assert(npmInstallStub.firstCall.args[0].some(name => name.startsWith("eslint@")));
+            });
+
+            it("should install peerDependencies of the sharable config", () => {
+                init.getConfigForStyleGuide("airbnb");
+
+                assert(npmFetchPeerDependenciesStub.calledOnce);
+                assert(npmFetchPeerDependenciesStub.firstCall.args[0] === "eslint-config-airbnb@latest");
+                assert(npmInstallStub.calledOnce);
+                assert.deepEqual(
+                    npmInstallStub.firstCall.args[0],
+                    [
+                        "eslint-config-airbnb@latest",
+                        "eslint@^3.19.0",
+                        "eslint-plugin-jsx-a11y@^5.0.1",
+                        "eslint-plugin-import@^2.2.0",
+                        "eslint-plugin-react@^7.0.1"
+                    ]
+                );
             });
         });
 
