@@ -3905,6 +3905,13 @@ describe("eslint", () => {
                 assert.equal(messages[0].message, errorPrefix + require(parser).expectedError);
             });
 
+            it("should not pass any default parserOptions to the parser", () => {
+                const parser = path.join(parserFixtures, "throws-with-options.js");
+
+                const messages = linter.verify(";", { parser }, "filename");
+
+                assert.strictEqual(messages.length, 0);
+            });
         });
     }
 
