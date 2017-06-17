@@ -9,9 +9,9 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const path = require("path"),
-    rule = require("../../../lib/rules/space-infix-ops"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+const rule = require("../../../lib/rules/space-infix-ops"),
+    RuleTester = require("../../../lib/testers/rule-tester"),
+    parser = require("../../fixtures/fixture-parser");
 
 const ruleTester = new RuleTester();
 
@@ -30,10 +30,15 @@ ruleTester.run("space-infix-ops", rule, {
         { code: "const my_object = {key: 'value'};", parserOptions: { ecmaVersion: 6 } },
         { code: "var {a = 0} = bar;", parserOptions: { ecmaVersion: 6 } },
         { code: "function foo(a = 0) { }", parserOptions: { ecmaVersion: 6 } },
-        { code: "function foo(a: number = 0) { }", parser: path.resolve(__dirname, "../../fixtures/parsers/flow-stub-parser.js"), parserOptions: { ecmaVersion: 6 } },
         { code: "a ** b", parserOptions: { ecmaVersion: 7 } },
         { code: "a|0", options: [{ int32Hint: true }] },
-        { code: "a |0", options: [{ int32Hint: true }] }
+        { code: "a |0", options: [{ int32Hint: true }] },
+
+        // Type Annotations
+        { code: "function foo(a: number = 0) { }", parser: parser("type-annotations/function-parameter-type-annotation"), parserOptions: { ecmaVersion: 6 } },
+        { code: "function foo(): Bar { }", parser: parser("type-annotations/function-return-type-annotation"), parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo: Bar = '';", parser: parser("type-annotations/variable-declaration-init-type-annotation"), parserOptions: { ecmaVersion: 6 } },
+        { code: "const foo = function(a: number = 0): Bar { };", parser: parser("type-annotations/function-expression-type-annotation"), parserOptions: { ecmaVersion: 6 } }
     ],
     invalid: [
         {
@@ -346,6 +351,32 @@ ruleTester.run("space-infix-ops", rule, {
                 line: 1,
                 column: 6,
                 nodeType: "BinaryExpression"
+            }]
+        },
+
+        // Type Annotations
+
+        {
+            code: "var a: Foo= b;",
+            output: "var a: Foo = b;",
+            parser: parser("type-annotations/variable-declaration-init-type-annotation-no-space"),
+            errors: [{
+                message: "Infix operators must be spaced.",
+                type: "VariableDeclarator",
+                line: 1,
+                column: 11
+            }]
+        },
+        {
+            code: "function foo(a: number=0): Foo { }",
+            output: "function foo(a: number = 0): Foo { }",
+            parser: parser("type-annotations/function-declaration-type-annotation-no-space"),
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Infix operators must be spaced.",
+                line: 1,
+                column: 23,
+                nodeType: "AssignmentPattern"
             }]
         }
     ]
