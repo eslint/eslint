@@ -1,6 +1,9 @@
+/**
+ * Source code:
+ * function foo(a: number = 0) { }
+ */
 
-exports.parse = function() {
-    return {
+exports.parse = () => ({
       "type": "Program",
       "loc": {
         "source": null,
@@ -387,5 +390,4 @@ exports.parse = function() {
           ]
         }
       ]
-    };
-};
+});
