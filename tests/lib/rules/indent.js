@@ -2026,7 +2026,18 @@ ruleTester.run("indent", rule, {
             `,
             options: [2]
         },
-        // VICTOR passes
+        {
+            code: unIndent`
+                const {
+                  a
+                }
+                =
+                {
+                  a: 1
+                }
+            `,
+            options: [2]
+        },
         {
             code: unIndent`
                 const {
@@ -2037,7 +2048,6 @@ ruleTester.run("indent", rule, {
             `,
             options: [2]
         },
-        // VICTOR fails
         {
             code: unIndent`
                 const {
@@ -2045,6 +2055,16 @@ ruleTester.run("indent", rule, {
                 } = {
                   a: 1
                 }
+            `,
+            options: [2]
+        },
+        {
+            code: unIndent`
+                const [
+                  a
+                ] = [
+                  1
+                ]
             `,
             options: [2]
         },
