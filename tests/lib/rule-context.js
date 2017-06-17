@@ -237,6 +237,32 @@ describe("RuleContext", () => {
 
                 mockESLint.verify();
             });
+
+            it("should throw an assertion error if ranges are overlapped.", () => {
+                const mockESLint = sandbox.mock(eslint);
+
+                mockESLint.expects("getSourceCode")
+                    .returns({ text: "var foo = 100;" });
+                mockESLint.expects("report")
+                    .never();
+
+                assert.throws(() => {
+                    ruleContext.report({
+                        node: {},
+                        loc: {},
+                        message: "Message",
+                        fix(fixer) {
+                            return [
+                                fixer.removeRange([-1, 0]),
+                                fixer.removeRange([-1, 0])
+                            ];
+                        }
+                    });
+                }, "Fix objects must not be overlapped in a report.");
+
+                mockESLint.verify();
+            });
+
         });
     });
 
