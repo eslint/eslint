@@ -16,6 +16,7 @@ const fs = require("fs"),
     leche = require("leche"),
     Linter = require("../../../lib/linter"),
     SourceCode = require("../../../lib/util/source-code"),
+    Traverser = require("../../../lib/util/traverser"),
     astUtils = require("../../../lib/ast-utils");
 
 //------------------------------------------------------------------------------
@@ -49,6 +50,21 @@ describe("SourceCode", () => {
             assert.isObject(sourceCode);
             assert.equal(sourceCode.text, "foo;");
             assert.equal(sourceCode.ast, ast);
+        });
+
+        it("should create a new instance when called with valid optional data", () => {
+            const parserServices = {};
+            const scopeManager = {};
+            const visitorKeys = {};
+            const ast = { comments: [], tokens: [], loc: {}, range: [] };
+            const sourceCode = new SourceCode("foo;", ast, parserServices, scopeManager, visitorKeys);
+
+            assert.isObject(sourceCode);
+            assert.equal(sourceCode.text, "foo;");
+            assert.equal(sourceCode.ast, ast);
+            assert.equal(sourceCode.parserServices, parserServices);
+            assert.equal(sourceCode.scopeManager, scopeManager);
+            assert.equal(sourceCode.visitorKeys, visitorKeys);
         });
 
         it("should split text into lines when called with valid data", () => {
@@ -1719,6 +1735,30 @@ describe("SourceCode", () => {
             assert.property(node, "parent");
             assert.equal(node.parent.type, "VariableDeclarator");
             assert.notProperty(node.parent, "parent");
+        });
+
+        it("should use visitorKeys", () => {
+            const text = "a + b";
+            const ast = espree.parse(text, DEFAULT_CONFIG);
+            let node;
+
+            // default
+            sourceCode = new SourceCode(text, ast);
+            node = sourceCode.getNodeByRangeIndex(0);
+            assert.equal(node.type, "Identifier");
+
+            // no traverse BinaryExpression#left
+            sourceCode = new SourceCode(
+                text,
+                ast,
+                null,
+                null,
+                Object.assign({}, Traverser.DEFAULT_VISITOR_KEYS, {
+                    BinaryExpression: ["right"]
+                })
+            );
+            node = sourceCode.getNodeByRangeIndex(0);
+            assert.equal(node.type, "BinaryExpression");
         });
 
     });

@@ -1290,6 +1290,30 @@ describe("Linter", () => {
                 assert.equal(messages.length, 1);
                 assert.equal(messages[0].message, "Hi!");
             });
+
+            it("should use the same parserServices if source code object is reused", () => {
+                const parser = path.resolve(__dirname, "../fixtures/parsers/enhanced-parser.js");
+
+                linter.defineRule("test-service-rule", context => ({
+                    Literal(node) {
+                        context.report({
+                            node,
+                            message: context.parserServices.test.getMessage()
+                        });
+                    }
+                }));
+
+                const config = { rules: { "test-service-rule": 2 }, parser };
+                const messages = linter.verify("0", config, filename);
+
+                assert.equal(messages.length, 1);
+                assert.equal(messages[0].message, "Hi!");
+
+                const messages2 = linter.verify(linter.getSourceCode(), config, filename);
+
+                assert.equal(messages2.length, 1);
+                assert.equal(messages2[0].message, "Hi!");
+            });
         }
 
         it("should pass parser as parserPath to all rules when default parser is used", () => {
@@ -3897,6 +3921,8 @@ describe("Linter", () => {
 
     // only test in Node.js, not browser
     if (typeof window === "undefined") {
+        const escope = require("eslint-scope");
+        const Traverser = require("../../lib/util/traverser");
 
         describe("Custom parser", () => {
 
@@ -3955,6 +3981,109 @@ describe("Linter", () => {
 
                 assert.strictEqual(messages.length, 0);
             });
+
+            describe("if a parser provides 'visitorKeys'", () => {
+                const types = [];
+                let scopeAnalyzeStub = null;
+                let sourceCode = null;
+
+                before(() => {
+                    scopeAnalyzeStub = sinon.spy(escope, "analyze");
+
+                    const parser = path.join(parserFixtures, "enhanced-parser2.js");
+
+                    linter.defineRule("collect-node-types", () => ({
+                        "*"(node) {
+                            types.push(node.type);
+                        }
+                    }));
+                    linter.verify("@foo class A {}", {
+                        parser,
+                        rules: {
+                            "collect-node-types": "error"
+                        }
+                    });
+
+                    sourceCode = linter.getSourceCode();
+                });
+                after(() => {
+                    scopeAnalyzeStub.restore();
+                });
+
+                it("Traverser should use the visitorKeys (so 'types' includes 'Decorator')", () => {
+                    assert.deepEqual(
+                        types,
+                        ["Program", "ClassDeclaration", "Identifier", "ClassBody", "Decorator", "Identifier"]
+                    );
+                });
+
+                it("eslint-scope should use the visitorKeys (so 'childVisitorKeys.ClassDeclaration' includes 'experimentalDecorators')", () => {
+                    assert(scopeAnalyzeStub.calledOnce);
+                    assert.deepEqual(
+                        scopeAnalyzeStub.firstCall.args[1].childVisitorKeys.ClassDeclaration,
+                        Traverser.DEFAULT_VISITOR_KEYS.ClassDeclaration.concat(["experimentalDecorators"])
+                    );
+                });
+
+                it("should use the same visitorKeys if the source code object is reused", () => {
+                    const types2 = [];
+
+                    linter.defineRule("collect-node-types", () => ({
+                        "*"(node) {
+                            types2.push(node.type);
+                        }
+                    }));
+                    linter.verify(sourceCode, {
+                        rules: {
+                            "collect-node-types": "error"
+                        }
+                    });
+
+                    assert.deepEqual(
+                        types2,
+                        ["Program", "ClassDeclaration", "Identifier", "ClassBody", "Decorator", "Identifier"]
+                    );
+                });
+            });
+
+            describe("if a parser provides 'scope'", () => {
+                let scopeAnalyzeStub = null;
+                let scope = null;
+                let sourceCode = null;
+
+                before(() => {
+                    scopeAnalyzeStub = sinon.spy(escope, "analyze");
+
+                    const parser = path.join(parserFixtures, "enhanced-parser3.js");
+
+                    linter.verify("@foo class A {}", { parser });
+
+                    scope = linter.getScope();
+                    sourceCode = linter.getSourceCode();
+                });
+                after(() => {
+                    scopeAnalyzeStub.restore();
+                });
+
+                it("should not use eslint-scope analyzer", () => {
+                    assert(scopeAnalyzeStub.notCalled);
+                });
+
+                it("should use the scope (so the global scope has the reference of '@foo')", () => {
+                    assert.equal(scope.references.length, 1);
+                    assert.deepEqual(
+                        scope.references[0].identifier.name,
+                        "foo"
+                    );
+                });
+
+                it("should use the same scope if the source code object is reused", () => {
+                    linter.verify(sourceCode, {});
+
+                    assert.equal(linter.getScope(), scope);
+                });
+            });
+
         });
     }
 

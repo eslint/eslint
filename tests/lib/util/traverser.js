@@ -40,4 +40,51 @@ describe("Traverser", () => {
         assert.deepEqual(enteredNodes, [fakeAst, fakeAst.body[0], fakeAst.body[1], fakeAst.body[1].foo]);
         assert.deepEqual(exitedNodes, [fakeAst.body[0], fakeAst.body[1].foo, fakeAst.body[1], fakeAst]);
     });
+
+    it("traverses AST as using 'keys' option if given", () => {
+        const traverser = new Traverser();
+        const fakeAst = {
+            type: "Program",
+            body: [
+                {
+                    type: "ClassDeclaration",
+                    id: {
+                        type: "Identifier"
+                    },
+                    superClass: null,
+                    body: {
+                        type: "ClassBody",
+                        body: []
+                    },
+                    experimentalDecorators: [
+                        {
+                            type: "Decorator",
+                            expression: {}
+                        }
+                    ]
+                }
+            ]
+        };
+
+        fakeAst.body[0].parent = fakeAst;
+
+        const visited = [];
+
+        // default.
+        traverser.traverse(fakeAst, {
+            enter: node => visited.push(node.type)
+        });
+        assert.deepEqual(visited, ["Program", "ClassDeclaration", "Identifier", "ClassBody"]);
+
+        visited.splice(0, visited.length);
+
+        // with keys option.
+        traverser.traverse(fakeAst, {
+            enter: node => visited.push(node.type),
+            keys: Object.assign({}, Traverser.DEFAULT_VISITOR_KEYS, {
+                ClassDeclaration: Traverser.DEFAULT_VISITOR_KEYS.ClassDeclaration.concat(["experimentalDecorators"])
+            })
+        });
+        assert.deepEqual(visited, ["Program", "ClassDeclaration", "Identifier", "ClassBody", "Decorator"]);
+    });
 });
