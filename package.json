@@ -45,7 +45,6 @@
     "eslint-scope": "^3.7.1",
     "espree": "^3.5.0",
     "esquery": "^1.0.0",
-    "estraverse": "^4.2.0",
     "esutils": "^2.0.2",
     "file-entry-cache": "^2.0.0",
     "functional-red-black-tree": "^1.0.1",
