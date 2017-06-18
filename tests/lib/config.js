@@ -1121,7 +1121,10 @@ describe("Config", () => {
                 const targetPath = getFakeFixturePath("overrides", "foo.js");
                 const expected = {
                     rules: {
-                        quotes: [2, "single"]
+                        quotes: [2, "single"],
+                        "no-else-return": 0,
+                        "no-unused-vars": 1,
+                        semi: [1, "never"]
                     }
                 };
                 const actual = config.getConfig(targetPath);
@@ -1134,21 +1137,11 @@ describe("Config", () => {
                 const targetPath = getFakeFixturePath("overrides", "child", "child-one.js");
                 const expected = {
                     rules: {
-                        quotes: [2, "single"]
-                    }
-                };
-
-                const actual = config.getConfig(targetPath);
-
-                assertConfigsEqual(actual, expected);
-            });
-
-            it("should merge override config when the pattern matches the file path relative to the config file", () => {
-                const config = new Config({ cwd: process.cwd() }, linter);
-                const targetPath = getFakeFixturePath("overrides", "child", "child-one.js");
-                const expected = {
-                    rules: {
-                        quotes: [2, "single"]
+                        curly: ["error", "multi", "consistent"],
+                        "no-else-return": 0,
+                        "no-unused-vars": 1,
+                        quotes: [2, "double"],
+                        semi: [1, "never"]
                     }
                 };
                 const actual = config.getConfig(targetPath);
@@ -1165,7 +1158,7 @@ describe("Config", () => {
                         overrides: [{
                             files: resolvedPath,
                             rules: {
-                                quotes: [2, "single"]
+                                quotes: [1, "double"]
                             }
                         }],
                         useEslintrc: false
@@ -1185,7 +1178,7 @@ describe("Config", () => {
                         overrides: [{
                             files: parentPath,
                             rules: {
-                                quotes: [2, "single"]
+                                quotes: [1, "single"]
                             }
                         }],
                         useEslintrc: false
@@ -1200,9 +1193,11 @@ describe("Config", () => {
                 const targetPath = getFakeFixturePath("overrides", "two", "child-two.js");
                 const expected = {
                     rules: {
-                        semi: [2, "never"],
                         "no-console": 0,
-                        quotes: [2, "single"]
+                        "no-else-return": 0,
+                        "no-unused-vars": 2,
+                        quotes: [2, "double"],
+                        semi: [2, "never"]
                     }
                 };
                 const actual = config.getConfig(targetPath);
@@ -1219,7 +1214,7 @@ describe("Config", () => {
                             {
                                 files: "three/**/*.js",
                                 rules: {
-                                    "semi-style": [2, "last"],
+                                    "semi-style": [2, "last"]
                                 }
                             }
                         ]
@@ -1228,7 +1223,7 @@ describe("Config", () => {
                 }, linter);
                 const expected = {
                     rules: {
-                        "semi-style": [2, "last"],
+                        "semi-style": [2, "last"]
                     }
                 };
                 const actual = config.getConfig(targetPath);
