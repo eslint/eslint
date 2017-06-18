@@ -16,6 +16,7 @@ rules:
     comma-dangle: "error"
     comma-spacing: "error"
     comma-style: ["error", "last"]
+    computed-property-spacing: "error"
     consistent-return: "error"
     curly: ["error", "all"]
     default-case: "error"
