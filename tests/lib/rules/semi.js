@@ -169,6 +169,25 @@ ruleTester.run("semi", rule, {
         { code: "export default (foo) => foo.bar();", output: "export default (foo) => foo.bar()", options: ["never"], parserOptions: { sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "ExportDefaultDeclaration" }] },
         { code: "export default foo = 42;", output: "export default foo = 42", options: ["never"], parserOptions: { sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "ExportDefaultDeclaration" }] },
         { code: "export default foo += 42;", output: "export default foo += 42", options: ["never"], parserOptions: { sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "ExportDefaultDeclaration" }] },
-        { code: "a;\n++b", output: "a\n++b", options: ["never"], errors: [{ message: "Extra semicolon." }] }
+        { code: "a;\n++b", output: "a\n++b", options: ["never"], errors: [{ message: "Extra semicolon." }] },
+
+        // https://github.com/eslint/eslint/issues/7928
+        {
+            options: ["never"],
+            code: [
+                "/*eslint no-extra-semi: error */",
+                "foo();",
+                ";[0,1,2].forEach(bar)"
+            ].join("\n"),
+            errors: [
+                "Extra semicolon.",
+                "Unnecessary semicolon."
+            ],
+            output: [
+                "/*eslint no-extra-semi: error */",
+                "foo()",
+                ";[0,1,2].forEach(bar)"
+            ].join("\n")
+        }
     ]
 });

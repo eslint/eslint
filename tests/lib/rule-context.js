@@ -83,6 +83,9 @@ describe("RuleContext", () => {
                 mockESLint.expects("report")
                     .once()
                     .withArgs("fake-rule", 2, node, location, message, messageOpts, fixerObj);
+                mockESLint.expects("getSourceCode")
+                    .once()
+                    .returns(null);
 
                 ruleContext.report({
                     node,
@@ -95,6 +98,171 @@ describe("RuleContext", () => {
                 fix.verify();
                 mockESLint.verify();
             });
+
+            it("should merge fixes to one if 'fix' function returns an array of fixes.", () => {
+                const mockESLint = sandbox.mock(eslint);
+
+                mockESLint.expects("getSourceCode")
+                    .returns({ text: "var foo = 100;" });
+                mockESLint.expects("report")
+                    .once()
+                    .withArgs(
+                        sinon.match.any,
+                        sinon.match.any,
+                        sinon.match.any,
+                        sinon.match.any,
+                        sinon.match.any,
+                        sinon.match.any,
+                        sinon.match({
+                            range: [4, 13],
+                            text: "bar = 234"
+                        })
+                    );
+
+                ruleContext.report({
+                    node: {},
+                    loc: {},
+                    message: "Message",
+                    fix(fixer) {
+                        return [
+                            fixer.replaceTextRange([10, 13], "234"),
+                            fixer.replaceTextRange([4, 7], "bar")
+                        ];
+                    }
+                });
+
+                mockESLint.verify();
+            });
+
+            it("should merge fixes to one if 'fix' function returns an iterator of fixes.", () => {
+                const mockESLint = sandbox.mock(eslint);
+
+                mockESLint.expects("getSourceCode").returns({ text: "var foo = 100;" });
+                mockESLint.expects("report").once().withArgs(
+                    sinon.match.any,
+                    sinon.match.any,
+                    sinon.match.any,
+                    sinon.match.any,
+                    sinon.match.any,
+                    sinon.match.any,
+                    sinon.match({
+                        range: [4, 13],
+                        text: "bar = 234"
+                    })
+                );
+
+                ruleContext.report({
+                    node: {},
+                    loc: {},
+                    message: "Message",
+                    *fix(fixer) {
+                        yield fixer.replaceTextRange([10, 13], "234");
+                        yield fixer.replaceTextRange([4, 7], "bar");
+                    }
+                });
+
+                mockESLint.verify();
+            });
+
+
+            it("should handle inserting BOM correctly.", () => {
+                const mockESLint = sandbox.mock(eslint);
+
+                mockESLint.expects("getSourceCode")
+                    .returns({ text: "var foo = 100;" });
+                mockESLint.expects("report")
+                    .once()
+                    .withArgs(
+                        sinon.match.any,
+                        sinon.match.any,
+                        sinon.match.any,
+                        sinon.match.any,
+                        sinon.match.any,
+                        sinon.match.any,
+                        sinon.match({
+                            range: [0, 13],
+                            text: "\uFEFFvar bar = 234"
+                        })
+                    );
+
+                ruleContext.report({
+                    node: {},
+                    loc: {},
+                    message: "Message",
+                    fix(fixer) {
+                        return [
+                            fixer.insertTextBeforeRange([0, 1], "\uFEFF"),
+                            fixer.replaceTextRange([10, 13], "234"),
+                            fixer.replaceTextRange([4, 7], "bar")
+                        ];
+                    }
+                });
+
+                mockESLint.verify();
+            });
+
+
+            it("should handle removing BOM correctly.", () => {
+                const mockESLint = sandbox.mock(eslint);
+
+                mockESLint.expects("getSourceCode")
+                    .returns({ text: "var foo = 100;" });
+                mockESLint.expects("report")
+                    .once()
+                    .withArgs(
+                        sinon.match.any,
+                        sinon.match.any,
+                        sinon.match.any,
+                        sinon.match.any,
+                        sinon.match.any,
+                        sinon.match.any,
+                        sinon.match({
+                            range: [-1, 13],
+                            text: "var bar = 234"
+                        })
+                    );
+
+                ruleContext.report({
+                    node: {},
+                    loc: {},
+                    message: "Message",
+                    fix(fixer) {
+                        return [
+                            fixer.removeRange([-1, 0]),
+                            fixer.replaceTextRange([10, 13], "234"),
+                            fixer.replaceTextRange([4, 7], "bar")
+                        ];
+                    }
+                });
+
+                mockESLint.verify();
+            });
+
+            it("should throw an assertion error if ranges are overlapped.", () => {
+                const mockESLint = sandbox.mock(eslint);
+
+                mockESLint.expects("getSourceCode")
+                    .returns({ text: "var foo = 100;" });
+                mockESLint.expects("report")
+                    .never();
+
+                assert.throws(() => {
+                    ruleContext.report({
+                        node: {},
+                        loc: {},
+                        message: "Message",
+                        fix(fixer) {
+                            return [
+                                fixer.removeRange([-1, 0]),
+                                fixer.removeRange([-1, 0])
+                            ];
+                        }
+                    });
+                }, "Fix objects must not be overlapped in a report.");
+
+                mockESLint.verify();
+            });
+
         });
     });
 
