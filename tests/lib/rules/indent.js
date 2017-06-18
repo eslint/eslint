@@ -2043,16 +2043,6 @@ ruleTester.run("indent", rule, {
                 const {
                   a
                 } = {
-                    a: 1
-                  }
-            `,
-            options: [2]
-        },
-        {
-            code: unIndent`
-                const {
-                  a
-                } = {
                   a: 1
                 }
             `,
@@ -6875,6 +6865,24 @@ ruleTester.run("indent", rule, {
             `,
             options: [2],
             errors: expectedErrors([[2, 2, 0, "Identifier"], [4, 2, 4, "Identifier"], [5, 2, 6, "Identifier"], [6, 0, 2, "Punctuator"]])
+        },
+        {
+            code: unIndent`
+                const {
+                  a
+                } = {
+                    a: 1
+                  }
+            `,
+            output: unIndent`
+                const {
+                  a
+                } = {
+                  a: 1
+                }
+            `,
+            options: [2],
+            errors: expectedErrors([[4, 2, 4, "Identifier"], [5, 0, 2, "Punctuator"]])
         },
         {
             code: unIndent`
