@@ -198,6 +198,15 @@ The `fixer` object has the following methods:
 * `replaceText(nodeOrToken, text)` - replaces the text in the given node or token
 * `replaceTextRange(range, text)` - replaces the text in the given range
 
+The above methods return a `fixing` object.
+The `fix()` function can return the following values:
+
+* A `fixing` object.
+* An array which includes `fixing` objects.
+* An iterable object which enumerates `fixing` objects. Especially, the `fix()` function can be a generator.
+
+If you make a `fix()` function which returns multiple `fixing` objects, those `fixing` objects must not be overlapped.
+
 Best practices for fixes:
 
 1. Avoid any fixes that could change the runtime behavior of code and cause it to stop working.
@@ -286,6 +295,7 @@ Once you have an instance of `SourceCode`, you can use the methods on it to work
 * `getNodeByRangeIndex(index)` - returns the deepest node in the AST containing the given source index.
 * `getLocFromIndex(index)` - returns an object with `line` and `column` properties, corresponding to the location of the given source index. `line` is 1-based and `column` is 0-based.
 * `getIndexFromLoc(loc)` - returns the index of a given location in the source code, where `loc` is an object with a 1-based `line` key and a 0-based `column` key.
+* `commentsExistBetween(nodeOrToken1, nodeOrToken2)` - returns `true` if comments exist between two nodes.
 
 > `skipOptions` is an object which has 3 properties; `skip`, `includeComments`, and `filter`. Default is `{skip: 0, includeComments: false, filter: null}`.
 > - `skip` is a positive integer, the number of skipping tokens. If `filter` option is given at the same time, it doesn't count filtered tokens as skipped.
