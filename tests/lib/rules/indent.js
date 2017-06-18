@@ -2050,6 +2050,26 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                const
+                  {
+                    a
+                  } = {
+                    a: 1
+                  };
+            `,
+            options: [2]
+        },
+        {
+            code: unIndent`
+                const
+                  foo = {
+                    bar: 1
+                  }
+            `,
+            options: [2]
+        },
+        {
+            code: unIndent`
                 const [
                   a
                 ] = [
