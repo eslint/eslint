@@ -719,10 +719,10 @@ Sometimes a more fine-controlled configuration is necessary, for example if the 
 
 ### How it works
 
-* Glob pattern overrides can only be configured within `.eslintrc` files.
-* The patterns are applied against the file path relative to the directory of the `.eslintrc` file. For example, if your `.eslintrc` file has the path `/Users/john/workspace/any-project/.eslintrc` and the file you want to lint has the path `/Users/john/workspace/any-project/lib/util.js`, then the pattern provided in `.eslintrc` will be executed against the relative path `lib/util.js`.
-* Glob pattern overrides have higher precedence than the regular configuration in the same `.eslintrc` file.
-* A glob specific configuration works almost the same as the regular configuration in your `.eslintrc`, except that you can't define nested glob based configurations or use `extends`.
+* Glob pattern overrides can only be configured within config files (`.eslintrc.*` or `package.json`).
+* The patterns are applied against the file path relative to the directory of the config file. For example, if your config file has the path `/Users/john/workspace/any-project/.eslintrc.js` and the file you want to lint has the path `/Users/john/workspace/any-project/lib/util.js`, then the pattern provided in `.eslintrc.js` will be executed against the relative path `lib/util.js`.
+* Glob pattern overrides have higher precedence than the regular configuration in the same config file.
+* A glob specific configuration works almost the same as the regular configuration in your config, except that you can't define nested glob based configurations or use `extends`.
 * Multiple glob patterns can be provided within a single override block. The associated configuration will be applied to the intersection of the sets of files matched by each of the patterns. In other words, a file must match all the supplied patterns for the configuration to apply.
 
 ### Relative glob patterns
@@ -736,18 +736,18 @@ project-root
 │   ├── components
 │   │   ├── bar.js
 │   │   ├── barSpec.js
-│   ├── .eslintrc
+│   ├── .eslintrc.json
 ├── server
 │   ├── server.js
 │   ├── serverSpec.js
-├── .eslintrc
+├── .eslintrc.json
 ```
 
-The config in `app/.eslintrc` defines the glob pattern `**/*Spec.js`. This pattern is relative to the base directory of `app/.eslintrc`. So, this pattern would match `app/lib/fooSpec.js` and `app/components/barSpec.js` but **NOT** `server/serverSpec.js`. If you defined the same pattern in the `.eslintrc` file within in the `project-root` folder, it would match all three of the `*Spec` files.
+The config in `app/.eslintrc.json` defines the glob pattern `**/*Spec.js`. This pattern is relative to the base directory of `app/.eslintrc.json`. So, this pattern would match `app/lib/fooSpec.js` and `app/components/barSpec.js` but **NOT** `server/serverSpec.js`. If you defined the same pattern in the `.eslintrc.json` file within in the `project-root` folder, it would match all three of the `*Spec` files.
 
 ### Example configuration
 
-In your `.eslintrc`:
+In your `.eslintrc.json`:
 
 ```json
 {
