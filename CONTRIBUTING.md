@@ -2,6 +2,10 @@
 
 Please be sure to read the contribution guidelines before making or requesting a change.
 
+## Code of Conduct
+
+This project adheres to the [JS Foundation Code of Conduct](https://js.foundation/community/code-of-conduct). We kindly request that you read over our code of conduct before contributing.
+
 ## Filing Issues
 
 Before filing an issue, please be sure to read the guidelines for what you're reporting:

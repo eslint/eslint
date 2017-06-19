@@ -1,3 +1,7 @@
+<!--
+    ESLint adheres to the [JS Foundation Code of Conduct](https://js.foundation/community/code-of-conduct).
+-->
+
 **What is the purpose of this pull request? (put an "X" next to item)**
 
 [ ] Documentation update
