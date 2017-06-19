@@ -1324,6 +1324,8 @@ describe("CLIEngine", () => {
             fakeFS.realpathSync = function() {
                 throw new Error("this error should not happen");
             };
+            fakeFS.existsSync = fs.existsSync;
+            fakeFS.unlinkSync = fs.unlinkSync;
 
             engine = new LocalCLIEngine({
                 ignorePattern: "tests"
