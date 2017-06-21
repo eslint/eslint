@@ -15,23 +15,29 @@ const baseConfigProperties = {
     settings: { type: "object" }
 };
 
-const globList = {
-    oneOf: [
-        { type: "string" },
-        {
-            type: "array",
-            items: { type: "string" },
-            minItems: 1
-        }
-    ]
-};
-
 const overrideProperties = Object.assign(
     {},
     baseConfigProperties,
     {
-        files: globList,
-        excludedFiles: globList
+        files: {
+            oneOf: [
+                { type: "string" },
+                {
+                    type: "array",
+                    items: { type: "string" },
+                    minItems: 1
+                }
+            ]
+        },
+        excludedFiles: {
+            oneOf: [
+                { type: "string" },
+                {
+                    type: "array",
+                    items: { type: "string" }
+                }
+            ]
+        }
     }
 );
 
