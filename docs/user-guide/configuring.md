@@ -722,7 +722,7 @@ Sometimes a more fine-controlled configuration is necessary, for example if the 
 * Glob pattern overrides can only be configured within config files (`.eslintrc.*` or `package.json`).
 * The patterns are applied against the file path relative to the directory of the config file. For example, if your config file has the path `/Users/john/workspace/any-project/.eslintrc.js` and the file you want to lint has the path `/Users/john/workspace/any-project/lib/util.js`, then the pattern provided in `.eslintrc.js` will be executed against the relative path `lib/util.js`.
 * Glob pattern overrides have higher precedence than the regular configuration in the same config file. Multiple overrides within the same config are applied in order. That is, the last override block in a config file always has the highest precedence.
-* A glob specific configuration works almost the same as the regular configuration in your config, except that you can't define nested glob based configurations or use `extends`.
+* A glob specific configuration works almost the same as any other ESLint config. Override blocks can contain any configuration options that are valid in a regular config, with the exception of `extends`, `overrides`, and `root`.
 * Multiple glob patterns can be provided within a single override block. The associated configuration will be applied to the intersection of the sets of files matched by each of the patterns. In other words, a file must match all the supplied patterns for the configuration to apply.
 
 ### Relative glob patterns
@@ -758,10 +758,8 @@ In your `.eslintrc.json`:
   "overrides": [
     {
       "files": [ "lib/*.jsx" ],
-      "config": {
-        "rules": {
-          "quotes": [ 2, "single" ]
-        }
+      "rules": {
+        "quotes": [ 2, "single" ]
       }
     }
   ]

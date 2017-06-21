@@ -354,6 +354,44 @@ describe("Validator", () => {
             });
         });
 
+        describe("overrides", () => {
+            it("should not throw with an empty overrides array", () => {
+                const fn = validator.validate.bind(null, { overrides: [] }, "tests", linter.rules, linter.environments);
+
+                assert.doesNotThrow(fn);
+            });
+
+            it("should not throw with a valid overrides array", () => {
+                const fn = validator.validate.bind(null, { overrides: [{ files: "*", rules: {} }] }, "tests", linter.rules, linter.environments);
+
+                assert.doesNotThrow(fn);
+            });
+
+            it("should throw if override does not specify files", () => {
+                const fn = validator.validate.bind(null, { overrides: [{ rules: {} }] }, "tests", linter.rules, linter.environments);
+
+                assert.throws(fn, "tests:\n\tESLint configuration is invalid:\n\t- \"overrides.0.files\" is required. Value: {\"rules\":{}}.\n");
+            });
+
+            it("should throw if override has nested overrides", () => {
+                const fn = validator.validate.bind(null, { overrides: [{ files: "*", overrides: [{ files: "*", rules: {} }] }] }, "tests", linter.rules, linter.environments);
+
+                assert.throws(fn, "tests:\n\tESLint configuration is invalid:\n\t- Unexpected top-level property \"overrides[j].overrides\".\n");
+            });
+
+            it("should throw if override extends", () => {
+                const fn = validator.validate.bind(null, { overrides: [{ files: "*", extends: "eslint-recommended" }] }, "tests", linter.rules, linter.environments);
+
+                assert.throws(fn, "tests:\n\tESLint configuration is invalid:\n\t- Unexpected top-level property \"overrides[j].extends\".\n");
+            });
+
+            it("should throw if override tries to set root", () => {
+                const fn = validator.validate.bind(null, { overrides: [{ files: "*", root: "true" }] }, "tests", linter.rules, linter.environments);
+
+                assert.throws(fn, "tests:\n\tESLint configuration is invalid:\n\t- Unexpected top-level property \"overrides[j].root\".\n");
+            });
+        });
+
     });
 
     describe("getRuleOptionsSchema", () => {
