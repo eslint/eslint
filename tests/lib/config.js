@@ -1255,7 +1255,7 @@ describe("Config", () => {
                 assertConfigsEqual(actual, expected);
             });
 
-            it("should not apply overrides if any glob patterns do not match", () => {
+            it("should apply overrides even if some glob patterns do not match", () => {
                 const targetPath = getFakeFixturePath("overrides", "one", "child-one.js");
                 const config = new Config({
                     cwd: getFakeFixturePath("overrides"),
@@ -1270,7 +1270,57 @@ describe("Config", () => {
                     useEslintrc: false
                 }, linter);
                 const expected = {
+                    rules: {
+                        quotes: [2, "single"]
+                    }
+                };
+                const actual = config.getConfig(targetPath);
+
+                assertConfigsEqual(actual, expected);
+            });
+
+            it("should not apply overrides if any excluded glob patterns match", () => {
+                const targetPath = getFakeFixturePath("overrides", "one", "child-one.js");
+                const config = new Config({
+                    cwd: getFakeFixturePath("overrides"),
+                    baseConfig: {
+                        overrides: [{
+                            files: "one/**/*",
+                            excludedFiles: ["two/**/*", "*one.js"],
+                            rules: {
+                                quotes: [2, "single"]
+                            }
+                        }]
+                    },
+                    useEslintrc: false
+                }, linter);
+                const expected = {
                     rules: {}
+                };
+                const actual = config.getConfig(targetPath);
+
+                assertConfigsEqual(actual, expected);
+            });
+
+            it("should apply overrides if all excluded glob patterns fail to match", () => {
+                const targetPath = getFakeFixturePath("overrides", "one", "child-one.js");
+                const config = new Config({
+                    cwd: getFakeFixturePath("overrides"),
+                    baseConfig: {
+                        overrides: [{
+                            files: "one/**/*",
+                            excludedFiles: ["two/**/*", "*two.js"],
+                            rules: {
+                                quotes: [2, "single"]
+                            }
+                        }]
+                    },
+                    useEslintrc: false
+                }, linter);
+                const expected = {
+                    rules: {
+                        quotes: [2, "single"]
+                    }
                 };
                 const actual = config.getConfig(targetPath);
 
