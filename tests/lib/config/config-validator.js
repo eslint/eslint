@@ -373,6 +373,12 @@ describe("Validator", () => {
                 assert.throws(fn, "tests:\n\tESLint configuration is invalid:\n\t- \"overrides.0.files\" is required. Value: {\"rules\":{}}.\n");
             });
 
+            it("should throw if override has an empty files array", () => {
+                const fn = validator.validate.bind(null, { overrides: [{ files: [] }] }, "tests", linter.rules, linter.environments);
+
+                assert.throws(fn, "tests:\n\tESLint configuration is invalid:\n\t- \"overrides.0.files\" no (or more than one) schemas match. Value: [].\n");
+            });
+
             it("should throw if override has nested overrides", () => {
                 const fn = validator.validate.bind(null, { overrides: [{ files: "*", overrides: [{ files: "*", rules: {} }] }] }, "tests", linter.rules, linter.environments);
 

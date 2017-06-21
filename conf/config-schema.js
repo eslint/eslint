@@ -24,7 +24,8 @@ const overrideProperties = Object.assign(
                 { type: "string" },
                 {
                     type: "array",
-                    items: { type: "string" }
+                    items: { type: "string" },
+                    minItems: 1
                 }
             ]
         }
