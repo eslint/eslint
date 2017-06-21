@@ -338,8 +338,8 @@ describe("Config", () => {
         it("should load the config file when there are JS-style comments in the text", () => {
             const configPath = path.resolve(__dirname, "..", "fixtures", "configurations", "comments.json"),
                 configHelper = new Config({ configFile: configPath }, linter),
-                semi = configHelper.useSpecificConfig.rules.semi,
-                strict = configHelper.useSpecificConfig.rules.strict;
+                semi = configHelper.specificConfig.rules.semi,
+                strict = configHelper.specificConfig.rules.strict;
 
             assert.equal(semi, 1);
             assert.equal(strict, 0);
@@ -349,8 +349,8 @@ describe("Config", () => {
         it("should load the config file when a YAML file is used", () => {
             const configPath = path.resolve(__dirname, "..", "fixtures", "configurations", "env-browser.yaml"),
                 configHelper = new Config({ configFile: configPath }, linter),
-                noAlert = configHelper.useSpecificConfig.rules["no-alert"],
-                noUndef = configHelper.useSpecificConfig.rules["no-undef"];
+                noAlert = configHelper.specificConfig.rules["no-alert"],
+                noUndef = configHelper.specificConfig.rules["no-undef"];
 
             assert.equal(noAlert, 0);
             assert.equal(noUndef, 2);
