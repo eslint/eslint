@@ -173,6 +173,15 @@ ruleTester.run("max-len", rule, {
         {
             code: "'🙂😀😆😎😊😜😉👍'",
             options: [10]
+        },
+
+        // eslint-enable edge cases
+        {
+            code: "/* eslint-disable */var x = y/* eslint-enable*/;",
+            options: [20]
+        }, {
+            code: "    /* eslint-disable */var x = y/* eslint-enable*/;",
+            options: [20]
         }
     ],
 
