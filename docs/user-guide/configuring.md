@@ -713,6 +713,61 @@ module.exports = {
 }
 ```
 
+## Configuration Based on Glob Patterns
+
+Sometimes a more fine-controlled configuration is necessary, for example if the configuration for files within the same directory has to be different. Therefore you can provide configurations under the `overrides` key that will only apply to files that match specific glob patterns, using the same format you would pass on the command line (e.g., `app/**/*.test.js`).
+
+### How it works
+
+* Glob pattern overrides can only be configured within config files (`.eslintrc.*` or `package.json`).
+* The patterns are applied against the file path relative to the directory of the config file. For example, if your config file has the path `/Users/john/workspace/any-project/.eslintrc.js` and the file you want to lint has the path `/Users/john/workspace/any-project/lib/util.js`, then the pattern provided in `.eslintrc.js` will be executed against the relative path `lib/util.js`.
+* Glob pattern overrides have higher precedence than the regular configuration in the same config file. Multiple overrides within the same config are applied in order. That is, the last override block in a config file always has the highest precedence.
+* A glob specific configuration works almost the same as any other ESLint config. Override blocks can contain any configuration options that are valid in a regular config, with the exception of `extends`, `overrides`, and `root`.
+* Multiple glob patterns can be provided within a single override block. A file must match at least one of the supplied patterns for the configuration to apply.
+* Override blocks can also specify patterns to exclude from matches. If a file matches any of the excluded patterns, the configuration won't apply.
+
+### Relative glob patterns
+
+```
+project-root
+├── app
+│   ├── lib
+│   │   ├── foo.js
+│   │   ├── fooSpec.js
+│   ├── components
+│   │   ├── bar.js
+│   │   ├── barSpec.js
+│   ├── .eslintrc.json
+├── server
+│   ├── server.js
+│   ├── serverSpec.js
+├── .eslintrc.json
+```
+
+The config in `app/.eslintrc.json` defines the glob pattern `**/*Spec.js`. This pattern is relative to the base directory of `app/.eslintrc.json`. So, this pattern would match `app/lib/fooSpec.js` and `app/components/barSpec.js` but **NOT** `server/serverSpec.js`. If you defined the same pattern in the `.eslintrc.json` file within in the `project-root` folder, it would match all three of the `*Spec` files.
+
+### Example configuration
+
+In your `.eslintrc.json`:
+
+```json
+{
+  "rules": {
+    "quotes": [ 2, "double" ]
+  },
+
+  "overrides": [
+    {
+      "files": [ "bin/*.js", "lib/*.js" ],
+      "excludedFiles": "*.test.js",
+      "rules": {
+        "quotes": [ 2, "single" ]
+      }
+    }
+  ]
+}
+```
+
 ## Comments in Configuration Files
 
 Both the JSON and YAML configuration file formats support comments (`package.json` files should not include them). You can use JavaScript-style comments or YAML-style comments in either type of file and ESLint will safely ignore them. This allows your configuration files to be more human-friendly. For example:
