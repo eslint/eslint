@@ -368,6 +368,10 @@ ruleTester.run("no-extra-parens", rule, {
             "/>)"
         ].join("\n"), options: ["all", { ignoreJSX: "multi-line" }] },
 
+        // ["all", { enforceForArrowConditionals: false }]
+        { code: "var a = b => 1 ? 2 : 3", options: ["all", { enforceForArrowConditionals: false }], parserOptions: { ecmaVersion: 6 } },
+        { code: "var a = (b) => (1 ? 2 : 3)", options: ["all", { enforceForArrowConditionals: false }], parserOptions: { ecmaVersion: 6 } },
+
         {
             code: "let a = [ ...b ]",
             parserOptions: { ecmaVersion: 2015 }
@@ -920,6 +924,32 @@ ruleTester.run("no-extra-parens", rule, {
         ].join("\n"), "const Component = <div>\n<p />\n</div>", "JSXElement", 1, {
             options: ["all", { ignoreJSX: "none" }]
         }),
+
+        // ["all", { enforceForArrowConditionals: true }]
+        {
+            code: "var a = (b) => (1 ? 2 : 3)",
+            parserOptions: { ecmaVersion: 6 },
+            options: ["all", { enforceForArrowConditionals: true }],
+            errors: [
+                {
+                    message: "Gratuitous parentheses around expression."
+                }
+            ],
+            output: "var a = (b) => 1 ? 2 : 3"
+        },
+
+        // ["all", { enforceForArrowConditionals: false }]
+        {
+            code: "var a = (b) => ((1 ? 2 : 3))",
+            parserOptions: { ecmaVersion: 6 },
+            options: ["all", { enforceForArrowConditionals: false }],
+            errors: [
+                {
+                    message: "Gratuitous parentheses around expression."
+                }
+            ],
+            output: "var a = (b) => (1 ? 2 : 3)"
+        },
 
         // https://github.com/eslint/eslint/issues/8175
         invalid(
