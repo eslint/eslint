@@ -24,8 +24,8 @@ This rule has one option, which can be a string option or an object option.
 
 String option:
 
-* `"always"` (default) requires empty lines at the beginning and ending of block statements
-* `"never"` disallows empty lines at the beginning and ending of block statements
+* `"always"` (default) requires empty lines at the beginning and ending of block statements and classes
+* `"never"` disallows empty lines at the beginning and ending of block statements and classes
 
 Object option:
 
