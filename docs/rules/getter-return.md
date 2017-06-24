@@ -74,11 +74,11 @@ class P{
 
 This rule has an object option:
 
-* `"allowImplicit": false` (default) disallows implicitly return a value.
+* `"allowImplicit": false` (default) disallows implicitly returning undefined with a return; statement.
 
 ## When Not To Use It
 
-If your project will not be using getter you do not need this rule.
+If your project will not be using ES5 property getters you do not need this rule.
 
 ## Further Reading
 
