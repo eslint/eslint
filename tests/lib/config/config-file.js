@@ -899,6 +899,49 @@ describe("ConfigFile", () => {
                     }
                 });
             });
+
+            it("should load two separate configs from a plugin", () => {
+                const stubConfig = new Config({}, new Linter());
+                const resolvedPath = path.resolve(PROJECT_PATH, "./node_modules/eslint-plugin-test/index.js");
+
+                const configDeps = {
+                    "../util/module-resolver": createStubModuleResolver({
+                        "eslint-plugin-test": resolvedPath
+                    }),
+                    "require-uncached"(filename) {
+                        return configDeps[filename];
+                    }
+                };
+
+                configDeps[resolvedPath] = {
+                    configs: {
+                        foo: { rules: { semi: 2, quotes: 1 } },
+                        bar: { rules: { quotes: 2, yoda: 2 } }
+                    }
+                };
+
+                const StubbedConfigFile = proxyquire("../../../lib/config/config-file", configDeps);
+
+                const configFilePath = getFixturePath("plugins/.eslintrc2.yml");
+                const config = StubbedConfigFile.load(configFilePath, stubConfig);
+
+                assert.deepEqual(config, {
+                    baseDirectory: path.dirname(configFilePath),
+                    filePath: configFilePath,
+                    parserOptions: {},
+                    globals: {},
+                    env: {},
+                    rules: {
+                        semi: 2,
+                        quotes: 2,
+                        yoda: 2
+                    },
+                    extends: [
+                        "plugin:test/foo",
+                        "plugin:test/bar"
+                    ]
+                });
+            });
         });
 
         describe("even if config files have Unicode BOM,", () => {
