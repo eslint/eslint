@@ -16,13 +16,12 @@ const RuleTester = require("../../../lib/testers/rule-tester");
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 
 // data is not working, so specify a name: "getter 'bar'"
 const name = "getter 'bar'";
 const noReturnMessage = `Expected to return a value in ${name}.`;
 const noLastReturnMessage = `Expected to return a value at the end of ${name}.`;
-const parserOptions = { ecmaVersion: 6 };
 const options = [{ allowImplicit: true }];
 
 ruleTester.run("getter-return", rule, {
@@ -33,12 +32,12 @@ ruleTester.run("getter-return", rule, {
         { code: "var foo = { get bar(){return true;} };" },
         { code: "var foo = { bar: function(){return true;} };" },
         { code: "var foo = { bar: function(){return;} };" },
-        { code: "var foo = { bar(){return true;} };", parserOptions },
+        { code: "var foo = { bar(){return true;} };" },
 
         // test class: get, option: {allowImplicit: false}
-        { code: "class foo { get bar(){return true;} }", parserOptions },
-        { code: "class foo { get bar(){if(baz){return true;} else {return false;} } }", parserOptions },
-        { code: "class foo { get(){return true;} }", parserOptions },
+        { code: "class foo { get bar(){return true;} }" },
+        { code: "class foo { get bar(){if(baz){return true;} else {return false;} } }" },
+        { code: "class foo { get(){return true;} }" },
 
         // test object.defineProperty(s), option: {allowImplicit: false}
         { code: "Object.defineProperty(foo, \"bar\", { get: function () {return true;}});" },
@@ -50,8 +49,8 @@ ruleTester.run("getter-return", rule, {
         { code: "var foo = { get bar() {return;} };", options },
         { code: "var foo = { get bar(){return true;} };", options },
         { code: "var foo = { get bar(){if(bar) {return;} return true;} };", options },
-        { code: "class foo { get bar(){return true;} }", options, parserOptions },
-        { code: "class foo { get bar(){return;} }", options, parserOptions },
+        { code: "class foo { get bar(){return true;} }", options },
+        { code: "class foo { get bar(){return;} }", options },
         { code: "Object.defineProperty(foo, \"bar\", { get: function () {return true;}});", options },
         { code: "Object.defineProperies(foo, { bar: { get: function () {return true;}} });", options },
         { code: "Object.defineProperty(foo, \"bar\", { get: function (){return;}});", options },
@@ -62,21 +61,21 @@ ruleTester.run("getter-return", rule, {
         { code: "var get = function(){ return true; };" },
         { code: "var foo = { bar: function(){} };" },
         { code: "var foo = { bar: function(){ return true; } };" },
-        { code: "var foo = { bar(){} };", parserOptions },
-        { code: "var foo = { bar(){ return true; } };", parserOptions }
+        { code: "var foo = { bar(){} };" },
+        { code: "var foo = { bar(){ return true; } };" }
     ],
 
     invalid: [
 
         // test obj: get, option: {allowImplicit: false}
-        { code: "var foo = { get bar() {} };", parserOptions, errors: [{ message: noReturnMessage }] },
-        { code: "var foo = { get bar(){if(bar) {return true;}} };", parserOptions, errors: [{ message: noLastReturnMessage }] },
-        { code: "var foo = { get bar() { ~function () {return true;}} };", parserOptions, errors: [{ message: noReturnMessage }] },
+        { code: "var foo = { get bar() {} };", errors: [{ message: noReturnMessage }] },
+        { code: "var foo = { get bar(){if(bar) {return true;}} };", errors: [{ message: noLastReturnMessage }] },
+        { code: "var foo = { get bar() { ~function () {return true;}} };", errors: [{ message: noReturnMessage }] },
 
         // test class: get, option: {allowImplicit: false}
-        { code: "class foo { get bar(){} }", parserOptions, errors: [{ message: noReturnMessage }] },
-        { code: "class foo { get bar(){ if (baz) { return true; }}}", parserOptions, errors: [{ noLastReturnMessage }] },
-        { code: "class foo { get bar(){ ~function () { return true; }()}}", parserOptions, errors: [{ noLastReturnMessage }] },
+        { code: "class foo { get bar(){} }", errors: [{ message: noReturnMessage }] },
+        { code: "class foo { get bar(){ if (baz) { return true; }}}", errors: [{ noLastReturnMessage }] },
+        { code: "class foo { get bar(){ ~function () { return true; }()}}", errors: [{ noLastReturnMessage }] },
 
         // test object.defineProperty(s), option: {allowImplicit: false}
         { code: "Object.defineProperty(foo, \"bar\", { get: function (){}});", errors: [{ noReturnMessage }] },
@@ -89,9 +88,9 @@ ruleTester.run("getter-return", rule, {
         // test option: {allowImplicit: true}
         { code: "var foo = { get bar() {} };", options, errors: [{ message: noReturnMessage }] },
         { code: "var foo = { get bar() {if (baz) {return;}} };", options, errors: [{ message: noLastReturnMessage }] },
-        { code: "class foo { get bar(){} }", options, parserOptions, errors: [{ message: noReturnMessage }] },
-        { code: "class foo { get bar(){if (baz) {return true;} } }", options, parserOptions, errors: [{ message: noLastReturnMessage }] },
-        { code: "Object.defineProperty(foo, \"bar\", { get: function (){}});", options, parserOptions, errors: [{ message: "Expected to return a value in method 'get'." }] },
+        { code: "class foo { get bar(){} }", options, errors: [{ message: noReturnMessage }] },
+        { code: "class foo { get bar(){if (baz) {return true;} } }", options, errors: [{ message: noLastReturnMessage }] },
+        { code: "Object.defineProperty(foo, \"bar\", { get: function (){}});", options, errors: [{ message: "Expected to return a value in method 'get'." }] },
         { code: "Object.defineProperies(foo, { bar: { get: function () {}} });", options, errors: [{ noReturnMessage }] }
     ]
 });
