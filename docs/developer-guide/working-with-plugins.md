@@ -218,3 +218,30 @@ Add these keywords into your `package.json` file to make it easy for others to f
 ## Further Reading
 
 * [npm Developer Guide](https://docs.npmjs.com/misc/developers)
+
+### Working with Custom Parsers
+
+If you want to use your own parser and provide additional capabilities for your rules, you can specify your own customer parser. By default, the ESLint parser will use its parse method that takes in the source code as a first parameter and additional optional parameters as a second parameter to create an AST. You can specify a `parse` configuration to use your own custom parser. The parse configuration expects a `parseForESLint` method to be exposed. `parseForESLint` behaves like `parse` and takes in the the source code and optional ESLint configurations. When `parseForESLint` is called, the method should return an object that contains the key `ast` and an optional `services` property. `ast` should contain the AST. The `services` property contains the parser-dependent services. The value of the service property is available to rules as `context.parserServices`
+
+If no parseForESLint function is found, the parser will use the default parse method with the source code and the parser options.
+
+    {
+
+        "parser": './path/to/awesome-custom-parser.js'
+    }
+
+```javascript
+var espree = require("espree");
+// awesome-custom-parser.js
+exports.parseForESLint = function(code, options) {
+    return {
+        ast: espree.parse(code, options),
+        services: {
+            foo: function() {
+                console.log("foo");
+            }
+        }
+    };
+};
+
+```
