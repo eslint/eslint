@@ -76,6 +76,17 @@ This rule has an object option:
 
 * `"allowImplicit": false` (default) disallows implicitly returning undefined with a return; statement.
 
+Examples of **correct** code for the `{ "allowImplicit": true }` option:
+
+```js
+/*eslint getter-return: ["error", { allowImplicit: true }]*/
+p = {
+    get name(){
+        return; // return undefined implicitly.
+    }
+};
+```
+
 ## When Not To Use It
 
 If your project will not be using ES5 property getters you do not need this rule.
