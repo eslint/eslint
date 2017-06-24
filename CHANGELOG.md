@@ -1,3 +1,26 @@
+v4.1.0 - June 23, 2017
+
+* e8f1362 Docs: Remove wrong descriptions in `padded-block` rule (#8783) (Plusb Preco)
+* 291a783 Update: `enforceForArrowConditionals` to `no-extra-parens` (fixes #6196) (#8439) (Evilebot Tnawi)
+* a21dd32 New: Add `overrides`/`files` options for glob-based config (fixes #3611) (#8081) (Sylvan Mably)
+* 879688c Update: Add ignoreComments option to no-trailing-spaces (#8061) (Jake Roussel)
+* b58ae2e Chore: Only instantiate fileEntryCache when cache flage set (perf) (#8763) (Gyandeep Singh)
+* 9851288 Update: fix indent errors on multiline destructure (fixes #8729) (#8756) (Victor Hom)
+* 3608f06 Docs: Increase visibility of code of conduct (fixes #8758) (#8764) (Kai Cataldo)
+* 673a58b Update: support multiple fixes in a report (fixes #7348) (#8101) (Toru Nagashima)
+* 7a1bc38 Fix: don't pass default parserOptions to custom parsers (fixes #8744) (#8745) (Teddy Katz)
+* c5b4052 Chore: enable computed-property-spacing on ESLint codebase (#8760) (Teddy Katz)
+* 3419f64 Docs: describe how to use formatters on the formatter demo page (#8754) (Teddy Katz)
+* a3ff8f2 Chore: combine tests in tests/lib/eslint.js and tests/lib/linter.js (#8746) (Teddy Katz)
+* b7cc1e6 Fix: Space-infix-ops should ignore type annotations in TypeScript (#8341) (Reyad Attiyat)
+* 46e73ee Fix: eslint --init installs wrong dependencies of popular styles (fixes #7338) (#8713) (Toru Nagashima)
+* a82361b Chore: Prevent package-lock.json files from being created (fixes #8742) (#8747) (Teddy Katz)
+* 5f81a68 New: Add eslintIgnore support to package.json (fixes #8458) (#8690) (Victor Hom)
+* b5a70b4 Update: fix multiline binary operator/parentheses indentation (#8719) (Teddy Katz)
+* ab8b016 Update: fix MemberExpression indentation with "off" option (fixes #8721) (#8724) (Teddy Katz)
+* eb5d12c Update: Add Fixer method to Linter API (#8631) (Gyandeep Singh)
+* 26a2daa Chore: Cache fs reads in ignored-paths (fixes #8363) (#8706) (Victor Hom)
+
 v4.0.0 - June 11, 2017
 
 * 4aefb49 Chore: avoid using deprecated rules on ESLint codebase (#8708) (Teddy Katz)
