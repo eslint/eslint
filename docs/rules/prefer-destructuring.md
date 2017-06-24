@@ -29,11 +29,15 @@ var foo = object.bar;
 
 ### Options
 
-This rule takes two sets of configuration objects; the first controls the types that the rule is applied to, and the second controls the way those objects are evaluated.
+This rule takes two sets of configuration objects. The first object parameter determines what types of destructuring the rule applies to.
 
-The first has two properties, `array` and `object`, which can be used to turn on or off the destructuring requirement for each of those types independently.  By default, both are `true`.
+The two properties, `array` and `object`, can be used to turn on or off the destructuring requirement for each of those types independently. By default, both are true.
 
-The second has a single property, `enforceForRenamedProperties`, that controls whether or not the `object` destructuring rules are applied in cases where the variable requires the property being access to be renamed.
+Alternatively, you can use separate configurations for different assignment types. It accepts 2 other keys instead of `array` and `object`.
+
+One key is `VariableDeclarator` and the other is `AssignmentExpression`, which can be used to control the destructuring requirement for each of those types independently. Each property accepts an object that accepts two properties, `array` and `object`, which can be used to control the destructuring requirement for each of `array` and `object` independently for variable declarations and assignment expressions.  By default, `array` and `object` are set to true for both `VariableDeclarator` and `AssignmentExpression`.
+
+The rule has a second object with a single key, `enforceForRenamedProperties`, which determines whether the `object` destructuring applies to renamed variables.
 
 Examples of **incorrect** code when `enforceForRenamedProperties` is enabled:
 
@@ -47,7 +51,7 @@ Examples of **correct** code when `enforceForRenamedProperties` is enabled:
 var { bar: foo } = object;
 ```
 
-An example configuration, with the defaults filled in, looks like this:
+An example configuration, with the defaults `array` and `object` filled in, looks like this:
 
 ```json
 {
@@ -55,6 +59,27 @@ An example configuration, with the defaults filled in, looks like this:
     "prefer-destructuring": ["error", {
       "array": true,
       "object": true
+    }, {
+      "enforceForRenamedProperties": false
+    }]
+  }
+}
+```
+
+An example configuration, with the defaults `VariableDeclarator` and `AssignmentExpression` filled in, looks like this:
+
+```json
+{
+  "rules": {
+    "prefer-destructuring": ["error", {
+      "VariableDeclarator": {
+        "array": false,
+        "object": true
+      },
+      "AssignmentExpression": {
+        "array": true,
+        "object": true
+      }
     }, {
       "enforceForRenamedProperties": false
     }]
