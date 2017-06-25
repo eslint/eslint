@@ -204,6 +204,13 @@ describe("SourceCodeFixer", () => {
                 assert.equal(result.output, TEST_CODE);
             });
 
+            it("should only apply fixes for which the 'shouldFix' function returns true", () => {
+                const shouldFixSpy = sinon.spy(problem => problem.message === "foo");
+                const result = SourceCodeFixer.applyFixes(sourceCode, [INSERT_AT_START, REPLACE_ID], shouldFixSpy);
+
+                assert.equal(result.output, "var foo = 6 * 7;");
+            });
+
             it("is called without access to internal eslint state", () => {
                 const shouldFixSpy = sinon.spy();
 
