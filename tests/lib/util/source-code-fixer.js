@@ -173,7 +173,7 @@ describe("SourceCodeFixer", () => {
                 const result = SourceCodeFixer.applyFixes(sourceCode, [INSERT_AT_END], false);
 
                 assert.isFalse(result.fixed);
-                assert.equal(result.output.length, 0);
+                assert.equal(result.output, sourceCode.text);
             });
 
             it("should call a function provided as 'shouldFix' for each message", () => {
