@@ -203,6 +203,14 @@ describe("SourceCodeFixer", () => {
 
                 assert.equal(result.output, TEST_CODE);
             });
+
+            it("is called without access to internal eslint state", () => {
+                const shouldFixSpy = sinon.spy();
+
+                SourceCodeFixer.applyFixes(sourceCode, [INSERT_AT_START], shouldFixSpy);
+
+                assert.isUndefined(shouldFixSpy.thisValues[0]);
+            });
         });
 
         describe("Text Insertion", () => {
