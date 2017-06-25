@@ -2103,6 +2103,33 @@ ruleTester.run("indent", rule, {
             options: [2]
         },
         {
+            code: unIndent`
+                (
+                    foo
+                )(
+                    bar
+                )
+            `
+        },
+        {
+            code: unIndent`
+                (() =>
+                    foo
+                )(
+                    bar
+                )
+            `
+        },
+        {
+            code: unIndent`
+                (() => {
+                    foo();
+                })(
+                    bar
+                )
+            `
+        },
+        {
 
             // Don't lint the indentation of the first token after a :
             code: unIndent`
