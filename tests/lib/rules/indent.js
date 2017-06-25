@@ -7980,6 +7980,57 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                (
+                    foo
+                )(
+                        bar
+                    )
+            `,
+            output: unIndent`
+                (
+                    foo
+                )(
+                    bar
+                )
+            `,
+            errors: expectedErrors([[4, 4, 8, "Identifier"], [5, 0, 4, "Punctuator"]])
+        },
+        {
+            code: unIndent`
+                (() =>
+                    foo
+                )(
+                        bar
+                    )
+            `,
+            output: unIndent`
+                (() =>
+                    foo
+                )(
+                    bar
+                )
+            `,
+            errors: expectedErrors([[4, 4, 8, "Identifier"], [5, 0, 4, "Punctuator"]])
+        },
+        {
+            code: unIndent`
+                (() => {
+                    foo();
+                })(
+                        bar
+                    )
+            `,
+            output: unIndent`
+                (() => {
+                    foo();
+                })(
+                    bar
+                )
+            `,
+            errors: expectedErrors([[4, 4, 8, "Identifier"], [5, 0, 4, "Punctuator"]])
+        },
+        {
+            code: unIndent`
                 foo.
                   bar.
                       baz
