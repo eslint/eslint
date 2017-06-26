@@ -159,7 +159,7 @@ var messages = linter.verifyAndFix("var foo", {
     rules: {
         semi: 2
     }
-}, { filename: "foo.js" });
+});
 ```
 
 Output object from this method:
