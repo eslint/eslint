@@ -450,7 +450,12 @@ ruleTester.run("no-extra-parens", rule, {
         {
             code: "((function(){}).foo)();",
             options: ["functions"]
-        }
+        },
+        "(let)[foo]",
+        "for ((let) in foo);",
+        "for ((let[foo]) in bar);",
+        "for ((let)[foo] in bar);",
+        "for ((let[foo].bar) in baz);"
     ],
 
     invalid: [
@@ -1052,6 +1057,24 @@ ruleTester.run("no-extra-parens", rule, {
             "MemberExpression",
             1,
             { parserOptions: { ecmaVersion: 2015 } }
+        ),
+        invalid(
+            "(let).foo",
+            "let.foo",
+            "Identifier",
+            1
+        ),
+        invalid(
+            "for ((let.foo) in bar);",
+            "for (let.foo in bar);",
+            "MemberExpression",
+            1
+        ),
+        invalid(
+            "for ((let).foo.bar in baz);",
+            "for (let.foo.bar in baz);",
+            "Identifier",
+            1
         )
     ]
 });
