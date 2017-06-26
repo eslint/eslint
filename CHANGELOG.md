@@ -1,3 +1,11 @@
+v4.1.1 - June 25, 2017
+
+* f307aa0 Fix: ensure configs from a plugin are cached separately (fixes #8792) (#8798) (Teddy Katz)
+* 8b48ae8 Docs: Add doc on parser services (fixes #8390) (#8795) (Victor Hom)
+* 0d041e7 Fix: avoid crashing when using baseConfig with extends (fixes #8791) (#8797) (Teddy Katz)
+* 03213bb Chore: improve comment explanation of `indent` internal functions (#8800) (Teddy Katz)
+* d2e88ed Chore: Fix misleading comment in ConfigCache.js (#8799) (Teddy Katz)
+
 v4.1.0 - June 23, 2017
 
 * e8f1362 Docs: Remove wrong descriptions in `padded-block` rule (#8783) (Plusb Preco)
