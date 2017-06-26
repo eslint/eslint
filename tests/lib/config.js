@@ -158,6 +158,24 @@ describe("Config", () => {
             assert.deepEqual(customBaseConfig, { foo: "bar" });
             assert.equal(configHelper.options.format, "foo");
         });
+
+        it("should create config object when using baseConfig with extends", () => {
+            const customBaseConfig = {
+                extends: path.resolve(__dirname, "..", "fixtures", "config-extends", "array", ".eslintrc")
+            };
+            const configHelper = new Config({ baseConfig: customBaseConfig }, linter);
+
+            assert.deepEqual(configHelper.baseConfig.env, {
+                browser: false,
+                es6: true,
+                node: true
+            });
+            assert.deepEqual(configHelper.baseConfig.rules, {
+                "no-empty": 1,
+                "comma-dangle": 2,
+                "no-console": 2
+            });
+        });
     });
 
     describe("findLocalConfigFiles()", () => {
