@@ -15,10 +15,11 @@ describe("eslint-fuzzer", function() {
      */
     this.timeout(15000); // eslint-disable-line no-invalid-this
 
-    const coreRules = eslint.linter.getRules();
+    const linter = new eslint.Linter();
+    const coreRules = linter.getRules();
     const fixableRuleNames = Array.from(coreRules)
-      .filter(rulePair => rulePair[1].meta && rulePair[1].meta.fixable)
-      .map(rulePair => rulePair[0]);
+        .filter(rulePair => rulePair[1].meta && rulePair[1].meta.fixable)
+        .map(rulePair => rulePair[0]);
     const CRASH_BUG = new TypeError("error thrown from a rule");
 
     // A comment to disable all core fixable rules
@@ -31,13 +32,13 @@ describe("eslint-fuzzer", function() {
         sinon.stub(configRule, "createCoreRuleConfigs").returns(Object.assign(realCoreRuleConfigs, { "test-fuzzer-rule": [2] }));
 
         // Create a closure around `fakeRule` so that tests can reassign it and have the changes take effect.
-        eslint.linter.defineRule("test-fuzzer-rule", Object.assign(context => fakeRule(context), { meta: { fixable: "code" } }));
+        linter.defineRule("test-fuzzer-rule", Object.assign(context => fakeRule(context), { meta: { fixable: "code" } }));
 
         fuzz = require("../../tools/eslint-fuzzer");
     });
 
     after(() => {
-        eslint.linter.reset();
+        linter.reset();
         configRule.createCoreRuleConfigs.restore();
     });
 
@@ -50,7 +51,7 @@ describe("eslint-fuzzer", function() {
                     }
                 });
 
-                const results = fuzz({ count: 1, codeGenerator: () => "foo", checkAutofixes: false, eslint });
+                const results = fuzz({ count: 1, codeGenerator: () => "foo", checkAutofixes: false, linter });
 
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].type, "crash");
@@ -64,7 +65,7 @@ describe("eslint-fuzzer", function() {
             it("should return an empty array", () => {
                 fakeRule = () => ({});
 
-                assert.deepEqual(fuzz({ count: 1, codeGenerator: () => "foo", checkAutofixes: false, eslint }), []);
+                assert.deepEqual(fuzz({ count: 1, codeGenerator: () => "foo", checkAutofixes: false, linter }), []);
             });
         });
     });
@@ -87,7 +88,7 @@ describe("eslint-fuzzer", function() {
                     }
                 });
 
-                const results = fuzz({ count: 1, codeGenerator: () => "foo", checkAutofixes: false, eslint });
+                const results = fuzz({ count: 1, codeGenerator: () => "foo", checkAutofixes: false, linter });
 
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].type, "crash");
@@ -122,7 +123,7 @@ describe("eslint-fuzzer", function() {
                      */
                     codeGenerator: () => `foo ${disableFixableRulesComment}`,
                     checkAutofixes: true,
-                    eslint
+                    linter
                 });
 
                 assert.deepEqual(results, []);
@@ -132,7 +133,7 @@ describe("eslint-fuzzer", function() {
         describe("when a rule's autofix produces invalid syntax on the first pass", () => {
             it("reports an autofix error with a minimal config", () => {
 
-                // Replaces programs that start with "foo" invalid syntax
+                // Replaces programs that start with "foo" with invalid syntax
                 fakeRule = context => ({
                     Program(node) {
                         const sourceCode = context.getSourceCode();
@@ -151,7 +152,7 @@ describe("eslint-fuzzer", function() {
                     count: 1,
                     codeGenerator: () => `foo ${disableFixableRulesComment}`,
                     checkAutofixes: true,
-                    eslint
+                    linter
                 });
 
                 assert.strictEqual(results.length, 1);
@@ -174,7 +175,7 @@ describe("eslint-fuzzer", function() {
             it("reports an autofix error with a minimal config and the text from the second pass", () => {
                 const intermediateCode = `bar ${disableFixableRulesComment}`;
 
-                // Replaces programs that start with "foo" invalid syntax
+                // Replaces programs that start with "foo" with invalid syntax
                 fakeRule = context => ({
                     Program(node) {
                         const sourceCode = context.getSourceCode();
@@ -198,7 +199,7 @@ describe("eslint-fuzzer", function() {
                     count: 1,
                     codeGenerator: () => `foo ${disableFixableRulesComment}`,
                     checkAutofixes: true,
-                    eslint
+                    linter
                 });
 
                 assert.strictEqual(results.length, 1);
@@ -241,7 +242,7 @@ describe("eslint-fuzzer", function() {
                     count: 1,
                     codeGenerator: () => `foo ${disableFixableRulesComment}`,
                     checkAutofixes: true,
-                    eslint
+                    linter
                 });
 
                 assert.strictEqual(results.length, 1);

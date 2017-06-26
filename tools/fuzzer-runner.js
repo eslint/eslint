@@ -12,6 +12,7 @@
 const ProgressBar = require("progress");
 const fuzz = require("./eslint-fuzzer");
 const eslint = require("..");
+const linter = new eslint.Linter();
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -55,17 +56,23 @@ function run(options) {
     progressBar.tick(0);
 
     const crashTestResults = fuzz({
-        eslint,
+        linter,
         count: crashTestCount,
         checkAutofixes: false,
-        progressCallback: () => progressBar.tick(1)
+        progressCallback: () => {
+            progressBar.tick(1);
+            progressBar.render();
+        }
     });
 
     const autofixTestResults = fuzz({
-        eslint,
+        linter,
         count: autofixTestCount,
         checkAutofixes: true,
-        progressCallback: () => progressBar.tick(ESTIMATED_CRASH_AUTOFIX_PERFORMANCE_RATIO)
+        progressCallback: () => {
+            progressBar.tick(ESTIMATED_CRASH_AUTOFIX_PERFORMANCE_RATIO);
+            progressBar.render();
+        }
     });
 
     return crashTestResults.concat(autofixTestResults);

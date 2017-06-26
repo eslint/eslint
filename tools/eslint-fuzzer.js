@@ -11,13 +11,7 @@
 
 const assert = require("assert");
 const lodash = require("lodash");
-
-const fromDescriptor = Object.getOwnPropertyDescriptor(Array, "from");
 const eslump = require("eslump");
-
-// XXX: Remove this (see https://github.com/shapesecurity/shift-fuzzer-js/issues/15)
-Object.defineProperty(Array, "from", fromDescriptor);
-
 const SourceCodeFixer = require("../lib/util/source-code-fixer");
 const ruleConfigs = require("../lib/config/config-rule").createCoreRuleConfigs();
 
@@ -29,7 +23,7 @@ const ruleConfigs = require("../lib/config/config-rule").createCoreRuleConfigs()
  * Generates random JS code, runs ESLint on it, and returns a list of detected crashes or autofix bugs
  * @param {Object} options Config options for fuzzing
  * @param {number} options.count The number of fuzz iterations.
- * @param {Object} options.eslint The eslint object to test.
+ * @param {Object} options.linter The linter object to test with.
  * @param {function(Object): string} [options.codeGenerator=eslump.generateRandomJS] A function to use to generate random
  * code. Accepts an object argument with a `sourceType` key, indicating the source type of the generated code. The object
  * might also be passed other keys.
@@ -47,9 +41,9 @@ const ruleConfigs = require("../lib/config/config-rule").createCoreRuleConfigs()
 function fuzz(options) {
     assert.strictEqual(typeof options, "object", "An options object must be provided");
     assert.strictEqual(typeof options.count, "number", "The number of iterations (options.count) must be provided");
-    assert.strictEqual(typeof options.eslint, "object", "An eslint object (options.eslint) must be provided");
+    assert.strictEqual(typeof options.linter, "object", "An linter object (options.linter) must be provided");
 
-    const eslint = options.eslint;
+    const linter = options.linter;
     const codeGenerator = options.codeGenerator || (genOptions => eslump.generateRandomJS(Object.assign({ comments: true, whitespace: true }, genOptions)));
     const checkAutofixes = options.checkAutofixes !== false;
     const progressCallback = options.progressCallback || (() => {});
@@ -64,16 +58,15 @@ function fuzz(options) {
     function isolateBadConfig(text, config) {
         for (const ruleId of Object.keys(config.rules)) {
             const reducedConfig = Object.assign({}, config, { rules: { [ruleId]: config.rules[ruleId] } });
-            const cliEngine = new eslint.CLIEngine(reducedConfig);
-            let lintReport;
+            let fixResult;
 
             try {
-                lintReport = cliEngine.executeOnText(text);
+                fixResult = linter.verifyAndFix(text, reducedConfig, {});
             } catch (err) {
                 return reducedConfig;
             }
 
-            if (lintReport.results[0].messages.length === 1 && lintReport.results[0].messages[0].fatal) {
+            if (fixResult.messages.length === 1 && fixResult.messages[0].fatal) {
                 return reducedConfig;
             }
         }
@@ -94,7 +87,7 @@ function fuzz(options) {
             let messages;
 
             try {
-                messages = eslint.linter.verify(currentText, config);
+                messages = linter.verify(currentText, config);
             } catch (err) {
                 return lastGoodText;
             }
@@ -104,7 +97,7 @@ function fuzz(options) {
             }
 
             lastGoodText = currentText;
-            currentText = SourceCodeFixer.applyFixes(eslint.linter.getSourceCode(), messages).output;
+            currentText = SourceCodeFixer.applyFixes(linter.getSourceCode(), messages).output;
         } while (lastGoodText !== currentText);
 
         return lastGoodText;
@@ -124,18 +117,16 @@ function fuzz(options) {
 
         try {
             if (checkAutofixes) {
-                const cliEngine = new eslint.CLIEngine(Object.assign(config, { useEslintrc: false, fix: true }));
-
-                autofixResult = cliEngine.executeOnText(text).results[0];
+                autofixResult = linter.verifyAndFix(text, config, {});
             } else {
-                eslint.linter.verify(text, config);
+                linter.verify(text, config);
             }
         } catch (err) {
             problems.push({ type: "crash", text, config: isolateBadConfig(text, config), error: err.stack });
             continue;
         }
 
-        if (checkAutofixes && autofixResult.output && autofixResult.messages.length === 1 && autofixResult.messages[0].fatal) {
+        if (checkAutofixes && autofixResult.fixed && autofixResult.messages.length === 1 && autofixResult.messages[0].fatal) {
             const lastGoodText = isolateBadAutofixPass(text, config);
 
             problems.push({ type: "autofix", text: lastGoodText, config: isolateBadConfig(lastGoodText, config), error: autofixResult.messages[0] });
