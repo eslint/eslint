@@ -67,7 +67,7 @@ function unIndent(strings) {
     return lines.map(line => line.slice(minLineIndent)).join("\n");
 }
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 8, ecmaFeatures: { jsx: true } } });
 
 ruleTester.run("indent", rule, {
     valid: [
@@ -3892,6 +3892,22 @@ ruleTester.run("indent", rule, {
                         ok: false
                     }
                 )
+            `
+        },
+
+        // https://github.com/eslint/eslint/issues/8815
+        {
+            code: unIndent`
+                async function test() {
+                    const {
+                        foo,
+                        bar,
+                    } = await doSomethingAsync(
+                        1,
+                        2,
+                        3,
+                    );
+                }
             `
         },
 
