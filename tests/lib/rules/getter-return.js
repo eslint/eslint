@@ -50,14 +50,14 @@ ruleTester.run("getter-return", rule, {
         // test object.defineProperty(s)
         // option: {allowImplicit: false}
         { code: "Object.defineProperty(foo, \"bar\", { get: function () {return true;}});" },
-        { code: "Object.defineProperies(foo, { bar: { get: function () {return true;}} });" },
         { code: "Object.defineProperty(foo, \"bar\", { get: function () { ~function (){ return true; }();return true;}});" },
+        { code: "Object.defineProperies(foo, { bar: { get: function () {return true;}} });" },
         { code: "Object.defineProperies(foo, { bar: { get: function () { ~function (){ return true; }(); return true;}} });" },
 
         // option: {allowImplicit: true}
         { code: "Object.defineProperty(foo, \"bar\", { get: function () {return true;}});", options },
-        { code: "Object.defineProperies(foo, { bar: { get: function () {return true;}} });", options },
         { code: "Object.defineProperty(foo, \"bar\", { get: function (){return;}});", options },
+        { code: "Object.defineProperies(foo, { bar: { get: function () {return true;}} });", options },
         { code: "Object.defineProperies(foo, { bar: { get: function () {return;}} });", options },
 
         // not getter.
