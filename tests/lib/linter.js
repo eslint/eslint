@@ -3776,6 +3776,20 @@ describe("eslint", () => {
             assert.equal(messages.output, "var a;", "Fixes were applied correctly");
             assert.isTrue(messages.fixed);
         });
+
+        it("does not require a third argument", () => {
+            const fixResult = linter.verifyAndFix("var a", {
+                rules: {
+                    semi: 2
+                }
+            });
+
+            assert.deepEqual(fixResult, {
+                fixed: true,
+                messages: [],
+                output: "var a;"
+            });
+        });
     });
 
     describe("Edge cases", () => {
