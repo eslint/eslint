@@ -178,6 +178,12 @@ ruleTester.run("dot-notation", rule, {
             code: "foo['bar']instanceof baz",
             output: "foo.bar instanceof baz",
             errors: [{ message: "[\"bar\"] is better written in dot notation." }]
+        },
+        {
+            code: "let.if()",
+            output: null, // `let["if"]()` is a syntax error because `let[` indicates a destructuring variable declaration
+            options: [{ allowKeywords: false }],
+            errors: [{ message: ".if is a syntax error." }]
         }
     ]
 });
