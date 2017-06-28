@@ -2161,6 +2161,33 @@ ruleTester.run("indent", rule, {
             options: [2]
         },
         {
+            code: unIndent`
+                (
+                    foo
+                )(
+                    bar
+                )
+            `
+        },
+        {
+            code: unIndent`
+                (() =>
+                    foo
+                )(
+                    bar
+                )
+            `
+        },
+        {
+            code: unIndent`
+                (() => {
+                    foo();
+                })(
+                    bar
+                )
+            `
+        },
+        {
 
             // Don't lint the indentation of the first token after a :
             code: unIndent`
@@ -8006,6 +8033,57 @@ ruleTester.run("indent", rule, {
                 ) bar(
                     baz
                 );
+            `,
+            errors: expectedErrors([[4, 4, 8, "Identifier"], [5, 0, 4, "Punctuator"]])
+        },
+        {
+            code: unIndent`
+                (
+                    foo
+                )(
+                        bar
+                    )
+            `,
+            output: unIndent`
+                (
+                    foo
+                )(
+                    bar
+                )
+            `,
+            errors: expectedErrors([[4, 4, 8, "Identifier"], [5, 0, 4, "Punctuator"]])
+        },
+        {
+            code: unIndent`
+                (() =>
+                    foo
+                )(
+                        bar
+                    )
+            `,
+            output: unIndent`
+                (() =>
+                    foo
+                )(
+                    bar
+                )
+            `,
+            errors: expectedErrors([[4, 4, 8, "Identifier"], [5, 0, 4, "Punctuator"]])
+        },
+        {
+            code: unIndent`
+                (() => {
+                    foo();
+                })(
+                        bar
+                    )
+            `,
+            output: unIndent`
+                (() => {
+                    foo();
+                })(
+                    bar
+                )
             `,
             errors: expectedErrors([[4, 4, 8, "Identifier"], [5, 0, 4, "Punctuator"]])
         },
