@@ -176,6 +176,12 @@ describe("SourceCodeFixer", () => {
                 assert.equal(result.output, sourceCode.text);
             });
 
+            it("Should perform fixes if 'shouldFix' is not provided", () => {
+                const result = SourceCodeFixer.applyFixes(sourceCode, [INSERT_AT_END]);
+
+                assert.isTrue(result.fixed);
+            });
+
             it("should call a function provided as 'shouldFix' for each message", () => {
                 const shouldFixSpy = sinon.spy();
 
