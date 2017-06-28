@@ -32,7 +32,7 @@ On the day of a scheduled release, the release team should follow these steps:
 1. Log into Jenkins and schedule a build for the "ESLint Release" job.
 1. Wait for the "ESLint Release" job to complete.
 1. Update the release blog post with a "Highlights" section, including new rules and anything else that's important.
-1. Make a release announcement in the chatroom.
+1. Make a release announcement in the public chatroom.
 1. Make a release announcement on Twitter.
 1. Make a release announcement on the release issue. Document any problems that occurred during the release, and remind the team not to merge anything other than documentation changes and bug fixes. Leave the release issue open.
 
