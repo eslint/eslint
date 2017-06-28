@@ -758,13 +758,12 @@ target.browserify = function() {
 
     // 5. browserify the temp directory
     nodeCLI.exec("browserify", "-x espree", `${TEMP_DIR}linter.js`, "-o", `${BUILD_DIR}eslint.js`, "-s eslint", "--global-transform [ babelify --presets [ es2015 ] ]");
-    nodeCLI.exec("browserify", "-x espree", `${TEMP_DIR}rules.js`, "-o", `${TEMP_DIR}rules.js`, "-s rules", "--global-transform [ babelify --presets [ es2015 ] ]");
 
     // 6. Browserify espree
     nodeCLI.exec("browserify", "-r espree", "-o", `${TEMP_DIR}espree.js`);
 
     // 7. Concatenate Babel polyfill, Espree, and ESLint files together
-    cat("./node_modules/babel-polyfill/dist/polyfill.js", `${TEMP_DIR}espree.js`, `${BUILD_DIR}eslint.js`, `${TEMP_DIR}rules.js`).to(`${BUILD_DIR}eslint.js`);
+    cat("./node_modules/babel-polyfill/dist/polyfill.js", `${TEMP_DIR}espree.js`, `${BUILD_DIR}eslint.js`).to(`${BUILD_DIR}eslint.js`);
 
     // 8. remove temp directory
     rm("-r", TEMP_DIR);
