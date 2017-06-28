@@ -45,7 +45,7 @@ The patch release decision should be made as early on Monday as possible. If a p
 
 In rare cases, a second patch release might be necessary if the release is known to have a severe regression that hasn't been fixed by Monday. If this occurs, the release team should announce the situation on the release issue, and leave the issue open until all patch releases are complete. However, it's usually better to fix bugs for the next release cycle rather than doing a second patch release.
 
-After the patch release has been published (or no patch release is necessary), close the release issue and inform the team that they can start merging in changes again.
+After the patch release has been published (or no patch release is necessary), close the release issue and inform the team that they can start merging in semver-minor changes again.
 
 ## Emergency Releases
 
