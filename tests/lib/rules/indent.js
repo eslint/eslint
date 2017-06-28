@@ -520,6 +520,64 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                var
+                    x = {
+                        a: 1,
+                    },
+                    y = {
+                        b: 2
+                    }
+            `
+        },
+        {
+            code: unIndent`
+                const
+                    x = {
+                        a: 1,
+                    },
+                    y = {
+                        b: 2
+                    }
+            `
+        },
+        {
+            code: unIndent`
+                let
+                    x = {
+                        a: 1,
+                    },
+                    y = {
+                        b: 2
+                    }
+            `
+        },
+        {
+            code: unIndent`
+                var foo = { a: 1 }, bar = {
+                    b: 2
+                };
+            `
+        },
+        {
+            code: unIndent`
+                var foo = { a: 1 }, bar = {
+                        b: 2
+                    },
+                    baz = {
+                        c: 3
+                    }
+            `
+        },
+        {
+            code: unIndent`
+                const {
+                        foo
+                    } = 1,
+                    bar = 2
+            `
+        },
+        {
+            code: unIndent`
                 var foo = 1,
                   bar =
                     2
