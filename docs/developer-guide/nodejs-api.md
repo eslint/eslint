@@ -206,7 +206,7 @@ var CLIEngine = require("eslint").CLIEngine;
 
 The `CLIEngine` is a constructor, and you can create a new instance by passing in the options you want to use. The available options are:
 
-* `allowInlineConfig` - Set to false to disable the use of configuration comments (such as `/*eslint-disable*/`). Corresponds to `--no-inline-config`.
+* `allowInlineConfig` - Set to `false` to disable the use of configuration comments (such as `/*eslint-disable*/`). Corresponds to `--no-inline-config`.
 * `baseConfig` - Set to false to disable use of base config. Could be set to an object to override default base config as well.
 * `cache` - Operate only on changed files (default: `false`). Corresponds to `--cache`.
 * `cacheFile` - Name of the file where the cache will be stored (default: `.eslintcache`). Corresponds to `--cache-file`. Deprecated: use `cacheLocation` instead.
