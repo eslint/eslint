@@ -10,6 +10,7 @@
 
 const assert = require("chai").assert,
     espree = require("espree"),
+    sinon = require("sinon"),
     SourceCode = require("../../../lib/util/source-code"),
     SourceCodeFixer = require("../../../lib/util/source-code-fixer");
 
@@ -160,6 +161,69 @@ describe("SourceCodeFixer", () => {
             const result = SourceCodeFixer.applyFixes(null, [INSERT_AT_END]);
 
             assert.equal(result.output.length, 0);
+        });
+
+        describe("shouldFix parameter", () => {
+
+            beforeEach(() => {
+                sourceCode = new SourceCode(TEST_CODE, TEST_AST);
+            });
+
+            it("Should not perform any fixes if 'shouldFix' is false", () => {
+                const result = SourceCodeFixer.applyFixes(sourceCode, [INSERT_AT_END], false);
+
+                assert.isFalse(result.fixed);
+                assert.equal(result.output, sourceCode.text);
+            });
+
+            it("Should perform fixes if 'shouldFix' is not provided", () => {
+                const result = SourceCodeFixer.applyFixes(sourceCode, [INSERT_AT_END]);
+
+                assert.isTrue(result.fixed);
+            });
+
+            it("should call a function provided as 'shouldFix' for each message", () => {
+                const shouldFixSpy = sinon.spy();
+
+                SourceCodeFixer.applyFixes(sourceCode, [INSERT_IN_MIDDLE, INSERT_AT_START, INSERT_AT_END], shouldFixSpy);
+                assert.isTrue(shouldFixSpy.calledThrice);
+            });
+
+            it("should provide a message object as an argument to 'shouldFix'", () => {
+                const shouldFixSpy = sinon.spy();
+
+                SourceCodeFixer.applyFixes(sourceCode, [INSERT_AT_START], shouldFixSpy);
+                assert.equal(shouldFixSpy.firstCall.args[0], INSERT_AT_START);
+            });
+
+            it("should not perform fixes if 'shouldFix' function returns false", () => {
+                const shouldFixSpy = sinon.spy(() => false);
+                const result = SourceCodeFixer.applyFixes(sourceCode, [INSERT_AT_START], shouldFixSpy);
+
+                assert.isFalse(result.fixed);
+            });
+
+            it("should return original text as output if 'shouldFix' function prevents all fixes", () => {
+                const shouldFixSpy = sinon.spy(() => false);
+                const result = SourceCodeFixer.applyFixes(sourceCode, [INSERT_AT_START], shouldFixSpy);
+
+                assert.equal(result.output, TEST_CODE);
+            });
+
+            it("should only apply fixes for which the 'shouldFix' function returns true", () => {
+                const shouldFixSpy = sinon.spy(problem => problem.message === "foo");
+                const result = SourceCodeFixer.applyFixes(sourceCode, [INSERT_AT_START, REPLACE_ID], shouldFixSpy);
+
+                assert.equal(result.output, "var foo = 6 * 7;");
+            });
+
+            it("is called without access to internal eslint state", () => {
+                const shouldFixSpy = sinon.spy();
+
+                SourceCodeFixer.applyFixes(sourceCode, [INSERT_AT_START], shouldFixSpy);
+
+                assert.isUndefined(shouldFixSpy.thisValues[0]);
+            });
         });
 
         describe("Text Insertion", () => {
