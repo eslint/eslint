@@ -19,6 +19,7 @@ The lists below are ordered roughly by the number of users each change is expect
 
 1. [`RuleTester` now validates properties of test cases](#rule-tester-validation)
 1. [AST nodes no longer have comment properties](#comment-attachment)
+1. [`LineComment` and `BlockComment` events will no longer be emitted during AST traversal](#event-comments)
 1. [Shebangs are now returned from comment APIs](#shebangs)
 
 ### Breaking changes for integration developers
