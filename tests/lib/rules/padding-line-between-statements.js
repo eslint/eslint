@@ -2387,6 +2387,50 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: ["if", "for", "return", "switch", "case", "break", "throw", "while", "default"] }
             ]
+        },
+
+        // https://github.com/eslint/eslint/issues/8839
+        {
+            code: "function test() {}",
+            options: [
+                { blankLine: "always", prev: "block-like", next: "block-like" }
+            ]
+        },
+        {
+            code: "function test() {};",
+            options: [
+                { blankLine: "always", prev: "block-like", next: "block-like" }
+            ]
+        },
+        {
+            code: "function test() {}\n\n;",
+            options: [
+                { blankLine: "always", prev: "block-like", next: "*" }
+            ]
+        },
+        {
+            code: "function test() {};",
+            options: [
+                { blankLine: "never", prev: "block-like", next: "*" }
+            ]
+        },
+        {
+            code: "function test() {};",
+            options: [
+                { blankLine: "always", prev: "empty", next: "*" }
+            ]
+        },
+        {
+            code: "function test() {}; {var test2;}",
+            options: [
+                { blankLine: "never", prev: "empty", next: "*" }
+            ]
+        },
+        {
+            code: "function test() {}; {var test2;}",
+            options: [
+                { blankLine: "never", prev: "empty", next: "block-like" }
+            ]
         }
     ],
     invalid: [
@@ -4438,6 +4482,68 @@ ruleTester.run("padding-line-between-statements", rule, {
             errors: [
                 MESSAGE_ALWAYS,
                 MESSAGE_ALWAYS,
+                MESSAGE_ALWAYS
+            ]
+        },
+
+        // https://github.com/eslint/eslint/issues/8839
+        {
+            code: "function test() {}\n\n;",
+            output: "function test() {}\n;",
+            options: [
+                { blankLine: "never", prev: "block-like", next: "*" }
+            ],
+            errors: [
+                MESSAGE_NEVER
+            ]
+        },
+        {
+            code: "function test() {}\n\n;",
+            output: "function test() {}\n;",
+            options: [
+                { blankLine: "never", prev: "block-like", next: "empty" }
+            ],
+            errors: [
+                MESSAGE_NEVER
+            ]
+        },
+        {
+            code: "function test() {};",
+            output: "function test() {}\n\n;",
+            options: [
+                { blankLine: "always", prev: "block-like", next: "*" }
+            ],
+            errors: [
+                MESSAGE_ALWAYS
+            ]
+        },
+        {
+            code: "function test() {};",
+            output: "function test() {}\n\n;",
+            options: [
+                { blankLine: "always", prev: "block-like", next: "empty" }
+            ],
+            errors: [
+                MESSAGE_ALWAYS
+            ]
+        },
+        {
+            code: "function test() {};{var test2;}",
+            output: "function test() {};\n\n{var test2;}",
+            options: [
+                { blankLine: "always", prev: "empty", next: "*" }
+            ],
+            errors: [
+                MESSAGE_ALWAYS
+            ]
+        },
+        {
+            code: "function test() {};{var test2;}",
+            output: "function test() {};\n\n{var test2;}",
+            options: [
+                { blankLine: "always", prev: "empty", next: "block-like" }
+            ],
+            errors: [
                 MESSAGE_ALWAYS
             ]
         }
