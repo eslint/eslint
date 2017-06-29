@@ -165,6 +165,18 @@ const invalid = [
         }]
     },
     {
+        code: "(a,) => a",
+        output: "a => a",
+        options: ["as-needed"],
+        parserOptions: { ecmaVersion: 8 },
+        errors: [{
+            line: 1,
+            column: 1,
+            message: asNeededMessage,
+            type
+        }]
+    },
+    {
         code: "async (a) => a",
         output: "async a => a",
         options: ["as-needed"],
