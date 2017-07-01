@@ -3910,6 +3910,51 @@ ruleTester.run("indent", rule, {
                 }
             `
         },
+        {
+            code: unIndent`
+                function* test() {
+                    const {
+                        foo,
+                        bar,
+                    } = yield doSomethingAsync(
+                        1,
+                        2,
+                        3,
+                    );
+                }
+            `
+        },
+        {
+            code: unIndent`
+                ({
+                    a: b
+                } = +foo(
+                    bar
+                ));
+            `
+        },
+        {
+            code: unIndent`
+                const {
+                    foo,
+                    bar,
+                } = typeof foo(
+                    1,
+                    2,
+                    3,
+                );
+            `
+        },
+        {
+            code: unIndent`
+                const {
+                    foo,
+                    bar,
+                } = +(
+                    foo
+                );
+            `
+        },
 
         //----------------------------------------------------------------------
         // JSX tests
