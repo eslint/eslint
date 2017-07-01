@@ -804,7 +804,7 @@ describe("cli", () => {
 
         });
 
-        it("should rewrite files when in fix mode and quiet mode", () => {
+        it("should provide fix predicate and rewrite files when in fix mode and quiet mode", () => {
 
             const report = {
                 errorCount: 0,
@@ -822,7 +822,7 @@ describe("cli", () => {
             };
 
             // create a fake CLIEngine to test with
-            const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ fix: true }));
+            const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ fix: sinon.match.func }));
 
             fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
             sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns(report);
