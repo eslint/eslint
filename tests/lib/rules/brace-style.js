@@ -230,11 +230,6 @@ ruleTester.run("brace-style", rule, {
             errors: [{ message: OPEN_MESSAGE, type: "Punctuator" }, { message: CLOSE_MESSAGE_SINGLE, type: "Punctuator" }]
         },
         {
-            code: "if (foo) \n { \n bar(); }",
-            output: "if (foo) { \n bar(); \n}",
-            errors: [{ message: OPEN_MESSAGE, type: "Punctuator" }, { message: CLOSE_MESSAGE_SINGLE, type: "Punctuator" }]
-        },
-        {
             code: "if (a) { \nb();\n } else \n { c(); }",
             output: "if (a) { \nb();\n } else {\n c(); \n}",
             errors: [{ message: OPEN_MESSAGE, type: "Punctuator" }, { message: BODY_MESSAGE, type: "Punctuator" }, { message: CLOSE_MESSAGE_SINGLE, type: "Punctuator" }]

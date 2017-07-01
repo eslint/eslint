@@ -73,8 +73,6 @@ ruleTester.run("no-lone-blocks", rule, {
         // Non-block-level bindings, even in ES6
         { code: "{ function bar() {} }", errors: [{ message: "Block is redundant.", type: "BlockStatement" }], parserOptions: { ecmaVersion: 6 } },
         { code: "{var x = 1;}", errors: [{ message: "Block is redundant.", type: "BlockStatement" }], parserOptions: { ecmaVersion: 6 } },
-        { code: "{ function bar() {} }", errors: [{ message: "Block is redundant.", type: "BlockStatement" }], parserOptions: { ecmaVersion: 6 } },
-        { code: "{var x = 1;}", errors: [{ message: "Block is redundant.", type: "BlockStatement" }], parserOptions: { ecmaVersion: 6 } },
 
         {
             code: "{ \n{var x = 1;}\n let y = 2; } {let z = 1;}",

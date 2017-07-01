@@ -338,12 +338,6 @@ ruleTester.run("space-in-parens", rule, {
             ]
         },
         {
-            code: "(( 1 + 2 ))",
-            output: "( ( 1 + 2 ) )",
-            options: ["always", { exceptions: ["[]"] }],
-            errors: [MISSING_SPACE_ERROR, MISSING_SPACE_ERROR]
-        },
-        {
             code: "( ( 1 + 2 ) )",
             output: "((1 + 2))",
             options: ["never"],
@@ -400,12 +394,6 @@ ruleTester.run("space-in-parens", rule, {
             code: "var result = ( 1 / ( 1 + 2)) + 3",
             output: "var result = ( 1 / ( 1 + 2 )) + 3",
             options: ["always", { exceptions: ["()"] }],
-            errors: [MISSING_SPACE_ERROR]
-        },
-        {
-            code: "var result = (1 / (1 + 2)) + 3",
-            output: "var result = (1 / (1 + 2) ) + 3",
-            options: ["never", { exceptions: ["()"] }],
             errors: [MISSING_SPACE_ERROR]
         },
         {

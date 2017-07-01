@@ -66,7 +66,6 @@ ruleTester.run("getter-return", rule, {
         { code: "var foo = { bar(){} };" },
         { code: "var foo = { bar(){ return true; } };" },
         { code: "var foo = { bar: function(){} };" },
-        { code: "var foo = { bar(){ return true; } };" },
         { code: "var foo = { bar: function(){return;} };" },
         { code: "var foo = { bar: function(){return true;} };" }
     ],
@@ -103,7 +102,6 @@ ruleTester.run("getter-return", rule, {
         { code: "Object.defineProperies(foo, { bar: { get: function () {~function () { return true; }()}} });", options, errors: [{ noReturnMessage }] },
 
         // option: {allowImplicit: true}
-        { code: "Object.defineProperty(foo, \"bar\", { get: function (){}});", options, errors: [{ message: "Expected to return a value in method 'get'." }] },
-        { code: "Object.defineProperies(foo, { bar: { get: function () {}} });", options, errors: [{ noReturnMessage }] }
+        { code: "Object.defineProperty(foo, \"bar\", { get: function (){}});", options, errors: [{ message: "Expected to return a value in method 'get'." }] }
     ]
 });
