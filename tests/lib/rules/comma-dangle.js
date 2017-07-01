@@ -90,12 +90,6 @@ ruleTester.run("comma-dangle", rule, {
         { code: "var foo = {x: {\nfoo: 'bar',\n}}", options: ["only-multiline"] },
         { code: "var foo = new Map([\n[key, {\na: 1,\nb: 2,\nc: 3,\n}],\n])", options: ["always-multiline"] },
         { code: "var foo = new Map([\n[key, {\na: 1,\nb: 2,\nc: 3,\n}],\n])", options: ["only-multiline"] },
-        { code: "[,,]", options: ["always"] },
-        { code: "[\n,\n,\n]", options: ["always"] },
-        { code: "[,]", options: ["always"] },
-        { code: "[\n,\n]", options: ["always"] },
-        { code: "[]", options: ["always"] },
-        { code: "[\n]", options: ["always"] },
 
         // https://github.com/eslint/eslint/issues/3627
         {
@@ -759,19 +753,6 @@ ruleTester.run("comma-dangle", rule, {
             ]
         },
         {
-            code: "var foo = { bar: 'baz', }",
-            output: "var foo = { bar: 'baz' }",
-            options: ["only-multiline"],
-            errors: [
-                {
-                    message: "Unexpected trailing comma.",
-                    type: "Property",
-                    line: 1,
-                    column: 23
-                }
-            ]
-        },
-        {
             code: "foo({\nbar: 'baz',\nqux: 'quux'\n});",
             output: "foo({\nbar: 'baz',\nqux: 'quux',\n});",
             options: ["always-multiline"],
@@ -788,19 +769,6 @@ ruleTester.run("comma-dangle", rule, {
             code: "foo({ bar: 'baz', qux: 'quux', });",
             output: "foo({ bar: 'baz', qux: 'quux' });",
             options: ["always-multiline"],
-            errors: [
-                {
-                    message: "Unexpected trailing comma.",
-                    type: "Property",
-                    line: 1,
-                    column: 30
-                }
-            ]
-        },
-        {
-            code: "foo({ bar: 'baz', qux: 'quux', });",
-            output: "foo({ bar: 'baz', qux: 'quux' });",
-            options: ["only-multiline"],
             errors: [
                 {
                     message: "Unexpected trailing comma.",
@@ -1082,24 +1050,10 @@ ruleTester.run("comma-dangle", rule, {
             errors: [{ message: "Unexpected trailing comma.", type: "ImportSpecifier" }]
         },
         {
-            code: "import {foo,} from 'foo';",
-            output: "import {foo} from 'foo';",
-            parserOptions: { sourceType: "module" },
-            options: ["only-multiline"],
-            errors: [{ message: "Unexpected trailing comma.", type: "ImportSpecifier" }]
-        },
-        {
             code: "export {foo,} from 'foo';",
             output: "export {foo} from 'foo';",
             parserOptions: { sourceType: "module" },
             options: ["always-multiline"],
-            errors: [{ message: "Unexpected trailing comma.", type: "ExportSpecifier" }]
-        },
-        {
-            code: "export {foo,} from 'foo';",
-            output: "export {foo} from 'foo';",
-            parserOptions: { sourceType: "module" },
-            options: ["only-multiline"],
             errors: [{ message: "Unexpected trailing comma.", type: "ExportSpecifier" }]
         },
         {

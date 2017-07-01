@@ -249,11 +249,6 @@ ruleTester.run("object-shorthand", rule, {
             options: ["consistent-as-needed"]
         },
         {
-            code: "var x = {...bar}",
-            parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } },
-            options: ["consistent-as-needed"]
-        },
-        {
             code: "var x = {bar, ...baz}",
             parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } },
             options: ["consistent-as-needed"]
@@ -300,10 +295,6 @@ ruleTester.run("object-shorthand", rule, {
         },
         {
             code: "({ x: () => { this; } })",
-            options: ["always", { avoidExplicitReturnArrows: true }]
-        },
-        {
-            code: "function foo() { ({ x: () => { arguments; } }) }",
             options: ["always", { avoidExplicitReturnArrows: true }]
         },
         {

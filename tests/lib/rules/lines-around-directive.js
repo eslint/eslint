@@ -91,6 +91,8 @@ ruleTester.run("lines-around-directive", rule, {
             code: "#!/usr/bin/env node\n//comment\n\n'use strict';\n'use asm';\n\nvar foo;",
             options: ["always"]
         },
+
+        // does not warn about lack of blank newlines between directives
         {
             code: "//comment\n\n'use strict';\n'use asm';\n\nvar foo;",
             options: ["always"]
@@ -179,12 +181,6 @@ ruleTester.run("lines-around-directive", rule, {
         {
             code: "() => {\n/*\nmultiline comment\n*/\n\n'use strict';\n'use asm';\n\nvar foo;\n}",
             parserOptions: { ecmaVersion: 6 },
-            options: ["always"]
-        },
-
-        // does not warn about lack of blank newlines between directives
-        {
-            code: "//comment\n\n'use strict';\n'use asm';\n\nvar foo;",
             options: ["always"]
         },
 

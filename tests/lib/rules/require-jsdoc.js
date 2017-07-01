@@ -39,7 +39,6 @@ ruleTester.run("require-jsdoc", rule, {
         "var object = {\n/**\n @method myFunction - Some function \n*/\nmyFunction: function() {} }",
         "var object = {\n/**\n @function myFunction - Some function \n*/\nmyFunction: function() {} }",
 
-        "var array = [1,2,3];\narray.forEach(function() {});",
         "var array = [1,2,3];\narray.filter(function() {});",
         "Object.keys(this.options.rules || {}).forEach(function(name) {}.bind(this));",
         "var object = { name: 'key'};\nObject.keys(object).forEach(function() {})",

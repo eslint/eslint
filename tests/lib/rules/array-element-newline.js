@@ -220,23 +220,6 @@ ruleTester.run("array-element-newline", rule, {
             ]
         },
         {
-            code: "var foo = [1,(\n2\n), 3];",
-            options: ["always"],
-            output: "var foo = [1,\n(\n2\n),\n3];",
-            errors: [
-                {
-                    message: ERR_BREAK_HERE,
-                    line: 1,
-                    column: 14
-                },
-                {
-                    message: ERR_BREAK_HERE,
-                    line: 3,
-                    column: 3
-                }
-            ]
-        },
-        {
             code: "var foo = [1,        \t      (\n2\n),\n3];",
             options: ["always"],
             output: "var foo = [1,\n(\n2\n),\n3];",

@@ -360,7 +360,6 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "; class Bar {} ;", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `space-in-parens`
-        { code: "(class {})", parserOptions: { ecmaVersion: 6 } },
         { code: "( class{})", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `space-infix-ops`

@@ -42,7 +42,6 @@ ruleTester.run("arrow-body-style", rule, {
         { code: "var foo = (retv, name) => {\nretv[name] = true;\nreturn retv;\n};", options: ["as-needed", { requireReturnForObjectLiteral: true }] },
         { code: "var foo = () => bar();", options: ["as-needed", { requireReturnForObjectLiteral: true }] },
         { code: "var foo = () => { bar(); };", options: ["as-needed", { requireReturnForObjectLiteral: true }] },
-        { code: "var addToB = (a) => { b =  b + a };", options: ["as-needed", { requireReturnForObjectLiteral: true }] },
         { code: "var foo = () => { return { bar: 0 }; };", options: ["as-needed", { requireReturnForObjectLiteral: true }] }
     ],
     invalid: [

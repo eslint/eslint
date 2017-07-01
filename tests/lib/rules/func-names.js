@@ -197,11 +197,6 @@ ruleTester.run("func-names", rule, {
             code: "({foo: function foo() {}})",
             options: ["never"],
             errors: [{ message: "Unexpected named method 'foo'.", type: "FunctionExpression" }]
-        },
-        {
-            code: "({foo: function foo() {}})",
-            options: ["never"],
-            errors: [{ message: "Unexpected named method 'foo'.", type: "FunctionExpression" }]
         }
     ]
 });

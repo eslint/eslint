@@ -219,10 +219,6 @@ ruleTester.run("indent", rule, {
             options: [4]
         },
         {
-            code: "var x = 0 && { a: 1, b: 2 };",
-            options: [4]
-        },
-        {
             code: unIndent`
                 require('http').request({hostname: 'localhost',
                   port: 80}, function(res) {
@@ -6577,20 +6573,6 @@ ruleTester.run("indent", rule, {
         {
             code: unIndent`
                 function foo() {
-                  bar();
-                \t\t}
-            `,
-            output: unIndent`
-                function foo() {
-                  bar();
-                }
-            `,
-            options: [2],
-            errors: expectedErrors([[3, "0 spaces", "2 tabs", "Punctuator"]])
-        },
-        {
-            code: unIndent`
-                function foo() {
                   return (
                     1
                     )
@@ -6623,20 +6605,6 @@ ruleTester.run("indent", rule, {
             `,
             options: [2],
             errors: expectedErrors([[4, 2, 4, "Punctuator"]])
-        },
-        {
-            code: unIndent`
-                function foo() {
-                  bar();
-                \t\t}
-            `,
-            output: unIndent`
-                function foo() {
-                  bar();
-                }
-            `,
-            options: [2],
-            errors: expectedErrors([[3, "0 spaces", "2 tabs", "Punctuator"]])
         },
         {
             code: unIndent`
