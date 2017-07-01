@@ -382,19 +382,19 @@ describe("Validator", () => {
             it("should throw if override has nested overrides", () => {
                 const fn = validator.validate.bind(null, { overrides: [{ files: "*", overrides: [{ files: "*", rules: {} }] }] }, "tests", linter.rules, linter.environments);
 
-                assert.throws(fn, "tests:\n\tESLint configuration is invalid:\n\t- Unexpected top-level property \"overrides[j].overrides\".\n");
+                assert.throws(fn, "tests:\n\tESLint configuration is invalid:\n\t- Unexpected top-level property \"overrides[0].overrides\".\n");
             });
 
             it("should throw if override extends", () => {
                 const fn = validator.validate.bind(null, { overrides: [{ files: "*", extends: "eslint-recommended" }] }, "tests", linter.rules, linter.environments);
 
-                assert.throws(fn, "tests:\n\tESLint configuration is invalid:\n\t- Unexpected top-level property \"overrides[j].extends\".\n");
+                assert.throws(fn, "tests:\n\tESLint configuration is invalid:\n\t- Unexpected top-level property \"overrides[0].extends\".\n");
             });
 
             it("should throw if override tries to set root", () => {
                 const fn = validator.validate.bind(null, { overrides: [{ files: "*", root: "true" }] }, "tests", linter.rules, linter.environments);
 
-                assert.throws(fn, "tests:\n\tESLint configuration is invalid:\n\t- Unexpected top-level property \"overrides[j].root\".\n");
+                assert.throws(fn, "tests:\n\tESLint configuration is invalid:\n\t- Unexpected top-level property \"overrides[0].root\".\n");
             });
         });
 
