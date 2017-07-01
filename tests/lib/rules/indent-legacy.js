@@ -206,11 +206,6 @@ ruleTester.run("indent-legacy", rule, {
         },
         {
             code:
-            "var x = 0 && { a: 1, b: 2 };",
-            options: [4]
-        },
-        {
-            code:
             "require('http').request({hostname: 'localhost',\n" +
             "  port: 80}, function(res) {\n" +
             "  res.end();\n" +
@@ -3560,18 +3555,6 @@ ruleTester.run("indent-legacy", rule, {
         {
             code:
             "function foo() {\n" +
-            "  bar();\n" +
-            "\t\t}",
-            output:
-            "function foo() {\n" +
-            "  bar();\n" +
-            "}",
-            options: [2],
-            errors: expectedErrors([[3, "0 spaces", "2 tabs", "BlockStatement"]])
-        },
-        {
-            code:
-            "function foo() {\n" +
             "  return (\n" +
             "    1\n" +
             "    )\n" +
@@ -3600,18 +3583,6 @@ ruleTester.run("indent-legacy", rule, {
             "}",
             options: [2],
             errors: expectedErrors([[4, "2 spaces", "4", "ReturnStatement"]])
-        },
-        {
-            code:
-            "function foo() {\n" +
-            "  bar();\n" +
-            "\t\t}",
-            output:
-            "function foo() {\n" +
-            "  bar();\n" +
-            "}",
-            options: [2],
-            errors: expectedErrors([[3, "0 spaces", "2 tabs", "BlockStatement"]])
         },
         {
             code:

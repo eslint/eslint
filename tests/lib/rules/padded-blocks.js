@@ -23,7 +23,6 @@ const ruleTester = new RuleTester(),
 ruleTester.run("padded-blocks", rule, {
     valid: [
         { code: "{\n\na();\n\n}" },
-        { code: "{\n\na();\n\n}" },
         { code: "{\n\n\na();\n\n\n}" },
         { code: "{\n\n//comment\na();\n\n}" },
         { code: "{\n\na();\n//comment\n\n}" },

@@ -32,7 +32,6 @@ ruleTester.run("no-useless-rename", rule, {
         "let {[foo]: foo} = obj;",
         "let {['foo']: foo} = obj;",
         "let {[foo]: bar} = obj;",
-        "let {['foo']: bar} = obj;",
         "function func({foo}) {}",
         "function func({foo: bar}) {}",
         "function func({foo: bar, baz: qux}) {}",

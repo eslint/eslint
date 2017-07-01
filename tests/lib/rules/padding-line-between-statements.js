@@ -1404,34 +1404,6 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ]
         },
-        {
-            code: "for(let a in obj){\n break;\n}",
-            options: [
-                { blankLine: "always", prev: ["const", "let", "var"], next: "*" },
-                { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
-            ]
-        },
-        {
-            code: "for(var a in obj){\n break;\n}",
-            options: [
-                { blankLine: "always", prev: ["const", "let", "var"], next: "*" },
-                { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
-            ]
-        },
-        {
-            code: "for(let a in obj){\n break;\n}",
-            options: [
-                { blankLine: "never", prev: ["const", "let", "var"], next: "*" },
-                { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
-            ]
-        },
-        {
-            code: "for(var a in obj){\n break;\n}",
-            options: [
-                { blankLine: "never", prev: ["const", "let", "var"], next: "*" },
-                { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
-            ]
-        },
 
         // should handle export specifiers
         {
@@ -2473,14 +2445,6 @@ ruleTester.run("padding-line-between-statements", rule, {
             errors: [MESSAGE_ALWAYS]
         },
         {
-            code: "{}\nfoo()",
-            output: "{}\n\nfoo()",
-            options: [
-                { blankLine: "always", prev: "block-like", next: "*" }
-            ],
-            errors: [MESSAGE_ALWAYS]
-        },
-        {
             code: "if(a){}\nfoo()",
             output: "if(a){}\n\nfoo()",
             options: [
@@ -2773,14 +2737,6 @@ ruleTester.run("padding-line-between-statements", rule, {
             errors: [MESSAGE_ALWAYS]
         },
         {
-            code: "{\n}\nfoo()",
-            output: "{\n}\n\nfoo()",
-            options: [
-                { blankLine: "always", prev: "block-like", next: "*" }
-            ],
-            errors: [MESSAGE_ALWAYS]
-        },
-        {
             code: "if(a){\n}\nfoo()",
             output: "if(a){\n}\n\nfoo()",
             options: [
@@ -2815,14 +2771,6 @@ ruleTester.run("padding-line-between-statements", rule, {
         {
             code: "switch(a){\n}\nfoo()",
             output: "switch(a){\n}\n\nfoo()",
-            options: [
-                { blankLine: "always", prev: "block-like", next: "*" }
-            ],
-            errors: [MESSAGE_ALWAYS]
-        },
-        {
-            code: "switch(a){case 0:}\nfoo()",
-            output: "switch(a){case 0:}\n\nfoo()",
             options: [
                 { blankLine: "always", prev: "block-like", next: "*" }
             ],

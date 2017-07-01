@@ -264,14 +264,6 @@ ruleTester.run("no-multi-spaces", rule, {
             }]
         },
         {
-            code: "var o = { fetch: function    () {} };",
-            output: "var o = { fetch: function () {} };",
-            errors: [{
-                message: "Multiple spaces found before '('.",
-                type: "Punctuator"
-            }]
-        },
-        {
             code: "function foo      () {}",
             output: "function foo () {}",
             errors: [{
@@ -314,14 +306,6 @@ ruleTester.run("no-multi-spaces", rule, {
         {
             code: "try {} catch    (ex) {}",
             output: "try {} catch (ex) {}",
-            errors: [{
-                message: "Multiple spaces found before '('.",
-                type: "Punctuator"
-            }]
-        },
-        {
-            code: "var o = { fetch: function    () {} };",
-            output: "var o = { fetch: function () {} };",
             errors: [{
                 message: "Multiple spaces found before '('.",
                 type: "Punctuator"

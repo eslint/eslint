@@ -68,10 +68,6 @@ ruleTester.run("one-var", rule, {
             options: [{ uninitialized: "always", initialized: "never" }]
         },
         {
-            code: "var bar, baz; var a = true; var b = false;",
-            options: [{ uninitialized: "always", initialized: "never" }]
-        },
-        {
             code: "var bar = true, baz = false; var a; var b;",
             options: [{ uninitialized: "never", initialized: "always" }]
         },
@@ -173,11 +169,6 @@ ruleTester.run("one-var", rule, {
             code: "var foo; var bar; const a=1, b=2; let c; let d",
             parserOptions: { ecmaVersion: 6 },
             options: [{ const: "always" }]
-        },
-        {
-            code: "var foo, bar; const a=1; const b=2; let c, d",
-            parserOptions: { ecmaVersion: 6 },
-            options: [{ var: "always", let: "always" }]
         },
         {
             code: "for (let x of foo) {}; for (let y of foo) {}",

@@ -72,10 +72,6 @@ ruleTester.run("comma-style", rule, {
             options: ["first", { exceptions: { ArrayExpression: true, ObjectExpression: true } }]
         },
         {
-            code: "var ar ={fst:1,\nsnd: [1,\n2]};",
-            options: ["first", { exceptions: { ArrayExpression: true, ObjectExpression: true } }]
-        },
-        {
             code: "var a = 'a',\nar ={fst:1,\nsnd: [1,\n2]};",
             options: ["first", {
                 exceptions: {
@@ -112,12 +108,6 @@ ruleTester.run("comma-style", rule, {
         },
         {
             code: "const foo = function (a\n, b) { return a + b; }",
-            parserOptions: {
-                ecmaVersion: 6
-            }
-        },
-        {
-            code: "var {foo\n, bar} = {foo:'apples', bar:'oranges'};",
             parserOptions: {
                 ecmaVersion: 6
             }
@@ -470,15 +460,6 @@ ruleTester.run("comma-style", rule, {
             errors: [{
                 message: FIRST_MSG,
                 type: "Literal"
-            }]
-        },
-        {
-            code: "var foo = {'a': 1, \n 'b': 2\n ,'c': 3};",
-            output: "var foo = {'a': 1 \n ,'b': 2\n ,'c': 3};",
-            options: ["first"],
-            errors: [{
-                message: FIRST_MSG,
-                type: "Property"
             }]
         },
         {

@@ -30,7 +30,6 @@ ruleTester.run("no-undef", rule, {
         "var a; function f() { a = 1; }",
         "/*global b:true*/ b++;",
         "/*eslint-env browser*/ window;",
-        "/*eslint-env browser*/ window;",
         "/*eslint-env node*/ require(\"a\");",
         "Object; isNaN();",
         "toString()",

@@ -181,10 +181,6 @@ ruleTester.run("func-call-spacing", rule, {
             options: ["always", { allowNewlines: true }]
         },
         {
-            code: "f// comment\n()",
-            options: ["always", { allowNewlines: true }]
-        },
-        {
             code: "f\n/*\n*/\n()",
             options: ["always", { allowNewlines: true }]
         },

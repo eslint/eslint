@@ -193,16 +193,6 @@ ruleTester.run("camelcase", rule, {
             ]
         },
         {
-            code: "obj.a_b = 2;",
-            options: [{ properties: "always" }],
-            errors: [
-                {
-                    message: "Identifier 'a_b' is not in camel case.",
-                    type: "Identifier"
-                }
-            ]
-        },
-        {
             code: "var { category_id: category_id } = query;",
             parserOptions: { ecmaVersion: 6 },
             errors: [

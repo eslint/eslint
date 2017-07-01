@@ -42,7 +42,6 @@ ruleTester.run("quote-props", rule, {
         { code: "({ a: 0, volatile: 0 })", options: ["as-needed"] },
         { code: "({ a: 0, '-b': 0 })", options: ["as-needed"] },
         { code: "({ a: 0, '@': 0 })", options: ["as-needed"] },
-        { code: "({ a: 0, 0: 0 })", options: ["as-needed"] },
         { code: "({ a: 0, '0x0': 0 })", options: ["as-needed"] },
         { code: "({ ' 0': 0, '0x0': 0 })", options: ["as-needed"] },
         { code: "({ '0 ': 0 })", options: ["as-needed"] },
