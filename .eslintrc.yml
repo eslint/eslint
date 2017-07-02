@@ -9,5 +9,6 @@ extends:
     - "plugin:eslint-plugin/recommended"
 rules:
     eslint-plugin/consistent-output: "error"
+    eslint-plugin/no-identical-tests: "error"
     eslint-plugin/prefer-placeholders: "error"
     eslint-plugin/report-message-format: ["error", '[^a-z].*\.$']
