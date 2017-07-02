@@ -30,8 +30,8 @@ ruleTester.run("no-sync", rule, {
         { code: "if (true) {fs.fooSync();}", errors: [{ message: "Unexpected sync method: 'fooSync'.", type: "MemberExpression" }] },
         { code: "var foo = fs.fooSync;", errors: [{ message: "Unexpected sync method: 'fooSync'.", type: "MemberExpression" }] },
         { code: "function someFunction() {fs.fooSync();}", errors: [{ message: "Unexpected sync method: 'fooSync'.", type: "MemberExpression" }] },
-        { code: "function someFunction() {fs.fooSync();}", options: [{ allowAtRootLevel: true }], errors: [{ message: "Unexpected sync method: 'fooSync'.", type: "FunctionDeclaration" }] },
-        { code: "var a = function someFunction() {fs.fooSync();}", options: [{ allowAtRootLevel: true }], errors: [{ message: "Unexpected sync method: 'fooSync'.", type: "FunctionExpression" }] }
+        { code: "function someFunction() {fs.fooSync();}", options: [{ allowAtRootLevel: true }], errors: [{ message: "Unexpected sync method: 'fooSync'.", type: "MemberExpression" }] },
+        { code: "var a = function someFunction() {fs.fooSync();}", options: [{ allowAtRootLevel: true }], errors: [{ message: "Unexpected sync method: 'fooSync'.", type: "MemberExpression" }] }
 
     ]
 });
