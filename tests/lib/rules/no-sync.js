@@ -22,7 +22,7 @@ ruleTester.run("no-sync", rule, {
     valid: [
         "var foo = fs.foo.foo();",
         { code: "var foo = fs.fooSync;", options: [{ allowAtRootLevel: true }] },
-        { code: "if (true) {fs.fooSync();}", options: [{ allowAtRootLevel: true }] },
+        { code: "if (true) {fs.fooSync();}", options: [{ allowAtRootLevel: true }] }
     ],
     invalid: [
         { code: "var foo = fs.fooSync();", errors: [{ message: "Unexpected sync method: 'fooSync'.", type: "MemberExpression" }] },
