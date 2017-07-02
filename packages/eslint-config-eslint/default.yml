@@ -23,6 +23,7 @@ rules:
     dot-notation: ["error", { allowKeywords: true }]
     eol-last: "error"
     eqeqeq: "error"
+    for-direction: "error"
     func-call-spacing: "error"
     func-style: ["error", "declaration"]
     generator-star-spacing: "error"
