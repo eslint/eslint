@@ -4649,6 +4649,44 @@ ruleTester.run("indent", rule, {
                     </span>
                 )
             `
+        },
+        {
+            code: unIndent`
+                <div>
+                    {
+                        /* foo */
+                    }
+                </div>
+            `
+        },
+
+        // https://github.com/eslint/eslint/issues/8832
+        {
+            code: unIndent`
+                <div>
+                    {
+                        (
+                            1
+                        )
+                    }
+                </div>
+            `
+        },
+        {
+            code: unIndent`
+                function A() {
+                    return (
+                        <div>
+                            {
+                                b && (
+                                    <div>
+                                    </div>
+                                )
+                            }
+                        </div>
+                    );
+                }
+            `
         }
     ],
 
@@ -8769,6 +8807,44 @@ ruleTester.run("indent", rule, {
                 )
             `,
             errors: expectedErrors([[5, 4, 8, "Punctuator"], [6, 4, 8, "Punctuator"], [7, 0, 4, "Punctuator"]])
+        },
+        {
+            code: unIndent`
+                <div>
+                    {
+                    (
+                        1
+                    )
+                    }
+                </div>
+            `,
+            output: unIndent`
+                <div>
+                    {
+                        (
+                            1
+                        )
+                    }
+                </div>
+            `,
+            errors: expectedErrors([[3, 8, 4, "Punctuator"], [4, 12, 8, "Numeric"], [5, 8, 4, "Punctuator"]])
+        },
+        {
+            code: unIndent`
+                <div>
+                    {
+                      /* foo */
+                    }
+                </div>
+            `,
+            output: unIndent`
+                <div>
+                    {
+                        /* foo */
+                    }
+                </div>
+            `,
+            errors: expectedErrors([3, 8, 6, "Block"])
         }
     ]
 });
