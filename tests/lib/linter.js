@@ -71,7 +71,7 @@ function getVariable(scope, name) {
 // Tests
 //------------------------------------------------------------------------------
 
-describe("eslint", () => {
+describe("Linter", () => {
     const filename = "filename.js";
     let sandbox, linter;
 
