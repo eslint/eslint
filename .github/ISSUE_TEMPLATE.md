@@ -20,13 +20,17 @@
 
 **Please show your full configuration:**
 
+<details>
+<summary>Configuration</summary>
+
 <!-- Paste your configuration below: -->
+```js
+
+
+
 ```
 
-
-
-
-```
+</details>
 
 **What did you do? Please include the actual source code causing the issue.**
 
