@@ -6,7 +6,15 @@ node_js:
     - "7"
     - "8"
 sudo: false
-script: "npm test && npm run docs"
+branches:
+    only:
+    - master
+
+# Run npm test always
+# Run npm docs only when its the master branch build
+script:
+    - "npm test"
+    - 'if [ "$TRAVIS_PULL_REQUEST" = "false" && "$TRAVIS_BRANCH" = "master" ]; then npm run docs; fi'
 after_success:
     - npm run coveralls
 addons:
