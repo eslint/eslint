@@ -112,6 +112,7 @@ describe("bin/eslint.js", () => {
         const tempFilePath = `${fixturesPath}/temp.js`;
         const startingText = fs.readFileSync(`${fixturesPath}/left-pad.js`).toString();
         const expectedFixedText = fs.readFileSync(`${fixturesPath}/left-pad-expected.js`).toString();
+        const expectedFixedTextQuiet = fs.readFileSync(`${fixturesPath}/left-pad-expected-quiet.js`).toString();
 
         beforeEach(() => {
             fs.writeFileSync(tempFilePath, startingText);
@@ -125,6 +126,17 @@ describe("bin/eslint.js", () => {
             });
 
             return Promise.all([exitCodeAssertion, outputFileAssertion]);
+        });
+
+        it("has exit code 0, fixes errors in a file, and does not report or fix warnings if --quiet and --fix are used", () => {
+            const child = runESLint(["--fix", "--quiet", "--no-eslintrc", "--no-ignore", tempFilePath]);
+            const exitCodeAssertion = assertExitCode(child, 0);
+            const stdoutAssertion = getStdout(child).then(stdout => assert.strictEqual(stdout, ""));
+            const outputFileAssertion = awaitExit(child).then(() => {
+                assert.strictEqual(fs.readFileSync(tempFilePath).toString(), expectedFixedTextQuiet);
+            });
+
+            return Promise.all([exitCodeAssertion, stdoutAssertion, outputFileAssertion]);
         });
 
         it("has exit code 1 and fixes a file if not all rules can be fixed", () => {
