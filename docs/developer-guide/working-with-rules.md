@@ -361,6 +361,8 @@ In the preceding example, the error level is assumed to be the first argument. I
 
 To learn more about JSON Schema, we recommend looking at some [examples](http://json-schema.org/examples.html) to start, and also reading [Understanding JSON Schema](http://spacetelescope.github.io/understanding-json-schema/) (a free ebook).
 
+**Note:** Currently you need to use full JSON Schema object rather than array in case your schema has references ($ref), because in case of array format eslint transforms this array into a single schema without updating references that makes them incorrect (they are ignored).
+
 ### Getting the Source
 
 If your rule needs to get the actual JavaScript source to work with, then use the `sourceCode.getText()` method. This method works as follows:
