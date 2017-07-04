@@ -7,6 +7,7 @@
 /* eslint semi: 2 */
 /* eslint semi-spacing: 2 */
 /* eslint space-before-function-paren: 2 */
+/* eslint space-before-blocks: 1 */
 
 /*
 * left-pad@0.0.3
@@ -15,7 +16,7 @@
 
 module.exports = (leftpad)
 
-   function leftpad(str, len, ch) {
+   function leftpad(str, len, ch){
   str = ("" + str);
 
          var i = -1 ;
