@@ -74,12 +74,12 @@ class P{
 
 This rule has an object option:
 
-* `"allowImplicit": false` (default) disallows implicitly returning undefined with a return; statement.
+* `"treatUndefinedAsSpecified": false` (default) disallows implicitly returning undefined with a return; statement.
 
-Examples of **correct** code for the `{ "allowImplicit": true }` option:
+Examples of **correct** code for the `{ "treatUndefinedAsSpecified": true }` option:
 
 ```js
-/*eslint getter-return: ["error", { allowImplicit: true }]*/
+/*eslint getter-return: ["error", { treatUndefinedAsSpecified: true }]*/
 p = {
     get name(){
         return; // return undefined implicitly.
