@@ -74,11 +74,20 @@ ruleTester.run("no-regex-spaces", rule, {
         {
             code: "var foo = /bar    ?baz/;",
             output: "var foo = /bar {3} ?baz/;",
-            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "Spaces are hard to count. Use {3}.",
                     type: "Literal"
+                }
+            ]
+        },
+        {
+            code: "var foo = new RegExp('bar    ');",
+            output: "var foo = new RegExp('bar {4}');",
+            errors: [
+                {
+                    message: "Spaces are hard to count. Use {4}.",
+                    type: "NewExpression"
                 }
             ]
         }
