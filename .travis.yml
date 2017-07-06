@@ -14,7 +14,6 @@ branches:
 # Run npm docs only when its the master branch build and node 8
 script:
     - "npm test"
-    - 'if [[ "$TRAVIS_PULL_REQUEST" = "false" && "$TRAVIS_BRANCH" = "master" && "$node_js" = "8" ]]; then npm run docs; fi'
 after_success:
     - 'if [ "$node_js" = "8" ]; then npm run coveralls; fi'
 addons:
