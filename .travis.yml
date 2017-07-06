@@ -11,7 +11,6 @@ branches:
     - master
 
 # Run npm test always
-# Run npm docs only when its the master branch build and node 8
 script:
     - "npm test"
 after_success:
