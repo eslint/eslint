@@ -3344,6 +3344,12 @@ ruleTester.run("indent", rule, {
             `
         },
         {
+            code: unIndent`
+                if (foo)
+                    ;
+            `
+        },
+        {
             code: "x => {}"
         },
         {
@@ -8027,6 +8033,17 @@ ruleTester.run("indent", rule, {
                 ; [1, 2, 3].map(baz)
             `,
             errors: expectedErrors([3, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                if (foo)
+                ;
+            `,
+            output: unIndent`
+                if (foo)
+                    ;
+            `,
+            errors: expectedErrors([2, 4, 0, "Punctuator"])
         },
         {
             code: unIndent`
