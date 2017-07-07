@@ -619,7 +619,7 @@ describe("RuleTester", () => {
                     { code: "var answer = 6 * 7;", options: ["bar"], errors: [{ message: "Expected nothing." }] }
                 ]
             });
-        }, /Schema for rule .* is invalid/);
+        }, "Schema for rule no-invalid-schema is invalid:,\titems: should be object\n\titems[0].enum: should NOT have less than 1 items\n\titems: should match some schema in anyOf");
 
     });
 
@@ -635,7 +635,7 @@ describe("RuleTester", () => {
                     { code: "var answer = 6 * 7;", options: ["bar"], errors: [{ message: "Expected foo." }] }
                 ]
             });
-        }, /Value "bar" must be an enum value./);
+        }, /Value "bar" should be equal to one of the allowed values./);
 
     });
 
