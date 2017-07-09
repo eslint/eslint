@@ -1472,6 +1472,27 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                [[
+                ], function(
+                    foo
+                ) {}
+                ]
+            `
+        },
+        {
+            code: unIndent`
+                define([
+                    'foo'
+                ], function(
+                    bar
+                ) {
+                    baz;
+                }
+                )
+            `
+        },
+        {
+            code: unIndent`
                 const func = function (opts) {
                     return Promise.resolve()
                     .then(() => {
@@ -5587,6 +5608,46 @@ ruleTester.run("indent", rule, {
                 [4, 4, 9, "String"],
                 [5, 0, 2, "Punctuator"]
             ])
+        },
+        {
+            code: unIndent`
+                [[
+                ], function(
+                        foo
+                    ) {}
+                ]
+            `,
+            output: unIndent`
+                [[
+                ], function(
+                    foo
+                ) {}
+                ]
+            `,
+            errors: expectedErrors([[3, 4, 8, "Identifier"], [4, 0, 4, "Punctuator"]])
+        },
+        {
+            code: unIndent`
+                define([
+                    'foo'
+                ], function(
+                        bar
+                    ) {
+                    baz;
+                }
+                )
+            `,
+            output: unIndent`
+                define([
+                    'foo'
+                ], function(
+                    bar
+                ) {
+                    baz;
+                }
+                )
+            `,
+            errors: expectedErrors([[4, 4, 8, "Identifier"], [5, 0, 4, "Punctuator"]])
         },
         {
             code: unIndent`
