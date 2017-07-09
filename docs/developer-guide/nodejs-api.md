@@ -167,7 +167,7 @@ Output object from this method:
 ```js
 {
     fixed: true,
-    text: "var foo;",
+    output: "var foo;",
     messages: []
 }
 ```
@@ -175,7 +175,7 @@ Output object from this method:
 The information available is:
 
 * `fixed` - True, if the code was fixed.
-* `text` - Fixed code text (might be the same as input if no fixes were applied).
+* `output` - Fixed code text (might be the same as input if no fixes were applied).
 * `messages` - Collection of all messages for the given code (It has the same information as explained above under `verify` block).
 
 ## linter
