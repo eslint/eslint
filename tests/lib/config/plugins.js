@@ -236,6 +236,10 @@ describe("Plugins", () => {
             assert.equal(rules.get("example2/bar"), plugin2.rules.bar);
         });
 
+        it("should throw an error if plugins is not an array", () => {
+            assert.throws(() => StubbedPlugins.loadAll("example1"), "\"plugins\" value must be an array");
+        });
+
     });
 
     describe("removePrefix()", () => {
