@@ -5,6 +5,7 @@ build/
 npm-debug.log
 .DS_Store
 tmp/
+debug/
 .idea
 jsdoc/
 versions.json
