@@ -33,14 +33,30 @@ describe("configInitializer", () => {
         npmCheckStub,
         npmInstallStub,
         npmFetchPeerDependenciesStub,
-        init;
+        init,
+        localESLintVersion = null;
 
     const log = {
         info: sinon.spy(),
         error: sinon.spy()
     };
     const requireStubs = {
-        "../logging": log
+        "../logging": log,
+        "../util/module-resolver": class ModuleResolver {
+
+            /**
+             * @returns {string} The path to local eslint to test.
+             */
+            resolve() { // eslint-disable-line class-methods-use-this
+                if (localESLintVersion) {
+                    return `local-eslint-${localESLintVersion}`;
+                }
+                throw new Error("Cannot find module");
+            }
+        },
+        "local-eslint-3.18.0": { linter: { version: "3.18.0" }, "@noCallThru": true },
+        "local-eslint-3.19.0": { linter: { version: "3.19.0" }, "@noCallThru": true },
+        "local-eslint-4.0.0": { linter: { version: "4.0.0" }, "@noCallThru": true }
     };
 
     /**
@@ -244,6 +260,56 @@ describe("configInitializer", () => {
                         "eslint-plugin-react@^7.0.1"
                     ]
                 );
+            });
+
+            describe("checkLocalESLintVersion (Note: peerDependencies always `eslint: \"^3.19.0\"` by stubs)", () => {
+                describe("if local ESLint is not found,", () => {
+                    before(() => {
+                        localESLintVersion = null;
+                    });
+
+                    it("should returns true.", () => {
+                        const result = init.checkLocalESLintVersion({ styleguide: "airbnb" });
+
+                        assert.equal(result, true);
+                    });
+                });
+
+                describe("if local ESLint is 3.19.0,", () => {
+                    before(() => {
+                        localESLintVersion = "3.19.0";
+                    });
+
+                    it("should returns true.", () => {
+                        const result = init.checkLocalESLintVersion({ styleguide: "airbnb" });
+
+                        assert.equal(result, true);
+                    });
+                });
+
+                describe("if local ESLint is 4.0.0,", () => {
+                    before(() => {
+                        localESLintVersion = "4.0.0";
+                    });
+
+                    it("should returns false.", () => {
+                        const result = init.checkLocalESLintVersion({ styleguide: "airbnb" });
+
+                        assert.equal(result, false);
+                    });
+                });
+
+                describe("if local ESLint is 3.18.0,", () => {
+                    before(() => {
+                        localESLintVersion = "3.18.0";
+                    });
+
+                    it("should returns false.", () => {
+                        const result = init.checkLocalESLintVersion({ styleguide: "airbnb" });
+
+                        assert.equal(result, false);
+                    });
+                });
             });
         });
 
