@@ -1874,6 +1874,14 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                (
+                    foo[bar]
+                )
+                    .baz
+            `
+        },
+        {
+            code: unIndent`
                 MemberExpression
                 .can
                   .be
