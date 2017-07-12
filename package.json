@@ -47,6 +47,7 @@
     "estraverse": "^4.2.0",
     "esutils": "^2.0.2",
     "file-entry-cache": "^2.0.0",
+    "functional-red-black-tree": "^1.0.1",
     "glob": "^7.1.2",
     "globals": "^9.17.0",
     "ignore": "^3.3.3",
