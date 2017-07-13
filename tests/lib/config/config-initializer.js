@@ -268,7 +268,7 @@ describe("configInitializer", () => {
                         localESLintVersion = null;
                     });
 
-                    it("should returns false.", () => {
+                    it("should return false.", () => {
                         const result = init.hasESLintVersionConflict({ styleguide: "airbnb" });
 
                         assert.equal(result, false);
@@ -280,7 +280,7 @@ describe("configInitializer", () => {
                         localESLintVersion = "3.19.0";
                     });
 
-                    it("should returns false.", () => {
+                    it("should return false.", () => {
                         const result = init.hasESLintVersionConflict({ styleguide: "airbnb" });
 
                         assert.equal(result, false);
@@ -292,7 +292,7 @@ describe("configInitializer", () => {
                         localESLintVersion = "4.0.0";
                     });
 
-                    it("should returns true.", () => {
+                    it("should return true.", () => {
                         const result = init.hasESLintVersionConflict({ styleguide: "airbnb" });
 
                         assert.equal(result, true);
@@ -304,7 +304,7 @@ describe("configInitializer", () => {
                         localESLintVersion = "3.18.0";
                     });
 
-                    it("should returns true.", () => {
+                    it("should return true.", () => {
                         const result = init.hasESLintVersionConflict({ styleguide: "airbnb" });
 
                         assert.equal(result, true);
