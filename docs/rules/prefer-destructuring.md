@@ -4,6 +4,18 @@ With JavaScript ES6, a new syntax was added for creating variables from an array
 
 ## Rule Details
 
+### Options
+
+This rule takes two sets of configuration objects. The first object parameter determines what types of destructuring the rule applies to.
+
+The two properties, `array` and `object`, can be used to turn on or off the destructuring requirement for each of those types independently. By default, both are true.
+
+Alternatively, you can use separate configurations for different assignment types. It accepts 2 other keys instead of `array` and `object`.
+
+One key is `VariableDeclarator` and the other is `AssignmentExpression`, which can be used to control the destructuring requirement for each of those types independently. Each property accepts an object that accepts two properties, `array` and `object`, which can be used to control the destructuring requirement for each of `array` and `object` independently for variable declarations and assignment expressions.  By default, `array` and `object` are set to true for both `VariableDeclarator` and `AssignmentExpression`.
+
+The rule has a second object with a single key, `enforceForRenamedProperties`, which determines whether the `object` destructuring applies to renamed variables.
+
 Examples of **incorrect** code for this rule:
 
 ```javascript
@@ -26,18 +38,6 @@ var foo = array[someIndex];
 var { foo } = object;
 var foo = object.bar;
 ```
-
-### Options
-
-This rule takes two sets of configuration objects. The first object parameter determines what types of destructuring the rule applies to.
-
-The two properties, `array` and `object`, can be used to turn on or off the destructuring requirement for each of those types independently. By default, both are true.
-
-Alternatively, you can use separate configurations for different assignment types. It accepts 2 other keys instead of `array` and `object`.
-
-One key is `VariableDeclarator` and the other is `AssignmentExpression`, which can be used to control the destructuring requirement for each of those types independently. Each property accepts an object that accepts two properties, `array` and `object`, which can be used to control the destructuring requirement for each of `array` and `object` independently for variable declarations and assignment expressions.  By default, `array` and `object` are set to true for both `VariableDeclarator` and `AssignmentExpression`.
-
-The rule has a second object with a single key, `enforceForRenamedProperties`, which determines whether the `object` destructuring applies to renamed variables.
 
 Examples of **incorrect** code when `enforceForRenamedProperties` is enabled:
 
@@ -66,6 +66,18 @@ An example configuration, with the defaults `array` and `object` filled in, look
 }
 ```
 
+The two properties, `array` and `object`, which can be used to turn on or off the destructuring requirement for each of those types independently. By default, both are true.
+
+For example, the following configuration enforces only object destructuring, but not array destructuring:
+
+```json
+{
+  "rules": {
+    "prefer-destructuring": ["error", {"object": true, "array": false}]
+  }
+}
+```
+
 An example configuration, with the defaults `VariableDeclarator` and `AssignmentExpression` filled in, looks like this:
 
 ```json
@@ -85,6 +97,42 @@ An example configuration, with the defaults `VariableDeclarator` and `Assignment
     }]
   }
 }
+```
+
+The two properties, `VariableDeclarator` and `AssignmentExpression`, which can be used to turn on or off the destructuring requirement for `array` and `object`. By default, all values are true.
+
+For example, the following configuration enforces object destructuring in variable declarations and enforces array destructuring in assignment expressions.
+
+```json
+{
+  "rules": {
+    "prefer-destructuring": ["error", {
+      "VariableDeclarator": {
+        "array": false,
+        "object": true
+      },
+      "AssignmentExpression": {
+        "array": true,
+        "object": false
+      }
+    }, {
+      "enforceForRenamedProperties": false
+    }]
+  }
+}
+
+```
+
+Examples of **correct** code when object destructuring in `VariableDeclarator` is enforced:
+
+```javascript
+var {bar: foo} = object;
+```
+
+Examples of **correct** code when array destructuring in `AssignmentExpression` is enforced:
+
+```javascript
+[bar] = array;
 ```
 
 ## When Not To Use It
