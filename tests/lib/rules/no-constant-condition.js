@@ -143,6 +143,10 @@ ruleTester.run("no-constant-condition", rule, {
             errors: [{ message: "Unexpected constant condition.", type: "ForStatement" }]
         },
         {
+            code: "function* foo() {for (foo = yield; ;) {}}",
+            errors: [{ message: "Unexpected constant condition.", type: "ForStatement" }]
+        },
+        {
             code: "function foo() {while (true) {function* bar() {while (true) {yield;}}}}",
             errors: [{ message: "Unexpected constant condition.", type: "WhileStatement" }]
         }
