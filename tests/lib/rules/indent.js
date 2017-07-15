@@ -1824,6 +1824,72 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                (
+                    foo
+                        .bar
+                )
+            `
+        },
+        {
+            code: unIndent`
+                (
+                    (
+                        foo
+                            .bar
+                    )
+                )
+            `
+        },
+        {
+            code: unIndent`
+                (
+                    foo
+                )
+                    .bar
+            `
+        },
+        {
+            code: unIndent`
+                (
+                    (
+                        foo
+                    )
+                        .bar
+                )
+            `
+        },
+        {
+            code: unIndent`
+                (
+                    (
+                        foo
+                    )
+                        [
+                            (
+                                bar
+                            )
+                        ]
+                )
+            `
+        },
+        {
+            code: unIndent`
+                (
+                    foo[bar]
+                )
+                    .baz
+            `
+        },
+        {
+            code: unIndent`
+                (
+                    (foo.bar)
+                )
+                    .baz
+            `
+        },
+        {
+            code: unIndent`
                 MemberExpression
                 .can
                   .be
@@ -5215,6 +5281,21 @@ ruleTester.run("indent", rule, {
             errors: expectedErrors(
                 [3, 8, 10, "Punctuator"]
             )
+        },
+        {
+            code: unIndent`
+                (
+                    foo
+                    .bar
+                )
+            `,
+            output: unIndent`
+                (
+                    foo
+                        .bar
+                )
+            `,
+            errors: expectedErrors([3, 8, 4, "Punctuator"])
         },
         {
             code: unIndent`
