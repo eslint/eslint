@@ -55,7 +55,7 @@ ruleTester.run("no-restricted-globals", rule, {
         },
         {
             code: "foo",
-            options: [{ global: "bar", message: "Use baz instead." }]
+            options: [{ name: "bar", message: "Use baz instead." }]
         }
     ],
     invalid: [
@@ -99,78 +99,78 @@ ruleTester.run("no-restricted-globals", rule, {
         },
         {
             code: "foo",
-            options: [{ global: "foo" }],
+            options: [{ name: "foo" }],
             errors: [{ message: "Unexpected use of 'foo'.", type: "Identifier" }]
         },
         {
             code: "function fn() { foo; }",
-            options: [{ global: "foo" }],
+            options: [{ name: "foo" }],
             errors: [{ message: "Unexpected use of 'foo'.", type: "Identifier" }]
         },
         {
             code: "function fn() { foo; }",
-            options: [{ global: "foo" }],
+            options: [{ name: "foo" }],
             globals: { foo: false },
             errors: [{ message: "Unexpected use of 'foo'.", type: "Identifier" }]
         },
         {
             code: "event",
-            options: ["foo", { global: "event" }],
+            options: ["foo", { name: "event" }],
             env: { browser: true },
             errors: [{ message: "Unexpected use of 'event'.", type: "Identifier" }]
         },
         {
             code: "foo",
-            options: [{ global: "foo" }],
+            options: [{ name: "foo" }],
             globals: { foo: false },
             errors: [{ message: "Unexpected use of 'foo'.", type: "Identifier" }]
         },
         {
             code: "foo()",
-            options: [{ global: "foo" }],
+            options: [{ name: "foo" }],
             errors: [{ message: "Unexpected use of 'foo'.", type: "Identifier" }]
         },
         {
             code: "foo.bar()",
-            options: [{ global: "foo" }],
+            options: [{ name: "foo" }],
             errors: [{ message: "Unexpected use of 'foo'.", type: "Identifier" }]
         },
         {
             code: "foo",
-            options: [{ global: "foo", message: "Use bar instead." }],
+            options: [{ name: "foo", message: "Use bar instead." }],
             errors: [{ message: "Unexpected use of 'foo'. Use bar instead.", type: "Identifier" }]
         },
         {
             code: "function fn() { foo; }",
-            options: [{ global: "foo", message: "Use bar instead." }],
+            options: [{ name: "foo", message: "Use bar instead." }],
             errors: [{ message: "Unexpected use of 'foo'. Use bar instead.", type: "Identifier" }]
         },
         {
             code: "function fn() { foo; }",
-            options: [{ global: "foo", message: "Use bar instead." }],
+            options: [{ name: "foo", message: "Use bar instead." }],
             globals: { foo: false },
             errors: [{ message: "Unexpected use of 'foo'. Use bar instead.", type: "Identifier" }]
         },
         {
             code: "event",
-            options: ["foo", { global: "event", message: "Use local event parameter." }],
+            options: ["foo", { name: "event", message: "Use local event parameter." }],
             env: { browser: true },
             errors: [{ message: "Unexpected use of 'event'. Use local event parameter.", type: "Identifier" }]
         },
         {
             code: "foo",
-            options: [{ global: "foo", message: "Use bar instead." }],
+            options: [{ name: "foo", message: "Use bar instead." }],
             globals: { foo: false },
             errors: [{ message: "Unexpected use of 'foo'. Use bar instead.", type: "Identifier" }]
         },
         {
             code: "foo()",
-            options: [{ global: "foo", message: "Use bar instead." }],
+            options: [{ name: "foo", message: "Use bar instead." }],
             errors: [{ message: "Unexpected use of 'foo'. Use bar instead.", type: "Identifier" }]
         },
         {
             code: "foo.bar()",
-            options: [{ global: "foo", message: "Use bar instead." }],
+            options: [{ name: "foo", message: "Use bar instead." }],
             errors: [{ message: "Unexpected use of 'foo'. Use bar instead.", type: "Identifier" }]
         }
     ]

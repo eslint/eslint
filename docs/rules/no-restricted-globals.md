@@ -23,7 +23,7 @@ This rule takes a list of strings, where each string is a global to be restricte
 }
 ```
 
-Alternatively, the rule also accepts objects, where the global and an optional custom message are specified:
+Alternatively, the rule also accepts objects, where the global name and an optional custom message are specified:
 
 ```json
 {
@@ -31,11 +31,11 @@ Alternatively, the rule also accepts objects, where the global and an optional c
         "no-restricted-globals": [
             "error",
             {
-                "global": "event",
+                "name": "event",
                 "message": "Use local parameter instead."
             },
             {
-                "global": "fdescribe",
+                "name": "fdescribe",
                 "message": "Do not commit fdescribe. Use describe instead."
             }
         ]
@@ -77,7 +77,7 @@ Examples of **incorrect** code for a sample `"event"` global variable name, alon
 
 ```js
 /*global event*/
-/* eslint no-restricted-globals: [{ global: "error", message: "Use local parameter instead." }] */
+/* eslint no-restricted-globals: [{ name: "error", message: "Use local parameter instead." }] */
 
 function onClick() {
     console.log(event);    // Unexpected global variable 'event'. Use local parameter instead.
