@@ -2753,22 +2753,6 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
-                foo
-                    || (
-                        bar
-                    )
-            `
-        },
-        {
-            code: unIndent`
-                foo
-                                || (
-                                    bar
-                                )
-            `
-        },
-        {
-            code: unIndent`
                 var foo =
                         1;
             `,
@@ -7439,21 +7423,6 @@ ruleTester.run("indent", rule, {
                 ]
             `,
             errors: expectedErrors([3, 0, 4, "Punctuator"])
-        },
-        {
-            code: unIndent`
-                foo
-                        || (
-                                bar
-                            )
-            `,
-            output: unIndent`
-                foo
-                        || (
-                            bar
-                        )
-            `,
-            errors: expectedErrors([[3, 12, 16, "Identifier"], [4, 8, 12, "Punctuator"]])
         },
         {
             code: unIndent`
