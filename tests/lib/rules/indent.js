@@ -2072,6 +2072,46 @@ ruleTester.run("indent", rule, {
             `,
             options: [4]
         },
+        {
+            code: unIndent`
+                class Foo {
+                  constructor() {
+                    bar();
+                  }
+                }
+            `,
+            options: [2, { ClassDeclaration: 1 }]
+        },
+        {
+            code: unIndent`
+                class Foo {
+                    constructor() {
+                      bar();
+                    }
+                }
+            `,
+            options: [2, { ClassDeclaration: 2 }]
+        },
+        {
+            code: unIndent`
+                let Foo = class {
+                  constructor() {
+                    bar();
+                  }
+                };
+            `,
+            options: [2, { ClassExpression: 1 }]
+        },
+        {
+            code: unIndent`
+                let Foo = class {
+                    constructor() {
+                      bar();
+                    }
+                };
+            `,
+            options: [2, { ClassExpression: 2 }]
+        },
 
         // ternary expressions (https://github.com/eslint/eslint/issues/7420)
         {
@@ -6992,6 +7032,50 @@ ruleTester.run("indent", rule, {
             `,
             options: [2, { CallExpression: { arguments: 3 } }],
             errors: expectedErrors([[2, 6, 2, "Numeric"], [3, 6, 14, "Punctuator"], [4, 6, 8, "Keyword"]])
+        },
+        {
+            code: unIndent`
+                class Foo {
+                  toString() {
+                    bar();
+                  }
+                }
+            `,
+            output: unIndent`
+                class Foo {
+                    toString() {
+                      bar();
+                    }
+                }
+            `,
+            options: [2, { ClassDeclaration: 2 }],
+            errors: expectedErrors([
+                [2, 4, 2, "Identifier"],
+                [3, 6, 4, "Identifier"],
+                [4, 4, 2, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                let Foo = class {
+                  constructor() {
+                    bar();
+                  }
+                };
+            `,
+            output: unIndent`
+                let Foo = class {
+                    constructor() {
+                      bar();
+                    }
+                };
+            `,
+            options: [2, { ClassExpression: 2 }],
+            errors: expectedErrors([
+                [2, 4, 2, "Identifier"],
+                [3, 6, 4, "Identifier"],
+                [4, 4, 2, "Punctuator"]
+            ])
         },
 
         // https://github.com/eslint/eslint/issues/7573
