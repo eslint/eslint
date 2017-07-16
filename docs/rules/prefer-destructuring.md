@@ -126,12 +126,14 @@ For example, the following configuration enforces object destructuring in variab
 Examples of **correct** code when object destructuring in `VariableDeclarator` is enforced:
 
 ```javascript
+/* eslint prefer-destructuring: ["error", {VariableDeclarator: {object: true}}] */
 var {bar: foo} = object;
 ```
 
 Examples of **correct** code when array destructuring in `AssignmentExpression` is enforced:
 
 ```javascript
+/* eslint prefer-destructuring: ["error", {AssignmentExpression: {array: true}}] */
 [bar] = array;
 ```
 
