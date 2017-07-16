@@ -19,6 +19,7 @@ The bot will add a comment specifying the problems that it finds. You do not nee
 Once the bot checks have been satisfied, you check the following:
 
 1. Double-check that the commit message tag ("Fix:", "New:", etc.) is correct based on the issue (or, if no issue is referenced, based on the stated problem).
+1. If the pull request makes a change to core, ensure that an issue exists and the pull request references the issue in the commit message.
 1. Does the code follow our conventions (including header comments, JSDoc comments, etc.)? If not, please leave that feedback and reference the conventions document.
 1. For code changes:
     * Are there tests that verify the change? If not, please ask for them.
