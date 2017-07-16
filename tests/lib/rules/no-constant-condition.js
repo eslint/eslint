@@ -60,13 +60,13 @@ ruleTester.run("no-constant-condition", rule, {
         { code: "for(;true;);", options: [{ checkLoops: false }] },
         { code: "do{}while(true)", options: [{ checkLoops: false }] },
 
-        { code: "function* foo(){while(true){yield 'foo';}}", parserOptions: { ecmaVersion: 6 } },
-        { code: "function* foo(){for(;true;){yield 'foo';}}", parserOptions: { ecmaVersion: 6 } },
-        { code: "function* foo(){do{yield 'foo';}while(true)}", parserOptions: { ecmaVersion: 6 } },
-        { code: "function* foo(){while (true) { while(true) {yield;}}}", parserOptions: { ecmaVersion: 6 } },
-        { code: "function* foo() {for (; yield; ) {}}", parserOptions: { ecmaVersion: 6 } },
-        { code: "function* foo() {for (; ; yield) {}}", parserOptions: { ecmaVersion: 6 } },
-        { code: "function* foo() {while (true) {function* foo() {yield;}yield;}}", parserOptions: { ecmaVersion: 6 } }
+        { code: "function* foo(){while(true){yield 'foo';}}" },
+        { code: "function* foo(){for(;true;){yield 'foo';}}" },
+        { code: "function* foo(){do{yield 'foo';}while(true)}" },
+        { code: "function* foo(){while (true) { while(true) {yield;}}}" },
+        { code: "function* foo() {for (; yield; ) {}}" },
+        { code: "function* foo() {for (; ; yield) {}}" },
+        { code: "function* foo() {while (true) {function* foo() {yield;}yield;}}" }
     ],
     invalid: [
         { code: "for(;true;);", errors: [{ message: "Unexpected constant condition.", type: "ForStatement" }] },
@@ -87,7 +87,7 @@ ruleTester.run("no-constant-condition", rule, {
         { code: "while(x = 1);", errors: [{ message: "Unexpected constant condition.", type: "WhileStatement" }] },
         { code: "while(function(){});", errors: [{ message: "Unexpected constant condition.", type: "WhileStatement" }] },
         { code: "while(true);", errors: [{ message: "Unexpected constant condition.", type: "WhileStatement" }] },
-        { code: "while(() => {});", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Unexpected constant condition.", type: "WhileStatement" }] },
+        { code: "while(() => {});", errors: [{ message: "Unexpected constant condition.", type: "WhileStatement" }] },
 
         // #5228 , typeof conditions
         { code: "if(typeof x){}", errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }] },
