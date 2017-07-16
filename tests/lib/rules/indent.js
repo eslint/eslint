@@ -4535,15 +4535,17 @@ ruleTester.run("indent", rule, {
             // Multiline ternary
             // (multiline JSX, colon on its own line)
             code: unIndent`
-                {!foo ?
-                    <Foo
-                        onClick={this.onClick}
-                    />
-                    :
-                    <Bar
-                        onClick={this.onClick}
-                    />
-                }
+                <div>
+                    {!foo ?
+                        <Foo
+                            onClick={this.onClick}
+                        />
+                        :
+                        <Bar
+                            onClick={this.onClick}
+                        />
+                    }
+                </div>
             `
         },
         {
