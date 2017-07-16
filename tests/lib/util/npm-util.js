@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 const assert = require("chai").assert,
-    childProcess = require("child_process"),
+    spawn = require("cross-spawn"),
     sinon = require("sinon"),
     npmUtil = require("../../../lib/util/npm-util"),
     log = require("../../../lib/logging"),
@@ -170,31 +170,34 @@ describe("npmUtil", () => {
 
     describe("installSyncSaveDev()", () => {
         it("should invoke npm to install a single desired package", () => {
-            const stub = sandbox.stub(childProcess, "execSync");
+            const stub = sandbox.stub(spawn, "sync");
 
             npmUtil.installSyncSaveDev("desired-package");
             assert(stub.calledOnce);
-            assert.equal(stub.firstCall.args[0], "npm i --save-dev desired-package");
+            assert.equal(stub.firstCall.args[0], "npm");
+            assert.deepEqual(stub.firstCall.args[1], ["i", "--save-dev", "desired-package"]);
             stub.restore();
         });
 
         it("should accept an array of packages to install", () => {
-            const stub = sandbox.stub(childProcess, "execSync");
+            const stub = sandbox.stub(spawn, "sync");
 
             npmUtil.installSyncSaveDev(["first-package", "second-package"]);
             assert(stub.calledOnce);
-            assert.equal(stub.firstCall.args[0], "npm i --save-dev first-package second-package");
+            assert.equal(stub.firstCall.args[0], "npm");
+            assert.deepEqual(stub.firstCall.args[1], ["i", "--save-dev", "first-package", "second-package"]);
             stub.restore();
         });
     });
 
     describe("fetchPeerDependencies()", () => {
         it("should execute 'npm show --json <packageName> peerDependencies' command", () => {
-            const stub = sandbox.stub(childProcess, "execSync").returns("");
+            const stub = sandbox.stub(spawn, "sync").returns({ stdout: "" });
 
             npmUtil.fetchPeerDependencies("desired-package");
             assert(stub.calledOnce);
-            assert.equal(stub.firstCall.args[0], "npm show --json desired-package peerDependencies");
+            assert.equal(stub.firstCall.args[0], "npm");
+            assert.deepEqual(stub.firstCall.args[1], ["show", "--json", "desired-package", "peerDependencies"]);
             stub.restore();
         });
     });
