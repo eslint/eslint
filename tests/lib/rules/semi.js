@@ -142,6 +142,7 @@ ruleTester.run("semi", rule, {
         { code: "if (foo) {\n bar() }", output: "if (foo) {\n bar(); }", options: ["always", { omitLastInOneLineBlock: true }], errors: [{ message: "Missing semicolon." }] },
         { code: "if (foo) {\n bar(); baz() }", output: "if (foo) {\n bar(); baz(); }", options: ["always", { omitLastInOneLineBlock: true }], errors: [{ message: "Missing semicolon." }] },
         { code: "if (foo) { bar(); }", output: "if (foo) { bar() }", options: ["always", { omitLastInOneLineBlock: true }], errors: [{ message: "Extra semicolon." }] },
+        { code: "class Foo { bar = 1 }", output: "class Foo { bar = 1; }", parserOptions: { ecmaVersion: 6 }, parser: "babel-eslint", errors: [{ message: "Missing semicolon.", type: "ClassProperty" }] },
 
 
         // exports, "always"
