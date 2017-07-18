@@ -368,7 +368,7 @@ ruleTester.run("array-element-newline", rule, {
         {
             code: "var foo = [\n1 // any comment\n, 2\n];",
             options: ["never"],
-            output: "var foo = [\n1 // any comment\n, 2\n];",
+            output: null,
             errors: [
                 {
                     message: ERR_NO_BREAK_HERE,
@@ -380,7 +380,7 @@ ruleTester.run("array-element-newline", rule, {
         {
             code: "var foo = [\n1, // any comment\n2\n];",
             options: ["never"],
-            output: "var foo = [\n1, // any comment\n2\n];",
+            output: null,
             errors: [
                 {
                     message: ERR_NO_BREAK_HERE,
@@ -437,7 +437,7 @@ ruleTester.run("array-element-newline", rule, {
         {
             code: "var foo = [\nfunction foo() {\ndosomething();\n}, /* any comment */\nfunction bar() {\ndosomething();\n}\n];",
             options: ["never"],
-            output: "var foo = [\nfunction foo() {\ndosomething();\n}, /* any comment */\nfunction bar() {\ndosomething();\n}\n];",
+            output: null,
             errors: [
                 {
                     message: ERR_NO_BREAK_HERE,
