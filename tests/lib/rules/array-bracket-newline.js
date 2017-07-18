@@ -505,7 +505,7 @@ ruleTester.run("array-bracket-newline", rule, {
         {
             code: "var foo = [\n// any comment\n];",
             options: [{ multiline: true }],
-            output: "var foo = [\n// any comment\n];",
+            output: null,
             errors: [
                 {
                     message: ERR_NO_BREAK_AFTER,
