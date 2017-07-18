@@ -35,7 +35,10 @@ ruleTester.run("no-console", rule, {
         { code: "console.log(foo)", options: [{ allow: ["info", "log", "warn"] }] },
 
         // https://github.com/eslint/eslint/issues/7010
-        "var console = require('myconsole'); console.log(foo)"
+        "var console = require('myconsole'); console.log(foo)",
+
+        // https://github.com/eslint/eslint/issues/7806
+        "console.log = foo"
     ],
     invalid: [
 
