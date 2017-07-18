@@ -3468,6 +3468,27 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                import { foo,
+                    bar,
+                    baz,
+                } from 'qux';
+            `,
+            options: [4, { ImportDeclaration: 1 }],
+            parserOptions: { sourceType: "module" }
+        },
+        {
+            code: unIndent`
+                import {
+                    foo,
+                    bar,
+                    baz,
+                } from 'qux';
+            `,
+            options: [4, { ImportDeclaration: 1 }],
+            parserOptions: { sourceType: "module" }
+        },
+        {
+            code: unIndent`
                 import { apple as a,
                          banana as b } from 'fruits';
                 import { cat } from 'animals';
@@ -7453,6 +7474,23 @@ ruleTester.run("indent", rule, {
             options: [4, { ImportDeclaration: "first" }],
             parserOptions: { sourceType: "module" },
             errors: expectedErrors([[3, 9, 10, "Identifier"]])
+        },
+        {
+            code: unIndent`
+                import { foo,
+                    bar,
+                     baz,
+                } from 'qux';
+            `,
+            output: unIndent`
+                import { foo,
+                    bar,
+                    baz,
+                } from 'qux';
+            `,
+            options: [2, { ImportDeclaration: 2 }],
+            parserOptions: { sourceType: "module" },
+            errors: expectedErrors([[3, 4, 5, "Identifier"]])
         },
         {
             code: unIndent`

@@ -526,6 +526,23 @@ var foo = { bar: 1,
 
 ### ImportDeclaration
 
+Examples of **correct** code for this rule with the `4, { "ImportDeclaration": 1 }` option (the default):
+
+```js
+/*eslint indent: ["error", 4, { ImportDeclaration: 1 }]*/
+
+import { foo,
+    bar,
+    baz,
+} from 'qux';
+
+import {
+    foo,
+    bar,
+    baz,
+} from 'qux';
+```
+
 Examples of **incorrect** code for this rule with the `4, { ImportDeclaration: "first" }` option:
 
 ```js
