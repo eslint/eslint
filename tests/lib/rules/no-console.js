@@ -47,6 +47,7 @@ ruleTester.run("no-console", rule, {
         { code: "console.error(foo)", errors: [{ message: "Unexpected console statement.", type: "MemberExpression" }] },
         { code: "console.info(foo)", errors: [{ message: "Unexpected console statement.", type: "MemberExpression" }] },
         { code: "console.warn(foo)", errors: [{ message: "Unexpected console statement.", type: "MemberExpression" }] },
+        { code: "var foo = console.log", errors: [{ message: "Unexpected console statement.", type: "MemberExpression" }] },
 
         //  one option
         { code: "console.log(foo)", options: [{ allow: ["error"] }], errors: [{ message: "Unexpected console statement.", type: "MemberExpression" }] },
