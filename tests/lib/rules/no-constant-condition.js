@@ -140,7 +140,7 @@ ruleTester.run("no-constant-condition", rule, {
         },
         {
             code: "function* foo() {for (let foo = yield; ;) {}}",
-            errors: [{ message: "Unexpected constant condition.", type: "ForStatement" }]
+            errors: [{ message: "Unexpected constant condition.", type: "VariableDeclarator" }]
         },
         {
             code: "function* foo() {for (foo = yield; ;) {}}",
@@ -149,6 +149,10 @@ ruleTester.run("no-constant-condition", rule, {
         {
             code: "function foo() {while (true) {function* bar() {while (true) {yield;}}}}",
             errors: [{ message: "Unexpected constant condition.", type: "WhileStatement" }]
+        },
+        {
+            code: "function* foo() { for (let foo = 1 + 2 + 3 + (yield); bar; baz) {} }",
+            errors: [{ message: "Unexpected constant condition.", type: "BinaryExpression" }]
         }
     ]
 });
