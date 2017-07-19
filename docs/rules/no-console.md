@@ -19,7 +19,6 @@ Examples of **incorrect** code for this rule:
 console.log("Log a debug level message.");
 console.warn("Log a warn level message.");
 console.error("Log an error level message.");
-var foo = console.log;
 ```
 
 Examples of **correct** code for this rule:

@@ -16,7 +16,7 @@ const rule = require("../../../lib/rules/no-console"),
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 
 ruleTester.run("no-console", rule, {
     valid: [
@@ -38,7 +38,11 @@ ruleTester.run("no-console", rule, {
         "var console = require('myconsole'); console.log(foo)",
 
         // https://github.com/eslint/eslint/issues/7806
-        "console.log = foo"
+        "console.log = foo",
+        "var foo = console.log",
+        "[console.log] = [0];",
+        "({ foo: console.log } = { foo: 1 });",
+        "for (console.log in { a: 1, b: 2, c: 3 });"
     ],
     invalid: [
 
@@ -47,7 +51,6 @@ ruleTester.run("no-console", rule, {
         { code: "console.error(foo)", errors: [{ message: "Unexpected console statement.", type: "MemberExpression" }] },
         { code: "console.info(foo)", errors: [{ message: "Unexpected console statement.", type: "MemberExpression" }] },
         { code: "console.warn(foo)", errors: [{ message: "Unexpected console statement.", type: "MemberExpression" }] },
-        { code: "var foo = console.log", errors: [{ message: "Unexpected console statement.", type: "MemberExpression" }] },
 
         //  one option
         { code: "console.log(foo)", options: [{ allow: ["error"] }], errors: [{ message: "Unexpected console statement.", type: "MemberExpression" }] },
