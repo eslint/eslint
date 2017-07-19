@@ -34,13 +34,16 @@ function assertExitCode(exitingProcess, expectedExitCode) {
 /**
 * Returns a Promise for the stdout of a process.
 * @param {ChildProcess} runningProcess The child process
-* @returns {Promise<string>} A Promise that fulfills with all of the stdout output produced by the process when it exits.
+* @returns {Promise<{stdout: string, stderr: string}>} A Promise that fulfills with all of the
+* stdout and stderr output produced by the process when it exits.
 */
-function getStdout(runningProcess) {
+function getOutput(runningProcess) {
     let stdout = "";
+    let stderr = "";
 
     runningProcess.stdout.on("data", data => (stdout += data));
-    return awaitExit(runningProcess).then(() => stdout);
+    runningProcess.stderr.on("data", data => (stderr += data));
+    return awaitExit(runningProcess).then(() => ({ stdout, stderr }));
 }
 
 describe("bin/eslint.js", () => {
@@ -88,8 +91,8 @@ describe("bin/eslint.js", () => {
             const child = runESLint(["--stdin"], { cwd: "/" }); // Assumes the root directory has no .eslintrc file
 
             const exitCodePromise = assertExitCode(child, 1);
-            const stdoutPromise = getStdout(child).then(stdout => {
-                assert.match(stdout, /ESLint couldn't find a configuration file/);
+            const stdoutPromise = getOutput(child).then(output => {
+                assert.match(output.stderr, /ESLint couldn't find a configuration file/);
             });
 
             child.stdin.write("var foo = bar\n");
@@ -131,7 +134,7 @@ describe("bin/eslint.js", () => {
         it("has exit code 0, fixes errors in a file, and does not report or fix warnings if --quiet and --fix are used", () => {
             const child = runESLint(["--fix", "--quiet", "--no-eslintrc", "--no-ignore", tempFilePath]);
             const exitCodeAssertion = assertExitCode(child, 0);
-            const stdoutAssertion = getStdout(child).then(stdout => assert.strictEqual(stdout, ""));
+            const stdoutAssertion = getOutput(child).then(output => assert.strictEqual(output.stdout, ""));
             const outputFileAssertion = awaitExit(child).then(() => {
                 assert.strictEqual(fs.readFileSync(tempFilePath).toString(), expectedFixedTextQuiet);
             });
@@ -256,6 +259,24 @@ describe("bin/eslint.js", () => {
             if (fs.existsSync(CACHE_PATH)) {
                 fs.unlinkSync(CACHE_PATH);
             }
+        });
+    });
+
+    describe("handling crashes", () => {
+        it("prints the error message exactly once to stderr in the event of a crash", () => {
+            const child = runESLint(["--rule=no-restricted-syntax:[error, 'Invalid Selector [[[']", "Makefile.js"]);
+            const exitCodeAssertion = assertExitCode(child, 1);
+            const outputAssertion = getOutput(child).then(output => {
+                const expectedSubstring = "Syntax error in selector";
+
+                assert.strictEqual(output.stdout, "");
+                assert.include(output.stderr, expectedSubstring);
+
+                // The message should appear exactly once in stderr
+                assert.strictEqual(output.stderr.indexOf(expectedSubstring), output.stderr.lastIndexOf(expectedSubstring));
+            });
+
+            return Promise.all([exitCodeAssertion, outputAssertion]);
         });
     });
 
