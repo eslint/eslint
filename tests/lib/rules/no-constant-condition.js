@@ -16,7 +16,7 @@ const rule = require("../../../lib/rules/no-constant-condition"),
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 
 ruleTester.run("no-constant-condition", rule, {
     valid: [
@@ -58,7 +58,17 @@ ruleTester.run("no-constant-condition", rule, {
         // { checkLoops: false }
         { code: "while(true);", options: [{ checkLoops: false }] },
         { code: "for(;true;);", options: [{ checkLoops: false }] },
-        { code: "do{}while(true)", options: [{ checkLoops: false }] }
+        { code: "do{}while(true)", options: [{ checkLoops: false }] },
+
+        { code: "function* foo(){while(true){yield 'foo';}}" },
+        { code: "function* foo(){for(;true;){yield 'foo';}}" },
+        { code: "function* foo(){do{yield 'foo';}while(true)}" },
+        { code: "function* foo(){while (true) { while(true) {yield;}}}" },
+        { code: "function* foo() {for (; yield; ) {}}" },
+        { code: "function* foo() {for (; ; yield) {}}" },
+        { code: "function* foo() {while (true) {function* foo() {yield;}yield;}}" },
+        { code: "function* foo() { for (let x = yield; x < 10; x++) {yield;}yield;}" },
+        { code: "function* foo() { for (let x = yield; ; x++) { yield; }}" }
     ],
     invalid: [
         { code: "for(;true;);", errors: [{ message: "Unexpected constant condition.", type: "ForStatement" }] },
@@ -78,7 +88,8 @@ ruleTester.run("no-constant-condition", rule, {
         { code: "while(~!0);", errors: [{ message: "Unexpected constant condition.", type: "WhileStatement" }] },
         { code: "while(x = 1);", errors: [{ message: "Unexpected constant condition.", type: "WhileStatement" }] },
         { code: "while(function(){});", errors: [{ message: "Unexpected constant condition.", type: "WhileStatement" }] },
-        { code: "while(() => {});", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Unexpected constant condition.", type: "WhileStatement" }] },
+        { code: "while(true);", errors: [{ message: "Unexpected constant condition.", type: "WhileStatement" }] },
+        { code: "while(() => {});", errors: [{ message: "Unexpected constant condition.", type: "WhileStatement" }] },
 
         // #5228 , typeof conditions
         { code: "if(typeof x){}", errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }] },
@@ -103,6 +114,47 @@ ruleTester.run("no-constant-condition", rule, {
         { code: "if(abc==='str' || true){}", errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }] },
         { code: "if(abc==='str' || true || def ==='str'){}", errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }] },
         { code: "if(false || true){}", errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }] },
-        { code: "if(typeof abc==='str' || true){}", errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }] }
+        { code: "if(typeof abc==='str' || true){}", errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }] },
+
+        {
+            code: "function* foo(){while(true){} yield 'foo';}",
+            errors: [{ message: "Unexpected constant condition.", type: "WhileStatement" }]
+        },
+        {
+            code: "function* foo(){while(true){if (true) {yield 'foo';}}}",
+            errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }]
+        },
+        {
+            code: "function* foo(){while(true){yield 'foo';} while(true) {}}",
+            errors: [{ message: "Unexpected constant condition.", type: "WhileStatement" }]
+        },
+        {
+            code: "var a = function* foo(){while(true){} yield 'foo';}",
+            errors: [{ message: "Unexpected constant condition.", type: "WhileStatement" }]
+        },
+        {
+            code: "while (true) { function* foo() {yield;}}",
+            errors: [{ message: "Unexpected constant condition.", type: "WhileStatement" }]
+        },
+        {
+            code: "function* foo(){if (true) {yield 'foo';}}",
+            errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }]
+        },
+        {
+            code: "function* foo() {for (let foo = yield; true;) {}}",
+            errors: [{ message: "Unexpected constant condition.", type: "ForStatement" }]
+        },
+        {
+            code: "function* foo() {for (foo = yield; true;) {}}",
+            errors: [{ message: "Unexpected constant condition.", type: "ForStatement" }]
+        },
+        {
+            code: "function foo() {while (true) {function* bar() {while (true) {yield;}}}}",
+            errors: [{ message: "Unexpected constant condition.", type: "WhileStatement" }]
+        },
+        {
+            code: "function* foo() { for (let foo = 1 + 2 + 3 + (yield); true; baz) {}}",
+            errors: [{ message: "Unexpected constant condition.", type: "ForStatement" }]
+        }
     ]
 });
