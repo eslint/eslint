@@ -33,7 +33,7 @@ Once your shareable config is ready, you can [publish to npm](https://docs.npmjs
 You should declare your dependency on eslint in `package.json` using the [peerDependencies](https://docs.npmjs.com/files/package.json#peerdependencies) field. The recommended way to declare a dependency for future proof compatibility is with the ">=" range syntax, using the lowest required eslint version. For example:
 
 ```
-peerDependencies: {
+"peerDependencies": {
     "eslint": ">= 3"
 }
 ```
