@@ -1,3 +1,32 @@
+v4.3.0 - July 21, 2017
+
+* 91dccdf Update: support more options in prefer-destructuring (#8796) (Victor Hom)
+* 3bebcfd Update: Support generator yields in no constant condition (#8762) (Victor Hom)
+* 96df8c9 Fix: Handle fixing objects containing comments (fixes #8484) (#8944) (Brian Schemp)
+* e39d41d Docs: Make `peerDependencies` package.json snippet valid JSON (#8971) (Sam Adams)
+* a5fd101 Fix: duplicated error message if a crash occurs (fixes #8964) (#8965) (Teddy Katz)
+* f8d122c Docs: trailing commas not allowed in json (#8969) (Scott Fletcher)
+* d09288a Chore: Use `output: null` to assert that a test case is not autofixed. (#8960) (薛定谔的猫)
+* e639358 Update: add question to confirm downgrade (fixes #8870) (#8911) (Toru Nagashima)
+* 601039d Docs: fix badge in eslint-config-eslint readme (#8954) (Teddy Katz)
+* 3c231fa Update: add enforceInMethodNames to no-underscore-dangle (fixes #7065) (#7234) (Gabriele Petronella)
+* 128591f Update: prefer-numeric-literals warns Number.parseInt (fixes #8913) (#8929) (Kevin Partington)
+* 846f8b1 Docs: Clarified that core PRs require issue in maintainer guide (#8927) (Kevin Partington)
+* 55bc35d Fix: Avoid shell mangling during eslint --init (#8936) (Anders Kaseorg)
+* 10c3d78 Chore: fix misleading `indent` test (#8925) (Teddy Katz)
+* fb8005d Update: no-restricted-globals custom error messages (fixes #8315) (#8932) (Kevin Partington)
+* a747b6f Chore: make minor improvements to `indent` internals (#8947) (Teddy Katz)
+* 1ea3723 Update: fix indentation of parenthesized MemberExpressions (fixes #8924) (#8928) (Teddy Katz)
+* 9abc6f7 Update: fix BinaryExpression indentation edge case (fixes #8914) (#8930) (Teddy Katz)
+* 0e90453 Docs: Fixing broken cyclomatic complexity link (fixes #8396) (#8937) (Chris Bargren)
+* a8a8350 Chore: improve performance of `indent` rule (#8905) (Teddy Katz)
+* 764b2a9 Chore: update header info in `indent` (#8926) (Teddy Katz)
+* 597c217 Fix: confusing error if plugins from config is not an array (#8888) (Calvin Freitas)
+* 3c1dd6d Docs: add description of no-sync `allowAtRootLevel` option (fixes #8902) (#8906) (Teddy Katz)
+* 933a9cf Chore: add a fuzzer to detect bugs in core rules (#8422) (Teddy Katz)
+* 45f8cd9 Docs: fix verifyAndFix result property name (#8903) (Tino Vyatkin)
+* 1a89e1c Docs: Fix always-multiline example in multiline-ternary docs (#8904) (Nathan Woltman)
+
 v4.2.0 - July 8, 2017
 
 * e0f0101 Update: fix indentation of nested function parameters (fixes #8892) (#8900) (Teddy Katz)
