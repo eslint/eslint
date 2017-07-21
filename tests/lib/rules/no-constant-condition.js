@@ -66,7 +66,9 @@ ruleTester.run("no-constant-condition", rule, {
         { code: "function* foo(){while (true) { while(true) {yield;}}}" },
         { code: "function* foo() {for (; yield; ) {}}" },
         { code: "function* foo() {for (; ; yield) {}}" },
-        { code: "function* foo() {while (true) {function* foo() {yield;}yield;}}" }
+        { code: "function* foo() {while (true) {function* foo() {yield;}yield;}}" },
+        { code: "function* foo() { for (let x = yield; x < 10; x++) {yield;}yield;}" },
+        { code: "function* foo() { for (let x = yield; ; x++) { yield; }}" }
     ],
     invalid: [
         { code: "for(;true;);", errors: [{ message: "Unexpected constant condition.", type: "ForStatement" }] },
@@ -139,11 +141,11 @@ ruleTester.run("no-constant-condition", rule, {
             errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }]
         },
         {
-            code: "function* foo() {for (let foo = yield; ;) {}}",
-            errors: [{ message: "Unexpected constant condition.", type: "VariableDeclarator" }]
+            code: "function* foo() {for (let foo = yield; true;) {}}",
+            errors: [{ message: "Unexpected constant condition.", type: "ForStatement" }]
         },
         {
-            code: "function* foo() {for (foo = yield; ;) {}}",
+            code: "function* foo() {for (foo = yield; true;) {}}",
             errors: [{ message: "Unexpected constant condition.", type: "ForStatement" }]
         },
         {
@@ -151,8 +153,8 @@ ruleTester.run("no-constant-condition", rule, {
             errors: [{ message: "Unexpected constant condition.", type: "WhileStatement" }]
         },
         {
-            code: "function* foo() { for (let foo = 1 + 2 + 3 + (yield); bar; baz) {} }",
-            errors: [{ message: "Unexpected constant condition.", type: "BinaryExpression" }]
+            code: "function* foo() { for (let foo = 1 + 2 + 3 + (yield); true; baz) {}}",
+            errors: [{ message: "Unexpected constant condition.", type: "ForStatement" }]
         }
     ]
 });
