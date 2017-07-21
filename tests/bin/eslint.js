@@ -280,6 +280,28 @@ describe("bin/eslint.js", () => {
         });
     });
 
+
+    describe("emitting a warning for ecmaFeatures", () => {
+        it("does not emit a warning when it does not find an ecmaFeatures option", () => {
+            const child = runESLint(["Makefile.js"]);
+
+            const exitCodePromise = assertExitCode(child, 0);
+            const outputPromise = getOutput(child).then(output => assert.strictEqual(output.stderr, ""));
+
+            return Promise.all([exitCodePromise, outputPromise]);
+        });
+        it("emits a warning when it finds an ecmaFeatures option", () => {
+            const child = runESLint(["-c", "tests/fixtures/config-file/ecma-features/.eslintrc.yml", "Makefile.js"]);
+
+            const exitCodePromise = assertExitCode(child, 0);
+            const outputPromise = getOutput(child).then(output => {
+                assert.include(output.stderr, "The 'ecmaFeatures' config file property is deprecated, and has no effect.");
+            });
+
+            return Promise.all([exitCodePromise, outputPromise]);
+        });
+    });
+
     afterEach(() => {
 
         // Clean up all the processes after every test.
