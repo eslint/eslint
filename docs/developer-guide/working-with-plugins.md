@@ -219,7 +219,7 @@ Add these keywords into your `package.json` file to make it easy for others to f
 
 * [npm Developer Guide](https://docs.npmjs.com/misc/developers)
 
-### Working with Custom Parsers
+## Working with Custom Parsers
 
 If you want to use your own parser and provide additional capabilities for your rules, you can specify your own custom parser. If a `parseForESLint` method is exposed on the parser, this method will be used to parse the code. Otherwise, the `parse` method will be used. Both methods should take in the the source code as the first argument, and an optional configuration object as the second argument (provided as `parserOptions` in a config file). The `parse` method should simply return the AST. The `parseForESLint` method should return an object that contains the required property `ast` and an optional `services` property. `ast` should contain the AST. The `services` property can contain any parser-dependent services (such as type checkers for nodes). The value of the `services` property is available to rules as `context.parserServices`.
 
@@ -246,4 +246,33 @@ exports.parseForESLint = function(code, options) {
 
 ```
 
+### The AST specification
 
+The AST that custom parsers should create is based on [ESTree](https://github.com/estree/estree) basically. The AST requires some additional properties about detail information of the source code.
+
+#### All nodes:
+
+All nodes must have `range` property.
+
+- `range` (`number[]`) is the array of two numbers. Both numbers are a 0-based index which is the position in the array of source code characters. The first is the start position of the node, the second is the end position of the node. `code.slice(node.range[0], node.range[1])` must be the text of the node. This range does not include spaces which are around the node.
+- `loc` (`SourceLocation`) must not be `null`. [The `loc` property is defined as nullable by ESTree](https://github.com/estree/estree/blob/25834f7247d44d3156030f8e8a2d07644d771fdb/es5.md#node-objects), but ESLint requires this property. On the other hand, `SourceLocation#source` property can be `undefined`. ESLint does not use the `SourceLocation#source` property.
+
+The `parent` property of all nodes must be rewriteable. ESLint set their parent node to the `parent` properties while traversing.
+
+#### The `Program` node:
+
+The `Program` node must have `tokens` and `comments` properties. Both properties are the array of the below Token interface.
+
+```ts
+interface Token {
+    type: string;
+    loc: SourceLocation;
+    range: [number, number];
+    value: string;
+}
+```
+
+- `tokens` (`Token[]`) is the array of tokens which affect the behavior of programs. Arbitrary spaces can exist between tokens, so rules check the `Token#range` to detect spaces between tokens. This must be sorted by `Token#range[0]`.
+- `comments` (`Token[]`) is the array of comment tokens. This must be sorted by `Token#range[0]`.
+
+The `tokens` and the `comments` must not be overlapped themselves and each other.
