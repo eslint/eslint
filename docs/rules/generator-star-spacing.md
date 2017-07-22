@@ -75,6 +75,25 @@ An example of shorthand configuration:
 "generator-star-spacing": ["error", "after"]
 ```
 
+Additionally, this rule allows further configurability via overrides per function type
+
+* `named` provides overrides for named functions
+* `anonymous` provides overrides for anonymous functions
+* `method` provides overrides for class methods or property function shorthand
+* `static` provides overrides for static class methods
+
+An example of a configuration with overrides:
+
+```json
+"generator-star-spacing": ["error", {
+    "before": false,
+    "after": true,
+    "anonymous": "neither",
+    "method": "neither",
+    "static": {"before": true, "after": true}
+}]
+```
+
 ## Examples
 
 ### before
@@ -85,7 +104,7 @@ Examples of **correct** code for this rule with the `"before"` option:
 /*eslint generator-star-spacing: ["error", {"before": true, "after": false}]*/
 /*eslint-env es6*/
 
-function *generator() {}
+function *generator() {};
 
 var anonymous = function *() {};
 
@@ -100,7 +119,7 @@ Examples of **correct** code for this rule with the `"after"` option:
 /*eslint generator-star-spacing: ["error", {"before": false, "after": true}]*/
 /*eslint-env es6*/
 
-function* generator() {}
+function* generator() {};
 
 var anonymous = function* () {};
 
@@ -115,7 +134,7 @@ Examples of **correct** code for this rule with the `"both"` option:
 /*eslint generator-star-spacing: ["error", {"before": true, "after": true}]*/
 /*eslint-env es6*/
 
-function * generator() {}
+function * generator() {};
 
 var anonymous = function * () {};
 
@@ -130,11 +149,32 @@ Examples of **correct** code for this rule with the `"neither"` option:
 /*eslint generator-star-spacing: ["error", {"before": false, "after": false}]*/
 /*eslint-env es6*/
 
-function*generator() {}
+function*generator() {};
 
 var anonymous = function*() {};
 
 var shorthand = { *generator() {} };
+```
+
+Examples of **correct** code for this rule with overrides present
+
+```js
+/*eslint generator-star-spacing: ["error", {
+    "before": false,
+    "after": true,
+    "anonymous": "neither",
+    "method": "neither",
+    "static": {"before": true, "after": true}
+}]*/
+/*eslint-env es6*/
+
+function* generator() {};
+
+var anonymous = function*() {};
+
+var shorthand = { *generator() {} };
+
+class Class { static * method() {} };
 ```
 
 ## When Not To Use It

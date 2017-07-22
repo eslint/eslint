@@ -23,30 +23,30 @@ ruleTester.run("generator-star-spacing", rule, {
     valid: [
 
         // Default ("before")
-        "function foo(){}",
-        "function *foo(){}",
-        "function *foo(arg1, arg2){}",
+        "function foo(){};",
+        "function *foo(){};",
+        "function *foo(arg1, arg2){};",
         "var foo = function *foo(){};",
         "var foo = function *(){};",
         "var foo = { *foo(){} };",
         "var foo = {*foo(){} };",
-        "class Foo { *foo(){} }",
-        "class Foo {*foo(){} }",
-        "class Foo { static *foo(){} }",
+        "class Foo { *foo(){} };",
+        "class Foo {*foo(){} };",
+        "class Foo { static *foo(){} };",
         "var foo = {*[ foo ](){} };",
-        "class Foo {*[ foo ](){} }",
+        "class Foo {*[ foo ](){} };",
 
         // "before"
         {
-            code: "function foo(){}",
+            code: "function foo(){};",
             options: ["before"]
         },
         {
-            code: "function *foo(){}",
+            code: "function *foo(){};",
             options: ["before"]
         },
         {
-            code: "function *foo(arg1, arg2){}",
+            code: "function *foo(arg1, arg2){};",
             options: ["before"]
         },
         {
@@ -66,19 +66,19 @@ ruleTester.run("generator-star-spacing", rule, {
             options: ["before"]
         },
         {
-            code: "class Foo { *foo(){} }",
+            code: "class Foo { *foo(){} };",
             options: ["before"]
         },
         {
-            code: "class Foo {*foo(){} }",
+            code: "class Foo {*foo(){} };",
             options: ["before"]
         },
         {
-            code: "class Foo { static *foo(){} }",
+            code: "class Foo { static *foo(){} };",
             options: ["before"]
         },
         {
-            code: "class Foo {*[ foo ](){} }",
+            code: "class Foo {*[ foo ](){} };",
             options: ["before"]
         },
         {
@@ -88,15 +88,15 @@ ruleTester.run("generator-star-spacing", rule, {
 
         // "after"
         {
-            code: "function foo(){}",
+            code: "function foo(){};",
             options: ["after"]
         },
         {
-            code: "function* foo(){}",
+            code: "function* foo(){};",
             options: ["after"]
         },
         {
-            code: "function* foo(arg1, arg2){}",
+            code: "function* foo(arg1, arg2){};",
             options: ["after"]
         },
         {
@@ -116,15 +116,15 @@ ruleTester.run("generator-star-spacing", rule, {
             options: ["after"]
         },
         {
-            code: "class Foo {* foo(){} }",
+            code: "class Foo {* foo(){} };",
             options: ["after"]
         },
         {
-            code: "class Foo { * foo(){} }",
+            code: "class Foo { * foo(){} };",
             options: ["after"]
         },
         {
-            code: "class Foo { static* foo(){} }",
+            code: "class Foo { static* foo(){} };",
             options: ["after"]
         },
         {
@@ -132,21 +132,21 @@ ruleTester.run("generator-star-spacing", rule, {
             options: ["after"]
         },
         {
-            code: "class Foo {* [foo](){} }",
+            code: "class Foo {* [foo](){} };",
             options: ["after"]
         },
 
         // "both"
         {
-            code: "function foo(){}",
+            code: "function foo(){};",
             options: ["both"]
         },
         {
-            code: "function * foo(){}",
+            code: "function * foo(){};",
             options: ["both"]
         },
         {
-            code: "function * foo(arg1, arg2){}",
+            code: "function * foo(arg1, arg2){};",
             options: ["both"]
         },
         {
@@ -166,15 +166,15 @@ ruleTester.run("generator-star-spacing", rule, {
             options: ["both"]
         },
         {
-            code: "class Foo { * foo(){} }",
+            code: "class Foo { * foo(){} };",
             options: ["both"]
         },
         {
-            code: "class Foo {* foo(){} }",
+            code: "class Foo {* foo(){} };",
             options: ["both"]
         },
         {
-            code: "class Foo { static * foo(){} }",
+            code: "class Foo { static * foo(){} };",
             options: ["both"]
         },
         {
@@ -182,21 +182,21 @@ ruleTester.run("generator-star-spacing", rule, {
             options: ["both"]
         },
         {
-            code: "class Foo {* [foo](){} }",
+            code: "class Foo {* [foo](){} };",
             options: ["both"]
         },
 
         // "neither"
         {
-            code: "function foo(){}",
+            code: "function foo(){};",
             options: ["neither"]
         },
         {
-            code: "function*foo(){}",
+            code: "function*foo(){};",
             options: ["neither"]
         },
         {
-            code: "function*foo(arg1, arg2){}",
+            code: "function*foo(arg1, arg2){};",
             options: ["neither"]
         },
         {
@@ -216,15 +216,15 @@ ruleTester.run("generator-star-spacing", rule, {
             options: ["neither"]
         },
         {
-            code: "class Foo {*foo(){} }",
+            code: "class Foo {*foo(){} };",
             options: ["neither"]
         },
         {
-            code: "class Foo { *foo(){} }",
+            code: "class Foo { *foo(){} };",
             options: ["neither"]
         },
         {
-            code: "class Foo { static*foo(){} }",
+            code: "class Foo { static*foo(){} };",
             options: ["neither"]
         },
         {
@@ -232,21 +232,21 @@ ruleTester.run("generator-star-spacing", rule, {
             options: ["neither"]
         },
         {
-            code: "class Foo {*[ foo ](){} }",
+            code: "class Foo {*[ foo ](){} };",
             options: ["neither"]
         },
 
         // {"before": true, "after": false}
         {
-            code: "function foo(){}",
+            code: "function foo(){};",
             options: [{ before: true, after: false }]
         },
         {
-            code: "function *foo(){}",
+            code: "function *foo(){};",
             options: [{ before: true, after: false }]
         },
         {
-            code: "function *foo(arg1, arg2){}",
+            code: "function *foo(arg1, arg2){};",
             options: [{ before: true, after: false }]
         },
         {
@@ -266,29 +266,29 @@ ruleTester.run("generator-star-spacing", rule, {
             options: [{ before: true, after: false }]
         },
         {
-            code: "class Foo { *foo(){} }",
+            code: "class Foo { *foo(){} };",
             options: [{ before: true, after: false }]
         },
         {
-            code: "class Foo {*foo(){} }",
+            code: "class Foo {*foo(){} };",
             options: [{ before: true, after: false }]
         },
         {
-            code: "class Foo { static *foo(){} }",
+            code: "class Foo { static *foo(){} };",
             options: [{ before: true, after: false }]
         },
 
         // {"before": false, "after": true}
         {
-            code: "function foo(){}",
+            code: "function foo(){};",
             options: [{ before: false, after: true }]
         },
         {
-            code: "function* foo(){}",
+            code: "function* foo(){};",
             options: [{ before: false, after: true }]
         },
         {
-            code: "function* foo(arg1, arg2){}",
+            code: "function* foo(arg1, arg2){};",
             options: [{ before: false, after: true }]
         },
         {
@@ -308,29 +308,29 @@ ruleTester.run("generator-star-spacing", rule, {
             options: [{ before: false, after: true }]
         },
         {
-            code: "class Foo {* foo(){} }",
+            code: "class Foo {* foo(){} };",
             options: [{ before: false, after: true }]
         },
         {
-            code: "class Foo { * foo(){} }",
+            code: "class Foo { * foo(){} };",
             options: [{ before: false, after: true }]
         },
         {
-            code: "class Foo { static* foo(){} }",
+            code: "class Foo { static* foo(){} };",
             options: [{ before: false, after: true }]
         },
 
         // {"before": true, "after": true}
         {
-            code: "function foo(){}",
+            code: "function foo(){};",
             options: [{ before: true, after: true }]
         },
         {
-            code: "function * foo(){}",
+            code: "function * foo(){};",
             options: [{ before: true, after: true }]
         },
         {
-            code: "function * foo(arg1, arg2){}",
+            code: "function * foo(arg1, arg2){};",
             options: [{ before: true, after: true }]
         },
         {
@@ -350,29 +350,29 @@ ruleTester.run("generator-star-spacing", rule, {
             options: [{ before: true, after: true }]
         },
         {
-            code: "class Foo { * foo(){} }",
+            code: "class Foo { * foo(){} };",
             options: [{ before: true, after: true }]
         },
         {
-            code: "class Foo {* foo(){} }",
+            code: "class Foo {* foo(){} };",
             options: [{ before: true, after: true }]
         },
         {
-            code: "class Foo { static * foo(){} }",
+            code: "class Foo { static * foo(){} };",
             options: [{ before: true, after: true }]
         },
 
         // {"before": false, "after": false}
         {
-            code: "function foo(){}",
+            code: "function foo(){};",
             options: [{ before: false, after: false }]
         },
         {
-            code: "function*foo(){}",
+            code: "function*foo(){};",
             options: [{ before: false, after: false }]
         },
         {
-            code: "function*foo(arg1, arg2){}",
+            code: "function*foo(arg1, arg2){};",
             options: [{ before: false, after: false }]
         },
         {
@@ -392,21 +392,39 @@ ruleTester.run("generator-star-spacing", rule, {
             options: [{ before: false, after: false }]
         },
         {
-            code: "class Foo {*foo(){} }",
+            code: "class Foo {*foo(){} };",
             options: [{ before: false, after: false }]
         },
         {
-            code: "class Foo { *foo(){} }",
+            code: "class Foo { *foo(){} };",
             options: [{ before: false, after: false }]
         },
         {
-            code: "class Foo { static*foo(){} }",
+            code: "class Foo { static*foo(){} };",
             options: [{ before: false, after: false }]
+        },
+
+        // full configurability
+        {
+            code: "function * foo(){};",
+            options: [{ before: false, after: false, named: "both" }]
+        },
+        {
+            code: "var foo = function * (){};",
+            options: [{ before: false, after: false, anonymous: "both" }]
+        },
+        {
+            code: "class Foo { * foo(){} };",
+            options: [{ before: false, after: false, method: "both" }]
+        },
+        {
+            code: "class Foo { static * foo(){} };",
+            options: [{ before: false, after: false, static: "both" }]
         },
 
         // https://github.com/eslint/eslint/issues/7101#issuecomment-246080531
         {
-            code: "async function foo() { }",
+            code: "async function foo() { };",
             parserOptions: { ecmaVersion: 8 }
         },
         {
@@ -414,7 +432,7 @@ ruleTester.run("generator-star-spacing", rule, {
             parserOptions: { ecmaVersion: 8 }
         },
         {
-            code: "async () => { }",
+            code: "async () => { };",
             parserOptions: { ecmaVersion: 8 }
         },
         {
@@ -422,7 +440,7 @@ ruleTester.run("generator-star-spacing", rule, {
             parserOptions: { ecmaVersion: 8 }
         },
         {
-            code: "class A {async foo() { }}",
+            code: "class A {async foo() { }};",
             parserOptions: { ecmaVersion: 8 }
         },
         {
@@ -435,16 +453,16 @@ ruleTester.run("generator-star-spacing", rule, {
 
         // Default ("before")
         {
-            code: "function*foo(){}",
-            output: "function *foo(){}",
+            code: "function*foo(){};",
+            output: "function *foo(){};",
             errors: [{
                 message: "Missing space before *.",
                 type: "Punctuator"
             }]
         },
         {
-            code: "function* foo(arg1, arg2){}",
-            output: "function *foo(arg1, arg2){}",
+            code: "function* foo(arg1, arg2){};",
+            output: "function *foo(arg1, arg2){};",
             errors: [{
                 message: "Missing space before *.",
                 type: "Punctuator"
@@ -481,16 +499,16 @@ ruleTester.run("generator-star-spacing", rule, {
             }]
         },
         {
-            code: "class Foo {* foo(){} }",
-            output: "class Foo {*foo(){} }",
+            code: "class Foo {* foo(){} };",
+            output: "class Foo {*foo(){} };",
             errors: [{
                 message: "Unexpected space after *.",
                 type: "Punctuator"
             }]
         },
         {
-            code: "class Foo { static* foo(){} }",
-            output: "class Foo { static *foo(){} }",
+            code: "class Foo { static* foo(){} };",
+            output: "class Foo { static *foo(){} };",
             errors: [{
                 message: "Missing space before *.",
                 type: "Punctuator"
@@ -502,8 +520,8 @@ ruleTester.run("generator-star-spacing", rule, {
 
         // "before"
         {
-            code: "function*foo(){}",
-            output: "function *foo(){}",
+            code: "function*foo(){};",
+            output: "function *foo(){};",
             options: ["before"],
             errors: [{
                 message: "Missing space before *.",
@@ -511,8 +529,8 @@ ruleTester.run("generator-star-spacing", rule, {
             }]
         },
         {
-            code: "function* foo(arg1, arg2){}",
-            output: "function *foo(arg1, arg2){}",
+            code: "function* foo(arg1, arg2){};",
+            output: "function *foo(arg1, arg2){};",
             options: ["before"],
             errors: [{
                 message: "Missing space before *.",
@@ -553,8 +571,8 @@ ruleTester.run("generator-star-spacing", rule, {
             }]
         },
         {
-            code: "class Foo {* foo(){} }",
-            output: "class Foo {*foo(){} }",
+            code: "class Foo {* foo(){} };",
+            output: "class Foo {*foo(){} };",
             options: ["before"],
             errors: [{
                 message: "Unexpected space after *.",
@@ -571,8 +589,8 @@ ruleTester.run("generator-star-spacing", rule, {
             }]
         },
         {
-            code: "class Foo {* [ foo ](){} }",
-            output: "class Foo {*[ foo ](){} }",
+            code: "class Foo {* [ foo ](){} };",
+            output: "class Foo {*[ foo ](){} };",
             options: ["before"],
             errors: [{
                 message: "Unexpected space after *.",
@@ -582,8 +600,8 @@ ruleTester.run("generator-star-spacing", rule, {
 
         // "after"
         {
-            code: "function*foo(){}",
-            output: "function* foo(){}",
+            code: "function*foo(){};",
+            output: "function* foo(){};",
             options: ["after"],
             errors: [{
                 message: "Missing space after *.",
@@ -591,8 +609,8 @@ ruleTester.run("generator-star-spacing", rule, {
             }]
         },
         {
-            code: "function *foo(arg1, arg2){}",
-            output: "function* foo(arg1, arg2){}",
+            code: "function *foo(arg1, arg2){};",
+            output: "function* foo(arg1, arg2){};",
             options: ["after"],
             errors: [{
                 message: "Unexpected space before *.",
@@ -636,8 +654,8 @@ ruleTester.run("generator-star-spacing", rule, {
             }]
         },
         {
-            code: "class Foo { *foo(){} }",
-            output: "class Foo { * foo(){} }",
+            code: "class Foo { *foo(){} };",
+            output: "class Foo { * foo(){} };",
             options: ["after"],
             errors: [{
                 message: "Missing space after *.",
@@ -645,8 +663,8 @@ ruleTester.run("generator-star-spacing", rule, {
             }]
         },
         {
-            code: "class Foo { static *foo(){} }",
-            output: "class Foo { static* foo(){} }",
+            code: "class Foo { static *foo(){} };",
+            output: "class Foo { static* foo(){} };",
             options: ["after"],
             errors: [{
                 message: "Unexpected space before *.",
@@ -666,8 +684,8 @@ ruleTester.run("generator-star-spacing", rule, {
             }]
         },
         {
-            code: "class Foo { *[foo](){} }",
-            output: "class Foo { * [foo](){} }",
+            code: "class Foo { *[foo](){} };",
+            output: "class Foo { * [foo](){} };",
             options: ["after"],
             errors: [{
                 message: "Missing space after *.",
@@ -677,8 +695,8 @@ ruleTester.run("generator-star-spacing", rule, {
 
         // "both"
         {
-            code: "function*foo(){}",
-            output: "function * foo(){}",
+            code: "function*foo(){};",
+            output: "function * foo(){};",
             options: ["both"],
             errors: [{
                 message: "Missing space before *.",
@@ -689,8 +707,8 @@ ruleTester.run("generator-star-spacing", rule, {
             }]
         },
         {
-            code: "function*foo(arg1, arg2){}",
-            output: "function * foo(arg1, arg2){}",
+            code: "function*foo(arg1, arg2){};",
+            output: "function * foo(arg1, arg2){};",
             options: ["both"],
             errors: [{
                 message: "Missing space before *.",
@@ -734,8 +752,8 @@ ruleTester.run("generator-star-spacing", rule, {
             }]
         },
         {
-            code: "class Foo {*foo(){} }",
-            output: "class Foo {* foo(){} }",
+            code: "class Foo {*foo(){} };",
+            output: "class Foo {* foo(){} };",
             options: ["both"],
             errors: [{
                 message: "Missing space after *.",
@@ -743,8 +761,8 @@ ruleTester.run("generator-star-spacing", rule, {
             }]
         },
         {
-            code: "class Foo { static*foo(){} }",
-            output: "class Foo { static * foo(){} }",
+            code: "class Foo { static*foo(){} };",
+            output: "class Foo { static * foo(){} };",
             options: ["both"],
             errors: [{
                 message: "Missing space before *.",
@@ -764,8 +782,8 @@ ruleTester.run("generator-star-spacing", rule, {
             }]
         },
         {
-            code: "class Foo {*[foo](){} }",
-            output: "class Foo {* [foo](){} }",
+            code: "class Foo {*[foo](){} };",
+            output: "class Foo {* [foo](){} };",
             options: ["both"],
             errors: [{
                 message: "Missing space after *.",
@@ -775,8 +793,8 @@ ruleTester.run("generator-star-spacing", rule, {
 
         // "neither"
         {
-            code: "function * foo(){}",
-            output: "function*foo(){}",
+            code: "function * foo(){};",
+            output: "function*foo(){};",
             options: ["neither"],
             errors: [{
                 message: "Unexpected space before *.",
@@ -787,8 +805,8 @@ ruleTester.run("generator-star-spacing", rule, {
             }]
         },
         {
-            code: "function * foo(arg1, arg2){}",
-            output: "function*foo(arg1, arg2){}",
+            code: "function * foo(arg1, arg2){};",
+            output: "function*foo(arg1, arg2){};",
             options: ["neither"],
             errors: [{
                 message: "Unexpected space before *.",
@@ -832,8 +850,8 @@ ruleTester.run("generator-star-spacing", rule, {
             }]
         },
         {
-            code: "class Foo { * foo(){} }",
-            output: "class Foo { *foo(){} }",
+            code: "class Foo { * foo(){} };",
+            output: "class Foo { *foo(){} };",
             options: ["neither"],
             errors: [{
                 message: "Unexpected space after *.",
@@ -841,8 +859,8 @@ ruleTester.run("generator-star-spacing", rule, {
             }]
         },
         {
-            code: "class Foo { static * foo(){} }",
-            output: "class Foo { static*foo(){} }",
+            code: "class Foo { static * foo(){} };",
+            output: "class Foo { static*foo(){} };",
             options: ["neither"],
             errors: [{
                 message: "Unexpected space before *.",
@@ -862,8 +880,8 @@ ruleTester.run("generator-star-spacing", rule, {
             }]
         },
         {
-            code: "class Foo { * [ foo ](){} }",
-            output: "class Foo { *[ foo ](){} }",
+            code: "class Foo { * [ foo ](){} };",
+            output: "class Foo { *[ foo ](){} };",
             options: ["neither"],
             errors: [{
                 message: "Unexpected space after *.",
@@ -873,8 +891,8 @@ ruleTester.run("generator-star-spacing", rule, {
 
         // {"before": true, "after": false}
         {
-            code: "function*foo(){}",
-            output: "function *foo(){}",
+            code: "function*foo(){};",
+            output: "function *foo(){};",
             options: [{ before: true, after: false }],
             errors: [{
                 message: "Missing space before *.",
@@ -882,8 +900,8 @@ ruleTester.run("generator-star-spacing", rule, {
             }]
         },
         {
-            code: "function* foo(arg1, arg2){}",
-            output: "function *foo(arg1, arg2){}",
+            code: "function* foo(arg1, arg2){};",
+            output: "function *foo(arg1, arg2){};",
             options: [{ before: true, after: false }],
             errors: [{
                 message: "Missing space before *.",
@@ -924,8 +942,8 @@ ruleTester.run("generator-star-spacing", rule, {
             }]
         },
         {
-            code: "class Foo {* foo(){} }",
-            output: "class Foo {*foo(){} }",
+            code: "class Foo {* foo(){} };",
+            output: "class Foo {*foo(){} };",
             options: [{ before: true, after: false }],
             errors: [{
                 message: "Unexpected space after *.",
@@ -935,8 +953,8 @@ ruleTester.run("generator-star-spacing", rule, {
 
         // {"before": false, "after": true}
         {
-            code: "function*foo(){}",
-            output: "function* foo(){}",
+            code: "function*foo(){};",
+            output: "function* foo(){};",
             options: [{ before: false, after: true }],
             errors: [{
                 message: "Missing space after *.",
@@ -944,8 +962,8 @@ ruleTester.run("generator-star-spacing", rule, {
             }]
         },
         {
-            code: "function *foo(arg1, arg2){}",
-            output: "function* foo(arg1, arg2){}",
+            code: "function *foo(arg1, arg2){};",
+            output: "function* foo(arg1, arg2){};",
             options: [{ before: false, after: true }],
             errors: [{
                 message: "Unexpected space before *.",
@@ -989,8 +1007,8 @@ ruleTester.run("generator-star-spacing", rule, {
             }]
         },
         {
-            code: "class Foo { *foo(){} }",
-            output: "class Foo { * foo(){} }",
+            code: "class Foo { *foo(){} };",
+            output: "class Foo { * foo(){} };",
             options: [{ before: false, after: true }],
             errors: [{
                 message: "Missing space after *.",
@@ -998,8 +1016,8 @@ ruleTester.run("generator-star-spacing", rule, {
             }]
         },
         {
-            code: "class Foo { static *foo(){} }",
-            output: "class Foo { static* foo(){} }",
+            code: "class Foo { static *foo(){} };",
+            output: "class Foo { static* foo(){} };",
             options: [{ before: false, after: true }],
             errors: [{
                 message: "Unexpected space before *.",
@@ -1012,8 +1030,8 @@ ruleTester.run("generator-star-spacing", rule, {
 
         // {"before": true, "after": true}
         {
-            code: "function*foo(){}",
-            output: "function * foo(){}",
+            code: "function*foo(){};",
+            output: "function * foo(){};",
             options: [{ before: true, after: true }],
             errors: [{
                 message: "Missing space before *.",
@@ -1024,8 +1042,8 @@ ruleTester.run("generator-star-spacing", rule, {
             }]
         },
         {
-            code: "function*foo(arg1, arg2){}",
-            output: "function * foo(arg1, arg2){}",
+            code: "function*foo(arg1, arg2){};",
+            output: "function * foo(arg1, arg2){};",
             options: [{ before: true, after: true }],
             errors: [{
                 message: "Missing space before *.",
@@ -1069,8 +1087,8 @@ ruleTester.run("generator-star-spacing", rule, {
             }]
         },
         {
-            code: "class Foo {*foo(){} }",
-            output: "class Foo {* foo(){} }",
+            code: "class Foo {*foo(){} };",
+            output: "class Foo {* foo(){} };",
             options: [{ before: true, after: true }],
             errors: [{
                 message: "Missing space after *.",
@@ -1078,8 +1096,8 @@ ruleTester.run("generator-star-spacing", rule, {
             }]
         },
         {
-            code: "class Foo { static*foo(){} }",
-            output: "class Foo { static * foo(){} }",
+            code: "class Foo { static*foo(){} };",
+            output: "class Foo { static * foo(){} };",
             options: [{ before: true, after: true }],
             errors: [{
                 message: "Missing space before *.",
@@ -1092,8 +1110,8 @@ ruleTester.run("generator-star-spacing", rule, {
 
         // {"before": false, "after": false}
         {
-            code: "function * foo(){}",
-            output: "function*foo(){}",
+            code: "function * foo(){};",
+            output: "function*foo(){};",
             options: [{ before: false, after: false }],
             errors: [{
                 message: "Unexpected space before *.",
@@ -1104,8 +1122,8 @@ ruleTester.run("generator-star-spacing", rule, {
             }]
         },
         {
-            code: "function * foo(arg1, arg2){}",
-            output: "function*foo(arg1, arg2){}",
+            code: "function * foo(arg1, arg2){};",
+            output: "function*foo(arg1, arg2){};",
             options: [{ before: false, after: false }],
             errors: [{
                 message: "Unexpected space before *.",
@@ -1149,8 +1167,8 @@ ruleTester.run("generator-star-spacing", rule, {
             }]
         },
         {
-            code: "class Foo { * foo(){} }",
-            output: "class Foo { *foo(){} }",
+            code: "class Foo { * foo(){} };",
+            output: "class Foo { *foo(){} };",
             options: [{ before: false, after: false }],
             errors: [{
                 message: "Unexpected space after *.",
@@ -1158,14 +1176,61 @@ ruleTester.run("generator-star-spacing", rule, {
             }]
         },
         {
-            code: "class Foo { static * foo(){} }",
-            output: "class Foo { static*foo(){} }",
+            code: "class Foo { static * foo(){} };",
+            output: "class Foo { static*foo(){} };",
             options: [{ before: false, after: false }],
             errors: [{
                 message: "Unexpected space before *.",
                 type: "Punctuator"
             }, {
                 message: "Unexpected space after *.",
+                type: "Punctuator"
+            }]
+        },
+
+        // full configurability
+        {
+            code: "function*foo(){};",
+            output: "function * foo(){};",
+            options: [{ before: false, after: false, named: "both" }],
+            errors: [{
+                message: "Missing space before *.",
+                type: "Punctuator"
+            }, {
+                message: "Missing space after *.",
+                type: "Punctuator"
+            }]
+        },
+        {
+            code: "var foo = function*(){};",
+            output: "var foo = function * (){};",
+            options: [{ before: false, after: false, anonymous: "both" }],
+            errors: [{
+                message: "Missing space before *.",
+                type: "Punctuator"
+            }, {
+                message: "Missing space after *.",
+                type: "Punctuator"
+            }]
+        },
+        {
+            code: "class Foo { *foo(){} };",
+            output: "class Foo { * foo(){} };",
+            options: [{ before: false, after: false, method: "both" }],
+            errors: [{
+                message: "Missing space after *.",
+                type: "Punctuator"
+            }]
+        },
+        {
+            code: "class Foo { static*foo(){} };",
+            output: "class Foo { static * foo(){} };",
+            options: [{ before: false, after: false, static: "both" }],
+            errors: [{
+                message: "Missing space before *.",
+                type: "Punctuator"
+            }, {
+                message: "Missing space after *.",
                 type: "Punctuator"
             }]
         }
