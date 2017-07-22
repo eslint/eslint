@@ -254,8 +254,8 @@ The AST that custom parsers should create is based on [ESTree](https://github.co
 
 All nodes must have `range` property.
 
-- `range` (`number[]`) is the array of two numbers. Both numbers are a 0-based index which is the position in the array of source code characters. The first is the start position of the node, the second is the end position of the node. `code.slice(node.range[0], node.range[1])` must be the text of the node. This range does not include spaces which are around the node.
-- `loc` (`SourceLocation`) must not be `null`. [The `loc` property is defined as nullable by ESTree](https://github.com/estree/estree/blob/25834f7247d44d3156030f8e8a2d07644d771fdb/es5.md#node-objects), but ESLint requires this property. On the other hand, `SourceLocation#source` property can be `undefined`. ESLint does not use the `SourceLocation#source` property.
+* `range` (`number[]`) is the array of two numbers. Both numbers are a 0-based index which is the position in the array of source code characters. The first is the start position of the node, the second is the end position of the node. `code.slice(node.range[0], node.range[1])` must be the text of the node. This range does not include spaces which are around the node.
+* `loc` (`SourceLocation`) must not be `null`. [The `loc` property is defined as nullable by ESTree](https://github.com/estree/estree/blob/25834f7247d44d3156030f8e8a2d07644d771fdb/es5.md#node-objects), but ESLint requires this property. On the other hand, `SourceLocation#source` property can be `undefined`. ESLint does not use the `SourceLocation#source` property.
 
 The `parent` property of all nodes must be rewriteable. ESLint set their parent node to the `parent` properties while traversing.
 
@@ -272,7 +272,7 @@ interface Token {
 }
 ```
 
-- `tokens` (`Token[]`) is the array of tokens which affect the behavior of programs. Arbitrary spaces can exist between tokens, so rules check the `Token#range` to detect spaces between tokens. This must be sorted by `Token#range[0]`.
-- `comments` (`Token[]`) is the array of comment tokens. This must be sorted by `Token#range[0]`.
+* `tokens` (`Token[]`) is the array of tokens which affect the behavior of programs. Arbitrary spaces can exist between tokens, so rules check the `Token#range` to detect spaces between tokens. This must be sorted by `Token#range[0]`.
+* `comments` (`Token[]`) is the array of comment tokens. This must be sorted by `Token#range[0]`.
 
 The `tokens` and the `comments` must not be overlapped themselves and each other.
