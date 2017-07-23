@@ -39,7 +39,7 @@ Number.parseInt(1, 3);
 0o767 === 503;
 0x1F7 === 503;
 
-a[parseInt](1,2);
+a["parseInt"](1,2);
 
 parseInt(foo);
 parseInt(foo, 2);
