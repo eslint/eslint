@@ -276,3 +276,9 @@ interface Token {
 * `comments` (`Token[]`) is the array of comment tokens. This must be sorted by `Token#range[0]`.
 
 The `tokens` and the `comments` must not be overlapped themselves and each other.
+
+#### The `Literal` node:
+
+The `Literal` node must have `raw` property.
+
+* `raw` (`string`) is the source code of this literal. This is the same as `code.slice(node.range[0], node.range[1])`.
