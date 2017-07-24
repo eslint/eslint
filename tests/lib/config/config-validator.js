@@ -370,31 +370,31 @@ describe("Validator", () => {
             it("should throw if override does not specify files", () => {
                 const fn = validator.validate.bind(null, { overrides: [{ rules: {} }] }, "tests", linter.rules, linter.environments);
 
-                assert.throws(fn, "tests:\n\tESLint configuration is invalid:\n\t- \"overrides[0]\" should have required property 'files'. Value: {\"rules\":{}}.\n");
+                assert.throws(fn, "ESLint configuration in tests is invalid:\n\t- \"overrides[0]\" should have required property 'files'. Value: {\"rules\":{}}.\n");
             });
 
             it("should throw if override has an empty files array", () => {
                 const fn = validator.validate.bind(null, { overrides: [{ files: [] }] }, "tests", linter.rules, linter.environments);
 
-                assert.throws(fn, "tests:\n\tESLint configuration is invalid:\n\t- Property \"overrides[0].files\" is the wrong type (expected string but got `[]`).\n\t- \"overrides[0].files\" should NOT have less than 1 items. Value: [].\n\t- \"overrides[0].files\" should match exactly one schema in oneOf. Value: [].\n");
+                assert.throws(fn, "ESLint configuration in tests is invalid:\n\t- Property \"overrides[0].files\" is the wrong type (expected string but got `[]`).\n\t- \"overrides[0].files\" should NOT have less than 1 items. Value: [].\n\t- \"overrides[0].files\" should match exactly one schema in oneOf. Value: [].\n");
             });
 
             it("should throw if override has nested overrides", () => {
                 const fn = validator.validate.bind(null, { overrides: [{ files: "*", overrides: [{ files: "*", rules: {} }] }] }, "tests", linter.rules, linter.environments);
 
-                assert.throws(fn, "tests:\n\tESLint configuration is invalid:\n\t- Unexpected top-level property \"overrides[0].overrides\".\n");
+                assert.throws(fn, "ESLint configuration in tests is invalid:\n\t- Unexpected top-level property \"overrides[0].overrides\".\n");
             });
 
             it("should throw if override extends", () => {
                 const fn = validator.validate.bind(null, { overrides: [{ files: "*", extends: "eslint-recommended" }] }, "tests", linter.rules, linter.environments);
 
-                assert.throws(fn, "tests:\n\tESLint configuration is invalid:\n\t- Unexpected top-level property \"overrides[0].extends\".\n");
+                assert.throws(fn, "ESLint configuration in tests is invalid:\n\t- Unexpected top-level property \"overrides[0].extends\".\n");
             });
 
             it("should throw if override tries to set root", () => {
                 const fn = validator.validate.bind(null, { overrides: [{ files: "*", root: "true" }] }, "tests", linter.rules, linter.environments);
 
-                assert.throws(fn, "tests:\n\tESLint configuration is invalid:\n\t- Unexpected top-level property \"overrides[0].root\".\n");
+                assert.throws(fn, "ESLint configuration in tests is invalid:\n\t- Unexpected top-level property \"overrides[0].root\".\n");
             });
         });
 

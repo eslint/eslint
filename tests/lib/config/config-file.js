@@ -993,6 +993,18 @@ describe("ConfigFile", () => {
                 });
             });
         });
+
+        it("throws an error including the config file name if the config file is invalid", () => {
+            const configFilePath = getFixturePath("invalid/invalid-top-level-property.yml");
+
+            try {
+                ConfigFile.load(configFilePath, configContext);
+            } catch (err) {
+                assert.include(err.message, `ESLint configuration in ${configFilePath} is invalid`);
+                return;
+            }
+            assert.fail();
+        });
     });
 
     describe("resolve()", () => {
