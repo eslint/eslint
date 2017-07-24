@@ -95,6 +95,7 @@ ruleTester.run("prefer-const", rule, {
             options: [{ destructuring: "all" }]
         },
 
+        
         // https://github.com/eslint/eslint/issues/8187
         {
             code: "let { name, ...otherStuff } = obj; otherStuff = {};",
