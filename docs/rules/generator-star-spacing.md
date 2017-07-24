@@ -104,7 +104,7 @@ Examples of **correct** code for this rule with the `"before"` option:
 /*eslint generator-star-spacing: ["error", {"before": true, "after": false}]*/
 /*eslint-env es6*/
 
-function *generator() {};
+function *generator() {}
 
 var anonymous = function *() {};
 
@@ -119,7 +119,7 @@ Examples of **correct** code for this rule with the `"after"` option:
 /*eslint generator-star-spacing: ["error", {"before": false, "after": true}]*/
 /*eslint-env es6*/
 
-function* generator() {};
+function* generator() {}
 
 var anonymous = function* () {};
 
@@ -134,7 +134,7 @@ Examples of **correct** code for this rule with the `"both"` option:
 /*eslint generator-star-spacing: ["error", {"before": true, "after": true}]*/
 /*eslint-env es6*/
 
-function * generator() {};
+function * generator() {}
 
 var anonymous = function * () {};
 
@@ -149,7 +149,7 @@ Examples of **correct** code for this rule with the `"neither"` option:
 /*eslint generator-star-spacing: ["error", {"before": false, "after": false}]*/
 /*eslint-env es6*/
 
-function*generator() {};
+function*generator() {}
 
 var anonymous = function*() {};
 
@@ -168,13 +168,13 @@ Examples of **correct** code for this rule with overrides present
 }]*/
 /*eslint-env es6*/
 
-function* generator() {};
+function* generator() {}
 
 var anonymous = function*() {};
 
 var shorthand = { *generator() {} };
 
-class Class { static * method() {} };
+class Class { static * method() {} }
 ```
 
 ## When Not To Use It
