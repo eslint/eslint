@@ -56,16 +56,24 @@ ruleTester.run("prefer-const", rule, {
         "let a; function foo() { if (a) {} a = bar(); }",
         "let a; function foo() { a = a || bar(); baz(a); }",
         "let a; function foo() { bar(++a); }",
-        [
-            "let id;",
-            "function foo() {",
-            "    if (typeof id !== 'undefined') {",
-            "        return;",
-            "    }",
-            "    id = setInterval(() => {}, 250);",
-            "}",
-            "foo();"
-        ].join("\n"),
+        "let predicate; [typeNode.returnType, predicate] = foo();",
+        "let predicate; let rest; [typeNode.returnType, predicate, ...rest] = foo();",
+        {
+            code: "let predicate; [typeNode.returnType, predicate] = foo();",
+            options: [{ destructuring: "all" }]
+        },
+        {
+            code: [
+                "let id;",
+                "function foo() {",
+                "    if (typeof id !== 'undefined') {",
+                "        return;",
+                "    }",
+                "    id = setInterval(() => {}, 250);",
+                "}",
+                "foo();"
+            ].join("\n")
+        },
         "/*exported a*/ let a; function init() { a = foo(); }",
         "/*exported a*/ let a = 1",
         "let a; if (true) a = 0; foo(a);",
@@ -266,6 +274,14 @@ ruleTester.run("prefer-const", rule, {
             options: [],
             errors: [
                 { message: "'a' is never reassigned. Use 'const' instead.", type: "Identifier" }
+            ]
+        },
+        {
+            code: "let [ foo, bar ] = baz();",
+            output: "const [ foo, bar ] = baz();",
+            errors: [
+                { message: "'foo' is never reassigned. Use 'const' instead.", type: "Identifier" },
+                { message: "'bar' is never reassigned. Use 'const' instead.", type: "Identifier" }
             ]
         },
         {
