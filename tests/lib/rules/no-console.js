@@ -42,7 +42,8 @@ ruleTester.run("no-console", rule, {
         "var foo = console.log",
         "[console.log] = [0];",
         "({ foo: console.log } = { foo: 1 });",
-        "for (console.log in { a: 1, b: 2, c: 3 });"
+        "for (console.log in { a: 1, b: 2, c: 3 });",
+        "foo(console.log);"
     ],
     invalid: [
 
