@@ -51,14 +51,14 @@ ruleTester.run("getter-return", rule, {
         // option: {allowImplicit: false}
         { code: "Object.defineProperty(foo, \"bar\", { get: function () {return true;}});" },
         { code: "Object.defineProperty(foo, \"bar\", { get: function () { ~function (){ return true; }();return true;}});" },
-        { code: "Object.defineProperies(foo, { bar: { get: function () {return true;}} });" },
-        { code: "Object.defineProperies(foo, { bar: { get: function () { ~function (){ return true; }(); return true;}} });" },
+        { code: "Object.defineProperties(foo, { bar: { get: function () {return true;}} });" },
+        { code: "Object.defineProperties(foo, { bar: { get: function () { ~function (){ return true; }(); return true;}} });" },
 
         // option: {allowImplicit: true}
         { code: "Object.defineProperty(foo, \"bar\", { get: function () {return true;}});", options },
         { code: "Object.defineProperty(foo, \"bar\", { get: function (){return;}});", options },
-        { code: "Object.defineProperies(foo, { bar: { get: function () {return true;}} });", options },
-        { code: "Object.defineProperies(foo, { bar: { get: function () {return;}} });", options },
+        { code: "Object.defineProperties(foo, { bar: { get: function () {return true;}} });", options },
+        { code: "Object.defineProperties(foo, { bar: { get: function () {return;}} });", options },
 
         // not getter.
         { code: "var get = function(){};" },
@@ -97,9 +97,9 @@ ruleTester.run("getter-return", rule, {
         { code: "Object.defineProperty(foo, \"bar\", { get: function (){}});", errors: [{ noReturnMessage }] },
         { code: "Object.defineProperty(foo, \"bar\", { get: function (){if(bar) {return true;}}});", errors: [{ message: "Expected method 'get' to always return a value." }] },
         { code: "Object.defineProperty(foo, \"bar\", { get: function (){ ~function () { return true; }()}});", errors: [{ noReturnMessage }] },
-        { code: "Object.defineProperies(foo, { bar: { get: function () {}} });", options, errors: [{ noReturnMessage }] },
-        { code: "Object.defineProperies(foo, { bar: { get: function (){if(bar) {return true;}}}});", options, errors: [{ message: "Expected method 'get' to always return a value." }] },
-        { code: "Object.defineProperies(foo, { bar: { get: function () {~function () { return true; }()}} });", options, errors: [{ noReturnMessage }] },
+        { code: "Object.defineProperties(foo, { bar: { get: function () {}} });", options, errors: [{ noReturnMessage }] },
+        { code: "Object.defineProperties(foo, { bar: { get: function (){if(bar) {return true;}}}});", options, errors: [{ message: "Expected method 'get' to always return a value." }] },
+        { code: "Object.defineProperties(foo, { bar: { get: function () {~function () { return true; }()}} });", options, errors: [{ noReturnMessage }] },
 
         // option: {allowImplicit: true}
         { code: "Object.defineProperty(foo, \"bar\", { get: function (){}});", options, errors: [{ message: "Expected to return a value in method 'get'." }] }
