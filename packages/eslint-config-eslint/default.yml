@@ -73,6 +73,11 @@ rules:
     no-process-exit: "error"
     no-proto: "error"
     no-redeclare: "error"
+    no-restricted-properties: [
+        "error",
+        { property: "substring", message: "Use .slice instead of .substring." },
+        { property: "substr", message: "Use .slice instead of .substr." }
+    ]
     no-return-assign: "error"
     no-script-url: "error"
     no-self-assign: "error"
