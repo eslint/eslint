@@ -10,7 +10,7 @@ rules:
     indent: ["error", 4, {SwitchCase: 1}]
     block-spacing: "error"
     brace-style: ["error", "1tbs"]
-    camelcase: ["error", { properties: "never" }]
+    camelcase: "error"
     callback-return: ["error", ["cb", "callback", "next"]]
     class-methods-use-this: "error"
     comma-dangle: "error"
@@ -20,6 +20,7 @@ rules:
     consistent-return: "error"
     curly: ["error", "all"]
     default-case: "error"
+    dot-location: ["error", "property"]
     dot-notation: ["error", { allowKeywords: true }]
     eol-last: "error"
     eqeqeq: "error"
@@ -27,7 +28,9 @@ rules:
     func-call-spacing: "error"
     func-style: ["error", "declaration"]
     generator-star-spacing: "error"
+    getter-return: "error"
     guard-for-in: "error"
+    handle-callback-err: ["error", "err"]
     key-spacing: ["error", { beforeColon: false, afterColon: true }]
     keyword-spacing: "error"
     lines-around-comment: ["error", {
@@ -41,7 +44,9 @@ rules:
     new-parens: "error"
     no-alert: "error"
     no-array-constructor: "error"
+    no-buffer-constructor: "error"
     no-caller: "error"
+    no-catch-shadow: "error"
     no-confusing-arrow: "error"
     no-console: "error"
     no-delete-var: "error"
@@ -59,6 +64,7 @@ rules:
     no-labels: "error"
     no-lone-blocks: "error"
     no-loop-func: "error"
+    no-mixed-requires: "error"
     no-mixed-spaces-and-tabs: ["error", false]
     no-multi-spaces: "error"
     no-multi-str: "error"
@@ -67,9 +73,11 @@ rules:
     no-new: "error"
     no-new-func: "error"
     no-new-object: "error"
+    no-new-require: "error"
     no-new-wrappers: "error"
     no-octal: "error"
     no-octal-escape: "error"
+    no-path-concat: "error"
     no-process-exit: "error"
     no-proto: "error"
     no-redeclare: "error"
@@ -81,10 +89,12 @@ rules:
     no-return-assign: "error"
     no-script-url: "error"
     no-self-assign: "error"
+    no-self-compare: "error"
     no-sequences: "error"
     no-shadow: "error"
     no-shadow-restricted-names: "error"
     no-tabs: "error"
+    no-throw-literal: "error"
     no-trailing-spaces: "error"
     no-undef: ["error", {typeof: true}]
     no-undef-init: "error"
@@ -95,16 +105,20 @@ rules:
     no-unused-expressions: "error"
     no-unused-vars: ["error", {vars: "all", args: "after-used"}]
     no-use-before-define: "error"
+    no-useless-call: "error"
     no-useless-computed-key: "error"
     no-useless-concat: "error"
     no-useless-constructor: "error"
     no-useless-escape: "error"
+    no-useless-rename: "error"
     no-useless-return: "error"
+    no-whitespace-before-property: "error"
     no-with: "error"
     no-var: "error"
     object-curly-spacing: ["error", "always"]
     object-shorthand: "error"
     one-var-declaration-per-line: "error"
+    operator-assignment: "error"
     operator-linebreak: "error"
     padding-line-between-statements: [
         "error",
@@ -121,6 +135,7 @@ rules:
     ]
     prefer-arrow-callback: "error"
     prefer-const: "error"
+    prefer-numeric-literals: "error"
     prefer-promise-reject-errors: "error"
     prefer-template: "error"
     quotes: ["error", "double"]
@@ -129,6 +144,7 @@ rules:
     require-jsdoc: "error"
     semi: "error"
     semi-spacing: ["error", {before: false, after: true}]
+    semi-style: "error"
     space-before-blocks: "error"
     space-before-function-paren: ["error", "never"]
     space-in-parens: "error"
@@ -136,8 +152,11 @@ rules:
     space-unary-ops: ["error", {words: true, nonwords: false}]
     spaced-comment: ["error", "always", { exceptions: ["-"]}]
     strict: ["error", "global"]
+    switch-colon-spacing: "error"
+    symbol-description: "error"
     template-curly-spacing: ["error", "never"]
     template-tag-spacing: "error"
+    unicode-bom: "error"
     valid-jsdoc: ["error", {
         prefer: { "return": "returns"},
         preferType: {
@@ -151,10 +170,3 @@ rules:
     wrap-iife: "error"
     yield-star-spacing: "error"
     yoda: ["error", "never"]
-
-    # Previously on by default in node environment
-    no-catch-shadow: "off"
-    no-mixed-requires: "error"
-    no-new-require: "error"
-    no-path-concat: "error"
-    handle-callback-err: ["error", "err"]
