@@ -2697,7 +2697,19 @@ describe("Linter", () => {
 
         it("should report multiple missing rules", () => {
             assert.isArray(resultsMultiple);
-            assert.equal(resultsMultiple[1].ruleId, "barfoo");
+
+            assert.deepEqual(
+                resultsMultiple[1],
+                {
+                    ruleId: "barfoo",
+                    message: "Definition for rule 'barfoo' was not found",
+                    line: 1,
+                    column: 1,
+                    severity: 1,
+                    source: "var answer = 6 * 7;",
+                    nodeType: void 0
+                }
+            );
         });
     });
 
