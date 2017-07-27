@@ -2289,6 +2289,22 @@ ruleTester.run("indent", rule, {
             options: [2]
         },
         {
+            code: unIndent`
+                ({
+                    foo:
+                        bar
+                })
+            `
+        },
+        {
+            code: unIndent`
+                ({
+                    [foo]:
+                        bar
+                })
+            `
+        },
+        {
 
             // Comments in switch cases
             code: unIndent`
