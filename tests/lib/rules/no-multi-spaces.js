@@ -98,7 +98,10 @@ ruleTester.run("no-multi-spaces", rule, {
 
         "foo\n\f  bar",
         "foo\n\u2003  bar",
-        "foo\n \f  bar"
+        "foo\n \f  bar",
+
+        // https://github.com/eslint/eslint/issues/9001
+        "a".repeat(2e5)
     ],
 
     invalid: [
