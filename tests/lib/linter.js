@@ -1105,7 +1105,7 @@ describe("Linter", () => {
             assert.strictEqual(messages[0].endColumn, 2);
         });
 
-        it("should not have 'endLine' and 'endColumn' when 'loc' property doe not have 'end' property.", () => {
+        it("should not have 'endLine' and 'endColumn' when 'loc' property does not have 'end' property.", () => {
             linter.on("Program", node => {
                 linter.report(
                     "test-rule",
@@ -1122,6 +1122,13 @@ describe("Linter", () => {
             assert.strictEqual(messages[0].endColumn, void 0);
         });
 
+        it("should infer an 'endLine' and 'endColumn' property when using the object-based context.report API", () => {
+            const messages = linter.verify("foo", { rules: { "no-undef": "error" } });
+
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].endLine, 1);
+            assert.strictEqual(messages[0].endColumn, 4);
+        });
     });
 
     describe("when evaluating code", () => {
