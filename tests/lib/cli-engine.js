@@ -355,6 +355,8 @@ describe("CLIEngine", () => {
                                 message: "'foo' is not defined.",
                                 line: 1,
                                 column: 11,
+                                endLine: 1,
+                                endColumn: 14,
                                 nodeType: "Identifier",
                                 source: "var bar = foo"
                             }
@@ -1413,6 +1415,8 @@ describe("CLIEngine", () => {
                                 {
                                     column: 18,
                                     line: 1,
+                                    endColumn: 21,
+                                    endLine: 1,
                                     message: "'foo' is not defined.",
                                     nodeType: "Identifier",
                                     ruleId: "no-undef",
