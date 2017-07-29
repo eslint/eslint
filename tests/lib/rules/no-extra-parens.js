@@ -46,7 +46,7 @@ function invalid(code, output, type, line, config) {
 
 const ruleTester = new RuleTester({
     parserOptions: {
-        ecmaVersion: 6,
+        ecmaVersion: 8,
         ecmaFeatures: {
             jsx: true
         }
@@ -313,6 +313,10 @@ ruleTester.run("no-extra-parens", rule, {
         { code: "foo in (bar in baz)", options: ["all", { nestedBinaryExpressions: false }] },
         { code: "foo + (bar + baz)", options: ["all", { nestedBinaryExpressions: false }] },
         { code: "foo && (bar && baz)", options: ["all", { nestedBinaryExpressions: false }] },
+
+        // https://github.com/eslint/eslint/issues/9019
+        { code: "(async function() {});" },
+        { code: "(async function () { }());" },
 
         // ["all", { ignoreJSX: "all" }]
         { code: "const Component = (<div />)", options: ["all", { ignoreJSX: "all" }] },
