@@ -271,9 +271,6 @@ describe("bin/eslint.js", () => {
 
                 assert.strictEqual(output.stdout, "");
                 assert.include(output.stderr, expectedSubstring);
-
-                // The message should appear exactly once in stderr
-                assert.strictEqual(output.stderr.indexOf(expectedSubstring), output.stderr.lastIndexOf(expectedSubstring));
             });
 
             return Promise.all([exitCodeAssertion, outputAssertion]);
