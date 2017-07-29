@@ -16,6 +16,7 @@ const assert = require("chai").assert,
     os = require("os"),
     yaml = require("js-yaml"),
     shell = require("shelljs"),
+    espree = require("espree"),
     ConfigFile = require("../../../lib/config/config-file"),
     Linter = require("../../../lib/linter"),
     Config = require("../../../lib/config");
@@ -46,17 +47,6 @@ const PROJECT_PATH = path.resolve(__dirname, "../../../../"),
  */
 function getFixturePath(filepath) {
     return path.resolve(__dirname, "../../fixtures/config-file", filepath);
-}
-
-/**
- * Reads a JS configuration object from a string to ensure that it parses.
- * Used for testing configuration file output.
- * @param {string} code The code to eval.
- * @returns {*} The result of the evaluation.
- * @private
- */
-function readJSModule(code) {
-    return eval(`var module = {};\n${code}`); // eslint-disable-line no-eval
 }
 
 /**
@@ -1229,7 +1219,7 @@ describe("ConfigFile", () => {
         });
 
         leche.withData([
-            ["JavaScript", "foo.js", readJSModule],
+            ["JavaScript", "foo.js", espree.parse],
             ["JSON", "bar.json", JSON.parse],
             ["YAML", "foo.yaml", yaml.safeLoad],
             ["YML", "foo.yml", yaml.safeLoad]

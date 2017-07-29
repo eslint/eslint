@@ -2,7 +2,6 @@
  * @fileoverview Tests for config object.
  * @author Seth McLaughlin
  */
-/* eslint no-undefined: "off" */
 "use strict";
 
 //------------------------------------------------------------------------------
@@ -875,7 +874,7 @@ describe("Config", () => {
                         parserOptions: {},
                         env: {},
                         globals: {},
-                        parser: undefined,
+                        parser: void 0,
                         rules: {
                             "home-folder-rule": 2
                         }
@@ -901,7 +900,7 @@ describe("Config", () => {
                         parserOptions: {},
                         env: {},
                         globals: {},
-                        parser: undefined,
+                        parser: void 0,
                         rules: {
                             "project-level-rule": 2
                         }
@@ -928,7 +927,7 @@ describe("Config", () => {
                         parserOptions: {},
                         env: {},
                         globals: {},
-                        parser: undefined,
+                        parser: void 0,
                         rules: {
                             quotes: [2, "double"]
                         }
@@ -953,7 +952,7 @@ describe("Config", () => {
                         parserOptions: {},
                         env: {},
                         globals: {},
-                        parser: undefined,
+                        parser: void 0,
                         rules: {
                             "project-level-rule": 2,
                             "subfolder-level-rule": 2
