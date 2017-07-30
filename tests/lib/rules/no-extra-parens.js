@@ -490,6 +490,7 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("!(0)", "!0", "Literal"),
         invalid("a[(1)]", "a[1]", "Literal"),
         invalid("(a)(b)", "a(b)", "Identifier"),
+        invalid("(async)", "async", "Identifier"),
         invalid("(a, b)", "a, b", "SequenceExpression"),
         invalid("var a = (b = c);", "var a = b = c;", "AssignmentExpression"),
         invalid("function f(){ return (a); }", "function f(){ return a; }", "Identifier"),
