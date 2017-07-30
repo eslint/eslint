@@ -57,6 +57,7 @@ ruleTester.run("no-extra-parens", rule, {
     valid: [
 
         // all precedence boundaries
+        "foo",
         "a = b, c = d",
         "a = b ? c : d",
         "a = (b, c)",
