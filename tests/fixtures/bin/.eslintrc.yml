@@ -1,4 +1,4 @@
-
+# intentionally invalid YML
 rules:
   semi: error
 yoda: error
