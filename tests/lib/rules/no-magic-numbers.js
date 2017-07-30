@@ -35,10 +35,10 @@ ruleTester.run("no-magic-numbers", rule, {
         },
         {
             code: "var foo = 42;",
-            env: { es6: true },
             options: [{
                 enforceConst: false
-            }]
+            }],
+            env: { es6: true }
         },
         {
             code: "var foo = -42;"
@@ -90,13 +90,13 @@ ruleTester.run("no-magic-numbers", rule, {
     invalid: [
         {
             code: "var foo = 42",
-            env: { es6: true },
             options: [{
                 enforceConst: true
             }],
             errors: [{
                 message: "Number constants declarations must use 'const'."
-            }]
+            }],
+            env: { es6: true }
         },
         {
             code: "var foo = 0 + 1;",
@@ -201,7 +201,6 @@ ruleTester.run("no-magic-numbers", rule, {
                 "function invokeInTen(func) {\n" +
                   "setTimeout(func, 10);\n" +
                 "}\n",
-            env: { es6: true },
             errors: [
                 { message: "No magic number: 10.", line: 7 },
                 { message: "No magic number: 10.", line: 7 },
@@ -209,7 +208,8 @@ ruleTester.run("no-magic-numbers", rule, {
                 { message: "No magic number: 1000.", line: 15 },
                 { message: "No magic number: 0.", line: 19 },
                 { message: "No magic number: 10.", line: 22 }
-            ]
+            ],
+            env: { es6: true }
         },
         {
             code: "var data = ['foo', 'bar', 'baz']; var third = data[3];",

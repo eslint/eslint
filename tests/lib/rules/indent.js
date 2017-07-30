@@ -1247,8 +1247,8 @@ ruleTester.run("indent", rule, {
                   });
                 };
             `,
-            parserOptions: { sourceType: "module" },
-            options: [2, { FunctionDeclaration: { parameters: "first" } }]
+            options: [2, { FunctionDeclaration: { parameters: "first" } }],
+            parserOptions: { sourceType: "module" }
         },
         {
             code: unIndent`
@@ -1259,8 +1259,8 @@ ruleTester.run("indent", rule, {
                   // ... function body, indented two spaces
                 }
             `,
-            parserOptions: { sourceType: "module" },
-            options: [2, { FunctionDeclaration: { parameters: "first" } }]
+            options: [2, { FunctionDeclaration: { parameters: "first" } }],
+            parserOptions: { sourceType: "module" }
         },
         {
             code: unIndent`
@@ -4886,14 +4886,14 @@ ruleTester.run("indent", rule, {
                 b();
                 }
             `,
-            options: [2],
-            errors: expectedErrors([[3, 2, 0, "Identifier"]]),
             output: unIndent`
                 var a = b;
                 if (a) {
                   b();
                 }
-            `
+            `,
+            options: [2],
+            errors: expectedErrors([[3, 2, 0, "Identifier"]])
         },
         {
             code: unIndent`
@@ -8475,8 +8475,8 @@ ruleTester.run("indent", rule, {
                     }
                 }
             `,
-            parser: parser("unknown-nodes/namespace-invalid"),
-            errors: expectedErrors([[3, 8, 4, "Identifier"], [6, 8, 4, "Keyword"]])
+            errors: expectedErrors([[3, 8, 4, "Identifier"], [6, 8, 4, "Keyword"]]),
+            parser: parser("unknown-nodes/namespace-invalid")
         },
         {
             code: unIndent`
@@ -8507,8 +8507,8 @@ ruleTester.run("indent", rule, {
                     }
                 }
             `,
-            parser: parser("unknown-nodes/abstract-class-invalid"),
-            errors: expectedErrors([[4, 12, 8, "Identifier"], [7, 12, 8, "Identifier"], [10, 8, 4, "Identifier"]])
+            errors: expectedErrors([[4, 12, 8, "Identifier"], [7, 12, 8, "Identifier"], [10, 8, 4, "Identifier"]]),
+            parser: parser("unknown-nodes/abstract-class-invalid")
         },
         {
             code: unIndent`
@@ -8537,14 +8537,14 @@ ruleTester.run("indent", rule, {
                     }
                 }
             `,
-            parser: parser("unknown-nodes/functions-with-abstract-class-invalid"),
             errors: expectedErrors([
                 [4, 12, 8, "Keyword"],
                 [5, 16, 8, "Keyword"],
                 [6, 20, 8, "Identifier"],
                 [7, 16, 8, "Punctuator"],
                 [8, 12, 8, "Punctuator"]
-            ])
+            ]),
+            parser: parser("unknown-nodes/functions-with-abstract-class-invalid")
         },
         {
             code: unIndent`
@@ -8577,11 +8577,11 @@ ruleTester.run("indent", rule, {
                     }
                 }
             `,
-            parser: parser("unknown-nodes/namespace-with-functions-with-abstract-class-invalid"),
             errors: expectedErrors([
                 [3, 8, 4, "Keyword"],
                 [7, 24, 20, "Identifier"]
-            ])
+            ]),
+            parser: parser("unknown-nodes/namespace-with-functions-with-abstract-class-invalid")
         },
 
         //----------------------------------------------------------------------

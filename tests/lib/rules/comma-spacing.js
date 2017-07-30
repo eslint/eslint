@@ -387,8 +387,8 @@ ruleTester.run("comma-spacing", rule, {
         {
             code: "var foo = (a,b) => {}",
             output: "var foo = (a , b) => {}",
-            parserOptions: { ecmaVersion: 6 },
             options: [{ before: true, after: true }],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "A space is required before ','.",
@@ -403,8 +403,8 @@ ruleTester.run("comma-spacing", rule, {
         {
             code: "var foo = (a = 1,b) => {}",
             output: "var foo = (a = 1 , b) => {}",
-            parserOptions: { ecmaVersion: 6 },
             options: [{ before: true, after: true }],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "A space is required before ','.",
@@ -419,8 +419,8 @@ ruleTester.run("comma-spacing", rule, {
         {
             code: "function foo(a = 1 ,b = 2) {}",
             output: "function foo(a = 1, b = 2) {}",
-            parserOptions: { ecmaVersion: 6 },
             options: [{ before: false, after: true }],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "There should be no space before ','.",

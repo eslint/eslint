@@ -710,37 +710,38 @@ ruleTester.run("no-extra-parens", rule, {
         // returnAssign option
         {
             code: "function a(b) { return (b || c); }",
+            output: "function a(b) { return b || c; }",
             options: ["all", { returnAssign: false }],
             errors: [
                 {
                     message: "Gratuitous parentheses around expression.",
                     type: "LogicalExpression"
                 }
-            ],
-            output: "function a(b) { return b || c; }"
+            ]
         },
         {
             code: "function a(b) { return ((b = c) || (d = e)); }",
+            output: "function a(b) { return (b = c) || (d = e); }",
             errors: [
                 {
                     message: "Gratuitous parentheses around expression.",
                     type: "LogicalExpression"
                 }
-            ],
-            output: "function a(b) { return (b = c) || (d = e); }"
+            ]
         },
         {
             code: "function a(b) { return (b = 1); }",
+            output: "function a(b) { return b = 1; }",
             errors: [
                 {
                     message: "Gratuitous parentheses around expression.",
                     type: "AssignmentExpression"
                 }
-            ],
-            output: "function a(b) { return b = 1; }"
+            ]
         },
         {
             code: "function a(b) { return c ? (d = b) : (e = b); }",
+            output: "function a(b) { return c ? d = b : e = b; }",
             errors: [
                 {
                     message: "Gratuitous parentheses around expression.",
@@ -750,11 +751,11 @@ ruleTester.run("no-extra-parens", rule, {
                     message: "Gratuitous parentheses around expression.",
                     type: "AssignmentExpression"
                 }
-            ],
-            output: "function a(b) { return c ? d = b : e = b; }"
+            ]
         },
         {
             code: "b => (b || c);",
+            output: "b => b || c;",
             options: ["all", { returnAssign: false }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
@@ -762,33 +763,33 @@ ruleTester.run("no-extra-parens", rule, {
                     message: "Gratuitous parentheses around expression.",
                     type: "LogicalExpression"
                 }
-            ],
-            output: "b => b || c;"
+            ]
         },
         {
             code: "b => ((b = c) || (d = e));",
+            output: "b => (b = c) || (d = e);",
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "Gratuitous parentheses around expression.",
                     type: "LogicalExpression"
                 }
-            ],
-            output: "b => (b = c) || (d = e);"
+            ]
         },
         {
             code: "b => (b = 1);",
+            output: "b => b = 1;",
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "Gratuitous parentheses around expression.",
                     type: "AssignmentExpression"
                 }
-            ],
-            output: "b => b = 1;"
+            ]
         },
         {
             code: "b => c ? (d = b) : (e = b);",
+            output: "b => c ? d = b : e = b;",
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
@@ -799,11 +800,11 @@ ruleTester.run("no-extra-parens", rule, {
                     message: "Gratuitous parentheses around expression.",
                     type: "AssignmentExpression"
                 }
-            ],
-            output: "b => c ? d = b : e = b;"
+            ]
         },
         {
             code: "b => { return (b || c); }",
+            output: "b => { return b || c; }",
             options: ["all", { returnAssign: false }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
@@ -811,33 +812,33 @@ ruleTester.run("no-extra-parens", rule, {
                     message: "Gratuitous parentheses around expression.",
                     type: "LogicalExpression"
                 }
-            ],
-            output: "b => { return b || c; }"
+            ]
         },
         {
             code: "b => { return ((b = c) || (d = e)) };",
+            output: "b => { return (b = c) || (d = e) };",
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "Gratuitous parentheses around expression.",
                     type: "LogicalExpression"
                 }
-            ],
-            output: "b => { return (b = c) || (d = e) };"
+            ]
         },
         {
             code: "b => { return (b = 1) };",
+            output: "b => { return b = 1 };",
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "Gratuitous parentheses around expression.",
                     type: "AssignmentExpression"
                 }
-            ],
-            output: "b => { return b = 1 };"
+            ]
         },
         {
             code: "b => { return c ? (d = b) : (e = b); }",
+            output: "b => { return c ? d = b : e = b; }",
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
@@ -848,13 +849,13 @@ ruleTester.run("no-extra-parens", rule, {
                     message: "Gratuitous parentheses around expression.",
                     type: "AssignmentExpression"
                 }
-            ],
-            output: "b => { return c ? d = b : e = b; }"
+            ]
         },
 
         // async/await
         {
             code: "async function a() { (await a) + (await b); }",
+            output: "async function a() { await a + await b; }",
             parserOptions: { ecmaVersion: 8 },
             errors: [
                 {
@@ -865,8 +866,7 @@ ruleTester.run("no-extra-parens", rule, {
                     message: "Gratuitous parentheses around expression.",
                     type: "AwaitExpression"
                 }
-            ],
-            output: "async function a() { await a + await b; }"
+            ]
         },
         invalid("async function a() { await (a); }", "async function a() { await a; }", "Identifier", null, { parserOptions: { ecmaVersion: 8 } }),
         invalid("async function a() { await (a()); }", "async function a() { await a(); }", "CallExpression", null, { parserOptions: { ecmaVersion: 8 } }),
@@ -933,27 +933,27 @@ ruleTester.run("no-extra-parens", rule, {
         // ["all", { enforceForArrowConditionals: true }]
         {
             code: "var a = (b) => (1 ? 2 : 3)",
-            parserOptions: { ecmaVersion: 6 },
+            output: "var a = (b) => 1 ? 2 : 3",
             options: ["all", { enforceForArrowConditionals: true }],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "Gratuitous parentheses around expression."
                 }
-            ],
-            output: "var a = (b) => 1 ? 2 : 3"
+            ]
         },
 
         // ["all", { enforceForArrowConditionals: false }]
         {
             code: "var a = (b) => ((1 ? 2 : 3))",
-            parserOptions: { ecmaVersion: 6 },
+            output: "var a = (b) => (1 ? 2 : 3)",
             options: ["all", { enforceForArrowConditionals: false }],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "Gratuitous parentheses around expression."
                 }
-            ],
-            output: "var a = (b) => (1 ? 2 : 3)"
+            ]
         },
 
         // https://github.com/eslint/eslint/issues/8175

@@ -246,48 +246,48 @@ ruleTester.run("func-name-matching", rule, {
         },
         {
             code: "module.exports = function foo(name) {};",
-            parserOptions: { ecmaVersion: 6 },
             options: [{ includeCommonJSModuleExports: true }],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Function name `foo` should match property name `exports`" }
             ]
         },
         {
             code: "module.exports = function foo(name) {};",
-            parserOptions: { ecmaVersion: 6 },
             options: ["always", { includeCommonJSModuleExports: true }],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Function name `foo` should match property name `exports`" }
             ]
         },
         {
             code: "module.exports = function exports(name) {};",
-            parserOptions: { ecmaVersion: 6 },
             options: ["never", { includeCommonJSModuleExports: true }],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Function name `exports` should not match property name `exports`" }
             ]
         },
         {
             code: "module['exports'] = function foo(name) {};",
-            parserOptions: { ecmaVersion: 6 },
             options: [{ includeCommonJSModuleExports: true }],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Function name `foo` should match property name `exports`" }
             ]
         },
         {
             code: "module['exports'] = function foo(name) {};",
-            parserOptions: { ecmaVersion: 6 },
             options: ["always", { includeCommonJSModuleExports: true }],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Function name `foo` should match property name `exports`" }
             ]
         },
         {
             code: "module['exports'] = function exports(name) {};",
-            parserOptions: { ecmaVersion: 6 },
             options: ["never", { includeCommonJSModuleExports: true }],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Function name `exports` should not match property name `exports`" }
             ]

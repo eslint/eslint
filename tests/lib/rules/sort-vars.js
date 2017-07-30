@@ -77,7 +77,7 @@ ruleTester.run("sort-vars", rule, {
             "            c;",
             "    }",
             "}"
-        ].join("\n"), env: { es6: true }, parserOptions: { sourceType: "module" } },
+        ].join("\n"), parserOptions: { sourceType: "module" }, env: { es6: true } },
 
         {
             code: "var {} = 1, a",

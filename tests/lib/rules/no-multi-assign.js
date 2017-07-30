@@ -70,11 +70,11 @@ ruleTester.run("no-mutli-assign", rule, {
         },
         {
             code: "let foo = bar = cee = 100;",
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 errorAt(1, 11, "AssignmentExpression"),
                 errorAt(1, 17, "AssignmentExpression")
-            ],
-            parserOptions: { ecmaVersion: 6 }
+            ]
         },
         {
             code: "a=b=c=d=e",

@@ -125,7 +125,7 @@ ruleTester.run("semi", rule, {
         { code: "function foo() { return []; }", output: "function foo() { return [] }", options: ["never"], errors: [{ message: "Extra semicolon.", type: "ReturnStatement" }] },
         { code: "while(true) { break; }", output: "while(true) { break }", options: ["never"], errors: [{ message: "Extra semicolon.", type: "BreakStatement" }] },
         { code: "while(true) { continue; }", output: "while(true) { continue }", options: ["never"], errors: [{ message: "Extra semicolon.", type: "ContinueStatement" }] },
-        { code: "let x = 5;", output: "let x = 5", parserOptions: { ecmaVersion: 6 }, options: ["never"], errors: [{ message: "Extra semicolon.", type: "VariableDeclaration" }] },
+        { code: "let x = 5;", output: "let x = 5", options: ["never"], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Extra semicolon.", type: "VariableDeclaration" }] },
         { code: "var x = 5;", output: "var x = 5", options: ["never"], errors: [{ message: "Extra semicolon.", type: "VariableDeclaration" }] },
         { code: "var x = 5, y;", output: "var x = 5, y", options: ["never"], errors: [{ message: "Extra semicolon.", type: "VariableDeclaration" }] },
         { code: "debugger;", output: "debugger", options: ["never"], errors: [{ message: "Extra semicolon.", type: "DebuggerStatement" }] },
@@ -171,21 +171,21 @@ ruleTester.run("semi", rule, {
 
         // https://github.com/eslint/eslint/issues/7928
         {
-            options: ["never"],
             code: [
                 "/*eslint no-extra-semi: error */",
                 "foo();",
                 ";[0,1,2].forEach(bar)"
             ].join("\n"),
-            errors: [
-                "Extra semicolon.",
-                "Unnecessary semicolon."
-            ],
             output: [
                 "/*eslint no-extra-semi: error */",
                 "foo()",
                 ";[0,1,2].forEach(bar)"
-            ].join("\n")
+            ].join("\n"),
+            options: ["never"],
+            errors: [
+                "Extra semicolon.",
+                "Unnecessary semicolon."
+            ]
         }
     ]
 });
