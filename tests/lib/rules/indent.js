@@ -9114,6 +9114,48 @@ ruleTester.run("indent", rule, {
                 </div>
             `,
             errors: expectedErrors([3, 8, 6, "Block"])
+        },
+        {
+            code: unIndent`
+                ({
+                    foo
+                    }: bar) => baz
+            `,
+            output: unIndent`
+                ({
+                    foo
+                }: bar) => baz
+            `,
+            errors: expectedErrors([3, 0, 4, "Punctuator"]),
+            parser: require.resolve("../../fixtures/parsers/babel-eslint7/object-pattern-with-annotation")
+        },
+        {
+            code: unIndent`
+                ([
+                    foo
+                    ]: bar) => baz
+            `,
+            output: unIndent`
+                ([
+                    foo
+                ]: bar) => baz
+            `,
+            errors: expectedErrors([3, 0, 4, "Punctuator"]),
+            parser: require.resolve("../../fixtures/parsers/babel-eslint7/array-pattern-with-annotation")
+        },
+        {
+            code: unIndent`
+                ({
+                    foo
+                    }: {}) => baz
+            `,
+            output: unIndent`
+                ({
+                    foo
+                }: {}) => baz
+            `,
+            errors: expectedErrors([3, 0, 4, "Punctuator"]),
+            parser: require.resolve("../../fixtures/parsers/babel-eslint7/object-pattern-with-object-annotation")
         }
     ]
 });
