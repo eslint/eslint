@@ -631,11 +631,13 @@ target.gensite = function(prereleaseVersion) {
     }
 
     // 1. create temp and build directory
+    echo("> Creating a temporary directory (Step 1)");
     if (!test("-d", TEMP_DIR)) {
         mkdir(TEMP_DIR);
     }
 
     // 2. remove old files from the site
+    echo("> Removing old files (Step 2)");
     docFiles.forEach(filePath => {
         const fullPath = path.join(DOCS_DIR, filePath),
             htmlFullPath = fullPath.replace(".md", ".html");
@@ -651,6 +653,7 @@ target.gensite = function(prereleaseVersion) {
     });
 
     // 3. Copy docs folder to a temporary directory
+    echo("> Copying the docs folder (Step 3)");
     cp("-rf", "docs/*", TEMP_DIR);
 
     let versions = test("-f", "./versions.json") ? JSON.parse(cat("./versions.json")) : {};
@@ -668,7 +671,11 @@ target.gensite = function(prereleaseVersion) {
     const FIXABLE_TEXT = "\n\n(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) can automatically fix some of the problems reported by this rule.";
 
     // 4. Loop through all files in temporary directory
-    find(TEMP_DIR).forEach(filename => {
+    process.stdout.write(`> Updating files (Steps 4-9): 0/... - ...\r`);
+    const tempFiles = find(TEMP_DIR);
+    const { length } = tempFiles;
+
+    tempFiles.forEach((filename, i) => {
         if (test("-f", filename) && path.extname(filename) === ".md") {
 
             const rulesUrl = "https://github.com/eslint/eslint/tree/master/lib/rules/",
@@ -679,6 +686,8 @@ target.gensite = function(prereleaseVersion) {
                 ruleName = path.basename(filename, ".md");
             let text = cat(filename),
                 title;
+
+            process.stdout.write(`> Updating files (Steps 4-9): ${i}/${length} - ${sourcePath + ' '.repeat(30)}\r`);
 
             // 5. Prepend page title and layout variables at the top of rules
             if (path.dirname(filename).indexOf("rules") >= 0) {
@@ -763,8 +772,10 @@ target.gensite = function(prereleaseVersion) {
         }
     });
     JSON.stringify(versions).to("./versions.json");
+    echo("> Updating files (Steps 4-9)" + " ".repeat(50));
 
     // 10. Copy temporary directory to site's docs folder
+    echo("> Copying the temporary directory the site (Step 10)");
     let outputDir = DOCS_DIR;
 
     if (prereleaseVersion) {
@@ -773,18 +784,26 @@ target.gensite = function(prereleaseVersion) {
     cp("-rf", `${TEMP_DIR}*`, outputDir);
 
     // 11. Generate rule listing page
+    echo("> Generating the rule listing (Step 11)");
     generateRuleIndexPage(process.cwd());
 
     // 12. Delete temporary directory
+    echo("> Removing the temporary directory (Step 12)");
     rm("-r", TEMP_DIR);
 
     // 13. Update demos, but only for non-prereleases
     if (!prereleaseVersion) {
+        echo("> Updating the demos (Step 13)");
         cp("-f", "build/eslint.js", `${SITE_DIR}js/app/eslint.js`);
+    } else {
+        echo("> Skipped updating the demos (Step 13)");
     }
 
     // 14. Create Example Formatter Output Page
+    echo("> Creating the formatter examples (Step 13)");
     generateFormatterExamples(getFormatterResults(), prereleaseVersion);
+
+    echo("Done generating eslint.org");
 };
 
 target.browserify = function() {
