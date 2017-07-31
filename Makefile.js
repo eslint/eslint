@@ -695,7 +695,16 @@ target.gensite = function(prereleaseVersion) {
 
                 text = `${ruleHeading}${isRecommended ? RECOMMENDED_TEXT : ""}${isFixable ? FIXABLE_TEXT : ""}\n${ruleDocsContent}`;
 
-                text = `---\ntitle: ${ruleName} - Rules\nlayout: doc\n---\n<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->\n\n${text}`;
+                text = [
+                    '---',
+                    `title: ${ruleName} - Rules`,
+                    'layout: doc',
+                    filename.indexOf("rules/") !== -1 && `edit_link: https://github.com/eslint/eslint/edit/master/docs/rules${baseName}`,
+                    '---',
+                    '<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->',
+                    '',
+                    text
+                ].filter(x => x).join('\n');
             } else {
 
                 // extract the title from the file itself
@@ -705,7 +714,16 @@ target.gensite = function(prereleaseVersion) {
                 } else {
                     title = "Documentation";
                 }
-                text = `---\ntitle: ${title}\nlayout: doc\n---\n<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->\n\n${text}`;
+                text = [
+                    '---',
+                    `title: ${title}`,
+                    'layout: doc',
+                    `edit_link: https://github.com/eslint/eslint/edit/master/${sourcePath}`,
+                    '---',
+                    '<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->',
+                    '',
+                    text
+                ].filter(x => x).join('\n');
             }
 
             // 6. Remove .md extension for relative links and change README to empty string
