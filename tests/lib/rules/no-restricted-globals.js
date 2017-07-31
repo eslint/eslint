@@ -33,8 +33,8 @@ ruleTester.run("no-restricted-globals", rule, {
         },
         {
             code: "event",
-            env: { browser: true },
-            options: ["bar"]
+            options: ["bar"],
+            env: { browser: true }
         },
         {
             code: "import foo from 'bar';",
@@ -72,20 +72,20 @@ ruleTester.run("no-restricted-globals", rule, {
         {
             code: "function fn() { foo; }",
             options: ["foo"],
-            globals: { foo: false },
-            errors: [{ message: "Unexpected use of 'foo'.", type: "Identifier" }]
+            errors: [{ message: "Unexpected use of 'foo'.", type: "Identifier" }],
+            globals: { foo: false }
         },
         {
             code: "event",
             options: ["foo", "event"],
-            env: { browser: true },
-            errors: [{ message: "Unexpected use of 'event'.", type: "Identifier" }]
+            errors: [{ message: "Unexpected use of 'event'.", type: "Identifier" }],
+            env: { browser: true }
         },
         {
             code: "foo",
             options: ["foo"],
-            globals: { foo: false },
-            errors: [{ message: "Unexpected use of 'foo'.", type: "Identifier" }]
+            errors: [{ message: "Unexpected use of 'foo'.", type: "Identifier" }],
+            globals: { foo: false }
         },
         {
             code: "foo()",
@@ -110,20 +110,20 @@ ruleTester.run("no-restricted-globals", rule, {
         {
             code: "function fn() { foo; }",
             options: [{ name: "foo" }],
-            globals: { foo: false },
-            errors: [{ message: "Unexpected use of 'foo'.", type: "Identifier" }]
+            errors: [{ message: "Unexpected use of 'foo'.", type: "Identifier" }],
+            globals: { foo: false }
         },
         {
             code: "event",
             options: ["foo", { name: "event" }],
-            env: { browser: true },
-            errors: [{ message: "Unexpected use of 'event'.", type: "Identifier" }]
+            errors: [{ message: "Unexpected use of 'event'.", type: "Identifier" }],
+            env: { browser: true }
         },
         {
             code: "foo",
             options: [{ name: "foo" }],
-            globals: { foo: false },
-            errors: [{ message: "Unexpected use of 'foo'.", type: "Identifier" }]
+            errors: [{ message: "Unexpected use of 'foo'.", type: "Identifier" }],
+            globals: { foo: false }
         },
         {
             code: "foo()",
@@ -148,20 +148,20 @@ ruleTester.run("no-restricted-globals", rule, {
         {
             code: "function fn() { foo; }",
             options: [{ name: "foo", message: "Use bar instead." }],
-            globals: { foo: false },
-            errors: [{ message: "Unexpected use of 'foo'. Use bar instead.", type: "Identifier" }]
+            errors: [{ message: "Unexpected use of 'foo'. Use bar instead.", type: "Identifier" }],
+            globals: { foo: false }
         },
         {
             code: "event",
             options: ["foo", { name: "event", message: "Use local event parameter." }],
-            env: { browser: true },
-            errors: [{ message: "Unexpected use of 'event'. Use local event parameter.", type: "Identifier" }]
+            errors: [{ message: "Unexpected use of 'event'. Use local event parameter.", type: "Identifier" }],
+            env: { browser: true }
         },
         {
             code: "foo",
             options: [{ name: "foo", message: "Use bar instead." }],
-            globals: { foo: false },
-            errors: [{ message: "Unexpected use of 'foo'. Use bar instead.", type: "Identifier" }]
+            errors: [{ message: "Unexpected use of 'foo'. Use bar instead.", type: "Identifier" }],
+            globals: { foo: false }
         },
         {
             code: "foo()",

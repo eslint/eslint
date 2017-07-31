@@ -315,8 +315,8 @@ ruleTester.run("prefer-const", rule, {
             code: "let { name, ...otherStuff } = obj; otherStuff = {};",
             output: null,
             options: [{ destructuring: "any" }],
-            parser: fixtureParser("babel-eslint5/destructuring-object-spread"),
-            errors: [{ message: "'name' is never reassigned. Use 'const' instead.", type: "Identifier", column: 7 }]
+            errors: [{ message: "'name' is never reassigned. Use 'const' instead.", type: "Identifier", column: 7 }],
+            parser: fixtureParser("babel-eslint5/destructuring-object-spread")
         },
 
         // Warnings are located at declaration if there are reading references before assignments.

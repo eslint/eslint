@@ -54,8 +54,8 @@ ruleTester.run("no-use-before-define", rule, {
         },
         {
             code: "var foo = () => bar; var bar;",
-            parserOptions: { ecmaVersion: 6 },
-            options: [{ variables: false }]
+            options: [{ variables: false }],
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
     invalid: [

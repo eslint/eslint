@@ -45,10 +45,10 @@ ruleTester.run("padded-blocks", rule, {
         { code: "switch (a) {//coment\n\ncase 0: foo();\ncase 1: bar();\n\n/* comment */}", options: [{ switches: "always" }] },
 
         { code: "class A{\n\nfoo(){}\n\n}", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A{\n\nfoo(){}\n\n}", parserOptions: { ecmaVersion: 6 }, options: ["always"] },
-        { code: "class A{}", parserOptions: { ecmaVersion: 6 }, options: [{ classes: "always" }] },
-        { code: "class A{\n\n}", parserOptions: { ecmaVersion: 6 }, options: [{ classes: "always" }] },
-        { code: "class A{\n\nfoo(){}\n\n}", parserOptions: { ecmaVersion: 6 }, options: [{ classes: "always" }] },
+        { code: "class A{\n\nfoo(){}\n\n}", options: ["always"], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A{}", options: [{ classes: "always" }], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A{\n\n}", options: [{ classes: "always" }], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A{\n\nfoo(){}\n\n}", options: [{ classes: "always" }], parserOptions: { ecmaVersion: 6 } },
 
         { code: "{\na();\n}", options: ["never"] },
         { code: "{\na();}", options: ["never"] },
@@ -70,8 +70,8 @@ ruleTester.run("padded-blocks", rule, {
         { code: "switch (a) {\ncase 0: foo();\n}", options: [{ switches: "never" }] },
 
 
-        { code: "class A{\nfoo(){}\n}", parserOptions: { ecmaVersion: 6 }, options: ["never"] },
-        { code: "class A{\nfoo(){}\n}", parserOptions: { ecmaVersion: 6 }, options: [{ classes: "never" }] },
+        { code: "class A{\nfoo(){}\n}", options: ["never"], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A{\nfoo(){}\n}", options: [{ classes: "never" }], parserOptions: { ecmaVersion: 6 } },
 
         // Ignore block statements if not configured
         { code: "{\na();\n}", options: [{ switches: "always" }] },
@@ -83,8 +83,8 @@ ruleTester.run("padded-blocks", rule, {
 
 
         // Ignore class statements if not configured
-        { code: "class A{\nfoo(){}\n}", parserOptions: { ecmaVersion: 6 }, options: [{ blocks: "always" }] },
-        { code: "class A{\n\nfoo(){}\n\n}", parserOptions: { ecmaVersion: 6 }, options: [{ blocks: "never" }] }
+        { code: "class A{\nfoo(){}\n}", options: [{ blocks: "always" }], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A{\n\nfoo(){}\n\n}", options: [{ blocks: "never" }], parserOptions: { ecmaVersion: 6 } }
 
     ],
     invalid: [
@@ -277,8 +277,8 @@ ruleTester.run("padded-blocks", rule, {
         {
             code: "class A {\nconstructor(){}\n}",
             output: "class A {\n\nconstructor(){}\n\n}",
-            parserOptions: { ecmaVersion: 6 },
             options: ["always"],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: ALWAYS_MESSAGE,
@@ -295,8 +295,8 @@ ruleTester.run("padded-blocks", rule, {
         {
             code: "class A {\nconstructor(){}\n}",
             output: "class A {\n\nconstructor(){}\n\n}",
-            parserOptions: { ecmaVersion: 6 },
             options: [{ classes: "always" }],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: ALWAYS_MESSAGE,
@@ -504,8 +504,8 @@ ruleTester.run("padded-blocks", rule, {
         {
             code: "class A {\n\nconstructor(){\n\nfoo();\n\n}\n\n}",
             output: "class A {\nconstructor(){\nfoo();\n}\n}",
-            parserOptions: { ecmaVersion: 6 },
             options: ["never"],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: NEVER_MESSAGE,
@@ -528,8 +528,8 @@ ruleTester.run("padded-blocks", rule, {
         {
             code: "class A {\n\nconstructor(){\n\nfoo();\n\n}\n\n}",
             output: "class A {\nconstructor(){\n\nfoo();\n\n}\n}",
-            parserOptions: { ecmaVersion: 6 },
             options: [{ classes: "never" }],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: NEVER_MESSAGE,
@@ -544,8 +544,8 @@ ruleTester.run("padded-blocks", rule, {
         {
             code: "class A {\n\nconstructor(){\n\nfoo();\n\n}\n\n}",
             output: "class A {\nconstructor(){\nfoo();\n}\n}",
-            parserOptions: { ecmaVersion: 6 },
             options: [{ blocks: "never", classes: "never" }],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: NEVER_MESSAGE,

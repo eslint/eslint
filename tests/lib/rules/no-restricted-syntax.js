@@ -76,8 +76,8 @@ ruleTester.run("no-restricted-syntax", rule, {
         },
         {
             code: "() => {}",
-            parserOptions: { ecmaVersion: 6 },
             options: ["ArrowFunctionExpression > BlockStatement"],
+            parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Using 'ArrowFunctionExpression > BlockStatement' is not allowed.", type: "BlockStatement" }]
         },
         {
