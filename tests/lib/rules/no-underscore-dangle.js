@@ -32,7 +32,7 @@ ruleTester.run("no-underscore-dangle", rule, {
         { code: "foo._bar;", options: [{ allow: ["_bar"] }] },
         { code: "function _foo() {}", options: [{ allow: ["_foo"] }] },
         { code: "this._bar;", options: [{ allowAfterThis: true }] },
-        { code: "class foo { constructor() { super._bar; } }", parserOptions: { ecmaVersion: 6 }, options: [{ allowAfterSuper: true }] },
+        { code: "class foo { constructor() { super._bar; } }", options: [{ allowAfterSuper: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "class foo { _onClick() { } }", parserOptions: { ecmaVersion: 6 } },
         { code: "class foo { onClick_() { } }", parserOptions: { ecmaVersion: 6 } },
         { code: "const o = { _onClick() { } }", parserOptions: { ecmaVersion: 6 } },

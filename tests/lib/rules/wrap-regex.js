@@ -30,13 +30,13 @@ ruleTester.run("wrap-regex", rule, {
     invalid: [
         {
             code: "/foo/.test(bar);",
-            errors: [{ message: "Wrap the regexp literal in parens to disambiguate the slash.", type: "Literal" }],
-            output: "(/foo/).test(bar);"
+            output: "(/foo/).test(bar);",
+            errors: [{ message: "Wrap the regexp literal in parens to disambiguate the slash.", type: "Literal" }]
         },
         {
             code: "/foo/ig.test(bar);",
-            errors: [{ message: "Wrap the regexp literal in parens to disambiguate the slash.", type: "Literal" }],
-            output: "(/foo/ig).test(bar);"
+            output: "(/foo/ig).test(bar);",
+            errors: [{ message: "Wrap the regexp literal in parens to disambiguate the slash.", type: "Literal" }]
         }
     ]
 });

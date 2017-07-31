@@ -70,8 +70,8 @@ ruleTester.run("no-extra-label", rule, {
         {
             code: "A: for (a of ary) { break A; }",
             output: "A: for (a of ary) { break; }",
-            errors: ["This label 'A' is unnecessary."],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: ["This label 'A' is unnecessary."]
         },
         {
             code: "A: switch (a) { case 0: break A; }",

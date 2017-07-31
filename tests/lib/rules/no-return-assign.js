@@ -52,13 +52,13 @@ ruleTester.run("no-return-assign", rule, {
         },
         {
             code: "() => { return (result = a * b); }",
-            parserOptions: { ecmaVersion: 6 },
-            options: ["except-parens"]
+            options: ["except-parens"],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "() => (result = a * b)",
-            parserOptions: { ecmaVersion: 6 },
-            options: ["except-parens"]
+            options: ["except-parens"],
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
     invalid: [

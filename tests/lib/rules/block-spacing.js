@@ -56,11 +56,11 @@ ruleTester.run("block-spacing", rule, {
         { code: "do {foo();} while (a);", options: ["never"] },
         { code: "for (;;) {foo();}", options: ["never"] },
         { code: "for (var a in b) {foo();}", options: ["never"] },
-        { code: "for (var a of b) {foo();}", parserOptions: { ecmaVersion: 6 }, options: ["never"] },
+        { code: "for (var a of b) {foo();}", options: ["never"], parserOptions: { ecmaVersion: 6 } },
         { code: "try {foo();} catch (e) {foo();}", options: ["never"] },
         { code: "function foo() {bar();}", options: ["never"] },
         { code: "(function() {bar();});", options: ["never"] },
-        { code: "(() => {bar();});", parserOptions: { ecmaVersion: 6 }, options: ["never"] },
+        { code: "(() => {bar();});", options: ["never"], parserOptions: { ecmaVersion: 6 } },
         { code: "if (a) {/* comment */ foo(); /* comment */}", options: ["never"] },
         { code: "if (a) { //comment\n foo();}", options: ["never"] }
     ],
@@ -383,8 +383,8 @@ ruleTester.run("block-spacing", rule, {
         {
             code: "(() => { bar(); });",
             output: "(() => {bar();});",
-            parserOptions: { ecmaVersion: 6 },
             options: ["never"],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { type: "BlockStatement", line: 1, column: 8, message: "Unexpected space(s) after '{'." },
                 { type: "BlockStatement", line: 1, column: 17, message: "Unexpected space(s) before '}'." }

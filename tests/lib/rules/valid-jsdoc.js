@@ -784,6 +784,9 @@ ruleTester.run("valid-jsdoc", rule, {
                 requireReturn: true,
                 matchDescription: "^[A-Z][A-Za-z0-9\\s]*[.]$"
             }],
+            parserOptions: {
+                ecmaVersion: 6
+            },
             errors: [
                 {
                     message: "JSDoc description does not satisfy the regex pattern.",
@@ -793,10 +796,7 @@ ruleTester.run("valid-jsdoc", rule, {
                     message: "Missing JSDoc @returns for function.",
                     type: "Block"
                 }
-            ],
-            parserOptions: {
-                ecmaVersion: 6
-            }
+            ]
         },
         {
             code: "/**\n* Foo\n* @returns {string} \n*/\nfunction foo(){}",
@@ -994,6 +994,9 @@ ruleTester.run("valid-jsdoc", rule, {
                 requireReturn: false,
                 matchDescription: "^[A-Z][A-Za-z0-9\\s]*[.]$"
             }],
+            parserOptions: {
+                ecmaVersion: 6
+            },
             errors: [
                 {
                     message: "JSDoc description does not satisfy the regex pattern.",
@@ -1003,10 +1006,7 @@ ruleTester.run("valid-jsdoc", rule, {
                     message: "JSDoc description does not satisfy the regex pattern.",
                     type: "Block"
                 }
-            ],
-            parserOptions: {
-                ecmaVersion: 6
-            }
+            ]
         },
         {
             code:
@@ -1026,6 +1026,9 @@ ruleTester.run("valid-jsdoc", rule, {
                 requireReturn: true,
                 matchDescription: "^[A-Z][A-Za-z0-9\\s]*[.]$"
             }],
+            parserOptions: {
+                ecmaVersion: 6
+            },
             errors: [
                 {
                     message: "JSDoc description does not satisfy the regex pattern.",
@@ -1035,10 +1038,7 @@ ruleTester.run("valid-jsdoc", rule, {
                     message: "Missing JSDoc @returns for function.",
                     type: "Block"
                 }
-            ],
-            parserOptions: {
-                ecmaVersion: 6
-            }
+            ]
         },
         {
             code:
@@ -1062,6 +1062,9 @@ ruleTester.run("valid-jsdoc", rule, {
                 "    }\n" +
                 "}",
             options: [],
+            parserOptions: {
+                ecmaVersion: 6
+            },
             errors: [
                 {
                     message: "Missing JSDoc @returns for function.",
@@ -1071,10 +1074,7 @@ ruleTester.run("valid-jsdoc", rule, {
                     message: "Missing JSDoc for parameter 'xs'.",
                     type: "Block"
                 }
-            ],
-            parserOptions: {
-                ecmaVersion: 6
-            }
+            ]
         },
         {
             code:

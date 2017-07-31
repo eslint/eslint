@@ -955,8 +955,8 @@ ruleTester.run("indent-legacy", rule, {
                 "    b: argument\n" +
                 "  });\n" +
                 "};",
-            parserOptions: { sourceType: "module" },
-            options: [2]
+            options: [2],
+            parserOptions: { sourceType: "module" }
         },
         {
             code:
@@ -966,8 +966,8 @@ ruleTester.run("indent-legacy", rule, {
                 "                        padding=defaultPadding) {\n" +
                 "  // ... function body, indented two spaces\n" +
                 "}\n",
-            parserOptions: { sourceType: "module" },
-            options: [2]
+            options: [2],
+            parserOptions: { sourceType: "module" }
         },
         {
             code:
@@ -999,8 +999,8 @@ ruleTester.run("indent-legacy", rule, {
                 "var res,\n" +
                 "    a = 5,\n" +
                 "    b = 4\n",
-            parserOptions: { ecmaVersion: 6 },
-            options: [2, { VariableDeclarator: { var: 2, let: 2, const: 3 } }]
+            options: [2, { VariableDeclarator: { var: 2, let: 2, const: 3 } }],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -1012,8 +1012,8 @@ ruleTester.run("indent-legacy", rule, {
                 "    b = 4\n" +
                 "\n" +
                 "if (YO) console.log(TE)",
-            parserOptions: { ecmaVersion: 6 },
-            options: [2, { VariableDeclarator: { var: 2, let: 2, const: 3 } }]
+            options: [2, { VariableDeclarator: { var: 2, let: 2, const: 3 } }],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -1177,8 +1177,8 @@ ruleTester.run("indent-legacy", rule, {
             "        ].forEach(command => { doSomething(); });\n" +
             "    });\n" +
             "};",
-            parserOptions: { ecmaVersion: 6 },
-            options: [4, { MemberExpression: 0 }]
+            options: [4, { MemberExpression: 0 }],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -1190,8 +1190,8 @@ ruleTester.run("indent-legacy", rule, {
             "            ].forEach(command => { doSomething(); });\n" +
             "        });\n" +
             "};",
-            parserOptions: { ecmaVersion: 6 },
-            options: [4]
+            options: [4],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -1234,8 +1234,8 @@ ruleTester.run("indent-legacy", rule, {
             "      .value();\n" +
             "  }\n" +
             "};",
-            parserOptions: { ecmaVersion: 6 },
-            options: [2]
+            options: [2],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -1243,8 +1243,8 @@ ruleTester.run("indent-legacy", rule, {
             "  extends Bar {\n" +
             "  baz() {}\n" +
             "}",
-            parserOptions: { ecmaVersion: 6 },
-            options: [2]
+            options: [2],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -1252,8 +1252,8 @@ ruleTester.run("indent-legacy", rule, {
             "  Bar {\n" +
             "  baz() {}\n" +
             "}",
-            parserOptions: { ecmaVersion: 6 },
-            options: [2]
+            options: [2],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -1389,8 +1389,8 @@ ruleTester.run("indent-legacy", rule, {
             "  return x + 1;\n" +
             "}\n" +
             "})();",
-            parserOptions: { ecmaVersion: 6 },
-            options: [2, { outerIIFEBody: 0 }]
+            options: [2, { outerIIFEBody: 0 }],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -1405,8 +1405,8 @@ ruleTester.run("indent-legacy", rule, {
             "  return x + 1;\n" +
             "}\n" +
             "})();",
-            parserOptions: { ecmaVersion: 6 },
-            options: [2, { outerIIFEBody: 0 }]
+            options: [2, { outerIIFEBody: 0 }],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -1928,13 +1928,13 @@ ruleTester.run("indent-legacy", rule, {
                 "if (a) {\n" +
                 "b();\n" +
                 "}\n",
-            options: [2],
-            errors: expectedErrors([[3, 2, 0, "ExpressionStatement"]]),
             output:
                 "var a = b;\n" +
                 "if (a) {\n" +
                 "  b();\n" +
-                "}\n"
+                "}\n",
+            options: [2],
+            errors: expectedErrors([[3, 2, 0, "ExpressionStatement"]])
         },
         {
             code:

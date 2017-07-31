@@ -311,29 +311,29 @@ ruleTester.run("spaced-comment", rule, {
         {
             code: "//An invalid comment NOT starting with space\nvar a = 1;",
             output: "// An invalid comment NOT starting with space\nvar a = 1;",
+            options: ["always"],
             errors: [{
                 messsage: "Expected space or tab after '//' in comment.",
                 type: "Line"
-            }],
-            options: ["always"]
+            }]
         },
         {
             code: "// An invalid comment starting with space\nvar a = 2;",
             output: "//An invalid comment starting with space\nvar a = 2;",
+            options: ["never"],
             errors: [{
                 message: "Unexpected space or tab after '//' in comment.",
                 type: "Line"
-            }],
-            options: ["never"]
+            }]
         },
         {
             code: "//   An invalid comment starting with tab\nvar a = 2;",
             output: "//An invalid comment starting with tab\nvar a = 2;",
+            options: ["never"],
             errors: [{
                 message: "Unexpected space or tab after '//' in comment.",
                 type: "Line"
-            }],
-            options: ["never"]
+            }]
         },
         {
 
@@ -344,17 +344,20 @@ ruleTester.run("spaced-comment", rule, {
              */
             code: "//*********************-\n// Comment Block 3\n//***********************",
             output: "//* ********************-\n// Comment Block 3\n//***********************",
+            options: ["always", {
+                exceptions: ["-", "=", "*", "#", "!@#"]
+            }],
             errors: [{
                 message: "Expected exception block, space or tab after '//*' in comment.",
                 type: "Line"
-            }],
-            options: ["always", {
-                exceptions: ["-", "=", "*", "#", "!@#"]
             }]
         },
         {
             code: "//-=-=-=-=-=-=\n// A comment\n//-=-=-=-=-=-=",
             output: "// -=-=-=-=-=-=\n// A comment\n// -=-=-=-=-=-=",
+            options: ["always", {
+                exceptions: ["-", "=", "*", "#", "!@#"]
+            }],
             errors: [
                 {
                     message: "Expected exception block, space or tab after '//' in comment.",
@@ -364,26 +367,23 @@ ruleTester.run("spaced-comment", rule, {
                     message: "Expected exception block, space or tab after '//' in comment.",
                     type: "Line"
                 }
-            ],
-            options: ["always", {
-                exceptions: ["-", "=", "*", "#", "!@#"]
-            }]
+            ]
         },
         {
             code: "//!<docblock style comment",
             output: "//!< docblock style comment",
-            errors: 1,
             options: ["always", {
                 markers: ["/", "!<"]
-            }]
+            }],
+            errors: 1
         },
         {
             code: "//!< docblock style comment",
             output: "//!<docblock style comment",
-            errors: 1,
             options: ["never", {
                 markers: ["/", "!<"]
-            }]
+            }],
+            errors: 1
         },
         {
             code: "var a = 1; /* A valid comment starting with space */",
@@ -578,14 +578,14 @@ ruleTester.run("spaced-comment", rule, {
         {
             code: invalidShebangProgram,
             output: null,
-            errors: 1,
-            options: ["always"]
+            options: ["always"],
+            errors: 1
         },
         {
             code: invalidShebangProgram,
             output: null,
-            errors: 1,
-            options: ["never"]
+            options: ["never"],
+            errors: 1
         }
     ]
 

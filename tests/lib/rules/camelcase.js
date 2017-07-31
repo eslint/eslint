@@ -65,8 +65,8 @@ ruleTester.run("camelcase", rule, {
         },
         {
             code: "var { category_id: category } = query;",
-            parserOptions: { ecmaVersion: 6 },
-            options: [{ properties: "never" }]
+            options: [{ properties: "never" }],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "import { camelCased } from \"external module\";",

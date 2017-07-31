@@ -159,7 +159,7 @@ ruleTester.run("no-unused-vars", rule, {
         { code: "var a; function foo() { var _b; } foo();", options: [{ vars: "local", varsIgnorePattern: "^_" }] },
         { code: "function foo(_a) { } foo();", options: [{ args: "all", argsIgnorePattern: "^_" }] },
         { code: "function foo(a, _b) { return a; } foo();", options: [{ args: "after-used", argsIgnorePattern: "^_" }] },
-        { code: "var [ firstItemIgnored, secondItem ] = items;\nconsole.log(secondItem);", parserOptions: { ecmaVersion: 6 }, options: [{ vars: "all", varsIgnorePattern: "[iI]gnored" }] },
+        { code: "var [ firstItemIgnored, secondItem ] = items;\nconsole.log(secondItem);", options: [{ vars: "all", varsIgnorePattern: "[iI]gnored" }], parserOptions: { ecmaVersion: 6 } },
 
         // for-in loops (see #2342)
         "(function(obj) { var name; for ( name in obj ) return; })({});",
@@ -338,7 +338,7 @@ ruleTester.run("no-unused-vars", rule, {
         { code: "var a; function foo() { var _b; var c_; } foo();", options: [{ vars: "local", varsIgnorePattern: "^_" }], errors: [{ message: "'c_' is defined but never used.", line: 1, column: 37 }] },
         { code: "function foo(a, _b) { } foo();", options: [{ args: "all", argsIgnorePattern: "^_" }], errors: [{ message: "'a' is defined but never used.", line: 1, column: 14 }] },
         { code: "function foo(a, _b, c) { return a; } foo();", options: [{ args: "after-used", argsIgnorePattern: "^_" }], errors: [{ message: "'c' is defined but never used.", line: 1, column: 21 }] },
-        { code: "var [ firstItemIgnored, secondItem ] = items;", parserOptions: { ecmaVersion: 6 }, options: [{ vars: "all", varsIgnorePattern: "[iI]gnored" }], errors: [{ message: "'secondItem' is assigned a value but never used.", line: 1, column: 25 }] },
+        { code: "var [ firstItemIgnored, secondItem ] = items;", options: [{ vars: "all", varsIgnorePattern: "[iI]gnored" }], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'secondItem' is assigned a value but never used.", line: 1, column: 25 }] },
 
         // for-in loops (see #2342)
         { code: "(function(obj) { var name; for ( name in obj ) { i(); return; } })({});", errors: [{ message: "'name' is assigned a value but never used.", line: 1, column: 22 }] },
@@ -452,10 +452,10 @@ ruleTester.run("no-unused-vars", rule, {
         // surrogate pair.
         {
             code: "/*global 𠮷𩸽, 𠮷*/\n\\u{20BB7}\\u{29E3D};",
-            env: { es6: true },
             errors: [
                 { line: 1, column: 16, message: "'𠮷' is defined but never used." }
-            ]
+            ],
+            env: { es6: true }
         },
 
         // https://github.com/eslint/eslint/issues/4047

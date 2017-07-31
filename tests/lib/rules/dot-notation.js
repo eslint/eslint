@@ -49,53 +49,53 @@ ruleTester.run("dot-notation", rule, {
     invalid: [
         {
             code: "a.true;",
+            output: "a[\"true\"];",
             options: [{ allowKeywords: false }],
-            errors: [{ message: ".true is a syntax error." }],
-            output: "a[\"true\"];"
+            errors: [{ message: ".true is a syntax error." }]
         },
         {
             code: "a['true'];",
-            errors: [{ message: "[\"true\"] is better written in dot notation." }],
-            output: "a.true;"
+            output: "a.true;",
+            errors: [{ message: "[\"true\"] is better written in dot notation." }]
         },
         {
             code: "a[null];",
-            errors: [{ message: "[null] is better written in dot notation." }],
-            output: "a.null;"
+            output: "a.null;",
+            errors: [{ message: "[null] is better written in dot notation." }]
         },
         {
             code: "a['b'];",
-            errors: [{ message: "[\"b\"] is better written in dot notation." }],
-            output: "a.b;"
+            output: "a.b;",
+            errors: [{ message: "[\"b\"] is better written in dot notation." }]
         },
         {
             code: "a.b['c'];",
-            errors: [{ message: "[\"c\"] is better written in dot notation." }],
-            output: "a.b.c;"
+            output: "a.b.c;",
+            errors: [{ message: "[\"c\"] is better written in dot notation." }]
         },
         {
             code: "a['_dangle'];",
-            options: [{ allowPattern: "^[a-z]+(_[a-z]+)+$" }], errors: [{ message: "[\"_dangle\"] is better written in dot notation." }],
-            output: "a._dangle;"
+            output: "a._dangle;",
+            options: [{ allowPattern: "^[a-z]+(_[a-z]+)+$" }], errors: [{ message: "[\"_dangle\"] is better written in dot notation." }]
         },
         {
             code: "a['SHOUT_CASE'];",
+            output: "a.SHOUT_CASE;",
             options: [{ allowPattern: "^[a-z]+(_[a-z]+)+$" }],
-            errors: [{ message: "[\"SHOUT_CASE\"] is better written in dot notation." }],
-            output: "a.SHOUT_CASE;"
+            errors: [{ message: "[\"SHOUT_CASE\"] is better written in dot notation." }]
         },
         {
             code:
                 "a\n" +
                 "  ['SHOUT_CASE'];",
+            output:
+                "a\n" +
+                "  .SHOUT_CASE;",
             errors: [{
                 message: "[\"SHOUT_CASE\"] is better written in dot notation.",
                 line: 2,
                 column: 4
-            }],
-            output:
-                "a\n" +
-                "  .SHOUT_CASE;"
+            }]
         },
         {
             code:
@@ -104,6 +104,12 @@ ruleTester.run("dot-notation", rule, {
             "    [\"catch\"](function(){})\n" +
             "    .then(function(){})\n" +
             "    [\"catch\"](function(){});",
+            output:
+            "getResource()\n" +
+            "    .then(function(){})\n" +
+            "    .catch(function(){})\n" +
+            "    .then(function(){})\n" +
+            "    .catch(function(){});",
             errors: [
                 {
                     message: "[\"catch\"] is better written in dot notation.",
@@ -115,44 +121,38 @@ ruleTester.run("dot-notation", rule, {
                     line: 5,
                     column: 6
                 }
-            ],
-            output:
-            "getResource()\n" +
-            "    .then(function(){})\n" +
-            "    .catch(function(){})\n" +
-            "    .then(function(){})\n" +
-            "    .catch(function(){});"
+            ]
         },
         {
             code:
             "foo\n" +
             "  .while;",
-            options: [{ allowKeywords: false }],
-            errors: [{ message: ".while is a syntax error." }],
             output:
             "foo\n" +
-            "  [\"while\"];"
+            "  [\"while\"];",
+            options: [{ allowKeywords: false }],
+            errors: [{ message: ".while is a syntax error." }]
         },
         {
             code: "foo[ /* comment */ 'bar' ]",
-            errors: [{ message: "[\"bar\"] is better written in dot notation." }],
-            output: null // Not fixed due to comment
+            output: null, // Not fixed due to comment
+            errors: [{ message: "[\"bar\"] is better written in dot notation." }]
         },
         {
             code: "foo[ 'bar' /* comment */ ]",
-            errors: [{ message: "[\"bar\"] is better written in dot notation." }],
-            output: null // Not fixed due to comment
+            output: null, // Not fixed due to comment
+            errors: [{ message: "[\"bar\"] is better written in dot notation." }]
         },
         {
             code: "foo[    'bar'    ];",
-            errors: [{ message: "[\"bar\"] is better written in dot notation." }],
-            output: "foo.bar;"
+            output: "foo.bar;",
+            errors: [{ message: "[\"bar\"] is better written in dot notation." }]
         },
         {
             code: "foo. /* comment */ while",
+            output: null, // Not fixed due to comment
             options: [{ allowKeywords: false }],
-            errors: [{ message: ".while is a syntax error." }],
-            output: null // Not fixed due to comment
+            errors: [{ message: ".while is a syntax error." }]
         },
         {
             code: "foo[('bar')]",

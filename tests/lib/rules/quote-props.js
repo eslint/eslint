@@ -60,10 +60,10 @@ ruleTester.run("quote-props", rule, {
         { code: "({ '@': 0, 'B': 0 })", options: ["consistent-as-needed"] },
         { code: "({ 'while': 0, 'B': 0 })", options: ["consistent-as-needed", { keywords: true }] },
         { code: "({ '@': 0, 'B': 0 })", options: ["consistent-as-needed", { keywords: true }] },
-        { code: "({ '@': 1, [x]: 0 });", env: { es6: true }, options: ["consistent-as-needed"] },
-        { code: "({ '@': 1, x });", env: { es6: true }, options: ["consistent-as-needed"] },
-        { code: "({ a: 1, [x]: 0 });", env: { es6: true }, options: ["consistent-as-needed"] },
-        { code: "({ a: 1, x });", env: { es6: true }, options: ["consistent-as-needed"] },
+        { code: "({ '@': 1, [x]: 0 });", options: ["consistent-as-needed"], env: { es6: true } },
+        { code: "({ '@': 1, x });", options: ["consistent-as-needed"], env: { es6: true } },
+        { code: "({ a: 1, [x]: 0 });", options: ["consistent-as-needed"], env: { es6: true } },
+        { code: "({ a: 1, x });", options: ["consistent-as-needed"], env: { es6: true } },
         { code: "({ a: 0, 'if': 0 })", options: ["as-needed", { keywords: true }] },
         { code: "({ a: 0, 'while': 0 })", options: ["as-needed", { keywords: true }] },
         { code: "({ a: 0, 'volatile': 0 })", options: ["as-needed", { keywords: true }] },
@@ -147,19 +147,19 @@ ruleTester.run("quote-props", rule, {
     }, {
         code: "({ 'a': 0, [x]: 0 })",
         output: "({ a: 0, [x]: 0 })",
-        env: { es6: true },
         options: ["consistent-as-needed"],
         errors: [
             { message: "Properties shouldn't be quoted as all quotes are redundant.", type: "Property" }
-        ]
+        ],
+        env: { es6: true }
     }, {
         code: "({ 'a': 0, x })",
         output: "({ a: 0, x })",
-        env: { es6: true },
         options: ["consistent-as-needed"],
         errors: [{
             message: "Properties shouldn't be quoted as all quotes are redundant.", type: "Property"
-        }]
+        }],
+        env: { es6: true }
     }, {
         code: "({ 'true': 0, 'null': 0 })",
         output: "({ true: 0, null: 0 })",

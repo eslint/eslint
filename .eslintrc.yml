@@ -13,3 +13,4 @@ rules:
     eslint-plugin/prefer-output-null: "error"
     eslint-plugin/prefer-placeholders: "error"
     eslint-plugin/report-message-format: ["error", '[^a-z].*\.$']
+    eslint-plugin/test-case-property-ordering: "error"
