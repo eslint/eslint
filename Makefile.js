@@ -671,9 +671,9 @@ target.gensite = function(prereleaseVersion) {
     const FIXABLE_TEXT = "\n\n(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) can automatically fix some of the problems reported by this rule.";
 
     // 4. Loop through all files in temporary directory
-    process.stdout.write(`> Updating files (Steps 4-9): 0/... - ...\r`);
+    process.stdout.write("> Updating files (Steps 4-9): 0/... - ...\r");
     const tempFiles = find(TEMP_DIR);
-    const { length } = tempFiles;
+    const length = tempFiles.length;
 
     tempFiles.forEach((filename, i) => {
         if (test("-f", filename) && path.extname(filename) === ".md") {
@@ -687,7 +687,7 @@ target.gensite = function(prereleaseVersion) {
             let text = cat(filename),
                 title;
 
-            process.stdout.write(`> Updating files (Steps 4-9): ${i}/${length} - ${sourcePath + ' '.repeat(30)}\r`);
+            process.stdout.write(`> Updating files (Steps 4-9): ${i}/${length} - ${sourcePath + " ".repeat(30)}\r`);
 
             // 5. Prepend page title and layout variables at the top of rules
             if (path.dirname(filename).indexOf("rules") >= 0) {
@@ -705,15 +705,15 @@ target.gensite = function(prereleaseVersion) {
                 text = `${ruleHeading}${isRecommended ? RECOMMENDED_TEXT : ""}${isFixable ? FIXABLE_TEXT : ""}\n${ruleDocsContent}`;
 
                 text = [
-                    '---',
+                    "---",
                     `title: ${ruleName} - Rules`,
-                    'layout: doc',
+                    "layout: doc",
                     filename.indexOf("rules/") !== -1 && `edit_link: https://github.com/eslint/eslint/edit/master/docs/rules${baseName}`,
-                    '---',
-                    '<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->',
-                    '',
+                    "---",
+                    "<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->",
+                    "",
                     text
-                ].filter(x => x).join('\n');
+                ].filter(x => x).join("\n");
             } else {
 
                 // extract the title from the file itself
@@ -724,15 +724,15 @@ target.gensite = function(prereleaseVersion) {
                     title = "Documentation";
                 }
                 text = [
-                    '---',
+                    "---",
                     `title: ${title}`,
-                    'layout: doc',
+                    "layout: doc",
                     `edit_link: https://github.com/eslint/eslint/edit/master/${sourcePath}`,
-                    '---',
-                    '<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->',
-                    '',
+                    "---",
+                    "<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->",
+                    "",
                     text
-                ].filter(x => x).join('\n');
+                ].filter(x => x).join("\n");
             }
 
             // 6. Remove .md extension for relative links and change README to empty string
@@ -772,7 +772,7 @@ target.gensite = function(prereleaseVersion) {
         }
     });
     JSON.stringify(versions).to("./versions.json");
-    echo("> Updating files (Steps 4-9)" + " ".repeat(50));
+    echo(`> Updating files (Steps 4-9)${" ".repeat(50)}`);
 
     // 10. Copy temporary directory to site's docs folder
     echo("> Copying the temporary directory the site (Step 10)");
