@@ -67,7 +67,9 @@ ruleTester.run("getter-return", rule, {
         { code: "var foo = { bar(){ return true; } };" },
         { code: "var foo = { bar: function(){} };" },
         { code: "var foo = { bar: function(){return;} };" },
-        { code: "var foo = { bar: function(){return true;} };" }
+        { code: "var foo = { bar: function(){return true;} };" },
+        { code: "var foo = { get: function () {} }" },
+        { code: "var foo = { get: () => {}};" }
     ],
 
     invalid: [
@@ -95,6 +97,7 @@ ruleTester.run("getter-return", rule, {
         // test object.defineProperty(s)
         // option: {allowImplicit: false}
         { code: "Object.defineProperty(foo, \"bar\", { get: function (){}});", errors: [{ noReturnMessage }] },
+        { code: "Object.defineProperty(foo, \"bar\", { get: () => {}});", errors: [{ noReturnMessage }] },
         { code: "Object.defineProperty(foo, \"bar\", { get: function (){if(bar) {return true;}}});", errors: [{ message: "Expected method 'get' to always return a value." }] },
         { code: "Object.defineProperty(foo, \"bar\", { get: function (){ ~function () { return true; }()}});", errors: [{ noReturnMessage }] },
         { code: "Object.defineProperties(foo, { bar: { get: function () {}} });", options, errors: [{ noReturnMessage }] },
