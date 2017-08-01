@@ -287,10 +287,6 @@ Examples of **correct** code for this rule with the `2, { "MemberExpression": 1 
 foo
   .bar
   .baz();
-
-// Any indentation is permitted in variable declarations and assignments.
-var bip = aardvark.badger
-                  .coyote;
 ```
 
 ### FunctionDeclaration
