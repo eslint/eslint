@@ -47,6 +47,8 @@ process.once("uncaughtException", err => {
         console.error("\nOops! Something went wrong! :(");
         console.error(`\n${template(err.messageData || {})}`);
     } else {
+
+        console.error(err.message);
         console.error(err.stack);
     }
 
