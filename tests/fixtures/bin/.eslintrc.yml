@@ -1,5 +1,5 @@
 # intentionally invalid YML
 rules:
   semi: error
-yoda: error
+  yoda: error
   quotes: error
