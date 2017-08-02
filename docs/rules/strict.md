@@ -69,7 +69,7 @@ The `"safe"` option corresponds to the `"global"` option if ESLint considers a f
 * `node` or `commonjs` [environments](../user-guide/configuring#specifying-environments)
 * `"globalReturn": true` property in the `ecmaFeatures` object of [parser options](../user-guide/configuring#specifying-parser-options)
 
-Otherwise the `"safe"` option corresponds to the `"function"` option.
+Otherwise the `"safe"` option corresponds to the `"function"` option. Note that if `"globalReturn": false` is explicitly specified in the configuration, the `"safe"` option will correspond to the `"function"` option regardless of the specified environment.
 
 ### global
 
