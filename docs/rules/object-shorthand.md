@@ -89,7 +89,7 @@ The rule takes an option which specifies when it should be applied. It can be se
 
 * `"always"` expects that the shorthand will be used whenever possible.
 * `"methods"` ensures the method shorthand is used (also applies to generators).
-* `"properties` ensures the property shorthand is used (where the key and variable name match).
+* `"properties"` ensures the property shorthand is used (where the key and variable name match).
 * `"never"` ensures that no property or method shorthand is used in any object literal.
 
 You can set the option in configuration like this:
