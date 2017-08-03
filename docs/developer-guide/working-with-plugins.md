@@ -248,26 +248,26 @@ exports.parseForESLint = function(code, options) {
 
 ### The AST specification
 
-The AST that custom parsers should create is based on [ESTree](https://github.com/estree/estree) basically. The AST requires some additional properties about detail information of the source code.
+The AST that custom parsers should create is based on [ESTree](https://github.com/estree/estree). The AST requires some additional properties about detail information of the source code.
 
 #### All nodes:
 
 All nodes must have `range` property.
 
-* `range` (`number[]`) is the array of two numbers. Both numbers are a 0-based index which is the position in the array of source code characters. The first is the start position of the node, the second is the end position of the node. `code.slice(node.range[0], node.range[1])` must be the text of the node. This range does not include spaces which are around the node.
+* `range` (`number[]`) is an array of two numbers. Both numbers are a 0-based index which is the position in the array of source code characters. The first is the start position of the node, the second is the end position of the node. `code.slice(node.range[0], node.range[1])` must be the text of the node. This range does not include spaces/parentheses which are around the node.
 * `loc` (`SourceLocation`) must not be `null`. [The `loc` property is defined as nullable by ESTree](https://github.com/estree/estree/blob/25834f7247d44d3156030f8e8a2d07644d771fdb/es5.md#node-objects), but ESLint requires this property. On the other hand, `SourceLocation#source` property can be `undefined`. ESLint does not use the `SourceLocation#source` property.
 
-The `parent` property of all nodes must be rewriteable. ESLint set their parent node to the `parent` properties while traversing.
+The `parent` property of all nodes must be rewriteable. ESLint sets each node's parent properties to its parent node while traversing.
 
 #### The `Program` node:
 
-The `Program` node must have `tokens` and `comments` properties. Both properties are the array of the below Token interface.
+The `Program` node must have `tokens` and `comments` properties. Both properties are an array of the below Token interface.
 
 ```ts
 interface Token {
     type: string;
     loc: SourceLocation;
-    range: [number, number];
+    range: [number, number]; // See "All nodes:" section for details of `range` property.
     value: string;
 }
 ```
@@ -275,7 +275,7 @@ interface Token {
 * `tokens` (`Token[]`) is the array of tokens which affect the behavior of programs. Arbitrary spaces can exist between tokens, so rules check the `Token#range` to detect spaces between tokens. This must be sorted by `Token#range[0]`.
 * `comments` (`Token[]`) is the array of comment tokens. This must be sorted by `Token#range[0]`.
 
-The `tokens` and the `comments` must not be overlapped themselves and each other.
+The range indexes of all tokens and comments must not overlap with the range of other tokens and comments.
 
 #### The `Literal` node:
 
