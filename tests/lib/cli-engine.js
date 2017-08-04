@@ -34,10 +34,12 @@ describe("CLIEngine", () => {
     const examplePluginName = "eslint-plugin-example",
         examplePluginNameWithNamespace = "@eslint/eslint-plugin-example",
         requireStubs = {},
-        examplePlugin = { rules: {
-            "example-rule": require("../fixtures/rules/custom-rule"),
-            "make-syntax-error": require("../fixtures/rules/make-syntax-error-rule")
-        } },
+        examplePlugin = {
+            rules: {
+                "example-rule": require("../fixtures/rules/custom-rule"),
+                "make-syntax-error": require("../fixtures/rules/make-syntax-error-rule")
+            }
+        },
         examplePreprocessorName = "eslint-plugin-processor",
         originalDir = process.cwd();
     let CLIEngine,

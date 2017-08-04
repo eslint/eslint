@@ -38,7 +38,8 @@ ruleTester.run("no-restricted-imports", rule, {
         }
     ],
     invalid: [{
-        code: "import \"fs\"", options: ["fs"],
+        code: "import \"fs\"",
+        options: ["fs"],
         errors: [{ message: "'fs' import is restricted from being used.", type: "ImportDeclaration" }]
     }, {
         code: "import os from \"os \";",

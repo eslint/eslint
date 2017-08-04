@@ -192,32 +192,38 @@ ruleTester.run("no-implicit-coercion", rule, {
             errors: [{ message: "use `foo = String(foo)` instead.", type: "AssignmentExpression" }]
         },
         {
-            code: "var a = !!foo", output: "var a = Boolean(foo)",
+            code: "var a = !!foo",
+            output: "var a = Boolean(foo)",
             options: [{ boolean: true, allow: ["~"] }],
             errors: [{ message: "use `Boolean(foo)` instead.", type: "UnaryExpression" }]
         },
         {
-            code: "var a = ~foo.indexOf(1)", output: null,
+            code: "var a = ~foo.indexOf(1)",
+            output: null,
             options: [{ boolean: true, allow: ["!!"] }],
             errors: [{ message: "use `foo.indexOf(1) !== -1` instead.", type: "UnaryExpression" }]
         },
         {
-            code: "var a = 1 * foo", output: "var a = Number(foo)",
+            code: "var a = 1 * foo",
+            output: "var a = Number(foo)",
             options: [{ boolean: true, allow: ["+"] }],
             errors: [{ message: "use `Number(foo)` instead.", type: "BinaryExpression" }]
         },
         {
-            code: "var a = +foo", output: "var a = Number(foo)",
+            code: "var a = +foo",
+            output: "var a = Number(foo)",
             options: [{ boolean: true, allow: ["*"] }],
             errors: [{ message: "use `Number(foo)` instead.", type: "UnaryExpression" }]
         },
         {
-            code: "var a = \"\" + foo", output: "var a = String(foo)",
+            code: "var a = \"\" + foo",
+            output: "var a = String(foo)",
             options: [{ boolean: true, allow: ["*"] }],
             errors: [{ message: "use `String(foo)` instead.", type: "BinaryExpression" }]
         },
         {
-            code: "var a = `` + foo", output: "var a = String(foo)",
+            code: "var a = `` + foo",
+            output: "var a = String(foo)",
             options: [{ boolean: true, allow: ["*"] }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "use `String(foo)` instead.", type: "BinaryExpression" }]
