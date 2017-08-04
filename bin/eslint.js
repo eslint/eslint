@@ -43,9 +43,10 @@ process.once("uncaughtException", err => {
 
     if (typeof err.messageTemplate === "string" && err.messageTemplate.length > 0) {
         const template = lodash.template(fs.readFileSync(path.resolve(__dirname, `../messages/${err.messageTemplate}.txt`), "utf-8"));
+        const pkg = require("../package.json");
 
         console.error("\nOops! Something went wrong! :(");
-        console.error(`\nESLint: ${cli.execute("-v")}.${template(err.messageData || {})}`);
+        console.error(`\nESLint: ${pkg.version}.${template(err.messageData || {})}`);
     } else {
 
         console.error(err.message);
