@@ -708,7 +708,7 @@ target.gensite = function(prereleaseVersion) {
                     "---",
                     `title: ${ruleName} - Rules`,
                     "layout: doc",
-                    filename.indexOf("rules/") !== -1 && `edit_link: https://github.com/eslint/eslint/edit/master/docs/rules/${baseName}`
+                    filename.indexOf("rules/") !== -1 && `edit_link: https://github.com/eslint/eslint/edit/master/docs/rules/${baseName}`,
                     "---",
                     "<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->",
                     "",
@@ -800,7 +800,7 @@ target.gensite = function(prereleaseVersion) {
     }
 
     // 14. Create Example Formatter Output Page
-    echo("> Creating the formatter examples (Step 13)");
+    echo("> Creating the formatter examples (Step 14)");
     generateFormatterExamples(getFormatterResults(), prereleaseVersion);
 
     echo("Done generating eslint.org");
