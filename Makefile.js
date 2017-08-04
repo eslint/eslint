@@ -708,7 +708,7 @@ target.gensite = function(prereleaseVersion) {
                     "---",
                     `title: ${ruleName} - Rules`,
                     "layout: doc",
-                    filename.indexOf("rules/") !== -1 && `edit_link: https://github.com/eslint/eslint/edit/master/docs/rules${baseName}`,
+                    filename.indexOf("rules/") !== -1 && `edit_link: https://github.com/eslint/eslint/edit/master/docs/rules/${baseName}`
                     "---",
                     "<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->",
                     "",
@@ -727,7 +727,7 @@ target.gensite = function(prereleaseVersion) {
                     "---",
                     `title: ${title}`,
                     "layout: doc",
-                    `edit_link: https://github.com/eslint/eslint/edit/master/${sourcePath}`,
+                    `edit_link: https://github.com/eslint/eslint/edit/master/${baseName}`,
                     "---",
                     "<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->",
                     "",
