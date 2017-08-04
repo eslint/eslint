@@ -45,7 +45,7 @@ process.once("uncaughtException", err => {
         const template = lodash.template(fs.readFileSync(path.resolve(__dirname, `../messages/${err.messageTemplate}.txt`), "utf-8"));
 
         console.error("\nOops! Something went wrong! :(");
-        console.error(`\n${template(err.messageData || {})}`);
+        console.error(`\nESLint: ${cli.execute("-v")}.${template(err.messageData || {})}`);
     } else {
 
         console.error(err.message);
