@@ -71,6 +71,41 @@ describe("bin/eslint.js", () => {
             return assertExitCode(child, 0);
         });
 
+        it("has exit code 0 if no linting errors are reported", () => {
+            const child = runESLint([
+                "--stdin",
+                "--no-eslintrc",
+                "--rule",
+                "{'no-extra-semi': 2}",
+                "--fix-dry-run",
+                "--format",
+                "json"
+            ]);
+
+            const expectedOutput = JSON.stringify([
+                {
+                    filePath: "<text>",
+                    messages: [],
+                    errorCount: 0,
+                    warningCount: 0,
+                    fixableErrorCount: 0,
+                    fixableWarningCount: 0,
+                    output: "var foo = bar;\n"
+                }
+            ]);
+
+            const exitCodePromise = assertExitCode(child, 0);
+            const stdoutPromise = getOutput(child).then(output => {
+                assert.strictEqual(output.stdout.trim(), expectedOutput);
+                assert.strictEqual(output.stderr, "");
+            });
+
+            child.stdin.write("var foo = bar;;\n");
+            child.stdin.end();
+
+            return Promise.all([exitCodePromise, stdoutPromise]);
+        });
+
         it("has exit code 1 if a syntax error is thrown", () => {
             const child = runESLint(["--stdin", "--no-eslintrc"]);
 
