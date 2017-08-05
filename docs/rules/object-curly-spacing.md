@@ -37,6 +37,12 @@ Object option:
 * `"arraysInObjects": false` disallows spacing inside of braces of objects beginning and/or ending with an array element (applies when the first option is set to `always`)
 * `"objectsInObjects": true` requires spacing inside of braces of objects beginning and/or ending with an object element (applies when the first option is set to `never`)
 * `"objectsInObjects": false` disallows spacing inside of braces of objects beginning and/or ending with an object element (applies when the first option is set to `always`)
+* `"import": true` requires spacing inside of braces of ES6 import statements (applies when the first option is set to `never`)
+* `"import": false` disallows spacing inside of braces of ES6 import statements (applies when the first option is set to `always`)
+* `"export": true` requires spacing inside of braces of ES6 export statements (applies when the first option is set to `never`)
+* `"export": false` disallows spacing inside of braces of ES6 export statements (applies when the first option is set to `always`)
+* `"destructuringAssignment": true` requires spacing inside of braces of ES6 destructuring assignment results (applies when the first option is set to `never`)
+* `"destructuringAssignment": false` disallows spacing inside of braces of ES6 destructuring assignment results (applies when the first option is set to `always`)
 
 ### never
 
@@ -51,6 +57,7 @@ var obj = { baz: {'foo': 'qux'}, bar};
 var obj = {baz: { 'foo': 'qux'}, bar};
 var {x } = y;
 import { foo } from 'bar';
+export { bar };
 ```
 
 Examples of **correct** code for this rule with the default `"never"` option:
@@ -70,6 +77,7 @@ var obj = {
 var obj = {};
 var {x} = y;
 import {foo} from 'bar';
+export {bar};
 ```
 
 ### always
@@ -89,6 +97,7 @@ var obj = {
   'foo':'bar'};
 var {x} = y;
 import {foo } from 'bar';
+export {bar };
 ```
 
 Examples of **correct** code for this rule with the `"always"` option:
@@ -104,6 +113,7 @@ var obj = {
 };
 var { x } = y;
 import { foo } from 'bar';
+export { bar };
 ```
 
 #### arraysInObjects
@@ -143,6 +153,60 @@ Examples of additional **correct** code for this rule with the `"always", { "obj
 /*eslint object-curly-spacing: ["error", "always", { "objectsInObjects": false }]*/
 
 var obj = { "foo": { "baz": 1, "bar": 2 }};
+```
+
+#### import
+
+Examples of additional **correct** code for this rule with the `"never", { "import": true }` options:
+
+```js
+/*eslint object-curly-spacing: ["error", "never", { "import": true }]*/
+
+import {foo} from 'bar';
+```
+
+Examples of additional **correct** code for this rule with the `"always", { "import": false }` options:
+
+```js
+/*eslint object-curly-spacing: ["error", "always", { "import": false }]*/
+
+import { foo } from 'bar';
+```
+
+#### export
+
+Examples of additional **correct** code for this rule with the `"never", { "export": true }` options:
+
+```js
+/*eslint object-curly-spacing: ["error", "never", { "export": true }]*/
+
+export {bar};
+```
+
+Examples of additional **correct** code for this rule with the `"always", { "export": false }` options:
+
+```js
+/*eslint object-curly-spacing: ["error", "always", { "export": false }]*/
+
+export { bar };
+```
+
+#### destructuringAssignment
+
+Examples of additional **correct** code for this rule with the `"never", { "destructuringAssignment": true }` options:
+
+```js
+/*eslint object-curly-spacing: ["error", "never", { "destructuringAssignment": true }]*/
+
+var {x} = y;
+```
+
+Examples of additional **correct** code for this rule with the `"always", { "destructuringAssignment": false }` options:
+
+```js
+/*eslint object-curly-spacing: ["error", "always", { "destructuringAssignment": false }]*/
+
+var { x } = y;
 ```
 
 ## When Not To Use It

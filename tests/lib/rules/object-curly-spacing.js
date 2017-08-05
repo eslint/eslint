@@ -62,7 +62,8 @@ ruleTester.run("object-curly-spacing", rule, {
         // always - objectsInObjects
         { code: "var obj = { 'foo': { 'bar': 1, 'baz': 2 }};", options: ["always", { objectsInObjects: false }] },
         { code: "var a = { noop: function () {} };", options: ["always", { objectsInObjects: false }] },
-        { code: "var { y: { z }} = x", options: ["always", { objectsInObjects: false }], parserOptions: { ecmaVersion: 6 } },
+        { code: "var { y: { z } } = x;", options: ["always", { objectsInObjects: false }], parserOptions: { ecmaVersion: 6 } },
+        { code: "var { y: { z } } = { x: {}};", options: ["always", { objectsInObjects: false }], parserOptions: { ecmaVersion: 6 } },
 
         // always - arraysInObjects
         { code: "var obj = { 'foo': [ 1, 2 ]};", options: ["always", { arraysInObjects: false }] },
@@ -73,6 +74,20 @@ ruleTester.run("object-curly-spacing", rule, {
 
         // always - arraysInObjects, objectsInObjects (reverse)
         { code: "var obj = { 'foo': { 'bar': 1, 'baz': 2 }, 'qux': [ 1, 2 ]};", options: ["always", { arraysInObjects: false, objectsInObjects: false }] },
+
+        // always - import
+        { code: "import {x} from 'foo';", options: ["always", { import: false }], parserOptions: { sourceType: "module" } },
+        { code: "import {x, y} from 'foo';", options: ["always", { import: false }], parserOptions: { sourceType: "module" } },
+
+        // always - export
+        { code: "export {door};", options: ["always", { export: false }], parserOptions: { sourceType: "module" } },
+        { code: "export {house, mouse} from 'caravan';", options: ["always", { export: false }], parserOptions: { sourceType: "module" } },
+
+        // always - destructuringAssignment
+        { code: "var {y, z} = x;", options: ["always", { destructuringAssignment: false }], parserOptions: { ecmaVersion: 6 } },
+        { code: "var {y: {z}} = x;", options: ["always", { destructuringAssignment: false }], parserOptions: { ecmaVersion: 6 } },
+        { code: "var {y = 10, z} = x;", options: ["always", { destructuringAssignment: false }], parserOptions: { ecmaVersion: 6 } },
+        { code: "var {y = 10, z} = { x };", options: ["always", { destructuringAssignment: false }], parserOptions: { ecmaVersion: 6 } },
 
         // never
         { code: "var obj = {foo: bar,\nbaz: qux\n};", options: ["never"] },
@@ -123,6 +138,21 @@ ruleTester.run("object-curly-spacing", rule, {
 
         // never - objectsInObjects
         { code: "var obj = {'foo': {'bar': 1, 'baz': 2} };", options: ["never", { objectsInObjects: true }] },
+        { code: "var {y: {z}} = {x: {} };", options: ["never", { objectsInObjects: true }], parserOptions: { ecmaVersion: 6 } },
+
+        // never - import
+        { code: "import { x } from 'foo';", options: ["never", { import: true }], parserOptions: { sourceType: "module" } },
+        { code: "import { x, y } from 'foo';", options: ["never", { import: true }], parserOptions: { sourceType: "module" } },
+
+        // always - export
+        { code: "export { door };", options: ["never", { export: true }], parserOptions: { sourceType: "module" } },
+        { code: "export { house, mouse } from 'caravan';", options: ["never", { export: true }], parserOptions: { sourceType: "module" } },
+
+        // never - destructuringAssignment
+        { code: "var { y, z } = x;", options: ["never", { destructuringAssignment: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "var { y: { z } } = x;", options: ["never", { destructuringAssignment: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "var { y = 10, z } = x;", options: ["never", { destructuringAssignment: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "var { y = 10, z } = {x};", options: ["never", { destructuringAssignment: true }], parserOptions: { ecmaVersion: 6 } },
 
         // https://github.com/eslint/eslint/issues/3658
         // Empty cases.
