@@ -58,12 +58,15 @@ foo(function bar() {});
 __ES6 Arrow Functions__, when used to describe a callback, are lexically bound to the surrounding context/scope _automatically_, which eliminates the need to combine __ES5 Function Expressions__ with `bind()` and `this` to achieve similar behavior.
 
 By default `{"allowUnboundThis": true}`, eslint _loosely_ enforces this option. When `false`, eslint _strictly_ enforces the option.
-#### Behavior when `true` (LOOSE):
+
+Behavior when `true` (LOOSE):
+
 - __ALLOWED__: ES5 Function Expression callbacks containing the `this` keyword, __AS LONG AS__ the function in question __HAS NOT__ been _explicitly bound_.
 - __NOT ALLOWED__: Callbacks described using ES5 Function Expression syntax that contains use of the `this` keyword, and has been _explicitly bound_.
 
-#### Behavior when `false` (STRICT):
-- __ALLOWED__: Callbacks containing `this` are only allowed if described using ES6 Arrow Function syntax.
+Behavior when `false` (STRICT):
+
+- __ALLOWED__: Callbacks containing `this` are not allowed unless described using ES6 Arrow Function syntax.
 - __NOT ALLOWED__: Any use of `this` from within an ES5 Function Expression callback, whether _explicitly bound_ or not.
 
 Examples of **incorrect** code for `{ "allowUnboundThis": false }`:
