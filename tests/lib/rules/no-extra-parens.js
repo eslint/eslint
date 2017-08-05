@@ -321,57 +321,84 @@ ruleTester.run("no-extra-parens", rule, {
 
         // ["all", { ignoreJSX: "all" }]
         { code: "const Component = (<div />)", options: ["all", { ignoreJSX: "all" }] },
-        { code: [
-            "const Component = (<div>",
-            "  <p />",
-            "</div>);"
-        ].join("\n"), options: ["all", { ignoreJSX: "all" }] },
-        { code: [
-            "const Component = (",
-            "  <div />",
-            ");"
-        ].join("\n"), options: ["all", { ignoreJSX: "all" }] },
-        { code: [
-            "const Component =",
-            "  (<div />)"
-        ].join("\n"), options: ["all", { ignoreJSX: "all" }] },
+        {
+            code: [
+                "const Component = (<div>",
+                "  <p />",
+                "</div>);"
+            ].join("\n"),
+            options: ["all", { ignoreJSX: "all" }]
+        },
+        {
+            code: [
+                "const Component = (",
+                "  <div />",
+                ");"
+            ].join("\n"),
+            options: ["all", { ignoreJSX: "all" }]
+        },
+        {
+            code: [
+                "const Component =",
+                "  (<div />)"
+            ].join("\n"),
+            options: ["all", { ignoreJSX: "all" }]
+        },
 
         // ["all", { ignoreJSX: "single-line" }]
         { code: "const Component = (<div />);", options: ["all", { ignoreJSX: "single-line" }] },
-        { code: [
-            "const Component = (",
-            "  <div />",
-            ");"
-        ].join("\n"), options: ["all", { ignoreJSX: "single-line" }] },
-        { code: [
-            "const Component =",
-            "(<div />)"
-        ].join("\n"), options: ["all", { ignoreJSX: "single-line" }] },
+        {
+            code: [
+                "const Component = (",
+                "  <div />",
+                ");"
+            ].join("\n"),
+            options: ["all", { ignoreJSX: "single-line" }]
+        },
+        {
+            code: [
+                "const Component =",
+                "(<div />)"
+            ].join("\n"),
+            options: ["all", { ignoreJSX: "single-line" }]
+        },
 
         // ["all", { ignoreJSX: "multi-line" }]
-        { code: [
-            "const Component = (",
-            "<div>",
-            "  <p />",
-            "</div>",
-            ");"
-        ].join("\n"), options: ["all", { ignoreJSX: "multi-line" }] },
-        { code: [
-            "const Component = (<div>",
-            "  <p />",
-            "</div>);"
-        ].join("\n"), options: ["all", { ignoreJSX: "multi-line" }] },
-        { code: [
-            "const Component =",
-            "(<div>",
-            "  <p />",
-            "</div>);"
-        ].join("\n"), options: ["all", { ignoreJSX: "multi-line" }] },
-        { code: [
-            "const Component = (<div",
-            "  prop={true}",
-            "/>)"
-        ].join("\n"), options: ["all", { ignoreJSX: "multi-line" }] },
+        {
+            code: [
+                "const Component = (",
+                "<div>",
+                "  <p />",
+                "</div>",
+                ");"
+            ].join("\n"),
+            options: ["all", { ignoreJSX: "multi-line" }]
+        },
+        {
+            code: [
+                "const Component = (<div>",
+                "  <p />",
+                "</div>);"
+            ].join("\n"),
+            options: ["all", { ignoreJSX: "multi-line" }]
+        },
+        {
+            code: [
+                "const Component =",
+                "(<div>",
+                "  <p />",
+                "</div>);"
+            ].join("\n"),
+            options: ["all", { ignoreJSX: "multi-line" }]
+        },
+        {
+            code: [
+                "const Component = (<div",
+                "  prop={true}",
+                "/>)"
+            ].join("\n"),
+            options: ["all", { ignoreJSX: "multi-line" }]
+        },
 
         // ["all", { enforceForArrowConditionals: false }]
         { code: "var a = b => 1 ? 2 : 3", options: ["all", { enforceForArrowConditionals: false }] },

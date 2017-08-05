@@ -403,10 +403,13 @@ describe("RuleTester", () => {
                     "Eval(foo)"
                 ],
                 invalid: [
-                    { code: "eval(foo)", errors: [
-                        { message: "eval sucks.", type: "CallExpression" },
-                        { message: "eval sucks.", type: "CallExpression" }
-                    ] }
+                    {
+                        code: "eval(foo)",
+                        errors: [
+                            { message: "eval sucks.", type: "CallExpression" },
+                            { message: "eval sucks.", type: "CallExpression" }
+                        ]
+                    }
                 ]
             });
         }, /Should have 2 errors but had 1/);

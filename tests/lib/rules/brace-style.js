@@ -315,7 +315,8 @@ ruleTester.run("brace-style", rule, {
         {
             code: "if (a) { \nb();\n } else { \nc();\n }",
             output: "if (a) { \nb();\n }\n else { \nc();\n }",
-            options: ["stroustrup"], errors: [{ message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "Punctuator" }]
+            options: ["stroustrup"],
+            errors: [{ message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "Punctuator" }]
         },
         {
             code: "if (foo) {\nbaz();\n} else if (bar) {\nbaz();\n}\nelse {\nqux();\n}",

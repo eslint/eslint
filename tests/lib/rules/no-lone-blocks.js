@@ -63,9 +63,11 @@ ruleTester.run("no-lone-blocks", rule, {
         { code: "{var x = 1;}", errors: [{ message: "Block is redundant.", type: "BlockStatement" }] },
         { code: "foo(); {} bar();", errors: [{ message: "Block is redundant.", type: "BlockStatement" }] },
         { code: "if (foo) { bar(); {} baz(); }", errors: [{ message: "Nested block is redundant.", type: "BlockStatement" }] },
-        { code: "{ \n{ } }", errors: [
-            { message: "Block is redundant.", type: "BlockStatement", line: 1 },
-            { message: "Nested block is redundant.", type: "BlockStatement", line: 2 }]
+        {
+            code: "{ \n{ } }",
+            errors: [
+                { message: "Block is redundant.", type: "BlockStatement", line: 1 },
+                { message: "Nested block is redundant.", type: "BlockStatement", line: 2 }]
         },
         { code: "function foo() { bar(); {} baz(); }", errors: [{ message: "Nested block is redundant.", type: "BlockStatement" }] },
         { code: "while (foo) { {} }", errors: [{ message: "Nested block is redundant.", type: "BlockStatement" }] },
