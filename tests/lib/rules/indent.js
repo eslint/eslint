@@ -3482,6 +3482,46 @@ ruleTester.run("indent", rule, {
             code: "import 'foo'",
             parserOptions: { sourceType: "module" }
         },
+        {
+            code: unIndent`
+                import { foo,
+                    bar,
+                    baz,
+                } from 'qux';
+            `,
+            options: [4, { ImportDeclaration: 1 }],
+            parserOptions: { sourceType: "module" }
+        },
+        {
+            code: unIndent`
+                import {
+                    foo,
+                    bar,
+                    baz,
+                } from 'qux';
+            `,
+            options: [4, { ImportDeclaration: 1 }],
+            parserOptions: { sourceType: "module" }
+        },
+        {
+            code: unIndent`
+                import { apple as a,
+                         banana as b } from 'fruits';
+                import { cat } from 'animals';
+            `,
+            options: [4, { ImportDeclaration: "first" }],
+            parserOptions: { sourceType: "module" }
+        },
+        {
+            code: unIndent`
+                import { declaration,
+                                 can,
+                                  be,
+                              turned } from 'off';
+            `,
+            options: [4, { ImportDeclaration: "off" }],
+            parserOptions: { sourceType: "module" }
+        },
 
         // https://github.com/eslint/eslint/issues/8455
         {
@@ -7433,6 +7473,40 @@ ruleTester.run("indent", rule, {
             `,
             parserOptions: { sourceType: "module" },
             errors: expectedErrors([[2, 4, 0, "Identifier"], [3, 4, 2, "Identifier"]])
+        },
+        {
+            code: unIndent`
+                import { foo,
+                         bar,
+                          baz,
+                } from 'qux';
+            `,
+            output: unIndent`
+                import { foo,
+                         bar,
+                         baz,
+                } from 'qux';
+            `,
+            options: [4, { ImportDeclaration: "first" }],
+            parserOptions: { sourceType: "module" },
+            errors: expectedErrors([[3, 9, 10, "Identifier"]])
+        },
+        {
+            code: unIndent`
+                import { foo,
+                    bar,
+                     baz,
+                } from 'qux';
+            `,
+            output: unIndent`
+                import { foo,
+                    bar,
+                    baz,
+                } from 'qux';
+            `,
+            options: [2, { ImportDeclaration: 2 }],
+            parserOptions: { sourceType: "module" },
+            errors: expectedErrors([[3, 4, 5, "Identifier"]])
         },
         {
             code: unIndent`
