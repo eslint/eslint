@@ -76,7 +76,8 @@ ruleTester.run("dot-notation", rule, {
         {
             code: "a['_dangle'];",
             output: "a._dangle;",
-            options: [{ allowPattern: "^[a-z]+(_[a-z]+)+$" }], errors: [{ message: "[\"_dangle\"] is better written in dot notation." }]
+            options: [{ allowPattern: "^[a-z]+(_[a-z]+)+$" }],
+            errors: [{ message: "[\"_dangle\"] is better written in dot notation." }]
         },
         {
             code: "a['SHOUT_CASE'];",

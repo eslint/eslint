@@ -115,7 +115,9 @@ rules:
     no-whitespace-before-property: "error"
     no-with: "error"
     no-var: "error"
+    object-curly-newline: ["error", { "consistent": true, "multiline": true }]
     object-curly-spacing: ["error", "always"]
+    object-property-newline: ["error", { "allowMultiplePropertiesPerLine": true }]
     object-shorthand: "error"
     one-var-declaration-per-line: "error"
     operator-assignment: "error"
