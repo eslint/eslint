@@ -4,10 +4,6 @@
 
 This rule requires function names to match the name of the variable or property to which they are assigned. The rule will ignore property assignments where the property name is a literal that is not a valid identifier in the ECMAScript version specified in your configuration (default ES5).
 
-## Options
-
-This rule takes an optional string of "always" or "never" (when omitted, it defaults to "always"), and an optional options object with one key, `includeCommonJSModuleExports`, and a boolean value. This option defaults to `false`, which means that `module.exports` and `module["exports"]` are ignored by this rule. If `includeCommonJSModuleExports` is set to true, `module.exports` and `module["exports"]` will be checked by this rule.
-
 Examples of **incorrect** code for this rule:
 
 ```js
@@ -19,14 +15,6 @@ obj.foo = function bar() {};
 obj['foo'] = function bar() {};
 var obj = {foo: function bar() {}};
 ({['foo']: function bar() {}});
-```
-
-```js
-/*eslint func-name-matching: ["error", { "includeCommonJSModuleExports": true }]*/
-/*eslint func-name-matching: ["error", "always", { "includeCommonJSModuleExports": true }]*/ // these are equivalent
-
-module.exports = function foo(name) {};
-module['exports'] = function foo(name) {};
 ```
 
 ```js
@@ -92,6 +80,50 @@ var obj = {foo: function() {}};
 obj['x' + 2] = function bar(){};
 var [ bar ] = [ function bar(){} ];
 ({[foo]: function bar() {}})
+
+module.exports = function foo(name) {};
+module['exports'] = function foo(name) {};
+```
+
+## Options
+
+This rule takes an optional string of "always" or "never" (when omitted, it defaults to "always"), and an optional options object with two properties `considerPropertyDescriptor` and `includeCommonJSModuleExports`.
+
+### considerPropertyDescriptor
+
+A boolean value that defaults to `false`. If `considerPropertyDescriptor` is set to true, the check will take into account the use `Object.create`, `Object.defineProperty`, and `Object.defineProperties`.
+
+Examples of **correct** code for the `{ considerPropertyDescriptor: true }` option:
+
+```js
+/*eslint func-name-matching: ["error", { "considerPropertyDescriptor": true }]*/
+/*eslint func-name-matching: ["error", "always", { "considerPropertyDescriptor": true }]*/ // these are equivalent
+var obj = {};
+Object.create(obj, {foo:{value: function foo() {}}});
+Object.defineProperty(obj, 'bar', {value: function bar() {}});
+Object.defineProperties(obj, {baz:{value: function baz() {} }});
+```
+
+Examples of **incorrect** code for the `{ considerPropertyDescriptor: true }` option:
+
+```js
+/*eslint func-name-matching: ["error", { "considerPropertyDescriptor": true }]*/
+/*eslint func-name-matching: ["error", "always", { "considerPropertyDescriptor": true }]*/ // these are equivalent
+var obj = {};
+Object.create(obj, {foo:{value: function bar() {}}});
+Object.defineProperty(obj, 'bar', {value: function baz() {}});
+Object.defineProperties(obj, {baz:{value: function foo() {} }});
+```
+
+### includeCommonJSModuleExports
+
+A boolean value that defaults to `false`. If `includeCommonJSModuleExports` is set to true, `module.exports` and `module["exports"]` will be checked by this rule.
+
+Examples of **incorrect** code for the `{ includeCommonJSModuleExports: true }` option:
+
+```js
+/*eslint func-name-matching: ["error", { "includeCommonJSModuleExports": true }]*/
+/*eslint func-name-matching: ["error", "always", { "includeCommonJSModuleExports": true }]*/ // these are equivalent
 
 module.exports = function foo(name) {};
 module['exports'] = function foo(name) {};
