@@ -40,7 +40,16 @@ ruleTester.run("no-unreachable", rule, {
         "function foo() { var x = 1; for (x in {}) { return; } x = 2; }",
         "function foo() { var x = 1; try { return; } finally { x = 2; } }",
         "function foo() { var x = 1; for (;;) { if (x) break; } x = 2; }",
-        "A: { break A; } foo()"
+        "A: { break A; } foo()",
+
+        // EmptyStatements should not be reported (see rule "no-empty")
+        // https://github.com/eslint/eslint/issues/9081
+        "switch (foo) { default: throw new Error(); };",
+        "function a() { if (foo) { return; } else { return; }; }",
+        "function foo() { return x; ; }",
+        "switch (foo) { default: throw new Error(); };;;;",
+        "function a() { if (foo) { return; } else { return; };;;; }",
+        "function foo() { return x; ;;;; }"
     ],
     invalid: [
         { code: "function foo() { return x; var x = 1; }", errors: [{ message: "Unreachable code.", type: "VariableDeclaration" }] },
@@ -185,6 +194,53 @@ ruleTester.run("no-unreachable", rule, {
                     endColumn: 25
                 }
             ]
+        },
+
+        // EmptyStatements should not be reported (see rule "no-empty")
+        // https://github.com/eslint/eslint/issues/9081
+        {
+            code: "switch (foo) { default: throw new Error(); }; bar();",
+            errors: [{
+                message: "Unreachable code.",
+                type: "EmptyStatement",
+                line: 1,
+                column: 45,
+                endLine: 1,
+                endColumn: 53
+            }]
+        },
+        {
+            code: "function a() { if (foo) { return; } else { return; }; bar(); }",
+            errors: [{
+                message: "Unreachable code.",
+                type: "EmptyStatement",
+                line: 1,
+                column: 53,
+                endLine: 1,
+                endColumn: 61
+            }]
+        },
+        {
+            code: "function foo() { return x; ; bar(); }",
+            errors: [{
+                message: "Unreachable code.",
+                type: "EmptyStatement",
+                line: 1,
+                column: 28,
+                endLine: 1,
+                endColumn: 36
+            }]
+        },
+        {
+            code: "function foo() { return x; ;;;;; bar(); ;; }",
+            errors: [{
+                message: "Unreachable code.",
+                type: "EmptyStatement",
+                line: 1,
+                column: 28,
+                endLine: 1,
+                endColumn: 43
+            }]
         }
     ]
 });
