@@ -4915,6 +4915,24 @@ ruleTester.run("indent", rule, {
                     );
                 }
             `
+        },
+        {
+            code: unIndent`
+                a(b
+                  , c
+                )
+            `,
+            options: [2, { CallExpression: { arguments: "off" } }]
+        },
+        {
+            code: unIndent`
+                a(
+                  new B({
+                    c,
+                  })
+                );
+            `,
+            options: [2, { CallExpression: { arguments: "off" } }]
         }
     ],
 
