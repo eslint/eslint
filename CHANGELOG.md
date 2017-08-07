@@ -1,3 +1,7 @@
+v4.4.1 - August 7, 2017
+
+* ec93614 Fix: no-multi-spaces to avoid reporting consecutive tabs (fixes #9079) (#9087) (Teddy Katz)
+
 v4.4.0 - August 5, 2017
 
 * 89196fd Upgrade: Espree to 3.5.0 (#9074) (Gyandeep Singh)
