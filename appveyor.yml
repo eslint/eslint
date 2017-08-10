@@ -9,6 +9,10 @@ environment:
   matrix:
     - nodejs_version: 4
 
+branches:
+  only:
+    - master
+
 install:
   # Get the latest stable version of Node.js
   - ps: Install-Product node $env:nodejs_version

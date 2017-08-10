@@ -31,5 +31,5 @@ In your `.eslintrc` file, add:
 
 Join our [Mailing List](https://groups.google.com/group/eslint) or [Chatroom](https://gitter.im/eslint/eslint)
 
-[npm-image]: https://img.shields.io/npm/v/eslint.svg?style=flat-square
+[npm-image]: https://img.shields.io/npm/v/eslint-config-eslint.svg?style=flat-square
 [npm-url]: https://www.npmjs.com/package/eslint-config-eslint

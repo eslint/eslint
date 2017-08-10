@@ -31,6 +31,8 @@ This rule has an object option:
 
 * `"skipBlankLines": false` (default) disallows trailing whitespace on empty lines
 * `"skipBlankLines": true` allows trailing whitespace on empty lines
+* `"ignoreComments": false` (default) disallows trailing whitespace in comment blocks
+* `"ignoreComments": true` allows trailing whitespace in comment blocks
 
 ### skipBlankLines
 
@@ -42,4 +44,20 @@ Examples of **correct** code for this rule with the `{ "skipBlankLines": true }`
 var foo = 0;
 var baz = 5;
 //•••••
+```
+
+### ignoreComments
+
+Examples of **correct** code for this rule with the `{ "ignoreComments": true }` option:
+
+```js
+/*eslint no-trailing-spaces: ["error", { "ignoreComments": true }]*/
+
+//foo•
+//•••••
+/**
+ *•baz
+ *••
+ *•bar
+ */
 ```

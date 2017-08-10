@@ -65,8 +65,8 @@ ruleTester.run("camelcase", rule, {
         },
         {
             code: "var { category_id: category } = query;",
-            parserOptions: { ecmaVersion: 6 },
-            options: [{ properties: "never" }]
+            options: [{ properties: "never" }],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "import { camelCased } from \"external module\";",
@@ -178,16 +178,6 @@ ruleTester.run("camelcase", rule, {
             errors: [
                 {
                     message: "Identifier 'bar_baz' is not in camel case.",
-                    type: "Identifier"
-                }
-            ]
-        },
-        {
-            code: "obj.a_b = 2;",
-            options: [{ properties: "always" }],
-            errors: [
-                {
-                    message: "Identifier 'a_b' is not in camel case.",
                     type: "Identifier"
                 }
             ]

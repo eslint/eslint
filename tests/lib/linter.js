@@ -71,7 +71,7 @@ function getVariable(scope, name) {
 // Tests
 //------------------------------------------------------------------------------
 
-describe("eslint", () => {
+describe("Linter", () => {
     const filename = "filename.js";
     let sandbox, linter;
 
@@ -1105,7 +1105,7 @@ describe("eslint", () => {
             assert.strictEqual(messages[0].endColumn, 2);
         });
 
-        it("should not have 'endLine' and 'endColumn' when 'loc' property doe not have 'end' property.", () => {
+        it("should not have 'endLine' and 'endColumn' when 'loc' property does not have 'end' property.", () => {
             linter.on("Program", node => {
                 linter.report(
                     "test-rule",
@@ -1122,6 +1122,13 @@ describe("eslint", () => {
             assert.strictEqual(messages[0].endColumn, void 0);
         });
 
+        it("should infer an 'endLine' and 'endColumn' property when using the object-based context.report API", () => {
+            const messages = linter.verify("foo", { rules: { "no-undef": "error" } });
+
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].endLine, 1);
+            assert.strictEqual(messages[0].endColumn, 4);
+        });
     });
 
     describe("when evaluating code", () => {
@@ -2721,7 +2728,19 @@ describe("eslint", () => {
 
         it("should report multiple missing rules", () => {
             assert.isArray(resultsMultiple);
-            assert.equal(resultsMultiple[1].ruleId, "barfoo");
+
+            assert.deepEqual(
+                resultsMultiple[1],
+                {
+                    ruleId: "barfoo",
+                    message: "Definition for rule 'barfoo' was not found",
+                    line: 1,
+                    column: 1,
+                    severity: 1,
+                    source: "var answer = 6 * 7;",
+                    nodeType: void 0
+                }
+            );
         });
     });
 
@@ -2919,23 +2938,25 @@ describe("eslint", () => {
             };
             let ok = false;
 
-            linter.defineRules({ test(context) {
-                return {
-                    Program() {
-                        const scope = context.getScope();
-                        const sourceCode = context.getSourceCode();
-                        const comments = sourceCode.getAllComments();
+            linter.defineRules({
+                test(context) {
+                    return {
+                        Program() {
+                            const scope = context.getScope();
+                            const sourceCode = context.getSourceCode();
+                            const comments = sourceCode.getAllComments();
 
-                        assert.equal(1, comments.length);
+                            assert.equal(1, comments.length);
 
-                        const foo = getVariable(scope, "foo");
+                            const foo = getVariable(scope, "foo");
 
-                        assert.notOk(foo);
+                            assert.notOk(foo);
 
-                        ok = true;
-                    }
-                };
-            } });
+                            ok = true;
+                        }
+                    };
+                }
+            });
 
             linter.verify(code, config, { allowInlineConfig: false });
             assert(ok);
@@ -3010,23 +3031,25 @@ describe("eslint", () => {
             };
             let ok = false;
 
-            linter.defineRules({ test(context) {
-                return {
-                    Program() {
-                        const scope = context.getScope();
-                        const sourceCode = context.getSourceCode();
-                        const comments = sourceCode.getAllComments();
+            linter.defineRules({
+                test(context) {
+                    return {
+                        Program() {
+                            const scope = context.getScope();
+                            const sourceCode = context.getSourceCode();
+                            const comments = sourceCode.getAllComments();
 
-                        assert.equal(1, comments.length);
+                            assert.equal(1, comments.length);
 
-                        const windowVar = getVariable(scope, "window");
+                            const windowVar = getVariable(scope, "window");
 
-                        assert.notOk(windowVar.eslintExplicitGlobal);
+                            assert.notOk(windowVar.eslintExplicitGlobal);
 
-                        ok = true;
-                    }
-                };
-            } });
+                            ok = true;
+                        }
+                    };
+                }
+            });
 
             linter.verify(code, config, { allowInlineConfig: false });
             assert(ok);
@@ -3359,34 +3382,36 @@ describe("eslint", () => {
             const code = "/* global foo */\n/* global bar, baz */";
             let ok = false;
 
-            linter.defineRules({ test(context) {
-                return {
-                    Program() {
-                        const scope = context.getScope();
-                        const sourceCode = context.getSourceCode();
-                        const comments = sourceCode.getAllComments();
+            linter.defineRules({
+                test(context) {
+                    return {
+                        Program() {
+                            const scope = context.getScope();
+                            const sourceCode = context.getSourceCode();
+                            const comments = sourceCode.getAllComments();
 
-                        assert.equal(2, comments.length);
+                            assert.equal(2, comments.length);
 
-                        const foo = getVariable(scope, "foo");
+                            const foo = getVariable(scope, "foo");
 
-                        assert.equal(true, foo.eslintExplicitGlobal);
-                        assert.equal(comments[0], foo.eslintExplicitGlobalComment);
+                            assert.equal(true, foo.eslintExplicitGlobal);
+                            assert.equal(comments[0], foo.eslintExplicitGlobalComment);
 
-                        const bar = getVariable(scope, "bar");
+                            const bar = getVariable(scope, "bar");
 
-                        assert.equal(true, bar.eslintExplicitGlobal);
-                        assert.equal(comments[1], bar.eslintExplicitGlobalComment);
+                            assert.equal(true, bar.eslintExplicitGlobal);
+                            assert.equal(comments[1], bar.eslintExplicitGlobalComment);
 
-                        const baz = getVariable(scope, "baz");
+                            const baz = getVariable(scope, "baz");
 
-                        assert.equal(true, baz.eslintExplicitGlobal);
-                        assert.equal(comments[1], baz.eslintExplicitGlobalComment);
+                            assert.equal(true, baz.eslintExplicitGlobal);
+                            assert.equal(comments[1], baz.eslintExplicitGlobalComment);
 
-                        ok = true;
-                    }
-                };
-            } });
+                            ok = true;
+                        }
+                    };
+                }
+            });
 
             linter.verify(code, { rules: { test: 2 } });
             assert(ok);
@@ -3435,14 +3460,16 @@ describe("eslint", () => {
         beforeEach(() => {
             let ok = false;
 
-            linter.defineRules({ test(context) {
-                return {
-                    Program() {
-                        scope = context.getScope();
-                        ok = true;
-                    }
-                };
-            } });
+            linter.defineRules({
+                test(context) {
+                    return {
+                        Program() {
+                            scope = context.getScope();
+                            ok = true;
+                        }
+                    };
+                }
+            });
             linter.verify(code, { rules: { test: 2 }, globals: { e: true, f: false } });
             assert(ok);
         });
@@ -3535,70 +3562,72 @@ describe("eslint", () => {
          * @returns {void}
          */
         function verify(code, type, expectedNamesList) {
-            linter.defineRules({ test(context) {
-                const rule = {
-                    Program: checkEmpty,
-                    EmptyStatement: checkEmpty,
-                    BlockStatement: checkEmpty,
-                    ExpressionStatement: checkEmpty,
-                    LabeledStatement: checkEmpty,
-                    BreakStatement: checkEmpty,
-                    ContinueStatement: checkEmpty,
-                    WithStatement: checkEmpty,
-                    SwitchStatement: checkEmpty,
-                    ReturnStatement: checkEmpty,
-                    ThrowStatement: checkEmpty,
-                    TryStatement: checkEmpty,
-                    WhileStatement: checkEmpty,
-                    DoWhileStatement: checkEmpty,
-                    ForStatement: checkEmpty,
-                    ForInStatement: checkEmpty,
-                    DebuggerStatement: checkEmpty,
-                    ThisExpression: checkEmpty,
-                    ArrayExpression: checkEmpty,
-                    ObjectExpression: checkEmpty,
-                    Property: checkEmpty,
-                    SequenceExpression: checkEmpty,
-                    UnaryExpression: checkEmpty,
-                    BinaryExpression: checkEmpty,
-                    AssignmentExpression: checkEmpty,
-                    UpdateExpression: checkEmpty,
-                    LogicalExpression: checkEmpty,
-                    ConditionalExpression: checkEmpty,
-                    CallExpression: checkEmpty,
-                    NewExpression: checkEmpty,
-                    MemberExpression: checkEmpty,
-                    SwitchCase: checkEmpty,
-                    Identifier: checkEmpty,
-                    Literal: checkEmpty,
-                    ForOfStatement: checkEmpty,
-                    ArrowFunctionExpression: checkEmpty,
-                    YieldExpression: checkEmpty,
-                    TemplateLiteral: checkEmpty,
-                    TaggedTemplateExpression: checkEmpty,
-                    TemplateElement: checkEmpty,
-                    ObjectPattern: checkEmpty,
-                    ArrayPattern: checkEmpty,
-                    RestElement: checkEmpty,
-                    AssignmentPattern: checkEmpty,
-                    ClassBody: checkEmpty,
-                    MethodDefinition: checkEmpty,
-                    MetaProperty: checkEmpty
-                };
+            linter.defineRules({
+                test(context) {
+                    const rule = {
+                        Program: checkEmpty,
+                        EmptyStatement: checkEmpty,
+                        BlockStatement: checkEmpty,
+                        ExpressionStatement: checkEmpty,
+                        LabeledStatement: checkEmpty,
+                        BreakStatement: checkEmpty,
+                        ContinueStatement: checkEmpty,
+                        WithStatement: checkEmpty,
+                        SwitchStatement: checkEmpty,
+                        ReturnStatement: checkEmpty,
+                        ThrowStatement: checkEmpty,
+                        TryStatement: checkEmpty,
+                        WhileStatement: checkEmpty,
+                        DoWhileStatement: checkEmpty,
+                        ForStatement: checkEmpty,
+                        ForInStatement: checkEmpty,
+                        DebuggerStatement: checkEmpty,
+                        ThisExpression: checkEmpty,
+                        ArrayExpression: checkEmpty,
+                        ObjectExpression: checkEmpty,
+                        Property: checkEmpty,
+                        SequenceExpression: checkEmpty,
+                        UnaryExpression: checkEmpty,
+                        BinaryExpression: checkEmpty,
+                        AssignmentExpression: checkEmpty,
+                        UpdateExpression: checkEmpty,
+                        LogicalExpression: checkEmpty,
+                        ConditionalExpression: checkEmpty,
+                        CallExpression: checkEmpty,
+                        NewExpression: checkEmpty,
+                        MemberExpression: checkEmpty,
+                        SwitchCase: checkEmpty,
+                        Identifier: checkEmpty,
+                        Literal: checkEmpty,
+                        ForOfStatement: checkEmpty,
+                        ArrowFunctionExpression: checkEmpty,
+                        YieldExpression: checkEmpty,
+                        TemplateLiteral: checkEmpty,
+                        TaggedTemplateExpression: checkEmpty,
+                        TemplateElement: checkEmpty,
+                        ObjectPattern: checkEmpty,
+                        ArrayPattern: checkEmpty,
+                        RestElement: checkEmpty,
+                        AssignmentPattern: checkEmpty,
+                        ClassBody: checkEmpty,
+                        MethodDefinition: checkEmpty,
+                        MetaProperty: checkEmpty
+                    };
 
-                rule[type] = function(node) {
-                    const expectedNames = expectedNamesList.shift();
-                    const variables = context.getDeclaredVariables(node);
+                    rule[type] = function(node) {
+                        const expectedNames = expectedNamesList.shift();
+                        const variables = context.getDeclaredVariables(node);
 
-                    assert(Array.isArray(expectedNames));
-                    assert(Array.isArray(variables));
-                    assert.equal(expectedNames.length, variables.length);
-                    for (let i = variables.length - 1; i >= 0; i--) {
-                        assert.equal(expectedNames[i], variables[i].name);
-                    }
-                };
-                return rule;
-            } });
+                        assert(Array.isArray(expectedNames));
+                        assert(Array.isArray(variables));
+                        assert.equal(expectedNames.length, variables.length);
+                        for (let i = variables.length - 1; i >= 0; i--) {
+                            assert.equal(expectedNames[i], variables[i].name);
+                        }
+                    };
+                    return rule;
+                }
+            });
             linter.verify(code, {
                 rules: { test: 2 },
                 parserOptions: {
@@ -3799,6 +3828,20 @@ describe("eslint", () => {
 
             assert.equal(messages.output, "var a;", "Fixes were applied correctly");
             assert.isTrue(messages.fixed);
+        });
+
+        it("does not require a third argument", () => {
+            const fixResult = linter.verifyAndFix("var a", {
+                rules: {
+                    semi: 2
+                }
+            });
+
+            assert.deepEqual(fixResult, {
+                fixed: true,
+                messages: [],
+                output: "var a;"
+            });
         });
     });
 
@@ -4033,6 +4076,13 @@ describe("eslint", () => {
                 });
             });
 
+            it("should not pass any default parserOptions to the parser", () => {
+                const parser = path.join(parserFixtures, "throws-with-options.js");
+
+                const messages = linter.verify(";", { parser }, "filename");
+
+                assert.strictEqual(messages.length, 0);
+            });
         });
     }
 

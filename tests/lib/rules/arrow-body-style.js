@@ -42,7 +42,6 @@ ruleTester.run("arrow-body-style", rule, {
         { code: "var foo = (retv, name) => {\nretv[name] = true;\nreturn retv;\n};", options: ["as-needed", { requireReturnForObjectLiteral: true }] },
         { code: "var foo = () => bar();", options: ["as-needed", { requireReturnForObjectLiteral: true }] },
         { code: "var foo = () => { bar(); };", options: ["as-needed", { requireReturnForObjectLiteral: true }] },
-        { code: "var addToB = (a) => { b =  b + a };", options: ["as-needed", { requireReturnForObjectLiteral: true }] },
         { code: "var foo = () => { return { bar: 0 }; };", options: ["as-needed", { requireReturnForObjectLiteral: true }] }
     ],
     invalid: [
@@ -56,7 +55,7 @@ ruleTester.run("arrow-body-style", rule, {
         },
         {
             code: "var foo = () => ({});",
-            output: "var foo = () => {return ({})};",
+            output: "var foo = () => {return {}};",
             options: ["always"],
             errors: [
                 { line: 1, column: 18, type: "ArrowFunctionExpression", message: "Expected block statement surrounding arrow body." }
@@ -160,7 +159,7 @@ ruleTester.run("arrow-body-style", rule, {
         },
         {
             code: "var foo = () => ({});",
-            output: "var foo = () => {return ({})};",
+            output: "var foo = () => {return {}};",
             options: ["as-needed", { requireReturnForObjectLiteral: true }],
             errors: [
                 { line: 1, column: 18, type: "ArrowFunctionExpression", message: "Expected block statement surrounding arrow body." }
@@ -168,7 +167,7 @@ ruleTester.run("arrow-body-style", rule, {
         },
         {
             code: "var foo = () => ({ bar: 0 });",
-            output: "var foo = () => {return ({ bar: 0 })};",
+            output: "var foo = () => {return { bar: 0 }};",
             options: ["as-needed", { requireReturnForObjectLiteral: true }],
             errors: [
                 { line: 1, column: 18, type: "ArrowFunctionExpression", message: "Expected block statement surrounding arrow body." }
@@ -290,6 +289,18 @@ ruleTester.run("arrow-body-style", rule, {
             errors: [
                 { line: 2, column: 31, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
             ]
+        },
+        {
+            code: "var foo = () => ({foo: 1}).foo();",
+            output: "var foo = () => {return {foo: 1}.foo()};",
+            options: ["always"],
+            errors: ["Expected block statement surrounding arrow body."]
+        },
+        {
+            code: "var foo = () => ({foo: 1}.foo());",
+            output: "var foo = () => {return {foo: 1}.foo()};",
+            options: ["always"],
+            errors: ["Expected block statement surrounding arrow body."]
         }
     ]
 });

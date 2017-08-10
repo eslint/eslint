@@ -84,13 +84,13 @@ ruleTester.run("no-unused-expressions", rule, {
         { code: "a ? b() || (c = d) : e", errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement" }] },
         {
             code: "`untagged template literal`",
-            errors: ["Expected an assignment or function call and instead saw an expression."],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: ["Expected an assignment or function call and instead saw an expression."]
         },
         {
             code: "tag`tagged template literal`",
-            errors: ["Expected an assignment or function call and instead saw an expression."],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: ["Expected an assignment or function call and instead saw an expression."]
         },
         { code: "a && b()", options: [{ allowTernary: true }], errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement" }] },
         { code: "a ? b() : c()", options: [{ allowShortCircuit: true }], errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement" }] },
@@ -108,21 +108,21 @@ ruleTester.run("no-unused-expressions", rule, {
         { code: "var foo = () => { var foo = true; \"use strict\"; }", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement" }] },
         {
             code: "`untagged template literal`",
-            errors: ["Expected an assignment or function call and instead saw an expression."],
             options: [{ allowTaggedTemplates: true }],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: ["Expected an assignment or function call and instead saw an expression."]
         },
         {
             code: "`untagged template literal`",
-            errors: ["Expected an assignment or function call and instead saw an expression."],
             options: [{ allowTaggedTemplates: false }],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: ["Expected an assignment or function call and instead saw an expression."]
         },
         {
             code: "tag`tagged template literal`",
-            errors: ["Expected an assignment or function call and instead saw an expression."],
             options: [{ allowTaggedTemplates: false }],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: ["Expected an assignment or function call and instead saw an expression."]
         }
     ]
 });

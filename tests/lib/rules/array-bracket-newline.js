@@ -162,8 +162,8 @@ ruleTester.run("array-bracket-newline", rule, {
         // "always"
         {
             code: "var foo = [];",
-            options: ["always"],
             output: "var foo = [\n];",
+            options: ["always"],
             errors: [
                 {
                     message: ERR_BREAK_AFTER,
@@ -185,8 +185,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [1];",
-            options: ["always"],
             output: "var foo = [\n1\n];",
+            options: ["always"],
             errors: [
                 {
                     message: ERR_BREAK_AFTER,
@@ -204,8 +204,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [ // any comment\n1];",
-            options: ["always"],
             output: "var foo = [ // any comment\n1\n];",
+            options: ["always"],
             errors: [
                 {
                     message: ERR_BREAK_BEFORE,
@@ -219,8 +219,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [ /* any comment */\n1];",
-            options: ["always"],
             output: "var foo = [ /* any comment */\n1\n];",
+            options: ["always"],
             errors: [
                 {
                     message: ERR_BREAK_BEFORE,
@@ -232,8 +232,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [1, 2];",
-            options: ["always"],
             output: "var foo = [\n1, 2\n];",
+            options: ["always"],
             errors: [
                 {
                     message: ERR_BREAK_AFTER,
@@ -255,8 +255,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [1, 2 // any comment\n];",
-            options: ["always"],
             output: "var foo = [\n1, 2 // any comment\n];",
+            options: ["always"],
             errors: [
                 {
                     message: ERR_BREAK_AFTER,
@@ -268,8 +268,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [1, 2 /* any comment */];",
-            options: ["always"],
             output: "var foo = [\n1, 2 /* any comment */\n];",
+            options: ["always"],
             errors: [
                 {
                     message: ERR_BREAK_AFTER,
@@ -287,8 +287,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [1,\n2];",
-            options: ["always"],
             output: "var foo = [\n1,\n2\n];",
+            options: ["always"],
             errors: [
                 {
                     message: ERR_BREAK_AFTER,
@@ -306,8 +306,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [function foo() {\ndosomething();\n}];",
-            options: ["always"],
             output: "var foo = [\nfunction foo() {\ndosomething();\n}\n];",
+            options: ["always"],
             errors: [
                 {
                     message: ERR_BREAK_AFTER,
@@ -327,8 +327,8 @@ ruleTester.run("array-bracket-newline", rule, {
         // "never"
         {
             code: "var foo = [\n];",
-            options: ["never"],
             output: "var foo = [];",
+            options: ["never"],
             errors: [
                 {
                     message: ERR_NO_BREAK_AFTER,
@@ -346,8 +346,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [\n1\n];",
-            options: ["never"],
             output: "var foo = [1];",
+            options: ["never"],
             errors: [
                 {
                     message: ERR_NO_BREAK_AFTER,
@@ -369,8 +369,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [\n1\n];",
-            options: ["never"],
             output: "var foo = [1];",
+            options: ["never"],
             errors: [
                 {
                     message: ERR_NO_BREAK_AFTER,
@@ -388,8 +388,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [ /* any comment */\n1, 2\n];",
-            options: ["never"],
             output: "var foo = [ /* any comment */\n1, 2];",
+            options: ["never"],
             errors: [
                 {
                     message: ERR_NO_BREAK_AFTER,
@@ -407,8 +407,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [\n1, 2\n/* any comment */];",
-            options: ["never"],
             output: "var foo = [1, 2\n/* any comment */];",
+            options: ["never"],
             errors: [
                 {
                     message: ERR_NO_BREAK_AFTER,
@@ -426,8 +426,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [ // any comment\n1, 2\n];",
-            options: ["never"],
             output: "var foo = [ // any comment\n1, 2];",
+            options: ["never"],
             errors: [
                 {
                     message: ERR_NO_BREAK_AFTER,
@@ -464,8 +464,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [\nfunction foo() {\ndosomething();\n}\n];",
-            options: ["never"],
             output: "var foo = [function foo() {\ndosomething();\n}];",
+            options: ["never"],
             errors: [
                 {
                     message: ERR_NO_BREAK_AFTER,
@@ -485,8 +485,8 @@ ruleTester.run("array-bracket-newline", rule, {
         // { multiline: true }
         {
             code: "var foo = [\n];",
-            options: [{ multiline: true }],
             output: "var foo = [];",
+            options: [{ multiline: true }],
             errors: [
                 {
                     message: ERR_NO_BREAK_AFTER,
@@ -504,8 +504,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [\n// any comment\n];",
+            output: null,
             options: [{ multiline: true }],
-            output: "var foo = [\n// any comment\n];",
             errors: [
                 {
                     message: ERR_NO_BREAK_AFTER,
@@ -523,8 +523,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [\n1\n];",
-            options: [{ multiline: true }],
             output: "var foo = [1];",
+            options: [{ multiline: true }],
             errors: [
                 {
                     message: ERR_NO_BREAK_AFTER,
@@ -542,8 +542,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [\n1, 2\n];",
-            options: [{ multiline: true }],
             output: "var foo = [1, 2];",
+            options: [{ multiline: true }],
             errors: [
                 {
                     message: ERR_NO_BREAK_AFTER,
@@ -561,8 +561,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [1,\n2];",
-            options: [{ multiline: true }],
             output: "var foo = [\n1,\n2\n];",
+            options: [{ multiline: true }],
             errors: [
                 {
                     message: ERR_BREAK_AFTER,
@@ -580,8 +580,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [function foo() {\ndosomething();\n}];",
-            options: [{ multiline: true }],
             output: "var foo = [\nfunction foo() {\ndosomething();\n}\n];",
+            options: [{ multiline: true }],
             errors: [
                 {
                     message: ERR_BREAK_AFTER,
@@ -601,8 +601,8 @@ ruleTester.run("array-bracket-newline", rule, {
         // { minItems: 2 }
         {
             code: "var foo = [\n];",
-            options: [{ minItems: 2 }],
             output: "var foo = [];",
+            options: [{ minItems: 2 }],
             errors: [
                 {
                     message: ERR_NO_BREAK_AFTER,
@@ -620,8 +620,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [\n1\n];",
-            options: [{ minItems: 2 }],
             output: "var foo = [1];",
+            options: [{ minItems: 2 }],
             errors: [
                 {
                     message: ERR_NO_BREAK_AFTER,
@@ -639,8 +639,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [1, 2];",
-            options: [{ minItems: 2 }],
             output: "var foo = [\n1, 2\n];",
+            options: [{ minItems: 2 }],
             errors: [
                 {
                     message: ERR_BREAK_AFTER,
@@ -658,8 +658,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [1,\n2];",
-            options: [{ minItems: 2 }],
             output: "var foo = [\n1,\n2\n];",
+            options: [{ minItems: 2 }],
             errors: [
                 {
                     message: ERR_BREAK_AFTER,
@@ -677,8 +677,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [\nfunction foo() {\ndosomething();\n}\n];",
-            options: [{ minItems: 2 }],
             output: "var foo = [function foo() {\ndosomething();\n}];",
+            options: [{ minItems: 2 }],
             errors: [
                 {
                     message: ERR_NO_BREAK_AFTER,
@@ -698,8 +698,8 @@ ruleTester.run("array-bracket-newline", rule, {
         // { minItems: 0 }
         {
             code: "var foo = [];",
-            options: [{ minItems: 0 }],
             output: "var foo = [\n];",
+            options: [{ minItems: 0 }],
             errors: [
                 {
                     message: ERR_BREAK_AFTER,
@@ -717,8 +717,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [1];",
-            options: [{ minItems: 0 }],
             output: "var foo = [\n1\n];",
+            options: [{ minItems: 0 }],
             errors: [
                 {
                     message: ERR_BREAK_AFTER,
@@ -736,8 +736,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [1, 2];",
-            options: [{ minItems: 0 }],
             output: "var foo = [\n1, 2\n];",
+            options: [{ minItems: 0 }],
             errors: [
                 {
                     message: ERR_BREAK_AFTER,
@@ -755,8 +755,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [1,\n2];",
-            options: [{ minItems: 0 }],
             output: "var foo = [\n1,\n2\n];",
+            options: [{ minItems: 0 }],
             errors: [
                 {
                     message: ERR_BREAK_AFTER,
@@ -775,8 +775,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [function foo() {\ndosomething();\n}];",
-            options: [{ minItems: 0 }],
             output: "var foo = [\nfunction foo() {\ndosomething();\n}\n];",
+            options: [{ minItems: 0 }],
             errors: [
                 {
                     message: ERR_BREAK_AFTER,
@@ -796,8 +796,8 @@ ruleTester.run("array-bracket-newline", rule, {
         // { minItems: null }
         {
             code: "var foo = [\n];",
-            options: [{ minItems: null }],
             output: "var foo = [];",
+            options: [{ minItems: null }],
             errors: [
                 {
                     message: ERR_NO_BREAK_AFTER,
@@ -815,8 +815,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [\n1\n];",
-            options: [{ minItems: null }],
             output: "var foo = [1];",
+            options: [{ minItems: null }],
             errors: [
                 {
                     message: ERR_NO_BREAK_AFTER,
@@ -834,8 +834,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [\n1, 2\n];",
-            options: [{ minItems: null }],
             output: "var foo = [1, 2];",
+            options: [{ minItems: null }],
             errors: [
                 {
                     message: ERR_NO_BREAK_AFTER,
@@ -853,8 +853,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [\n1,\n2\n];",
-            options: [{ minItems: null }],
             output: "var foo = [1,\n2];",
+            options: [{ minItems: null }],
             errors: [
                 {
                     message: ERR_NO_BREAK_AFTER,
@@ -872,8 +872,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [\nfunction foo() {\ndosomething();\n}\n];",
-            options: [{ minItems: null }],
             output: "var foo = [function foo() {\ndosomething();\n}];",
+            options: [{ minItems: null }],
             errors: [
                 {
                     message: ERR_NO_BREAK_AFTER,
@@ -893,8 +893,8 @@ ruleTester.run("array-bracket-newline", rule, {
         // { multiline: true, minItems: null }
         {
             code: "var foo = [\n];",
-            options: [{ multiline: true, minItems: null }],
             output: "var foo = [];",
+            options: [{ multiline: true, minItems: null }],
             errors: [
                 {
                     message: ERR_NO_BREAK_AFTER,
@@ -912,8 +912,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [\n1\n];",
-            options: [{ multiline: true, minItems: null }],
             output: "var foo = [1];",
+            options: [{ multiline: true, minItems: null }],
             errors: [
                 {
                     message: ERR_NO_BREAK_AFTER,
@@ -931,8 +931,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [\n1, 2\n];",
-            options: [{ multiline: true, minItems: null }],
             output: "var foo = [1, 2];",
+            options: [{ multiline: true, minItems: null }],
             errors: [
                 {
                     message: ERR_NO_BREAK_AFTER,
@@ -950,8 +950,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [1,\n2];",
-            options: [{ multiline: true, minItems: null }],
             output: "var foo = [\n1,\n2\n];",
+            options: [{ multiline: true, minItems: null }],
             errors: [
                 {
                     message: ERR_BREAK_AFTER,
@@ -969,8 +969,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [function foo() {\ndosomething();\n}];",
-            options: [{ multiline: true, minItems: null }],
             output: "var foo = [\nfunction foo() {\ndosomething();\n}\n];",
+            options: [{ multiline: true, minItems: null }],
             errors: [
                 {
                     message: ERR_BREAK_AFTER,
@@ -990,8 +990,8 @@ ruleTester.run("array-bracket-newline", rule, {
         // { multiline: true, minItems: 2 }
         {
             code: "var foo = [\n];",
-            options: [{ multiline: true, minItems: 2 }],
             output: "var foo = [];",
+            options: [{ multiline: true, minItems: 2 }],
             errors: [
                 {
                     message: ERR_NO_BREAK_AFTER,
@@ -1009,8 +1009,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [\n1\n];",
-            options: [{ multiline: true, minItems: 2 }],
             output: "var foo = [1];",
+            options: [{ multiline: true, minItems: 2 }],
             errors: [
                 {
                     message: ERR_NO_BREAK_AFTER,
@@ -1028,8 +1028,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [1, 2];",
-            options: [{ multiline: true, minItems: 2 }],
             output: "var foo = [\n1, 2\n];",
+            options: [{ multiline: true, minItems: 2 }],
             errors: [
                 {
                     message: ERR_BREAK_AFTER,
@@ -1047,8 +1047,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [1,\n2];",
-            options: [{ multiline: true, minItems: 2 }],
             output: "var foo = [\n1,\n2\n];",
+            options: [{ multiline: true, minItems: 2 }],
             errors: [
                 {
                     message: ERR_BREAK_AFTER,
@@ -1066,8 +1066,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [function foo() {\ndosomething();\n}];",
-            options: [{ multiline: true, minItems: 2 }],
             output: "var foo = [\nfunction foo() {\ndosomething();\n}\n];",
+            options: [{ multiline: true, minItems: 2 }],
             errors: [
                 {
                     message: ERR_BREAK_AFTER,
@@ -1088,8 +1088,8 @@ ruleTester.run("array-bracket-newline", rule, {
         // "always"
         {
             code: "var foo = [\n1, 2];",
-            options: ["always"],
             output: "var foo = [\n1, 2\n];",
+            options: ["always"],
             errors: [
                 {
                     message: ERR_BREAK_BEFORE,
@@ -1101,8 +1101,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [\t1, 2];",
-            options: ["always"],
             output: "var foo = [\n\t1, 2\n];",
+            options: ["always"],
             errors: [
                 {
                     message: ERR_BREAK_AFTER,
@@ -1120,8 +1120,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [1,\n2\n];",
-            options: ["always"],
             output: "var foo = [\n1,\n2\n];",
+            options: ["always"],
             errors: [
                 {
                     message: ERR_BREAK_AFTER,
@@ -1135,8 +1135,8 @@ ruleTester.run("array-bracket-newline", rule, {
         //  { multiline: false }
         {
             code: "var foo = [\n];",
-            options: [{ multiline: false }],
             output: "var foo = [];",
+            options: [{ multiline: false }],
             errors: [
                 {
                     message: ERR_NO_BREAK_AFTER,
@@ -1154,8 +1154,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [\n1\n];",
-            options: [{ multiline: false }],
             output: "var foo = [1];",
+            options: [{ multiline: false }],
             errors: [
                 {
                     message: ERR_NO_BREAK_AFTER,
@@ -1173,8 +1173,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [\n1, 2\n];",
-            options: [{ multiline: false }],
             output: "var foo = [1, 2];",
+            options: [{ multiline: false }],
             errors: [
                 {
                     message: ERR_NO_BREAK_AFTER,
@@ -1192,8 +1192,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [\n1,\n2\n];",
-            options: [{ multiline: false }],
             output: "var foo = [1,\n2];",
+            options: [{ multiline: false }],
             errors: [
                 {
                     message: ERR_NO_BREAK_AFTER,
@@ -1211,8 +1211,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var foo = [\nfunction foo() {\ndosomething();\n}\n];",
-            options: [{ multiline: false }],
             output: "var foo = [function foo() {\ndosomething();\n}];",
+            options: [{ multiline: false }],
             errors: [
                 {
                     message: ERR_NO_BREAK_AFTER,
@@ -1233,8 +1233,8 @@ ruleTester.run("array-bracket-newline", rule, {
         // "always"
         {
             code: "var [] = foo;",
-            options: ["always"],
             output: "var [\n] = foo;",
+            options: ["always"],
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
@@ -1253,8 +1253,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var [a] = foo;",
-            options: ["always"],
             output: "var [\na\n] = foo;",
+            options: ["always"],
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
@@ -1273,8 +1273,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var [ // any comment\na] = foo;",
-            options: ["always"],
             output: "var [ // any comment\na\n] = foo;",
+            options: ["always"],
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
@@ -1287,8 +1287,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var [ /* any comment */\na] = foo;",
-            options: ["always"],
             output: "var [ /* any comment */\na\n] = foo;",
+            options: ["always"],
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
@@ -1301,8 +1301,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var [a, b] = foo;",
-            options: ["always"],
             output: "var [\na, b\n] = foo;",
+            options: ["always"],
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
@@ -1321,8 +1321,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var [a, b // any comment\n] = foo;",
-            options: ["always"],
             output: "var [\na, b // any comment\n] = foo;",
+            options: ["always"],
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
@@ -1335,8 +1335,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var [a, b /* any comment */] = foo;",
-            options: ["always"],
             output: "var [\na, b /* any comment */\n] = foo;",
+            options: ["always"],
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
@@ -1355,8 +1355,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var [a,\nb] = foo;",
-            options: ["always"],
             output: "var [\na,\nb\n] = foo;",
+            options: ["always"],
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
@@ -1377,8 +1377,8 @@ ruleTester.run("array-bracket-newline", rule, {
         // { minItems: 2 }
         {
             code: "var [\n] = foo;",
-            options: [{ minItems: 2 }],
             output: "var [] = foo;",
+            options: [{ minItems: 2 }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
@@ -1397,8 +1397,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var [\na\n] = foo;",
-            options: [{ minItems: 2 }],
             output: "var [a] = foo;",
+            options: [{ minItems: 2 }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
@@ -1417,8 +1417,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var [a, b] = foo;",
-            options: [{ minItems: 2 }],
             output: "var [\na, b\n] = foo;",
+            options: [{ minItems: 2 }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
@@ -1437,8 +1437,8 @@ ruleTester.run("array-bracket-newline", rule, {
         },
         {
             code: "var [a,\nb] = foo;",
-            options: [{ minItems: 2 }],
             output: "var [\na,\nb\n] = foo;",
+            options: [{ minItems: 2 }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {

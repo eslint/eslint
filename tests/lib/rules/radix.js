@@ -20,7 +20,6 @@ ruleTester.run("radix", rule, {
         "parseInt(\"10\", 10);",
         "parseInt(\"10\", foo);",
         "Number.parseInt(\"10\", foo);",
-        "Number.parseInt(\"10\", foo);",
         {
             code: "parseInt(\"10\", 10);",
             options: ["always"]

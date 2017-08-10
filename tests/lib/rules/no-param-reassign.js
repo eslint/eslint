@@ -79,26 +79,26 @@ ruleTester.run("no-param-reassign", rule, {
         },
         {
             code: "function foo(bar) { [bar.a] = []; }",
-            parserOptions: { ecmaVersion: 6 },
             options: [{ props: true }],
+            parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Assignment to property of function parameter 'bar'." }]
         },
         {
             code: "function foo(bar) { [bar.a] = []; }",
-            parserOptions: { ecmaVersion: 6 },
             options: [{ props: true, ignorePropertyModificationsFor: ["a"] }],
+            parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Assignment to property of function parameter 'bar'." }]
         },
         {
             code: "function foo(bar) { ({foo: bar.a} = {}); }",
-            parserOptions: { ecmaVersion: 6 },
             options: [{ props: true }],
+            parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Assignment to property of function parameter 'bar'." }]
         },
         {
             code: "function foo(a) { ({a} = obj); }",
-            parserOptions: { ecmaVersion: 6 },
             options: [{ props: true }],
+            parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Assignment to function parameter 'a'." }]
         }
     ]

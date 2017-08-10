@@ -9,6 +9,8 @@ This rule always ignores extra parentheses around the following:
 * RegExp literals such as `(/abc/).test(var)` to avoid conflicts with the [wrap-regex](wrap-regex.md) rule
 * immediately-invoked function expressions (also known as IIFEs) such as `var x = (function () {})();` and `((function foo() {return 1;})())` to avoid conflicts with the [wrap-iife](wrap-iife.md) rule
 
+In addition, this rule ignores parentheses around arrow function arguments to avoid conflicts with the [arrow-parens](arrow-parens.md) rule.
+
 ## Options
 
 This rule has a string option:
@@ -22,6 +24,7 @@ This rule has an object option for exceptions to the `"all"` option:
 * `"returnAssign": false` allows extra parentheses around assignments in `return` statements
 * `"nestedBinaryExpressions": false` allows extra parentheses in nested binary expressions
 * `"ignoreJSX": "none|all|multi-line|single-line"` allows extra parentheses around no/all/multi-line/single-line JSX components. Defaults to `none`.
+* `"enforceForArrowConditionals": false` allows extra parentheses around ternary expressions which are the body of an arrow function
 
 ### all
 
@@ -165,6 +168,17 @@ const Component = (<div />)
 const Component = (<div><p /></div>)
 ```
 
+### enforceForArrowConditionals
+
+Examples of **correct** code for this rule with the `"all"` and `{ "enforceForArrowConditionals": false }` options:
+
+```js
+/* eslint no-extra-parens: ["error", "all", { "enforceForArrowConditionals": false }] */
+
+const b = a => 1 ? 2 : 3;
+const d = c => (1 ? 2 : 3);
+```
+
 ### functions
 
 Examples of **incorrect** code for this rule with the `"functions"` option:
@@ -205,5 +219,6 @@ typeof (a);
 
 ## Related Rules
 
+* [arrow-parens](arrow-parens.md)
 * [no-cond-assign](no-cond-assign.md)
 * [no-return-assign](no-return-assign.md)

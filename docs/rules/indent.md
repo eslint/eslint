@@ -82,6 +82,7 @@ This rule has an object option:
     * `arguments` (default: 1) enforces indentation level for arguments in a call expression. This can either be a number indicating indentation level, or the string `"first"` indicating that all arguments of the expression must be aligned with the first argument. This can also be set to `"off"` to disable checking for CallExpression arguments.
 * `"ArrayExpression"` (default: 1) enforces indentation level for elements in arrays. It can also be set to the string `"first"`, indicating that all the elements in the array should be aligned with the first element. This can also be set to `"off"` to disable checking for array elements.
 * `"ObjectExpression"` (default: 1) enforces indentation level for properties in objects. It can be set to the string `"first"`, indicating that all properties in the object should be aligned with the first property. This can also be set to `"off"` to disable checking for object properties.
+* `"ImportDeclaration"` (default: 1) enforces indentation level for import statements. It can be set to the string `"first"`, indicating that all imported members from a module should be aligned with the first member in the list. This can also be set to `"off"` to disable checking for imported module members.
 * `"flatTernaryExpressions": true` (`false` by default) requires no indentation for ternary expressions which are nested in other ternary expressions.
 
 Level of indentation denotes the multiple of the indent specified. Example:
@@ -287,10 +288,6 @@ Examples of **correct** code for this rule with the `2, { "MemberExpression": 1 
 foo
   .bar
   .baz();
-
-// Any indentation is permitted in variable declarations and assignments.
-var bip = aardvark.badger
-                  .coyote;
 ```
 
 ### FunctionDeclaration
@@ -521,6 +518,47 @@ Examples of **correct** code for this rule with the `2, { "ObjectExpression": "f
 
 var foo = { bar: 1,
             baz: 2 };
+```
+
+### ImportDeclaration
+
+Examples of **correct** code for this rule with the `4, { "ImportDeclaration": 1 }` option (the default):
+
+```js
+/*eslint indent: ["error", 4, { ImportDeclaration: 1 }]*/
+
+import { foo,
+    bar,
+    baz,
+} from 'qux';
+
+import {
+    foo,
+    bar,
+    baz,
+} from 'qux';
+```
+
+Examples of **incorrect** code for this rule with the `4, { ImportDeclaration: "first" }` option:
+
+```js
+/*eslint indent: ["error", 4, { ImportDeclaration: "first" }]*/
+
+import { foo,
+    bar,
+    baz,
+} from 'qux';
+```
+
+Examples of **correct** code for this rule with the `4, { ImportDeclaration: "first" }` option:
+
+```js
+/*eslint indent: ["error", 4, { ImportDeclaration: "first" }]*/
+
+import { foo,
+         bar,
+         baz,
+} from 'qux';
 ```
 
 ### flatTernaryExpressions

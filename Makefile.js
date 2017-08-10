@@ -51,6 +51,7 @@ const OPEN_SOURCE_LICENSES = [
 const NODE = "node ", // intentional extra space
     NODE_MODULES = "./node_modules/",
     TEMP_DIR = "./tmp/",
+    DEBUG_DIR = "./debug/",
     BUILD_DIR = "./build/",
     DOCS_DIR = "../eslint.github.io/docs",
     SITE_DIR = "../eslint.github.io/",
@@ -62,7 +63,7 @@ const NODE = "node ", // intentional extra space
 
     // Files
     MAKEFILE = "./Makefile.js",
-    JS_FILES = "\"lib/**/*.js\" \"conf/**/*.js\" \"bin/**/*.js\"",
+    JS_FILES = "\"lib/**/*.js\" \"conf/**/*.js\" \"bin/**/*.js\" \"tools/**/*.js\"",
     JSON_FILES = find("conf/").filter(fileType("json")),
     MARKDOWN_FILES_ARRAY = find("docs/").concat(ls(".")).filter(fileType("md")),
     TEST_FILES = getTestFilePatterns(),
@@ -86,16 +87,12 @@ const NODE = "node ", // intentional extra space
  * @private
  */
 function getTestFilePatterns() {
-    const testLibPath = "tests/lib/",
-        testTemplatesPath = "tests/templates/",
-        testBinPath = "tests/bin/";
-
-    return ls(testLibPath).filter(pathToCheck => test("-d", testLibPath + pathToCheck)).reduce((initialValue, currentValues) => {
+    return ls("tests/lib/").filter(pathToCheck => test("-d", `tests/lib/${pathToCheck}`)).reduce((initialValue, currentValues) => {
         if (currentValues !== "rules") {
-            initialValue.push(`"${testLibPath + currentValues}/**/*.js"`);
+            initialValue.push(`"tests/lib/${currentValues}/**/*.js"`);
         }
         return initialValue;
-    }, [`"${testLibPath}rules/**/*.js"`, `"${testLibPath}*.js"`, `"${testTemplatesPath}*.js"`, `"${testBinPath}**/*.js"`]).join(" ");
+    }, ["tests/lib/rules/**/*.js", "tests/lib/*.js", "tests/templates/*.js", "tests/bin/**/*.js", "tests/tools/*.js"]).join(" ");
 }
 
 /**
@@ -118,7 +115,7 @@ function validateJsonFile(filePath) {
  */
 function fileType(extension) {
     return function(filename) {
-        return filename.substring(filename.lastIndexOf(".") + 1) === extension;
+        return filename.slice(filename.lastIndexOf(".") + 1) === extension;
     };
 }
 
@@ -543,6 +540,42 @@ target.lint = function() {
     }
 };
 
+target.fuzz = function() {
+    const fuzzerRunner = require("./tools/fuzzer-runner");
+    const fuzzResults = fuzzerRunner.run({ amount: process.env.CI ? 1000 : 300 });
+
+    if (fuzzResults.length) {
+        echo(`The fuzzer reported ${fuzzResults.length} error${fuzzResults.length === 1 ? "" : "s"}.`);
+
+        const formattedResults = JSON.stringify({ results: fuzzResults }, null, 4);
+
+        if (process.env.CI) {
+            echo("More details can be found below.");
+            echo(formattedResults);
+        } else {
+            if (!test("-d", DEBUG_DIR)) {
+                mkdir(DEBUG_DIR);
+            }
+
+            let fuzzLogPath;
+            let fileSuffix = 0;
+
+            // To avoid overwriting any existing fuzzer log files, append a numeric suffix to the end of the filename.
+            do {
+                fuzzLogPath = path.join(DEBUG_DIR, `fuzzer-log-${fileSuffix}.json`);
+                fileSuffix++;
+            } while (test("-f", fuzzLogPath));
+
+            formattedResults.to(fuzzLogPath);
+
+            // TODO: (not-an-aardvark) Create a better way to isolate and test individual fuzzer errors from the log file
+            echo(`More details can be found in ${fuzzLogPath}.`);
+        }
+
+        exit(1);
+    }
+};
+
 target.test = function() {
     target.lint();
     target.checkRuleFiles();
@@ -758,13 +791,12 @@ target.browserify = function() {
 
     // 5. browserify the temp directory
     nodeCLI.exec("browserify", "-x espree", `${TEMP_DIR}linter.js`, "-o", `${BUILD_DIR}eslint.js`, "-s eslint", "--global-transform [ babelify --presets [ es2015 ] ]");
-    nodeCLI.exec("browserify", "-x espree", `${TEMP_DIR}rules.js`, "-o", `${TEMP_DIR}rules.js`, "-s rules", "--global-transform [ babelify --presets [ es2015 ] ]");
 
     // 6. Browserify espree
     nodeCLI.exec("browserify", "-r espree", "-o", `${TEMP_DIR}espree.js`);
 
     // 7. Concatenate Babel polyfill, Espree, and ESLint files together
-    cat("./node_modules/babel-polyfill/dist/polyfill.js", `${TEMP_DIR}espree.js`, `${BUILD_DIR}eslint.js`, `${TEMP_DIR}rules.js`).to(`${BUILD_DIR}eslint.js`);
+    cat("./node_modules/babel-polyfill/dist/polyfill.js", `${TEMP_DIR}espree.js`, `${BUILD_DIR}eslint.js`).to(`${BUILD_DIR}eslint.js`);
 
     // 8. remove temp directory
     rm("-r", TEMP_DIR);

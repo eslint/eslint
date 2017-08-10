@@ -84,10 +84,10 @@ ruleTester.run("brace-style", rule, {
         { code: "switch(0) {}", options: ["1tbs", { allowSingleLine: true }] },
         { code: "if (foo) {}\nelse {}", options: ["stroustrup", { allowSingleLine: true }] },
         { code: "try {  bar(); }\ncatch (e) { baz();  }", options: ["stroustrup", { allowSingleLine: true }] },
-        { code: "var foo = () => { return; }", parserOptions: { ecmaVersion: 6 }, options: ["stroustrup", { allowSingleLine: true }] },
+        { code: "var foo = () => { return; }", options: ["stroustrup", { allowSingleLine: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "if (foo) {}\nelse {}", options: ["allman", { allowSingleLine: true }] },
         { code: "try {  bar(); }\ncatch (e) { baz();  }", options: ["allman", { allowSingleLine: true }] },
-        { code: "var foo = () => { return; }", parserOptions: { ecmaVersion: 6 }, options: ["allman", { allowSingleLine: true }] },
+        { code: "var foo = () => { return; }", options: ["allman", { allowSingleLine: true }], parserOptions: { ecmaVersion: 6 } },
         {
             code: "if (tag === 1) fontstack.name = pbf.readString(); \nelse if (tag === 2) fontstack.range = pbf.readString(); \nelse if (tag === 3) {\n var glyph = pbf.readMessage(readGlyph, {});\n fontstack.glyphs[glyph.id] = glyph; \n}",
             options: ["1tbs"]
@@ -230,11 +230,6 @@ ruleTester.run("brace-style", rule, {
             errors: [{ message: OPEN_MESSAGE, type: "Punctuator" }, { message: CLOSE_MESSAGE_SINGLE, type: "Punctuator" }]
         },
         {
-            code: "if (foo) \n { \n bar(); }",
-            output: "if (foo) { \n bar(); \n}",
-            errors: [{ message: OPEN_MESSAGE, type: "Punctuator" }, { message: CLOSE_MESSAGE_SINGLE, type: "Punctuator" }]
-        },
-        {
             code: "if (a) { \nb();\n } else \n { c(); }",
             output: "if (a) { \nb();\n } else {\n c(); \n}",
             errors: [{ message: OPEN_MESSAGE, type: "Punctuator" }, { message: BODY_MESSAGE, type: "Punctuator" }, { message: CLOSE_MESSAGE_SINGLE, type: "Punctuator" }]
@@ -320,7 +315,8 @@ ruleTester.run("brace-style", rule, {
         {
             code: "if (a) { \nb();\n } else { \nc();\n }",
             output: "if (a) { \nb();\n }\n else { \nc();\n }",
-            options: ["stroustrup"], errors: [{ message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "Punctuator" }]
+            options: ["stroustrup"],
+            errors: [{ message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "Punctuator" }]
         },
         {
             code: "if (foo) {\nbaz();\n} else if (bar) {\nbaz();\n}\nelse {\nqux();\n}",

@@ -98,7 +98,12 @@ ruleTester.run("no-multi-spaces", rule, {
 
         "foo\n\f  bar",
         "foo\n\u2003  bar",
-        "foo\n \f  bar"
+        "foo\n \f  bar",
+
+        // https://github.com/eslint/eslint/issues/9001
+        "a".repeat(2e5),
+
+        "foo\t\t+bar"
     ],
 
     invalid: [
@@ -264,14 +269,6 @@ ruleTester.run("no-multi-spaces", rule, {
             }]
         },
         {
-            code: "var o = { fetch: function    () {} };",
-            output: "var o = { fetch: function () {} };",
-            errors: [{
-                message: "Multiple spaces found before '('.",
-                type: "Punctuator"
-            }]
-        },
-        {
             code: "function foo      () {}",
             output: "function foo () {}",
             errors: [{
@@ -314,14 +311,6 @@ ruleTester.run("no-multi-spaces", rule, {
         {
             code: "try {} catch    (ex) {}",
             output: "try {} catch (ex) {}",
-            errors: [{
-                message: "Multiple spaces found before '('.",
-                type: "Punctuator"
-            }]
-        },
-        {
-            code: "var o = { fetch: function    () {} };",
-            output: "var o = { fetch: function () {} };",
             errors: [{
                 message: "Multiple spaces found before '('.",
                 type: "Punctuator"

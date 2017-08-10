@@ -34,10 +34,12 @@ describe("CLIEngine", () => {
     const examplePluginName = "eslint-plugin-example",
         examplePluginNameWithNamespace = "@eslint/eslint-plugin-example",
         requireStubs = {},
-        examplePlugin = { rules: {
-            "example-rule": require("../fixtures/rules/custom-rule"),
-            "make-syntax-error": require("../fixtures/rules/make-syntax-error-rule")
-        } },
+        examplePlugin = {
+            rules: {
+                "example-rule": require("../fixtures/rules/custom-rule"),
+                "make-syntax-error": require("../fixtures/rules/make-syntax-error-rule")
+            }
+        },
         examplePreprocessorName = "eslint-plugin-processor",
         originalDir = process.cwd();
     let CLIEngine,
@@ -77,7 +79,7 @@ describe("CLIEngine", () => {
         engine.config.plugins.define(examplePreprocessorName, require("../fixtures/processors/custom-processor"));
 
         // load the real file now so that it can consume the loaded plugins
-        engine.config.loadConfigFile(options.configFile);
+        engine.config.loadSpecificConfig(options.configFile);
 
         return engine;
     }
@@ -355,6 +357,8 @@ describe("CLIEngine", () => {
                                 message: "'foo' is not defined.",
                                 line: 1,
                                 column: 11,
+                                endLine: 1,
+                                endColumn: 14,
                                 nodeType: "Identifier",
                                 source: "var bar = foo"
                             }
@@ -1324,6 +1328,8 @@ describe("CLIEngine", () => {
             fakeFS.realpathSync = function() {
                 throw new Error("this error should not happen");
             };
+            fakeFS.existsSync = fs.existsSync;
+            fakeFS.unlinkSync = fs.unlinkSync;
 
             engine = new LocalCLIEngine({
                 ignorePattern: "tests"
@@ -1411,6 +1417,8 @@ describe("CLIEngine", () => {
                                 {
                                     column: 18,
                                     line: 1,
+                                    endColumn: 21,
+                                    endLine: 1,
                                     message: "'foo' is not defined.",
                                     nodeType: "Identifier",
                                     ruleId: "no-undef",

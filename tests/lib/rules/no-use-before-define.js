@@ -54,8 +54,8 @@ ruleTester.run("no-use-before-define", rule, {
         },
         {
             code: "var foo = () => bar; var bar;",
-            parserOptions: { ecmaVersion: 6 },
-            options: [{ variables: false }]
+            options: [{ variables: false }],
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
     invalid: [
@@ -81,7 +81,6 @@ ruleTester.run("no-use-before-define", rule, {
         { code: "\"use strict\"; { a(); function a() {} }", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
         { code: "{a; let a = 1}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
         { code: "switch (foo) { case 1: a();\n default: \n let a;}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
-        { code: "var f = () => a; var a;", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
         { code: "if (true) { function foo() { a; } let a;}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
 
         // object style options

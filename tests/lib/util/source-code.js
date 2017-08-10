@@ -77,37 +77,39 @@ describe("SourceCode", () => {
             assert.equal(sourceCode.lines[1], "bar;");
         });
 
-        /* eslint-disable no-new */
-
         it("should throw an error when called with an AST that's missing tokens", () => {
 
-            assert.throws(() => {
-                new SourceCode("foo;", { comments: [], loc: {}, range: [] });
-            }, /missing the tokens array/);
+            assert.throws(
+                () => new SourceCode("foo;", { comments: [], loc: {}, range: [] }),
+                /missing the tokens array/
+            );
 
         });
 
         it("should throw an error when called with an AST that's missing comments", () => {
 
-            assert.throws(() => {
-                new SourceCode("foo;", { tokens: [], loc: {}, range: [] });
-            }, /missing the comments array/);
+            assert.throws(
+                () => new SourceCode("foo;", { tokens: [], loc: {}, range: [] }),
+                /missing the comments array/
+            );
 
         });
 
         it("should throw an error when called with an AST that's missing location", () => {
 
-            assert.throws(() => {
-                new SourceCode("foo;", { comments: [], tokens: [], range: [] });
-            }, /missing location information/);
+            assert.throws(
+                () => new SourceCode("foo;", { comments: [], tokens: [], range: [] }),
+                /missing location information/
+            );
 
         });
 
         it("should throw an error when called with an AST that's missing range", () => {
 
-            assert.throws(() => {
-                new SourceCode("foo;", { comments: [], tokens: [], loc: {} });
-            }, /missing range information/);
+            assert.throws(
+                () => new SourceCode("foo;", { comments: [], tokens: [], loc: {} }),
+                /missing range information/
+            );
         });
 
         it("should store all tokens and comments sorted by range", () => {

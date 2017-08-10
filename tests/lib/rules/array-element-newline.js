@@ -127,8 +127,8 @@ ruleTester.run("array-element-newline", rule, {
         // "always"
         {
             code: "var foo = [1, 2];",
-            options: ["always"],
             output: "var foo = [1,\n2];",
+            options: ["always"],
             errors: [
                 {
                     message: ERR_BREAK_HERE,
@@ -141,8 +141,8 @@ ruleTester.run("array-element-newline", rule, {
         },
         {
             code: "var foo = [1, 2, 3];",
-            options: ["always"],
             output: "var foo = [1,\n2,\n3];",
+            options: ["always"],
             errors: [
                 {
                     message: ERR_BREAK_HERE,
@@ -162,8 +162,8 @@ ruleTester.run("array-element-newline", rule, {
         },
         {
             code: "var foo = [1,2, 3];",
-            options: ["always"],
             output: "var foo = [1,\n2,\n3];",
+            options: ["always"],
             errors: [
                 {
                     message: ERR_BREAK_HERE,
@@ -183,8 +183,8 @@ ruleTester.run("array-element-newline", rule, {
         },
         {
             code: "var foo = [1, (2), 3];",
-            options: ["always"],
             output: "var foo = [1,\n(2),\n3];",
+            options: ["always"],
             errors: [
                 {
                     message: ERR_BREAK_HERE,
@@ -204,25 +204,8 @@ ruleTester.run("array-element-newline", rule, {
         },
         {
             code: "var foo = [1,(\n2\n), 3];",
-            options: ["always"],
             output: "var foo = [1,\n(\n2\n),\n3];",
-            errors: [
-                {
-                    message: ERR_BREAK_HERE,
-                    line: 1,
-                    column: 14
-                },
-                {
-                    message: ERR_BREAK_HERE,
-                    line: 3,
-                    column: 3
-                }
-            ]
-        },
-        {
-            code: "var foo = [1,(\n2\n), 3];",
             options: ["always"],
-            output: "var foo = [1,\n(\n2\n),\n3];",
             errors: [
                 {
                     message: ERR_BREAK_HERE,
@@ -238,8 +221,8 @@ ruleTester.run("array-element-newline", rule, {
         },
         {
             code: "var foo = [1,        \t      (\n2\n),\n3];",
-            options: ["always"],
             output: "var foo = [1,\n(\n2\n),\n3];",
+            options: ["always"],
             errors: [
                 {
                     message: ERR_BREAK_HERE,
@@ -250,8 +233,8 @@ ruleTester.run("array-element-newline", rule, {
         },
         {
             code: "var foo = [1, ((((2)))), 3];",
-            options: ["always"],
             output: "var foo = [1,\n((((2)))),\n3];",
+            options: ["always"],
             errors: [
                 {
                     message: ERR_BREAK_HERE,
@@ -271,8 +254,8 @@ ruleTester.run("array-element-newline", rule, {
         },
         {
             code: "var foo = [1,/* any comment */(2), 3];",
-            options: ["always"],
             output: "var foo = [1,/* any comment */\n(2),\n3];",
+            options: ["always"],
             errors: [
                 {
                     message: ERR_BREAK_HERE,
@@ -292,8 +275,8 @@ ruleTester.run("array-element-newline", rule, {
         },
         {
             code: "var foo = [1,(  2), 3];",
-            options: ["always"],
             output: "var foo = [1,\n(  2),\n3];",
+            options: ["always"],
             errors: [
                 {
                     message: ERR_BREAK_HERE,
@@ -313,8 +296,8 @@ ruleTester.run("array-element-newline", rule, {
         },
         {
             code: "var foo = [1, [2], 3];",
-            options: ["always"],
             output: "var foo = [1,\n[2],\n3];",
+            options: ["always"],
             errors: [
                 {
                     message: ERR_BREAK_HERE,
@@ -334,8 +317,8 @@ ruleTester.run("array-element-newline", rule, {
         },
         {
             code: "var foo = [\nfunction foo() {\ndosomething();\n}, function bar() {\ndosomething();\n}\n];",
-            options: ["always"],
             output: "var foo = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n}\n];",
+            options: ["always"],
             errors: [
                 {
                     message: ERR_BREAK_HERE,
@@ -346,8 +329,8 @@ ruleTester.run("array-element-newline", rule, {
         },
         {
             code: "var foo = [\n(function foo() {\ndosomething();\n}), function bar() {\ndosomething();\n}\n];",
-            options: ["always"],
             output: "var foo = [\n(function foo() {\ndosomething();\n}),\nfunction bar() {\ndosomething();\n}\n];",
+            options: ["always"],
             errors: [
                 {
                     message: ERR_BREAK_HERE,
@@ -360,8 +343,8 @@ ruleTester.run("array-element-newline", rule, {
         // "never"
         {
             code: "var foo = [\n1,\n2\n];",
-            options: ["never"],
             output: "var foo = [\n1, 2\n];",
+            options: ["never"],
             errors: [
                 {
                     message: ERR_NO_BREAK_HERE,
@@ -372,8 +355,8 @@ ruleTester.run("array-element-newline", rule, {
         },
         {
             code: "var foo = [\n1\n, 2\n];",
-            options: ["never"],
             output: "var foo = [\n1, 2\n];",
+            options: ["never"],
             errors: [
                 {
                     message: ERR_NO_BREAK_HERE,
@@ -384,8 +367,8 @@ ruleTester.run("array-element-newline", rule, {
         },
         {
             code: "var foo = [\n1 // any comment\n, 2\n];",
+            output: null,
             options: ["never"],
-            output: "var foo = [\n1 // any comment\n, 2\n];",
             errors: [
                 {
                     message: ERR_NO_BREAK_HERE,
@@ -396,8 +379,8 @@ ruleTester.run("array-element-newline", rule, {
         },
         {
             code: "var foo = [\n1, // any comment\n2\n];",
+            output: null,
             options: ["never"],
-            output: "var foo = [\n1, // any comment\n2\n];",
             errors: [
                 {
                     message: ERR_NO_BREAK_HERE,
@@ -408,8 +391,8 @@ ruleTester.run("array-element-newline", rule, {
         },
         {
             code: "var foo = [\n1,\n2 // any comment\n];",
-            options: ["never"],
             output: "var foo = [\n1, 2 // any comment\n];",
+            options: ["never"],
             errors: [
                 {
                     message: ERR_NO_BREAK_HERE,
@@ -420,8 +403,8 @@ ruleTester.run("array-element-newline", rule, {
         },
         {
             code: "var foo = [\n1,\n2,\n3\n];",
-            options: ["never"],
             output: "var foo = [\n1, 2, 3\n];",
+            options: ["never"],
             errors: [
                 {
                     message: ERR_NO_BREAK_HERE,
@@ -441,8 +424,8 @@ ruleTester.run("array-element-newline", rule, {
         },
         {
             code: "var foo = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n}\n];",
-            options: ["never"],
             output: "var foo = [\nfunction foo() {\ndosomething();\n}, function bar() {\ndosomething();\n}\n];",
+            options: ["never"],
             errors: [
                 {
                     message: ERR_NO_BREAK_HERE,
@@ -453,8 +436,8 @@ ruleTester.run("array-element-newline", rule, {
         },
         {
             code: "var foo = [\nfunction foo() {\ndosomething();\n}, /* any comment */\nfunction bar() {\ndosomething();\n}\n];",
+            output: null,
             options: ["never"],
-            output: "var foo = [\nfunction foo() {\ndosomething();\n}, /* any comment */\nfunction bar() {\ndosomething();\n}\n];",
             errors: [
                 {
                     message: ERR_NO_BREAK_HERE,
@@ -467,8 +450,8 @@ ruleTester.run("array-element-newline", rule, {
         // { multiline: true }
         {
             code: "var foo = [1,\n2, 3];",
-            options: [{ multiline: true }],
             output: "var foo = [1, 2, 3];",
+            options: [{ multiline: true }],
             errors: [
                 {
                     message: ERR_NO_BREAK_HERE,
@@ -479,8 +462,8 @@ ruleTester.run("array-element-newline", rule, {
         },
         {
             code: "var foo = [\nfunction foo() {\ndosomething();\n}, function bar() {\ndosomething();\n}\n];",
-            options: [{ multiline: true }],
             output: "var foo = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n}\n];",
+            options: [{ multiline: true }],
             errors: [
                 {
                     message: ERR_BREAK_HERE,
@@ -491,8 +474,8 @@ ruleTester.run("array-element-newline", rule, {
         },
         {
             code: "var foo = [\nfunction foo() {\ndosomething();\n}, /* any comment */ function bar() {\ndosomething();\n}\n];",
-            options: [{ multiline: true }],
             output: "var foo = [\nfunction foo() {\ndosomething();\n}, /* any comment */\nfunction bar() {\ndosomething();\n}\n];",
+            options: [{ multiline: true }],
             errors: [
                 {
                     message: ERR_BREAK_HERE,
@@ -505,8 +488,8 @@ ruleTester.run("array-element-newline", rule, {
         // { minItems: null }
         {
             code: "var foo = [1,\n2];",
-            options: [{ minItems: null }],
             output: "var foo = [1, 2];",
+            options: [{ minItems: null }],
             errors: [
                 {
                     message: ERR_NO_BREAK_HERE,
@@ -517,8 +500,8 @@ ruleTester.run("array-element-newline", rule, {
         },
         {
             code: "var foo = [1,\n2,\n3];",
-            options: [{ minItems: null }],
             output: "var foo = [1, 2, 3];",
+            options: [{ minItems: null }],
             errors: [
                 {
                     message: ERR_NO_BREAK_HERE,
@@ -534,8 +517,8 @@ ruleTester.run("array-element-newline", rule, {
         },
         {
             code: "var foo = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n}\n];",
-            options: [{ minItems: null }],
             output: "var foo = [\nfunction foo() {\ndosomething();\n}, function bar() {\ndosomething();\n}\n];",
+            options: [{ minItems: null }],
             errors: [
                 {
                     message: ERR_NO_BREAK_HERE,
@@ -548,8 +531,8 @@ ruleTester.run("array-element-newline", rule, {
         // { minItems: 0 }
         {
             code: "var foo = [1, 2];",
-            options: [{ minItems: 0 }],
             output: "var foo = [1,\n2];",
+            options: [{ minItems: 0 }],
             errors: [
                 {
                     message: ERR_BREAK_HERE,
@@ -560,8 +543,8 @@ ruleTester.run("array-element-newline", rule, {
         },
         {
             code: "var foo = [1, 2, 3];",
-            options: [{ minItems: 0 }],
             output: "var foo = [1,\n2,\n3];",
+            options: [{ minItems: 0 }],
             errors: [
                 {
                     message: ERR_BREAK_HERE,
@@ -577,8 +560,8 @@ ruleTester.run("array-element-newline", rule, {
         },
         {
             code: "var foo = [\nfunction foo() {\ndosomething();\n}, function bar() {\ndosomething();\n}\n];",
-            options: [{ minItems: 0 }],
             output: "var foo = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n}\n];",
+            options: [{ minItems: 0 }],
             errors: [
                 {
                     message: ERR_BREAK_HERE,
@@ -591,8 +574,8 @@ ruleTester.run("array-element-newline", rule, {
         // { minItems: 3 }
         {
             code: "var foo = [1,\n2];",
-            options: [{ minItems: 3 }],
             output: "var foo = [1, 2];",
+            options: [{ minItems: 3 }],
             errors: [
                 {
                     message: ERR_NO_BREAK_HERE,
@@ -603,8 +586,8 @@ ruleTester.run("array-element-newline", rule, {
         },
         {
             code: "var foo = [1, 2, 3];",
-            options: [{ minItems: 3 }],
             output: "var foo = [1,\n2,\n3];",
+            options: [{ minItems: 3 }],
             errors: [
                 {
                     message: ERR_BREAK_HERE,
@@ -620,8 +603,8 @@ ruleTester.run("array-element-newline", rule, {
         },
         {
             code: "var foo = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n}\n];",
-            options: [{ minItems: 3 }],
             output: "var foo = [\nfunction foo() {\ndosomething();\n}, function bar() {\ndosomething();\n}\n];",
+            options: [{ minItems: 3 }],
             errors: [
                 {
                     message: ERR_NO_BREAK_HERE,
@@ -634,8 +617,8 @@ ruleTester.run("array-element-newline", rule, {
         // { multiline: true, minItems: 3 }
         {
             code: "var foo = [1, 2, 3];",
-            options: [{ multiline: true, minItems: 3 }],
             output: "var foo = [1,\n2,\n3];",
+            options: [{ multiline: true, minItems: 3 }],
             errors: [
                 {
                     message: ERR_BREAK_HERE,
@@ -651,8 +634,8 @@ ruleTester.run("array-element-newline", rule, {
         },
         {
             code: "var foo = [1,\n2];",
-            options: [{ multiline: true, minItems: 3 }],
             output: "var foo = [1, 2];",
+            options: [{ multiline: true, minItems: 3 }],
             errors: [
                 {
                     message: ERR_NO_BREAK_HERE,
@@ -663,8 +646,8 @@ ruleTester.run("array-element-newline", rule, {
         },
         {
             code: "var foo = [\nfunction foo() {\ndosomething();\n}, function bar() {\ndosomething();\n}\n];",
-            options: [{ multiline: true, minItems: 3 }],
             output: "var foo = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n}\n];",
+            options: [{ multiline: true, minItems: 3 }],
             errors: [
                 {
                     message: ERR_BREAK_HERE,
@@ -678,8 +661,8 @@ ruleTester.run("array-element-newline", rule, {
         // "always"
         {
             code: "var [a, b] = foo;",
-            options: ["always"],
             output: "var [a,\nb] = foo;",
+            options: ["always"],
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
@@ -691,8 +674,8 @@ ruleTester.run("array-element-newline", rule, {
         },
         {
             code: "var [a, b, c] = foo;",
-            options: ["always"],
             output: "var [a,\nb,\nc] = foo;",
+            options: ["always"],
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
@@ -711,8 +694,8 @@ ruleTester.run("array-element-newline", rule, {
         // { minItems: 3 }
         {
             code: "var [a,\nb] = foo;",
-            options: [{ minItems: 3 }],
             output: "var [a, b] = foo;",
+            options: [{ minItems: 3 }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
@@ -724,8 +707,8 @@ ruleTester.run("array-element-newline", rule, {
         },
         {
             code: "var [a, b, c] = foo;",
-            options: [{ minItems: 3 }],
             output: "var [a,\nb,\nc] = foo;",
+            options: [{ minItems: 3 }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {

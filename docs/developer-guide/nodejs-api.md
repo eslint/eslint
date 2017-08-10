@@ -159,7 +159,7 @@ var messages = linter.verifyAndFix("var foo", {
     rules: {
         semi: 2
     }
-}, { filename: "foo.js" });
+});
 ```
 
 Output object from this method:
@@ -167,7 +167,7 @@ Output object from this method:
 ```js
 {
     fixed: true,
-    text: "var foo;",
+    output: "var foo;",
     messages: []
 }
 ```
@@ -175,7 +175,7 @@ Output object from this method:
 The information available is:
 
 * `fixed` - True, if the code was fixed.
-* `text` - Fixed code text (might be the same as input if no fixes were applied).
+* `output` - Fixed code text (might be the same as input if no fixes were applied).
 * `messages` - Collection of all messages for the given code (It has the same information as explained above under `verify` block).
 
 ## linter
@@ -206,7 +206,7 @@ var CLIEngine = require("eslint").CLIEngine;
 
 The `CLIEngine` is a constructor, and you can create a new instance by passing in the options you want to use. The available options are:
 
-* `allowInlineConfig` - Set to false to disable the use of configuration comments (such as `/*eslint-disable*/`). Corresponds to `--no-inline-config`.
+* `allowInlineConfig` - Set to `false` to disable the use of configuration comments (such as `/*eslint-disable*/`). Corresponds to `--no-inline-config`.
 * `baseConfig` - Set to false to disable use of base config. Could be set to an object to override default base config as well.
 * `cache` - Operate only on changed files (default: `false`). Corresponds to `--cache`.
 * `cacheFile` - Name of the file where the cache will be stored (default: `.eslintcache`). Corresponds to `--cache-file`. Deprecated: use `cacheLocation` instead.
@@ -215,7 +215,7 @@ The `CLIEngine` is a constructor, and you can create a new instance by passing i
 * `cwd` - Path to a directory that should be considered as the current working directory.
 * `envs` - An array of environments to load (default: empty array). Corresponds to `--env`.
 * `extensions` - An array of filename extensions that should be checked for code. The default is an array containing just `".js"`. Corresponds to `--ext`. It is only used in conjunction with directories, not with filenames or glob patterns.
-* `fix` - True indicates that fixes should be included with the output report, and that errors and warnings should not be listed if they can be fixed. However, the files on disk will not be changed. To persist changes to disk, call [`outputFixes()`](#outputfixes).
+* `fix` - This can be a boolean or a function which will be provided each linting message and should return a boolean. True indicates that fixes should be included with the output report, and that errors and warnings should not be listed if they can be fixed. However, the files on disk will not be changed. To persist changes to disk, call [`outputFixes()`](#outputfixes).
 * `globals` - An array of global variables to declare (default: empty array). Corresponds to `--global`.
 * `ignore` - False disables use of `.eslintignore`, `ignorePath` and `ignorePattern` (default: true). Corresponds to `--no-ignore`.
 * `ignorePath` - The ignore file to use instead of `.eslintignore` (default: null). Corresponds to `--ignore-path`.

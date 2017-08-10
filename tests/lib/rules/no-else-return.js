@@ -58,7 +58,8 @@ ruleTester.run("no-else-return", rule, {
         {
             code: "function foo3() { if (true) return x; else return y; }",
             output: "function foo3() { if (true) return x; return y; }",
-            errors: [{ message: "Unnecessary 'else' after 'return'.", type: "ReturnStatement" }] },
+            errors: [{ message: "Unnecessary 'else' after 'return'.", type: "ReturnStatement" }]
+        },
         {
             code: "function foo4() { if (true) { if (false) return x; else return y; } else { return z; } }",
             output: "function foo4() { if (true) { if (false) return x; return y; } else { return z; } }", // Other case is fixed in the second pass.

@@ -1,0 +1,5 @@
+# intentionally invalid YML
+rules:
+  semi: error
+yoda: error
+  quotes: error

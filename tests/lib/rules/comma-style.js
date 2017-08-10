@@ -72,10 +72,6 @@ ruleTester.run("comma-style", rule, {
             options: ["first", { exceptions: { ArrayExpression: true, ObjectExpression: true } }]
         },
         {
-            code: "var ar ={fst:1,\nsnd: [1,\n2]};",
-            options: ["first", { exceptions: { ArrayExpression: true, ObjectExpression: true } }]
-        },
-        {
             code: "var a = 'a',\nar ={fst:1,\nsnd: [1,\n2]};",
             options: ["first", {
                 exceptions: {
@@ -112,12 +108,6 @@ ruleTester.run("comma-style", rule, {
         },
         {
             code: "const foo = function (a\n, b) { return a + b; }",
-            parserOptions: {
-                ecmaVersion: 6
-            }
-        },
-        {
-            code: "var {foo\n, bar} = {foo:'apples', bar:'oranges'};",
             parserOptions: {
                 ecmaVersion: 6
             }
@@ -307,12 +297,12 @@ ruleTester.run("comma-style", rule, {
         },
         {
             code: "var [foo\n, bar] = ['apples', 'oranges'];",
+            output: "var [foo,\n bar] = ['apples', 'oranges'];",
             options: ["last", {
                 exceptions: {
                     ArrayPattern: false
                 }
             }],
-            output: "var [foo,\n bar] = ['apples', 'oranges'];",
             parserOptions: {
                 ecmaVersion: 6
             },
@@ -323,12 +313,12 @@ ruleTester.run("comma-style", rule, {
         },
         {
             code: "f(1\n, 2);",
+            output: "f(1,\n 2);",
             options: ["last", {
                 exceptions: {
                     CallExpression: false
                 }
             }],
-            output: "f(1,\n 2);",
             errors: [{
                 message: LAST_MSG,
                 type: "Literal"
@@ -336,12 +326,12 @@ ruleTester.run("comma-style", rule, {
         },
         {
             code: "function foo(a\n, b) { return a + b; }",
+            output: "function foo(a,\n b) { return a + b; }",
             options: ["last", {
                 exceptions: {
                     FunctionDeclaration: false
                 }
             }],
-            output: "function foo(a,\n b) { return a + b; }",
             errors: [{
                 message: LAST_MSG,
                 type: "Identifier"
@@ -349,12 +339,12 @@ ruleTester.run("comma-style", rule, {
         },
         {
             code: "const foo = function (a\n, b) { return a + b; }",
+            output: "const foo = function (a,\n b) { return a + b; }",
             options: ["last", {
                 exceptions: {
                     FunctionExpression: false
                 }
             }],
-            output: "const foo = function (a,\n b) { return a + b; }",
             parserOptions: {
                 ecmaVersion: 6,
                 sourceType: "module"
@@ -366,12 +356,12 @@ ruleTester.run("comma-style", rule, {
         },
         {
             code: "function foo([a\n, b]) { return a + b; }",
+            output: "function foo([a,\n b]) { return a + b; }",
             options: ["last", {
                 exceptions: {
                     ArrayPattern: false
                 }
             }],
-            output: "function foo([a,\n b]) { return a + b; }",
             parserOptions: {
                 ecmaVersion: 6
             },
@@ -382,12 +372,12 @@ ruleTester.run("comma-style", rule, {
         },
         {
             code: "const foo = (a\n, b) => { return a + b; }",
+            output: "const foo = (a,\n b) => { return a + b; }",
             options: ["last", {
                 exceptions: {
                     ArrowFunctionExpression: false
                 }
             }],
-            output: "const foo = (a,\n b) => { return a + b; }",
             parserOptions: {
                 ecmaVersion: 6
             },
@@ -398,12 +388,12 @@ ruleTester.run("comma-style", rule, {
         },
         {
             code: "const foo = ([a\n, b]) => { return a + b; }",
+            output: "const foo = ([a,\n b]) => { return a + b; }",
             options: ["last", {
                 exceptions: {
                     ArrayPattern: false
                 }
             }],
-            output: "const foo = ([a,\n b]) => { return a + b; }",
             parserOptions: {
                 ecmaVersion: 6
             },
@@ -414,12 +404,12 @@ ruleTester.run("comma-style", rule, {
         },
         {
             code: "import { a\n, b } from './source';",
+            output: "import { a,\n b } from './source';",
             options: ["last", {
                 exceptions: {
                     ImportDeclaration: false
                 }
             }],
-            output: "import { a,\n b } from './source';",
             parserOptions: {
                 ecmaVersion: 6,
                 sourceType: "module"
@@ -431,12 +421,12 @@ ruleTester.run("comma-style", rule, {
         },
         {
             code: "var {foo\n, bar} = {foo:'apples', bar:'oranges'};",
+            output: "var {foo,\n bar} = {foo:'apples', bar:'oranges'};",
             options: ["last", {
                 exceptions: {
                     ObjectPattern: false
                 }
             }],
-            output: "var {foo,\n bar} = {foo:'apples', bar:'oranges'};",
             parserOptions: {
                 ecmaVersion: 6
             },
@@ -470,15 +460,6 @@ ruleTester.run("comma-style", rule, {
             errors: [{
                 message: FIRST_MSG,
                 type: "Literal"
-            }]
-        },
-        {
-            code: "var foo = {'a': 1, \n 'b': 2\n ,'c': 3};",
-            output: "var foo = {'a': 1 \n ,'b': 2\n ,'c': 3};",
-            options: ["first"],
-            errors: [{
-                message: FIRST_MSG,
-                type: "Property"
             }]
         },
         {

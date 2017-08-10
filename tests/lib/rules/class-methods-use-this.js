@@ -30,7 +30,7 @@ ruleTester.run("class-methods-use-this", rule, {
         { code: "({ a(){} });", parserOptions: { ecmaVersion: 6 } },
         { code: "class A { foo() { () => this; } }", parserOptions: { ecmaVersion: 6 } },
         { code: "({ a: function () {} });", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { foo() {this} bar() {} }", parserOptions: { ecmaVersion: 6 }, options: [{ exceptMethods: ["bar"] }] }
+        { code: "class A { foo() {this} bar() {} }", options: [{ exceptMethods: ["bar"] }], parserOptions: { ecmaVersion: 6 } }
     ],
     invalid: [
         {
@@ -84,16 +84,16 @@ ruleTester.run("class-methods-use-this", rule, {
         },
         {
             code: "class A { foo() {} bar() {} }",
-            parserOptions: { ecmaVersion: 6 },
             options: [{ exceptMethods: ["bar"] }],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { type: "FunctionExpression", line: 1, column: 14, message: "Expected 'this' to be used by class method 'foo'." }
             ]
         },
         {
             code: "class A { foo() {} hasOwnProperty() {} }",
-            parserOptions: { ecmaVersion: 6 },
             options: [{ exceptMethods: ["foo"] }],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { type: "FunctionExpression", line: 1, column: 34, message: "Expected 'this' to be used by class method 'hasOwnProperty'." }
             ]

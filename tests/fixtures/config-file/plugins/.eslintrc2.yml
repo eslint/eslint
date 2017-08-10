@@ -1,0 +1,3 @@
+extends:
+    - plugin:test/foo
+    - plugin:test/bar

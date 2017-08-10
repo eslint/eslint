@@ -12,6 +12,7 @@ const assert = require("chai").assert,
     leche = require("leche"),
     environments = require("../../../conf/environments"),
     Environments = require("../../../lib/config/environments"),
+    ConfigCache = require("../../../lib/config/config-cache"),
     ConfigOps = require("../../../lib/config/config-ops");
 
 const envContext = new Environments();
@@ -475,7 +476,78 @@ describe("ConfigOps", () => {
             });
         });
 
+        describe("overrides", () => {
+            it("should combine the override entries in the correct order", () => {
+                const baseConfig = { overrides: [{ files: ["**/*Spec.js"], env: { mocha: true } }] };
+                const customConfig = { overrides: [{ files: ["**/*.jsx"], ecmaFeatures: { jsx: true } }] };
+                const expectedResult = {
+                    overrides: [
+                        { files: ["**/*Spec.js"], env: { mocha: true } },
+                        { files: ["**/*.jsx"], ecmaFeatures: { jsx: true } }
+                    ]
+                };
 
+                const result = ConfigOps.merge(baseConfig, customConfig);
+
+                assert.deepEqual(result, expectedResult);
+            });
+
+            it("should work if the base config doesn’t have an overrides property", () => {
+                const baseConfig = {};
+                const customConfig = { overrides: [{ files: ["**/*.jsx"], ecmaFeatures: { jsx: true } }] };
+                const expectedResult = {
+                    overrides: [
+                        { files: ["**/*.jsx"], ecmaFeatures: { jsx: true } }
+                    ]
+                };
+
+                const result = ConfigOps.merge(baseConfig, customConfig);
+
+                assert.deepEqual(result, expectedResult);
+            });
+
+            it("should work if the custom config doesn’t have an overrides property", () => {
+                const baseConfig = { overrides: [{ files: ["**/*Spec.js"], env: { mocha: true } }] };
+                const customConfig = {};
+                const expectedResult = {
+                    overrides: [
+                        { files: ["**/*Spec.js"], env: { mocha: true } }
+                    ]
+                };
+
+                const result = ConfigOps.merge(baseConfig, customConfig);
+
+                assert.deepEqual(result, expectedResult);
+            });
+
+            it("should work if overrides are null in the base config", () => {
+                const baseConfig = { overrides: null };
+                const customConfig = { overrides: [{ files: ["**/*.jsx"], ecmaFeatures: { jsx: true } }] };
+                const expectedResult = {
+                    overrides: [
+                        { files: ["**/*.jsx"], ecmaFeatures: { jsx: true } }
+                    ]
+                };
+
+                const result = ConfigOps.merge(baseConfig, customConfig);
+
+                assert.deepEqual(result, expectedResult);
+            });
+
+            it("should work if overrides are null in the custom config", () => {
+                const baseConfig = { overrides: [{ files: ["**/*Spec.js"], env: { mocha: true } }] };
+                const customConfig = { overrides: null };
+                const expectedResult = {
+                    overrides: [
+                        { files: ["**/*Spec.js"], env: { mocha: true } }
+                    ]
+                };
+
+                const result = ConfigOps.merge(baseConfig, customConfig);
+
+                assert.deepEqual(result, expectedResult);
+            });
+        });
     });
 
     describe("normalize()", () => {
@@ -794,4 +866,57 @@ describe("ConfigOps", () => {
 
     });
 
+    describe("getConfigFromVector()", () => {
+        let configCache;
+
+        beforeEach(() => {
+            configCache = new ConfigCache();
+        });
+
+        it("should get from merged vector cache when present", () => {
+            const vector = [
+                { filePath: "configFile1", matchingOverrides: [1] },
+                { filePath: "configFile2", matchingOverrides: [0, 1] }
+            ];
+            const merged = { merged: true };
+
+            configCache.setMergedVectorConfig(vector, merged);
+
+            const result = ConfigOps.getConfigFromVector(vector, configCache);
+
+            assert.deepEqual(result, merged);
+        });
+
+        it("should get from raw cached configs when no merged vectors are cached", () => {
+            const config = [
+                {
+                    rules: { foo1: "off" },
+                    overrides: [
+                        { files: "pattern1", rules: { foo1: "warn" } },
+                        { files: "pattern2", rules: { foo1: "error" } }
+                    ]
+                },
+                {
+                    rules: { foo2: "warn" },
+                    overrides: [
+                        { files: "pattern1", rules: { foo2: "error" } },
+                        { files: "pattern2", rules: { foo2: "off" } }
+                    ]
+                }
+            ];
+
+            configCache.setConfig("configFile1", config[0]);
+            configCache.setConfig("configFile2", config[1]);
+
+            const vector = [
+                { filePath: "configFile1", matchingOverrides: [1] },
+                { filePath: "configFile2", matchingOverrides: [0, 1] }
+            ];
+
+            const result = ConfigOps.getConfigFromVector(vector, configCache);
+
+            assert.equal(result.rules.foo1, "error");
+            assert.equal(result.rules.foo2, "off");
+        });
+    });
 });

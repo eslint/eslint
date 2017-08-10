@@ -72,16 +72,6 @@ ruleTester.run("operator-assignment", rule, {
             options: ["never"]
         },
         "x = y ** x",
-        "x = x < y",
-        "x = x > y",
-        "x = x <= y",
-        "x = x >= y",
-        "x = x == y",
-        "x = x != y",
-        "x = x === y",
-        "x = x !== y",
-        "x = x && y",
-        "x = x || y",
         "x = x * y + z"
     ],
 

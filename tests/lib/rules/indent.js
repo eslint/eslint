@@ -67,7 +67,7 @@ function unIndent(strings) {
     return lines.map(line => line.slice(minLineIndent)).join("\n");
 }
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 8, ecmaFeatures: { jsx: true } } });
 
 ruleTester.run("indent", rule, {
     valid: [
@@ -216,10 +216,6 @@ ruleTester.run("indent", rule, {
                         1
                     );
             `,
-            options: [4]
-        },
-        {
-            code: "var x = 0 && { a: 1, b: 2 };",
             options: [4]
         },
         {
@@ -517,6 +513,64 @@ ruleTester.run("indent", rule, {
                     };
             `,
             options: [2, { VariableDeclarator: 2, SwitchCase: 1 }]
+        },
+        {
+            code: unIndent`
+                var
+                    x = {
+                        a: 1,
+                    },
+                    y = {
+                        b: 2
+                    }
+            `
+        },
+        {
+            code: unIndent`
+                const
+                    x = {
+                        a: 1,
+                    },
+                    y = {
+                        b: 2
+                    }
+            `
+        },
+        {
+            code: unIndent`
+                let
+                    x = {
+                        a: 1,
+                    },
+                    y = {
+                        b: 2
+                    }
+            `
+        },
+        {
+            code: unIndent`
+                var foo = { a: 1 }, bar = {
+                    b: 2
+                };
+            `
+        },
+        {
+            code: unIndent`
+                var foo = { a: 1 }, bar = {
+                        b: 2
+                    },
+                    baz = {
+                        c: 3
+                    }
+            `
+        },
+        {
+            code: unIndent`
+                const {
+                        foo
+                    } = 1,
+                    bar = 2
+            `
         },
         {
             code: unIndent`
@@ -1193,8 +1247,8 @@ ruleTester.run("indent", rule, {
                   });
                 };
             `,
-            parserOptions: { sourceType: "module" },
-            options: [2, { FunctionDeclaration: { parameters: "first" } }]
+            options: [2, { FunctionDeclaration: { parameters: "first" } }],
+            parserOptions: { sourceType: "module" }
         },
         {
             code: unIndent`
@@ -1205,8 +1259,8 @@ ruleTester.run("indent", rule, {
                   // ... function body, indented two spaces
                 }
             `,
-            parserOptions: { sourceType: "module" },
-            options: [2, { FunctionDeclaration: { parameters: "first" } }]
+            options: [2, { FunctionDeclaration: { parameters: "first" } }],
+            parserOptions: { sourceType: "module" }
         },
         {
             code: unIndent`
@@ -1415,6 +1469,27 @@ ruleTester.run("indent", rule, {
                 ];
             `,
             options: [4, { VariableDeclarator: 0, SwitchCase: 1 }]
+        },
+        {
+            code: unIndent`
+                [[
+                ], function(
+                    foo
+                ) {}
+                ]
+            `
+        },
+        {
+            code: unIndent`
+                define([
+                    'foo'
+                ], function(
+                    bar
+                ) {
+                    baz;
+                }
+                )
+            `
         },
         {
             code: unIndent`
@@ -1749,6 +1824,72 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                (
+                    foo
+                        .bar
+                )
+            `
+        },
+        {
+            code: unIndent`
+                (
+                    (
+                        foo
+                            .bar
+                    )
+                )
+            `
+        },
+        {
+            code: unIndent`
+                (
+                    foo
+                )
+                    .bar
+            `
+        },
+        {
+            code: unIndent`
+                (
+                    (
+                        foo
+                    )
+                        .bar
+                )
+            `
+        },
+        {
+            code: unIndent`
+                (
+                    (
+                        foo
+                    )
+                        [
+                            (
+                                bar
+                            )
+                        ]
+                )
+            `
+        },
+        {
+            code: unIndent`
+                (
+                    foo[bar]
+                )
+                    .baz
+            `
+        },
+        {
+            code: unIndent`
+                (
+                    (foo.bar)
+                )
+                    .baz
+            `
+        },
+        {
+            code: unIndent`
                 MemberExpression
                 .can
                   .be
@@ -2027,6 +2168,58 @@ ruleTester.run("indent", rule, {
             options: [2]
         },
         {
+            code: unIndent`
+                const {
+                  a
+                }
+                =
+                {
+                  a: 1
+                }
+            `,
+            options: [2]
+        },
+        {
+            code: unIndent`
+                const {
+                  a
+                } = {
+                  a: 1
+                }
+            `,
+            options: [2]
+        },
+        {
+            code: unIndent`
+                const
+                  {
+                    a
+                  } = {
+                    a: 1
+                  };
+            `,
+            options: [2]
+        },
+        {
+            code: unIndent`
+                const
+                  foo = {
+                    bar: 1
+                  }
+            `,
+            options: [2]
+        },
+        {
+            code: unIndent`
+                const [
+                  a
+                ] = [
+                  1
+                ]
+            `,
+            options: [2]
+        },
+        {
 
             // https://github.com/eslint/eslint/issues/7233
             code: unIndent`
@@ -2051,6 +2244,33 @@ ruleTester.run("indent", rule, {
             options: [2]
         },
         {
+            code: unIndent`
+                (
+                    foo
+                )(
+                    bar
+                )
+            `
+        },
+        {
+            code: unIndent`
+                (() =>
+                    foo
+                )(
+                    bar
+                )
+            `
+        },
+        {
+            code: unIndent`
+                (() => {
+                    foo();
+                })(
+                    bar
+                )
+            `
+        },
+        {
 
             // Don't lint the indentation of the first token after a :
             code: unIndent`
@@ -2067,6 +2287,22 @@ ruleTester.run("indent", rule, {
                 "foo.bar();"})
             `,
             options: [2]
+        },
+        {
+            code: unIndent`
+                ({
+                    foo:
+                        bar
+                })
+            `
+        },
+        {
+            code: unIndent`
+                ({
+                    [foo]:
+                        bar
+                })
+            `
         },
         {
 
@@ -2595,6 +2831,22 @@ ruleTester.run("indent", rule, {
                         baz
                     )
                 )
+            `
+        },
+        {
+            code: unIndent`
+                foo
+                    || (
+                        bar
+                    )
+            `
+        },
+        {
+            code: unIndent`
+                foo
+                                || (
+                                    bar
+                                )
             `
         },
         {
@@ -3211,6 +3463,12 @@ ruleTester.run("indent", rule, {
             `
         },
         {
+            code: unIndent`
+                if (foo)
+                    ;
+            `
+        },
+        {
             code: "x => {}"
         },
         {
@@ -3222,6 +3480,46 @@ ruleTester.run("indent", rule, {
         },
         {
             code: "import 'foo'",
+            parserOptions: { sourceType: "module" }
+        },
+        {
+            code: unIndent`
+                import { foo,
+                    bar,
+                    baz,
+                } from 'qux';
+            `,
+            options: [4, { ImportDeclaration: 1 }],
+            parserOptions: { sourceType: "module" }
+        },
+        {
+            code: unIndent`
+                import {
+                    foo,
+                    bar,
+                    baz,
+                } from 'qux';
+            `,
+            options: [4, { ImportDeclaration: 1 }],
+            parserOptions: { sourceType: "module" }
+        },
+        {
+            code: unIndent`
+                import { apple as a,
+                         banana as b } from 'fruits';
+                import { cat } from 'animals';
+            `,
+            options: [4, { ImportDeclaration: "first" }],
+            parserOptions: { sourceType: "module" }
+        },
+        {
+            code: unIndent`
+                import { declaration,
+                                 can,
+                                  be,
+                              turned } from 'off';
+            `,
+            options: [4, { ImportDeclaration: "off" }],
             parserOptions: { sourceType: "module" }
         },
 
@@ -3758,6 +4056,67 @@ ruleTester.run("indent", rule, {
             `
         },
 
+        // https://github.com/eslint/eslint/issues/8815
+        {
+            code: unIndent`
+                async function test() {
+                    const {
+                        foo,
+                        bar,
+                    } = await doSomethingAsync(
+                        1,
+                        2,
+                        3,
+                    );
+                }
+            `
+        },
+        {
+            code: unIndent`
+                function* test() {
+                    const {
+                        foo,
+                        bar,
+                    } = yield doSomethingAsync(
+                        1,
+                        2,
+                        3,
+                    );
+                }
+            `
+        },
+        {
+            code: unIndent`
+                ({
+                    a: b
+                } = +foo(
+                    bar
+                ));
+            `
+        },
+        {
+            code: unIndent`
+                const {
+                    foo,
+                    bar,
+                } = typeof foo(
+                    1,
+                    2,
+                    3,
+                );
+            `
+        },
+        {
+            code: unIndent`
+                const {
+                    foo,
+                    bar,
+                } = +(
+                    foo
+                );
+            `
+        },
+
         //----------------------------------------------------------------------
         // JSX tests
         // https://github.com/eslint/eslint/issues/8425
@@ -4232,15 +4591,17 @@ ruleTester.run("indent", rule, {
             // Multiline ternary
             // (multiline JSX, colon on its own line)
             code: unIndent`
-                {!foo ?
-                    <Foo
-                        onClick={this.onClick}
-                    />
-                    :
-                    <Bar
-                        onClick={this.onClick}
-                    />
-                }
+                <div>
+                    {!foo ?
+                        <Foo
+                            onClick={this.onClick}
+                        />
+                        :
+                        <Bar
+                            onClick={this.onClick}
+                        />
+                    }
+                </div>
             `
         },
         {
@@ -4516,6 +4877,62 @@ ruleTester.run("indent", rule, {
                     </span>
                 )
             `
+        },
+        {
+            code: unIndent`
+                <div>
+                    {
+                        /* foo */
+                    }
+                </div>
+            `
+        },
+
+        // https://github.com/eslint/eslint/issues/8832
+        {
+            code: unIndent`
+                <div>
+                    {
+                        (
+                            1
+                        )
+                    }
+                </div>
+            `
+        },
+        {
+            code: unIndent`
+                function A() {
+                    return (
+                        <div>
+                            {
+                                b && (
+                                    <div>
+                                    </div>
+                                )
+                            }
+                        </div>
+                    );
+                }
+            `
+        },
+        {
+            code: unIndent`
+                a(b
+                  , c
+                )
+            `,
+            options: [2, { CallExpression: { arguments: "off" } }]
+        },
+        {
+            code: unIndent`
+                a(
+                  new B({
+                    c,
+                  })
+                );
+            `,
+            options: [2, { CallExpression: { arguments: "off" } }]
         }
     ],
 
@@ -4527,14 +4944,14 @@ ruleTester.run("indent", rule, {
                 b();
                 }
             `,
-            options: [2],
-            errors: expectedErrors([[3, 2, 0, "Identifier"]]),
             output: unIndent`
                 var a = b;
                 if (a) {
                   b();
                 }
-            `
+            `,
+            options: [2],
+            errors: expectedErrors([[3, 2, 0, "Identifier"]])
         },
         {
             code: unIndent`
@@ -4940,6 +5357,21 @@ ruleTester.run("indent", rule, {
             errors: expectedErrors(
                 [3, 8, 10, "Punctuator"]
             )
+        },
+        {
+            code: unIndent`
+                (
+                    foo
+                    .bar
+                )
+            `,
+            output: unIndent`
+                (
+                    foo
+                        .bar
+                )
+            `,
+            errors: expectedErrors([3, 8, 4, "Punctuator"])
         },
         {
             code: unIndent`
@@ -5349,6 +5781,46 @@ ruleTester.run("indent", rule, {
                 [4, 4, 9, "String"],
                 [5, 0, 2, "Punctuator"]
             ])
+        },
+        {
+            code: unIndent`
+                [[
+                ], function(
+                        foo
+                    ) {}
+                ]
+            `,
+            output: unIndent`
+                [[
+                ], function(
+                    foo
+                ) {}
+                ]
+            `,
+            errors: expectedErrors([[3, 4, 8, "Identifier"], [4, 0, 4, "Punctuator"]])
+        },
+        {
+            code: unIndent`
+                define([
+                    'foo'
+                ], function(
+                        bar
+                    ) {
+                    baz;
+                }
+                )
+            `,
+            output: unIndent`
+                define([
+                    'foo'
+                ], function(
+                    bar
+                ) {
+                    baz;
+                }
+                )
+            `,
+            errors: expectedErrors([[4, 4, 8, "Identifier"], [5, 0, 4, "Punctuator"]])
         },
         {
             code: unIndent`
@@ -6440,20 +6912,6 @@ ruleTester.run("indent", rule, {
         {
             code: unIndent`
                 function foo() {
-                  bar();
-                \t\t}
-            `,
-            output: unIndent`
-                function foo() {
-                  bar();
-                }
-            `,
-            options: [2],
-            errors: expectedErrors([[3, "0 spaces", "2 tabs", "Punctuator"]])
-        },
-        {
-            code: unIndent`
-                function foo() {
                   return (
                     1
                     )
@@ -6486,20 +6944,6 @@ ruleTester.run("indent", rule, {
             `,
             options: [2],
             errors: expectedErrors([[4, 2, 4, "Punctuator"]])
-        },
-        {
-            code: unIndent`
-                function foo() {
-                  bar();
-                \t\t}
-            `,
-            output: unIndent`
-                function foo() {
-                  bar();
-                }
-            `,
-            options: [2],
-            errors: expectedErrors([[3, "0 spaces", "2 tabs", "Punctuator"]])
         },
         {
             code: unIndent`
@@ -6836,6 +7280,24 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                const {
+                  a
+                } = {
+                    a: 1
+                  }
+            `,
+            output: unIndent`
+                const {
+                  a
+                } = {
+                  a: 1
+                }
+            `,
+            options: [2],
+            errors: expectedErrors([[4, 2, 4, "Identifier"], [5, 0, 2, "Punctuator"]])
+        },
+        {
+            code: unIndent`
                 var foo = [
                            bar,
                   baz
@@ -7032,6 +7494,40 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                import { foo,
+                         bar,
+                          baz,
+                } from 'qux';
+            `,
+            output: unIndent`
+                import { foo,
+                         bar,
+                         baz,
+                } from 'qux';
+            `,
+            options: [4, { ImportDeclaration: "first" }],
+            parserOptions: { sourceType: "module" },
+            errors: expectedErrors([[3, 9, 10, "Identifier"]])
+        },
+        {
+            code: unIndent`
+                import { foo,
+                    bar,
+                     baz,
+                } from 'qux';
+            `,
+            output: unIndent`
+                import { foo,
+                    bar,
+                    baz,
+                } from 'qux';
+            `,
+            options: [2, { ImportDeclaration: 2 }],
+            parserOptions: { sourceType: "module" },
+            errors: expectedErrors([[3, 4, 5, "Identifier"]])
+        },
+        {
+            code: unIndent`
                 export {
                 foo,
                   bar,
@@ -7134,6 +7630,21 @@ ruleTester.run("indent", rule, {
                 ]
             `,
             errors: expectedErrors([3, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                foo
+                        || (
+                                bar
+                            )
+            `,
+            output: unIndent`
+                foo
+                        || (
+                            bar
+                        )
+            `,
+            errors: expectedErrors([[3, 12, 16, "Identifier"], [4, 8, 12, "Punctuator"]])
         },
         {
             code: unIndent`
@@ -7808,6 +8319,17 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                if (foo)
+                ;
+            `,
+            output: unIndent`
+                if (foo)
+                    ;
+            `,
+            errors: expectedErrors([2, 4, 0, "Punctuator"])
+        },
+        {
+            code: unIndent`
                 import {foo}
                 from 'bar';
             `,
@@ -7878,6 +8400,57 @@ ruleTester.run("indent", rule, {
                 ) bar(
                     baz
                 );
+            `,
+            errors: expectedErrors([[4, 4, 8, "Identifier"], [5, 0, 4, "Punctuator"]])
+        },
+        {
+            code: unIndent`
+                (
+                    foo
+                )(
+                        bar
+                    )
+            `,
+            output: unIndent`
+                (
+                    foo
+                )(
+                    bar
+                )
+            `,
+            errors: expectedErrors([[4, 4, 8, "Identifier"], [5, 0, 4, "Punctuator"]])
+        },
+        {
+            code: unIndent`
+                (() =>
+                    foo
+                )(
+                        bar
+                    )
+            `,
+            output: unIndent`
+                (() =>
+                    foo
+                )(
+                    bar
+                )
+            `,
+            errors: expectedErrors([[4, 4, 8, "Identifier"], [5, 0, 4, "Punctuator"]])
+        },
+        {
+            code: unIndent`
+                (() => {
+                    foo();
+                })(
+                        bar
+                    )
+            `,
+            output: unIndent`
+                (() => {
+                    foo();
+                })(
+                    bar
+                )
             `,
             errors: expectedErrors([[4, 4, 8, "Identifier"], [5, 0, 4, "Punctuator"]])
         },
@@ -7994,8 +8567,8 @@ ruleTester.run("indent", rule, {
                     }
                 }
             `,
-            parser: parser("unknown-nodes/namespace-invalid"),
-            errors: expectedErrors([[3, 8, 4, "Identifier"], [6, 8, 4, "Keyword"]])
+            errors: expectedErrors([[3, 8, 4, "Identifier"], [6, 8, 4, "Keyword"]]),
+            parser: parser("unknown-nodes/namespace-invalid")
         },
         {
             code: unIndent`
@@ -8026,8 +8599,8 @@ ruleTester.run("indent", rule, {
                     }
                 }
             `,
-            parser: parser("unknown-nodes/abstract-class-invalid"),
-            errors: expectedErrors([[4, 12, 8, "Identifier"], [7, 12, 8, "Identifier"], [10, 8, 4, "Identifier"]])
+            errors: expectedErrors([[4, 12, 8, "Identifier"], [7, 12, 8, "Identifier"], [10, 8, 4, "Identifier"]]),
+            parser: parser("unknown-nodes/abstract-class-invalid")
         },
         {
             code: unIndent`
@@ -8056,14 +8629,14 @@ ruleTester.run("indent", rule, {
                     }
                 }
             `,
-            parser: parser("unknown-nodes/functions-with-abstract-class-invalid"),
             errors: expectedErrors([
                 [4, 12, 8, "Keyword"],
                 [5, 16, 8, "Keyword"],
                 [6, 20, 8, "Identifier"],
                 [7, 16, 8, "Punctuator"],
                 [8, 12, 8, "Punctuator"]
-            ])
+            ]),
+            parser: parser("unknown-nodes/functions-with-abstract-class-invalid")
         },
         {
             code: unIndent`
@@ -8096,11 +8669,11 @@ ruleTester.run("indent", rule, {
                     }
                 }
             `,
-            parser: parser("unknown-nodes/namespace-with-functions-with-abstract-class-invalid"),
             errors: expectedErrors([
                 [3, 8, 4, "Keyword"],
                 [7, 24, 20, "Identifier"]
-            ])
+            ]),
+            parser: parser("unknown-nodes/namespace-with-functions-with-abstract-class-invalid")
         },
 
         //----------------------------------------------------------------------
@@ -8595,6 +9168,86 @@ ruleTester.run("indent", rule, {
                 )
             `,
             errors: expectedErrors([[5, 4, 8, "Punctuator"], [6, 4, 8, "Punctuator"], [7, 0, 4, "Punctuator"]])
+        },
+        {
+            code: unIndent`
+                <div>
+                    {
+                    (
+                        1
+                    )
+                    }
+                </div>
+            `,
+            output: unIndent`
+                <div>
+                    {
+                        (
+                            1
+                        )
+                    }
+                </div>
+            `,
+            errors: expectedErrors([[3, 8, 4, "Punctuator"], [4, 12, 8, "Numeric"], [5, 8, 4, "Punctuator"]])
+        },
+        {
+            code: unIndent`
+                <div>
+                    {
+                      /* foo */
+                    }
+                </div>
+            `,
+            output: unIndent`
+                <div>
+                    {
+                        /* foo */
+                    }
+                </div>
+            `,
+            errors: expectedErrors([3, 8, 6, "Block"])
+        },
+        {
+            code: unIndent`
+                ({
+                    foo
+                    }: bar) => baz
+            `,
+            output: unIndent`
+                ({
+                    foo
+                }: bar) => baz
+            `,
+            errors: expectedErrors([3, 0, 4, "Punctuator"]),
+            parser: require.resolve("../../fixtures/parsers/babel-eslint7/object-pattern-with-annotation")
+        },
+        {
+            code: unIndent`
+                ([
+                    foo
+                    ]: bar) => baz
+            `,
+            output: unIndent`
+                ([
+                    foo
+                ]: bar) => baz
+            `,
+            errors: expectedErrors([3, 0, 4, "Punctuator"]),
+            parser: require.resolve("../../fixtures/parsers/babel-eslint7/array-pattern-with-annotation")
+        },
+        {
+            code: unIndent`
+                ({
+                    foo
+                    }: {}) => baz
+            `,
+            output: unIndent`
+                ({
+                    foo
+                }: {}) => baz
+            `,
+            errors: expectedErrors([3, 0, 4, "Punctuator"]),
+            parser: require.resolve("../../fixtures/parsers/babel-eslint7/object-pattern-with-object-annotation")
         }
     ]
 });

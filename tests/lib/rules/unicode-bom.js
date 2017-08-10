@@ -37,26 +37,26 @@ ruleTester.run("unicode-bom", rule, {
     invalid: [
         {
             code: "var a = 123;",
-            errors: [{ message: "Expected Unicode BOM (Byte Order Mark).", type: "Program" }],
+            output: "\uFEFFvar a = 123;",
             options: ["always"],
-            output: "\uFEFFvar a = 123;"
+            errors: [{ message: "Expected Unicode BOM (Byte Order Mark).", type: "Program" }]
         },
         {
             code: " // here's a comment \nvar a = 123;",
-            errors: [{ message: "Expected Unicode BOM (Byte Order Mark).", type: "Program" }],
+            output: "\uFEFF // here's a comment \nvar a = 123;",
             options: ["always"],
-            output: "\uFEFF // here's a comment \nvar a = 123;"
+            errors: [{ message: "Expected Unicode BOM (Byte Order Mark).", type: "Program" }]
         },
         {
             code: "\uFEFF var a = 123;",
-            errors: [{ message: "Unexpected Unicode BOM (Byte Order Mark).", type: "Program" }],
-            output: " var a = 123;"
+            output: " var a = 123;",
+            errors: [{ message: "Unexpected Unicode BOM (Byte Order Mark).", type: "Program" }]
         },
         {
             code: "\uFEFF var a = 123;",
-            errors: [{ message: "Unexpected Unicode BOM (Byte Order Mark).", type: "Program" }],
+            output: " var a = 123;",
             options: ["never"],
-            output: " var a = 123;"
+            errors: [{ message: "Unexpected Unicode BOM (Byte Order Mark).", type: "Program" }]
         }
     ]
 });

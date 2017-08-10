@@ -73,6 +73,7 @@ ruleTester.run("no-extra-bind", rule, {
         {
             code: "var a = function() { (function(){ (function(){ this.d }.bind(c)) }) }.bind(b)",
             output: "var a = function() { (function(){ (function(){ this.d }.bind(c)) }) }",
-            errors: [{ message: "The function binding is unnecessary.", type: "CallExpression", column: 71 }] }
+            errors: [{ message: "The function binding is unnecessary.", type: "CallExpression", column: 71 }]
+        }
     ]
 });
