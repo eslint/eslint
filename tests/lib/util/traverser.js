@@ -81,7 +81,7 @@ describe("Traverser", () => {
         // with keys option.
         traverser.traverse(fakeAst, {
             enter: node => visited.push(node.type),
-            keys: Object.assign({}, Traverser.DEFAULT_VISITOR_KEYS, {
+            visitorKeys: Object.assign({}, Traverser.DEFAULT_VISITOR_KEYS, {
                 ClassDeclaration: Traverser.DEFAULT_VISITOR_KEYS.ClassDeclaration.concat(["experimentalDecorators"])
             })
         });
