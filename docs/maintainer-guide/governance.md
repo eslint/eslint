@@ -92,13 +92,14 @@ A Committer is invited to become a TSC member by existing TSC members. A nominat
 #### Process for Adding TSC Members
 
 1. Add the GitHub user to the "ESLint TSC" team
-2. Set the GitHub user to be have the "Owner" role for the ESLint organization
-3. Send welcome email with link to maintainer guide
-4. Add TSC member to the README
-5. Invite to Gitter TSC chatroom
-6. Make TSC member an admin on the ESLint team mailing list
-7. Add TSC member as an admin to ESLint Twitter Account on Tweetdeck
-8. Tweet congratulations to the new TSC member from the ESLint Twitter account
+1. Set the GitHub user to be have the "Owner" role for the ESLint organization
+1. Send welcome email with link to maintainer guide
+1. Add the TSC member to the README
+1. Invite to the Gitter TSC chatroom
+1. Make the TSC member an admin on the ESLint team mailing list
+1. Add the TSC member to the recurring TSC meeting event on Google Calendar
+1. Add the TSC member as an admin to ESLint Twitter Account on Tweetdeck
+1. Tweet congratulations to the new TSC member from the ESLint Twitter account
 
 #### TSC Meetings
 
