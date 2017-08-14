@@ -49,7 +49,7 @@ Plugin environments can define the following objects:
 
 ### Processors in Plugins
 
-You can also create plugins that would tell ESLint how to process files other than JavaScript. In order to create a processor, object that is exported from your module has to conform to the following interface:
+You can also create plugins that would tell ESLint how to process files other than JavaScript. In order to create a processor, the object that is exported from your module has to conform to the following interface:
 
 ```js
 processors: {
