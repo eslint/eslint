@@ -177,7 +177,7 @@ describe("formatter:junit", () => {
         });
     });
 
-    describe("when passed multiple files with total 1 failure", () => {
+    describe("when passed multiple files should print even if no errors", () => {
         const code = [{
             filePath: "foo.js",
             messages: [{
@@ -192,10 +192,10 @@ describe("formatter:junit", () => {
             messages: []
         }];
 
-        it("should return 1 <testsuite>", () => {
+        it("should return 2 <testsuite>", () => {
             const result = formatter(code);
 
-            assert.equal(result.replace(/\n/g, ""), "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites><testsuite package=\"org.eslint\" time=\"0\" tests=\"1\" errors=\"1\" name=\"foo.js\"><testcase time=\"0\" name=\"org.eslint.foo\"><failure message=\"Unexpected foo.\"><![CDATA[line 5, col 10, Warning - Unexpected foo. (foo)]]></failure></testcase></testsuite></testsuites>");
+            assert.equal(result.replace(/\n/g, ""), "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites><testsuite package=\"org.eslint\" time=\"0\" tests=\"1\" errors=\"1\" name=\"foo.js\"><testcase time=\"0\" name=\"org.eslint.foo\"><failure message=\"Unexpected foo.\"><![CDATA[line 5, col 10, Warning - Unexpected foo. (foo)]]></failure></testcase></testsuite><testsuite package=\"org.eslint\" time=\"0\" tests=\"0\" errors=\"0\" name=\"bar.js\"></testsuite></testsuites>");
         });
     });
 });
