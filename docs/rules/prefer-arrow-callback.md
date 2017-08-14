@@ -1,14 +1,14 @@
 # Suggest using ES6 arrow functions to describe callbacks (prefer-arrow-callback)
 
-ES6 arrow functions are well-suited for use as callback functions.
+Compared to function expressions, arrow functions are better-suited for describing callbacks or function arguments.
 
-By default, arrow functions are bound to their surrounding scope/context. This is an upgrade from the previous standard for achieving similar behavior: Explicitly binding a function expression using `bind()` and `this`.
+For example, arrow functions are bound to their surrounding scope/context automatically. This is an upgrade from using `bind()` and `this` to explicitly bind a function expression, which was the pre-ES6 standard for achieving similar scoping behavior.
 
 Additionally, arrow functions are:
 
-- less-verbose, more-concise, and easier to reason about.
+- less verbose and easier to reason about.
 
-- stable and behave predictably when invoked, due to their default binding behavior.
+- more robust and lexically bound regardless of where or when they are eventually invoked.
 
 ## Rule Details
 
