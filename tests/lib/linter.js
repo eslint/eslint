@@ -3819,6 +3819,16 @@ describe("Linter", () => {
                 output: "var a;"
             });
         });
+
+        it("does not apply autofixes when fix argument is `false`", () => {
+            const fixResult = linter.verifyAndFix("var a", {
+                rules: {
+                    semi: 2
+                }
+            }, { fix: false });
+
+            assert.strictEqual(fixResult.fixed, false);
+        });
     });
 
     describe("Edge cases", () => {
