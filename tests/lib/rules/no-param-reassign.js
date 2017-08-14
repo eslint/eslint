@@ -23,7 +23,7 @@ ruleTester.run("no-param-reassign", rule, {
         "function foo(a) { var b = a; }",
         "function foo(a) { a.prop = 'value'; }",
         "function foo(a) { (function() { var a = 12; a++; })(); }",
-        { code: "function foo() { someGlobal = 13; }" },
+        "function foo() { someGlobal = 13; }",
         { code: "function foo() { someGlobal = 13; }", globals: { someGlobal: false } },
         "function foo(a) { a.b = 0; }",
         "function foo(a) { delete a.b; }",

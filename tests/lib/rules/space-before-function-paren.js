@@ -21,10 +21,10 @@ const ruleTester = new RuleTester();
 ruleTester.run("space-before-function-paren", rule, {
 
     valid: [
-        { code: "function foo () {}" },
-        { code: "var foo = function () {}" },
-        { code: "var bar = function foo () {}" },
-        { code: "var obj = { get foo () {}, set foo (val) {} };" },
+        "function foo () {}",
+        "var foo = function () {}",
+        "var bar = function foo () {}",
+        "var obj = { get foo () {}, set foo (val) {} };",
         {
             code: "var obj = { foo () {} };",
             parserOptions: { ecmaVersion: 6 }

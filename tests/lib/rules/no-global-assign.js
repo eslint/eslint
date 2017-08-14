@@ -23,9 +23,9 @@ ruleTester.run("no-global-assign", rule, {
         "string = 'hello world';",
         "var string;",
         { code: "Object = 0;", options: [{ exceptions: ["Object"] }] },
-        { code: "top = 0;" },
+        "top = 0;",
         { code: "onload = 0;", env: { browser: true } },
-        { code: "require = 0;" },
+        "require = 0;",
         { code: "a = 1", globals: { a: true } },
         "/*global a:true*/ a = 1"
     ],

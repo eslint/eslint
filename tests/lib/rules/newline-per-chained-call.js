@@ -15,31 +15,7 @@ const rule = require("../../../lib/rules/newline-per-chained-call"),
 const ruleTester = new RuleTester();
 
 ruleTester.run("newline-per-chained-call", rule, {
-    valid: [{
-        code: "_\n.chain({})\n.map(foo)\n.filter(bar)\n.value();"
-    }, {
-        code: "a.b.c.d.e.f"
-    }, {
-        code: "a()\n.b()\n.c\n.e"
-    }, {
-        code: "var a = m1.m2(); var b = m1.m2();\nvar c = m1.m2()"
-    }, {
-        code: "var a = m1()\n.m2();"
-    }, {
-        code: "var a = m1();"
-    }, {
-        code: "a()\n.b().c.e.d()"
-    }, {
-        code: "a().b().c.e.d()"
-    }, {
-        code: "a.b.c.e.d()"
-    }, {
-        code: "var a = window\n.location\n.href\n.match(/(^[^#]*)/)[0];"
-    }, {
-        code: "var a = window['location']\n.href\n.match(/(^[^#]*)/)[0];"
-    }, {
-        code: "var a = window['location'].href.match(/(^[^#]*)/)[0];"
-    }, {
+    valid: ["_\n.chain({})\n.map(foo)\n.filter(bar)\n.value();", "a.b.c.d.e.f", "a()\n.b()\n.c\n.e", "var a = m1.m2(); var b = m1.m2();\nvar c = m1.m2()", "var a = m1()\n.m2();", "var a = m1();", "a()\n.b().c.e.d()", "a().b().c.e.d()", "a.b.c.e.d()", "var a = window\n.location\n.href\n.match(/(^[^#]*)/)[0];", "var a = window['location']\n.href\n.match(/(^[^#]*)/)[0];", "var a = window['location'].href.match(/(^[^#]*)/)[0];", {
         code: "var a = m1().m2.m3();",
         options: [{
             ignoreChainWithDepth: 3

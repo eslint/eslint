@@ -40,40 +40,20 @@ ruleTester.run("no-implicit-globals", rule, {
             code: "class Foo {}",
             parserOptions: { ecmaVersion: 6 }
         },
-        {
-            code: "window.foo = 1;"
-        },
-        {
-            code: "window.foo = function() {};"
-        },
-        {
-            code: "window.foo = function foo() {};"
-        },
+        "window.foo = 1;",
+        "window.foo = function() {};",
+        "window.foo = function foo() {};",
         {
             code: "window.foo = function*() {};",
             parserOptions: { ecmaVersion: 6 }
         },
-        {
-            code: "self.foo = 1;"
-        },
-        {
-            code: "self.foo = function() {};"
-        },
-        {
-            code: "this.foo = 1;"
-        },
-        {
-            code: "this.foo = function() {};"
-        },
-        {
-            code: "Utils.foo = 1;"
-        },
-        {
-            code: "Utils.foo = function() {};"
-        },
-        {
-            code: "(function() { var foo = 1; })();"
-        },
+        "self.foo = 1;",
+        "self.foo = function() {};",
+        "this.foo = 1;",
+        "this.foo = function() {};",
+        "Utils.foo = 1;",
+        "Utils.foo = function() {};",
+        "(function() { var foo = 1; })();",
         {
             code: "(function() { let foo = 1; })();",
             parserOptions: { ecmaVersion: 6 }
@@ -82,9 +62,7 @@ ruleTester.run("no-implicit-globals", rule, {
             code: "(function() { const foo = 1; })();",
             parserOptions: { ecmaVersion: 6 }
         },
-        {
-            code: "(function() { function foo() {} })();"
-        },
+        "(function() { function foo() {} })();",
         {
             code: "(function() { function *foo() {} })();",
             parserOptions: { ecmaVersion: 6 }
@@ -125,15 +103,9 @@ ruleTester.run("no-implicit-globals", rule, {
             code: "function foo() {}",
             parserOptions: { ecmaFeatures: { globalReturn: true } }
         },
-        {
-            code: "/*global foo:true*/ var foo = 1;"
-        },
-        {
-            code: "/*global foo:true*/ foo = 1;"
-        },
-        {
-            code: "/*global foo:true*/ function foo() {}"
-        }
+        "/*global foo:true*/ var foo = 1;",
+        "/*global foo:true*/ foo = 1;",
+        "/*global foo:true*/ function foo() {}"
     ],
 
     invalid: [

@@ -36,9 +36,7 @@ ruleTester.run("space-unary-ops", rule, {
             code: "this.a--",
             options: [{ words: true }]
         },
-        {
-            code: "foo .bar++"
-        },
+        "foo .bar++",
         {
             code: "foo.bar --",
             options: [{ nonwords: true }]

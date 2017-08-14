@@ -20,21 +20,11 @@ const ruleTester = new RuleTester();
 ruleTester.run("no-mixed-spaces-and-tabs", rule, {
 
     valid: [
-        {
-            code: "\tvar x = 5;"
-        },
-        {
-            code: "    var x = 5;"
-        },
-        {
-            code: "\t/*\n\t * Hello\n\t */"
-        },
-        {
-            code: "// foo\n\t/**\n\t * Hello\n\t */"
-        },
-        {
-            code: "/*\n\n \t \n*/"
-        },
+        "\tvar x = 5;",
+        "    var x = 5;",
+        "\t/*\n\t * Hello\n\t */",
+        "// foo\n\t/**\n\t * Hello\n\t */",
+        "/*\n\n \t \n*/",
         {
             code: "\tvar x = 5,\n\t    y = 2;",
             options: [true]

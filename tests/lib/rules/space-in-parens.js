@@ -57,7 +57,7 @@ ruleTester.run("space-in-parens", rule, {
         { code: "foo( baz /* bar */ )", options: ["always"] },
         { code: "foo(/* bar */)", options: ["never"] },
         { code: "foo(/* bar */ baz)", options: ["never"] },
-        { code: "foo( //some comment\nbar\n)\n" },
+        "foo( //some comment\nbar\n)\n",
         { code: "foo(//some comment\nbar\n)\n", options: ["never"] },
         { code: "foo( //some comment\nbar\n)\n", options: ["never"] },
 

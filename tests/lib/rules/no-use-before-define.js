@@ -26,14 +26,14 @@ ruleTester.run("no-use-before-define", rule, {
         "function a() { alert(arguments);}",
         { code: "a(); function a() { alert(arguments); }", options: ["nofunc"] },
         { code: "(() => { var a = 42; alert(a); })();", parserOptions: { ecmaVersion: 6 } },
-        { code: "a(); try { throw new Error() } catch (a) {}" },
+        "a(); try { throw new Error() } catch (a) {}",
         { code: "class A {} new A();", parserOptions: { ecmaVersion: 6 } },
         "var a = 0, b = a;",
         { code: "var {a = 0, b = a} = {};", parserOptions: { ecmaVersion: 6 } },
         { code: "var [a = 0, b = a] = {};", parserOptions: { ecmaVersion: 6 } },
         "function foo() { foo(); }",
         "var foo = function() { foo(); };",
-        { code: "var a; for (a in a) {}" },
+        "var a; for (a in a) {}",
         { code: "var a; for (a of a) {}", parserOptions: { ecmaVersion: 6 } },
 
         // Block-level bindings

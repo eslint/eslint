@@ -703,9 +703,7 @@ ruleTester.run("indent-legacy", rule, {
             "}",
             options: [4, { SwitchCase: 2 }]
         },
-        {
-            code:
-            "switch (a) {\n" +
+        "switch (a) {\n" +
             "case \"foo\":\n" +
             "    a();\n" +
             "    break;\n" +
@@ -717,11 +715,8 @@ ruleTester.run("indent-legacy", rule, {
             "        a = 6;\n" +
             "        break;\n" +
             "    }\n" +
-            "}"
-        },
-        {
-            code:
-            "switch (a) {\n" +
+            "}",
+        "switch (a) {\n" +
             "case \"foo\":\n" +
             "    a();\n" +
             "    break;\n" +
@@ -732,11 +727,8 @@ ruleTester.run("indent-legacy", rule, {
             "    else{\n" +
             "        a = 6;\n" +
             "    }\n" +
-            "}"
-        },
-        {
-            code:
-            "switch (a) {\n" +
+            "}",
+        "switch (a) {\n" +
             "case \"foo\":\n" +
             "    a();\n" +
             "    break;\n" +
@@ -746,11 +738,8 @@ ruleTester.run("indent-legacy", rule, {
             "    }\n" +
             "    else\n" +
             "        a = 6;\n" +
-            "}"
-        },
-        {
-            code:
-            "switch (a) {\n" +
+            "}",
+        "switch (a) {\n" +
             "case \"foo\":\n" +
             "    a();\n" +
             "    break;\n" +
@@ -758,14 +747,9 @@ ruleTester.run("indent-legacy", rule, {
             "    a(); break;\n" +
             "case \"baz\":\n" +
             "    a(); break;\n" +
-            "}"
-        },
-        {
-            code: "switch (0) {\n}"
-        },
-        {
-            code:
-            "function foo() {\n" +
+            "}",
+        "switch (0) {\n}",
+        "function foo() {\n" +
             "    var a = \"a\";\n" +
             "    switch(a) {\n" +
             "    case \"a\":\n" +
@@ -774,8 +758,7 @@ ruleTester.run("indent-legacy", rule, {
             "        return \"B\";\n" +
             "    }\n" +
             "}\n" +
-            "foo();"
-        },
+            "foo();",
         {
             code:
             "switch(value){\n" +
@@ -798,23 +781,14 @@ ruleTester.run("indent-legacy", rule, {
             "}",
             options: [4, { SwitchCase: 1 }]
         },
-        {
-            code:
-                "var obj = {foo: 1, bar: 2};\n" +
+        "var obj = {foo: 1, bar: 2};\n" +
                 "with (obj) {\n" +
                 "    console.log(foo + bar);\n" +
-                "}\n"
-        },
-        {
-            code:
-                "if (a) {\n" +
+                "}\n",
+        "if (a) {\n" +
                 "    (1 + 2 + 3);\n" + // no error on this line
-                "}"
-        },
-        {
-            code:
-                "switch(value){ default: a(); break; }\n"
-        },
+                "}",
+        "switch(value){ default: a(); break; }\n",
         {
             code: "import {addons} from 'react/addons'\nimport React from 'react'",
             options: [2],
@@ -940,12 +914,9 @@ ruleTester.run("indent-legacy", rule, {
                 "  ;\n",
             options: [2]
         },
-        {
-            code:
-                "var a = 1\n" +
+        "var a = 1\n" +
                 "   ,b = 2\n" +
-                "   ;"
-        },
+                "   ;",
         {
             code:
                 "export function create (some,\n" +
@@ -1732,20 +1703,14 @@ ruleTester.run("indent-legacy", rule, {
             ")",
             parserOptions: { ecmaFeatures: { globalReturn: true } }
         },
-        {
-            code:
-            "var foo = [\n" +
+        "var foo = [\n" +
             "    bar,\n" +
             "    baz\n" +
-            "]"
-        },
-        {
-            code:
-            "var foo = [bar,\n" +
+            "]",
+        "var foo = [bar,\n" +
             "    baz,\n" +
             "    qux\n" +
-            "]"
-        },
+            "]",
         {
             code:
             "var foo = [bar,\n" +

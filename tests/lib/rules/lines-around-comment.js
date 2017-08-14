@@ -25,11 +25,11 @@ ruleTester.run("lines-around-comment", rule, {
     valid: [
 
         // default rules
-        { code: "bar()\n\n/** block block block\n * block \n */\n\nvar a = 1;" },
-        { code: "bar()\n\n/** block block block\n * block \n */\nvar a = 1;" },
-        { code: "bar()\n// line line line \nvar a = 1;" },
-        { code: "bar()\n\n// line line line\nvar a = 1;" },
-        { code: "bar()\n// line line line\n\nvar a = 1;" },
+        "bar()\n\n/** block block block\n * block \n */\n\nvar a = 1;",
+        "bar()\n\n/** block block block\n * block \n */\nvar a = 1;",
+        "bar()\n// line line line \nvar a = 1;",
+        "bar()\n\n// line line line\nvar a = 1;",
+        "bar()\n// line line line\n\nvar a = 1;",
 
         // line comments
         {

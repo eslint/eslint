@@ -81,7 +81,7 @@ ruleTester.run("strict", rule, {
         { code: "function foo() { return; }", options: ["safe"], parserOptions: { ecmaFeatures: { impliedStrict: true } } },
 
         // defaults to "safe" mode
-        { code: "function foo() { 'use strict'; return; }" },
+        "function foo() { 'use strict'; return; }",
         { code: "'use strict'; function foo() { return; }", parserOptions: { ecmaFeatures: { globalReturn: true } } },
         { code: "function foo() { return; }", parserOptions: { sourceType: "module" } },
         { code: "function foo() { return; }", parserOptions: { ecmaFeatures: { impliedStrict: true } } }
