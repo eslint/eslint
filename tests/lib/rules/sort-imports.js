@@ -25,27 +25,15 @@ const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6, sourceType:
 
 ruleTester.run("sort-imports", rule, {
     valid: [
-        {
-            code:
-                "import a from 'foo.js';\n" +
+        "import a from 'foo.js';\n" +
                 "import b from 'bar.js';\n" +
-                "import c from 'baz.js';\n"
-        },
-        {
-            code:
-                "import * as B from 'foo.js';\n" +
-                "import A from 'bar.js';"
-        },
-        {
-            code:
-                "import * as B from 'foo.js';\n" +
-                "import {a, b} from 'bar.js';"
-        },
-        {
-            code:
-                "import {b, c} from 'bar.js';\n" +
-                "import A from 'foo.js';"
-        },
+                "import c from 'baz.js';\n",
+        "import * as B from 'foo.js';\n" +
+                "import A from 'bar.js';",
+        "import * as B from 'foo.js';\n" +
+                "import {a, b} from 'bar.js';",
+        "import {b, c} from 'bar.js';\n" +
+                "import A from 'foo.js';",
         {
             code:
                 "import A from 'bar.js';\n" +
@@ -54,36 +42,18 @@ ruleTester.run("sort-imports", rule, {
                 memberSyntaxSortOrder: ["single", "multiple", "none", "all"]
             }]
         },
-        {
-            code:
-                "import {a, b} from 'bar.js';\n" +
-                "import {c, d} from 'foo.js';"
-        },
-        {
-            code:
-                "import A from 'foo.js';\n" +
-                "import B from 'bar.js';"
-        },
-        {
-            code:
-                "import A from 'foo.js';\n" +
-                "import a from 'bar.js';"
-        },
-        {
-            code:
-                "import a, * as b from 'foo.js';\n" +
-                "import c from 'bar.js';"
-        },
-        {
-            code:
-                "import 'foo.js';\n" +
-                " import a from 'bar.js';"
-        },
-        {
-            code:
-                "import B from 'foo.js';\n" +
-                "import a from 'bar.js';"
-        },
+        "import {a, b} from 'bar.js';\n" +
+                "import {c, d} from 'foo.js';",
+        "import A from 'foo.js';\n" +
+                "import B from 'bar.js';",
+        "import A from 'foo.js';\n" +
+                "import a from 'bar.js';",
+        "import a, * as b from 'foo.js';\n" +
+                "import c from 'bar.js';",
+        "import 'foo.js';\n" +
+                " import a from 'bar.js';",
+        "import B from 'foo.js';\n" +
+                "import a from 'bar.js';",
         {
             code:
                 "import a from 'foo.js';\n" +
@@ -108,17 +78,11 @@ ruleTester.run("sort-imports", rule, {
             options: ignoreCaseArgs
         },
         "import a, * as b from 'foo.js';",
-        {
-            code:
-                "import * as a from 'foo.js';\n" +
+        "import * as a from 'foo.js';\n" +
                 "\n" +
-                "import b from 'bar.js';"
-        },
-        {
-            code:
-                "import * as bar from 'bar.js';\n" +
-                "import * as foo from 'foo.js';"
-        },
+                "import b from 'bar.js';",
+        "import * as bar from 'bar.js';\n" +
+                "import * as foo from 'foo.js';",
 
         // https://github.com/eslint/eslint/issues/5130
         {

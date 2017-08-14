@@ -60,15 +60,15 @@ ruleTester.run("no-constant-condition", rule, {
         { code: "for(;true;);", options: [{ checkLoops: false }] },
         { code: "do{}while(true)", options: [{ checkLoops: false }] },
 
-        { code: "function* foo(){while(true){yield 'foo';}}" },
-        { code: "function* foo(){for(;true;){yield 'foo';}}" },
-        { code: "function* foo(){do{yield 'foo';}while(true)}" },
-        { code: "function* foo(){while (true) { while(true) {yield;}}}" },
-        { code: "function* foo() {for (; yield; ) {}}" },
-        { code: "function* foo() {for (; ; yield) {}}" },
-        { code: "function* foo() {while (true) {function* foo() {yield;}yield;}}" },
-        { code: "function* foo() { for (let x = yield; x < 10; x++) {yield;}yield;}" },
-        { code: "function* foo() { for (let x = yield; ; x++) { yield; }}" }
+        "function* foo(){while(true){yield 'foo';}}",
+        "function* foo(){for(;true;){yield 'foo';}}",
+        "function* foo(){do{yield 'foo';}while(true)}",
+        "function* foo(){while (true) { while(true) {yield;}}}",
+        "function* foo() {for (; yield; ) {}}",
+        "function* foo() {for (; ; yield) {}}",
+        "function* foo() {while (true) {function* foo() {yield;}yield;}}",
+        "function* foo() { for (let x = yield; x < 10; x++) {yield;}yield;}",
+        "function* foo() { for (let x = yield; ; x++) { yield; }}"
     ],
     invalid: [
         { code: "for(;true;);", errors: [{ message: "Unexpected constant condition.", type: "ForStatement" }] },

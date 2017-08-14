@@ -28,7 +28,7 @@ ruleTester.run("no-redeclare", rule, {
                 ecmaVersion: 6
             }
         },
-        { code: "var Object = 0;" },
+        "var Object = 0;",
         { code: "var Object = 0;", options: [{ builtinGlobals: false }] },
         { code: "var Object = 0;", options: [{ builtinGlobals: true }], parserOptions: { sourceType: "module" } },
         { code: "var Object = 0;", options: [{ builtinGlobals: true }], parserOptions: { ecmaFeatures: { globalReturn: true } } },

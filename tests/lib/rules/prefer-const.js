@@ -56,18 +56,16 @@ ruleTester.run("prefer-const", rule, {
         "let a; function foo() { if (a) {} a = bar(); }",
         "let a; function foo() { a = a || bar(); baz(a); }",
         "let a; function foo() { bar(++a); }",
-        {
-            code: [
-                "let id;",
-                "function foo() {",
-                "    if (typeof id !== 'undefined') {",
-                "        return;",
-                "    }",
-                "    id = setInterval(() => {}, 250);",
-                "}",
-                "foo();"
-            ].join("\n")
-        },
+        [
+            "let id;",
+            "function foo() {",
+            "    if (typeof id !== 'undefined') {",
+            "        return;",
+            "    }",
+            "    id = setInterval(() => {}, 250);",
+            "}",
+            "foo();"
+        ].join("\n"),
         "/*exported a*/ let a; function init() { a = foo(); }",
         "/*exported a*/ let a = 1",
         "let a; if (true) a = 0; foo(a);",

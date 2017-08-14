@@ -23,9 +23,7 @@ const ruleTester = new RuleTester();
 ruleTester.run("linebreak-style", rule, {
 
     valid: [
-        {
-            code: "var a = 'a',\n b = 'b';\n\n function foo(params) {\n /* do stuff */ \n }\n"
-        },
+        "var a = 'a',\n b = 'b';\n\n function foo(params) {\n /* do stuff */ \n }\n",
         {
             code: "var a = 'a',\n b = 'b';\n\n function foo(params) {\n /* do stuff */ \n }\n",
             options: ["unix"]

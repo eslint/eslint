@@ -405,28 +405,24 @@ ruleTester.run("indent", rule, {
             `,
             options: [4, { VariableDeclarator: 1, SwitchCase: 1 }]
         },
-        {
-            code: unIndent`
-                [{
-                    foo: 1
-                }, {
-                    foo: 2
-                }, {
-                    foo: 3
-                }]
-            `
-        },
-        {
-            code: unIndent`
-                foo([
-                    bar
-                ], [
-                    baz
-                ], [
-                    qux
-                ]);
-            `
-        },
+        unIndent`
+            [{
+                foo: 1
+            }, {
+                foo: 2
+            }, {
+                foo: 3
+            }]
+        `,
+        unIndent`
+            foo([
+                bar
+            ], [
+                baz
+            ], [
+                qux
+            ]);
+        `,
         {
             code: unIndent`
                 abc({
@@ -514,64 +510,52 @@ ruleTester.run("indent", rule, {
             `,
             options: [2, { VariableDeclarator: 2, SwitchCase: 1 }]
         },
-        {
-            code: unIndent`
-                var
-                    x = {
-                        a: 1,
-                    },
-                    y = {
-                        b: 2
-                    }
-            `
-        },
-        {
-            code: unIndent`
-                const
-                    x = {
-                        a: 1,
-                    },
-                    y = {
-                        b: 2
-                    }
-            `
-        },
-        {
-            code: unIndent`
-                let
-                    x = {
-                        a: 1,
-                    },
-                    y = {
-                        b: 2
-                    }
-            `
-        },
-        {
-            code: unIndent`
-                var foo = { a: 1 }, bar = {
+        unIndent`
+            var
+                x = {
+                    a: 1,
+                },
+                y = {
                     b: 2
-                };
-            `
-        },
-        {
-            code: unIndent`
-                var foo = { a: 1 }, bar = {
-                        b: 2
-                    },
-                    baz = {
-                        c: 3
-                    }
-            `
-        },
-        {
-            code: unIndent`
-                const {
-                        foo
-                    } = 1,
-                    bar = 2
-            `
-        },
+                }
+        `,
+        unIndent`
+            const
+                x = {
+                    a: 1,
+                },
+                y = {
+                    b: 2
+                }
+        `,
+        unIndent`
+            let
+                x = {
+                    a: 1,
+                },
+                y = {
+                    b: 2
+                }
+        `,
+        unIndent`
+            var foo = { a: 1 }, bar = {
+                b: 2
+            };
+        `,
+        unIndent`
+            var foo = { a: 1 }, bar = {
+                    b: 2
+                },
+                baz = {
+                    c: 3
+                }
+        `,
+        unIndent`
+            const {
+                    foo
+                } = 1,
+                bar = 2
+        `,
         {
             code: unIndent`
                 var foo = 1,
@@ -707,30 +691,24 @@ ruleTester.run("indent", rule, {
             `,
             options: [2, { VariableDeclarator: 2, SwitchCase: 1 }]
         },
-        {
-            code: unIndent`
-                var foo = bar ||
-                    !(
-                        baz
-                    );
-            `
-        },
-        {
-            code: unIndent`
-                for (var foo = 1;
-                    foo < 10;
-                    foo++) {}
-            `
-        },
-        {
-            code: unIndent`
-                for (
-                    var foo = 1;
-                    foo < 10;
-                    foo++
-                ) {}
-            `
-        },
+        unIndent`
+            var foo = bar ||
+                !(
+                    baz
+                );
+        `,
+        unIndent`
+            for (var foo = 1;
+                foo < 10;
+                foo++) {}
+        `,
+        unIndent`
+            for (
+                var foo = 1;
+                foo < 10;
+                foo++
+            ) {}
+        `,
         {
             code: unIndent`
                 for (var val in obj)
@@ -940,87 +918,75 @@ ruleTester.run("indent", rule, {
             `,
             options: [4, { SwitchCase: 2 }]
         },
-        {
-            code: unIndent`
-                switch (a) {
-                case "foo":
-                    a();
+        unIndent`
+            switch (a) {
+            case "foo":
+                a();
+                break;
+            case "bar":
+                switch(x){
+                case '1':
                     break;
-                case "bar":
-                    switch(x){
-                    case '1':
-                        break;
-                    case '2':
-                        a = 6;
-                        break;
-                    }
-                }
-            `
-        },
-        {
-            code: unIndent`
-                switch (a) {
-                case "foo":
-                    a();
+                case '2':
+                    a = 6;
                     break;
-                case "bar":
-                    if(x){
-                        a = 2;
-                    }
-                    else{
-                        a = 6;
-                    }
                 }
-            `
-        },
-        {
-            code: unIndent`
-                switch (a) {
-                case "foo":
-                    a();
-                    break;
-                case "bar":
-                    if(x){
-                        a = 2;
-                    }
-                    else
-                        a = 6;
+            }
+        `,
+        unIndent`
+            switch (a) {
+            case "foo":
+                a();
+                break;
+            case "bar":
+                if(x){
+                    a = 2;
                 }
-            `
-        },
-        {
-            code: unIndent`
-                switch (a) {
-                case "foo":
-                    a();
-                    break;
-                case "bar":
-                    a(); break;
-                case "baz":
-                    a(); break;
+                else{
+                    a = 6;
                 }
-            `
-        },
-        {
-            code: unIndent`
-                switch (0) {
+            }
+        `,
+        unIndent`
+            switch (a) {
+            case "foo":
+                a();
+                break;
+            case "bar":
+                if(x){
+                    a = 2;
                 }
-            `
-        },
-        {
-            code: unIndent`
-                function foo() {
-                    var a = "a";
-                    switch(a) {
-                    case "a":
-                        return "A";
-                    case "b":
-                        return "B";
-                    }
+                else
+                    a = 6;
+            }
+        `,
+        unIndent`
+            switch (a) {
+            case "foo":
+                a();
+                break;
+            case "bar":
+                a(); break;
+            case "baz":
+                a(); break;
+            }
+        `,
+        unIndent`
+            switch (0) {
+            }
+        `,
+        unIndent`
+            function foo() {
+                var a = "a";
+                switch(a) {
+                case "a":
+                    return "A";
+                case "b":
+                    return "B";
                 }
-                foo();
-            `
-        },
+            }
+            foo();
+        `,
         {
             code: unIndent`
                 switch(value){
@@ -1044,24 +1010,18 @@ ruleTester.run("indent", rule, {
             `,
             options: [4, { SwitchCase: 1 }]
         },
-        {
-            code: unIndent`
-                var obj = {foo: 1, bar: 2};
-                with (obj) {
-                    console.log(foo + bar);
-                }
-            `
-        },
-        {
-            code: unIndent`
-                if (a) {
-                    (1 + 2 + 3); // no error on this line
-                }
-            `
-        },
-        {
-            code: "switch(value){ default: a(); break; }"
-        },
+        unIndent`
+            var obj = {foo: 1, bar: 2};
+            with (obj) {
+                console.log(foo + bar);
+            }
+        `,
+        unIndent`
+            if (a) {
+                (1 + 2 + 3); // no error on this line
+            }
+        `,
+        "switch(value){ default: a(); break; }",
         {
             code: unIndent`
                 import {addons} from 'react/addons'
@@ -1230,13 +1190,11 @@ ruleTester.run("indent", rule, {
             `,
             options: [2]
         },
-        {
-            code: unIndent`
-                var a = 1
-                    ,b = 2
-                    ;
-            `
-        },
+        unIndent`
+            var a = 1
+                ,b = 2
+                ;
+        `,
         {
             code: unIndent`
                 export function create (some,
@@ -1358,14 +1316,12 @@ ruleTester.run("indent", rule, {
             `,
             options: [2, { MemberExpression: 0 }]
         },
-        {
-            code: unIndent`
-                const someOtherFunction = argument => {
-                        console.log(argument);
-                    },
-                    someOtherValue = 'someOtherValue';
-            `
-        },
+        unIndent`
+            const someOtherFunction = argument => {
+                    console.log(argument);
+                },
+                someOtherValue = 'someOtherValue';
+        `,
         {
             code: unIndent`
                 [
@@ -1470,27 +1426,23 @@ ruleTester.run("indent", rule, {
             `,
             options: [4, { VariableDeclarator: 0, SwitchCase: 1 }]
         },
-        {
-            code: unIndent`
-                [[
-                ], function(
-                    foo
-                ) {}
-                ]
-            `
-        },
-        {
-            code: unIndent`
-                define([
-                    'foo'
-                ], function(
-                    bar
-                ) {
-                    baz;
-                }
-                )
-            `
-        },
+        unIndent`
+            [[
+            ], function(
+                foo
+            ) {}
+            ]
+        `,
+        unIndent`
+            define([
+                'foo'
+            ], function(
+                bar
+            ) {
+                baz;
+            }
+            )
+        `,
         {
             code: unIndent`
                 const func = function (opts) {
@@ -1822,72 +1774,58 @@ ruleTester.run("indent", rule, {
             `,
             options: [2, { MemberExpression: 2 }]
         },
-        {
-            code: unIndent`
+        unIndent`
+            (
+                foo
+                    .bar
+            )
+        `,
+        unIndent`
+            (
                 (
                     foo
                         .bar
                 )
-            `
-        },
-        {
-            code: unIndent`
-                (
-                    (
-                        foo
-                            .bar
-                    )
-                )
-            `
-        },
-        {
-            code: unIndent`
+            )
+        `,
+        unIndent`
+            (
+                foo
+            )
+                .bar
+        `,
+        unIndent`
+            (
                 (
                     foo
                 )
                     .bar
-            `
-        },
-        {
-            code: unIndent`
+            )
+        `,
+        unIndent`
+            (
                 (
-                    (
-                        foo
-                    )
-                        .bar
+                    foo
                 )
-            `
-        },
-        {
-            code: unIndent`
-                (
-                    (
-                        foo
-                    )
-                        [
-                            (
-                                bar
-                            )
-                        ]
-                )
-            `
-        },
-        {
-            code: unIndent`
-                (
-                    foo[bar]
-                )
-                    .baz
-            `
-        },
-        {
-            code: unIndent`
-                (
-                    (foo.bar)
-                )
-                    .baz
-            `
-        },
+                    [
+                        (
+                            bar
+                        )
+                    ]
+            )
+        `,
+        unIndent`
+            (
+                foo[bar]
+            )
+                .baz
+        `,
+        unIndent`
+            (
+                (foo.bar)
+            )
+                .baz
+        `,
         {
             code: unIndent`
                 MemberExpression
@@ -2091,16 +2029,14 @@ ruleTester.run("indent", rule, {
             `,
             options: [2]
         },
-        {
-            code: unIndent`
-                [
-                    foo ?
-                        bar :
-                        baz,
-                    qux
-                ];
-            `
-        },
+        unIndent`
+            [
+                foo ?
+                    bar :
+                    baz,
+                qux
+            ];
+        `,
         {
 
             // Checking comments:
@@ -2135,13 +2071,11 @@ ruleTester.run("indent", rule, {
             `,
             options: [2, { SwitchCase: 1 }]
         },
-        {
-            code: unIndent`
-                [
-                    // no elements
-                ]
-            `
-        },
+        unIndent`
+            [
+                // no elements
+            ]
+        `,
         {
 
             // Destructuring assignments:
@@ -2243,33 +2177,27 @@ ruleTester.run("indent", rule, {
             `,
             options: [2]
         },
-        {
-            code: unIndent`
-                (
-                    foo
-                )(
-                    bar
-                )
-            `
-        },
-        {
-            code: unIndent`
-                (() =>
-                    foo
-                )(
-                    bar
-                )
-            `
-        },
-        {
-            code: unIndent`
-                (() => {
-                    foo();
-                })(
-                    bar
-                )
-            `
-        },
+        unIndent`
+            (
+                foo
+            )(
+                bar
+            )
+        `,
+        unIndent`
+            (() =>
+                foo
+            )(
+                bar
+            )
+        `,
+        unIndent`
+            (() => {
+                foo();
+            })(
+                bar
+            )
+        `,
         {
 
             // Don't lint the indentation of the first token after a :
@@ -2288,22 +2216,18 @@ ruleTester.run("indent", rule, {
             `,
             options: [2]
         },
-        {
-            code: unIndent`
-                ({
-                    foo:
-                        bar
-                })
-            `
-        },
-        {
-            code: unIndent`
-                ({
-                    [foo]:
-                        bar
-                })
-            `
-        },
+        unIndent`
+            ({
+                foo:
+                    bar
+            })
+        `,
+        unIndent`
+            ({
+                [foo]:
+                    bar
+            })
+        `,
         {
 
             // Comments in switch cases
@@ -2380,15 +2304,13 @@ ruleTester.run("indent", rule, {
             `,
             options: [2, { FunctionExpression: { parameters: 3 } }]
         },
-        {
-            code: unIndent`
-                function foo() {
-                    return (bar === 1 || bar === 2 &&
-                        (/Function/.test(grandparent.type))) &&
-                        directives(parent).indexOf(node) >= 0;
-                }
-            `
-        },
+        unIndent`
+            function foo() {
+                return (bar === 1 || bar === 2 &&
+                    (/Function/.test(grandparent.type))) &&
+                    directives(parent).indexOf(node) >= 0;
+            }
+        `,
         {
             code: unIndent`
                 function foo() {
@@ -2403,16 +2325,14 @@ ruleTester.run("indent", rule, {
             `,
             options: [4]
         },
-        {
-            code: unIndent`
-                if (
-                    foo === 1 ||
-                    bar === 1 ||
-                    // comment
-                    (baz === 1 && qux === 1)
-                ) {}
-            `
-        },
+        unIndent`
+            if (
+                foo === 1 ||
+                bar === 1 ||
+                // comment
+                (baz === 1 && qux === 1)
+            ) {}
+        `,
         {
             code: unIndent`
                 foo =
@@ -2525,13 +2445,11 @@ ruleTester.run("indent", rule, {
             `,
             options: [2, { CallExpression: { arguments: 4 } }]
         },
-        {
-            code: unIndent`
-                foo(
-                    (bar)
-                );
-            `
-        },
+        unIndent`
+            foo(
+                (bar)
+            );
+        `,
         {
             code: unIndent`
                 foo(
@@ -2571,22 +2489,18 @@ ruleTester.run("indent", rule, {
             `,
             parserOptions: { ecmaFeatures: { globalReturn: true } }
         },
-        {
-            code: unIndent`
-                var foo = [
-                    bar,
-                    baz
-                ]
-            `
-        },
-        {
-            code: unIndent`
-                var foo = [bar,
-                    baz,
-                    qux
-                ]
-            `
-        },
+        unIndent`
+            var foo = [
+                bar,
+                baz
+            ]
+        `,
+        unIndent`
+            var foo = [bar,
+                baz,
+                qux
+            ]
+        `,
         {
             code: unIndent`
                 var foo = [bar,
@@ -2799,56 +2713,44 @@ ruleTester.run("indent", rule, {
             `,
             options: [4]
         },
-        {
-            code: unIndent`
+        unIndent`
+            [
+            ] || [
+            ]
+        `,
+        unIndent`
+            (
                 [
                 ] || [
                 ]
-            `
-        },
-        {
-            code: unIndent`
-                (
-                    [
-                    ] || [
-                    ]
-                )
-            `
-        },
-        {
-            code: unIndent`
+            )
+        `,
+        unIndent`
+            1
+            + (
                 1
-                + (
-                    1
+            )
+        `,
+        unIndent`
+            (
+                foo && (
+                    bar ||
+                    baz
                 )
-            `
-        },
-        {
-            code: unIndent`
-                (
-                    foo && (
-                        bar ||
-                        baz
-                    )
+            )
+        `,
+        unIndent`
+            foo
+                || (
+                    bar
                 )
-            `
-        },
-        {
-            code: unIndent`
-                foo
-                    || (
-                        bar
-                    )
-            `
-        },
-        {
-            code: unIndent`
-                foo
-                                || (
-                                    bar
-                                )
-            `
-        },
+        `,
+        unIndent`
+            foo
+                            || (
+                                bar
+                            )
+        `,
         {
             code: unIndent`
                 var foo =
@@ -2912,61 +2814,46 @@ ruleTester.run("indent", rule, {
             `,
             options: [2]
         },
-        {
-
-            code: unIndent`
-                function foo() {
-                    \`foo\${bar}baz\${
-                        qux}foo\${
-                        bar}baz\`
-                }
-            `
-        },
-        {
-
-            // https://github.com/eslint/eslint/issues/7320
-            code: unIndent`
-                JSON
-                    .stringify(
-                        {
-                            ok: true
-                        }
-                    );
-            `
-        },
+        unIndent`
+            function foo() {
+                \`foo\${bar}baz\${
+                    qux}foo\${
+                    bar}baz\`
+            }
+        `,
+        unIndent`
+            JSON
+                .stringify(
+                    {
+                        ok: true
+                    }
+                );
+        `,
 
         // Don't check AssignmentExpression assignments
-        {
-            code: unIndent`
-                foo =
-                    bar =
-                    baz;
-            `
-        },
-        {
-            code: unIndent`
-                foo =
+        unIndent`
+            foo =
                 bar =
-                    baz;
-            `
-        },
-        {
-            code: unIndent`
-                function foo() {
-                    const template = \`this indentation is not checked
-                because it's part of a template literal.\`;
-                }
-            `
-        },
-        {
-            code: unIndent`
+                baz;
+        `,
+        unIndent`
+            foo =
+            bar =
+                baz;
+        `,
+        unIndent`
+            function foo() {
+                const template = \`this indentation is not checked
+            because it's part of a template literal.\`;
+            }
+        `,
+        unIndent`
                 function foo() {
                     const template = \`the indentation of a \${
                         node.type
                     } node is checked.\`;
                 }
-            `
-        },
+            `,
         {
 
             // https://github.com/eslint/eslint/issues/7320
@@ -2980,51 +2867,41 @@ ruleTester.run("indent", rule, {
             `,
             options: [4, { CallExpression: { arguments: 1 } }]
         },
-        {
-            code: unIndent`
-                [
-                    foo,
-                    // comment
-                    // another comment
+        unIndent`
+            [
+                foo,
+                // comment
+                // another comment
+                bar
+            ]
+        `,
+        unIndent`
+            if (foo) {
+                /* comment */ bar();
+            }
+        `,
+        unIndent`
+            function foo() {
+                return (
+                    1
+                );
+            }
+        `,
+        unIndent`
+            function foo() {
+                return (
+                    1
+                )
+            }
+        `,
+        unIndent`
+            if (
+                foo &&
+                !(
                     bar
-                ]
-            `
-        },
-        {
-            code: unIndent`
-                if (foo) {
-                    /* comment */ bar();
-                }
-            `
-        },
-        {
-            code: unIndent`
-                function foo() {
-                    return (
-                        1
-                    );
-                }
-            `
-        },
-        {
-            code: unIndent`
-                function foo() {
-                    return (
-                        1
-                    )
-                }
-            `
-        },
-        {
-            code: unIndent`
-                if (
-                    foo &&
-                    !(
-                        bar
-                    )
-                ) {}
-            `
-        },
+                )
+            ) {}
+        `,
         {
 
             // https://github.com/eslint/eslint/issues/6007
@@ -3051,23 +2928,19 @@ ruleTester.run("indent", rule, {
             `,
             options: [2]
         },
-        {
-
-            // https://github.com/eslint/eslint/issues/6670
-            code: unIndent`
-                function f() {
-                    return asyncCall()
-                        .then(
-                            'some string',
-                            [
-                                1,
-                                2,
-                                3
-                            ]
-                        );
-                }
-            `
-        },
+        unIndent`
+            function f() {
+                return asyncCall()
+                    .then(
+                        'some string',
+                        [
+                            1,
+                            2,
+                            3
+                        ]
+                    );
+            }
+        `,
         {
 
             // https://github.com/eslint/eslint/issues/6670
@@ -3088,30 +2961,22 @@ ruleTester.run("indent", rule, {
         },
 
         // https://github.com/eslint/eslint/issues/7242
-        {
-            code: unIndent`
-                var x = [
-                    [1],
-                    [2]
-                ]
-            `
-        },
-        {
-            code: unIndent`
-                var y = [
-                    {a: 1},
-                    {b: 2}
-                ]
-            `
-        },
-        {
-
-            // https://github.com/eslint/eslint/issues/7522
-            code: unIndent`
-                foo(
-                )
-            `
-        },
+        unIndent`
+            var x = [
+                [1],
+                [2]
+            ]
+        `,
+        unIndent`
+            var y = [
+                {a: 1},
+                {b: 2}
+            ]
+        `,
+        unIndent`
+            foo(
+            )
+        `,
         {
 
             // https://github.com/eslint/eslint/issues/7616
@@ -3125,19 +2990,13 @@ ruleTester.run("indent", rule, {
             `,
             options: [4, { CallExpression: { arguments: "first" } }]
         },
-        {
-            code: "new Foo"
-        },
-        {
-            code: "new (Foo)"
-        },
-        {
-            code: unIndent`
-                if (Foo) {
-                    new Foo
-                }
-            `
-        },
+        "new Foo",
+        "new (Foo)",
+        unIndent`
+            if (Foo) {
+                new Foo
+            }
+        `,
         {
             code: unIndent`
                 export {
@@ -3422,13 +3281,11 @@ ruleTester.run("indent", rule, {
             `,
             options: [2, { ArrayExpression: "first", MemberExpression: 1 }]
         },
-        {
-            code: unIndent`
-                foo = bar[
-                    baz
-                ];
-            `
-        },
+        unIndent`
+            foo = bar[
+                baz
+            ];
+        `,
         {
             code: unIndent`
                 foo[
@@ -3447,30 +3304,22 @@ ruleTester.run("indent", rule, {
             `,
             options: [4, { MemberExpression: 1 }]
         },
-        {
-            code: unIndent`
-                if (foo)
-                    bar;
-                else if (baz)
-                    qux;
-            `
-        },
-        {
-            code: unIndent`
-                if (foo) bar()
+        unIndent`
+            if (foo)
+                bar;
+            else if (baz)
+                qux;
+        `,
+        unIndent`
+            if (foo) bar()
 
-                ; [1, 2, 3].map(baz)
-            `
-        },
-        {
-            code: unIndent`
-                if (foo)
-                    ;
-            `
-        },
-        {
-            code: "x => {}"
-        },
+            ; [1, 2, 3].map(baz)
+        `,
+        unIndent`
+            if (foo)
+                ;
+        `,
+        "x => {}",
         {
             code: unIndent`
                 import {foo}
@@ -3524,99 +3373,106 @@ ruleTester.run("indent", rule, {
         },
 
         // https://github.com/eslint/eslint/issues/8455
-        {
-            code: unIndent`
+        unIndent`
+            (
+                a
+            ) => b => {
+                c
+            }
+        `,
+        unIndent`
+            (
+                a
+            ) => b => c => d => {
+                e
+            }
+        `,
+        unIndent`
+            (
+                a
+            ) =>
                 (
-                    a
-                ) => b => {
+                    b
+                ) => {
                     c
                 }
-            `
-        },
-        {
-            code: unIndent`
-                (
-                    a
-                ) => b => c => d => {
-                    e
-                }
-            `
-        },
-        {
-            code: unIndent`
-                (
-                    a
-                ) =>
-                    (
-                        b
-                    ) => {
-                        c
-                    }
-            `
-        },
-        {
-            code: unIndent`
-                if (
-                    foo
-                ) bar(
-                    baz
-                );
-            `
-        },
-        {
-            code: unIndent`
-                if (foo)
-                {
-                    bar();
-                }
-            `
-        },
-        {
-            code: unIndent`
-                function foo(bar)
-                {
-                    baz();
-                }
-            `
-        },
-        {
-            code: unIndent`
+        `,
+        unIndent`
+            if (
+                foo
+            ) bar(
+                baz
+            );
+        `,
+        unIndent`
+            if (foo)
+            {
+                bar();
+            }
+        `,
+        unIndent`
+            function foo(bar)
+            {
+                baz();
+            }
+        `,
+        unIndent`
+            () =>
+                ({})
+        `,
+        unIndent`
+            () =>
+                (({}))
+        `,
+        unIndent`
+            (
                 () =>
                     ({})
-            `
-        },
-        {
-            code: unIndent`
-                () =>
-                    (({}))
-            `
-        },
-        {
-            code: unIndent`
-                (
-                    () =>
-                        ({})
-                )
-            `
-        },
-        {
-            code: unIndent`
-                var x = function foop(bar)
+            )
+        `,
+        unIndent`
+            var x = function foop(bar)
+            {
+                baz();
+            }
+        `,
+        unIndent`
+            var x = (bar) =>
+            {
+                baz();
+            }
+        `,
+        unIndent`
+            class Foo
+            {
+                constructor()
+                {
+                    foo();
+                }
+
+                bar()
                 {
                     baz();
                 }
-            `
-        },
-        {
-            code: unIndent`
-                var x = (bar) =>
+            }
+        `,
+        unIndent`
+            class Foo
+                extends Bar
+            {
+                constructor()
+                {
+                    foo();
+                }
+
+                bar()
                 {
                     baz();
                 }
-            `
-        },
-        {
-            code: unIndent`
+            }
+        `,
+        unIndent`
+            (
                 class Foo
                 {
                     constructor()
@@ -3629,43 +3485,8 @@ ruleTester.run("indent", rule, {
                         baz();
                     }
                 }
-            `
-        },
-        {
-            code: unIndent`
-                class Foo
-                    extends Bar
-                {
-                    constructor()
-                    {
-                        foo();
-                    }
-
-                    bar()
-                    {
-                        baz();
-                    }
-                }
-            `
-        },
-        {
-            code: unIndent`
-                (
-                    class Foo
-                    {
-                        constructor()
-                        {
-                            foo();
-                        }
-
-                        bar()
-                        {
-                            baz();
-                        }
-                    }
-                )
-            `
-        },
+            )
+        `,
         {
             code: unIndent`
                 switch (foo)
@@ -3676,14 +3497,12 @@ ruleTester.run("indent", rule, {
             `,
             options: [4, { SwitchCase: 1 }]
         },
-        {
-            code: unIndent`
-                foo
-                    .bar(function() {
-                        baz
-                    })
-            `
-        },
+        unIndent`
+            foo
+                .bar(function() {
+                    baz
+                })
+        `,
         {
             code: unIndent`
                 foo
@@ -3693,21 +3512,17 @@ ruleTester.run("indent", rule, {
             `,
             options: [4, { MemberExpression: 2 }]
         },
-        {
-            code: unIndent`
-                foo
-                    [bar](function() {
-                        baz
-                    })
-            `
-        },
-        {
-            code: unIndent`
-                foo.
-                    bar.
+        unIndent`
+            foo
+                [bar](function() {
                     baz
-            `
-        },
+                })
+        `,
+        unIndent`
+            foo.
+                bar.
+                baz
+        `,
         {
             code: unIndent`
                 foo
@@ -3760,180 +3575,142 @@ ruleTester.run("indent", rule, {
             `,
             options: [4, { flatTernaryExpressions: true }]
         },
-        {
-            code: unIndent`
-                  foo
-                      [
-                          bar
-                      ]
-                      .baz(function() {
-                          quz();
-                      })
-            `
-        },
-        {
-            code: unIndent`
-                  [
-                      foo
-                  ][
-                      "map"](function() {
-                      qux();
-                  })
-            `
-        },
-        {
-            code: unIndent`
-                (
-                    a.b(function() {
-                        c;
+        unIndent`
+                foo
+                    [
+                        bar
+                    ]
+                    .baz(function() {
+                        quz();
                     })
-                )
-            `
-        },
-        {
-            code: unIndent`
-                (
+        `,
+        unIndent`
+                [
                     foo
-                ).bar(function() {
-                    baz();
+                ][
+                    "map"](function() {
+                    qux();
                 })
-            `
-        },
-        {
-            code: unIndent`
-                new Foo(
-                    bar
-                        .baz
-                        .qux
-                )
-            `
-        },
-        {
-            code: unIndent`
-                const foo = a.b(),
-                    longName =
-                        (baz(
-                            'bar',
-                            'bar'
-                        ));
-            `
-        },
-        {
-            code: unIndent`
-                const foo = a.b(),
-                    longName =
+        `,
+        unIndent`
+            (
+                a.b(function() {
+                    c;
+                })
+            )
+        `,
+        unIndent`
+            (
+                foo
+            ).bar(function() {
+                baz();
+            })
+        `,
+        unIndent`
+            new Foo(
+                bar
+                    .baz
+                    .qux
+            )
+        `,
+        unIndent`
+            const foo = a.b(),
+                longName =
                     (baz(
                         'bar',
                         'bar'
                     ));
-            `
-        },
-        {
-            code: unIndent`
-                const foo = a.b(),
-                    longName =
-                        baz(
-                            'bar',
-                            'bar'
-                        );
-            `
-        },
-        {
-            code: unIndent`
-                const foo = a.b(),
-                    longName =
+        `,
+        unIndent`
+            const foo = a.b(),
+                longName =
+                (baz(
+                    'bar',
+                    'bar'
+                ));
+        `,
+        unIndent`
+            const foo = a.b(),
+                longName =
                     baz(
                         'bar',
                         'bar'
                     );
-            `
-        },
-        {
-            code: unIndent`
-                const foo = a.b(),
-                    longName
-                        = baz(
-                            'bar',
-                            'bar'
-                        );
-            `
-        },
-        {
-            code: unIndent`
-                const foo = a.b(),
-                    longName
+        `,
+        unIndent`
+            const foo = a.b(),
+                longName =
+                baz(
+                    'bar',
+                    'bar'
+                );
+        `,
+        unIndent`
+            const foo = a.b(),
+                longName
                     = baz(
                         'bar',
                         'bar'
                     );
-            `
-        },
-        {
-            code: unIndent`
-                const foo = a.b(),
-                    longName =
-                        ('fff');
-            `
-        },
-        {
-            code: unIndent`
-                const foo = a.b(),
-                    longName =
+        `,
+        unIndent`
+            const foo = a.b(),
+                longName
+                = baz(
+                    'bar',
+                    'bar'
+                );
+        `,
+        unIndent`
+            const foo = a.b(),
+                longName =
                     ('fff');
-            `
-        },
-        {
-            code: unIndent`
-                const foo = a.b(),
-                    longName
-                        = ('fff');
-
-            `
-        },
-        {
-            code: unIndent`
-                const foo = a.b(),
-                    longName
+        `,
+        unIndent`
+            const foo = a.b(),
+                longName =
+                ('fff');
+        `,
+        unIndent`
+            const foo = a.b(),
+                longName
                     = ('fff');
 
-            `
-        },
-        {
-            code: unIndent`
-                const foo = a.b(),
-                    longName =
-                        (
-                            'fff'
-                        );
-            `
-        },
-        {
-            code: unIndent`
-                const foo = a.b(),
-                    longName =
+        `,
+        unIndent`
+            const foo = a.b(),
+                longName
+                = ('fff');
+
+        `,
+        unIndent`
+            const foo = a.b(),
+                longName =
                     (
                         'fff'
                     );
-            `
-        },
-        {
-            code: unIndent`
-                const foo = a.b(),
-                    longName
-                        =(
-                            'fff'
-                        );
-            `
-        },
-        {
-            code: unIndent`
-                const foo = a.b(),
-                    longName
+        `,
+        unIndent`
+            const foo = a.b(),
+                longName =
+                (
+                    'fff'
+                );
+        `,
+        unIndent`
+            const foo = a.b(),
+                longName
                     =(
                         'fff'
                     );
-            `
-        },
+        `,
+        unIndent`
+            const foo = a.b(),
+                longName
+                =(
+                    'fff'
+                );
+        `,
 
 
         //----------------------------------------------------------------------
@@ -4031,91 +3808,77 @@ ruleTester.run("indent", rule, {
             options: [2, { VariableDeclarator: 1 }],
             parser: parser("unknown-nodes/variable-declarator-type-no-indent")
         },
-        {
-            code: unIndent`
-                foo(\`foo
-                        \`, {
-                        ok: true
-                    },
-                    {
-                        ok: false
-                    }
-                )
-            `
-        },
-        {
-            code: unIndent`
-                foo(tag\`foo
-                        \`, {
-                        ok: true
-                    },
-                    {
-                        ok: false
-                    }
-                )
-            `
-        },
+        unIndent`
+            foo(\`foo
+                    \`, {
+                    ok: true
+                },
+                {
+                    ok: false
+                }
+            )
+        `,
+        unIndent`
+            foo(tag\`foo
+                    \`, {
+                    ok: true
+                },
+                {
+                    ok: false
+                }
+            )
+        `,
 
         // https://github.com/eslint/eslint/issues/8815
-        {
-            code: unIndent`
-                async function test() {
-                    const {
-                        foo,
-                        bar,
-                    } = await doSomethingAsync(
-                        1,
-                        2,
-                        3,
-                    );
-                }
-            `
-        },
-        {
-            code: unIndent`
-                function* test() {
-                    const {
-                        foo,
-                        bar,
-                    } = yield doSomethingAsync(
-                        1,
-                        2,
-                        3,
-                    );
-                }
-            `
-        },
-        {
-            code: unIndent`
-                ({
-                    a: b
-                } = +foo(
-                    bar
-                ));
-            `
-        },
-        {
-            code: unIndent`
+        unIndent`
+            async function test() {
                 const {
                     foo,
                     bar,
-                } = typeof foo(
+                } = await doSomethingAsync(
                     1,
                     2,
                     3,
                 );
-            `
-        },
-        {
-            code: unIndent`
+            }
+        `,
+        unIndent`
+            function* test() {
                 const {
                     foo,
                     bar,
-                } = +(
-                    foo
+                } = yield doSomethingAsync(
+                    1,
+                    2,
+                    3,
                 );
-            `
-        },
+            }
+        `,
+        unIndent`
+            ({
+                a: b
+            } = +foo(
+                bar
+            ));
+        `,
+        unIndent`
+            const {
+                foo,
+                bar,
+            } = typeof foo(
+                1,
+                2,
+                3,
+            );
+        `,
+        unIndent`
+            const {
+                foo,
+                bar,
+            } = +(
+                foo
+            );
+        `,
 
         //----------------------------------------------------------------------
         // JSX tests
@@ -4124,257 +3887,192 @@ ruleTester.run("indent", rule, {
         // License: https://github.com/yannickcr/eslint-plugin-react/blob/7ca9841f22d599f447a27ef5b2a97def9229d6c8/LICENSE
         //----------------------------------------------------------------------
 
-        {
-            code: "<Foo a=\"b\" c=\"d\"/>;"
-        },
-        {
-            code: unIndent`
-                <Foo
+        "<Foo a=\"b\" c=\"d\"/>;",
+        unIndent`
+            <Foo
+                a="b"
+                c="d"
+            />;
+        `,
+        "var foo = <Bar a=\"b\" c=\"d\"/>;",
+        unIndent`
+            var foo = <Bar
+                a="b"
+                c="d"
+            />;
+        `,
+        unIndent`
+            var foo = (<Bar
+                a="b"
+                c="d"
+            />);
+        `,
+        unIndent`
+            var foo = (
+                <Bar
                     a="b"
                     c="d"
-                />;
-            `
-        },
-        {
-            code: "var foo = <Bar a=\"b\" c=\"d\"/>;"
-        },
-        {
-            code: unIndent`
-                var foo = <Bar
-                    a="b"
-                    c="d"
-                />;
-            `
-        },
-        {
-            code: unIndent`
-                var foo = (<Bar
-                    a="b"
-                    c="d"
-                />);
-            `
-        },
-        {
-            code: unIndent`
-                var foo = (
-                    <Bar
-                        a="b"
-                        c="d"
-                    />
-                );
-            `
-        },
-        {
-            code: unIndent`
-                <
-                    Foo
-                    a="b"
-                    c="d"
-                />;
-            `
-        },
-        {
-            code: unIndent`
-                <Foo
-                    a="b"
-                    c="d"/>;
-            `
-        },
-        {
-            code: unIndent`
-                <
-                    Foo
-                    a="b"
-                    c="d"/>;
-            `
-        },
-        {
-            code: "<a href=\"foo\">bar</a>;"
-
-        },
-        {
-            code: unIndent`
-                <a href="foo">
-                    bar
-                </a>;
-            `
-        },
-        {
-            code: unIndent`
-                <a
-                    href="foo"
-                >
-                    bar
-                </a>;
-            `
-        },
-        {
-            code: unIndent`
-                <a
-                    href="foo">
-                    bar
-                </a>;
-            `
-        },
-        {
-            code: unIndent`
-                <
-                    a
-                    href="foo">
-                    bar
-                </a>;
-            `
-        },
-        {
-            code: unIndent`
-                <a
-                    href="foo">
-                    bar
-                </
-                    a>;
-            `
-        },
-        {
-            code: unIndent`
-                <a
-                    href="foo">
-                    bar
-                </a
-                >;
-            `
-        },
-        {
-            code: unIndent`
+                />
+            );
+        `,
+        unIndent`
+            <
+                Foo
+                a="b"
+                c="d"
+            />;
+        `,
+        unIndent`
+            <Foo
+                a="b"
+                c="d"/>;
+        `,
+        unIndent`
+            <
+                Foo
+                a="b"
+                c="d"/>;
+        `,
+        "<a href=\"foo\">bar</a>;",
+        unIndent`
+            <a href="foo">
+                bar
+            </a>;
+        `,
+        unIndent`
+            <a
+                href="foo"
+            >
+                bar
+            </a>;
+        `,
+        unIndent`
+            <a
+                href="foo">
+                bar
+            </a>;
+        `,
+        unIndent`
+            <
+                a
+                href="foo">
+                bar
+            </a>;
+        `,
+        unIndent`
+            <a
+                href="foo">
+                bar
+            </
+                a>;
+        `,
+        unIndent`
+            <a
+                href="foo">
+                bar
+            </a
+            >;
+        `,
+        unIndent`
                 var foo = <a href="bar">
                     baz
                 </a>;
-            `
-        },
-        {
-            code: unIndent`
-                var foo = <a
-                    href="bar"
-                >
+            `,
+        unIndent`
+            var foo = <a
+                href="bar"
+            >
+                baz
+            </a>;
+        `,
+        unIndent`
+            var foo = <a
+                href="bar">
+                baz
+            </a>;
+        `,
+        unIndent`
+            var foo = <
+                a
+                href="bar">
+                baz
+            </a>;
+        `,
+        unIndent`
+            var foo = <a
+                href="bar">
+                baz
+            </
+                a>;
+        `,
+        unIndent`
+            var foo = <a
+                href="bar">
+                baz
+            </a
+            >
+        `,
+        unIndent`
+            var foo = (<a
+                href="bar">
+                baz
+            </a>);
+        `,
+        unIndent`
+            var foo = (
+                <a href="bar">baz</a>
+            );
+        `,
+        unIndent`
+            var foo = (
+                <a href="bar">
                     baz
-                </a>;
-            `
-        },
-        {
-            code: unIndent`
-                var foo = <a
-                    href="bar">
-                    baz
-                </a>;
-            `
-        },
-        {
-            code: unIndent`
-                var foo = <
-                    a
-                    href="bar">
-                    baz
-                </a>;
-            `
-        },
-        {
-            code: unIndent`
-                var foo = <a
-                    href="bar">
-                    baz
-                </
-                    a>;
-            `
-        },
-        {
-            code: unIndent`
-                var foo = <a
-                    href="bar">
-                    baz
-                </a
-                >
-            `
-        },
-        {
-            code: unIndent`
-                var foo = (<a
-                    href="bar">
-                    baz
-                </a>);
-            `
-        },
-        {
-            code: unIndent`
-                var foo = (
-                    <a href="bar">baz</a>
-                );
-            `
-        },
-        {
-            code: unIndent`
-                var foo = (
-                    <a href="bar">
-                        baz
-                    </a>
-                );
-            `
-        },
-        {
-            code: unIndent`
-                var foo = (
-                    <a
-                        href="bar">
-                        baz
-                    </a>
-                );
-            `
-        },
-        {
-            code: "var foo = <a href=\"bar\">baz</a>;"
-        },
-        {
-            code: unIndent`
-                <a>
-                    {
-                    }
                 </a>
-            `
-        },
-        {
-            code: unIndent`
-                <a>
-                    {
-                        foo
-                    }
+            );
+        `,
+        unIndent`
+            var foo = (
+                <a
+                    href="bar">
+                    baz
                 </a>
-            `
-        },
-        {
-            code: unIndent`
-                function foo() {
-                    return (
-                        <a>
-                            {
-                                b.forEach(() => {
-                                    // comment
-                                    a = c
-                                        .d()
-                                        .e();
-                                })
-                            }
-                        </a>
-                    );
+            );
+        `,
+        "var foo = <a href=\"bar\">baz</a>;",
+        unIndent`
+            <a>
+                {
                 }
-            `
-        },
-        {
-            code: "<App></App>"
-        },
-        {
-            code: unIndent`
-                <App>
-                </App>
-            `
-        },
+            </a>
+        `,
+        unIndent`
+            <a>
+                {
+                    foo
+                }
+            </a>
+        `,
+        unIndent`
+            function foo() {
+                return (
+                    <a>
+                        {
+                            b.forEach(() => {
+                                // comment
+                                a = c
+                                    .d()
+                                    .e();
+                            })
+                        }
+                    </a>
+                );
+            }
+        `,
+        "<App></App>",
+        unIndent`
+            <App>
+            </App>
+        `,
         {
             code: unIndent`
                 <App>
@@ -4519,91 +4217,63 @@ ruleTester.run("indent", rule, {
             `,
             options: [2]
         },
-        {
-            code: unIndent`
-                <div>
-                    {
-                        [
-                            <Foo />,
-                            <Bar />
-                        ]
-                    }
-                </div>
-            `
-        },
-        {
-            code: unIndent`
-                <div>
-                    {foo &&
-                        [
-                            <Foo />,
-                            <Bar />
-                        ]
-                    }
-                </div>
-            `
-        },
-        {
-
-            // Literals indentation is not touched
-            code: unIndent`
-                <div>
-                bar <div>
-                   bar
-                   bar {foo}
-                bar </div>
-                </div>
-            `
-        },
-        {
-
-            // Multiline ternary
-            // (colon at the end of the first expression)
-            code: unIndent`
-                foo ?
-                    <Foo /> :
-                    <Bar />
-            `
-        },
-        {
-
-            // Multiline ternary
-            // (colon at the start of the second expression)
-            code: unIndent`
-                foo ?
-                    <Foo />
-                    : <Bar />
-            `
-        },
-        {
-
-            // Multiline ternary
-            // (colon on its own line)
-            code: unIndent`
-                foo ?
-                    <Foo />
+        unIndent`
+            <div>
+                {
+                    [
+                        <Foo />,
+                        <Bar />
+                    ]
+                }
+            </div>
+        `,
+        unIndent`
+            <div>
+                {foo &&
+                    [
+                        <Foo />,
+                        <Bar />
+                    ]
+                }
+            </div>
+        `,
+        unIndent`
+            <div>
+            bar <div>
+                bar
+                bar {foo}
+            bar </div>
+            </div>
+        `,
+        unIndent`
+            foo ?
+                <Foo /> :
+                <Bar />
+        `,
+        unIndent`
+            foo ?
+                <Foo />
+                : <Bar />
+        `,
+        unIndent`
+            foo ?
+                <Foo />
+                :
+                <Bar />
+        `,
+        unIndent`
+            <div>
+                {!foo ?
+                    <Foo
+                        onClick={this.onClick}
+                    />
                     :
-                    <Bar />
-            `
-        },
-        {
-
-            // Multiline ternary
-            // (multiline JSX, colon on its own line)
-            code: unIndent`
-                <div>
-                    {!foo ?
-                        <Foo
-                            onClick={this.onClick}
-                        />
-                        :
-                        <Bar
-                            onClick={this.onClick}
-                        />
-                    }
-                </div>
-            `
-        },
+                    <Bar
+                        onClick={this.onClick}
+                    />
+                }
+            </div>
+        `,
         {
             code: unIndent`
                 <span>
@@ -4645,12 +4315,10 @@ ruleTester.run("indent", rule, {
             `,
             options: [2]
         },
-        {
-            code: unIndent`
+        unIndent`
               <App foo
               />
-            `
-        },
+            `,
         {
             code: unIndent`
               <App
@@ -4675,20 +4343,16 @@ ruleTester.run("indent", rule, {
             `,
             options: ["tab"]
         },
-        {
-            code: unIndent`
+        unIndent`
                 <App
                     foo
                 />
-            `
-        },
-        {
-            code: unIndent`
+            `,
+        unIndent`
                 <App
                     foo
                 ></App>
-            `
-        },
+            `,
         {
             code: unIndent`
                 <App
@@ -4793,31 +4457,24 @@ ruleTester.run("indent", rule, {
             `,
             options: ["tab"]
         },
-        {
-            code: unIndent`
+        unIndent`
                 <App
                     foo />
-            `
-        },
-        {
-            code: unIndent`
+            `,
+        unIndent`
                 <div>
                    unrelated{
                         foo
                     }
                 </div>
-            `
-        },
-        {
-            code: unIndent`
+            `,
+        unIndent`
                 <div>unrelated{
                     foo
                 }
                 </div>
-            `
-        },
-        {
-            code: unIndent`
+            `,
+        unIndent`
                 <
                     foo
                         .bar
@@ -4829,46 +4486,36 @@ ruleTester.run("indent", rule, {
                         bar.
                         baz
                 >
-            `
-        },
-        {
-            code: unIndent`
+            `,
+        unIndent`
                 <
                     input
                     type=
                         "number"
                 />
-            `
-        },
-        {
-            code: unIndent`
+            `,
+        unIndent`
                 <
                     input
                     type=
                         {'number'}
                 />
-            `
-        },
-        {
-            code: unIndent`
+            `,
+        unIndent`
                 <
                     input
                     type
                         ="number"
                 />
-            `
-        },
-        {
-            code: unIndent`
+            `,
+        unIndent`
                 foo ? (
                     bar
                 ) : (
                     baz
                 )
-            `
-        },
-        {
-            code: unIndent`
+            `,
+        unIndent`
                 foo ? (
                     <div>
                     </div>
@@ -4876,21 +4523,17 @@ ruleTester.run("indent", rule, {
                     <span>
                     </span>
                 )
-            `
-        },
-        {
-            code: unIndent`
+            `,
+        unIndent`
                 <div>
                     {
                         /* foo */
                     }
                 </div>
-            `
-        },
+            `,
 
         // https://github.com/eslint/eslint/issues/8832
-        {
-            code: unIndent`
+        unIndent`
                 <div>
                     {
                         (
@@ -4898,10 +4541,8 @@ ruleTester.run("indent", rule, {
                         )
                     }
                 </div>
-            `
-        },
-        {
-            code: unIndent`
+            `,
+        unIndent`
                 function A() {
                     return (
                         <div>
@@ -4914,8 +4555,7 @@ ruleTester.run("indent", rule, {
                         </div>
                     );
                 }
-            `
-        },
+            `,
         {
             code: unIndent`
                 a(b
