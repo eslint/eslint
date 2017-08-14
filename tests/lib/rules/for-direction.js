@@ -22,32 +22,32 @@ ruleTester.run("for-direction", rule, {
     valid: [
 
         // test if '++', '--'
-        { code: "for(var i = 0; i < 10; i++){}" },
-        { code: "for(var i = 0; i <= 10; i++){}" },
-        { code: "for(var i = 10; i > 0; i--){}" },
-        { code: "for(var i = 10; i >= 0; i--){}" },
+        "for(var i = 0; i < 10; i++){}",
+        "for(var i = 0; i <= 10; i++){}",
+        "for(var i = 10; i > 0; i--){}",
+        "for(var i = 10; i >= 0; i--){}",
 
         // test if '+=', '-=',
-        { code: "for(var i = 0; i < 10; i+=1){}" },
-        { code: "for(var i = 0; i <= 10; i+=1){}" },
-        { code: "for(var i = 10; i > 0; i-=1){}" },
-        { code: "for(var i = 10; i >= 0; i-=1){}" },
-        { code: "for (var i = 0; i < MAX; i += STEP_SIZE);" },
-        { code: "for (var i = MAX; i > MIN; i -= STEP_SIZE);" },
+        "for(var i = 0; i < 10; i+=1){}",
+        "for(var i = 0; i <= 10; i+=1){}",
+        "for(var i = 10; i > 0; i-=1){}",
+        "for(var i = 10; i >= 0; i-=1){}",
+        "for (var i = 0; i < MAX; i += STEP_SIZE);",
+        "for (var i = MAX; i > MIN; i -= STEP_SIZE);",
 
         // test if no update.
-        { code: "for(var i = 10; i > 0;){}" },
-        { code: "for(var i = 10; i >= 0;){}" },
-        { code: "for(var i = 10; i < 0;){}" },
-        { code: "for(var i = 10; i <= 0;){}" },
-        { code: "for(var i = 10; i <= 0; j++){}" },
-        { code: "for(var i = 10; i <= 0; j--){}" },
-        { code: "for(var i = 10; i >= 0; j++){}" },
-        { code: "for(var i = 10; i >= 0; j--){}" },
-        { code: "for(var i = 10; i >= 0; j += 2){}" },
-        { code: "for(var i = 10; i >= 0; j -= 2){}" },
-        { code: "for(var i = 10; i >= 0; i |= 2){}" },
-        { code: "for(var i = 10; i >= 0; i %= 2){}" }
+        "for(var i = 10; i > 0;){}",
+        "for(var i = 10; i >= 0;){}",
+        "for(var i = 10; i < 0;){}",
+        "for(var i = 10; i <= 0;){}",
+        "for(var i = 10; i <= 0; j++){}",
+        "for(var i = 10; i <= 0; j--){}",
+        "for(var i = 10; i >= 0; j++){}",
+        "for(var i = 10; i >= 0; j--){}",
+        "for(var i = 10; i >= 0; j += 2){}",
+        "for(var i = 10; i >= 0; j -= 2){}",
+        "for(var i = 10; i >= 0; i |= 2){}",
+        "for(var i = 10; i >= 0; i %= 2){}"
     ],
     invalid: [
 

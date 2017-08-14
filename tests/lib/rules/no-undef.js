@@ -61,12 +61,12 @@ ruleTester.run("no-undef", rule, {
         { code: "PromiseRejectionEvent;", env: { browser: true } },
 
         // Notifications of readonly are removed: https://github.com/eslint/eslint/issues/4504
-        { code: "/*global b:false*/ function f() { b = 1; }" },
+        "/*global b:false*/ function f() { b = 1; }",
         { code: "function f() { b = 1; }", globals: { b: false } },
-        { code: "/*global b:false*/ function f() { b++; }" },
-        { code: "/*global b*/ b = 1;" },
-        { code: "/*global b:false*/ var b = 1;" },
-        { code: "Array = 1;" },
+        "/*global b:false*/ function f() { b++; }",
+        "/*global b*/ b = 1;",
+        "/*global b:false*/ var b = 1;",
+        "Array = 1;",
 
         // new.target: https://github.com/eslint/eslint/issues/5420
         { code: "class A { constructor() { new.target; } }", parserOptions: { ecmaVersion: 6 } },

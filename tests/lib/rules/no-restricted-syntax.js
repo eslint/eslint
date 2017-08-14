@@ -21,7 +21,7 @@ ruleTester.run("no-restricted-syntax", rule, {
     valid: [
 
         // string format
-        { code: "doSomething();" },
+        "doSomething();",
         { code: "var foo = 42;", options: ["ConditionalExpression"] },
         { code: "foo += 42;", options: ["VariableDeclaration", "FunctionExpression"] },
         { code: "foo;", options: ["Identifier[name=\"bar\"]"] },

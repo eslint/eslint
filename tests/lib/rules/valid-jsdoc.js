@@ -559,24 +559,18 @@ ruleTester.run("valid-jsdoc", rule, {
         },
 
         // https://github.com/eslint/eslint/issues/7184
-        {
-            code:
-            "/**\n" +
+        "/**\n" +
             "* Foo\n" +
             "* @param {{foo}} hi - desc\n" +
             "* @returns {ASTNode} returns a node\n" +
             "*/\n" +
-            "function foo(hi){}"
-        },
-        {
-            code:
-            "/**\n" +
+            "function foo(hi){}",
+        "/**\n" +
             "* Foo\n" +
             "* @param {{foo:String, bar, baz:Array}} hi - desc\n" +
             "* @returns {ASTNode} returns a node\n" +
             "*/\n" +
-            "function foo(hi){}"
-        },
+            "function foo(hi){}",
         {
             code:
             "/**\n" +

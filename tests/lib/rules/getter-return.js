@@ -30,7 +30,7 @@ ruleTester.run("getter-return", rule, {
 
         // test obj: get
         // option: {allowImplicit: false}
-        { code: "var foo = { get bar(){return true;} };" },
+        "var foo = { get bar(){return true;} };",
 
         // option: {allowImplicit: true}
         { code: "var foo = { get bar() {return;} };", options },
@@ -39,9 +39,9 @@ ruleTester.run("getter-return", rule, {
 
         // test class: get
         // option: {allowImplicit: false}
-        { code: "class foo { get bar(){return true;} }" },
-        { code: "class foo { get bar(){if(baz){return true;} else {return false;} } }" },
-        { code: "class foo { get(){return true;} }" },
+        "class foo { get bar(){return true;} }",
+        "class foo { get bar(){if(baz){return true;} else {return false;} } }",
+        "class foo { get(){return true;} }",
 
         // option: {allowImplicit: true}
         { code: "class foo { get bar(){return true;} }", options },
@@ -49,10 +49,10 @@ ruleTester.run("getter-return", rule, {
 
         // test object.defineProperty(s)
         // option: {allowImplicit: false}
-        { code: "Object.defineProperty(foo, \"bar\", { get: function () {return true;}});" },
-        { code: "Object.defineProperty(foo, \"bar\", { get: function () { ~function (){ return true; }();return true;}});" },
-        { code: "Object.defineProperties(foo, { bar: { get: function () {return true;}} });" },
-        { code: "Object.defineProperties(foo, { bar: { get: function () { ~function (){ return true; }(); return true;}} });" },
+        "Object.defineProperty(foo, \"bar\", { get: function () {return true;}});",
+        "Object.defineProperty(foo, \"bar\", { get: function () { ~function (){ return true; }();return true;}});",
+        "Object.defineProperties(foo, { bar: { get: function () {return true;}} });",
+        "Object.defineProperties(foo, { bar: { get: function () { ~function (){ return true; }(); return true;}} });",
 
         // option: {allowImplicit: true}
         { code: "Object.defineProperty(foo, \"bar\", { get: function () {return true;}});", options },
@@ -61,15 +61,15 @@ ruleTester.run("getter-return", rule, {
         { code: "Object.defineProperties(foo, { bar: { get: function () {return;}} });", options },
 
         // not getter.
-        { code: "var get = function(){};" },
-        { code: "var get = function(){ return true; };" },
-        { code: "var foo = { bar(){} };" },
-        { code: "var foo = { bar(){ return true; } };" },
-        { code: "var foo = { bar: function(){} };" },
-        { code: "var foo = { bar: function(){return;} };" },
-        { code: "var foo = { bar: function(){return true;} };" },
-        { code: "var foo = { get: function () {} }" },
-        { code: "var foo = { get: () => {}};" }
+        "var get = function(){};",
+        "var get = function(){ return true; };",
+        "var foo = { bar(){} };",
+        "var foo = { bar(){ return true; } };",
+        "var foo = { bar: function(){} };",
+        "var foo = { bar: function(){return;} };",
+        "var foo = { bar: function(){return true;} };",
+        "var foo = { get: function () {} }",
+        "var foo = { get: () => {}};"
     ],
 
     invalid: [

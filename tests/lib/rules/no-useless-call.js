@@ -22,29 +22,29 @@ ruleTester.run("no-useless-call", rule, {
     valid: [
 
         // `this` binding is different.
-        { code: "foo.apply(obj, 1, 2);" },
-        { code: "obj.foo.apply(null, 1, 2);" },
-        { code: "obj.foo.apply(otherObj, 1, 2);" },
-        { code: "a.b(x, y).c.foo.apply(a.b(x, z).c, 1, 2);" },
-        { code: "foo.apply(obj, [1, 2]);" },
-        { code: "obj.foo.apply(null, [1, 2]);" },
-        { code: "obj.foo.apply(otherObj, [1, 2]);" },
-        { code: "a.b(x, y).c.foo.apply(a.b(x, z).c, [1, 2]);" },
-        { code: "a.b.foo.apply(a.b.c, [1, 2]);" },
+        "foo.apply(obj, 1, 2);",
+        "obj.foo.apply(null, 1, 2);",
+        "obj.foo.apply(otherObj, 1, 2);",
+        "a.b(x, y).c.foo.apply(a.b(x, z).c, 1, 2);",
+        "foo.apply(obj, [1, 2]);",
+        "obj.foo.apply(null, [1, 2]);",
+        "obj.foo.apply(otherObj, [1, 2]);",
+        "a.b(x, y).c.foo.apply(a.b(x, z).c, [1, 2]);",
+        "a.b.foo.apply(a.b.c, [1, 2]);",
 
         // ignores variadic.
-        { code: "foo.apply(null, args);" },
-        { code: "obj.foo.apply(obj, args);" },
+        "foo.apply(null, args);",
+        "obj.foo.apply(obj, args);",
 
         // ignores computed property.
-        { code: "var call; foo[call](null, 1, 2);" },
-        { code: "var apply; foo[apply](null, [1, 2]);" },
+        "var call; foo[call](null, 1, 2);",
+        "var apply; foo[apply](null, [1, 2]);",
 
         // ignores incomplete things.
-        { code: "foo.call();" },
-        { code: "obj.foo.call();" },
-        { code: "foo.apply();" },
-        { code: "obj.foo.apply();" }
+        "foo.call();",
+        "obj.foo.call();",
+        "foo.apply();",
+        "obj.foo.apply();"
     ],
     invalid: [
 

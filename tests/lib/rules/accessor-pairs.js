@@ -36,9 +36,9 @@ ruleTester.run("accessor-pairs", rule, {
         },
 
         // https://github.com/eslint/eslint/issues/3262
-        { code: "var o = {set: function() {}}" },
-        { code: "Object.defineProperties(obj, {set: {value: function() {}}});" },
-        { code: "Object.create(null, {set: {value: function() {}}});" },
+        "var o = {set: function() {}}",
+        "Object.defineProperties(obj, {set: {value: function() {}}});",
+        "Object.create(null, {set: {value: function() {}}});",
         { code: "var o = {get: function() {}}", options: [{ getWithoutSet: true }] },
         { code: "var o = {[set]: function() {}}", parserOptions: { ecmaVersion: 6 } },
         { code: "var set = 'value'; Object.defineProperty(obj, 'foo', {[set]: function(value) {}});", parserOptions: { ecmaVersion: 6 } }

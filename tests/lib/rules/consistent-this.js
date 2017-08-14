@@ -38,7 +38,7 @@ const ruleTester = new RuleTester();
 
 ruleTester.run("consistent-this", rule, {
     valid: [
-        { code: "var foo = 42, that = this" },
+        "var foo = 42, that = this",
         { code: "var foo = 42, self = this", options: ["self"] },
         { code: "var self = 42", options: ["that"] },
         { code: "var self", options: ["that"] },

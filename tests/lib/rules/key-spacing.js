@@ -16,11 +16,7 @@ const ruleTester = new RuleTester();
 
 ruleTester.run("key-spacing", rule, {
 
-    valid: [{
-        code: "({\n})"
-    }, {
-        code: "({\na: b\n})"
-    }, {
+    valid: ["({\n})", "({\na: b\n})", {
         code: "({\n})",
         options: [{ align: "colon" }]
     }, {

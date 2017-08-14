@@ -144,15 +144,15 @@ ruleTester.run("no-unused-vars", rule, {
         { code: "var x = 1; function foo(y = function() { bar(x); }) { y(); } foo();", parserOptions: { ecmaVersion: 6 } },
 
         // exported variables should work
-        { code: "/*exported toaster*/ var toaster = 'great'" },
-        { code: "/*exported toaster, poster*/ var toaster = 1; poster = 0;" },
+        "/*exported toaster*/ var toaster = 'great'",
+        "/*exported toaster, poster*/ var toaster = 1; poster = 0;",
         { code: "/*exported x*/ var { x } = y", parserOptions: { ecmaVersion: 6 } },
         { code: "/*exported x, y*/  var { x, y } = z", parserOptions: { ecmaVersion: 6 } },
 
         // Can mark variables as used via context.markVariableAsUsed()
-        { code: "/*eslint use-every-a:1*/ var a;" },
-        { code: "/*eslint use-every-a:1*/ !function(a) { return 1; }" },
-        { code: "/*eslint use-every-a:1*/ !function() { var a; return 1 }" },
+        "/*eslint use-every-a:1*/ var a;",
+        "/*eslint use-every-a:1*/ !function(a) { return 1; }",
+        "/*eslint use-every-a:1*/ !function() { var a; return 1 }",
 
         // ignore pattern
         { code: "var _a;", options: [{ vars: "all", varsIgnorePattern: "^_" }] },
@@ -202,59 +202,51 @@ ruleTester.run("no-unused-vars", rule, {
         }),
 
         // https://github.com/eslint/eslint/issues/6348
-        { code: "var a = 0, b; b = a = a + 1; foo(b);" },
-        { code: "var a = 0, b; b = a += a + 1; foo(b);" },
-        { code: "var a = 0, b; b = a++; foo(b);" },
-        { code: "function foo(a) { var b = a = a + 1; bar(b) } foo();" },
-        { code: "function foo(a) { var b = a += a + 1; bar(b) } foo();" },
-        { code: "function foo(a) { var b = a++; bar(b) } foo();" },
+        "var a = 0, b; b = a = a + 1; foo(b);",
+        "var a = 0, b; b = a += a + 1; foo(b);",
+        "var a = 0, b; b = a++; foo(b);",
+        "function foo(a) { var b = a = a + 1; bar(b) } foo();",
+        "function foo(a) { var b = a += a + 1; bar(b) } foo();",
+        "function foo(a) { var b = a++; bar(b) } foo();",
 
         // https://github.com/eslint/eslint/issues/6576
-        {
-            code: [
-                "var unregisterFooWatcher;",
-                "// ...",
-                "unregisterFooWatcher = $scope.$watch( \"foo\", function() {",
-                "    // ...some code..",
-                "    unregisterFooWatcher();",
-                "});"
-            ].join("\n")
-        },
-        {
-            code: [
-                "var ref;",
-                "ref = setInterval(",
-                "    function(){",
-                "        clearInterval(ref);",
-                "    }, 10);"
-            ].join("\n")
-        },
-        {
-            code: [
-                "var _timer;",
-                "function f() {",
-                "    _timer = setTimeout(function () {}, _timer ? 100 : 0);",
-                "}",
-                "f();"
-            ].join("\n")
-        },
-        { code: "function foo(cb) { cb = function() { function something(a) { cb(1 + a); } register(something); }(); } foo();" },
+        [
+            "var unregisterFooWatcher;",
+            "// ...",
+            "unregisterFooWatcher = $scope.$watch( \"foo\", function() {",
+            "    // ...some code..",
+            "    unregisterFooWatcher();",
+            "});"
+        ].join("\n"),
+        [
+            "var ref;",
+            "ref = setInterval(",
+            "    function(){",
+            "        clearInterval(ref);",
+            "    }, 10);"
+        ].join("\n"),
+        [
+            "var _timer;",
+            "function f() {",
+            "    _timer = setTimeout(function () {}, _timer ? 100 : 0);",
+            "}",
+            "f();"
+        ].join("\n"),
+        "function foo(cb) { cb = function() { function something(a) { cb(1 + a); } register(something); }(); } foo();",
         { code: "function* foo(cb) { cb = yield function(a) { cb(1 + a); }; } foo();", parserOptions: { ecmaVersion: 6 } },
         { code: "function foo(cb) { cb = tag`hello${function(a) { cb(1 + a); }}`; } foo();", parserOptions: { ecmaVersion: 6 } },
-        { code: "function foo(cb) { var b; cb = b = function(a) { cb(1 + a); }; b(); } foo();" },
+        "function foo(cb) { var b; cb = b = function(a) { cb(1 + a); }; b(); } foo();",
 
         // https://github.com/eslint/eslint/issues/6646
-        {
-            code: [
-                "function someFunction() {",
-                "    var a = 0, i;",
-                "    for (i = 0; i < 2; i++) {",
-                "        a = myFunction(a);",
-                "    }",
-                "}",
-                "someFunction();"
-            ].join("\n")
-        },
+        [
+            "function someFunction() {",
+            "    var a = 0, i;",
+            "    for (i = 0; i < 2; i++) {",
+            "        a = myFunction(a);",
+            "    }",
+            "}",
+            "someFunction();"
+        ].join("\n"),
 
         // https://github.com/eslint/eslint/issues/7124
         {

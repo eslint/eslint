@@ -28,12 +28,8 @@ ruleTester.run("no-trailing-spaces", rule, {
             code: "var a = 5,\n    b = 3;",
             options: [{}]
         },
-        {
-            code: "var a = 5;"
-        },
-        {
-            code: "var a = 5,\n    b = 3;"
-        },
+        "var a = 5;",
+        "var a = 5,\n    b = 3;",
         {
             code: "var a = 5,\n    b = 3;",
             options: [{ skipBlankLines: true }]
