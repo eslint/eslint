@@ -4573,6 +4573,136 @@ ruleTester.run("indent", rule, {
                 );
             `,
             options: [2, { CallExpression: { arguments: "off" } }]
+        },
+        {
+            code: unIndent`
+                foo
+                ? bar
+                            : baz
+            `,
+            options: [4, { ignoredNodes: ["ConditionalExpression"] }]
+        },
+        {
+            code: unIndent`
+                class Foo {
+                foo() {
+                    bar();
+                }
+                }
+            `,
+            options: [4, { ignoredNodes: ["ClassBody"] }]
+        },
+        {
+            code: unIndent`
+                class Foo {
+                foo() {
+                bar();
+                }
+                }
+            `,
+            options: [4, { ignoredNodes: ["ClassBody", "BlockStatement"] }]
+        },
+        {
+            code: unIndent`
+                foo({
+                        bar: 1
+                    },
+                    {
+                        baz: 2
+                    },
+                    {
+                        qux: 3
+                })
+            `,
+            options: [4, { ignoredNodes: ["CallExpression > ObjectExpression"] }]
+        },
+        {
+            code: unIndent`
+                foo
+                                            .bar
+            `,
+            options: [4, { ignoredNodes: ["MemberExpression"] }]
+        },
+        {
+            code: unIndent`
+                $(function() {
+
+                foo();
+                bar();
+
+                });
+            `,
+            options: [4, {
+                ignoredNodes: ["Program > ExpressionStatement > CallExpression[callee.name='$'] > FunctionExpression > BlockStatement"]
+            }]
+        },
+        {
+            code: unIndent`
+                <Foo
+                            bar="1" />
+            `,
+            options: [4, { ignoredNodes: ["JSXOpeningElement"] }]
+        },
+        {
+            code: unIndent`
+                (function($) {
+                $(function() {
+                    foo;
+                });
+                }())
+            `,
+            options: [4, { ignoredNodes: ["ExpressionStatement > CallExpression > FunctionExpression.callee > BlockStatement"] }]
+        },
+        {
+            code: unIndent`
+                const value = (
+                    condition ?
+                    valueIfTrue :
+                    valueIfFalse
+                );
+            `,
+            options: [4, { ignoredNodes: ["ConditionalExpression"] }]
+        },
+        {
+            code: unIndent`
+                export default foo(
+                    a,
+                    b, {
+                    c
+                    }
+                )
+            `,
+            options: [4, { ignoredNodes: ["ExportDefaultDeclaration > CallExpression > ObjectExpression"] }],
+            parserOptions: { sourceType: "module" }
+        },
+        {
+            code: unIndent`
+                foobar = baz
+                       ? qux
+                       : boop
+            `,
+            options: [4, { ignoredNodes: ["ConditionalExpression"] }]
+        },
+        {
+            code: unIndent`
+                \`
+                    SELECT
+                        \${
+                            foo
+                        } FROM THE_DATABASE
+                \`
+            `,
+            options: [4, { ignoredNodes: ["TemplateLiteral"] }]
+        },
+        {
+            code: unIndent`
+                <foo
+                    prop='bar'
+                    >
+                    Text
+                </foo>
+            `,
+            options: [4, { ignoredNodes: ["JSXOpeningElement"] }]
         }
     ],
 
@@ -8888,6 +9018,74 @@ ruleTester.run("indent", rule, {
             `,
             errors: expectedErrors([3, 0, 4, "Punctuator"]),
             parser: require.resolve("../../fixtures/parsers/babel-eslint7/object-pattern-with-object-annotation")
+        },
+        {
+            code: unIndent`
+                class Foo {
+                foo() {
+                bar();
+                }
+                }
+            `,
+            output: unIndent`
+                class Foo {
+                foo() {
+                    bar();
+                }
+                }
+            `,
+            options: [4, { ignoredNodes: ["ClassBody"] }],
+            errors: expectedErrors([3, 4, 0, "Identifier"])
+        },
+        {
+            code: unIndent`
+                $(function() {
+
+                foo();
+                bar();
+
+                foo(function() {
+                baz();
+                });
+
+                });
+            `,
+            output: unIndent`
+                $(function() {
+
+                foo();
+                bar();
+
+                foo(function() {
+                    baz();
+                });
+
+                });
+            `,
+            options: [4, {
+                ignoredNodes: ["ExpressionStatement > CallExpression[callee.name='$'] > FunctionExpression > BlockStatement"]
+            }],
+            errors: expectedErrors([7, 4, 0, "Identifier"])
+        },
+        {
+            code: unIndent`
+                (function($) {
+                $(function() {
+                foo;
+                });
+                })()
+            `,
+            output: unIndent`
+                (function($) {
+                $(function() {
+                    foo;
+                });
+                })()
+            `,
+            options: [4, {
+                ignoredNodes: ["ExpressionStatement > CallExpression > FunctionExpression.callee > BlockStatement"]
+            }],
+            errors: expectedErrors([3, 4, 0, "Identifier"])
         }
     ]
 });
