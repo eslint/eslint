@@ -80,7 +80,7 @@ processors: {
 The `preprocess` method takes the file contents and filename as arguments, and returns an array of strings to lint. The strings will be linted separately but still be registered to the filename. It's up to the plugin to decide if it needs to return just one part, or multiple pieces. For example in the case of processing `.html` files, you might want to return just one item in the array by combining all scripts, but for `.md` file where each JavaScript block might be independent, you can return multiple items.
 
 The `postprocess` method takes a two-dimensional array of arrays of lint messages and the filename. Each item in the input
-array corresponds to the part that was returned from the `preprocess` method. The `postprocess` method must adjust the location of all errors and aggregate them into a single flat array and return it.
+array corresponds to the part that was returned from the `preprocess` method. The `postprocess` method must adjust the location of all errors, (including the range in the `fix` property, if present), and aggregate them into a single flat array and return it.
 
 You can have both rules and processors in a single plugin. You can also have multiple processors in one plugin.
 To support multiple extensions, add each one to the `processors` element and point them to the same object.
