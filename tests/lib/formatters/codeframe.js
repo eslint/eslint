@@ -14,6 +14,7 @@ const sinon = require("sinon");
 const proxyquire = require("proxyquire");
 const chalk = require("chalk");
 const path = require("path");
+const stripAnsi = require("strip-ansi");
 
 // Chalk protects its methods so we need to inherit from it for Sinon to work.
 const chalkStub = Object.create(chalk, {
@@ -86,7 +87,7 @@ describe("formatter:codeframe", () => {
         it("should return a string in the correct format for warnings", () => {
             const result = formatter(code);
 
-            assert.equal(chalk.stripColor(result), [
+            assert.equal(stripAnsi(result), [
                 `warning: Unexpected foo (foo) at ${path.join("lib", "foo.js")}:1:5:`,
                 "> 1 | var foo = 1;",
                 "    |     ^",
@@ -115,7 +116,7 @@ describe("formatter:codeframe", () => {
             it("should return a string in the correct format", () => {
                 const result = formatter(code);
 
-                assert.equal(chalk.stripColor(result), [
+                assert.equal(stripAnsi(result), [
                     `warning: Unexpected foo (foo) at ${path.join("lib", "foo.js")}:1:5:`,
                     "> 1 | var foo = 1;",
                     "    |     ^",
@@ -147,7 +148,7 @@ describe("formatter:codeframe", () => {
         it("should return a string in the correct format for errors", () => {
             const result = formatter(code);
 
-            assert.equal(chalk.stripColor(result), [
+            assert.equal(stripAnsi(result), [
                 `error: Unexpected foo (foo) at ${path.join("lib", "foo.js")}:1:5:`,
                 "> 1 | var foo = 1;",
                 "    |     ^",
@@ -193,7 +194,7 @@ describe("formatter:codeframe", () => {
         it("should return a string with multiple entries", () => {
             const result = formatter(code);
 
-            assert.equal(chalk.stripColor(result), [
+            assert.equal(stripAnsi(result), [
                 "error: Missing semicolon (semi) at foo.js:1:14:",
                 "> 1 | const foo = 1",
                 "    |              ^",
@@ -241,7 +242,7 @@ describe("formatter:codeframe", () => {
         it("should return a string with code preview pointing to the correct location after fixes", () => {
             const result = formatter(code);
 
-            assert.equal(chalk.stripColor(result), [
+            assert.equal(stripAnsi(result), [
                 "error: 'foo' is assigned a value but never used (no-unused-vars) at foo.js:4:11:",
                 "  2 | ",
                 "  3 |     // a comment",
@@ -286,7 +287,7 @@ describe("formatter:codeframe", () => {
         it("should return a string with multiple entries", () => {
             const result = formatter(code);
 
-            assert.equal(chalk.stripColor(result), [
+            assert.equal(stripAnsi(result), [
                 "error: Missing semicolon (semi) at foo.js:1:14:",
                 "> 1 | const foo = 1",
                 "    |              ^",
@@ -322,7 +323,7 @@ describe("formatter:codeframe", () => {
         it("should return a string in the correct format", () => {
             const result = formatter(code);
 
-            assert.equal(chalk.stripColor(result), [
+            assert.equal(stripAnsi(result), [
                 "error: Parsing error: Unexpected token { at foo.js:1:2:",
                 "> 1 | e{}",
                 "    |  ^",
@@ -347,7 +348,7 @@ describe("formatter:codeframe", () => {
         it("should return a string without code preview (codeframe)", () => {
             const result = formatter(code);
 
-            assert.equal(chalk.stripColor(result), "error: Couldn't find foo.js at foo.js\n\n\n1 error found.");
+            assert.equal(stripAnsi(result), "error: Couldn't find foo.js at foo.js\n\n\n1 error found.");
         });
     });
 
@@ -367,13 +368,13 @@ describe("formatter:codeframe", () => {
         it("should return a string without code preview (codeframe)", () => {
             const result = formatter(code);
 
-            assert.equal(chalk.stripColor(result), "error: Unexpected foo (foo) at foo.js\n\n\n1 error found.");
+            assert.equal(stripAnsi(result), "error: Unexpected foo (foo) at foo.js\n\n\n1 error found.");
         });
 
         it("should output filepath but without 'line:column' appended", () => {
             const result = formatter(code);
 
-            assert.equal(chalk.stripColor(result), "error: Unexpected foo (foo) at foo.js\n\n\n1 error found.");
+            assert.equal(stripAnsi(result), "error: Unexpected foo (foo) at foo.js\n\n\n1 error found.");
         });
     });
 

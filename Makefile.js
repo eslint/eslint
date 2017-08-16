@@ -458,7 +458,7 @@ function hasBranch(branchName) {
  */
 function getFormatterResults() {
     const CLIEngine = require("./lib/cli-engine"),
-        chalk = require("chalk");
+        stripAnsi = require("strip-ansi");
 
     const formatterFiles = fs.readdirSync("./lib/formatters/"),
         cli = new CLIEngine({
@@ -489,7 +489,7 @@ function getFormatterResults() {
 
         if (fileExt === ".js") {
             data.formatterResults[name] = {
-                result: chalk.stripColor(cli.getFormatter(name)(rawMessages.results))
+                result: stripAnsi(cli.getFormatter(name)(rawMessages.results))
             };
         }
         return data;
