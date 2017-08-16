@@ -80,7 +80,6 @@ Additionally, this rule allows further configurability via overrides per functio
 * `named` provides overrides for named functions
 * `anonymous` provides overrides for anonymous functions
 * `method` provides overrides for class methods or property function shorthand
-* `static` provides overrides for static class methods
 
 An example of a configuration with overrides:
 
@@ -89,10 +88,13 @@ An example of a configuration with overrides:
     "before": false,
     "after": true,
     "anonymous": "neither",
-    "method": "neither",
-    "static": {"before": true, "after": true}
+    "method": {"before": true, "after": true}
 }]
 ```
+
+In the example configuration above, the top level "before" and "after" options define the default behavior of
+the rule, while the "anonymous", "method", and "static" options override the default behavior.
+Overrides can be either an object with "before" and "after", or a shorthand string as above.
 
 ## Examples
 
@@ -163,8 +165,7 @@ Examples of **correct** code for this rule with overrides present:
     "before": false,
     "after": true,
     "anonymous": "neither",
-    "method": "neither",
-    "static": {"before": true, "after": true}
+    "method": {"before": true, "after": true}
 }]*/
 /*eslint-env es6*/
 
@@ -172,9 +173,29 @@ function* generator() {}
 
 var anonymous = function*() {};
 
-var shorthand = { *generator() {} };
+var shorthand = { * generator() {} };
 
 class Class { static * method() {} }
+```
+
+Examples of **incorrect** code for this rule with overrides present:
+
+```js
+/*eslint generator-star-spacing: ["error", {
+    "before": false,
+    "after": true,
+    "anonymous": "neither",
+    "method": {"before": true, "after": true}
+}]*/
+/*eslint-env es6*/
+
+function * generator() {}
+
+var anonymous = function* () {};
+
+var shorthand = { *generator() {} };
+
+class Class { static* method() {} }
 ```
 
 ## When Not To Use It

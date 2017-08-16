@@ -418,8 +418,40 @@ ruleTester.run("generator-star-spacing", rule, {
             options: [{ before: false, after: false, method: "both" }]
         },
         {
+            code: "var foo = { * foo(){} }",
+            options: [{ before: false, after: false, method: "both" }]
+        },
+        {
+            code: "var foo = { bar: function * () {} }",
+            options: [{ before: false, after: false, anonymous: "both" }]
+        },
+        {
             code: "class Foo { static * foo(){} }",
-            options: [{ before: false, after: false, static: "both" }]
+            options: [{ before: false, after: false, method: "both" }]
+        },
+
+        // default to top level "before"
+        {
+            code: "function *foo(){}",
+            options: [{ method: "both" }]
+        },
+
+        // don't apply unrelated override
+        {
+            code: "function*foo(){}",
+            options: [{ before: false, after: false, method: "both" }]
+        },
+
+        // ensure using object-type override works
+        {
+            code: "function * foo(){}",
+            options: [{ before: false, after: false, named: { before: true, after: true } }]
+        },
+
+        // unspecified option uses default
+        {
+            code: "function *foo(){}",
+            options: [{ before: false, after: false, named: { before: true } }]
         },
 
         // https://github.com/eslint/eslint/issues/7101#issuecomment-246080531
@@ -1223,14 +1255,85 @@ ruleTester.run("generator-star-spacing", rule, {
             }]
         },
         {
-            code: "class Foo { static*foo(){} }",
-            output: "class Foo { static * foo(){} }",
-            options: [{ before: false, after: false, static: "both" }],
+            code: "var foo = { *foo(){} }",
+            output: "var foo = { * foo(){} }",
+            options: [{ before: false, after: false, method: "both" }],
+            errors: [{
+                message: "Missing space after *.",
+                type: "Punctuator"
+            }]
+        },
+        {
+            code: "var foo = { bar: function*() {} }",
+            output: "var foo = { bar: function * () {} }",
+            options: [{ before: false, after: false, anonymous: "both" }],
             errors: [{
                 message: "Missing space before *.",
                 type: "Punctuator"
             }, {
                 message: "Missing space after *.",
+                type: "Punctuator"
+            }]
+        },
+        {
+            code: "class Foo { static*foo(){} }",
+            output: "class Foo { static * foo(){} }",
+            options: [{ before: false, after: false, method: "both" }],
+            errors: [{
+                message: "Missing space before *.",
+                type: "Punctuator"
+            }, {
+                message: "Missing space after *.",
+                type: "Punctuator"
+            }]
+        },
+
+        // default to top level "before"
+        {
+            code: "function*foo(){}",
+            output: "function *foo(){}",
+            options: [{ method: "both" }],
+            errors: [{
+                message: "Missing space before *.",
+                type: "Punctuator"
+            }]
+        },
+
+        // don't apply unrelated override
+        {
+            code: "function * foo(){}",
+            output: "function*foo(){}",
+            options: [{ before: false, after: false, method: "both" }],
+            errors: [{
+                message: "Unexpected space before *.",
+                type: "Punctuator"
+            }, {
+                message: "Unexpected space after *.",
+                type: "Punctuator"
+            }]
+        },
+
+        // ensure using object-type override works
+        {
+            code: "function*foo(){}",
+            output: "function * foo(){}",
+            options: [{ before: false, after: false, named: { before: true, after: true } }],
+            errors: [{
+                message: "Missing space before *.",
+                type: "Punctuator"
+            }, {
+                message: "Missing space after *.",
+                type: "Punctuator"
+            }]
+        },
+
+        // unspecified option uses default
+        {
+            code: "function*foo(){}",
+            output: "function *foo(){}",
+            options: [{ before: false, after: false, named: { before: true } }],
+            errors: [{
+                message: "Missing space before *.",
                 type: "Punctuator"
             }]
         }
