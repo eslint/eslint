@@ -75,7 +75,7 @@ An example of shorthand configuration:
 "generator-star-spacing": ["error", "after"]
 ```
 
-Additionally, this rule allows further configurability via overrides per function type
+Additionally, this rule allows further configurability via overrides per function type.
 
 * `named` provides overrides for named functions
 * `anonymous` provides overrides for anonymous functions
@@ -156,7 +156,7 @@ var anonymous = function*() {};
 var shorthand = { *generator() {} };
 ```
 
-Examples of **correct** code for this rule with overrides present
+Examples of **correct** code for this rule with overrides present:
 
 ```js
 /*eslint generator-star-spacing: ["error", {
