@@ -142,6 +142,7 @@ ruleTester.run("no-unused-vars", rule, {
         { code: "var x = 1; function foo({y = x} = {}) { bar(y); } foo();", parserOptions: { ecmaVersion: 6 } },
         { code: "var x = 1; function foo(y = function(z = x) { bar(z); }) { y(); } foo();", parserOptions: { ecmaVersion: 6 } },
         { code: "var x = 1; function foo(y = function() { bar(x); }) { y(); } foo();", parserOptions: { ecmaVersion: 6 } },
+        { code: "function isHidden(something) {return !something;}function doSomething(map) {const isHidden = isHidden(map['something']);} doSomething();\n", parserOptions: { ecmaVersion: 6 } },
 
         // exported variables should work
         "/*exported toaster*/ var toaster = 'great'",
