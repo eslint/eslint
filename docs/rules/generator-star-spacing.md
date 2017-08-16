@@ -158,26 +158,6 @@ var anonymous = function*() {};
 var shorthand = { *generator() {} };
 ```
 
-Examples of **correct** code for this rule with overrides present:
-
-```js
-/*eslint generator-star-spacing: ["error", {
-    "before": false,
-    "after": true,
-    "anonymous": "neither",
-    "method": {"before": true, "after": true}
-}]*/
-/*eslint-env es6*/
-
-function* generator() {}
-
-var anonymous = function*() {};
-
-var shorthand = { * generator() {} };
-
-class Class { static * method() {} }
-```
-
 Examples of **incorrect** code for this rule with overrides present:
 
 ```js
@@ -196,6 +176,26 @@ var anonymous = function* () {};
 var shorthand = { *generator() {} };
 
 class Class { static* method() {} }
+```
+
+Examples of **correct** code for this rule with overrides present:
+
+```js
+/*eslint generator-star-spacing: ["error", {
+    "before": false,
+    "after": true,
+    "anonymous": "neither",
+    "method": {"before": true, "after": true}
+}]*/
+/*eslint-env es6*/
+
+function* generator() {}
+
+var anonymous = function*() {};
+
+var shorthand = { * generator() {} };
+
+class Class { static * method() {} }
 ```
 
 ## When Not To Use It
