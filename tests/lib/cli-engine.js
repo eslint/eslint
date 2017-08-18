@@ -643,6 +643,19 @@ describe("CLIEngine", () => {
             assert.equal(report.results[0].messages.length, 0);
         });
 
+        it("should report zero messages when given a config file and a valid file and esprima required as parser", () => {
+
+            engine = new CLIEngine({
+                parser: require("esprima"),
+                useEslintrc: false
+            });
+
+            const report = engine.executeOnFiles(["lib/cli.js"]);
+
+            assert.equal(report.results.length, 1);
+            assert.equal(report.results[0].messages.length, 0);
+        });
+
         it("should report one fatal message when given a config file and a valid file and invalid parser", () => {
 
             engine = new CLIEngine({

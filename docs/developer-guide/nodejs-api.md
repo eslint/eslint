@@ -220,7 +220,7 @@ The `CLIEngine` is a constructor, and you can create a new instance by passing i
 * `ignore` - False disables use of `.eslintignore`, `ignorePath` and `ignorePattern` (default: true). Corresponds to `--no-ignore`.
 * `ignorePath` - The ignore file to use instead of `.eslintignore` (default: null). Corresponds to `--ignore-path`.
 * `ignorePattern` - Glob patterns for paths to ignore. String or array of strings.
-* `parser` - Specify the parser to be used (default: `espree`). Corresponds to `--parser`.
+* `parser` - Specify the parser to be used (default: `espree`). Corresponds to `--parser`. You can also pass an object with the `parser` function.
 * `parserOptions` - An object containing parser options (default: empty object). Corresponds to `--parser-options`.
 * `plugins` - An array of plugins to load (default: empty array). Corresponds to `--plugin`.
 * `rulePaths` - An array of directories to load custom rules from (default: empty array). Corresponds to `--rulesdir`.
