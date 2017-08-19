@@ -1,3 +1,16 @@
+v4.5.0 - August 18, 2017
+
+* decdd2c Update: allow arbitrary nodes to be ignored in `indent` (fixes #8594) (#9105) (Teddy Katz)
+* 79062f3 Update: fix indentation of multiline `new.target` expressions (#9116) (Teddy Katz)
+* d00e24f Upgrade: `chalk` to 2.x release (#9115) (Stephen Edgar)
+* 6ef734a Docs: add missing word in processor documentation (#9106) (Teddy Katz)
+* a4f53ba Fix: Include files with no messages in junit results (#9093) (#9094) (Sean DuBois)
+* 1d6a9c0 Chore: enable eslint-plugin/test-case-shorthand-strings (#9067) (薛定谔的猫)
+* f8add8f Fix: don't autofix with linter.verifyAndFix when `fix: false` is used (#9098) (Teddy Katz)
+* 77bcee4 Docs: update instructions for adding TSC members (#9086) (Teddy Katz)
+* bd09cd5 Update: avoid requiring NaN spaces of indentation (fixes #9083) (#9085) (Teddy Katz)
+* c93a853 Chore: Remove extra space in blogpost template (#9088) (Kai Cataldo)
+
 v4.4.1 - August 7, 2017
 
 * ec93614 Fix: no-multi-spaces to avoid reporting consecutive tabs (fixes #9079) (#9087) (Teddy Katz)
