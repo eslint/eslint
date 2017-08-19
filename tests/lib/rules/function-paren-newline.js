@@ -191,6 +191,34 @@ ruleTester.run("function-paren-newline", rule, {
         {
             code: "baz(foo, bar);",
             options: [{ minItems: 3 }]
+        },
+        {
+            code: "foo(bar, baz)",
+            options: ["consistent"]
+        },
+        {
+            code: `
+                foo(bar,
+                baz)
+            `,
+            options: ["consistent"]
+        },
+        {
+            code: `
+                foo(
+                    bar, baz
+                )
+            `,
+            options: ["consistent"]
+        },
+        {
+            code: `
+                foo(
+                    bar,
+                    baz
+                )
+            `,
+            options: ["consistent"]
         }
     ],
 
@@ -304,10 +332,7 @@ ruleTester.run("function-paren-newline", rule, {
                 function baz(/* not fixed due to comment */
                 foo) {}
             `,
-            output: `
-                function baz(/* not fixed due to comment */
-                foo) {}
-            `,
+            output: null,
             errors: [LEFT_UNEXPECTED_ERROR]
         },
         {
@@ -315,10 +340,7 @@ ruleTester.run("function-paren-newline", rule, {
                 function baz(foo
                 /* not fixed due to comment */) {}
             `,
-            output: `
-                function baz(foo
-                /* not fixed due to comment */) {}
-            `,
+            output: null,
             errors: [RIGHT_UNEXPECTED_ERROR]
         },
 
@@ -547,6 +569,33 @@ ruleTester.run("function-paren-newline", rule, {
             `,
             options: [{ minItems: 3 }],
             errors: [LEFT_UNEXPECTED_ERROR, RIGHT_UNEXPECTED_ERROR]
+        },
+        {
+            code: `
+                foo(
+                    bar,
+                    baz)
+            `,
+            output: `
+                foo(
+                    bar,
+                    baz\n)
+            `,
+            options: ["consistent"],
+            errors: [RIGHT_MISSING_ERROR]
+        },
+        {
+            code: `
+                foo(bar,
+                    baz
+                )
+            `,
+            output: `
+                foo(bar,
+                    baz)
+            `,
+            options: ["consistent"],
+            errors: [RIGHT_UNEXPECTED_ERROR]
         }
     ]
 });

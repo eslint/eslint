@@ -15,6 +15,7 @@ This rule has a single option, which can either be a string or an object.
 * `"always"` requires line breaks inside all function parentheses.
 * `"never"` disallows line breaks inside all function parentheses.
 * `"multiline"` (default) requires linebreaks inside function parentheses if any of the parameters/arguments have a line break between them. Otherwise, it disallows linebreaks.
+* `"consistent"` requires consistent usage of linebreaks for each pair of parentheses. It reports an error if one parenthesis in the pair has a linebreak inside it and the other parenthesis does not.
 * `{ "minItems": value }` requires linebreaks inside function parentheses if the number of parameters/arguments is at least `value`. Otherwise, it disallows linebreaks.
 
 Example configurations:
@@ -171,6 +172,59 @@ foo(
 foo(function() {
   return baz;
 });
+```
+
+Examples of **incorrect** code for this rule with the `"consistent"` option:
+
+```js
+/* eslint function-paren-newline: ["error", "consistent"] */
+
+function foo(bar,
+  baz
+) {}
+
+var foo = function(bar,
+  baz
+) {};
+
+var foo = (
+  bar,
+  baz) => {};
+
+foo(
+  bar,
+  baz);
+
+foo(
+  function() {
+    return baz;
+  });
+```
+
+Examples of **correct** code for this rule with the consistent `"consistent"` option:
+
+```js
+/* eslint function-paren-newline: ["error", "consistent"] */
+
+function foo(bar,
+  baz) {}
+
+var foo = function(bar, baz) {};
+
+var foo = (
+  bar,
+  baz
+) => {};
+
+foo(
+  bar, baz
+);
+
+foo(
+  function() {
+    return baz;
+  }
+);
 ```
 
 Examples of **incorrect** code for this rule with the `{ "minItems": 3 }` option:
