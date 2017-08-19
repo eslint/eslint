@@ -36,7 +36,8 @@ describe("createReportTranslator", () => {
                     tokens: true,
                     comment: true
                 }
-            ));
+            )
+        );
     }
 
     let node, location, message, translateReport;

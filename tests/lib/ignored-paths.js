@@ -159,9 +159,9 @@ describe("IgnoredPaths", () => {
             });
 
             assert.ok(
-                ignorePattern.every(pattern =>
+                ignorePattern.every(pattern => (
                     getIgnoreRules(ignoredPaths).some(rule => rule.pattern === pattern)
-                )
+                ))
             );
         });
 
