@@ -1843,6 +1843,18 @@ ruleTester.run("indent", rule, {
             `,
             options: [4, { MemberExpression: 1 }]
         },
+        unIndent`
+            function foo() {
+                new
+                    .target
+            }
+        `,
+        unIndent`
+            function foo() {
+                new.
+                    target
+            }
+        `,
         {
             code: unIndent`
                 if (foo) {
@@ -6126,6 +6138,36 @@ ruleTester.run("indent", rule, {
             `,
             options: [2, { MemberExpression: 2 }],
             errors: expectedErrors([[2, 4, 2, "Punctuator"], [3, 4, 2, "Punctuator"]])
+        },
+        {
+            code: unIndent`
+                function foo() {
+                    new
+                    .target
+                }
+            `,
+            output: unIndent`
+                function foo() {
+                    new
+                        .target
+                }
+            `,
+            errors: expectedErrors([3, 8, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                function foo() {
+                    new.
+                    target
+                }
+            `,
+            output: unIndent`
+                function foo() {
+                    new.
+                        target
+                }
+            `,
+            errors: expectedErrors([3, 8, 4, "Identifier"])
         },
         {
 
