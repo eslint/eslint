@@ -26,4 +26,5 @@ Examples of **correct** code for this rule:
 
 var person = new Person();
 var person = new (Person)();
+var foo = new class extends Map {};
 ```
