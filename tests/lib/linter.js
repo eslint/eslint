@@ -639,7 +639,7 @@ describe("Linter", () => {
 
             linter.reset();
             linter.on("Program:exit", () => {
-                linter.markVariableAsUsed("a");
+                assert.isTrue(linter.markVariableAsUsed("a"));
 
                 const scope = linter.getScope();
 
@@ -654,7 +654,7 @@ describe("Linter", () => {
 
             linter.reset();
             linter.on("ReturnStatement", () => {
-                linter.markVariableAsUsed("a");
+                assert.isTrue(linter.markVariableAsUsed("a"));
 
                 const scope = linter.getScope();
 
@@ -669,7 +669,7 @@ describe("Linter", () => {
 
             linter.reset();
             linter.on("ReturnStatement", () => {
-                linter.markVariableAsUsed("a");
+                assert.isTrue(linter.markVariableAsUsed("a"));
             });
             linter.on("Program:exit", () => {
                 const scope = linter.getScope();
@@ -689,7 +689,7 @@ describe("Linter", () => {
                 const globalScope = linter.getScope(),
                     childScope = globalScope.childScopes[0];
 
-                linter.markVariableAsUsed("a");
+                assert.isTrue(linter.markVariableAsUsed("a"));
 
                 assert.isTrue(getVariable(childScope, "a").eslintUsed);
                 assert.isUndefined(getVariable(childScope, "b").eslintUsed);
@@ -706,13 +706,24 @@ describe("Linter", () => {
                 const globalScope = linter.getScope(),
                     childScope = globalScope.childScopes[0];
 
-                linter.markVariableAsUsed("a");
+                assert.isTrue(linter.markVariableAsUsed("a"));
 
                 assert.isTrue(getVariable(childScope, "a").eslintUsed);
                 assert.isUndefined(getVariable(childScope, "b").eslintUsed);
             });
 
             linter.verify(code, { parserOptions: { sourceType: "module" } }, filename, true);
+        });
+
+        it("should return false if the given variable is not found", () => {
+            const code = "var a = 1, b = 2;";
+
+            linter.reset();
+            linter.on("Program:exit", () => {
+                assert.isFalse(linter.markVariableAsUsed("c"));
+            });
+
+            linter.verify(code, {}, filename, true);
         });
     });
 
