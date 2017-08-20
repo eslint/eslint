@@ -880,7 +880,7 @@ describe("cli", () => {
         });
 
         it("should error out when executing on text", () => {
-            const exitCode = cli.execute("--print-config", "foo = bar;");
+            const exitCode = cli.execute("--print-config=myFile.js", "foo = bar;");
 
             assert.isTrue(log.info.notCalled);
             assert.isTrue(log.error.calledOnce);
