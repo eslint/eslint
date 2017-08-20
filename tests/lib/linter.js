@@ -3840,6 +3840,24 @@ describe("Linter", () => {
 
             assert.strictEqual(fixResult.fixed, false);
         });
+
+        it("stops fixing after 10 passes", () => {
+            linter.defineRule("add-spaces", context => ({
+                Program(node) {
+                    context.report({
+                        node,
+                        message: "Add a space before this node.",
+                        fix: fixer => fixer.insertTextBefore(node, " ")
+                    });
+                }
+            }));
+
+            const fixResult = linter.verifyAndFix("a", { rules: { "add-spaces": "error" } });
+
+            assert.strictEqual(fixResult.fixed, true);
+            assert.strictEqual(fixResult.output, `${" ".repeat(10)}a`);
+            assert.strictEqual(fixResult.messages.length, 1);
+        });
     });
 
     describe("Edge cases", () => {
