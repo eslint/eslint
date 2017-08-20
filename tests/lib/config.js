@@ -881,6 +881,9 @@ describe("Config", () => {
                     };
 
                 assert.deepEqual(actual, expected);
+
+                // Ensure that the personal config is cached and isn't reloaded on every call
+                assert.strictEqual(config.getPersonalConfig(), config.getPersonalConfig());
             });
 
             it("should ignore the personal config if a local config was found", () => {
