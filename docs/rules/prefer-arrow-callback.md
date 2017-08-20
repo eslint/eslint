@@ -1,6 +1,6 @@
 # Suggest using ES6 arrow functions to describe callbacks (prefer-arrow-callback)
 
-Compared to function expressions, arrow functions are better-suited for describing callbacks or function arguments.
+Arrow functions can be an attractive alternative to function expressions, when describing callbacks or function arguments.
 
 For example, arrow functions are bound to their surrounding scope/context automatically. This is an upgrade from using `bind()` and `this` to explicitly bind a function expression, which was the pre-ES6 standard for achieving similar scoping behavior.
 
@@ -46,7 +46,7 @@ foo(function bar(n) { return n && n + bar(n - 1); });
 
 ## Options
 
-Access Further control over this rule's behavior via an options object.
+Access further control over this rule's behavior via an options object.
 
 Default: `{ allowNamedFunctions: false, allowUnboundThis: true }`
 
