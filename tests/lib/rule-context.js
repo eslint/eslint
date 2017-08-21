@@ -164,6 +164,34 @@ describe("RuleContext", () => {
                 mockESLint.verify();
             });
 
+            it("should pass through fixes if only one is present", () => {
+                const mockESLint = sandbox.mock(eslint);
+
+                mockESLint.expects("getSourceCode").returns({ text: "var foo = 100;" });
+                mockESLint.expects("report").once().withArgs(
+                    sinon.match.any,
+                    sinon.match.any,
+                    sinon.match.any,
+                    sinon.match.any,
+                    sinon.match.any,
+                    sinon.match.any,
+                    sinon.match({
+                        range: [10, 13],
+                        text: "234"
+                    })
+                );
+
+                ruleContext.report({
+                    node: {},
+                    loc: {},
+                    message: "Message",
+                    *fix(fixer) {
+                        yield fixer.replaceTextRange([10, 13], "234");
+                    }
+                });
+
+                mockESLint.verify();
+            });
 
             it("should handle inserting BOM correctly.", () => {
                 const mockESLint = sandbox.mock(eslint);
