@@ -46,7 +46,7 @@ process.once("uncaughtException", err => {
         const pkg = require("../package.json");
 
         console.error("\nOops! Something went wrong! :(");
-        console.error(`\nESLint: ${pkg.version}.${template(err.messageData || {})}`);
+        console.error(`\nESLint: ${pkg.version}.\n${template(err.messageData || {})}`);
     } else {
 
         console.error(err.message);
