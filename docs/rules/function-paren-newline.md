@@ -1,7 +1,5 @@
 # enforce consistent line breaks inside function parentheses (function-paren-newline)
 
-(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) automatically fixes problems reported by this rule.
-
 Many styleguides require or disallow newlines inside of function parentheses.
 
 ## Rule Details
