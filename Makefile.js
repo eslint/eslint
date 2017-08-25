@@ -685,7 +685,8 @@ target.gensite = function(prereleaseVersion) {
                 sourcePath = path.join("lib/rules", sourceBaseName),
                 ruleName = path.basename(filename, ".md");
             let text = cat(filename),
-                title;
+                title,
+                editLink;
 
             process.stdout.write(`> Updating files (Steps 4-9): ${i}/${length} - ${sourcePath + " ".repeat(30)}\r`);
 
@@ -704,16 +705,9 @@ target.gensite = function(prereleaseVersion) {
 
                 text = `${ruleHeading}${isRecommended ? RECOMMENDED_TEXT : ""}${isFixable ? FIXABLE_TEXT : ""}\n${ruleDocsContent}`;
 
-                text = [
-                    "---",
-                    `title: ${ruleName} - Rules`,
-                    "layout: doc",
-                    filename.indexOf("rules/") !== -1 && `edit_link: https://github.com/eslint/eslint/edit/master/docs/rules/${baseName}`,
-                    "---",
-                    "<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->",
-                    "",
-                    text
-                ].filter(x => x).join("\n");
+                title = `${ruleName} - Rules`;
+
+                editLink = `https://github.com/eslint/eslint/edit/master/docs/rules/${baseName}`;
             } else {
 
                 // extract the title from the file itself
@@ -723,17 +717,19 @@ target.gensite = function(prereleaseVersion) {
                 } else {
                     title = "Documentation";
                 }
-                text = [
-                    "---",
-                    `title: ${title}`,
-                    "layout: doc",
-                    `edit_link: https://github.com/eslint/eslint/edit/master/${baseName}`,
-                    "---",
-                    "<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->",
-                    "",
-                    text
-                ].filter(x => x).join("\n");
+                editLink = `https://github.com/eslint/eslint/edit/master/${filename}`;
             }
+
+            text = [
+                "---",
+                `title: ${title}`,
+                "layout: doc",
+                editLink ? `edit_link: ${editLink}` : "",
+                "---",
+                "<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->",
+                "",
+                text
+            ].join("\n");
 
             // 6. Remove .md extension for relative links and change README to empty string
             text = text.replace(/\((?!https?:\/\/)([^)]*?)\.md.*?\)/g, "($1)").replace("README.html", "");
