@@ -683,12 +683,13 @@ target.gensite = function(prereleaseVersion) {
                 baseName = path.basename(filename),
                 sourceBaseName = `${path.basename(filename, ".md")}.js`,
                 sourcePath = path.join("lib/rules", sourceBaseName),
-                ruleName = path.basename(filename, ".md");
+                ruleName = path.basename(filename, ".md"),
+                filePath = path.join("docs", path.relative("tmp", filename));
             let text = cat(filename),
                 title,
                 editLink;
 
-            process.stdout.write(`> Updating files (Steps 4-9): ${i}/${length} - ${sourcePath + " ".repeat(30)}\r`);
+            process.stdout.write(`> Updating files (Steps 4-9): ${i}/${length} - ${filePath + " ".repeat(30)}\r`);
 
             // 5. Prepend page title and layout variables at the top of rules
             if (path.dirname(filename).indexOf("rules") >= 0) {
@@ -717,7 +718,7 @@ target.gensite = function(prereleaseVersion) {
                 } else {
                     title = "Documentation";
                 }
-                editLink = `https://github.com/eslint/eslint/edit/master/${filename}`;
+                editLink = `https://github.com/eslint/eslint/edit/master/${filePath}`;
             }
 
             text = [
