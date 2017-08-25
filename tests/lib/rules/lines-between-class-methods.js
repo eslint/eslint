@@ -26,10 +26,16 @@ const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 
 ruleTester.run("lines-between-class-methods", rule, {
     valid: [
-        "class foo{ bar(){}\n\nbaz(){}}"
+        "class foo{}",
+        "class foo{\n\n}",
+        "class foo{\nconstructor(){}\n\n}",
+        "class foo{ bar(){}\n\nbaz(){}}",
+        { code: "class foo{}", options: ["never"] },
+        { code: "class foo{ bar(){}baz(){}}", options: ["never"] }
     ],
     invalid: [
         { code: "class foo{ bar(){}baz(){}}", output: null, errors: [{ message: ALWAYS_MESSAGE }] },
+        { code: "class foo{ bar(){}\nbaz(){}}", output: null, options: ["always"], errors: [{ message: ALWAYS_MESSAGE }] },
         { code: "class foo{ bar(){}\n\nbaz(){}}", output: null, options: ["never"], errors: [{ message: NEVER_MESSAGE }] }
     ]
 });
