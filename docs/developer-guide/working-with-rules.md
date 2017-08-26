@@ -183,7 +183,9 @@ The node contains all of the information necessary to figure out the line and co
 
 ### `messageId`s
 
-Instead of typing out messages in both the `context.report()` call and your tests, you can use `messageId`s instead:
+Instead of typing out messages in both the `context.report()` call and your tests, you can use `messageId`s instead.
+
+This allows you to avoid retyping error messages. It also prevents errors reported in different sections of your rule from having out-of-date messages.
 
 ```js
 // in your rule
