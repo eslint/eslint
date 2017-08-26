@@ -198,6 +198,7 @@ module.exports = {
             Identifier(node) {
                 if (node.name === "foo") {
                     context.report({
+                        node,
                         messageId: "foo"
                     });
                 }
