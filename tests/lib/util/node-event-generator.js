@@ -13,7 +13,7 @@ const assert = require("assert"),
     sinon = require("sinon"),
     espree = require("espree"),
     estraverse = require("estraverse"),
-    EventGeneratorTester = require("../../../lib/testers/event-generator-tester"),
+    EventGeneratorTester = require("../../../tools/internal-testers/event-generator-tester"),
     NodeEventGenerator = require("../../../lib/util/node-event-generator");
 
 //------------------------------------------------------------------------------
