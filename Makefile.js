@@ -707,8 +707,6 @@ target.gensite = function(prereleaseVersion) {
                 text = `${ruleHeading}${isRecommended ? RECOMMENDED_TEXT : ""}${isFixable ? FIXABLE_TEXT : ""}\n${ruleDocsContent}`;
 
                 title = `${ruleName} - Rules`;
-
-                editLink = `https://github.com/eslint/eslint/edit/master/docs/rules/${baseName}`;
             } else {
 
                 // extract the title from the file itself
@@ -718,14 +716,13 @@ target.gensite = function(prereleaseVersion) {
                 } else {
                     title = "Documentation";
                 }
-                editLink = `https://github.com/eslint/eslint/edit/master/${filePath}`;
             }
 
             text = [
                 "---",
                 `title: ${title}`,
                 "layout: doc",
-                editLink ? `edit_link: ${editLink}` : "",
+                `https://github.com/eslint/eslint/edit/master/${filePath}`,
                 "---",
                 "<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->",
                 "",
