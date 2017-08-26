@@ -686,8 +686,7 @@ target.gensite = function(prereleaseVersion) {
                 ruleName = path.basename(filename, ".md"),
                 filePath = path.join("docs", path.relative("tmp", filename));
             let text = cat(filename),
-                title,
-                editLink;
+                title;
 
             process.stdout.write(`> Updating files (Steps 4-9): ${i}/${length} - ${filePath + " ".repeat(30)}\r`);
 
