@@ -19,9 +19,6 @@ const RuleTester = require("../../../lib/testers/rule-tester");
 
 const ruleTester = new RuleTester();
 
-const ERR_NO_BREAK_HERE = "There should be no linebreak here.";
-const ERR_BREAK_HERE = "There should be a linebreak after this element.";
-
 ruleTester.run("array-element-newline", rule, {
 
     valid: [
@@ -137,7 +134,7 @@ ruleTester.run("array-element-newline", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: ERR_BREAK_HERE,
+                    messageId: "lineBreak",
                     line: 1,
                     column: 14,
                     endLine: 1,
@@ -151,14 +148,14 @@ ruleTester.run("array-element-newline", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: ERR_BREAK_HERE,
+                    messageId: "lineBreak",
                     line: 1,
                     column: 14,
                     endLine: 1,
                     endColumn: 15
                 },
                 {
-                    message: ERR_BREAK_HERE,
+                    messageId: "lineBreak",
                     line: 1,
                     column: 17,
                     endLine: 1,
@@ -172,14 +169,14 @@ ruleTester.run("array-element-newline", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: ERR_BREAK_HERE,
+                    messageId: "lineBreak",
                     line: 1,
                     column: 14,
                     endLine: 1,
                     endColumn: 14
                 },
                 {
-                    message: ERR_BREAK_HERE,
+                    messageId: "lineBreak",
                     line: 1,
                     column: 16,
                     endLine: 1,
@@ -193,14 +190,14 @@ ruleTester.run("array-element-newline", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: ERR_BREAK_HERE,
+                    messageId: "lineBreak",
                     line: 1,
                     column: 14,
                     endLine: 1,
                     endColumn: 15
                 },
                 {
-                    message: ERR_BREAK_HERE,
+                    messageId: "lineBreak",
                     line: 1,
                     column: 19,
                     endLine: 1,
@@ -214,12 +211,12 @@ ruleTester.run("array-element-newline", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: ERR_BREAK_HERE,
+                    messageId: "lineBreak",
                     line: 1,
                     column: 14
                 },
                 {
-                    message: ERR_BREAK_HERE,
+                    messageId: "lineBreak",
                     line: 3,
                     column: 3
                 }
@@ -231,7 +228,7 @@ ruleTester.run("array-element-newline", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: ERR_BREAK_HERE,
+                    messageId: "lineBreak",
                     line: 1,
                     column: 14
                 }
@@ -243,14 +240,14 @@ ruleTester.run("array-element-newline", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: ERR_BREAK_HERE,
+                    messageId: "lineBreak",
                     line: 1,
                     column: 14,
                     endLine: 1,
                     endColumn: 15
                 },
                 {
-                    message: ERR_BREAK_HERE,
+                    messageId: "lineBreak",
                     line: 1,
                     column: 25,
                     endLine: 1,
@@ -264,14 +261,14 @@ ruleTester.run("array-element-newline", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: ERR_BREAK_HERE,
+                    messageId: "lineBreak",
                     line: 1,
                     column: 31,
                     endLine: 1,
                     endColumn: 31
                 },
                 {
-                    message: ERR_BREAK_HERE,
+                    messageId: "lineBreak",
                     line: 1,
                     column: 35,
                     endLine: 1,
@@ -285,14 +282,14 @@ ruleTester.run("array-element-newline", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: ERR_BREAK_HERE,
+                    messageId: "lineBreak",
                     line: 1,
                     column: 14,
                     endLine: 1,
                     endColumn: 14
                 },
                 {
-                    message: ERR_BREAK_HERE,
+                    messageId: "lineBreak",
                     line: 1,
                     column: 20,
                     endLine: 1,
@@ -306,14 +303,14 @@ ruleTester.run("array-element-newline", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: ERR_BREAK_HERE,
+                    messageId: "lineBreak",
                     line: 1,
                     column: 14,
                     endLine: 1,
                     endColumn: 15
                 },
                 {
-                    message: ERR_BREAK_HERE,
+                    messageId: "lineBreak",
                     line: 1,
                     column: 19,
                     endLine: 1,
@@ -327,7 +324,7 @@ ruleTester.run("array-element-newline", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: ERR_BREAK_HERE,
+                    messageId: "lineBreak",
                     line: 4,
                     column: 3
                 }
@@ -339,7 +336,7 @@ ruleTester.run("array-element-newline", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: ERR_BREAK_HERE,
+                    messageId: "lineBreak",
                     line: 4,
                     column: 4
                 }
@@ -353,7 +350,7 @@ ruleTester.run("array-element-newline", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: ERR_NO_BREAK_HERE,
+                    messageId: "noLineBreak",
                     line: 2,
                     column: 3
                 }
@@ -365,7 +362,7 @@ ruleTester.run("array-element-newline", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: ERR_NO_BREAK_HERE,
+                    messageId: "noLineBreak",
                     line: 3,
                     column: 2
                 }
@@ -377,7 +374,7 @@ ruleTester.run("array-element-newline", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: ERR_NO_BREAK_HERE,
+                    messageId: "noLineBreak",
                     line: 3,
                     column: 2
                 }
@@ -389,7 +386,7 @@ ruleTester.run("array-element-newline", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: ERR_NO_BREAK_HERE,
+                    messageId: "noLineBreak",
                     line: 2,
                     column: 18
                 }
@@ -401,7 +398,7 @@ ruleTester.run("array-element-newline", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: ERR_NO_BREAK_HERE,
+                    messageId: "noLineBreak",
                     line: 2,
                     column: 3
                 }
@@ -413,14 +410,14 @@ ruleTester.run("array-element-newline", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: ERR_NO_BREAK_HERE,
+                    messageId: "noLineBreak",
                     line: 2,
                     column: 3,
                     endLine: 3,
                     endColumn: 1
                 },
                 {
-                    message: ERR_NO_BREAK_HERE,
+                    messageId: "noLineBreak",
                     line: 3,
                     column: 3,
                     endLine: 4,
@@ -434,7 +431,7 @@ ruleTester.run("array-element-newline", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: ERR_NO_BREAK_HERE,
+                    messageId: "noLineBreak",
                     line: 4,
                     column: 3
                 }
@@ -446,7 +443,7 @@ ruleTester.run("array-element-newline", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: ERR_NO_BREAK_HERE,
+                    messageId: "noLineBreak",
                     line: 4,
                     column: 21
                 }
@@ -460,7 +457,7 @@ ruleTester.run("array-element-newline", rule, {
             options: [{ multiline: true }],
             errors: [
                 {
-                    message: ERR_NO_BREAK_HERE,
+                    messageId: "noLineBreak",
                     line: 1,
                     column: 14
                 }
@@ -472,7 +469,7 @@ ruleTester.run("array-element-newline", rule, {
             options: [{ multiline: true }],
             errors: [
                 {
-                    message: ERR_BREAK_HERE,
+                    messageId: "lineBreak",
                     line: 4,
                     column: 3
                 }
@@ -484,7 +481,7 @@ ruleTester.run("array-element-newline", rule, {
             options: [{ multiline: true }],
             errors: [
                 {
-                    message: ERR_BREAK_HERE,
+                    messageId: "lineBreak",
                     line: 4,
                     column: 21
                 }
@@ -498,7 +495,7 @@ ruleTester.run("array-element-newline", rule, {
             options: [{ minItems: null }],
             errors: [
                 {
-                    message: ERR_NO_BREAK_HERE,
+                    messageId: "noLineBreak",
                     line: 1,
                     column: 14
                 }
@@ -510,12 +507,12 @@ ruleTester.run("array-element-newline", rule, {
             options: [{ minItems: null }],
             errors: [
                 {
-                    message: ERR_NO_BREAK_HERE,
+                    messageId: "noLineBreak",
                     line: 1,
                     column: 14
                 },
                 {
-                    message: ERR_NO_BREAK_HERE,
+                    messageId: "noLineBreak",
                     line: 2,
                     column: 3
                 }
@@ -527,7 +524,7 @@ ruleTester.run("array-element-newline", rule, {
             options: [{ minItems: null }],
             errors: [
                 {
-                    message: ERR_NO_BREAK_HERE,
+                    messageId: "noLineBreak",
                     line: 4,
                     column: 3
                 }
@@ -541,7 +538,7 @@ ruleTester.run("array-element-newline", rule, {
             options: [{ minItems: 0 }],
             errors: [
                 {
-                    message: ERR_BREAK_HERE,
+                    messageId: "lineBreak",
                     line: 1,
                     column: 14
                 }
@@ -553,12 +550,12 @@ ruleTester.run("array-element-newline", rule, {
             options: [{ minItems: 0 }],
             errors: [
                 {
-                    message: ERR_BREAK_HERE,
+                    messageId: "lineBreak",
                     line: 1,
                     column: 14
                 },
                 {
-                    message: ERR_BREAK_HERE,
+                    messageId: "lineBreak",
                     line: 1,
                     column: 17
                 }
@@ -570,7 +567,7 @@ ruleTester.run("array-element-newline", rule, {
             options: [{ minItems: 0 }],
             errors: [
                 {
-                    message: ERR_BREAK_HERE,
+                    messageId: "lineBreak",
                     line: 4,
                     column: 3
                 }
@@ -584,7 +581,7 @@ ruleTester.run("array-element-newline", rule, {
             options: [{ minItems: 3 }],
             errors: [
                 {
-                    message: ERR_NO_BREAK_HERE,
+                    messageId: "noLineBreak",
                     line: 1,
                     column: 14
                 }
@@ -596,12 +593,12 @@ ruleTester.run("array-element-newline", rule, {
             options: [{ minItems: 3 }],
             errors: [
                 {
-                    message: ERR_BREAK_HERE,
+                    messageId: "lineBreak",
                     line: 1,
                     column: 14
                 },
                 {
-                    message: ERR_BREAK_HERE,
+                    messageId: "lineBreak",
                     line: 1,
                     column: 17
                 }
@@ -613,7 +610,7 @@ ruleTester.run("array-element-newline", rule, {
             options: [{ minItems: 3 }],
             errors: [
                 {
-                    message: ERR_NO_BREAK_HERE,
+                    messageId: "noLineBreak",
                     line: 4,
                     column: 3
                 }
@@ -627,12 +624,12 @@ ruleTester.run("array-element-newline", rule, {
             options: [{ multiline: true, minItems: 3 }],
             errors: [
                 {
-                    message: ERR_BREAK_HERE,
+                    messageId: "lineBreak",
                     line: 1,
                     column: 14
                 },
                 {
-                    message: ERR_BREAK_HERE,
+                    messageId: "lineBreak",
                     line: 1,
                     column: 17
                 }
@@ -644,7 +641,7 @@ ruleTester.run("array-element-newline", rule, {
             options: [{ multiline: true, minItems: 3 }],
             errors: [
                 {
-                    message: ERR_NO_BREAK_HERE,
+                    messageId: "noLineBreak",
                     line: 1,
                     column: 14
                 }
@@ -656,7 +653,7 @@ ruleTester.run("array-element-newline", rule, {
             options: [{ multiline: true, minItems: 3 }],
             errors: [
                 {
-                    message: ERR_BREAK_HERE,
+                    messageId: "lineBreak",
                     line: 4,
                     column: 3
                 }
@@ -674,7 +671,7 @@ ruleTester.run("array-element-newline", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: ERR_BREAK_HERE,
+                    messageId: "lineBreak",
                     line: 1,
                     column: 8
                 }
@@ -687,12 +684,12 @@ ruleTester.run("array-element-newline", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: ERR_BREAK_HERE,
+                    messageId: "lineBreak",
                     line: 1,
                     column: 8
                 },
                 {
-                    message: ERR_BREAK_HERE,
+                    messageId: "lineBreak",
                     line: 1,
                     column: 11
                 }
@@ -707,7 +704,7 @@ ruleTester.run("array-element-newline", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: ERR_NO_BREAK_HERE,
+                    messageId: "noLineBreak",
                     line: 1,
                     column: 8
                 }
@@ -720,12 +717,12 @@ ruleTester.run("array-element-newline", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: ERR_BREAK_HERE,
+                    messageId: "lineBreak",
                     line: 1,
                     column: 8
                 },
                 {
-                    message: ERR_BREAK_HERE,
+                    messageId: "lineBreak",
                     line: 1,
                     column: 11
                 }

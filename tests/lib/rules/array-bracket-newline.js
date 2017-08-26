@@ -19,11 +19,6 @@ const RuleTester = require("../../../lib/testers/rule-tester");
 
 const ruleTester = new RuleTester();
 
-const ERR_NO_BREAK_AFTER = "There should be no linebreak after '['.";
-const ERR_BREAK_AFTER = "A linebreak is required after '['.";
-const ERR_NO_BREAK_BEFORE = "There should be no linebreak before ']'.";
-const ERR_BREAK_BEFORE = "A linebreak is required before ']'.";
-
 ruleTester.run("array-bracket-newline", rule, {
 
     valid: [
@@ -187,7 +182,7 @@ ruleTester.run("array-bracket-newline", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: ERR_BREAK_AFTER,
+                    messageId: "open",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11,
@@ -195,7 +190,7 @@ ruleTester.run("array-bracket-newline", rule, {
                     endColumn: 12
                 },
                 {
-                    message: ERR_BREAK_BEFORE,
+                    messageId: "close",
                     type: "ArrayExpression",
                     line: 1,
                     column: 12,
@@ -210,13 +205,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: ERR_BREAK_AFTER,
+                    messageId: "open",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_BREAK_BEFORE,
+                    messageId: "close",
                     type: "ArrayExpression",
                     line: 1,
                     column: 13
@@ -229,7 +224,7 @@ ruleTester.run("array-bracket-newline", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: ERR_BREAK_BEFORE,
+                    messageId: "close",
                     type: "ArrayExpression",
                     line: 2,
                     column: 2,
@@ -244,7 +239,7 @@ ruleTester.run("array-bracket-newline", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: ERR_BREAK_BEFORE,
+                    messageId: "close",
                     type: "ArrayExpression",
                     line: 2,
                     column: 2
@@ -257,7 +252,7 @@ ruleTester.run("array-bracket-newline", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: ERR_BREAK_AFTER,
+                    messageId: "open",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11,
@@ -265,7 +260,7 @@ ruleTester.run("array-bracket-newline", rule, {
                     endColumn: 12
                 },
                 {
-                    message: ERR_BREAK_BEFORE,
+                    messageId: "close",
                     type: "ArrayExpression",
                     line: 1,
                     column: 16,
@@ -280,7 +275,7 @@ ruleTester.run("array-bracket-newline", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: ERR_BREAK_AFTER,
+                    messageId: "open",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
@@ -293,13 +288,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: ERR_BREAK_AFTER,
+                    messageId: "open",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_BREAK_BEFORE,
+                    messageId: "close",
                     type: "ArrayExpression",
                     line: 1,
                     column: 34
@@ -312,13 +307,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: ERR_BREAK_AFTER,
+                    messageId: "open",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_BREAK_BEFORE,
+                    messageId: "close",
                     type: "ArrayExpression",
                     line: 2,
                     column: 2
@@ -331,13 +326,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: ERR_BREAK_AFTER,
+                    messageId: "open",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_BREAK_BEFORE,
+                    messageId: "close",
                     type: "ArrayExpression",
                     line: 3,
                     column: 2
@@ -352,13 +347,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: ERR_NO_BREAK_AFTER,
+                    messageId: "noOpen",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_NO_BREAK_BEFORE,
+                    messageId: "noClose",
                     type: "ArrayExpression",
                     line: 2,
                     column: 1
@@ -371,7 +366,7 @@ ruleTester.run("array-bracket-newline", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: ERR_NO_BREAK_AFTER,
+                    messageId: "noOpen",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11,
@@ -379,7 +374,7 @@ ruleTester.run("array-bracket-newline", rule, {
                     endColumn: 12
                 },
                 {
-                    message: ERR_NO_BREAK_BEFORE,
+                    messageId: "noClose",
                     type: "ArrayExpression",
                     line: 3,
                     column: 1,
@@ -394,13 +389,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: ERR_NO_BREAK_AFTER,
+                    messageId: "noOpen",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_NO_BREAK_BEFORE,
+                    messageId: "noClose",
                     type: "ArrayExpression",
                     line: 3,
                     column: 1
@@ -413,13 +408,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: ERR_NO_BREAK_AFTER,
+                    messageId: "noOpen",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_NO_BREAK_BEFORE,
+                    messageId: "noClose",
                     type: "ArrayExpression",
                     line: 3,
                     column: 1
@@ -432,13 +427,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: ERR_NO_BREAK_AFTER,
+                    messageId: "noOpen",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_NO_BREAK_BEFORE,
+                    messageId: "noClose",
                     type: "ArrayExpression",
                     line: 3,
                     column: 18
@@ -451,13 +446,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: ERR_NO_BREAK_AFTER,
+                    messageId: "noOpen",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_NO_BREAK_BEFORE,
+                    messageId: "noClose",
                     type: "ArrayExpression",
                     line: 3,
                     column: 1
@@ -470,13 +465,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: ERR_NO_BREAK_AFTER,
+                    messageId: "noOpen",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_NO_BREAK_BEFORE,
+                    messageId: "noClose",
                     type: "ArrayExpression",
                     line: 4,
                     column: 1
@@ -489,13 +484,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: ERR_NO_BREAK_AFTER,
+                    messageId: "noOpen",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_NO_BREAK_BEFORE,
+                    messageId: "noClose",
                     type: "ArrayExpression",
                     line: 5,
                     column: 1
@@ -542,13 +537,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: [{ multiline: true }],
             errors: [
                 {
-                    message: ERR_NO_BREAK_AFTER,
+                    messageId: "noOpen",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_NO_BREAK_BEFORE,
+                    messageId: "noClose",
                     type: "ArrayExpression",
                     line: 2,
                     column: 1
@@ -561,13 +556,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: [{ multiline: true }],
             errors: [
                 {
-                    message: ERR_NO_BREAK_AFTER,
+                    messageId: "noOpen",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_NO_BREAK_BEFORE,
+                    messageId: "noClose",
                     type: "ArrayExpression",
                     line: 3,
                     column: 1
@@ -580,13 +575,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: [{ multiline: true }],
             errors: [
                 {
-                    message: ERR_NO_BREAK_AFTER,
+                    messageId: "noOpen",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_NO_BREAK_BEFORE,
+                    messageId: "noClose",
                     type: "ArrayExpression",
                     line: 3,
                     column: 1
@@ -599,13 +594,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: [{ multiline: true }],
             errors: [
                 {
-                    message: ERR_NO_BREAK_AFTER,
+                    messageId: "noOpen",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_NO_BREAK_BEFORE,
+                    messageId: "noClose",
                     type: "ArrayExpression",
                     line: 3,
                     column: 1
@@ -618,13 +613,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: [{ multiline: true }],
             errors: [
                 {
-                    message: ERR_BREAK_AFTER,
+                    messageId: "open",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_BREAK_BEFORE,
+                    messageId: "close",
                     type: "ArrayExpression",
                     line: 2,
                     column: 2
@@ -637,13 +632,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: [{ multiline: true }],
             errors: [
                 {
-                    message: ERR_BREAK_AFTER,
+                    messageId: "open",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_BREAK_BEFORE,
+                    messageId: "close",
                     type: "ArrayExpression",
                     line: 3,
                     column: 2
@@ -658,13 +653,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: [{ minItems: 2 }],
             errors: [
                 {
-                    message: ERR_NO_BREAK_AFTER,
+                    messageId: "noOpen",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_NO_BREAK_BEFORE,
+                    messageId: "noClose",
                     type: "ArrayExpression",
                     line: 2,
                     column: 1
@@ -677,13 +672,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: [{ minItems: 2 }],
             errors: [
                 {
-                    message: ERR_NO_BREAK_AFTER,
+                    messageId: "noOpen",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_NO_BREAK_BEFORE,
+                    messageId: "noClose",
                     type: "ArrayExpression",
                     line: 3,
                     column: 1
@@ -696,13 +691,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: [{ minItems: 2 }],
             errors: [
                 {
-                    message: ERR_BREAK_AFTER,
+                    messageId: "open",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_BREAK_BEFORE,
+                    messageId: "close",
                     type: "ArrayExpression",
                     line: 1,
                     column: 16
@@ -715,13 +710,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: [{ minItems: 2 }],
             errors: [
                 {
-                    message: ERR_BREAK_AFTER,
+                    messageId: "open",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_BREAK_BEFORE,
+                    messageId: "close",
                     type: "ArrayExpression",
                     line: 2,
                     column: 2
@@ -734,13 +729,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: [{ minItems: 2 }],
             errors: [
                 {
-                    message: ERR_NO_BREAK_AFTER,
+                    messageId: "noOpen",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_NO_BREAK_BEFORE,
+                    messageId: "noClose",
                     type: "ArrayExpression",
                     line: 5,
                     column: 1
@@ -755,13 +750,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: [{ minItems: 0 }],
             errors: [
                 {
-                    message: ERR_BREAK_AFTER,
+                    messageId: "open",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_BREAK_BEFORE,
+                    messageId: "close",
                     type: "ArrayExpression",
                     line: 1,
                     column: 12
@@ -774,13 +769,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: [{ minItems: 0 }],
             errors: [
                 {
-                    message: ERR_BREAK_AFTER,
+                    messageId: "open",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_BREAK_BEFORE,
+                    messageId: "close",
                     type: "ArrayExpression",
                     line: 1,
                     column: 13
@@ -793,13 +788,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: [{ minItems: 0 }],
             errors: [
                 {
-                    message: ERR_BREAK_AFTER,
+                    messageId: "open",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_BREAK_BEFORE,
+                    messageId: "close",
                     type: "ArrayExpression",
                     line: 1,
                     column: 16
@@ -812,13 +807,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: [{ minItems: 0 }],
             errors: [
                 {
-                    message: ERR_BREAK_AFTER,
+                    messageId: "open",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_BREAK_BEFORE,
+                    messageId: "close",
                     type: "ArrayExpression",
                     line: 2,
                     column: 2
@@ -832,13 +827,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: [{ minItems: 0 }],
             errors: [
                 {
-                    message: ERR_BREAK_AFTER,
+                    messageId: "open",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_BREAK_BEFORE,
+                    messageId: "close",
                     type: "ArrayExpression",
                     line: 3,
                     column: 2
@@ -853,13 +848,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: [{ minItems: null }],
             errors: [
                 {
-                    message: ERR_NO_BREAK_AFTER,
+                    messageId: "noOpen",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_NO_BREAK_BEFORE,
+                    messageId: "noClose",
                     type: "ArrayExpression",
                     line: 2,
                     column: 1
@@ -872,13 +867,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: [{ minItems: null }],
             errors: [
                 {
-                    message: ERR_NO_BREAK_AFTER,
+                    messageId: "noOpen",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_NO_BREAK_BEFORE,
+                    messageId: "noClose",
                     type: "ArrayExpression",
                     line: 3,
                     column: 1
@@ -891,13 +886,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: [{ minItems: null }],
             errors: [
                 {
-                    message: ERR_NO_BREAK_AFTER,
+                    messageId: "noOpen",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_NO_BREAK_BEFORE,
+                    messageId: "noClose",
                     type: "ArrayExpression",
                     line: 3,
                     column: 1
@@ -910,13 +905,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: [{ minItems: null }],
             errors: [
                 {
-                    message: ERR_NO_BREAK_AFTER,
+                    messageId: "noOpen",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_NO_BREAK_BEFORE,
+                    messageId: "noClose",
                     type: "ArrayExpression",
                     line: 4,
                     column: 1
@@ -929,13 +924,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: [{ minItems: null }],
             errors: [
                 {
-                    message: ERR_NO_BREAK_AFTER,
+                    messageId: "noOpen",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_NO_BREAK_BEFORE,
+                    messageId: "noClose",
                     type: "ArrayExpression",
                     line: 5,
                     column: 1
@@ -950,13 +945,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: [{ multiline: true, minItems: null }],
             errors: [
                 {
-                    message: ERR_NO_BREAK_AFTER,
+                    messageId: "noOpen",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_NO_BREAK_BEFORE,
+                    messageId: "noClose",
                     type: "ArrayExpression",
                     line: 2,
                     column: 1
@@ -969,13 +964,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: [{ multiline: true, minItems: null }],
             errors: [
                 {
-                    message: ERR_NO_BREAK_AFTER,
+                    messageId: "noOpen",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_NO_BREAK_BEFORE,
+                    messageId: "noClose",
                     type: "ArrayExpression",
                     line: 3,
                     column: 1
@@ -988,13 +983,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: [{ multiline: true, minItems: null }],
             errors: [
                 {
-                    message: ERR_NO_BREAK_AFTER,
+                    messageId: "noOpen",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_NO_BREAK_BEFORE,
+                    messageId: "noClose",
                     type: "ArrayExpression",
                     line: 3,
                     column: 1
@@ -1007,13 +1002,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: [{ multiline: true, minItems: null }],
             errors: [
                 {
-                    message: ERR_BREAK_AFTER,
+                    messageId: "open",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_BREAK_BEFORE,
+                    messageId: "close",
                     type: "ArrayExpression",
                     line: 2,
                     column: 2
@@ -1026,13 +1021,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: [{ multiline: true, minItems: null }],
             errors: [
                 {
-                    message: ERR_BREAK_AFTER,
+                    messageId: "open",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_BREAK_BEFORE,
+                    messageId: "close",
                     type: "ArrayExpression",
                     line: 3,
                     column: 2
@@ -1047,13 +1042,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: [{ multiline: true, minItems: 2 }],
             errors: [
                 {
-                    message: ERR_NO_BREAK_AFTER,
+                    messageId: "noOpen",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_NO_BREAK_BEFORE,
+                    messageId: "noClose",
                     type: "ArrayExpression",
                     line: 2,
                     column: 1
@@ -1066,13 +1061,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: [{ multiline: true, minItems: 2 }],
             errors: [
                 {
-                    message: ERR_NO_BREAK_AFTER,
+                    messageId: "noOpen",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_NO_BREAK_BEFORE,
+                    messageId: "noClose",
                     type: "ArrayExpression",
                     line: 3,
                     column: 1
@@ -1085,13 +1080,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: [{ multiline: true, minItems: 2 }],
             errors: [
                 {
-                    message: ERR_BREAK_AFTER,
+                    messageId: "open",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_BREAK_BEFORE,
+                    messageId: "close",
                     type: "ArrayExpression",
                     line: 1,
                     column: 16
@@ -1104,13 +1099,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: [{ multiline: true, minItems: 2 }],
             errors: [
                 {
-                    message: ERR_BREAK_AFTER,
+                    messageId: "open",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_BREAK_BEFORE,
+                    messageId: "close",
                     type: "ArrayExpression",
                     line: 2,
                     column: 2
@@ -1123,13 +1118,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: [{ multiline: true, minItems: 2 }],
             errors: [
                 {
-                    message: ERR_BREAK_AFTER,
+                    messageId: "open",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_BREAK_BEFORE,
+                    messageId: "close",
                     type: "ArrayExpression",
                     line: 3,
                     column: 2
@@ -1147,7 +1142,7 @@ ruleTester.run("array-bracket-newline", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: ERR_BREAK_BEFORE,
+                    messageId: "close",
                     type: "ArrayExpression",
                     line: 2,
                     column: 5
@@ -1160,13 +1155,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: ERR_BREAK_AFTER,
+                    messageId: "open",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_BREAK_BEFORE,
+                    messageId: "close",
                     type: "ArrayExpression",
                     line: 1,
                     column: 17
@@ -1179,7 +1174,7 @@ ruleTester.run("array-bracket-newline", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: ERR_BREAK_AFTER,
+                    messageId: "open",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
@@ -1194,13 +1189,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: [{ multiline: false }],
             errors: [
                 {
-                    message: ERR_NO_BREAK_AFTER,
+                    messageId: "noOpen",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_NO_BREAK_BEFORE,
+                    messageId: "noClose",
                     type: "ArrayExpression",
                     line: 2,
                     column: 1
@@ -1213,13 +1208,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: [{ multiline: false }],
             errors: [
                 {
-                    message: ERR_NO_BREAK_AFTER,
+                    messageId: "noOpen",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_NO_BREAK_BEFORE,
+                    messageId: "noClose",
                     type: "ArrayExpression",
                     line: 3,
                     column: 1
@@ -1232,13 +1227,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: [{ multiline: false }],
             errors: [
                 {
-                    message: ERR_NO_BREAK_AFTER,
+                    messageId: "noOpen",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_NO_BREAK_BEFORE,
+                    messageId: "noClose",
                     type: "ArrayExpression",
                     line: 3,
                     column: 1
@@ -1251,13 +1246,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: [{ multiline: false }],
             errors: [
                 {
-                    message: ERR_NO_BREAK_AFTER,
+                    messageId: "noOpen",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_NO_BREAK_BEFORE,
+                    messageId: "noClose",
                     type: "ArrayExpression",
                     line: 4,
                     column: 1
@@ -1270,13 +1265,13 @@ ruleTester.run("array-bracket-newline", rule, {
             options: [{ multiline: false }],
             errors: [
                 {
-                    message: ERR_NO_BREAK_AFTER,
+                    messageId: "noOpen",
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: ERR_NO_BREAK_BEFORE,
+                    messageId: "noClose",
                     type: "ArrayExpression",
                     line: 5,
                     column: 1
@@ -1295,13 +1290,13 @@ ruleTester.run("array-bracket-newline", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: ERR_BREAK_AFTER,
+                    messageId: "open",
                     type: "ArrayPattern",
                     line: 1,
                     column: 5
                 },
                 {
-                    message: ERR_BREAK_BEFORE,
+                    messageId: "close",
                     type: "ArrayPattern",
                     line: 1,
                     column: 6
@@ -1315,13 +1310,13 @@ ruleTester.run("array-bracket-newline", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: ERR_BREAK_AFTER,
+                    messageId: "open",
                     type: "ArrayPattern",
                     line: 1,
                     column: 5
                 },
                 {
-                    message: ERR_BREAK_BEFORE,
+                    messageId: "close",
                     type: "ArrayPattern",
                     line: 1,
                     column: 7
@@ -1335,7 +1330,7 @@ ruleTester.run("array-bracket-newline", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: ERR_BREAK_BEFORE,
+                    messageId: "close",
                     type: "ArrayPattern",
                     line: 2,
                     column: 2
@@ -1349,7 +1344,7 @@ ruleTester.run("array-bracket-newline", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: ERR_BREAK_BEFORE,
+                    messageId: "close",
                     type: "ArrayPattern",
                     line: 2,
                     column: 2
@@ -1363,13 +1358,13 @@ ruleTester.run("array-bracket-newline", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: ERR_BREAK_AFTER,
+                    messageId: "open",
                     type: "ArrayPattern",
                     line: 1,
                     column: 5
                 },
                 {
-                    message: ERR_BREAK_BEFORE,
+                    messageId: "close",
                     type: "ArrayPattern",
                     line: 1,
                     column: 10
@@ -1383,7 +1378,7 @@ ruleTester.run("array-bracket-newline", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: ERR_BREAK_AFTER,
+                    messageId: "open",
                     type: "ArrayPattern",
                     line: 1,
                     column: 5
@@ -1397,13 +1392,13 @@ ruleTester.run("array-bracket-newline", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: ERR_BREAK_AFTER,
+                    messageId: "open",
                     type: "ArrayPattern",
                     line: 1,
                     column: 5
                 },
                 {
-                    message: ERR_BREAK_BEFORE,
+                    messageId: "close",
                     type: "ArrayPattern",
                     line: 1,
                     column: 28
@@ -1417,13 +1412,13 @@ ruleTester.run("array-bracket-newline", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: ERR_BREAK_AFTER,
+                    messageId: "open",
                     type: "ArrayPattern",
                     line: 1,
                     column: 5
                 },
                 {
-                    message: ERR_BREAK_BEFORE,
+                    messageId: "close",
                     type: "ArrayPattern",
                     line: 2,
                     column: 2
@@ -1473,13 +1468,13 @@ ruleTester.run("array-bracket-newline", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: ERR_NO_BREAK_AFTER,
+                    messageId: "noOpen",
                     type: "ArrayPattern",
                     line: 1,
                     column: 5
                 },
                 {
-                    message: ERR_NO_BREAK_BEFORE,
+                    messageId: "noClose",
                     type: "ArrayPattern",
                     line: 2,
                     column: 1
@@ -1493,13 +1488,13 @@ ruleTester.run("array-bracket-newline", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: ERR_NO_BREAK_AFTER,
+                    messageId: "noOpen",
                     type: "ArrayPattern",
                     line: 1,
                     column: 5
                 },
                 {
-                    message: ERR_NO_BREAK_BEFORE,
+                    messageId: "noClose",
                     type: "ArrayPattern",
                     line: 3,
                     column: 1
@@ -1513,13 +1508,13 @@ ruleTester.run("array-bracket-newline", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: ERR_BREAK_AFTER,
+                    messageId: "open",
                     type: "ArrayPattern",
                     line: 1,
                     column: 5
                 },
                 {
-                    message: ERR_BREAK_BEFORE,
+                    messageId: "close",
                     type: "ArrayPattern",
                     line: 1,
                     column: 10
@@ -1533,13 +1528,13 @@ ruleTester.run("array-bracket-newline", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: ERR_BREAK_AFTER,
+                    messageId: "open",
                     type: "ArrayPattern",
                     line: 1,
                     column: 5
                 },
                 {
-                    message: ERR_BREAK_BEFORE,
+                    messageId: "close",
                     type: "ArrayPattern",
                     line: 2,
                     column: 2
