@@ -588,7 +588,7 @@ describe("CLIEngine", () => {
 
             engine = new CLIEngine({
                 cwd: originalDir,
-                configFile: ".eslintrc.yml"
+                configFile: ".eslintrc.js"
             });
 
             const report = engine.executeOnFiles(["lib/cli*.js"]);
@@ -602,7 +602,7 @@ describe("CLIEngine", () => {
 
             engine = new CLIEngine({
                 cwd: originalDir,
-                configFile: ".eslintrc.yml"
+                configFile: ".eslintrc.js"
             });
 
             const report = engine.executeOnFiles(["lib/cli*.js", "lib/cli.?s", "lib/{cli,cli-engine}.js"]);
