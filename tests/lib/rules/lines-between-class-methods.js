@@ -15,6 +15,7 @@ const RuleTester = require("../../../lib/testers/rule-tester");
 //------------------------------------------------------------------------------
 // Helpers
 //------------------------------------------------------------------------------
+
 const ALWAYS_MESSAGE = "Methods must be padded by blank lines.";
 const NEVER_MESSAGE = "Methods must not be padded by blank lines.";
 
@@ -28,14 +29,21 @@ ruleTester.run("lines-between-class-methods", rule, {
     valid: [
         "class foo{}",
         "class foo{\n\n}",
-        "class foo{\nconstructor(){}\n\n}",
+        "class foo{constructor(){}\n}",
+        "class foo{\nconstructor(){}}",
         "class foo{ bar(){}\n\nbaz(){}}",
-        { code: "class foo{}", options: ["never"] },
-        { code: "class foo{ bar(){}baz(){}}", options: ["never"] }
+        { code: "class foo{ bar(){}\nbaz(){}}", options: ["never"] }
     ],
     invalid: [
-        { code: "class foo{ bar(){}baz(){}}", output: null, errors: [{ message: ALWAYS_MESSAGE }] },
-        { code: "class foo{ bar(){}\nbaz(){}}", output: null, options: ["always"], errors: [{ message: ALWAYS_MESSAGE }] },
-        { code: "class foo{ bar(){}\n\nbaz(){}}", output: null, options: ["never"], errors: [{ message: NEVER_MESSAGE }] }
+        {
+            code: "class foo{ bar(){}\nbaz(){}}",
+            output: "class foo{ bar(){}\n\nbaz(){}}",
+            errors: [{ message: ALWAYS_MESSAGE }]
+        }, {
+            code: "class foo{ bar(){}\n\nbaz(){}}",
+            output: "class foo{ bar(){}\nbaz(){}}",
+            options: ["never"],
+            errors: [{ message: NEVER_MESSAGE }]
+        }
     ]
 });
