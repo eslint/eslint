@@ -170,7 +170,7 @@ describe("npmUtil", () => {
 
     describe("installSyncSaveDev()", () => {
         it("should invoke npm to install a single desired package", () => {
-            const stub = sandbox.stub(spawn, "sync");
+            const stub = sandbox.stub(spawn, "sync").returns({ stdout: "" });
 
             npmUtil.installSyncSaveDev("desired-package");
             assert(stub.calledOnce);
@@ -180,13 +180,25 @@ describe("npmUtil", () => {
         });
 
         it("should accept an array of packages to install", () => {
-            const stub = sandbox.stub(spawn, "sync");
+            const stub = sandbox.stub(spawn, "sync").returns({ stdout: "" });
 
             npmUtil.installSyncSaveDev(["first-package", "second-package"]);
             assert(stub.calledOnce);
             assert.equal(stub.firstCall.args[0], "npm");
             assert.deepEqual(stub.firstCall.args[1], ["i", "--save-dev", "first-package", "second-package"]);
             stub.restore();
+        });
+
+        it("should log an error message if npm throws ENOENT error", () => {
+            const logErrorStub = sandbox.stub(log, "error");
+            const npmUtilStub = sandbox.stub(spawn, "sync").returns({ error: { code: "ENOENT" } });
+
+            npmUtil.installSyncSaveDev("some-package");
+
+            assert(logErrorStub.calledOnce);
+
+            logErrorStub.restore();
+            npmUtilStub.restore();
         });
     });
 
@@ -198,6 +210,16 @@ describe("npmUtil", () => {
             assert(stub.calledOnce);
             assert.equal(stub.firstCall.args[0], "npm");
             assert.deepEqual(stub.firstCall.args[1], ["show", "--json", "desired-package", "peerDependencies"]);
+            stub.restore();
+        });
+
+        it("should return null if npm throws ENOENT error", () => {
+            const stub = sandbox.stub(spawn, "sync").returns({ error: { code: "ENOENT" } });
+
+            const peerDependencies = npmUtil.fetchPeerDependencies("desired-package");
+
+            assert.isNull(peerDependencies);
+
             stub.restore();
         });
     });
