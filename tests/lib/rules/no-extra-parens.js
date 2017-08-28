@@ -175,6 +175,7 @@ ruleTester.run("no-extra-parens", rule, {
         "var o = { foo: (function() { return bar(); })() };",
         "o.foo = (function(){ return bar(); })();",
         "(function(){ return bar(); })(), (function(){ return bar(); })()",
+        "function foo() { return (function(){}()); }",
 
         // parens are required around yield
         "var foo = (function*() { if ((yield foo()) + 1) { return; } }())",
