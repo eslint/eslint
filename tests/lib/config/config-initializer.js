@@ -131,7 +131,7 @@ describe("configInitializer", () => {
                     modules: true,
                     env: ["browser"],
                     jsx: false,
-                    react: false,
+                    framework: "",
                     format: "JSON",
                     commonjs: false
                 };
@@ -166,12 +166,20 @@ describe("configInitializer", () => {
 
             it("should enable react plugin", () => {
                 answers.jsx = true;
-                answers.react = true;
+                answers.framework = "react";
                 const config = init.processAnswers(answers);
 
                 assert.equal(config.parserOptions.ecmaFeatures.jsx, true);
                 assert.equal(config.parserOptions.ecmaFeatures.experimentalObjectRestSpread, true);
                 assert.deepEqual(config.plugins, ["react"]);
+            });
+
+            it("should enable angular plugin", () => {
+                answers.jsx = false;
+                answers.framework = "angular";
+                const config = init.processAnswers(answers);
+
+                assert.deepEqual(config.plugins, ["angular"]);
             });
 
             it("should not enable es6", () => {
