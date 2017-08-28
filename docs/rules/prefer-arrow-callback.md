@@ -1,6 +1,6 @@
-# Suggest using ES6 arrow functions to describe callbacks (prefer-arrow-callback)
+# Suggest using arrow functions for callbacks (prefer-arrow-callback)
 
-Arrow functions can be an attractive alternative to function expressions when describing callbacks or function arguments.
+Arrow functions can be an attractive alternative to function expressions for callbacks or function arguments.
 
 For example, arrow functions are automatically bound to their surrounding scope/context. This provides an alternative to the pre-ES6 standard of explicitly binding function expressions to achieve similar behavior.
 
@@ -12,7 +12,7 @@ Additionally, arrow functions are:
 
 ## Rule Details
 
-This rule locates function expressions that have been submitted as function arguments or callbacks. If any of these function expressions could  achieved by an arrow function will produce an error.
+This rule locates function expressions that have been submitted as function arguments or callbacks. An error will be produced for any that could be replaced by an arrow function without changing the result.
 
 The following examples **will** be flagged:
 
@@ -26,7 +26,7 @@ foo(function() { return this.a; }.bind(this)); // ERROR
 // prefer: foo(() => this.a)
 ```
 
-Instances where an arrow function would not produce identical results will  be ignored.
+Instances where an arrow function would not produce identical results will be ignored.
 
 The following examples **will not** be flagged:
 
@@ -34,20 +34,20 @@ The following examples **will not** be flagged:
 /* eslint prefer-arrow-callback: "error" */
 /* eslint-env es6 */
 
-foo(a => a); // OK
 // arrow function callback
+foo(a => a); // OK
 
-foo(function*() { yield; }); // OK
 // generator as callback
+foo(function*() { yield; }); // OK
 
-var foo = function foo(a) { return a; }; // OK
 // function expression not used as callback or function argument
+var foo = function foo(a) { return a; }; // OK
 
-foo(function() { return this.a; }); // OK
 // unbound function expression callback
+foo(function() { return this.a; }); // OK
 
-foo(function bar(n) { return n && n + bar(n - 1); }); // OK
 // recursive named function callback
+foo(function bar(n) { return n && n + bar(n - 1); }); // OK
 ```
 
 ## Options
