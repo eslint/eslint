@@ -88,16 +88,17 @@ describe("Linter", () => {
         const code = TEST_CODE;
 
         it("an error should be thrown when an error occurs inside of an event handler", () => {
-            const config = { rules: {} };
+            const config = { rules: { checker: "error" } };
 
-            linter.reset();
-            linter.on("Program", () => {
-                throw new Error("Intentional error.");
-            });
+            linter.defineRule("checker", () => ({
+                Program() {
+                    throw new Error("Intentional error.");
+                }
+            }));
 
             assert.throws(() => {
                 linter.verify(code, config, filename, true);
-            }, Error);
+            }, "Intentional error.");
         });
     });
 
@@ -193,44 +194,28 @@ describe("Linter", () => {
 
         it("should retrieve all text when used without parameters", () => {
 
-            /**
-             * Callback handler
-             * @returns {void}
-             */
-            function handler() {
-                const source = linter.getSource();
+            const config = { rules: { checker: "error" } },
+                spy = sandbox.spy(() => {
+                    const source = linter.getSource();
 
-                assert.equal(source, TEST_CODE);
-            }
+                    assert.equal(source, TEST_CODE);
+                });
 
-            const config = { rules: {} },
-                spy = sandbox.spy(handler);
-
-            linter.reset();
-            linter.on("Program", spy);
+            linter.defineRule("checker", () => ({ Program: spy }));
 
             linter.verify(code, config, filename, true);
             assert(spy.calledOnce);
         });
 
         it("should retrieve all text for root node", () => {
-
-            /**
-             * Callback handler
-             * @param {ASTNode} node node to examine
-             * @returns {void}
-             */
-            function handler(node) {
+            const config = { rules: { checker: "error" } };
+            const spy = sandbox.spy(node => {
                 const source = linter.getSource(node);
 
                 assert.equal(source, TEST_CODE);
-            }
+            });
 
-            const config = { rules: {} },
-                spy = sandbox.spy(handler);
-
-            linter.reset();
-            linter.on("Program", spy);
+            linter.defineRule("checker", () => ({ Program: spy }));
 
             linter.verify(code, config, filename, true);
             assert(spy.calledOnce);
@@ -249,66 +234,70 @@ describe("Linter", () => {
                 assert.equal(source, TEST_CODE);
             }
 
-            const config = { rules: {} },
+            const config = { rules: { checker: "error" } },
                 spy = sandbox.spy(handler);
 
-            linter.reset();
-            linter.on("Program", spy);
+            linter.defineRule("checker", () => ({ Program: spy }));
 
             linter.verify(code, config, filename, true);
             assert(spy.calledOnce);
         });
 
         it("should retrieve all text for binary expression", () => {
-            const config = { rules: {} };
-
-            linter.reset();
-            linter.on("BinaryExpression", node => {
+            const spy = sandbox.spy(node => {
                 const source = linter.getSource(node);
 
                 assert.equal(source, "6 * 7");
             });
 
+            const config = { rules: { checker: "error" } };
+
+            linter.defineRule("checker", () => ({ BinaryExpression: spy }));
             linter.verify(code, config, filename, true);
+            assert(spy.calledOnce);
         });
 
         it("should retrieve all text plus two characters before for binary expression", () => {
-            const config = { rules: {} };
+            const config = { rules: { checker: "error" } };
 
-            linter.reset();
-            linter.on("BinaryExpression", node => {
+            const spy = sandbox.spy(node => {
                 const source = linter.getSource(node, 2);
 
                 assert.equal(source, "= 6 * 7");
             });
 
+            linter.defineRule("checker", () => ({ BinaryExpression: spy }));
+
             linter.verify(code, config, filename, true);
+            assert(spy.calledOnce);
         });
 
         it("should retrieve all text plus one character after for binary expression", () => {
-            const config = { rules: {} };
-
-            linter.reset();
-            linter.on("BinaryExpression", node => {
+            const config = { rules: { checker: "error" } };
+            const spy = sandbox.spy(node => {
                 const source = linter.getSource(node, 0, 1);
 
-                assert.equal(source, "6 * 7;");
+                assert.strictEqual(source, "6 * 7;");
             });
 
+            linter.defineRule("checker", () => ({ BinaryExpression: spy }));
+
             linter.verify(code, config, filename, true);
+            assert(spy.calledOnce);
         });
 
         it("should retrieve all text plus two characters before and one character after for binary expression", () => {
-            const config = { rules: {} };
-
-            linter.reset();
-            linter.on("BinaryExpression", node => {
+            const config = { rules: { checker: "error" } };
+            const spy = sandbox.spy(node => {
                 const source = linter.getSource(node, 2, 1);
 
                 assert.equal(source, "= 6 * 7;");
             });
 
+            linter.defineRule("checker", () => ({ BinaryExpression: spy }));
+
             linter.verify(code, config, filename, true);
+            assert(spy.calledOnce);
         });
 
     });
@@ -318,29 +307,31 @@ describe("Linter", () => {
 
         it("should retrieve all ancestors when used", () => {
 
-            const config = { rules: {} };
-
-            linter.reset();
-            linter.on("BinaryExpression", () => {
+            const config = { rules: { checker: "error" } };
+            const spy = sandbox.spy(() => {
                 const ancestors = linter.getAncestors();
 
                 assert.equal(ancestors.length, 3);
             });
 
+            linter.defineRule("checker", () => ({ BinaryExpression: spy }));
+
             linter.verify(code, config, filename, true);
+            assert(spy.calledOnce);
         });
 
         it("should retrieve empty ancestors for root node", () => {
-            const config = { rules: {} };
-
-            linter.reset();
-            linter.on("Program", () => {
+            const config = { rules: { checker: "error" } };
+            const spy = sandbox.spy(() => {
                 const ancestors = linter.getAncestors();
 
                 assert.equal(ancestors.length, 0);
             });
 
-            linter.verify(code, config, filename, true);
+            linter.defineRule("checker", () => ({ Program: spy }));
+
+            linter.verify(code, config);
+            assert(spy.calledOnce);
         });
     });
 
@@ -348,63 +339,65 @@ describe("Linter", () => {
         const code = TEST_CODE;
 
         it("should retrieve a node starting at the given index", () => {
-            const config = { rules: {} };
-
-            linter.reset();
-            linter.on("Program", () => {
+            const config = { rules: { checker: "error" } };
+            const spy = sandbox.spy(() => {
                 const node = linter.getNodeByRangeIndex(4);
 
                 assert.equal(node.type, "Identifier");
             });
 
-            linter.verify(code, config, filename, true);
+            linter.defineRule("checker", () => ({ Program: spy }));
+
+            linter.verify(code, config);
+            assert(spy.calledOnce);
         });
 
         it("should retrieve a node containing the given index", () => {
-            const config = { rules: {} };
-
-            linter.reset();
-            linter.on("Program", () => {
+            const config = { rules: { checker: "error" } };
+            const spy = sandbox.spy(() => {
                 const node = linter.getNodeByRangeIndex(6);
 
                 assert.equal(node.type, "Identifier");
             });
 
-            linter.verify(code, config, filename, true);
+            linter.defineRule("checker", () => ({ Program: spy }));
+
+            linter.verify(code, config);
+            assert(spy.calledOnce);
         });
 
         it("should retrieve a node that is exactly the given index", () => {
-            const config = { rules: {} };
-
-            linter.reset();
-            linter.on("Program", () => {
+            const config = { rules: { checker: "error" } };
+            const spy = sandbox.spy(() => {
                 const node = linter.getNodeByRangeIndex(13);
 
                 assert.equal(node.type, "Literal");
                 assert.equal(node.value, 6);
             });
 
-            linter.verify(code, config, filename, true);
+            linter.defineRule("checker", () => ({ Program: spy }));
+
+            linter.verify(code, config);
+            assert(spy.calledOnce);
         });
 
         it("should retrieve a node ending with the given index", () => {
-            const config = { rules: {} };
-
-            linter.reset();
-            linter.on("Program", () => {
+            const config = { rules: { checker: "error" } };
+            const spy = sandbox.spy(() => {
                 const node = linter.getNodeByRangeIndex(9);
 
                 assert.equal(node.type, "Identifier");
             });
 
-            linter.verify(code, config, filename, true);
+            linter.defineRule("checker", () => ({ Program: spy }));
+
+            linter.verify(code, config);
+            assert(spy.calledOnce);
         });
 
         it("should retrieve the deepest node containing the given index", () => {
-            const config = { rules: {} };
-
-            linter.reset();
-            linter.on("Program", () => {
+            const config = { rules: { checker: "error" } };
+            const spy = sandbox.spy(() => {
                 let node = linter.getNodeByRangeIndex(14);
 
                 assert.equal(node.type, "BinaryExpression");
@@ -412,14 +405,14 @@ describe("Linter", () => {
                 assert.equal(node.type, "VariableDeclaration");
             });
 
-            linter.verify(code, config, filename, true);
+            linter.defineRule("checker", () => ({ Program: spy }));
+            linter.verify(code, config);
+            assert(spy.calledOnce);
         });
 
         it("should return null if the index is outside the range of any node", () => {
-            const config = { rules: {} };
-
-            linter.reset();
-            linter.on("Program", () => {
+            const config = { rules: { checker: "error" } };
+            const spy = sandbox.spy(() => {
                 let node = linter.getNodeByRangeIndex(-1);
 
                 assert.isNull(node);
@@ -427,28 +420,29 @@ describe("Linter", () => {
                 assert.isNull(node);
             });
 
-            linter.verify(code, config, filename, true);
+            linter.defineRule("checker", () => ({ Program: spy }));
+            linter.verify(code, config);
+            assert(spy.calledOnce);
         });
 
         it("should attach the node's parent", () => {
-            const config = { rules: {} };
-
-            linter.reset();
-            linter.on("Program", () => {
+            const config = { rules: { checker: "error" } };
+            const spy = sandbox.spy(() => {
                 const node = linter.getNodeByRangeIndex(14);
 
                 assert.property(node, "parent");
                 assert.equal(node.parent.type, "VariableDeclarator");
             });
 
-            linter.verify(code, config, filename, true);
+            linter.defineRule("checker", () => ({ Program: spy }));
+
+            linter.verify(code, config);
+            assert(spy.calledOnce);
         });
 
         it("should not modify the node when attaching the parent", () => {
-            const config = { rules: {} };
-
-            linter.reset();
-            linter.on("Program", () => {
+            const config = { rules: { checker: "error" } };
+            const spy = sandbox.spy(() => {
                 let node = linter.getNodeByRangeIndex(10);
 
                 assert.equal(node.type, "VariableDeclarator");
@@ -459,7 +453,10 @@ describe("Linter", () => {
                 assert.notProperty(node.parent, "parent");
             });
 
-            linter.verify(code, config, filename, true);
+            linter.defineRule("checker", () => ({ Program: spy }));
+
+            linter.verify(code, config);
+            assert(spy.calledOnce);
         });
 
     });
@@ -469,176 +466,182 @@ describe("Linter", () => {
         const code = "function foo() { q: for(;;) { break q; } } function bar () { var q = t; } var baz = (() => { return 1; });";
 
         it("should retrieve the global scope correctly from a Program", () => {
-            const config = { rules: {} };
-
-            linter.reset();
-            linter.on("Program", () => {
+            const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } };
+            const spy = sandbox.spy(() => {
                 const scope = linter.getScope();
 
                 assert.equal(scope.type, "global");
             });
 
-            linter.verify(code, config, filename, true);
+            linter.defineRule("checker", () => ({ Program: spy }));
+
+            linter.verify(code, config);
+            assert(spy.calledOnce);
         });
 
         it("should retrieve the function scope correctly from a FunctionDeclaration", () => {
-            const config = { rules: {} };
-
-            linter.reset();
-            linter.on("FunctionDeclaration", () => {
+            const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } };
+            const spy = sandbox.spy(() => {
                 const scope = linter.getScope();
 
                 assert.equal(scope.type, "function");
             });
 
-            linter.verify(code, config, filename, true);
+            linter.defineRule("checker", () => ({ FunctionDeclaration: spy }));
+
+            linter.verify(code, config);
+            assert(spy.calledTwice);
         });
 
         it("should retrieve the function scope correctly from a LabeledStatement", () => {
-            const config = { rules: {} };
-
-            linter.reset();
-            linter.on("LabeledStatement", () => {
+            const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } };
+            const spy = sandbox.spy(() => {
                 const scope = linter.getScope();
 
                 assert.equal(scope.type, "function");
                 assert.equal(scope.block.id.name, "foo");
             });
 
-            linter.verify(code, config, filename, true);
+            linter.defineRule("checker", () => ({ LabeledStatement: spy }));
+
+            linter.verify(code, config);
+            assert(spy.calledOnce);
         });
 
         it("should retrieve the function scope correctly from within an ArrowFunctionExpression", () => {
-            const config = { rules: {}, ecmaFeatures: { arrowFunctions: true } };
-
-            linter.reset();
-            linter.on("ReturnStatement", () => {
+            const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } };
+            const spy = sandbox.spy(() => {
                 const scope = linter.getScope();
 
                 assert.equal(scope.type, "function");
                 assert.equal(scope.block.type, "ArrowFunctionExpression");
             });
 
-            linter.verify(code, config, filename, true);
+            linter.defineRule("checker", () => ({ ReturnStatement: spy }));
+
+            linter.verify(code, config);
+            assert(spy.calledOnce);
         });
 
         it("should retrieve the function scope correctly from within an SwitchStatement", () => {
-            const config = { rules: {}, parserOptions: { ecmaVersion: 6 } };
-
-            linter.reset();
-            linter.on("SwitchStatement", () => {
+            const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } };
+            const spy = sandbox.spy(() => {
                 const scope = linter.getScope();
 
                 assert.equal(scope.type, "switch");
                 assert.equal(scope.block.type, "SwitchStatement");
             });
 
-            linter.verify("switch(foo){ case 'a': var b = 'foo'; }", config, filename, true);
+            linter.defineRule("checker", () => ({ SwitchStatement: spy }));
+
+            linter.verify("switch(foo){ case 'a': var b = 'foo'; }", config);
+            assert(spy.calledOnce);
         });
 
         it("should retrieve the function scope correctly from within a BlockStatement", () => {
-            const config = { rules: {}, parserOptions: { ecmaVersion: 6 } };
-
-            linter.reset();
-            linter.on("BlockStatement", () => {
+            const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } };
+            const spy = sandbox.spy(() => {
                 const scope = linter.getScope();
 
                 assert.equal(scope.type, "block");
                 assert.equal(scope.block.type, "BlockStatement");
             });
 
-            linter.verify("var x; {let y = 1}", config, filename, true);
+            linter.defineRule("checker", () => ({ BlockStatement: spy }));
+
+            linter.verify("var x; {let y = 1}", config);
+            assert(spy.calledOnce);
         });
 
         it("should retrieve the function scope correctly from within a nested block statement", () => {
-            const config = { rules: {}, parserOptions: { ecmaVersion: 6 } };
-
-            linter.reset();
-            linter.on("BlockStatement", () => {
+            const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } };
+            const spy = sandbox.spy(() => {
                 const scope = linter.getScope();
 
                 assert.equal(scope.type, "block");
                 assert.equal(scope.block.type, "BlockStatement");
             });
 
-            linter.verify("if (true) { let x = 1 }", config, filename, true);
+            linter.defineRule("checker", () => ({ BlockStatement: spy }));
+            linter.verify("if (true) { let x = 1 }", config);
+            assert(spy.calledOnce);
         });
 
         it("should retrieve the function scope correctly from within a FunctionDeclaration", () => {
-            const config = { rules: {}, parserOptions: { ecmaVersion: 6 } };
-
-            linter.reset();
-            linter.on("FunctionDeclaration", () => {
+            const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } };
+            const spy = sandbox.spy(() => {
                 const scope = linter.getScope();
 
                 assert.equal(scope.type, "function");
                 assert.equal(scope.block.type, "FunctionDeclaration");
             });
 
-            linter.verify("function foo() {}", config, filename, true);
+            linter.defineRule("checker", () => ({ FunctionDeclaration: spy }));
+            linter.verify("function foo() {}", config);
+            assert(spy.calledOnce);
         });
 
         it("should retrieve the function scope correctly from within a FunctionExpression", () => {
-            const config = { rules: {}, parserOptions: { ecmaVersion: 6 } };
-
-            linter.reset();
-            linter.on("FunctionExpression", () => {
+            const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } };
+            const spy = sandbox.spy(() => {
                 const scope = linter.getScope();
 
                 assert.equal(scope.type, "function");
                 assert.equal(scope.block.type, "FunctionExpression");
             });
 
-            linter.verify("(function foo() {})();", config, filename, true);
+            linter.defineRule("checker", () => ({ FunctionExpression: spy }));
+            linter.verify("(function foo() {})();", config);
+            assert(spy.calledOnce);
         });
 
         it("should retrieve the catch scope correctly from within a CatchClause", () => {
-            const config = { rules: {}, parserOptions: { ecmaVersion: 6 } };
-
-            linter.reset();
-            linter.on("CatchClause", () => {
+            const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } };
+            const spy = sandbox.spy(() => {
                 const scope = linter.getScope();
 
                 assert.equal(scope.type, "catch");
                 assert.equal(scope.block.type, "CatchClause");
             });
 
-            linter.verify("try {} catch (err) {}", config, filename, true);
+            linter.defineRule("checker", () => ({ CatchClause: spy }));
+            linter.verify("try {} catch (err) {}", config);
+            assert(spy.calledOnce);
         });
 
         it("should retrieve module scope correctly from an ES6 module", () => {
-            const config = { rules: {}, parserOptions: { sourceType: "module" } };
-
-            linter.reset();
-            linter.on("AssignmentExpression", () => {
+            const config = { rules: { checker: "error" }, parserOptions: { sourceType: "module" } };
+            const spy = sandbox.spy(() => {
                 const scope = linter.getScope();
 
                 assert.equal(scope.type, "module");
             });
 
-            linter.verify("var foo = {}; foo.bar = 1;", config, filename, true);
+            linter.defineRule("checker", () => ({ AssignmentExpression: spy }));
+
+            linter.verify("var foo = {}; foo.bar = 1;", config);
+            assert(spy.calledOnce);
         });
 
         it("should retrieve function scope correctly when globalReturn is true", () => {
-            const config = { rules: {}, parserOptions: { ecmaFeatures: { globalReturn: true } } };
-
-            linter.reset();
-            linter.on("AssignmentExpression", () => {
+            const config = { rules: { checker: "error" }, parserOptions: { ecmaFeatures: { globalReturn: true } } };
+            const spy = sandbox.spy(() => {
                 const scope = linter.getScope();
 
                 assert.equal(scope.type, "function");
             });
 
-            linter.verify("var foo = {}; foo.bar = 1;", config, filename, true);
+            linter.defineRule("checker", () => ({ AssignmentExpression: spy }));
+
+            linter.verify("var foo = {}; foo.bar = 1;", config);
+            assert(spy.calledOnce);
         });
     });
 
     describe("marking variables as used", () => {
         it("should mark variables in current scope as used", () => {
             const code = "var a = 1, b = 2;";
-
-            linter.reset();
-            linter.on("Program:exit", () => {
+            const spy = sandbox.spy(() => {
                 assert.isTrue(linter.markVariableAsUsed("a"));
 
                 const scope = linter.getScope();
@@ -647,13 +650,13 @@ describe("Linter", () => {
                 assert.notOk(getVariable(scope, "b").eslintUsed);
             });
 
-            linter.verify(code, {}, filename, true);
+            linter.defineRule("checker", () => ({ "Program:exit": spy }));
+            linter.verify(code, { rules: { checker: "error" } });
+            assert(spy.calledOnce);
         });
         it("should mark variables in function args as used", () => {
             const code = "function abc(a, b) { return 1; }";
-
-            linter.reset();
-            linter.on("ReturnStatement", () => {
+            const spy = sandbox.spy(() => {
                 assert.isTrue(linter.markVariableAsUsed("a"));
 
                 const scope = linter.getScope();
@@ -662,30 +665,34 @@ describe("Linter", () => {
                 assert.notOk(getVariable(scope, "b").eslintUsed);
             });
 
-            linter.verify(code, {}, filename, true);
+            linter.defineRule("checker", () => ({ ReturnStatement: spy }));
+
+
+            linter.verify(code, { rules: { checker: "error" } });
+            assert(spy.calledOnce);
         });
         it("should mark variables in higher scopes as used", () => {
             const code = "var a, b; function abc() { return 1; }";
-
-            linter.reset();
-            linter.on("ReturnStatement", () => {
+            const returnSpy = sandbox.spy(() => {
                 assert.isTrue(linter.markVariableAsUsed("a"));
             });
-            linter.on("Program:exit", () => {
+            const exitSpy = sandbox.spy(() => {
                 const scope = linter.getScope();
 
                 assert.isTrue(getVariable(scope, "a").eslintUsed);
                 assert.notOk(getVariable(scope, "b").eslintUsed);
             });
 
-            linter.verify(code, {}, filename, true);
+            linter.defineRule("checker", () => ({ ReturnStatement: returnSpy, "Program:exit": exitSpy }));
+
+            linter.verify(code, { rules: { checker: "error" } });
+            assert(returnSpy.calledOnce);
+            assert(exitSpy.calledOnce);
         });
 
         it("should mark variables in Node.js environment as used", () => {
             const code = "var a = 1, b = 2;";
-
-            linter.reset();
-            linter.on("Program:exit", () => {
+            const spy = sandbox.spy(() => {
                 const globalScope = linter.getScope(),
                     childScope = globalScope.childScopes[0];
 
@@ -695,14 +702,15 @@ describe("Linter", () => {
                 assert.isUndefined(getVariable(childScope, "b").eslintUsed);
             });
 
-            linter.verify(code, { env: { node: true } }, filename, true);
+            linter.defineRule("checker", () => ({ "Program:exit": spy }));
+
+            linter.verify(code, { rules: { checker: "error" }, env: { node: true } });
+            assert(spy.calledOnce);
         });
 
         it("should mark variables in modules as used", () => {
             const code = "var a = 1, b = 2;";
-
-            linter.reset();
-            linter.on("Program:exit", () => {
+            const spy = sandbox.spy(() => {
                 const globalScope = linter.getScope(),
                     childScope = globalScope.childScopes[0];
 
@@ -712,18 +720,21 @@ describe("Linter", () => {
                 assert.isUndefined(getVariable(childScope, "b").eslintUsed);
             });
 
-            linter.verify(code, { parserOptions: { sourceType: "module" } }, filename, true);
+            linter.defineRule("checker", () => ({ "Program:exit": spy }));
+            linter.verify(code, { rules: { checker: "error" }, parserOptions: { sourceType: "module" } }, filename, true);
+            assert(spy.calledOnce);
         });
 
         it("should return false if the given variable is not found", () => {
             const code = "var a = 1, b = 2;";
-
-            linter.reset();
-            linter.on("Program:exit", () => {
+            const spy = sandbox.spy(() => {
                 assert.isFalse(linter.markVariableAsUsed("c"));
             });
 
-            linter.verify(code, {}, filename, true);
+            linter.defineRule("checker", () => ({ "Program:exit": spy }));
+
+            linter.verify(code, { rules: { checker: "error" } });
+            assert(spy.calledOnce);
         });
     });
 
@@ -732,13 +743,15 @@ describe("Linter", () => {
         let config;
 
         beforeEach(() => {
-            config = { rules: {} };
+            config = { rules: { "test-rule": "error" } };
         });
 
         it("should correctly parse a message when being passed all options", () => {
-            linter.on("Program", node => {
-                linter.report("test-rule", 2, node, node.loc.end, "hello {{dynamic}}", { dynamic: node.type });
-            });
+            linter.defineRule("test-rule", () => ({
+                Program(node) {
+                    linter.report("test-rule", 2, node, node.loc.end, "hello {{dynamic}}", { dynamic: node.type });
+                }
+            }));
 
             const messages = linter.verify("0", config, "", true);
 
@@ -754,9 +767,11 @@ describe("Linter", () => {
         });
 
         it("should use the report the provided location when given", () => {
-            linter.on("Program", node => {
-                linter.report("test-rule", 2, node, { line: 42, column: 13 }, "hello world");
-            });
+            linter.defineRule("test-rule", () => ({
+                Program(node) {
+                    linter.report("test-rule", 2, node, { line: 42, column: 13 }, "hello world");
+                }
+            }));
 
             const messages = linter.verify("0", config, "", true);
 
@@ -772,9 +787,11 @@ describe("Linter", () => {
         });
 
         it("should not throw an error if node is provided and location is not", () => {
-            linter.on("Program", node => {
-                linter.report("test-rule", 2, node, "hello world");
-            });
+            linter.defineRule("test-rule", () => ({
+                Program(node) {
+                    linter.report("test-rule", 2, node, "hello world");
+                }
+            }));
 
             assert.doesNotThrow(() => {
                 linter.verify("0", config, "", true);
@@ -782,9 +799,11 @@ describe("Linter", () => {
         });
 
         it("should not throw an error if location is provided and node is not", () => {
-            linter.on("Program", () => {
-                linter.report("test-rule", 2, null, { line: 1, column: 1 }, "hello world");
-            });
+            linter.defineRule("test-rule", () => ({
+                Program() {
+                    linter.report("test-rule", 2, null, { line: 1, column: 1 }, "hello world");
+                }
+            }));
 
             assert.doesNotThrow(() => {
                 linter.verify("0", config, "", true);
@@ -792,9 +811,11 @@ describe("Linter", () => {
         });
 
         it("should throw an error if neither node nor location is provided", () => {
-            linter.on("Program", () => {
-                linter.report("test-rule", 2, null, "hello world");
-            });
+            linter.defineRule("test-rule", () => ({
+                Program() {
+                    linter.report("test-rule", 2, null, "hello world");
+                }
+            }));
 
             assert.throws(() => {
                 linter.verify("0", config, "", true);
@@ -802,9 +823,11 @@ describe("Linter", () => {
         });
 
         it("should throw an error if node is not an object", () => {
-            linter.on("Program", () => {
-                linter.report("test-rule", 2, "not a node", "hello world");
-            });
+            linter.defineRule("test-rule", () => ({
+                Program() {
+                    linter.report("test-rule", 2, "not a node", "hello world");
+                }
+            }));
 
             assert.throws(() => {
                 linter.verify("0", config, "", true);
@@ -817,9 +840,11 @@ describe("Linter", () => {
                 schema: []
             };
 
-            linter.on("Program", node => {
-                linter.report("test-rule", 2, node, "hello world", [], { range: [1, 1], text: "" }, meta);
-            });
+            linter.defineRule("test-rule", () => ({
+                Program(node) {
+                    linter.report("test-rule", 2, node, "hello world", [], { range: [1, 1], text: "" }, meta);
+                }
+            }));
 
             assert.throws(() => {
                 linter.verify("0", config, "", true);
@@ -827,9 +852,11 @@ describe("Linter", () => {
         });
 
         it("should not throw an error if fix is passed and no metadata is passed", () => {
-            linter.on("Program", node => {
-                linter.report("test-rule", 2, node, "hello world", [], { range: [1, 1], text: "" });
-            });
+            linter.defineRule("test-rule", () => ({
+                Program(node) {
+                    linter.report("test-rule", 2, node, "hello world", [], { range: [1, 1], text: "" });
+                }
+            }));
 
             assert.doesNotThrow(() => {
                 linter.verify("0", config, "", true);
@@ -837,9 +864,11 @@ describe("Linter", () => {
         });
 
         it("should correctly parse a message with object keys as numbers", () => {
-            linter.on("Program", node => {
-                linter.report("test-rule", 2, node, "my message {{name}}{{0}}", { 0: "!", name: "testing" });
-            });
+            linter.defineRule("test-rule", () => ({
+                Program(node) {
+                    linter.report("test-rule", 2, node, "my message {{name}}{{0}}", { 0: "!", name: "testing" });
+                }
+            }));
 
             const messages = linter.verify("0", config, "", true);
 
@@ -857,9 +886,11 @@ describe("Linter", () => {
         });
 
         it("should correctly parse a message with array", () => {
-            linter.on("Program", node => {
-                linter.report("test-rule", 2, node, "my message {{1}}{{0}}", ["!", "testing"]);
-            });
+            linter.defineRule("test-rule", () => ({
+                Program(node) {
+                    linter.report("test-rule", 2, node, "my message {{1}}{{0}}", ["!", "testing"]);
+                }
+            }));
 
             const messages = linter.verify("0", config, "", true);
 
@@ -877,9 +908,11 @@ describe("Linter", () => {
         });
 
         it("should include a fix passed as the last argument when location is not passed", () => {
-            linter.on("Program", node => {
-                linter.report("test-rule", 2, node, "my message {{1}}{{0}}", ["!", "testing"], { range: [1, 1], text: "" });
-            });
+            linter.defineRule("test-rule", () => ({
+                Program(node) {
+                    linter.report("test-rule", 2, node, "my message {{1}}{{0}}", ["!", "testing"], { range: [1, 1], text: "" });
+                }
+            }));
 
             const messages = linter.verify("0", config, "", true);
 
@@ -898,7 +931,6 @@ describe("Linter", () => {
         });
 
         it("should allow template parameter with inner whitespace", () => {
-            linter.reset();
             linter.defineRule("test-rule", context => ({
                 Literal(node) {
                     context.report(node, "message {{parameter name}}", {
@@ -915,7 +947,6 @@ describe("Linter", () => {
         });
 
         it("should not crash if no template parameters are passed", () => {
-            linter.reset();
             linter.defineRule("test-rule", context => ({
                 Literal(node) {
                     context.report(node, "message {{code}}");
@@ -930,7 +961,6 @@ describe("Linter", () => {
         });
 
         it("should allow template parameter with non-identifier characters", () => {
-            linter.reset();
             linter.defineRule("test-rule", context => ({
                 Literal(node) {
                     context.report(node, "message {{parameter-name}}", {
@@ -947,7 +977,6 @@ describe("Linter", () => {
         });
 
         it("should allow template parameter wrapped in braces", () => {
-            linter.reset();
             linter.defineRule("test-rule", context => ({
                 Literal(node) {
                     context.report(node, "message {{{param}}}", {
@@ -964,7 +993,6 @@ describe("Linter", () => {
         });
 
         it("should ignore template parameter with no specified value", () => {
-            linter.reset();
             linter.defineRule("test-rule", context => ({
                 Literal(node) {
                     context.report(node, "message {{parameter}}", {});
@@ -979,7 +1007,6 @@ describe("Linter", () => {
         });
 
         it("should ignore template parameter with no specified value with warn severity", () => {
-            linter.reset();
             linter.defineRule("test-rule", context => ({
                 Literal(node) {
                     context.report(node, "message {{parameter}}", {});
@@ -995,7 +1022,6 @@ describe("Linter", () => {
         });
 
         it("should handle leading whitespace in template parameter", () => {
-            linter.reset();
             linter.defineRule("test-rule", context => ({
                 Literal(node) {
                     context.report(node, "message {{ parameter}}", {
@@ -1012,7 +1038,6 @@ describe("Linter", () => {
         });
 
         it("should handle trailing whitespace in template parameter", () => {
-            linter.reset();
             linter.defineRule("test-rule", context => ({
                 Literal(node) {
                     context.report(node, "message {{parameter }}", {
@@ -1029,7 +1054,6 @@ describe("Linter", () => {
         });
 
         it("should still allow inner whitespace as well as leading/trailing", () => {
-            linter.reset();
             linter.defineRule("test-rule", context => ({
                 Literal(node) {
                     context.report(node, "message {{ parameter name }}", {
@@ -1046,7 +1070,6 @@ describe("Linter", () => {
         });
 
         it("should still allow non-identifier characters as well as leading/trailing whitespace", () => {
-            linter.reset();
             linter.defineRule("test-rule", context => ({
                 Literal(node) {
                     context.report(node, "message {{ parameter-name }}", {
@@ -1063,9 +1086,11 @@ describe("Linter", () => {
         });
 
         it("should include a fix passed as the last argument when location is passed", () => {
-            linter.on("Program", node => {
-                linter.report("test-rule", 2, node, { line: 42, column: 23 }, "my message {{1}}{{0}}", ["!", "testing"], { range: [1, 1], text: "" });
-            });
+            linter.defineRule("test-rule", () => ({
+                Program(node) {
+                    linter.report("test-rule", 2, node, { line: 42, column: 23 }, "my message {{1}}{{0}}", ["!", "testing"], { range: [1, 1], text: "" });
+                }
+            }));
 
             const messages = linter.verify("0", config, "", true);
 
@@ -1082,14 +1107,16 @@ describe("Linter", () => {
         });
 
         it("should have 'endLine' and 'endColumn' when there is not 'loc' property.", () => {
-            linter.on("Program", node => {
-                linter.report(
-                    "test-rule",
-                    2,
-                    node,
-                    "test"
-                );
-            });
+            linter.defineRule("test-rule", () => ({
+                Program(node) {
+                    linter.report(
+                        "test-rule",
+                        2,
+                        node,
+                        "test"
+                    );
+                }
+            }));
 
             const sourceText = "foo + bar;";
 
@@ -1100,15 +1127,17 @@ describe("Linter", () => {
         });
 
         it("should have 'endLine' and 'endColumn' when 'loc' property has 'end' property.", () => {
-            linter.on("Program", node => {
-                linter.report(
-                    "test-rule",
-                    2,
-                    node,
-                    node.loc,
-                    "test"
-                );
-            });
+            linter.defineRule("test-rule", () => ({
+                Program(node) {
+                    linter.report(
+                        "test-rule",
+                        2,
+                        node,
+                        node.loc,
+                        "test"
+                    );
+                }
+            }));
 
             const messages = linter.verify("0", config, "", true);
 
@@ -1117,15 +1146,17 @@ describe("Linter", () => {
         });
 
         it("should not have 'endLine' and 'endColumn' when 'loc' property does not have 'end' property.", () => {
-            linter.on("Program", node => {
-                linter.report(
-                    "test-rule",
-                    2,
-                    node,
-                    node.loc.start,
-                    "test"
-                );
-            });
+            linter.defineRule("test-rule", () => ({
+                Program(node) {
+                    linter.report(
+                        "test-rule",
+                        2,
+                        node,
+                        node.loc.start,
+                        "test"
+                    );
+                }
+            }));
 
             const messages = linter.verify("0", config, "", true);
 
@@ -1146,7 +1177,7 @@ describe("Linter", () => {
         const code = TEST_CODE;
 
         it("events for each node type should fire", () => {
-            const config = { rules: {} };
+            const config = { rules: { checker: "error" } };
 
             // spies for various AST node types
             const spyLiteral = sinon.spy(),
@@ -1155,12 +1186,13 @@ describe("Linter", () => {
                 spyIdentifier = sinon.spy(),
                 spyBinaryExpression = sinon.spy();
 
-            linter.reset();
-            linter.on("Literal", spyLiteral);
-            linter.on("VariableDeclarator", spyVariableDeclarator);
-            linter.on("VariableDeclaration", spyVariableDeclaration);
-            linter.on("Identifier", spyIdentifier);
-            linter.on("BinaryExpression", spyBinaryExpression);
+            linter.defineRule("checker", () => ({
+                Literal: spyLiteral,
+                VariableDeclarator: spyVariableDeclarator,
+                VariableDeclaration: spyVariableDeclaration,
+                Identifier: spyIdentifier,
+                BinaryExpression: spyBinaryExpression
+            }));
 
             const messages = linter.verify(code, config, filename, true);
 
@@ -1402,35 +1434,6 @@ describe("Linter", () => {
     describe("after calling reset()", () => {
         const code = TEST_CODE;
 
-        it("previously registered event handlers should not be called", () => {
-
-            const config = { rules: {} };
-
-            // spies for various AST node types
-            const spyLiteral = sinon.spy(),
-                spyVariableDeclarator = sinon.spy(),
-                spyVariableDeclaration = sinon.spy(),
-                spyIdentifier = sinon.spy(),
-                spyBinaryExpression = sinon.spy();
-
-            linter.reset();
-            linter.on("Literal", spyLiteral);
-            linter.on("VariableDeclarator", spyVariableDeclarator);
-            linter.on("VariableDeclaration", spyVariableDeclaration);
-            linter.on("Identifier", spyIdentifier);
-            linter.on("BinaryExpression", spyBinaryExpression);
-            linter.reset();
-
-            const messages = linter.verify(code, config, filename, true);
-
-            assert.equal(messages.length, 0);
-            sinon.assert.notCalled(spyVariableDeclaration);
-            sinon.assert.notCalled(spyVariableDeclarator);
-            sinon.assert.notCalled(spyIdentifier);
-            sinon.assert.notCalled(spyLiteral);
-            sinon.assert.notCalled(spyBinaryExpression);
-        });
-
         it("text should not be available", () => {
             const config = { rules: {} };
 
@@ -1460,10 +1463,8 @@ describe("Linter", () => {
         const code = "/*global a b:true c:false*/ function foo() {} /*globals d:true*/";
 
         it("variables should be available in global scope", () => {
-            const config = { rules: {} };
-
-            linter.reset();
-            linter.on("Program", () => {
+            const config = { rules: { checker: "error" } };
+            const spy = sandbox.spy(() => {
                 const scope = linter.getScope();
                 const a = getVariable(scope, "a"),
                     b = getVariable(scope, "b"),
@@ -1480,7 +1481,9 @@ describe("Linter", () => {
                 assert.equal(d.writeable, true);
             });
 
-            linter.verify(code, config, filename, true);
+            linter.defineRule("checker", () => ({ Program: spy }));
+            linter.verify(code, config);
+            assert(spy.calledOnce);
         });
     });
 
@@ -1488,10 +1491,8 @@ describe("Linter", () => {
         const code = "/* global  a b  : true   c:  false*/";
 
         it("variables should be available in global scope", () => {
-            const config = { rules: {} };
-
-            linter.reset();
-            linter.on("Program", () => {
+            const config = { rules: { checker: "error" } };
+            const spy = sandbox.spy(() => {
                 const scope = linter.getScope(),
                     a = getVariable(scope, "a"),
                     b = getVariable(scope, "b"),
@@ -1505,17 +1506,17 @@ describe("Linter", () => {
                 assert.equal(c.writeable, false);
             });
 
-            linter.verify(code, config, filename, true);
+            linter.defineRule("checker", () => ({ Program: spy }));
+            linter.verify(code, config);
+            assert(spy.calledOnce);
         });
     });
 
     describe("when evaluating code containing /*eslint-env */ block", () => {
         it("variables should be available in global scope", () => {
             const code = "/*eslint-env node*/ function f() {} /*eslint-env browser, foo*/";
-            const config = { rules: {} };
-
-            linter.reset();
-            linter.on("Program", () => {
+            const config = { rules: { checker: "error" } };
+            const spy = sandbox.spy(() => {
                 const scope = linter.getScope(),
                     exports = getVariable(scope, "exports"),
                     window = getVariable(scope, "window");
@@ -1523,7 +1524,10 @@ describe("Linter", () => {
                 assert.equal(exports.writeable, true);
                 assert.equal(window.writeable, false);
             });
-            linter.verify(code, config, filename, true);
+
+            linter.defineRule("checker", () => ({ Program: spy }));
+            linter.verify(code, config);
+            assert(spy.calledOnce);
         });
     });
 
@@ -1531,10 +1535,8 @@ describe("Linter", () => {
         const code = "/* eslint-env ,, node  , no-browser ,,  */";
 
         it("variables should be available in global scope", () => {
-            const config = { rules: {} };
-
-            linter.reset();
-            linter.on("Program", () => {
+            const config = { rules: { checker: "error" } };
+            const spy = sandbox.spy(() => {
                 const scope = linter.getScope(),
                     exports = getVariable(scope, "exports"),
                     window = getVariable(scope, "window");
@@ -1542,7 +1544,10 @@ describe("Linter", () => {
                 assert.equal(exports.writeable, true);
                 assert.equal(window, null);
             });
-            linter.verify(code, config, filename, true);
+
+            linter.defineRule("checker", () => ({ Program: spy }));
+            linter.verify(code, config);
+            assert(spy.calledOnce);
         });
     });
 
@@ -1552,78 +1557,83 @@ describe("Linter", () => {
             const code = "/* exported horse */";
             const config = { rules: {} };
 
-            linter.reset();
             linter.verify(code, config, filename, true);
         });
 
         it("variables should be exported", () => {
             const code = "/* exported horse */\n\nvar horse = 'circus'";
-            const config = { rules: {} };
-
-            linter.reset();
-            linter.on("Program", () => {
+            const config = { rules: { checker: "error" } };
+            const spy = sandbox.spy(() => {
                 const scope = linter.getScope(),
                     horse = getVariable(scope, "horse");
 
                 assert.equal(horse.eslintUsed, true);
             });
-            linter.verify(code, config, filename, true);
+
+            linter.defineRule("checker", () => ({ Program: spy }));
+
+            linter.verify(code, config);
+            assert(spy.calledOnce);
         });
 
         it("undefined variables should not be exported", () => {
             const code = "/* exported horse */\n\nhorse = 'circus'";
-            const config = { rules: {} };
-
-            linter.reset();
-            linter.on("Program", () => {
+            const config = { rules: { checker: "error" } };
+            const spy = sandbox.spy(() => {
                 const scope = linter.getScope(),
                     horse = getVariable(scope, "horse");
 
                 assert.equal(horse, null);
             });
-            linter.verify(code, config, filename, true);
+
+            linter.defineRule("checker", () => ({ Program: spy }));
+            linter.verify(code, config);
+            assert(spy.calledOnce);
         });
 
         it("variables should be exported in strict mode", () => {
             const code = "/* exported horse */\n'use strict';\nvar horse = 'circus'";
-            const config = { rules: {} };
-
-            linter.reset();
-            linter.on("Program", () => {
+            const config = { rules: { checker: "error" } };
+            const spy = sandbox.spy(() => {
                 const scope = linter.getScope(),
                     horse = getVariable(scope, "horse");
 
                 assert.equal(horse.eslintUsed, true);
             });
-            linter.verify(code, config, filename, true);
+
+            linter.defineRule("checker", () => ({ Program: spy }));
+            linter.verify(code, config);
+            assert(spy.calledOnce);
         });
 
         it("variables should not be exported in the es6 module environment", () => {
             const code = "/* exported horse */\nvar horse = 'circus'";
-            const config = { rules: {}, parserOptions: { sourceType: "module" } };
-
-            linter.reset();
-            linter.on("Program", () => {
+            const config = { rules: { checker: "error" }, parserOptions: { sourceType: "module" } };
+            const spy = sandbox.spy(() => {
                 const scope = linter.getScope(),
                     horse = getVariable(scope, "horse");
 
                 assert.equal(horse, null); // there is no global scope at all
             });
-            linter.verify(code, config, filename, true);
+
+            linter.defineRule("checker", () => ({ Program: spy }));
+            linter.verify(code, config);
+            assert(spy.calledOnce);
         });
 
         it("variables should not be exported when in the node environment", () => {
             const code = "/* exported horse */\nvar horse = 'circus'";
-            const config = { rules: {}, env: { node: true } };
-
-            linter.reset();
-            linter.on("Program", () => {
+            const config = { rules: { checker: "error" }, env: { node: true } };
+            const spy = sandbox.spy(() => {
                 const scope = linter.getScope(),
                     horse = getVariable(scope, "horse");
 
                 assert.equal(horse, null); // there is no global scope at all
             });
-            linter.verify(code, config, filename, true);
+
+            linter.defineRule("checker", () => ({ Program: spy }));
+            linter.verify(code, config);
+            assert(spy.calledOnce);
         });
     });
 
@@ -1631,16 +1641,16 @@ describe("Linter", () => {
         const code = "//global a \n function f() {}";
 
         it("should not introduce a global variable", () => {
-
-            const config = { rules: {} };
-
-            linter.reset();
-            linter.on("Program", () => {
+            const config = { rules: { checker: "error" } };
+            const spy = sandbox.spy(() => {
                 const scope = linter.getScope();
 
                 assert.equal(getVariable(scope, "a"), null);
             });
-            linter.verify(code, config, filename, true);
+
+            linter.defineRule("checker", () => ({ Program: spy }));
+            linter.verify(code, config);
+            assert(spy.calledOnce);
         });
     });
 
@@ -1648,10 +1658,8 @@ describe("Linter", () => {
         const code = "/**/  /*a*/  /*b:true*/  /*foo c:false*/";
 
         it("should not introduce a global variable", () => {
-            const config = { rules: {} };
-
-            linter.reset();
-            linter.on("Program", () => {
+            const config = { rules: { checker: "error" } };
+            const spy = sandbox.spy(() => {
                 const scope = linter.getScope();
 
                 assert.equal(getVariable(scope, "a"), null);
@@ -1659,53 +1667,59 @@ describe("Linter", () => {
                 assert.equal(getVariable(scope, "foo"), null);
                 assert.equal(getVariable(scope, "c"), null);
             });
-            linter.verify(code, config, filename, true);
+
+            linter.defineRule("checker", () => ({ Program: spy }));
+            linter.verify(code, config);
+            assert(spy.calledOnce);
         });
     });
 
     describe("when evaluating any code", () => {
-        const code = "";
+        const code = "x";
 
         it("builtin global variables should be available in the global scope", () => {
-            const config = { rules: {} };
-
-            linter.reset();
-            linter.on("Program", () => {
+            const config = { rules: { checker: "error" } };
+            const spy = sandbox.spy(() => {
                 const scope = linter.getScope();
 
                 assert.notEqual(getVariable(scope, "Object"), null);
                 assert.notEqual(getVariable(scope, "Array"), null);
                 assert.notEqual(getVariable(scope, "undefined"), null);
             });
-            linter.verify(code, config, filename, true);
+
+            linter.defineRule("checker", () => ({ Program: spy }));
+            linter.verify(code, config);
+            assert(spy.calledOnce);
         });
 
         it("ES6 global variables should not be available by default", () => {
-            const config = { rules: {} };
-
-            linter.reset();
-            linter.on("Program", () => {
+            const config = { rules: { checker: "error" } };
+            const spy = sandbox.spy(() => {
                 const scope = linter.getScope();
 
                 assert.equal(getVariable(scope, "Promise"), null);
                 assert.equal(getVariable(scope, "Symbol"), null);
                 assert.equal(getVariable(scope, "WeakMap"), null);
             });
-            linter.verify(code, config, filename, true);
+
+            linter.defineRule("checker", () => ({ Program: spy }));
+            linter.verify(code, config);
+            assert(spy.calledOnce);
         });
 
         it("ES6 global variables should be available in the es6 environment", () => {
-            const config = { rules: {} };
-
-            linter.reset();
-            linter.on("Program", () => {
+            const config = { rules: { checker: "error" }, env: { es6: true } };
+            const spy = sandbox.spy(() => {
                 const scope = linter.getScope();
 
                 assert.notEqual(getVariable(scope, "Promise"), null);
                 assert.notEqual(getVariable(scope, "Symbol"), null);
                 assert.notEqual(getVariable(scope, "WeakMap"), null);
             });
-            linter.verify(code, config, filename, true);
+
+            linter.defineRule("checker", () => ({ Program: spy }));
+            linter.verify(code, config);
+            assert(spy.calledOnce);
         });
     });
 
@@ -2631,17 +2645,17 @@ describe("Linter", () => {
         });
 
         it("should have a comment with the shebang in it", () => {
-            const config = { rules: { "no-extra-semi": 1 } };
-
-            linter.reset();
-
-            linter.on("Program", () => {
+            const config = { rules: { checker: "error" } };
+            const spy = sandbox.spy(() => {
                 const comments = linter.getAllComments();
 
                 assert.equal(comments.length, 1);
                 assert.equal(comments[0].type, "Shebang");
             });
-            linter.verify(code, config, "foo.js", true);
+
+            linter.defineRule("checker", () => ({ Program: spy }));
+            linter.verify(code, config);
+            assert(spy.calledOnce);
         });
     });
 
@@ -3065,17 +3079,15 @@ describe("Linter", () => {
 
     describe("when evaluating code with hashbang", () => {
         it("should comment hashbang without breaking offset", () => {
-
             const code = "#!/usr/bin/env node\n'123';";
-
-            const config = { rules: {} };
-
-            linter.reset();
-            linter.on("ExpressionStatement", node => {
+            const config = { rules: { checker: "error" } };
+            const spy = sandbox.spy(node => {
                 assert.equal(linter.getSource(node), "'123';");
             });
 
-            linter.verify(code, config, filename, true);
+            linter.defineRule("checker", () => ({ ExpressionStatement: spy }));
+            linter.verify(code, config);
+            assert(spy.calledOnce);
         });
     });
 
