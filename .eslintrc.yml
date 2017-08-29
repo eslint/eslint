@@ -3,10 +3,12 @@ root: true
 plugins:
     - eslint-plugin
     - node
+    - security
 extends:
     - "./packages/eslint-config-eslint/default.yml"
     - "plugin:node/recommended"
     - "plugin:eslint-plugin/recommended"
+    - "plugin:security/recommended"
 rules:
     eslint-plugin/consistent-output: "error"
     eslint-plugin/no-identical-tests: "error"
