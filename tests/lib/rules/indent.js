@@ -3223,6 +3223,10 @@ ruleTester.run("indent", rule, {
             options: [2, { ArrayExpression: "first" }]
         },
         {
+            code: "[,]",
+            options: [2, { ArrayExpression: "off" }]
+        },
+        {
             code: unIndent`
                 [
                     ,
