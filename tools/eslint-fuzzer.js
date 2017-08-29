@@ -97,7 +97,7 @@ function fuzz(options) {
             }
 
             lastGoodText = currentText;
-            currentText = SourceCodeFixer.applyFixes(linter.getSourceCode(), messages).output;
+            currentText = SourceCodeFixer.applyFixes(currentText, messages).output;
         } while (lastGoodText !== currentText);
 
         return lastGoodText;
