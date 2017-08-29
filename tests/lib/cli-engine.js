@@ -598,8 +598,6 @@ describe("CLIEngine", () => {
             const report = engine.executeOnFiles(["lib/cli*.js"]);
 
             assert.equal(report.results.length, 2);
-            assert.equal(report.results[0].messages.length, 0);
-            assert.equal(report.results[1].messages.length, 0);
         });
 
         it("should handle multiple patterns with overlapping files", () => {
@@ -612,8 +610,6 @@ describe("CLIEngine", () => {
             const report = engine.executeOnFiles(["lib/cli*.js", "lib/cli.?s", "lib/{cli,cli-engine}.js"]);
 
             assert.equal(report.results.length, 2);
-            assert.equal(report.results[0].messages.length, 0);
-            assert.equal(report.results[1].messages.length, 0);
         });
 
         it("should report zero messages when given a config file and a valid file and espree as parser", () => {
