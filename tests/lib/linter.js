@@ -3004,6 +3004,17 @@ describe("Linter", () => {
                 linter.verify("var foo", config);
             });
         });
+
+        it("should pass 'id' to rule contexts with the rule id", () => {
+            const spy = sandbox.spy(context => {
+                assert.strictEqual(context.id, "foo-bar-baz");
+                return {};
+            });
+
+            linter.defineRule("foo-bar-baz", spy);
+            linter.verify("x", { rules: { "foo-bar-baz": "error" } });
+            assert(spy.calledOnce);
+        });
     });
 
     describe("Variables and references", () => {
