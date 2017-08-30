@@ -16,5 +16,5 @@ const path = require("path");
 const RuleTester = require("../../../lib/testers/rule-tester");
 
 RuleTester.setDefaultConfig({
-    parser: path.resolve(__dirname, "../../../lib/testers/test-parser")
+    parser: path.resolve(__dirname, "../../../tools/internal-testers/test-parser")
 });
