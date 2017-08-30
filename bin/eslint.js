@@ -70,5 +70,5 @@ if (useStdIn) {
         console.error(err.stack);
     });
 } else {
-    process.exitCode = cli.execute(process.argv);
+    cli.execute(process.argv).then(code => (process.exitCode = code));
 }
