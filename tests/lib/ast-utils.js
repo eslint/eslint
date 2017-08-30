@@ -10,7 +10,6 @@
 //------------------------------------------------------------------------------
 
 const assert = require("chai").assert,
-    sinon = require("sinon"),
     espree = require("espree"),
     astUtils = require("../../lib/ast-utils"),
     Linter = require("../../lib/linter"),
@@ -30,150 +29,86 @@ const ESPREE_CONFIG = {
 const linter = new Linter();
 
 describe("ast-utils", () => {
-    const filename = "filename.js";
-    let sandbox;
+    let callCounts;
 
     beforeEach(() => {
-        sandbox = sinon.sandbox.create();
+        callCounts = new Map();
     });
 
+    /**
+     * Asserts that a given function is called at least once during a test
+     * @param {Function} func The function that must be called at least once
+     * @returns {Function} A wrapper around the same function
+     */
+    function mustCall(func) {
+        callCounts.set(func, 0);
+        return function Wrapper() {
+            callCounts.set(func, callCounts.get(func) + 1);
+
+            return func.apply(this, arguments);
+        };
+    }
+
     afterEach(() => {
+        callCounts.forEach((callCount, func) => {
+            assert(
+                callCount > 0,
+                `Expected ${func.toString()} to be called at least once but it was not called`
+            );
+        });
+
         linter.reset();
-        sandbox.verifyAndRestore();
     });
 
     describe("isTokenOnSameLine", () => {
-        it("should return false if its not on sameline", () => {
+        it("should return false if the tokens are not on the same line", () => {
+            linter.defineRule("checker", mustCall(() => ({
+                BlockStatement: mustCall(node => {
+                    assert.isFalse(astUtils.isTokenOnSameLine(linter.getTokenBefore(node), node));
+                })
+            })));
 
-            /**
-             * Check the node for tokens
-             * @param {ASTNode} node node to examine
-             * @returns {void}
-             */
-            function checker(node) {
-                assert.isFalse(astUtils.isTokenOnSameLine(linter.getTokenBefore(node), node));
-            }
-
-            linter.reset();
-            linter.on("BlockStatement", checker);
-            linter.verify("if(a)\n{}", {}, filename, true);
+            linter.verify("if(a)\n{}", { rules: { checker: "error" } });
         });
 
-        it("should return true if its on sameline", () => {
+        it("should return true if the tokens are on the same line", () => {
 
-            /**
-             * Check the node for tokens
-             * @param {ASTNode} node node to examine
-             * @returns {void}
-             */
-            function checker(node) {
-                assert.isTrue(astUtils.isTokenOnSameLine(linter.getTokenBefore(node), node));
-            }
+            linter.defineRule("checker", mustCall(() => ({
+                BlockStatement: mustCall(node => {
+                    assert.isTrue(astUtils.isTokenOnSameLine(linter.getTokenBefore(node), node));
+                })
+            })));
 
-            linter.reset();
-            linter.on("BlockStatement", checker);
-            linter.verify("if(a){}", {}, filename, true);
+            linter.verify("if(a){}", { rules: { checker: "error" } });
         });
     });
 
     describe("isNullOrUndefined", () => {
-        it("should return true if its null", () => {
-
-            /**
-             * Check the node for tokens
-             * @param {ASTNode} node node to examine
-             * @returns {void}
-             */
-            function checker(node) {
-                assert.isTrue(astUtils.isNullOrUndefined(node.arguments[0]));
-            }
-
-            linter.reset();
-            linter.on("CallExpression", checker);
-            linter.verify("foo.apply(null, a, b);", {}, filename, true);
+        it("should return true if the argument is null", () => {
+            assert.isTrue(astUtils.isNullOrUndefined(espree.parse("null").body[0].expression));
         });
 
-        it("should return true if its undefined", () => {
-
-            /**
-             * Check the node for tokens
-             * @param {ASTNode} node node to examine
-             * @returns {void}
-             */
-            function checker(node) {
-                assert.isTrue(astUtils.isNullOrUndefined(node.arguments[0]));
-            }
-
-            linter.reset();
-            linter.on("CallExpression", checker);
-            linter.verify("foo.apply(undefined, a, b);", {}, filename, true);
+        it("should return true if the argument is undefined", () => {
+            assert.isTrue(astUtils.isNullOrUndefined(espree.parse("undefined").body[0].expression));
         });
 
-        it("should return false if its a number", () => {
-
-            /**
-             * Check the node for tokens
-             * @param {ASTNode} node node to examine
-             * @returns {void}
-             */
-            function checker(node) {
-                assert.isFalse(astUtils.isNullOrUndefined(node.arguments[0]));
-            }
-
-            linter.reset();
-            linter.on("CallExpression", checker);
-            linter.verify("foo.apply(1, a, b);", {}, filename, true);
+        it("should return false if the argument is a number", () => {
+            assert.isFalse(astUtils.isNullOrUndefined(espree.parse("1").body[0].expression));
         });
 
-        it("should return false if its a string", () => {
-
-            /**
-             * Check the node for tokens
-             * @param {ASTNode} node node to examine
-             * @returns {void}
-             */
-            function checker(node) {
-                assert.isFalse(astUtils.isNullOrUndefined(node.arguments[0]));
-            }
-
-            linter.reset();
-            linter.on("CallExpression", checker);
-            linter.verify("foo.apply(`test`, a, b);", {}, filename, true);
+        it("should return false if the argument is a string", () => {
+            assert.isFalse(astUtils.isNullOrUndefined(espree.parse("'test'").body[0].expression));
         });
 
-        it("should return false if its a boolean", () => {
-
-            /**
-             * Check the node for tokens
-             * @param {ASTNode} node node to examine
-             * @returns {void}
-             */
-            function checker(node) {
-                assert.isFalse(astUtils.isNullOrUndefined(node.arguments[0]));
-            }
-
-            linter.reset();
-            linter.on("CallExpression", checker);
-            linter.verify("foo.apply(false, a, b);", {}, filename, true);
+        it("should return false if the argument is a boolean", () => {
+            assert.isFalse(astUtils.isNullOrUndefined(espree.parse("true").body[0].expression));
         });
 
-        it("should return false if its an object", () => {
-
-            /**
-             * Check the node for tokens
-             * @param {ASTNode} node node to examine
-             * @returns {void}
-             */
-            function checker(node) {
-                assert.isFalse(astUtils.isNullOrUndefined(node.arguments[0]));
-            }
-
-            linter.reset();
-            linter.on("CallExpression", checker);
-            linter.verify("foo.apply({}, a, b);", {}, filename, true);
+        it("should return false if the argument is an object", () => {
+            assert.isFalse(astUtils.isNullOrUndefined(espree.parse("({})").body[0].expression));
         });
 
-        it("should return false if it's a unicode regex", () => {
+        it("should return false if the argument is a unicode regex", () => {
             assert.isFalse(astUtils.isNullOrUndefined(espree.parse("/abc/u", { ecmaVersion: 6 }).body[0].expression));
         });
     });
@@ -182,96 +117,66 @@ describe("ast-utils", () => {
 
         // catch
         it("should return true if reference is assigned for catch", () => {
+            linter.defineRule("checker", mustCall(() => ({
+                CatchClause: mustCall(node => {
+                    const variables = linter.getDeclaredVariables(node);
 
-            /**
-             * Check the node for tokens
-             * @param {ASTNode} node node to examine
-             * @returns {void}
-             */
-            function checker(node) {
-                const variables = linter.getDeclaredVariables(node);
+                    assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 1);
+                })
+            })));
 
-                assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 1);
-            }
-
-            linter.reset();
-            linter.on("CatchClause", checker);
-            linter.verify("try { } catch (e) { e = 10; }", { rules: {} }, filename, true);
+            linter.verify("try { } catch (e) { e = 10; }", { rules: { checker: "error" } });
         });
 
         // const
         it("should return true if reference is assigned for const", () => {
+            linter.defineRule("checker", mustCall(() => ({
+                VariableDeclaration: mustCall(node => {
+                    const variables = linter.getDeclaredVariables(node);
 
-            /**
-             * Check the node for tokens
-             * @param {ASTNode} node node to examine
-             * @returns {void}
-             */
-            function checker(node) {
-                const variables = linter.getDeclaredVariables(node);
+                    assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 1);
+                })
+            })));
 
-                assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 1);
-            }
-
-            linter.reset();
-            linter.on("VariableDeclaration", checker);
-            linter.verify("const a = 1; a = 2;", {}, filename, true);
+            linter.verify("const a = 1; a = 2;", { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } });
         });
 
         it("should return false if reference is not assigned for const", () => {
+            linter.defineRule("checker", mustCall(() => ({
+                VariableDeclaration: mustCall(node => {
+                    const variables = linter.getDeclaredVariables(node);
 
-            /**
-             * Check the node for tokens
-             * @param {ASTNode} node node to examine
-             * @returns {void}
-             */
-            function checker(node) {
-                const variables = linter.getDeclaredVariables(node);
+                    assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 0);
+                })
+            })));
 
-                assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 0);
-            }
-
-            linter.reset();
-            linter.on("VariableDeclaration", checker);
-            linter.verify("const a = 1; c = 2;", {}, filename, true);
+            linter.verify("const a = 1; c = 2;", { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } });
         });
 
         // class
         it("should return true if reference is assigned for class", () => {
+            linter.defineRule("checker", mustCall(() => ({
+                ClassDeclaration: mustCall(node => {
+                    const variables = linter.getDeclaredVariables(node);
 
-            /**
-             * Check the node for tokens
-             * @param {ASTNode} node node to examine
-             * @returns {void}
-             */
-            function checker(node) {
-                const variables = linter.getDeclaredVariables(node);
+                    assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 1);
+                    assert.lengthOf(astUtils.getModifyingReferences(variables[1].references), 0);
+                })
+            })));
 
-                assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 1);
-                assert.lengthOf(astUtils.getModifyingReferences(variables[1].references), 0);
-            }
-
-            linter.reset();
-            linter.on("ClassDeclaration", checker);
-            linter.verify("class A { }\n A = 1;", {}, filename, true);
+            linter.verify("class A { }\n A = 1;", { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } });
         });
 
         it("should return false if reference is not assigned for class", () => {
+            linter.defineRule("checker", mustCall(() => ({
+                ClassDeclaration: mustCall(node => {
+                    const variables = linter.getDeclaredVariables(node);
 
-            /**
-             * Check the node for tokens
-             * @param {ASTNode} node node to examine
-             * @returns {void}
-             */
-            function checker(node) {
-                const variables = linter.getDeclaredVariables(node);
+                    assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 0);
+                })
+            })));
 
-                assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 0);
-            }
-
-            linter.reset();
-            linter.on("ClassDeclaration", checker);
-            linter.verify("class A { } foo(A);", {}, filename, true);
+            linter.verify("class A { } foo(A);", { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } });
         });
     });
 
@@ -463,9 +368,12 @@ describe("ast-utils", () => {
         function assertNodeTypeInLoop(code, nodeType, expectedInLoop) {
             const results = [];
 
-            linter.reset();
-            linter.on(nodeType, node => results.push(astUtils.isInLoop(node)));
-            linter.verify(code, { parserOptions: { ecmaVersion: 6 } }, filename, true);
+            linter.defineRule("checker", mustCall(() => ({
+                [nodeType]: mustCall(node => {
+                    results.push(astUtils.isInLoop(node));
+                })
+            })));
+            linter.verify(code, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } });
 
             assert.lengthOf(results, 1);
             assert.equal(results[0], expectedInLoop);
@@ -789,27 +697,16 @@ describe("ast-utils", () => {
 
         Object.keys(expectedResults).forEach(key => {
             it(`should return "${expectedResults[key]}" for "${key}".`, () => {
-                let called = false;
+                linter.defineRule("checker", mustCall(() => ({
+                    ":function": mustCall(node => {
+                        assert.strictEqual(
+                            astUtils.getFunctionNameWithKind(node),
+                            expectedResults[key]
+                        );
+                    })
+                })));
 
-                /**
-                 * Verify.
-                 * @param {ASTNode} node - The function node to verify.
-                 * @returns {void}
-                 */
-                function verify(node) {
-                    assert.strictEqual(
-                        astUtils.getFunctionNameWithKind(node),
-                        expectedResults[key]
-                    );
-                    called = true;
-                }
-
-                linter.on("FunctionDeclaration", verify);
-                linter.on("FunctionExpression", verify);
-                linter.on("ArrowFunctionExpression", verify);
-                linter.verify(key, { parserOptions: { ecmaVersion: 8 } }, "test.js", true);
-
-                assert(called);
+                linter.verify(key, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 8 } });
             });
         });
     });
@@ -873,27 +770,16 @@ describe("ast-utils", () => {
             };
 
             it(`should return "${JSON.stringify(expectedLoc)}" for "${key}".`, () => {
-                let called = false;
+                linter.defineRule("checker", mustCall(() => ({
+                    ":function": mustCall(node => {
+                        assert.deepEqual(
+                            astUtils.getFunctionHeadLoc(node, linter.getSourceCode()),
+                            expectedLoc
+                        );
+                    })
+                })));
 
-                /**
-                 * Verify.
-                 * @param {ASTNode} node - The function node to verify.
-                 * @returns {void}
-                 */
-                function verify(node) {
-                    assert.deepEqual(
-                        astUtils.getFunctionHeadLoc(node, linter.getSourceCode()),
-                        expectedLoc
-                    );
-                    called = true;
-                }
-
-                linter.on("FunctionDeclaration", verify);
-                linter.on("FunctionExpression", verify);
-                linter.on("ArrowFunctionExpression", verify);
-                linter.verify(key, { parserOptions: { ecmaVersion: 8 } }, "test.js", true);
-
-                assert(called);
+                linter.verify(key, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 8 } }, "test.js", true);
             });
         });
     });
