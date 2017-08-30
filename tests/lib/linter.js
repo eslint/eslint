@@ -738,441 +738,6 @@ describe("Linter", () => {
         });
     });
 
-    describe("report()", () => {
-
-        let config;
-
-        beforeEach(() => {
-            config = { rules: { "test-rule": "error" } };
-        });
-
-        it("should correctly parse a message when being passed all options", () => {
-            linter.defineRule("test-rule", () => ({
-                Program(node) {
-                    linter.report("test-rule", 2, node, node.loc.end, "hello {{dynamic}}", { dynamic: node.type });
-                }
-            }));
-
-            const messages = linter.verify("0", config, "", true);
-
-            assert.deepEqual(messages[0], {
-                severity: 2,
-                ruleId: "test-rule",
-                message: "hello Program",
-                nodeType: "Program",
-                line: 1,
-                column: 2,
-                source: "0"
-            });
-        });
-
-        it("should use the report the provided location when given", () => {
-            linter.defineRule("test-rule", () => ({
-                Program(node) {
-                    linter.report("test-rule", 2, node, { line: 42, column: 13 }, "hello world");
-                }
-            }));
-
-            const messages = linter.verify("0", config, "", true);
-
-            assert.deepEqual(messages[0], {
-                severity: 2,
-                ruleId: "test-rule",
-                message: "hello world",
-                nodeType: "Program",
-                line: 42,
-                column: 14,
-                source: ""
-            });
-        });
-
-        it("should not throw an error if node is provided and location is not", () => {
-            linter.defineRule("test-rule", () => ({
-                Program(node) {
-                    linter.report("test-rule", 2, node, "hello world");
-                }
-            }));
-
-            assert.doesNotThrow(() => {
-                linter.verify("0", config, "", true);
-            });
-        });
-
-        it("should not throw an error if location is provided and node is not", () => {
-            linter.defineRule("test-rule", () => ({
-                Program() {
-                    linter.report("test-rule", 2, null, { line: 1, column: 1 }, "hello world");
-                }
-            }));
-
-            assert.doesNotThrow(() => {
-                linter.verify("0", config, "", true);
-            });
-        });
-
-        it("should throw an error if neither node nor location is provided", () => {
-            linter.defineRule("test-rule", () => ({
-                Program() {
-                    linter.report("test-rule", 2, null, "hello world");
-                }
-            }));
-
-            assert.throws(() => {
-                linter.verify("0", config, "", true);
-            }, /Node must be provided when reporting error if location is not provided$/);
-        });
-
-        it("should throw an error if node is not an object", () => {
-            linter.defineRule("test-rule", () => ({
-                Program() {
-                    linter.report("test-rule", 2, "not a node", "hello world");
-                }
-            }));
-
-            assert.throws(() => {
-                linter.verify("0", config, "", true);
-            }, /Node must be an object$/);
-        });
-
-        it("should throw an error if fix is passed but meta has no `fixable` property", () => {
-            const meta = {
-                docs: {},
-                schema: []
-            };
-
-            linter.defineRule("test-rule", () => ({
-                Program(node) {
-                    linter.report("test-rule", 2, node, "hello world", [], { range: [1, 1], text: "" }, meta);
-                }
-            }));
-
-            assert.throws(() => {
-                linter.verify("0", config, "", true);
-            }, /Fixable rules should export a `meta\.fixable` property.$/);
-        });
-
-        it("should not throw an error if fix is passed and no metadata is passed", () => {
-            linter.defineRule("test-rule", () => ({
-                Program(node) {
-                    linter.report("test-rule", 2, node, "hello world", [], { range: [1, 1], text: "" });
-                }
-            }));
-
-            assert.doesNotThrow(() => {
-                linter.verify("0", config, "", true);
-            });
-        });
-
-        it("should correctly parse a message with object keys as numbers", () => {
-            linter.defineRule("test-rule", () => ({
-                Program(node) {
-                    linter.report("test-rule", 2, node, "my message {{name}}{{0}}", { 0: "!", name: "testing" });
-                }
-            }));
-
-            const messages = linter.verify("0", config, "", true);
-
-            assert.deepEqual(messages[0], {
-                severity: 2,
-                ruleId: "test-rule",
-                message: "my message testing!",
-                nodeType: "Program",
-                line: 1,
-                column: 1,
-                endLine: 1,
-                endColumn: 2,
-                source: "0"
-            });
-        });
-
-        it("should correctly parse a message with array", () => {
-            linter.defineRule("test-rule", () => ({
-                Program(node) {
-                    linter.report("test-rule", 2, node, "my message {{1}}{{0}}", ["!", "testing"]);
-                }
-            }));
-
-            const messages = linter.verify("0", config, "", true);
-
-            assert.deepEqual(messages[0], {
-                severity: 2,
-                ruleId: "test-rule",
-                message: "my message testing!",
-                nodeType: "Program",
-                line: 1,
-                column: 1,
-                endLine: 1,
-                endColumn: 2,
-                source: "0"
-            });
-        });
-
-        it("should include a fix passed as the last argument when location is not passed", () => {
-            linter.defineRule("test-rule", () => ({
-                Program(node) {
-                    linter.report("test-rule", 2, node, "my message {{1}}{{0}}", ["!", "testing"], { range: [1, 1], text: "" });
-                }
-            }));
-
-            const messages = linter.verify("0", config, "", true);
-
-            assert.deepEqual(messages[0], {
-                severity: 2,
-                ruleId: "test-rule",
-                message: "my message testing!",
-                nodeType: "Program",
-                line: 1,
-                column: 1,
-                endLine: 1,
-                endColumn: 2,
-                source: "0",
-                fix: { range: [1, 1], text: "" }
-            });
-        });
-
-        it("should allow template parameter with inner whitespace", () => {
-            linter.defineRule("test-rule", context => ({
-                Literal(node) {
-                    context.report(node, "message {{parameter name}}", {
-                        "parameter name": "yay!"
-                    });
-                }
-            }));
-
-            config.rules["test-rule"] = 1;
-
-            const messages = linter.verify("0", config);
-
-            assert.equal(messages[0].message, "message yay!");
-        });
-
-        it("should not crash if no template parameters are passed", () => {
-            linter.defineRule("test-rule", context => ({
-                Literal(node) {
-                    context.report(node, "message {{code}}");
-                }
-            }));
-
-            config.rules["test-rule"] = 1;
-
-            const messages = linter.verify("0", config);
-
-            assert.equal(messages[0].message, "message {{code}}");
-        });
-
-        it("should allow template parameter with non-identifier characters", () => {
-            linter.defineRule("test-rule", context => ({
-                Literal(node) {
-                    context.report(node, "message {{parameter-name}}", {
-                        "parameter-name": "yay!"
-                    });
-                }
-            }));
-
-            config.rules["test-rule"] = 1;
-
-            const messages = linter.verify("0", config);
-
-            assert.equal(messages[0].message, "message yay!");
-        });
-
-        it("should allow template parameter wrapped in braces", () => {
-            linter.defineRule("test-rule", context => ({
-                Literal(node) {
-                    context.report(node, "message {{{param}}}", {
-                        param: "yay!"
-                    });
-                }
-            }));
-
-            config.rules["test-rule"] = 1;
-
-            const messages = linter.verify("0", config);
-
-            assert.equal(messages[0].message, "message {yay!}");
-        });
-
-        it("should ignore template parameter with no specified value", () => {
-            linter.defineRule("test-rule", context => ({
-                Literal(node) {
-                    context.report(node, "message {{parameter}}", {});
-                }
-            }));
-
-            config.rules["test-rule"] = 1;
-
-            const messages = linter.verify("0", config);
-
-            assert.equal(messages[0].message, "message {{parameter}}");
-        });
-
-        it("should ignore template parameter with no specified value with warn severity", () => {
-            linter.defineRule("test-rule", context => ({
-                Literal(node) {
-                    context.report(node, "message {{parameter}}", {});
-                }
-            }));
-
-            config.rules["test-rule"] = "warn";
-
-            const messages = linter.verify("0", config);
-
-            assert.equal(messages[0].severity, 1);
-            assert.equal(messages[0].message, "message {{parameter}}");
-        });
-
-        it("should handle leading whitespace in template parameter", () => {
-            linter.defineRule("test-rule", context => ({
-                Literal(node) {
-                    context.report(node, "message {{ parameter}}", {
-                        parameter: "yay!"
-                    });
-                }
-            }));
-
-            config.rules["test-rule"] = 1;
-
-            const messages = linter.verify("0", config);
-
-            assert.equal(messages[0].message, "message yay!");
-        });
-
-        it("should handle trailing whitespace in template parameter", () => {
-            linter.defineRule("test-rule", context => ({
-                Literal(node) {
-                    context.report(node, "message {{parameter }}", {
-                        parameter: "yay!"
-                    });
-                }
-            }));
-
-            config.rules["test-rule"] = 1;
-
-            const messages = linter.verify("0", config);
-
-            assert.equal(messages[0].message, "message yay!");
-        });
-
-        it("should still allow inner whitespace as well as leading/trailing", () => {
-            linter.defineRule("test-rule", context => ({
-                Literal(node) {
-                    context.report(node, "message {{ parameter name }}", {
-                        "parameter name": "yay!"
-                    });
-                }
-            }));
-
-            config.rules["test-rule"] = 1;
-
-            const messages = linter.verify("0", config);
-
-            assert.equal(messages[0].message, "message yay!");
-        });
-
-        it("should still allow non-identifier characters as well as leading/trailing whitespace", () => {
-            linter.defineRule("test-rule", context => ({
-                Literal(node) {
-                    context.report(node, "message {{ parameter-name }}", {
-                        "parameter-name": "yay!"
-                    });
-                }
-            }));
-
-            config.rules["test-rule"] = 1;
-
-            const messages = linter.verify("0", config);
-
-            assert.equal(messages[0].message, "message yay!");
-        });
-
-        it("should include a fix passed as the last argument when location is passed", () => {
-            linter.defineRule("test-rule", () => ({
-                Program(node) {
-                    linter.report("test-rule", 2, node, { line: 42, column: 23 }, "my message {{1}}{{0}}", ["!", "testing"], { range: [1, 1], text: "" });
-                }
-            }));
-
-            const messages = linter.verify("0", config, "", true);
-
-            assert.deepEqual(messages[0], {
-                severity: 2,
-                ruleId: "test-rule",
-                message: "my message testing!",
-                nodeType: "Program",
-                line: 42,
-                column: 24,
-                source: "",
-                fix: { range: [1, 1], text: "" }
-            });
-        });
-
-        it("should have 'endLine' and 'endColumn' when there is not 'loc' property.", () => {
-            linter.defineRule("test-rule", () => ({
-                Program(node) {
-                    linter.report(
-                        "test-rule",
-                        2,
-                        node,
-                        "test"
-                    );
-                }
-            }));
-
-            const sourceText = "foo + bar;";
-
-            const messages = linter.verify(sourceText, config, "", true);
-
-            assert.strictEqual(messages[0].endLine, 1);
-            assert.strictEqual(messages[0].endColumn, sourceText.length + 1); // (1-based column)
-        });
-
-        it("should have 'endLine' and 'endColumn' when 'loc' property has 'end' property.", () => {
-            linter.defineRule("test-rule", () => ({
-                Program(node) {
-                    linter.report(
-                        "test-rule",
-                        2,
-                        node,
-                        node.loc,
-                        "test"
-                    );
-                }
-            }));
-
-            const messages = linter.verify("0", config, "", true);
-
-            assert.strictEqual(messages[0].endLine, 1);
-            assert.strictEqual(messages[0].endColumn, 2);
-        });
-
-        it("should not have 'endLine' and 'endColumn' when 'loc' property does not have 'end' property.", () => {
-            linter.defineRule("test-rule", () => ({
-                Program(node) {
-                    linter.report(
-                        "test-rule",
-                        2,
-                        node,
-                        node.loc.start,
-                        "test"
-                    );
-                }
-            }));
-
-            const messages = linter.verify("0", config, "", true);
-
-            assert.strictEqual(messages[0].endLine, void 0);
-            assert.strictEqual(messages[0].endColumn, void 0);
-        });
-
-        it("should infer an 'endLine' and 'endColumn' property when using the object-based context.report API", () => {
-            const messages = linter.verify("foo", { rules: { "no-undef": "error" } });
-
-            assert.strictEqual(messages.length, 1);
-            assert.strictEqual(messages[0].endLine, 1);
-            assert.strictEqual(messages[0].endColumn, 4);
-        });
-    });
-
     describe("when evaluating code", () => {
         const code = TEST_CODE;
 
@@ -2739,7 +2304,7 @@ describe("Linter", () => {
                     column: 1,
                     severity: 1,
                     source: "var answer = 6 * 7;",
-                    nodeType: void 0
+                    nodeType: null
                 }
             );
         });
@@ -3439,6 +3004,17 @@ describe("Linter", () => {
                 linter.verify("var foo", config);
             });
         });
+
+        it("should pass 'id' to rule contexts with the rule id", () => {
+            const spy = sandbox.spy(context => {
+                assert.strictEqual(context.id, "foo-bar-baz");
+                return {};
+            });
+
+            linter.defineRule("foo-bar-baz", spy);
+            linter.verify("x", { rules: { "foo-bar-baz": "error" } });
+            assert(spy.calledOnce);
+        });
     });
 
     describe("Variables and references", () => {
@@ -3869,6 +3445,38 @@ describe("Linter", () => {
             assert.strictEqual(fixResult.fixed, true);
             assert.strictEqual(fixResult.output, `${" ".repeat(10)}a`);
             assert.strictEqual(fixResult.messages.length, 1);
+        });
+
+        it("should throw an error if fix is passed but meta has no `fixable` property", () => {
+            linter.defineRule("test-rule", {
+                meta: {
+                    docs: {},
+                    schema: []
+                },
+                create: context => ({
+                    Program(node) {
+                        context.report(node, "hello world", {}, () => ({ range: [1, 1], text: "" }));
+                    }
+                })
+            });
+
+            assert.throws(() => {
+                linter.verify("0", { rules: { "test-rule": "error" } });
+            }, /Fixable rules should export a `meta\.fixable` property.$/);
+        });
+
+        it("should not throw an error if fix is passed and there is no metadata", () => {
+            linter.defineRule("test-rule", {
+                create: context => ({
+                    Program(node) {
+                        context.report(node, "hello world", {}, () => ({ range: [1, 1], text: "" }));
+                    }
+                })
+            });
+
+            assert.doesNotThrow(() => {
+                linter.verify("0", { rules: { "test-rule": "error" } });
+            });
         });
     });
 
