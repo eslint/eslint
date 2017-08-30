@@ -174,10 +174,7 @@ describe("createReportTranslator", () => {
                 node,
                 loc: location,
                 message,
-                *fix() {
-                    yield { range: [1, 2], text: "foo" };
-                    yield { range: [4, 5], text: "bar" };
-                }
+                fix: () => [{ range: [1, 2], text: "foo" }]
             };
 
             assert.deepEqual(
@@ -191,8 +188,8 @@ describe("createReportTranslator", () => {
                     nodeType: "ExpressionStatement",
                     source: "bar",
                     fix: {
-                        range: [1, 5],
-                        text: "fooo\nbar"
+                        range: [1, 2],
+                        text: "foo"
                     }
                 }
             );
@@ -233,7 +230,7 @@ describe("createReportTranslator", () => {
             const reportDescriptor = {
                 node,
                 message,
-                fix: () => [{ range: [-1, 3], text: "\uFEFFfoo" }, { range: [4, 5], text: "x" }]
+                fix: () => [{ range: [-1, 3], text: "foo" }, { range: [4, 5], text: "x" }]
             };
 
             assert.deepEqual(
@@ -250,7 +247,7 @@ describe("createReportTranslator", () => {
                     source: "foo",
                     fix: {
                         range: [-1, 5],
-                        text: "\uFEFFfoo\nx"
+                        text: "foo\nx"
                     }
                 }
             );
