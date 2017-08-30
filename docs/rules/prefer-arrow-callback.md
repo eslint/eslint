@@ -12,7 +12,7 @@ Additionally, arrow functions are:
 
 ## Rule Details
 
-This rule locates function expressions that have been submitted as function arguments or callbacks. An error will be produced for any that could be replaced by an arrow function without changing the result.
+This rule locates function expressions used as callbacks or function arguments. An error will be produced for any that could be replaced by an arrow function without changing the result.
 
 The following examples **will** be flagged:
 
@@ -37,7 +37,7 @@ The following examples **will not** be flagged:
 // arrow function callback
 foo(a => a); // OK
 
-// generator as callback
+// generator as callbackcccx
 foo(function*() { yield; }); // OK
 
 // function expression not used as callback or function argument
@@ -58,7 +58,7 @@ Default: `{ allowNamedFunctions: false, allowUnboundThis: true }`
 
 ### allowNamedFunctions
 
-By default `{ "allowNamedFunctions": false }`, this `boolean` option prohibits the use of named functions when describing callbacks or function arguments.
+By default `{ "allowNamedFunctions": false }`, this `boolean` option prohibits using named functions as callbacks or function arguments.
 
 Changing this value to `true` will reverse this option's behavior by allowing use of named functions without restriction.
 
@@ -72,9 +72,9 @@ foo(function bar() {});
 
 ### allowUnboundThis
 
-By default `{ "allowUnboundThis": true }`, this `boolean` option will allow function expressions containing `this` to be used as callbacks, as long as the function in question has not been explicitly bound.
+By default `{ "allowUnboundThis": true }`, this `boolean` option allows function expressions containing `this` to be used as callbacks, as long as the function in question has not been explicitly bound.
 
-When set to `false` this option prohibits the use of function expressions to describe callbacks or function arguments entirely, without exception.
+When set to `false` this option prohibits the use of function expressions as callbacks or function arguments entirely, without exception.
 
 `{ "allowNamedFunctions": false }` **will** flag the following examples:
 
