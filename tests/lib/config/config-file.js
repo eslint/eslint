@@ -525,6 +525,25 @@ describe("ConfigFile", () => {
             });
         });
 
+        it("should interpret parser object when present in a JavaScript file", () => {
+            const configFilePath = getFixturePath("js/.eslintrc.parser4.js");
+            const config = ConfigFile.load(configFilePath, configContext);
+
+            assert.deepEqual(config, {
+                baseDirectory: path.dirname(configFilePath),
+                filePath: configFilePath,
+                parser: {
+                    parse: "found"
+                },
+                parserOptions: {},
+                env: {},
+                globals: {},
+                rules: {
+                    semi: [2, "always"]
+                }
+            });
+        });
+
         it("should interpret parser module name or path when parser is set to default parser in a JavaScript file", () => {
             const configFilePath = getFixturePath("js/.eslintrc.parser3.js");
             const config = ConfigFile.load(configFilePath, configContext);
