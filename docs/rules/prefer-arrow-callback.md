@@ -97,4 +97,4 @@ someArray.map(function(itm) { return this.doSomething(itm); }, someObject);
 
 ## Further Reading
 
-- [More on ES6 arrow functions]('https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions')
+- [More on ES6 arrow functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions)
