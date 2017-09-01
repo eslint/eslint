@@ -37,7 +37,7 @@ The following examples **will not** be flagged:
 // arrow function callback
 foo(a => a); // OK
 
-// generator as callbackcccx
+// generator as callback
 foo(function*() { yield; }); // OK
 
 // function expression not used as callback or function argument
