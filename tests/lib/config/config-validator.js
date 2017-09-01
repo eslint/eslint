@@ -104,7 +104,8 @@ describe("Validator", () => {
         });
 
         it("should do nothing with a valid eslint config", () => {
-            const fn = validator.validate.bind(null,
+            const fn = validator.validate.bind(
+                null,
                 {
                     root: true,
                     globals: { globalFoo: "bar" },
@@ -125,7 +126,8 @@ describe("Validator", () => {
         });
 
         it("should throw with an unknown property", () => {
-            const fn = validator.validate.bind(null,
+            const fn = validator.validate.bind(
+                null,
                 {
                     foo: true
                 },

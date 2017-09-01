@@ -27,6 +27,7 @@ rules:
     for-direction: "error"
     func-call-spacing: "error"
     func-style: ["error", "declaration"]
+    function-paren-newline: ["error", "consistent"]
     generator-star-spacing: "error"
     getter-return: "error"
     guard-for-in: "error"
