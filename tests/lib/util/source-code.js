@@ -205,7 +205,8 @@ describe("SourceCode", () => {
             it("should not has BOM in `text` property.", () => {
                 assert.equal(
                     sourceCode.text,
-                    "\"use strict\";\n\nconsole.log(\"This file has [0xEF, 0xBB, 0xBF] as BOM.\");\n");
+                    "\"use strict\";\n\nconsole.log(\"This file has [0xEF, 0xBB, 0xBF] as BOM.\");\n"
+                );
             });
         });
     });

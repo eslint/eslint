@@ -212,7 +212,8 @@ describe("Config", () => {
             const configHelper = new Config({}, linter),
                 expected = getFakeFixturePath("broken", ".eslintrc"),
                 actual = Array.from(
-                    configHelper.findLocalConfigFiles(getFakeFixturePath("broken")));
+                    configHelper.findLocalConfigFiles(getFakeFixturePath("broken"))
+                );
 
             assert.equal(actual[0], expected);
         });
@@ -220,7 +221,8 @@ describe("Config", () => {
         it("should return an empty array when an .eslintrc file is not found", () => {
             const configHelper = new Config({}, linter),
                 actual = Array.from(
-                    configHelper.findLocalConfigFiles(getFakeFixturePath()));
+                    configHelper.findLocalConfigFiles(getFakeFixturePath())
+                );
 
             assert.isArray(actual);
             assert.lengthOf(actual, 0);
@@ -231,7 +233,8 @@ describe("Config", () => {
                 expected0 = getFakeFixturePath("packagejson", "subdir", "package.json"),
                 expected1 = getFakeFixturePath("packagejson", ".eslintrc"),
                 actual = Array.from(
-                    configHelper.findLocalConfigFiles(getFakeFixturePath("packagejson", "subdir")));
+                    configHelper.findLocalConfigFiles(getFakeFixturePath("packagejson", "subdir"))
+                );
 
             assert.equal(actual[0], expected0);
             assert.equal(actual[1], expected1);
@@ -243,7 +246,8 @@ describe("Config", () => {
 
                 // The first element of the array is the .eslintrc in the same directory.
                 actual = Array.from(
-                    configHelper.findLocalConfigFiles(getFakeFixturePath("broken")));
+                    configHelper.findLocalConfigFiles(getFakeFixturePath("broken"))
+                );
 
             assert.equal(actual.length, 1);
             assert.equal(actual, expected);
@@ -258,7 +262,8 @@ describe("Config", () => {
                 ],
 
                 actual = Array.from(
-                    configHelper.findLocalConfigFiles(getFakeFixturePath("fileexts/subdir/subsubdir")));
+                    configHelper.findLocalConfigFiles(getFakeFixturePath("fileexts/subdir/subsubdir"))
+                );
 
 
             assert.deepEqual(actual.length, expected.length);
