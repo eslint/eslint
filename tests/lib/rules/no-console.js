@@ -16,7 +16,7 @@ const rule = require("../../../lib/rules/no-console"),
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 
 ruleTester.run("no-console", rule, {
     valid: [
@@ -35,7 +35,15 @@ ruleTester.run("no-console", rule, {
         { code: "console.log(foo)", options: [{ allow: ["info", "log", "warn"] }] },
 
         // https://github.com/eslint/eslint/issues/7010
-        "var console = require('myconsole'); console.log(foo)"
+        "var console = require('myconsole'); console.log(foo)",
+
+        // https://github.com/eslint/eslint/issues/7806
+        "console.log = foo",
+        "var foo = console.log",
+        "[console.log] = [0];",
+        "({ foo: console.log } = { foo: 1 });",
+        "for (console.log in { a: 1, b: 2, c: 3 });",
+        "foo(console.log);"
     ],
     invalid: [
 

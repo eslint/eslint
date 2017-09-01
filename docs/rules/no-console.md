@@ -28,6 +28,8 @@ Examples of **correct** code for this rule:
 
 // custom console
 Console.log("Hello world!");
+
+console.log = foo;
 ```
 
 ## Options
