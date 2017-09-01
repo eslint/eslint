@@ -1590,6 +1590,31 @@ describe("Linter", () => {
         });
     });
 
+    describe("when evaluating rules that monkeypatch Linter", () => {
+        it("should call `context._linter.report` appropriately", () => {
+            linter.defineRule("foo", context => ({
+                Program() {
+                    context.report({ loc: { line: 5, column: 4 }, message: "foo" });
+                }
+            }));
+
+            const spy = sandbox.spy((ruleId, severity, node, message) => {
+                assert.strictEqual(ruleId, "foo");
+                assert.strictEqual(severity, 2);
+                assert.deepEqual(node.loc, { start: { line: 5, column: 4 } });
+                assert.strictEqual(message, "foo");
+            });
+
+            linter.defineRule("bar", context => {
+                context._linter.report = spy; // eslint-disable-line no-underscore-dangle
+                return {};
+            });
+
+            linter.verify("foo", { rules: { foo: "error", bar: "error" } });
+            assert(spy.calledOnce);
+        });
+    });
+
     describe("when evaluating code with comments to enable and disable all reporting", () => {
         it("should report a violation", () => {
 
