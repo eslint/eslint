@@ -1548,6 +1548,33 @@ describe("Linter", () => {
             assert.equal(messages.length, 0);
         });
 
+        it("should report a violation when the report is right before the comment", () => {
+            const code = " /* eslint-disable */ ";
+
+            linter.defineRule("checker", context => ({
+                Program() {
+                    context.report({ loc: { line: 1, column: 0 }, message: "foo" });
+                }
+            }));
+            const problems = linter.verify(code, { rules: { checker: "error" } });
+
+            assert.strictEqual(problems.length, 1);
+            assert.strictEqual(problems[0].message, "foo");
+        });
+
+        it("should not report a violation when the report is right at the start of the comment", () => {
+            const code = " /* eslint-disable */ ";
+
+            linter.defineRule("checker", context => ({
+                Program() {
+                    context.report({ loc: { line: 1, column: 1 }, message: "foo" });
+                }
+            }));
+            const problems = linter.verify(code, { rules: { checker: "error" } });
+
+            assert.strictEqual(problems.length, 0);
+        });
+
         it("rules should not change initial config", () => {
             const config = { rules: { "test-plugin/test-rule": 2 } };
             const codeA = "/*eslint test-plugin/test-rule: 0*/ var a = \"trigger violation\";";
