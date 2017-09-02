@@ -93,7 +93,7 @@ An example of a configuration with overrides:
 ```
 
 In the example configuration above, the top level "before" and "after" options define the default behavior of
-the rule, while the "anonymous", "method", and "static" options override the default behavior.
+the rule, while the "anonymous" and "method" options override the default behavior.
 Overrides can be either an object with "before" and "after", or a shorthand string as above.
 
 ## Examples
