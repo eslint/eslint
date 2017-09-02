@@ -35,7 +35,12 @@ ruleTester.run("no-redeclare", rule, {
         { code: "var top = 0;", env: { browser: true } },
         { code: "var top = 0;", options: [{ builtinGlobals: true }] },
         { code: "var top = 0;", options: [{ builtinGlobals: true }], parserOptions: { ecmaFeatures: { globalReturn: true } }, env: { browser: true } },
-        { code: "var top = 0;", options: [{ builtinGlobals: true }], parserOptions: { sourceType: "module" }, env: { browser: true } }
+        { code: "var top = 0;", options: [{ builtinGlobals: true }], parserOptions: { sourceType: "module" }, env: { browser: true } },
+        {
+            code: "var self = 1",
+            options: [{ builtinGlobals: true }],
+            env: { browser: false }
+        }
     ],
     invalid: [
         { code: "var a = 3; var a = 10;", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' is already defined.", type: "Identifier" }] },
