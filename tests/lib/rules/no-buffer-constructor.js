@@ -17,11 +17,17 @@ const RuleTester = require("../../../lib/testers/rule-tester");
 //------------------------------------------------------------------------------
 
 const CALL_ERROR = {
-    message: "Buffer() is deprecated. Use Buffer.from(), Buffer.alloc(), or Buffer.allocUnsafe() instead.",
+    messageId: "deprecated",
+    data: {
+        expr: "Buffer()"
+    },
     type: "CallExpression"
 };
 const CONSTRUCT_ERROR = {
-    message: "new Buffer() is deprecated. Use Buffer.from(), Buffer.alloc(), or Buffer.allocUnsafe() instead.",
+    messageId: "deprecated",
+    data: {
+        expr: "new Buffer()"
+    },
     type: "NewExpression"
 };
 
