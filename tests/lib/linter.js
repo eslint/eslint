@@ -2711,35 +2711,48 @@ describe("Linter", () => {
     describe("verify()", () => {
         describe("filenames", () => {
             it("should allow filename to be passed on options object", () => {
+                const filenameChecker = sandbox.spy(context => {
+                    assert.strictEqual(context.getFilename(), "foo.js");
+                    return {};
+                });
 
-                linter.verify("foo;", {}, { filename: "foo.js" });
-                const result = linter.getFilename();
-
-                assert.equal(result, "foo.js");
+                linter.defineRule("checker", filenameChecker);
+                linter.defineRule("checker", filenameChecker);
+                linter.verify("foo;", { rules: { checker: "error" } }, { filename: "foo.js" });
+                assert(filenameChecker.calledOnce);
             });
 
             it("should allow filename to be passed as third argument", () => {
+                const filenameChecker = sandbox.spy(context => {
+                    assert.strictEqual(context.getFilename(), "bar.js");
+                    return {};
+                });
 
-                linter.verify("foo;", {}, "foo.js");
-                const result = linter.getFilename();
-
-                assert.equal(result, "foo.js");
+                linter.defineRule("checker", filenameChecker);
+                linter.verify("foo;", { rules: { checker: "error" } }, "bar.js");
+                assert(filenameChecker.calledOnce);
             });
 
             it("should default filename to <input> when options object doesn't have filename", () => {
+                const filenameChecker = sandbox.spy(context => {
+                    assert.strictEqual(context.getFilename(), "<input>");
+                    return {};
+                });
 
-                linter.verify("foo;", {}, {});
-                const result = linter.getFilename();
-
-                assert.equal(result, "<input>");
+                linter.defineRule("checker", filenameChecker);
+                linter.verify("foo;", { rules: { checker: "error" } }, {});
+                assert(filenameChecker.calledOnce);
             });
 
             it("should default filename to <input> when only two arguments are passed", () => {
+                const filenameChecker = sandbox.spy(context => {
+                    assert.strictEqual(context.getFilename(), "<input>");
+                    return {};
+                });
 
-                linter.verify("foo;", {});
-                const result = linter.getFilename();
-
-                assert.equal(result, "<input>");
+                linter.defineRule("checker", filenameChecker);
+                linter.verify("foo;", { rules: { checker: "error" } });
+                assert(filenameChecker.calledOnce);
             });
         });
 
