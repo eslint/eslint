@@ -1,3 +1,10 @@
+v4.6.1 - September 3, 2017
+
+* bdec46d Build: avoid process leak when generating website (#9217) (Teddy Katz)
+* cb74b87 Fix: avoid adding globals when an env is used with `false` (fixes #9202) (#9203) (Teddy Katz)
+* f9b7544 Docs: Correct a typo in generator-star-spacing documentation (#9205) (Ethan Rutherford)
+* e5c5e83 Build: Fixing issue with docs generation (Fixes #9199) (#9200) (Ilya Volodin)
+
 v4.6.0 - September 1, 2017
 
 * 56dd769 Docs: fix link format in prefer-arrow-callback.md (#9198) (Vse Mozhet Byt)
