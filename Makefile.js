@@ -3,7 +3,7 @@
  * @author nzakas
  */
 
-/* global cat, cd, cp, echo, exec, exit, find, ls, mkdir, pwd, rm, target, test*/
+/* global target */
 /* eslint no-use-before-define: "off", no-console: "off" */
 "use strict";
 
@@ -24,9 +24,23 @@ const lodash = require("lodash"),
     os = require("os"),
     path = require("path"),
     semver = require("semver"),
+    shell = require("shelljs"),
     ejs = require("ejs"),
     loadPerf = require("load-perf"),
     yaml = require("js-yaml");
+
+const cat = shell.cat;
+const cd = shell.cd;
+const cp = shell.cp;
+const echo = shell.echo;
+const exec = shell.exec;
+const exit = shell.exit;
+const find = shell.find;
+const ls = shell.ls;
+const mkdir = shell.mkdir;
+const pwd = shell.pwd;
+const rm = shell.rm;
+const test = shell.test;
 
 //------------------------------------------------------------------------------
 // Settings
@@ -146,7 +160,7 @@ function generateRulesIndex(basedir) {
  * @returns {string} The result of the executed command.
  */
 function execSilent(cmd) {
-    return exec(cmd, { silent: true }).output;
+    return exec(cmd, { silent: true }).stdout;
 }
 
 /**
@@ -329,7 +343,7 @@ function getFirstCommitOfFile(filePath) {
  * @param {string} filePath The file path to check.
  * @returns {string} The tag name.
  */
-function getTagOfFirstOccurrence(filePath) {
+function getFirstVersionOfFile(filePath) {
     const firstCommit = getFirstCommitOfFile(filePath);
     let tags = execSilent(`git tag --contains ${firstCommit}`);
 
@@ -341,15 +355,6 @@ function getTagOfFirstOccurrence(filePath) {
         }
         return list;
     }, []).sort(semver.compare)[0];
-}
-
-/**
- * Gets the version number where a given file was introduced first.
- * @param {string} filePath The file path to check.
- * @returns {string} The version number.
- */
-function getFirstVersionOfFile(filePath) {
-    return getTagOfFirstOccurrence(filePath);
 }
 
 /**
