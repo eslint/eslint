@@ -302,36 +302,43 @@ describe("Linter", () => {
 
     });
 
-    describe("when calling getAncestors", () => {
+    describe("when calling context.getAncestors", () => {
         const code = TEST_CODE;
 
         it("should retrieve all ancestors when used", () => {
 
             const config = { rules: { checker: "error" } };
-            const spy = sandbox.spy(() => {
-                const ancestors = linter.getAncestors();
+            let spy;
 
-                assert.equal(ancestors.length, 3);
+            linter.defineRule("checker", context => {
+                spy = sandbox.spy(() => {
+                    const ancestors = context.getAncestors();
+
+                    assert.equal(ancestors.length, 3);
+                });
+                return { BinaryExpression: spy };
             });
 
-            linter.defineRule("checker", () => ({ BinaryExpression: spy }));
-
             linter.verify(code, config, filename, true);
-            assert(spy.calledOnce);
+            assert(spy && spy.calledOnce);
         });
 
         it("should retrieve empty ancestors for root node", () => {
             const config = { rules: { checker: "error" } };
-            const spy = sandbox.spy(() => {
-                const ancestors = linter.getAncestors();
+            let spy;
 
-                assert.equal(ancestors.length, 0);
+            linter.defineRule("checker", context => {
+                spy = sandbox.spy(() => {
+                    const ancestors = context.getAncestors();
+
+                    assert.equal(ancestors.length, 0);
+                });
+
+                return { Program: spy };
             });
 
-            linter.defineRule("checker", () => ({ Program: spy }));
-
             linter.verify(code, config);
-            assert(spy.calledOnce);
+            assert(spy && spy.calledOnce);
         });
     });
 
