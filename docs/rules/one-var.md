@@ -5,7 +5,7 @@ Variables can be declared at any point in JavaScript code using `var`, `let`, or
 There are two schools of thought in this regard:
 
 1. There should be just one variable declaration for all variables in the function. That declaration typically appears at the top of the function.
-2. You should use one variable declaration for each variable you want to define.
+1. You should use one variable declaration for each variable you want to define.
 
 For instance:
 
@@ -36,23 +36,29 @@ String option:
 
 * `"always"` (default) requires one variable declaration per scope
 * `"never"` requires multiple variable declarations per scope
+* `"consecutive"` allows multiple variable declarations per scope but requires consecutive variables declarations to be a single declaration
 
 Object option:
 
 * `"var": "always"` requires one `var` declaration per function
 * `"var": "never"` requires multiple `var` declarations per function
+* `"var": "consecutive"` requires consecutive `var` declarations to be a single declaration
 * `"let": "always"` requires one `let` declaration per block
 * `"let": "never"` requires multiple `let` declarations per block
+* `"let": "consecutive"` requires consecutive `let` declarations to be a single declaration
 * `"const": "always"` requires one `const` declaration per block
 * `"const": "never"` requires multiple `const` declarations per block
+* `"const": "consecutive"` requires consecutive `const` declarations to be a single declaration
 * `"separateRequires": true` enforces `requires` to be separate from declarations
 
 Alternate object option:
 
 * `"initialized": "always"` requires one variable declaration for initialized variables per scope
 * `"initialized": "never"` requires multiple variable declarations for initialized variables per scope
+* `"initialized": "consecutive"` requires consecutive variable declarations for initialized variables to be a single declaration
 * `"uninitialized": "always"` requires one variable declaration for uninitialized variables per scope
 * `"uninitialized": "never"` requires multiple variable declarations for uninitialized variables per scope
+* `"uninitialized": "consecutive"` requires consecutive variable declarations for uninitialized variables to be a single declaration
 
 ### always
 
@@ -181,6 +187,53 @@ function foo() {
 }
 ```
 
+### consecutive
+
+Examples of **incorrect** code for this rule with the `"consecutive"` option:
+
+```js
+/*eslint one-var: ["error", "consecutive"]*/
+/*eslint-env es6*/
+
+function foo() {
+    var bar;
+    var baz;
+}
+
+function foo(){
+    var bar = 1;
+    var baz = 2;
+
+    qux();
+
+    var qux = 3;
+    var quux;
+}
+```
+
+Examples of **correct** code for this rule with the `"consecutive"` option:
+
+```js
+/*eslint one-var: ["error", "consecutive"]*/
+/*eslint-env es6*/
+
+
+function foo() {
+    var bar,
+        baz;
+}
+
+function foo(){
+    var bar = 1,
+        baz = 2;
+
+    qux();
+
+    var qux = 3,
+        quux;
+}
+```
+
 ### var, let, and const
 
 Examples of **incorrect** code for this rule with the `{ var: "always", let: "never", const: "never" }` option:
@@ -274,6 +327,84 @@ var bar = "bar";
 
 var foo = require("foo"),
     bar = require("bar");
+Examples of **incorrect** code for this rule with the `{ var: "never", let: "consecutive", const: "consecutive" }` option:
+
+```js
+/*eslint one-var: ["error", { var: "never", let: "consecutive", const: "consecutive" }]*/
+/*eslint-env es6*/
+
+function foo() {
+    let a,
+        b;
+    let c;
+
+    var d,
+        e;
+}
+
+function foo() {
+    const a = 1,
+        b = 2;
+    const c = 3;
+
+    var d,
+        e;
+}
+```
+
+Examples of **correct** code for this rule with the `{ var: "never", let: "consecutive", const: "consecutive" }` option:
+
+```js
+/*eslint one-var: ["error", { var: "never", let: "consecutive", const: "consecutive" }]*/
+/*eslint-env es6*/
+
+function foo() {
+    let a,
+        b;
+
+    var d;
+    var e;
+
+    let f;
+}
+
+function foo() {
+    const a = 1,
+          b = 2;
+
+    var c;
+    var d;
+
+    const e = 3;
+}
+```
+
+Examples of **incorrect** code for this rule with the `{ var: "consecutive" }` option:
+
+```js
+/*eslint one-var: ["error", { var: "consecutive" }]*/
+/*eslint-env es6*/
+
+function foo() {
+    var a;
+    var b;
+}
+```
+
+Examples of **correct** code for this rule with the `{ var: "consecutive" }` option:
+
+```js
+/*eslint one-var: ["error", { var: "consecutive" }]*/
+/*eslint-env es6*/
+
+function foo() {
+    var a,
+        b;
+    const c = 1; // `const` and `let` declarations are ignored if they are not specified
+    const d = 2;
+    let e;
+    let f;
+}
 ```
 
 ### initialized and uninitialized
@@ -329,12 +460,74 @@ function foo() {
 Examples of **correct** code for this rule with the `{ "initialized": "never" }` option:
 
 ```js
-/*eslint one-var: ["error", { initialized: "never" }]*/
+/*eslint one-var: ["error", { "initialized": "never" }]*/
 
 function foo() {
     var foo = true;
     var bar = false;
     var a, b, c; // Uninitialized variables are ignored
+}
+```
+
+Examples of **incorrect** code for this rule with the `{ "initialized": "consecutive", "uninitialized": "never" }` option:
+
+```js
+/*eslint one-var: ["error", { "initialized": "consecutive", "uninitialized": "never" }]*/
+
+function foo() {
+    var a = 1;
+    var b = 2;
+    var c,
+        d;
+    var e = 3;
+    var f = 4;
+}
+```
+
+Examples of **correct** code for this rule with the `{ "initialized": "consecutive", "uninitialized": "never" }` option:
+
+```js
+/*eslint one-var: ["error", { "initialized": "consecutive", "uninitialized": "never" }]*/
+
+function foo() {
+    var a = 1,
+        b = 2;
+    var c;
+    var d;
+    var e = 3,
+        f = 4;
+}
+```
+
+Examples of **incorrect** code for this rule with the `{ "initialized": "consecutive" }` option:
+
+```js
+/*eslint one-var: ["error", { "initialized": "consecutive" }]*/
+
+function foo() {
+    var a = 1;
+    var b = 2;
+
+    foo();
+
+    var c = 3;
+    var d = 4;
+}
+```
+
+Examples of **correct** code for this rule with the `{ "initialized": "consecutive" }` option:
+
+```js
+/*eslint one-var: ["error", { "initialized": "consecutive" }]*/
+
+function foo() {
+    var a = 1,
+        b = 2;
+
+    foo();
+
+    var c = 3,
+        d = 4;
 }
 ```
 
