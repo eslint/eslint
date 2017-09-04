@@ -10,6 +10,7 @@
 
 const assert = require("chai").assert,
     leche = require("leche"),
+    util = require("util"),
     environments = require("../../../conf/environments"),
     Environments = require("../../../lib/config/environments"),
     ConfigCache = require("../../../lib/config/config-cache"),
@@ -550,150 +551,36 @@ describe("ConfigOps", () => {
         });
     });
 
-    describe("normalize()", () => {
-        it("should convert error rule setting to 2 when rule has just a severity", () => {
-            const config = {
-                rules: {
-                    foo: "errOr",
-                    bar: "error"
-                }
-            };
+    describe("getRuleSeverity()", () => {
+        const EXPECTED_RESULTS = new Map([
+            [0, 0],
+            [1, 1],
+            [2, 2],
+            [[0], 0],
+            [[1], 1],
+            [[2], 2],
+            ["off", 0],
+            ["warn", 1],
+            ["error", 2],
+            [["off"], 0],
+            [["warn"], 1],
+            [["error"], 2],
+            ["OFF", 0],
+            ["wArN", 1],
+            [["ErRoR"], 2],
+            ["invalid config", 0],
+            [["invalid config"], 0],
+            [3, 0],
+            [[3], 0],
+            [1.5, 0],
+            [[1.5], 0]
+        ]);
 
-            ConfigOps.normalize(config);
-
-            assert.deepEqual(config, {
-                rules: {
-                    foo: 2,
-                    bar: 2
-                }
+        for (const key of EXPECTED_RESULTS.keys()) {
+            it(`returns ${util.inspect(EXPECTED_RESULTS.get(key))} for ${util.inspect(key)}`, () => {
+                assert.strictEqual(ConfigOps.getRuleSeverity(key), EXPECTED_RESULTS.get(key));
             });
-        });
-
-        it("should convert error rule setting to 2 when rule has array with severity", () => {
-            const config = {
-                rules: {
-                    foo: ["Error", "something"],
-                    bar: "error"
-                }
-            };
-
-            ConfigOps.normalize(config);
-
-            assert.deepEqual(config, {
-                rules: {
-                    foo: [2, "something"],
-                    bar: 2
-                }
-            });
-        });
-
-        it("should convert warn rule setting to 1 when rule has just a severity", () => {
-            const config = {
-                rules: {
-                    foo: "waRn",
-                    bar: "warn"
-                }
-            };
-
-            ConfigOps.normalize(config);
-
-            assert.deepEqual(config, {
-                rules: {
-                    foo: 1,
-                    bar: 1
-                }
-            });
-        });
-
-        it("should convert warn rule setting to 1 when rule has array with severity", () => {
-            const config = {
-                rules: {
-                    foo: ["Warn", "something"],
-                    bar: "warn"
-                }
-            };
-
-            ConfigOps.normalize(config);
-
-            assert.deepEqual(config, {
-                rules: {
-                    foo: [1, "something"],
-                    bar: 1
-                }
-            });
-        });
-
-        it("should convert off rule setting to 0 when rule has just a severity", () => {
-            const config = {
-                rules: {
-                    foo: "ofF",
-                    bar: "off"
-                }
-            };
-
-            ConfigOps.normalize(config);
-
-            assert.deepEqual(config, {
-                rules: {
-                    foo: 0,
-                    bar: 0
-                }
-            });
-        });
-
-        it("should convert off rule setting to 0 when rule has array with severity", () => {
-            const config = {
-                rules: {
-                    foo: ["Off", "something"],
-                    bar: "off"
-                }
-            };
-
-            ConfigOps.normalize(config);
-
-            assert.deepEqual(config, {
-                rules: {
-                    foo: [0, "something"],
-                    bar: 0
-                }
-            });
-        });
-
-        it("should convert invalid rule setting to 0 when rule has just a severity", () => {
-            const config = {
-                rules: {
-                    foo: "invalid",
-                    bar: "invalid"
-                }
-            };
-
-            ConfigOps.normalize(config);
-
-            assert.deepEqual(config, {
-                rules: {
-                    foo: 0,
-                    bar: 0
-                }
-            });
-        });
-
-        it("should convert invalid rule setting to 0 when rule has array with severity", () => {
-            const config = {
-                rules: {
-                    foo: ["invalid", "something"],
-                    bar: "invalid"
-                }
-            };
-
-            ConfigOps.normalize(config);
-
-            assert.deepEqual(config, {
-                rules: {
-                    foo: [0, "something"],
-                    bar: 0
-                }
-            });
-        });
+        }
     });
 
     describe("normalizeToStrings()", () => {
