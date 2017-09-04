@@ -54,12 +54,12 @@ ruleTester.run("dot-notation", rule, {
             code: "a.true;",
             output: "a[\"true\"];",
             options: [{ allowKeywords: false }],
-            errors: [{ message: ".true is a syntax error." }]
+            errors: [{ messageId: "useBrackets", data: { key: "true" } }]
         },
         {
             code: "a['true'];",
             output: "a.true;",
-            errors: [{ message: "[\"true\"] is better written in dot notation." }]
+            errors: [{ messageId: "useDot", data: { key: "true" } }]
         },
         {
             code: "a[`time`];",
@@ -70,29 +70,29 @@ ruleTester.run("dot-notation", rule, {
         {
             code: "a[null];",
             output: "a.null;",
-            errors: [{ message: "[null] is better written in dot notation." }]
+            errors: [{ messageId: "useDot", data: { key: "null" } }]
         },
         {
             code: "a['b'];",
             output: "a.b;",
-            errors: [{ message: "[\"b\"] is better written in dot notation." }]
+            errors: [{ messageId: "useDot", data: { key: "b" } }]
         },
         {
             code: "a.b['c'];",
             output: "a.b.c;",
-            errors: [{ message: "[\"c\"] is better written in dot notation." }]
+            errors: [{ messageId: "useDot", data: { key: "c" } }]
         },
         {
             code: "a['_dangle'];",
             output: "a._dangle;",
             options: [{ allowPattern: "^[a-z]+(_[a-z]+)+$" }],
-            errors: [{ message: "[\"_dangle\"] is better written in dot notation." }]
+            errors: [{ messageId: "useDot", data: { key: "_dangle" } }]
         },
         {
             code: "a['SHOUT_CASE'];",
             output: "a.SHOUT_CASE;",
             options: [{ allowPattern: "^[a-z]+(_[a-z]+)+$" }],
-            errors: [{ message: "[\"SHOUT_CASE\"] is better written in dot notation." }]
+            errors: [{ messageId: "useDot", data: { key: "SHOUT_CASE" } }]
         },
         {
             code:
@@ -102,7 +102,8 @@ ruleTester.run("dot-notation", rule, {
                 "a\n" +
                 "  .SHOUT_CASE;",
             errors: [{
-                message: "[\"SHOUT_CASE\"] is better written in dot notation.",
+                messageId: "useDot",
+                data: { key: "SHOUT_CASE" },
                 line: 2,
                 column: 4
             }]
@@ -122,12 +123,14 @@ ruleTester.run("dot-notation", rule, {
             "    .catch(function(){});",
             errors: [
                 {
-                    message: "[\"catch\"] is better written in dot notation.",
+                    messageId: "useDot",
+                    data: { key: "catch" },
                     line: 3,
                     column: 6
                 },
                 {
-                    message: "[\"catch\"] is better written in dot notation.",
+                    messageId: "useDot",
+                    data: { key: "catch" },
                     line: 5,
                     column: 6
                 }
@@ -141,59 +144,59 @@ ruleTester.run("dot-notation", rule, {
             "foo\n" +
             "  [\"while\"];",
             options: [{ allowKeywords: false }],
-            errors: [{ message: ".while is a syntax error." }]
+            errors: [{ messageId: "useBrackets", data: { key: "while" } }]
         },
         {
             code: "foo[ /* comment */ 'bar' ]",
             output: null, // Not fixed due to comment
-            errors: [{ message: "[\"bar\"] is better written in dot notation." }]
+            errors: [{ messageId: "useDot", data: { key: "bar" } }]
         },
         {
             code: "foo[ 'bar' /* comment */ ]",
             output: null, // Not fixed due to comment
-            errors: [{ message: "[\"bar\"] is better written in dot notation." }]
+            errors: [{ messageId: "useDot", data: { key: "bar" } }]
         },
         {
             code: "foo[    'bar'    ];",
             output: "foo.bar;",
-            errors: [{ message: "[\"bar\"] is better written in dot notation." }]
+            errors: [{ messageId: "useDot", data: { key: "bar" } }]
         },
         {
             code: "foo. /* comment */ while",
             output: null, // Not fixed due to comment
             options: [{ allowKeywords: false }],
-            errors: [{ message: ".while is a syntax error." }]
+            errors: [{ messageId: "useBrackets", data: { key: "while" } }]
         },
         {
             code: "foo[('bar')]",
             output: "foo.bar",
-            errors: [{ message: "[\"bar\"] is better written in dot notation." }]
+            errors: [{ messageId: "useDot", data: { key: "bar" } }]
         },
         {
             code: "foo[(null)]",
             output: "foo.null",
-            errors: [{ message: "[null] is better written in dot notation." }]
+            errors: [{ messageId: "useDot", data: { key: "null" } }]
         },
         {
             code: "(foo)['bar']",
             output: "(foo).bar",
-            errors: [{ message: "[\"bar\"] is better written in dot notation." }]
+            errors: [{ messageId: "useDot", data: { key: "bar" } }]
         },
         {
             code: "1['toString']",
             output: "1 .toString",
-            errors: [{ message: "[\"toString\"] is better written in dot notation." }]
+            errors: [{ messageId: "useDot", data: { key: "toString" } }]
         },
         {
             code: "foo['bar']instanceof baz",
             output: "foo.bar instanceof baz",
-            errors: [{ message: "[\"bar\"] is better written in dot notation." }]
+            errors: [{ messageId: "useDot", data: { key: "bar" } }]
         },
         {
             code: "let.if()",
             output: null, // `let["if"]()` is a syntax error because `let[` indicates a destructuring variable declaration
             options: [{ allowKeywords: false }],
-            errors: [{ message: ".if is a syntax error." }]
+            errors: [{ messageId: "useBrackets", data: { key: "if" } }]
         }
     ]
 });
