@@ -34,10 +34,10 @@ ruleTester.run("lines-between-class-methods", rule, {
         "class foo{ bar(){}\n\nbaz(){}}",
         { code: "class foo{ bar(){}\nbaz(){}}", options: ["never"] },
         { code: "class foo{ bar(){}\n\nbaz(){}}", options: ["always"] },
-        { code: "class foo{ bar(){\n}\n\nbaz(){}}", options: [{ multiLine: "always" }] },
-        { code: "class foo{ bar(){\n}\nbaz(){}}", options: [{ multiLine: "never" }] },
-        { code: "class foo{ bar(){}\n\nbaz(){}}", options: [{ singleLine: "always" }] },
-        { code: "class foo{ bar(){}\nbaz(){}}", options: [{ singleLine: "never" }] }
+        { code: "class foo{ bar(){\n}\n\nbaz(){}}", options: [{ multiline: "always" }] },
+        { code: "class foo{ bar(){\n}\nbaz(){}}", options: [{ multiline: "never" }] },
+        { code: "class foo{ bar(){}\n\nbaz(){}}", options: [{ singleline: "always" }] },
+        { code: "class foo{ bar(){}\nbaz(){}}", options: [{ singleline: "never" }] }
     ],
     invalid: [
         {
@@ -52,22 +52,22 @@ ruleTester.run("lines-between-class-methods", rule, {
         }, {
             code: "class foo{ bar(){\n}\nbaz(){}}",
             output: "class foo{ bar(){\n}\n\nbaz(){}}",
-            options: [{ multiLine: "always" }],
+            options: [{ multiline: "always" }],
             errors: [{ message: ALWAYS_MESSAGE }]
         }, {
             code: "class foo{ bar(){\n}\n\nbaz(){}}",
             output: "class foo{ bar(){\n}\nbaz(){}}",
-            options: [{ multiLine: "never" }],
+            options: [{ multiline: "never" }],
             errors: [{ message: NEVER_MESSAGE }]
         }, {
             code: "class foo{ bar(){}\nbaz(){}}",
             output: "class foo{ bar(){}\n\nbaz(){}}",
-            options: [{ singleLine: "always" }],
+            options: [{ singleline: "always" }],
             errors: [{ message: ALWAYS_MESSAGE }]
         }, {
             code: "class foo{ bar(){}\n\nbaz(){}}",
             output: "class foo{ bar(){}\nbaz(){}}",
-            options: [{ singleLine: "never" }],
+            options: [{ singleline: "never" }],
             errors: [{ message: NEVER_MESSAGE }]
         }
     ]
