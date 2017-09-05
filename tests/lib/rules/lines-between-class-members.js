@@ -47,10 +47,14 @@ ruleTester.run("lines-between-class-methods", rule, {
         { code: "class foo{ bar(){\n}\n\nbaz(){}}", options: [{ multiline: "always" }] },
         { code: "class foo{ bar(){\n}\n\n/*comments*/baz(){}}", options: [{ multiline: "always" }] },
         { code: "class foo{ bar(){\n}\n\n//comments\nbaz(){}}", options: [{ multiline: "always" }] },
+        { code: "class foo{ bar(){}\nbaz(){}}", options: [{ multiline: "always" }] },
+        { code: "class foo{ bar(){}\n\nbaz(){}}", options: [{ multiline: "always" }] },
 
         { code: "class foo{ bar(){\n}\nbaz(){}}", options: [{ multiline: "never" }] },
         { code: "class foo{ bar(){\n}\n/*comments*/baz(){}}", options: [{ multiline: "never" }] },
         { code: "class foo{ bar(){\n}\n//comments\nbaz(){}}", options: [{ multiline: "never" }] },
+        { code: "class foo{ bar(){}\nbaz(){}}", options: [{ multiline: "never" }] },
+        { code: "class foo{ bar(){}\n\nbaz(){}}", options: [{ multiline: "never" }] },
 
         { code: "class foo{ bar(){}\n\nbaz(){}}", options: [{ singleline: "always" }] },
         { code: "class foo{ bar(){}\n\n/*comments*/baz(){}}", options: [{ singleline: "always" }] },
@@ -148,6 +152,16 @@ ruleTester.run("lines-between-class-methods", rule, {
             output: "class foo{ bar(){}\n//comments\nbaz(){}}",
             options: [{ singleline: "never" }],
             errors: [{ message: NEVER_MESSAGE }]
+        }, {
+            code: "class foo{ bar(){\n}\nbaz(){}\n\nfn(){}}",
+            output: "class foo{ bar(){\n}\n\nbaz(){}\nfn(){}}",
+            options: [{ multiline: "always", singleline: "never" }],
+            errors: [{ message: ALWAYS_MESSAGE }, { message: NEVER_MESSAGE }]
+        }, {
+            code: "class foo{ bar(){\n}\n\nbaz(){}\nfn(){}}",
+            output: "class foo{ bar(){\n}\nbaz(){}\n\nfn(){}}",
+            options: [{ multiline: "never", singleline: "always" }],
+            errors: [{ message: NEVER_MESSAGE }, { message: ALWAYS_MESSAGE }]
         }
     ]
 });

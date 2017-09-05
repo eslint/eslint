@@ -1,6 +1,6 @@
 # enforce lines between class members (lines-between-class-members)
 
-This rule is to improve readability by enforce lines between class methods.
+This rule improves readability by enforcing lines between class members.
 
 ## Rule Details
 
@@ -44,10 +44,10 @@ String option:
 
 Object option:
 
-* `"multiline": always` requires line breaks if the method is multiline
-* `"multiline": never` disallow line breaks if the method is multiline
-* `"singleline": always` requires line breaks if the method is singleline
-* `"singleline": never` disallow line breaks if the method is singleline
+* `"multiline": "always"` requires line breaks if the method is multiline
+* `"multiline": "never"` disallow line breaks if the method is multiline
+* `"singleline": "always"` requires line breaks if the method is singleline
+* `"singleline": "never"` disallow line breaks if the method is singleline
 
 Examples of **incorrect** code for this rule with the string option:
 
