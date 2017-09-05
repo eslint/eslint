@@ -180,7 +180,7 @@ describe("Plugins", () => {
                 };
                 StubbedPlugins.load("@scope/eslint-plugin-example");
 
-                assert.equal(rules.get("example/foo"), null);
+                assert.isFalse(rules.getAllLoadedRules().has("example/foo"));
             });
         });
     });
