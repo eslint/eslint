@@ -908,17 +908,14 @@ describe("Linter", () => {
         }
 
         it("should pass parser as parserPath to all rules when default parser is used", () => {
+            const spy = sandbox.spy(context => {
+                assert.strictEqual(context.parserPath, "espree");
+                return {};
+            });
 
-            const DEFAULT_PARSER = linter.defaults().parser;
-
-            linter.reset();
-            linter.defineRule("test-rule", sandbox.mock().withArgs(
-                sinon.match({ parserPath: DEFAULT_PARSER })
-            ).returns({}));
-
-            const config = { rules: { "test-rule": 2 } };
-
-            linter.verify("0", config, filename);
+            linter.defineRule("test-rule", spy);
+            linter.verify("0", { rules: { "test-rule": 2 } });
+            assert(spy.calledOnce);
         });
 
     });
@@ -2386,14 +2383,6 @@ describe("Linter", () => {
             assert.throws(() => {
                 linter.verify(code, { rules: { foobar: null } });
             }, /Invalid config for rule 'foobar'\./);
-        });
-    });
-
-    describe("when calling defaults", () => {
-        it("should return back config object", () => {
-            const config = linter.defaults();
-
-            assert.isNotNull(config.rules);
         });
     });
 
