@@ -1,5 +1,5 @@
 /**
- * @fileoverview Tests for lines-between-class-methods rule.
+ * @fileoverview Tests for lines-between-class-members rule.
  * @author 薛定谔的猫<hh_2013@foxmail.com>
  */
 

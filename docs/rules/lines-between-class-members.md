@@ -1,4 +1,4 @@
-# enforce lines between class methods (lines-between-class-members)
+# enforce lines between class members (lines-between-class-members)
 
 This rule is to improve readability by enforce lines between class methods.
 
@@ -7,7 +7,7 @@ This rule is to improve readability by enforce lines between class methods.
 Examples of **incorrect** code for this rule:
 
 ```js
-/* eslint lines-between-class-methods: ["error", "always"]*/
+/* eslint lines-between-class-members: ["error", "always"]*/
 class MyClass {
   foo() {
     //...
@@ -21,7 +21,7 @@ class MyClass {
 Examples of **correct** code for this rule:
 
 ```js
-/* eslint lines-between-class-methods: ["error", "always"]*/
+/* eslint lines-between-class-members: ["error", "always"]*/
 class MyClass {
   foo() {
     //...
@@ -52,13 +52,13 @@ Object option:
 Examples of **incorrect** code for this rule with the string option:
 
 ```js
-/* eslint lines-between-class-methods: ["error", "always"]*/
+/* eslint lines-between-class-members: ["error", "always"]*/
 class Foo{
   bar(){}
   baz(){}
 }
 
-/* eslint lines-between-class-methods: ["error", "never"]*/
+/* eslint lines-between-class-members: ["error", "never"]*/
 class Foo{
   bar(){}
 
@@ -69,14 +69,14 @@ class Foo{
 Examples of **correct** code for this rule with the string option:
 
 ```js
-/* eslint lines-between-class-methods: ["error", "always"]*/
+/* eslint lines-between-class-members: ["error", "always"]*/
 class Foo{
   bar(){}
 
   baz(){}
 }
 
-/* eslint lines-between-class-methods: ["error", "never"]*/
+/* eslint lines-between-class-members: ["error", "never"]*/
 class Foo{
   bar(){}
   baz(){}
@@ -86,7 +86,7 @@ class Foo{
 Examples of **incorrect** code for this rule with the object option:
 
 ```js
-/* eslint lines-between-class-methods: ["error", { multiline: "always" }]*/
+/* eslint lines-between-class-members: ["error", { multiline: "always" }]*/
 class Foo{
   bar(){
     bar();
@@ -94,7 +94,7 @@ class Foo{
   baz(){}
 }
 
-/* eslint lines-between-class-methods: ["error", { multiline: "never" }]*/
+/* eslint lines-between-class-members: ["error", { multiline: "never" }]*/
 class Foo{
   bar(){
     bar();
@@ -103,13 +103,13 @@ class Foo{
   baz(){}
 }
 
-/* eslint lines-between-class-methods: ["error", { singleline: "always" }]*/
+/* eslint lines-between-class-members: ["error", { singleline: "always" }]*/
 class Foo{
   bar(){}
   baz(){}
 }
 
-/* eslint lines-between-class-methods: ["error", { singleline: "never" }]*/
+/* eslint lines-between-class-members: ["error", { singleline: "never" }]*/
 class Foo{
   bar(){}
 
@@ -120,7 +120,7 @@ class Foo{
 Examples of **correct** code for this rule with the object option:
 
 ```js
-/* eslint lines-between-class-methods: ["error", { multiline: "always" }]*/
+/* eslint lines-between-class-members: ["error", { multiline: "always" }]*/
 class Foo{
   bar(){
     bar();
@@ -129,7 +129,7 @@ class Foo{
   baz(){}
 }
 
-/* eslint lines-between-class-methods: ["error", { multiline: "never" }]*/
+/* eslint lines-between-class-members: ["error", { multiline: "never" }]*/
 class Foo{
   bar(){
     bar();
@@ -137,14 +137,14 @@ class Foo{
   baz(){}
 }
 
-/* eslint lines-between-class-methods: ["error", { singleline: "always" }]*/
+/* eslint lines-between-class-members: ["error", { singleline: "always" }]*/
 class Foo{
   bar(){}
 
   baz(){}
 }
 
-/* eslint lines-between-class-methods: ["error", { singleline: "never" }]*/
+/* eslint lines-between-class-members: ["error", { singleline: "never" }]*/
 class Foo{
   bar(){}
   baz(){}
