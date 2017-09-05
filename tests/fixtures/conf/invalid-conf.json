@@ -1,0 +1,6 @@
+// invalid: missing commas
+{
+  "type": "Program"
+  "body": []
+  "sourceType": "script"
+}

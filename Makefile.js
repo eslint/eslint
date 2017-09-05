@@ -109,6 +109,19 @@ function getTestFilePatterns() {
     }, ["tests/lib/rules/**/*.js", "tests/lib/*.js", "tests/templates/*.js", "tests/bin/**/*.js", "tests/tools/*.js"]).join(" ");
 }
 
+// going to export methods for unit test
+// is there downsides to this such as privacy concerns and what's revealed
+// does this change other functionality
+module.exports = {
+    getTestFilePatterns,
+    validateJsonFile,
+    fileType,
+    parentDirectory,
+    generateRulesIndex,
+    execSilent,
+    generateBlogPost
+};
+
 /**
  * Simple JSON file validation that relies on ES JSON parser.
  * @param {string} filePath Path to JSON.
@@ -132,6 +145,17 @@ function fileType(extension) {
         return filename.slice(filename.lastIndexOf(".") + 1) === extension;
     };
 }
+/**
+ * Generates a function that matches files with a particular parent directory.
+ * @param {string} dirName The parent directory (i.e. "rules")
+ * @returns {Function} The function to pass into a filter method.
+ * @private
+ */
+function parentDirectory(dirName) {
+    return function(filename) {
+        return path.basename(path.dirname(filename)) === dirName;
+    }
+}
 
 /**
  * Generates a static file that includes each rule by name rather than dynamically
@@ -144,10 +168,12 @@ function generateRulesIndex(basedir) {
 
     output += "    var rules = Object.create(null);\n";
 
-    find(`${basedir}rules/`).filter(fileType("js")).forEach(filename => {
-        const basename = path.basename(filename, ".js");
-
-        output += `    rules["${basename}"] = require("./rules/${basename}");\n`;
+    find(`${basedir}rules/`)
+        .filter(filename => parentDirectory("rules")(filename) && fileType("js")(filename))
+        .forEach(filename => {
+            const basename = path.basename(filename, ".js");
+    
+            output += `    rules["${basename}"] = require("./rules/${basename}");\n`;
     });
 
     output += "\n    return rules;\n};";
@@ -166,10 +192,11 @@ function execSilent(cmd) {
 /**
  * Generates a release blog post for eslint.org
  * @param {Object} releaseInfo The release metadata.
+ * * @param {string} blogDirPath The directory path to the project
  * @returns {void}
  * @private
  */
-function generateBlogPost(releaseInfo) {
+function generateBlogPost(releaseInfo, blogDirPath) {
     const ruleList = ls("lib/rules")
 
         // Strip the .js extension
@@ -185,11 +212,10 @@ function generateBlogPost(releaseInfo) {
         now = new Date(),
         month = now.getMonth() + 1,
         day = now.getDate(),
-        filename = `../eslint.github.io/_posts/${now.getFullYear()}-${
+        filename = `${blogDirPath}/_posts/${now.getFullYear()}-${
             month < 10 ? `0${month}` : month}-${
             day < 10 ? `0${day}` : day}-eslint-v${
             releaseInfo.version}-released.md`;
-
     output.to(filename);
 }
 
@@ -291,7 +317,7 @@ function release(ciRelease) {
 
     echo("Generating site");
     target.gensite();
-    generateBlogPost(releaseInfo);
+    generateBlogPost(releaseInfo, "../eslint.github.io");
     publishSite(`v${releaseInfo.version}`);
     echo("Site has been published");
 
@@ -312,7 +338,7 @@ function prerelease(prereleaseId) {
 
     // always write docs into the next major directory (so 2.0.0-alpha.0 writes to 2.0.0)
     target.gensite(semver.inc(releaseInfo.version, "major"));
-    generateBlogPost(releaseInfo);
+    generateBlogPost(releaseInfo, "../eslint.github.io");
     echo("Site has not been pushed, please update blog post and push manually.");
 }
 
