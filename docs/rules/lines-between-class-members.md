@@ -1,4 +1,4 @@
-# enforce lines between class methods (lines-between-class-methods)
+# enforce lines between class methods (lines-between-class-members)
 
 This rule is to improve readability by enforce lines between class methods.
 
