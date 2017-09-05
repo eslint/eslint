@@ -10,7 +10,8 @@
 //------------------------------------------------------------------------------
 
 const assert = require("chai").assert,
-    Rules = require("../../lib/rules");
+    Rules = require("../../lib/rules"),
+    Linter = require("../../lib/linter");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -26,7 +27,7 @@ describe("rules", () => {
     describe("when given an invalid rules directory", () => {
         const code = "invaliddir";
 
-        it("should log an error and exit", () => {
+        it("should throw an error", () => {
             assert.throws(() => {
                 rules.load(code);
             });
@@ -36,8 +37,7 @@ describe("rules", () => {
     describe("when given a valid rules directory", () => {
         const code = "tests/fixtures/rules";
 
-        it("should load rules and not log an error or exit", () => {
-            assert.equal(typeof rules.get("fixture-rule"), "undefined");
+        it("should load rules and not throw an error", () => {
             rules.load(code, process.cwd());
             assert.equal(typeof rules.get("fixture-rule"), "object");
         });
@@ -49,6 +49,43 @@ describe("rules", () => {
 
             rules.define(ruleId, {});
             assert.ok(rules.get(ruleId));
+        });
+    });
+
+    describe("when a rule is not found", () => {
+        it("should return a stub rule that reports an error if the rule is unknown", () => {
+            const stubRule = rules.get("not-defined");
+            const linter = new Linter();
+
+            linter.defineRule("test-rule", stubRule);
+
+            const problems = linter.verify("foo", { rules: { "test-rule": "error" } });
+
+            assert.lengthOf(problems, 1);
+            assert.strictEqual(problems[0].message, "Definition for rule 'not-defined' was not found");
+            assert.strictEqual(problems[0].line, 1);
+            assert.strictEqual(problems[0].column, 1);
+            assert.typeOf(problems[0].endLine, "undefined");
+            assert.typeOf(problems[0].endColumn, "undefined");
+        });
+
+        it("should return a stub rule that lists replacements if a rule is known to have been replaced", () => {
+            const stubRule = rules.get("no-arrow-condition");
+            const linter = new Linter();
+
+            linter.defineRule("test-rule", stubRule);
+
+            const problems = linter.verify("foo", { rules: { "test-rule": "error" } });
+
+            assert.lengthOf(problems, 1);
+            assert.strictEqual(
+                problems[0].message,
+                "Rule 'no-arrow-condition' was removed and replaced by: no-confusing-arrow, no-constant-condition"
+            );
+            assert.strictEqual(problems[0].line, 1);
+            assert.strictEqual(problems[0].column, 1);
+            assert.typeOf(problems[0].endLine, "undefined");
+            assert.typeOf(problems[0].endColumn, "undefined");
         });
     });
 
