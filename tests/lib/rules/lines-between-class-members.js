@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const rule = require("../../../lib/rules/lines-between-class-methods");
+const rule = require("../../../lib/rules/lines-between-class-members");
 const RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------

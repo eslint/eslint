@@ -63,7 +63,7 @@ module.exports = {
         "linebreak-style": "off",
         "lines-around-comment": "off",
         "lines-around-directive": "off",
-        "lines-between-class-methods": "off",
+        "lines-between-class-members": "off",
         "max-depth": "off",
         "max-len": "off",
         "max-lines": "off",
