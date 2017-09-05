@@ -50,6 +50,25 @@ describe("rules", () => {
             rules.define(ruleId, {});
             assert.ok(rules.get(ruleId));
         });
+
+        it("should return the rule as an object with a create() method if the rule was defined as a function", () => {
+
+            /**
+             * A rule that does nothing
+             * @returns {void}
+             */
+            function rule() {}
+            rule.schema = [];
+            rules.define("foo", rule);
+            assert.deepEqual(rules.get("foo"), { create: rule, schema: [] });
+        });
+
+        it("should return the rule as-is if it was defined as an object with a create() method", () => {
+            const rule = { create() {} };
+
+            rules.define("foo", rule);
+            assert.strictEqual(rules.get("foo"), rule);
+        });
     });
 
     describe("when a rule is not found", () => {
@@ -101,7 +120,7 @@ describe("rules", () => {
             rules.importPlugin(customPlugin, pluginName);
 
             assert.isDefined(rules.get("custom-plugin/custom-rule"));
-            assert.equal(rules.get("custom-plugin/custom-rule"), customPlugin.rules["custom-rule"]);
+            assert.equal(rules.get("custom-plugin/custom-rule").create, customPlugin.rules["custom-rule"]);
         });
 
         it("should return custom rules as part of getAllLoadedRules", () => {
@@ -109,7 +128,7 @@ describe("rules", () => {
 
             const allRules = rules.getAllLoadedRules();
 
-            assert.equal(allRules.get("custom-plugin/custom-rule"), customPlugin.rules["custom-rule"]);
+            assert.equal(allRules.get("custom-plugin/custom-rule").create, customPlugin.rules["custom-rule"]);
         });
     });
 
