@@ -10,7 +10,7 @@ ESLint welcomes contributions from everyone and adheres to the [JS Foundation Co
 
 ## [Signing the CLA](https://contribute.jquery.org/cla)
 
-In order to submit code or documentation to an ESLint project, please electronically sign the [Contributor License Agreement](https://contribute.jquery.org/cla). The CLA is you giving us permission to use your contribution.
+In order to submit code or documentation to an ESLint project, you will need to electronically sign our [Contributor License Agreement](https://cla.js.foundation/eslint/eslint). The CLA is you giving us permission to use your contribution.
 
 ## [Bug Reporting](reporting-bugs)
 
