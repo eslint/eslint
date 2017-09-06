@@ -1671,7 +1671,7 @@ describe("Linter", () => {
             assert.equal(messages[1].column, 19);
         });
 
-        it("should not report a violation", () => {
+        it("should report a violation", () => {
 
             const code = [
                 "/*eslint-disable */",
@@ -1687,7 +1687,7 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename);
 
-            assert.equal(messages.length, 0);
+            assert.equal(messages.length, 1);
         });
 
 
@@ -2024,7 +2024,7 @@ describe("Linter", () => {
                 "console.log('test');",
                 "/*eslint-enable */",
 
-                "alert('test');",
+                "alert('test');", // here
                 "console.log('test');", // here
 
                 "/*eslint-enable */",
@@ -2038,16 +2038,19 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename);
 
-            assert.equal(messages.length, 3);
+            assert.equal(messages.length, 4);
 
-            assert.equal(messages[0].ruleId, "no-console");
-            assert.equal(messages[0].line, 7);
+            assert.equal(messages[0].ruleId, "no-alert");
+            assert.equal(messages[0].line, 6);
 
-            assert.equal(messages[1].ruleId, "no-alert");
-            assert.equal(messages[1].line, 9);
+            assert.equal(messages[1].ruleId, "no-console");
+            assert.equal(messages[1].line, 7);
 
-            assert.equal(messages[2].ruleId, "no-console");
-            assert.equal(messages[2].line, 10);
+            assert.equal(messages[2].ruleId, "no-alert");
+            assert.equal(messages[2].line, 9);
+
+            assert.equal(messages[3].ruleId, "no-console");
+            assert.equal(messages[3].line, 10);
 
         });
 
