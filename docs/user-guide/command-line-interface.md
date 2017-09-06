@@ -356,7 +356,10 @@ The resulting configuration file will be created in the current directory.
 
 #### `--fix`
 
-This option instructs ESLint to try to fix as many issues as possible. The fixes are made to the actual files themselves and only the remaining unfixed issues are output. Not all problems are fixable using this option, and this option throws an error when code is piped to ESLint.
+This option instructs ESLint to try to fix as many issues as possible. The fixes are made to the actual files themselves and only the remaining unfixed issues are output. Not all problems are fixable using this option, and the option does not work in these situations:
+
+1. This option throws an error when code is piped to ESLint.
+1. This option has no effect on code that uses a processor, unless the processor opts into allowing autofixes.
 
 #### `--debug`
 
