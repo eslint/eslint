@@ -1761,10 +1761,10 @@ describe("Linter", () => {
                 assert.equal(messages[0].ruleId, "no-alert");
             });
 
-            it("should report a violation", () => {
+            it("should not report a violation", () => {
                 const code = [
-                    "alert('test'); // eslint-disable-line no-alert",
-                    "alert('test'); /*eslint-disable-line no-alert*/" // here
+                    "alert('test'); /* eslint-disable-line no-alert */",
+                    "/*eslint-disable-line no-alert*/ alert('test');"
                 ].join("\n");
                 const config = {
                     rules: {
@@ -1774,9 +1774,7 @@ describe("Linter", () => {
 
                 const messages = linter.verify(code, config, filename);
 
-                assert.equal(messages.length, 1);
-
-                assert.equal(messages[0].ruleId, "no-alert");
+                assert.equal(messages.length, 0);
             });
 
             it("should not report a violation", () => {
