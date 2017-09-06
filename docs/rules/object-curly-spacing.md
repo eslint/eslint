@@ -37,6 +37,8 @@ Object option:
 * `"arraysInObjects": false` disallows spacing inside of braces of objects beginning and/or ending with an array element (applies when the first option is set to `always`)
 * `"objectsInObjects": true` requires spacing inside of braces of objects beginning and/or ending with an object element (applies when the first option is set to `never`)
 * `"objectsInObjects": false` disallows spacing inside of braces of objects beginning and/or ending with an object element (applies when the first option is set to `always`)
+* `"spaceInEmptyObject": "always"`: requires a space inside an empty object literal (`{ }` is valid, `{}` is invalid)
+* `"spaceInEmptyObject": "never"`: disallows a space inside an empty object literal (`{}` is valid, `{ }` is invalid)
 
 ### never
 
@@ -143,6 +145,64 @@ Examples of additional **correct** code for this rule with the `"always", { "obj
 /*eslint object-curly-spacing: ["error", "always", { "objectsInObjects": false }]*/
 
 var obj = { "foo": { "baz": 1, "bar": 2 }};
+```
+
+#### spaceInEmptyObject
+
+Examples of **incorrect** code for this rule with the `{ "spaceInEmptyObject": "always" }` options:
+
+```js
+/*eslint object-curly-spacing: ["error", "never", { "spaceInEmptyObject": "always" }]*/
+
+var obj = {};
+```
+
+```js
+/*eslint object-curly-spacing: ["error", "always", { "spaceInEmptyObject": "always" }]*/
+
+var obj = {};
+```
+
+Examples of **incorrect** code for this rule with the `{ "spaceInEmptyObject": "never" }` options:
+
+```js
+/*eslint object-curly-spacing: ["error", "never", { "spaceInEmptyObject": "never" }]*/
+
+var obj = { };
+```
+
+```js
+/*eslint object-curly-spacing: ["error", "always", { "spaceInEmptyObject": "never" }]*/
+
+var obj = { };
+```
+
+Examples of **correct** code for this rule with the `{ "spaceInEmptyObject": "always" }` options:
+
+```js
+/*eslint object-curly-spacing: ["error", "never", { "spaceInEmptyObject": "always" }]*/
+
+var obj = { };
+```
+
+```js
+/*eslint object-curly-spacing: ["error", "always", { "spaceInEmptyObject": "always" }]*/
+
+var obj = { };
+```
+
+Examples of **correct** code for this rule with the `{ "spaceInEmptyObject": "never" }` options:
+
+```js
+/*eslint object-curly-spacing: ["error", "never", { "spaceInEmptyObject": "never" }]*/
+
+var obj = {};
+```
+
+```js
+/*eslint object-curly-spacing: ["error", "always", { "spaceInEmptyObject": "never" }]*/
+
+var obj = {};
 ```
 
 ## When Not To Use It

@@ -58,6 +58,13 @@ ruleTester.run("object-curly-spacing", rule, {
 
         // always - empty object
         { code: "var foo = {};", options: ["always"] },
+        { code: "var foo = { };", options: ["always"] },
+        { code: "var foo = {};", options: ["always", { spaceInEmptyObject: "never" }] },
+        { code: "var foo = { };", options: ["always", { spaceInEmptyObject: "always" }] },
+        { code: "var foo = {/* there is no space but there is a comment */};", options: ["always", { spaceInEmptyObject: "always" }] },
+        { code: "var foo = { /* comments surrounded by spaces */ };", options: ["always", { spaceInEmptyObject: "always" }] },
+        { code: "var foo = {\n};", options: ["always", { spaceInEmptyObject: "always" }] },
+        { code: "var foo = {  \r\n \t };", options: ["always", { spaceInEmptyObject: "always" }] },
 
         // always - objectsInObjects
         { code: "var obj = { 'foo': { 'bar': 1, 'baz': 2 }};", options: ["always", { objectsInObjects: false }] },
@@ -120,6 +127,13 @@ ruleTester.run("object-curly-spacing", rule, {
 
         // never - empty object
         { code: "var foo = {};", options: ["never"] },
+        { code: "var foo = { };", options: ["never"] },
+        { code: "var foo = {};", options: ["never", { spaceInEmptyObject: "never" }] },
+        { code: "var foo = { };", options: ["never", { spaceInEmptyObject: "always" }] },
+        { code: "var foo = {/* there is no space but there is a comment */};", options: ["never", { spaceInEmptyObject: "never" }] },
+        { code: "var foo = { /* comment surrounded by spaces */ };", options: ["never", { spaceInEmptyObject: "never" }] },
+        { code: "var foo = {\n};", options: ["never", { spaceInEmptyObject: "always" }] },
+        { code: "var foo = { \r\n \t };", options: ["never", { spaceInEmptyObject: "always" }] },
 
         // never - objectsInObjects
         { code: "var obj = {'foo': {'bar': 1, 'baz': 2} };", options: ["never", { objectsInObjects: true }] },
@@ -775,6 +789,43 @@ ruleTester.run("object-curly-spacing", rule, {
                 }
             ],
             parser: resolvePath(__dirname, "../../fixtures/parsers/object-curly-spacing/flow-stub-parser-never-invalid")
+        },
+
+        // spaceInEmptyObject: "never"
+        {
+            code: "var foo = { };",
+            output: "var foo = {};",
+            options: ["never", { spaceInEmptyObject: "never" }],
+            errors: [
+                {
+                    message: "There should be no space after '{'.",
+                    type: "ObjectExpression"
+                }
+            ]
+        },
+        {
+            code: "var foo = {\n};",
+            output: "var foo = {};",
+            options: ["always", { spaceInEmptyObject: "never" }],
+            errors: [
+                {
+                    message: "There should be no space after '{'.",
+                    type: "ObjectExpression"
+                }
+            ]
+        },
+
+        // spaceInEmptyObject: "always"
+        {
+            code: "var foo = {};",
+            output: "var foo = { };",
+            options: ["never", { spaceInEmptyObject: "always" }],
+            errors: [
+                {
+                    message: "A space is required after '{'.",
+                    type: "ObjectExpression"
+                }
+            ]
         }
     ]
 });
