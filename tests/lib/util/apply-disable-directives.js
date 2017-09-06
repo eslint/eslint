@@ -1,5 +1,5 @@
 /**
- * @fileoverview Tests for filter-by-disable-comments
+ * @fileoverview Tests for apply-disable-directives
  * @author Teddy Katz
  */
 
@@ -8,7 +8,7 @@
 const assert = require("chai").assert;
 const applyDisableDirectives = require("../../../lib/util/apply-disable-directives");
 
-describe("comment-reporting-config", () => {
+describe("apply-disable-directives", () => {
     describe("/* eslint-disable */ comments without rules", () => {
         it("keeps problems before the comment on the same line", () => {
             assert.deepEqual(
