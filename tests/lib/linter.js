@@ -469,279 +469,353 @@ describe("Linter", () => {
     });
 
 
-    describe("when calling getScope", () => {
+    describe("when calling context.getScope", () => {
         const code = "function foo() { q: for(;;) { break q; } } function bar () { var q = t; } var baz = (() => { return 1; });";
 
         it("should retrieve the global scope correctly from a Program", () => {
             const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } };
-            const spy = sandbox.spy(() => {
-                const scope = linter.getScope();
+            let spy;
 
-                assert.equal(scope.type, "global");
+            linter.defineRule("checker", context => {
+                spy = sandbox.spy(() => {
+                    const scope = context.getScope();
+
+                    assert.equal(scope.type, "global");
+                });
+                return { Program: spy };
             });
 
-            linter.defineRule("checker", () => ({ Program: spy }));
-
             linter.verify(code, config);
-            assert(spy.calledOnce);
+            assert(spy && spy.calledOnce);
         });
 
         it("should retrieve the function scope correctly from a FunctionDeclaration", () => {
             const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } };
-            const spy = sandbox.spy(() => {
-                const scope = linter.getScope();
+            let spy;
 
-                assert.equal(scope.type, "function");
+            linter.defineRule("checker", context => {
+                spy = sandbox.spy(() => {
+                    const scope = context.getScope();
+
+                    assert.equal(scope.type, "function");
+                });
+                return { FunctionDeclaration: spy };
             });
 
-            linter.defineRule("checker", () => ({ FunctionDeclaration: spy }));
-
             linter.verify(code, config);
-            assert(spy.calledTwice);
+            assert(spy && spy.calledTwice);
         });
 
         it("should retrieve the function scope correctly from a LabeledStatement", () => {
             const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } };
-            const spy = sandbox.spy(() => {
-                const scope = linter.getScope();
+            let spy;
 
-                assert.equal(scope.type, "function");
-                assert.equal(scope.block.id.name, "foo");
+            linter.defineRule("checker", context => {
+                spy = sandbox.spy(() => {
+                    const scope = context.getScope();
+
+                    assert.equal(scope.type, "function");
+                    assert.equal(scope.block.id.name, "foo");
+                });
+                return { LabeledStatement: spy };
             });
 
-            linter.defineRule("checker", () => ({ LabeledStatement: spy }));
-
             linter.verify(code, config);
-            assert(spy.calledOnce);
+            assert(spy && spy.calledOnce);
         });
 
         it("should retrieve the function scope correctly from within an ArrowFunctionExpression", () => {
             const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } };
-            const spy = sandbox.spy(() => {
-                const scope = linter.getScope();
+            let spy;
 
-                assert.equal(scope.type, "function");
-                assert.equal(scope.block.type, "ArrowFunctionExpression");
+            linter.defineRule("checker", context => {
+                spy = sandbox.spy(() => {
+                    const scope = context.getScope();
+
+                    assert.equal(scope.type, "function");
+                    assert.equal(scope.block.type, "ArrowFunctionExpression");
+                });
+
+                return { ReturnStatement: spy };
             });
 
-            linter.defineRule("checker", () => ({ ReturnStatement: spy }));
-
             linter.verify(code, config);
-            assert(spy.calledOnce);
+            assert(spy && spy.calledOnce);
         });
 
         it("should retrieve the function scope correctly from within an SwitchStatement", () => {
             const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } };
-            const spy = sandbox.spy(() => {
-                const scope = linter.getScope();
+            let spy;
 
-                assert.equal(scope.type, "switch");
-                assert.equal(scope.block.type, "SwitchStatement");
+            linter.defineRule("checker", context => {
+                spy = sandbox.spy(() => {
+                    const scope = context.getScope();
+
+                    assert.equal(scope.type, "switch");
+                    assert.equal(scope.block.type, "SwitchStatement");
+                });
+
+                return { SwitchStatement: spy };
             });
 
-            linter.defineRule("checker", () => ({ SwitchStatement: spy }));
-
             linter.verify("switch(foo){ case 'a': var b = 'foo'; }", config);
-            assert(spy.calledOnce);
+            assert(spy && spy.calledOnce);
         });
 
         it("should retrieve the function scope correctly from within a BlockStatement", () => {
             const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } };
-            const spy = sandbox.spy(() => {
-                const scope = linter.getScope();
+            let spy;
 
-                assert.equal(scope.type, "block");
-                assert.equal(scope.block.type, "BlockStatement");
+            linter.defineRule("checker", context => {
+                spy = sandbox.spy(() => {
+                    const scope = context.getScope();
+
+                    assert.equal(scope.type, "block");
+                    assert.equal(scope.block.type, "BlockStatement");
+                });
+
+                return { BlockStatement: spy };
             });
 
-            linter.defineRule("checker", () => ({ BlockStatement: spy }));
-
             linter.verify("var x; {let y = 1}", config);
-            assert(spy.calledOnce);
+            assert(spy && spy.calledOnce);
         });
 
         it("should retrieve the function scope correctly from within a nested block statement", () => {
             const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } };
-            const spy = sandbox.spy(() => {
-                const scope = linter.getScope();
+            let spy;
 
-                assert.equal(scope.type, "block");
-                assert.equal(scope.block.type, "BlockStatement");
+            linter.defineRule("checker", context => {
+                spy = sandbox.spy(() => {
+                    const scope = context.getScope();
+
+                    assert.equal(scope.type, "block");
+                    assert.equal(scope.block.type, "BlockStatement");
+                });
+
+                return { BlockStatement: spy };
             });
 
-            linter.defineRule("checker", () => ({ BlockStatement: spy }));
             linter.verify("if (true) { let x = 1 }", config);
-            assert(spy.calledOnce);
+            assert(spy && spy.calledOnce);
         });
 
         it("should retrieve the function scope correctly from within a FunctionDeclaration", () => {
             const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } };
-            const spy = sandbox.spy(() => {
-                const scope = linter.getScope();
+            let spy;
 
-                assert.equal(scope.type, "function");
-                assert.equal(scope.block.type, "FunctionDeclaration");
+            linter.defineRule("checker", context => {
+                spy = sandbox.spy(() => {
+                    const scope = context.getScope();
+
+                    assert.equal(scope.type, "function");
+                    assert.equal(scope.block.type, "FunctionDeclaration");
+                });
+
+                return { FunctionDeclaration: spy };
             });
 
-            linter.defineRule("checker", () => ({ FunctionDeclaration: spy }));
             linter.verify("function foo() {}", config);
-            assert(spy.calledOnce);
+            assert(spy && spy.calledOnce);
         });
 
         it("should retrieve the function scope correctly from within a FunctionExpression", () => {
             const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } };
-            const spy = sandbox.spy(() => {
-                const scope = linter.getScope();
+            let spy;
 
-                assert.equal(scope.type, "function");
-                assert.equal(scope.block.type, "FunctionExpression");
+            linter.defineRule("checker", context => {
+                spy = sandbox.spy(() => {
+                    const scope = context.getScope();
+
+                    assert.equal(scope.type, "function");
+                    assert.equal(scope.block.type, "FunctionExpression");
+                });
+
+                return { FunctionExpression: spy };
             });
 
-            linter.defineRule("checker", () => ({ FunctionExpression: spy }));
             linter.verify("(function foo() {})();", config);
-            assert(spy.calledOnce);
+            assert(spy && spy.calledOnce);
         });
 
         it("should retrieve the catch scope correctly from within a CatchClause", () => {
             const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } };
-            const spy = sandbox.spy(() => {
-                const scope = linter.getScope();
+            let spy;
 
-                assert.equal(scope.type, "catch");
-                assert.equal(scope.block.type, "CatchClause");
+            linter.defineRule("checker", context => {
+                spy = sandbox.spy(() => {
+                    const scope = context.getScope();
+
+                    assert.equal(scope.type, "catch");
+                    assert.equal(scope.block.type, "CatchClause");
+                });
+
+                return { CatchClause: spy };
             });
 
-            linter.defineRule("checker", () => ({ CatchClause: spy }));
             linter.verify("try {} catch (err) {}", config);
-            assert(spy.calledOnce);
+            assert(spy && spy.calledOnce);
         });
 
         it("should retrieve module scope correctly from an ES6 module", () => {
             const config = { rules: { checker: "error" }, parserOptions: { sourceType: "module" } };
-            const spy = sandbox.spy(() => {
-                const scope = linter.getScope();
+            let spy;
 
-                assert.equal(scope.type, "module");
+            linter.defineRule("checker", context => {
+                spy = sandbox.spy(() => {
+                    const scope = context.getScope();
+
+                    assert.equal(scope.type, "module");
+                });
+
+                return { AssignmentExpression: spy };
             });
 
-            linter.defineRule("checker", () => ({ AssignmentExpression: spy }));
-
             linter.verify("var foo = {}; foo.bar = 1;", config);
-            assert(spy.calledOnce);
+            assert(spy && spy.calledOnce);
         });
 
         it("should retrieve function scope correctly when globalReturn is true", () => {
             const config = { rules: { checker: "error" }, parserOptions: { ecmaFeatures: { globalReturn: true } } };
-            const spy = sandbox.spy(() => {
-                const scope = linter.getScope();
+            let spy;
 
-                assert.equal(scope.type, "function");
+            linter.defineRule("checker", context => {
+                spy = sandbox.spy(() => {
+                    const scope = context.getScope();
+
+                    assert.equal(scope.type, "function");
+                });
+
+                return { AssignmentExpression: spy };
             });
 
-            linter.defineRule("checker", () => ({ AssignmentExpression: spy }));
-
             linter.verify("var foo = {}; foo.bar = 1;", config);
-            assert(spy.calledOnce);
+            assert(spy && spy.calledOnce);
         });
     });
 
     describe("marking variables as used", () => {
         it("should mark variables in current scope as used", () => {
             const code = "var a = 1, b = 2;";
-            const spy = sandbox.spy(() => {
-                assert.isTrue(linter.markVariableAsUsed("a"));
+            let spy;
 
-                const scope = linter.getScope();
+            linter.defineRule("checker", context => {
+                spy = sandbox.spy(() => {
+                    assert.isTrue(context.markVariableAsUsed("a"));
 
-                assert.isTrue(getVariable(scope, "a").eslintUsed);
-                assert.notOk(getVariable(scope, "b").eslintUsed);
+                    const scope = context.getScope();
+
+                    assert.isTrue(getVariable(scope, "a").eslintUsed);
+                    assert.notOk(getVariable(scope, "b").eslintUsed);
+                });
+
+                return { "Program:exit": spy };
             });
 
-            linter.defineRule("checker", () => ({ "Program:exit": spy }));
             linter.verify(code, { rules: { checker: "error" } });
-            assert(spy.calledOnce);
+            assert(spy && spy.calledOnce);
         });
         it("should mark variables in function args as used", () => {
             const code = "function abc(a, b) { return 1; }";
-            const spy = sandbox.spy(() => {
-                assert.isTrue(linter.markVariableAsUsed("a"));
+            let spy;
 
-                const scope = linter.getScope();
+            linter.defineRule("checker", context => {
+                spy = sandbox.spy(() => {
+                    assert.isTrue(context.markVariableAsUsed("a"));
 
-                assert.isTrue(getVariable(scope, "a").eslintUsed);
-                assert.notOk(getVariable(scope, "b").eslintUsed);
+                    const scope = context.getScope();
+
+                    assert.isTrue(getVariable(scope, "a").eslintUsed);
+                    assert.notOk(getVariable(scope, "b").eslintUsed);
+                });
+
+                return { ReturnStatement: spy };
             });
 
-            linter.defineRule("checker", () => ({ ReturnStatement: spy }));
-
-
             linter.verify(code, { rules: { checker: "error" } });
-            assert(spy.calledOnce);
+            assert(spy && spy.calledOnce);
         });
         it("should mark variables in higher scopes as used", () => {
             const code = "var a, b; function abc() { return 1; }";
-            const returnSpy = sandbox.spy(() => {
-                assert.isTrue(linter.markVariableAsUsed("a"));
-            });
-            const exitSpy = sandbox.spy(() => {
-                const scope = linter.getScope();
+            let returnSpy, exitSpy;
 
-                assert.isTrue(getVariable(scope, "a").eslintUsed);
-                assert.notOk(getVariable(scope, "b").eslintUsed);
-            });
+            linter.defineRule("checker", context => {
+                returnSpy = sandbox.spy(() => {
+                    assert.isTrue(context.markVariableAsUsed("a"));
+                });
+                exitSpy = sandbox.spy(() => {
+                    const scope = context.getScope();
 
-            linter.defineRule("checker", () => ({ ReturnStatement: returnSpy, "Program:exit": exitSpy }));
+                    assert.isTrue(getVariable(scope, "a").eslintUsed);
+                    assert.notOk(getVariable(scope, "b").eslintUsed);
+                });
+
+                return { ReturnStatement: returnSpy, "Program:exit": exitSpy };
+            });
 
             linter.verify(code, { rules: { checker: "error" } });
-            assert(returnSpy.calledOnce);
-            assert(exitSpy.calledOnce);
+            assert(returnSpy && returnSpy.calledOnce);
+            assert(exitSpy && exitSpy.calledOnce);
         });
 
         it("should mark variables in Node.js environment as used", () => {
             const code = "var a = 1, b = 2;";
-            const spy = sandbox.spy(() => {
-                const globalScope = linter.getScope(),
-                    childScope = globalScope.childScopes[0];
+            let spy;
 
-                assert.isTrue(linter.markVariableAsUsed("a"));
+            linter.defineRule("checker", context => {
+                spy = sandbox.spy(() => {
+                    const globalScope = context.getScope(),
+                        childScope = globalScope.childScopes[0];
 
-                assert.isTrue(getVariable(childScope, "a").eslintUsed);
-                assert.isUndefined(getVariable(childScope, "b").eslintUsed);
+                    assert.isTrue(context.markVariableAsUsed("a"));
+
+                    assert.isTrue(getVariable(childScope, "a").eslintUsed);
+                    assert.isUndefined(getVariable(childScope, "b").eslintUsed);
+                });
+
+                return { "Program:exit": spy };
             });
 
-            linter.defineRule("checker", () => ({ "Program:exit": spy }));
-
             linter.verify(code, { rules: { checker: "error" }, env: { node: true } });
-            assert(spy.calledOnce);
+            assert(spy && spy.calledOnce);
         });
 
         it("should mark variables in modules as used", () => {
             const code = "var a = 1, b = 2;";
-            const spy = sandbox.spy(() => {
-                const globalScope = linter.getScope(),
-                    childScope = globalScope.childScopes[0];
+            let spy;
 
-                assert.isTrue(linter.markVariableAsUsed("a"));
+            linter.defineRule("checker", context => {
+                spy = sandbox.spy(() => {
+                    const globalScope = context.getScope(),
+                        childScope = globalScope.childScopes[0];
 
-                assert.isTrue(getVariable(childScope, "a").eslintUsed);
-                assert.isUndefined(getVariable(childScope, "b").eslintUsed);
+                    assert.isTrue(context.markVariableAsUsed("a"));
+
+                    assert.isTrue(getVariable(childScope, "a").eslintUsed);
+                    assert.isUndefined(getVariable(childScope, "b").eslintUsed);
+                });
+
+                return { "Program:exit": spy };
             });
 
-            linter.defineRule("checker", () => ({ "Program:exit": spy }));
             linter.verify(code, { rules: { checker: "error" }, parserOptions: { sourceType: "module" } }, filename, true);
-            assert(spy.calledOnce);
+            assert(spy && spy.calledOnce);
         });
 
         it("should return false if the given variable is not found", () => {
             const code = "var a = 1, b = 2;";
-            const spy = sandbox.spy(() => {
-                assert.isFalse(linter.markVariableAsUsed("c"));
+            let spy;
+
+            linter.defineRule("checker", context => {
+                spy = sandbox.spy(() => {
+                    assert.isFalse(context.markVariableAsUsed("c"));
+                });
+
+                return { "Program:exit": spy };
             });
 
-            linter.defineRule("checker", () => ({ "Program:exit": spy }));
-
             linter.verify(code, { rules: { checker: "error" } });
-            assert(spy.calledOnce);
+            assert(spy && spy.calledOnce);
         });
     });
 
@@ -1032,26 +1106,31 @@ describe("Linter", () => {
 
         it("variables should be available in global scope", () => {
             const config = { rules: { checker: "error" } };
-            const spy = sandbox.spy(() => {
-                const scope = linter.getScope();
-                const a = getVariable(scope, "a"),
-                    b = getVariable(scope, "b"),
-                    c = getVariable(scope, "c"),
-                    d = getVariable(scope, "d");
+            let spy;
 
-                assert.equal(a.name, "a");
-                assert.equal(a.writeable, false);
-                assert.equal(b.name, "b");
-                assert.equal(b.writeable, true);
-                assert.equal(c.name, "c");
-                assert.equal(c.writeable, false);
-                assert.equal(d.name, "d");
-                assert.equal(d.writeable, true);
+            linter.defineRule("checker", context => {
+                spy = sandbox.spy(() => {
+                    const scope = context.getScope();
+                    const a = getVariable(scope, "a"),
+                        b = getVariable(scope, "b"),
+                        c = getVariable(scope, "c"),
+                        d = getVariable(scope, "d");
+
+                    assert.equal(a.name, "a");
+                    assert.equal(a.writeable, false);
+                    assert.equal(b.name, "b");
+                    assert.equal(b.writeable, true);
+                    assert.equal(c.name, "c");
+                    assert.equal(c.writeable, false);
+                    assert.equal(d.name, "d");
+                    assert.equal(d.writeable, true);
+                });
+
+                return { Program: spy };
             });
 
-            linter.defineRule("checker", () => ({ Program: spy }));
             linter.verify(code, config);
-            assert(spy.calledOnce);
+            assert(spy && spy.calledOnce);
         });
     });
 
@@ -1060,23 +1139,28 @@ describe("Linter", () => {
 
         it("variables should be available in global scope", () => {
             const config = { rules: { checker: "error" } };
-            const spy = sandbox.spy(() => {
-                const scope = linter.getScope(),
-                    a = getVariable(scope, "a"),
-                    b = getVariable(scope, "b"),
-                    c = getVariable(scope, "c");
+            let spy;
 
-                assert.equal(a.name, "a");
-                assert.equal(a.writeable, false);
-                assert.equal(b.name, "b");
-                assert.equal(b.writeable, true);
-                assert.equal(c.name, "c");
-                assert.equal(c.writeable, false);
+            linter.defineRule("checker", context => {
+                spy = sandbox.spy(() => {
+                    const scope = context.getScope(),
+                        a = getVariable(scope, "a"),
+                        b = getVariable(scope, "b"),
+                        c = getVariable(scope, "c");
+
+                    assert.equal(a.name, "a");
+                    assert.equal(a.writeable, false);
+                    assert.equal(b.name, "b");
+                    assert.equal(b.writeable, true);
+                    assert.equal(c.name, "c");
+                    assert.equal(c.writeable, false);
+                });
+
+                return { Program: spy };
             });
 
-            linter.defineRule("checker", () => ({ Program: spy }));
             linter.verify(code, config);
-            assert(spy.calledOnce);
+            assert(spy && spy.calledOnce);
         });
     });
 
@@ -1084,18 +1168,23 @@ describe("Linter", () => {
         it("variables should be available in global scope", () => {
             const code = "/*eslint-env node*/ function f() {} /*eslint-env browser, foo*/";
             const config = { rules: { checker: "error" } };
-            const spy = sandbox.spy(() => {
-                const scope = linter.getScope(),
-                    exports = getVariable(scope, "exports"),
-                    window = getVariable(scope, "window");
+            let spy;
 
-                assert.equal(exports.writeable, true);
-                assert.equal(window.writeable, false);
+            linter.defineRule("checker", context => {
+                spy = sandbox.spy(() => {
+                    const scope = context.getScope(),
+                        exports = getVariable(scope, "exports"),
+                        window = getVariable(scope, "window");
+
+                    assert.equal(exports.writeable, true);
+                    assert.equal(window.writeable, false);
+                });
+
+                return { Program: spy };
             });
 
-            linter.defineRule("checker", () => ({ Program: spy }));
             linter.verify(code, config);
-            assert(spy.calledOnce);
+            assert(spy && spy.calledOnce);
         });
     });
 
@@ -1104,18 +1193,23 @@ describe("Linter", () => {
 
         it("variables should be available in global scope", () => {
             const config = { rules: { checker: "error" } };
-            const spy = sandbox.spy(() => {
-                const scope = linter.getScope(),
-                    exports = getVariable(scope, "exports"),
-                    window = getVariable(scope, "window");
+            let spy;
 
-                assert.equal(exports.writeable, true);
-                assert.equal(window, null);
+            linter.defineRule("checker", context => {
+                spy = sandbox.spy(() => {
+                    const scope = context.getScope(),
+                        exports = getVariable(scope, "exports"),
+                        window = getVariable(scope, "window");
+
+                    assert.equal(exports.writeable, true);
+                    assert.equal(window, null);
+                });
+
+                return { Program: spy };
             });
 
-            linter.defineRule("checker", () => ({ Program: spy }));
             linter.verify(code, config);
-            assert(spy.calledOnce);
+            assert(spy && spy.calledOnce);
         });
     });
 
@@ -1131,77 +1225,101 @@ describe("Linter", () => {
         it("variables should be exported", () => {
             const code = "/* exported horse */\n\nvar horse = 'circus'";
             const config = { rules: { checker: "error" } };
-            const spy = sandbox.spy(() => {
-                const scope = linter.getScope(),
-                    horse = getVariable(scope, "horse");
+            let spy;
 
-                assert.equal(horse.eslintUsed, true);
+            linter.defineRule("checker", context => {
+                spy = sandbox.spy(() => {
+                    const scope = context.getScope(),
+                        horse = getVariable(scope, "horse");
+
+                    assert.equal(horse.eslintUsed, true);
+                });
+
+                return { Program: spy };
             });
 
-            linter.defineRule("checker", () => ({ Program: spy }));
-
             linter.verify(code, config);
-            assert(spy.calledOnce);
+            assert(spy && spy.calledOnce);
         });
 
         it("undefined variables should not be exported", () => {
             const code = "/* exported horse */\n\nhorse = 'circus'";
             const config = { rules: { checker: "error" } };
-            const spy = sandbox.spy(() => {
-                const scope = linter.getScope(),
-                    horse = getVariable(scope, "horse");
+            let spy;
 
-                assert.equal(horse, null);
+            linter.defineRule("checker", context => {
+                spy = sandbox.spy(() => {
+                    const scope = context.getScope(),
+                        horse = getVariable(scope, "horse");
+
+                    assert.equal(horse, null);
+                });
+
+                return { Program: spy };
             });
 
-            linter.defineRule("checker", () => ({ Program: spy }));
             linter.verify(code, config);
-            assert(spy.calledOnce);
+            assert(spy && spy.calledOnce);
         });
 
         it("variables should be exported in strict mode", () => {
             const code = "/* exported horse */\n'use strict';\nvar horse = 'circus'";
             const config = { rules: { checker: "error" } };
-            const spy = sandbox.spy(() => {
-                const scope = linter.getScope(),
-                    horse = getVariable(scope, "horse");
+            let spy;
 
-                assert.equal(horse.eslintUsed, true);
+            linter.defineRule("checker", context => {
+                spy = sandbox.spy(() => {
+                    const scope = context.getScope(),
+                        horse = getVariable(scope, "horse");
+
+                    assert.equal(horse.eslintUsed, true);
+                });
+
+                return { Program: spy };
             });
 
-            linter.defineRule("checker", () => ({ Program: spy }));
             linter.verify(code, config);
-            assert(spy.calledOnce);
+            assert(spy && spy.calledOnce);
         });
 
         it("variables should not be exported in the es6 module environment", () => {
             const code = "/* exported horse */\nvar horse = 'circus'";
             const config = { rules: { checker: "error" }, parserOptions: { sourceType: "module" } };
-            const spy = sandbox.spy(() => {
-                const scope = linter.getScope(),
-                    horse = getVariable(scope, "horse");
+            let spy;
 
-                assert.equal(horse, null); // there is no global scope at all
+            linter.defineRule("checker", context => {
+                spy = sandbox.spy(() => {
+                    const scope = context.getScope(),
+                        horse = getVariable(scope, "horse");
+
+                    assert.equal(horse, null); // there is no global scope at all
+                });
+
+                return { Program: spy };
             });
 
-            linter.defineRule("checker", () => ({ Program: spy }));
             linter.verify(code, config);
-            assert(spy.calledOnce);
+            assert(spy && spy.calledOnce);
         });
 
         it("variables should not be exported when in the node environment", () => {
             const code = "/* exported horse */\nvar horse = 'circus'";
             const config = { rules: { checker: "error" }, env: { node: true } };
-            const spy = sandbox.spy(() => {
-                const scope = linter.getScope(),
-                    horse = getVariable(scope, "horse");
+            let spy;
 
-                assert.equal(horse, null); // there is no global scope at all
+            linter.defineRule("checker", context => {
+                spy = sandbox.spy(() => {
+                    const scope = context.getScope(),
+                        horse = getVariable(scope, "horse");
+
+                    assert.equal(horse, null); // there is no global scope at all
+                });
+
+                return { Program: spy };
             });
 
-            linter.defineRule("checker", () => ({ Program: spy }));
             linter.verify(code, config);
-            assert(spy.calledOnce);
+            assert(spy && spy.calledOnce);
         });
     });
 
@@ -1210,15 +1328,20 @@ describe("Linter", () => {
 
         it("should not introduce a global variable", () => {
             const config = { rules: { checker: "error" } };
-            const spy = sandbox.spy(() => {
-                const scope = linter.getScope();
+            let spy;
 
-                assert.equal(getVariable(scope, "a"), null);
+            linter.defineRule("checker", context => {
+                spy = sandbox.spy(() => {
+                    const scope = context.getScope();
+
+                    assert.equal(getVariable(scope, "a"), null);
+                });
+
+                return { Program: spy };
             });
 
-            linter.defineRule("checker", () => ({ Program: spy }));
             linter.verify(code, config);
-            assert(spy.calledOnce);
+            assert(spy && spy.calledOnce);
         });
     });
 
@@ -1227,18 +1350,23 @@ describe("Linter", () => {
 
         it("should not introduce a global variable", () => {
             const config = { rules: { checker: "error" } };
-            const spy = sandbox.spy(() => {
-                const scope = linter.getScope();
+            let spy;
 
-                assert.equal(getVariable(scope, "a"), null);
-                assert.equal(getVariable(scope, "b"), null);
-                assert.equal(getVariable(scope, "foo"), null);
-                assert.equal(getVariable(scope, "c"), null);
+            linter.defineRule("checker", context => {
+                spy = sandbox.spy(() => {
+                    const scope = context.getScope();
+
+                    assert.equal(getVariable(scope, "a"), null);
+                    assert.equal(getVariable(scope, "b"), null);
+                    assert.equal(getVariable(scope, "foo"), null);
+                    assert.equal(getVariable(scope, "c"), null);
+                });
+
+                return { Program: spy };
             });
 
-            linter.defineRule("checker", () => ({ Program: spy }));
             linter.verify(code, config);
-            assert(spy.calledOnce);
+            assert(spy && spy.calledOnce);
         });
     });
 
@@ -1247,47 +1375,62 @@ describe("Linter", () => {
 
         it("builtin global variables should be available in the global scope", () => {
             const config = { rules: { checker: "error" } };
-            const spy = sandbox.spy(() => {
-                const scope = linter.getScope();
+            let spy;
 
-                assert.notEqual(getVariable(scope, "Object"), null);
-                assert.notEqual(getVariable(scope, "Array"), null);
-                assert.notEqual(getVariable(scope, "undefined"), null);
+            linter.defineRule("checker", context => {
+                spy = sandbox.spy(() => {
+                    const scope = context.getScope();
+
+                    assert.notEqual(getVariable(scope, "Object"), null);
+                    assert.notEqual(getVariable(scope, "Array"), null);
+                    assert.notEqual(getVariable(scope, "undefined"), null);
+                });
+
+                return { Program: spy };
             });
 
-            linter.defineRule("checker", () => ({ Program: spy }));
             linter.verify(code, config);
-            assert(spy.calledOnce);
+            assert(spy && spy.calledOnce);
         });
 
         it("ES6 global variables should not be available by default", () => {
             const config = { rules: { checker: "error" } };
-            const spy = sandbox.spy(() => {
-                const scope = linter.getScope();
+            let spy;
 
-                assert.equal(getVariable(scope, "Promise"), null);
-                assert.equal(getVariable(scope, "Symbol"), null);
-                assert.equal(getVariable(scope, "WeakMap"), null);
+            linter.defineRule("checker", context => {
+                spy = sandbox.spy(() => {
+                    const scope = context.getScope();
+
+                    assert.equal(getVariable(scope, "Promise"), null);
+                    assert.equal(getVariable(scope, "Symbol"), null);
+                    assert.equal(getVariable(scope, "WeakMap"), null);
+                });
+
+                return { Program: spy };
             });
 
-            linter.defineRule("checker", () => ({ Program: spy }));
             linter.verify(code, config);
-            assert(spy.calledOnce);
+            assert(spy && spy.calledOnce);
         });
 
         it("ES6 global variables should be available in the es6 environment", () => {
             const config = { rules: { checker: "error" }, env: { es6: true } };
-            const spy = sandbox.spy(() => {
-                const scope = linter.getScope();
+            let spy;
 
-                assert.notEqual(getVariable(scope, "Promise"), null);
-                assert.notEqual(getVariable(scope, "Symbol"), null);
-                assert.notEqual(getVariable(scope, "WeakMap"), null);
+            linter.defineRule("checker", context => {
+                spy = sandbox.spy(() => {
+                    const scope = context.getScope();
+
+                    assert.notEqual(getVariable(scope, "Promise"), null);
+                    assert.notEqual(getVariable(scope, "Symbol"), null);
+                    assert.notEqual(getVariable(scope, "WeakMap"), null);
+                });
+
+                return { Program: spy };
             });
 
-            linter.defineRule("checker", () => ({ Program: spy }));
             linter.verify(code, config);
-            assert(spy.calledOnce);
+            assert(spy && spy.calledOnce);
         });
     });
 
