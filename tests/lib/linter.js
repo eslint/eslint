@@ -908,14 +908,13 @@ describe("Linter", () => {
         }
 
         it("should pass parser as parserPath to all rules when default parser is used", () => {
-            const spy = sandbox.spy(context => {
-                assert.strictEqual(context.parserPath, "espree");
-                return {};
-            });
+            linter.defineRule("test-rule", sandbox.mock().withArgs(
+                sinon.match({ parserPath: "espree" })
+            ).returns({}));
 
-            linter.defineRule("test-rule", spy);
-            linter.verify("0", { rules: { "test-rule": 2 } });
-            assert(spy.calledOnce);
+            const config = { rules: { "test-rule": 2 } };
+
+            linter.verify("0", config, filename);
         });
 
     });
