@@ -5,15 +5,15 @@
 
 "use strict";
 
-// const childProcess = require("child_process");
-// const fs = require("fs");
 const assert = require("chai").assert;
 const shell = require("shelljs");
+const os = require("os");
+const fs = require("fs");
+
 const find = shell.find;
 const ls = shell.ls;
 const rm = shell.rm;
-const os = require("os");
-const fs = require("fs");
+
 const Makefile = require(`${__dirname}/../Makefile.js`);
 const JSON_FILES = find("conf/").filter(Makefile.fileType("json"));
 
@@ -152,32 +152,61 @@ describe("Makefile.js", () => {
         });
     });
     
-    describe("generateFormmatterExamples", () => {
-    
+    describe("generateFormatterExamples", () => {
+        it("generates a doc page", () => {
+            // Makefile.generateFormatterExamples({formatterResults:{}}, "test-version");
+            // TODO
+            assert.isFalse(false);
+        });
     });
     
     describe("generateRuleIndexPage", () => {
-    
+        it("generate a rules index page", () => {
+            // TODO
+            assert.isFalse(false);
+        });
     });
     
     describe("publishSite", () => {
-    
+        it("commits the change and publishes to github", () => {
+            // TODO
+            // This mutates inside the method; hard to test
+            assert.isFalse(false);
+        });
     });
     
     describe("release", () => {
-    
+        it("creates a release versin tag and pushes to github", () => {
+            // TODO
+            // This mutates inside the method; hard to test
+            assert.isFalse(false);
+        });
     });
     
     describe("prerelease", () => {
-    
+        it("creates a prerelease versin tag and pushes to github", () => {
+            // TODO
+            // This mutates inside the method; hard to test
+            assert.isFalse(false);
+        });    
     });
     
     describe("splitCommandResultToLines", () => {
-    
+        it("splits a command result into separate lines", () => {
+            const nodeVersion = Makefile.execSilent("node --version");
+            const splitCommands = Makefile.splitCommandResultToLines(nodeVersion);
+
+            assert.include(nodeVersion, "\n");
+            assert.isArray(splitCommands);
+            assert.include(splitCommands[0], process.versions.node)
+        });
     });
     
     describe("getFirstCommitOfFile", () => {
-    
+        // TODO
+        // this does returns
+        // it does a commits check based on the filePath
+        // git rev-list which gets commits for the branch you're on or HEAD
     });
     
     describe("getTagOfFirstOccurence", () => {
@@ -193,15 +222,42 @@ describe("Makefile.js", () => {
     });
     
     describe("getBranches", () => {
-    
+        it("returns array of branch names", () => {
+            const branches = Makefile.getBranches();
+
+            // if branch was committed, branches length is at least 1
+            assert.isAbove(branches.length, 1);
+        });
     });
     
     describe("lintMarkdown", () => {
-    
+        const md = `${__dirname}/fixtures/docs/`;
+
+        it("returns code 0 if valid", () => {
+            const validFile = find(md + "valid").concat(ls(".")).filter(Makefile.fileType("md"));
+
+            assert.equal(Makefile.lintMarkdown(validFile).code, 0);
+        });
+
+        it("returns code 1 if a file did not pass linter", () => {
+            const invalidFile = find(md + "invalid").concat(ls(".")).filter(Makefile.fileType("md"));
+
+            assert.equal(Makefile.lintMarkdown(invalidFile).code, 1);
+        });
     });
     
     describe("hasBranch", () => {
-    
+        const currentBranchName = Makefile.execSilent("git rev-parse --abbrev-ref HEAD");
+        Makefile.execSilent("git checkout -b pr/victor_hom_makefile_branch_test");
+        Makefile.execSilent("touch makefile_test.html");
+        Makefile.execSilent("git add makefile_test.html");
+        Makefile.execSilent("git commit -m 'add makefile for has branch test'");
+
+        it ("has branch name", () => {
+            assert.isTrue(Makefile.hasBranch("pr/victor_hom_makefile_branch_test"));
+            console.log("previous branch: ", currentBranchName);
+            assert.isFalse(true);
+        });
     });
     
     describe("getFormatterResults", () => {

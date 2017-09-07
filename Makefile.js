@@ -106,19 +106,6 @@ function getTestFilePatterns() {
     }, ["tests/lib/rules/**/*.js", "tests/lib/*.js", "tests/bin/**/*.js", "tests/tools/**/*.js"]).join(" ");
 }
 
-// going to export methods for unit test
-// is there downsides to this such as privacy concerns and what's revealed
-// does this change other functionality
-module.exports = {
-    getTestFilePatterns,
-    validateJsonFile,
-    fileType,
-    parentDirectory,
-    generateRulesIndex,
-    execSilent,
-    generateBlogPost
-};
-
 /**
  * Simple JSON file validation that relies on ES JSON parser.
  * @param {string} filePath Path to JSON.
@@ -223,10 +210,10 @@ function generateBlogPost(releaseInfo, blogDirPath) {
  *      changes where the output is stored.
  * @returns {void}
  */
-function generateFormatterExamples(formatterInfo, prereleaseVersion) {
+function generateFormatterExamples(formatterInfo, prereleaseVersion, blogDirPath) {
     const output = ejs.render(cat("./templates/formatter-examples.md.ejs"), formatterInfo);
-    let filename = "../eslint.github.io/docs/user-guide/formatters/index.md",
-        htmlFilename = "../eslint.github.io/docs/user-guide/formatters/html-formatter-example.html";
+    let filename = `${blogDirPath}/docs/user-guide/formatters/index.md`,
+        htmlFilename = `${blogDirPath}/docs/user-guide/formatters/html-formatter-example.html`;
 
     if (prereleaseVersion) {
         filename = filename.replace("/docs", `/docs/${prereleaseVersion}`);
@@ -799,7 +786,7 @@ target.gensite = function(prereleaseVersion) {
 
     // 14. Create Example Formatter Output Page
     echo("> Creating the formatter examples (Step 14)");
-    generateFormatterExamples(getFormatterResults(), prereleaseVersion);
+    generateFormatterExamples(getFormatterResults(), prereleaseVersion, "../eslint.github.io");
 
     echo("Done generating eslint.org");
 };
@@ -1143,4 +1130,22 @@ target.publishsite = function() {
 
 target.prerelease = function(args) {
     prerelease(args[0]);
+};
+
+// going to export methods for unit test
+// is there downsides to this such as privacy concerns and what's revealed
+// does this change other functionality
+module.exports = {
+    getTestFilePatterns,
+    validateJsonFile,
+    fileType,
+    parentDirectory,
+    generateRulesIndex,
+    execSilent,
+    generateBlogPost,
+    generateFormatterExamples,
+    splitCommandResultToLines,
+    getBranches,
+    lintMarkdown,
+    hasBranch
 };
