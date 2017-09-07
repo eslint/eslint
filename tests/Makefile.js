@@ -251,11 +251,15 @@ describe("Makefile.js", () => {
         Makefile.execSilent("git checkout -b pr/victor_hom_makefile_branch_test");
         Makefile.execSilent("touch makefile_test.html");
         Makefile.execSilent("git add makefile_test.html");
-        Makefile.execSilent("git commit -m 'add makefile for has branch test'");
+        Makefile.execSilent("git commit -m 'add makefile for hasBranch test'");
 
         it ("has branch name", () => {
             assert.isTrue(Makefile.hasBranch("pr/victor_hom_makefile_branch_test"));
             console.log("previous branch: ", currentBranchName);
+            Makefile.execSilent("git reset HEAD~");
+            Makefile.execSilent("rm makefile_test.html");
+            Makefile.execSilent(`git checkout ${currentBranchName}`);
+            
             assert.isFalse(true);
         });
     });
