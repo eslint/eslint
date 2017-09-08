@@ -89,6 +89,9 @@ ruleTester.run("no-extra-parens", rule, {
         "a(b = c, (d, e))",
         "(++a)(b); (c++)(d);",
         "new (A())",
+        "new (foo.Baz().foo)",
+        "new (foo.baz.bar().foo.baz)",
+        "new (foo\n.baz\n.bar()\n.foo.baz)",
         "new A()()",
         "(new A)()",
         "(new (Foo || Bar))()",
@@ -441,6 +444,9 @@ ruleTester.run("no-extra-parens", rule, {
     ],
 
     invalid: [
+        invalid("(foo()).bar", "foo().bar", "CallExpression"),
+        invalid("(foo.bar()).baz", "foo.bar().baz", "CallExpression"),
+        invalid("(foo\n.bar())\n.baz", "foo\n.bar()\n.baz", "CallExpression"),
         invalid("(0)", "0", "Literal"),
         invalid("(  0  )", "  0  ", "Literal"),
         invalid("if((0));", "if(0);", "Literal"),
@@ -521,6 +527,8 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("(new A())()", "new A()()", "NewExpression"),
         invalid("(new A(1))()", "new A(1)()", "NewExpression"),
         invalid("((new A))()", "(new A)()", "NewExpression"),
+        invalid("new (foo\n.baz\n.bar\n.foo.baz)", "new foo\n.baz\n.bar\n.foo.baz", "MemberExpression"),
+        invalid("new (foo.baz.bar.baz)", "new foo.baz.bar.baz", "MemberExpression"),
 
         invalid("0, (_ => 0)", "0, _ => 0", "ArrowFunctionExpression", 1),
         invalid("(_ => 0), 0", "_ => 0, 0", "ArrowFunctionExpression", 1),
