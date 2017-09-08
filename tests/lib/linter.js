@@ -3770,9 +3770,13 @@ describe("Linter", () => {
 
                     const parser = path.join(parserFixtures, "enhanced-parser3.js");
 
-                    linter.verify("@foo class A {}", { parser });
+                    linter.defineRule("save-scope1", context => ({
+                        Program() {
+                            scope = context.getScope();
+                        }
+                    }));
+                    linter.verify("@foo class A {}", { parser, rules: { "save-scope1": 2 } });
 
-                    scope = linter.getScope();
                     sourceCode = linter.getSourceCode();
                 });
                 after(() => {
@@ -3792,9 +3796,17 @@ describe("Linter", () => {
                 });
 
                 it("should use the same scope if the source code object is reused", () => {
-                    linter.verify(sourceCode, {}, "test.js");
+                    let scope2 = null;
 
-                    assert.equal(linter.getScope(), scope);
+                    linter.defineRule("save-scope2", context => ({
+                        Program() {
+                            scope2 = context.getScope();
+                        }
+                    }));
+                    linter.verify(sourceCode, { rules: { "save-scope2": 2 } }, "test.js");
+
+                    assert(scope2 !== null);
+                    assert(scope2 === scope);
                 });
             });
 
