@@ -3334,19 +3334,10 @@ describe("Linter", () => {
         });
     });
 
-    describe("getDeclaredVariables(node)", () => {
+    describe("context.getDeclaredVariables(node)", () => {
 
         /**
-         * Assert `eslint.getDeclaredVariables(node)` is empty.
-         * @param {ASTNode} node - A node to check.
-         * @returns {void}
-         */
-        function checkEmpty(node) {
-            assert.equal(0, linter.getDeclaredVariables(node).length);
-        }
-
-        /**
-         * Assert `eslint.getDeclaredVariables(node)` is valid.
+         * Assert `context.getDeclaredVariables(node)` is valid.
          * @param {string} code - A code to check.
          * @param {string} type - A type string of ASTNode. This method checks variables on the node of the type.
          * @param {Array<Array<string>>} expectedNamesList - An array of expected variable names. The expected variable names is an array of string.
@@ -3355,6 +3346,15 @@ describe("Linter", () => {
         function verify(code, type, expectedNamesList) {
             linter.defineRules({
                 test(context) {
+
+                    /**
+                     * Assert `context.getDeclaredVariables(node)` is empty.
+                     * @param {ASTNode} node - A node to check.
+                     * @returns {void}
+                     */
+                    function checkEmpty(node) {
+                        assert.equal(0, context.getDeclaredVariables(node).length);
+                    }
                     const rule = {
                         Program: checkEmpty,
                         EmptyStatement: checkEmpty,
