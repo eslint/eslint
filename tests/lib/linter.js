@@ -1869,6 +1869,26 @@ describe("Linter", () => {
                 assert.equal(messages[0].ruleId, "no-console");
             });
 
+            it("should ignore violations of only the specified rule on next line", () => {
+                const code = [
+                    "// eslint-disable-next-line quotes",
+                    "alert(\"test\");",
+                    "console.log('test');"
+                ].join("\n");
+                const config = {
+                    rules: {
+                        "no-alert": 1,
+                        quotes: [1, "single"],
+                        "no-console": 1
+                    }
+                };
+                const messages = linter.verify(code, config, filename);
+
+                assert.equal(messages.length, 2);
+                assert.equal(messages[0].ruleId, "no-alert");
+                assert.equal(messages[1].ruleId, "no-console");
+            });
+
             it("should ignore violations of specified rule on next line only", () => {
                 const code = [
                     "alert('test');",
@@ -1909,7 +1929,7 @@ describe("Linter", () => {
                 assert.equal(messages[0].ruleId, "no-console");
             });
 
-            it("should not report if comment is in block quotes", () => {
+            it("should not ignore violations if comment is in block quotes", () => {
                 const code = [
                     "alert('test');",
                     "/* eslint-disable-next-line no-alert */",
@@ -1928,6 +1948,25 @@ describe("Linter", () => {
                 assert.equal(messages[0].ruleId, "no-alert");
                 assert.equal(messages[1].ruleId, "no-alert");
                 assert.equal(messages[2].ruleId, "no-console");
+            });
+
+            it("should not ignore violations if comment is of the type Shebang", () => {
+                const code = [
+                    "#! eslint-disable-next-line no-alert",
+                    "alert('test');",
+                    "console.log('test');"
+                ].join("\n");
+                const config = {
+                    rules: {
+                        "no-alert": 1,
+                        "no-console": 1
+                    }
+                };
+                const messages = linter.verify(code, config, filename);
+
+                assert.equal(messages.length, 2);
+                assert.equal(messages[0].ruleId, "no-alert");
+                assert.equal(messages[1].ruleId, "no-console");
             });
         });
     });
