@@ -3,7 +3,7 @@
  * @author nzakas
  */
 
-/* global cat, cd, cp, echo, exec, exit, find, ls, mkdir, pwd, rm, target, test*/
+/* global target */
 /* eslint no-use-before-define: "off", no-console: "off" */
 "use strict";
 
@@ -24,9 +24,23 @@ const lodash = require("lodash"),
     os = require("os"),
     path = require("path"),
     semver = require("semver"),
+    shell = require("shelljs"),
     ejs = require("ejs"),
     loadPerf = require("load-perf"),
     yaml = require("js-yaml");
+
+const cat = shell.cat;
+const cd = shell.cd;
+const cp = shell.cp;
+const echo = shell.echo;
+const exec = shell.exec;
+const exit = shell.exit;
+const find = shell.find;
+const ls = shell.ls;
+const mkdir = shell.mkdir;
+const pwd = shell.pwd;
+const rm = shell.rm;
+const test = shell.test;
 
 //------------------------------------------------------------------------------
 // Settings
@@ -146,7 +160,7 @@ function generateRulesIndex(basedir) {
  * @returns {string} The result of the executed command.
  */
 function execSilent(cmd) {
-    return exec(cmd, { silent: true }).output;
+    return exec(cmd, { silent: true }).stdout;
 }
 
 /**
@@ -329,7 +343,7 @@ function getFirstCommitOfFile(filePath) {
  * @param {string} filePath The file path to check.
  * @returns {string} The tag name.
  */
-function getTagOfFirstOccurrence(filePath) {
+function getFirstVersionOfFile(filePath) {
     const firstCommit = getFirstCommitOfFile(filePath);
     let tags = execSilent(`git tag --contains ${firstCommit}`);
 
@@ -341,15 +355,6 @@ function getTagOfFirstOccurrence(filePath) {
         }
         return list;
     }, []).sort(semver.compare)[0];
-}
-
-/**
- * Gets the version number where a given file was introduced first.
- * @param {string} filePath The file path to check.
- * @returns {string} The version number.
- */
-function getFirstVersionOfFile(filePath) {
-    return getTagOfFirstOccurrence(filePath);
 }
 
 /**
@@ -458,7 +463,7 @@ function hasBranch(branchName) {
  */
 function getFormatterResults() {
     const CLIEngine = require("./lib/cli-engine"),
-        chalk = require("chalk");
+        stripAnsi = require("strip-ansi");
 
     const formatterFiles = fs.readdirSync("./lib/formatters/"),
         cli = new CLIEngine({
@@ -489,7 +494,7 @@ function getFormatterResults() {
 
         if (fileExt === ".js") {
             data.formatterResults[name] = {
-                result: chalk.stripColor(cli.getFormatter(name)(rawMessages.results))
+                result: stripAnsi(cli.getFormatter(name)(rawMessages.results))
             };
         }
         return data;
@@ -631,11 +636,13 @@ target.gensite = function(prereleaseVersion) {
     }
 
     // 1. create temp and build directory
+    echo("> Creating a temporary directory (Step 1)");
     if (!test("-d", TEMP_DIR)) {
         mkdir(TEMP_DIR);
     }
 
     // 2. remove old files from the site
+    echo("> Removing old files (Step 2)");
     docFiles.forEach(filePath => {
         const fullPath = path.join(DOCS_DIR, filePath),
             htmlFullPath = fullPath.replace(".md", ".html");
@@ -651,6 +658,7 @@ target.gensite = function(prereleaseVersion) {
     });
 
     // 3. Copy docs folder to a temporary directory
+    echo("> Copying the docs folder (Step 3)");
     cp("-rf", "docs/*", TEMP_DIR);
 
     let versions = test("-f", "./versions.json") ? JSON.parse(cat("./versions.json")) : {};
@@ -668,7 +676,11 @@ target.gensite = function(prereleaseVersion) {
     const FIXABLE_TEXT = "\n\n(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) can automatically fix some of the problems reported by this rule.";
 
     // 4. Loop through all files in temporary directory
-    find(TEMP_DIR).forEach(filename => {
+    process.stdout.write("> Updating files (Steps 4-9): 0/... - ...\r");
+    const tempFiles = find(TEMP_DIR);
+    const length = tempFiles.length;
+
+    tempFiles.forEach((filename, i) => {
         if (test("-f", filename) && path.extname(filename) === ".md") {
 
             const rulesUrl = "https://github.com/eslint/eslint/tree/master/lib/rules/",
@@ -676,9 +688,12 @@ target.gensite = function(prereleaseVersion) {
                 baseName = path.basename(filename),
                 sourceBaseName = `${path.basename(filename, ".md")}.js`,
                 sourcePath = path.join("lib/rules", sourceBaseName),
-                ruleName = path.basename(filename, ".md");
+                ruleName = path.basename(filename, ".md"),
+                filePath = path.join("docs", path.relative("tmp", filename));
             let text = cat(filename),
                 title;
+
+            process.stdout.write(`> Updating files (Steps 4-9): ${i}/${length} - ${filePath + " ".repeat(30)}\r`);
 
             // 5. Prepend page title and layout variables at the top of rules
             if (path.dirname(filename).indexOf("rules") >= 0) {
@@ -695,7 +710,7 @@ target.gensite = function(prereleaseVersion) {
 
                 text = `${ruleHeading}${isRecommended ? RECOMMENDED_TEXT : ""}${isFixable ? FIXABLE_TEXT : ""}\n${ruleDocsContent}`;
 
-                text = `---\ntitle: ${ruleName} - Rules\nlayout: doc\n---\n<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->\n\n${text}`;
+                title = `${ruleName} - Rules`;
             } else {
 
                 // extract the title from the file itself
@@ -705,8 +720,18 @@ target.gensite = function(prereleaseVersion) {
                 } else {
                     title = "Documentation";
                 }
-                text = `---\ntitle: ${title}\nlayout: doc\n---\n<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->\n\n${text}`;
             }
+
+            text = [
+                "---",
+                `title: ${title}`,
+                "layout: doc",
+                `edit_link: https://github.com/eslint/eslint/edit/master/${filePath}`,
+                "---",
+                "<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->",
+                "",
+                text
+            ].join("\n");
 
             // 6. Remove .md extension for relative links and change README to empty string
             text = text.replace(/\((?!https?:\/\/)([^)]*?)\.md.*?\)/g, "($1)").replace("README.html", "");
@@ -745,8 +770,10 @@ target.gensite = function(prereleaseVersion) {
         }
     });
     JSON.stringify(versions).to("./versions.json");
+    echo(`> Updating files (Steps 4-9)${" ".repeat(50)}`);
 
     // 10. Copy temporary directory to site's docs folder
+    echo("> Copying the temporary directory the site (Step 10)");
     let outputDir = DOCS_DIR;
 
     if (prereleaseVersion) {
@@ -755,18 +782,26 @@ target.gensite = function(prereleaseVersion) {
     cp("-rf", `${TEMP_DIR}*`, outputDir);
 
     // 11. Generate rule listing page
+    echo("> Generating the rule listing (Step 11)");
     generateRuleIndexPage(process.cwd());
 
     // 12. Delete temporary directory
+    echo("> Removing the temporary directory (Step 12)");
     rm("-r", TEMP_DIR);
 
     // 13. Update demos, but only for non-prereleases
     if (!prereleaseVersion) {
+        echo("> Updating the demos (Step 13)");
         cp("-f", "build/eslint.js", `${SITE_DIR}js/app/eslint.js`);
+    } else {
+        echo("> Skipped updating the demos (Step 13)");
     }
 
     // 14. Create Example Formatter Output Page
+    echo("> Creating the formatter examples (Step 14)");
     generateFormatterExamples(getFormatterResults(), prereleaseVersion);
+
+    echo("Done generating eslint.org");
 };
 
 target.browserify = function() {
@@ -907,7 +942,8 @@ target.checkLicenses = function() {
 
         if (impermissible.length) {
             impermissible.forEach(dependency => {
-                console.error("%s license for %s is impermissible.",
+                console.error(
+                    "%s license for %s is impermissible.",
                     dependency.licenses,
                     dependency.name
                 );

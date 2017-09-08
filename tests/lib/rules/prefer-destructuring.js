@@ -20,17 +20,9 @@ const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 
 ruleTester.run("prefer-destructuring", rule, {
     valid: [
-        {
-            code: "var [foo] = array;"
-        },
-        {
-            code: "var { foo } = object;"
-        },
-        {
-
-            // Ensure that this doesn't break variable declarating without assignment
-            code: "var foo;"
-        },
+        "var [foo] = array;",
+        "var { foo } = object;",
+        "var foo;",
         {
 
             // Ensure that the default behavior does not require desturcturing when renaming
@@ -91,9 +83,7 @@ ruleTester.run("prefer-destructuring", rule, {
             code: "var foo = object['foo'];",
             options: [{ VariableDeclarator: { object: false } }]
         },
-        {
-            code: "({ foo } = object);"
-        },
+        "({ foo } = object);",
         {
 
             // Fix #8654

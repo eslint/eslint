@@ -46,7 +46,7 @@ ruleTester.run("one-var-declaration-per-line", rule, {
         { code: "var a, b,\nc=0\nd = 0;", options: ["initializations"] },
         { code: "let a, b;", options: ["initializations"], parserOptions: { ecmaVersion: 6 } },
         { code: "var a = 0; var b = 0;", options: ["initializations"] },
-        { code: "var a, b,\nc=0\nd = 0;" },
+        "var a, b,\nc=0\nd = 0;",
 
         { code: "var a,\nb,\nc,\nd = 0;", options: ["always"] },
         { code: "var a = 0,\nb;", options: ["always"] },

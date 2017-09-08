@@ -19,11 +19,7 @@ const assert = require("chai").assert,
     os = require("os"),
     hash = require("../../lib/util/hash");
 
-require("shelljs/global");
-
 const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
-
-/* global mkdir, rm, cp */
 
 //------------------------------------------------------------------------------
 // Tests
@@ -87,8 +83,8 @@ describe("CLIEngine", () => {
     // copy into clean area so as not to get "infected" by this project's .eslintrc files
     before(() => {
         fixtureDir = path.join(os.tmpdir(), "/eslint/fixtures");
-        mkdir("-p", fixtureDir);
-        cp("-r", "./tests/fixtures/.", fixtureDir);
+        shell.mkdir("-p", fixtureDir);
+        shell.cp("-r", "./tests/fixtures/.", fixtureDir);
         fixtureDir = fs.realpathSync(fixtureDir);
     });
 
@@ -97,7 +93,7 @@ describe("CLIEngine", () => {
     });
 
     after(() => {
-        rm("-r", fixtureDir);
+        shell.rm("-r", fixtureDir);
     });
 
     describe("new CLIEngine(options)", () => {

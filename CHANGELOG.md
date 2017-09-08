@@ -1,3 +1,55 @@
+v4.6.1 - September 3, 2017
+
+* bdec46d Build: avoid process leak when generating website (#9217) (Teddy Katz)
+* cb74b87 Fix: avoid adding globals when an env is used with `false` (fixes #9202) (#9203) (Teddy Katz)
+* f9b7544 Docs: Correct a typo in generator-star-spacing documentation (#9205) (Ethan Rutherford)
+* e5c5e83 Build: Fixing issue with docs generation (Fixes #9199) (#9200) (Ilya Volodin)
+
+v4.6.0 - September 1, 2017
+
+* 56dd769 Docs: fix link format in prefer-arrow-callback.md (#9198) (Vse Mozhet Byt)
+* 6becf91 Update: add eslint version to error output. (fixes #9037) (#9071) (薛定谔的猫)
+* 0e09973 New: function-paren-newline rule (fixes #6074) (#8102) (Teddy Katz)
+* 88a64cc Chore: Make parseJsonConfig() a pure function in Linter (#9186) (Teddy Katz)
+* 1bbac51 Fix: avoid breaking eslint-plugin-eslint-comments (fixes #9193) (#9196) (Teddy Katz)
+* 3e8b70a Fix: off-by-one error in eslint-disable comment checking (#9195) (Teddy Katz)
+* 73815f6 Docs: rewrite prefer-arrow-callback documentation (fixes #8950) (#9077) (Charles E. Morgan)
+* 0d3a854 Chore: avoid mutating report descriptors in report-translator (#9189) (Teddy Katz)
+* 2db356b Update: no-unused-vars Improve message to include the allowed patterns (#9176) (Eli White)
+* 8fbaf0a Update: Add configurability to generator-star-spacing (#8985) (Ethan Rutherford)
+* 8ed779c Chore: remove currentScopes property from Linter instances (refs #9161) (#9187) (Teddy Katz)
+* af4ad60 Fix: Handle error when running init without npm (#9169) (Gabriel Aumala)
+* 4b94c6c Chore: make parse() a pure function in Linter (refs #9161) (#9183) (Teddy Katz)
+* 1be5634 Chore: don't make Linter a subclass of EventEmitter (refs #9161) (#9177) (Teddy Katz)
+* e95af9b Chore: don't include internal test helpers in npm package (#9160) (Teddy Katz)
+* 6fb32e1 Chore: avoid using private Linter APIs in astUtils tests (refs #9161) (#9173) (Teddy Katz)
+* de6dccd Docs: add documentation for Linter methods (refs #6525) (#9151) (Teddy Katz)
+* 2d90030 Chore: remove unused assignment. (#9182) (薛定谔的猫)
+* d672aef Chore: refactor reporting logic (refs #9161) (#9168) (Teddy Katz)
+* 5ab0434 Fix: indent crash on sparse arrays with "off" option (fixes #9157) (#9166) (Teddy Katz)
+* c147b97 Chore: Make SourceCodeFixer accept text instead of a SourceCode instance (#9178) (Teddy Katz)
+* f127423 Chore: avoid using private Linter APIs in Linter tests (refs #9161) (#9175) (Teddy Katz)
+* 2334335 Chore: avoid using private Linter APIs in SourceCode tests (refs #9161) (#9174) (Teddy Katz)
+* 2dc243a Chore: avoid using internal Linter APIs in RuleTester (refs #9161) (#9172) (Teddy Katz)
+* d6e436f Fix: no-extra-parens reported some parenthesized IIFEs (fixes #9140) (#9158) (Teddy Katz)
+* e6b115c Build: Add an edit link to the rule docs’ metadata (#9049) (Jed Fox)
+* fcb7bb4 Chore: avoid unnecessarily complex forEach calls in no-extra-parens (#9159) (Teddy Katz)
+* ffa021e Docs: quotes rule - when does \n require backticks (#9135) (avimar)
+* 60c5148 Chore: improve coverage in lib/*.js (#9130) (Teddy Katz)
+
+v4.5.0 - August 18, 2017
+
+* decdd2c Update: allow arbitrary nodes to be ignored in `indent` (fixes #8594) (#9105) (Teddy Katz)
+* 79062f3 Update: fix indentation of multiline `new.target` expressions (#9116) (Teddy Katz)
+* d00e24f Upgrade: `chalk` to 2.x release (#9115) (Stephen Edgar)
+* 6ef734a Docs: add missing word in processor documentation (#9106) (Teddy Katz)
+* a4f53ba Fix: Include files with no messages in junit results (#9093) (#9094) (Sean DuBois)
+* 1d6a9c0 Chore: enable eslint-plugin/test-case-shorthand-strings (#9067) (薛定谔的猫)
+* f8add8f Fix: don't autofix with linter.verifyAndFix when `fix: false` is used (#9098) (Teddy Katz)
+* 77bcee4 Docs: update instructions for adding TSC members (#9086) (Teddy Katz)
+* bd09cd5 Update: avoid requiring NaN spaces of indentation (fixes #9083) (#9085) (Teddy Katz)
+* c93a853 Chore: Remove extra space in blogpost template (#9088) (Kai Cataldo)
+
 v4.4.1 - August 7, 2017
 
 * ec93614 Fix: no-multi-spaces to avoid reporting consecutive tabs (fixes #9079) (#9087) (Teddy Katz)

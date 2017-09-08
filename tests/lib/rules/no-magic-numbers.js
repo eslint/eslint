@@ -20,15 +20,9 @@ const ruleTester = new RuleTester();
 
 ruleTester.run("no-magic-numbers", rule, {
     valid: [
-        {
-            code: "var x = parseInt(y, 10);"
-        },
-        {
-            code: "var x = parseInt(y, -10);"
-        },
-        {
-            code: "var x = Number.parseInt(y, 10);"
-        },
+        "var x = parseInt(y, 10);",
+        "var x = parseInt(y, -10);",
+        "var x = Number.parseInt(y, 10);",
         {
             code: "const foo = 42;",
             env: { es6: true }
@@ -40,9 +34,7 @@ ruleTester.run("no-magic-numbers", rule, {
             }],
             env: { es6: true }
         },
-        {
-            code: "var foo = -42;"
-        },
+        "var foo = -42;",
         {
             code: "var foo = 0 + 1 - 2 + -2;",
             options: [{
@@ -55,9 +47,7 @@ ruleTester.run("no-magic-numbers", rule, {
                 ignore: [0, 1, 2, 3, 4]
             }]
         },
-        {
-            code: "var foo = { bar:10 }"
-        },
+        "var foo = { bar:10 }",
         {
             code: "setTimeout(function() {return 1;}, 0);",
             options: [{

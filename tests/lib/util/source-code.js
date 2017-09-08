@@ -221,7 +221,8 @@ describe("SourceCode", () => {
             it("should not has BOM in `text` property.", () => {
                 assert.equal(
                     sourceCode.text,
-                    "\"use strict\";\n\nconsole.log(\"This file has [0xEF, 0xBB, 0xBF] as BOM.\");\n");
+                    "\"use strict\";\n\nconsole.log(\"This file has [0xEF, 0xBB, 0xBF] as BOM.\");\n"
+                );
             });
         });
     });
@@ -229,8 +230,7 @@ describe("SourceCode", () => {
 
     describe("getJSDocComment()", () => {
 
-        const sandbox = sinon.sandbox.create(),
-            filename = "foo.js";
+        const sandbox = sinon.sandbox.create();
 
         beforeEach(() => {
             linter.reset();
@@ -262,8 +262,8 @@ describe("SourceCode", () => {
 
             const spy = sandbox.spy(assertJSDoc);
 
-            linter.on("FunctionExpression", spy);
-            linter.verify(code, { rules: {} }, filename, true);
+            linter.defineRule("checker", () => ({ FunctionExpression: spy }));
+            linter.verify(code, { rules: { checker: "error" } });
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
 
         });
@@ -290,8 +290,8 @@ describe("SourceCode", () => {
 
             const spy = sandbox.spy(assertJSDoc);
 
-            linter.on("FunctionExpression", spy);
-            linter.verify(code, { rules: {} }, filename, true);
+            linter.defineRule("checker", () => ({ FunctionExpression: spy }));
+            linter.verify(code, { rules: { checker: "error" } });
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
 
         });
@@ -320,8 +320,8 @@ describe("SourceCode", () => {
 
             const spy = sandbox.spy(assertJSDoc);
 
-            linter.on("FunctionExpression", spy);
-            linter.verify(code, { rules: {} }, filename, true);
+            linter.defineRule("checker", () => ({ FunctionExpression: spy }));
+            linter.verify(code, { rules: { checker: "error" } });
             assert.isTrue(spy.calledTwice, "Event handler should be called twice.");
 
         });
@@ -352,8 +352,8 @@ describe("SourceCode", () => {
 
             const spy = sandbox.spy(assertJSDoc);
 
-            linter.on("FunctionExpression", spy);
-            linter.verify(code, { rules: {} }, filename, true);
+            linter.defineRule("checker", () => ({ FunctionExpression: spy }));
+            linter.verify(code, { rules: { checker: "error" } });
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -380,8 +380,8 @@ describe("SourceCode", () => {
 
             const spy = sandbox.spy(assertJSDoc);
 
-            linter.on("FunctionDeclaration", spy);
-            linter.verify(code, { rules: {} }, filename, true);
+            linter.defineRule("checker", () => ({ FunctionDeclaration: spy }));
+            linter.verify(code, { rules: { checker: "error" } });
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
 
         });
@@ -409,8 +409,8 @@ describe("SourceCode", () => {
 
             const spy = sandbox.spy(assertJSDoc);
 
-            linter.on("FunctionDeclaration", spy);
-            linter.verify(code, { parserOptions: { sourceType: "module" }, rules: {} }, filename, true);
+            linter.defineRule("checker", () => ({ FunctionDeclaration: spy }));
+            linter.verify(code, { rules: { checker: "error" }, parserOptions: { sourceType: "module" } });
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
 
         });
@@ -440,8 +440,8 @@ describe("SourceCode", () => {
 
             const spy = sandbox.spy(assertJSDoc);
 
-            linter.on("FunctionDeclaration", spy);
-            linter.verify(code, { rules: {} }, filename, true);
+            linter.defineRule("checker", () => ({ FunctionDeclaration: spy }));
+            linter.verify(code, { rules: { checker: "error" } });
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
 
         });
@@ -471,8 +471,8 @@ describe("SourceCode", () => {
 
             const spy = sandbox.spy(assertJSDoc);
 
-            linter.on("FunctionDeclaration", spy);
-            linter.verify(code, { rules: {} }, filename, true);
+            linter.defineRule("checker", () => ({ FunctionDeclaration: spy }));
+            linter.verify(code, { rules: { checker: "error" } });
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
 
         });
@@ -501,8 +501,8 @@ describe("SourceCode", () => {
 
             const spy = sandbox.spy(assertJSDoc);
 
-            linter.on("FunctionDeclaration", spy);
-            linter.verify(code, { rules: {} }, filename, true);
+            linter.defineRule("checker", () => ({ FunctionDeclaration: spy }));
+            linter.verify(code, { rules: { checker: "error" } });
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
 
         });
@@ -533,8 +533,8 @@ describe("SourceCode", () => {
 
             const spy = sandbox.spy(assertJSDoc);
 
-            linter.on("FunctionDeclaration", spy);
-            linter.verify(code, { rules: {} }, filename, true);
+            linter.defineRule("checker", () => ({ FunctionDeclaration: spy }));
+            linter.verify(code, { rules: { checker: "error" } });
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -564,8 +564,8 @@ describe("SourceCode", () => {
 
             const spy = sandbox.spy(assertJSDoc);
 
-            linter.on("FunctionExpression", spy);
-            linter.verify(code, { rules: {} }, filename, true);
+            linter.defineRule("checker", () => ({ FunctionExpression: spy }));
+            linter.verify(code, { rules: { checker: "error" } });
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -595,8 +595,8 @@ describe("SourceCode", () => {
 
             const spy = sandbox.spy(assertJSDoc);
 
-            linter.on("ArrowFunctionExpression", spy);
-            linter.verify(code, { parserOptions: { ecmaVersion: 6 }, rules: {} }, filename, true);
+            linter.defineRule("checker", () => ({ ArrowFunctionExpression: spy }));
+            linter.verify(code, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } });
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -624,8 +624,8 @@ describe("SourceCode", () => {
 
             const spy = sandbox.spy(assertJSDoc);
 
-            linter.on("FunctionExpression", spy);
-            linter.verify(code, { rules: {} }, filename, true);
+            linter.defineRule("checker", () => ({ FunctionExpression: spy }));
+            linter.verify(code, { rules: { checker: "error" } });
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -657,8 +657,8 @@ describe("SourceCode", () => {
 
             const spy = sandbox.spy(assertJSDoc);
 
-            linter.on("FunctionExpression", spy);
-            linter.verify(code, { rules: {} }, filename, true);
+            linter.defineRule("checker", () => ({ FunctionExpression: spy }));
+            linter.verify(code, { rules: { checker: "error" } });
             assert.isTrue(spy.calledTwice, "Event handler should be called.");
         });
 
@@ -689,8 +689,8 @@ describe("SourceCode", () => {
 
             const spy = sandbox.spy(assertJSDoc);
 
-            linter.on("FunctionExpression", spy);
-            linter.verify(code, { rules: {} }, filename, true);
+            linter.defineRule("checker", () => ({ FunctionExpression: spy }));
+            linter.verify(code, { rules: { checker: "error" } });
             assert.isTrue(spy.calledTwice, "Event handler should be called.");
         });
 
@@ -719,8 +719,8 @@ describe("SourceCode", () => {
 
             const spy = sandbox.spy(assertJSDoc);
 
-            linter.on("FunctionExpression", spy);
-            linter.verify(code, { rules: {} }, filename, true);
+            linter.defineRule("checker", () => ({ FunctionExpression: spy }));
+            linter.verify(code, { rules: { checker: "error" } });
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -757,8 +757,8 @@ describe("SourceCode", () => {
 
             const spy = sandbox.spy(assertJSDoc);
 
-            linter.on("FunctionExpression", spy);
-            linter.verify(code, { rules: {} }, filename, true);
+            linter.defineRule("checker", () => ({ FunctionExpression: spy }));
+            linter.verify(code, { rules: { checker: "error" } });
             assert.isTrue(spy.calledTwice, "Event handler should be called.");
         });
 
@@ -786,8 +786,8 @@ describe("SourceCode", () => {
 
             const spy = sandbox.spy(assertJSDoc);
 
-            linter.on("ClassExpression", spy);
-            linter.verify(code, { rules: {}, parserOptions: { ecmaVersion: 6 } }, filename, true);
+            linter.defineRule("checker", () => ({ ClassExpression: spy }));
+            linter.verify(code, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } });
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -815,8 +815,8 @@ describe("SourceCode", () => {
 
             const spy = sandbox.spy(assertJSDoc);
 
-            linter.on("ClassDeclaration", spy);
-            linter.verify(code, { rules: {}, parserOptions: { ecmaVersion: 6 } }, filename, true);
+            linter.defineRule("checker", () => ({ ClassDeclaration: spy }));
+            linter.verify(code, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } });
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -844,8 +844,8 @@ describe("SourceCode", () => {
 
             const spy = sandbox.spy(assertJSDoc);
 
-            linter.on("FunctionExpression", spy);
-            linter.verify(code, { rules: {}, parserOptions: { ecmaVersion: 6 } }, filename, true);
+            linter.defineRule("checker", () => ({ FunctionExpression: spy }));
+            linter.verify(code, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } });
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -877,8 +877,8 @@ describe("SourceCode", () => {
 
             const spy = sandbox.spy(assertJSDoc);
 
-            linter.on("FunctionExpression", spy);
-            linter.verify(code, { rules: {}, parserOptions: { ecmaVersion: 6 } }, filename, true);
+            linter.defineRule("checker", () => ({ FunctionExpression: spy }));
+            linter.verify(code, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } });
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
@@ -908,15 +908,22 @@ describe("SourceCode", () => {
 
             const spy = sandbox.spy(assertJSDoc);
 
-            linter.on("FunctionDeclaration", spy);
-            linter.verify(code, { rules: {}, parserOptions: { ecmaVersion: 6 } }, filename, true);
+            linter.defineRule("checker", () => ({ FunctionDeclaration: spy }));
+            linter.verify(code, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } });
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
         });
 
     });
 
     describe("getComments()", () => {
-        const config = { rules: {} };
+        const config = { rules: { checker: "error" }, parserOptions: { sourceType: "module" } };
+        let unusedAssertionFuncs;
+
+
+        beforeEach(() => {
+            linter.reset();
+            unusedAssertionFuncs = new Set();
+        });
 
         /**
          * Check comment count
@@ -926,17 +933,30 @@ describe("SourceCode", () => {
          * @private
          */
         function assertCommentCount(leading, trailing) {
-            return function(node) {
+
+            /**
+             * Asserts the comment count for a node
+             * @param {ASTNode} node the node being traversed
+             * @returns {void}
+             */
+            function assertionFunc(node) {
+                unusedAssertionFuncs.delete(assertionFunc);
                 const sourceCode = linter.getSourceCode();
                 const comments = sourceCode.getComments(node);
 
                 assert.equal(comments.leading.length, leading);
                 assert.equal(comments.trailing.length, trailing);
-            };
+            }
+            unusedAssertionFuncs.add(assertionFunc);
+            return assertionFunc;
         }
 
-        beforeEach(() => {
-            linter.reset();
+        afterEach(() => {
+            assert.strictEqual(
+                unusedAssertionFuncs.size,
+                0,
+                "An assertion function was created with assertCommentCount, but the function was not called."
+            );
         });
 
         it("should return comments around nodes", () => {
@@ -946,13 +966,15 @@ describe("SourceCode", () => {
                 "/* Trailing comment for VariableDeclaration */"
             ].join("\n");
 
-            linter.on("Program", assertCommentCount(0, 0));
-            linter.on("VariableDeclaration", assertCommentCount(1, 1));
-            linter.on("VariableDeclarator", assertCommentCount(0, 0));
-            linter.on("Identifier", assertCommentCount(0, 0));
-            linter.on("Literal", assertCommentCount(0, 0));
+            linter.defineRule("checker", () => ({
+                Program: assertCommentCount(0, 0),
+                VariableDeclaration: assertCommentCount(1, 1),
+                VariableDeclarator: assertCommentCount(0, 0),
+                Identifier: assertCommentCount(0, 0),
+                Literal: assertCommentCount(0, 0)
+            }));
 
-            linter.verify(code, config, "", true);
+            assert.isEmpty(linter.verify(code, config));
         });
 
         it("should return trailing comments inside a block", () => {
@@ -963,13 +985,15 @@ describe("SourceCode", () => {
                 "}"
             ].join("\n");
 
-            linter.on("Program", assertCommentCount(0, 0));
-            linter.on("BlockStatement", assertCommentCount(0, 0));
-            linter.on("ExpressionStatement", assertCommentCount(0, 1));
-            linter.on("CallExpression", assertCommentCount(0, 0));
-            linter.on("Identifier", assertCommentCount(0, 0));
+            linter.defineRule("checker", () => ({
+                Program: assertCommentCount(0, 0),
+                BlockStatement: assertCommentCount(0, 0),
+                ExpressionStatement: assertCommentCount(0, 1),
+                CallExpression: assertCommentCount(0, 0),
+                Identifier: assertCommentCount(0, 0)
+            }));
 
-            linter.verify(code, config, "", true);
+            assert.isEmpty(linter.verify(code, config));
         });
 
         it("should return comments within a conditional", () => {
@@ -978,12 +1002,14 @@ describe("SourceCode", () => {
                 "if (/* Leading comment for Identifier */ a) {}"
             ].join("\n");
 
-            linter.on("Program", assertCommentCount(0, 0));
-            linter.on("IfStatement", assertCommentCount(1, 0));
-            linter.on("Identifier", assertCommentCount(1, 0));
-            linter.on("BlockStatement", assertCommentCount(0, 0));
+            linter.defineRule("checker", () => ({
+                Program: assertCommentCount(0, 0),
+                IfStatement: assertCommentCount(1, 0),
+                Identifier: assertCommentCount(1, 0),
+                BlockStatement: assertCommentCount(0, 0)
+            }));
 
-            linter.verify(code, config, "", true);
+            assert.isEmpty(linter.verify(code, config));
         });
 
         it("should not return comments within a previous node", () => {
@@ -996,15 +1022,17 @@ describe("SourceCode", () => {
                 "}"
             ].join("\n");
 
-            linter.on("Program", assertCommentCount(0, 0));
-            linter.on("Identifier", assertCommentCount(0, 0));
-            linter.on("BlockStatement", assertCommentCount(0, 0));
-            linter.on("VariableDeclaration", assertCommentCount(0, 0));
-            linter.on("VariableDeclarator", assertCommentCount(0, 0));
-            linter.on("ObjectExpression", assertCommentCount(0, 1));
-            linter.on("ReturnStatement", assertCommentCount(0, 0));
+            linter.defineRule("checker", () => ({
+                Program: assertCommentCount(0, 0),
+                Identifier: assertCommentCount(0, 0),
+                BlockStatement: assertCommentCount(0, 0),
+                VariableDeclaration: assertCommentCount(0, 0),
+                VariableDeclarator: assertCommentCount(0, 0),
+                ObjectExpression: assertCommentCount(0, 1),
+                ReturnStatement: assertCommentCount(0, 0)
+            }));
 
-            linter.verify(code, config, "", true);
+            assert.isEmpty(linter.verify(code, config));
         });
 
         it("should return comments only for children of parent node", () => {
@@ -1016,15 +1044,17 @@ describe("SourceCode", () => {
                 "var baz;"
             ].join("\n");
 
-            linter.on("Program", assertCommentCount(0, 0));
-            linter.on("VariableDeclaration", assertCommentCount(0, 0));
-            linter.on("VariableDeclerator", assertCommentCount(0, 0));
-            linter.on("Identifier", assertCommentCount(0, 0));
-            linter.on("ObjectExpression", assertCommentCount(0, 0));
-            linter.on("Property", assertCommentCount(0, 1));
-            linter.on("Literal", assertCommentCount(0, 0));
+            linter.defineRule("checker", () => ({
+                Program: assertCommentCount(0, 0),
+                VariableDeclaration: assertCommentCount(0, 0),
+                VariableDeclarator: assertCommentCount(0, 0),
+                Identifier: assertCommentCount(0, 0),
+                ObjectExpression: assertCommentCount(0, 0),
+                Property: assertCommentCount(0, 1),
+                Literal: assertCommentCount(0, 0)
+            }));
 
-            linter.verify(code, config, "", true);
+            assert.isEmpty(linter.verify(code, config));
         });
 
         it("should return comments for an export default anonymous class", () => {
@@ -1041,16 +1071,18 @@ describe("SourceCode", () => {
                 "}"
             ].join("\n");
 
-            linter.on("Program", assertCommentCount(0, 0));
-            linter.on("ExportDefaultDeclaration", assertCommentCount(1, 0));
-            linter.on("ClassDeclaration", assertCommentCount(0, 0));
-            linter.on("ClassBody", assertCommentCount(0, 0));
-            linter.on("MethodDefinition", assertCommentCount(1, 0));
-            linter.on("Identifier", assertCommentCount(0, 0));
-            linter.on("FunctionExpression", assertCommentCount(0, 0));
-            linter.on("BlockStatement", assertCommentCount(0, 0));
+            linter.defineRule("checker", () => ({
+                Program: assertCommentCount(0, 0),
+                ExportDefaultDeclaration: assertCommentCount(1, 0),
+                ClassDeclaration: assertCommentCount(0, 0),
+                ClassBody: assertCommentCount(0, 0),
+                MethodDefinition: assertCommentCount(1, 0),
+                Identifier: assertCommentCount(0, 0),
+                FunctionExpression: assertCommentCount(0, 0),
+                BlockStatement: assertCommentCount(0, 0)
+            }));
 
-            linter.verify(code, config, "", true);
+            assert.isEmpty(linter.verify(code, config));
         });
 
         it("should return leading comments", () => {
@@ -1062,19 +1094,21 @@ describe("SourceCode", () => {
             ].join("\n");
             let varDeclCount = 0;
 
-            linter.on("Program", assertCommentCount(0, 0));
-            linter.on("VariableDeclaration", node => {
-                if (varDeclCount === 0) {
-                    assertCommentCount(1, 1)(node);
-                } else {
-                    assertCommentCount(1, 0)(node);
-                }
-                varDeclCount++;
-            });
-            linter.on("VariableDeclarator", assertCommentCount(0, 0));
-            linter.on("Identifier", assertCommentCount(0, 0));
+            linter.defineRule("checker", () => ({
+                Program: assertCommentCount(0, 0),
+                VariableDeclaration(node) {
+                    if (varDeclCount === 0) {
+                        assertCommentCount(1, 1)(node);
+                    } else {
+                        assertCommentCount(1, 0)(node);
+                    }
+                    varDeclCount++;
+                },
+                VariableDeclarator: assertCommentCount(0, 0),
+                Identifier: assertCommentCount(0, 0)
+            }));
 
-            linter.verify(code, config, "", true);
+            assert.isEmpty(linter.verify(code, config));
         });
 
         it("should return shebang comments", () => {
@@ -1086,26 +1120,28 @@ describe("SourceCode", () => {
             ].join("\n");
             let varDeclCount = 0;
 
-            linter.on("Program", assertCommentCount(0, 0));
-            linter.on("VariableDeclaration", node => {
-                if (varDeclCount === 0) {
-                    assertCommentCount(1, 1)(node);
-                } else {
-                    assertCommentCount(1, 0)(node);
-                }
-                varDeclCount++;
-            });
-            linter.on("VariableDeclarator", assertCommentCount(0, 0));
-            linter.on("Identifier", assertCommentCount(0, 0));
+            linter.defineRule("checker", () => ({
+                Program: assertCommentCount(0, 0),
+                VariableDeclaration(node) {
+                    if (varDeclCount === 0) {
+                        assertCommentCount(1, 1)(node);
+                    } else {
+                        assertCommentCount(1, 0)(node);
+                    }
+                    varDeclCount++;
+                },
+                Identifier: assertCommentCount(0, 0)
+            }));
 
-            linter.verify(code, config, "", true);
+            assert.isEmpty(linter.verify(code, config));
         });
 
         it("should include shebang comment when program only contains shebang", () => {
             const code = "#!/usr/bin/env node";
 
-            linter.on("Program", assertCommentCount(1, 0));
-            linter.verify(code, config, "", true);
+            linter.defineRule("checker", () => ({ Program: assertCommentCount(1, 0) }));
+
+            assert.isEmpty(linter.verify(code, config));
         });
 
         it("should return mixture of line and block comments", () => {
@@ -1115,13 +1151,15 @@ describe("SourceCode", () => {
                 "// Trailing comment for VariableDeclaration"
             ].join("\n");
 
-            linter.on("Program", assertCommentCount(0, 0));
-            linter.on("VariableDeclaration", assertCommentCount(1, 1));
-            linter.on("VariableDeclarator", assertCommentCount(0, 0));
-            linter.on("Identifier", assertCommentCount(0, 1));
-            linter.on("Literal", assertCommentCount(0, 0));
+            linter.defineRule("checker", () => ({
+                Program: assertCommentCount(0, 0),
+                VariableDeclaration: assertCommentCount(1, 1),
+                VariableDeclarator: assertCommentCount(0, 0),
+                Identifier: assertCommentCount(0, 1),
+                Literal: assertCommentCount(0, 0)
+            }));
 
-            linter.verify(code, config, "", true);
+            assert.isEmpty(linter.verify(code, config));
         });
 
         it("should return comments surrounding a call expression", () => {
@@ -1133,14 +1171,16 @@ describe("SourceCode", () => {
                 "}"
             ].join("\n");
 
-            linter.on("Program", assertCommentCount(0, 0));
-            linter.on("FunctionDeclaration", assertCommentCount(0, 0));
-            linter.on("Identifier", assertCommentCount(0, 0));
-            linter.on("BlockStatement", assertCommentCount(0, 0));
-            linter.on("ExpressionStatement", assertCommentCount(1, 1));
-            linter.on("CallExpression", assertCommentCount(0, 0));
+            linter.defineRule("checker", () => ({
+                Program: assertCommentCount(0, 0),
+                FunctionDeclaration: assertCommentCount(0, 0),
+                Identifier: assertCommentCount(0, 0),
+                BlockStatement: assertCommentCount(0, 0),
+                ExpressionStatement: assertCommentCount(1, 1),
+                CallExpression: assertCommentCount(0, 0)
+            }));
 
-            linter.verify(code, config, "", true);
+            assert.isEmpty(linter.verify(code, config));
         });
 
         it("should return comments surrounding a debugger statement", () => {
@@ -1152,13 +1192,15 @@ describe("SourceCode", () => {
                 "}"
             ].join("\n");
 
-            linter.on("Program", assertCommentCount(0, 0));
-            linter.on("FunctionDeclaration", assertCommentCount(0, 0));
-            linter.on("Identifier", assertCommentCount(0, 0));
-            linter.on("BlockStatement", assertCommentCount(0, 0));
-            linter.on("DebuggerStatement", assertCommentCount(1, 1));
+            linter.defineRule("checker", () => ({
+                Program: assertCommentCount(0, 0),
+                FunctionDeclaration: assertCommentCount(0, 0),
+                Identifier: assertCommentCount(0, 0),
+                BlockStatement: assertCommentCount(0, 0),
+                DebuggerStatement: assertCommentCount(1, 1)
+            }));
 
-            linter.verify(code, config, "", true);
+            assert.isEmpty(linter.verify(code, config));
         });
 
         it("should return comments surrounding a return statement", () => {
@@ -1170,13 +1212,15 @@ describe("SourceCode", () => {
                 "}"
             ].join("\n");
 
-            linter.on("Program", assertCommentCount(0, 0));
-            linter.on("FunctionDeclaration", assertCommentCount(0, 0));
-            linter.on("Identifier", assertCommentCount(0, 0));
-            linter.on("BlockStatement", assertCommentCount(0, 0));
-            linter.on("ReturnStatement", assertCommentCount(1, 1));
+            linter.defineRule("checker", () => ({
+                Program: assertCommentCount(0, 0),
+                FunctionDeclaration: assertCommentCount(0, 0),
+                Identifier: assertCommentCount(0, 0),
+                BlockStatement: assertCommentCount(0, 0),
+                ReturnStatement: assertCommentCount(1, 1)
+            }));
 
-            linter.verify(code, config, "", true);
+            assert.isEmpty(linter.verify(code, config));
         });
 
         it("should return comments surrounding a throw statement", () => {
@@ -1188,13 +1232,15 @@ describe("SourceCode", () => {
                 "}"
             ].join("\n");
 
-            linter.on("Program", assertCommentCount(0, 0));
-            linter.on("FunctionDeclaration", assertCommentCount(0, 0));
-            linter.on("Identifier", assertCommentCount(0, 0));
-            linter.on("BlockStatement", assertCommentCount(0, 0));
-            linter.on("ThrowStatement", assertCommentCount(1, 1));
+            linter.defineRule("checker", () => ({
+                Program: assertCommentCount(0, 0),
+                FunctionDeclaration: assertCommentCount(0, 0),
+                Identifier: assertCommentCount(0, 0),
+                BlockStatement: assertCommentCount(0, 0),
+                ThrowStatement: assertCommentCount(1, 1)
+            }));
 
-            linter.verify(code, config, "", true);
+            assert.isEmpty(linter.verify(code, config));
         });
 
         it("should return comments surrounding a while loop", () => {
@@ -1207,16 +1253,18 @@ describe("SourceCode", () => {
                 "}"
             ].join("\n");
 
-            linter.on("Program", assertCommentCount(0, 0));
-            linter.on("FunctionDeclaration", assertCommentCount(0, 0));
-            linter.on("Identifier", assertCommentCount(0, 0));
-            linter.on("BlockStatement", assertCommentCount(0, 0));
-            linter.on("WhileStatement", assertCommentCount(1, 1));
-            linter.on("Literal", assertCommentCount(0, 0));
-            linter.on("VariableDeclaration", assertCommentCount(1, 0));
-            linter.on("VariableDeclarator", assertCommentCount(0, 0));
+            linter.defineRule("checker", () => ({
+                Program: assertCommentCount(0, 0),
+                FunctionDeclaration: assertCommentCount(0, 0),
+                Identifier: assertCommentCount(0, 0),
+                BlockStatement: assertCommentCount(0, 0),
+                WhileStatement: assertCommentCount(1, 1),
+                Literal: assertCommentCount(0, 0),
+                VariableDeclaration: assertCommentCount(1, 0),
+                VariableDeclarator: assertCommentCount(0, 0)
+            }));
 
-            linter.verify(code, config, "", true);
+            assert.isEmpty(linter.verify(code, config));
         });
 
         it("should return switch case fallthrough comments in functions", () => {
@@ -1233,24 +1281,26 @@ describe("SourceCode", () => {
             ].join("\n");
             let switchCaseCount = 0;
 
-            linter.on("Program", assertCommentCount(0, 0));
-            linter.on("FunctionDeclaration", assertCommentCount(0, 0));
-            linter.on("Identifier", assertCommentCount(0, 0));
-            linter.on("BlockStatement", assertCommentCount(0, 0));
-            linter.on("SwitchStatement", assertCommentCount(0, 0));
-            linter.on("SwitchCase", node => {
-                if (switchCaseCount === 0) {
-                    assertCommentCount(1, 1)(node);
-                } else {
-                    assertCommentCount(1, 0)(node);
-                }
-                switchCaseCount++;
-            });
-            linter.on("Literal", assertCommentCount(0, 0));
-            linter.on("ExpressionStatement", assertCommentCount(0, 0));
-            linter.on("CallExpression", assertCommentCount(0, 0));
+            linter.defineRule("checker", () => ({
+                Program: assertCommentCount(0, 0),
+                FunctionDeclaration: assertCommentCount(0, 0),
+                Identifier: assertCommentCount(0, 0),
+                BlockStatement: assertCommentCount(0, 0),
+                SwitchStatement: assertCommentCount(0, 0),
+                SwitchCase: node => {
+                    if (switchCaseCount === 0) {
+                        assertCommentCount(1, 1)(node);
+                    } else {
+                        assertCommentCount(1, 0)(node);
+                    }
+                    switchCaseCount++;
+                },
+                Literal: assertCommentCount(0, 0),
+                ExpressionStatement: assertCommentCount(0, 0),
+                CallExpression: assertCommentCount(0, 0)
+            }));
 
-            linter.verify(code, config, "", true);
+            assert.isEmpty(linter.verify(code, config));
         });
 
         it("should return switch case fallthrough comments", () => {
@@ -1265,21 +1315,23 @@ describe("SourceCode", () => {
             ].join("\n");
             let switchCaseCount = 0;
 
-            linter.on("Program", assertCommentCount(0, 0));
-            linter.on("SwitchStatement", assertCommentCount(0, 0));
-            linter.on("SwitchCase", node => {
-                if (switchCaseCount === 0) {
-                    assertCommentCount(1, 1)(node);
-                } else {
-                    assertCommentCount(1, 0)(node);
-                }
-                switchCaseCount++;
-            });
-            linter.on("Literal", assertCommentCount(0, 0));
-            linter.on("ExpressionStatement", assertCommentCount(0, 0));
-            linter.on("CallExpression", assertCommentCount(0, 0));
+            linter.defineRule("checker", () => ({
+                Program: assertCommentCount(0, 0),
+                SwitchStatement: assertCommentCount(0, 0),
+                SwitchCase: node => {
+                    if (switchCaseCount === 0) {
+                        assertCommentCount(1, 1)(node);
+                    } else {
+                        assertCommentCount(1, 0)(node);
+                    }
+                    switchCaseCount++;
+                },
+                Literal: assertCommentCount(0, 0),
+                ExpressionStatement: assertCommentCount(0, 0),
+                CallExpression: assertCommentCount(0, 0)
+            }));
 
-            linter.verify(code, config, "", true);
+            assert.isEmpty(linter.verify(code, config));
         });
 
         it("should return switch case no-default comments in functions", () => {
@@ -1296,23 +1348,25 @@ describe("SourceCode", () => {
             ].join("\n");
             let breakStatementCount = 0;
 
-            linter.on("Program", assertCommentCount(0, 0));
-            linter.on("FunctionDeclaration", assertCommentCount(0, 0));
-            linter.on("Identifier", assertCommentCount(0, 0));
-            linter.on("BlockStatement", assertCommentCount(0, 0));
-            linter.on("SwitchStatement", assertCommentCount(0, 0));
-            linter.on("SwitchCase", node => {
-                if (breakStatementCount === 0) {
-                    assertCommentCount(0, 0)(node);
-                } else {
-                    assertCommentCount(0, 1)(node);
-                }
-                breakStatementCount++;
-            });
-            linter.on("BreakStatement", assertCommentCount(0, 0));
-            linter.on("Literal", assertCommentCount(0, 0));
+            linter.defineRule("checker", () => ({
+                Program: assertCommentCount(0, 0),
+                FunctionDeclaration: assertCommentCount(0, 0),
+                Identifier: assertCommentCount(0, 0),
+                BlockStatement: assertCommentCount(0, 0),
+                SwitchStatement: assertCommentCount(0, 0),
+                SwitchCase: node => {
+                    if (breakStatementCount === 0) {
+                        assertCommentCount(0, 0)(node);
+                    } else {
+                        assertCommentCount(0, 1)(node);
+                    }
+                    breakStatementCount++;
+                },
+                BreakStatement: assertCommentCount(0, 0),
+                Literal: assertCommentCount(0, 0)
+            }));
 
-            linter.verify(code, config, "", true);
+            assert.isEmpty(linter.verify(code, config));
         });
 
         it("should return switch case no-default comments", () => {
@@ -1324,14 +1378,16 @@ describe("SourceCode", () => {
                 "}"
             ].join("\n");
 
-            linter.on("Program", assertCommentCount(0, 0));
-            linter.on("SwitchStatement", assertCommentCount(0, 0));
-            linter.on("Identifier", assertCommentCount(0, 0));
-            linter.on("SwitchCase", assertCommentCount(0, 1));
-            linter.on("BreakStatement", assertCommentCount(0, 0));
-            linter.on("Literal", assertCommentCount(0, 0));
+            linter.defineRule("checker", () => ({
+                Program: assertCommentCount(0, 0),
+                SwitchStatement: assertCommentCount(0, 0),
+                Identifier: assertCommentCount(0, 0),
+                SwitchCase: assertCommentCount(0, 1),
+                BreakStatement: assertCommentCount(0, 0),
+                Literal: assertCommentCount(0, 0)
+            }));
 
-            linter.verify(code, config, "", true);
+            assert.isEmpty(linter.verify(code, config));
         });
 
         it("should return switch case no-default comments in nested functions", () => {
@@ -1348,22 +1404,24 @@ describe("SourceCode", () => {
                 "};"
             ].join("\n");
 
-            linter.on("Program", assertCommentCount(0, 0));
-            linter.on("ExpressionStatement", assertCommentCount(0, 0));
-            linter.on("AssignmentExpression", assertCommentCount(0, 0));
-            linter.on("MemberExpression", assertCommentCount(0, 0));
-            linter.on("Identifier", assertCommentCount(0, 0));
-            linter.on("FunctionExpression", assertCommentCount(0, 0));
-            linter.on("BlockStatement", assertCommentCount(0, 0));
-            linter.on("FunctionDeclaration", assertCommentCount(0, 0));
-            linter.on("SwitchStatement", assertCommentCount(0, 0));
-            linter.on("SwitchCase", assertCommentCount(0, 1));
-            linter.on("ReturnStatement", assertCommentCount(0, 0));
-            linter.on("CallExpression", assertCommentCount(0, 0));
-            linter.on("BinaryExpression", assertCommentCount(0, 0));
-            linter.on("Literal", assertCommentCount(0, 0));
+            linter.defineRule("checker", () => ({
+                Program: assertCommentCount(0, 0),
+                ExpressionStatement: assertCommentCount(0, 0),
+                AssignmentExpression: assertCommentCount(0, 0),
+                MemberExpression: assertCommentCount(0, 0),
+                Identifier: assertCommentCount(0, 0),
+                FunctionExpression: assertCommentCount(0, 0),
+                BlockStatement: assertCommentCount(0, 0),
+                FunctionDeclaration: assertCommentCount(0, 0),
+                SwitchStatement: assertCommentCount(0, 0),
+                SwitchCase: assertCommentCount(0, 1),
+                ReturnStatement: assertCommentCount(0, 0),
+                CallExpression: assertCommentCount(0, 0),
+                BinaryExpression: assertCommentCount(0, 0),
+                Literal: assertCommentCount(0, 0)
+            }));
 
-            linter.verify(code, config, "", true);
+            assert.isEmpty(linter.verify(code, config));
         });
 
         it("should return leading comments if the code only contains comments", () => {
@@ -1372,9 +1430,9 @@ describe("SourceCode", () => {
                 "/*another comment*/"
             ].join("\n");
 
-            linter.on("Program", assertCommentCount(2, 0));
+            linter.defineRule("checker", () => ({ Program: assertCommentCount(2, 0) }));
 
-            linter.verify(code, config, "", true);
+            assert.isEmpty(linter.verify(code, config));
         });
 
         it("should return trailing comments if a block statement only contains comments", () => {
@@ -1385,10 +1443,12 @@ describe("SourceCode", () => {
                 "}"
             ].join("\n");
 
-            linter.on("Program", assertCommentCount(0, 0));
-            linter.on("BlockStatement", assertCommentCount(0, 2));
+            linter.defineRule("checker", () => ({
+                Program: assertCommentCount(0, 0),
+                BlockStatement: assertCommentCount(0, 2)
+            }));
 
-            linter.verify(code, config, "", true);
+            assert.isEmpty(linter.verify(code, config));
         });
 
         it("should return trailing comments if a class body only contains comments", () => {
@@ -1399,11 +1459,13 @@ describe("SourceCode", () => {
                 "}"
             ].join("\n");
 
-            linter.on("Program", assertCommentCount(0, 0));
-            linter.on("ClassDeclaration", assertCommentCount(0, 0));
-            linter.on("ClassBody", assertCommentCount(0, 2));
+            linter.defineRule("checker", () => ({
+                Program: assertCommentCount(0, 0),
+                ClassDeclaration: assertCommentCount(0, 0),
+                ClassBody: assertCommentCount(0, 2)
+            }));
 
-            linter.verify(code, config, "", true);
+            assert.isEmpty(linter.verify(code, config));
         });
 
         it("should return trailing comments if an object only contains comments", () => {
@@ -1414,11 +1476,13 @@ describe("SourceCode", () => {
                 "})"
             ].join("\n");
 
-            linter.on("Program", assertCommentCount(0, 0));
-            linter.on("ExpressionStatement", assertCommentCount(0, 0));
-            linter.on("ObjectExpression", assertCommentCount(0, 2));
+            linter.defineRule("checker", () => ({
+                Program: assertCommentCount(0, 0),
+                ExpressionStatement: assertCommentCount(0, 0),
+                ObjectExpression: assertCommentCount(0, 2)
+            }));
 
-            linter.verify(code, config, "", true);
+            assert.isEmpty(linter.verify(code, config));
         });
 
         it("should return trailing comments if an array only contains comments", () => {
@@ -1429,11 +1493,13 @@ describe("SourceCode", () => {
                 "]"
             ].join("\n");
 
-            linter.on("Program", assertCommentCount(0, 0));
-            linter.on("ExpressionStatement", assertCommentCount(0, 0));
-            linter.on("ArrayExpression", assertCommentCount(0, 2));
+            linter.defineRule("checker", () => ({
+                Program: assertCommentCount(0, 0),
+                ExpressionStatement: assertCommentCount(0, 0),
+                ArrayExpression: assertCommentCount(0, 2)
+            }));
 
-            linter.verify(code, config, "", true);
+            assert.isEmpty(linter.verify(code, config));
         });
 
         it("should return trailing comments if a switch statement only contains comments", () => {
@@ -1444,11 +1510,13 @@ describe("SourceCode", () => {
                 "}"
             ].join("\n");
 
-            linter.on("Program", assertCommentCount(0, 0));
-            linter.on("SwitchStatement", assertCommentCount(0, 2));
-            linter.on("Identifier", assertCommentCount(0, 0));
+            linter.defineRule("checker", () => ({
+                Program: assertCommentCount(0, 0),
+                SwitchStatement: assertCommentCount(0, 2),
+                Identifier: assertCommentCount(0, 0)
+            }));
 
-            linter.verify(code, config, "", true);
+            assert.isEmpty(linter.verify(code, config));
         });
 
         it("should return comments for multiple declarations with a single variable", () => {
@@ -1461,21 +1529,23 @@ describe("SourceCode", () => {
             ].join("\n");
             let varDeclCount = 0;
 
-            linter.on("Program", assertCommentCount(0, 0));
-            linter.on("VariableDeclaration", assertCommentCount(1, 2));
-            linter.on("VariableDeclarator", node => {
-                if (varDeclCount === 0) {
-                    assertCommentCount(0, 0)(node);
-                } else if (varDeclCount === 1) {
-                    assertCommentCount(1, 0)(node);
-                } else {
-                    assertCommentCount(1, 0)(node);
-                }
-                varDeclCount++;
-            });
-            linter.on("Identifier", assertCommentCount(0, 0));
+            linter.defineRule("checker", () => ({
+                Program: assertCommentCount(0, 0),
+                VariableDeclaration: assertCommentCount(1, 2),
+                VariableDeclarator: node => {
+                    if (varDeclCount === 0) {
+                        assertCommentCount(0, 0)(node);
+                    } else if (varDeclCount === 1) {
+                        assertCommentCount(1, 0)(node);
+                    } else {
+                        assertCommentCount(1, 0)(node);
+                    }
+                    varDeclCount++;
+                },
+                Identifier: assertCommentCount(0, 0)
+            }));
 
-            linter.verify(code, config, "", true);
+            assert.isEmpty(linter.verify(code, config));
         });
 
         it("should return comments when comments exist between var keyword and VariableDeclarator", () => {
@@ -1485,52 +1555,60 @@ describe("SourceCode", () => {
                 "    a;"
             ].join("\n");
 
-            linter.on("Program", assertCommentCount(0, 0));
-            linter.on("VariableDeclaration", assertCommentCount(0, 0));
-            linter.on("VariableDeclarator", assertCommentCount(2, 0));
-            linter.on("Identifier", assertCommentCount(0, 0));
+            linter.defineRule("checker", () => ({
+                Program: assertCommentCount(0, 0),
+                VariableDeclaration: assertCommentCount(0, 0),
+                VariableDeclarator: assertCommentCount(2, 0),
+                Identifier: assertCommentCount(0, 0)
+            }));
 
-            linter.verify(code, config, "", true);
+            assert.isEmpty(linter.verify(code, config));
         });
 
         it("should return attached comments between tokens to the correct nodes for empty function declarations", () => {
             const code = "/* 1 */ function /* 2 */ foo(/* 3 */) /* 4 */ { /* 5 */ } /* 6 */";
 
-            linter.on("Program", assertCommentCount(0, 0));
-            linter.on("FunctionDeclaration", assertCommentCount(1, 1));
-            linter.on("Identifier", assertCommentCount(1, 0));
-            linter.on("BlockStatement", assertCommentCount(1, 1));
+            linter.defineRule("checker", () => ({
+                Program: assertCommentCount(0, 0),
+                FunctionDeclaration: assertCommentCount(1, 1),
+                Identifier: assertCommentCount(1, 0),
+                BlockStatement: assertCommentCount(1, 1)
+            }));
 
-            linter.verify(code, config, "", true);
+            assert.isEmpty(linter.verify(code, config));
         });
 
         it("should return attached comments between tokens to the correct nodes for empty class declarations", () => {
             const code = "/* 1 */ class /* 2 */ Foo /* 3 */ extends /* 4 */ Bar /* 5 */ { /* 6 */ } /* 7 */";
             let idCount = 0;
 
-            linter.on("Program", assertCommentCount(0, 0));
-            linter.on("ClassDeclaration", assertCommentCount(1, 1));
-            linter.on("Identifier", node => {
-                if (idCount === 0) {
-                    assertCommentCount(1, 1)(node);
-                } else {
-                    assertCommentCount(1, 1)(node);
-                }
-                idCount++;
-            });
-            linter.on("ClassBody", assertCommentCount(1, 1));
+            linter.defineRule("checker", () => ({
+                Program: assertCommentCount(0, 0),
+                ClassDeclaration: assertCommentCount(1, 1),
+                Identifier: node => {
+                    if (idCount === 0) {
+                        assertCommentCount(1, 1)(node);
+                    } else {
+                        assertCommentCount(1, 1)(node);
+                    }
+                    idCount++;
+                },
+                ClassBody: assertCommentCount(1, 1)
+            }));
 
-            linter.verify(code, config, "", true);
+            assert.isEmpty(linter.verify(code, config));
         });
 
         it("should return attached comments between tokens to the correct nodes for empty switch statements", () => {
             const code = "/* 1 */ switch /* 2 */ (/* 3 */ foo /* 4 */) /* 5 */ { /* 6 */ } /* 7 */";
 
-            linter.on("Program", assertCommentCount(0, 0));
-            linter.on("SwitchStatement", assertCommentCount(1, 6));
-            linter.on("Identifier", assertCommentCount(1, 1));
+            linter.defineRule("checker", () => ({
+                Program: assertCommentCount(0, 0),
+                SwitchStatement: assertCommentCount(1, 6),
+                Identifier: assertCommentCount(1, 1)
+            }));
 
-            linter.verify(code, config, "", true);
+            assert.isEmpty(linter.verify(code, config));
         });
     });
 

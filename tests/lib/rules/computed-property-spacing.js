@@ -22,8 +22,8 @@ ruleTester.run("computed-property-spacing", rule, {
     valid: [
 
         // default - never
-        { code: "obj[foo]" },
-        { code: "obj['foo']" },
+        "obj[foo]",
+        "obj['foo']",
         { code: "var x = {[b]: a}", parserOptions: { ecmaVersion: 6 } },
 
         // always

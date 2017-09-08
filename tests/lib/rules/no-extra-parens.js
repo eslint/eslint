@@ -92,8 +92,8 @@ ruleTester.run("no-extra-parens", rule, {
         "new A()()",
         "(new A)()",
         "(new (Foo || Bar))()",
-        { code: "(2 + 3) ** 4" },
-        { code: "2 ** (2 + 3)" },
+        "(2 + 3) ** 4",
+        "2 ** (2 + 3)",
 
         // same precedence
         "a, b, c",
@@ -125,21 +125,21 @@ ruleTester.run("no-extra-parens", rule, {
         "a(b)(c)",
         "a((b, c))",
         "new new A",
-        { code: "2 ** 3 ** 4" },
-        { code: "(2 ** 3) ** 4" },
+        "2 ** 3 ** 4",
+        "(2 ** 3) ** 4",
 
         // constructs that contain expressions
         "if(a);",
         "with(a){}",
         "switch(a){ case 0: break; }",
         "function a(){ return b; }",
-        { code: "var a = () => { return b; }" },
+        "var a = () => { return b; }",
         "throw a;",
         "while(a);",
         "do; while(a);",
         "for(;;);",
         "for(a in b);",
-        { code: "for(a of b);" },
+        "for(a of b);",
         "var a = (b, c);",
         "[]",
         "[a, b]",
@@ -149,8 +149,8 @@ ruleTester.run("no-extra-parens", rule, {
         "({});",
         "(function(){});",
         "(let[a] = b);",
-        { code: "(function*(){});" },
-        { code: "(class{});" },
+        "(function*(){});",
+        "(class{});",
 
         // special cases
         "(0).a",
@@ -165,7 +165,6 @@ ruleTester.run("no-extra-parens", rule, {
         "function a(){ return (/^a$/).test('a'); }",
 
         // IIFE is allowed to have parens in any position (#655)
-        { code: "var foo = (function() { return bar(); }())" },
         "var foo = (function() { return bar(); }())",
         "var o = { foo: (function() { return bar(); }()) };",
         "o.foo = (function(){ return bar(); }());",
@@ -176,34 +175,35 @@ ruleTester.run("no-extra-parens", rule, {
         "var o = { foo: (function() { return bar(); })() };",
         "o.foo = (function(){ return bar(); })();",
         "(function(){ return bar(); })(), (function(){ return bar(); })()",
+        "function foo() { return (function(){}()); }",
 
         // parens are required around yield
-        { code: "var foo = (function*() { if ((yield foo()) + 1) { return; } }())" },
+        "var foo = (function*() { if ((yield foo()) + 1) { return; } }())",
 
         // arrow functions have the precedence of an assignment expression
-        { code: "(() => 0)()" },
-        { code: "(_ => 0)()" },
-        { code: "_ => 0, _ => 1" },
-        { code: "a = () => b = 0" },
-        { code: "0 ? _ => 0 : _ => 0" },
-        { code: "(_ => 0) || (_ => 0)" },
+        "(() => 0)()",
+        "(_ => 0)()",
+        "_ => 0, _ => 1",
+        "a = () => b = 0",
+        "0 ? _ => 0 : _ => 0",
+        "(_ => 0) || (_ => 0)",
 
         // Object literals as arrow function bodies need parentheses
-        { code: "x => ({foo: 1})" },
+        "x => ({foo: 1})",
 
 
         // Exponentiation operator `**`
-        { code: "1 + 2 ** 3" },
-        { code: "1 - 2 ** 3" },
-        { code: "2 ** -3" },
-        { code: "(-2) ** 3" },
-        { code: "(+2) ** 3" },
-        { code: "+ (2 ** 3)" },
+        "1 + 2 ** 3",
+        "1 - 2 ** 3",
+        "2 ** -3",
+        "(-2) ** 3",
+        "(+2) ** 3",
+        "+ (2 ** 3)",
 
         // https://github.com/eslint/eslint/issues/5789
-        { code: "a => ({b: c}[d])" },
-        { code: "a => ({b: c}.d())" },
-        { code: "a => ({b: c}.d.e)" },
+        "a => ({b: c}[d])",
+        "a => ({b: c}.d())",
+        "a => ({b: c}.d.e)",
 
         // "functions" enables reports for function nodes only
         { code: "(0)", options: ["functions"] },
@@ -251,22 +251,22 @@ ruleTester.run("no-extra-parens", rule, {
         "(function(){}.foo());",
         "(function(){}.foo.bar);",
 
-        { code: "(class{}).foo(), 1, 2;" },
-        { code: "(class{}).foo++;" },
-        { code: "(class{}).foo() || bar;" },
-        { code: "(class{}).foo() + 1;" },
-        { code: "(class{}).foo() ? bar : baz;" },
-        { code: "(class{}).foo.bar();" },
-        { code: "(class{}.foo());" },
-        { code: "(class{}.foo.bar);" },
+        "(class{}).foo(), 1, 2;",
+        "(class{}).foo++;",
+        "(class{}).foo() || bar;",
+        "(class{}).foo() + 1;",
+        "(class{}).foo() ? bar : baz;",
+        "(class{}).foo.bar();",
+        "(class{}.foo());",
+        "(class{}.foo.bar);",
 
         // https://github.com/eslint/eslint/issues/4608
-        { code: "function *a() { yield b; }" },
-        { code: "function *a() { yield yield; }" },
-        { code: "function *a() { yield b, c; }" },
-        { code: "function *a() { yield (b, c); }" },
-        { code: "function *a() { yield b + c; }" },
-        { code: "function *a() { (yield b) + c; }" },
+        "function *a() { yield b; }",
+        "function *a() { yield yield; }",
+        "function *a() { yield b, c; }",
+        "function *a() { yield (b, c); }",
+        "function *a() { yield b + c; }",
+        "function *a() { (yield b) + c; }",
 
         // https://github.com/eslint/eslint/issues/4229
         [
@@ -276,36 +276,31 @@ ruleTester.run("no-extra-parens", rule, {
             "    );",
             "}"
         ].join("\n"),
-        {
-            code: [
-                "function a() {",
-                "    return (",
-                "        <JSX />",
-                "    );",
-                "}"
-            ].join("\n")
-        },
+        [
+            "function a() {",
+            "    return (",
+            "        <JSX />",
+            "    );",
+            "}"
+        ].join("\n"),
         [
             "throw (",
             "    a",
             ");"
         ].join("\n"),
-        {
-            code: [
-                "function *a() {",
-                "    yield (",
-                "        b",
-                "    );",
-                "}"
-            ].join("\n")
-
-        },
+        [
+            "function *a() {",
+            "    yield (",
+            "        b",
+            "    );",
+            "}"
+        ].join("\n"),
 
         // async/await
-        { code: "async function a() { await (a + b) }" },
-        { code: "async function a() { await (a + await b) }" },
-        { code: "async function a() { (await a)() }" },
-        { code: "async function a() { new (await a) }" },
+        "async function a() { await (a + b) }",
+        "async function a() { await (a + await b) }",
+        "async function a() { (await a)() }",
+        "async function a() { new (await a) }",
         { code: "(foo instanceof bar) instanceof baz", options: ["all", { nestedBinaryExpressions: false }] },
         { code: "(foo in bar) in baz", options: ["all", { nestedBinaryExpressions: false }] },
         { code: "(foo + bar) + baz", options: ["all", { nestedBinaryExpressions: false }] },
@@ -316,8 +311,8 @@ ruleTester.run("no-extra-parens", rule, {
         { code: "foo && (bar && baz)", options: ["all", { nestedBinaryExpressions: false }] },
 
         // https://github.com/eslint/eslint/issues/9019
-        { code: "(async function() {});" },
-        { code: "(async function () { }());" },
+        "(async function() {});",
+        "(async function () { }());",
 
         // ["all", { ignoreJSX: "all" }]
         { code: "const Component = (<div />)", options: ["all", { ignoreJSX: "all" }] },
@@ -404,56 +399,19 @@ ruleTester.run("no-extra-parens", rule, {
         { code: "var a = b => 1 ? 2 : 3", options: ["all", { enforceForArrowConditionals: false }] },
         { code: "var a = (b) => (1 ? 2 : 3)", options: ["all", { enforceForArrowConditionals: false }] },
 
-        {
-            code: "let a = [ ...b ]"
-
-        },
-        {
-            code: "let a = { ...b }"
-        },
-        {
-            code: "let a = [ ...(b, c) ]"
-
-        },
-        {
-            code: "let a = { ...(b, c) }"
-        },
-        {
-            code: "var [x = (1, foo)] = bar"
-
-        },
-        {
-            code: "class A extends B {}"
-
-        },
-        {
-            code: "const A = class extends B {}"
-
-        },
-        {
-            code: "class A extends (B=C) {}"
-
-        },
-        {
-            code: "const A = class extends (B=C) {}"
-
-        },
-        {
-            code: "() => ({ foo: 1 })"
-
-        },
-        {
-            code: "() => ({ foo: 1 }).foo"
-
-        },
-        {
-            code: "() => ({ foo: 1 }.foo().bar).baz.qux()"
-
-        },
-        {
-            code: "() => ({ foo: 1 }.foo().bar + baz)"
-
-        },
+        "let a = [ ...b ]",
+        "let a = { ...b }",
+        "let a = [ ...(b, c) ]",
+        "let a = { ...(b, c) }",
+        "var [x = (1, foo)] = bar",
+        "class A extends B {}",
+        "const A = class extends B {}",
+        "class A extends (B=C) {}",
+        "const A = class extends (B=C) {}",
+        "() => ({ foo: 1 })",
+        "() => ({ foo: 1 }).foo",
+        "() => ({ foo: 1 }.foo().bar).baz.qux()",
+        "() => ({ foo: 1 }.foo().bar + baz)",
         {
             code: "export default (function(){}).foo",
             parserOptions: { sourceType: "module" }

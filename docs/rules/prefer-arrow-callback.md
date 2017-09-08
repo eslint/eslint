@@ -1,77 +1,100 @@
-# Suggest using arrow functions as callbacks. (prefer-arrow-callback)
+# Require using arrow functions for callbacks (prefer-arrow-callback)
 
-Arrow functions are suited to callbacks, because:
+Arrow functions can be an attractive alternative to function expressions for callbacks or function arguments.
 
-- `this` keywords in arrow functions bind to the upper scope's.
-- The notation of the arrow function is shorter than function expression's.
+For example, arrow functions are automatically bound to their surrounding scope/context. This provides an alternative to the pre-ES6 standard of explicitly binding function expressions to achieve similar behavior.
+
+Additionally, arrow functions are:
+
+- less verbose, and easier to reason about.
+
+- bound lexically regardless of where or when they are invoked.
 
 ## Rule Details
 
-This rule is aimed to flag usage of function expressions in an argument list.
+This rule locates function expressions used as callbacks or function arguments. An error will be produced for any that could be replaced by an arrow function without changing the result.
 
-The following patterns are considered problems:
+The following examples **will** be flagged:
 
 ```js
-/*eslint prefer-arrow-callback: "error"*/
+/* eslint prefer-arrow-callback: "error" */
 
-foo(function(a) { return a; });
-foo(function() { return this.a; }.bind(this));
+foo(function(a) { return a; }); // ERROR
+// prefer: foo(a => a)
+
+foo(function() { return this.a; }.bind(this)); // ERROR
+// prefer: foo(() => this.a)
 ```
 
-The following patterns are not considered problems:
+Instances where an arrow function would not produce identical results will be ignored.
+
+The following examples **will not** be flagged:
 
 ```js
-/*eslint prefer-arrow-callback: "error"*/
-/*eslint-env es6*/
+/* eslint prefer-arrow-callback: "error" */
+/* eslint-env es6 */
 
-foo(a => a);
-foo(function*() { yield; });
+// arrow function callback
+foo(a => a); // OK
 
-// this is not a callback.
-var foo = function foo(a) { return a; };
+// generator as callback
+foo(function*() { yield; }); // OK
 
-// using `this` without `.bind(this)`.
-foo(function() { return this.a; });
+// function expression not used as callback or function argument
+var foo = function foo(a) { return a; }; // OK
 
-// recursively.
-foo(function bar(n) { return n && n + bar(n - 1); });
+// unbound function expression callback
+foo(function() { return this.a; }); // OK
+
+// recursive named function callback
+foo(function bar(n) { return n && n + bar(n - 1); }); // OK
 ```
 
 ## Options
 
-This rule takes one optional argument, an object which is an options object.
+Access further control over this rule's behavior via an options object.
+
+Default: `{ allowNamedFunctions: false, allowUnboundThis: true }`
 
 ### allowNamedFunctions
 
-This is a `boolean` option and it is `false` by default. When set to `true`, the rule doesn't warn on named functions used as callbacks.
+By default `{ "allowNamedFunctions": false }`, this `boolean` option prohibits using named functions as callbacks or function arguments.
 
-Examples of **correct** code for the `{ "allowNamedFunctions": true }` option:
+Changing this value to `true` will reverse this option's behavior by allowing use of named functions without restriction.
+
+`{ "allowNamedFunctions": true }` **will not** flag the following example:
 
 ```js
-/*eslint prefer-arrow-callback: ["error", { "allowNamedFunctions": true }]*/
+/* eslint prefer-arrow-callback: [ "error", { "allowNamedFunctions": true } ] */
 
 foo(function bar() {});
 ```
 
 ### allowUnboundThis
 
-This is a `boolean` option and it is `true` by default. When set to `false`, this option allows the use of `this` without restriction and checks for dynamically assigned `this` values such as when using `Array.prototype.map` with a `context` argument. Normally, the rule will flag the use of `this` whenever a function does not use `bind()` to specify the value of `this` constantly.
+By default `{ "allowUnboundThis": true }`, this `boolean` option allows function expressions containing `this` to be used as callbacks, as long as the function in question has not been explicitly bound.
 
-Examples of **incorrect** code for the `{ "allowUnboundThis": false }` option:
+When set to `false` this option prohibits the use of function expressions as callbacks or function arguments entirely, without exception.
+
+`{ "allowNamedFunctions": false }` **will** flag the following examples:
 
 ```js
-/*eslint prefer-arrow-callback: ["error", { "allowUnboundThis": false }]*/
-/*eslint-env es6*/
+/* eslint prefer-arrow-callback: [ "error", { "allowUnboundThis": false } ] */
+/* eslint-env es6 */
 
 foo(function() { this.a; });
 
 foo(function() { (() => this); });
 
-someArray.map(function (itm) { return this.doSomething(itm); }, someObject);
+someArray.map(function(itm) { return this.doSomething(itm); }, someObject);
 ```
 
 ## When Not To Use It
 
-This rule should not be used in ES3/5 environments.
+- In environments that have not yet adopted ES6 language features (ES3/5).
 
-In ES2015 (ES6) or later, if you don't want to be notified about function expressions in an argument list, you can safely disable this rule.
+- In ES6+ environments that allow the use of function expressions when describing callbacks or function arguments.
+
+## Further Reading
+
+- [More on ES6 arrow functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions)

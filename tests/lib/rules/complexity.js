@@ -38,7 +38,7 @@ const ruleTester = new RuleTester();
 
 ruleTester.run("complexity", rule, {
     valid: [
-        { code: "function a(x) {}" },
+        "function a(x) {}",
         { code: "function b(x) {}", options: [1] },
         { code: "function a(x) {if (true) {return x;}}", options: [2] },
         { code: "function a(x) {if (true) {return x;} else {return x+1;}}", options: [2] },

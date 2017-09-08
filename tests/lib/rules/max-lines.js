@@ -31,8 +31,8 @@ function errorMessage(limitLines, actualLines) {
 
 ruleTester.run("max-lines", rule, {
     valid: [
-        { code: "var x;" },
-        { code: "var xy;\nvar xy;" },
+        "var x;",
+        "var xy;\nvar xy;",
         { code: "var xy;\nvar xy;", options: [2] },
         { code: "var xy;\nvar xy;", options: [{ max: 2 }] },
         {

@@ -58,6 +58,8 @@ var Linter = require("eslint").Linter;
 var linter = new Linter();
 ```
 
+### Linter#verify
+
 The most important method on `Linter` is `verify()`, which initiates linting of the given text. This method accepts four arguments:
 
 * `code` - the source code to lint (a string or instance of `SourceCode`).
@@ -147,7 +149,7 @@ console.log(code.text);     // "var foo = bar;"
 
 In this way, you can retrieve the text and AST used for the last run of `linter.verify()`.
 
-### verifyAndFix()
+### Linter#verifyAndFix()
 
 This method is similar to verify except that it also runs autofixing logic, similar to the `--fix` flag on the command line. The result object will contain the autofixed code, along with any remaining linting messages for the code that were not autofixed.
 
@@ -177,6 +179,76 @@ The information available is:
 * `fixed` - True, if the code was fixed.
 * `output` - Fixed code text (might be the same as input if no fixes were applied).
 * `messages` - Collection of all messages for the given code (It has the same information as explained above under `verify` block).
+
+### Linter#defineRule
+
+Each `Linter` instance holds a map of rule names to loaded rule objects. By default, all ESLint core rules are loaded. If you want to use `Linter` with custom rules, you should use the `defineRule` method to register your rules by ID.
+
+```js
+const Linter = require("eslint").Linter;
+const linter = new Linter();
+
+linter.defineRule("my-custom-rule", {
+    // (an ESLint rule)
+
+    create(context) {
+        // ...
+    }
+});
+
+const results = linter.verify("// some source text", { rules: { "my-custom-rule": "error" } });
+```
+
+### Linter#defineRules
+
+This is a convenience method similar to `Linter#defineRule`, except that it allows you to define many rules at once using an object.
+
+```js
+const Linter = require("eslint").Linter;
+const linter = new Linter();
+
+linter.defineRules({
+    "my-custom-rule": { /* an ESLint rule */ create() {} },
+    "another-custom-rule": { /* an ESLint rule */ create() {} }
+});
+
+const results = linter.verify("// some source text", {
+    rules: {
+        "my-custom-rule": "error",
+        "another-custom-rule": "warn"
+    }
+});
+```
+
+### Linter#getRules
+
+This method returns a map of all loaded rules.
+
+```js
+const Linter = require("eslint").Linter;
+const linter = new Linter();
+
+linter.getRules();
+
+/*
+Map {
+  'accessor-pairs' => { meta: { docs: [Object], schema: [Array] }, create: [Function: create] },
+  'array-bracket-newline' => { meta: { docs: [Object], schema: [Array] }, create: [Function: create] },
+  ...
+}
+*/
+```
+
+### Linter#version
+
+Each instance of `Linter` has a `version` property containing the semantic version number of ESLint that the `Linter` instance is from.
+
+```js
+const Linter = require("eslint").Linter;
+const linter = new Linter();
+
+linter.version; // => '4.5.0'
+```
 
 ## linter
 
@@ -611,6 +683,14 @@ var report = cli.executeOnFiles(["myfile.js", "lib/"]);
 
 // output fixes to disk
 CLIEngine.outputFixes(report);
+```
+
+### CLIEngine.version
+
+`CLIEngine` has a static `version` property containing the semantic version number of ESLint that it comes from.
+
+```js
+require("eslint").CLIEngine.version; // '4.5.0'
 ```
 
 ## Deprecated APIs
