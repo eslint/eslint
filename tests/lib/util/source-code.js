@@ -57,7 +57,7 @@ describe("SourceCode", () => {
             const scopeManager = {};
             const visitorKeys = {};
             const ast = { comments: [], tokens: [], loc: {}, range: [] };
-            const sourceCode = new SourceCode("foo;", ast, parserServices, scopeManager, visitorKeys);
+            const sourceCode = new SourceCode({ text: "foo;", ast, parserServices, scopeManager, visitorKeys });
 
             assert.isObject(sourceCode);
             assert.equal(sourceCode.text, "foo;");
@@ -1748,15 +1748,15 @@ describe("SourceCode", () => {
             assert.equal(node.type, "Identifier");
 
             // no traverse BinaryExpression#left
-            sourceCode = new SourceCode(
+            sourceCode = new SourceCode({
                 text,
                 ast,
-                null,
-                null,
-                Object.assign({}, Traverser.DEFAULT_VISITOR_KEYS, {
+                parserServices: null,
+                scopeManager: null,
+                visitorKeys: Object.assign({}, Traverser.DEFAULT_VISITOR_KEYS, {
                     BinaryExpression: ["right"]
                 })
-            );
+            });
             node = sourceCode.getNodeByRangeIndex(0);
             assert.equal(node.type, "BinaryExpression");
         });
