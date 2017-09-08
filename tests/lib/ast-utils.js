@@ -62,9 +62,9 @@ describe("ast-utils", () => {
 
     describe("isTokenOnSameLine", () => {
         it("should return false if the tokens are not on the same line", () => {
-            linter.defineRule("checker", mustCall(() => ({
+            linter.defineRule("checker", mustCall(context => ({
                 BlockStatement: mustCall(node => {
-                    assert.isFalse(astUtils.isTokenOnSameLine(linter.getTokenBefore(node), node));
+                    assert.isFalse(astUtils.isTokenOnSameLine(context.getTokenBefore(node), node));
                 })
             })));
 
@@ -73,9 +73,9 @@ describe("ast-utils", () => {
 
         it("should return true if the tokens are on the same line", () => {
 
-            linter.defineRule("checker", mustCall(() => ({
+            linter.defineRule("checker", mustCall(context => ({
                 BlockStatement: mustCall(node => {
-                    assert.isTrue(astUtils.isTokenOnSameLine(linter.getTokenBefore(node), node));
+                    assert.isTrue(astUtils.isTokenOnSameLine(context.getTokenBefore(node), node));
                 })
             })));
 
