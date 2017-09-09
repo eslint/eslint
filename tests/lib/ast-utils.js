@@ -117,9 +117,9 @@ describe("ast-utils", () => {
 
         // catch
         it("should return true if reference is assigned for catch", () => {
-            linter.defineRule("checker", mustCall(() => ({
+            linter.defineRule("checker", mustCall(context => ({
                 CatchClause: mustCall(node => {
-                    const variables = linter.getDeclaredVariables(node);
+                    const variables = context.getDeclaredVariables(node);
 
                     assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 1);
                 })
@@ -130,9 +130,9 @@ describe("ast-utils", () => {
 
         // const
         it("should return true if reference is assigned for const", () => {
-            linter.defineRule("checker", mustCall(() => ({
+            linter.defineRule("checker", mustCall(context => ({
                 VariableDeclaration: mustCall(node => {
-                    const variables = linter.getDeclaredVariables(node);
+                    const variables = context.getDeclaredVariables(node);
 
                     assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 1);
                 })
@@ -142,9 +142,9 @@ describe("ast-utils", () => {
         });
 
         it("should return false if reference is not assigned for const", () => {
-            linter.defineRule("checker", mustCall(() => ({
+            linter.defineRule("checker", mustCall(context => ({
                 VariableDeclaration: mustCall(node => {
-                    const variables = linter.getDeclaredVariables(node);
+                    const variables = context.getDeclaredVariables(node);
 
                     assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 0);
                 })
@@ -155,9 +155,9 @@ describe("ast-utils", () => {
 
         // class
         it("should return true if reference is assigned for class", () => {
-            linter.defineRule("checker", mustCall(() => ({
+            linter.defineRule("checker", mustCall(context => ({
                 ClassDeclaration: mustCall(node => {
-                    const variables = linter.getDeclaredVariables(node);
+                    const variables = context.getDeclaredVariables(node);
 
                     assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 1);
                     assert.lengthOf(astUtils.getModifyingReferences(variables[1].references), 0);
@@ -168,9 +168,9 @@ describe("ast-utils", () => {
         });
 
         it("should return false if reference is not assigned for class", () => {
-            linter.defineRule("checker", mustCall(() => ({
+            linter.defineRule("checker", mustCall(context => ({
                 ClassDeclaration: mustCall(node => {
-                    const variables = linter.getDeclaredVariables(node);
+                    const variables = context.getDeclaredVariables(node);
 
                     assert.lengthOf(astUtils.getModifyingReferences(variables[0].references), 0);
                 })
