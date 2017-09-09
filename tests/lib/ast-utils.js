@@ -56,8 +56,6 @@ describe("ast-utils", () => {
                 `Expected ${func.toString()} to be called at least once but it was not called`
             );
         });
-
-        linter.reset();
     });
 
     describe("isTokenOnSameLine", () => {

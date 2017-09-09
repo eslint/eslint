@@ -60,16 +60,16 @@ var linter = new Linter();
 
 ### Linter#verify
 
-The most important method on `Linter` is `verify()`, which initiates linting of the given text. This method accepts four arguments:
+The most important method on `Linter` is `verify()`, which initiates linting of the given text. This method accepts three arguments:
 
 * `code` - the source code to lint (a string or instance of `SourceCode`).
 * `config` - a configuration object that has been processed and normalized by CLIEngine using eslintrc files and/or other configuration arguments.
     * **Note**: If you want to lint text and have your configuration be read and processed, use CLIEngine's [`executeOnFiles`](#executeonfiles) or [`executeOnText`](#executeontext) instead.
-* `optionsOrFilename` - (optional) Additional options for this run or a string representing the filename to associate with the code being linted.
+* `options` - (optional) Additional options for this run.
     * `filename` - (optional) the filename to associate with the source code.
-    * `saveState` - (optional) see below. This will override any value passed as the fourth argument if an options object is used here instead of the filename.
     * `allowInlineConfig` - (optional) set to `false` to disable inline comments from changing eslint rules.
-* `saveState` - (optional) set to true to maintain the internal state of `linter` after linting (mostly used for testing purposes)
+
+If the third argument is a string, it is interpreted as the `filename`.
 
 You can call `verify()` like this:
 

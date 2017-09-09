@@ -38,7 +38,6 @@ describe("eslint-fuzzer", function() {
     });
 
     after(() => {
-        linter.reset();
         configRule.createCoreRuleConfigs.restore();
     });
 
