@@ -695,7 +695,7 @@ To keep the linting process efficient and unobtrusive, it is useful to verify th
 
 ### Overall Performance
 
-The `npm run perf` command gives a high-level overview of ESLint running time with default rules (`eslint:recommended`) enabled.
+When developing in the ESLint core repository, the `npm run perf` command gives a high-level overview of ESLint running time with all core rules enabled.
 
 ```bash
 $ git checkout master
