@@ -152,6 +152,31 @@ describe("formatter:stylish", () => {
         });
     });
 
+    describe("when passed a message that ends with ' .'", () => {
+        const code = [{
+            filePath: "foo.js",
+            errorCount: 0,
+            warningCount: 1,
+            fixableErrorCount: 0,
+            fixableWarningCount: 0,
+            messages: [{
+                message: "Unexpected .",
+                severity: 1,
+                line: 5,
+                column: 10,
+                ruleId: "foo"
+            }]
+        }];
+
+        it("should return a string in the correct format (retaining the ' .')", () => {
+            const result = formatter(code);
+
+            assert.equal(result, "\nfoo.js\n  5:10  warning  Unexpected .  foo\n\n\u2716 1 problem (0 errors, 1 warning)\n");
+            assert.equal(chalkStub.yellow.bold.callCount, 1);
+            assert.equal(chalkStub.red.bold.callCount, 0);
+        });
+    });
+
     describe("when passed a fatal error message", () => {
         const code = [{
             filePath: "foo.js",
