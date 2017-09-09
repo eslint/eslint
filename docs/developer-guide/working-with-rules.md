@@ -106,19 +106,29 @@ The `context` object contains additional functionality that is helpful for rules
 
 * `parserOptions` - the parser options configured for this run (more details [here](../user-guide/configuring#specifying-parser-options)).
 * `id` - the rule ID.
-* `options` - an array of rule options.
-* `settings` - the `settings` from configuration.
-* `parserPath` - the full path to the `parser` from configuration.
+* `options` - an array of the [configured options](/docs/user-guide/configuring#configuring-rules) for this rule. This array does not include the rule severity. For more information, see [here](#contextoptions).
+* `settings` - the [shared settings](/docs/user-guide/configuring#adding-shared-settings) from configuration.
+* `parserPath` - the name of the `parser` from configuration.
+* `parserServices` - an object containing parser-provided services for rules. The default parser does not provide any services. However, if a rule is intended to be used with a custom parser, it could use `parserServices` to access anything provided by that parser. (For example, a TypeScript parser could provide the ability to get the computed type of a given node.)
 
 Additionally, the `context` object has the following methods:
 
-* `getAncestors()` - returns an array of ancestor nodes based on the current traversal.
-* `getDeclaredVariables(node)` - returns the declared variables on the given node.
+* `getAncestors()` - returns an array of the ancestors of the currently-traversed node, starting at the root of the AST and continuing through the direct parent of the current node. This array does not include the currently-traversed node itself.
+* `getDeclaredVariables(node)` - returns a list of [variables](https://estools.github.io/escope/Variable.html) declared by the given node. This information can be used to track references to variables.
+    * If the node is a `VariableDeclaration`, all variables declared in the declaration are returned.
+    * If the node is a `VariableDeclarator`, all variables declared in the declarator are returned.
+    * If the node is a `FunctionDeclaration` or `FunctionExpression`, the variable for the function name is returned,in addition to variables for the function parameters.
+    * If the node is an `ArrowFunctionExpression`, variables for the parameters are returned.
+    * If the node is a `ClassDeclaration` or a `ClassExpression`, the variable for the class name is returned.
+    * If the node is a `CatchClause`, the variable for the exception is returned.
+    * If the node is an `ImportDeclaration`, variables for all of its specifiers are returned.
+    * If the node is an `ImportSpecifier`, `ImportDefaultSpecifier`, or `ImportNamespaceSpecifier`, the declared variable is returned.
+    * Otherwise, if the node does not declare any variables, an empty array is returned.
 * `getFilename()` - returns the filename associated with the source.
-* `getScope()` - returns the current scope.
-* `getSourceCode()` - returns a `SourceCode` object that you can use to work with the source that was passed to ESLint
-* `markVariableAsUsed(name)` - marks the named variable in scope as used. This affects the [no-unused-vars](../rules/no-unused-vars.md) rule.
-* `report(descriptor)` - reports a problem in the code.
+* `getScope()` - returns the [scope](https://estools.github.io/escope/Scope.html) of the currently-traversed node. This information can be used track references to variables.
+* `getSourceCode()` - returns a [`SourceCode`](#contextgetsourcecode) object that you can use to work with the source that was passed to ESLint.
+* `markVariableAsUsed(name)` - marks a variable with the given name in the current scope as used. This affects the [no-unused-vars](../rules/no-unused-vars.md) rule. Returns `true` if a variable with the given name was found and marked as used, otherwise `false`.
+* `report(descriptor)` - reports a problem in the code (see the [dedicated section](#contextreport)).
 
 **Note:** Earlier versions of ESLint supported additional methods on the `context` object. Those methods were removed in the new format and should not be relied upon.
 
@@ -135,8 +145,8 @@ The main method you'll use is `context.report()`, which publishes a warning or e
     * `end` - An object of the end location.
         * `line` - the 1-based line number at which the problem occurred.
         * `column` - the 0-based column number at which the problem occurred.
-* `data` - (optional) placeholder data for `message`.
-* `fix` - (optional) a function that applies a fix to resolve the problem.
+* `data` - (optional) [placeholder](#using-message-placeholders) data for `message`.
+* `fix` - (optional) a function that applies a [fix](#applying-fixes) to resolve the problem.
 
 Note that at least one of `node` or `loc` is required.
 
@@ -150,6 +160,8 @@ context.report({
 ```
 
 The node contains all of the information necessary to figure out the line and column number of the offending text as well the source text representing the node.
+
+### Using message placeholders
 
 You can also use placeholders in the message and provide `data`:
 
@@ -252,7 +264,7 @@ module.exports = {
 
 Since `context.options` is just an array, you can use it to determine how many options have been passed as well as retrieving the actual options themselves. Keep in mind that the error level is not part of `context.options`, as the error level cannot be known or modified from inside a rule.
 
-When using options, make sure that your rule has some logic defaults in case the options are not provided.
+When using options, make sure that your rule has some logical defaults in case the options are not provided.
 
 ### context.getSourceCode()
 
