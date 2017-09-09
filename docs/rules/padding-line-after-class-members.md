@@ -1,6 +1,6 @@
 # require or disallow an empty line after after class members (padding-line-after-class-members)
 
-This rule improves readability by enforcing lines after class members.
+This rule improves readability by enforcing lines after class members. it will not check empty lines before the first method and after the last method, since that is already taken care of by padded-blocks.
 
 ## Rule Details
 
