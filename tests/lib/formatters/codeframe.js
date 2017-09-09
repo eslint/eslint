@@ -170,6 +170,26 @@ describe("formatter:codeframe", () => {
         });
     });
 
+    describe("when passed a message that ends with ' .'", () => {
+        const code = [{
+            filePath: "foo.js",
+            messages: [{
+                ruleId: "foo",
+                message: "Unexpected .",
+                severity: 2,
+                source: "foo"
+            }],
+            errorCount: 1,
+            warningCount: 0
+        }];
+
+        it("should return a string in the correct format (retaining the ' .')", () => {
+            const result = formatter(code);
+
+            assert.equal(stripAnsi(result), "error: Unexpected . (foo) at foo.js\n\n\n1 error found.");
+        });
+    });
+
     describe("when passed multiple messages", () => {
         const code = [{
             filePath: "foo.js",
