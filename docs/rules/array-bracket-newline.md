@@ -10,8 +10,8 @@ This rule enforces line breaks after opening and before closing array brackets.
 
 This rule has either a string option:
 
-* `"always"` requires line breaks inside braces
-* `"never"` disallows line breaks inside braces
+* `"always"` requires line breaks inside brackets
+* `"never"` disallows line breaks inside brackets
 
 Or an object option (Requires line breaks if any of properties is satisfied. Otherwise, disallows line breaks):
 
