@@ -693,6 +693,125 @@ CLIEngine.outputFixes(report);
 require("eslint").CLIEngine.version; // '4.5.0'
 ```
 
+## RuleTester
+
+`eslint.RuleTester` is a utility to write tests for ESLint rules. It is used internally for the bundled rules that come with ESLint, and it can also be used by plugins.
+
+Example usage:
+
+```js
+"use strict";
+
+const rule = require("../../../lib/rules/my-rule");
+const RuleTester = require("eslint").RuleTester;
+
+const ruleTester = new RuleTester();
+
+ruleTester.run("my-rule", rule, {
+    valid: [
+        {
+            code: "var foo = true",
+            options: [{ allowFoo: true }]
+        }
+    ],
+
+    invalid: [
+        {
+            code: "var invalidVariable = true",
+            errors: [{ message: "Unexpected invalid variable." }]
+        },
+        {
+            code: "var invalidVariable = true",
+            errors: [{ message: /^Unexpected.+variable/ }]
+        }
+    ]
+});
+```
+
+The `RuleTester` constructor accepts an optional object argument, which can be used to specify defaults for your test cases. For example, if all of your test cases use ES2015, you can set it as a default:
+
+```js
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2015 } });
+```
+
+The `RuleTester#run()` method is used to run the tests. It should be passed the following arguments:
+
+* The name of the rule (string)
+* The rule object itself (see ["working with rules"](./working-with-rules))
+* An object containing `valid` and `invalid` properties, each of which is an array containing test cases.
+
+A test case is an object with the following properties:
+
+* `code` (string, required): The source code that the rule should be run on
+* `options` (array, optional): The options passed to the rule. The rule severity should not be included in this list.
+* `filename` (string, optional): The filename for the given case (useful for rules that make assertions about filenames).
+
+In addition to the properties above, invalid test cases can also have the following properties:
+
+* `errors` (number or array, required): Asserts some properties of the errors that the rule is expected to produce when run on this code. If this is a number, asserts the number of errors produced. Otherwise, this should be a list of objects, each containing information about a single reported error. The following properties can be used for an error (all are optional):
+    * `message` (string/regexp): The message for the error
+    * `type` (string): The type of the reported AST node
+    * `line` (number): The 1-based line number of the reported location
+    * `column` (number): The 0-based column number of the reported location
+    * `endLine` (number): The 1-based line number of the end of the reported location
+    * `endColumn` (number): The 0-based column number of the end of the reported location
+
+    If a string is provided as an error instead of an object, the string is used to assert the `message` of the error.
+* `output` (string, optional): Asserts the output that will be produced when using this rule for a single pass of autofixing (e.g. with the `--fix` command line flag). If this is `null`, asserts that none of the reported problems suggest autofixes.
+
+Any additional properties of a test case will be passed directly to the linter as config options. For example, a test case can have a `parserOptions` property to configure parser behavior:
+
+```js
+{
+    code: "let foo;",
+    parserOptions: { ecmaVersion: 2015 }
+}
+```
+
+If a valid test case only uses the `code` property, it can optionally be provided as a string containing the code, rather than an object with a `code` key.
+
+### Customizing RuleTester
+
+`RuleTester` depends on two functions to run tests: `describe` and `it`. These functions can come from various places:
+
+1. If `RuleTester.describe` and `RuleTester.it` have been set to function values, `RuleTester` will use `RuleTester.describe` and `RuleTester.it` to run tests. You can use this to customize the behavior of `RuleTester` to match a test framework that you're using.
+1. Otherwise, if `describe` and `it` are present as globals, `RuleTester` will use `global.describe` and `global.it` to run tests. This allows `RuleTester` to work when using frameworks like [Mocha](https://mochajs.org/) without any additional configuration.
+1. Otherwise, `RuleTester#run` will simply execute all of the tests in sequence, and will throw an error if one of them fails. This means you can simply execute a test file that calls `RuleTester.run` using `node`, without needing a testing framework.
+
+`RuleTester#run` calls the `describe` function with two arguments: a string describing the rule, and a callback function. The callback calls the `it` function with a string describing the test case, and a test function. The test function will return successfully if the test passes, and throw an error if the test fails. (Note that this is the standard behavior for test suites when using frameworks like [Mocha](https://mochajs.org/); this information is only relevant if you plan to customize `RuleTester.it` and `RuleTester.describe`.)
+
+Example of customizing `RuleTester`:
+
+```js
+"use strict";
+
+const RuleTester = require("eslint").RuleTester;
+const test = require("my-test-runner");
+const myRule = require("../../../lib/rules/my-rule");
+
+RuleTester.describe = function(text, method) {
+    RuleTester.it.title = text;
+    return method.call(this);
+};
+
+RuleTester.it = function(text, method) {
+    test(RuleTester.it.title + ": " + text, method);
+};
+
+// then use RuleTester as documented
+
+const ruleTester = new RuleTester();
+
+ruleTester.run("my-rule", myRule, {
+    valid: [
+        // valid test cases
+    ],
+    invalid: [
+        // invalid test cases
+    ]
+})
+```
+
 ## Deprecated APIs
 
 * `cli` - the `cli` object has been deprecated in favor of `CLIEngine`. As of v1.0.0, `cli` is no longer exported and should not be used by external tools.
