@@ -308,6 +308,26 @@ const patterns = [
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
+    {
+        code: "obj.foo = (() => function() { console.log(this); z(x => console.log(x, this)); })();",
+        parserOptions: { ecmaVersion: 6 },
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        invalid: []
+    },
+    {
+        code: "obj.foo = (function() { return () => { console.log(this); z(x => console.log(x, this)); }; })();",
+        parserOptions: { ecmaVersion: 6 },
+        valid: [NORMAL],
+        invalid: [USE_STRICT, IMPLIED_STRICT, MODULES],
+        errors
+    },
+    {
+        code: "obj.foo = (() => () => { console.log(this); z(x => console.log(x, this)); })();",
+        parserOptions: { ecmaVersion: 6 },
+        valid: [NORMAL],
+        invalid: [USE_STRICT, IMPLIED_STRICT, MODULES],
+        errors
+    },
 
     // Class Instance Methods.
     {
