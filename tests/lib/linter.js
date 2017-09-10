@@ -3202,6 +3202,29 @@ describe("Linter", () => {
             linter.verify(linter.getSourceCode(), { parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } });
         });
 
+        it("should reuse the SourceCode object", () => {
+            let ast1 = null,
+                ast2 = null;
+
+            linter.defineRule("save-ast1", () => ({
+                Program(node) {
+                    ast1 = node;
+                }
+            }));
+            linter.defineRule("save-ast2", () => ({
+                Program(node) {
+                    ast2 = node;
+                }
+            }));
+
+            linter.verify("function render() { return <div className='test'>{hello}</div> }", { parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } }, rules: { "save-ast1": 2 } });
+            linter.verify(linter.getSourceCode(), { parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } }, rules: { "save-ast2": 2 } });
+
+            assert(ast1 !== null);
+            assert(ast2 !== null);
+            assert(ast1 === ast2);
+        });
+
         it("should allow 'await' as a property name in modules", () => {
             const result = linter.verify(
                 "obj.await",
