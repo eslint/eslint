@@ -176,7 +176,7 @@ function execSilent(cmd) {
 /**
  * Generates a release blog post for eslint.org
  * @param {Object} releaseInfo The release metadata.
- * * @param {string} blogDirPath The directory path to the project
+ * @param {string} blogDirPath The directory path to the blog repository
  * @returns {void}
  * @private
  */
@@ -196,10 +196,11 @@ function generateBlogPost(releaseInfo, blogDirPath) {
         now = new Date(),
         month = now.getMonth() + 1,
         day = now.getDate(),
-        filename = `${blogDirPath}/_posts/${now.getFullYear()}-${
+        filename = `${blogDirPath}_posts/${now.getFullYear()}-${
             month < 10 ? `0${month}` : month}-${
             day < 10 ? `0${day}` : day}-eslint-v${
             releaseInfo.version}-released.md`;
+
     output.to(filename);
 }
 
@@ -208,12 +209,13 @@ function generateBlogPost(releaseInfo, blogDirPath) {
  * @param  {Object} formatterInfo Linting results from each formatter
  * @param  {string} [prereleaseVersion] The version used for a prerelease. This
  *      changes where the output is stored.
+ * @param {string} blogDirPath The directory path to the blog repository
  * @returns {void}
  */
 function generateFormatterExamples(formatterInfo, prereleaseVersion, blogDirPath) {
     const output = ejs.render(cat("./templates/formatter-examples.md.ejs"), formatterInfo);
-    let filename = `${blogDirPath}/docs/user-guide/formatters/index.md`,
-        htmlFilename = `${blogDirPath}/docs/user-guide/formatters/html-formatter-example.html`;
+    let filename = `${blogDirPath}docs/user-guide/formatters/index.md`,
+        htmlFilename = `${blogDirPath}docs/user-guide/formatters/html-formatter-example.html`;
 
     if (prereleaseVersion) {
         filename = filename.replace("/docs", `/docs/${prereleaseVersion}`);
@@ -227,10 +229,11 @@ function generateFormatterExamples(formatterInfo, prereleaseVersion, blogDirPath
 /**
  * Generate a doc page that lists all of the rules and links to them
  * @param {string} basedir The directory in which to look for code.
+ * @param {string} blogDirPath The directory path to the blog repository
  * @returns {void}
  */
-function generateRuleIndexPage(basedir) {
-    const outputFile = "../eslint.github.io/_data/rules.yml",
+function generateRuleIndexPage(basedir, blogDirPath) {
+    const outputFile = `${blogDirPath}_data/rules.yml`,
         categoryList = "conf/category-list.json",
         categoriesData = JSON.parse(cat(path.resolve(categoryList)));
 
@@ -301,7 +304,7 @@ function release(ciRelease) {
 
     echo("Generating site");
     target.gensite();
-    generateBlogPost(releaseInfo, "../eslint.github.io");
+    generateBlogPost(releaseInfo, SITE_DIR);
     publishSite(`v${releaseInfo.version}`);
     echo("Site has been published");
 
@@ -322,7 +325,7 @@ function prerelease(prereleaseId) {
 
     // always write docs into the next major directory (so 2.0.0-alpha.0 writes to 2.0.0)
     target.gensite(semver.inc(releaseInfo.version, "major"));
-    generateBlogPost(releaseInfo, "../eslint.github.io");
+    generateBlogPost(releaseInfo, SITE_DIR);
     echo("Site has not been pushed, please update blog post and push manually.");
 }
 
@@ -467,7 +470,6 @@ function getFormatterResults() {
             "};"
         ].join("\n"),
         rawMessages = cli.executeOnText(codeString, "fullOfProblems.js", true);
-
     return formatterFiles.reduce((data, filename) => {
         const fileExt = path.extname(filename),
             name = path.basename(filename, fileExt);
@@ -769,7 +771,7 @@ target.gensite = function(prereleaseVersion) {
 
     // 11. Generate rule listing page
     echo("> Generating the rule listing (Step 11)");
-    generateRuleIndexPage(process.cwd());
+    generateRuleIndexPage(process.cwd(), SITE_DIR);
 
     // 12. Delete temporary directory
     echo("> Removing the temporary directory (Step 12)");
@@ -786,7 +788,7 @@ target.gensite = function(prereleaseVersion) {
 
     // 14. Create Example Formatter Output Page
     echo("> Creating the formatter examples (Step 14)");
-    generateFormatterExamples(getFormatterResults(), prereleaseVersion, "../eslint.github.io");
+    generateFormatterExamples(getFormatterResults(), prereleaseVersion, SITE_DIR);
 
     echo("Done generating eslint.org");
 };
@@ -992,7 +994,7 @@ function createConfigForPerformanceTest() {
  */
 function time(cmd, runs, runNumber, results, cb) {
     const start = process.hrtime();
-
+    
     exec(cmd, { silent: true }, (code, stdout, stderr) => {
         const diff = process.hrtime(start),
             actual = (diff[0] * 1e3 + diff[1] / 1e6); // ms
@@ -1132,8 +1134,7 @@ target.prerelease = function(args) {
     prerelease(args[0]);
 };
 
-// going to export methods for unit test
-// is there downsides to this such as privacy concerns and what's revealed
+// exporting methods for unit test
 // does this change other functionality
 module.exports = {
     getTestFilePatterns,
@@ -1144,8 +1145,13 @@ module.exports = {
     execSilent,
     generateBlogPost,
     generateFormatterExamples,
+    generateRuleIndexPage,
     splitCommandResultToLines,
+    getFirstCommitOfFile,
     getBranches,
     lintMarkdown,
-    hasBranch
+    hasBranch,
+    getFormatterResults,
+    downloadMultifilesTestTarget,
+    createConfigForPerformanceTest
 };
