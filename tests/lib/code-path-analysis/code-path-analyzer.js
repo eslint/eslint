@@ -54,11 +54,6 @@ function getExpectedDotArrows(source) {
 //------------------------------------------------------------------------------
 
 describe("CodePathAnalyzer", () => {
-
-    afterEach(() => {
-        linter.reset();
-    });
-
     EventGeneratorTester.testEventGeneratorInterface(
         new CodePathAnalyzer(new NodeEventGenerator(new EventEmitter()))
     );
