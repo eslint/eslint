@@ -26,7 +26,6 @@ const linter = new Linter();
 function parseCodePaths(code) {
     const retv = [];
 
-    linter.reset();
     linter.defineRule("test", () => ({
         onCodePathStart(codePath) {
             retv.push(codePath);

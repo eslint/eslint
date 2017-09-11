@@ -171,7 +171,6 @@ describe("Linter", () => {
         const code = TEST_CODE;
 
         it("should retrieve SourceCode object after reset", () => {
-            linter.reset();
             linter.verify(code, {}, filename, true);
 
             const sourceCode = linter.getSourceCode();
@@ -182,7 +181,6 @@ describe("Linter", () => {
         });
 
         it("should retrieve SourceCode object without reset", () => {
-            linter.reset();
             linter.verify(code, {}, filename);
 
             const sourceCode = linter.getSourceCode();
@@ -860,7 +858,6 @@ describe("Linter", () => {
         const code = "test-rule";
 
         it("should pass settings to all rules", () => {
-            linter.reset();
             linter.defineRule(code, context => ({
                 Literal(node) {
                     context.report(node, context.settings.info);
@@ -878,7 +875,6 @@ describe("Linter", () => {
         });
 
         it("should not have any settings if they were not passed in", () => {
-            linter.reset();
             linter.defineRule(code, context => ({
                 Literal(node) {
                     if (Object.getOwnPropertyNames(context.settings).length !== 0) {
@@ -908,7 +904,6 @@ describe("Linter", () => {
                 }
             };
 
-            linter.reset();
             linter.defineRule("test-rule", sandbox.mock().withArgs(
                 sinon.match({ parserOptions })
             ).returns({}));
@@ -922,7 +917,6 @@ describe("Linter", () => {
 
             const parserOptions = {};
 
-            linter.reset();
             linter.defineRule("test-rule", sandbox.mock().withArgs(
                 sinon.match({ parserOptions })
             ).returns({}));
@@ -942,7 +936,6 @@ describe("Linter", () => {
 
                 const alternateParser = "esprima-fb";
 
-                linter.reset();
                 linter.defineRule("test-rule", sandbox.mock().withArgs(
                     sinon.match({ parserPath: alternateParser })
                 ).returns({}));
@@ -955,9 +948,6 @@ describe("Linter", () => {
             it("should use parseForESLint() in custom parser when custom parser is specified", () => {
 
                 const alternateParser = path.resolve(__dirname, "../fixtures/parsers/enhanced-parser.js");
-
-                linter.reset();
-
                 const config = { rules: {}, parser: alternateParser };
                 const messages = linter.verify("0", config, filename);
 
@@ -968,7 +958,6 @@ describe("Linter", () => {
 
                 const alternateParser = path.resolve(__dirname, "../fixtures/parsers/enhanced-parser.js");
 
-                linter.reset();
                 linter.defineRule("test-service-rule", context => ({
                     Literal(node) {
                         context.report({
@@ -1007,7 +996,6 @@ describe("Linter", () => {
                 config = { rules: {} };
 
             config.rules[rule] = 1;
-            linter.reset();
 
             const messages = linter.verify(code, config, filename, true);
 
@@ -1020,7 +1008,6 @@ describe("Linter", () => {
                 config = { rules: {} };
 
             config.rules[rule] = "warn";
-            linter.reset();
 
             const messages = linter.verify(code, config, filename, true);
 
@@ -1034,7 +1021,6 @@ describe("Linter", () => {
                 config = { rules: {} };
 
             config.rules[rule] = [1];
-            linter.reset();
 
             const messages = linter.verify(code, config, filename, true);
 
@@ -1047,7 +1033,6 @@ describe("Linter", () => {
                 config = { rules: {} };
 
             config.rules[rule] = ["warn"];
-            linter.reset();
 
             const messages = linter.verify(code, config, filename, true);
 
@@ -1061,7 +1046,6 @@ describe("Linter", () => {
                 config = { rules: {} };
 
             config.rules[rule] = "1";
-            linter.reset();
 
             const messages = linter.verify(code, config, filename, true);
 
@@ -1070,8 +1054,6 @@ describe("Linter", () => {
 
         it("should process empty config", () => {
             const config = {};
-
-            linter.reset();
             const messages = linter.verify(code, config, filename, true);
 
             assert.equal(messages.length, 0);
@@ -1415,7 +1397,6 @@ describe("Linter", () => {
         const code = "new-rule";
 
         it("can add a rule dynamically", () => {
-            linter.reset();
             linter.defineRule(code, context => ({
                 Literal(node) {
                     context.report(node, "message");
@@ -1438,7 +1419,6 @@ describe("Linter", () => {
         const code = ["new-rule-0", "new-rule-1"];
 
         it("can add multiple rules dynamically", () => {
-            linter.reset();
             const config = { rules: {} };
             const newRules = {};
 
@@ -1470,7 +1450,6 @@ describe("Linter", () => {
         const code = "filename-rule";
 
         it("has access to the filename", () => {
-            linter.reset();
             linter.defineRule(code, context => ({
                 Literal(node) {
                     context.report(node, context.getFilename());
@@ -1487,7 +1466,6 @@ describe("Linter", () => {
         });
 
         it("defaults filename to '<input>'", () => {
-            linter.reset();
             linter.defineRule(code, context => ({
                 Literal(node) {
                     context.report(node, context.getFilename());
@@ -1522,8 +1500,6 @@ describe("Linter", () => {
             const config = { rules: { strict: 2 } };
             const codeA = "/*eslint strict: 0*/ function bar() { return 2; }";
             const codeB = "function foo() { return 1; }";
-
-            linter.reset();
             let messages = linter.verify(codeA, config, filename, false);
 
             assert.equal(messages.length, 0);
@@ -1536,8 +1512,6 @@ describe("Linter", () => {
             const config = { rules: { quotes: [2, "double"] } };
             const codeA = "/*eslint quotes: 0*/ function bar() { return '2'; }";
             const codeB = "function foo() { return '1'; }";
-
-            linter.reset();
             let messages = linter.verify(codeA, config, filename, false);
 
             assert.equal(messages.length, 0);
@@ -1550,8 +1524,6 @@ describe("Linter", () => {
             const config = { rules: { quotes: [2, "double"] } };
             const codeA = "/*eslint quotes: [0, \"single\"]*/ function bar() { return '2'; }";
             const codeB = "function foo() { return '1'; }";
-
-            linter.reset();
             let messages = linter.verify(codeA, config, filename, false);
 
             assert.equal(messages.length, 0);
@@ -1564,8 +1536,6 @@ describe("Linter", () => {
             const config = { rules: { "no-unused-vars": [2, { vars: "all" }] } };
             const codeA = "/*eslint no-unused-vars: [0, {\"vars\": \"local\"}]*/ var a = 44;";
             const codeB = "var b = 55;";
-
-            linter.reset();
             let messages = linter.verify(codeA, config, filename, false);
 
             assert.equal(messages.length, 0);
@@ -1691,8 +1661,6 @@ describe("Linter", () => {
             const config = { rules: { "test-plugin/test-rule": 2 } };
             const codeA = "/*eslint test-plugin/test-rule: 0*/ var a = \"trigger violation\";";
             const codeB = "var a = \"trigger violation\";";
-
-            linter.reset();
             let messages = linter.verify(codeA, config, filename, false);
 
             assert.equal(messages.length, 0);
@@ -2904,16 +2872,6 @@ describe("Linter", () => {
                 linter.defineRule("checker", filenameChecker);
                 linter.verify("foo;", { rules: { checker: "error" } });
                 assert(filenameChecker.calledOnce);
-            });
-        });
-
-        describe("saveState", () => {
-            it("should save the state when saveState is passed as an option", () => {
-
-                const spy = sinon.spy(linter, "reset");
-
-                linter.verify("foo;", {}, { saveState: true });
-                assert.equal(spy.callCount, 0);
             });
         });
 
