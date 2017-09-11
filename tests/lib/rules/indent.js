@@ -1270,6 +1270,33 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                const YO = 'bah',
+                      TE = 'mah'
+
+                var res,
+                    a = 5,
+                    b = 4
+            `,
+            options: [4, { VariableDeclarator: { var: 1, let: 1, const: 1.5 } }]
+        },
+        {
+            code: unIndent`
+                const YO = 'bah',
+                      TE = 'mah'
+
+                var res,
+                    a = 5,
+                    b = 4
+
+                if (YO) {
+                    console.log(TE);
+                    console.log(a);
+                }
+            `,
+            options: [4, { VariableDeclarator: { var: 1, let: 1, const: 1.5 } }]
+        },
+        {
+            code: unIndent`
                 var foo = 'foo',
                   bar = 'bar',
                   baz = function() {

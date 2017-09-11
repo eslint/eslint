@@ -227,6 +227,31 @@ let a,
 const a = 1,
       b = 2,
       c = 3;
+
+if (a === b) {
+  console.log(c);
+}
+```
+
+Examples of **correct** code for this rule with the `4, { "VariableDeclarator": { "var": 1, "let": 1, "const": 1.5 } }` options:
+
+```js
+/*eslint indent: ["error", 4, { "VariableDeclarator": { "var": 1, "let": 1, "const": 1.5 } }]*/
+/*eslint-env es6*/
+
+var a,
+    b,
+    c;
+let a,
+    b,
+    c;
+const a = 1,
+      b = 2,
+      c = 3;
+
+if (a === b) {
+    console.log(c);
+}
 ```
 
 ### outerIIFEBody
