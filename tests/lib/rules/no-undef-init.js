@@ -92,6 +92,6 @@ ruleTester.run("no-undef-init", rule, {
             output: "for(var i in [1,2,3]){let a; for(var j in [1,2,3]){}}",
             parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "It's not necessary to initialize 'a' to undefined.", type: "VariableDeclarator" }]
-        },
+        }
     ]
 });
