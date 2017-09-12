@@ -91,6 +91,9 @@ ruleTester.run("no-extra-parens", rule, {
         "new (A())",
         "new (foo.Baz().foo)",
         "new (foo.baz.bar().foo.baz)",
+        "new ({}.baz.bar.foo().baz)",
+        "new (doSomething().baz.bar().foo)",
+        "new ([][0].baz.foo().bar.foo)",
         "new (foo\n.baz\n.bar()\n.foo.baz)",
         "new A()()",
         "(new A)()",
@@ -444,9 +447,6 @@ ruleTester.run("no-extra-parens", rule, {
     ],
 
     invalid: [
-        invalid("(foo()).bar", "foo().bar", "CallExpression"),
-        invalid("(foo.bar()).baz", "foo.bar().baz", "CallExpression"),
-        invalid("(foo\n.bar())\n.baz", "foo\n.bar()\n.baz", "CallExpression"),
         invalid("(0)", "0", "Literal"),
         invalid("(  0  )", "  0  ", "Literal"),
         invalid("if((0));", "if(0);", "Literal"),
@@ -522,6 +522,9 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("new (\nfunction(){}\n)", "new \nfunction(){}\n", "FunctionExpression", 1),
         invalid("((function foo() {return 1;}))()", "(function foo() {return 1;})()", "FunctionExpression"),
         invalid("((function(){ return bar(); })())", "(function(){ return bar(); })()", "CallExpression"),
+        invalid("(foo()).bar", "foo().bar", "CallExpression"),
+        invalid("(foo.bar()).baz", "foo.bar().baz", "CallExpression"),
+        invalid("(foo\n.bar())\n.baz", "foo\n.bar()\n.baz", "CallExpression"),
 
         invalid("new (A)", "new A", "Identifier"),
         invalid("(new A())()", "new A()()", "NewExpression"),
