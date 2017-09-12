@@ -27,17 +27,17 @@ ruleTester.run("no-undef-init", rule, {
     invalid: [
         {
             code: "var a = undefined;",
-            output: "var a;",
+            output: null,
             errors: [{ message: "It's not necessary to initialize 'a' to undefined.", type: "VariableDeclarator" }]
         },
         {
             code: "var a = undefined, b = 1;",
-            output: "var a, b = 1;",
+            output: null,
             errors: [{ message: "It's not necessary to initialize 'a' to undefined.", type: "VariableDeclarator" }]
         },
         {
             code: "var a = 1, b = undefined, c = 5;",
-            output: "var a = 1, b, c = 5;",
+            output: null,
             errors: [{ message: "It's not necessary to initialize 'b' to undefined.", type: "VariableDeclarator" }]
         },
         {
@@ -51,6 +51,18 @@ ruleTester.run("no-undef-init", rule, {
             output: null,
             parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "It's not necessary to initialize '{a}' to undefined.", type: "VariableDeclarator" }]
+        },
+        {
+            code: "let a = undefined;",
+            output: "let a;",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "It's not necessary to initialize 'a' to undefined.", type: "VariableDeclarator" }]
+        },
+        {
+            code: "for(var i in [1,2,3]){var a = undefined; for(var j in [1,2,3]){}}",
+            output: null,
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "It's not necessary to initialize 'a' to undefined.", type: "VariableDeclarator" }]
         }
     ]
 });
