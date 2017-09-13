@@ -232,10 +232,6 @@ describe("SourceCode", () => {
 
         const sandbox = sinon.sandbox.create();
 
-        beforeEach(() => {
-            linter.reset();
-        });
-
         afterEach(() => {
             sandbox.verifyAndRestore();
         });
@@ -921,7 +917,6 @@ describe("SourceCode", () => {
 
 
         beforeEach(() => {
-            linter.reset();
             unusedAssertionFuncs = new Set();
         });
 

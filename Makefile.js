@@ -792,6 +792,7 @@ target.gensite = function(prereleaseVersion) {
     // 13. Update demos, but only for non-prereleases
     if (!prereleaseVersion) {
         echo("> Updating the demos (Step 13)");
+        target.browserify();
         cp("-f", "build/eslint.js", `${SITE_DIR}js/app/eslint.js`);
     } else {
         echo("> Skipped updating the demos (Step 13)");

@@ -106,19 +106,29 @@ The `context` object contains additional functionality that is helpful for rules
 
 * `parserOptions` - the parser options configured for this run (more details [here](../user-guide/configuring#specifying-parser-options)).
 * `id` - the rule ID.
-* `options` - an array of rule options.
-* `settings` - the `settings` from configuration.
-* `parserPath` - the full path to the `parser` from configuration.
+* `options` - an array of the [configured options](/docs/user-guide/configuring#configuring-rules) for this rule. This array does not include the rule severity. For more information, see [here](#contextoptions).
+* `settings` - the [shared settings](/docs/user-guide/configuring#adding-shared-settings) from configuration.
+* `parserPath` - the name of the `parser` from configuration.
+* `parserServices` - an object containing parser-provided services for rules. The default parser does not provide any services. However, if a rule is intended to be used with a custom parser, it could use `parserServices` to access anything provided by that parser. (For example, a TypeScript parser could provide the ability to get the computed type of a given node.)
 
 Additionally, the `context` object has the following methods:
 
-* `getAncestors()` - returns an array of ancestor nodes based on the current traversal.
-* `getDeclaredVariables(node)` - returns the declared variables on the given node.
+* `getAncestors()` - returns an array of the ancestors of the currently-traversed node, starting at the root of the AST and continuing through the direct parent of the current node. This array does not include the currently-traversed node itself.
+* `getDeclaredVariables(node)` - returns a list of [variables](https://estools.github.io/escope/Variable.html) declared by the given node. This information can be used to track references to variables.
+    * If the node is a `VariableDeclaration`, all variables declared in the declaration are returned.
+    * If the node is a `VariableDeclarator`, all variables declared in the declarator are returned.
+    * If the node is a `FunctionDeclaration` or `FunctionExpression`, the variable for the function name is returned,in addition to variables for the function parameters.
+    * If the node is an `ArrowFunctionExpression`, variables for the parameters are returned.
+    * If the node is a `ClassDeclaration` or a `ClassExpression`, the variable for the class name is returned.
+    * If the node is a `CatchClause`, the variable for the exception is returned.
+    * If the node is an `ImportDeclaration`, variables for all of its specifiers are returned.
+    * If the node is an `ImportSpecifier`, `ImportDefaultSpecifier`, or `ImportNamespaceSpecifier`, the declared variable is returned.
+    * Otherwise, if the node does not declare any variables, an empty array is returned.
 * `getFilename()` - returns the filename associated with the source.
-* `getScope()` - returns the current scope.
-* `getSourceCode()` - returns a `SourceCode` object that you can use to work with the source that was passed to ESLint
-* `markVariableAsUsed(name)` - marks the named variable in scope as used. This affects the [no-unused-vars](../rules/no-unused-vars.md) rule.
-* `report(descriptor)` - reports a problem in the code.
+* `getScope()` - returns the [scope](https://estools.github.io/escope/Scope.html) of the currently-traversed node. This information can be used track references to variables.
+* `getSourceCode()` - returns a [`SourceCode`](#contextgetsourcecode) object that you can use to work with the source that was passed to ESLint.
+* `markVariableAsUsed(name)` - marks a variable with the given name in the current scope as used. This affects the [no-unused-vars](../rules/no-unused-vars.md) rule. Returns `true` if a variable with the given name was found and marked as used, otherwise `false`.
+* `report(descriptor)` - reports a problem in the code (see the [dedicated section](#contextreport)).
 
 **Note:** Earlier versions of ESLint supported additional methods on the `context` object. Those methods were removed in the new format and should not be relied upon.
 
@@ -135,8 +145,8 @@ The main method you'll use is `context.report()`, which publishes a warning or e
     * `end` - An object of the end location.
         * `line` - the 1-based line number at which the problem occurred.
         * `column` - the 0-based column number at which the problem occurred.
-* `data` - (optional) placeholder data for `message`.
-* `fix` - (optional) a function that applies a fix to resolve the problem.
+* `data` - (optional) [placeholder](#using-message-placeholders) data for `message`.
+* `fix` - (optional) a function that applies a [fix](#applying-fixes) to resolve the problem.
 
 Note that at least one of `node` or `loc` is required.
 
@@ -150,6 +160,8 @@ context.report({
 ```
 
 The node contains all of the information necessary to figure out the line and column number of the offending text as well the source text representing the node.
+
+### Using message placeholders
 
 You can also use placeholders in the message and provide `data`:
 
@@ -252,7 +264,7 @@ module.exports = {
 
 Since `context.options` is just an array, you can use it to determine how many options have been passed as well as retrieving the actual options themselves. Keep in mind that the error level is not part of `context.options`, as the error level cannot be known or modified from inside a rule.
 
-When using options, make sure that your rule has some logic defaults in case the options are not provided.
+When using options, make sure that your rule has some logical defaults in case the options are not provided.
 
 ### context.getSourceCode()
 
@@ -415,267 +427,9 @@ You can access that code path objects with five events related to code paths.
 
 ## Rule Unit Tests
 
-Each rule must have a set of unit tests submitted with it to be accepted. The test file is named the same as the source file but lives in `tests/lib/`. For example, if your rule source file is `lib/rules/foo.js` then your test file should be `tests/lib/rules/foo.js`.
+Each bundled rule for ESLint core must have a set of unit tests submitted with it to be accepted. The test file is named the same as the source file but lives in `tests/lib/`. For example, if the rule source file is `lib/rules/foo.js` then the test file should be `tests/lib/rules/foo.js`.
 
-For your rule, be sure to test:
-
-1. All instances that should be flagged as warnings.
-1. At least one pattern that should **not** be flagged as a warning.
-
-The basic pattern for a rule unit test file is:
-
-```js
-/**
- * @fileoverview Tests for no-with rule.
- * @author Nicholas C. Zakas
- */
-
-"use strict";
-
-//------------------------------------------------------------------------------
-// Requirements
-//------------------------------------------------------------------------------
-
-var rule = require("../../../lib/rules/no-with"),
-    RuleTester = require("../../../lib/testers/rule-tester");
-
-//------------------------------------------------------------------------------
-// Tests
-//------------------------------------------------------------------------------
-
-var ruleTester = new RuleTester();
-ruleTester.run("no-with", rule, {
-    valid: [
-        "foo.bar()"
-    ],
-    invalid: [
-        {
-            code: "with(foo) { bar() }",
-            errors: [{ message: "Unexpected use of 'with' statement.", type: "WithStatement"}]
-        }
-    ]
-});
-```
-
-Be sure to replace the value of `"no-with"` with your rule's ID. There are plenty of examples in the `tests/lib/rules/` directory.
-
-### Valid Code
-
-Each valid case can be either a string or an object. The object form is used when you need to specify additional global variables or arguments for the rule. For example, the following defines `window` as a global variable for code that should not trigger the rule being tested:
-
-```js
-valid: [
-    {
-        code: "window.alert()",
-        globals: [ "window" ]
-    }
-]
-```
-
-You can also pass options to the rule (if it accepts them). These arguments are equivalent to how people can configure rules in their `.eslintrc` file. For example:
-
-```js
-valid: [
-    {
-        code: "var msg = 'Hello';",
-        options: [ "single" ]
-    }
-]
-```
-
-The `options` property must be an array of options. This gets passed through to `context.options` in the rule.
-
-### Invalid Code
-
-Each invalid case must be an object containing the code to test and at least one message that is produced by the rule. The `errors` key specifies an array of objects, each containing a message (your rule may trigger multiple messages for the same code). You should also specify the type of AST node you expect to receive back using the `type` key. The AST node should represent the actual spot in the code where there is a problem. For example:
-
-```js
-invalid: [
-    {
-        code: "function doSomething() { var f; if (true) { var build = true; } f = build; }",
-        errors: [
-            { message: "build used outside of binding context.", type: "Identifier" }
-        ]
-    }
-]
-```
-
-In this case, the message is specific to the variable being used and the AST node type is `Identifier`.
-
-You can also check that the rule returns the correct line and column numbers for the message by adding `line` and `column` properties as needed (both are optional, but highly recommend):
-
-```js
-invalid: [
-    {
-        code: "function doSomething() { var f; if (true) { var build = true; } f = build; }",
-        errors: [
-            {
-                message: "build used outside of binding context.",
-                type: "Identifier",
-                line: 1,
-                column: 68
-            }
-        ]
-    }
-]
-```
-
-The test fails if the line or column reported by the rule doesn't match the options specified in the test.
-
-Similar to the valid cases, you can also specify `options` to be passed to the rule:
-
-```js
-invalid: [
-    {
-        code: "function doSomething() { var f; if (true) { var build = true; } f = build; }",
-        options: [ "double" ],
-        errors: [
-            { message: "build used outside of binding context.", type: "Identifier" }
-        ]
-    }
-]
-```
-
-For simpler cases where the only thing that really matters is the error message, you can also specify any `errors` as strings. You can also have some strings and some objects, if you like.
-
-```js
-invalid: [
-    {
-        code: "'single quotes'",
-        options: ["double"],
-        errors: ["Strings must use doublequote."]
-    }
-]
-```
-
-### Specifying Globals
-
-If your rule relies on globals to be specified, you can provide global variable declarations by using the `globals` property. For example:
-
-```js
-valid: [
-    {
-        code: "for (x of a) doSomething();",
-        globals: { window: true }
-    }
-]
-```
-
-The same works on invalid tests:
-
-```js
-invalid: [
-    {
-        code: "'single quotes'",
-        globals: { window: true },
-        errors: ["Strings must use doublequote."]
-    }
-]
-```
-
-### Specifying Settings
-
-If your rule relies on `context.settings` to be specified, you can provide those settings by using the `settings` property. For example:
-
-```js
-valid: [
-    {
-        code: "for (x of a) doSomething();",
-        settings: { message: "hi" }
-    }
-]
-```
-
-The same works on invalid tests:
-
-```js
-invalid: [
-    {
-        code: "'single quotes'",
-        settings: { message: "hi" },
-        errors: ["Strings must use doublequote."]
-    }
-]
-```
-
-You can then access `context.settings.message` inside of the rule.
-
-### Specifying Filename
-
-If your rule relies on `context.getFilename()` to be specified, you can provide the filename by using the `filename` property. For example:
-
-```js
-valid: [
-    {
-        code: "for (x of a) doSomething();",
-        filename: "foo/bar.js"
-    }
-]
-```
-
-The same works on invalid tests:
-
-```js
-invalid: [
-    {
-        code: "'single quotes'",
-        filename: "foo/bar.js",
-        errors: ["Strings must use doublequote."]
-    }
-]
-```
-
-You can then access `context.getFilename()` inside of the rule.
-
-### Specifying Parser and Parser Options
-
-Some tests require that a certain parser configuration must be used. This can be specified in test specifications via the `parser` and `parserOptions` properties. While the following examples show usage in `valid` tests, you can use the same options in `invalid` tests as well.
-
-For example, to set `ecmaVersion` to 6 (in order to use constructs like `for-of`):
-
-```js
-valid: [
-    {
-        code: "for (x of a) doSomething();",
-        parserOptions: { ecmaVersion: 6 }
-    }
-]
-```
-
-If you are working with ES6 modules:
-
-```js
-valid: [
-    {
-        code: "export default function () {};",
-        parserOptions: { ecmaVersion: 6, sourceType: "module" }
-    }
-]
-```
-
-For non-version specific features such as JSX:
-
-```js
-valid: [
-    {
-        code: "var foo = <div>{bar}</div>",
-        parserOptions: { ecmaFeatures: { jsx: true } }
-    }
-]
-```
-
-To use a different parser:
-
-```js
-valid: [
-    {
-        code: "var foo = <div>{bar}</div>",
-        parser: "my-custom-parser"
-    }
-]
-```
-
-The options available and the expected syntax for `parserOptions` is the same as those used in [configuration](../user-guide/configuring#specifying-parser-options).
+ESLint provides the [`RuleTester`](/docs/developer-guide/nodejs-api#ruletester) utility to make it easy to write tests for rules.
 
 ## Performance Testing
 
@@ -683,7 +437,7 @@ To keep the linting process efficient and unobtrusive, it is useful to verify th
 
 ### Overall Performance
 
-The `npm run perf` command gives a high-level overview of ESLint running time with default rules (`eslint:recommended`) enabled.
+When developing in the ESLint core repository, the `npm run perf` command gives a high-level overview of ESLint running time with all core rules enabled.
 
 ```bash
 $ git checkout master
