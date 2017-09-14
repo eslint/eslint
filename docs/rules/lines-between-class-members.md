@@ -1,13 +1,13 @@
-# require or disallow an empty line after after class members (padding-line-after-class-members)
+# require or disallow an empty line after after class members (lines-between-class-members)
 
-This rule improves readability by enforcing lines after class members. it will not check empty lines before the first member and after the last member, since that is already taken care of by padded-blocks.
+This rule improves readability by enforcing lines between class members. it will not check empty lines before the first member and after the last member, since that is already taken care of by padded-blocks.
 
 ## Rule Details
 
 Examples of **incorrect** code for this rule:
 
 ```js
-/* eslint padding-line-after-class-members: ["error", "always"]*/
+/* eslint lines-between-class-members: ["error", "always"]*/
 class MyClass {
   foo() {
     //...
@@ -21,7 +21,7 @@ class MyClass {
 Examples of **correct** code for this rule:
 
 ```js
-/* eslint padding-line-after-class-members: ["error", "always"]*/
+/* eslint lines-between-class-members: ["error", "always"]*/
 class MyClass {
   foo() {
     //...
@@ -52,13 +52,13 @@ Object option:
 Examples of **incorrect** code for this rule with the string option:
 
 ```js
-/* eslint padding-line-after-class-members: ["error", "always"]*/
+/* eslint lines-between-class-members: ["error", "always"]*/
 class Foo{
   bar(){}
   baz(){}
 }
 
-/* eslint padding-line-after-class-members: ["error", "never"]*/
+/* eslint lines-between-class-members: ["error", "never"]*/
 class Foo{
   bar(){}
 
@@ -69,14 +69,14 @@ class Foo{
 Examples of **correct** code for this rule with the string option:
 
 ```js
-/* eslint padding-line-after-class-members: ["error", "always"]*/
+/* eslint lines-between-class-members: ["error", "always"]*/
 class Foo{
   bar(){}
 
   baz(){}
 }
 
-/* eslint padding-line-after-class-members: ["error", "never"]*/
+/* eslint lines-between-class-members: ["error", "never"]*/
 class Foo{
   bar(){}
   baz(){}
@@ -86,7 +86,7 @@ class Foo{
 Examples of **incorrect** code for this rule with the object option:
 
 ```js
-/* eslint padding-line-after-class-members: ["error", { multiline: "always" }]*/
+/* eslint lines-between-class-members: ["error", { multiline: "always" }]*/
 class Foo{
   bar(){
     bar();
@@ -94,7 +94,7 @@ class Foo{
   baz(){}
 }
 
-/* eslint padding-line-after-class-members: ["error", { multiline: "never" }]*/
+/* eslint lines-between-class-members: ["error", { multiline: "never" }]*/
 class Foo{
   bar(){
     bar();
@@ -103,13 +103,13 @@ class Foo{
   baz(){}
 }
 
-/* eslint padding-line-after-class-members: ["error", { singleline: "always" }]*/
+/* eslint lines-between-class-members: ["error", { singleline: "always" }]*/
 class Foo{
   bar(){}
   baz(){}
 }
 
-/* eslint padding-line-after-class-members: ["error", { singleline: "never" }]*/
+/* eslint lines-between-class-members: ["error", { singleline: "never" }]*/
 class Foo{
   bar(){}
 
@@ -120,7 +120,7 @@ class Foo{
 Examples of **correct** code for this rule with the object option:
 
 ```js
-/* eslint padding-line-after-class-members: ["error", { multiline: "always" }]*/
+/* eslint lines-between-class-members: ["error", { multiline: "always" }]*/
 class Foo{
   bar(){
     bar();
@@ -129,7 +129,7 @@ class Foo{
   baz(){}
 }
 
-/* eslint padding-line-after-class-members: ["error", { multiline: "never" }]*/
+/* eslint lines-between-class-members: ["error", { multiline: "never" }]*/
 class Foo{
   bar(){
     bar();
@@ -137,14 +137,14 @@ class Foo{
   baz(){}
 }
 
-/* eslint padding-line-after-class-members: ["error", { singleline: "always" }]*/
+/* eslint lines-between-class-members: ["error", { singleline: "always" }]*/
 class Foo{
   bar(){}
 
   baz(){}
 }
 
-/* eslint padding-line-after-class-members: ["error", { singleline: "never" }]*/
+/* eslint lines-between-class-members: ["error", { singleline: "never" }]*/
 class Foo{
   bar(){}
   baz(){}

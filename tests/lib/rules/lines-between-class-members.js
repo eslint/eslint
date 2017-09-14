@@ -1,5 +1,5 @@
 /**
- * @fileoverview Tests for padding-line-after-class-members rule.
+ * @fileoverview Tests for lines-between-class-members rule.
  * @author 薛定谔的猫<hh_2013@foxmail.com>
  */
 
@@ -9,15 +9,15 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const rule = require("../../../lib/rules/padding-line-after-class-members");
+const rule = require("../../../lib/rules/lines-between-class-members");
 const RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
 // Helpers
 //------------------------------------------------------------------------------
 
-const ALWAYS_MESSAGE = "Expected blank line after class members.";
-const NEVER_MESSAGE = "Unexpected blank line after class members.";
+const ALWAYS_MESSAGE = "Expected blank line between class members.";
+const NEVER_MESSAGE = "Unexpected blank line between class members.";
 
 //------------------------------------------------------------------------------
 // Tests
