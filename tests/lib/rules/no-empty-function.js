@@ -58,10 +58,12 @@ function toValidInvalid(patterns, item) {
         }
     );
 
+    const error = item.message || { messageId: item.messageId, data: item.data };
+
     // Invalid Patterns.
     patterns.invalid.push({
         code: item.code,
-        errors: [item.message],
+        errors: [error],
         parserOptions: { ecmaVersion: 6 }
     });
     ALLOW_OPTIONS
@@ -71,7 +73,7 @@ function toValidInvalid(patterns, item) {
             // non related "allow" option has no effect.
             patterns.invalid.push({
                 code: `${item.code} // allow: ${allow}`,
-                errors: [item.message],
+                errors: [error],
                 options: [{ allow: [allow] }],
                 parserOptions: { ecmaVersion: 6 }
             });

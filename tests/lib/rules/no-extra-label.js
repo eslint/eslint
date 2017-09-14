@@ -105,7 +105,7 @@ ruleTester.run("no-extra-label", rule, {
                     }
                 }
             `,
-            errors: [{ message: { messageId: "unexpected", data: { name: "A" } }, type: "Identifier", line: 2 }]
+            errors: [{ messageId: "unexpected", data: { name: "A" }, type: "Identifier", line: 2 }]
         }
     ]
 });
