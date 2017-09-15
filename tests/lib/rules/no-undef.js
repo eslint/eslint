@@ -40,6 +40,7 @@ ruleTester.run("no-undef", rule, {
         "var b = typeof a",
         "typeof a === 'undefined'",
         "if (typeof a === 'undefined') {}",
+        "if (typeof a === 'string') {}",
         { code: "function foo() { var [a, b=4] = [1, 2]; return {a, b}; }", parserOptions: { ecmaVersion: 6 } },
         { code: "var toString = 1;", parserOptions: { ecmaVersion: 6 } },
         { code: "function myFunc(...foo) {  return foo;}", parserOptions: { ecmaVersion: 6 } },
@@ -81,7 +82,18 @@ ruleTester.run("no-undef", rule, {
                 }
             },
             globals: { stuff: false, foo: false }
-        }
+        },
+
+        // Guarded usage aware:
+        "var x = typeof $ !== 'undefined' && true && $();",
+        "var x = typeof $ === 'function' ? $(1) : (typeof $ !== 'undefined' ? (true, $) : false)",
+        "{b: typeof $ === 'undefined' ? false : new $(1)}",
+        "Object[typeof $ === 'undefined' ? '' : $]",
+        "typeof $ === 'undefined' ? Object : Object[$]",
+        "typeof $ === 'undefined' ? {b: false} : { b: new $(1)}",
+        "typeof $ !== 'undefined' && (true || false) && $();",
+        { code: "typeof $ === 'undefined' ? [false] : [...new $(1)]", parserOptions: { ecmaVersion: 6 } },
+        { code: "for(var x of typeof window === 'undefined' ? ['node'] : ['browser']) {}", parserOptions: { ecmaVersion: 6 } }
     ],
     invalid: [
         { code: "a = 1;", errors: [{ message: "'a' is not defined.", type: "Identifier" }] },
@@ -107,6 +119,12 @@ ruleTester.run("no-undef", rule, {
                 }
             },
             errors: [{ message: "'b' is not defined." }]
-        }
+        },
+
+        // Guarded usage aware
+        { code: "typeof $ === 'undefined' ? $() : false", errors: [{ message: "'$' is not defined.", type: "Identifier" }] },
+        { code: "(typeof $ === 'undefined' || false) && $()", errors: [{ message: "'$' is not defined.", type: "Identifier" }] },
+        { code: "typeof $ === 'function' ? $(1) : (typeof $ === 'undefined' ? (true, $) : false)", errors: [{ message: "'$' is not defined.", type: "Identifier" }] },
+        { code: "!$ ? false : $()", errors: [{ message: "'$' is not defined.", type: "Identifier" }, { message: "'$' is not defined.", type: "Identifier" }] }
     ]
 });
