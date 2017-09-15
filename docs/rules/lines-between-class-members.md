@@ -1,6 +1,6 @@
-# require or disallow an empty line after after class members (lines-between-class-members)
+# require or disallow an empty line between class members (lines-between-class-members)
 
-This rule improves readability by enforcing lines between class members. it will not check empty lines before the first member and after the last member, since that is already taken care of by padded-blocks.
+This rule improves readability by enforcing lines between class members. It will not check empty lines before the first member and after the last member, since that is already taken care of by padded-blocks.
 
 ## Rule Details
 
@@ -35,7 +35,7 @@ class MyClass {
 
 ### Options
 
-This rule has one option, which can be a string option or an object option.
+This rule has a string option and an object option.
 
 String option:
 
@@ -44,10 +44,8 @@ String option:
 
 Object option:
 
-* `"multiline": "always"` require an empty line after after multiline class members
-* `"multiline": "never"` disallows an empty line after after multiline class members
-* `"singleline": "always"` require an empty line after after singleline class members
-* `"singleline": "never"` disallows an empty line after after singleline class members
+* `"exceptAfterSingleLine": "false"`(default) **do not** skip checking empty lines after singleline class members
+* `"exceptAfterSingleLine": "true"` skip checking empty lines after singleline class members
 
 Examples of **incorrect** code for this rule with the string option:
 
@@ -83,70 +81,23 @@ class Foo{
 }
 ```
 
-Examples of **incorrect** code for this rule with the object option:
-
-```js
-/* eslint lines-between-class-members: ["error", { multiline: "always" }]*/
-class Foo{
-  bar(){
-    bar();
-  }
-  baz(){}
-}
-
-/* eslint lines-between-class-members: ["error", { multiline: "never" }]*/
-class Foo{
-  bar(){
-    bar();
-  }
-
-  baz(){}
-}
-
-/* eslint lines-between-class-members: ["error", { singleline: "always" }]*/
-class Foo{
-  bar(){}
-  baz(){}
-}
-
-/* eslint lines-between-class-members: ["error", { singleline: "never" }]*/
-class Foo{
-  bar(){}
-
-  baz(){}
-}
-```
-
 Examples of **correct** code for this rule with the object option:
 
 ```js
-/* eslint lines-between-class-members: ["error", { multiline: "always" }]*/
-class Foo{
-  bar(){
-    bar();
-  }
-
-  baz(){}
-}
-
-/* eslint lines-between-class-members: ["error", { multiline: "never" }]*/
-class Foo{
-  bar(){
-    bar();
-  }
-  baz(){}
-}
-
-/* eslint lines-between-class-members: ["error", { singleline: "always" }]*/
-class Foo{
-  bar(){}
-
-  baz(){}
-}
-
-/* eslint lines-between-class-members: ["error", { singleline: "never" }]*/
+/* eslint lines-between-class-members: ["error", "always", { exceptAfterSingleLine: true }]*/
 class Foo{
   bar(){}
   baz(){}
 }
 ```
+
+## When Not To Use It
+
+If you don't want enforce empty lines between class members, you can disable this rule.
+
+## Related Rules
+
+* [padded-blocks](padded-blocks.md)
+* [padding-line-between-statement](padding-line-between-statement.md)
+* [requirePaddingNewLinesAfterBlocks](http://jscs.info/rule/requirePaddingNewLinesAfterBlocks)
+* [disallowPaddingNewLinesAfterBlocks](http://jscs.info/rule/disallowPaddingNewLinesAfterBlocks)
