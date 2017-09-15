@@ -100,6 +100,21 @@ describe("Linter", () => {
                 linter.verify(code, config, filename, true);
             }, "Intentional error.");
         });
+
+        it("has all the `parent` properties on nodes when the rule listeners are created", () => {
+            linter.defineRule("checker", context => {
+                const ast = context.getSourceCode().ast;
+
+                assert.strictEqual(ast.body[0].parent, ast);
+                assert.strictEqual(ast.body[0].expression.parent, ast.body[0]);
+                assert.strictEqual(ast.body[0].expression.left.parent, ast.body[0].expression);
+                assert.strictEqual(ast.body[0].expression.right.parent, ast.body[0].expression);
+
+                return {};
+            });
+
+            linter.verify("foo + bar", { rules: { checker: "error" } });
+        });
     });
 
     describe("context.getSourceLines()", () => {
@@ -432,43 +447,6 @@ describe("Linter", () => {
             linter.verify(code, config);
             assert(spy.calledOnce);
         });
-
-        it("should attach the node's parent", () => {
-            const config = { rules: { checker: "error" } };
-            const spy = sandbox.spy(context => {
-                const node = context.getNodeByRangeIndex(14);
-
-                assert.property(node, "parent");
-                assert.equal(node.parent.type, "VariableDeclarator");
-                return {};
-            });
-
-            linter.defineRule("checker", spy);
-            linter.verify(code, config);
-            assert(spy.calledOnce);
-        });
-
-        it("should not modify the node when attaching the parent", () => {
-            const config = { rules: { checker: "error" } };
-            const spy = sandbox.spy(context => {
-                const node1 = context.getNodeByRangeIndex(10);
-
-                assert.equal(node1.type, "VariableDeclarator");
-
-                const node2 = context.getNodeByRangeIndex(4);
-
-                assert.equal(node2.type, "Identifier");
-                assert.property(node2, "parent");
-                assert.equal(node2.parent.type, "VariableDeclarator");
-                assert.notProperty(node2.parent, "parent");
-                return {};
-            });
-
-            linter.defineRule("checker", spy);
-            linter.verify(code, config);
-            assert(spy.calledOnce);
-        });
-
     });
 
 

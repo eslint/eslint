@@ -1775,25 +1775,6 @@ describe("SourceCode", () => {
             node = sourceCode.getNodeByRangeIndex(-99);
             assert.isNull(node);
         });
-
-        it("should attach the node's parent", () => {
-            const node = sourceCode.getNodeByRangeIndex(14);
-
-            assert.property(node, "parent");
-            assert.equal(node.parent.type, "VariableDeclarator");
-        });
-
-        it("should not modify the node when attaching the parent", () => {
-            let node = sourceCode.getNodeByRangeIndex(10);
-
-            assert.equal(node.type, "VariableDeclarator");
-            node = sourceCode.getNodeByRangeIndex(4);
-            assert.equal(node.type, "Identifier");
-            assert.property(node, "parent");
-            assert.equal(node.parent.type, "VariableDeclarator");
-            assert.notProperty(node.parent, "parent");
-        });
-
     });
 
     describe("isSpaceBetweenTokens()", () => {
