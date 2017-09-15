@@ -3591,6 +3591,31 @@ ruleTester.run("indent", rule, {
             `,
             options: [4, { flatTernaryExpressions: true }]
         },
+        {
+            code: unIndent`
+                function foo() {
+                    return foo ? bar :
+                        baz
+                }
+            `,
+            options: [4, { flatTernaryExpressions: true }]
+        },
+        {
+            code: unIndent`
+                throw foo ? bar :
+                    baz
+            `,
+            options: [4, { flatTernaryExpressions: true }]
+        },
+        {
+            code: unIndent`
+                foo(
+                    bar
+                ) ? baz :
+                    qux
+            `,
+            options: [4, { flatTernaryExpressions: true }]
+        },
         unIndent`
                 foo
                     [
