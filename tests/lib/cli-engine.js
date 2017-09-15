@@ -2478,6 +2478,94 @@ describe("CLIEngine", () => {
                 assert.equal(report.results[0].messages[0].message, "'b' is defined but never used.");
                 assert.equal(report.results[0].messages[0].ruleId, "post-processed");
             });
+
+            describe("autofixing with processors", () => {
+                const HTML_PROCESSOR = Object.freeze({
+                    preprocess(text) {
+                        return [text.replace(/^<script>/, "").replace(/<\/script>$/, "")];
+                    },
+                    postprocess(problemLists) {
+                        return problemLists[0].map(problem => {
+                            if (problem.fix) {
+                                const updatedFix = Object.assign({}, problem.fix, {
+                                    range: problem.fix.range.map(index => index + "<script>".length)
+                                });
+
+                                return Object.assign({}, problem, { fix: updatedFix });
+                            }
+                            return problem;
+                        });
+                    }
+                });
+
+
+                it("should run in autofix mode when using a processor that supports autofixing", () => {
+                    engine = new CLIEngine({
+                        useEslintrc: false,
+                        plugins: ["test-processor"],
+                        rules: {
+                            semi: 2
+                        },
+                        extensions: ["js", "txt"],
+                        ignore: false,
+                        fix: true
+                    });
+
+                    engine.addPlugin("test-processor", {
+                        processors: {
+                            ".html": Object.assign({ supportsAutofix: true }, HTML_PROCESSOR)
+                        }
+                    });
+
+                    const report = engine.executeOnText("<script>foo</script>", "foo.html");
+
+                    assert.strictEqual(report.results[0].messages.length, 0);
+                    assert.strictEqual(report.results[0].output, "<script>foo;</script>");
+                });
+
+                it("should not run in autofix mode when using a processor that does not support autofixing", () => {
+                    engine = new CLIEngine({
+                        useEslintrc: false,
+                        plugins: ["test-processor"],
+                        rules: {
+                            semi: 2
+                        },
+                        extensions: ["js", "txt"],
+                        ignore: false,
+                        fix: true
+                    });
+
+                    engine.addPlugin("test-processor", { processors: { ".html": HTML_PROCESSOR } });
+
+                    const report = engine.executeOnText("<script>foo</script>", "foo.html");
+
+                    assert.strictEqual(report.results[0].messages.length, 1);
+                    assert.isFalse(Object.prototype.hasOwnProperty.call(report.results[0], "output"));
+                });
+
+                it("should not run in autofix mode when `fix: true` is not provided, even if the processor supports autofixing", () => {
+                    engine = new CLIEngine({
+                        useEslintrc: false,
+                        plugins: ["test-processor"],
+                        rules: {
+                            semi: 2
+                        },
+                        extensions: ["js", "txt"],
+                        ignore: false
+                    });
+
+                    engine.addPlugin("test-processor", {
+                        processors: {
+                            ".html": Object.assign({ supportsAutofix: true }, HTML_PROCESSOR)
+                        }
+                    });
+
+                    const report = engine.executeOnText("<script>foo</script>", "foo.html");
+
+                    assert.strictEqual(report.results[0].messages.length, 1);
+                    assert.isFalse(Object.prototype.hasOwnProperty.call(report.results[0], "output"));
+                });
+            });
         });
     });
 
