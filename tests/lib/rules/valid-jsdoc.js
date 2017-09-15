@@ -162,6 +162,18 @@ ruleTester.run("valid-jsdoc", rule, {
             }]
         },
         {
+            code: "/**\n* @param {string} a Start with caps and end with period.\n* @return {void} */\nfunction foo(a){}",
+            options: [{
+                matchParamDescription: "^[A-Z][A-Za-z0-9\\s]*[.]$"
+            }]
+        },
+        {
+            code: "/**\n* @return {void} Returns nothing. */\nfunction foo(){}",
+            options: [{
+                matchReturnDescription: "^[A-Z][A-Za-z0-9\\s]*[.]$"
+            }]
+        },
+        {
             code: "/** Foo \n@return {void} Foo\n */\nfunction foo(){}",
             options: [{ prefer: { return: "return" } }]
         },
@@ -946,6 +958,26 @@ ruleTester.run("valid-jsdoc", rule, {
             }],
             errors: [{
                 message: "JSDoc description does not satisfy the regex pattern.",
+                type: "Block"
+            }]
+        },
+        {
+            code: "/**\n* @param {string} arg Start with caps and end with period\n* @return {void} */\nfunction foo(arg){}",
+            options: [{
+                matchParamDescription: "^[A-Z][A-Za-z0-9\\s]*[.]$"
+            }],
+            errors: [{
+                message: "JSDoc parameter 'arg' does not satisfy the regex pattern.",
+                type: "Block"
+            }]
+        },
+        {
+            code: "/**\n* @return {void} Start with caps and end with period\n*/\nfunction foo(){}",
+            options: [{
+                matchReturnDescription: "^[A-Z][A-Za-z0-9\\s]*[.]$"
+            }],
+            errors: [{
+                message: "JSDoc return description does not satisfy the regex pattern.",
                 type: "Block"
             }]
         },
