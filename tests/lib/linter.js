@@ -3590,6 +3590,136 @@ describe("Linter", () => {
         });
     });
 
+    describe("processors", () => {
+        beforeEach(() => {
+
+            // A rule that always reports the AST with a message equal to the source text
+            linter.defineRule("report-original-text", context => ({
+                Program(ast) {
+                    context.report({ node: ast, message: context.getSourceCode().text });
+                }
+            }));
+        });
+
+        describe("preprocessors", () => {
+            it("should apply a preprocessor to the code, and lint each code sample separately", () => {
+                const code = "foo bar baz";
+                const problems = linter.verify(
+                    code,
+                    { rules: { "report-original-text": "error" } },
+                    {
+
+                        // Apply a preprocessor that splits the source text into spaces and lints each word individually
+                        preprocess(input) {
+                            assert.strictEqual(input, code);
+                            assert.strictEqual(arguments.length, 1);
+                            return input.split(" ");
+                        }
+                    }
+                );
+
+                assert.strictEqual(problems.length, 3);
+                assert.deepEqual(problems.map(problem => problem.message), ["foo", "bar", "baz"]);
+            });
+        });
+
+        describe("postprocessors", () => {
+            it("should apply a postprocessor to the reported messages", () => {
+                const code = "foo bar baz";
+
+                const problems = linter.verify(
+                    code,
+                    { rules: { "report-original-text": "error" } },
+                    {
+                        preprocess: input => input.split(" "),
+
+                        /*
+                         * Apply a postprocessor that updates the locations of the reported problems
+                         * to make sure they correspond to the locations in the original text.
+                         */
+                        postprocess(problemLists) {
+                            assert.strictEqual(problemLists.length, 3);
+                            assert.strictEqual(arguments.length, 1);
+
+                            problemLists.forEach(problemList => assert.strictEqual(problemList.length, 1));
+                            return problemLists.reduce(
+                                (combinedList, problemList, index) =>
+                                    combinedList.concat(
+                                        problemList.map(
+                                            problem =>
+                                                Object.assign(
+                                                    {},
+                                                    problem,
+                                                    {
+                                                        message: problem.message.toUpperCase(),
+                                                        column: problem.column + index * 4
+                                                    }
+                                                )
+                                        )
+                                    ),
+                                []
+                            );
+                        }
+                    }
+                );
+
+                assert.strictEqual(problems.length, 3);
+                assert.deepEqual(problems.map(problem => problem.message), ["FOO", "BAR", "BAZ"]);
+                assert.deepEqual(problems.map(problem => problem.column), [1, 5, 9]);
+            });
+
+            it("should use postprocessed problem ranges when applying autofixes", () => {
+                const code = "foo bar baz";
+
+                linter.defineRule("capitalize-identifiers", context => ({
+                    Identifier(node) {
+                        if (node.name !== node.name.toUpperCase()) {
+                            context.report({
+                                node,
+                                message: "Capitalize this identifier",
+                                fix: fixer => fixer.replaceText(node, node.name.toUpperCase())
+                            });
+                        }
+                    }
+                }));
+
+                const fixResult = linter.verifyAndFix(
+                    code,
+                    { rules: { "capitalize-identifiers": "error" } },
+                    {
+
+                        /*
+                         * Apply a postprocessor that updates the locations of autofixes
+                         * to make sure they correspond to locations in the original text.
+                         */
+                        preprocess: input => input.split(" "),
+                        postprocess(problemLists) {
+                            return problemLists.reduce(
+                                (combinedProblems, problemList, blockIndex) =>
+                                    combinedProblems.concat(
+                                        problemList.map(problem =>
+                                            Object.assign(problem, {
+                                                fix: {
+                                                    text: problem.fix.text,
+                                                    range: problem.fix.range.map(
+                                                        rangeIndex => rangeIndex + blockIndex * 4
+                                                    )
+                                                }
+                                            }))
+                                    ),
+                                []
+                            );
+                        }
+                    }
+                );
+
+                assert.strictEqual(fixResult.fixed, true);
+                assert.strictEqual(fixResult.messages.length, 0);
+                assert.strictEqual(fixResult.output, "FOO BAR BAZ");
+            });
+        });
+    });
+
     describe("verifyAndFix", () => {
         it("Fixes the code", () => {
             const messages = linter.verifyAndFix("var a", {
