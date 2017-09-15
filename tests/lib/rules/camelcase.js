@@ -79,6 +79,14 @@ ruleTester.run("camelcase", rule, {
         {
             code: "import { no_camelcased as camelCased, anoterCamelCased } from \"external-module\";",
             parserOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "var o = {bar_baz: 1}",
+            options: [{ ignorePattern: "bar_baz" }]
+        },
+        {
+            code: "var o = {bar_baz: 1, bar_foo: 2}",
+            options: [{ ignorePattern: "bar_.*" }]
         }
     ],
     invalid: [
@@ -295,6 +303,16 @@ ruleTester.run("camelcase", rule, {
         {
             code: "import no_camelcased, { another_no_camelcased as camelCased } from \"external-module\";",
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [
+                {
+                    message: "Identifier 'no_camelcased' is not in camel case.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "var o = {should_ignored: 1, no_camelcased: 2}",
+            options: [{ ignorePattern: "should_.*" }],
             errors: [
                 {
                     message: "Identifier 'no_camelcased' is not in camel case.",
