@@ -86,8 +86,12 @@ Examples of **correct** code for this rule with the object option:
 ```js
 /* eslint lines-between-class-members: ["error", "always", { exceptAfterSingleLine: true }]*/
 class Foo{
-  bar(){}
-  baz(){}
+  bar(){} // single line class member
+  baz(){
+    // multi line class member
+  }
+
+  qux(){}
 }
 ```
 
