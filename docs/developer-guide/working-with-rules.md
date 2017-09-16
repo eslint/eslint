@@ -110,6 +110,7 @@ The `context` object contains additional functionality that is helpful for rules
 * `settings` - the [shared settings](/docs/user-guide/configuring#adding-shared-settings) from configuration.
 * `parserPath` - the name of the `parser` from configuration.
 * `parserServices` - an object containing parser-provided services for rules. The default parser does not provide any services. However, if a rule is intended to be used with a custom parser, it could use `parserServices` to access anything provided by that parser. (For example, a TypeScript parser could provide the ability to get the computed type of a given node.)
+* `version` - the ESLint version as a string (e.g. `"4.7.0"`).
 
 Additionally, the `context` object has the following methods:
 
