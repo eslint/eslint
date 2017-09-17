@@ -143,6 +143,34 @@ describe("apply-disable-directives", () => {
             );
         });
 
+        it("filter out problems if disable all then enable foo and then disable foo", () => {
+            assert.deepEqual(
+                applyDisableDirectives({
+                    directives: [
+                        { type: "disable", line: 1, column: 1, ruleId: null },
+                        { type: "enable", line: 1, column: 5, ruleId: "foo" },
+                        { type: "disable", line: 2, column: 1, ruleId: "foo" }
+                    ],
+                    problems: [{ line: 3, column: 3, ruleId: "foo" }]
+                }),
+                []
+            );
+        });
+
+        it("filter out problems if disable all then enable foo and then disable all", () => {
+            assert.deepEqual(
+                applyDisableDirectives({
+                    directives: [
+                        { type: "disable", line: 1, column: 1, ruleId: null },
+                        { type: "enable", line: 1, column: 5, ruleId: "foo" },
+                        { type: "disable", line: 2, column: 1, ruleId: null }
+                    ],
+                    problems: [{ line: 3, column: 3, ruleId: "foo" }]
+                }),
+                []
+            );
+        });
+
         it("keeps problems before the eslint-enable comment if there is no corresponding disable comment", () => {
             assert.deepEqual(
                 applyDisableDirectives({
