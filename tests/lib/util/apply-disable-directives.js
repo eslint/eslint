@@ -326,6 +326,23 @@ describe("apply-disable-directives", () => {
                 []
             );
         });
+
+        it("handles consecutive comments appropriately", () => {
+            assert.deepEqual(
+                applyDisableDirectives({
+                    directives: [
+                        { type: "disable-line", line: 1, column: 5, ruleId: "foo" },
+                        { type: "disable-line", line: 2, column: 5, ruleId: "foo" },
+                        { type: "disable-line", line: 3, column: 5, ruleId: "foo" },
+                        { type: "disable-line", line: 4, column: 5, ruleId: "foo" },
+                        { type: "disable-line", line: 5, column: 5, ruleId: "foo" },
+                        { type: "disable-line", line: 6, column: 5, ruleId: "foo" }
+                    ],
+                    problems: [{ line: 2, column: 1, ruleId: "foo" }]
+                }),
+                []
+            );
+        });
     });
 
     describe("eslint-disable-next-line comments without rules", () => {
@@ -369,19 +386,6 @@ describe("apply-disable-directives", () => {
                     problems: [{ line: 2, column: 2, ruleId: "foo" }]
                 }),
                 []
-            );
-        });
-
-        it("keeps problems on the next line if there is an eslint-enable comment before the problem on the next line", () => {
-            assert.deepEqual(
-                applyDisableDirectives({
-                    directives: [
-                        { type: "disable-next-line", line: 1, column: 1, ruleId: null },
-                        { type: "enable", line: 2, column: 1, ruleId: null }
-                    ],
-                    problems: [{ line: 2, column: 2, ruleId: "foo" }]
-                }),
-                [{ line: 2, column: 2, ruleId: "foo" }]
             );
         });
     });
