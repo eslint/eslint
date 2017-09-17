@@ -284,7 +284,7 @@ describe("bin/eslint.js", () => {
             const child = runESLint(["--no-ignore", invalidConfig]);
             const exitCodeAssertion = assertExitCode(child, 1);
             const outputAssertion = getOutput(child).then(output => {
-                const expectedSubstring = "Error: bad indentation of a mapping entry at line";
+                const expectedSubstring = "bad indentation of a mapping entry at line";
 
                 assert.strictEqual(output.stdout, "");
                 assert.include(output.stderr, expectedSubstring);
