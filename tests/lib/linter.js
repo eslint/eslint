@@ -2072,6 +2072,19 @@ describe("Linter", () => {
             assert.equal(messages.length, 0);
         });
 
+        it("should report no violation", () => {
+            const code = [
+                "/* eslint-disable quotes */",
+                "console.log(\"foo\");",
+                "/* eslint-enable quotes */"
+            ].join("\n");
+            const config = { rules: { quotes: 2 } };
+
+            const messages = linter.verify(code, config, filename);
+
+            assert.equal(messages.length, 0);
+        });
+
         it("should report a violation", () => {
             const code = [
                 "/*eslint-disable no-alert, no-console */",
