@@ -1,3 +1,8 @@
+v4.7.1 - September 18, 2017
+
+* 08656db Fix: Handle nested disable directive correctly (fixes #9318) (#9322) (Gyandeep Singh)
+* 9226495 Revert "Chore: rewrite parseListConfig for a small perf gain." (#9325) (薛定谔的猫)
+
 v4.7.0 - September 15, 2017
 
 * 787b78b Upgrade: Espree v3.5.1 (fixes #9153) (#9314) (Brandon Mills)
