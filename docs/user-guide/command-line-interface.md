@@ -30,50 +30,51 @@ The command line utility has several options. You can view the options by runnin
 eslint [options] file.js [file.js] [dir]
 
 Basic configuration:
-  -c, --config path::String    Use configuration from this file or shareable config
-  --no-eslintrc                Disable use of configuration from .eslintrc
-  --env [String]               Specify environments
-  --ext [String]               Specify JavaScript file extensions - default: .js
-  --global [String]            Define global variables
-  --parser String              Specify the parser to be used
-  --parser-options Object      Specify parser options
+  -c, --config path::String      Use configuration from this file or shareable config
+  --no-eslintrc                  Disable use of configuration from .eslintrc
+  --env [String]                 Specify environments
+  --ext [String]                 Specify JavaScript file extensions - default: .js
+  --global [String]              Define global variables
+  --parser String                Specify the parser to be used
+  --parser-options Object        Specify parser options
 
 Caching:
-  --cache                      Only check changed files - default: false
-  --cache-file path::String    Path to the cache file. Deprecated: use --cache-location - default: .eslintcache
+  --cache                        Only check changed files - default: false
+  --cache-file path::String      Path to the cache file. Deprecated: use --cache-location - default: .eslintcache
   --cache-location path::String  Path to the cache file or directory
 
 Specifying rules and plugins:
-  --rulesdir [path::String]    Use additional rules from this directory
-  --plugin [String]            Specify plugins
-  --rule Object                Specify rules
+  --rulesdir [path::String]      Use additional rules from this directory
+  --plugin [String]              Specify plugins
+  --rule Object                  Specify rules
 
 Ignoring files:
-  --ignore-path path::String   Specify path of ignore file
-  --no-ignore                  Disable use of ignore files and patterns
-  --ignore-pattern [String]    Pattern of files to ignore (in addition to those in .eslintignore)
+  --ignore-path path::String     Specify path of ignore file
+  --no-ignore                    Disable use of ignore files and patterns
+  --ignore-pattern [String]      Pattern of files to ignore (in addition to those in .eslintignore)
 
 Using stdin:
-  --stdin                      Lint code provided on <STDIN> - default: false
-  --stdin-filename String      Specify filename to process STDIN as
+  --stdin                        Lint code provided on <STDIN> - default: false
+  --stdin-filename String        Specify filename to process STDIN as
 
 Handling warnings:
-  --quiet                      Report errors only - default: false
-  --max-warnings Int           Number of warnings to trigger nonzero exit code - default: -1
+  --quiet                        Report errors only - default: false
+  --max-warnings Int             Number of warnings to trigger nonzero exit code - default: -1
 
 Output:
   -o, --output-file path::String  Specify file to write report to
-  -f, --format String          Use a specific output format - default: stylish
-  --color, --no-color          Force enabling/disabling of color
+  -f, --format String            Use a specific output format - default: stylish
+  --color, --no-color            Force enabling/disabling of color
 
 Miscellaneous:
-  --init                       Run config initialization wizard - default: false
-  --fix                        Automatically fix problems
-  --debug                      Output debugging information
-  -h, --help                   Show help
-  -v, --version                Output the version number
-  --no-inline-config           Prevent comments from changing config or rules
-  --print-config path::String  Print the configuration for the given file
+  --init                         Run config initialization wizard - default: false
+  --fix                          Automatically fix problems
+  --debug                        Output debugging information
+  -h, --help                     Show help
+  -v, --version                  Output the version number
+  --no-inline-config             Prevent comments from changing config or rules
+  --report-unused-disable-directives  Adds reported errors for unused eslint-disable directives
+  --print-config path::String    Print the configuration for the given file
 ```
 
 Options that accept array values can be specified by repeating the option or with a comma-delimited list (other than `--ignore-pattern` which does not allow the second style).
@@ -390,6 +391,16 @@ config without files modifying it. All inline config comments are ignored, e.g.:
 Example:
 
     eslint --no-inline-config file.js
+
+#### `--report-unused-disable-directives`
+
+This option causes ESLint to report directive comments like `// eslint-disable-line` when no errors would have been reported on that line anyway. This can be useful to prevent future errors from unexpectedly being suppressed, by cleaning up old `eslint-disable` comments which are no longer applicable.
+
+**Warning**: When using this option, it is possible that new errors will start being reported whenever ESLint or custom rules are upgraded. For example, suppose a rule has a bug that causes it to report a false positive, and an `eslint-disable` comment is added to suppress the incorrect report. If the bug is then fixed in a patch release of ESLint, the `eslint-disable` comment will become unused since ESLint is no longer generating an incorrect report. This will result in a new reported error for the unused directive if the `report-unused-disable-directives` option is used.
+
+Example:
+
+    eslint --report-unused-disable-directives file.js
 
 #### `--print-config`
 

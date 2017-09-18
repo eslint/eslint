@@ -70,6 +70,7 @@ The most important method on `Linter` is `verify()`, which initiates linting of 
     * `preprocess` - (optional) A function that accepts a string containing source text, and returns an array of strings containing blocks of code to lint. Also see: [Processors in Plugins](/docs/developer-guide/working-with-plugins#processors-in-plugins)
     * `postprocess` - (optional) A function that accepts an array of problem lists (one list of problems for each block of code from `preprocess`), and returns a one-dimensional array of problems containing problems for the original, unprocessed text. Also see: [Processors in Plugins](/docs/developer-guide/working-with-plugins#processors-in-plugins)
     * `allowInlineConfig` - (optional) set to `false` to disable inline comments from changing eslint rules.
+    * `reportUnusedDisableDirectives` - (optional) when set to `true`, adds reported errors for unused `eslint-disable` directives when no problems would be reported in the disabled area anyway.
 
 If the third argument is a string, it is interpreted as the `filename`.
 
@@ -297,6 +298,7 @@ The `CLIEngine` is a constructor, and you can create a new instance by passing i
 * `parser` - Specify the parser to be used (default: `espree`). Corresponds to `--parser`.
 * `parserOptions` - An object containing parser options (default: empty object). Corresponds to `--parser-options`.
 * `plugins` - An array of plugins to load (default: empty array). Corresponds to `--plugin`.
+* `reportUnusedDisableDirectives` - When set to `true`, adds reported errors for unused `eslint-disable` directives when no problems would be reported in the disabled area anyway (default: false). Corresponds to `--report-unused-disable-directives`.
 * `rulePaths` - An array of directories to load custom rules from (default: empty array). Corresponds to `--rulesdir`.
 * `rules` - An object of rules to use (default: null). Corresponds to `--rule`.
 * `useEslintrc` - Set to false to disable use of `.eslintrc` files (default: true). Corresponds to `--no-eslintrc`.

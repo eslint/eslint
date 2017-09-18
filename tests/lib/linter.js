@@ -2831,6 +2831,25 @@ describe("Linter", () => {
         });
     });
 
+    describe("reportUnusedDisable option", () => {
+        it("reports problems for unused eslint-disable comments", () => {
+            assert.deepEqual(
+                linter.verify("/* eslint-disable */", {}, { reportUnusedDisableDirectives: true }),
+                [
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-disable directive (no problems were reported).",
+                        line: 1,
+                        column: 1,
+                        severity: 2,
+                        source: null,
+                        nodeType: null
+                    }
+                ]
+            );
+        });
+    });
+
     describe("when evaluating code with comments to change config when allowInlineConfig is disabled", () => {
         it("should not report a violation", () => {
             const code = [
