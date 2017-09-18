@@ -100,6 +100,24 @@ describe("Linter", () => {
                 linter.verify(code, config, filename, true);
             }, "Intentional error.");
         });
+
+        it("does not call rule listeners with a `this` value", () => {
+            const spy = sandbox.spy(function() {
+                assert.strictEqual(this, void 0); // eslint-disable-line no-invalid-this
+            });
+
+            linter.defineRule("checker", () => ({ Program: spy }));
+            linter.verify("foo", { rules: { checker: "error" } });
+            assert(spy.calledOnce);
+        });
+
+        it("does not allow listeners to use special EventEmitter values", () => {
+            const spy = sandbox.spy();
+
+            linter.defineRule("checker", () => ({ newListener: spy }));
+            linter.verify("foo", { rules: { checker: "error", "no-undef": "error" } });
+            assert(!spy.calledOnce);
+        });
     });
 
     describe("context.getSourceLines()", () => {
