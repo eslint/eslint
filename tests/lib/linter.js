@@ -1833,7 +1833,7 @@ describe("Linter", () => {
             it("should not report a violation", () => {
                 const code = [
                     "alert('test'); // eslint-disable-line no-alert",
-                    "console('test'); // eslint-disable-line no-console"
+                    "console.log('test'); // eslint-disable-line no-console"
                 ].join("\n");
                 const config = {
                     rules: {
@@ -1850,7 +1850,7 @@ describe("Linter", () => {
             it("should not report a violation", () => {
                 const code = [
                     "alert('test') // eslint-disable-line no-alert, quotes, semi",
-                    "console('test'); // eslint-disable-line"
+                    "console.log('test'); // eslint-disable-line"
                 ].join("\n");
                 const config = {
                     rules: {
@@ -2041,6 +2041,48 @@ describe("Linter", () => {
             assert.equal(messages.length, 1);
 
             assert.equal(messages[0].ruleId, "no-console");
+        });
+
+        it("should report no violation", () => {
+            const code = [
+                "/*eslint-disable no-unused-vars */",
+                "var foo; // eslint-disable-line no-unused-vars",
+                "var bar;",
+                "/* eslint-enable no-unused-vars */" // here
+            ].join("\n");
+            const config = { rules: { "no-unused-vars": 2 } };
+
+            const messages = linter.verify(code, config, filename);
+
+            assert.equal(messages.length, 0);
+        });
+
+        it("should report no violation", () => {
+            const code = [
+                "var foo1; // eslint-disable-line no-unused-vars",
+                "var foo2; // eslint-disable-line no-unused-vars",
+                "var foo3; // eslint-disable-line no-unused-vars",
+                "var foo4; // eslint-disable-line no-unused-vars",
+                "var foo5; // eslint-disable-line no-unused-vars"
+            ].join("\n");
+            const config = { rules: { "no-unused-vars": 2 } };
+
+            const messages = linter.verify(code, config, filename);
+
+            assert.equal(messages.length, 0);
+        });
+
+        it("should report no violation", () => {
+            const code = [
+                "/* eslint-disable quotes */",
+                "console.log(\"foo\");",
+                "/* eslint-enable quotes */"
+            ].join("\n");
+            const config = { rules: { quotes: 2 } };
+
+            const messages = linter.verify(code, config, filename);
+
+            assert.equal(messages.length, 0);
         });
 
         it("should report a violation", () => {
