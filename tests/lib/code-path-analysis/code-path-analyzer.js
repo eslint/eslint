@@ -10,7 +10,6 @@
 //------------------------------------------------------------------------------
 
 const assert = require("assert"),
-    EventEmitter = require("events").EventEmitter,
     fs = require("fs"),
     path = require("path"),
     Linter = require("../../../lib/linter"),
@@ -55,7 +54,7 @@ function getExpectedDotArrows(source) {
 
 describe("CodePathAnalyzer", () => {
     EventGeneratorTester.testEventGeneratorInterface(
-        new CodePathAnalyzer(new NodeEventGenerator(new EventEmitter()))
+        new CodePathAnalyzer(new NodeEventGenerator({ emit() {}, on() {}, eventNames: () => [] }))
     );
 
     describe("interface of code paths", () => {

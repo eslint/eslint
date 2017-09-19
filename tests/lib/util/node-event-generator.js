@@ -28,16 +28,34 @@ const ESPREE_CONFIG = {
     loc: true
 };
 
+
+/*
+ * If `EventEmitter#eventNames` doesn't exist (e.g. in Node 4), use
+ * a custom subclass which does use `eventNames`.
+ *
+ * Note that in general, `node-event-generator` will not actually
+ * be passed `EventEmitter` instances as arguments (it will be passed
+ * objects with on(), emit(), and eventNames() methods).
+ */
+const EnhancedEmitter = EventEmitter.prototype.eventNames
+    ? EventEmitter
+    : class extends EventEmitter {
+        eventNames() {
+            return Object.keys(this._events);
+        }
+    };
+
 describe("NodeEventGenerator", () => {
     EventGeneratorTester.testEventGeneratorInterface(
-        new NodeEventGenerator(new EventEmitter())
+        new NodeEventGenerator(new EnhancedEmitter())
     );
 
     describe("entering a single AST node", () => {
         let emitter, generator;
 
         beforeEach(() => {
-            emitter = new EventEmitter();
+            emitter = new EnhancedEmitter();
+
             ["Foo", "Bar", "Foo > Bar", "Foo:exit"].forEach(selector => emitter.on(selector, () => {}));
             emitter.emit = sinon.spy(emitter.emit);
             generator = new NodeEventGenerator(emitter);
@@ -82,7 +100,7 @@ describe("NodeEventGenerator", () => {
          */
         function getEmissions(ast, possibleQueries) {
             const emissions = [];
-            const emitter = new EventEmitter();
+            const emitter = new EnhancedEmitter();
 
             possibleQueries.forEach(query => emitter.on(query, () => {}));
             const generator = new NodeEventGenerator(emitter);
@@ -308,7 +326,7 @@ describe("NodeEventGenerator", () => {
 
     describe("parsing an invalid selector", () => {
         it("throws a useful error", () => {
-            const emitter = new EventEmitter();
+            const emitter = new EnhancedEmitter();
 
             emitter.on("Foo >", () => {});
             assert.throws(
