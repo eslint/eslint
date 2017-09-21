@@ -1,3 +1,7 @@
+v4.7.2 - September 21, 2017
+
+* 4f87732 Fix: Revert setting node.parent early (fixes #9331) (#9336) (Teddy Katz)
+
 v4.7.1 - September 18, 2017
 
 * 08656db Fix: Handle nested disable directive correctly (fixes #9318) (#9322) (Gyandeep Singh)
