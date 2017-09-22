@@ -51,7 +51,7 @@ rules:
     no-confusing-arrow: "error"
     no-console: "error"
     no-delete-var: "error"
-    no-else-return: "error"
+    no-else-return: ["error", { allowElseIf: false }]
     no-eval: "error"
     no-extend-native: "error"
     no-extra-bind: "error"
