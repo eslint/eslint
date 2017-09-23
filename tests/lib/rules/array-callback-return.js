@@ -14,11 +14,22 @@ const rule = require("../../../lib/rules/array-callback-return"),
 
 const ruleTester = new RuleTester();
 
+const options = [{ allowImplicit: true }];
+
 ruleTester.run("array-callback-return", rule, {
     valid: [
+
+        // options: { allowImplicit: false }
         "Array.from(x, function() { return true; })",
         "Int32Array.from(x, function() { return true; })",
+
+        // options: { allowImplicit: true }
+        { code: "Array.from(x, function() { return; })", options },
+        { code: "Int32Array.from(x, function() { return; })", options },
+
         "Arrow.from(x, function() {})",
+
+        // options: { allowImplicit: false }
         "foo.every(function() { return true; })",
         "foo.filter(function() { return true; })",
         "foo.find(function() { return true; })",
@@ -28,17 +39,39 @@ ruleTester.run("array-callback-return", rule, {
         "foo.reduceRight(function() { return true; })",
         "foo.some(function() { return true; })",
         "foo.sort(function() { return 0; })",
+
+        // options: { allowImplicit: true }
+        { code: "foo.every(function() { return; })", options },
+        { code: "foo.filter(function() { return; })", options },
+        { code: "foo.find(function() { return; })", options },
+        { code: "foo.findIndex(function() { return; })", options },
+        { code: "foo.map(function() { return; })", options },
+        { code: "foo.reduce(function() { return; })", options },
+        { code: "foo.reduceRight(function() { return; })", options },
+        { code: "foo.some(function() { return; })", options },
+        { code: "foo.sort(function() { return; })", options },
+
         "foo.abc(function() {})",
         "every(function() {})",
         "foo[every](function() {})",
         "var every = function() {}",
         { code: "foo[`${every}`](function() {})", parserOptions: { ecmaVersion: 6 } },
         { code: "foo.every(() => true)", parserOptions: { ecmaVersion: 6 } },
+
+        // options: { allowImplicit: false }
         { code: "foo.every(() => { return true; })", parserOptions: { ecmaVersion: 6 } },
         "foo.every(function() { if (a) return true; else return false; })",
         "foo.every(function() { switch (a) { case 0: bar(); default: return true; } })",
         "foo.every(function() { try { bar(); return true; } catch (err) { return false; } })",
         "foo.every(function() { try { bar(); } finally { return true; } })",
+
+        // options: { allowImplicit: true }
+        { code: "foo.every(() => { return; })", options, parserOptions: { ecmaVersion: 6 } },
+        { code: "foo.every(function() { if (a) return; else return; })", options },
+        { code: "foo.every(function() { switch (a) { case 0: bar(); default: return; } })", options },
+        { code: "foo.every(function() { try { bar(); return; } catch (err) { return; } })", options },
+        { code: "foo.every(function() { try { bar(); } finally { return; } })", options },
+
         "foo.every(function(){}())",
         "foo.every(function(){ return function() { return true; }; }())",
         "foo.every(function(){ return function() { return; }; })",
