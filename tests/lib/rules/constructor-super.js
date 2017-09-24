@@ -77,7 +77,23 @@ ruleTester.run("constructor-super", rule, {
         ].join("\n"),
 
         // https://github.com/eslint/eslint/issues/5894
-        "class A { constructor() { return; super(); } }"
+        "class A { constructor() { return; super(); } }",
+
+        // https://github.com/eslint/eslint/issues/8848
+        `
+            class A extends B {
+                constructor(props) {
+                    super(props);
+
+                    try {
+                        let arr = [];
+                        for (let a of arr) {
+                        }
+                    } catch (err) {
+                    }
+                }
+            }
+        `
     ],
     invalid: [
 
