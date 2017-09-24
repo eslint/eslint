@@ -61,7 +61,16 @@ ruleTester.run("prefer-const", rule, {
             options: [{ destructuring: "all" }]
         },
         {
+            code: "let foo; ({ x: bar.baz, y: foo, z: bar.bro.q } = qux);",
+            options: [{ destructuring: "all" }]
+        },
+        {
             code: "let foo; [foo, [bar.baz]] = qux;",
+            options: [{ destructuring: "all" }]
+        },
+        {
+            code: "let foo, bar; [foo, [bar, baz.qux]] = qux;",
+            output: null,
             options: [{ destructuring: "all" }]
         },
         {
@@ -72,18 +81,16 @@ ruleTester.run("prefer-const", rule, {
             code: "let predicate; let rest; [typeNode.returnType, predicate, ...rest] = foo();",
             options: [{ destructuring: "all" }]
         },
-        {
-            code: [
-                "let id;",
-                "function foo() {",
-                "    if (typeof id !== 'undefined') {",
-                "        return;",
-                "    }",
-                "    id = setInterval(() => {}, 250);",
-                "}",
-                "foo();"
-            ].join("\n")
-        },
+        [
+            "let id;",
+            "function foo() {",
+            "    if (typeof id !== 'undefined') {",
+            "        return;",
+            "    }",
+            "    id = setInterval(() => {}, 250);",
+            "}",
+            "foo();"
+        ].join("\n"),
         "/*exported a*/ let a; function init() { a = foo(); }",
         "/*exported a*/ let a = 1",
         "let a; if (true) a = 0; foo(a);",
@@ -124,6 +131,11 @@ ruleTester.run("prefer-const", rule, {
         }
     ],
     invalid: [
+        {
+            code: "let foo; [foo, []] = qux;",
+            output: null,
+            errors: [{ message: "'foo' is never reassigned. Use 'const' instead.", type: "Identifier" }]
+        },
         {
             code: "let x = 1; foo(x);",
             output: "const x = 1; foo(x);",
