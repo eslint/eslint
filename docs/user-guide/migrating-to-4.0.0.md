@@ -32,7 +32,7 @@ The lists below are ordered roughly by the number of users each change is expect
 
 ## <a name="eslint-recommended-changes"/> `eslint:recommended` changes
 
-Two new rules have been added to the [`eslint:recommended`](http://eslint.org/docs/user-guide/configuring#using-eslintrecommended) config:
+Two new rules have been added to the [`eslint:recommended`](https://eslint.org/docs/user-guide/configuring#using-eslintrecommended) config:
 
 * [`no-compare-neg-zero`](/docs/rules/no-compare-neg-zero) disallows comparisons to `-0`
 * [`no-useless-escape`](/docs/rules/no-useless-escape) disallows uselessly-escaped characters in strings and regular expressions
