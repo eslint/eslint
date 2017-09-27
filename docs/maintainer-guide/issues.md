@@ -44,7 +44,7 @@ The steps for triaging an issue are:
     * **Bugs**: See [bug reporting guidelines](/docs/developer-guide/contributing/reporting-bugs)
     * **New Rules:** See [rule proposal guidelines](/docs/developer-guide/contributing/new-rules)
     * **Rule Changes:** See [rule change proposal guidelines](/docs/developer-guide/contributing/rule-changes)
-    * **Other Changes:** See [change proposal guidelines](http://eslint.org/docs/developer-guide/contributing/changes)
+    * **Other Changes:** See [change proposal guidelines](https://eslint.org/docs/developer-guide/contributing/changes)
 1. Next steps:
     * **Questions:** answer the question and close the issue when the conversation is over.
     * **Bugs:** if you can verify the bug, add the "accepted" label and ask if they would like to submit a pull request.

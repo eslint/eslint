@@ -32,7 +32,7 @@
     "messages"
   ],
   "repository": "eslint/eslint",
-  "homepage": "http://eslint.org",
+  "homepage": "https://eslint.org",
   "bugs": "https://github.com/eslint/eslint/issues/",
   "dependencies": {
     "ajv": "^5.2.0",
