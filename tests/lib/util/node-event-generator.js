@@ -9,11 +9,11 @@
 //------------------------------------------------------------------------------
 
 const assert = require("assert"),
-    EventEmitter = require("events").EventEmitter,
     sinon = require("sinon"),
     espree = require("espree"),
     estraverse = require("estraverse"),
     EventGeneratorTester = require("../../../tools/internal-testers/event-generator-tester"),
+    createEmitter = require("../../../lib/util/safe-emitter"),
     NodeEventGenerator = require("../../../lib/util/node-event-generator");
 
 //------------------------------------------------------------------------------
@@ -28,36 +28,18 @@ const ESPREE_CONFIG = {
     loc: true
 };
 
-
-/*
- * If `EventEmitter#eventNames` doesn't exist (e.g. in Node 4), use
- * a custom subclass which does use `eventNames`.
- *
- * Note that in general, `node-event-generator` will not actually
- * be passed `EventEmitter` instances as arguments (it will be passed
- * objects with on(), emit(), and eventNames() methods).
- */
-const EnhancedEmitter = EventEmitter.prototype.eventNames
-    ? EventEmitter
-    : class extends EventEmitter {
-        eventNames() {
-            return Object.keys(this._events);
-        }
-    };
-
 describe("NodeEventGenerator", () => {
     EventGeneratorTester.testEventGeneratorInterface(
-        new NodeEventGenerator(new EnhancedEmitter())
+        new NodeEventGenerator(createEmitter())
     );
 
     describe("entering a single AST node", () => {
         let emitter, generator;
 
         beforeEach(() => {
-            emitter = new EnhancedEmitter();
+            emitter = Object.create(createEmitter(), { emit: { value: sinon.spy() } });
 
             ["Foo", "Bar", "Foo > Bar", "Foo:exit"].forEach(selector => emitter.on(selector, () => {}));
-            emitter.emit = sinon.spy(emitter.emit);
             generator = new NodeEventGenerator(emitter);
         });
 
@@ -100,12 +82,14 @@ describe("NodeEventGenerator", () => {
          */
         function getEmissions(ast, possibleQueries) {
             const emissions = [];
-            const emitter = new EnhancedEmitter();
+            const emitter = Object.create(createEmitter(), {
+                emit: {
+                    value: (selector, node) => emissions.push([selector, node])
+                }
+            });
 
             possibleQueries.forEach(query => emitter.on(query, () => {}));
             const generator = new NodeEventGenerator(emitter);
-
-            emitter.emit = (selector, node) => emissions.push([selector, node]);
 
             estraverse.traverse(ast, {
                 enter(node, parent) {
@@ -326,7 +310,7 @@ describe("NodeEventGenerator", () => {
 
     describe("parsing an invalid selector", () => {
         it("throws a useful error", () => {
-            const emitter = new EnhancedEmitter();
+            const emitter = createEmitter();
 
             emitter.on("Foo >", () => {});
             assert.throws(
