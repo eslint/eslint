@@ -9,6 +9,7 @@ const assert = require("chai").assert;
 const shell = require("shelljs");
 const os = require("os");
 const fs = require("fs");
+const mock = require("mock-fs"); // VICTOR - need to use mock somewhere
 const path = require("path");
 const ConfigFile = require("../lib/config/config-file")
 const Linter = require("../lib/linter");
@@ -46,16 +47,16 @@ describe("Makefile.js", () => {
             assert.equal(filePatterns.length, 11);
         });
     });
-    
+
     describe("validateJsonFile", () => {
-        
+
         it("should parse the contents", () => {
             assert.equal(JSON_FILES.length, 3);
-            assert.sameOrderedMembers(JSON_FILES, 
-                [ 
+            assert.sameOrderedMembers(JSON_FILES,
+                [
                     'conf/blank-script.json',
                     'conf/category-list.json',
-                    'conf/replacements.json' 
+                    'conf/replacements.json'
                 ]
             );
             JSON_FILES.forEach((filepath) => {
@@ -71,7 +72,7 @@ describe("Makefile.js", () => {
             assert.throws(testfun, SyntaxError, "Unexpected token / in JSON at position 0");
         });
     });
-    
+
     describe("fileType", () => {
         const fileTypeMatcher = Makefile.fileType("json");
 
@@ -82,7 +83,7 @@ describe("Makefile.js", () => {
         it("returns true if file type matches", () => {
             assert.isTrue(fileTypeMatcher("test.json"), true);
         })
-        
+
         it("returns false if the file type does not match", () => {
             assert.isFalse(fileTypeMatcher("test.xyz"));
             assert.isFalse(fileTypeMatcher("noExtensionFile"));
@@ -105,7 +106,7 @@ describe("Makefile.js", () => {
             assert.isFalse(parentDirectoryMatcher("./rulesbreaker/filename.js"));
         });
     });
-    
+
     describe("generateRuleIndex", () => {
         it("generates a file that exports a method that returns a rules object", () => {
             const fixturesDir = `${__dirname}/fixtures/`;
@@ -123,7 +124,7 @@ describe("Makefile.js", () => {
             assert.containsAllKeys(generatedRulesIndex, ruleKeys);
         });
     });
-    
+
     describe("execSilent", () => {
         it("executes a command and returns the output", () => {
             assert.include(Makefile.execSilent("node --version"), process.versions.node);
@@ -138,15 +139,15 @@ describe("Makefile.js", () => {
                 new: ["7777777", "dedbeef"]
             }
         };
-        const now = new Date(), 
+        const now = new Date(),
         month = now.getMonth() + 1,
         day = now.getDate(),
         fileName = `${os.tmpdir()}/_posts/${now.getFullYear()}-${
             month < 10 ? `0${month}` : month}-${
             day < 10 ? `0${day}` : day}-eslint-v${
-            releaseInfo.version}-released.md`;        
+            releaseInfo.version}-released.md`;
 
-        // assumes the eslint.github.io project is at same level as eslint project 
+        // assumes the eslint.github.io project is at same level as eslint project
         it("generates a release blog post for eslint.org", () => {
             rm("-rf", POST_DIR);
             mkdir(POST_DIR);
@@ -158,7 +159,7 @@ describe("Makefile.js", () => {
             rm("-rf", POST_DIR);
         });
     });
-    
+
     describe("generateFormatterExamples", () => {
         it("generates a doc page", () => {
 
@@ -172,7 +173,7 @@ describe("Makefile.js", () => {
             assert.isTrue(true);
         });
     });
-    
+
     describe("generateRuleIndexPage", () => {
         it("generate a rules index page", () => {
             Makefile.generateRuleIndexPage(process.cwd(), SITE_DIR);
@@ -181,34 +182,34 @@ describe("Makefile.js", () => {
             assert.isFalse(false);
         });
     });
-    
+
     describe("publishSite", () => {
         it("commits the change and publishes to github", () => {
-            
+
             // TODO
             // This mutates inside the method; hard to test
             assert.isTrue(true);
         });
     });
-    
+
     describe("release", () => {
         it("creates a release versin tag and pushes to github", () => {
-            
+
             // TODO
             // This mutates inside the method; hard to test
             assert.isTrue(true);
         });
     });
-    
+
     describe("prerelease", () => {
         it("creates a prerelease versin tag and pushes to github", () => {
-            
+
             // TODO
             // This mutates inside the method; hard to test
             assert.isTrue(true);
-        });    
+        });
     });
-    
+
     describe("splitCommandResultToLines", () => {
         it("splits a command result into separate lines", () => {
             const nodeVersion = Makefile.execSilent("node --version");
@@ -219,7 +220,7 @@ describe("Makefile.js", () => {
             assert.include(splitCommands[0], process.versions.node)
         });
     });
-    
+
     // Need advice on general testing of commands that make use of git commands
     describe("getFirstCommitOfFile", () => {
         const filePath = "makefile_test.html";
@@ -241,19 +242,19 @@ describe("Makefile.js", () => {
             assert.isTrue(true);
         });
     });
-    
+
     describe("getTagOfFirstOccurence", () => {
         assert.isTrue(true);
     });
-    
+
     describe("getCommitDeletingFile", () => {
         assert.isTrue(true);
     });
-    
+
     describe("getFirstVersionOfDeletion", () => {
         assert.isTrue(true);
     });
-    
+
     describe("getBranches", () => {
         it("returns array of branch names", () => {
             const branches = Makefile.getBranches();
@@ -262,7 +263,7 @@ describe("Makefile.js", () => {
             assert.isAbove(branches.length, 1);
         });
     });
-    
+
     describe("lintMarkdown", () => {
         const md = `${__dirname}/fixtures/docs/`;
 
@@ -278,7 +279,7 @@ describe("Makefile.js", () => {
             assert.equal(Makefile.lintMarkdown(invalidFile).code, 1);
         });
     });
-    
+
     describe("hasBranch", () => {
         const testBranch = "pr/victor_hom_makefile_branch_test";
         const currentBranchName = Makefile.execSilent("git rev-parse --abbrev-ref HEAD");
@@ -297,7 +298,7 @@ describe("Makefile.js", () => {
             assert.isTrue(true);
         });
     });
-    
+
     describe("getFormatterResults", () => {
         it("gets configurations", () => {
             const formatterResults = Makefile.getFormatterResults().formatterResults;
@@ -327,10 +328,10 @@ describe("Makefile.js", () => {
             rm("-rf", PERF_TMP_DIR);
         });
     });
-    
+
     describe("createConfigForPerformanceTest", () => {
         const PERF_TMP_DIR = path.join(os.tmpdir(), "eslint", "performance")
-        
+
         it("creates a eslintrc.yml under performance/eslint", () => {
             mkdir("-p", PERF_TMP_DIR);
             Makefile.createConfigForPerformanceTest()
@@ -340,7 +341,7 @@ describe("Makefile.js", () => {
             rm("-rf", os.tmpdir()+"/eslint");
         });
     });
-    
+
     describe("time", () => {
         it("runs cmd passed in", () => {
 
@@ -348,14 +349,14 @@ describe("Makefile.js", () => {
             // TODO
             assert.isTrue(true);
         });
-    
+
     });
-    
+
     describe("runPerformanceTest", () => {
         // TODO
         assert.isTrue(true);
     });
-    
+
     describe("loadPerformance", () => {
         // TODO
         assert.isTrue(true);
