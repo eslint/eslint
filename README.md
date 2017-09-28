@@ -171,7 +171,6 @@ ESLint follows [semantic versioning](http://semver.org). However, due to the nat
 * Major release (likely to break your lint build)
     * `eslint:recommended` is updated.
     * A new option to an existing rule that results in ESLint reporting more errors by default.
-    * An existing rule is removed.
     * An existing formatter is removed.
     * Part of the public API is removed or changed in an incompatible way.
 
