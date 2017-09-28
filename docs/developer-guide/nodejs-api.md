@@ -243,7 +243,7 @@ Map {
 
 ### Linter#defineParser
 
-Each instance of `Linter` holds a map of custom parsers. If you want to define a parser programmaticaly you can add this function
+Each instance of `Linter` holds a map of custom parsers. If you want to define a parser programmatically you can add this function
 with the name of the parser as first argument and the parser object (having either `parseForESLint` or `parse` as keys) as second argument.
 
 If during linting the parser is not found it will fallback to `require(parserId)`.
@@ -258,7 +258,7 @@ linter.defineParser("my-custom-parser", {
     }
 });
 
-const results = linter.verify("// some source text", { parser: 'my-custom-parser' });
+const results = linter.verify("// some source text", { parser: "my-custom-parser" });
 ```
 
 ### Linter#version
