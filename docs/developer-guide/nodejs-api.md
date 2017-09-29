@@ -244,9 +244,9 @@ Map {
 ### Linter#defineParser
 
 Each instance of `Linter` holds a map of custom parsers. If you want to define a parser programmatically you can add this function
-with the name of the parser as first argument and the parser object (having either `parseForESLint` or `parse` as keys) as second argument.
+with the name of the parser as first argument and the [parser object](/docs/developer-guide/working-with-plugins#working-with-custom-parsers) as second argument.
 
-If during linting the parser is not found it will fallback to `require(parserId)`.
+If during linting the parser is not found, it will fallback to `require(parserId)`.
 
 ```js
 const Linter = require("eslint").Linter;
