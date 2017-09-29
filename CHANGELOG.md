@@ -1,3 +1,18 @@
+v4.8.0 - September 29, 2017
+
+* 3f2b908 New: add option to report unused eslint-disable directives (fixes #9249) (#9250) (Teddy Katz)
+* ff2be59 Fix: dot notation rule failing to catch string template (fixes #9350) (#9357) (Phil Quinn)
+* b1372da Chore: remove sourceCode property from Linter (refs #9161) (#9363) (Teddy Katz)
+* cef6f8c Docs: remove line about removing rules from semver policy (#9367) (Teddy Katz)
+* 06efe87 Fix: Add meta element with charset attribute. (#9365) (H1Gdev)
+* 458ca67 Docs: update architecture page (fixes #9337) (#9345) (Victor Hom)
+* 1c6bc67 Fix: special EventEmitter keys leak information about other rules (#9328) (Teddy Katz)
+* d593e61 Docs: update eslint.org links to use https (#9358) (Teddy Katz)
+* 38d0cb2 Fix: fix wrong code-path about try-for-in (fixes #8848) (#9348) (Toru Nagashima)
+* 434d9e2 Fix: Invalid font-size property value issue. (#9341) (H1Gdev)
+* a7668c2 Chore: Remove unnecessary slice from logging utility (#9343) (Gyandeep Singh)
+* 2ff6fb6 Chore: remove unused arguments in codebase (#9340) (Teddy Katz)
+
 v4.7.2 - September 21, 2017
 
 * 4f87732 Fix: Revert setting node.parent early (fixes #9331) (#9336) (Teddy Katz)
