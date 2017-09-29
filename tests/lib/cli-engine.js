@@ -2971,6 +2971,43 @@ describe("CLIEngine", () => {
 
     });
 
+    describe("when evaluating code when reportUnusedDisableDirectives is enabled", () => {
+        it("should report problems for unused eslint-disable directives", () => {
+            const cliEngine = new CLIEngine({ useEslintrc: false, reportUnusedDisableDirectives: true });
+
+            assert.deepEqual(
+                cliEngine.executeOnText("/* eslint-disable */"),
+                {
+                    results: [
+                        {
+                            filePath: "<text>",
+                            messages: [
+                                {
+                                    ruleId: null,
+                                    message: "Unused eslint-disable directive (no problems were reported).",
+                                    line: 1,
+                                    column: 1,
+                                    severity: 2,
+                                    source: null,
+                                    nodeType: null
+                                }
+                            ],
+                            errorCount: 1,
+                            warningCount: 0,
+                            fixableErrorCount: 0,
+                            fixableWarningCount: 0,
+                            source: "/* eslint-disable */"
+                        }
+                    ],
+                    errorCount: 1,
+                    warningCount: 0,
+                    fixableErrorCount: 0,
+                    fixableWarningCount: 0
+                }
+            );
+        });
+    });
+
     describe("when retreiving version number", () => {
         it("should return current version number", () => {
             const eslintCLI = require("../../lib/cli-engine");
