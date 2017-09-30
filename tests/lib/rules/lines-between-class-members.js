@@ -28,6 +28,7 @@ const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 ruleTester.run("lines-between-class-members", rule, {
     valid: [
         "class foo{}",
+        "class foo{;;}",
         "class foo{\n\n}",
         "class foo{constructor(){}\n}",
         "class foo{\nconstructor(){}}",
@@ -35,6 +36,9 @@ ruleTester.run("lines-between-class-members", rule, {
         "class foo{ bar(){}\n\nbaz(){}}",
         "class foo{ bar(){}\n\n/*comments*/baz(){}}",
         "class foo{ bar(){}\n\n//comments\nbaz(){}}",
+
+        "class foo{ bar(){}\n\n;;baz(){}}",
+        "class foo{ bar(){};\n\nbaz(){}}",
 
         { code: "class foo{ bar(){}\nbaz(){}}", options: ["never"] },
         { code: "class foo{ bar(){}\n/*comments*/baz(){}}", options: ["never"] },
