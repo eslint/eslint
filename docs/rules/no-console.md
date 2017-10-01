@@ -55,7 +55,7 @@ Another case where you might not use this rule is if you want to enforce console
 console.error = function (message) {
   throw new Error(message);
 };
-``` 
+```
 
 With the `no-console` rule, this will receive a warning/error. For the above example, you can disable the rule:
 
