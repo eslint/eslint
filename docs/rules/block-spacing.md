@@ -1,4 +1,4 @@
-# Disallow or enforce spaces on the same line between an open block token and the next token, and between a closing block token and the previous token (block-spacing)
+# Disallow or enforce spaces inside of blocks after opening block and before closing block (block-spacing)
 
 ## Rule Details
 
