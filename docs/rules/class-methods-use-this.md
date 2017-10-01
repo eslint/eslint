@@ -1,6 +1,6 @@
 # Enforce that class methods utilize `this` (class-methods-use-this)
 
-If a class method does not use `this`, it can safely be made a static function.
+If a class method does not use `this`, it can *sometimes* be made a static function. It is not always the case that you can turn the class method to a static function and depends on your codebase.
 
 It's possible to have a class method which doesn't use `this`, such as:
 
@@ -117,3 +117,8 @@ class A {
     }
 }
 ```
+
+## Further Reading
+
+* [Classes](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes)
+* [Static Methods](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/static)
