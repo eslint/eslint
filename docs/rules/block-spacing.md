@@ -1,8 +1,8 @@
-# Disallow or enforce spaces between an open block token and the next token on the same line (block-spacing)
+# Disallow or enforce spaces on the same line between an open block token and the next token, and between a closing block token and the previous token (block-spacing)
 
 ## Rule Details
 
-This rule enforces consistent spacing inside an open block token and the next token on the same line. Also, this rule enforces consistent spacing inside a close block token and previous token on the same line.
+This rule enforces consistent spacing inside an open block token and the next token on the same line. This rule also enforces consistent spacing inside a close block token and previous token on the same line.
 
 ## Options
 
