@@ -20,7 +20,8 @@
 function compatRequire(name, windowName) {
     if (typeof window === "object") {
         return window[windowName || name];
-    } else if (typeof require === "function") {
+    }
+    if (typeof require === "function") {
         return require(name);
     }
     throw new Error(`Cannot find object '${name}'.`);
