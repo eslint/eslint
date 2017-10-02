@@ -755,7 +755,7 @@ describe("cli", () => {
                 results: []
             });
             sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
-            fakeCLIEngine.outputFixes = sandbox.stub();
+            fakeCLIEngine.outputFixes = sandbox.mock().once();
 
             localCLI = proxyquire("../../lib/cli", {
                 "./cli-engine": fakeCLIEngine,
@@ -856,6 +856,163 @@ describe("cli", () => {
             assert.equal(exitCode, 1);
         });
 
+    });
+
+    describe("when passed --fix-dry-run", () => {
+        const sandbox = sinon.sandbox.create();
+        let localCLI;
+
+        afterEach(() => {
+            sandbox.verifyAndRestore();
+        });
+
+        it("should pass fix:true to CLIEngine when executing on files", () => {
+
+            // create a fake CLIEngine to test with
+            const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ fix: true }));
+
+            fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
+            sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns({
+                errorCount: 0,
+                warningCount: 0,
+                results: []
+            });
+            sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            fakeCLIEngine.outputFixes = sandbox.mock().never();
+
+            localCLI = proxyquire("../../lib/cli", {
+                "./cli-engine": fakeCLIEngine,
+                "./logging": log
+            });
+
+            const exitCode = localCLI.execute("--fix-dry-run .");
+
+            assert.equal(exitCode, 0);
+
+        });
+
+        it("should not rewrite files when in fix-dry-run mode", () => {
+
+            const report = {
+                errorCount: 1,
+                warningCount: 0,
+                results: [{
+                    filePath: "./foo.js",
+                    output: "bar",
+                    messages: [
+                        {
+                            severity: 2,
+                            message: "Fake message"
+                        }
+                    ]
+                }]
+            };
+
+            // create a fake CLIEngine to test with
+            const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ fix: true }));
+
+            fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
+            sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns(report);
+            sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            fakeCLIEngine.outputFixes = sandbox.mock().never();
+
+            localCLI = proxyquire("../../lib/cli", {
+                "./cli-engine": fakeCLIEngine,
+                "./logging": log
+            });
+
+            const exitCode = localCLI.execute("--fix-dry-run .");
+
+            assert.equal(exitCode, 1);
+
+        });
+
+        it("should provide fix predicate when in fix-dry-run mode and quiet mode", () => {
+
+            const report = {
+                errorCount: 0,
+                warningCount: 1,
+                results: [{
+                    filePath: "./foo.js",
+                    output: "bar",
+                    messages: [
+                        {
+                            severity: 1,
+                            message: "Fake message"
+                        }
+                    ]
+                }]
+            };
+
+            // create a fake CLIEngine to test with
+            const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ fix: sinon.match.func }));
+
+            fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
+            sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns(report);
+            sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            fakeCLIEngine.getErrorResults = sandbox.stub().returns([]);
+            fakeCLIEngine.outputFixes = sandbox.mock().never();
+
+            localCLI = proxyquire("../../lib/cli", {
+                "./cli-engine": fakeCLIEngine,
+                "./logging": log
+            });
+
+            const exitCode = localCLI.execute("--fix-dry-run --quiet .");
+
+            assert.equal(exitCode, 0);
+
+        });
+
+        it("should allow executing on text", () => {
+
+            const report = {
+                errorCount: 1,
+                warningCount: 0,
+                results: [{
+                    filePath: "./foo.js",
+                    output: "bar",
+                    messages: [
+                        {
+                            severity: 2,
+                            message: "Fake message"
+                        }
+                    ]
+                }]
+            };
+
+            // create a fake CLIEngine to test with
+            const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ fix: true }));
+
+            fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
+            sandbox.stub(fakeCLIEngine.prototype, "executeOnText").returns(report);
+            sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            fakeCLIEngine.outputFixes = sandbox.mock().never();
+
+            localCLI = proxyquire("../../lib/cli", {
+                "./cli-engine": fakeCLIEngine,
+                "./logging": log
+            });
+
+            const exitCode = localCLI.execute("--fix-dry-run .", "foo = bar;");
+
+            assert.equal(exitCode, 1);
+        });
+
+        it("should not call CLIEngine and return 1 when used with --fix", () => {
+
+            // create a fake CLIEngine to test with
+            const fakeCLIEngine = sandbox.mock().never();
+
+            localCLI = proxyquire("../../lib/cli", {
+                "./cli-engine": fakeCLIEngine,
+                "./logging": log
+            });
+
+            const exitCode = localCLI.execute("--fix --fix-dry-run .", "foo = bar;");
+
+            assert.equal(exitCode, 1);
+        });
     });
 
     describe("when passing --print-config", () => {
