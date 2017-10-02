@@ -509,7 +509,9 @@ your-project
 
 If there is an `.eslintrc` and a `package.json` file found in the same directory, `.eslintrc` will take a priority and `package.json` file will not be used.
 
-**Note:** If you have a personal configuration file in your home directory (`~/.eslintrc`), it will only be used if no other configuration files are found. Since a personal configuration would apply to everything inside of a user's directory, including third-party code, this could cause problems when running ESLint.
+**Note:** If you have a personal configuration file in your home directory `~/.eslintrc`), it will only be used if no other configuration files are found. Since a personal configuration would apply to everything inside of a user's directory, including third-party code, this could cause problems when running ESLint.
+
+**Note:**: If you run eslint from your home directory (`~/.eslintrc`) to test a file in your project (`~/your-project/tests/test.js`) and there is an eslint configuration in your project directory (`~/your-project/.eslintrc`), the eslint configuration in `~/.eslintrc` will *not* be used. The home directory configuration (`~/.eslintrc`) is a special case that will only be considered if no other configuration files are found.
 
 By default, ESLint will look for configuration files in all parent folders up to the root directory. This can be useful if you want all of your projects to follow a certain convention, but can sometimes lead to unexpected results. To limit ESLint to a specific project, place `"root": true` inside the `eslintConfig` field of the `package.json` file or in the `.eslintrc.*` file at your project's root level.  ESLint will stop looking in parent folders once it finds a configuration with `"root": true`.
 
