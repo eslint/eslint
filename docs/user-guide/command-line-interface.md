@@ -69,6 +69,7 @@ Output:
 Miscellaneous:
   --init                         Run config initialization wizard - default: false
   --fix                          Automatically fix problems
+  --fix-dry-run                  Automatically fix problems without saving the changes to the file system
   --debug                        Output debugging information
   -h, --help                     Show help
   -v, --version                  Output the version number
@@ -361,6 +362,20 @@ This option instructs ESLint to try to fix as many issues as possible. The fixes
 
 1. This option throws an error when code is piped to ESLint.
 1. This option has no effect on code that uses a processor, unless the processor opts into allowing autofixes.
+
+If you want to fix code from `stdin` or otherwise want to get the fixes without actually writing them to the file, use the [`--fix-dry-run`](#--fix-dry-run) option.
+
+#### `--fix-dry-run`
+
+This option has the same effect as `--fix` with one difference: the fixes are not saved to the file system. This makes it possible to fix code from `stdin` (when used with the `--stdin` flag).
+
+Because the default formatter does not output the fixed code, you'll have to use another one (e.g. `json`) to get the fixes. Here's an example of this pattern:
+
+```
+getSomeText | eslint --stdin --fix-dry-run --format=json
+```
+
+This flag can be useful for integrations (e.g. editor plugins) which need to autofix text from the command line without saving it to the filesystem.
 
 #### `--debug`
 
