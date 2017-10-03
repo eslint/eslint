@@ -52,12 +52,13 @@ If you're using Node.js, however, `console` is used to output information to the
 Another case where you might not use this rule is if you want to enforce console calls and not console overwrites. For example:
 
 ```js
+/*eslint no-console: ["error", { allow: ["warn"] }] */
 console.error = function (message) {
   throw new Error(message);
 };
 ```
 
-With the `no-console` rule, this will receive a warning/error. For the above example, you can disable the rule:
+With the `no-console` rule in the above example, ESLint will report an error. For the above example, you can disable the rule:
 
 ```js
 // eslint-disable-next-line no-console
