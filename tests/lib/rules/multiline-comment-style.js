@@ -155,6 +155,24 @@ ruleTester.run("multiline-comment-style", rule, {
         },
         {
             code: `
+                /**
+                 * This is
+                 * a JSDoc comment
+                 */
+            `,
+            options: ["starred-block"]
+        },
+        {
+            code: `
+                /**
+                 * This is
+                 * a JSDoc comment
+                 */
+            `,
+            options: ["bare-block"]
+        },
+        {
+            code: `
                 /* This is
                    a comment */
             `,
@@ -174,15 +192,6 @@ ruleTester.run("multiline-comment-style", rule, {
                 ] */
             `,
             options: ["separate-lines"]
-        },
-        {
-            code: `
-                /**
-                 * This is
-                 * a JSDoc comment
-                 */
-            `,
-            options: ["bare-block"]
         },
         {
             code: `
@@ -339,6 +348,32 @@ ruleTester.run("multiline-comment-style", rule, {
             `,
             options: ["separate-lines"],
             errors: [{ message: EXPECTED_LINES_ERROR, line: 2 }]
+        },
+        {
+            code: `
+                // foo
+                // bar
+            `,
+            output: `
+                /* foo
+                   bar */
+            `,
+            options: ["bare-block"],
+            errors: [{ message: EXPECTED_BLOCK_ERROR, line: 2 }]
+        },
+        {
+            code: `
+                /*
+                * foo
+                * bar
+                */
+            `,
+            output: `
+                /* foo
+                   bar */
+            `,
+            options: ["bare-block"],
+            errors: [{ message: EXPECTED_BLOCK_ERROR, line: 2 }]
         }
     ]
 });

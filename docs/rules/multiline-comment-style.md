@@ -16,27 +16,92 @@ This rule has a string option, which can have one of the following values:
 
 The rule always ignores directive comments such as `/* eslint-disable */`. Additionally, unless the mode is `"starred-block"`, the rule ignores JSDoc comments.
 
-TODO: Add examples
-
 Examples of **incorrect** code for this rule:
 
 ```js
 
-// fill me in
+/* eslint multiline-comment-style: ["error", "separate-lines"] */
+
+/* This line
+calls foo() */
+foo();
+
+/*
+ * This line
+ * calls foo()
+ */
+foo();
+
+/* eslint multiline-comment-style: ["error", "starred-block"] */
+
+// this line
+// calls foo()
+foo();
+
+/* this line
+calls foo() */
+foo();
+
+/* this comment
+ * is missing a newline after /*
+ */
+
+/*
+ * this comment
+ * is missing a newline at the end */
+
+/*
+* the star in this line should have a space before it
+ */
+
+/*
+ * the star on the following line should have a space before it
+*/
+
+/* eslint multiline-comment-style: ["error", "bare-block"] */
+
+// this line
+// calls foo()
+foo();
+
+/*
+ * this line
+ * calls foo()
+ */
+foo();
 
 ```
 
 Examples of **correct** code for this rule:
 
 ```js
+/* eslint multiline-comment-style: ["error", "separate-lines"] */
 
-// fill me in
+// This line
+// calls foo()
+foo();
+
+
+/* eslint multiline-comment-style: ["error", "starred-block"] */
+
+/*
+ * this line
+ * calls foo()
+ */
+foo();
+
+
+/* eslint multiline-comment-style: ["error", "bare-block"] */
+
+/* this line
+   calls foo() */
+foo();
 
 ```
 
 ## When Not To Use It
 
-Give a short description of when it would be appropriate to turn off this rule.
+If you don't want to enforce a particular style for multiline comments, you can disable the rule.
 
 ## Further Reading
 
