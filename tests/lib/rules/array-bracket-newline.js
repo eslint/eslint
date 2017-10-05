@@ -845,10 +845,10 @@ ruleTester.run("array-bracket-newline", rule, {
         {
             code: [
                 "let [a",
-                "] = [1]"
+                "] = [1];"
             ].join("\n"),
             output: [
-                "let [a] = [1]"
+                "let [a] = [1];"
             ].join("\n"),
             options: [{ multiline: true, consistent: true }],
             parserOptions: { ecmaVersion: 6 },
@@ -859,10 +859,10 @@ ruleTester.run("array-bracket-newline", rule, {
         {
             code: [
                 "let [",
-                "a] = [1]"
+                "a] = [1];"
             ].join("\n"),
             output: [
-                "let [a] = [1]"
+                "let [a] = [1];"
             ].join("\n"),
             options: [{ multiline: true, consistent: true }],
             parserOptions: { ecmaVersion: 6 },
@@ -873,10 +873,10 @@ ruleTester.run("array-bracket-newline", rule, {
         {
             code: [
                 "let [a, b",
-                "] = [1, 2]"
+                "] = [1, 2];"
             ].join("\n"),
             output: [
-                "let [a, b] = [1, 2]"
+                "let [a, b] = [1, 2];"
             ].join("\n"),
             options: [{ multiline: true, consistent: true }],
             parserOptions: { ecmaVersion: 6 },
@@ -887,10 +887,10 @@ ruleTester.run("array-bracket-newline", rule, {
         {
             code: [
                 "let [",
-                "a, b] = [1, 2]"
+                "a, b] = [1, 2];"
             ].join("\n"),
             output: [
-                "let [a, b] = [1, 2]"
+                "let [a, b] = [1, 2];"
             ].join("\n"),
             options: [{ multiline: true, consistent: true }],
             parserOptions: { ecmaVersion: 6 },
@@ -901,13 +901,13 @@ ruleTester.run("array-bracket-newline", rule, {
         {
             code: [
                 "let [a,",
-                "b] = [1, 2]"
+                "b] = [1, 2];"
             ].join("\n"),
             output: [
                 "let [",
                 "a,",
                 "b",
-                "] = [1, 2]"
+                "] = [1, 2];"
             ].join("\n"),
             options: [{ multiline: true, consistent: true }],
             parserOptions: { ecmaVersion: 6 },

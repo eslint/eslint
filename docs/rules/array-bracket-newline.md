@@ -229,8 +229,51 @@ var e = [
 Examples of **incorrect** code for this rule with the `{ "consistent": true }` option:
 
 ```js
+/*eslint array-bracket-newline: ["error", { "consistent": true }]*/
+/*eslint-env es6*/
+
+let a = [1,
+];
+let b = [,
+1];
+let c = [1, 2
+];
+let d = [
+1, 2];
+let e = [1,
+2];
+let [f 
+] = [1];
+let [,
+g] = [1];
+let [h, i
+] = [1, 2];
+let [
+j, k] = [1, 2];
+let [l,
+m] = [1, 2];
+```
+
+Examples of **correct** code for this rule with the `{ "consistent": true }` option:
+
+```js
+/*eslint array-bracket-newline: ["error", { "consistent": true }]*/
+/*eslint-env es6*/
+let a = [1];
+let b = [1, 2];
+let c = [ 
+    1,
+    2,
+];
+let [d] = [1];
+let [e, f] = [1, 2];
+let [
+    a,
+    b,
+] = [1, 2];
 
 ```
+
 
 
 ## When Not To Use It
