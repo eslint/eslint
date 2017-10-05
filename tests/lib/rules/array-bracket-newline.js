@@ -766,7 +766,7 @@ ruleTester.run("array-bracket-newline", rule, {
             errors: [
                 { line: 2, column: 1, message: ERR_NO_BREAK_BEFORE }
             ]
-        }, 
+        },
         {
             code: [
                 "var b = [",
