@@ -242,7 +242,7 @@ let d = [
 1, 2];
 let e = [1,
 2];
-let [f 
+let [f
 ] = [1];
 let [,
 g] = [1];
@@ -261,7 +261,7 @@ Examples of **correct** code for this rule with the `{ "consistent": true }` opt
 /*eslint-env es6*/
 let a = [1];
 let b = [1, 2];
-let c = [ 
+let c = [
     1,
     2,
 ];
