@@ -4744,6 +4744,32 @@ ruleTester.run("indent", rule, {
                 </foo>
             `,
             options: [4, { ignoredNodes: ["JSXOpeningElement"] }]
+        },
+        {
+            code: unIndent`
+                {
+                \tvar x = 1,
+                \t    y = 2;
+                }
+            `,
+            options: ["tab"]
+        },
+        {
+            code: unIndent`
+                var x = 1,
+                    y = 2;
+                var z;
+            `,
+            options: ["tab", { ignoredNodes: ["VariableDeclarator"] }]
+        },
+        {
+            code: unIndent`
+                [
+                    foo(),
+                    bar
+                ]
+            `,
+            options: ["tab", { ArrayExpression: "first", ignoredNodes: ["CallExpression"] }]
         }
     ],
 
