@@ -308,7 +308,7 @@ ruleTester.run("array-bracket-newline", rule, {
             ].join("\n"),
             options: [{ multiline: true, consistent: true, minItems: 2 }],
             parserOptions: { ecmaVersion: 6 }
-        },
+        }
     ],
 
     invalid: [
@@ -766,7 +766,7 @@ ruleTester.run("array-bracket-newline", rule, {
             errors: [
                 { line: 2, column: 1, message: ERR_NO_BREAK_BEFORE }
             ]
-        },        
+        }, 
         {
             code: [
                 "var b = [",
@@ -777,7 +777,7 @@ ruleTester.run("array-bracket-newline", rule, {
             ].join("\n"),
             options: [{ multiline: true, consistent: true }],
             errors: [
-                { line: 1, column: 9, message:ERR_NO_BREAK_AFTER }
+                { line: 1, column: 9, message: ERR_NO_BREAK_AFTER }
             ]
         },
         {
