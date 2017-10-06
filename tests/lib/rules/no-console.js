@@ -40,24 +40,33 @@ ruleTester.run("no-console", rule, {
     invalid: [
 
         // no options
-        { code: "console.log(foo)", errors: [{ message: "Unexpected console statement.", type: "MemberExpression" }] },
-        { code: "console.error(foo)", errors: [{ message: "Unexpected console statement.", type: "MemberExpression" }] },
-        { code: "console.info(foo)", errors: [{ message: "Unexpected console statement.", type: "MemberExpression" }] },
-        { code: "console.warn(foo)", errors: [{ message: "Unexpected console statement.", type: "MemberExpression" }] },
+        { code: "console.log(foo)", output: "", errors: [{ message: "Unexpected console statement.", type: "MemberExpression" }] },
+        { code: "console.error(foo)", output: "", errors: [{ message: "Unexpected console statement.", type: "MemberExpression" }] },
+        { code: "console.info(foo)", output: "", errors: [{ message: "Unexpected console statement.", type: "MemberExpression" }] },
+        { code: "console.warn(foo)", output: "", errors: [{ message: "Unexpected console statement.", type: "MemberExpression" }] },
 
         //  one option
-        { code: "console.log(foo)", options: [{ allow: ["error"] }], errors: [{ message: "Unexpected console statement.", type: "MemberExpression" }] },
-        { code: "console.error(foo)", options: [{ allow: ["warn"] }], errors: [{ message: "Unexpected console statement.", type: "MemberExpression" }] },
-        { code: "console.info(foo)", options: [{ allow: ["log"] }], errors: [{ message: "Unexpected console statement.", type: "MemberExpression" }] },
-        { code: "console.warn(foo)", options: [{ allow: ["error"] }], errors: [{ message: "Unexpected console statement.", type: "MemberExpression" }] },
+        { code: "console.log(foo)", output: "", options: [{ allow: ["error"] }], errors: [{ message: "Unexpected console statement.", type: "MemberExpression" }] },
+        { code: "console.error(foo)", output: "", options: [{ allow: ["warn"] }], errors: [{ message: "Unexpected console statement.", type: "MemberExpression" }] },
+        { code: "console.info(foo)", output: "", options: [{ allow: ["log"] }], errors: [{ message: "Unexpected console statement.", type: "MemberExpression" }] },
+        { code: "console.warn(foo)", output: "", options: [{ allow: ["error"] }], errors: [{ message: "Unexpected console statement.", type: "MemberExpression" }] },
 
         // multiple options
-        { code: "console.log(foo)", options: [{ allow: ["warn", "info"] }], errors: [{ message: "Unexpected console statement.", type: "MemberExpression" }] },
-        { code: "console.error(foo)", options: [{ allow: ["warn", "info", "log"] }], errors: [{ message: "Unexpected console statement.", type: "MemberExpression" }] },
-        { code: "console.info(foo)", options: [{ allow: ["warn", "error", "log"] }], errors: [{ message: "Unexpected console statement.", type: "MemberExpression" }] },
-        { code: "console.warn(foo)", options: [{ allow: ["info", "log"] }], errors: [{ message: "Unexpected console statement.", type: "MemberExpression" }] },
+        { code: "console.log(foo)", output: "", options: [{ allow: ["warn", "info"] }], errors: [{ message: "Unexpected console statement.", type: "MemberExpression" }] },
+        { code: "console.error(foo)", output: "", options: [{ allow: ["warn", "info", "log"] }], errors: [{ message: "Unexpected console statement.", type: "MemberExpression" }] },
+        { code: "console.info(foo)", output: "", options: [{ allow: ["warn", "error", "log"] }], errors: [{ message: "Unexpected console statement.", type: "MemberExpression" }] },
+        { code: "console.warn(foo)", output: "", options: [{ allow: ["info", "log"] }], errors: [{ message: "Unexpected console statement.", type: "MemberExpression" }] },
 
         // In case that implicit global variable of 'console' exists
-        { code: "console.log(foo)", errors: [{ message: "Unexpected console statement.", type: "MemberExpression" }], env: { node: true } }
+        { code: "console.log(foo)", output: "", errors: [{ message: "Unexpected console statement.", type: "MemberExpression" }], env: { node: true } },
+
+        { code: "console.log(`foo`)", output: "", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Unexpected console statement.", type: "MemberExpression" }] },
+        { code: "console.log(`foo${bar}`)", output: "", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Unexpected console statement.", type: "MemberExpression" }] },
+
+        // should not autofix in some cases(side effect).
+        { code: "console.log(foo())", output: null, errors: [{ message: "Unexpected console statement.", type: "MemberExpression" }] },
+        { code: "console.log(foo, bar())", output: null, errors: [{ message: "Unexpected console statement.", type: "MemberExpression" }] },
+        { code: "console.log(`${foo()}`)", output: null, parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Unexpected console statement.", type: "MemberExpression" }] },
+        { code: "if (cond) console.log(foo())", output: null, errors: [{ message: "Unexpected console statement.", type: "MemberExpression" }] }
     ]
 });
