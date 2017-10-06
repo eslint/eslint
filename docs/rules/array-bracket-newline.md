@@ -17,6 +17,7 @@ Or an object option (Requires line breaks if any of properties is satisfied. Oth
 
 * `"multiline": true` (default) requires line breaks if there are line breaks inside elements or between elements. If this is false, this condition is disabled.
 * `"minItems": null` (default) requires line breaks if the number of elements is at least the given integer. If this is 0, this condition will act the same as the option `"always"`. If this is `null` (the default), this condition is disabled.
+* `"consistent": true` requires that either both square brackets, or neither, directly enclose newlines.
 
 ### always
 
@@ -222,6 +223,57 @@ var e = [
     }
 ];
 ```
+
+### consistent
+
+Examples of **incorrect** code for this rule with the `{ "consistent": true }` option:
+
+```js
+/*eslint array-bracket-newline: ["error", { "consistent": true }]*/
+/*eslint-env es6*/
+
+let a = [1,
+];
+let b = [,
+1];
+let c = [1, 2
+];
+let d = [
+1, 2];
+let e = [1,
+2];
+let [f
+] = [1];
+let [,
+g] = [1];
+let [h, i
+] = [1, 2];
+let [
+j, k] = [1, 2];
+let [l,
+m] = [1, 2];
+```
+
+Examples of **correct** code for this rule with the `{ "consistent": true }` option:
+
+```js
+/*eslint array-bracket-newline: ["error", { "consistent": true }]*/
+/*eslint-env es6*/
+let a = [1];
+let b = [1, 2];
+let c = [
+    1,
+    2,
+];
+let [d] = [1];
+let [e, f] = [1, 2];
+let [
+    a,
+    b,
+] = [1, 2];
+
+```
+
 
 
 ## When Not To Use It

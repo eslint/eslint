@@ -155,8 +155,163 @@ ruleTester.run("array-bracket-newline", rule, {
         { code: "var [ // any comment\na, b\n] = foo;", options: [{ multiline: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "var [\n// any comment\na, b\n] = foo;", options: [{ multiline: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "var [\na, b\n// any comment\n] = foo;", options: [{ multiline: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "var [\na,\nb\n] = foo;", options: [{ multiline: true }], parserOptions: { ecmaVersion: 6 } }
+        { code: "var [\na,\nb\n] = foo;", options: [{ multiline: true }], parserOptions: { ecmaVersion: 6 } },
 
+        // { consistent: true }
+        {
+            code: [
+                "var b = [",
+                "    1",
+                "];"
+            ].join("\n"),
+            options: [{ multiline: true, consistent: true }]
+        },
+        {
+            code: [
+                "var c = [1, 2];"
+            ].join("\n"),
+            options: [{ multiline: true, consistent: true }]
+        },
+        {
+            code: [
+                "var c = [",
+                "    1,",
+                "    2",
+                "];"
+            ].join("\n"),
+
+            options: [{ multiline: true, consistent: true }]
+        },
+        {
+            code: [
+                "var e = [function() { dosomething();}];"
+            ].join("\n"),
+            options: [{ multiline: true, consistent: true }]
+        },
+        {
+            code: [
+                "var e = [",
+                "    function() { dosomething();}",
+                "];"
+            ].join("\n"),
+            options: [{ multiline: true, consistent: true }]
+        },
+        {
+            code: [
+                "let [] = [1];"
+            ].join("\n"),
+            options: [{ multiline: true, consistent: true }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: [
+                "let [a] = [1];"
+            ].join("\n"),
+            options: [{ multiline: true, consistent: true }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: [
+                "let [",
+                "] = [1];"
+            ].join("\n"),
+            options: [{ multiline: true, consistent: true }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: [
+                "let [",
+                "    a",
+                "] = [1];"
+            ].join("\n"),
+            options: [{ multiline: true, consistent: true }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: [
+                "let [a, b] = [1, 2];"
+            ].join("\n"),
+            options: [{ multiline: true, consistent: true }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: [
+                "let [",
+                "    a, b",
+                "] = [1, 2];"
+            ].join("\n"),
+            options: [{ multiline: true, consistent: true }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: [
+                "let [k = function() {dosomething();}] = arr;"
+            ].join("\n"),
+            options: [{ multiline: true, consistent: true }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: [
+                "let [",
+                "    k = function() {",
+                "        dosomething();",
+                "    }",
+                "] = arr;"
+            ].join("\n"),
+            options: [{ multiline: true, consistent: true }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: [
+                "var c = [1,",
+                "2];"
+            ].join("\n"),
+            options: [{ multiline: false, consistent: true }]
+        },
+        {
+            code: [
+                "let [a,",
+                "b] = [1, 2];"
+            ].join("\n"),
+            options: [{ multiline: false, consistent: true }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+
+        // "consistent" and "minItems"
+        {
+            code: [
+                "var c = [ 1 ];"
+            ].join("\n"),
+            options: [{ multiline: true, consistent: true, minItems: 2 }]
+        },
+        {
+            code: [
+                "var c = [",
+                "1",
+                "];"
+            ].join("\n"),
+            options: [{ multiline: true, consistent: true, minItems: 2 }]
+        },
+        {
+            code: [
+                "let [a] = [",
+                "1",
+                "];"
+            ].join("\n"),
+            options: [{ multiline: true, consistent: true, minItems: 2 }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: [
+                "let [",
+                "a",
+                "] = [",
+                "1",
+                "];"
+            ].join("\n"),
+            options: [{ multiline: true, consistent: true, minItems: 2 }],
+            parserOptions: { ecmaVersion: 6 }
+        }
     ],
 
     invalid: [
@@ -598,6 +753,289 @@ ruleTester.run("array-bracket-newline", rule, {
                     line: 3,
                     column: 2
                 }
+            ]
+        },
+
+        // { consistent: true }
+        {
+            code: [
+                "var b = [1",
+                "];"
+            ].join("\n"),
+            output: [
+                "var b = [1];"
+            ].join("\n"),
+            options: [{ multiline: true, consistent: true }],
+            errors: [
+                { line: 2, column: 1, message: ERR_NO_BREAK_BEFORE }
+            ]
+        },
+        {
+            code: [
+                "var b = [",
+                "1];"
+            ].join("\n"),
+            output: [
+                "var b = [1];"
+            ].join("\n"),
+            options: [{ multiline: true, consistent: true }],
+            errors: [
+                { line: 1, column: 9, message: ERR_NO_BREAK_AFTER }
+            ]
+        },
+        {
+            code: [
+                "var c = [1, 2",
+                "];"
+            ].join("\n"),
+            output: [
+                "var c = [1, 2];"
+            ].join("\n"),
+            options: [{ multiline: true, consistent: true }],
+            errors: [
+                { line: 2, column: 1, message: ERR_NO_BREAK_BEFORE }
+            ]
+        },
+        {
+            code: [
+                "var c = [",
+                "1, 2];"
+            ].join("\n"),
+            output: [
+                "var c = [1, 2];"
+            ].join("\n"),
+            options: [{ multiline: true, consistent: true }],
+            errors: [
+                { line: 1, column: 9, message: ERR_NO_BREAK_AFTER }
+            ]
+        },
+        {
+            code: [
+                "var c = [1,",
+                "2];"
+            ].join("\n"),
+            output: [
+                "var c = [",
+                "1,",
+                "2",
+                "];"
+            ].join("\n"),
+            options: [{ multiline: true, consistent: true }],
+            errors: [
+                { line: 1, column: 9, message: ERR_BREAK_AFTER },
+                { line: 2, column: 2, message: ERR_BREAK_BEFORE }
+            ]
+        },
+        {
+            code: [
+                "var e = [function() {",
+                "dosomething();",
+                "}];"
+            ].join("\n"),
+            output: [
+                "var e = [",
+                "function() {",
+                "dosomething();",
+                "}",
+                "];"
+            ].join("\n"),
+            options: [{ multiline: true, consistent: true }],
+            errors: [
+                { line: 1, column: 9, message: ERR_BREAK_AFTER },
+                { line: 3, column: 2, message: ERR_BREAK_BEFORE }
+            ]
+        },
+        {
+            code: [
+                "let [a",
+                "] = [1];"
+            ].join("\n"),
+            output: [
+                "let [a] = [1];"
+            ].join("\n"),
+            options: [{ multiline: true, consistent: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                { line: 2, column: 1, message: ERR_NO_BREAK_BEFORE }
+            ]
+        },
+        {
+            code: [
+                "let [",
+                "a] = [1];"
+            ].join("\n"),
+            output: [
+                "let [a] = [1];"
+            ].join("\n"),
+            options: [{ multiline: true, consistent: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                { line: 1, column: 5, message: ERR_NO_BREAK_AFTER }
+            ]
+        },
+        {
+            code: [
+                "let [a, b",
+                "] = [1, 2];"
+            ].join("\n"),
+            output: [
+                "let [a, b] = [1, 2];"
+            ].join("\n"),
+            options: [{ multiline: true, consistent: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                { line: 2, column: 1, message: ERR_NO_BREAK_BEFORE }
+            ]
+        },
+        {
+            code: [
+                "let [",
+                "a, b] = [1, 2];"
+            ].join("\n"),
+            output: [
+                "let [a, b] = [1, 2];"
+            ].join("\n"),
+            options: [{ multiline: true, consistent: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                { line: 1, column: 5, message: ERR_NO_BREAK_AFTER }
+            ]
+        },
+        {
+            code: [
+                "let [a,",
+                "b] = [1, 2];"
+            ].join("\n"),
+            output: [
+                "let [",
+                "a,",
+                "b",
+                "] = [1, 2];"
+            ].join("\n"),
+            options: [{ multiline: true, consistent: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                { line: 1, column: 5, message: ERR_BREAK_AFTER },
+                { line: 2, column: 2, message: ERR_BREAK_BEFORE }
+            ]
+        },
+        {
+            code: [
+                "let [e = function() {",
+                "dosomething();",
+                "}] = a;"
+            ].join("\n"),
+            output: [
+                "let [",
+                "e = function() {",
+                "dosomething();",
+                "}",
+                "] = a;"
+            ].join("\n"),
+            options: [{ multiline: true, consistent: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                { line: 1, column: 5, message: ERR_BREAK_AFTER },
+                { line: 3, column: 2, message: ERR_BREAK_BEFORE }
+            ]
+        },
+        {
+            code: [
+                "var c = [",
+                "1,",
+                "2];"
+            ].join("\n"),
+            output: [
+                "var c = [1,",
+                "2];"
+            ].join("\n"),
+            options: [{ multiline: false, consistent: true }],
+            errors: [
+                { line: 1, column: 9, message: ERR_NO_BREAK_AFTER }
+            ]
+        },
+        {
+            code: [
+                "var c = [1,",
+                "2",
+                "];"
+            ].join("\n"),
+            output: [
+                "var c = [1,",
+                "2];"
+            ].join("\n"),
+            options: [{ multiline: false, consistent: true }],
+            errors: [
+                { line: 3, column: 1, message: ERR_NO_BREAK_BEFORE }
+            ]
+        },
+        {
+            code: [
+                "let [",
+                "a,",
+                "b] = [1, 2];"
+            ].join("\n"),
+            output: [
+                "let [a,",
+                "b] = [1, 2];"
+            ].join("\n"),
+            options: [{ multiline: false, consistent: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                { line: 1, column: 5, message: ERR_NO_BREAK_AFTER }
+            ]
+        },
+        {
+            code: [
+                "let [a,",
+                "b",
+                "] = [1, 2];"
+            ].join("\n"),
+            output: [
+                "let [a,",
+                "b] = [1, 2];"
+            ].join("\n"),
+            options: [{ multiline: false, consistent: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                { line: 3, column: 1, message: ERR_NO_BREAK_BEFORE }
+            ]
+        },
+
+        // "consistent" and "minItems"
+        {
+            code: [
+                "var c = [1, 2];"
+            ].join("\n"),
+            output: [
+                "var c = [",
+                "1, 2",
+                "];"
+            ].join("\n"),
+            options: [{ multiline: true, consistent: true, minItems: 2 }],
+            errors: [
+                { line: 1, column: 9, message: ERR_BREAK_AFTER },
+                { line: 1, column: 14, message: ERR_BREAK_BEFORE }
+            ]
+        },
+        {
+            code: [
+                "let [a, b] = [",
+                "1, 2",
+                "];"
+            ].join("\n"),
+            output: [
+                "let [",
+                "a, b",
+                "] = [",
+                "1, 2",
+                "];"
+            ].join("\n"),
+            options: [{ multiline: true, consistent: true, minItems: 2 }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                { line: 1, column: 5, message: ERR_BREAK_AFTER },
+                { line: 1, column: 10, message: ERR_BREAK_BEFORE }
             ]
         },
 
