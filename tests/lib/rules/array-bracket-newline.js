@@ -40,6 +40,8 @@ ruleTester.run("array-bracket-newline", rule, {
         "var foo = [\n1, 2\n// any comment\n];",
         "var foo = [\n1,\n2\n];",
         "var foo = [\nfunction foo() {\nreturn dosomething();\n}\n];",
+        "var foo = [/* \nany comment\n */];",
+        "var foo = [/* single line multiline comment for no real reason */];",
 
         // "always"
         { code: "var foo = [\n];", options: ["always"] },
@@ -72,6 +74,7 @@ ruleTester.run("array-bracket-newline", rule, {
         { code: "var foo = [\n1, 2\n// any comment\n];", options: [{ multiline: true }] },
         { code: "var foo = [\n1,\n2\n];", options: [{ multiline: true }] },
         { code: "var foo = [\nfunction foo() {\nreturn dosomething();\n}\n];", options: [{ multiline: true }] },
+        { code: "var foo = [/* \nany comment\n */];", options: [{ multiline: true }] },
 
         // { multiline: false }
         { code: "var foo = [];", options: [{ multiline: false }] },
