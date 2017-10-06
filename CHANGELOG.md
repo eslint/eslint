@@ -1,3 +1,16 @@
+v4.9.0 - October 7, 2017
+
+* 786cc734 Update: Add "consistent" option to array-bracket-newline (fixes #9136) (#9206) (Ethan Rutherford)
+* e171f6bf Docs: add installing prerequisites. (#9394) (薛定谔的猫)
+* 74dfc87a Docs: update doc for class-methods-use-this (fixes #8910) (#9374) (Victor Hom)
+* b4a9dbf4 Docs: show console call with no-restricted-syntax (fixes #7806) (#9376) (Victor Hom)
+* 8da525f0 Fix: recognise multiline comments as multiline arrays (fixes #9211) (#9369) (Phil Quinn)
+* c581b77e Chore: Error => TypeError (#9390) (薛定谔的猫)
+* ee99876c New: lines-between-class-members rule (fixes #5949) (#9141) (薛定谔的猫)
+* 9d3f5ad8 Chore: report unused eslint-disable directives in ESLint codebase (#9371) (Teddy Katz)
+* 11676387 Update: add allowElseIf option to no-else-return (fixes #9228) (#9229) (Thomas Grainger)
+* 4567ab1a New: Add the fix-dry-run flag (fixes #9076) (#9073) (Rafał Ruciński)
+
 v4.8.0 - September 29, 2017
 
 * 3f2b908 New: add option to report unused eslint-disable directives (fixes #9249) (#9250) (Teddy Katz)
