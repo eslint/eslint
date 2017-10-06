@@ -216,6 +216,15 @@ ruleTester.run("require-jsdoc", rule, {
                     FunctionExpression: true
                 }
             }]
+        },
+        {
+            code: " var foo = { [function() {}]: 1 };",
+            options: [{
+                require: {
+                    FunctionExpression: true
+                }
+            }],
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
 
