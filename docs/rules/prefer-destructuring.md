@@ -149,6 +149,14 @@ var foo = array[100];
 
 Then the `array` part of this rule is not recommended, as destructuring does not match this use case very well.
 
+Or for non-iterable 'array-like' objects:
+
+```javascript
+var $ = require('jquery');
+var foo = $('body')[0];
+var [bar] = $('body'); // fails with a TypeError
+```
+
 
 ## Further Reading
 
