@@ -92,7 +92,13 @@ ruleTester.run("multiline-comment-style", rule, {
             // The following line comment
             // contains '*/'.
         `,
-
+        {
+            code: `
+                // The following line comment
+                // contains '*/'.
+            `,
+            options: ["bare-block"]
+        },
         {
             code: `
                 /*
@@ -219,13 +225,13 @@ ruleTester.run("multiline-comment-style", rule, {
         },
         {
             code: `
-                /* this blockk
+                /* this block
                  * is missing a newline at the start
                  */
             `,
             output: `
                 /*
-                 * this blockk
+                 * this block
                  * is missing a newline at the start
                  */
             `,
