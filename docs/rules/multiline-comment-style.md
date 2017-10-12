@@ -102,7 +102,3 @@ foo();
 ## When Not To Use It
 
 If you don't want to enforce a particular style for multiline comments, you can disable the rule.
-
-## Further Reading
-
-If there are other links that describe the issue this rule addresses, please include them here in a bulleted list.
