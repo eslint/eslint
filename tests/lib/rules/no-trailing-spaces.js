@@ -72,6 +72,14 @@ ruleTester.run("no-trailing-spaces", rule, {
             options: [{ ignoreComments: true }]
         },
         {
+            code: "// Trailing comment test.",
+            options: [{ ignoreComments: false }]
+        },
+        {
+            code: "// Trailing comment test.",
+            options: []
+        },
+        {
             code: "/* \nTrailing comments test. \n*/",
             options: [{ ignoreComments: true }]
         },
@@ -482,6 +490,19 @@ ruleTester.run("no-trailing-spaces", rule, {
                     type: "Program",
                     line: 1,
                     column: 20
+                }
+            ]
+        },
+        {
+            code: "// Trailing comment default test. ",
+            output: "// Trailing comment default test.",
+            options: [],
+            errors: [
+                {
+                    message: "Trailing spaces not allowed.",
+                    type: "Program",
+                    line: 1,
+                    column: 34
                 }
             ]
         }
