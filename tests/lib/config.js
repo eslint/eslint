@@ -155,7 +155,7 @@ describe("Config", () => {
 
             // at one point, customBaseConfig.format would end up equal to "foo"...that's bad
             assert.deepEqual(customBaseConfig, { foo: "bar" });
-            assert.equal(configHelper.options.format, "foo");
+            assert.strictEqual(configHelper.options.format, "foo");
         });
 
         it("should create config object when using baseConfig with extends", () => {
@@ -215,7 +215,7 @@ describe("Config", () => {
                     configHelper.findLocalConfigFiles(getFakeFixturePath("broken"))
                 );
 
-            assert.equal(actual[0], expected);
+            assert.strictEqual(actual[0], expected);
         });
 
         it("should return an empty array when an .eslintrc file is not found", () => {
@@ -236,8 +236,8 @@ describe("Config", () => {
                     configHelper.findLocalConfigFiles(getFakeFixturePath("packagejson", "subdir"))
                 );
 
-            assert.equal(actual[0], expected0);
-            assert.equal(actual[1], expected1);
+            assert.strictEqual(actual[0], expected0);
+            assert.strictEqual(actual[1], expected1);
         });
 
         it("should return the only one config file even if there are multiple found", () => {
@@ -249,8 +249,8 @@ describe("Config", () => {
                     configHelper.findLocalConfigFiles(getFakeFixturePath("broken"))
                 );
 
-            assert.equal(actual.length, 1);
-            assert.equal(actual, expected);
+            assert.strictEqual(actual.length, 1);
+            assert.deepEqual(actual, [expected]);
         });
 
         it("should return all possible files when multiple are found", () => {
@@ -284,7 +284,7 @@ describe("Config", () => {
             const configHelper = new Config({ cwd: process.cwd() }, linter),
                 actual = configHelper.getConfig();
 
-            assert.equal(actual.rules.strict[1], "global");
+            assert.strictEqual(actual.rules.strict[1], "global");
         });
 
         it("should not retain configs from previous directories when called multiple times", () => {
@@ -296,9 +296,9 @@ describe("Config", () => {
             let config;
 
             config = configHelper.getConfig(firstpath);
-            assert.equal(config.rules["no-new"], 0);
+            assert.strictEqual(config.rules["no-new"], 0);
             config = configHelper.getConfig(secondpath);
-            assert.equal(config.rules["no-new"], 1);
+            assert.strictEqual(config.rules["no-new"], 1);
         });
 
         it("should throw an error when an invalid path is given", () => {
@@ -353,7 +353,7 @@ describe("Config", () => {
 
             configHelper.getConfig(configPath);
 
-            assert.equal(configHelper.findLocalConfigFiles.callcount, callcount);
+            assert.strictEqual(configHelper.findLocalConfigFiles.callcount, callcount);
         });
 
         // make sure JS-style comments don't throw an error
@@ -363,8 +363,8 @@ describe("Config", () => {
                 semi = configHelper.specificConfig.rules.semi,
                 strict = configHelper.specificConfig.rules.strict;
 
-            assert.equal(semi, 1);
-            assert.equal(strict, 0);
+            assert.strictEqual(semi, 1);
+            assert.strictEqual(strict, 0);
         });
 
         // make sure YAML files work correctly
@@ -374,8 +374,8 @@ describe("Config", () => {
                 noAlert = configHelper.specificConfig.rules["no-alert"],
                 noUndef = configHelper.specificConfig.rules["no-undef"];
 
-            assert.equal(noAlert, 0);
-            assert.equal(noUndef, 2);
+            assert.strictEqual(noAlert, 0);
+            assert.strictEqual(noUndef, 2);
         });
 
         it("should contain the correct value for parser when a custom parser is specified", () => {
@@ -383,7 +383,7 @@ describe("Config", () => {
                 configHelper = new Config({ cwd: process.cwd() }, linter),
                 config = configHelper.getConfig(configPath);
 
-            assert.equal(config.parser, path.resolve(path.dirname(configPath), "./custom.js"));
+            assert.strictEqual(config.parser, path.resolve(path.dirname(configPath), "./custom.js"));
         });
 
         // Configuration hierarchy ---------------------------------------------

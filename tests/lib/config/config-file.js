@@ -191,8 +191,8 @@ describe("ConfigFile", () => {
                 extends: "eslint:all"
             }, configContext, "/whatever");
 
-            assert.equal(config.rules.eqeqeq, "error");
-            assert.equal(config.rules.curly, "error");
+            assert.strictEqual(config.rules.eqeqeq, "error");
+            assert.strictEqual(config.rules.curly, "error");
 
         });
 
@@ -1026,7 +1026,7 @@ describe("ConfigFile", () => {
 
                     const result = StubbedConfigFile.resolve(input);
 
-                    assert.equal(result.filePath, expected);
+                    assert.strictEqual(result.filePath, expected);
                 });
             });
         });
@@ -1061,7 +1061,7 @@ describe("ConfigFile", () => {
 
                     const result = StubbedConfigFile.resolve(input, relativeTo);
 
-                    assert.equal(result.filePath, expected);
+                    assert.strictEqual(result.filePath, expected);
                 });
             });
 
@@ -1083,7 +1083,7 @@ describe("ConfigFile", () => {
 
                     const result = StubbedConfigFile.resolve(input, relativeTo);
 
-                    assert.equal(result.filePath, expected);
+                    assert.strictEqual(result.filePath, expected);
                 });
             });
 
@@ -1099,27 +1099,27 @@ describe("ConfigFile", () => {
             it("should return project path when config file is in home directory", () => {
                 const result = ConfigFile.getBaseDir(userHome);
 
-                assert.equal(result, PROJECT_PATH);
+                assert.strictEqual(result, PROJECT_PATH);
             });
         }
 
         it("should return project path when config file is in an ancestor directory of the project path", () => {
             const result = ConfigFile.getBaseDir(path.resolve(PROJECT_PATH, "../../"));
 
-            assert.equal(result, PROJECT_PATH);
+            assert.strictEqual(result, PROJECT_PATH);
         });
 
         it("should return config file path when config file is in a descendant directory of the project path", () => {
             const configFilePath = path.resolve(PROJECT_PATH, "./foo/bar/"),
                 result = ConfigFile.getBaseDir(path.resolve(PROJECT_PATH, "./foo/bar/"));
 
-            assert.equal(result, configFilePath);
+            assert.strictEqual(result, configFilePath);
         });
 
         it("should return project path when config file is not an ancestor or descendant of the project path", () => {
             const result = ConfigFile.getBaseDir(path.resolve("/tmp/foo"));
 
-            assert.equal(result, PROJECT_PATH);
+            assert.strictEqual(result, PROJECT_PATH);
         });
 
     });
@@ -1132,27 +1132,27 @@ describe("ConfigFile", () => {
             it("should return project path when config file is in home directory", () => {
                 const result = ConfigFile.getLookupPath(userHome);
 
-                assert.equal(result, PROJECT_DEPS_PATH);
+                assert.strictEqual(result, PROJECT_DEPS_PATH);
             });
         }
 
         it("should return project path when config file is in an ancestor directory of the project path", () => {
             const result = ConfigFile.getLookupPath(path.resolve(PROJECT_DEPS_PATH, "../../"));
 
-            assert.equal(result, PROJECT_DEPS_PATH);
+            assert.strictEqual(result, PROJECT_DEPS_PATH);
         });
 
         it("should return config file path when config file is in a descendant directory of the project path", () => {
             const configFilePath = path.resolve(PROJECT_DEPS_PATH, "./foo/bar/node_modules"),
                 result = ConfigFile.getLookupPath(path.resolve(PROJECT_DEPS_PATH, "./foo/bar/"));
 
-            assert.equal(result, configFilePath);
+            assert.strictEqual(result, configFilePath);
         });
 
         it("should return project path when config file is not an ancestor or descendant of the project path", () => {
             const result = ConfigFile.getLookupPath(path.resolve("/tmp/foo"));
 
-            assert.equal(result, PROJECT_DEPS_PATH);
+            assert.strictEqual(result, PROJECT_DEPS_PATH);
         });
 
     });
@@ -1169,7 +1169,7 @@ describe("ConfigFile", () => {
             it(`should return ${expected} when passed ${input}`, () => {
                 const result = ConfigFile.getFilenameForDirectory(input);
 
-                assert.equal(result, path.resolve(input, expected));
+                assert.strictEqual(result, path.resolve(input, expected));
             });
         });
 
@@ -1189,7 +1189,7 @@ describe("ConfigFile", () => {
             it(`should return ${expected} when passed ${input}`, () => {
                 const result = ConfigFile.normalizePackageName(input, "eslint-config");
 
-                assert.equal(result, expected);
+                assert.strictEqual(result, expected);
             });
         });
 

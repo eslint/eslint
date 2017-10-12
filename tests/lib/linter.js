@@ -194,7 +194,7 @@ describe("Linter", () => {
             const sourceCode = linter.getSourceCode();
 
             assert.isObject(sourceCode);
-            assert.equal(sourceCode.text, code);
+            assert.strictEqual(sourceCode.text, code);
             assert.isObject(sourceCode.ast);
         });
 
@@ -204,7 +204,7 @@ describe("Linter", () => {
             const sourceCode = linter.getSourceCode();
 
             assert.isObject(sourceCode);
-            assert.equal(sourceCode.text, code);
+            assert.strictEqual(sourceCode.text, code);
             assert.isObject(sourceCode.ast);
         });
 
@@ -220,7 +220,7 @@ describe("Linter", () => {
 
             linter.defineRule("checker", context => {
                 spy = sandbox.spy(() => {
-                    assert.equal(context.getSource(), TEST_CODE);
+                    assert.strictEqual(context.getSource(), TEST_CODE);
                 });
                 return { Program: spy };
             });
@@ -235,7 +235,7 @@ describe("Linter", () => {
 
             linter.defineRule("checker", context => {
                 spy = sandbox.spy(node => {
-                    assert.equal(context.getSource(node), TEST_CODE);
+                    assert.strictEqual(context.getSource(node), TEST_CODE);
                 });
                 return { Program: spy };
             });
@@ -250,7 +250,7 @@ describe("Linter", () => {
 
             linter.defineRule("checker", context => {
                 spy = sandbox.spy(node => {
-                    assert.equal(context.getSource(node, 2, 0), TEST_CODE);
+                    assert.strictEqual(context.getSource(node, 2, 0), TEST_CODE);
                 });
                 return { Program: spy };
             });
@@ -265,7 +265,7 @@ describe("Linter", () => {
 
             linter.defineRule("checker", context => {
                 spy = sandbox.spy(node => {
-                    assert.equal(context.getSource(node), "6 * 7");
+                    assert.strictEqual(context.getSource(node), "6 * 7");
                 });
                 return { BinaryExpression: spy };
             });
@@ -280,7 +280,7 @@ describe("Linter", () => {
 
             linter.defineRule("checker", context => {
                 spy = sandbox.spy(node => {
-                    assert.equal(context.getSource(node, 2), "= 6 * 7");
+                    assert.strictEqual(context.getSource(node, 2), "= 6 * 7");
                 });
                 return { BinaryExpression: spy };
             });
@@ -310,7 +310,7 @@ describe("Linter", () => {
 
             linter.defineRule("checker", context => {
                 spy = sandbox.spy(node => {
-                    assert.equal(context.getSource(node, 2, 1), "= 6 * 7;");
+                    assert.strictEqual(context.getSource(node, 2, 1), "= 6 * 7;");
                 });
                 return { BinaryExpression: spy };
             });
@@ -333,7 +333,7 @@ describe("Linter", () => {
                 spy = sandbox.spy(() => {
                     const ancestors = context.getAncestors();
 
-                    assert.equal(ancestors.length, 3);
+                    assert.strictEqual(ancestors.length, 3);
                 });
                 return { BinaryExpression: spy };
             });
@@ -350,7 +350,7 @@ describe("Linter", () => {
                 spy = sandbox.spy(() => {
                     const ancestors = context.getAncestors();
 
-                    assert.equal(ancestors.length, 0);
+                    assert.strictEqual(ancestors.length, 0);
                 });
 
                 return { Program: spy };
@@ -367,7 +367,7 @@ describe("Linter", () => {
         it("should retrieve a node starting at the given index", () => {
             const config = { rules: { checker: "error" } };
             const spy = sandbox.spy(context => {
-                assert.equal(context.getNodeByRangeIndex(4).type, "Identifier");
+                assert.strictEqual(context.getNodeByRangeIndex(4).type, "Identifier");
                 return {};
             });
 
@@ -379,7 +379,7 @@ describe("Linter", () => {
         it("should retrieve a node containing the given index", () => {
             const config = { rules: { checker: "error" } };
             const spy = sandbox.spy(context => {
-                assert.equal(context.getNodeByRangeIndex(6).type, "Identifier");
+                assert.strictEqual(context.getNodeByRangeIndex(6).type, "Identifier");
                 return {};
             });
 
@@ -393,8 +393,8 @@ describe("Linter", () => {
             const spy = sandbox.spy(context => {
                 const node = context.getNodeByRangeIndex(13);
 
-                assert.equal(node.type, "Literal");
-                assert.equal(node.value, 6);
+                assert.strictEqual(node.type, "Literal");
+                assert.strictEqual(node.value, 6);
                 return {};
             });
 
@@ -406,7 +406,7 @@ describe("Linter", () => {
         it("should retrieve a node ending with the given index", () => {
             const config = { rules: { checker: "error" } };
             const spy = sandbox.spy(context => {
-                assert.equal(context.getNodeByRangeIndex(9).type, "Identifier");
+                assert.strictEqual(context.getNodeByRangeIndex(9).type, "Identifier");
                 return {};
             });
 
@@ -420,11 +420,11 @@ describe("Linter", () => {
             const spy = sandbox.spy(context => {
                 const node1 = context.getNodeByRangeIndex(14);
 
-                assert.equal(node1.type, "BinaryExpression");
+                assert.strictEqual(node1.type, "BinaryExpression");
 
                 const node2 = context.getNodeByRangeIndex(3);
 
-                assert.equal(node2.type, "VariableDeclaration");
+                assert.strictEqual(node2.type, "VariableDeclaration");
                 return {};
             });
 
@@ -457,7 +457,7 @@ describe("Linter", () => {
                 const node = context.getNodeByRangeIndex(14);
 
                 assert.property(node, "parent");
-                assert.equal(node.parent.type, "VariableDeclarator");
+                assert.strictEqual(node.parent.type, "VariableDeclarator");
                 return {};
             });
 
@@ -471,13 +471,13 @@ describe("Linter", () => {
             const spy = sandbox.spy(context => {
                 const node1 = context.getNodeByRangeIndex(10);
 
-                assert.equal(node1.type, "VariableDeclarator");
+                assert.strictEqual(node1.type, "VariableDeclarator");
 
                 const node2 = context.getNodeByRangeIndex(4);
 
-                assert.equal(node2.type, "Identifier");
+                assert.strictEqual(node2.type, "Identifier");
                 assert.property(node2, "parent");
-                assert.equal(node2.parent.type, "VariableDeclarator");
+                assert.strictEqual(node2.parent.type, "VariableDeclarator");
                 assert.notProperty(node2.parent, "parent");
                 return {};
             });
@@ -501,7 +501,7 @@ describe("Linter", () => {
                 spy = sandbox.spy(() => {
                     const scope = context.getScope();
 
-                    assert.equal(scope.type, "global");
+                    assert.strictEqual(scope.type, "global");
                 });
                 return { Program: spy };
             });
@@ -518,7 +518,7 @@ describe("Linter", () => {
                 spy = sandbox.spy(() => {
                     const scope = context.getScope();
 
-                    assert.equal(scope.type, "function");
+                    assert.strictEqual(scope.type, "function");
                 });
                 return { FunctionDeclaration: spy };
             });
@@ -535,8 +535,8 @@ describe("Linter", () => {
                 spy = sandbox.spy(() => {
                     const scope = context.getScope();
 
-                    assert.equal(scope.type, "function");
-                    assert.equal(scope.block.id.name, "foo");
+                    assert.strictEqual(scope.type, "function");
+                    assert.strictEqual(scope.block.id.name, "foo");
                 });
                 return { LabeledStatement: spy };
             });
@@ -553,8 +553,8 @@ describe("Linter", () => {
                 spy = sandbox.spy(() => {
                     const scope = context.getScope();
 
-                    assert.equal(scope.type, "function");
-                    assert.equal(scope.block.type, "ArrowFunctionExpression");
+                    assert.strictEqual(scope.type, "function");
+                    assert.strictEqual(scope.block.type, "ArrowFunctionExpression");
                 });
 
                 return { ReturnStatement: spy };
@@ -572,8 +572,8 @@ describe("Linter", () => {
                 spy = sandbox.spy(() => {
                     const scope = context.getScope();
 
-                    assert.equal(scope.type, "switch");
-                    assert.equal(scope.block.type, "SwitchStatement");
+                    assert.strictEqual(scope.type, "switch");
+                    assert.strictEqual(scope.block.type, "SwitchStatement");
                 });
 
                 return { SwitchStatement: spy };
@@ -591,8 +591,8 @@ describe("Linter", () => {
                 spy = sandbox.spy(() => {
                     const scope = context.getScope();
 
-                    assert.equal(scope.type, "block");
-                    assert.equal(scope.block.type, "BlockStatement");
+                    assert.strictEqual(scope.type, "block");
+                    assert.strictEqual(scope.block.type, "BlockStatement");
                 });
 
                 return { BlockStatement: spy };
@@ -610,8 +610,8 @@ describe("Linter", () => {
                 spy = sandbox.spy(() => {
                     const scope = context.getScope();
 
-                    assert.equal(scope.type, "block");
-                    assert.equal(scope.block.type, "BlockStatement");
+                    assert.strictEqual(scope.type, "block");
+                    assert.strictEqual(scope.block.type, "BlockStatement");
                 });
 
                 return { BlockStatement: spy };
@@ -629,8 +629,8 @@ describe("Linter", () => {
                 spy = sandbox.spy(() => {
                     const scope = context.getScope();
 
-                    assert.equal(scope.type, "function");
-                    assert.equal(scope.block.type, "FunctionDeclaration");
+                    assert.strictEqual(scope.type, "function");
+                    assert.strictEqual(scope.block.type, "FunctionDeclaration");
                 });
 
                 return { FunctionDeclaration: spy };
@@ -648,8 +648,8 @@ describe("Linter", () => {
                 spy = sandbox.spy(() => {
                     const scope = context.getScope();
 
-                    assert.equal(scope.type, "function");
-                    assert.equal(scope.block.type, "FunctionExpression");
+                    assert.strictEqual(scope.type, "function");
+                    assert.strictEqual(scope.block.type, "FunctionExpression");
                 });
 
                 return { FunctionExpression: spy };
@@ -667,8 +667,8 @@ describe("Linter", () => {
                 spy = sandbox.spy(() => {
                     const scope = context.getScope();
 
-                    assert.equal(scope.type, "catch");
-                    assert.equal(scope.block.type, "CatchClause");
+                    assert.strictEqual(scope.type, "catch");
+                    assert.strictEqual(scope.block.type, "CatchClause");
                 });
 
                 return { CatchClause: spy };
@@ -686,7 +686,7 @@ describe("Linter", () => {
                 spy = sandbox.spy(() => {
                     const scope = context.getScope();
 
-                    assert.equal(scope.type, "module");
+                    assert.strictEqual(scope.type, "module");
                 });
 
                 return { AssignmentExpression: spy };
@@ -704,7 +704,7 @@ describe("Linter", () => {
                 spy = sandbox.spy(() => {
                     const scope = context.getScope();
 
-                    assert.equal(scope.type, "function");
+                    assert.strictEqual(scope.type, "function");
                 });
 
                 return { AssignmentExpression: spy };
@@ -863,7 +863,7 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename, true);
 
-            assert.equal(messages.length, 0);
+            assert.strictEqual(messages.length, 0);
             sinon.assert.calledOnce(spyVariableDeclaration);
             sinon.assert.calledOnce(spyVariableDeclarator);
             sinon.assert.calledOnce(spyIdentifier);
@@ -888,8 +888,8 @@ describe("Linter", () => {
 
             const messages = linter.verify("0", config, filename);
 
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].message, "Hello");
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].message, "Hello");
         });
 
         it("should not have any settings if they were not passed in", () => {
@@ -907,7 +907,7 @@ describe("Linter", () => {
 
             const messages = linter.verify("0", config, filename);
 
-            assert.equal(messages.length, 0);
+            assert.strictEqual(messages.length, 0);
         });
     });
 
@@ -969,7 +969,7 @@ describe("Linter", () => {
                 const config = { rules: {}, parser: alternateParser };
                 const messages = linter.verify("0", config, filename);
 
-                assert.equal(messages.length, 0);
+                assert.strictEqual(messages.length, 0);
             });
 
             it("should expose parser services when using parseForESLint() and services are specified", () => {
@@ -988,8 +988,8 @@ describe("Linter", () => {
                 const config = { rules: { "test-service-rule": 2 }, parser: alternateParser };
                 const messages = linter.verify("0", config, filename);
 
-                assert.equal(messages.length, 1);
-                assert.equal(messages[0].message, "Hi!");
+                assert.strictEqual(messages.length, 1);
+                assert.strictEqual(messages[0].message, "Hi!");
             });
         }
 
@@ -1017,8 +1017,8 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename, true);
 
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, rule);
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].ruleId, rule);
         });
 
         it("should be configurable by only setting the string value", () => {
@@ -1029,9 +1029,9 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename, true);
 
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].severity, 1);
-            assert.equal(messages[0].ruleId, rule);
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].severity, 1);
+            assert.strictEqual(messages[0].ruleId, rule);
         });
 
         it("should be configurable by passing in values as an array", () => {
@@ -1042,8 +1042,8 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename, true);
 
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, rule);
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].ruleId, rule);
         });
 
         it("should be configurable by passing in string value as an array", () => {
@@ -1054,9 +1054,9 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename, true);
 
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].severity, 1);
-            assert.equal(messages[0].ruleId, rule);
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].severity, 1);
+            assert.strictEqual(messages[0].ruleId, rule);
         });
 
         it("should not be configurable by setting other value", () => {
@@ -1067,14 +1067,14 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename, true);
 
-            assert.equal(messages.length, 0);
+            assert.strictEqual(messages.length, 0);
         });
 
         it("should process empty config", () => {
             const config = {};
             const messages = linter.verify(code, config, filename, true);
 
-            assert.equal(messages.length, 0);
+            assert.strictEqual(messages.length, 0);
         });
     });
 
@@ -1093,14 +1093,14 @@ describe("Linter", () => {
                         c = getVariable(scope, "c"),
                         d = getVariable(scope, "d");
 
-                    assert.equal(a.name, "a");
-                    assert.equal(a.writeable, false);
-                    assert.equal(b.name, "b");
-                    assert.equal(b.writeable, true);
-                    assert.equal(c.name, "c");
-                    assert.equal(c.writeable, false);
-                    assert.equal(d.name, "d");
-                    assert.equal(d.writeable, true);
+                    assert.strictEqual(a.name, "a");
+                    assert.strictEqual(a.writeable, false);
+                    assert.strictEqual(b.name, "b");
+                    assert.strictEqual(b.writeable, true);
+                    assert.strictEqual(c.name, "c");
+                    assert.strictEqual(c.writeable, false);
+                    assert.strictEqual(d.name, "d");
+                    assert.strictEqual(d.writeable, true);
                 });
 
                 return { Program: spy };
@@ -1125,12 +1125,12 @@ describe("Linter", () => {
                         b = getVariable(scope, "b"),
                         c = getVariable(scope, "c");
 
-                    assert.equal(a.name, "a");
-                    assert.equal(a.writeable, false);
-                    assert.equal(b.name, "b");
-                    assert.equal(b.writeable, true);
-                    assert.equal(c.name, "c");
-                    assert.equal(c.writeable, false);
+                    assert.strictEqual(a.name, "a");
+                    assert.strictEqual(a.writeable, false);
+                    assert.strictEqual(b.name, "b");
+                    assert.strictEqual(b.writeable, true);
+                    assert.strictEqual(c.name, "c");
+                    assert.strictEqual(c.writeable, false);
                 });
 
                 return { Program: spy };
@@ -1153,8 +1153,8 @@ describe("Linter", () => {
                         exports = getVariable(scope, "exports"),
                         window = getVariable(scope, "window");
 
-                    assert.equal(exports.writeable, true);
-                    assert.equal(window.writeable, false);
+                    assert.strictEqual(exports.writeable, true);
+                    assert.strictEqual(window.writeable, false);
                 });
 
                 return { Program: spy };
@@ -1178,8 +1178,8 @@ describe("Linter", () => {
                         exports = getVariable(scope, "exports"),
                         window = getVariable(scope, "window");
 
-                    assert.equal(exports.writeable, true);
-                    assert.equal(window, null);
+                    assert.strictEqual(exports.writeable, true);
+                    assert.strictEqual(window, null);
                 });
 
                 return { Program: spy };
@@ -1209,7 +1209,7 @@ describe("Linter", () => {
                     const scope = context.getScope(),
                         horse = getVariable(scope, "horse");
 
-                    assert.equal(horse.eslintUsed, true);
+                    assert.strictEqual(horse.eslintUsed, true);
                 });
 
                 return { Program: spy };
@@ -1229,7 +1229,7 @@ describe("Linter", () => {
                     const scope = context.getScope(),
                         horse = getVariable(scope, "horse");
 
-                    assert.equal(horse, null);
+                    assert.strictEqual(horse, null);
                 });
 
                 return { Program: spy };
@@ -1249,7 +1249,7 @@ describe("Linter", () => {
                     const scope = context.getScope(),
                         horse = getVariable(scope, "horse");
 
-                    assert.equal(horse.eslintUsed, true);
+                    assert.strictEqual(horse.eslintUsed, true);
                 });
 
                 return { Program: spy };
@@ -1269,7 +1269,7 @@ describe("Linter", () => {
                     const scope = context.getScope(),
                         horse = getVariable(scope, "horse");
 
-                    assert.equal(horse, null); // there is no global scope at all
+                    assert.strictEqual(horse, null); // there is no global scope at all
                 });
 
                 return { Program: spy };
@@ -1289,7 +1289,7 @@ describe("Linter", () => {
                     const scope = context.getScope(),
                         horse = getVariable(scope, "horse");
 
-                    assert.equal(horse, null); // there is no global scope at all
+                    assert.strictEqual(horse, null); // there is no global scope at all
                 });
 
                 return { Program: spy };
@@ -1311,7 +1311,7 @@ describe("Linter", () => {
                 spy = sandbox.spy(() => {
                     const scope = context.getScope();
 
-                    assert.equal(getVariable(scope, "a"), null);
+                    assert.strictEqual(getVariable(scope, "a"), null);
                 });
 
                 return { Program: spy };
@@ -1333,10 +1333,10 @@ describe("Linter", () => {
                 spy = sandbox.spy(() => {
                     const scope = context.getScope();
 
-                    assert.equal(getVariable(scope, "a"), null);
-                    assert.equal(getVariable(scope, "b"), null);
-                    assert.equal(getVariable(scope, "foo"), null);
-                    assert.equal(getVariable(scope, "c"), null);
+                    assert.strictEqual(getVariable(scope, "a"), null);
+                    assert.strictEqual(getVariable(scope, "b"), null);
+                    assert.strictEqual(getVariable(scope, "foo"), null);
+                    assert.strictEqual(getVariable(scope, "c"), null);
                 });
 
                 return { Program: spy };
@@ -1358,9 +1358,9 @@ describe("Linter", () => {
                 spy = sandbox.spy(() => {
                     const scope = context.getScope();
 
-                    assert.notEqual(getVariable(scope, "Object"), null);
-                    assert.notEqual(getVariable(scope, "Array"), null);
-                    assert.notEqual(getVariable(scope, "undefined"), null);
+                    assert.notStrictEqual(getVariable(scope, "Object"), null);
+                    assert.notStrictEqual(getVariable(scope, "Array"), null);
+                    assert.notStrictEqual(getVariable(scope, "undefined"), null);
                 });
 
                 return { Program: spy };
@@ -1378,9 +1378,9 @@ describe("Linter", () => {
                 spy = sandbox.spy(() => {
                     const scope = context.getScope();
 
-                    assert.equal(getVariable(scope, "Promise"), null);
-                    assert.equal(getVariable(scope, "Symbol"), null);
-                    assert.equal(getVariable(scope, "WeakMap"), null);
+                    assert.strictEqual(getVariable(scope, "Promise"), null);
+                    assert.strictEqual(getVariable(scope, "Symbol"), null);
+                    assert.strictEqual(getVariable(scope, "WeakMap"), null);
                 });
 
                 return { Program: spy };
@@ -1398,9 +1398,9 @@ describe("Linter", () => {
                 spy = sandbox.spy(() => {
                     const scope = context.getScope();
 
-                    assert.notEqual(getVariable(scope, "Promise"), null);
-                    assert.notEqual(getVariable(scope, "Symbol"), null);
-                    assert.notEqual(getVariable(scope, "WeakMap"), null);
+                    assert.notStrictEqual(getVariable(scope, "Promise"), null);
+                    assert.notStrictEqual(getVariable(scope, "Symbol"), null);
+                    assert.notStrictEqual(getVariable(scope, "WeakMap"), null);
                 });
 
                 return { Program: spy };
@@ -1427,9 +1427,9 @@ describe("Linter", () => {
 
             const messages = linter.verify("0", config, filename);
 
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, code);
-            assert.equal(messages[0].nodeType, "Literal");
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].ruleId, code);
+            assert.strictEqual(messages[0].nodeType, "Literal");
         });
     });
 
@@ -1454,12 +1454,12 @@ describe("Linter", () => {
 
             const messages = linter.verify("0", config, filename);
 
-            assert.equal(messages.length, code.length);
+            assert.strictEqual(messages.length, code.length);
             code.forEach(item => {
                 assert.ok(messages.some(message => message.ruleId === item));
             });
             messages.forEach(message => {
-                assert.equal(message.nodeType, "Literal");
+                assert.strictEqual(message.nodeType, "Literal");
             });
         });
     });
@@ -1480,7 +1480,7 @@ describe("Linter", () => {
 
             const messages = linter.verify("0", config, filename);
 
-            assert.equal(messages[0].message, filename);
+            assert.strictEqual(messages[0].message, filename);
         });
 
         it("defaults filename to '<input>'", () => {
@@ -1496,7 +1496,7 @@ describe("Linter", () => {
 
             const messages = linter.verify("0", config);
 
-            assert.equal(messages[0].message, "<input>");
+            assert.strictEqual(messages[0].message, "<input>");
         });
     });
 
@@ -1508,9 +1508,9 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename);
 
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, "no-alert");
-            assert.equal(messages[0].message, "Unexpected alert.");
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].ruleId, "no-alert");
+            assert.strictEqual(messages[0].message, "Unexpected alert.");
             assert.include(messages[0].nodeType, "CallExpression");
         });
 
@@ -1520,10 +1520,10 @@ describe("Linter", () => {
             const codeB = "function foo() { return 1; }";
             let messages = linter.verify(codeA, config, filename, false);
 
-            assert.equal(messages.length, 0);
+            assert.strictEqual(messages.length, 0);
 
             messages = linter.verify(codeB, config, filename, false);
-            assert.equal(messages.length, 1);
+            assert.strictEqual(messages.length, 1);
         });
 
         it("rules should not change initial config", () => {
@@ -1532,10 +1532,10 @@ describe("Linter", () => {
             const codeB = "function foo() { return '1'; }";
             let messages = linter.verify(codeA, config, filename, false);
 
-            assert.equal(messages.length, 0);
+            assert.strictEqual(messages.length, 0);
 
             messages = linter.verify(codeB, config, filename, false);
-            assert.equal(messages.length, 1);
+            assert.strictEqual(messages.length, 1);
         });
 
         it("rules should not change initial config", () => {
@@ -1544,10 +1544,10 @@ describe("Linter", () => {
             const codeB = "function foo() { return '1'; }";
             let messages = linter.verify(codeA, config, filename, false);
 
-            assert.equal(messages.length, 0);
+            assert.strictEqual(messages.length, 0);
 
             messages = linter.verify(codeB, config, filename, false);
-            assert.equal(messages.length, 1);
+            assert.strictEqual(messages.length, 1);
         });
 
         it("rules should not change initial config", () => {
@@ -1556,10 +1556,10 @@ describe("Linter", () => {
             const codeB = "var b = 55;";
             let messages = linter.verify(codeA, config, filename, false);
 
-            assert.equal(messages.length, 0);
+            assert.strictEqual(messages.length, 0);
 
             messages = linter.verify(codeB, config, filename, false);
-            assert.equal(messages.length, 1);
+            assert.strictEqual(messages.length, 1);
         });
     });
 
@@ -1583,7 +1583,7 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename);
 
-            assert.equal(messages.length, 0);
+            assert.strictEqual(messages.length, 0);
         });
     });
 
@@ -1595,11 +1595,11 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename);
 
-            assert.equal(messages.length, 2);
-            assert.equal(messages[0].ruleId, "no-alert");
-            assert.equal(messages[0].message, "Unexpected alert.");
+            assert.strictEqual(messages.length, 2);
+            assert.strictEqual(messages[0].ruleId, "no-alert");
+            assert.strictEqual(messages[0].message, "Unexpected alert.");
             assert.include(messages[0].nodeType, "CallExpression");
-            assert.equal(messages[1].ruleId, "no-console");
+            assert.strictEqual(messages[1].ruleId, "no-console");
         });
     });
 
@@ -1611,9 +1611,9 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename);
 
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, "no-alert");
-            assert.equal(messages[0].message, "Unexpected alert.");
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].ruleId, "no-alert");
+            assert.strictEqual(messages[0].message, "Unexpected alert.");
             assert.include(messages[0].nodeType, "CallExpression");
         });
     });
@@ -1636,7 +1636,7 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename);
 
-            assert.equal(messages.length, 0);
+            assert.strictEqual(messages.length, 0);
         });
 
         it("should not report a violation when inline comment disables plugin rule", () => {
@@ -1645,7 +1645,7 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename);
 
-            assert.equal(messages.length, 0);
+            assert.strictEqual(messages.length, 0);
         });
 
         it("should report a violation when the report is right before the comment", () => {
@@ -1681,10 +1681,10 @@ describe("Linter", () => {
             const codeB = "var a = \"trigger violation\";";
             let messages = linter.verify(codeA, config, filename, false);
 
-            assert.equal(messages.length, 0);
+            assert.strictEqual(messages.length, 0);
 
             messages = linter.verify(codeB, config, filename, false);
-            assert.equal(messages.length, 1);
+            assert.strictEqual(messages.length, 1);
         });
     });
 
@@ -1726,11 +1726,11 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename);
 
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, "no-alert");
-            assert.equal(messages[0].message, "Unexpected alert.");
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].ruleId, "no-alert");
+            assert.strictEqual(messages[0].message, "Unexpected alert.");
             assert.include(messages[0].nodeType, "CallExpression");
-            assert.equal(messages[0].line, 4);
+            assert.strictEqual(messages[0].line, 4);
         });
 
         it("should not report a violation", () => {
@@ -1743,7 +1743,7 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename);
 
-            assert.equal(messages.length, 0);
+            assert.strictEqual(messages.length, 0);
         });
 
         it("should not report a violation", () => {
@@ -1757,9 +1757,9 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename);
 
-            assert.equal(messages.length, 2);
-            assert.equal(messages[0].column, 21);
-            assert.equal(messages[1].column, 19);
+            assert.strictEqual(messages.length, 2);
+            assert.strictEqual(messages[0].column, 21);
+            assert.strictEqual(messages[1].column, 19);
         });
 
         it("should report a violation", () => {
@@ -1778,7 +1778,7 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename);
 
-            assert.equal(messages.length, 1);
+            assert.strictEqual(messages.length, 1);
         });
 
 
@@ -1793,7 +1793,7 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename);
 
-            assert.equal(messages.length, 0);
+            assert.strictEqual(messages.length, 0);
         });
 
         it("should not report a violation", () => {
@@ -1806,7 +1806,7 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename);
 
-            assert.equal(messages.length, 0);
+            assert.strictEqual(messages.length, 0);
         });
     });
 
@@ -1827,9 +1827,9 @@ describe("Linter", () => {
 
                 const messages = linter.verify(code, config, filename);
 
-                assert.equal(messages.length, 1);
+                assert.strictEqual(messages.length, 1);
 
-                assert.equal(messages[0].ruleId, "no-console");
+                assert.strictEqual(messages[0].ruleId, "no-console");
             });
 
             it("should report a violation", () => {
@@ -1847,9 +1847,9 @@ describe("Linter", () => {
 
                 const messages = linter.verify(code, config, filename);
 
-                assert.equal(messages.length, 1);
+                assert.strictEqual(messages.length, 1);
 
-                assert.equal(messages[0].ruleId, "no-alert");
+                assert.strictEqual(messages[0].ruleId, "no-alert");
             });
 
             it("should report a violation", () => {
@@ -1865,9 +1865,9 @@ describe("Linter", () => {
 
                 const messages = linter.verify(code, config, filename);
 
-                assert.equal(messages.length, 1);
+                assert.strictEqual(messages.length, 1);
 
-                assert.equal(messages[0].ruleId, "no-alert");
+                assert.strictEqual(messages[0].ruleId, "no-alert");
             });
 
             it("should not report a violation", () => {
@@ -1884,7 +1884,7 @@ describe("Linter", () => {
 
                 const messages = linter.verify(code, config, filename);
 
-                assert.equal(messages.length, 0);
+                assert.strictEqual(messages.length, 0);
             });
 
             it("should not report a violation", () => {
@@ -1903,7 +1903,7 @@ describe("Linter", () => {
 
                 const messages = linter.verify(code, config, filename);
 
-                assert.equal(messages.length, 0);
+                assert.strictEqual(messages.length, 0);
             });
         });
 
@@ -1922,8 +1922,8 @@ describe("Linter", () => {
                 };
                 const messages = linter.verify(code, config, filename);
 
-                assert.equal(messages.length, 1);
-                assert.equal(messages[0].ruleId, "no-console");
+                assert.strictEqual(messages.length, 1);
+                assert.strictEqual(messages[0].ruleId, "no-console");
             });
 
             it("should ignore violations only of specified rule", () => {
@@ -1940,9 +1940,9 @@ describe("Linter", () => {
                 };
                 const messages = linter.verify(code, config, filename);
 
-                assert.equal(messages.length, 2);
-                assert.equal(messages[0].ruleId, "no-alert");
-                assert.equal(messages[1].ruleId, "no-console");
+                assert.strictEqual(messages.length, 2);
+                assert.strictEqual(messages[0].ruleId, "no-alert");
+                assert.strictEqual(messages[1].ruleId, "no-console");
             });
 
             it("should ignore violations of multiple rules when specified", () => {
@@ -1960,8 +1960,8 @@ describe("Linter", () => {
                 };
                 const messages = linter.verify(code, config, filename);
 
-                assert.equal(messages.length, 1);
-                assert.equal(messages[0].ruleId, "no-console");
+                assert.strictEqual(messages.length, 1);
+                assert.strictEqual(messages[0].ruleId, "no-console");
             });
 
             it("should ignore violations of only the specified rule on next line", () => {
@@ -1979,9 +1979,9 @@ describe("Linter", () => {
                 };
                 const messages = linter.verify(code, config, filename);
 
-                assert.equal(messages.length, 2);
-                assert.equal(messages[0].ruleId, "no-alert");
-                assert.equal(messages[1].ruleId, "no-console");
+                assert.strictEqual(messages.length, 2);
+                assert.strictEqual(messages[0].ruleId, "no-alert");
+                assert.strictEqual(messages[1].ruleId, "no-console");
             });
 
             it("should ignore violations of specified rule on next line only", () => {
@@ -1999,9 +1999,9 @@ describe("Linter", () => {
                 };
                 const messages = linter.verify(code, config, filename);
 
-                assert.equal(messages.length, 2);
-                assert.equal(messages[0].ruleId, "no-alert");
-                assert.equal(messages[1].ruleId, "no-console");
+                assert.strictEqual(messages.length, 2);
+                assert.strictEqual(messages[0].ruleId, "no-alert");
+                assert.strictEqual(messages[1].ruleId, "no-console");
             });
 
             it("should ignore all rule violations on next line if none specified", () => {
@@ -2020,8 +2020,8 @@ describe("Linter", () => {
                 };
                 const messages = linter.verify(code, config, filename);
 
-                assert.equal(messages.length, 1);
-                assert.equal(messages[0].ruleId, "no-console");
+                assert.strictEqual(messages.length, 1);
+                assert.strictEqual(messages[0].ruleId, "no-console");
             });
 
             it("should not ignore violations if comment is in block quotes", () => {
@@ -2039,10 +2039,10 @@ describe("Linter", () => {
                 };
                 const messages = linter.verify(code, config, filename);
 
-                assert.equal(messages.length, 3);
-                assert.equal(messages[0].ruleId, "no-alert");
-                assert.equal(messages[1].ruleId, "no-alert");
-                assert.equal(messages[2].ruleId, "no-console");
+                assert.strictEqual(messages.length, 3);
+                assert.strictEqual(messages[0].ruleId, "no-alert");
+                assert.strictEqual(messages[1].ruleId, "no-alert");
+                assert.strictEqual(messages[2].ruleId, "no-console");
             });
 
             it("should not ignore violations if comment is of the type Shebang", () => {
@@ -2059,9 +2059,9 @@ describe("Linter", () => {
                 };
                 const messages = linter.verify(code, config, filename);
 
-                assert.equal(messages.length, 2);
-                assert.equal(messages[0].ruleId, "no-alert");
-                assert.equal(messages[1].ruleId, "no-console");
+                assert.strictEqual(messages.length, 2);
+                assert.strictEqual(messages[0].ruleId, "no-alert");
+                assert.strictEqual(messages[1].ruleId, "no-console");
             });
         });
     });
@@ -2078,9 +2078,9 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename);
 
-            assert.equal(messages.length, 1);
+            assert.strictEqual(messages.length, 1);
 
-            assert.equal(messages[0].ruleId, "no-console");
+            assert.strictEqual(messages[0].ruleId, "no-console");
         });
 
         it("should report no violation", () => {
@@ -2094,7 +2094,7 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename);
 
-            assert.equal(messages.length, 0);
+            assert.strictEqual(messages.length, 0);
         });
 
         it("should report no violation", () => {
@@ -2109,7 +2109,7 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename);
 
-            assert.equal(messages.length, 0);
+            assert.strictEqual(messages.length, 0);
         });
 
         it("should report no violation", () => {
@@ -2122,7 +2122,7 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename);
 
-            assert.equal(messages.length, 0);
+            assert.strictEqual(messages.length, 0);
         });
 
         it("should report a violation", () => {
@@ -2139,12 +2139,12 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename);
 
-            assert.equal(messages.length, 2);
+            assert.strictEqual(messages.length, 2);
 
-            assert.equal(messages[0].ruleId, "no-alert");
-            assert.equal(messages[0].line, 5);
-            assert.equal(messages[1].ruleId, "no-console");
-            assert.equal(messages[1].line, 6);
+            assert.strictEqual(messages[0].ruleId, "no-alert");
+            assert.strictEqual(messages[0].line, 5);
+            assert.strictEqual(messages[1].ruleId, "no-console");
+            assert.strictEqual(messages[1].line, 6);
         });
 
         it("should report a violation", () => {
@@ -2160,9 +2160,9 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename);
 
-            assert.equal(messages.length, 1);
+            assert.strictEqual(messages.length, 1);
 
-            assert.equal(messages[0].ruleId, "no-console");
+            assert.strictEqual(messages[0].ruleId, "no-console");
         });
 
 
@@ -2180,10 +2180,10 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename);
 
-            assert.equal(messages.length, 1);
+            assert.strictEqual(messages.length, 1);
 
-            assert.equal(messages[0].ruleId, "no-alert");
-            assert.equal(messages[0].line, 5);
+            assert.strictEqual(messages[0].ruleId, "no-alert");
+            assert.strictEqual(messages[0].line, 5);
         });
 
 
@@ -2210,19 +2210,19 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename);
 
-            assert.equal(messages.length, 4);
+            assert.strictEqual(messages.length, 4);
 
-            assert.equal(messages[0].ruleId, "no-alert");
-            assert.equal(messages[0].line, 6);
+            assert.strictEqual(messages[0].ruleId, "no-alert");
+            assert.strictEqual(messages[0].line, 6);
 
-            assert.equal(messages[1].ruleId, "no-console");
-            assert.equal(messages[1].line, 7);
+            assert.strictEqual(messages[1].ruleId, "no-console");
+            assert.strictEqual(messages[1].line, 7);
 
-            assert.equal(messages[2].ruleId, "no-alert");
-            assert.equal(messages[2].line, 9);
+            assert.strictEqual(messages[2].ruleId, "no-alert");
+            assert.strictEqual(messages[2].line, 9);
 
-            assert.equal(messages[3].ruleId, "no-console");
-            assert.equal(messages[3].line, 10);
+            assert.strictEqual(messages[3].ruleId, "no-console");
+            assert.strictEqual(messages[3].line, 10);
 
         });
 
@@ -2247,16 +2247,16 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename);
 
-            assert.equal(messages.length, 3);
+            assert.strictEqual(messages.length, 3);
 
-            assert.equal(messages[0].ruleId, "no-alert");
-            assert.equal(messages[0].line, 5);
+            assert.strictEqual(messages[0].ruleId, "no-alert");
+            assert.strictEqual(messages[0].line, 5);
 
-            assert.equal(messages[1].ruleId, "no-alert");
-            assert.equal(messages[1].line, 8);
+            assert.strictEqual(messages[1].ruleId, "no-alert");
+            assert.strictEqual(messages[1].line, 8);
 
-            assert.equal(messages[2].ruleId, "no-console");
-            assert.equal(messages[2].line, 9);
+            assert.strictEqual(messages[2].ruleId, "no-console");
+            assert.strictEqual(messages[2].line, 9);
 
         });
 
@@ -2281,16 +2281,16 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename);
 
-            assert.equal(messages.length, 3);
+            assert.strictEqual(messages.length, 3);
 
-            assert.equal(messages[0].ruleId, "no-alert");
-            assert.equal(messages[0].line, 5);
+            assert.strictEqual(messages[0].ruleId, "no-alert");
+            assert.strictEqual(messages[0].line, 5);
 
-            assert.equal(messages[1].ruleId, "no-alert");
-            assert.equal(messages[1].line, 8);
+            assert.strictEqual(messages[1].ruleId, "no-alert");
+            assert.strictEqual(messages[1].line, 8);
 
-            assert.equal(messages[2].ruleId, "no-console");
-            assert.equal(messages[2].line, 9);
+            assert.strictEqual(messages[2].ruleId, "no-console");
+            assert.strictEqual(messages[2].line, 9);
 
         });
     });
@@ -2303,9 +2303,9 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename);
 
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, "no-alert");
-            assert.equal(messages[0].message, "Unexpected alert.");
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].ruleId, "no-alert");
+            assert.strictEqual(messages[0].message, "Unexpected alert.");
             assert.include(messages[0].nodeType, "CallExpression");
         });
     });
@@ -2318,9 +2318,9 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename);
 
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, "quotes");
-            assert.equal(messages[0].message, "Strings must use doublequote.");
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].ruleId, "quotes");
+            assert.strictEqual(messages[0].message, "Strings must use doublequote.");
             assert.include(messages[0].nodeType, "Literal");
         });
     });
@@ -2333,9 +2333,9 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename);
 
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, "quotes");
-            assert.equal(messages[0].message, "Strings must use doublequote.");
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].ruleId, "quotes");
+            assert.strictEqual(messages[0].message, "Strings must use doublequote.");
             assert.include(messages[0].nodeType, "Literal");
         });
     });
@@ -2348,7 +2348,7 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename);
 
-            assert.equal(messages.length, 2);
+            assert.strictEqual(messages.length, 2);
 
             /*
              * Incorrectly formatted comment threw error;
@@ -2358,11 +2358,11 @@ describe("Linter", () => {
              * parseJsonConfig function in lib/eslint.js
              */
             assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":'1'':/);
-            assert.equal(messages[0].line, 1);
-            assert.equal(messages[0].column, 1);
+            assert.strictEqual(messages[0].line, 1);
+            assert.strictEqual(messages[0].column, 1);
 
-            assert.equal(messages[1].ruleId, "no-alert");
-            assert.equal(messages[1].message, "Unexpected alert.");
+            assert.strictEqual(messages[1].ruleId, "no-alert");
+            assert.strictEqual(messages[1].message, "Unexpected alert.");
             assert.include(messages[1].nodeType, "CallExpression");
         });
 
@@ -2373,7 +2373,7 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename);
 
-            assert.equal(messages.length, 2);
+            assert.strictEqual(messages.length, 2);
 
             /*
              * Incorrectly formatted comment threw error;
@@ -2383,11 +2383,11 @@ describe("Linter", () => {
              * parseJsonConfig function in lib/eslint.js
              */
             assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":abc':/);
-            assert.equal(messages[0].line, 1);
-            assert.equal(messages[0].column, 1);
+            assert.strictEqual(messages[0].line, 1);
+            assert.strictEqual(messages[0].column, 1);
 
-            assert.equal(messages[1].ruleId, "no-alert");
-            assert.equal(messages[1].message, "Unexpected alert.");
+            assert.strictEqual(messages[1].ruleId, "no-alert");
+            assert.strictEqual(messages[1].message, "Unexpected alert.");
             assert.include(messages[1].nodeType, "CallExpression");
         });
 
@@ -2398,7 +2398,7 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename);
 
-            assert.equal(messages.length, 2);
+            assert.strictEqual(messages.length, 2);
 
             /*
              * Incorrectly formatted comment threw error;
@@ -2408,11 +2408,11 @@ describe("Linter", () => {
              * parseJsonConfig function in lib/eslint.js
              */
             assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":0 2':/);
-            assert.equal(messages[0].line, 1);
-            assert.equal(messages[0].column, 1);
+            assert.strictEqual(messages[0].line, 1);
+            assert.strictEqual(messages[0].column, 1);
 
-            assert.equal(messages[1].ruleId, "no-alert");
-            assert.equal(messages[1].message, "Unexpected alert.");
+            assert.strictEqual(messages[1].ruleId, "no-alert");
+            assert.strictEqual(messages[1].message, "Unexpected alert.");
             assert.include(messages[1].nodeType, "CallExpression");
         });
     });
@@ -2423,9 +2423,9 @@ describe("Linter", () => {
         it("should not parse errors, should report a violation", () => {
             const messages = linter.verify(code, {}, filename);
 
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, "max-len");
-            assert.equal(messages[0].message, "Line 1 exceeds the maximum line length of 100.");
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].ruleId, "max-len");
+            assert.strictEqual(messages[0].message, "Line 1 exceeds the maximum line length of 100.");
             assert.include(messages[0].nodeType, "Program");
         });
     });
@@ -2437,10 +2437,10 @@ describe("Linter", () => {
             const config = { rules: { "no-extra-semi": 1 } };
             const messages = linter.verify(code, config);
 
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, "no-extra-semi");
-            assert.equal(messages[0].nodeType, "EmptyStatement");
-            assert.equal(messages[0].line, 3);
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].ruleId, "no-extra-semi");
+            assert.strictEqual(messages[0].nodeType, "EmptyStatement");
+            assert.strictEqual(messages[0].line, 3);
         });
 
         it("should have a comment with the shebang in it", () => {
@@ -2448,8 +2448,8 @@ describe("Linter", () => {
             const spy = sandbox.spy(context => {
                 const comments = context.getAllComments();
 
-                assert.equal(comments.length, 1);
-                assert.equal(comments[0].type, "Shebang");
+                assert.strictEqual(comments.length, 1);
+                assert.strictEqual(comments[0].type, "Shebang");
                 return {};
             });
 
@@ -2465,12 +2465,12 @@ describe("Linter", () => {
         it("should report a violation with a useful parse error prefix", () => {
             const messages = linter.verify(code);
 
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].severity, 2);
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].severity, 2);
             assert.isNull(messages[0].ruleId);
-            assert.equal(messages[0].source, BROKEN_TEST_CODE);
-            assert.equal(messages[0].line, 1);
-            assert.equal(messages[0].column, 4);
+            assert.strictEqual(messages[0].source, BROKEN_TEST_CODE);
+            assert.strictEqual(messages[0].line, 1);
+            assert.strictEqual(messages[0].column, 4);
             assert.isTrue(messages[0].fatal);
             assert.match(messages[0].message, /^Parsing error:/);
         });
@@ -2484,9 +2484,9 @@ describe("Linter", () => {
             ];
             const messages = linter.verify(inValidCode.join("\n"));
 
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].severity, 2);
-            assert.equal(messages[0].source, inValidCode[1]);
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].severity, 2);
+            assert.strictEqual(messages[0].source, inValidCode[1]);
             assert.isTrue(messages[0].fatal);
             assert.match(messages[0].message, /^Parsing error:/);
         });
@@ -2508,18 +2508,18 @@ describe("Linter", () => {
             assert.isArray(results);
             assert.isObject(result);
             assert.property(result, "ruleId");
-            assert.equal(result.ruleId, "foobar");
+            assert.strictEqual(result.ruleId, "foobar");
         });
 
         it("should report that the rule does not exist", () => {
             assert.property(result, "message");
-            assert.equal(result.message, "Definition for rule 'foobar' was not found");
+            assert.strictEqual(result.message, "Definition for rule 'foobar' was not found");
         });
 
         it("should report at the correct severity", () => {
             assert.property(result, "severity");
-            assert.equal(result.severity, 2);
-            assert.equal(warningResult.severity, 1);
+            assert.strictEqual(result.severity, 2);
+            assert.strictEqual(warningResult.severity, 1);
         });
 
         it("should accept any valid rule configuration", () => {
@@ -2550,8 +2550,8 @@ describe("Linter", () => {
         const results = linter.verify(code, { rules: { "no-comma-dangle": 2 } });
 
         it("should report the new rule", () => {
-            assert.equal(results[0].ruleId, "no-comma-dangle");
-            assert.equal(results[0].message, "Rule 'no-comma-dangle' was removed and replaced by: comma-dangle");
+            assert.strictEqual(results[0].ruleId, "no-comma-dangle");
+            assert.strictEqual(results[0].message, "Rule 'no-comma-dangle' was removed and replaced by: comma-dangle");
         });
     });
 
@@ -2591,7 +2591,7 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename);
 
-            assert.equal(messages.length, 1);
+            assert.strictEqual(messages.length, 1);
         });
 
         it("should report a violation when using Promise", () => {
@@ -2601,7 +2601,7 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename);
 
-            assert.equal(messages.length, 1);
+            assert.strictEqual(messages.length, 1);
         });
     });
 
@@ -2613,10 +2613,10 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename);
 
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, "no-undef");
-            assert.equal(messages[0].nodeType, "Identifier");
-            assert.equal(messages[0].line, 1);
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].ruleId, "no-undef");
+            assert.strictEqual(messages[0].nodeType, "Identifier");
+            assert.strictEqual(messages[0].line, 1);
         });
 
         it("should not report a violation", () => {
@@ -2626,7 +2626,7 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename);
 
-            assert.equal(messages.length, 0);
+            assert.strictEqual(messages.length, 0);
         });
 
         it("should not report a violation", () => {
@@ -2636,7 +2636,7 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename);
 
-            assert.equal(messages.length, 0);
+            assert.strictEqual(messages.length, 0);
         });
 
         it("should not report a violation", () => {
@@ -2646,7 +2646,7 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename);
 
-            assert.equal(messages.length, 0);
+            assert.strictEqual(messages.length, 0);
         });
 
         it("should not report a violation", () => {
@@ -2656,7 +2656,7 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename);
 
-            assert.equal(messages.length, 0);
+            assert.strictEqual(messages.length, 0);
         });
 
         it("should not report a violation", () => {
@@ -2666,7 +2666,7 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename);
 
-            assert.equal(messages.length, 0);
+            assert.strictEqual(messages.length, 0);
         });
 
         it("should not report a violation", () => {
@@ -2676,7 +2676,7 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename);
 
-            assert.equal(messages.length, 0);
+            assert.strictEqual(messages.length, 0);
         });
 
         it("should not report a violation", () => {
@@ -2686,7 +2686,7 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename);
 
-            assert.equal(messages.length, 0);
+            assert.strictEqual(messages.length, 0);
         });
 
         it("should not report a violation", () => {
@@ -2696,7 +2696,7 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename);
 
-            assert.equal(messages.length, 0);
+            assert.strictEqual(messages.length, 0);
         });
     });
 
@@ -2716,8 +2716,8 @@ describe("Linter", () => {
                 allowInlineConfig: false
             });
 
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, "no-alert");
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].ruleId, "no-alert");
         });
 
         it("should report a violation for global variable declarations", () => {
@@ -2739,7 +2739,7 @@ describe("Linter", () => {
                             const sourceCode = context.getSourceCode();
                             const comments = sourceCode.getAllComments();
 
-                            assert.equal(1, comments.length);
+                            assert.strictEqual(1, comments.length);
 
                             const foo = getVariable(scope, "foo");
 
@@ -2771,8 +2771,8 @@ describe("Linter", () => {
                 allowInlineConfig: false
             });
 
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, "no-alert");
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].ruleId, "no-alert");
         });
 
         it("should not report a violation for rule changes", () => {
@@ -2791,7 +2791,7 @@ describe("Linter", () => {
                 allowInlineConfig: false
             });
 
-            assert.equal(messages.length, 0);
+            assert.strictEqual(messages.length, 0);
         });
 
         it("should report a violation for disable-line", () => {
@@ -2809,8 +2809,8 @@ describe("Linter", () => {
                 allowInlineConfig: false
             });
 
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].ruleId, "no-alert");
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].ruleId, "no-alert");
         });
 
         it("should report a violation for env changes", () => {
@@ -2832,7 +2832,7 @@ describe("Linter", () => {
                             const sourceCode = context.getSourceCode();
                             const comments = sourceCode.getAllComments();
 
-                            assert.equal(1, comments.length);
+                            assert.strictEqual(1, comments.length);
 
                             const windowVar = getVariable(scope, "window");
 
@@ -2884,7 +2884,7 @@ describe("Linter", () => {
                 allowInlineConfig: true
             });
 
-            assert.equal(messages.length, 0);
+            assert.strictEqual(messages.length, 0);
         });
     });
 
@@ -2896,7 +2896,7 @@ describe("Linter", () => {
 
             linter.defineRule("checker", context => {
                 spy = sandbox.spy(node => {
-                    assert.equal(context.getSource(node), "'123';");
+                    assert.strictEqual(context.getSource(node), "'123';");
                 });
                 return { ExpressionStatement: spy };
             });
@@ -2961,13 +2961,13 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, config, filename);
 
-            assert.equal(messages.length, 3);
-            assert.equal(messages[0].line, 1);
-            assert.equal(messages[0].column, 6);
-            assert.equal(messages[1].line, 2);
-            assert.equal(messages[1].column, 18);
-            assert.equal(messages[2].line, 2);
-            assert.equal(messages[2].column, 18);
+            assert.strictEqual(messages.length, 3);
+            assert.strictEqual(messages[0].line, 1);
+            assert.strictEqual(messages[0].column, 6);
+            assert.strictEqual(messages[1].line, 2);
+            assert.strictEqual(messages[1].column, 18);
+            assert.strictEqual(messages[2].line, 2);
+            assert.strictEqual(messages[2].column, 18);
         });
 
         describe("ecmaVersion", () => {
@@ -2979,7 +2979,7 @@ describe("Linter", () => {
                         }
                     });
 
-                    assert.equal(messages.length, 0);
+                    assert.strictEqual(messages.length, 0);
                 });
 
                 it("the ECMAScript version number is 2015", () => {
@@ -2989,7 +2989,7 @@ describe("Linter", () => {
                         }
                     });
 
-                    assert.equal(messages.length, 0);
+                    assert.strictEqual(messages.length, 0);
                 });
             });
 
@@ -3000,7 +3000,7 @@ describe("Linter", () => {
                     }
                 });
 
-                assert.equal(messages.length, 1);
+                assert.strictEqual(messages.length, 1);
             });
 
             describe("should properly parse exponentiation operator when", () => {
@@ -3011,7 +3011,7 @@ describe("Linter", () => {
                         }
                     });
 
-                    assert.equal(messages.length, 0);
+                    assert.strictEqual(messages.length, 0);
                 });
 
                 it("the ECMAScript version number is 2016", () => {
@@ -3021,7 +3021,7 @@ describe("Linter", () => {
                         }
                     });
 
-                    assert.equal(messages.length, 0);
+                    assert.strictEqual(messages.length, 0);
                 });
             });
         });
@@ -3037,7 +3037,7 @@ describe("Linter", () => {
                 }
             }, filename);
 
-            assert.equal(messages.length, 0);
+            assert.strictEqual(messages.length, 0);
         });
 
         it("should properly parse global return when passed ecmaFeatures", () => {
@@ -3050,7 +3050,7 @@ describe("Linter", () => {
                 }
             }, filename);
 
-            assert.equal(messages.length, 0);
+            assert.strictEqual(messages.length, 0);
         });
 
         it("should properly parse global return when in Node.js environment", () => {
@@ -3061,7 +3061,7 @@ describe("Linter", () => {
                 }
             }, filename);
 
-            assert.equal(messages.length, 0);
+            assert.strictEqual(messages.length, 0);
         });
 
         it("should not parse global return when in Node.js environment with globalReturn explicitly off", () => {
@@ -3077,23 +3077,23 @@ describe("Linter", () => {
                 }
             }, filename);
 
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].message, "Parsing error: 'return' outside of function");
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].message, "Parsing error: 'return' outside of function");
         });
 
         it("should not parse global return when Node.js environment is false", () => {
 
             const messages = linter.verify("return;", {}, filename);
 
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].message, "Parsing error: 'return' outside of function");
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].message, "Parsing error: 'return' outside of function");
         });
 
         it("should properly parse sloppy-mode code when impliedStrict is false", () => {
 
             const messages = linter.verify("var private;", {}, filename);
 
-            assert.equal(messages.length, 0);
+            assert.strictEqual(messages.length, 0);
         });
 
         it("should not parse sloppy-mode code when impliedStrict is true", () => {
@@ -3106,8 +3106,8 @@ describe("Linter", () => {
                 }
             }, filename);
 
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].message, "Parsing error: The keyword 'private' is reserved");
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].message, "Parsing error: The keyword 'private' is reserved");
         });
 
         it("should properly parse valid code when impliedStrict is true", () => {
@@ -3120,7 +3120,7 @@ describe("Linter", () => {
                 }
             }, filename);
 
-            assert.equal(messages.length, 0);
+            assert.strictEqual(messages.length, 0);
         });
 
         it("should properly parse JSX when passed ecmaFeatures", () => {
@@ -3133,31 +3133,31 @@ describe("Linter", () => {
                 }
             }, filename);
 
-            assert.equal(messages.length, 0);
+            assert.strictEqual(messages.length, 0);
         });
 
         it("should report an error when JSX code is encountered and JSX is not enabled", () => {
             const code = "var myDivElement = <div className=\"foo\" />;";
             const messages = linter.verify(code, {}, "filename");
 
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].line, 1);
-            assert.equal(messages[0].column, 20);
-            assert.equal(messages[0].message, "Parsing error: Unexpected token <");
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].line, 1);
+            assert.strictEqual(messages[0].column, 20);
+            assert.strictEqual(messages[0].message, "Parsing error: Unexpected token <");
         });
 
         it("should not report an error when JSX code is encountered and JSX is enabled", () => {
             const code = "var myDivElement = <div className=\"foo\" />;";
             const messages = linter.verify(code, { parserOptions: { ecmaFeatures: { jsx: true } } }, "filename");
 
-            assert.equal(messages.length, 0);
+            assert.strictEqual(messages.length, 0);
         });
 
         it("should not report an error when JSX code contains a spread operator and JSX is enabled", () => {
             const code = "var myDivElement = <div {...this.props} />;";
             const messages = linter.verify(code, { parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } }, "filename");
 
-            assert.equal(messages.length, 0);
+            assert.strictEqual(messages.length, 0);
         });
 
         it("should be able to use es6 features if there is a comment which has \"eslint-env es6\"", () => {
@@ -3186,13 +3186,13 @@ describe("Linter", () => {
 
             const messages = linter.verify(code, null, "eslint-env es6");
 
-            assert.equal(messages.length, 0);
+            assert.strictEqual(messages.length, 0);
         });
 
         it("should be able to return in global if there is a comment which has \"eslint-env node\"", () => {
             const messages = linter.verify("/* eslint-env node */ return;", null, "eslint-env node");
 
-            assert.equal(messages.length, 0);
+            assert.strictEqual(messages.length, 0);
         });
 
         it("should attach a \"/*global\" comment node to declared variables", () => {
@@ -3207,22 +3207,22 @@ describe("Linter", () => {
                             const sourceCode = context.getSourceCode();
                             const comments = sourceCode.getAllComments();
 
-                            assert.equal(2, comments.length);
+                            assert.strictEqual(2, comments.length);
 
                             const foo = getVariable(scope, "foo");
 
-                            assert.equal(true, foo.eslintExplicitGlobal);
-                            assert.equal(comments[0], foo.eslintExplicitGlobalComment);
+                            assert.strictEqual(true, foo.eslintExplicitGlobal);
+                            assert.strictEqual(comments[0], foo.eslintExplicitGlobalComment);
 
                             const bar = getVariable(scope, "bar");
 
-                            assert.equal(true, bar.eslintExplicitGlobal);
-                            assert.equal(comments[1], bar.eslintExplicitGlobalComment);
+                            assert.strictEqual(true, bar.eslintExplicitGlobal);
+                            assert.strictEqual(comments[1], bar.eslintExplicitGlobalComment);
 
                             const baz = getVariable(scope, "baz");
 
-                            assert.equal(true, baz.eslintExplicitGlobal);
-                            assert.equal(comments[1], baz.eslintExplicitGlobalComment);
+                            assert.strictEqual(true, baz.eslintExplicitGlobal);
+                            assert.strictEqual(comments[1], baz.eslintExplicitGlobalComment);
 
                             ok = true;
                         }
@@ -3330,13 +3330,13 @@ describe("Linter", () => {
         });
 
         it("Scope#through should contain references of undefined variables", () => {
-            assert.equal(scope.through.length, 2);
-            assert.equal(scope.through[0].identifier.name, "a");
-            assert.equal(scope.through[0].identifier.loc.start.line, 1);
-            assert.equal(scope.through[0].resolved, null);
-            assert.equal(scope.through[1].identifier.name, "b");
-            assert.equal(scope.through[1].identifier.loc.start.line, 2);
-            assert.equal(scope.through[1].resolved, null);
+            assert.strictEqual(scope.through.length, 2);
+            assert.strictEqual(scope.through[0].identifier.name, "a");
+            assert.strictEqual(scope.through[0].identifier.loc.start.line, 1);
+            assert.strictEqual(scope.through[0].resolved, null);
+            assert.strictEqual(scope.through[1].identifier.name, "b");
+            assert.strictEqual(scope.through[1].identifier.loc.start.line, 2);
+            assert.strictEqual(scope.through[1].resolved, null);
         });
 
         it("Scope#variables should contain global variables", () => {
@@ -3358,39 +3358,39 @@ describe("Linter", () => {
         });
 
         it("Variables#references should contain their references", () => {
-            assert.equal(scope.set.get("Object").references.length, 1);
-            assert.equal(scope.set.get("Object").references[0].identifier.name, "Object");
-            assert.equal(scope.set.get("Object").references[0].identifier.loc.start.line, 3);
-            assert.equal(scope.set.get("Object").references[0].resolved, scope.set.get("Object"));
-            assert.equal(scope.set.get("foo").references.length, 1);
-            assert.equal(scope.set.get("foo").references[0].identifier.name, "foo");
-            assert.equal(scope.set.get("foo").references[0].identifier.loc.start.line, 4);
-            assert.equal(scope.set.get("foo").references[0].resolved, scope.set.get("foo"));
-            assert.equal(scope.set.get("c").references.length, 1);
-            assert.equal(scope.set.get("c").references[0].identifier.name, "c");
-            assert.equal(scope.set.get("c").references[0].identifier.loc.start.line, 6);
-            assert.equal(scope.set.get("c").references[0].resolved, scope.set.get("c"));
-            assert.equal(scope.set.get("d").references.length, 1);
-            assert.equal(scope.set.get("d").references[0].identifier.name, "d");
-            assert.equal(scope.set.get("d").references[0].identifier.loc.start.line, 8);
-            assert.equal(scope.set.get("d").references[0].resolved, scope.set.get("d"));
-            assert.equal(scope.set.get("e").references.length, 1);
-            assert.equal(scope.set.get("e").references[0].identifier.name, "e");
-            assert.equal(scope.set.get("e").references[0].identifier.loc.start.line, 9);
-            assert.equal(scope.set.get("e").references[0].resolved, scope.set.get("e"));
-            assert.equal(scope.set.get("f").references.length, 1);
-            assert.equal(scope.set.get("f").references[0].identifier.name, "f");
-            assert.equal(scope.set.get("f").references[0].identifier.loc.start.line, 10);
-            assert.equal(scope.set.get("f").references[0].resolved, scope.set.get("f"));
+            assert.strictEqual(scope.set.get("Object").references.length, 1);
+            assert.strictEqual(scope.set.get("Object").references[0].identifier.name, "Object");
+            assert.strictEqual(scope.set.get("Object").references[0].identifier.loc.start.line, 3);
+            assert.strictEqual(scope.set.get("Object").references[0].resolved, scope.set.get("Object"));
+            assert.strictEqual(scope.set.get("foo").references.length, 1);
+            assert.strictEqual(scope.set.get("foo").references[0].identifier.name, "foo");
+            assert.strictEqual(scope.set.get("foo").references[0].identifier.loc.start.line, 4);
+            assert.strictEqual(scope.set.get("foo").references[0].resolved, scope.set.get("foo"));
+            assert.strictEqual(scope.set.get("c").references.length, 1);
+            assert.strictEqual(scope.set.get("c").references[0].identifier.name, "c");
+            assert.strictEqual(scope.set.get("c").references[0].identifier.loc.start.line, 6);
+            assert.strictEqual(scope.set.get("c").references[0].resolved, scope.set.get("c"));
+            assert.strictEqual(scope.set.get("d").references.length, 1);
+            assert.strictEqual(scope.set.get("d").references[0].identifier.name, "d");
+            assert.strictEqual(scope.set.get("d").references[0].identifier.loc.start.line, 8);
+            assert.strictEqual(scope.set.get("d").references[0].resolved, scope.set.get("d"));
+            assert.strictEqual(scope.set.get("e").references.length, 1);
+            assert.strictEqual(scope.set.get("e").references[0].identifier.name, "e");
+            assert.strictEqual(scope.set.get("e").references[0].identifier.loc.start.line, 9);
+            assert.strictEqual(scope.set.get("e").references[0].resolved, scope.set.get("e"));
+            assert.strictEqual(scope.set.get("f").references.length, 1);
+            assert.strictEqual(scope.set.get("f").references[0].identifier.name, "f");
+            assert.strictEqual(scope.set.get("f").references[0].identifier.loc.start.line, 10);
+            assert.strictEqual(scope.set.get("f").references[0].resolved, scope.set.get("f"));
         });
 
         it("Reference#resolved should be their variable", () => {
-            assert.equal(scope.set.get("Object").references[0].resolved, scope.set.get("Object"));
-            assert.equal(scope.set.get("foo").references[0].resolved, scope.set.get("foo"));
-            assert.equal(scope.set.get("c").references[0].resolved, scope.set.get("c"));
-            assert.equal(scope.set.get("d").references[0].resolved, scope.set.get("d"));
-            assert.equal(scope.set.get("e").references[0].resolved, scope.set.get("e"));
-            assert.equal(scope.set.get("f").references[0].resolved, scope.set.get("f"));
+            assert.strictEqual(scope.set.get("Object").references[0].resolved, scope.set.get("Object"));
+            assert.strictEqual(scope.set.get("foo").references[0].resolved, scope.set.get("foo"));
+            assert.strictEqual(scope.set.get("c").references[0].resolved, scope.set.get("c"));
+            assert.strictEqual(scope.set.get("d").references[0].resolved, scope.set.get("d"));
+            assert.strictEqual(scope.set.get("e").references[0].resolved, scope.set.get("e"));
+            assert.strictEqual(scope.set.get("f").references[0].resolved, scope.set.get("f"));
         });
     });
 
@@ -3413,7 +3413,7 @@ describe("Linter", () => {
                      * @returns {void}
                      */
                     function checkEmpty(node) {
-                        assert.equal(0, context.getDeclaredVariables(node).length);
+                        assert.strictEqual(0, context.getDeclaredVariables(node).length);
                     }
                     const rule = {
                         Program: checkEmpty,
@@ -3471,9 +3471,9 @@ describe("Linter", () => {
 
                         assert(Array.isArray(expectedNames));
                         assert(Array.isArray(variables));
-                        assert.equal(expectedNames.length, variables.length);
+                        assert.strictEqual(expectedNames.length, variables.length);
                         for (let i = variables.length - 1; i >= 0; i--) {
-                            assert.equal(expectedNames[i], variables[i].name);
+                            assert.strictEqual(expectedNames[i], variables[i].name);
                         }
                     };
                     return rule;
@@ -3488,7 +3488,7 @@ describe("Linter", () => {
             });
 
             // Check all expected names are asserted.
-            assert.equal(0, expectedNamesList.length);
+            assert.strictEqual(0, expectedNamesList.length);
         }
 
         it("VariableDeclaration", () => {
@@ -3807,7 +3807,7 @@ describe("Linter", () => {
                 }
             }, { filename: "test.js" });
 
-            assert.equal(messages.output, "var a;", "Fixes were applied correctly");
+            assert.strictEqual(messages.output, "var a;", "Fixes were applied correctly");
             assert.isTrue(messages.fixed);
         });
 
@@ -3892,21 +3892,21 @@ describe("Linter", () => {
             const code = "import foo from 'foo';";
             const messages = linter.verify(code, { parserOptions: { sourceType: "module" } });
 
-            assert.equal(messages.length, 0);
+            assert.strictEqual(messages.length, 0);
         });
 
         it("should properly parse import all statements when sourceType is module", () => {
             const code = "import * as foo from 'foo';";
             const messages = linter.verify(code, { parserOptions: { sourceType: "module" } });
 
-            assert.equal(messages.length, 0);
+            assert.strictEqual(messages.length, 0);
         });
 
         it("should properly parse default export statements when sourceType is module", () => {
             const code = "export default function initialize() {}";
             const messages = linter.verify(code, { parserOptions: { sourceType: "module" } });
 
-            assert.equal(messages.length, 0);
+            assert.strictEqual(messages.length, 0);
         });
 
         it("should not crash when invalid parentheses syntax is encountered", () => {
@@ -3924,8 +3924,8 @@ describe("Linter", () => {
         it("should report syntax error when a keyword exists in object property shorthand", () => {
             const messages = linter.verify("let a = {this}", { parserOptions: { ecmaVersion: 6 } });
 
-            assert.equal(messages.length, 1);
-            assert.equal(messages[0].fatal, true);
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].fatal, true);
         });
 
         it("should not rewrite env setting in core (https://github.com/eslint/eslint/issues/4814)", () => {
@@ -3982,35 +3982,35 @@ describe("Linter", () => {
                 const code = "var myDivElement = <div {...this.props} />;";
                 const messages = linter.verify(code, { parser: "esprima-fb" }, "filename");
 
-                assert.equal(messages.length, 0);
+                assert.strictEqual(messages.length, 0);
             });
 
             it("should return an error when the custom parser can't be found", () => {
                 const code = "var myDivElement = <div {...this.props} />;";
                 const messages = linter.verify(code, { parser: "esprima-fbxyz" }, "filename");
 
-                assert.equal(messages.length, 1);
-                assert.equal(messages[0].severity, 2);
-                assert.equal(messages[0].message, "Cannot find module 'esprima-fbxyz'");
+                assert.strictEqual(messages.length, 1);
+                assert.strictEqual(messages[0].severity, 2);
+                assert.strictEqual(messages[0].message, "Cannot find module 'esprima-fbxyz'");
             });
 
             it("should strip leading line: prefix from parser error", () => {
                 const parser = path.join(parserFixtures, "line-error.js");
                 const messages = linter.verify(";", { parser }, "filename");
 
-                assert.equal(messages.length, 1);
-                assert.equal(messages[0].severity, 2);
+                assert.strictEqual(messages.length, 1);
+                assert.strictEqual(messages[0].severity, 2);
                 assert.isNull(messages[0].source);
-                assert.equal(messages[0].message, errorPrefix + require(parser).expectedError);
+                assert.strictEqual(messages[0].message, errorPrefix + require(parser).expectedError);
             });
 
             it("should not modify a parser error message without a leading line: prefix", () => {
                 const parser = path.join(parserFixtures, "no-line-error.js");
                 const messages = linter.verify(";", { parser }, "filename");
 
-                assert.equal(messages.length, 1);
-                assert.equal(messages[0].severity, 2);
-                assert.equal(messages[0].message, errorPrefix + require(parser).expectedError);
+                assert.strictEqual(messages.length, 1);
+                assert.strictEqual(messages[0].severity, 2);
+                assert.strictEqual(messages[0].message, errorPrefix + require(parser).expectedError);
             });
 
             it("should not pass any default parserOptions to the parser", () => {

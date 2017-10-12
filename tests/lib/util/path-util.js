@@ -25,28 +25,28 @@ describe("pathUtil", () => {
             const input = "./relative/file/path.js";
             const result = pathUtil.convertPathToPosix(input);
 
-            assert.equal(result, "relative/file/path.js");
+            assert.strictEqual(result, "relative/file/path.js");
         });
 
         it("should remove interior '../'", () => {
             const input = "./relative/file/../path.js";
             const result = pathUtil.convertPathToPosix(input);
 
-            assert.equal(result, "relative/path.js");
+            assert.strictEqual(result, "relative/path.js");
         });
 
         it("should not remove a leading '../'", () => {
             const input = "../parent/file/path.js";
             const result = pathUtil.convertPathToPosix(input);
 
-            assert.equal(result, "../parent/file/path.js");
+            assert.strictEqual(result, "../parent/file/path.js");
         });
 
         it("should convert windows path seperators into posix style path seperators", () => {
             const input = "windows\\style\\path.js";
             const result = pathUtil.convertPathToPosix(input);
 
-            assert.equal(result, "windows/style/path.js");
+            assert.strictEqual(result, "windows/style/path.js");
         });
 
     });
@@ -58,7 +58,7 @@ describe("pathUtil", () => {
             const basePath = "/absolute/";
             const result = pathUtil.getRelativePath(filePath, basePath);
 
-            assert.equal(result, path.normalize("file/path.js"));
+            assert.strictEqual(result, path.normalize("file/path.js"));
         });
 
         it("should throw if the base path is not absolute", () => {
@@ -77,7 +77,7 @@ describe("pathUtil", () => {
             sinon.stub(process, "cwd").returns("/absolute/");
             const result = pathUtil.getRelativePath(filePath, basePath);
 
-            assert.equal(result, "path.js");
+            assert.strictEqual(result, "path.js");
 
             process.cwd.restore();
         });
@@ -86,7 +86,7 @@ describe("pathUtil", () => {
             const filePath = "/absolute/file/path.js";
             const result = pathUtil.getRelativePath(filePath);
 
-            assert.equal(result, "absolute/file/path.js");
+            assert.strictEqual(result, "absolute/file/path.js");
         });
 
     });

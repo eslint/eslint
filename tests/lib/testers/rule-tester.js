@@ -606,7 +606,7 @@ describe("RuleTester", () => {
                     }
                 ]
             });
-            assert.equal(spy.args[1][1].parser, "esprima");
+            assert.strictEqual(spy.args[1][1].parser, "esprima");
         });
     });
 

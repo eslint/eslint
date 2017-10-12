@@ -63,7 +63,7 @@ describe("autoconfig", () => {
             const expectedRules = Object.keys(rulesConfig);
             const registry = new autoconfig.Registry(rulesConfig);
 
-            assert.equal(Object.keys(registry.rules).length, 3);
+            assert.strictEqual(Object.keys(registry.rules).length, 3);
             assert.sameMembers(Object.keys(registry.rules), expectedRules);
             assert.isArray(registry.rules.semi);
             assert.isArray(registry.rules["semi-spacing"]);
@@ -94,7 +94,7 @@ describe("autoconfig", () => {
         it("should populate the config property correctly", () => {
             const registry = new autoconfig.Registry(rulesConfig);
 
-            assert.equal(registry.rules.quotes[0].config, SEVERITY);
+            assert.strictEqual(registry.rules.quotes[0].config, SEVERITY);
             assert.deepEqual(registry.rules.quotes[1].config, [SEVERITY, "single"]);
             assert.deepEqual(registry.rules.quotes[2].config, [SEVERITY, "double"]);
             assert.deepEqual(registry.rules.quotes[3].config, [SEVERITY, "backtick"]);
@@ -106,9 +106,9 @@ describe("autoconfig", () => {
         it("should assign the correct specificity", () => {
             const registry = new autoconfig.Registry(rulesConfig);
 
-            assert.equal(registry.rules.quotes[0].specificity, 1);
-            assert.equal(registry.rules.quotes[1].specificity, 2);
-            assert.equal(registry.rules.quotes[6].specificity, 3);
+            assert.strictEqual(registry.rules.quotes[0].specificity, 1);
+            assert.strictEqual(registry.rules.quotes[1].specificity, 2);
+            assert.strictEqual(registry.rules.quotes[6].specificity, 3);
         });
 
         it("should initially leave the errorCount as undefined", () => {
@@ -137,7 +137,7 @@ describe("autoconfig", () => {
                 registry.populateFromCoreRules();
                 const semiCount = Object.keys(registry.rules).filter(ruleId => ruleId === "semi").length;
 
-                assert.equal(semiCount, 1);
+                assert.strictEqual(semiCount, 1);
             });
         });
 
@@ -193,10 +193,10 @@ describe("autoconfig", () => {
             });
 
             it("should correctly set the error count of configurations", () => {
-                assert.equal(registry.rules.semi[0].config, SEVERITY);
-                assert.equal(registry.rules.semi[0].errorCount, 0);
+                assert.strictEqual(registry.rules.semi[0].config, SEVERITY);
+                assert.strictEqual(registry.rules.semi[0].errorCount, 0);
                 assert.deepEqual(registry.rules.semi[2].config, [SEVERITY, "never"]);
-                assert.equal(registry.rules.semi[2].errorCount, 3);
+                assert.strictEqual(registry.rules.semi[2].errorCount, 3);
             });
 
             it("should respect inline eslint config comments (and not crash when they make linting errors)", () => {
@@ -232,13 +232,13 @@ describe("autoconfig", () => {
                 assert.lengthOf(registry.rules["semi-spacing"], 3);
                 assert.lengthOf(registry.rules.quotes, 1);
                 registry.rules.semi.forEach(registryItem => {
-                    assert.equal(registryItem.errorCount, 0);
+                    assert.strictEqual(registryItem.errorCount, 0);
                 });
                 registry.rules["semi-spacing"].forEach(registryItem => {
-                    assert.equal(registryItem.errorCount, 0);
+                    assert.strictEqual(registryItem.errorCount, 0);
                 });
                 registry.rules.quotes.forEach(registryItem => {
-                    assert.equal(registryItem.errorCount, 0);
+                    assert.strictEqual(registryItem.errorCount, 0);
                 });
             });
         });

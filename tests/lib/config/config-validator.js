@@ -405,7 +405,7 @@ describe("Validator", () => {
     describe("getRuleOptionsSchema", () => {
 
         it("should return null for a missing rule", () => {
-            assert.equal(validator.getRuleOptionsSchema("non-existent-rule", linter.rules), null);
+            assert.strictEqual(validator.getRuleOptionsSchema("non-existent-rule", linter.rules), null);
         });
 
         it("should not modify object schema", () => {

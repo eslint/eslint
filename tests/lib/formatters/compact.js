@@ -26,7 +26,7 @@ describe("formatter:compact", () => {
         it("should return nothing", () => {
             const result = formatter(code);
 
-            assert.equal(result, "");
+            assert.strictEqual(result, "");
         });
     });
 
@@ -45,14 +45,14 @@ describe("formatter:compact", () => {
         it("should return a string in the format filename: line x, col y, Error - z for errors", () => {
             const result = formatter(code);
 
-            assert.equal(result, "foo.js: line 5, col 10, Error - Unexpected foo. (foo)\n\n1 problem");
+            assert.strictEqual(result, "foo.js: line 5, col 10, Error - Unexpected foo. (foo)\n\n1 problem");
         });
 
         it("should return a string in the format filename: line x, col y, Warning - z for warnings", () => {
             code[0].messages[0].severity = 1;
             const result = formatter(code);
 
-            assert.equal(result, "foo.js: line 5, col 10, Warning - Unexpected foo. (foo)\n\n1 problem");
+            assert.strictEqual(result, "foo.js: line 5, col 10, Warning - Unexpected foo. (foo)\n\n1 problem");
         });
     });
 
@@ -71,7 +71,7 @@ describe("formatter:compact", () => {
         it("should return a string in the format filename: line x, col y, Error - z", () => {
             const result = formatter(code);
 
-            assert.equal(result, "foo.js: line 5, col 10, Error - Unexpected foo. (foo)\n\n1 problem");
+            assert.strictEqual(result, "foo.js: line 5, col 10, Error - Unexpected foo. (foo)\n\n1 problem");
         });
     });
 
@@ -96,7 +96,7 @@ describe("formatter:compact", () => {
         it("should return a string with multiple entries", () => {
             const result = formatter(code);
 
-            assert.equal(result, "foo.js: line 5, col 10, Error - Unexpected foo. (foo)\nfoo.js: line 6, col 11, Warning - Unexpected bar. (bar)\n\n2 problems");
+            assert.strictEqual(result, "foo.js: line 5, col 10, Error - Unexpected foo. (foo)\nfoo.js: line 6, col 11, Warning - Unexpected bar. (bar)\n\n2 problems");
         });
     });
 
@@ -124,7 +124,7 @@ describe("formatter:compact", () => {
         it("should return a string with multiple entries", () => {
             const result = formatter(code);
 
-            assert.equal(result, "foo.js: line 5, col 10, Error - Unexpected foo. (foo)\nbar.js: line 6, col 11, Warning - Unexpected bar. (bar)\n\n2 problems");
+            assert.strictEqual(result, "foo.js: line 5, col 10, Error - Unexpected foo. (foo)\nbar.js: line 6, col 11, Warning - Unexpected bar. (bar)\n\n2 problems");
         });
     });
 
@@ -140,7 +140,7 @@ describe("formatter:compact", () => {
         it("should return a string without line and column", () => {
             const result = formatter(code);
 
-            assert.equal(result, "foo.js: line 0, col 0, Error - Couldn't find foo.js.\n\n1 problem");
+            assert.strictEqual(result, "foo.js: line 0, col 0, Error - Couldn't find foo.js.\n\n1 problem");
         });
     });
 });

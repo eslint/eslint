@@ -56,7 +56,7 @@ describe("ConfigOps", () => {
 
             const result = ConfigOps.applyEnvironments(config, envContext);
 
-            assert.equal(result, config);
+            assert.strictEqual(result, config);
         });
 
         it("should apply multiple environment settings to config without destroying original settings", () => {
@@ -176,7 +176,7 @@ describe("ConfigOps", () => {
 
             const result = ConfigOps.merge(config[0], config[1]);
 
-            assert.equal(result.globals.foo, "bar");
+            assert.strictEqual(result.globals.foo, "bar");
             assert.isTrue(result.env.browser);
         });
 
@@ -188,7 +188,7 @@ describe("ConfigOps", () => {
 
             const result = ConfigOps.merge(config[0], config[1]);
 
-            assert.equal(result.env.node, null);
+            assert.strictEqual(result.env.node, null);
             assert.isTrue(result.env.browser);
         });
 
@@ -200,7 +200,7 @@ describe("ConfigOps", () => {
 
             const result = ConfigOps.merge(config[0], config[1]);
 
-            assert.equal(result.parser, "espree");
+            assert.strictEqual(result.parser, "espree");
         });
 
         it("should combine configs and override rules when passed configs with the same rules", () => {
@@ -212,8 +212,8 @@ describe("ConfigOps", () => {
             const result = ConfigOps.merge(config[0], config[1]);
 
             assert.isArray(result.rules["no-mixed-requires"]);
-            assert.equal(result.rules["no-mixed-requires"][0], 1);
-            assert.equal(result.rules["no-mixed-requires"][1], true);
+            assert.strictEqual(result.rules["no-mixed-requires"][0], 1);
+            assert.strictEqual(result.rules["no-mixed-requires"][1], true);
         });
 
         it("should combine configs when passed configs with parserOptions", () => {
@@ -265,8 +265,8 @@ describe("ConfigOps", () => {
             const result = ConfigOps.merge(config[0], config[1]);
 
             assert.isArray(result.rules["no-mixed-requires"]);
-            assert.equal(result.rules["no-mixed-requires"][0], 1);
-            assert.equal(result.rules["no-mixed-requires"][1], false);
+            assert.strictEqual(result.rules["no-mixed-requires"][0], 1);
+            assert.strictEqual(result.rules["no-mixed-requires"][1], false);
             assert.deepEqual(config[0], { rules: { "no-mixed-requires": [0, false] } });
             assert.deepEqual(config[1], { rules: { "no-mixed-requires": 1 } });
         });
@@ -473,7 +473,7 @@ describe("ConfigOps", () => {
                     result = ConfigOps.merge({}, customConfig);
 
                 assert.deepEqual(result, customConfig);
-                assert.notEqual(result, customConfig);
+                assert.notStrictEqual(result, customConfig);
             });
         });
 
@@ -746,7 +746,7 @@ describe("ConfigOps", () => {
             it(`should return ${expected}when passed ${input}`, () => {
                 const result = ConfigOps.isErrorSeverity(input);
 
-                assert.equal(result, expected);
+                assert.strictEqual(result, expected);
             });
 
         });
@@ -802,8 +802,8 @@ describe("ConfigOps", () => {
 
             const result = ConfigOps.getConfigFromVector(vector, configCache);
 
-            assert.equal(result.rules.foo1, "error");
-            assert.equal(result.rules.foo2, "off");
+            assert.strictEqual(result.rules.foo1, "error");
+            assert.strictEqual(result.rules.foo2, "off");
         });
     });
 });
