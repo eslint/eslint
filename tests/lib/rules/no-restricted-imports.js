@@ -61,5 +61,41 @@ ruleTester.run("no-restricted-imports", rule, {
         code: "import withGitignores from \"foo/bar\";",
         options: [{ patterns: ["foo/*", "!foo/baz"] }],
         errors: [{ message: "'foo/bar' import is restricted from being used by a pattern.", type: "ImportDeclaration" }]
+    }, {
+        code: "import withGitignores from \"foo\";",
+        options: [{
+            name: "foo",
+            message: "Please import from 'bar' instead."
+        }],
+        errors: [{
+            message: "'foo' import is restricted from being used. Please import from 'bar' instead.",
+            type: "ImportDeclaration"
+        }]
+    }, {
+        code: "import withGitignores from \"bar\";",
+        options: [
+            "foo",
+            {
+                name: "bar",
+                message: "Please import from 'baz' instead."
+            },
+            "baz"
+        ],
+        errors: [{
+            message: "'bar' import is restricted from being used. Please import from 'baz' instead.",
+            type: "ImportDeclaration"
+        }]
+    }, {
+        code: "import withGitignores from \"foo\";",
+        options: [{
+            paths: [{
+                name: "foo",
+                message: "Please import from 'bar' instead."
+            }]
+        }],
+        errors: [{
+            message: "'foo' import is restricted from being used. Please import from 'bar' instead.",
+            type: "ImportDeclaration"
+        }]
     }]
 });
