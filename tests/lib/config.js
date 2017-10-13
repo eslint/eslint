@@ -54,7 +54,7 @@ function createStubbedConfigWithPlugins(plugins) {
 }
 
 /**
- * Asserts that two configs are equal. This is necessary because assert.deepEqual()
+ * Asserts that two configs are equal. This is necessary because assert.deepStrictEqual()
  * gets confused when properties are in different orders.
  * @param {Object} actual The config object to check.
  * @param {Object} expected What the config object should look like.
@@ -63,23 +63,23 @@ function createStubbedConfigWithPlugins(plugins) {
  */
 function assertConfigsEqual(actual, expected) {
     if (actual.env && expected.env) {
-        assert.deepEqual(actual.env, expected.env);
+        assert.deepStrictEqual(actual.env, expected.env);
     }
 
     if (actual.parserOptions && expected.parserOptions) {
-        assert.deepEqual(actual.parserOptions, expected.parserOptions);
+        assert.deepStrictEqual(actual.parserOptions, expected.parserOptions);
     }
 
     if (actual.globals && expected.globals) {
-        assert.deepEqual(actual.globals, expected.globals);
+        assert.deepStrictEqual(actual.globals, expected.globals);
     }
 
     if (actual.rules && expected.rules) {
-        assert.deepEqual(actual.rules, expected.rules);
+        assert.deepStrictEqual(actual.rules, expected.rules);
     }
 
     if (actual.plugins && expected.plugins) {
-        assert.deepEqual(actual.plugins, expected.plugins);
+        assert.deepStrictEqual(actual.plugins, expected.plugins);
     }
 }
 
@@ -154,7 +154,7 @@ describe("Config", () => {
                 configHelper = new Config({ baseConfig: customBaseConfig, format: "foo" }, linter);
 
             // at one point, customBaseConfig.format would end up equal to "foo"...that's bad
-            assert.deepEqual(customBaseConfig, { foo: "bar" });
+            assert.deepStrictEqual(customBaseConfig, { foo: "bar" });
             assert.strictEqual(configHelper.options.format, "foo");
         });
 
@@ -164,12 +164,12 @@ describe("Config", () => {
             };
             const configHelper = new Config({ baseConfig: customBaseConfig }, linter);
 
-            assert.deepEqual(configHelper.baseConfig.env, {
+            assert.deepStrictEqual(configHelper.baseConfig.env, {
                 browser: false,
                 es6: true,
                 node: true
             });
-            assert.deepEqual(configHelper.baseConfig.rules, {
+            assert.deepStrictEqual(configHelper.baseConfig.rules, {
                 "no-empty": 1,
                 "comma-dangle": 2,
                 "no-console": 2
@@ -250,7 +250,7 @@ describe("Config", () => {
                 );
 
             assert.strictEqual(actual.length, 1);
-            assert.deepEqual(actual, [expected]);
+            assert.deepStrictEqual(actual, [expected]);
         });
 
         it("should return all possible files when multiple are found", () => {
@@ -266,7 +266,7 @@ describe("Config", () => {
                 );
 
 
-            assert.deepEqual(actual.length, expected.length);
+            assert.deepStrictEqual(actual.length, expected.length);
         });
 
         it("should return an empty array when a package.json file is not found", () => {
@@ -885,7 +885,7 @@ describe("Config", () => {
                         }
                     };
 
-                assert.deepEqual(actual, expected);
+                assert.deepStrictEqual(actual, expected);
 
                 // Ensure that the personal config is cached and isn't reloaded on every call
                 assert.strictEqual(config.getPersonalConfig(), config.getPersonalConfig());
@@ -914,7 +914,7 @@ describe("Config", () => {
                         }
                     };
 
-                assert.deepEqual(actual, expected);
+                assert.deepStrictEqual(actual, expected);
             });
 
             it("should ignore the personal config if config is passed through cli", () => {
@@ -941,7 +941,7 @@ describe("Config", () => {
                         }
                     };
 
-                assert.deepEqual(actual, expected);
+                assert.deepStrictEqual(actual, expected);
             });
 
             it("should still load the project config if the current working directory is the same as the home folder", () => {
@@ -967,7 +967,7 @@ describe("Config", () => {
                         }
                     };
 
-                assert.deepEqual(actual, expected);
+                assert.deepStrictEqual(actual, expected);
             });
         });
 

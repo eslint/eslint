@@ -125,7 +125,7 @@ describe("Linter", () => {
         it("should get proper lines when using \\n as a line break", () => {
             const code = "a;\nb;";
             const spy = sandbox.spy(context => {
-                assert.deepEqual(context.getSourceLines(), ["a;", "b;"]);
+                assert.deepStrictEqual(context.getSourceLines(), ["a;", "b;"]);
                 return {};
             });
 
@@ -137,7 +137,7 @@ describe("Linter", () => {
         it("should get proper lines when using \\r\\n as a line break", () => {
             const code = "a;\r\nb;";
             const spy = sandbox.spy(context => {
-                assert.deepEqual(context.getSourceLines(), ["a;", "b;"]);
+                assert.deepStrictEqual(context.getSourceLines(), ["a;", "b;"]);
                 return {};
             });
 
@@ -149,7 +149,7 @@ describe("Linter", () => {
         it("should get proper lines when using \\r as a line break", () => {
             const code = "a;\rb;";
             const spy = sandbox.spy(context => {
-                assert.deepEqual(context.getSourceLines(), ["a;", "b;"]);
+                assert.deepStrictEqual(context.getSourceLines(), ["a;", "b;"]);
                 return {};
             });
 
@@ -161,7 +161,7 @@ describe("Linter", () => {
         it("should get proper lines when using \\u2028 as a line break", () => {
             const code = "a;\u2028b;";
             const spy = sandbox.spy(context => {
-                assert.deepEqual(context.getSourceLines(), ["a;", "b;"]);
+                assert.deepStrictEqual(context.getSourceLines(), ["a;", "b;"]);
                 return {};
             });
 
@@ -173,7 +173,7 @@ describe("Linter", () => {
         it("should get proper lines when using \\u2029 as a line break", () => {
             const code = "a;\u2029b;";
             const spy = sandbox.spy(context => {
-                assert.deepEqual(context.getSourceLines(), ["a;", "b;"]);
+                assert.deepStrictEqual(context.getSourceLines(), ["a;", "b;"]);
                 return {};
             });
 
@@ -1699,7 +1699,7 @@ describe("Linter", () => {
             const spy = sandbox.spy((ruleId, severity, node, message) => {
                 assert.strictEqual(ruleId, "foo");
                 assert.strictEqual(severity, 2);
-                assert.deepEqual(node.loc, { start: { line: 5, column: 4 } });
+                assert.deepStrictEqual(node.loc, { start: { line: 5, column: 4 } });
                 assert.strictEqual(message, "foo");
             });
 
@@ -2530,7 +2530,7 @@ describe("Linter", () => {
         it("should report multiple missing rules", () => {
             assert.isArray(resultsMultiple);
 
-            assert.deepEqual(
+            assert.deepStrictEqual(
                 resultsMultiple[1],
                 {
                     ruleId: "barfoo",
@@ -2851,7 +2851,7 @@ describe("Linter", () => {
 
     describe("reportUnusedDisable option", () => {
         it("reports problems for unused eslint-disable comments", () => {
-            assert.deepEqual(
+            assert.deepStrictEqual(
                 linter.verify("/* eslint-disable */", {}, { reportUnusedDisableDirectives: true }),
                 [
                     {
@@ -3698,7 +3698,7 @@ describe("Linter", () => {
                 );
 
                 assert.strictEqual(problems.length, 3);
-                assert.deepEqual(problems.map(problem => problem.message), ["foo", "bar", "baz"]);
+                assert.deepStrictEqual(problems.map(problem => problem.message), ["foo", "bar", "baz"]);
             });
         });
 
@@ -3743,8 +3743,8 @@ describe("Linter", () => {
                 );
 
                 assert.strictEqual(problems.length, 3);
-                assert.deepEqual(problems.map(problem => problem.message), ["FOO", "BAR", "BAZ"]);
-                assert.deepEqual(problems.map(problem => problem.column), [1, 5, 9]);
+                assert.deepStrictEqual(problems.map(problem => problem.message), ["FOO", "BAR", "BAZ"]);
+                assert.deepStrictEqual(problems.map(problem => problem.column), [1, 5, 9]);
             });
 
             it("should use postprocessed problem ranges when applying autofixes", () => {
@@ -3818,7 +3818,7 @@ describe("Linter", () => {
                 }
             });
 
-            assert.deepEqual(fixResult, {
+            assert.deepStrictEqual(fixResult, {
                 fixed: true,
                 messages: [],
                 output: "var a;"

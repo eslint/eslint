@@ -92,7 +92,7 @@ describe("options", () => {
             const currentOptions = options.parse("--rulesdir /morerules");
 
             assert.isArray(currentOptions.rulesdir);
-            assert.deepEqual(currentOptions.rulesdir, ["/morerules"]);
+            assert.deepStrictEqual(currentOptions.rulesdir, ["/morerules"]);
         });
     });
 

@@ -27,12 +27,12 @@ describe("ConfigRule", () => {
 
         it("should create a config with only severity for an empty schema", () => {
             actualConfigs = ConfigRule.generateConfigsFromSchema([]);
-            assert.deepEqual(actualConfigs, [SEVERITY]);
+            assert.deepStrictEqual(actualConfigs, [SEVERITY]);
         });
 
         it("should create a config with only severity with no arguments", () => {
             actualConfigs = ConfigRule.generateConfigsFromSchema();
-            assert.deepEqual(actualConfigs, [SEVERITY]);
+            assert.deepStrictEqual(actualConfigs, [SEVERITY]);
         });
 
         describe("for a single enum schema", () => {

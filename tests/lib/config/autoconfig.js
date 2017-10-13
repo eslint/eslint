@@ -95,12 +95,12 @@ describe("autoconfig", () => {
             const registry = new autoconfig.Registry(rulesConfig);
 
             assert.strictEqual(registry.rules.quotes[0].config, SEVERITY);
-            assert.deepEqual(registry.rules.quotes[1].config, [SEVERITY, "single"]);
-            assert.deepEqual(registry.rules.quotes[2].config, [SEVERITY, "double"]);
-            assert.deepEqual(registry.rules.quotes[3].config, [SEVERITY, "backtick"]);
-            assert.deepEqual(registry.rules.quotes[4].config, [SEVERITY, "single", "avoid-escape"]);
-            assert.deepEqual(registry.rules.quotes[5].config, [SEVERITY, "double", "avoid-escape"]);
-            assert.deepEqual(registry.rules.quotes[6].config, [SEVERITY, "backtick", "avoid-escape"]);
+            assert.deepStrictEqual(registry.rules.quotes[1].config, [SEVERITY, "single"]);
+            assert.deepStrictEqual(registry.rules.quotes[2].config, [SEVERITY, "double"]);
+            assert.deepStrictEqual(registry.rules.quotes[3].config, [SEVERITY, "backtick"]);
+            assert.deepStrictEqual(registry.rules.quotes[4].config, [SEVERITY, "single", "avoid-escape"]);
+            assert.deepStrictEqual(registry.rules.quotes[5].config, [SEVERITY, "double", "avoid-escape"]);
+            assert.deepStrictEqual(registry.rules.quotes[6].config, [SEVERITY, "backtick", "avoid-escape"]);
         });
 
         it("should assign the correct specificity", () => {
@@ -159,7 +159,7 @@ describe("autoconfig", () => {
             });
 
             it("should create the first set from default rule configs (severity only)", () => {
-                assert.deepEqual(ruleSets[0], { semi: SEVERITY, "semi-spacing": SEVERITY, quotes: SEVERITY });
+                assert.deepStrictEqual(ruleSets[0], { semi: SEVERITY, "semi-spacing": SEVERITY, quotes: SEVERITY });
             });
 
             it("should create as many ruleSets as the highest number of configs in a rule", () => {
@@ -195,7 +195,7 @@ describe("autoconfig", () => {
             it("should correctly set the error count of configurations", () => {
                 assert.strictEqual(registry.rules.semi[0].config, SEVERITY);
                 assert.strictEqual(registry.rules.semi[0].errorCount, 0);
-                assert.deepEqual(registry.rules.semi[2].config, [SEVERITY, "never"]);
+                assert.deepStrictEqual(registry.rules.semi[2].config, [SEVERITY, "never"]);
                 assert.strictEqual(registry.rules.semi[2].errorCount, 3);
             });
 
@@ -211,7 +211,7 @@ describe("autoconfig", () => {
                 registry = new autoconfig.Registry(rulesConfig);
                 registry = registry.lintSourceCode(sourceCode, defaultOptions);
 
-                assert.deepEqual(registry.rules.semi, expectedRegistry);
+                assert.deepStrictEqual(registry.rules.semi, expectedRegistry);
             });
         });
 
@@ -258,7 +258,7 @@ describe("autoconfig", () => {
             it("should return a registry with no registryItems with an errorCount of zero", () => {
                 const failingRules = Object.keys(failingRegistry.rules);
 
-                assert.deepEqual(failingRules, ["no-unused-vars"]);
+                assert.deepStrictEqual(failingRules, ["no-unused-vars"]);
                 assert.lengthOf(failingRegistry.rules["no-unused-vars"], 1);
                 assert(failingRegistry.rules["no-unused-vars"][0].errorCount > 0);
             });
@@ -284,11 +284,11 @@ describe("autoconfig", () => {
             it("should add rules which have only one registryItem to the config", () => {
                 const configuredRules = Object.keys(createdConfig.rules);
 
-                assert.deepEqual(configuredRules, ["quotes"]);
+                assert.deepStrictEqual(configuredRules, ["quotes"]);
             });
 
             it("should set the configuration of the rule to the registryItem's `config` value", () => {
-                assert.deepEqual(createdConfig.rules.quotes, [2, "double", "avoid-escape"]);
+                assert.deepStrictEqual(createdConfig.rules.quotes, [2, "double", "avoid-escape"]);
             });
 
             it("should not care how many errors the config has", () => {
@@ -302,7 +302,7 @@ describe("autoconfig", () => {
                 createdConfig = failingRegistry.createConfig();
                 const configuredRules = Object.keys(createdConfig.rules);
 
-                assert.deepEqual(configuredRules, ["no-unused-vars"]);
+                assert.deepStrictEqual(configuredRules, ["no-unused-vars"]);
             });
         });
 

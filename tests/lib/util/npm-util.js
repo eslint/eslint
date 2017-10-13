@@ -175,7 +175,7 @@ describe("npmUtil", () => {
             npmUtil.installSyncSaveDev("desired-package");
             assert(stub.calledOnce);
             assert.strictEqual(stub.firstCall.args[0], "npm");
-            assert.deepEqual(stub.firstCall.args[1], ["i", "--save-dev", "desired-package"]);
+            assert.deepStrictEqual(stub.firstCall.args[1], ["i", "--save-dev", "desired-package"]);
             stub.restore();
         });
 
@@ -185,7 +185,7 @@ describe("npmUtil", () => {
             npmUtil.installSyncSaveDev(["first-package", "second-package"]);
             assert(stub.calledOnce);
             assert.strictEqual(stub.firstCall.args[0], "npm");
-            assert.deepEqual(stub.firstCall.args[1], ["i", "--save-dev", "first-package", "second-package"]);
+            assert.deepStrictEqual(stub.firstCall.args[1], ["i", "--save-dev", "first-package", "second-package"]);
             stub.restore();
         });
 
@@ -209,7 +209,7 @@ describe("npmUtil", () => {
             npmUtil.fetchPeerDependencies("desired-package");
             assert(stub.calledOnce);
             assert.strictEqual(stub.firstCall.args[0], "npm");
-            assert.deepEqual(stub.firstCall.args[1], ["show", "--json", "desired-package", "peerDependencies"]);
+            assert.deepStrictEqual(stub.firstCall.args[1], ["show", "--json", "desired-package", "peerDependencies"]);
             stub.restore();
         });
 

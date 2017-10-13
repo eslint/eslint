@@ -111,7 +111,7 @@ describe("SourceCode", () => {
             const actual = sourceCode.tokensAndComments;
             const expected = [comments[0], tokens[0], tokens[1], comments[1], tokens[2]];
 
-            assert.deepEqual(actual, expected);
+            assert.deepStrictEqual(actual, expected);
         });
 
         describe("if a text has BOM,", () => {
@@ -1879,10 +1879,10 @@ describe("SourceCode", () => {
         });
 
         it("should return the location of a range index", () => {
-            assert.deepEqual(sourceCode.getLocFromIndex(5), { line: 2, column: 1 });
-            assert.deepEqual(sourceCode.getLocFromIndex(3), { line: 1, column: 3 });
-            assert.deepEqual(sourceCode.getLocFromIndex(4), { line: 2, column: 0 });
-            assert.deepEqual(sourceCode.getLocFromIndex(21), { line: 6, column: 0 });
+            assert.deepStrictEqual(sourceCode.getLocFromIndex(5), { line: 2, column: 1 });
+            assert.deepStrictEqual(sourceCode.getLocFromIndex(3), { line: 1, column: 3 });
+            assert.deepStrictEqual(sourceCode.getLocFromIndex(4), { line: 2, column: 0 });
+            assert.deepStrictEqual(sourceCode.getLocFromIndex(21), { line: 6, column: 0 });
         });
 
         it("should throw if given a bad input", () => {
@@ -1893,7 +1893,7 @@ describe("SourceCode", () => {
         });
 
         it("should not throw if given sourceCode.text.length", () => {
-            assert.deepEqual(sourceCode.getLocFromIndex(CODE.length), { line: 8, column: 0 });
+            assert.deepStrictEqual(sourceCode.getLocFromIndex(CODE.length), { line: 8, column: 0 });
         });
 
         it("should throw if given an out-of-range input", () => {

@@ -170,7 +170,7 @@ describe("FileFinder", () => {
                  */
                 actual = actual.filter(file => (file || "").indexOf(process.cwd()) === 0);
 
-                assert.deepEqual(actual, [expected]);
+                assert.deepStrictEqual(actual, [expected]);
             });
         });
     });

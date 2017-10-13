@@ -697,7 +697,7 @@ describe("RuleTester", () => {
 
         RuleTester.setDefaultConfig(config);
         RuleTester.resetDefaultConfig();
-        assert.deepEqual(
+        assert.deepStrictEqual(
             RuleTester.getDefaultConfig(),
             { rules: {} },
             "The default configuration has not reset correctly"

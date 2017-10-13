@@ -127,7 +127,7 @@ describe("IgnoredPaths", () => {
             const ignorePatterns = getIgnorePatterns(ignoredPaths);
 
             assert.isNotNull(ignoredPaths.baseDir);
-            assert.deepEqual(getIgnoreFiles(ignoredPaths), [expectedIgnoreFile]);
+            assert.deepStrictEqual(getIgnoreFiles(ignoredPaths), [expectedIgnoreFile]);
             assert.include(ignorePatterns, "sampleignorepattern");
         });
 

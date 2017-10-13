@@ -552,42 +552,42 @@ describe("ast-utils", () => {
             const ast = espree.parse("if (a) { b(); }");
             const node = ast.body[0];
 
-            assert.deepEqual(astUtils.getDirectivePrologue(node), []);
+            assert.deepStrictEqual(astUtils.getDirectivePrologue(node), []);
         });
 
         it("should return empty array if node is a braceless ArrowFunctionExpression node", () => {
             const ast = espree.parse("var foo = () => 'use strict';", { ecmaVersion: 6 });
             const node = ast.body[0].declarations[0].init;
 
-            assert.deepEqual(astUtils.getDirectivePrologue(node), []);
+            assert.deepStrictEqual(astUtils.getDirectivePrologue(node), []);
         });
 
         it("should return empty array if there are no directives in Program body", () => {
             const ast = espree.parse("var foo;");
             const node = ast;
 
-            assert.deepEqual(astUtils.getDirectivePrologue(node), []);
+            assert.deepStrictEqual(astUtils.getDirectivePrologue(node), []);
         });
 
         it("should return empty array if there are no directives in FunctionDeclaration body", () => {
             const ast = espree.parse("function foo() { return bar; }");
             const node = ast.body[0];
 
-            assert.deepEqual(astUtils.getDirectivePrologue(node), []);
+            assert.deepStrictEqual(astUtils.getDirectivePrologue(node), []);
         });
 
         it("should return empty array if there are no directives in FunctionExpression body", () => {
             const ast = espree.parse("var foo = function() { return bar; }");
             const node = ast.body[0].declarations[0].init;
 
-            assert.deepEqual(astUtils.getDirectivePrologue(node), []);
+            assert.deepStrictEqual(astUtils.getDirectivePrologue(node), []);
         });
 
         it("should return empty array if there are no directives in ArrowFunctionExpression body", () => {
             const ast = espree.parse("var foo = () => { return bar; };", { ecmaVersion: 6 });
             const node = ast.body[0].declarations[0].init;
 
-            assert.deepEqual(astUtils.getDirectivePrologue(node), []);
+            assert.deepStrictEqual(astUtils.getDirectivePrologue(node), []);
         });
 
         it("should return directives in Program body", () => {
@@ -770,7 +770,7 @@ describe("ast-utils", () => {
             it(`should return "${JSON.stringify(expectedLoc)}" for "${key}".`, () => {
                 linter.defineRule("checker", mustCall(() => ({
                     ":function": mustCall(node => {
-                        assert.deepEqual(
+                        assert.deepStrictEqual(
                             astUtils.getFunctionHeadLoc(node, linter.getSourceCode()),
                             expectedLoc
                         );

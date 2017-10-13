@@ -410,7 +410,7 @@ describe("Validator", () => {
 
         it("should not modify object schema", () => {
             linter.defineRule("mock-object-rule", mockObjectRule);
-            assert.deepEqual(validator.getRuleOptionsSchema("mock-object-rule", linter.rules), {
+            assert.deepStrictEqual(validator.getRuleOptionsSchema("mock-object-rule", linter.rules), {
                 enum: ["first", "second"]
             });
         });

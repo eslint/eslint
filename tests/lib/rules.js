@@ -60,7 +60,7 @@ describe("rules", () => {
             function rule() {}
             rule.schema = [];
             rules.define("foo", rule);
-            assert.deepEqual(rules.get("foo"), { create: rule, schema: [] });
+            assert.deepStrictEqual(rules.get("foo"), { create: rule, schema: [] });
         });
 
         it("should return the rule as-is if it was defined as an object with a create() method", () => {

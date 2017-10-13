@@ -74,8 +74,8 @@ describe("Plugins", () => {
 
             StubbedPlugins.load("eslint-plugin-example");
 
-            assert.deepEqual(environments.get("example/foo"), plugin.environments.foo);
-            assert.deepEqual(environments.get("example/bar"), plugin.environments.bar);
+            assert.deepStrictEqual(environments.get("example/foo"), plugin.environments.foo);
+            assert.deepStrictEqual(environments.get("example/bar"), plugin.environments.bar);
         });
 
         it("should register rules when plugin has rules", () => {
@@ -86,8 +86,8 @@ describe("Plugins", () => {
 
             StubbedPlugins.load("eslint-plugin-example");
 
-            assert.deepEqual(rules.get("example/baz"), plugin.rules.baz);
-            assert.deepEqual(rules.get("example/qux"), plugin.rules.qux);
+            assert.deepStrictEqual(rules.get("example/baz"), plugin.rules.baz);
+            assert.deepStrictEqual(rules.get("example/qux"), plugin.rules.qux);
         });
 
         it("should throw an error when a plugin has whitespace", () => {

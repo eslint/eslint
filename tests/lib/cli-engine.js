@@ -281,7 +281,7 @@ describe("CLIEngine", () => {
 
             const report = engine.executeOnText("var bar = foo", "passing.js");
 
-            assert.deepEqual(report, {
+            assert.deepStrictEqual(report, {
                 results: [
                     {
                         filePath: getFixturePath("passing.js"),
@@ -342,7 +342,7 @@ describe("CLIEngine", () => {
 
             const report = engine.executeOnText("var bar = foo", "passing.js");
 
-            assert.deepEqual(report, {
+            assert.deepStrictEqual(report, {
                 results: [
                     {
                         filePath: getFixturePath("passing.js"),
@@ -386,7 +386,7 @@ describe("CLIEngine", () => {
 
             const report = engine.executeOnText("var bar = foo", "test.js");
 
-            assert.deepEqual(report, {
+            assert.deepStrictEqual(report, {
                 results: [
                     {
                         filePath: getFixturePath("test.js"),
@@ -428,7 +428,7 @@ describe("CLIEngine", () => {
 
             const report = engine.executeOnText("var bar =", "test.js");
 
-            assert.deepEqual(report, {
+            assert.deepStrictEqual(report, {
                 results: [
                     {
                         filePath: getFixturePath("test.js"),
@@ -516,7 +516,7 @@ describe("CLIEngine", () => {
 
             const report = engine.executeOnText("var bar = foothis is a syntax error.\n return bar;");
 
-            assert.deepEqual(report, {
+            assert.deepStrictEqual(report, {
                 results: [
                     {
                         filePath: "<text>",
@@ -1369,7 +1369,7 @@ describe("CLIEngine", () => {
                 const report = engine.executeOnFiles([path.resolve(fixtureDir, `${fixtureDir}/fixmode`)]);
 
                 report.results.forEach(convertCRLF);
-                assert.deepEqual(report, {
+                assert.deepStrictEqual(report, {
                     results: [
                         {
                             filePath: fs.realpathSync(path.resolve(fixtureDir, "fixmode/multipass.js")),
@@ -2052,7 +2052,7 @@ describe("CLIEngine", () => {
 
                 const cachedResult = engine.executeOnFiles([file]);
 
-                assert.deepEqual(result, cachedResult, "the result is the same regardless of using cache or not");
+                assert.deepStrictEqual(result, cachedResult, "the result is the same regardless of using cache or not");
 
                 // assert the file was not processed because the cache was used
                 assert.isFalse(spy.called, "the file was not loaded because it used the cache");
@@ -2130,7 +2130,7 @@ describe("CLIEngine", () => {
 
                 const cachedResult = engine.executeOnFiles([badFile, goodFile]);
 
-                assert.deepEqual(result, cachedResult, "result is the same with or without cache");
+                assert.deepStrictEqual(result, cachedResult, "result is the same with or without cache");
             });
 
             it("should not contain in the cache a file that was deleted", () => {
@@ -2341,7 +2341,7 @@ describe("CLIEngine", () => {
 
                     const cachedResult = engine.executeOnFiles([badFile, goodFile]);
 
-                    assert.deepEqual(result, cachedResult, "result is the same with or without cache");
+                    assert.deepStrictEqual(result, cachedResult, "result is the same with or without cache");
                 });
             });
         });
@@ -2581,7 +2581,7 @@ describe("CLIEngine", () => {
 
             const filePath = getFixturePath("single-quoted.js");
 
-            assert.deepEqual(
+            assert.deepStrictEqual(
                 engine.getConfigForFile(filePath),
                 configHelper.getConfig(filePath)
             );
@@ -2600,7 +2600,7 @@ describe("CLIEngine", () => {
             const filePath = getFixturePath("config-hierarchy", "root-true", "parent", "root", ".eslintrc");
             const config = engine.getConfigForFile("./.eslintrc");
 
-            assert.deepEqual(
+            assert.deepStrictEqual(
                 config,
                 configHelper.getConfig(filePath)
             );
@@ -2975,7 +2975,7 @@ describe("CLIEngine", () => {
         it("should report problems for unused eslint-disable directives", () => {
             const cliEngine = new CLIEngine({ useEslintrc: false, reportUnusedDisableDirectives: true });
 
-            assert.deepEqual(
+            assert.deepStrictEqual(
                 cliEngine.executeOnText("/* eslint-disable */"),
                 {
                     results: [

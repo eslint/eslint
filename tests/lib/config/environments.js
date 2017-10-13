@@ -27,7 +27,7 @@ describe("Environments", () => {
 
         it("should have all default environments loaded", () => {
             Object.keys(envs).forEach(envName => {
-                assert.deepEqual(environments.get(envName), envs[envName]);
+                assert.deepStrictEqual(environments.get(envName), envs[envName]);
             });
         });
     });
@@ -40,7 +40,7 @@ describe("Environments", () => {
 
             const result = environments.get("foo");
 
-            assert.deepEqual(result, env);
+            assert.deepStrictEqual(result, env);
         });
     });
 
@@ -62,8 +62,8 @@ describe("Environments", () => {
             const fooEnv = environments.get("plugin/foo"),
                 barEnv = environments.get("plugin/bar");
 
-            assert.deepEqual(fooEnv, plugin.environments.foo);
-            assert.deepEqual(barEnv, plugin.environments.bar);
+            assert.deepStrictEqual(fooEnv, plugin.environments.foo);
+            assert.deepStrictEqual(barEnv, plugin.environments.bar);
         });
     });
 });
