@@ -55,9 +55,7 @@ Running the tests is the best way to ensure you have correctly set up your devel
 npm test
 ```
 
-The testing takes a few seconds to complete. If any tests fail, that likely means one or more parts of the environment setup didn't complete correctly. The upstream tests always pass.
-
-
+The testing takes a few minutes to complete. If any tests fail, that likely means one or more parts of the environment setup didn't complete correctly. The upstream tests always pass.
 
 ## Build Scripts
 
