@@ -589,6 +589,17 @@ ruleTester.run("one-var", rule, {
                 line: 1,
                 column: 53
             }]
+        },
+        {
+            code: "var foo = require('foo'), bar;",
+            options: [{ separateRequires: true, var: "always" }],
+            parserOptions: { env: { node: true } },
+            errors: [{
+                message: "Split requires to be separated into a single block.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 1
+            }]
         }
     ]
 });
