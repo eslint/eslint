@@ -37,7 +37,7 @@ describe("pr-create.md.ejs", () => {
             meta: {}
         });
 
-        assert.equal(result.trim(), "LGTM");
+        assert.strictEqual(result.trim(), "LGTM");
     });
 
     it("should mention commit message format when there's one commit and an invalid commit message is found", () => {
@@ -106,7 +106,7 @@ describe("pr-create.md.ejs", () => {
             }
         });
 
-        assert.equal(result.trim(), "LGTM");
+        assert.strictEqual(result.trim(), "LGTM");
     });
 
     it("should not mention missing issue when there's one documentation commit", () => {
@@ -129,7 +129,7 @@ describe("pr-create.md.ejs", () => {
             }
         });
 
-        assert.equal(result.trim(), "LGTM");
+        assert.strictEqual(result.trim(), "LGTM");
     });
 
     ["Breaking", "Build", "Chore", "Docs", "Fix", "New", "Update", "Upgrade"].forEach(type => {
@@ -153,7 +153,7 @@ describe("pr-create.md.ejs", () => {
                 }
             });
 
-            assert.equal(result.trim(), "LGTM");
+            assert.strictEqual(result.trim(), "LGTM");
         });
     });
 

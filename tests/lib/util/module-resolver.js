@@ -40,7 +40,7 @@ describe("ModuleResolver", () => {
                 const resolver = new ModuleResolver(),
                     result = resolver.resolve(name, lookupPath);
 
-                assert.equal(result, expected);
+                assert.strictEqual(result, expected);
             });
         });
 
