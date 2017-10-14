@@ -24,6 +24,7 @@ This rule requires JSDoc comments for specified nodes. Supported nodes:
 * `"ClassDeclaration"`
 * `"MethodDefinition"`
 * `"ArrowFunctionExpression"`
+* `"FunctionExpression"`
 
 ## Options
 
@@ -40,7 +41,8 @@ Default option settings are:
             "FunctionDeclaration": true,
             "MethodDefinition": false,
             "ClassDeclaration": false,
-            "ArrowFunctionExpression": false
+            "ArrowFunctionExpression": false,
+            "FunctionExpression": false
         }
     }]
 }
@@ -48,14 +50,16 @@ Default option settings are:
 
 ### require
 
-Examples of **incorrect** code for this rule with the `{ "require": { "FunctionDeclaration": true, "MethodDefinition": true, "ClassDeclaration": true, "ArrowFunctionExpression": true } }` option:
+Examples of **incorrect** code for this rule with the `{ "require": { "FunctionDeclaration": true, "MethodDefinition": true, "ClassDeclaration": true, "ArrowFunctionExpression": true, "FunctionExpression": true } }` option:
 
 ```js
 /*eslint "require-jsdoc": ["error", {
     "require": {
         "FunctionDeclaration": true,
         "MethodDefinition": true,
-        "ClassDeclaration": true
+        "ClassDeclaration": true,
+        "ArrowFunctionExpression": true,
+        "FunctionExpression": true
     }
 }]*/
 
@@ -65,21 +69,39 @@ function foo() {
 
 var foo = () => {
     return 10;
+};
+
+class Foo {
+    bar() {
+        return 10;
+    }
 }
 
-class Test{
-    getDate(){}
-}
+var foo = function() {
+    return 10;
+};
+
+var foo = {
+    bar: function() {
+        return 10;
+    },
+
+    baz() {
+        return 10;
+    }
+};
 ```
 
-Examples of **correct** code for this rule with the `{ "require": { "FunctionDeclaration": true, "MethodDefinition": true, "ClassDeclaration": true, "ArrowFunctionExpression": true } }` option:
+Examples of **correct** code for this rule with the `{ "require": { "FunctionDeclaration": true, "MethodDefinition": true, "ClassDeclaration": true, "ArrowFunctionExpression": true, "FunctionExpression": true } }` option:
 
 ```js
 /*eslint "require-jsdoc": ["error", {
     "require": {
         "FunctionDeclaration": true,
         "MethodDefinition": true,
-        "ClassDeclaration": true
+        "ClassDeclaration": true,
+        "ArrowFunctionExpression": true,
+        "FunctionExpression": true
     }
 }]*/
 
@@ -119,14 +141,39 @@ array.filter(function(item) {
 });
 
 /**
+ * A class that can return the number 10
+ */
+class Foo {
+    /**
+    * It returns 10
+    */
+    bar() {
+        return 10;
+    }
+}
+
+/**
  * It returns 10
  */
-class Test{
+var foo = function() {
+    return 10;
+};
+
+var foo = {
     /**
-    * returns the date
+    * It returns 10
     */
-    getDate(){}
-}
+    bar: function() {
+        return 10;
+    },
+
+    /**
+    * It returns 10
+    */
+    baz() {
+        return 10;
+    }
+};
 
 setTimeout(() => {}, 10); // since it's an anonymous arrow function
 ```
