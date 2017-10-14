@@ -262,7 +262,7 @@ Make frequent use of comments to aid others in understanding your code. Use comm
 
 ### Single-Line Comments
 
-Single-line comments should be used to documentation one line of code or a group of related lines of code. A single-line comment may be used in three ways:
+Single-line comments should be used to document one line of code or a group of related lines of code. A single-line comment may be used in three ways:
 
 1. On a separate line, describing the code beneath it.
 1. At the end of a line, describing the code before it.
