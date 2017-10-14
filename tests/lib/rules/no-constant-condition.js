@@ -158,3 +158,4 @@ ruleTester.run("no-constant-condition", rule, {
         }
     ]
 });
+
