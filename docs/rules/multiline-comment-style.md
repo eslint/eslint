@@ -16,21 +16,9 @@ This rule has a string option, which can have one of the following values:
 
 The rule always ignores directive comments such as `/* eslint-disable */`. Additionally, unless the mode is `"starred-block"`, the rule ignores JSDoc comments.
 
-Examples of **incorrect** code for this rule:
+Examples of **incorrect** code for this rule with the default `"starred-block"` option:
 
 ```js
-
-/* eslint multiline-comment-style: ["error", "separate-lines"] */
-
-/* This line
-calls foo() */
-foo();
-
-/*
- * This line
- * calls foo()
- */
-foo();
 
 /* eslint multiline-comment-style: ["error", "starred-block"] */
 
@@ -58,6 +46,25 @@ foo();
  * the star on the following line should have a space before it
 */
 
+```
+
+Examples of **correct** code for this rule with the default `"starred-block"` option:
+
+```js
+/* eslint multiline-comment-style: ["error", "starred-block"] */
+
+/*
+ * this line
+ * calls foo()
+ */
+foo();
+
+// single-line comment
+```
+
+Examples of **incorrect** code for this rule with the `"bare-block"` option:
+
+```js
 /* eslint multiline-comment-style: ["error", "bare-block"] */
 
 // this line
@@ -69,10 +76,37 @@ foo();
  * calls foo()
  */
 foo();
+```
+
+Examples of **correct** code for this rule with the `"bare-block"` option:
+
+```js
+/* eslint multiline-comment-style: ["error", "bare-block"] */
+
+/* this line
+   calls foo() */
+foo();
+```
+
+Examples of **incorrect** code for this rule with the `"separate-lines"` option:
+
+```js
+
+/* eslint multiline-comment-style: ["error", "separate-lines"] */
+
+/* This line
+calls foo() */
+foo();
+
+/*
+ * This line
+ * calls foo()
+ */
+foo();
 
 ```
 
-Examples of **correct** code for this rule:
+Examples of **correct** code for this rule with the `"separate-lines"` option:
 
 ```js
 /* eslint multiline-comment-style: ["error", "separate-lines"] */
@@ -81,21 +115,6 @@ Examples of **correct** code for this rule:
 // calls foo()
 foo();
 
-
-/* eslint multiline-comment-style: ["error", "starred-block"] */
-
-/*
- * this line
- * calls foo()
- */
-foo();
-
-
-/* eslint multiline-comment-style: ["error", "bare-block"] */
-
-/* this line
-   calls foo() */
-foo();
 
 ```
 
