@@ -71,6 +71,7 @@ module.exports = {
         "max-params": "off",
         "max-statements": "off",
         "max-statements-per-line": "off",
+        "multiline-comment-style": "off",
         "multiline-ternary": "off",
         "new-cap": "off",
         "new-parens": "off",
