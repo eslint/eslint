@@ -120,7 +120,7 @@ describe("NodeEventGenerator", () => {
                 const emissions = getEmissions(ast, possibleQueries)
                     .filter(emission => possibleQueries.indexOf(emission[0]) !== -1);
 
-                assert.deepEqual(emissions, expectedEmissions(ast));
+                assert.deepStrictEqual(emissions, expectedEmissions(ast));
             });
         }
 

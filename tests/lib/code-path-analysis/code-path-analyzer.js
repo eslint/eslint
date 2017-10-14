@@ -559,11 +559,11 @@ describe("CodePathAnalyzer", () => {
                 }));
                 const messages = linter.verify(source, { rules: { test: 2 }, env: { es6: true } });
 
-                assert.equal(messages.length, 0);
-                assert.equal(actual.length, expected.length, "a count of code paths is wrong.");
+                assert.strictEqual(messages.length, 0);
+                assert.strictEqual(actual.length, expected.length, "a count of code paths is wrong.");
 
                 for (let i = 0; i < actual.length; ++i) {
-                    assert.equal(actual[i], expected[i]);
+                    assert.strictEqual(actual[i], expected[i]);
                 }
             });
         });

@@ -37,7 +37,7 @@ describe("Traverser", () => {
             leave: node => exitedNodes.push(node)
         });
 
-        assert.deepEqual(enteredNodes, [fakeAst, fakeAst.body[0], fakeAst.body[1], fakeAst.body[1].foo]);
-        assert.deepEqual(exitedNodes, [fakeAst.body[0], fakeAst.body[1].foo, fakeAst.body[1], fakeAst]);
+        assert.deepStrictEqual(enteredNodes, [fakeAst, fakeAst.body[0], fakeAst.body[1], fakeAst.body[1].foo]);
+        assert.deepStrictEqual(exitedNodes, [fakeAst.body[0], fakeAst.body[1].foo, fakeAst.body[1], fakeAst]);
     });
 });

@@ -42,7 +42,7 @@ describe("options", () => {
             const currentOptions = options.parse("--config file");
 
             assert.isString(currentOptions.config);
-            assert.equal(currentOptions.config, "file");
+            assert.strictEqual(currentOptions.config, "file");
         });
     });
 
@@ -51,7 +51,7 @@ describe("options", () => {
             const currentOptions = options.parse("-c file");
 
             assert.isString(currentOptions.config);
-            assert.equal(currentOptions.config, "file");
+            assert.strictEqual(currentOptions.config, "file");
         });
     });
 
@@ -60,30 +60,30 @@ describe("options", () => {
             const currentOptions = options.parse("--ext .jsx");
 
             assert.isArray(currentOptions.ext);
-            assert.equal(currentOptions.ext[0], ".jsx");
+            assert.strictEqual(currentOptions.ext[0], ".jsx");
         });
 
         it("should return an array with two items when passed .js and .jsx", () => {
             const currentOptions = options.parse("--ext .jsx --ext .js");
 
             assert.isArray(currentOptions.ext);
-            assert.equal(currentOptions.ext[0], ".jsx");
-            assert.equal(currentOptions.ext[1], ".js");
+            assert.strictEqual(currentOptions.ext[0], ".jsx");
+            assert.strictEqual(currentOptions.ext[1], ".js");
         });
 
         it("should return an array with two items when passed .jsx,.js", () => {
             const currentOptions = options.parse("--ext .jsx,.js");
 
             assert.isArray(currentOptions.ext);
-            assert.equal(currentOptions.ext[0], ".jsx");
-            assert.equal(currentOptions.ext[1], ".js");
+            assert.strictEqual(currentOptions.ext[0], ".jsx");
+            assert.strictEqual(currentOptions.ext[1], ".js");
         });
 
         it("should return an array one item when not passed", () => {
             const currentOptions = options.parse("");
 
             assert.isArray(currentOptions.ext);
-            assert.equal(currentOptions.ext[0], ".js");
+            assert.strictEqual(currentOptions.ext[0], ".js");
         });
     });
 
@@ -92,7 +92,7 @@ describe("options", () => {
             const currentOptions = options.parse("--rulesdir /morerules");
 
             assert.isArray(currentOptions.rulesdir);
-            assert.equal(currentOptions.rulesdir, "/morerules");
+            assert.deepStrictEqual(currentOptions.rulesdir, ["/morerules"]);
         });
     });
 
@@ -101,14 +101,14 @@ describe("options", () => {
             const currentOptions = options.parse("--format compact");
 
             assert.isString(currentOptions.format);
-            assert.equal(currentOptions.format, "compact");
+            assert.strictEqual(currentOptions.format, "compact");
         });
 
         it("should return stylish for .format when not passed", () => {
             const currentOptions = options.parse("");
 
             assert.isString(currentOptions.format);
-            assert.equal(currentOptions.format, "stylish");
+            assert.strictEqual(currentOptions.format, "stylish");
         });
     });
 
@@ -117,7 +117,7 @@ describe("options", () => {
             const currentOptions = options.parse("-f compact");
 
             assert.isString(currentOptions.format);
-            assert.equal(currentOptions.format, "compact");
+            assert.strictEqual(currentOptions.format, "compact");
         });
     });
 
@@ -157,7 +157,7 @@ describe("options", () => {
         it("should return a string for .ignorePath when passed", () => {
             const currentOptions = options.parse("--ignore-path .gitignore");
 
-            assert.equal(currentOptions.ignorePath, ".gitignore");
+            assert.strictEqual(currentOptions.ignorePath, ".gitignore");
         });
     });
 
@@ -166,26 +166,26 @@ describe("options", () => {
             const currentOptions = options.parse("--ignore-pattern *.js");
 
             assert.ok(currentOptions.ignorePattern);
-            assert.equal(currentOptions.ignorePattern.length, 1);
-            assert.equal(currentOptions.ignorePattern[0], "*.js");
+            assert.strictEqual(currentOptions.ignorePattern.length, 1);
+            assert.strictEqual(currentOptions.ignorePattern[0], "*.js");
         });
 
         it("should return a string array for multiple values", () => {
             const currentOptions = options.parse("--ignore-pattern *.js --ignore-pattern *.ts");
 
             assert.ok(currentOptions.ignorePattern);
-            assert.equal(currentOptions.ignorePattern.length, 2);
-            assert.equal(currentOptions.ignorePattern[0], "*.js");
-            assert.equal(currentOptions.ignorePattern[1], "*.ts");
+            assert.strictEqual(currentOptions.ignorePattern.length, 2);
+            assert.strictEqual(currentOptions.ignorePattern[0], "*.js");
+            assert.strictEqual(currentOptions.ignorePattern[1], "*.ts");
         });
 
         it("should return a string array of properly parsed values, when those values include commas", () => {
             const currentOptions = options.parse("--ignore-pattern *.js --ignore-pattern foo-{bar,baz}.js");
 
             assert.ok(currentOptions.ignorePattern);
-            assert.equal(currentOptions.ignorePattern.length, 2);
-            assert.equal(currentOptions.ignorePattern[0], "*.js");
-            assert.equal(currentOptions.ignorePattern[1], "foo-{bar,baz}.js");
+            assert.strictEqual(currentOptions.ignorePattern.length, 2);
+            assert.strictEqual(currentOptions.ignorePattern[0], "*.js");
+            assert.strictEqual(currentOptions.ignorePattern[1], "foo-{bar,baz}.js");
         });
     });
 
@@ -215,7 +215,7 @@ describe("options", () => {
         it("should return a string for .stdinFilename when passed", () => {
             const currentOptions = options.parse("--stdin-filename test.js");
 
-            assert.equal(currentOptions.stdinFilename, "test.js");
+            assert.strictEqual(currentOptions.stdinFilename, "test.js");
         });
     });
 
@@ -224,35 +224,35 @@ describe("options", () => {
             const currentOptions = options.parse("--global foo");
 
             assert.isArray(currentOptions.global);
-            assert.equal(currentOptions.global.length, 1);
-            assert.equal(currentOptions.global[0], "foo");
+            assert.strictEqual(currentOptions.global.length, 1);
+            assert.strictEqual(currentOptions.global[0], "foo");
         });
 
         it("should split variable names using commas", () => {
             const currentOptions = options.parse("--global foo,bar");
 
             assert.isArray(currentOptions.global);
-            assert.equal(currentOptions.global.length, 2);
-            assert.equal(currentOptions.global[0], "foo");
-            assert.equal(currentOptions.global[1], "bar");
+            assert.strictEqual(currentOptions.global.length, 2);
+            assert.strictEqual(currentOptions.global[0], "foo");
+            assert.strictEqual(currentOptions.global[1], "bar");
         });
 
         it("should not split on colons", () => {
             const currentOptions = options.parse("--global foo:false,bar:true");
 
             assert.isArray(currentOptions.global);
-            assert.equal(currentOptions.global.length, 2);
-            assert.equal(currentOptions.global[0], "foo:false");
-            assert.equal(currentOptions.global[1], "bar:true");
+            assert.strictEqual(currentOptions.global.length, 2);
+            assert.strictEqual(currentOptions.global[0], "foo:false");
+            assert.strictEqual(currentOptions.global[1], "bar:true");
         });
 
         it("should concatenate successive occurrences", () => {
             const currentOptions = options.parse("--global foo:true --global bar:false");
 
             assert.isArray(currentOptions.global);
-            assert.equal(currentOptions.global.length, 2);
-            assert.equal(currentOptions.global[0], "foo:true");
-            assert.equal(currentOptions.global[1], "bar:false");
+            assert.strictEqual(currentOptions.global.length, 2);
+            assert.strictEqual(currentOptions.global[0], "foo:true");
+            assert.strictEqual(currentOptions.global[1], "bar:false");
         });
     });
 
@@ -261,26 +261,26 @@ describe("options", () => {
             const currentOptions = options.parse("--plugin single");
 
             assert.isArray(currentOptions.plugin);
-            assert.equal(currentOptions.plugin.length, 1);
-            assert.equal(currentOptions.plugin[0], "single");
+            assert.strictEqual(currentOptions.plugin.length, 1);
+            assert.strictEqual(currentOptions.plugin[0], "single");
         });
 
         it("should return an array when passed a comma-delimiated string", () => {
             const currentOptions = options.parse("--plugin foo,bar");
 
             assert.isArray(currentOptions.plugin);
-            assert.equal(currentOptions.plugin.length, 2);
-            assert.equal(currentOptions.plugin[0], "foo");
-            assert.equal(currentOptions.plugin[1], "bar");
+            assert.strictEqual(currentOptions.plugin.length, 2);
+            assert.strictEqual(currentOptions.plugin[0], "foo");
+            assert.strictEqual(currentOptions.plugin[1], "bar");
         });
 
         it("should return an array when passed multiple times", () => {
             const currentOptions = options.parse("--plugin foo --plugin bar");
 
             assert.isArray(currentOptions.plugin);
-            assert.equal(currentOptions.plugin.length, 2);
-            assert.equal(currentOptions.plugin[0], "foo");
-            assert.equal(currentOptions.plugin[1], "bar");
+            assert.strictEqual(currentOptions.plugin.length, 2);
+            assert.strictEqual(currentOptions.plugin[0], "foo");
+            assert.strictEqual(currentOptions.plugin[1], "bar");
         });
     });
 
@@ -296,13 +296,13 @@ describe("options", () => {
         it("should return correct value for .maxWarnings when passed", () => {
             const currentOptions = options.parse("--max-warnings 10");
 
-            assert.equal(currentOptions.maxWarnings, 10);
+            assert.strictEqual(currentOptions.maxWarnings, 10);
         });
 
         it("should return -1 for .maxWarnings when not passed", () => {
             const currentOptions = options.parse("");
 
-            assert.equal(currentOptions.maxWarnings, -1);
+            assert.strictEqual(currentOptions.maxWarnings, -1);
         });
 
         it("should throw an error when supplied with a non-integer", () => {
@@ -354,7 +354,7 @@ describe("options", () => {
         it("should return a string for --parser when passed", () => {
             const currentOptions = options.parse("--parser test");
 
-            assert.equal(currentOptions.parser, "test");
+            assert.strictEqual(currentOptions.parser, "test");
         });
     });
 

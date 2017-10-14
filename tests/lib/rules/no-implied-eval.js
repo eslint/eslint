@@ -92,14 +92,14 @@ ruleTester.run("no-implied-eval", rule, {
                 {
                     message: expectedErrorMessage,
                     type: "CallExpression",
-                    line: "1"
+                    line: 1
                 },
 
                 // no error on line 2
                 {
                     message: expectedErrorMessage,
                     type: "CallExpression",
-                    line: "3"
+                    line: 3
                 }
             ]
         }

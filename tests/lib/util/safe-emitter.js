@@ -19,12 +19,12 @@ describe("safe-emitter", () => {
             emitter.on("bar", () => colors.push("green"));
 
             emitter.emit("foo");
-            assert.deepEqual(colors, ["red", "blue"]);
+            assert.deepStrictEqual(colors, ["red", "blue"]);
 
             emitter.on("bar", color => colors.push(color));
             emitter.emit("bar", "yellow");
 
-            assert.deepEqual(colors, ["red", "blue", "green", "yellow"]);
+            assert.deepStrictEqual(colors, ["red", "blue", "green", "yellow"]);
         });
 
         it("calls listeners with no `this` value", () => {

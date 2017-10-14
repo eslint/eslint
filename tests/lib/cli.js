@@ -98,21 +98,21 @@ describe("cli", () => {
             const configFile = getFixturePath("configurations", "quotes-error.json");
             const result = cli.execute(`-c ${configFile}`, "var foo = 'bar';");
 
-            assert.equal(result, 1);
+            assert.strictEqual(result, 1);
         });
 
         it("should return no error when --ext .js2 is specified", () => {
             const filePath = getFixturePath("files");
             const result = cli.execute(`--ext .js2 ${filePath}`);
 
-            assert.equal(result, 0);
+            assert.strictEqual(result, 0);
         });
 
         it("should exit with console error when passed unsupported arguments", () => {
             const filePath = getFixturePath("files");
             const result = cli.execute(`--blah --another ${filePath}`);
 
-            assert.equal(result, 1);
+            assert.strictEqual(result, 1);
         });
 
     });
@@ -154,7 +154,7 @@ describe("cli", () => {
 
             const exitStatus = cli.execute(code);
 
-            assert.equal(exitStatus, 1);
+            assert.strictEqual(exitStatus, 1);
         });
     });
 
@@ -170,7 +170,7 @@ describe("cli", () => {
                 exitStatus = cli.execute(code);
             });
 
-            assert.equal(exitStatus, 0);
+            assert.strictEqual(exitStatus, 0);
         });
     });
 
@@ -182,7 +182,7 @@ describe("cli", () => {
 
             const exit = cli.execute(code);
 
-            assert.equal(exit, 0);
+            assert.strictEqual(exit, 0);
         });
     });
 
@@ -194,7 +194,7 @@ describe("cli", () => {
 
             const exit = cli.execute(code);
 
-            assert.equal(exit, 0);
+            assert.strictEqual(exit, 0);
         });
     });
 
@@ -206,7 +206,7 @@ describe("cli", () => {
 
             const exit = cli.execute(code);
 
-            assert.equal(exit, 0);
+            assert.strictEqual(exit, 0);
         });
     });
 
@@ -218,7 +218,7 @@ describe("cli", () => {
 
             const exit = cli.execute(code);
 
-            assert.equal(exit, 0);
+            assert.strictEqual(exit, 0);
         });
     });
 
@@ -227,7 +227,7 @@ describe("cli", () => {
             const filePath = getFixturePath("passing.js");
             const exit = cli.execute(`-f checkstyle ${filePath}`);
 
-            assert.equal(exit, 0);
+            assert.strictEqual(exit, 0);
         });
     });
 
@@ -236,7 +236,7 @@ describe("cli", () => {
             const filePath = getFixturePath("passing.js");
             const exit = cli.execute(`-f fakeformatter ${filePath}`);
 
-            assert.equal(exit, 1);
+            assert.strictEqual(exit, 1);
         });
     });
 
@@ -246,7 +246,7 @@ describe("cli", () => {
             const filePath = getFixturePath("passing.js");
             const exit = cli.execute(`-f ${formatterPath} ${filePath}`);
 
-            assert.equal(exit, 0);
+            assert.strictEqual(exit, 0);
         });
     });
 
@@ -256,7 +256,7 @@ describe("cli", () => {
             const filePath = getFixturePath("passing.js");
             const exit = cli.execute(`-f ${formatterPath} ${filePath}`);
 
-            assert.equal(exit, 1);
+            assert.strictEqual(exit, 1);
         });
     });
 
@@ -267,7 +267,7 @@ describe("cli", () => {
 
             const exit = cli.execute(code);
 
-            assert.equal(exit, 1);
+            assert.strictEqual(exit, 1);
         });
     });
 
@@ -276,7 +276,7 @@ describe("cli", () => {
             const filePath = getFixturePath("syntax-error.js");
             const exit = cli.execute(`--no-ignore ${filePath}`);
 
-            assert.equal(exit, 1);
+            assert.strictEqual(exit, 1);
         });
     });
 
@@ -301,7 +301,7 @@ describe("cli", () => {
         it("should print out current version", () => {
             cli.execute("-v");
 
-            assert.equal(log.info.callCount, 1);
+            assert.strictEqual(log.info.callCount, 1);
         });
     });
 
@@ -309,7 +309,7 @@ describe("cli", () => {
         it("should print out help", () => {
             cli.execute("-h");
 
-            assert.equal(log.info.callCount, 1);
+            assert.strictEqual(log.info.callCount, 1);
         });
     });
 
@@ -320,7 +320,7 @@ describe("cli", () => {
             const exit = cli.execute(`--ignore-path ${ignorePath} ${filePath}`);
 
             assert.isTrue(log.info.notCalled);
-            assert.equal(exit, 0);
+            assert.strictEqual(exit, 0);
         });
     });
 
@@ -333,7 +333,7 @@ describe("cli", () => {
 
             // a warning about the ignored file
             assert.isTrue(log.info.called);
-            assert.equal(exit, 0);
+            assert.strictEqual(exit, 0);
         });
 
         it("should process the file when forced", () => {
@@ -343,7 +343,7 @@ describe("cli", () => {
 
             // no warnings
             assert.isFalse(log.info.called);
-            assert.equal(exit, 0);
+            assert.strictEqual(exit, 0);
         });
     });
 
@@ -355,7 +355,7 @@ describe("cli", () => {
 
             // warnings about the ignored files
             assert.isTrue(log.info.called);
-            assert.equal(exit, 0);
+            assert.strictEqual(exit, 0);
         });
     });
 
@@ -379,7 +379,7 @@ describe("cli", () => {
             const filePath = getFixturePath("shebang.js");
             const exit = cli.execute(`--no-ignore ${filePath}`);
 
-            assert.equal(exit, 0);
+            assert.strictEqual(exit, 0);
         });
     });
 
@@ -394,7 +394,7 @@ describe("cli", () => {
             assert.throws(() => {
                 const exit = cli.execute(code);
 
-                assert.equal(exit, 1);
+                assert.strictEqual(exit, 1);
             }, /Error while loading rule 'custom-rule': Cannot read property/);
         });
 
@@ -425,7 +425,7 @@ describe("cli", () => {
             assert.isTrue(call.args[0].indexOf("Literal!") > -1);
             assert.isTrue(call.args[0].indexOf("2 problems") > -1);
             assert.isTrue(log.info.neverCalledWith(""));
-            assert.equal(exit, 1);
+            assert.strictEqual(exit, 1);
         });
 
 
@@ -437,7 +437,7 @@ describe("cli", () => {
             const exit = cli.execute(`--no-eslintrc --no-ignore ${filePath}`);
 
             assert.isTrue(log.info.notCalled);
-            assert.equal(exit, 0);
+            assert.strictEqual(exit, 0);
         });
     });
 
@@ -447,7 +447,7 @@ describe("cli", () => {
             const exit = cli.execute(`--no-ignore ${filePath}`);
 
             assert.isTrue(log.info.calledOnce);
-            assert.equal(exit, 1);
+            assert.strictEqual(exit, 1);
         });
     });
 
@@ -460,7 +460,7 @@ describe("cli", () => {
 
             cli.execute(`--no-eslintrc --config ./conf/eslint-recommended.js --no-ignore ${files.join(" ")}`);
 
-            assert.equal(log.info.args[0][0].split("\n").length, 11);
+            assert.strictEqual(log.info.args[0][0].split("\n").length, 11);
         });
     });
 
@@ -470,7 +470,7 @@ describe("cli", () => {
             const exit = cli.execute(`--global baz,bat --no-ignore --rule no-global-assign:2 ${filePath}`);
 
             assert.isTrue(log.info.calledOnce);
-            assert.equal(exit, 1);
+            assert.strictEqual(exit, 1);
         });
 
         it("should allow defining writable global variables", () => {
@@ -478,7 +478,7 @@ describe("cli", () => {
             const exit = cli.execute(`--global baz:false,bat:true --no-ignore ${filePath}`);
 
             assert.isTrue(log.info.notCalled);
-            assert.equal(exit, 0);
+            assert.strictEqual(exit, 0);
         });
 
         it("should allow defining variables with multiple flags", () => {
@@ -486,7 +486,7 @@ describe("cli", () => {
             const exit = cli.execute(`--global baz --global bat:true --no-ignore ${filePath}`);
 
             assert.isTrue(log.info.notCalled);
-            assert.equal(exit, 0);
+            assert.strictEqual(exit, 0);
         });
     });
 
@@ -496,7 +496,7 @@ describe("cli", () => {
             const code = `--no-ignore --rule 'quotes: [2, double]' ${filePath}`;
             const exitStatus = cli.execute(code);
 
-            assert.equal(exitStatus, 1);
+            assert.strictEqual(exitStatus, 1);
         });
     });
 
@@ -550,7 +550,7 @@ describe("cli", () => {
 
             const exit = cli.execute(code);
 
-            assert.equal(exit, 1);
+            assert.strictEqual(exit, 1);
             assert.isTrue(log.info.notCalled);
             assert.isTrue(log.error.calledOnce);
         });
@@ -563,7 +563,7 @@ describe("cli", () => {
 
             const exit = cli.execute(code);
 
-            assert.equal(exit, 1);
+            assert.strictEqual(exit, 1);
             assert.isTrue(log.info.notCalled);
             assert.isTrue(log.error.calledOnce);
         });
@@ -586,14 +586,14 @@ describe("cli", () => {
             const filePath = getFixturePath("passing.js");
             const exit = cli.execute(`--no-ignore --parser test111 ${filePath}`);
 
-            assert.equal(exit, 1);
+            assert.strictEqual(exit, 1);
         });
 
         it("should exit with no error if parser is valid", () => {
             const filePath = getFixturePath("passing.js");
             const exit = cli.execute(`--no-ignore --parser espree ${filePath}`);
 
-            assert.equal(exit, 0);
+            assert.strictEqual(exit, 0);
         });
     });
 
@@ -602,28 +602,28 @@ describe("cli", () => {
             const filePath = getFixturePath("passing.js");
             const exit = cli.execute(`--no-ignore --parser-options test111 ${filePath}`);
 
-            assert.equal(exit, 1);
+            assert.strictEqual(exit, 1);
         });
 
         it("should exit with no error if parser is valid", () => {
             const filePath = getFixturePath("passing.js");
             const exit = cli.execute(`--no-ignore --parser-options=ecmaVersion:6 ${filePath}`);
 
-            assert.equal(exit, 0);
+            assert.strictEqual(exit, 0);
         });
 
         it("should exit with an error on ecmaVersion 7 feature in ecmaVersion 6", () => {
             const filePath = getFixturePath("passing-es7.js");
             const exit = cli.execute(`--no-ignore --parser-options=ecmaVersion:6 ${filePath}`);
 
-            assert.equal(exit, 1);
+            assert.strictEqual(exit, 1);
         });
 
         it("should exit with no error on ecmaVersion 7 feature in ecmaVersion 7", () => {
             const filePath = getFixturePath("passing-es7.js");
             const exit = cli.execute(`--no-ignore --parser-options=ecmaVersion:7 ${filePath}`);
 
-            assert.equal(exit, 0);
+            assert.strictEqual(exit, 0);
         });
 
         it("should exit with no error on ecmaVersion 7 feature with config ecmaVersion 6 and command line ecmaVersion 7", () => {
@@ -631,7 +631,7 @@ describe("cli", () => {
             const filePath = getFixturePath("passing-es7.js");
             const exit = cli.execute(`--no-ignore --config ${configPath} --parser-options=ecmaVersion:7 ${filePath}`);
 
-            assert.equal(exit, 0);
+            assert.strictEqual(exit, 0);
         });
     });
 
@@ -640,14 +640,14 @@ describe("cli", () => {
             const filePath = getFixturePath("max-warnings");
             const exitCode = cli.execute(`--no-ignore --max-warnings 10 ${filePath}`);
 
-            assert.equal(exitCode, 0);
+            assert.strictEqual(exitCode, 0);
         });
 
         it("should exit with exit code 1 if warning count exceeds threshold", () => {
             const filePath = getFixturePath("max-warnings");
             const exitCode = cli.execute(`--no-ignore --max-warnings 5 ${filePath}`);
 
-            assert.equal(exitCode, 1);
+            assert.strictEqual(exitCode, 1);
             assert.ok(log.error.calledOnce);
             assert.include(log.error.getCall(0).args[0], "ESLint found too many warnings");
         });
@@ -656,14 +656,14 @@ describe("cli", () => {
             const filePath = getFixturePath("max-warnings");
             const exitCode = cli.execute(`--no-ignore --max-warnings 6 ${filePath}`);
 
-            assert.equal(exitCode, 0);
+            assert.strictEqual(exitCode, 0);
         });
 
         it("should not change exit code if flag is not specified and there are warnings", () => {
             const filePath = getFixturePath("max-warnings");
             const exitCode = cli.execute(filePath);
 
-            assert.equal(exitCode, 0);
+            assert.strictEqual(exitCode, 0);
         });
     });
 
@@ -728,7 +728,7 @@ describe("cli", () => {
 
             const exitCode = localCLI.execute(".");
 
-            assert.equal(exitCode, 0);
+            assert.strictEqual(exitCode, 0);
 
         });
 
@@ -764,7 +764,7 @@ describe("cli", () => {
 
             const exitCode = localCLI.execute("--fix .");
 
-            assert.equal(exitCode, 0);
+            assert.strictEqual(exitCode, 0);
 
         });
 
@@ -800,7 +800,7 @@ describe("cli", () => {
 
             const exitCode = localCLI.execute("--fix .");
 
-            assert.equal(exitCode, 1);
+            assert.strictEqual(exitCode, 1);
 
         });
 
@@ -837,7 +837,7 @@ describe("cli", () => {
 
             const exitCode = localCLI.execute("--fix --quiet .");
 
-            assert.equal(exitCode, 0);
+            assert.strictEqual(exitCode, 0);
 
         });
 
@@ -853,7 +853,7 @@ describe("cli", () => {
 
             const exitCode = localCLI.execute("--fix .", "foo = bar;");
 
-            assert.equal(exitCode, 1);
+            assert.strictEqual(exitCode, 1);
         });
 
     });
@@ -887,7 +887,7 @@ describe("cli", () => {
 
             const exitCode = localCLI.execute("--fix-dry-run .");
 
-            assert.equal(exitCode, 0);
+            assert.strictEqual(exitCode, 0);
 
         });
 
@@ -923,7 +923,7 @@ describe("cli", () => {
 
             const exitCode = localCLI.execute("--fix-dry-run .");
 
-            assert.equal(exitCode, 1);
+            assert.strictEqual(exitCode, 1);
 
         });
 
@@ -960,7 +960,7 @@ describe("cli", () => {
 
             const exitCode = localCLI.execute("--fix-dry-run --quiet .");
 
-            assert.equal(exitCode, 0);
+            assert.strictEqual(exitCode, 0);
 
         });
 
@@ -996,7 +996,7 @@ describe("cli", () => {
 
             const exitCode = localCLI.execute("--fix-dry-run .", "foo = bar;");
 
-            assert.equal(exitCode, 1);
+            assert.strictEqual(exitCode, 1);
         });
 
         it("should not call CLIEngine and return 1 when used with --fix", () => {
@@ -1011,7 +1011,7 @@ describe("cli", () => {
 
             const exitCode = localCLI.execute("--fix --fix-dry-run .", "foo = bar;");
 
-            assert.equal(exitCode, 1);
+            assert.strictEqual(exitCode, 1);
         });
     });
 
@@ -1022,7 +1022,7 @@ describe("cli", () => {
             const exitCode = cli.execute(`--print-config ${filePath}`);
 
             assert.isTrue(log.info.calledOnce);
-            assert.equal(exitCode, 0);
+            assert.strictEqual(exitCode, 0);
         });
 
         it("should error if any positional file arguments are passed", () => {
@@ -1033,7 +1033,7 @@ describe("cli", () => {
 
             assert.isTrue(log.info.notCalled);
             assert.isTrue(log.error.calledOnce);
-            assert.equal(exitCode, 1);
+            assert.strictEqual(exitCode, 1);
         });
 
         it("should error out when executing on text", () => {
@@ -1041,7 +1041,7 @@ describe("cli", () => {
 
             assert.isTrue(log.info.notCalled);
             assert.isTrue(log.error.calledOnce);
-            assert.equal(exitCode, 1);
+            assert.strictEqual(exitCode, 1);
         });
     });
 

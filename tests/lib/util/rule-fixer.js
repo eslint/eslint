@@ -23,7 +23,7 @@ describe("RuleFixer", () => {
 
             const result = ruleFixer.insertTextBefore({ range: [0, 1] }, "Hi");
 
-            assert.deepEqual(result, {
+            assert.deepStrictEqual(result, {
                 range: [0, 0],
                 text: "Hi"
             });
@@ -38,7 +38,7 @@ describe("RuleFixer", () => {
 
             const result = ruleFixer.insertTextBeforeRange([0, 1], "Hi");
 
-            assert.deepEqual(result, {
+            assert.deepStrictEqual(result, {
                 range: [0, 0],
                 text: "Hi"
             });
@@ -53,7 +53,7 @@ describe("RuleFixer", () => {
 
             const result = ruleFixer.insertTextAfter({ range: [0, 1] }, "Hi");
 
-            assert.deepEqual(result, {
+            assert.deepStrictEqual(result, {
                 range: [1, 1],
                 text: "Hi"
             });
@@ -68,7 +68,7 @@ describe("RuleFixer", () => {
 
             const result = ruleFixer.insertTextAfterRange([0, 1], "Hi");
 
-            assert.deepEqual(result, {
+            assert.deepStrictEqual(result, {
                 range: [1, 1],
                 text: "Hi"
             });
@@ -83,7 +83,7 @@ describe("RuleFixer", () => {
 
             const result = ruleFixer.remove({ range: [0, 1] });
 
-            assert.deepEqual(result, {
+            assert.deepStrictEqual(result, {
                 range: [0, 1],
                 text: ""
             });
@@ -98,7 +98,7 @@ describe("RuleFixer", () => {
 
             const result = ruleFixer.removeRange([0, 1]);
 
-            assert.deepEqual(result, {
+            assert.deepStrictEqual(result, {
                 range: [0, 1],
                 text: ""
             });
@@ -114,7 +114,7 @@ describe("RuleFixer", () => {
 
             const result = ruleFixer.replaceText({ range: [0, 1] }, "Hi");
 
-            assert.deepEqual(result, {
+            assert.deepStrictEqual(result, {
                 range: [0, 1],
                 text: "Hi"
             });
@@ -129,7 +129,7 @@ describe("RuleFixer", () => {
 
             const result = ruleFixer.replaceTextRange([0, 1], "Hi");
 
-            assert.deepEqual(result, {
+            assert.deepStrictEqual(result, {
                 range: [0, 1],
                 text: "Hi"
             });

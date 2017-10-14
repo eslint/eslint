@@ -606,7 +606,7 @@ describe("RuleTester", () => {
                     }
                 ]
             });
-            assert.equal(spy.args[1][1].parser, "esprima");
+            assert.strictEqual(spy.args[1][1].parser, "esprima");
         });
     });
 
@@ -697,7 +697,7 @@ describe("RuleTester", () => {
 
         RuleTester.setDefaultConfig(config);
         RuleTester.resetDefaultConfig();
-        assert.deepEqual(
+        assert.deepStrictEqual(
             RuleTester.getDefaultConfig(),
             { rules: {} },
             "The default configuration has not reset correctly"
