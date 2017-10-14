@@ -26,6 +26,28 @@ For example, to restrict the use of all Node.js core modules (via https://github
 }
 ```
 
+You may also specify a custom message for any paths you want to restrict as follows:
+
+```json
+"no-restricted-modules": ["error", [{
+  "name": "foo-module",
+  "message": "Please use bar-module instead."
+}]]
+```
+
+or like this:
+
+```json
+"no-restricted-modules": ["error", {
+  "paths": [{
+    "name": "foo-module",
+    "message": "Please use bar-module instead."
+  }]
+}]
+```
+
+The custom message will be appended to the default error message. Please note that you may not specify custom error messages for restricted patterns as a particular module may match more than one pattern.
+
 Examples of **incorrect** code for this rule with sample `"fs", "cluster"` restricted modules:
 
 ```js
