@@ -304,5 +304,12 @@ ruleTester.run("quote-props", rule, {
         errors: [{
             message: "Unquoted property '5' found."
         }]
+    }, {
+        code: "({ foo: 0, 'bar': 0 })",
+        output: "({ foo: 0, bar: 0 })",
+        options: ["never"],
+        errors: [
+            { message: "Quoted property or property requiring quotes 'bar' found.", type: "Property" }
+        ]
     }]
 });
