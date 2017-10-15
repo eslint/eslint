@@ -122,21 +122,35 @@ describe("bin/eslint.js", () => {
             return assertExitCode(child, 1);
         });
 
-        it("gives a detailed error message if no config file is found in / or in ~/", () => {
+        it(
+            "gives a detailed error message if no config file is found in /",
+            () => {
+                if (
+                    fs.readdirSync("/").some(
+                        fileName =>
+                            /^\.eslintrc(?:\.(?:js|yaml|yml|json))?$/
+                                .test(fileName)
+                    )
+                ) {
+                    return Promise.resolve(true);
+                }
+                const child = runESLint(
+                    ["--stdin"], { cwd: "/", env: { HOME: "/" } }
+                );
 
-            // Assumes the root and home directories have no .eslintrc file.
-            const child = runESLint(["--stdin"], { cwd: "/" });
+                const exitCodePromise = assertExitCode(child, 1);
+                const stderrPromise = getOutput(child).then(output => {
+                    assert.match(
+                        output.stderr,
+                        /ESLint couldn't find a configuration file/
+                    );
+                });
 
-            const exitCodePromise = assertExitCode(child, 1);
-            const stdoutPromise = getOutput(child).then(output => {
-                assert.match(output.stderr, /ESLint couldn't find a configuration file/);
-            });
-
-            child.stdin.write("var foo = bar\n");
-            child.stdin.end();
-
-            return Promise.all([exitCodePromise, stdoutPromise]);
-        });
+                child.stdin.write("1 < 3;\n");
+                child.stdin.end();
+                return Promise.all([exitCodePromise, stderrPromise]);
+            }
+        );
 
     });
 
