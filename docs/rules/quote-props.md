@@ -44,6 +44,7 @@ String option:
 * `"as-needed"` disallows quotes around object literal property names that are not strictly required
 * `"consistent"` enforces a consistent quote style requires quotes around object literal property names
 * `"consistent-as-needed"` requires quotes around all object literal property names if any name strictly requires quotes, otherwise disallows quotes around object property names
+* `"never"` disallows quotes around any object literal property names, and also rejects instances where quotes are strictly required
 
 Object option:
 
@@ -207,6 +208,32 @@ var object1 = {
 var object2 = {
     foo: 'bar',
     baz: 42
+};
+```
+
+### never
+
+Examples of **incorrect** code for this rule with the `"never"` option:
+
+```js
+/*eslint quote-props: ["error", "never"]*/
+
+var object1 = {
+    "foo": "bar",
+    'baz': 42,
+    qux-lorem: true
+};
+
+```
+
+Examples of **correct** code for this rule with the `"never"` option:
+
+```js
+/*eslint quote-props: ["error", "never"]*/
+
+var object1 = {
+    foo: "bar",
+    baz: 42,
 };
 ```
 
