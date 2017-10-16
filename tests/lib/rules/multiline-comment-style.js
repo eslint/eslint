@@ -92,6 +92,12 @@ ruleTester.run("multiline-comment-style", rule, {
             // The following line comment
             // contains '*/'.
         `,
+
+        // https://github.com/eslint/eslint/issues/9461
+        `
+            //foo
+            ///bar
+        `,
         {
             code: `
                 // The following line comment
