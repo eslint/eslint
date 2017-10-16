@@ -333,6 +333,17 @@ Example:
 
     eslint -f ./customformat.js file.js
 
+An npm-installed formatter is resolved with or without `eslint-formatter-` prefix.
+
+Example:
+
+    npm install eslint-formatter-pretty
+
+    eslint -f pretty file.js
+
+    // equivalent:
+    eslint -f eslint-formatter-pretty file.js
+
 When specified, the given format is output to the console. If you'd like to save that output into a file, you can do so on the command line like so:
 
     eslint -f compact file.js > results.txt

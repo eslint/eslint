@@ -2685,6 +2685,42 @@ describe("CLIEngine", () => {
             assert.isFunction(formatter);
         });
 
+        it("should return a function when a formatter prefixed with eslint-formatter is requested", () => {
+            const engine = new CLIEngine({
+                    cwd: getFixturePath("cli-engine")
+                }),
+                formatter = engine.getFormatter("bar");
+
+            assert.isFunction(formatter);
+        });
+
+        it("should return a function when a formatter is requested, also when the eslint-formatter prefix is included in the format argument", () => {
+            const engine = new CLIEngine({
+                    cwd: getFixturePath("cli-engine")
+                }),
+                formatter = engine.getFormatter("eslint-formatter-bar");
+
+            assert.isFunction(formatter);
+        });
+
+        it("should return a function when a formatter is requested within a scoped npm package", () => {
+            const engine = new CLIEngine({
+                    cwd: getFixturePath("cli-engine")
+                }),
+                formatter = engine.getFormatter("@somenamespace/foo");
+
+            assert.isFunction(formatter);
+        });
+
+        it("should return a function when a formatter is requested within a scoped npm package, also when the eslint-formatter prefix is included in the format argument", () => {
+            const engine = new CLIEngine({
+                    cwd: getFixturePath("cli-engine")
+                }),
+                formatter = engine.getFormatter("@somenamespace/eslint-formatter-foo");
+
+            assert.isFunction(formatter);
+        });
+
         it("should return null when a customer formatter doesn't exist", () => {
             const engine = new CLIEngine(),
                 formatterPath = getFixturePath("formatters", "doesntexist.js");
