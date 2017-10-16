@@ -146,6 +146,13 @@ ruleTester.run("multiline-comment-style", rule, {
         },
         {
             code: `
+                /* this is
+                   a comment */ foo;
+            `,
+            options: ["separate-lines"]
+        },
+        {
+            code: `
                 /* eslint semi: "error" */
             `,
             options: ["separate-lines"]
@@ -322,6 +329,21 @@ ruleTester.run("multiline-comment-style", rule, {
                  * the last line of this comment
                  * is misaligned
                  */
+            `,
+            errors: [{ message: ALIGNMENT_ERROR, line: 5 }]
+        },
+        {
+            code: `
+                /*
+                 * the last line of this comment
+                 * is misaligned
+                   */ foo
+            `,
+            output: `
+                /*
+                 * the last line of this comment
+                 * is misaligned
+                 */ foo
             `,
             errors: [{ message: ALIGNMENT_ERROR, line: 5 }]
         },
