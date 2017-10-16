@@ -92,12 +92,6 @@ ruleTester.run("multiline-comment-style", rule, {
             // The following line comment
             // contains '*/'.
         `,
-
-        // https://github.com/eslint/eslint/issues/9461
-        `
-            //foo
-            ///bar
-        `,
         {
             code: `
                 // The following line comment
@@ -227,6 +221,14 @@ ruleTester.run("multiline-comment-style", rule, {
                  * line comments
                  */
             `,
+            errors: [{ message: EXPECTED_BLOCK_ERROR, line: 2 }]
+        },
+        {
+            code: `
+                //foo
+                ///bar
+            `,
+            output: null,
             errors: [{ message: EXPECTED_BLOCK_ERROR, line: 2 }]
         },
         {
