@@ -706,8 +706,8 @@ Example usage:
 ```js
 "use strict";
 
-const rule = require("../../../lib/rules/my-rule");
-const RuleTester = require("eslint").RuleTester;
+const rule = require("../../../lib/rules/my-rule"),
+    RuleTester = require("eslint").RuleTester;
 
 const ruleTester = new RuleTester();
 
@@ -789,9 +789,9 @@ Example of customizing `RuleTester`:
 ```js
 "use strict";
 
-const RuleTester = require("eslint").RuleTester;
-const test = require("my-test-runner");
-const myRule = require("../../../lib/rules/my-rule");
+const RuleTester = require("eslint").RuleTester,
+    test = require("my-test-runner"),
+    myRule = require("../../../lib/rules/my-rule");
 
 RuleTester.describe = function(text, method) {
     RuleTester.it.title = text;
