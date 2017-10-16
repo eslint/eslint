@@ -218,8 +218,8 @@ describe("ConfigOps", () => {
 
         it("should combine configs when passed configs with parserOptions", () => {
             const config = [
-                { parserOptions: { ecmaFeatures: { blockBindings: true } } },
-                { parserOptions: { ecmaFeatures: { forOf: true } } }
+                { parserOptions: { ecmaFeatures: { jsx: true } } },
+                { parserOptions: { ecmaFeatures: { globalReturn: true } } }
             ];
 
             const result = ConfigOps.merge(config[0], config[1]);
@@ -227,21 +227,21 @@ describe("ConfigOps", () => {
             assert.deepStrictEqual(result, {
                 parserOptions: {
                     ecmaFeatures: {
-                        blockBindings: true,
-                        forOf: true
+                        jsx: true,
+                        globalReturn: true
                     }
                 }
             });
 
             // double-check that originals were not changed
-            assert.deepStrictEqual(config[0], { parserOptions: { ecmaFeatures: { blockBindings: true } } });
-            assert.deepStrictEqual(config[1], { parserOptions: { ecmaFeatures: { forOf: true } } });
+            assert.deepStrictEqual(config[0], { parserOptions: { ecmaFeatures: { jsx: true } } });
+            assert.deepStrictEqual(config[1], { parserOptions: { ecmaFeatures: { globalReturn: true } } });
         });
 
         it("should override configs when passed configs with the same ecmaFeatures", () => {
             const config = [
-                { parserOptions: { ecmaFeatures: { forOf: false } } },
-                { parserOptions: { ecmaFeatures: { forOf: true } } }
+                { parserOptions: { ecmaFeatures: { globalReturn: false } } },
+                { parserOptions: { ecmaFeatures: { globalReturn: true } } }
             ];
 
             const result = ConfigOps.merge(config[0], config[1]);
@@ -249,7 +249,7 @@ describe("ConfigOps", () => {
             assert.deepStrictEqual(result, {
                 parserOptions: {
                     ecmaFeatures: {
-                        forOf: true
+                        globalReturn: true
                     }
                 }
             });
@@ -342,7 +342,7 @@ describe("ConfigOps", () => {
                         smile: [1, ["hi", "bye"]]
                     },
                     parserOptions: {
-                        ecmaFeatures: { blockBindings: true }
+                        ecmaFeatures: { jsx: true }
                     },
                     env: { browser: true },
                     globals: { foo: false }
@@ -355,7 +355,7 @@ describe("ConfigOps", () => {
                         smile: [1, ["xxx", "yyy"]]
                     },
                     parserOptions: {
-                        ecmaFeatures: { forOf: true }
+                        ecmaFeatures: { globalReturn: true }
                     },
                     env: { browser: false },
                     globals: { foo: true }
@@ -367,8 +367,8 @@ describe("ConfigOps", () => {
             assert.deepStrictEqual(result, {
                 parserOptions: {
                     ecmaFeatures: {
-                        blockBindings: true,
-                        forOf: true
+                        jsx: true,
+                        globalReturn: true
                     }
                 },
                 env: {
@@ -408,7 +408,7 @@ describe("ConfigOps", () => {
                     smile: [1, ["hi", "bye"]]
                 },
                 parserOptions: {
-                    ecmaFeatures: { blockBindings: true }
+                    ecmaFeatures: { jsx: true }
                 },
                 env: { browser: true },
                 globals: { foo: false }
@@ -421,7 +421,7 @@ describe("ConfigOps", () => {
                     smile: [1, ["xxx", "yyy"]]
                 },
                 parserOptions: {
-                    ecmaFeatures: { forOf: true }
+                    ecmaFeatures: { globalReturn: true }
                 },
                 env: { browser: false },
                 globals: { foo: true }
