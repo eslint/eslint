@@ -69,6 +69,8 @@ Otherwise, team members should observe a waiting period before merging a pull re
 
 The waiting period ensures that other team members have a chance to review the pull request before it is merged.
 
+If the pull request was created from a branch on the `eslint/eslint` repository (as opposed to a fork), delete the branch after merging the pull request. (GitHub will display a "Delete branch" button after the pull request is merged.)
+
 **Note:** You should not merge your own pull request unless you're received feedback from at least one other team member.
 
 ## When to Close a Pull Request
