@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const rule = require("../../tools/internal-rules/internal-no-invalid-meta"),
+const rule = require("../../../tools/internal-rules/internal-no-invalid-meta"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
