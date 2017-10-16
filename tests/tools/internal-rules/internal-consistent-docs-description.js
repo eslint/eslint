@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const rule = require("../../tools/internal-rules/internal-consistent-docs-description"),
+const rule = require("../../../tools/internal-rules/internal-consistent-docs-description"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
