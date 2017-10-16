@@ -499,6 +499,434 @@ ruleTester.run("valid-jsdoc", rule, {
             "function foo(){ throw new Error('Not Implemented'); }",
             options: [{ requireReturn: false }]
         },
+
+        // https://github.com/eslint/eslint/issues/9412 - different orders for jsodc tags
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @return {Number} desc\n" +
+            "* @constructor \n" +
+            "* @override\n" +
+            "* @abstract\n" +
+            "* @interface\n" +
+            "* @param {string} hi - desc\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @returns {Number} desc\n" +
+            "* @class \n" +
+            "* @inheritdoc\n" +
+            "* @virtual\n" +
+            "* @interface\n" +
+            "* @param {string} hi - desc\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @return {Number} desc\n" +
+            "* @constructor \n" +
+            "* @override\n" +
+            "* @abstract\n" +
+            "* @interface\n" +
+            "* @arg {string} hi - desc\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @returns {Number} desc\n" +
+            "* @class \n" +
+            "* @inheritdoc\n" +
+            "* @virtual\n" +
+            "* @interface\n" +
+            "* @arg {string} hi - desc\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @return {Number} desc\n" +
+            "* @constructor \n" +
+            "* @override\n" +
+            "* @abstract\n" +
+            "* @interface\n" +
+            "* @argument {string} hi - desc\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @returns {Number} desc\n" +
+            "* @class \n" +
+            "* @inheritdoc\n" +
+            "* @virtual\n" +
+            "* @interface\n" +
+            "* @argument {string} hi - desc\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @constructor \n" +
+            "* @override\n" +
+            "* @abstract\n" +
+            "* @interface\n" +
+            "* @param {string} hi - desc\n" +
+            "* @return {Number} desc\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @class \n" +
+            "* @inheritdoc\n" +
+            "* @virtual\n" +
+            "* @interface\n" +
+            "* @arg {string} hi - desc\n" +
+            "* @return {Number} desc\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @argument {string} hi - desc\n" +
+            "* @return {Number} desc\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @constructor \n" +
+            "* @override\n" +
+            "* @abstract\n" +
+            "* @interface\n" +
+            "* @param {string} hi - desc\n" +
+            "* @returns {Number} desc\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @class \n" +
+            "* @inheritdoc\n" +
+            "* @virtual\n" +
+            "* @interface\n" +
+            "* @arg {string} hi - desc\n" +
+            "* @returns {Number} desc\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @argument {string} hi - desc\n" +
+            "* @returns {Number} desc\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @override\n" +
+            "* @abstract\n" +
+            "* @interface\n" +
+            "* @param {string} hi - desc\n" +
+            "* @return {Number} desc\n" +
+            "* @constructor\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @inheritdoc\n" +
+            "* @virtual\n" +
+            "* @interface\n" +
+            "* @arg {string} hi - desc\n" +
+            "* @returns {Number} desc\n" +
+            "* @constructor\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @argument {string} hi - desc\n" +
+            "* @constructor\n" +
+            "*/\n" +
+            "function foo(hi){}",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @override\n" +
+            "* @abstract\n" +
+            "* @interface\n" +
+            "* @param {string} hi - desc\n" +
+            "* @return {Number} desc\n" +
+            "* @class\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @inheritdoc\n" +
+            "* @virtual\n" +
+            "* @interface\n" +
+            "* @arg {string} hi - desc\n" +
+            "* @returns {Number} desc\n" +
+            "* @class\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @argument {string} hi - desc\n" +
+            "* @class \n" +
+            "*/\n" +
+            "function foo(hi){}",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @abstract\n" +
+            "* @interface\n" +
+            "* @param {string} hi - desc\n" +
+            "* @return {Number} desc\n" +
+            "* @constructor\n" +
+            "* @override\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @virtual\n" +
+            "* @interface\n" +
+            "* @arg {string} hi - desc\n" +
+            "* @returns {Number} desc\n" +
+            "* @class\n" +
+            "* @override\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @argument {string} hi - desc\n" +
+            "* @override\n" +
+            "*/\n" +
+            "function foo(hi){}",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @abstract\n" +
+            "* @interface\n" +
+            "* @param {string} hi - desc\n" +
+            "* @return {Number} desc\n" +
+            "* @constructor\n" +
+            "* @inheritdoc\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @virtual\n" +
+            "* @interface\n" +
+            "* @arg {string} hi - desc\n" +
+            "* @returns {Number} desc\n" +
+            "* @class\n" +
+            "* @inheritdoc\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @argument {string} hi - desc\n" +
+            "* @inheritdoc\n" +
+            "*/\n" +
+            "function foo(hi){}",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @interface\n" +
+            "* @param {string} hi - desc\n" +
+            "* @return {Number} desc\n" +
+            "* @constructor\n" +
+            "* @override\n" +
+            "* @abstract\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @interface\n" +
+            "* @arg {string} hi - desc\n" +
+            "* @returns {Number} desc\n" +
+            "* @class\n" +
+            "* @override\n" +
+            "* @abstract\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @argument {string} hi - desc\n" +
+            "* @abstract\n" +
+            "*/\n" +
+            "function foo(hi){}",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @interface\n" +
+            "* @param {string} hi - desc\n" +
+            "* @return {Number} desc\n" +
+            "* @constructor\n" +
+            "* @override\n" +
+            "* @virtual\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @interface\n" +
+            "* @arg {string} hi - desc\n" +
+            "* @returns {Number} desc\n" +
+            "* @class\n" +
+            "* @override\n" +
+            "* @virtual\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @argument {string} hi - desc\n" +
+            "* @virtual\n" +
+            "*/\n" +
+            "function foo(hi){}",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @param {string} hi - desc\n" +
+            "* @return {Number} desc\n" +
+            "* @constructor \n" +
+            "* @override\n" +
+            "* @abstract\n" +
+            "* @interface\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @arg {string} hi - desc\n" +
+            "* @returns {Number} desc\n" +
+            "* @class\n" +
+            "* @override\n" +
+            "* @virtual\n" +
+            "* @interface\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @argument {string} hi - desc\n" +
+            "* @interface\n" +
+            "*/\n" +
+            "function foo(hi){}",
+            options: [{ requireReturn: false }]
+        },
         {
             code:
             "/**\n" +
