@@ -14,15 +14,26 @@ while (a = next(), a && a.length);
 
 ## Rule Details
 
-This rule forbids the use of the comma operator, with the following exceptions:
+This rule forbids unexpected usages of the comma operator.
 
-* In the initialization or update portions of a `for` statement.
-* If the expression sequence is explicitly wrapped in parentheses.
+## Options
 
-Examples of **incorrect** code for this rule:
+This rule has a string option:
+
+* `"ambiguous"` (default) report usages of the comma operator, except in some non-ambiguous cases:
+
+    * In the initialization or update portions of a `for` statement.
+    * If the expression sequence is explicitly wrapped in parentheses.
+
+* `"always"` report any usage of the comma operator.
+
+
+### ambiguous
+
+Examples of **incorrect** code for this rule with the default `"ambiguous"` option:
 
 ```js
-/*eslint no-sequences: "error"*/
+/*eslint no-sequences: ["error", "ambiguous"]*/
 
 foo = doSomething(), val;
 
@@ -41,10 +52,10 @@ while (val = foo(), val < 42);
 with (doSomething(), val) {}
 ```
 
-Examples of **correct** code for this rule:
+Examples of **correct** code for this rule with the default `"ambiguous"` option:
 
 ```js
-/*eslint no-sequences: "error"*/
+/*eslint no-sequences: ["error", "ambiguous"]*/
 
 foo = (doSomething(), val);
 
@@ -61,6 +72,21 @@ switch ((val = foo(), val)) {}
 while ((val = foo(), val < 42));
 
 // with ((doSomething(), val)) {}
+```
+
+### always
+
+All examples above are **incorrect** for this rule with the `"always"` option.
+
+The comma is still acceptable outside of its operator role. Example of **correct** code for this
+rule with the `"always"` option:
+
+```js
+/*eslint no-sequences: ["error", "always"]*/
+
+var i = 1, j = 2;
+
+foo = [doSomething(), vla];
 ```
 
 ## When Not To Use It

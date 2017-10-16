@@ -49,7 +49,9 @@ ruleTester.run("no-sequences", rule, {
         "switch ((doSomething(), !!test)) {}",
         "while ((doSomething(), !!test));",
         "with ((doSomething(), val)) {}",
-        { code: "a => ((doSomething(), a))", env: { es6: true } }
+        { code: "a => ((doSomething(), a))", env: { es6: true } },
+
+        { code: "var a = 1, b = 2;", options: ["always"] }
     ],
 
     // Examples of code that should trigger the rule
@@ -61,6 +63,10 @@ ruleTester.run("no-sequences", rule, {
         { code: "switch (doSomething(), val) {}", errors: errors(22) },
         { code: "while (doSomething(), !!test);", errors: errors(21) },
         { code: "with (doSomething(), val) {}", errors: errors(20) },
-        { code: "a => (doSomething(), a)", errors: errors(20), env: { es6: true } }
+        { code: "a => (doSomething(), a)", errors: errors(20), env: { es6: true } },
+
+        { code: "var foo = (1, 2);", options: ["always"], errors: errors(13) },
+        { code: "for (i = 1, j = 2;; i++);", options: ["always"], errors: errors(11) },
+        { code: "foo(a, (b, c), d);", options: ["always"], errors: errors(10) }
     ]
 });
