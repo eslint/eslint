@@ -77,7 +77,7 @@ Here are some good commit message summary examples:
 ```
 Build: Update Travis to only test Node 0.10 (refs #734)
 Fix: Semi rule incorrectly flagging extra semicolon (fixes #840)
-Upgrade: Esprima to 1.2, switch to using Esprima comment attachment (fixes #730)
+Upgrade: Esprima to 1.2, switch to using comment attachment (fixes #730)
 ```
 
 The commit message format is important because these messages are used to create a changelog for each release. The tag and issue number help to create more consistent and useful changelogs.
