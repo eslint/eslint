@@ -21,8 +21,6 @@ $ npm install
 
 You must be connected to the Internet for this step to work. You'll see a lot of utilities being downloaded.
 
-If you have an ESLint configuration file in your home directory (such as `~/.eslintrc.js`), either delete or rename it. This will help ensure that all the tests in Step 5 pass. It will also prevent ESLint from running with an incorrect configuration in case the configuration file in your development environment becomes misnamed, moved, or deleted.
-
 ## Step 3: Add the upstream source
 
 The *upstream source* is the main ESLint repository that active development happens on. While you won't have push access to upstream, you will have pull access, allowing you to pull in the latest code whenever you want.
