@@ -64,11 +64,6 @@ ruleTester.run("camelcase", rule, {
             parserOptions: { ecmaVersion: 6 }
         },
         {
-            code: "var { category_id: category } = query;",
-            options: [{ properties: "never" }],
-            parserOptions: { ecmaVersion: 6 }
-        },
-        {
             code: "import { camelCased } from \"external module\";",
             parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
@@ -81,27 +76,15 @@ ruleTester.run("camelcase", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
-            code: "const { no_camelcased } = bar;",
-            parserOptions: { ecmaVersion: 6 },
-            options: [{ properties: "never" }]
-        },
-        {
-            code: "const { no_camelcased = false } = bar;",
-            parserOptions: { ecmaVersion: 6 },
-            options: [{ properties: "never" }]
-        },
-        {
-            code: "function foo({ no_camelcased }) {};",
-            parserOptions: { ecmaVersion: 6 },
-            options: [{ properties: "never" }]
-        },
-        {
-            code: "function foo({ no_camelcased = 'default value' }) {};",
-            parserOptions: { ecmaVersion: 6 },
-            options: [{ properties: "never" }]
-        },
-        {
             code: "function foo({ no_camelcased: camelCased }) {};",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "function foo({ camelCased = 'default value' }) {};",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "function foo({ camelCased }) {};",
             parserOptions: { ecmaVersion: 6 }
         }
     ],
@@ -348,6 +331,70 @@ ruleTester.run("camelcase", rule, {
         },
         {
             code: "function foo({ no_camelcased = 'default value' }) {};",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Identifier 'no_camelcased' is not in camel case.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "const no_camelcased = 0; function foo({ camelcased_value = no_camelcased}) {}",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Identifier 'no_camelcased' is not in camel case.",
+                    type: "Identifier"
+                },
+                {
+                    message: "Identifier 'camelcased_value' is not in camel case.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "const { bar: no_camelcased } = foo;",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Identifier 'no_camelcased' is not in camel case.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "function foo({ value_1: my_default }) {}",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Identifier 'my_default' is not in camel case.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "function foo({ isCamelcased: no_camelcased }) {};",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Identifier 'no_camelcased' is not in camel case.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "var { foo: bar_baz = 1 } = quz;",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Identifier 'bar_baz' is not in camel case.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "const { no_camelcased = false } = bar;",
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
