@@ -153,6 +153,30 @@ ruleTester.run("multiline-comment-style", rule, {
         },
         {
             code: `
+                // a comment
+
+                // another comment
+            `,
+            options: ["separate-lines"]
+        },
+        {
+            code: `
+                // a comment
+
+                // another comment
+            `,
+            options: ["bare-block"]
+        },
+        {
+            code: `
+                // a comment
+
+                // another comment
+            `,
+            options: ["starred-block"]
+        },
+        {
+            code: `
                 /* eslint semi: "error" */
             `,
             options: ["separate-lines"]
