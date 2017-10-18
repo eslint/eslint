@@ -217,6 +217,7 @@ ESLint can be [globally or locally installed](#installation-and-usage). If you i
 If you are trying to run globally, make sure your plugins are installed globally (use `npm ls -g`).
 
 If you are trying to run locally:
+
 * Make sure your plugins (and ESLint) are both in your project's `package.json` as devDependencies (or dependencies, if your project uses ESLint at runtime).
 * Make sure you have run `npm install` and all your dependencies are installed.
 
