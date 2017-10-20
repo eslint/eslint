@@ -79,7 +79,7 @@ When creating a config, users sometimes make typos or misunderstand how the conf
 
 Due to a bug, glob patterns in an `.eslintignore` file were previously resolved from the current working directory of the process, rather than the location of the `.eslintignore` file. Starting in 4.0, patterns in an `.eslintignore` file will be resolved from the `.eslintignore` file's location.
 
-**To address:** If you use an `.eslintignore` file and you frequently run eslint from somewhere other than the project root, it's possible that the patterns will be matched differently. You should update the patterns in the `.eslintignore` file to ensure they are relative to the file, not to the working directory.
+**To address:** If you use an `.eslintignore` file and you frequently run ESLint from somewhere other than the project root, it's possible that the patterns will be matched differently. You should update the patterns in the `.eslintignore` file to ensure they are relative to the file, not to the working directory.
 
 ## <a name="padded-blocks-defaults"/> The `padded-blocks` rule is more strict by default
 

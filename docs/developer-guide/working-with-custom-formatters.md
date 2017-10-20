@@ -1,6 +1,6 @@
 # Working with Custom Formatters
 
-Writing an ESlint custom formatter is simple. All that is needed is a module that exports a function that will receive the results from the execution of ESLint.
+Writing an ESLint custom formatter is simple. All that is needed is a module that exports a function that will receive the results from the execution of ESLint.
 
 The simplest formatter will be something like:
 
@@ -67,7 +67,7 @@ the list of messages for `errors` and/or `warnings`.
 
 The following are the fields of the result object:
 
-- **filePath**: The path to the file relative to the current working directory (the path from which eslint was executed).
+- **filePath**: The path to the file relative to the current working directory (the path from which ESLint was executed).
 - **messages**: An array of message objects. See below for more info about messages.
 - **errorCount**: The number of errors for the given file.
 - **warningCount**: The number of warnings for the given file.

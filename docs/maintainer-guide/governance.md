@@ -136,7 +136,7 @@ agenda item and sending it as a pull request after the meeting.
 ## Consensus Seeking Process
 
 The TSC follows a
-[Consensus Seeking](http://en.wikipedia.org/wiki/Consensus-seeking_decision-making)
+[Consensus Seeking](https://en.wikipedia.org/wiki/Consensus-seeking_decision-making)
 decision making model.
 
 When an agenda item has appeared to reach a consensus, the moderator

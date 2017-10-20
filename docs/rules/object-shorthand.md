@@ -1,6 +1,6 @@
 # Require Object Literal Shorthand Syntax (object-shorthand)
 
-EcmaScript 6 provides a concise form for defining object literal methods and properties. This
+ECMAScript 6 provides a concise form for defining object literal methods and properties. This
 syntax can make defining complex object literals much cleaner.
 
 Here are a few common examples using the ES5 syntax:

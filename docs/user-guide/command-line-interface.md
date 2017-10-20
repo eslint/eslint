@@ -154,11 +154,11 @@ Examples:
 
 #### `--parser`
 
-This option allows you to specify a parser to be used by eslint. By default, `espree` will be used.
+This option allows you to specify a parser to be used by ESLint. By default, `espree` will be used.
 
 #### `--parser-options`
 
-This option allows you to specify parser options to be used by eslint. Note that the available parser options are determined by the parser being used.
+This option allows you to specify parser options to be used by ESLint. Note that the available parser options are determined by the parser being used.
 
 Examples:
 

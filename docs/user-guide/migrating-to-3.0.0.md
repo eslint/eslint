@@ -4,7 +4,7 @@ ESLint v3.0.0 is the third major version release. We have made several breaking 
 
 ## Dropping Support for Node.js < 4
 
-With ESLint v3.0.0, we are dropping support for Node.js versions prior to 4. Node.js 0.10 and 0.12 are in [maintenance mode](https://github.com/nodejs/LTS) and Node.js 4 is the current LTS version. If you are using an older version of Node.js, we recommend upgrading to at least Node.js 4 as soon as possible. If you are unable to upgrade to Node.js 4 or higher, then we recommend continuing to use ESLint v2.x until you are ready to upgrade Node.js.
+With ESLint v3.0.0, we are dropping support for Node.js versions prior to 4. Node.js 0.10 and 0.12 are in [maintenance mode](https://github.com/nodejs/Release) and Node.js 4 is the current LTS version. If you are using an older version of Node.js, we recommend upgrading to at least Node.js 4 as soon as possible. If you are unable to upgrade to Node.js 4 or higher, then we recommend continuing to use ESLint v2.x until you are ready to upgrade Node.js.
 
 **Important:** We will not be updating the ESLint v2.x versions going forward. All bug fixes and enhancements will land in ESLint v3.x.
 

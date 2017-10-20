@@ -5,24 +5,24 @@
 * Sublime Text 3:
     * [SublimeLinter-eslint](https://github.com/roadhump/SublimeLinter-eslint)
     * [Build Next](https://github.com/albertosantini/sublimetext-buildnext)
-* [Vim](https://github.com/scrooloose/syntastic/tree/master/syntax_checkers/javascript)
+* [Vim](https://github.com/vim-syntastic/syntastic/tree/master/syntax_checkers/javascript)
 * Emacs: [Flycheck](http://www.flycheck.org/) supports ESLint with the [javascript-eslint](http://www.flycheck.org/en/latest/languages.html#javascript) checker.
 * Eclipse Orion: ESLint is the [default linter](http://dev.eclipse.org/mhonarc/lists/orion-dev/msg02718.html)
 * Eclipse IDE with [Tern ESLint linter](https://github.com/angelozerr/tern.java/wiki/Tern-Linter-ESLint)
 * [TextMate 2](https://github.com/natesilva/javascript-eslint.tmbundle)
 * Atom: [linter-eslint](https://atom.io/packages/linter-eslint)
-* [IntelliJ IDEA, RubyMine, WebStorm, PhpStorm, PyCharm, AppCode, Android Studio, 0xDBE](http://plugins.jetbrains.com/plugin/7494)
+* [IntelliJ IDEA, RubyMine, WebStorm, PhpStorm, PyCharm, AppCode, Android Studio, 0xDBE](https://plugins.jetbrains.com/plugin/7494-eslint)
 * [Visual Studio Code](https://code.visualstudio.com) with the [ESLint Extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
 
-## Build Systems
+## Build tools
 
-* Grunt: [grunt-eslint](https://npmjs.org/package/grunt-eslint)
-* Gulp: [gulp-eslint](https://npmjs.org/package/gulp-eslint)
-* Mimosa: [mimosa-eslint](https://npmjs.org/package/mimosa-eslint)
-* Broccoli: [broccoli-eslint](https://www.npmjs.org/package/broccoli-eslint)
+* Grunt: [grunt-eslint](https://www.npmjs.com/package/grunt-eslint)
+* Gulp: [gulp-eslint](https://www.npmjs.com/package/gulp-eslint)
+* Mimosa: [mimosa-eslint](https://www.npmjs.com/package/mimosa-eslint)
+* Broccoli: [broccoli-eslint](https://www.npmjs.com/package/broccoli-eslint)
 * Browserify: [eslintify](https://www.npmjs.com/package/eslintify)
-* Webpack: [eslint-loader](https://www.npmjs.org/package/eslint-loader)
-* Rollup: [rollup-plugin-eslint](https://www.npmjs.org/package/rollup-plugin-eslint)
+* Webpack: [eslint-loader](https://www.npmjs.com/package/eslint-loader)
+* Rollup: [rollup-plugin-eslint](https://www.npmjs.com/package/rollup-plugin-eslint)
 * Ember-cli: [ember-cli-eslint](https://www.npmjs.com/package/ember-cli-eslint)
 * Sails.js: [sails-hook-lint](https://www.npmjs.com/package/sails-hook-lint), [sails-eslint](https://www.npmjs.com/package/sails-eslint)
 * Start: [start-eslint](https://www.npmjs.com/package/start-eslint)
@@ -30,13 +30,13 @@
 
 ## Command Line Tools
 
-* [Eslint Watch](https://www.npmjs.com/package/eslint-watch)
+* [ESLint Watch](https://www.npmjs.com/package/eslint-watch)
 * [Code Climate CLI](https://github.com/codeclimate/codeclimate)
 * [ESLint Nibble](https://github.com/IanVS/eslint-nibble)
 
 ## Source Control
 
-* [Git Precommit Hook](https://coderwall.com/p/zq8jlq)
+* [Git Precommit Hook](https://coderwall.com/p/zq8jlq/eslint-pre-commit-hook)
 * [Git pre-commit hook that only lints staged changes](https://gist.github.com/dahjelle/8ddedf0aebd488208a9a7c829f19b9e8)
 * [overcommit Git hook manager](https://github.com/brigade/overcommit)
 
