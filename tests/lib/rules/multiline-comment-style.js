@@ -146,13 +146,6 @@ ruleTester.run("multiline-comment-style", rule, {
         },
         {
             code: `
-                /* this is
-                   a comment */ foo;
-            `,
-            options: ["separate-lines"]
-        },
-        {
-            code: `
                 /* eslint semi: "error" */
             `,
             options: ["separate-lines"]
@@ -407,6 +400,19 @@ ruleTester.run("multiline-comment-style", rule, {
                 // bar
                 // baz
                 // qux
+            `,
+            options: ["separate-lines"],
+            errors: [{ message: EXPECTED_LINES_ERROR, line: 2 }]
+        },
+        {
+            code: `
+                /* foo
+                bar */qux;
+            `,
+            output: `
+                // foo
+                // bar
+                qux;
             `,
             options: ["separate-lines"],
             errors: [{ message: EXPECTED_LINES_ERROR, line: 2 }]
