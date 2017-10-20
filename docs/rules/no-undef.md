@@ -90,7 +90,7 @@ setTimeout(function() {
 });
 ```
 
-### node
+### Node.js
 
 Examples of **correct** code for this rule with `node` environment:
 
@@ -110,4 +110,4 @@ If explicit declaration of global variables is not to your taste.
 
 ## Compatibility
 
-This rule provides compatibility with treatment of global variables in [JSHint](http://www.jshint.com) and [JSLint](http://www.jslint.com).
+This rule provides compatibility with treatment of global variables in [JSHint](http://jshint.com/) and [JSLint](http://www.jslint.com).

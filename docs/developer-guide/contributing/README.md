@@ -8,7 +8,7 @@ This guide is intended for anyone who wants to contribute to an ESLint project. 
 
 ESLint welcomes contributions from everyone and adheres to the [JS Foundation Code of Conduct](https://js.foundation/community/code-of-conduct). We kindly request that you read over our code of conduct before contributing.
 
-## [Signing the CLA](https://contribute.jquery.org/cla)
+## [Signing the CLA](https://js.foundation/CLA)
 
 In order to submit code or documentation to an ESLint project, you will need to electronically sign our [Contributor License Agreement](https://cla.js.foundation/eslint/eslint). The CLA is you giving us permission to use your contribution.
 

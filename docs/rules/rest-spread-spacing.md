@@ -140,4 +140,4 @@ You can safely disable this rule if you do not care about enforcing consistent s
 
 ## Further Reading
 
-* [Object Rest/Spread Properties for ECMAScript](https://github.com/sebmarkbage/ecmascript-rest-spread)
+* [Object Rest/Spread Properties for ECMAScript](https://github.com/tc39/proposal-object-rest-spread)
