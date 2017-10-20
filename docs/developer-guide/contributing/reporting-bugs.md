@@ -1,6 +1,6 @@
 # Reporting Bugs
 
-If you think you've found a bug in ESLint, please [create a new issue](https://github.com/eslint/eslint/issues/new) or a [pull request](/docs/developer-guide/contributing/pull-requests) on GitHub. Be sure to copy the questions from the [bug report template](https://github.com/eslint/eslint/blob/master/templates/bug-report.md).
+If you think you've found a bug in ESLint, please [create a new issue](https://github.com/eslint/eslint/issues/new) or a [pull request](/docs/developer-guide/contributing/pull-requests.md) on GitHub. Be sure to copy the questions from the [bug report template](https://github.com/eslint/eslint/blob/master/templates/bug-report.md).
 
 Please include as much detail as possible to help us properly address your issue. If we need to triage issues and constantly ask people for more detail, that's time taken away from actually fixing issues. Help us be as efficient as possible by including a lot of detail in your issues.
 
