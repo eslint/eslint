@@ -7,8 +7,8 @@ If you want to contribute to an ESLint repo, please use a GitHub pull request. T
 If you'd like to work on a pull request and you've never submitted code before, follow these steps:
 
 1. Sign our [Contributor License Agreement](https://cla.js.foundation/eslint/eslint).
-1. Set up a [development environment](../development-environment).
-1. If you want to implement a breaking change or a change to the core, ensure there's an issue that describes what you're doing and the issue has been accepted. You can create a new issue or just indicate you're [working on an existing issue](working-on-issues). Bug fixes, documentation changes, and other pull requests do not require an issue.
+1. Set up a [development environment](../development-environment.md).
+1. If you want to implement a breaking change or a change to the core, ensure there's an issue that describes what you're doing and the issue has been accepted. You can create a new issue or just indicate you're [working on an existing issue](working-on-issues.md). Bug fixes, documentation changes, and other pull requests do not require an issue.
 
 After that, you're ready to start working on code.
 
@@ -40,7 +40,7 @@ You should do all of your development for the issue in this branch.
 
 ### Step 2: Make your changes<a name="step2"></a>
 
-Make the changes to the code and tests, following the [code conventions](../code-conventions) as you go. Once you have finished, commit the changes to your branch:
+Make the changes to the code and tests, following the [code conventions](../code-conventions.md) as you go. Once you have finished, commit the changes to your branch:
 
 ```
 $ git add -A
@@ -68,7 +68,7 @@ The `Tag` is one of the following:
 * `Upgrade` - for a dependency upgrade.
 * `Chore` - for refactoring, adding tests, etc. (anything that isn't user-facing).
 
-Use the [labels of the issue you are working on](working-on-issues#issue-labels) to determine the best tag.
+Use the [labels of the issue you are working on](working-on-issues.md#issue-labels) to determine the best tag.
 
 The message summary should be a one-sentence description of the change, and it must be 72 characters in length or shorter. If the pull request addresses an issue, then the issue number should be mentioned at the end. If the commit doesn't completely fix the issue, then use `(refs #1234)` instead of `(fixes #1234)`.
 
@@ -168,7 +168,7 @@ When updating the code, it's usually better to add additional commits to your br
 
 ### Rebasing
 
-If your code is out-of-date, we might ask you to rebase. That means we want you to apply your changes on top of the latest upstream code. Make sure you have set up a [development environment](../development-environment) and then you can rebase using these commands:
+If your code is out-of-date, we might ask you to rebase. That means we want you to apply your changes on top of the latest upstream code. Make sure you have set up a [development environment](../development-environment.md) and then you can rebase using these commands:
 
 ```
 $ git fetch upstream
