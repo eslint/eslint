@@ -132,7 +132,7 @@ configs: {
 }
 ```
 
-**Note:** Please note that configuration will not automatically attach your rules and you have to specify your plugin name and any rules you want to enable that are part of the plugin. Any plugin rules must be prefixed with the short or long plugin name. See [Configuring Plugins](../user-guide/configuring#configuring-plugins)
+**Note:** Please note that configuration will not automatically attach your rules and you have to specify your plugin name and any rules you want to enable that are part of the plugin. Any plugin rules must be prefixed with the short or long plugin name. See [Configuring Plugins](../user-guide/configuring.md#configuring-plugins)
 
 ### Peer Dependency
 
@@ -149,7 +149,7 @@ The plugin support was introduced in ESLint version `0.8.0`. Ensure the `peerDep
 
 ### Testing
 
-ESLint provides the [`RuleTester`](/docs/developer-guide/nodejs-api#ruletester) utility to make it easy to test the rules of your plugin.
+ESLint provides the [`RuleTester`](/docs/developer-guide/nodejs-api.md#ruletester) utility to make it easy to test the rules of your plugin.
 
 ## Share Plugins
 

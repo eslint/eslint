@@ -358,4 +358,4 @@ You can turn this rule off if you are not concerned with the consistency of padd
 ## Related Rules
 
 * [lines-between-class-members](lines-between-class-members.md)
-* [padding-line-between-statement](padding-line-between-statement.md)
+* [padding-line-between-statements](padding-line-between-statements.md)
