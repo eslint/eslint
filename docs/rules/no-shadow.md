@@ -166,7 +166,7 @@ foo(function (err, result) {
 
 ## Further Reading
 
-* [Variable Shadowing](http://en.wikipedia.org/wiki/Variable_shadowing)
+* [Variable Shadowing](https://en.wikipedia.org/wiki/Variable_shadowing)
 
 ## Related Rules
 

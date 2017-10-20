@@ -38,7 +38,7 @@ Committers may merge a pull request if it is a non-breaking change and is:
 1. A documentation change
 1. A bug fix (for either rules or core)
 1. A dependency upgrade
-1. Related to the build system
+1. Related to the build tool
 1. A chore
 
 In addition, committers may merge any non-breaking pull request if it has been approved by at least one TSC member.
@@ -59,7 +59,7 @@ Team members may merge a pull request immediately if it:
 
 1. Makes a small documentation change
 1. Is a chore
-1. Fixes a block of other work on the repo (build-related, test-related, dependency-related, etc.)
+1. Fixes a block of other work on the repository (build-related, test-related, dependency-related, etc.)
 1. Is an important fix to get into a patch release
 
 Otherwise, team members should observe a waiting period before merging a pull request:

@@ -13,7 +13,7 @@ If you're planning on contributing to ESLint, then it's a good idea to fork the 
 Before you can get started developing, you'll need to have a couple of things installed:
 
 * [Node.JS](http://nodejs.org)
-* [npm](http://npmjs.org)
+* [npm](https://www.npmjs.com/)
 
 Once you have a local copy and have Node.JS and npm installed, you'll need to install the ESLint dependencies:
 

@@ -163,4 +163,4 @@ var [bar] = $('body'); // fails with a TypeError
 If you want to learn more about destructuring, check out the links below:
 
 - [Destructuring Assignment (MDN)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)
-- [Destructuring and parameter handling in ECMAScript 6 (2ality blog)](http://www.2ality.com/2015/01/es6-destructuring.html)
+- [Destructuring and parameter handling in ECMAScript 6 (2ality blog)](http://2ality.com/2015/01/es6-destructuring.html)

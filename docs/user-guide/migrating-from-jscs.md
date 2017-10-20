@@ -61,8 +61,8 @@ There are shareable configs available for most JSCS presets. The equivalent shar
 | `jquery`        | [`eslint-config-jquery`](https://github.com/jquery/eslint-config-jquery) |
 | `mdcs`        | [`eslint-config-mdcs`](https://github.com/zz85/mrdoobapproves) |
 | `node-style-guide`        | [`eslint-config-node-style-guide`](https://github.com/pdehaan/eslint-config-node-style-guide) |
-| `wikimedia`        | [`eslint-config-wikimedia`](https://github.com/markelog/eslint-config-wikimedia) |
-| `wordpress`        | [`eslint-config-wordpress`](https://github.com/ntwb/eslint-config-wordpress) |
+| `wikimedia`        | [`eslint-config-wikimedia`](https://github.com/wikimedia/eslint-config-wikimedia) |
+| `wordpress`        | [`eslint-config-wordpress`](https://github.com/WordPress-Coding-Standards/eslint-config-wordpress) |
 
 As an example, suppose that you are using the `airbnb` preset, so your `.jscsrc` file looks like this:
 
