@@ -115,6 +115,8 @@ Examples of **correct** code for this rule with the `"separate-lines"` option:
 // calls foo()
 foo();
 
+/* This block comment
+   is fine */ foo();
 
 ```
 
