@@ -56,7 +56,10 @@ ruleTester.run("object-property-newline", rule, {
         { code: "foo({ bar() {}, baz });", options: [{ allowMultiplePropertiesPerLine: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "foo({ [bar]: 'baz', baz })", options: [{ allowMultiplePropertiesPerLine: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "foo({ 'k1': 'val1', k2: 'val2', ...{} });", options: [{ allowMultiplePropertiesPerLine: true }], parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } } },
-        { code: "foo({\n'k1': 'val1', k2: 'val2', ...{}\n});", options: [{ allowMultiplePropertiesPerLine: true }], parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } } }
+        { code: "foo({\n'k1': 'val1', k2: 'val2', ...{}\n});", options: [{ allowMultiplePropertiesPerLine: true }], parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } } },
+        { code: "var obj = {k1: ['foo', 'bar'], k2: 'val1', k3: 'val2'};", options: [{ allowMultiplePropertiesPerLine: true }] },
+        { code: "var obj = {\nk1: ['foo', 'bar'], k2: 'val1', k3: 'val2'\n};", options: [{ allowMultiplePropertiesPerLine: true }] },
+        { code: "var obj = {\nk1: 'val1', k2: {e1: 'foo', e2: 'bar'}, k3: 'val2'\n};", options: [{ allowMultiplePropertiesPerLine: true }] }
     ],
 
     invalid: [
@@ -107,6 +110,66 @@ ruleTester.run("object-property-newline", rule, {
                     type: "ObjectExpression",
                     line: 3,
                     column: 13
+                }
+            ]
+        },
+        {
+            code: "var obj = {k1: ['foo', 'bar'], k2: 'val1'};",
+            output: "var obj = {k1: ['foo', 'bar'],\nk2: 'val1'};",
+            errors: [
+                {
+                    message: "Object properties must go on a new line.",
+                    type: "ObjectExpression",
+                    line: 1,
+                    column: 32
+                }
+            ]
+        },
+        {
+            code: "var obj = {k1: [\n'foo', 'bar'\n], k2: 'val1'};",
+            output: "var obj = {k1: [\n'foo', 'bar'\n],\nk2: 'val1'};",
+            errors: [
+                {
+                    message: "Object properties must go on a new line.",
+                    type: "ObjectExpression",
+                    line: 3,
+                    column: 4
+                }
+            ]
+        },
+        {
+            code: "var obj = {\nk1: 'val1', k2: {e1: 'foo', e2: 'bar'}, k3: 'val2'\n};",
+            output: "var obj = {\nk1: 'val1',\nk2: {e1: 'foo',\ne2: 'bar'},\nk3: 'val2'\n};",
+            errors: [
+                {
+                    message: "Object properties must go on a new line.",
+                    type: "ObjectExpression",
+                    line: 2,
+                    column: 13
+                },
+                {
+                    message: "Object properties must go on a new line.",
+                    type: "ObjectExpression",
+                    line: 2,
+                    column: 29
+                },
+                {
+                    message: "Object properties must go on a new line.",
+                    type: "ObjectExpression",
+                    line: 2,
+                    column: 41
+                }
+            ]
+        },
+        {
+            code: "var obj = {\nk1: 'val1',\nk2: {e1: 'foo', e2: 'bar'},\nk3: 'val2'\n};",
+            output: "var obj = {\nk1: 'val1',\nk2: {e1: 'foo',\ne2: 'bar'},\nk3: 'val2'\n};",
+            errors: [
+                {
+                    message: "Object properties must go on a new line.",
+                    type: "ObjectExpression",
+                    line: 3,
+                    column: 17
                 }
             ]
         },
@@ -276,6 +339,30 @@ ruleTester.run("object-property-newline", rule, {
                 }
             ]
         },
+        {
+            code: "({ foo: 1 /* comment */, bar: 2 })",
+            output: "({ foo: 1 /* comment */,\nbar: 2 })",
+            errors: [
+                {
+                    message: "Object properties must go on a new line.",
+                    type: "ObjectExpression",
+                    line: 1,
+                    column: 26
+                }
+            ]
+        },
+        {
+            code: "({ foo: 1, /* comment */ bar: 2 })",
+            output: null, // not fixed due to comment
+            errors: [
+                {
+                    message: "Object properties must go on a new line.",
+                    type: "ObjectExpression",
+                    line: 1,
+                    column: 26
+                }
+            ]
+        },
 
         // allowMultiplePropertiesPerLine: true
         {
@@ -288,6 +375,51 @@ ruleTester.run("object-property-newline", rule, {
                     type: "ObjectExpression",
                     line: 3,
                     column: 13
+                }
+            ]
+        },
+        {
+            code: "var obj = {k1: [\n'foo',\n'bar'\n], k2: 'val1'};",
+            output: "var obj = {k1: [\n'foo',\n'bar'\n],\nk2: 'val1'};",
+            options: [{ allowMultiplePropertiesPerLine: true }],
+            errors: [
+                {
+                    message: "Object properties must go on a new line if they aren't all on the same line.",
+                    type: "ObjectExpression",
+                    line: 4,
+                    column: 4
+                }
+            ]
+        },
+        {
+            code: "var obj = {k1: [\n'foo', 'bar'\n], k2: 'val1'};",
+            output: "var obj = {k1: [\n'foo', 'bar'\n],\nk2: 'val1'};",
+            options: [{ allowMultiplePropertiesPerLine: true }],
+            errors: [
+                {
+                    message: "Object properties must go on a new line if they aren't all on the same line.",
+                    type: "ObjectExpression",
+                    line: 3,
+                    column: 4
+                }
+            ]
+        },
+        {
+            code: "var obj = {\nk1: 'val1', k2: {\ne1: 'foo', e2: 'bar'\n}, k3: 'val2'\n};",
+            output: "var obj = {\nk1: 'val1',\nk2: {\ne1: 'foo', e2: 'bar'\n},\nk3: 'val2'\n};",
+            options: [{ allowMultiplePropertiesPerLine: true }],
+            errors: [
+                {
+                    message: "Object properties must go on a new line if they aren't all on the same line.",
+                    type: "ObjectExpression",
+                    line: 2,
+                    column: 13
+                },
+                {
+                    message: "Object properties must go on a new line if they aren't all on the same line.",
+                    type: "ObjectExpression",
+                    line: 4,
+                    column: 4
                 }
             ]
         },
@@ -372,30 +504,6 @@ ruleTester.run("object-property-newline", rule, {
                     type: "ObjectExpression",
                     line: 3,
                     column: 13
-                }
-            ]
-        },
-        {
-            code: "({ foo: 1 /* comment */, bar: 2 })",
-            output: "({ foo: 1 /* comment */,\nbar: 2 })",
-            errors: [
-                {
-                    message: "Object properties must go on a new line.",
-                    type: "ObjectExpression",
-                    line: 1,
-                    column: 26
-                }
-            ]
-        },
-        {
-            code: "({ foo: 1, /* comment */ bar: 2 })",
-            output: null, // not fixed due to comment
-            errors: [
-                {
-                    message: "Object properties must go on a new line.",
-                    type: "ObjectExpression",
-                    line: 1,
-                    column: 26
                 }
             ]
         }
