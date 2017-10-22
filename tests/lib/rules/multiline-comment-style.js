@@ -153,6 +153,30 @@ ruleTester.run("multiline-comment-style", rule, {
         },
         {
             code: `
+                // a comment
+
+                // another comment
+            `,
+            options: ["separate-lines"]
+        },
+        {
+            code: `
+                // a comment
+
+                // another comment
+            `,
+            options: ["bare-block"]
+        },
+        {
+            code: `
+                // a comment
+
+                // another comment
+            `,
+            options: ["starred-block"]
+        },
+        {
+            code: `
                 /* eslint semi: "error" */
             `,
             options: ["separate-lines"]
@@ -237,6 +261,27 @@ ruleTester.run("multiline-comment-style", rule, {
             `,
             output: null,
             errors: [{ message: EXPECTED_BLOCK_ERROR, line: 2 }]
+        },
+        {
+            code: `
+                // foo
+                // bar
+
+                // baz
+                // qux
+            `,
+            output: `
+                /*
+                 * foo
+                 * bar
+                 */
+
+                /*
+                 * baz
+                 * qux
+                 */
+            `,
+            errors: [{ message: EXPECTED_BLOCK_ERROR, line: 2 }, { message: EXPECTED_BLOCK_ERROR, line: 5 }]
         },
         {
             code: `
