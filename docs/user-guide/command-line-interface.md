@@ -116,7 +116,7 @@ Example:
 
 #### `--env`
 
-This option enables specific environments. Details about the global variables defined by each environment are available on the [configuration](configuring) documentation. This option only enables environments; it does not disable environments set in other configuration files. To specify multiple environments, separate them using commas, or use the option multiple times.
+This option enables specific environments. Details about the global variables defined by each environment are available on the [configuration](configuring.md) documentation. This option only enables environments; it does not disable environments set in other configuration files. To specify multiple environments, separate them using commas, or use the option multiple times.
 
 Examples:
 
@@ -310,18 +310,18 @@ When specified, the given format is output into the provided file name.
 
 This option specifies the output format for the console. Possible formats are:
 
-* [checkstyle](formatters/#checkstyle)
-* [codeframe](formatters/#codeframe)
-* [compact](formatters/#compact)
-* [html](formatters/#html)
-* [jslint-xml](formatters/#jslint-xml)
-* [json](formatters/#json)
-* [junit](formatters/#junit)
-* [stylish](formatters/#stylish) (the default)
-* [table](formatters/#table)
-* [tap](formatters/#tap)
-* [unix](formatters/#unix)
-* [visualstudio](formatters/#visualstudio)
+* [checkstyle](formatters.md/#checkstyle)
+* [codeframe](formatters.md/#codeframe)
+* [compact](formatters.md/#compact)
+* [html](formatters.md/#html)
+* [jslint-xml](formatters.md/#jslint-xml)
+* [json](formatters.md/#json)
+* [junit](formatters.md/#junit)
+* [stylish](formatters.md/#stylish) (the default)
+* [table](formatters.md/#table)
+* [tap](formatters.md/#tap)
+* [unix](formatters.md/#unix)
+* [visualstudio](formatters.md/#visualstudio)
 
 Example:
 
@@ -432,4 +432,4 @@ ESLint supports `.eslintignore` files to exclude files from the linting process 
     node_modules/*
     **/vendor/*.js
 
-A more detailed breakdown of supported patterns and directories ESLint ignores by default can be found in [Configuring ESLint](https://eslint.org/docs/user-guide/configuring#ignoring-files-and-directories).
+A more detailed breakdown of supported patterns and directories ESLint ignores by default can be found in [Configuring ESLint](configuring.md#ignoring-files-and-directories).
