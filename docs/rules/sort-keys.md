@@ -170,8 +170,8 @@ If you don't want to notify about properties' order, then it's safe to disable t
 
 ## Related Rules
 
-* [sort-imports](https://eslint.org/docs/rules/sort-imports)
-* [sort-vars](https://eslint.org/docs/rules/sort-vars)
+* [sort-imports](sort-imports.md)
+* [sort-vars](sort-vars.md)
 
 ## Compatibility
 
