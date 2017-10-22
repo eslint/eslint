@@ -232,6 +232,14 @@ ruleTester.run("multiline-comment-style", rule, {
         },
         {
             code: `
+                //foo
+                ///bar
+            `,
+            output: null,
+            errors: [{ message: EXPECTED_BLOCK_ERROR, line: 2 }]
+        },
+        {
+            code: `
                 /* this block
                  * is missing a newline at the start
                  */
