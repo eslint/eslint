@@ -40,6 +40,13 @@ rules:
         beforeLineComment: true,
         afterLineComment: false
     }]
+    max-len: ["error", 160, {
+        "ignoreComments": true,
+        "ignoreUrls": true,
+        "ignoreStrings": true,
+        "ignoreTemplateLiterals": true,
+        "ignoreRegExpLiterals": true
+    }]
     max-statements-per-line: "error"
     new-cap: "error"
     new-parens: "error"
