@@ -108,7 +108,7 @@
     "proxyquire": "^1.8.0",
     "shelljs": "^0.7.7",
     "shelljs-nodecli": "~0.1.1",
-    "sinon": "^3.2.1",
+    "sinon": "^4.0.1",
     "temp": "^0.8.3",
     "through": "^2.3.8"
   },
