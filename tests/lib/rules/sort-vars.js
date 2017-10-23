@@ -216,6 +216,44 @@ ruleTester.run("sort-vars", rule, {
             code: "var b=10, a=b;",
             output: null,
             errors: [expectedError]
+        },
+        {
+            code: "var b = 0, a = `${b}`;",
+            output: null,
+            parserOptions: { ecmaVersion: 6 },
+            errors: [expectedError]
+        },
+        {
+            code: "var b = 0, a = `${f()}`",
+            output: null,
+            parserOptions: { ecmaVersion: 6 },
+            errors: [expectedError]
+        },
+        {
+            code: "var b = 0, c = b, a;",
+            output: null,
+            errors: [expectedError]
+        },
+        {
+            code: "var b = 0, c = 0, a = b + c;",
+            output: null,
+            errors: [expectedError]
+        },
+        {
+            code: "var b = f(), c, d, a;",
+            output: null,
+            errors: [expectedError]
+        },
+        {
+            code: "var b = `${f()}`, c, d, a;",
+            output: null,
+            parserOptions: { ecmaVersion: 6 },
+            errors: [expectedError]
+        },
+        {
+            code: "var c, a = b = 0",
+            output: null,
+            errors: [expectedError]
         }
     ]
 });
