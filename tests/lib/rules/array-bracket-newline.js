@@ -505,7 +505,7 @@ ruleTester.run("array-bracket-newline", rule, {
             options: ["consistent"],
             errors: [
                 {
-                    message: ERR_BREAK_BEFORE,
+                    messageId: "close",
                     type: "ArrayExpression",
                     line: 2,
                     column: 2,
@@ -520,7 +520,7 @@ ruleTester.run("array-bracket-newline", rule, {
             options: ["consistent"],
             errors: [
                 {
-                    message: ERR_NO_BREAK_BEFORE,
+                    messageId: "noClose",
                     type: "ArrayExpression",
                     line: 2,
                     column: 1,
@@ -1434,7 +1434,7 @@ ruleTester.run("array-bracket-newline", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: ERR_BREAK_BEFORE,
+                    messageId: "close",
                     type: "ArrayPattern",
                     line: 2,
                     column: 2,
@@ -1450,7 +1450,7 @@ ruleTester.run("array-bracket-newline", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: ERR_NO_BREAK_BEFORE,
+                    messageId: "noClose",
                     type: "ArrayPattern",
                     line: 2,
                     column: 1,

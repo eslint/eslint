@@ -18,6 +18,16 @@ const rule = require("../../../lib/rules/dot-notation"),
 
 const ruleTester = new RuleTester();
 
+/**
+ * Quote a string in "double quotes" because it’s painful
+ * with a double-quoted string literal
+ * @param   {string} str The string to quote
+ * @returns {string}     `"${str}"`
+ */
+function q(str) {
+    return `"${str}"`;
+}
+
 ruleTester.run("dot-notation", rule, {
     valid: [
         "a.b;",
@@ -59,13 +69,13 @@ ruleTester.run("dot-notation", rule, {
         {
             code: "a['true'];",
             output: "a.true;",
-            errors: [{ messageId: "useDot", data: { key: "true" } }]
+            errors: [{ messageId: "useDot", data: { key: q("true") } }]
         },
         {
             code: "a[`time`];",
             output: "a.time;",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "[`time`] is better written in dot notation." }]
+            errors: [{ messageId: "useDot", data: { key: "`time`" } }]
         },
         {
             code: "a[null];",
@@ -75,24 +85,24 @@ ruleTester.run("dot-notation", rule, {
         {
             code: "a['b'];",
             output: "a.b;",
-            errors: [{ messageId: "useDot", data: { key: "b" } }]
+            errors: [{ messageId: "useDot", data: { key: q("b") } }]
         },
         {
             code: "a.b['c'];",
             output: "a.b.c;",
-            errors: [{ messageId: "useDot", data: { key: "c" } }]
+            errors: [{ messageId: "useDot", data: { key: q("c") } }]
         },
         {
             code: "a['_dangle'];",
             output: "a._dangle;",
             options: [{ allowPattern: "^[a-z]+(_[a-z]+)+$" }],
-            errors: [{ messageId: "useDot", data: { key: "_dangle" } }]
+            errors: [{ messageId: "useDot", data: { key: q("_dangle") } }]
         },
         {
             code: "a['SHOUT_CASE'];",
             output: "a.SHOUT_CASE;",
             options: [{ allowPattern: "^[a-z]+(_[a-z]+)+$" }],
-            errors: [{ messageId: "useDot", data: { key: "SHOUT_CASE" } }]
+            errors: [{ messageId: "useDot", data: { key: q("SHOUT_CASE") } }]
         },
         {
             code:
@@ -103,7 +113,7 @@ ruleTester.run("dot-notation", rule, {
                 "  .SHOUT_CASE;",
             errors: [{
                 messageId: "useDot",
-                data: { key: "SHOUT_CASE" },
+                data: { key: q("SHOUT_CASE") },
                 line: 2,
                 column: 4
             }]
@@ -124,13 +134,13 @@ ruleTester.run("dot-notation", rule, {
             errors: [
                 {
                     messageId: "useDot",
-                    data: { key: "catch" },
+                    data: { key: q("catch") },
                     line: 3,
                     column: 6
                 },
                 {
                     messageId: "useDot",
-                    data: { key: "catch" },
+                    data: { key: q("catch") },
                     line: 5,
                     column: 6
                 }
@@ -149,17 +159,17 @@ ruleTester.run("dot-notation", rule, {
         {
             code: "foo[ /* comment */ 'bar' ]",
             output: null, // Not fixed due to comment
-            errors: [{ messageId: "useDot", data: { key: "bar" } }]
+            errors: [{ messageId: "useDot", data: { key: q("bar") } }]
         },
         {
             code: "foo[ 'bar' /* comment */ ]",
             output: null, // Not fixed due to comment
-            errors: [{ messageId: "useDot", data: { key: "bar" } }]
+            errors: [{ messageId: "useDot", data: { key: q("bar") } }]
         },
         {
             code: "foo[    'bar'    ];",
             output: "foo.bar;",
-            errors: [{ messageId: "useDot", data: { key: "bar" } }]
+            errors: [{ messageId: "useDot", data: { key: q("bar") } }]
         },
         {
             code: "foo. /* comment */ while",
@@ -170,7 +180,7 @@ ruleTester.run("dot-notation", rule, {
         {
             code: "foo[('bar')]",
             output: "foo.bar",
-            errors: [{ messageId: "useDot", data: { key: "bar" } }]
+            errors: [{ messageId: "useDot", data: { key: q("bar") } }]
         },
         {
             code: "foo[(null)]",
@@ -180,17 +190,17 @@ ruleTester.run("dot-notation", rule, {
         {
             code: "(foo)['bar']",
             output: "(foo).bar",
-            errors: [{ messageId: "useDot", data: { key: "bar" } }]
+            errors: [{ messageId: "useDot", data: { key: q("bar") } }]
         },
         {
             code: "1['toString']",
             output: "1 .toString",
-            errors: [{ messageId: "useDot", data: { key: "toString" } }]
+            errors: [{ messageId: "useDot", data: { key: q("toString") } }]
         },
         {
             code: "foo['bar']instanceof baz",
             output: "foo.bar instanceof baz",
-            errors: [{ messageId: "useDot", data: { key: "bar" } }]
+            errors: [{ messageId: "useDot", data: { key: q("bar") } }]
         },
         {
             code: "let.if()",
