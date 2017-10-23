@@ -121,7 +121,7 @@ describe("createReportTranslator", () => {
                 fix: () => ({ range: [1, 2], text: "foo" })
             };
 
-            assert.deepEqual(
+            assert.deepStrictEqual(
                 translateReport(reportDescriptor),
                 {
                     ruleId: "foo-rule",
