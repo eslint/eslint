@@ -32,7 +32,7 @@
 
 </details>
 
-**What did you do? Please include the actual source code causing the issue.**
+**What did you do? Please include the actual source code causing the issue, as well as the command that you used to run ESLint.**
 
 <!-- Paste the source code below: -->
 ```js
@@ -40,6 +40,11 @@
 
 
 
+
+```
+
+<!-- Paste the command you used to run ESLint: -->
+```bash
 
 ```
 
