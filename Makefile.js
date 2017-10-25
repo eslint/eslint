@@ -954,57 +954,6 @@ target.checkLicenses = function() {
     });
 };
 
-target.checkGitCommit = function() {
-    let commitMsgs,
-        failed;
-
-    if (hasBranch("master")) {
-        commitMsgs = splitCommandResultToLines(execSilent("git log HEAD --not master --format=format:%s --no-merges"));
-    } else {
-        commitMsgs = [execSilent("git log -1 --format=format:%s --no-merges")];
-    }
-
-    echo("Validating Commit Message");
-
-    // No commit since master should not cause test to fail
-    if (commitMsgs[0] === "") {
-        return;
-    }
-
-    // Check for more than one commit
-    if (commitMsgs.length > 1) {
-        echo(" - More than one commit found, please squash.");
-        failed = true;
-    }
-
-    // Only check non-release messages
-    if (!semver.valid(commitMsgs[0]) && !/^Revert /.test(commitMsgs[0])) {
-        if (commitMsgs[0].split(/\r?\n/)[0].length > 72) {
-            echo(" - First line of commit message must not exceed 72 characters");
-            failed = true;
-        }
-
-        // Check for tag at start of message
-        if (!TAG_REGEX.test(commitMsgs[0])) {
-            echo([" - Commit summary must start with one of:",
-                "    'Fix:'",
-                "    'Update:'",
-                "    'Breaking:'",
-                "    'Docs:'",
-                "    'Build:'",
-                "    'New:'",
-                "    'Upgrade:'",
-                "    'Chore:'",
-                "   Please refer to the contribution guidelines for more details."].join("\n"));
-            failed = true;
-        }
-    }
-
-    if (failed) {
-        exit(1);
-    }
-};
-
 /**
  * Downloads a repository which has many js files to test performance with multi files.
  * Here, it's eslint@1.10.3 (450 files)
