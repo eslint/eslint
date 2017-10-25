@@ -978,7 +978,7 @@ target.checkGitCommit = function() {
     }
 
     // Only check non-release messages
-    if (!semver.valid(commitMsgs[0]) && !/^Revert /.test(commitMsgs[0])) {
+    if (!semver.valid(commitMsgs[0]) && !commitMsgs[0].startsWith("Revert")) {
         if (commitMsgs[0].split(/\r?\n/)[0].length > 72) {
             echo(" - First line of commit message must not exceed 72 characters");
             failed = true;
