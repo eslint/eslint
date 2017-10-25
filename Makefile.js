@@ -106,7 +106,7 @@ function getTestFilePatterns() {
             initialValue.push(`"tests/lib/${currentValues}/**/*.js"`);
         }
         return initialValue;
-    }, ["tests/lib/rules/**/*.js", "tests/lib/*.js", "tests/templates/*.js", "tests/bin/**/*.js", "tests/tools/**/*.js"]).join(" ");
+    }, ["tests/lib/rules/**/*.js", "tests/lib/*.js", "tests/bin/**/*.js", "tests/tools/**/*.js"]).join(" ");
 }
 
 /**
