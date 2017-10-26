@@ -101,6 +101,13 @@ describe("cli", () => {
             assert.strictEqual(result, 1);
         });
 
+        it("should not print debug info when passed the empty string as text", () => {
+            const result = cli.execute(["--stdin", "--no-eslintrc"], "");
+
+            assert.strictEqual(result, 0);
+            assert.isTrue(log.info.notCalled);
+        });
+
         it("should return no error when --ext .js2 is specified", () => {
             const filePath = getFixturePath("files");
             const result = cli.execute(`--ext .js2 ${filePath}`);
