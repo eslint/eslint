@@ -21,7 +21,8 @@
     "perf": "node Makefile.js perf",
     "profile": "beefy tests/bench/bench.js --open -- -t brfs -t ./tests/bench/xform-rules.js -r espree",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
-    "check-commit": "node Makefile.js checkGitCommit"
+    "check-commit": "node Makefile.js checkGitCommit",
+    "prerelease": "dont-break"
   },
   "files": [
     "LICENSE",
@@ -84,6 +85,7 @@
     "cheerio": "^0.22.0",
     "coveralls": "^2.13.1",
     "dateformat": "^2.0.0",
+    "dont-break": "^1.8.0",
     "ejs": "^2.5.6",
     "eslint-plugin-eslint-plugin": "^1.2.0",
     "eslint-plugin-node": "^5.1.0",

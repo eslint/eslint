@@ -1,0 +1,8 @@
+[
+  "https://github.com/mysticatea/eslint-plugin-node",
+  "https://github.com/not-an-aardvark/eslint-plugin-eslint-plugin",
+  "https://github.com/nzakas/eslint-plugin-typescript",
+  "https://github.com/yannickcr/eslint-plugin-react",
+  "https://github.com/evcohen/eslint-plugin-jsx-a11y",
+  "https://github.com/benmosher/eslint-plugin-import"
+]
