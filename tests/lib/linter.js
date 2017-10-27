@@ -3291,6 +3291,17 @@ describe("Linter", () => {
             linter.verify("x", { rules: { "foo-bar-baz": "error" } });
             assert(spy.calledOnce);
         });
+
+        it("should pass 'version' to rule contexts with the ESLint version", () => {
+            const spy = sandbox.spy(context => {
+                assert(/^\d+\.\d+\.\d+(?:-.+)?$/.test(context.version));
+                return {};
+            });
+
+            linter.defineRule("verify-version", spy);
+            linter.verify("x", { rules: { "verify-version": "error" } });
+            assert(spy.calledOnce);
+        });
     });
 
     describe("Variables and references", () => {
