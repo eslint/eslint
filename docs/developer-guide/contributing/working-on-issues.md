@@ -4,29 +4,19 @@ Our public [issues tracker](https://github.com/eslint/eslint/issues) lists all o
 
 ## Issue Labels
 
-We use labels to indicate the status of issues. The most important labels are:
+We use labels to indicate the status of issues. The most complete documentation on the labels is found in the [Maintainer Guide](https://eslint.org/docs/maintainer-guide/issues.html#when-an-issue-is-opened), but most contributors should find the information on this page sufficient. The most important questions that labels can help you, as a contributor, answer are:
 
-1. [`triage`](https://github.com/eslint/eslint/issues?labels=triage&milestone=&page=1&state=open) - When an issue is first submitted, it is labeled as `triage`, which means the ESLint team needs to investigate and determine if the request is a bug report, a feature request, or something else. It's best not to work on tickets marked as `triage`, because we're not yet sure if we will accept the issue to work on.
-1. [`accepted`](https://github.com/eslint/eslint/issues?labels=accepted&milestone=&page=1&state=open) - Once an issue has been properly triaged and the team decides it must be addressed, someone will assign the `accepted` label to an issue. When an issue is accepted, anyone is free to work on it.
-1. [`bug`](https://github.com/eslint/eslint/issues?labels=bug&milestone=&page=1&state=open) - Indicates that the issue is reporting a problem. When submitting a pull request to work on this type of issue, be sure to prefix the commit message with "Fix:".
-1. [`feature`](https://github.com/eslint/eslint/issues?labels=feature&milestone=&page=1&state=open) - Indicates that the issue is requesting a new feature. Features are functionality that doesn't already exist in the project. When submitting a pull request to work on this type of issue, be sure to prefix the commit message with "New:".
-1. [`enhancement`](https://github.com/eslint/eslint/issues?labels=enhancement&milestone=&page=1&state=open) - Indicates that the issue is requesting a change to existing functionality. When submitting a pull request to work on this type of issue, be sure to prefix the commit message with "Update:".
-1. [`beginner`](https://github.com/eslint/eslint/issues?labels=beginner&milestone=&page=1&state=open) - Indicates that the issue is simple enough that it would be a good first contribution for a new contributor. If you're looking to get started helping out with ESLint, take a look at the beginner issues.
-1. [`help wanted`](https://github.com/eslint/eslint/issues?labels=help%20wanted&milestone=&page=1&state=open) - Indicates that the core team won't be working on this issue, however, we will accept pull requests from contributors. This basically means the issue isn't on the formal roadmap but it will be accepted if a contributor wants to implement it.
+1. Is this issue available for me to work on? If you have little or no experience contributing to ESLint, the [`beginner`](https://github.com/eslint/eslint/labels/beginner) label marks appropriate issues. Otherwise, the [`help wanted`](https://github.com/eslint/eslint/labels/help%20wanted) label is an invitation to work on the issue. If you have more experience, you can try working on other issues labeled [`accepted`](https://github.com/eslint/eslint/labels/accepted). Conversely, issues not yet ready to work on are labeled `triage`, `evaluating`, and/or `needs bikeshedding`, and issues that cannot currently be worked on because of something else, such as a bug in a dependency, are labeled `blocked`.
+1. What is this issue about? Labels describing the nature of issues include `bug`, `enhancement`, `feature`, `question`, `rule`, `documentation`, `core`, `build`, `cli`, `infrastructure`, `breaking`, and `chore`. These are documented in the [Maintainer Guide](https://eslint.org/docs/maintainer-guide/issues.html#types-of-issues).
+1. What is the priority of this issue? Because we have a lot of issues, we prioritize certain issues above others. The following is the list of priorities, from highest to lowest:
 
-## Bounty Issues
+    1. **Bugs** - problems with the project are actively affecting users. We want to get these resolved as quickly as possible.
+    1. **Documentation** - documentation issues are a type of bug in that they actively affect current users. As such, we want to address documentation issues as quickly as possible.
+    1. **Features** - new functionality that will aid users in the future.
+    1. **Enhancements** - requested improvements for existing functionality.
+    1. **Other** - anything else.
 
-We accept and assign issue bounties using [BountySource](https://www.bountysource.com/teams/eslint/issues).
-
-## Issue Priority
-
-Because we have a lot of issues, we prioritize certain issues above others. The following is the list of priorities, from highest to lowest:
-
-1. **Bugs** - problems with the project are actively affecting users. We want to get these resolved as quickly as possible.
-1. **Documentation** - documentation issues are a type of bug in that they actively affect current users. As such, we want to address documentation issues as quickly as possible.
-1. **Features** - new functionality that will aid users in the future.
-1. **Enhancements** - requested improvements for existing functionality.
-1. **Other** - anything else.
+    Some issues have had monetary rewards attached to them. Those are labeled `bounty`. Bounties are assigned via [BountySource](https://www.bountysource.com/teams/eslint/issues).
 
 ## Starting Work
 
