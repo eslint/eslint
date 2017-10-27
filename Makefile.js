@@ -85,9 +85,6 @@ const NODE = "node ", // intentional extra space
     PERF_MULTIFILES_TARGET_DIR = path.join(PERF_TMP_DIR, "eslint"),
     PERF_MULTIFILES_TARGETS = `"${PERF_MULTIFILES_TARGET_DIR + path.sep}{lib,tests${path.sep}lib}${path.sep}**${path.sep}*.js"`,
 
-    // Regex
-    TAG_REGEX = /^(?:Breaking|Build|Chore|Docs|Fix|New|Update|Upgrade):/,
-
     // Settings
     MOCHA_TIMEOUT = 10000;
 
@@ -383,24 +380,6 @@ function getFirstVersionOfDeletion(filePath) {
         .sort(semver.compare)[0];
 }
 
-
-/**
- * Returns all the branch names
- * @returns {string[]} branch names
- * @private
- */
-function getBranches() {
-    const branchesRaw = splitCommandResultToLines(execSilent("git branch --list")),
-        branches = [];
-
-    for (let i = 0; i < branchesRaw.length; i++) {
-        const branchName = branchesRaw[i].replace(/^\*(.*)/, "$1").trim();
-
-        branches.push(branchName);
-    }
-    return branches;
-}
-
 /**
  * Lints Markdown files.
  * @param {array} files Array of file names to lint.
@@ -443,18 +422,6 @@ function lintMarkdown(files) {
         console.error(resultString);
     }
     return { code: returnCode };
-}
-
-/**
- * Check if the branch name is valid
- * @param {string} branchName Branch name to check
- * @returns {boolean} true is branch exists
- * @private
- */
-function hasBranch(branchName) {
-    const branches = getBranches();
-
-    return branches.indexOf(branchName) !== -1;
 }
 
 /**
@@ -952,57 +919,6 @@ target.checkLicenses = function() {
             exit(1);
         }
     });
-};
-
-target.checkGitCommit = function() {
-    let commitMsgs,
-        failed;
-
-    if (hasBranch("master")) {
-        commitMsgs = splitCommandResultToLines(execSilent("git log HEAD --not master --format=format:%s --no-merges"));
-    } else {
-        commitMsgs = [execSilent("git log -1 --format=format:%s --no-merges")];
-    }
-
-    echo("Validating Commit Message");
-
-    // No commit since master should not cause test to fail
-    if (commitMsgs[0] === "") {
-        return;
-    }
-
-    // Check for more than one commit
-    if (commitMsgs.length > 1) {
-        echo(" - More than one commit found, please squash.");
-        failed = true;
-    }
-
-    // Only check non-release messages
-    if (!semver.valid(commitMsgs[0]) && !commitMsgs[0].startsWith("Revert")) {
-        if (commitMsgs[0].split(/\r?\n/)[0].length > 72) {
-            echo(" - First line of commit message must not exceed 72 characters");
-            failed = true;
-        }
-
-        // Check for tag at start of message
-        if (!TAG_REGEX.test(commitMsgs[0])) {
-            echo([" - Commit summary must start with one of:",
-                "    'Fix:'",
-                "    'Update:'",
-                "    'Breaking:'",
-                "    'Docs:'",
-                "    'Build:'",
-                "    'New:'",
-                "    'Upgrade:'",
-                "    'Chore:'",
-                "   Please refer to the contribution guidelines for more details."].join("\n"));
-            failed = true;
-        }
-    }
-
-    if (failed) {
-        exit(1);
-    }
 };
 
 /**
