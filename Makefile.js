@@ -73,7 +73,7 @@ const NODE = "node ", // intentional extra space
 
     // Utilities - intentional extra space at the end of each string
     MOCHA = `${NODE_MODULES}mocha/bin/_mocha `,
-    ESLINT = `${NODE} bin/eslint.js --rulesdir tools/internal-rules/ --report-unused-disable-directives `,
+    ESLINT = `${NODE} bin/eslint.js --report-unused-disable-directives `,
 
     // Files
     MAKEFILE = "./Makefile.js",
@@ -482,6 +482,12 @@ target.lint = function() {
 
     echo("Validating Makefile.js");
     lastReturn = exec(`${ESLINT} ${MAKEFILE}`);
+    if (lastReturn.code !== 0) {
+        errors++;
+    }
+
+    echo("Validating .eslintrc.js");
+    lastReturn = exec(`${ESLINT} .eslintrc.js`);
     if (lastReturn.code !== 0) {
         errors++;
     }
