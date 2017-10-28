@@ -1,6 +1,6 @@
 {
   "name": "eslint",
-  "version": "4.9.0",
+  "version": "4.10.0",
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "An AST-based pattern checker for JavaScript.",
   "bin": {
@@ -20,8 +20,7 @@
     "browserify": "node Makefile.js browserify",
     "perf": "node Makefile.js perf",
     "profile": "beefy tests/bench/bench.js --open -- -t brfs -t ./tests/bench/xform-rules.js -r espree",
-    "coveralls": "cat ./coverage/lcov.info | coveralls",
-    "check-commit": "node Makefile.js checkGitCommit"
+    "coveralls": "cat ./coverage/lcov.info | coveralls"
   },
   "files": [
     "LICENSE",
