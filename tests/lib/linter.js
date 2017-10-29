@@ -3930,9 +3930,10 @@ describe("Linter", () => {
 
         it("should not rewrite env setting in core (https://github.com/eslint/eslint/issues/4814)", () => {
 
-            // This test focuses on the instance of https://github.com/eslint/eslint/blob/v2.0.0-alpha-2/conf/environments.js#L26-L28
-
-            // This `verify()` takes the instance and runs https://github.com/eslint/eslint/blob/v2.0.0-alpha-2/lib/eslint.js#L416
+            /*
+             * This test focuses on the instance of https://github.com/eslint/eslint/blob/v2.0.0-alpha-2/conf/environments.js#L26-L28
+             * This `verify()` takes the instance and runs https://github.com/eslint/eslint/blob/v2.0.0-alpha-2/lib/eslint.js#L416
+             */
             linter.defineRule("test", () => ({}));
             linter.verify("var a = 0;", {
                 env: { node: true },

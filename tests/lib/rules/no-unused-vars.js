@@ -35,10 +35,10 @@ ruleTester.defineRule("use-every-a", context => {
 });
 
 /**
-* Returns an extended test that includes es2017 parser options.
-* @param {Object} test The test to extend
-* @returns {Object} A parser-extended test case
-*/
+ * Returns an extended test that includes es2017 parser options.
+ * @param {Object} test The test to extend
+ * @returns {Object} A parser-extended test case
+ */
 function includeRestPropertyParser(test) {
     return Object.assign({
         parserOptions: {
@@ -51,21 +51,21 @@ function includeRestPropertyParser(test) {
 }
 
 /**
-* Returns an expected error for defined-but-not-used variables.
-* @param {string} varName The name of the variable
-* @param {string} [type] The node type (defaults to "Identifier")
-* @returns {Object} An expected error object
-*/
+ * Returns an expected error for defined-but-not-used variables.
+ * @param {string} varName The name of the variable
+ * @param {string} [type] The node type (defaults to "Identifier")
+ * @returns {Object} An expected error object
+ */
 function definedError(varName, type) {
     return { message: `'${varName}' is defined but never used.`, type: type || "Identifier" };
 }
 
 /**
-* Returns an expected error for assigned-but-not-used variables.
-* @param {string} varName The name of the variable
-* @param {string} [type] The node type (defaults to "Identifier")
-* @returns {Object} An expected error object
-*/
+ * Returns an expected error for assigned-but-not-used variables.
+ * @param {string} varName The name of the variable
+ * @param {string} [type] The node type (defaults to "Identifier")
+ * @returns {Object} An expected error object
+ */
 function assignedError(varName, type) {
     return { message: `'${varName}' is assigned a value but never used.`, type: type || "Identifier" };
 }

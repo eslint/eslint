@@ -113,13 +113,15 @@ ruleTester.run("max-statements", rule, {
             errors: [{ message: "Method 'thing' has too many statements (3). Maximum allowed is 2." }]
         },
 
-        // TODO decide if we want this or not
-        // {
-        //     code: "var foo = { ['thing']() { var bar = 1; var baz = 2; var baz2; } }",
-        //     options: [2],
-        //     parserOptions: { ecmaVersion: 6 },
-        //     errors: [{ message: "Method ''thing'' has too many statements (3). Maximum allowed is 2." }]
-        // },
+        /*
+         * TODO decide if we want this or not
+         * {
+         *     code: "var foo = { ['thing']() { var bar = 1; var baz = 2; var baz2; } }",
+         *     options: [2],
+         *     parserOptions: { ecmaVersion: 6 },
+         *     errors: [{ message: "Method ''thing'' has too many statements (3). Maximum allowed is 2." }]
+         * },
+         */
 
         {
             code: "var foo = { thing: () => { var bar = 1; var baz = 2; var baz2; } }",

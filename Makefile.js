@@ -843,9 +843,11 @@ target.checkRuleFiles = function() {
             const docText = cat(docFilename);
             const idOldAtEndOfTitleRegExp = new RegExp(`^# (.*?) \\(${id}\\)`); // original format
             const idNewAtBeginningOfTitleRegExp = new RegExp(`^# ${id}: `); // new format is same as rules index
-            // 1. Added support for new format.
-            // 2. Will remove support for old format after all docs files have new format.
-            // 3. Will remove this check when the main heading is automatically generated from rule metadata.
+            /*
+             * 1. Added support for new format.
+             * 2. Will remove support for old format after all docs files have new format.
+             * 3. Will remove this check when the main heading is automatically generated from rule metadata.
+             */
 
             return idNewAtBeginningOfTitleRegExp.test(docText) || idOldAtEndOfTitleRegExp.test(docText);
         }

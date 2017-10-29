@@ -70,8 +70,10 @@ ruleTester.run("prefer-const", rule, {
         "/*exported a*/ let a = 1",
         "let a; if (true) a = 0; foo(a);",
 
-        // The assignment is located in a different scope.
-        // Those are warned by prefer-smaller-scope.
+        /*
+         * The assignment is located in a different scope.
+         * Those are warned by prefer-smaller-scope.
+         */
         "let x; { x = 0; foo(x); }",
         "(function() { let x; { x = 0; foo(x); } })();",
         "let x; for (const a of [1,2,3]) { x = foo(); bar(x); }",

@@ -75,10 +75,12 @@ ruleTester.run("no-unused-labels", rule, {
             errors: ["'A:' is defined but never used."]
         }
 
-        // Below is fatal errors.
-        // "A: break B",
-        // "A: function foo() { break A; }",
-        // "A: class Foo { foo() { break A; } }",
-        // "A: { A: { break A; } }"
+        /*
+         * Below is fatal errors.
+         * "A: break B",
+         * "A: function foo() { break A; }",
+         * "A: class Foo { foo() { break A; } }",
+         * "A: { A: { break A; } }"
+         */
     ]
 });
