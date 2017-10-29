@@ -124,8 +124,10 @@ ruleTester.run("object-curly-spacing", rule, {
         // never - objectsInObjects
         { code: "var obj = {'foo': {'bar': 1, 'baz': 2} };", options: ["never", { objectsInObjects: true }] },
 
-        // https://github.com/eslint/eslint/issues/3658
-        // Empty cases.
+        /*
+         * https://github.com/eslint/eslint/issues/3658
+         * Empty cases.
+         */
         { code: "var {} = foo;", parserOptions: { ecmaVersion: 6 } },
         { code: "var [] = foo;", parserOptions: { ecmaVersion: 6 } },
         { code: "var {a: {}} = foo;", parserOptions: { ecmaVersion: 6 } },

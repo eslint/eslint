@@ -626,8 +626,10 @@ describe("TokenStore", () => {
             const ast = espree.parse(code, { loc: true, range: true, tokens: true, comment: true });
             const tokenStore = new TokenStore(ast.tokens, ast.comments);
 
-            // Actually, the first of nodes is always tokens, not comments.
-            // But I think this test case is needed for completeness.
+            /*
+             * Actually, the first of nodes is always tokens, not comments.
+             * But I think this test case is needed for completeness.
+             */
             const token = tokenStore.getFirstToken(
                 { range: [ast.comments[0].range[0], ast.tokens[5].range[1]] },
                 { includeComments: true }
@@ -641,8 +643,10 @@ describe("TokenStore", () => {
             const ast = espree.parse(code, { loc: true, range: true, tokens: true, comment: true });
             const tokenStore = new TokenStore(ast.tokens, ast.comments);
 
-            // Actually, the first of nodes is always tokens, not comments.
-            // But I think this test case is needed for completeness.
+            /*
+             * Actually, the first of nodes is always tokens, not comments.
+             * But I think this test case is needed for completeness.
+             */
             const token = tokenStore.getFirstToken(
                 { range: [ast.comments[0].range[0], ast.tokens[5].range[1]] }
             );
@@ -809,8 +813,10 @@ describe("TokenStore", () => {
             const ast = espree.parse(code, { loc: true, range: true, tokens: true, comment: true });
             const tokenStore = new TokenStore(ast.tokens, ast.comments);
 
-            // Actually, the last of nodes is always tokens, not comments.
-            // But I think this test case is needed for completeness.
+            /*
+             * Actually, the last of nodes is always tokens, not comments.
+             * But I think this test case is needed for completeness.
+             */
             const token = tokenStore.getLastToken(
                 { range: [ast.tokens[0].range[0], ast.comments[0].range[1]] },
                 { includeComments: true }
@@ -824,8 +830,10 @@ describe("TokenStore", () => {
             const ast = espree.parse(code, { loc: true, range: true, tokens: true, comment: true });
             const tokenStore = new TokenStore(ast.tokens, ast.comments);
 
-            // Actually, the last of nodes is always tokens, not comments.
-            // But I think this test case is needed for completeness.
+            /*
+             * Actually, the last of nodes is always tokens, not comments.
+             * But I think this test case is needed for completeness.
+             */
             const token = tokenStore.getLastToken(
                 { range: [ast.tokens[0].range[0], ast.comments[0].range[1]] }
             );

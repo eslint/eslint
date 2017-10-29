@@ -1853,9 +1853,9 @@ describe("CLIEngine", () => {
             describe("when the cacheFile is a directory or looks like a directory", () => {
 
                 /**
-                * helper method to delete the cache files created during testing
-                * @returns {void}
-                */
+                 * helper method to delete the cache files created during testing
+                 * @returns {void}
+                 */
                 function deleteCacheDir() {
                     try {
                         fs.unlinkSync("./tmp/.cacheFileDir/.cache_hashOfCurrentWorkingDirectory");
@@ -2166,8 +2166,10 @@ describe("CLIEngine", () => {
                 // delete the file from the file system
                 fs.unlinkSync(toBeDeletedFile);
 
-                // file-entry-cache@2.0.0 will remove from the cache deleted files
-                // even when they were not part of the array of files to be analyzed
+                /*
+                 * file-entry-cache@2.0.0 will remove from the cache deleted files
+                 * even when they were not part of the array of files to be analyzed
+                 */
                 engine.executeOnFiles([badFile, goodFile]);
 
                 cache = JSON.parse(fs.readFileSync(cacheFile));
@@ -2205,9 +2207,11 @@ describe("CLIEngine", () => {
 
                 assert.isTrue(typeof cache[testFile2] === "object", "the entry for the test-file2 is in the cache");
 
-                // we pass a different set of files minus test-file2
-                // previous version of file-entry-cache would remove the non visited
-                // entries. 2.0.0 version will keep them unless they don't exist
+                /*
+                 * we pass a different set of files minus test-file2
+                 * previous version of file-entry-cache would remove the non visited
+                 * entries. 2.0.0 version will keep them unless they don't exist
+                 */
                 engine.executeOnFiles([badFile, goodFile]);
 
                 cache = JSON.parse(fs.readFileSync(cacheFile));

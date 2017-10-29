@@ -25,8 +25,10 @@ ruleTester.run("constructor-super", rule, {
         "class A { }",
         "class A { constructor() { } }",
 
-        // inherit from non constructors.
-        // those are valid if we don't define the constructor.
+        /*
+         * inherit from non constructors.
+         * those are valid if we don't define the constructor.
+         */
         "class A extends null { }",
 
         // derived classes.
