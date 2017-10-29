@@ -329,28 +329,6 @@ describe("formatter:html", () => {
         });
     });
 
-    // // Formatter doesn't use source property
-    // /*
-    // describe("when passing a single message with no source", function() {
-
-    //     var code = [{
-    //         filePath: "foo.js",
-    //         messages: [{
-    //             message: "Unexpected foo.",
-    //             severity: 2,
-    //             line: 5,
-    //             column: 10,
-    //             ruleId: "foo"
-    //         }]
-    //     }];
-
-    //     it("should return a string in HTML format with 1 issue in 1 file", function() {
-    //         var result = formatter(code);
-    //         assert.strictEqual(parseHTML(result), "");
-    //     });
-    // });
-    // */
-
     describe("when passing a single message with no rule id or message", () => {
         const code = [{
             filePath: "foo.js",
