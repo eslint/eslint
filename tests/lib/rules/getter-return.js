@@ -28,8 +28,10 @@ ruleTester.run("getter-return", rule, {
 
     valid: [
 
-        // test obj: get
-        // option: {allowImplicit: false}
+        /*
+         * test obj: get
+         * option: {allowImplicit: false}
+         */
         "var foo = { get bar(){return true;} };",
 
         // option: {allowImplicit: true}
@@ -37,8 +39,10 @@ ruleTester.run("getter-return", rule, {
         { code: "var foo = { get bar(){return true;} };", options },
         { code: "var foo = { get bar(){if(bar) {return;} return true;} };", options },
 
-        // test class: get
-        // option: {allowImplicit: false}
+        /*
+         * test class: get
+         * option: {allowImplicit: false}
+         */
         "class foo { get bar(){return true;} }",
         "class foo { get bar(){if(baz){return true;} else {return false;} } }",
         "class foo { get(){return true;} }",
@@ -47,8 +51,10 @@ ruleTester.run("getter-return", rule, {
         { code: "class foo { get bar(){return true;} }", options },
         { code: "class foo { get bar(){return;} }", options },
 
-        // test object.defineProperty(s)
-        // option: {allowImplicit: false}
+        /*
+         * test object.defineProperty(s)
+         * option: {allowImplicit: false}
+         */
         "Object.defineProperty(foo, \"bar\", { get: function () {return true;}});",
         "Object.defineProperty(foo, \"bar\", { get: function () { ~function (){ return true; }();return true;}});",
         "Object.defineProperties(foo, { bar: { get: function () {return true;}} });",
@@ -74,8 +80,10 @@ ruleTester.run("getter-return", rule, {
 
     invalid: [
 
-        // test obj: get
-        // option: {allowImplicit: false}
+        /*
+         * test obj: get
+         * option: {allowImplicit: false}
+         */
         { code: "var foo = { get bar() {} };", errors: [{ message: noReturnMessage }] },
         { code: "var foo = { get bar(){if(baz) {return true;}} };", errors: [{ message: noLastReturnMessage }] },
         { code: "var foo = { get bar() { ~function () {return true;}} };", errors: [{ message: noReturnMessage }] },
@@ -84,8 +92,10 @@ ruleTester.run("getter-return", rule, {
         { code: "var foo = { get bar() {} };", options, errors: [{ message: noReturnMessage }] },
         { code: "var foo = { get bar() {if (baz) {return;}} };", options, errors: [{ message: noLastReturnMessage }] },
 
-        // test class: get
-        // option: {allowImplicit: false}
+        /*
+         * test class: get
+         * option: {allowImplicit: false}
+         */
         { code: "class foo { get bar(){} }", errors: [{ message: noReturnMessage }] },
         { code: "class foo { get bar(){ if (baz) { return true; }}}", errors: [{ noLastReturnMessage }] },
         { code: "class foo { get bar(){ ~function () { return true; }()}}", errors: [{ noLastReturnMessage }] },
@@ -94,8 +104,10 @@ ruleTester.run("getter-return", rule, {
         { code: "class foo { get bar(){} }", options, errors: [{ message: noReturnMessage }] },
         { code: "class foo { get bar(){if (baz) {return true;} } }", options, errors: [{ message: noLastReturnMessage }] },
 
-        // test object.defineProperty(s)
-        // option: {allowImplicit: false}
+        /*
+         * test object.defineProperty(s)
+         * option: {allowImplicit: false}
+         */
         { code: "Object.defineProperty(foo, \"bar\", { get: function (){}});", errors: [{ noReturnMessage }] },
         { code: "Object.defineProperty(foo, \"bar\", { get: () => {}});", errors: [{ noReturnMessage }] },
         { code: "Object.defineProperty(foo, \"bar\", { get: function (){if(bar) {return true;}}});", errors: [{ message: "Expected method 'get' to always return a value." }] },

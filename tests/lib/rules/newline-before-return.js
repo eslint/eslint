@@ -220,8 +220,10 @@ ruleTester.run("newline-before-return", rule, {
             errors: ["Expected newline before return statement."]
         },
 
-        // Testing edge cases of the fixer when the `return` statement has leading comments.
-        // https://github.com/eslint/eslint/issues/5958
+        /*
+         * Testing edge cases of the fixer when the `return` statement has leading comments.
+         * https://github.com/eslint/eslint/issues/5958
+         */
         {
             code: "function a() {\nvar b; /*multi-line\ncomment*/\nreturn c;\n}",
             output: null,

@@ -386,9 +386,10 @@ describe("Config", () => {
             assert.strictEqual(config.parser, path.resolve(path.dirname(configPath), "./custom.js"));
         });
 
-        // Configuration hierarchy ---------------------------------------------
-
-        // https://github.com/eslint/eslint/issues/3915
+        /*
+         * Configuration hierarchy ---------------------------------------------
+         * https://github.com/eslint/eslint/issues/3915
+         */
         it("should correctly merge environment settings", () => {
             const configHelper = new Config({ useEslintrc: true, cwd: process.cwd() }, linter),
                 file = getFixturePath("envs", "sub", "foo.js"),

@@ -11,20 +11,20 @@ const assert = require("chai").assert;
 const EXECUTABLE_PATH = require("path").resolve(`${__dirname}/../../bin/eslint.js`);
 
 /**
-* Returns a Promise for when a child process exits
-* @param {ChildProcess} exitingProcess The child process
-* @returns {Promise<number>} A Promise that fulfills with the exit code when the child process exits
-*/
+ * Returns a Promise for when a child process exits
+ * @param {ChildProcess} exitingProcess The child process
+ * @returns {Promise<number>} A Promise that fulfills with the exit code when the child process exits
+ */
 function awaitExit(exitingProcess) {
     return new Promise(resolve => exitingProcess.once("exit", resolve));
 }
 
 /**
-* Asserts that the exit code of a given child process will equal the given value.
-* @param {ChildProcess} exitingProcess The child process
-* @param {number} expectedExitCode The expected exit code of the child process
-* @returns {Promise} A Promise that fufills if the exit code ends up matching, and rejects otherwise.
-*/
+ * Asserts that the exit code of a given child process will equal the given value.
+ * @param {ChildProcess} exitingProcess The child process
+ * @param {number} expectedExitCode The expected exit code of the child process
+ * @returns {Promise} A Promise that fufills if the exit code ends up matching, and rejects otherwise.
+ */
 function assertExitCode(exitingProcess, expectedExitCode) {
     return awaitExit(exitingProcess).then(exitCode => {
         assert.strictEqual(exitCode, expectedExitCode, `Expected an exit code of ${expectedExitCode} but got ${exitCode}.`);
@@ -32,11 +32,11 @@ function assertExitCode(exitingProcess, expectedExitCode) {
 }
 
 /**
-* Returns a Promise for the stdout of a process.
-* @param {ChildProcess} runningProcess The child process
-* @returns {Promise<{stdout: string, stderr: string}>} A Promise that fulfills with all of the
-* stdout and stderr output produced by the process when it exits.
-*/
+ * Returns a Promise for the stdout of a process.
+ * @param {ChildProcess} runningProcess The child process
+ * @returns {Promise<{stdout: string, stderr: string}>} A Promise that fulfills with all of the
+ * stdout and stderr output produced by the process when it exits.
+ */
 function getOutput(runningProcess) {
     let stdout = "";
     let stderr = "";
@@ -50,11 +50,11 @@ describe("bin/eslint.js", () => {
     const forkedProcesses = new Set();
 
     /**
-    * Forks the process to run an instance of ESLint.
-    * @param {string[]} [args] An array of arguments
-    * @param {Object} [options] An object containing options for the resulting child process
-    * @returns {ChildProcess} The resulting child process
-    */
+     * Forks the process to run an instance of ESLint.
+     * @param {string[]} [args] An array of arguments
+     * @param {Object} [options] An object containing options for the resulting child process
+     * @returns {ChildProcess} The resulting child process
+     */
     function runESLint(args, options) {
         const newProcess = childProcess.fork(EXECUTABLE_PATH, args, Object.assign({ silent: true }, options));
 
