@@ -116,7 +116,28 @@ ruleTester.run("space-before-function-paren", rule, {
         { code: "async() => 1", options: [{ asyncArrow: "ignore" }], parserOptions: { ecmaVersion: 8 } },
         { code: "async () => 1", parserOptions: { ecmaVersion: 8 } },
         { code: "async () => 1", options: ["always"], parserOptions: { ecmaVersion: 8 } },
-        { code: "async() => 1", options: ["never"], parserOptions: { ecmaVersion: 8 } }
+        { code: "async() => 1", options: ["never"], parserOptions: { ecmaVersion: 8 } },
+
+        // Alternative object syntax
+        { code: "function foo() {}", options: [{ declaration: "never" }] },
+        { code: "function foo () {}", options: [{ declaration: "always" }] },
+        { code: "function foo() {}", options: [{ declaration: "ignore" }] },
+        { code: "function foo () {}", options: [{ declaration: "ignore" }] },
+        { code: "var bar = function () {}", options: [{ expression: "always" }] },
+        { code: "var bar = function foo () {}", options: [{ expression: "always" }] },
+        { code: "var bar = function() {}", options: [{ expression: "never" }] },
+        { code: "var bar = function foo() {}", options: [{ expression: "never" }] },
+        { code: "var bar = function () {}", options: [{ expression: "ignore" }] },
+        { code: "var bar = function foo () {}", options: [{ expression: "ignore" }] },
+        { code: "var bar = function() {}", options: [{ expression: "ignore" }] },
+        { code: "var bar = function foo() {}", options: [{ expression: "ignore" }] },
+        { code: "async() => 1", options: [{ arrowExpression: "never" }], parserOptions: { ecmaVersion: 8 } },
+        { code: "async () => 1", options: [{ arrowExpression: "always" }], parserOptions: { ecmaVersion: 8 } },
+
+        // Trigger alternative syntax code path
+        { code: "() => 1", options: [{ arrowExpression: "ignore" }], parserOptions: { ecmaVersion: 6 } },
+        { code: "async() => 1", options: [{ arrowExpression: "ignore" }], parserOptions: { ecmaVersion: 8 } },
+        { code: "async () => 1", options: [{ arrowExpression: "ignore" }], parserOptions: { ecmaVersion: 8 } }
     ],
 
     invalid: [
@@ -511,6 +532,58 @@ ruleTester.run("space-before-function-paren", rule, {
             code: "async () => 1",
             output: "async() => 1",
             options: ["never"],
+            parserOptions: { ecmaVersion: 8 },
+            errors: [{ message: "Unexpected space before function parentheses.", type: "ArrowFunctionExpression" }]
+        },
+
+        // Alternative object syntax
+        {
+            code: "function foo() {}",
+            output: "function foo () {}",
+            options: [{ declaration: "always" }],
+            errors: [{ message: "Missing space before function parentheses.", type: "FunctionDeclaration" }]
+        },
+        {
+            code: "function foo () {}",
+            output: "function foo() {}",
+            options: [{ declaration: "never" }],
+            errors: [{ message: "Unexpected space before function parentheses.", type: "FunctionDeclaration" }]
+        },
+        {
+            code: "var bar = function () {}",
+            output: "var bar = function() {}",
+            options: [{ expression: "never" }],
+            errors: [{ message: "Unexpected space before function parentheses.", type: "FunctionExpression" }]
+        },
+        {
+            code: "var bar = function foo () {}",
+            output: "var bar = function foo() {}",
+            options: [{ expression: "never" }],
+            errors: [{ message: "Unexpected space before function parentheses.", type: "FunctionExpression" }]
+        },
+        {
+            code: "var bar = function() {}",
+            output: "var bar = function () {}",
+            options: [{ expression: "always" }],
+            errors: [{ message: "Missing space before function parentheses.", type: "FunctionExpression" }]
+        },
+        {
+            code: "var bar = function foo() {}",
+            output: "var bar = function foo () {}",
+            options: [{ expression: "always" }],
+            errors: [{ message: "Missing space before function parentheses.", type: "FunctionExpression" }]
+        },
+        {
+            code: "async() => 1",
+            output: "async () => 1",
+            options: [{ arrowExpression: "always" }],
+            parserOptions: { ecmaVersion: 8 },
+            errors: [{ message: "Missing space before function parentheses.", type: "ArrowFunctionExpression" }]
+        },
+        {
+            code: "async () => 1",
+            output: "async() => 1",
+            options: [{ arrowExpression: "never" }],
             parserOptions: { ecmaVersion: 8 },
             errors: [{ message: "Unexpected space before function parentheses.", type: "ArrowFunctionExpression" }]
         }

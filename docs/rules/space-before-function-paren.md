@@ -35,20 +35,39 @@ This rule has a string option or an object option:
         "named": "always",
         "asyncArrow": "always"
     }],
+    // or
+    "space-before-function-paren": ["error", {
+        "declaration": "always",
+        "expression": "always",
+        "arrowExpression": "always"
+    }],
 }
 ```
+
+String option:
 
 * `always` (default) requires a space followed by the `(` of arguments.
 * `never` disallows any space followed by the `(` of arguments.
 
 The string option does not check async arrow function expressions for backward compatibility.
 
-You can also use a separate option for each type of function.
+Object option:
+
+You can also use a separate option for how a function is named/not named.
 Each of the following options can be set to `"always"`, `"never"`, or `"ignore"`. The default is `"always"`.
 
 * `anonymous` is for anonymous function expressions (e.g. `function () {}`).
-* `named` is for named function expressions (e.g. `function foo () {}`).
+* `named` is for named function declarations/expressions (e.g. `function foo () {}`).
 * `asyncArrow` is for async arrow function expressions (e.g. `async () => {}`).
+
+Alternate object option:
+
+You can also use a separate option for each node type of function.
+Each of the following options can be set to `"always"`, `"never"`, or `"ignore"`. The default is `"always"`.
+
+* `declaration` is for function declarations (e.g. `function () {}`).
+* `expression` is for function expressions (e.g. `var foo = function bar () {}`).
+* `arrowExpression` is for arrow function expressions (e.g. `async () => {}`).
 
 ### "always"
 
@@ -358,6 +377,178 @@ var foo = {
 };
 ```
 
+### `{"declaration": "never", "expression": "always"", "arrowExpression": "always"}`
+
+Examples of **incorrect** code for this rule with the `{"declaration": "never", "expression": "always"", "arrowExpression": "always"}` option:
+
+```js
+/*eslint space-before-function-paren: ["error", {"declaration": "never", "expression": "always"", "arrowExpression": "always"}]*/
+/*eslint-env es6*/
+
+function foo () {
+    // ...
+}
+
+var bar = function() {
+    // ...
+};
+
+class Foo {
+    constructor () {
+        // ...
+    }
+}
+
+var foo = {
+    bar () {
+        // ...
+    }
+};
+
+var foo = async(a) => await a
+```
+
+Examples of **correct** code for this rule with the `{"declaration": "never", "expression": "always"", "arrowExpression": "always"}` option:
+
+```js
+/*eslint space-before-function-paren: ["error", {"declaration": "never", "expression": "always"", "arrowExpression": "always"}]*/
+/*eslint-env es6*/
+
+function foo() {
+    // ...
+}
+
+var bar = function () {
+    // ...
+};
+
+class Foo {
+    constructor() {
+        // ...
+    }
+}
+
+var foo = {
+    bar() {
+        // ...
+    }
+};
+
+var foo = async (a) => await a
+```
+
+### `{"declaration": "always", "expression": "never"}`
+
+Examples of **incorrect** code for this rule with the `{"declaration": "always", "expression": "never"}` option:
+
+```js
+/*eslint space-before-function-paren: ["error", { "declaration": "always", "expression": "never" }]*/
+/*eslint-env es6*/
+
+function foo() {
+    // ...
+}
+
+var bar = function () {
+    // ...
+};
+
+class Foo {
+    constructor() {
+        // ...
+    }
+}
+
+var foo = {
+    bar() {
+        // ...
+    }
+};
+```
+
+Examples of **correct** code for this rule with the `{"declaration": "always", "expression": "never"}` option:
+
+```js
+/*eslint space-before-function-paren: ["error", { "declaration": "always", "expression": "never" }]*/
+/*eslint-env es6*/
+
+function foo () {
+    // ...
+}
+
+var bar = function() {
+    // ...
+};
+
+class Foo {
+    constructor () {
+        // ...
+    }
+}
+
+var foo = {
+    bar () {
+        // ...
+    }
+};
+```
+
+### `{"declaration": "always", "expression": "ignore"}`
+
+Examples of **incorrect** code for this rule with the `{"declaration": "always", "expression": "ignore"}` option:
+
+```js
+/*eslint space-before-function-paren: ["error", { "declaration": "always", "expression": "ignore" }]*/
+/*eslint-env es6*/
+
+function foo() {
+    // ...
+}
+
+class Foo {
+    constructor() {
+        // ...
+    }
+}
+
+var foo = {
+    bar() {
+        // ...
+    }
+};
+```
+
+Examples of **correct** code for this rule with the `{"declaration": "always", "expression": "ignore"}` option:
+
+```js
+/*eslint space-before-function-paren: ["error", { "declaration": "always", "expression": "ignore" }]*/
+/*eslint-env es6*/
+
+var bar = function() {
+    // ...
+};
+
+var bar = function () {
+    // ...
+};
+
+function foo () {
+    // ...
+}
+
+class Foo {
+    constructor () {
+        // ...
+    }
+}
+
+var foo = {
+    bar () {
+        // ...
+    }
+};
+```
+
 ## When Not To Use It
 
 You can turn this rule off if you are not concerned with the consistency of spacing before function parenthesis.
@@ -366,3 +557,10 @@ You can turn this rule off if you are not concerned with the consistency of spac
 
 * [space-after-keywords](space-after-keywords.md)
 * [space-return-throw-case](space-return-throw-case.md)
+
+## Compatibility
+
+* **JSCS**: This rule roughly maps to [disallowSpacesInFunctionExpression](http://jscs.info/rule/disallowSpacesInFunctionExpression)
+* **JSCS**: This rule roughly maps to [requireSpacesInFunctionExpression](http://jscs.info/rule/requireSpacesInFunctionExpression)
+* **JSCS**: This rule roughly maps to [disallowSpacesInFunctionDeclaration](http://jscs.info/rule/disallowSpacesInFunctionDeclaration)
+* **JSCS**: This rule roughly maps to [requireSpacesInFunctionDeclaration](http://jscs.info/rule/requireSpacesInFunctionDeclaration)
