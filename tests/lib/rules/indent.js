@@ -4351,7 +4351,7 @@ ruleTester.run("indent", rule, {
                   <span>
                     {condition ?
                       <Thing
-                        foo={super}
+                        foo={bar}
                       /> :
                       <Thing/>
                     }
