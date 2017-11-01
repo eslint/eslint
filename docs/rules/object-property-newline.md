@@ -92,7 +92,7 @@ This rule applies equally to all property specifications, regardless of notation
 
 - `a: 1` (ES5)
 - `a` (ES2015 shorthand property)
-- ``[`prop${a}`]`` (computed property name)
+- ``[`prop${a}`]`` (ES2015 computed property name)
 
 Thus, the rule (without the object option) prohibits both of these:
 
@@ -200,6 +200,12 @@ const obj3 = {
 const a = "antidisestablishmentarianistically";
 const b = "yugoslavyalılaştırabildiklerimizdenmişsiniz";
 const obj4 = {a, b};
+
+const domain = process.argv[4];
+const obj5 = {
+    foo: "foo", [
+    domain.includes(":") ? "complexdomain" : "simpledomain"
+]: true};
 ```
 
 Examples of **correct** code for this rule, with no object option or with `allowMultiplePropertiesPerLine` set to `false`:
@@ -207,10 +213,16 @@ Examples of **correct** code for this rule, with no object option or with `allow
 ```js
 /*eslint object-property-newline: "error"*/
 
-const obj = {
+const obj1 = {
     foo: "foo",
     bar: "bar",
     baz: "baz"
+};
+
+const obj2 = {
+    foo: "foo"
+    , bar: "bar"
+    , baz: "baz"
 };
 
 const user = process.argv[2];
@@ -231,9 +243,9 @@ Examples of additional **correct** code for this rule with the `{ "allowMultiple
 ```js
 /*eslint object-property-newline: ["error", { "allowMultiplePropertiesPerLine": true }]*/
 
-var obj = { foo: "foo", bar: "bar", baz: "baz" };
+const obj = { foo: "foo", bar: "bar", baz: "baz" };
 
-var obj2 = {
+const obj2 = {
     foo: "foo", bar: "bar", baz: "baz"
 };
 const user = process.argv[2];
