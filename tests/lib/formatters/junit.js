@@ -195,7 +195,20 @@ describe("formatter:junit", () => {
         it("should return 2 <testsuite>", () => {
             const result = formatter(code);
 
-            assert.strictEqual(result.replace(/\n/g, ""), "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites><testsuite package=\"org.eslint\" time=\"0\" tests=\"1\" errors=\"1\" name=\"foo.js\"><testcase time=\"0\" name=\"org.eslint.foo\"><failure message=\"Unexpected foo.\"><![CDATA[line 5, col 10, Warning - Unexpected foo. (foo)]]></failure></testcase></testsuite><testsuite package=\"org.eslint\" time=\"0\" tests=\"0\" errors=\"0\" name=\"bar.js\"></testsuite></testsuites>");
+            assert.strictEqual(result.replace(/\n/g, ""), "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites><testsuite package=\"org.eslint\" time=\"0\" tests=\"1\" errors=\"1\" name=\"foo.js\"><testcase time=\"0\" name=\"org.eslint.foo\"><failure message=\"Unexpected foo.\"><![CDATA[line 5, col 10, Warning - Unexpected foo. (foo)]]></failure></testcase></testsuite><testsuite package=\"org.eslint\" time=\"0\" tests=\"1\" errors=\"0\" name=\"bar.js\"><testcase time=\"0\" name=\"bar.js\" /></testsuite></testsuites>");
+        });
+    });
+
+    describe("when passed a file with no errors", () => {
+        const code = [{
+            filePath: "foo.js",
+            messages: []
+        }];
+
+        it("should print a passing <testcase>", () => {
+            const result = formatter(code);
+
+            assert.strictEqual(result.replace(/\n/g, ""), "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites><testsuite package=\"org.eslint\" time=\"0\" tests=\"1\" errors=\"0\" name=\"foo.js\"><testcase time=\"0\" name=\"foo.js\" /></testsuite></testsuites>");
         });
     });
 });
