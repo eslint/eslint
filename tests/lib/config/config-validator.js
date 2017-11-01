@@ -352,7 +352,7 @@ describe("Validator", () => {
 
                 const fn = validator.validate.bind(null, { rules: { "mock-no-options-rule": [2, "extra"] } }, "tests", linter.rules, linter.environments);
 
-                assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-no-options-rule\" is invalid:\n\tValue \"extra\" should NOT have more than 0 items.\n");
+                assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-no-options-rule\" is invalid:\n\tValue [\"extra\"] should NOT have more than 0 items.\n");
             });
         });
 
@@ -458,7 +458,7 @@ describe("Validator", () => {
         it("should throw for too many configuration values", () => {
             const fn = validator.validateRuleOptions.bind(null, "mock-rule", [2, "first", "second"], "tests", linter.rules);
 
-            assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-rule\" is invalid:\n\tValue \"first,second\" should NOT have more than 1 items.\n");
+            assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-rule\" is invalid:\n\tValue [\"first\",\"second\"] should NOT have more than 1 items.\n");
         });
 
     });
