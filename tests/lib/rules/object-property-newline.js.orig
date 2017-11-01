@@ -57,11 +57,13 @@ ruleTester.run("object-property-newline", rule, {
         { code: "foo({ a, b });", options: [{ allowMultiplePropertiesPerLine: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "foo({ bar() {}, baz });", options: [{ allowMultiplePropertiesPerLine: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "foo({ [bar]: 'baz', baz })", options: [{ allowMultiplePropertiesPerLine: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "foo({ 'k1': 'val1', k2: 'val2'});", options: [{ allowMultiplePropertiesPerLine: true }], parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } } },
-        { code: "foo({\n'k1': 'val1', k2: 'val2'\n});", options: [{ allowMultiplePropertiesPerLine: true }], parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } } },
+        { code: "foo({ 'k1': 'val1', k2: 'val2', ...{} });", options: [{ allowMultiplePropertiesPerLine: true }], parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } } },
+        { code: "foo({\n'k1': 'val1', k2: 'val2', ...{}\n});", options: [{ allowMultiplePropertiesPerLine: true }], parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } } },
+<<<<<<< HEAD
         { code: "var obj = {k1: ['foo', 'bar'], k2: 'val1', k3: 'val2'};", options: [{ allowMultiplePropertiesPerLine: true }] },
         { code: "var obj = {\nk1: ['foo', 'bar'], k2: 'val1', k3: 'val2'\n};", options: [{ allowMultiplePropertiesPerLine: true }] },
-        { code: "var obj = {\nk1: 'val1', k2: {e1: 'foo', e2: 'bar'}, k3: 'val2'\n};", options: [{ allowMultiplePropertiesPerLine: true }] },
+        { code: "var obj = {\nk1: 'val1', k2: {e1: 'foo', e2: 'bar'}, k3: 'val2'\n};", options: [{ allowMultiplePropertiesPerLine: true }] }
+=======
 
         // applyToDestructuring: true
         { code: "var {\nk1: val1,\nk2: val2,\nk3: val3,\nk4: val4\n} = obj;", options: [{ applyToDestructuring: true }], parserOptions: { ecmaVersion: 6, ecmaFeatures: { destructuring: true } } },
@@ -70,16 +72,23 @@ ruleTester.run("object-property-newline", rule, {
         { code: "var {\nk1: val1\n} = obj;", options: [{ applyToDestructuring: true }], parserOptions: { ecmaVersion: 6, ecmaFeatures: { destructuring: true } } },
         { code: "var {} = obj;", options: [{ applyToDestructuring: true }], parserOptions: { ecmaVersion: 6, ecmaFeatures: { destructuring: true } } },
         { code: "var {\n[bar]: baz,\nbaz\n} = obj;", options: [{ applyToDestructuring: true }], parserOptions: { ecmaVersion: 6, ecmaFeatures: { destructuring: true } } },
-        { code: "var {\nk1: val1,\nk2: val2} = obj;", options: [{ applyToDestructuring: true }], parserOptions: { ecmaVersion: 6, ecmaFeatures: { destructuring: true } } },
-        { code: "var { k1: val1,\nk2: val2,\n} = obj;", options: [{ applyToDestructuring: true }], parserOptions: { ecmaVersion: 6, ecmaFeatures: { destructuring: true } } },
+        { code: "var {\nk1: val1,\nk2: val2,\n...{}\n} = obj;", options: [{ applyToDestructuring: true }], parserOptions: { ecmaVersion: 6, ecmaFeatures: { destructuring: true } } },
+        { code: "var { k1: val1,\nk2: val2,\n...{} } = obj;", options: [{ applyToDestructuring: true }], parserOptions: { ecmaVersion: 6, ecmaFeatures: { destructuring: true } } },
+        { code: "var { ...{} } = obj;", options: [{ applyToDestructuring: true }], parserOptions: { ecmaVersion: 6, ecmaFeatures: { destructuring: true } } }
 
-        // applyToImports: true
-        { code: "import {k1} from 'obj'", parserOptions: { ecmaVersion: 6, sourceType: "module", ecmaFeatures: { destructuring: true, modules: true } } },
-        { code: "import {k1 as val1,\nk2 as val2,} from 'obj'", parserOptions: { ecmaVersion: 6, sourceType: "module", ecmaFeatures: { destructuring: true, modules: true } } },
-        { code: "import {\nk1,k2} from 'obj'", parserOptions: { ecmaVersion: 6, sourceType: "module", ecmaFeatures: { destructuring: true, modules: true } } },
-        { code: "import {\nk1, \nk2, \nk3} from 'obj'", parserOptions: { ecmaVersion: 6, sourceType: "module", ecmaFeatures: { destructuring: true, modules: true } } },
-        { code: "import {\nk1,\nk2\n} from 'obj'", parserOptions: { ecmaVersion: 6, sourceType: "module", ecmaFeatures: { destructuring: true, modules: true } } }
+        // allowMultiplePropertiesPerLine: true
 
+        // appllyToImports: true
+        { code: "import {k1} from 'obj'",  parserOptions: { ecmaVersion: 6, ecmaFeatures: { destructuring: true, modules: true }, } },
+        { code: "import {k1 as val1,\nk2 as val2,} from 'obj'",  parserOptions: { ecmaVersion: 6, ecmaFeatures: { destructuring: true, modules: true } } },
+        { code: "import {\nk1,k2} from 'obj'",  parserOptions: { ecmaVersion: 6, ecmaFeatures: { destructuring: true, modules: true } } },
+        { code: "import {\nk1, \nk2, \nk3} from 'obj'",  parserOptions: { ecmaVersion: 6, ecmaFeatures: { destructuring: true, modules: true } } },
+        { code: "import {\nk1,\nk2\n} from 'obj'",  parserOptions: { ecmaVersion: 6, ecmaFeatures: { destructuring: true, modules: true } } },
+
+        // allowMultiplePropertiesPerLine: true
+
+
+>>>>>>> Rule by morgan
     ],
 
     invalid: [
@@ -570,6 +579,32 @@ ruleTester.run("object-property-newline", rule, {
                     column: 13
                 }
             ]
+<<<<<<< HEAD
+=======
+        },
+        {
+            code: "({ foo: 1 /* comment */, bar: 2 })",
+            output: "({ foo: 1 /* comment */,\nbar: 2 })",
+            errors: [
+                {
+                    message: "Object properties must go on a new line.",
+                    type: "ObjectExpression",
+                    line: 1,
+                    column: 26
+                }
+            ]
+        },
+        {
+            code: "({ foo: 1, /* comment */ bar: 2 })",
+            output: null, // not fixed due to comment
+            errors: [
+                {
+                    message: "Object properties must go on a new line.",
+                    type: "ObjectExpression",
+                    line: 1,
+                    column: 26
+                }
+            ]
         },
 
         // applyToDestructuring
@@ -642,8 +677,8 @@ ruleTester.run("object-property-newline", rule, {
             ]
         },
         {
-            code: "var { k1: val1, k2: val2 } = obj;",
-            output: "var { k1: val1,\nk2: val2 } = obj;",
+            code: "var { k1: val1, ...{} } = obj;",
+            output: "var { k1: val1,\n...{} } = obj;",
             options: [{ applyToDestructuring: true }],
             parserOptions: { ecmaVersion: 6, ecmaFeatures: { destructuring: true } },
             errors: [
@@ -656,33 +691,35 @@ ruleTester.run("object-property-newline", rule, {
             ]
         },
         {
-            code: "import {\nx, y\n} from 'y'",
-            output: "import {\nx,\ny\n} from 'y'",
-            options: [{ applyToImports: true }],
-            parserOptions: { ecmaVersion: 6, sourceType: "module", ecmaFeatures: { destructuring: true, modules: true } },
+            code: "var {\nk1: val1, ...{}\n} = obj;",
+            output: "var {\nk1: val1,\n...{}\n} = obj;",
+            options: [{ applyToDestructuring: true }],
+            parserOptions: { ecmaVersion: 6, ecmaFeatures: { destructuring: true } },
             errors: [
                 {
-                    message: "Imports must go on a new line.",
+                    message: "Destructured properties must go on a new line.",
                     type: "ObjectPattern",
                     line: 2,
                     column: 11
                 }
             ]
         },
+        
+        // applyToImports
         {
             code: "import { x, y, z } from 'y';",
-            output: "import {x, \ny, \nz } from 'y';",
-            options: [{ applyToImports: true }],
-            parserOptions: { ecmaVersion: 6, sourceType: "module", ecmaFeatures: { destructuring: true, modules: true } },
+            output: "var { x, \nk2: val2, \nk3: val3 } = obj;",
+            options: [{ applyToDestructuring: true }],
+            parserOptions: { ecmaVersion: 6, ecmaFeatures: { destructuring: true, modules: true } },
             errors: [
                 {
-                    message: "Imports must go on a new line.",
+                    message: "Exports must go on a new line.",
                     type: "ImportDeclaration",
                     line: 1,
                     column: 17
                 },
                 {
-                    message: "Imports must go on a new line.",
+                    message: "Exports must go on a new line.",
                     type: "ImportDeclaration",
                     line: 1,
                     column: 27
@@ -691,12 +728,12 @@ ruleTester.run("object-property-newline", rule, {
         },
         {
             code: "import {x as val1,y as val2} from 'y';",
-            output: "import {\nx as val1,\ny as val2\n} from 'y';",
-            options: [{ applyToImports: true }],
-            parserOptions: { ecmaVersion: 6, sourceType: "module", ecmaFeatures: { destructuring: true, modules: true } },
+            output: "var {\nk1: val1,\nk2: val2\n} = obj;",
+            options: [{ applyToDestructuring: true }],
+            parserOptions: { ecmaVersion: 6, ecmaFeatures: { destructuring: true, modules: true } },
             errors: [
                 {
-                    message: "Imports must go on a new line.",
+                    message: "Exports must go on a new line.",
                     type: "ImportDeclaration",
                     line: 2,
                     column: 11
@@ -704,13 +741,13 @@ ruleTester.run("object-property-newline", rule, {
             ]
         },
         {
-            code: "import {\nx,y} from 'y';",
-            output: "import {\nx,\ny} from 'y';",
-            options: [{ applyToImports: true }],
-            parserOptions: { ecmaVersion: 6, sourceType: "module", ecmaFeatures: { destructuring: true, modules: true } },
+            code: "import {\nx,y} from 'y'",
+            output: "var {\nk1: val1,\nk2: val2,\nk3: val3,\nk4: val4\n} = obj;",
+            options: [{ applyToDestructuring: true }],
+            parserOptions: { ecmaVersion: 6, ecmaFeatures: { destructuring: true, modules: true } },
             errors: [
                 {
-                    message: "Imports must go on a new line.",
+                    message: "Exports must go on a new line.",
                     type: "ImportDeclaration",
                     line: 2,
                     column: 11
@@ -724,13 +761,13 @@ ruleTester.run("object-property-newline", rule, {
             ]
         },
         {
-            code: "import {\nx, \ny, z} from 'y';",
-            output: "import {\nx,\ny,\nz} from 'y';",
-            options: [{ applyToImports: true }],
-            parserOptions: { ecmaVersion: 6, sourceType: "module", ecmaFeatures: { destructuring: true, modules: true } },
+            code: "import {\nx, \ny, z} from 'y'",
+            output: "var { k1: val1,\n[\nk2]: val2 } = obj;",
+            options: [{ applyToDestructuring: true }],
+            parserOptions: { ecmaVersion: 6, ecmaFeatures: { destructuring: true, modules: true } },
             errors: [
                 {
-                    message: "Imports must go on a new line.",
+                    message: "Exports must go on a new line.",
                     type: "ImportDeclaration",
                     line: 1,
                     column: 17
@@ -738,18 +775,19 @@ ruleTester.run("object-property-newline", rule, {
             ]
         },
         {
-            code: "import {x,y} from 'y';",
-            output: "import {x,\ny} from 'y';",
-            options: [{ applyToImports: true }],
-            parserOptions: { ecmaVersion: 6, sourceType: "module", ecmaFeatures: { destructuring: true, modules: true } },
+            code: "import {x,y} from 'y'",
+            output: "var { k1: val1,\n...{} } = obj;",
+            options: [{ applyToDestructuring: true }],
+            parserOptions: { ecmaVersion: 6, ecmaFeatures: { destructuring: true, modules: true } },
             errors: [
                 {
-                    message: "Imports must go on a new line.",
+                    message: "Exports must go on a new line.",
                     type: "ImportDeclaration",
                     line: 1,
                     column: 17
                 }
             ]
+>>>>>>> Rule by morgan
         }
     ]
 });
