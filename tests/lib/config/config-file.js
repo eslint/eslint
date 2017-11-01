@@ -1175,26 +1175,6 @@ describe("ConfigFile", () => {
 
     });
 
-    describe("normalizePackageName()", () => {
-
-        leche.withData([
-            ["foo", "eslint-config-foo"],
-            ["eslint-config-foo", "eslint-config-foo"],
-            ["@z/foo", "@z/eslint-config-foo"],
-            ["@z\\foo", "@z/eslint-config-foo"],
-            ["@z\\foo\\bar.js", "@z/eslint-config-foo/bar.js"],
-            ["@z/eslint-config", "@z/eslint-config"],
-            ["@z/eslint-config-foo", "@z/eslint-config-foo"]
-        ], (input, expected) => {
-            it(`should return ${expected} when passed ${input}`, () => {
-                const result = ConfigFile.normalizePackageName(input, "eslint-config");
-
-                assert.strictEqual(result, expected);
-            });
-        });
-
-    });
-
     describe("write()", () => {
 
         let sandbox,
