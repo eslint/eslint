@@ -66,9 +66,14 @@ String option:
 * `"always"` (default) requires semicolons at the end of statements
 * `"never"` disallows semicolons as the end of statements (except to disambiguate statements beginning with `[`, `(`, `/`, `+`, or `-`)
 
-Object option:
+Object option (when `"always"`):
 
 * `"omitLastInOneLineBlock": true` ignores the last semicolon in a block in which its braces (and therefore the content of the block) are in the same line
+
+Object option (when `"never"`):
+
+* `"beforeUnreliableLineButSafe": "always"` requires semicolons at the end of statements if the next line starts with `[`, `(`, `/`, `+`, or `-`.
+* `"beforeUnreliableLineButSafe": "never"` disallows semicolons as the end of statements if it doesn't make ASI hazard even if the next line starts with `[`, `(`, `/`, `+`, or `-`.
 
 ### always
 
@@ -138,6 +143,30 @@ Examples of additional **correct** code for this rule with the `"always", { "omi
 if (foo) { bar() }
 
 if (foo) { bar(); baz() }
+```
+
+#### beforeUnreliableLineButSafe
+
+Examples of additional **incorrect** code for this rule with the `"never", { "beforeUnreliableLineButSafe": "always" }` options:
+
+```js
+/*eslint semi: ["error", "never", { "beforeUnreliableLineButSafe": "always"}] */
+import a from "a"
+
+(function() {
+    // ...
+})()
+```
+
+Examples of additional **incorrect** code for this rule with the `"never", { "beforeUnreliableLineButSafe": "never" }` options:
+
+```js
+/*eslint semi: ["error", "never", { "beforeUnreliableLineButSafe": "never"}] */
+import a from "a"
+
+;(function() {
+    // ...
+})()
 ```
 
 ## When Not To Use It
