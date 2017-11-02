@@ -49,7 +49,7 @@ ruleTester.run("no-restricted-imports", rule, {
             code: "import DisallowedObject from \"foo\";",
             options: [{
                 paths: [{
-                    name: "bar",
+                    name: "foo",
                     objectNames: ["DisallowedObject"]
                 }]
             }]
@@ -275,12 +275,12 @@ ruleTester.run("no-restricted-imports", rule, {
         options: [{
             paths: [{
                 name: "foo",
-                objectNames: ["DisallowedObject"],
-                message: "Please import 'DisallowedObject' from /bar/ instead."
+                objectNames: ["default"],
+                message: "Please import the default import of 'foo' from /bar/ instead."
             }]
         }],
         errors: [{
-            message: "'foo' import is restricted from being used. Please import 'DisallowedObject' from /bar/ instead.",
+            message: "'foo' import is restricted from being used. Please import the default import of 'foo' from /bar/ instead.",
             type: "ImportDeclaration"
         }]
     },
@@ -387,12 +387,12 @@ ruleTester.run("no-restricted-imports", rule, {
         options: [{
             paths: [{
                 name: "foo",
-                objectNames: ["DisallowedObject"],
-                message: "Please import 'DisallowedObject' from /bar/ instead."
+                objectNames: ["default"],
+                message: "Please import the default import of 'foo' from /bar/ instead."
             }]
         }],
         errors: [{
-            message: "'foo' import is restricted from being used. Please import 'DisallowedObject' from /bar/ instead.",
+            message: "'foo' import is restricted from being used. Please import the default import of 'foo' from /bar/ instead.",
             type: "ImportDeclaration"
         }]
     },

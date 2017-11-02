@@ -102,7 +102,7 @@ import pick from 'lodash/pick';
 ```js
 /*eslint no-restricted-imports: ["error", { paths: [{ name: "foo", objectNames: ["DisallowedObject"] }] }]*/
 
-import AllowedObject from "foo"
+import DisallowedObject from "foo"
 ```
 
 ```js
@@ -133,8 +133,8 @@ import eslint from 'eslint';
 ```js
 /*eslint no-restricted-imports: ["error", { paths: [{
     name: "foo",
-    objectNames: ["DisallowedObject"],
-    message: "Please import 'DisallowedObject' from '/bar/baz/' instead."
+    objectNames: ["default"],
+    message: "Please use the default import from '/bar/baz/' instead."
 }]}]*/
 
 import DisallowedObject from "foo";
