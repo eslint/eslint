@@ -100,37 +100,6 @@ import pick from 'lodash/pick';
 ```
 
 ```js
-/*eslint no-restricted-imports: ["error", { paths: [{ name: "foo", importNames: ["DisallowedObject"] }] }]*/
-
-import DisallowedObject from "foo"
-```
-
-```js
-/*eslint no-restricted-imports: ["error", { paths: [{
-    name: "foo",
-    importNames: ["DisallowedObject"],
-    message: "Please import 'DisallowedObject' from '/bar/baz/' instead."
-}]}]*/
-
-import { AllowedObject as DisallowedObject } from "foo";
-```
-
-Examples of **correct** code for this rule:
-
-```js
-/*eslint no-restricted-imports: ["error", "fs"]*/
-
-import crypto from 'crypto';
-```
-
-```js
-/*eslint no-restricted-imports: ["error", { "paths": ["fs"], "patterns": ["eslint/*"] }]*/
-
-import crypto from 'crypto';
-import eslint from 'eslint';
-```
-
-```js
 /*eslint no-restricted-imports: ["error", { paths: [{
     name: "foo",
     importNames: ["default"],
@@ -158,6 +127,37 @@ import { DisallowedObject as AllowedObject } from "foo";
 }]}]*/
 
 import * as Foo from "foo";
+```
+
+Examples of **correct** code for this rule:
+
+```js
+/*eslint no-restricted-imports: ["error", "fs"]*/
+
+import crypto from 'crypto';
+```
+
+```js
+/*eslint no-restricted-imports: ["error", { "paths": ["fs"], "patterns": ["eslint/*"] }]*/
+
+import crypto from 'crypto';
+import eslint from 'eslint';
+```
+
+```js
+/*eslint no-restricted-imports: ["error", { paths: [{ name: "foo", importNames: ["DisallowedObject"] }] }]*/
+
+import DisallowedObject from "foo"
+```
+
+```js
+/*eslint no-restricted-imports: ["error", { paths: [{
+    name: "foo",
+    importNames: ["DisallowedObject"],
+    message: "Please import 'DisallowedObject' from '/bar/baz/' instead."
+}]}]*/
+
+import { AllowedObject as DisallowedObject } from "foo";
 ```
 
 ## When Not To Use It
