@@ -55,13 +55,13 @@ or like this:
 }]
 ```
 
-or like this if you need to restrict only certain objects from an import:
+or like this if you need to restrict only certain imports from a module:
 
 ```json
 "no-restricted-imports": ["error", {
   "paths": [{
     "name": "import-foo",
-    "objectNames": ["Bar"],
+    "importNames": ["Bar"],
     "message": "Please use Bar from /import-bar/baz/ instead."
   }]
 }]
@@ -100,7 +100,7 @@ import pick from 'lodash/pick';
 ```
 
 ```js
-/*eslint no-restricted-imports: ["error", { paths: [{ name: "foo", objectNames: ["DisallowedObject"] }] }]*/
+/*eslint no-restricted-imports: ["error", { paths: [{ name: "foo", importNames: ["DisallowedObject"] }] }]*/
 
 import DisallowedObject from "foo"
 ```
@@ -108,7 +108,7 @@ import DisallowedObject from "foo"
 ```js
 /*eslint no-restricted-imports: ["error", { paths: [{
     name: "foo",
-    objectNames: ["DisallowedObject"],
+    importNames: ["DisallowedObject"],
     message: "Please import 'DisallowedObject' from '/bar/baz/' instead."
 }]}]*/
 
@@ -133,7 +133,7 @@ import eslint from 'eslint';
 ```js
 /*eslint no-restricted-imports: ["error", { paths: [{
     name: "foo",
-    objectNames: ["default"],
+    importNames: ["default"],
     message: "Please use the default import from '/bar/baz/' instead."
 }]}]*/
 
@@ -143,7 +143,7 @@ import DisallowedObject from "foo";
 ```js
 /*eslint no-restricted-imports: ["error", { paths: [{
     name: "foo",
-    objectNames: ["DisallowedObject"],
+    importNames: ["DisallowedObject"],
     message: "Please import 'DisallowedObject' from '/bar/baz/' instead."
 }]}]*/
 
@@ -153,7 +153,7 @@ import { DisallowedObject as AllowedObject } from "foo";
 ```js
 /*eslint no-restricted-imports: ["error", { paths: [{
     name: "foo",
-    objectNames: ["DisallowedObject"],
+    importNames: ["DisallowedObject"],
     message: "Please import 'DisallowedObject' from '/bar/baz/' instead."
 }]}]*/
 

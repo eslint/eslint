@@ -41,7 +41,7 @@ ruleTester.run("no-restricted-imports", rule, {
             options: [{
                 paths: [{
                     name: "foo",
-                    objectNames: ["DisallowedObject"]
+                    importNames: ["DisallowedObject"]
                 }]
             }]
         },
@@ -50,7 +50,7 @@ ruleTester.run("no-restricted-imports", rule, {
             options: [{
                 paths: [{
                     name: "foo",
-                    objectNames: ["DisallowedObject"]
+                    importNames: ["DisallowedObject"]
                 }]
             }]
         },
@@ -59,7 +59,7 @@ ruleTester.run("no-restricted-imports", rule, {
             options: [{
                 paths: [{
                     name: "bar",
-                    objectNames: ["DisallowedObject"],
+                    importNames: ["DisallowedObject"],
                     message: "Please import 'DisallowedObject' from /bar/ instead."
                 }]
             }],
@@ -73,7 +73,7 @@ ruleTester.run("no-restricted-imports", rule, {
             options: [{
                 paths: [{
                     name: "foo",
-                    objectNames: ["DisallowedObject"],
+                    importNames: ["DisallowedObject"],
                     message: "Please import 'DisallowedObject' from /bar/ instead."
                 }]
             }],
@@ -87,7 +87,7 @@ ruleTester.run("no-restricted-imports", rule, {
             options: [{
                 paths: [{
                     name: "bar",
-                    objectNames: ["DisallowedObject"],
+                    importNames: ["DisallowedObject"],
                     message: "Please import 'DisallowedObject' from /bar/ instead."
                 }]
             }],
@@ -101,7 +101,7 @@ ruleTester.run("no-restricted-imports", rule, {
             options: [{
                 paths: [{
                     name: "foo",
-                    objectNames: ["DisallowedObject"],
+                    importNames: ["DisallowedObject"],
                     message: "Please import 'DisallowedObject' from /bar/ instead."
                 }]
             }],
@@ -115,7 +115,7 @@ ruleTester.run("no-restricted-imports", rule, {
             options: [{
                 paths: [{
                     name: "foo",
-                    objectNames: ["DisallowedObject"],
+                    importNames: ["DisallowedObject"],
                     message: "Please import 'DisallowedObject' from /bar/ instead."
                 }]
             }],
@@ -129,7 +129,7 @@ ruleTester.run("no-restricted-imports", rule, {
             options: [{
                 paths: [{
                     name: "foo",
-                    objectNames: ["DisallowedObject"],
+                    importNames: ["DisallowedObject"],
                     message: "Please import 'DisallowedObject' from /bar/ instead."
                 }]
             }],
@@ -143,7 +143,7 @@ ruleTester.run("no-restricted-imports", rule, {
             options: [{
                 paths: [{
                     name: "foo",
-                    objectNames: ["DisallowedObject"],
+                    importNames: ["DisallowedObject"],
                     message: "Please import 'DisallowedObject' from /bar/ instead."
                 }]
             }],
@@ -157,7 +157,7 @@ ruleTester.run("no-restricted-imports", rule, {
             options: [{
                 paths: [{
                     name: "foo",
-                    objectNames: ["DisallowedObject"],
+                    importNames: ["DisallowedObject"],
                     message: "Please import 'DisallowedObject' from /bar/ instead."
                 }]
             }],
@@ -171,7 +171,7 @@ ruleTester.run("no-restricted-imports", rule, {
             options: [{
                 paths: [{
                     name: "foo",
-                    objectNames: ["DisallowedObject", "DisallowedObjectTwo"],
+                    importNames: ["DisallowedObject", "DisallowedObjectTwo"],
                     message: "Please import 'DisallowedObject' and 'DisallowedObjectTwo' from /bar/ instead."
                 }]
             }],
@@ -185,7 +185,7 @@ ruleTester.run("no-restricted-imports", rule, {
             options: [{
                 paths: [{
                     name: "bar",
-                    objectNames: ["DisallowedObject"],
+                    importNames: ["DisallowedObject"],
                     message: "Please import 'DisallowedObject' from /bar/ instead."
                 }]
             }],
@@ -199,7 +199,7 @@ ruleTester.run("no-restricted-imports", rule, {
             options: [{
                 paths: [{
                     name: "foo",
-                    objectNames: ["DisallowedObject", "DisallowedObjectTwo"],
+                    importNames: ["DisallowedObject", "DisallowedObjectTwo"],
                     message: "Please import 'DisallowedObject' and 'DisallowedObjectTwo' from /bar/ instead."
                 }]
             }]
@@ -275,7 +275,7 @@ ruleTester.run("no-restricted-imports", rule, {
         options: [{
             paths: [{
                 name: "foo",
-                objectNames: ["default"],
+                importNames: ["default"],
                 message: "Please import the default import of 'foo' from /bar/ instead."
             }]
         }],
@@ -289,7 +289,7 @@ ruleTester.run("no-restricted-imports", rule, {
         options: [{
             paths: [{
                 name: "foo",
-                objectNames: ["DisallowedObject"],
+                importNames: ["DisallowedObject"],
                 message: "Please import 'DisallowedObject' from /bar/ instead."
             }]
         }],
@@ -303,7 +303,7 @@ ruleTester.run("no-restricted-imports", rule, {
         options: [{
             paths: [{
                 name: "foo",
-                objectNames: ["DisallowedObject"],
+                importNames: ["DisallowedObject"],
                 message: "Please import 'DisallowedObject' from /bar/ instead."
             }]
         }],
@@ -317,7 +317,7 @@ ruleTester.run("no-restricted-imports", rule, {
         options: [{
             paths: [{
                 name: "foo",
-                objectNames: ["DisallowedObject"],
+                importNames: ["DisallowedObject"],
                 message: "Please import 'DisallowedObject' from /bar/ instead."
             }]
         }],
@@ -331,7 +331,7 @@ ruleTester.run("no-restricted-imports", rule, {
         options: [{
             paths: [{
                 name: "foo",
-                objectNames: ["DisallowedObject"],
+                importNames: ["DisallowedObject"],
                 message: "Please import 'DisallowedObject' from /bar/ instead."
             }]
         }],
@@ -345,7 +345,7 @@ ruleTester.run("no-restricted-imports", rule, {
         options: [{
             paths: [{
                 name: "foo",
-                objectNames: ["DisallowedObject"],
+                importNames: ["DisallowedObject"],
                 message: "Please import 'DisallowedObject' from /bar/ instead."
             }]
         }],
@@ -359,7 +359,7 @@ ruleTester.run("no-restricted-imports", rule, {
         options: [{
             paths: [{
                 name: "foo",
-                objectNames: ["DisallowedObjectTwo", "DisallowedObject"],
+                importNames: ["DisallowedObjectTwo", "DisallowedObject"],
                 message: "Please import 'DisallowedObject' and 'DisallowedObjectTwo' from /bar/ instead."
             }]
         }],
@@ -373,7 +373,7 @@ ruleTester.run("no-restricted-imports", rule, {
         options: [{
             paths: [{
                 name: "foo",
-                objectNames: ["DisallowedObject", "DisallowedObjectTwo"],
+                importNames: ["DisallowedObject", "DisallowedObjectTwo"],
                 message: "Please import 'DisallowedObject' and 'DisallowedObjectTwo' from /bar/ instead."
             }]
         }],
@@ -387,7 +387,7 @@ ruleTester.run("no-restricted-imports", rule, {
         options: [{
             paths: [{
                 name: "foo",
-                objectNames: ["default"],
+                importNames: ["default"],
                 message: "Please import the default import of 'foo' from /bar/ instead."
             }]
         }],
@@ -401,7 +401,7 @@ ruleTester.run("no-restricted-imports", rule, {
         options: [{
             paths: [{
                 name: "foo",
-                objectNames: ["DisallowedObject"],
+                importNames: ["DisallowedObject"],
                 message: "Please import 'DisallowedObject' from /bar/ instead."
             }]
         }],
@@ -415,7 +415,7 @@ ruleTester.run("no-restricted-imports", rule, {
         options: [{
             paths: [{
                 name: "foo",
-                objectNames: ["DisallowedObject"],
+                importNames: ["DisallowedObject"],
                 message: "Please import 'DisallowedObject' from /bar/ instead."
             }]
         }],
@@ -429,7 +429,7 @@ ruleTester.run("no-restricted-imports", rule, {
         options: [{
             paths: [{
                 name: "foo",
-                objectNames: ["DisallowedObject", "DisallowedObjectTwo"],
+                importNames: ["DisallowedObject", "DisallowedObjectTwo"],
                 message: "Please import 'DisallowedObject' and 'DisallowedObjectTwo' from /bar/ instead."
             }]
         }],
