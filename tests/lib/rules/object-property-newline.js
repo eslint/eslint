@@ -22,7 +22,7 @@ ruleTester.run("object-property-newline", rule, {
 
     valid: [
 
-        // default-case
+        // default case
         "var obj = {\nk1: 'val1',\nk2: 'val2',\nk3: 'val3',\nk4: 'val4'\n};",
         "var obj = {\nk1: 'val1'\n, k2: 'val2'\n, k3: 'val3'\n, k4: 'val4'\n};",
         "var obj = { k1: 'val1',\nk2: 'val2',\nk3: 'val3',\nk4: 'val4' };",
@@ -65,6 +65,7 @@ ruleTester.run("object-property-newline", rule, {
 
         // allowMultiplePropertiesPerLine: true (deprecated)
         { code: "var obj = { k1: 'val1', k2: 'val2', k3: 'val3' };", options: [{ allowMultiplePropertiesPerLine: true }] }
+
     ],
 
     invalid: [
@@ -568,6 +569,94 @@ ruleTester.run("object-property-newline", rule, {
                     type: "ObjectExpression",
                     line: 3,
                     column: 13
+                }
+            ]
+        },
+
+        // treatComputedPropertiesLikeJSCS: true
+        {
+            code: "foo({\nk1: 'val1', [\nisFoo ? 'foo' : 'noo'\n]: 'val2', baz})",
+            output: "foo({\nk1: 'val1', [\nisFoo ? 'foo' : 'noo'\n]: 'val2',\nbaz})",
+            options: [{ treatComputedPropertiesLikeJSCS: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Object properties must go on a new line. The opening bracket of a computed property name may end a line on which another property appears.",
+                    type: "ObjectExpression",
+                    line: 4,
+                    column: 12
+                }
+            ]
+        },
+        {
+            code: "var obj = { k1: 'val1',\nk2: [\n'val2a', 'val2b', 'val2c'\n], k3: 'val3' };",
+            output: "var obj = { k1: 'val1',\nk2: [\n'val2a', 'val2b', 'val2c'\n],\nk3: 'val3' };",
+            options: [{ treatComputedPropertiesLikeJSCS: true }],
+            errors: [
+                {
+                    message: "Object properties must go on a new line. The opening bracket of a computed property name may end a line on which another property appears.",
+                    type: "ObjectExpression",
+                    line: 4,
+                    column: 4
+                }
+            ]
+        },
+
+        // noCommaFirst: true
+        {
+            code: "var obj = {\nk1: 'val1'\n, k2: 'val2'\n, k3: 'val3'\n};",
+            output: "var obj = {\nk1: 'val1'\n,\nk2: 'val2'\n,\nk3: 'val3'\n};",
+            options: [{ noCommaFirst: true }],
+            errors: [
+                {
+                    message: "Object properties must go on a new line. The comma delimiting two properties may not share a line with any of the second property.",
+                    type: "ObjectExpression",
+                    line: 3,
+                    column: 3
+                },
+                {
+                    message: "Object properties must go on a new line. The comma delimiting two properties may not share a line with any of the second property.",
+                    type: "ObjectExpression",
+                    line: 4,
+                    column: 3
+                }
+            ]
+        },
+        {
+            code: "var obj = {\nk1: 'val1'\n, k2: 'val2'\n, [\nbaz1\n]: 'val3'\n};",
+            output: "var obj = {\nk1: 'val1'\n,\nk2: 'val2'\n,\n[\nbaz1\n]: 'val3'\n};",
+            options: [{ noCommaFirst: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Object properties must go on a new line. The comma delimiting two properties may not share a line with any of the second property.",
+                    type: "ObjectExpression",
+                    line: 3,
+                    column: 3
+                },
+                {
+                    message: "Object properties must go on a new line. The comma delimiting two properties may not share a line with any of the second property.",
+                    type: "ObjectExpression",
+                    line: 4,
+                    column: 3
+                }
+            ]
+        },
+
+        // { treatComputedPropertiesLikeJSCS: true, noCommaFirst: true }
+        {
+            code: "var obj = {\nk1: 'val1'\n, k2: 'val2'\n, [\nbaz2\n]: 'val3'\n};",
+            output: "var obj = {\nk1: 'val1'\n,\nk2: 'val2'\n, [\nbaz2\n]: 'val3'\n};",
+            options: [{
+                treatComputedPropertiesLikeJSCS: true, noCommaFirst: true
+            }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Object properties must go on a new line. The opening bracket of a computed property name may end a line on which another property appears. The comma delimiting two properties may not share a line with any of the second property.",
+                    type: "ObjectExpression",
+                    line: 3,
+                    column: 3
                 }
             ]
         }

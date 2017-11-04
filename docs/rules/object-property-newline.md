@@ -1,6 +1,6 @@
 # enforce placing object properties on separate lines (object-property-newline)
 
-This rule permits you to restrict the locations of property specifications in object literals. You may prohibit any part of any property specification from appearing on the same line as any part of any other property specification. You may make this prohibition absolute, or, by invoking an object option, you may allow an exception, permitting an object literal to have all parts of all of its property specifications on a single line.
+This rule permits you to restrict the locations of property specifications in object literals. You may prohibit any part of any property specification from appearing on the same line as any part of any other property specification. You may make this prohibition absolute, or, by invoking an object option, you may allow an exception, permitting an object literal to have all parts of all of its property specifications on a single line. Other object options let you make the rule looser or stricter with respect to certain notations.
 
 ## Rule Details
 
@@ -24,7 +24,6 @@ const newObject = {
         {a: 3, b: 4}
     ]
 };
-
 ```
 
 Instead of those, you can comply with the rule by writing
@@ -72,19 +71,52 @@ Another benefit of this rule is specificity of diffs when a property is changed:
 +var obj = { foo: "foo", bar: "bazz", baz: "baz" };
 ```
 
-### Optional Exception
+### Optional Exceptions
 
-The rule offers one object option, `allowAllPropertiesOnSameLine` (a deprecated synonym is `allowMultiplePropertiesPerLine`). If you set it to `true`, object literals such as the first two above, with all property specifications on the same line, will be permitted, but one like
+The rule offers three object options.
+
+#### `allowMultiplePropertiesPerLine`
+
+If you set `allowAllPropertiesOnSameLine` (a deprecated synonym is `allowMultiplePropertiesPerLine`) to `true`, object literals such as the first two above, with all property specifications on the same line, will be permitted, but one like
 
 ```js
 const newObject = {
     a: 'a.m.', b: 'p.m.',
     c: 'daylight saving time'
 };
-
 ```
 
 will be prohibited, because two properties, but not all properties, appear on the same line.
+
+#### `treatComputedPropertiesLikeJSCS`
+
+If you set `treatComputedPropertiesLikeJSCS` to `true`, an object literal such as the one below will be permitted:
+
+```js
+const newObject = {
+    a: 1, [
+        process.argv[4]
+    ]: '01'
+};
+```
+
+Otherwise, this rule will prohibit it, because ESLint treats the opening bracket of a computed property name as part of the property specification. The JSCS rule `requireObjectKeysOnNewLine` does not, so this object option makes ESLint compatible with JSCS in this respect.
+
+#### `noCommaFirst`
+
+If you set `noCommaFirst` to `true`, an object literal such as the one below will be prohibited, even though all its property specifications are on separate lines:
+
+```js
+const newFunction = multiplier => ({
+    a: 2 * multiplier
+    , b: 4 * multiplier
+    , c: 8 * multiplier
+});
+```
+
+This object option makes the rule stricter by prohibiting one of the patterns by which you could comply with the rule. Specifically, the comma between two property specifications may not appear before the second one on the same line. The JSCS rule `requireObjectKeysOnNewLine` treats commas this way, so this object option makes ESLint compatible with JSCS in this respect.
+
+You can use the `comma-style` rule instead of this option to achieve partial JSCS compatibility, but not in combination with the `treatComputedPropertiesLikeJSCS` object option. Using the `comma-style` rule for the sole purpose of JSCS compatibility would also require you to enumerate 9 exceptions, leaving only `ObjectExpression` subject to the rule.
 
 ### Notations
 
@@ -122,26 +154,7 @@ const newObject = {a: [
 
 because 1 character of the specification of `a` (i.e. the trailing `]` of its value) is on the same line as the specification of `b`.
 
-The optional exception does not excuse this case, because the entire collection of property specifications spans 4 lines, not 1.
-
-### Inter-property Delimiters
-
-The comma and any whitespace that delimit property specifications are not considered parts of them. Therefore, the rule permits both of these formats:
-
-```js
-const newFunction = multiplier => ({
-    a: 2 * multiplier,
-    b: 4 * multiplier,
-    c: 8 * multiplier
-});
-const newFunction = multiplier => ({
-    a: 2 * multiplier
-    , b: 4 * multiplier
-    , c: 8 * multiplier
-});
-```
-
-(This behavior differs from that of the JSCS rule cited below, which permits the first but prohibits the second format.)
+The `allowMultiplePropertiesPerLine` object option would not excuse this case, because the entire collection of property specifications spans 4 lines, not 1.
 
 ### --fix
 
@@ -164,7 +177,7 @@ b: 'p.m.',
 };
 ```
 
-The modification does not depend on whether the object option is set to `true`. In other words, ESLint never collects all the property specifications onto a single line, even when the object option would permit that.
+The modification does not depend on whether the `allowMultiplePropertiesPerLine` object option is set to `true`. In other words, ESLint never collects all the property specifications onto a single line, even when this object option would permit that.
 
 ESLint does not correct a violation of this rule if a comment immediately precedes the second or subsequent property specification on a line, since ESLint cannot determine which line to put the comment onto.
 
@@ -172,23 +185,23 @@ As illustrated above, the `--fix` option, applied to this rule, does not comply 
 
 ## Examples
 
-Examples of **incorrect** code for this rule, with no object option or with `allowAllPropertiesOnSameLine` set to `false`:
+Examples of **incorrect** code for this rule, with all object options omitted or set to `false`:
 
 ```js
 /*eslint object-property-newline: "error"*/
 
-const obj0 = { foo: "foo", bar: "bar", baz: "baz" };
+const obj = { foo: "foo", bar: "bar", baz: "baz" };
 
-const obj1 = {
+const obj = {
     foo: "foo", bar: "bar", baz: "baz"
 };
 
-const obj2 = {
+const obj = {
     foo: "foo", bar: "bar",
     baz: "baz"
 };
 
-const obj3 = {
+const obj = {
     [process.argv[3] ? "foo" : "bar"]: 0, baz: [
         1,
         2,
@@ -199,34 +212,46 @@ const obj3 = {
 
 const a = "antidisestablishmentarianistically";
 const b = "yugoslavyalılaştırabildiklerimizdenmişsiniz";
-const obj4 = {a, b};
+const obj = {a, b};
 
 const domain = process.argv[4];
-const obj5 = {
+const obj = {
     foo: "foo", [
     domain.includes(":") ? "complexdomain" : "simpledomain"
 ]: true};
 ```
 
-Examples of **correct** code for this rule, with no object option or with `allowAllPropertiesOnSameLine` set to `false`:
+Example of additional **incorrect** code for this rule with the `{ "noCommaFirst": true }` option:
+
+```js
+/*eslint object-property-newline: ["error", { "noCommaFirst": true }]*/
+
+const obj = {
+    foo: "foo"
+    , bar: "bar"
+    , baz: "baz"
+};
+```
+
+Examples of **correct** code for this rule, with all object options omitted or set to `false`:
 
 ```js
 /*eslint object-property-newline: "error"*/
 
-const obj1 = {
+const obj = {
     foo: "foo",
     bar: "bar",
     baz: "baz"
 };
 
-const obj2 = {
+const obj = {
     foo: "foo"
     , bar: "bar"
     , baz: "baz"
 };
 
 const user = process.argv[2];
-const obj3 = {
+const obj = {
     user,
     [process.argv[3] ? "foo" : "bar"]: 0,
     baz: [
@@ -245,13 +270,25 @@ Examples of additional **correct** code for this rule with the `{ "allowAllPrope
 
 const obj = { foo: "foo", bar: "bar", baz: "baz" };
 
-const obj2 = {
+const obj = {
     foo: "foo", bar: "bar", baz: "baz"
 };
 const user = process.argv[2];
-const obj3 = {
+const obj = {
     user, [process.argv[3] ? "foo" : "bar"]: 0, baz: [1, 2, 4, 8]
 };
+```
+
+Example of additional **correct** code for this rule with the `{ "treatComputedPropertiesLikeJSCS": true }` option:
+
+```js
+/*eslint object-property-newline: ["error", { "treatComputedPropertiesLikeJSCS": true }]*/
+
+const domain = process.argv[4];
+const obj = {
+    foo: "foo", [
+    domain.includes(":") ? "complexdomain" : "simpledomain"
+]: true};
 ```
 
 ## When Not To Use It
@@ -260,7 +297,7 @@ You can turn this rule off if you want to decide, case-by-case, whether to place
 
 ## Compatibility
 
-- **JSCS**: This rule provides partial compatibility with [requireObjectKeysOnNewLine](http://jscs.info/rule/requireObjectKeysOnNewLine).
+- **JSCS**: [requireObjectKeysOnNewLine](http://jscs.info/rule/requireObjectKeysOnNewLine)
 
 ## Related Rules
 
