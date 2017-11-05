@@ -928,7 +928,7 @@ describe("Linter", () => {
             const config = { rules: {}, parser: "test-parser" };
             const messages = linter.verify("0", config, filename);
 
-            assert.equal(messages.length, 0);
+            assert.strictEqual(messages.length, 0);
         });
 
     });
