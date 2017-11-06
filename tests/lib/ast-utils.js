@@ -1198,4 +1198,22 @@ describe("ast-utils", () => {
             });
         });
     });
+
+    describe("equalTokens", () => {
+        it("should return true if tokens are equal", () => {
+            const code = "a=0;a=0;";
+            const ast = espree.parse(code, ESPREE_CONFIG);
+            const sourceCode = new SourceCode(code, ast);
+
+            assert.strictEqual(astUtils.equalTokens(ast.body[0], ast.body[1], sourceCode), true);
+        });
+
+        it("should return false if tokens are not equal", () => {
+            const code = "a=0;a=1;";
+            const ast = espree.parse(code, ESPREE_CONFIG);
+            const sourceCode = new SourceCode(code, ast);
+
+            assert.strictEqual(astUtils.equalTokens(ast.body[0], ast.body[1], sourceCode), false);
+        });
+    });
 });
