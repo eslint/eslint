@@ -27,18 +27,103 @@ ruleTester.run("semi-style", rule, {
         "for(a;\nb;\nc);",
         "for((a\n);\n(b\n);\n(c));",
         "if(a)foo;\nbar",
+        { code: ";", options: ["last"] },
         { code: ";foo;bar;baz;", options: ["last"] },
         { code: "foo;\nbar;", options: ["last"] },
         { code: "for(a;b;c);", options: ["last"] },
         { code: "for(a;\nb;\nc);", options: ["last"] },
         { code: "for((a\n);\n(b\n);\n(c));", options: ["last"] },
         { code: "if(a)foo;\nbar", options: ["last"] },
+        { code: ";", options: ["first"] },
         { code: ";foo;bar;baz;", options: ["first"] },
         { code: "foo\n;bar;", options: ["first"] },
         { code: "for(a;b;c);", options: ["first"] },
         { code: "for(a;\nb;\nc);", options: ["first"] },
         { code: "for((a\n);\n(b\n);\n(c));", options: ["first"] },
-        { code: "if(a)foo\n;bar", options: ["first"] }
+
+        // edge cases
+        {
+            code: `
+                {
+                    ;
+                }
+            `,
+            options: ["first"]
+        },
+        {
+            code: `
+                while (a)
+                    ;
+                foo
+            `,
+            options: ["first"]
+        },
+        {
+            code: `
+                do
+                    ;
+                while (a)
+            `,
+            options: ["first"]
+        },
+        {
+            code: `
+                do
+                    foo;
+                while (a)
+            `,
+            options: ["first"]
+        },
+        {
+            code: `
+                if (a)
+                    foo;
+                else
+                    bar
+            `,
+            options: ["first"]
+        },
+        {
+            code: `
+                if (a)
+                    foo
+                ;bar
+            `,
+            options: ["first"]
+        },
+        {
+            code: `
+                {
+                    ;
+                }
+            `,
+            options: ["last"]
+        },
+        {
+            code: `
+                switch (a) {
+                    case 1:
+                        ;foo
+                }
+            `,
+            options: ["last"]
+        },
+        {
+            code: `
+                while (a)
+                    ;
+                foo
+            `,
+            options: ["last"]
+        },
+        {
+            code: `
+                do
+                    ;
+                while (a)
+            `,
+            options: ["last"]
+        }
     ],
     invalid: [
         {
