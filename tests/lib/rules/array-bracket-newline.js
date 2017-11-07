@@ -28,8 +28,10 @@ ruleTester.run("array-bracket-newline", rule, {
 
     valid: [
 
-        // ArrayExpression
-        // "default" { multiline: true }
+        /*
+         * ArrayExpression
+         * "default" { multiline: true }
+         */
         "var foo = [];",
         "var foo = [1];",
         "var foo = /* any comment */[1];",
@@ -130,8 +132,10 @@ ruleTester.run("array-bracket-newline", rule, {
         { code: "var d = [\n1,\n2\n];", options: [{ multiline: true, minItems: 2 }] },
         { code: "var e = [\nfunction foo() {\ndosomething();\n}\n];", options: [{ multiline: true, minItems: 2 }] },
 
-        // ArrayPattern
-        // default { multiline: true }
+        /*
+         * ArrayPattern
+         * default { multiline: true }
+         */
         { code: "var [] = foo", parserOptions: { ecmaVersion: 6 } },
         { code: "var [a] = foo;", parserOptions: { ecmaVersion: 6 } },
         { code: "var /* any comment */[a] = foo;", parserOptions: { ecmaVersion: 6 } },
@@ -173,8 +177,10 @@ ruleTester.run("array-bracket-newline", rule, {
 
     invalid: [
 
-        // ArrayExpression
-        // "always"
+        /*
+         * ArrayExpression
+         * "always"
+         */
         {
             code: "var foo = [];",
             output: "var foo = [\n];",
@@ -1131,8 +1137,10 @@ ruleTester.run("array-bracket-newline", rule, {
             ]
         },
 
-        // extra test cases
-        // "always"
+        /*
+         * extra test cases
+         * "always"
+         */
         {
             code: "var foo = [\n1, 2];",
             output: "var foo = [\n1, 2\n];",
@@ -1276,8 +1284,10 @@ ruleTester.run("array-bracket-newline", rule, {
             ]
         },
 
-        // ArrayPattern
-        // "always"
+        /*
+         * ArrayPattern
+         * "always"
+         */
         {
             code: "var [] = foo;",
             output: "var [\n] = foo;",

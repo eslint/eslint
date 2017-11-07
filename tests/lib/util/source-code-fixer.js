@@ -423,8 +423,10 @@ describe("SourceCodeFixer", () => {
 
     });
 
-    // This section is almost same as "with no BOM".
-    // Just `result.output` has BOM.
+    /*
+     * This section is almost same as "with no BOM".
+     * Just `result.output` has BOM.
+     */
     describe("applyFixes() with BOM", () => {
 
         const TEST_CODE_WITH_BOM = `\uFEFF${TEST_CODE}`;

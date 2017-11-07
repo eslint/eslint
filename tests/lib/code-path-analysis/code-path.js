@@ -66,6 +66,7 @@ function getOrderOfTraversing(codePath, options, callback) {
 describe("CodePathAnalyzer", () => {
     describe(".traverseSegments()", () => {
         describe("should traverse segments from the first to the end:", () => {
+            /* eslint-disable rulesdir/multiline-comment-style */
             it("simple", () => {
                 const codePath = parseCodePaths("foo(); bar(); baz();")[0];
                 const order = getOrderOfTraversing(codePath);
@@ -301,5 +302,7 @@ describe("CodePathAnalyzer", () => {
             }
             */
         });
+
+        /* eslint-enable rulesdir/multiline-comment-style */
     });
 });

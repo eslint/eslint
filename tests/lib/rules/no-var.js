@@ -254,8 +254,10 @@ ruleTester.run("no-var", rule, {
             ]
         },
 
-        // This case is not in TDZ, but it's very hard to distinguish the reference is in TDZ or not.
-        // So this rule does not fix it for safe.
+        /*
+         * This case is not in TDZ, but it's very hard to distinguish the reference is in TDZ or not.
+         * So this rule does not fix it for safe.
+         */
         {
             code: "function foo() { a } var a = 1; foo()",
             output: null,

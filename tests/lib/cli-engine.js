@@ -588,7 +588,7 @@ describe("CLIEngine", () => {
 
             engine = new CLIEngine({
                 cwd: originalDir,
-                configFile: ".eslintrc.yml"
+                configFile: ".eslintrc.js"
             });
 
             const report = engine.executeOnFiles(["lib/cli*.js"]);
@@ -602,7 +602,7 @@ describe("CLIEngine", () => {
 
             engine = new CLIEngine({
                 cwd: originalDir,
-                configFile: ".eslintrc.yml"
+                configFile: ".eslintrc.js"
             });
 
             const report = engine.executeOnFiles(["lib/cli*.js", "lib/cli.?s", "lib/{cli,cli-engine}.js"]);
@@ -1853,9 +1853,9 @@ describe("CLIEngine", () => {
             describe("when the cacheFile is a directory or looks like a directory", () => {
 
                 /**
-                * helper method to delete the cache files created during testing
-                * @returns {void}
-                */
+                 * helper method to delete the cache files created during testing
+                 * @returns {void}
+                 */
                 function deleteCacheDir() {
                     try {
                         fs.unlinkSync("./tmp/.cacheFileDir/.cache_hashOfCurrentWorkingDirectory");
@@ -2166,8 +2166,10 @@ describe("CLIEngine", () => {
                 // delete the file from the file system
                 fs.unlinkSync(toBeDeletedFile);
 
-                // file-entry-cache@2.0.0 will remove from the cache deleted files
-                // even when they were not part of the array of files to be analyzed
+                /*
+                 * file-entry-cache@2.0.0 will remove from the cache deleted files
+                 * even when they were not part of the array of files to be analyzed
+                 */
                 engine.executeOnFiles([badFile, goodFile]);
 
                 cache = JSON.parse(fs.readFileSync(cacheFile));
@@ -2205,9 +2207,11 @@ describe("CLIEngine", () => {
 
                 assert.isTrue(typeof cache[testFile2] === "object", "the entry for the test-file2 is in the cache");
 
-                // we pass a different set of files minus test-file2
-                // previous version of file-entry-cache would remove the non visited
-                // entries. 2.0.0 version will keep them unless they don't exist
+                /*
+                 * we pass a different set of files minus test-file2
+                 * previous version of file-entry-cache would remove the non visited
+                 * entries. 2.0.0 version will keep them unless they don't exist
+                 */
                 engine.executeOnFiles([badFile, goodFile]);
 
                 cache = JSON.parse(fs.readFileSync(cacheFile));
@@ -2681,6 +2685,42 @@ describe("CLIEngine", () => {
                     cwd: path.join(fixtureDir, "..")
                 }),
                 formatter = engine.getFormatter(".\\fixtures\\formatters\\simple.js");
+
+            assert.isFunction(formatter);
+        });
+
+        it("should return a function when a formatter prefixed with eslint-formatter is requested", () => {
+            const engine = new CLIEngine({
+                    cwd: getFixturePath("cli-engine")
+                }),
+                formatter = engine.getFormatter("bar");
+
+            assert.isFunction(formatter);
+        });
+
+        it("should return a function when a formatter is requested, also when the eslint-formatter prefix is included in the format argument", () => {
+            const engine = new CLIEngine({
+                    cwd: getFixturePath("cli-engine")
+                }),
+                formatter = engine.getFormatter("eslint-formatter-bar");
+
+            assert.isFunction(formatter);
+        });
+
+        it("should return a function when a formatter is requested within a scoped npm package", () => {
+            const engine = new CLIEngine({
+                    cwd: getFixturePath("cli-engine")
+                }),
+                formatter = engine.getFormatter("@somenamespace/foo");
+
+            assert.isFunction(formatter);
+        });
+
+        it("should return a function when a formatter is requested within a scoped npm package, also when the eslint-formatter prefix is included in the format argument", () => {
+            const engine = new CLIEngine({
+                    cwd: getFixturePath("cli-engine")
+                }),
+                formatter = engine.getFormatter("@somenamespace/eslint-formatter-foo");
 
             assert.isFunction(formatter);
         });

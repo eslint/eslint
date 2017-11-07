@@ -5,8 +5,10 @@
 
 "use strict";
 
-// NOTE: If you are adding new tests for cli.js, use verifyCLIEngineOpts(). The
-// test only needs to verify that CLIEngine receives the correct opts.
+/*
+ * NOTE: If you are adding new tests for cli.js, use verifyCLIEngineOpts(). The
+ * test only needs to verify that CLIEngine receives the correct opts.
+ */
 
 //------------------------------------------------------------------------------
 // Requirements

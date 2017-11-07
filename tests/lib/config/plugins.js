@@ -241,35 +241,4 @@ describe("Plugins", () => {
         });
 
     });
-
-    describe("removePrefix()", () => {
-        it("should remove common prefix when passed a plugin name  with a prefix", () => {
-            const pluginName = Plugins.removePrefix("eslint-plugin-test");
-
-            assert.strictEqual(pluginName, "test");
-        });
-
-        it("should not modify plugin name when passed a plugin name without a prefix", () => {
-            const pluginName = Plugins.removePrefix("test");
-
-            assert.strictEqual(pluginName, "test");
-        });
-    });
-
-    describe("getNamespace()", () => {
-        it("should remove namepace when passed with namepace", () => {
-            const namespace = Plugins.getNamespace("@namepace/eslint-plugin-test");
-
-            assert.strictEqual(namespace, "@namepace/");
-        });
-    });
-
-    describe("removeNamespace()", () => {
-        it("should remove namepace when passed with namepace", () => {
-            const namespace = Plugins.removeNamespace("@namepace/eslint-plugin-test");
-
-            assert.strictEqual(namespace, "eslint-plugin-test");
-        });
-    });
-
 });

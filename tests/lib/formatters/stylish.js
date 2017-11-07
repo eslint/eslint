@@ -14,8 +14,10 @@ const assert = require("chai").assert,
     proxyquire = require("proxyquire"),
     sinon = require("sinon");
 
-// Chalk protects its methods so we need to inherit from it
-// for Sinon to work.
+/*
+ * Chalk protects its methods so we need to inherit from it
+ * for Sinon to work.
+ */
 const chalkStub = Object.create(chalk, {
     yellow: {
         value(str) {

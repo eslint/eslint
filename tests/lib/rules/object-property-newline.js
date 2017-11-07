@@ -24,7 +24,9 @@ ruleTester.run("object-property-newline", rule, {
 
         // default-case
         "var obj = {\nk1: 'val1',\nk2: 'val2',\nk3: 'val3',\nk4: 'val4'\n};",
+        "var obj = {\nk1: 'val1'\n, k2: 'val2'\n, k3: 'val3'\n, k4: 'val4'\n};",
         "var obj = { k1: 'val1',\nk2: 'val2',\nk3: 'val3',\nk4: 'val4' };",
+        "var obj = { k1: 'val1'\n, k2: 'val2'\n, k3: 'val3'\n, k4: 'val4' };",
         "var obj = { k1: 'val1' };",
         "var obj = {\nk1: 'val1'\n};",
         "var obj = {};",
@@ -170,6 +172,18 @@ ruleTester.run("object-property-newline", rule, {
                     type: "ObjectExpression",
                     line: 3,
                     column: 17
+                }
+            ]
+        },
+        {
+            code: "var obj = { k1: 'val1',\nk2: [\n'val2a', 'val2b', 'val2c'\n], k3: 'val3' };",
+            output: "var obj = { k1: 'val1',\nk2: [\n'val2a', 'val2b', 'val2c'\n],\nk3: 'val3' };",
+            errors: [
+                {
+                    message: "Object properties must go on a new line.",
+                    type: "ObjectExpression",
+                    line: 4,
+                    column: 4
                 }
             ]
         },
@@ -379,6 +393,25 @@ ruleTester.run("object-property-newline", rule, {
             ]
         },
         {
+            code: "var obj = {\nk1:\n'val1', k2: 'val2', k3:\n'val3'\n};",
+            output: "var obj = {\nk1:\n'val1',\nk2: 'val2',\nk3:\n'val3'\n};",
+            options: [{ allowMultiplePropertiesPerLine: true }],
+            errors: [
+                {
+                    message: "Object properties must go on a new line if they aren't all on the same line.",
+                    type: "ObjectExpression",
+                    line: 3,
+                    column: 9
+                },
+                {
+                    message: "Object properties must go on a new line if they aren't all on the same line.",
+                    type: "ObjectExpression",
+                    line: 3,
+                    column: 21
+                }
+            ]
+        },
+        {
             code: "var obj = {k1: [\n'foo',\n'bar'\n], k2: 'val1'};",
             output: "var obj = {k1: [\n'foo',\n'bar'\n],\nk2: 'val1'};",
             options: [{ allowMultiplePropertiesPerLine: true }],
@@ -415,6 +448,19 @@ ruleTester.run("object-property-newline", rule, {
                     line: 2,
                     column: 13
                 },
+                {
+                    message: "Object properties must go on a new line if they aren't all on the same line.",
+                    type: "ObjectExpression",
+                    line: 4,
+                    column: 4
+                }
+            ]
+        },
+        {
+            code: "var obj = { k1: 'val1',\nk2: [\n'val2a', 'val2b', 'val2c'\n], k3: 'val3' };",
+            output: "var obj = { k1: 'val1',\nk2: [\n'val2a', 'val2b', 'val2c'\n],\nk3: 'val3' };",
+            options: [{ allowMultiplePropertiesPerLine: true }],
+            errors: [
                 {
                     message: "Object properties must go on a new line if they aren't all on the same line.",
                     type: "ObjectExpression",
