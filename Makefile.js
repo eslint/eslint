@@ -20,7 +20,6 @@ const lodash = require("lodash"),
     fs = require("fs"),
     glob = require("glob"),
     markdownlint = require("markdownlint"),
-    nodeCLI = require("shelljs-nodecli"),
     os = require("os"),
     path = require("path"),
     semver = require("semver"),
@@ -468,6 +467,15 @@ function getFormatterResults() {
     }, { formatterResults: {} });
 }
 
+/**
+ * Gets a path to an executable in node_modules/.bin
+ * @param {string} command The executable name
+ * @returns {string} The executable path
+ */
+function getBinFile(command) {
+    return path.join("node_modules", ".bin", command);
+}
+
 //------------------------------------------------------------------------------
 // Tasks
 //------------------------------------------------------------------------------
@@ -560,21 +568,20 @@ target.test = function() {
     let errors = 0,
         lastReturn;
 
-    // exec(ISTANBUL + " cover " + MOCHA + "-- -c " + TEST_FILES);
-    lastReturn = nodeCLI.exec("istanbul", "cover", MOCHA, `-- -R progress -t ${MOCHA_TIMEOUT}`, "-c", TEST_FILES);
+    lastReturn = exec(`${getBinFile("istanbul")} cover ${MOCHA} -- -R progress -t ${MOCHA_TIMEOUT} -c ${TEST_FILES}`);
     if (lastReturn.code !== 0) {
         errors++;
     }
 
-    // exec(ISTANBUL + "check-coverage --statement 99 --branch 98 --function 99 --lines 99");
-    lastReturn = nodeCLI.exec("istanbul", "check-coverage", "--statement 99 --branch 98 --function 99 --lines 99");
+    lastReturn = exec(`${getBinFile("istanbul")} check-coverage --statement 99 --branch 98 --function 99 --lines 99`);
+
     if (lastReturn.code !== 0) {
         errors++;
     }
 
     target.browserify();
 
-    lastReturn = nodeCLI.exec("karma", "start karma.conf.js");
+    lastReturn = exec(`${getBinFile("karma")} start karma.conf.js`);
     if (lastReturn.code !== 0) {
         errors++;
     }
@@ -588,7 +595,7 @@ target.test = function() {
 
 target.docs = function() {
     echo("Generating documentation");
-    nodeCLI.exec("jsdoc", "-d jsdoc lib");
+    exec(`${getBinFile("jsdoc")} -d jsdoc lib`);
     echo("Documentation has been output to /jsdoc");
 };
 
@@ -799,10 +806,10 @@ target.browserify = function() {
     generateRulesIndex(TEMP_DIR);
 
     // 5. browserify the temp directory
-    nodeCLI.exec("browserify", "-x espree", `${TEMP_DIR}linter.js`, "-o", `${BUILD_DIR}eslint.js`, "-s eslint", "--global-transform [ babelify --presets [ es2015 ] ]");
+    exec(`${getBinFile("browserify")} -x espree ${TEMP_DIR}linter.js -o ${BUILD_DIR}eslint.js -s eslint --global-transform [ babelify --presets [ es2015 ] ]`);
 
     // 6. Browserify espree
-    nodeCLI.exec("browserify", "-r espree", "-o", `${TEMP_DIR}espree.js`);
+    exec(`${getBinFile("browserify")} -r espree -o ${TEMP_DIR}espree.js`);
 
     // 7. Concatenate Babel polyfill, Espree, and ESLint files together
     cat("./node_modules/babel-polyfill/dist/polyfill.js", `${TEMP_DIR}espree.js`, `${BUILD_DIR}eslint.js`).to(`${BUILD_DIR}eslint.js`);
