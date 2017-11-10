@@ -42,7 +42,7 @@
     "debug": "^3.0.1",
     "doctrine": "^2.0.0",
     "eslint-scope": "^3.7.1",
-    "espree": "^3.5.1",
+    "espree": "^3.5.2",
     "esquery": "^1.0.0",
     "estraverse": "^4.2.0",
     "esutils": "^2.0.2",
