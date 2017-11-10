@@ -192,7 +192,7 @@ This allows you to avoid retyping error messages. It also prevents errors report
 module.exports = {
     meta: {
         messages: {
-            foo: "Avoid using variables named 'foo'"
+            avoidName: "Avoid using variables named '{{ name }}'"
         }
     },
     create(context) {
@@ -201,7 +201,10 @@ module.exports = {
                 if (node.name === "foo") {
                     context.report({
                         node,
-                        messageId: "foo"
+                        messageId: "avoidName",
+                        data: {
+                            name: "foo",
+                        },
                     });
                 }
             }
