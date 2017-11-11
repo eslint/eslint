@@ -48,17 +48,15 @@ describe("Makefile.js", () => {
             const pattern = [
                 "tests/lib/rules/**/*.js",
                 "tests/lib/*.js",
-                "tests/templates/*.js",
                 "tests/bin/**/*.js",
-                "tests/tools/*.js",
+                "tests/tools/**/*.js",
                 "\"tests/lib/bin/**/*.js\"",
                 "\"tests/lib/code-path-analysis/**/*.js\"",
                 "\"tests/lib/config/**/*.js\"",
                 "\"tests/lib/tools/**/*.js\""
             ];
-
             assert.sameOrderedMembers(filePatterns, pattern);
-            assert.equal(filePatterns.length, 9);
+            assert.equal(filePatterns.length, 8);
         });
     });
 
@@ -365,15 +363,15 @@ describe("Makefile.js", () => {
     describe("getFirstVersionOfDeletion", () => {
         assert.isTrue(true);
     });
+    // doesn't seem to exist anymore
+    // describe("getBranches", () => {
+    //     it("returns array of branch names", () => {
+    //         const branches = Makefile.getBranches();
 
-    describe("getBranches", () => {
-        it("returns array of branch names", () => {
-            const branches = Makefile.getBranches();
-
-            // if branch was committed, branches length is at least 1
-            assert.isAbove(branches.length, 1);
-        });
-    });
+    //         // if branch was committed, branches length is at least 1
+    //         assert.isAbove(branches.length, 1);
+    //     });
+    // });
 
     describe("lintMarkdown", () => {
         const md = `${__dirname}/fixtures/docs/`;
@@ -391,24 +389,24 @@ describe("Makefile.js", () => {
         });
     });
 
-    describe("hasBranch", () => {
-        const testBranch = "pr/victor_hom_makefile_branch_test";
-        const currentBranchName = Makefile.execSilent("git rev-parse --abbrev-ref HEAD");
+    // describe("hasBranch", () => {
+    //     const testBranch = "pr/victor_hom_makefile_branch_test";
+    //     const currentBranchName = Makefile.execSilent("git rev-parse --abbrev-ref HEAD");
 
-        it ("has branch name", () => {
-            // Suggestion? Is there a way to mock git commands
-            // Makefile.execSilent(`git checkout -b ${testBranch}`);
-            // Makefile.execSilent("touch makefile_test.html");
-            // Makefile.execSilent("git add makefile_test.html");
-            // Makefile.execSilent("git commit -m 'add makefile for hasBranch test'");
-            // assert.isTrue(Makefile.hasBranch(testBranch));
-            // Makefile.execSilent("git reset HEAD~");
-            // Makefile.execSilent("rm makefile_test.html");
-            // Makefile.execSilent(`git checkout ${currentBranchName}`);
-            // Makefile.execSilent(`git branch -D ${testBranch}`);
-            assert.isTrue(true);
-        });
-    });
+        // it ("has branch name", () => {
+        //     // Suggestion? Is there a way to mock git commands
+        //     // Makefile.execSilent(`git checkout -b ${testBranch}`);
+        //     // Makefile.execSilent("touch makefile_test.html");
+        //     // Makefile.execSilent("git add makefile_test.html");
+        //     // Makefile.execSilent("git commit -m 'add makefile for hasBranch test'");
+        //     // assert.isTrue(Makefile.hasBranch(testBranch));
+        //     // Makefile.execSilent("git reset HEAD~");
+        //     // Makefile.execSilent("rm makefile_test.html");
+        //     // Makefile.execSilent(`git checkout ${currentBranchName}`);
+        //     // Makefile.execSilent(`git branch -D ${testBranch}`);
+        //     assert.isTrue(true);
+        // });
+    // });
 
     describe("getFormatterResults", () => {
         it("gets configurations", () => {

@@ -1148,9 +1148,7 @@ module.exports = {
     generateRuleIndexPage,
     splitCommandResultToLines,
     getFirstCommitOfFile,
-    getBranches,
     lintMarkdown,
-    hasBranch,
     getFormatterResults,
     downloadMultifilesTestTarget,
     createConfigForPerformanceTest
