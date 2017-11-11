@@ -72,6 +72,7 @@ Object option (when `"always"`):
 
 Object option (when `"never"`):
 
+* `"beforeStatementContinuationChars": "any"` (default) ignores semicolons (or lacking semicolon) at the end of statements if the next line starts with `[`, `(`, `/`, `+`, or `-`.
 * `"beforeStatementContinuationChars": "always"` requires semicolons at the end of statements if the next line starts with `[`, `(`, `/`, `+`, or `-`.
 * `"beforeStatementContinuationChars": "never"` disallows semicolons as the end of statements if it doesn't make ASI hazard even if the next line starts with `[`, `(`, `/`, `+`, or `-`.
 
@@ -128,6 +129,16 @@ object.method = function() {
 
 var name = "ESLint"
 
+;(function() {
+    // ...
+})()
+
+import a from "a"
+(function() {
+    // ...
+})()
+
+import b from "b"
 ;(function() {
     // ...
 })()
