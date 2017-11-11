@@ -72,8 +72,8 @@ Object option (when `"always"`):
 
 Object option (when `"never"`):
 
-* `"beforeUnreliableLineButSafe": "always"` requires semicolons at the end of statements if the next line starts with `[`, `(`, `/`, `+`, or `-`.
-* `"beforeUnreliableLineButSafe": "never"` disallows semicolons as the end of statements if it doesn't make ASI hazard even if the next line starts with `[`, `(`, `/`, `+`, or `-`.
+* `"beforeStatementContinuationChars": "always"` requires semicolons at the end of statements if the next line starts with `[`, `(`, `/`, `+`, or `-`.
+* `"beforeStatementContinuationChars": "never"` disallows semicolons as the end of statements if it doesn't make ASI hazard even if the next line starts with `[`, `(`, `/`, `+`, or `-`.
 
 ### always
 
@@ -145,12 +145,12 @@ if (foo) { bar() }
 if (foo) { bar(); baz() }
 ```
 
-#### beforeUnreliableLineButSafe
+#### beforeStatementContinuationChars
 
-Examples of additional **incorrect** code for this rule with the `"never", { "beforeUnreliableLineButSafe": "always" }` options:
+Examples of additional **incorrect** code for this rule with the `"never", { "beforeStatementContinuationChars": "always" }` options:
 
 ```js
-/*eslint semi: ["error", "never", { "beforeUnreliableLineButSafe": "always"}] */
+/*eslint semi: ["error", "never", { "beforeStatementContinuationChars": "always"}] */
 import a from "a"
 
 (function() {
@@ -158,10 +158,10 @@ import a from "a"
 })()
 ```
 
-Examples of additional **incorrect** code for this rule with the `"never", { "beforeUnreliableLineButSafe": "never" }` options:
+Examples of additional **incorrect** code for this rule with the `"never", { "beforeStatementContinuationChars": "never" }` options:
 
 ```js
-/*eslint semi: ["error", "never", { "beforeUnreliableLineButSafe": "never"}] */
+/*eslint semi: ["error", "never", { "beforeStatementContinuationChars": "never"}] */
 import a from "a"
 
 ;(function() {

@@ -104,21 +104,21 @@ ruleTester.run("semi", rule, {
                 do; while(a);
                 [1,2,3].forEach(doSomething)
             `,
-            options: ["never", { beforeUnreliableLineButSafe: "any" }]
+            options: ["never", { beforeStatementContinuationChars: "any" }]
         },
         {
             code: `
                 do; while(a)
                 [1,2,3].forEach(doSomething)
             `,
-            options: ["never", { beforeUnreliableLineButSafe: "any" }]
+            options: ["never", { beforeStatementContinuationChars: "any" }]
         },
         {
             code: `
                 import a from "a";
                 [1,2,3].forEach(doSomething)
             `,
-            options: ["never", { beforeUnreliableLineButSafe: "always" }],
+            options: ["never", { beforeStatementContinuationChars: "always" }],
             parserOptions: { sourceType: "module" }
         },
         {
@@ -126,7 +126,7 @@ ruleTester.run("semi", rule, {
                 export {a};
                 [a] = b
             `,
-            options: ["never", { beforeUnreliableLineButSafe: "always" }],
+            options: ["never", { beforeStatementContinuationChars: "always" }],
             parserOptions: { sourceType: "module" }
         },
         {
@@ -136,7 +136,7 @@ ruleTester.run("semi", rule, {
                     ({a} = b)
                 }
             `,
-            options: ["never", { beforeUnreliableLineButSafe: "always" }],
+            options: ["never", { beforeStatementContinuationChars: "always" }],
             parserOptions: { ecmaVersion: 2015 }
         },
         {
@@ -146,7 +146,7 @@ ruleTester.run("semi", rule, {
                     +i
                 }
             `,
-            options: ["never", { beforeUnreliableLineButSafe: "always" }]
+            options: ["never", { beforeStatementContinuationChars: "always" }]
         },
         {
             code: `
@@ -155,21 +155,21 @@ ruleTester.run("semi", rule, {
                     [1,2,3].forEach(doSomething)
                 }
             `,
-            options: ["never", { beforeUnreliableLineButSafe: "always" }]
+            options: ["never", { beforeStatementContinuationChars: "always" }]
         },
         {
             code: `
                 do; while(a);
                 [1,2,3].forEach(doSomething)
             `,
-            options: ["never", { beforeUnreliableLineButSafe: "always" }]
+            options: ["never", { beforeStatementContinuationChars: "always" }]
         },
         {
             code: `
                 const f = () => {};
                 [1,2,3].forEach(doSomething)
             `,
-            options: ["never", { beforeUnreliableLineButSafe: "always" }],
+            options: ["never", { beforeStatementContinuationChars: "always" }],
             parserOptions: { ecmaVersion: 2015 }
         },
         {
@@ -177,7 +177,7 @@ ruleTester.run("semi", rule, {
                 import a from "a"
                 [1,2,3].forEach(doSomething)
             `,
-            options: ["never", { beforeUnreliableLineButSafe: "never" }],
+            options: ["never", { beforeStatementContinuationChars: "never" }],
             parserOptions: { sourceType: "module" }
         },
         {
@@ -185,7 +185,7 @@ ruleTester.run("semi", rule, {
                 export {a}
                 [a] = b
             `,
-            options: ["never", { beforeUnreliableLineButSafe: "never" }],
+            options: ["never", { beforeStatementContinuationChars: "never" }],
             parserOptions: { sourceType: "module" }
         },
         {
@@ -195,7 +195,7 @@ ruleTester.run("semi", rule, {
                     ({a} = b)
                 }
             `,
-            options: ["never", { beforeUnreliableLineButSafe: "never" }],
+            options: ["never", { beforeStatementContinuationChars: "never" }],
             parserOptions: { ecmaVersion: 2015 }
         },
         {
@@ -205,7 +205,7 @@ ruleTester.run("semi", rule, {
                     +i
                 }
             `,
-            options: ["never", { beforeUnreliableLineButSafe: "never" }]
+            options: ["never", { beforeStatementContinuationChars: "never" }]
         },
         {
             code: `
@@ -214,21 +214,21 @@ ruleTester.run("semi", rule, {
                     [1,2,3].forEach(doSomething)
                 }
             `,
-            options: ["never", { beforeUnreliableLineButSafe: "never" }]
+            options: ["never", { beforeStatementContinuationChars: "never" }]
         },
         {
             code: `
                 do; while(a)
                 [1,2,3].forEach(doSomething)
             `,
-            options: ["never", { beforeUnreliableLineButSafe: "never" }]
+            options: ["never", { beforeStatementContinuationChars: "never" }]
         },
         {
             code: `
                 const f = () => {}
                 [1,2,3].forEach(doSomething)
             `,
-            options: ["never", { beforeUnreliableLineButSafe: "never" }],
+            options: ["never", { beforeStatementContinuationChars: "never" }],
             parserOptions: { ecmaVersion: 2015 }
         }
     ],
@@ -332,7 +332,7 @@ ruleTester.run("semi", rule, {
                 import a from "a";
                 [1,2,3].forEach(doSomething)
             `,
-            options: ["never", { beforeUnreliableLineButSafe: "always" }],
+            options: ["never", { beforeStatementContinuationChars: "always" }],
             parserOptions: { sourceType: "module" },
             errors: ["Missing semicolon."]
         },
@@ -345,7 +345,7 @@ ruleTester.run("semi", rule, {
                 export {a};
                 [a] = b
             `,
-            options: ["never", { beforeUnreliableLineButSafe: "always" }],
+            options: ["never", { beforeStatementContinuationChars: "always" }],
             parserOptions: { sourceType: "module" },
             errors: ["Missing semicolon."]
         },
@@ -362,7 +362,7 @@ ruleTester.run("semi", rule, {
                     ({a} = b)
                 }
             `,
-            options: ["never", { beforeUnreliableLineButSafe: "always" }],
+            options: ["never", { beforeStatementContinuationChars: "always" }],
             parserOptions: { ecmaVersion: 2015 },
             errors: ["Missing semicolon."]
         },
@@ -379,7 +379,7 @@ ruleTester.run("semi", rule, {
                    +i
                 }
             `,
-            options: ["never", { beforeUnreliableLineButSafe: "always" }],
+            options: ["never", { beforeStatementContinuationChars: "always" }],
             errors: ["Missing semicolon."]
         },
         {
@@ -395,7 +395,7 @@ ruleTester.run("semi", rule, {
                     [1,2,3].forEach(doSomething)
                 }
             `,
-            options: ["never", { beforeUnreliableLineButSafe: "always" }],
+            options: ["never", { beforeStatementContinuationChars: "always" }],
             errors: ["Missing semicolon."]
         },
         {
@@ -407,7 +407,7 @@ ruleTester.run("semi", rule, {
                 do; while(a);
                 [1,2,3].forEach(doSomething)
             `,
-            options: ["never", { beforeUnreliableLineButSafe: "always" }],
+            options: ["never", { beforeStatementContinuationChars: "always" }],
             errors: ["Missing semicolon."]
         },
         {
@@ -419,7 +419,7 @@ ruleTester.run("semi", rule, {
                 const f = () => {};
                 [1,2,3].forEach(doSomething)
             `,
-            options: ["never", { beforeUnreliableLineButSafe: "always" }],
+            options: ["never", { beforeStatementContinuationChars: "always" }],
             parserOptions: { ecmaVersion: 2015 },
             errors: ["Missing semicolon."]
         },
@@ -432,7 +432,7 @@ ruleTester.run("semi", rule, {
                 import a from "a"
                 [1,2,3].forEach(doSomething)
             `,
-            options: ["never", { beforeUnreliableLineButSafe: "never" }],
+            options: ["never", { beforeStatementContinuationChars: "never" }],
             parserOptions: { sourceType: "module" },
             errors: ["Extra semicolon."]
         },
@@ -445,7 +445,7 @@ ruleTester.run("semi", rule, {
                 export {a}
                 [a] = b
             `,
-            options: ["never", { beforeUnreliableLineButSafe: "never" }],
+            options: ["never", { beforeStatementContinuationChars: "never" }],
             parserOptions: { sourceType: "module" },
             errors: ["Extra semicolon."]
         },
@@ -462,7 +462,7 @@ ruleTester.run("semi", rule, {
                     ({a} = b)
                 }
             `,
-            options: ["never", { beforeUnreliableLineButSafe: "never" }],
+            options: ["never", { beforeStatementContinuationChars: "never" }],
             parserOptions: { ecmaVersion: 2015 },
             errors: ["Extra semicolon."]
         },
@@ -479,7 +479,7 @@ ruleTester.run("semi", rule, {
                     +i
                 }
             `,
-            options: ["never", { beforeUnreliableLineButSafe: "never" }],
+            options: ["never", { beforeStatementContinuationChars: "never" }],
             errors: ["Extra semicolon."]
         },
         {
@@ -495,7 +495,7 @@ ruleTester.run("semi", rule, {
                     [1,2,3].forEach(doSomething)
                 }
             `,
-            options: ["never", { beforeUnreliableLineButSafe: "never" }],
+            options: ["never", { beforeStatementContinuationChars: "never" }],
             errors: ["Extra semicolon."]
         },
         {
@@ -507,7 +507,7 @@ ruleTester.run("semi", rule, {
                 do; while(a)
                 [1,2,3].forEach(doSomething)
             `,
-            options: ["never", { beforeUnreliableLineButSafe: "never" }],
+            options: ["never", { beforeStatementContinuationChars: "never" }],
             errors: ["Extra semicolon."]
         },
         {
@@ -519,7 +519,7 @@ ruleTester.run("semi", rule, {
                 const f = () => {}
                 [1,2,3].forEach(doSomething)
             `,
-            options: ["never", { beforeUnreliableLineButSafe: "never" }],
+            options: ["never", { beforeStatementContinuationChars: "never" }],
             parserOptions: { ecmaVersion: 2015 },
             errors: ["Extra semicolon."]
         },
@@ -532,7 +532,7 @@ ruleTester.run("semi", rule, {
                 import a from "a"
                 [1,2,3].forEach(doSomething)
             `,
-            options: ["never", { beforeUnreliableLineButSafe: "never" }],
+            options: ["never", { beforeStatementContinuationChars: "never" }],
             parserOptions: { sourceType: "module" },
             errors: ["Extra semicolon."]
         },
@@ -545,7 +545,7 @@ ruleTester.run("semi", rule, {
                 export {a}
                 [1,2,3].forEach(doSomething)
             `,
-            options: ["never", { beforeUnreliableLineButSafe: "never" }],
+            options: ["never", { beforeStatementContinuationChars: "never" }],
             parserOptions: { sourceType: "module" },
             errors: ["Extra semicolon."]
         },
@@ -562,7 +562,7 @@ ruleTester.run("semi", rule, {
                     [1,2,3].forEach(doSomething)
                 }
             `,
-            options: ["never", { beforeUnreliableLineButSafe: "never" }],
+            options: ["never", { beforeStatementContinuationChars: "never" }],
             errors: ["Extra semicolon."]
         },
         {
@@ -578,7 +578,7 @@ ruleTester.run("semi", rule, {
                     [1,2,3].forEach(doSomething)
                 }
             `,
-            options: ["never", { beforeUnreliableLineButSafe: "never" }],
+            options: ["never", { beforeStatementContinuationChars: "never" }],
             errors: ["Extra semicolon."]
         },
         {
@@ -594,7 +594,7 @@ ruleTester.run("semi", rule, {
                     [1,2,3].forEach(doSomething)
                 }
             `,
-            options: ["never", { beforeUnreliableLineButSafe: "never" }],
+            options: ["never", { beforeStatementContinuationChars: "never" }],
             errors: ["Extra semicolon."]
         },
         {
@@ -606,7 +606,7 @@ ruleTester.run("semi", rule, {
                 do; while(a)
                 [1,2,3].forEach(doSomething)
             `,
-            options: ["never", { beforeUnreliableLineButSafe: "never" }],
+            options: ["never", { beforeStatementContinuationChars: "never" }],
             errors: ["Extra semicolon."]
         },
         {
@@ -618,7 +618,7 @@ ruleTester.run("semi", rule, {
                 const f = () => {}
                 [1,2,3].forEach(doSomething)
             `,
-            options: ["never", { beforeUnreliableLineButSafe: "never" }],
+            options: ["never", { beforeStatementContinuationChars: "never" }],
             parserOptions: { ecmaVersion: 2015 },
             errors: ["Extra semicolon."]
         }
