@@ -116,6 +116,7 @@ These folks keep the project moving and are resources for help.
 * Alberto Rodríguez ([@alberto](https://github.com/alberto))
 * Kai Cataldo ([@kaicataldo](https://github.com/kaicataldo))
 * Teddy Katz ([@not-an-aardvark](https://github.com/not-an-aardvark))
+* Kevin Partington ([@platinumazure](https://github.com/platinumazure))
 
 ### Development Team
 
@@ -130,7 +131,6 @@ These folks keep the project moving and are resources for help.
 * Henry Zhu ([@hzoo](https://github.com/hzoo))
 * Marat Dulin ([@mdevils](https://github.com/mdevils))
 * Alexej Yaroshevich ([@zxqfox](https://github.com/zxqfox))
-* Kevin Partington ([@platinumazure](https://github.com/platinumazure))
 * Vitor Balocco ([@vitorbal](https://github.com/vitorbal))
 * James Henry ([@JamesHenry](https://github.com/JamesHenry))
 * Reyad Attiyat ([@soda0289](https://github.com/soda0289))
