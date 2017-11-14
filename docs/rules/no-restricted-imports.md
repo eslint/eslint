@@ -55,6 +55,18 @@ or like this:
 }]
 ```
 
+or like this if you need to restrict only certain imports from a module:
+
+```json
+"no-restricted-imports": ["error", {
+  "paths": [{
+    "name": "import-foo",
+    "importNames": ["Bar"],
+    "message": "Please use Bar from /import-bar/baz/ instead."
+  }]
+}]
+```
+
 The custom message will be appended to the default error message. Please note that you may not specify custom error messages for restricted patterns as a particular import may match more than one pattern.
 
 To restrict the use of all Node.js core imports (via https://github.com/nodejs/node/tree/master/lib):
@@ -87,6 +99,36 @@ import cluster from 'cluster';
 import pick from 'lodash/pick';
 ```
 
+```js
+/*eslint no-restricted-imports: ["error", { paths: [{
+    name: "foo",
+    importNames: ["default"],
+    message: "Please use the default import from '/bar/baz/' instead."
+}]}]*/
+
+import DisallowedObject from "foo";
+```
+
+```js
+/*eslint no-restricted-imports: ["error", { paths: [{
+    name: "foo",
+    importNames: ["DisallowedObject"],
+    message: "Please import 'DisallowedObject' from '/bar/baz/' instead."
+}]}]*/
+
+import { DisallowedObject as AllowedObject } from "foo";
+```
+
+```js
+/*eslint no-restricted-imports: ["error", { paths: [{
+    name: "foo",
+    importNames: ["DisallowedObject"],
+    message: "Please import 'DisallowedObject' from '/bar/baz/' instead."
+}]}]*/
+
+import * as Foo from "foo";
+```
+
 Examples of **correct** code for this rule:
 
 ```js
@@ -100,6 +142,22 @@ import crypto from 'crypto';
 
 import crypto from 'crypto';
 import eslint from 'eslint';
+```
+
+```js
+/*eslint no-restricted-imports: ["error", { paths: [{ name: "foo", importNames: ["DisallowedObject"] }] }]*/
+
+import DisallowedObject from "foo"
+```
+
+```js
+/*eslint no-restricted-imports: ["error", { paths: [{
+    name: "foo",
+    importNames: ["DisallowedObject"],
+    message: "Please import 'DisallowedObject' from '/bar/baz/' instead."
+}]}]*/
+
+import { AllowedObject as DisallowedObject } from "foo";
 ```
 
 ## When Not To Use It
