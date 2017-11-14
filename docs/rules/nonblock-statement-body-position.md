@@ -1,6 +1,6 @@
 # enforce the location of single-line statements (nonblock-statement-body-position)
 
-When writing `if`, `else`, `while`, `do-while`, and `for` statements, the body can be a single statement instead of a block. It can be useful to enforce a consistent location for these single statements.
+When writing `if`, `else`, `while`, `do-while`, `for`, and arrow functions, the body can be a single statement instead of a block. It can be useful to enforce a consistent location for these single statements.
 
 For example, some developers avoid writing code like this:
 
@@ -41,6 +41,7 @@ Additionally, the rule accepts an optional object option with an `"overrides"` k
 
 * `"beside", { "overrides": { "while": "below" } }` requires all single-line statements to appear on the same line as their parent, unless the parent is a `while` statement, in which case the single-line statement must not be on the same line.
 * `"below", { "overrides": { "do": "any" } }` disallows all single-line statements from appearing on the same line as their parent, unless the parent is a `do-while` statement, in which case the position of the single-line statement is not enforced.
+* The following block types are supported in the overrides object: `if`, `else`, `while`, `do`, `for`, and `arrowFunction`.
 
 Examples of **incorrect** code for this rule with the default `"beside"` option:
 
@@ -62,6 +63,8 @@ do
   bar();
 while (foo)
 
+(foo) =>
+  bar();
 ```
 
 Examples of **correct** code for this rule with the default `"beside"` option:
@@ -77,6 +80,12 @@ while (foo) bar();
 for (let i = 1; i < foo; i++) bar();
 
 do bar(); while (foo)
+
+(foo) => bar();
+
+(foo) => (
+  bar()
+);
 
 if (foo) { // block statements are always allowed with this rule
   bar();
@@ -98,6 +107,8 @@ while (foo) bar();
 for (let i = 1; i < foo; i++) bar();
 
 do bar(); while (foo)
+
+(foo) => bar();
 ```
 
 Examples of **correct** code for this rule with the `"below"` option:
@@ -119,6 +130,9 @@ for (let i = 1; i < foo; i++)
 do
   bar();
 while (foo)
+
+(foo) =>
+  bar();
 
 if (foo) {
   // Although the second `if` statement is on the same line as the `else`, this is a very common
