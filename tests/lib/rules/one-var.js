@@ -597,6 +597,17 @@ ruleTester.run("one-var", rule, {
                 line: 1,
                 column: 1
             }]
+        },
+        {
+            code: "const foo = require('foo'); const bar = require('bar');",
+            options: [{ separateRequires: true, const: "always" }],
+            parserOptions: { env: { node: true } },
+            errors: [{
+                message: "Combine this with the previous 'const' statement.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 29
+            }]
         }
     ]
 });
