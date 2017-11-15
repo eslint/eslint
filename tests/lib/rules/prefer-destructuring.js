@@ -130,7 +130,8 @@ ruleTester.run("prefer-destructuring", rule, {
         {
             code: "var foo = object.foo;",
             options: [{ VariableDeclarator: { object: false }, AssignmentExpression: { object: true } }]
-        }
+        },
+        "class Foo extends Bar { static get foo() {var foo = super.foo} }"
     ],
 
     invalid: [
