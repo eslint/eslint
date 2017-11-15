@@ -32,9 +32,15 @@ ruleTester.run("nonblock-statement-body-position", rule, {
         "for (foo in bar) baz;",
         "for (foo of bar) baz;",
         "if (foo) bar; else baz;",
+        "() => foo;",
         `
             if (foo) bar(
                 baz
+            );
+        `,
+        `
+            (foo) => (
+                bar()
             );
         `,
         {
@@ -107,6 +113,13 @@ ruleTester.run("nonblock-statement-body-position", rule, {
             `,
             options: ["below"]
         },
+        {
+            code: `
+                () =>
+                    foo;
+            `,
+            options: ["below"]
+        },
 
         // 'any' option
         {
@@ -116,6 +129,17 @@ ruleTester.run("nonblock-statement-body-position", rule, {
         {
             code: `
                 if (foo)
+                    bar();
+            `,
+            options: ["any"]
+        },
+        {
+            code: "(foo) => bar();",
+            options: ["any"]
+        },
+        {
+            code: `
+                (foo) =>
                     bar();
             `,
             options: ["any"]
@@ -139,6 +163,19 @@ ruleTester.run("nonblock-statement-body-position", rule, {
                     bar();
             `,
             options: ["beside", { overrides: { while: "any" } }]
+        },
+        {
+            code: `
+                (foo) =>
+                    bar();
+            `,
+            options: ["beside", { overrides: { arrowFunction: "any" } }]
+        },
+        {
+            code: `
+                (foo) => bar();
+            `,
+            options: ["any", { overrides: { arrowFunction: "beside" } }]
         },
         {
             code: "while (foo) bar();",
@@ -335,6 +372,23 @@ ruleTester.run("nonblock-statement-body-position", rule, {
             code: "do bar(); while (foo)",
             output: "do \nbar(); while (foo)",
             options: ["any", { overrides: { do: "below" } }],
+            errors: [EXPECTED_LINEBREAK]
+        },
+        {
+            code: `
+                (foo) =>
+                    bar();
+            `,
+            output: `
+                (foo) => bar();
+            `,
+            options: ["below", { overrides: { arrowFunction: "beside" } }],
+            errors: [UNEXPECTED_LINEBREAK]
+        },
+        {
+            code: "(foo) => bar();",
+            output: "(foo) => \nbar();",
+            options: ["any", { overrides: { arrowFunction: "below" } }],
             errors: [EXPECTED_LINEBREAK]
         }
     ]
