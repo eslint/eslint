@@ -140,28 +140,28 @@ describe("configInitializer", () => {
             it("should create default config", () => {
                 const config = init.processAnswers(answers);
 
-                assert.deepEqual(config.rules.indent, ["error", 2]);
-                assert.deepEqual(config.rules.quotes, ["error", "single"]);
-                assert.deepEqual(config.rules["linebreak-style"], ["error", "unix"]);
-                assert.deepEqual(config.rules.semi, ["error", "always"]);
-                assert.equal(config.env.es6, true);
-                assert.equal(config.parserOptions.sourceType, "module");
-                assert.equal(config.env.browser, true);
-                assert.equal(config.extends, "eslint:recommended");
+                assert.deepStrictEqual(config.rules.indent, ["error", 2]);
+                assert.deepStrictEqual(config.rules.quotes, ["error", "single"]);
+                assert.deepStrictEqual(config.rules["linebreak-style"], ["error", "unix"]);
+                assert.deepStrictEqual(config.rules.semi, ["error", "always"]);
+                assert.strictEqual(config.env.es6, true);
+                assert.strictEqual(config.parserOptions.sourceType, "module");
+                assert.strictEqual(config.env.browser, true);
+                assert.strictEqual(config.extends, "eslint:recommended");
             });
 
             it("should disable semi", () => {
                 answers.semi = false;
                 const config = init.processAnswers(answers);
 
-                assert.deepEqual(config.rules.semi, ["error", "never"]);
+                assert.deepStrictEqual(config.rules.semi, ["error", "never"]);
             });
 
             it("should enable jsx flag", () => {
                 answers.jsx = true;
                 const config = init.processAnswers(answers);
 
-                assert.equal(config.parserOptions.ecmaFeatures.jsx, true);
+                assert.strictEqual(config.parserOptions.ecmaFeatures.jsx, true);
             });
 
             it("should enable react plugin", () => {
@@ -169,9 +169,9 @@ describe("configInitializer", () => {
                 answers.react = true;
                 const config = init.processAnswers(answers);
 
-                assert.equal(config.parserOptions.ecmaFeatures.jsx, true);
-                assert.equal(config.parserOptions.ecmaFeatures.experimentalObjectRestSpread, true);
-                assert.deepEqual(config.plugins, ["react"]);
+                assert.strictEqual(config.parserOptions.ecmaFeatures.jsx, true);
+                assert.strictEqual(config.parserOptions.ecmaFeatures.experimentalObjectRestSpread, true);
+                assert.deepStrictEqual(config.plugins, ["react"]);
             });
 
             it("should not enable es6", () => {
@@ -184,7 +184,7 @@ describe("configInitializer", () => {
             it("should extend eslint:recommended", () => {
                 const config = init.processAnswers(answers);
 
-                assert.equal(config.extends, "eslint:recommended");
+                assert.strictEqual(config.extends, "eslint:recommended");
             });
 
             it("should not use commonjs by default", () => {
@@ -205,25 +205,25 @@ describe("configInitializer", () => {
             it("should support the google style guide", () => {
                 const config = init.getConfigForStyleGuide("google");
 
-                assert.deepEqual(config, { extends: "google", installedESLint: true });
+                assert.deepStrictEqual(config, { extends: "google", installedESLint: true });
             });
 
             it("should support the airbnb style guide", () => {
                 const config = init.getConfigForStyleGuide("airbnb");
 
-                assert.deepEqual(config, { extends: "airbnb", installedESLint: true });
+                assert.deepStrictEqual(config, { extends: "airbnb", installedESLint: true });
             });
 
             it("should support the airbnb base style guide", () => {
                 const config = init.getConfigForStyleGuide("airbnb-base");
 
-                assert.deepEqual(config, { extends: "airbnb-base", installedESLint: true });
+                assert.deepStrictEqual(config, { extends: "airbnb-base", installedESLint: true });
             });
 
             it("should support the standard style guide", () => {
                 const config = init.getConfigForStyleGuide("standard");
 
-                assert.deepEqual(config, { extends: "standard", installedESLint: true });
+                assert.deepStrictEqual(config, { extends: "standard", installedESLint: true });
             });
 
             it("should throw when encountering an unsupported style guide", () => {
@@ -250,7 +250,7 @@ describe("configInitializer", () => {
                 assert(npmFetchPeerDependenciesStub.calledOnce);
                 assert(npmFetchPeerDependenciesStub.firstCall.args[0] === "eslint-config-airbnb@latest");
                 assert(npmInstallStub.calledOnce);
-                assert.deepEqual(
+                assert.deepStrictEqual(
                     npmInstallStub.firstCall.args[0],
                     [
                         "eslint-config-airbnb@latest",
@@ -271,7 +271,7 @@ describe("configInitializer", () => {
                     it("should return false.", () => {
                         const result = init.hasESLintVersionConflict({ styleguide: "airbnb" });
 
-                        assert.equal(result, false);
+                        assert.strictEqual(result, false);
                     });
                 });
 
@@ -283,7 +283,7 @@ describe("configInitializer", () => {
                     it("should return false.", () => {
                         const result = init.hasESLintVersionConflict({ styleguide: "airbnb" });
 
-                        assert.equal(result, false);
+                        assert.strictEqual(result, false);
                     });
                 });
 
@@ -295,7 +295,7 @@ describe("configInitializer", () => {
                     it("should return true.", () => {
                         const result = init.hasESLintVersionConflict({ styleguide: "airbnb" });
 
-                        assert.equal(result, true);
+                        assert.strictEqual(result, true);
                     });
                 });
 
@@ -307,7 +307,7 @@ describe("configInitializer", () => {
                     it("should return true.", () => {
                         const result = init.hasESLintVersionConflict({ styleguide: "airbnb" });
 
-                        assert.equal(result, true);
+                        assert.strictEqual(result, true);
                     });
                 });
             });
@@ -359,12 +359,12 @@ describe("configInitializer", () => {
             });
 
             it("should create the config based on examined files", () => {
-                assert.deepEqual(config.rules.quotes, ["error", "double"]);
-                assert.equal(config.rules.semi, "off");
+                assert.deepStrictEqual(config.rules.quotes, ["error", "double"]);
+                assert.strictEqual(config.rules.semi, "off");
             });
 
             it("should extend and not disable recommended rules", () => {
-                assert.equal(config.extends, "eslint:recommended");
+                assert.strictEqual(config.extends, "eslint:recommended");
                 assert.notProperty(config.rules, "no-console");
             });
 

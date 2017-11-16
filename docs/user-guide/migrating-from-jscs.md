@@ -1,13 +1,13 @@
 # Migrating from JSCS
 
-In April 2016, we [announced](http://eslint.org/blog/2016/04/welcoming-jscs-to-eslint) that the JSCS project was shutting down and the JSCS team would be joining the ESLint team. This guide is intended to help those who are using JSCS to migrate their settings and projects to use ESLint. We've tried to automate as much of the conversion as possible, but there are some manual changes that are needed.
+In April 2016, we [announced](https://eslint.org/blog/2016/04/welcoming-jscs-to-eslint) that the JSCS project was shutting down and the JSCS team would be joining the ESLint team. This guide is intended to help those who are using JSCS to migrate their settings and projects to use ESLint. We've tried to automate as much of the conversion as possible, but there are some manual changes that are needed.
 
 ## Terminology
 
 Before beginning the process of migrating to ESLint, it's helpful to understand some of the terminology that ESLint uses and how it relates to terminology that JSCS uses.
 
 * **Configuration File** - In JSCS, the configuration file is `.jscsrc`, `.jscsrc.json`, `.jscsrc.yaml`, or `.jscsrs.js`. In ESLint, the configuration file can be `.eslintrc.json`, `.eslintrc.yml`, `.eslintrc.yaml`, or `.eslintrc.js` (there is also a deprecated `.eslintrc` file format).
-* **Presets** - In JSCS, there were numerous predefined configurations shipped directly within JSCS. ESLint ships with just one predefined configuration (`eslint:recommended`) that has no style rules enabled. However, ESLint does support [shareable configs](http://eslint.org/docs/developer-guide/shareable-configs). Shareable configs are configurations that are published on their own to npm and there are shareable configs available for almost all of the JSCS presets (see the "Converting Presets" section below). Additionally, the "preset" option in a configuration file is the equivalent of the ESLint "extends" option.
+* **Presets** - In JSCS, there were numerous predefined configurations shipped directly within JSCS. ESLint ships with just one predefined configuration (`eslint:recommended`) that has no style rules enabled. However, ESLint does support [shareable configs](https://eslint.org/docs/developer-guide/shareable-configs). Shareable configs are configurations that are published on their own to npm and there are shareable configs available for almost all of the JSCS presets (see the "Converting Presets" section below). Additionally, the "preset" option in a configuration file is the equivalent of the ESLint "extends" option.
 
 ## Convert Configuration Files Using Polyjuice
 
@@ -61,8 +61,8 @@ There are shareable configs available for most JSCS presets. The equivalent shar
 | `jquery`        | [`eslint-config-jquery`](https://github.com/jquery/eslint-config-jquery) |
 | `mdcs`        | [`eslint-config-mdcs`](https://github.com/zz85/mrdoobapproves) |
 | `node-style-guide`        | [`eslint-config-node-style-guide`](https://github.com/pdehaan/eslint-config-node-style-guide) |
-| `wikimedia`        | [`eslint-config-wikimedia`](https://github.com/markelog/eslint-config-wikimedia) |
-| `wordpress`        | [`eslint-config-wordpress`](https://github.com/ntwb/eslint-config-wordpress) |
+| `wikimedia`        | [`eslint-config-wikimedia`](https://github.com/wikimedia/eslint-config-wikimedia) |
+| `wordpress`        | [`eslint-config-wordpress`](https://github.com/WordPress-Coding-Standards/eslint-config-wordpress) |
 
 As an example, suppose that you are using the `airbnb` preset, so your `.jscsrc` file looks like this:
 

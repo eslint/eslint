@@ -184,7 +184,8 @@ describe("ast-utils", () => {
          * Asserts the node is NOT a directive comment
          * @param {ASTNode} node node to assert
          * @returns {void}
-         * */
+         *
+         */
         function assertFalse(node) {
             assert.isFalse(astUtils.isDirectiveComment(node));
         }
@@ -193,7 +194,8 @@ describe("ast-utils", () => {
          * Asserts the node is a directive comment
          * @param {ASTNode} node node to assert
          * @returns {void}
-         * */
+         *
+         */
         function assertTrue(node) {
             assert.isTrue(astUtils.isDirectiveComment(node));
         }
@@ -374,7 +376,7 @@ describe("ast-utils", () => {
             linter.verify(code, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } });
 
             assert.lengthOf(results, 1);
-            assert.equal(results[0], expectedInLoop);
+            assert.strictEqual(results[0], expectedInLoop);
         }
 
         it("should return true for a loop itself", () => {
@@ -552,78 +554,78 @@ describe("ast-utils", () => {
             const ast = espree.parse("if (a) { b(); }");
             const node = ast.body[0];
 
-            assert.deepEqual(astUtils.getDirectivePrologue(node), []);
+            assert.deepStrictEqual(astUtils.getDirectivePrologue(node), []);
         });
 
         it("should return empty array if node is a braceless ArrowFunctionExpression node", () => {
             const ast = espree.parse("var foo = () => 'use strict';", { ecmaVersion: 6 });
             const node = ast.body[0].declarations[0].init;
 
-            assert.deepEqual(astUtils.getDirectivePrologue(node), []);
+            assert.deepStrictEqual(astUtils.getDirectivePrologue(node), []);
         });
 
         it("should return empty array if there are no directives in Program body", () => {
             const ast = espree.parse("var foo;");
             const node = ast;
 
-            assert.deepEqual(astUtils.getDirectivePrologue(node), []);
+            assert.deepStrictEqual(astUtils.getDirectivePrologue(node), []);
         });
 
         it("should return empty array if there are no directives in FunctionDeclaration body", () => {
             const ast = espree.parse("function foo() { return bar; }");
             const node = ast.body[0];
 
-            assert.deepEqual(astUtils.getDirectivePrologue(node), []);
+            assert.deepStrictEqual(astUtils.getDirectivePrologue(node), []);
         });
 
         it("should return empty array if there are no directives in FunctionExpression body", () => {
             const ast = espree.parse("var foo = function() { return bar; }");
             const node = ast.body[0].declarations[0].init;
 
-            assert.deepEqual(astUtils.getDirectivePrologue(node), []);
+            assert.deepStrictEqual(astUtils.getDirectivePrologue(node), []);
         });
 
         it("should return empty array if there are no directives in ArrowFunctionExpression body", () => {
             const ast = espree.parse("var foo = () => { return bar; };", { ecmaVersion: 6 });
             const node = ast.body[0].declarations[0].init;
 
-            assert.deepEqual(astUtils.getDirectivePrologue(node), []);
+            assert.deepStrictEqual(astUtils.getDirectivePrologue(node), []);
         });
 
         it("should return directives in Program body", () => {
             const ast = espree.parse("'use strict'; 'use asm'; var foo;");
             const result = astUtils.getDirectivePrologue(ast);
 
-            assert.equal(result.length, 2);
-            assert.equal(result[0].expression.value, "use strict");
-            assert.equal(result[1].expression.value, "use asm");
+            assert.strictEqual(result.length, 2);
+            assert.strictEqual(result[0].expression.value, "use strict");
+            assert.strictEqual(result[1].expression.value, "use asm");
         });
 
         it("should return directives in FunctionDeclaration body", () => {
             const ast = espree.parse("function foo() { 'use strict'; 'use asm'; return bar; }");
             const result = astUtils.getDirectivePrologue(ast.body[0]);
 
-            assert.equal(result.length, 2);
-            assert.equal(result[0].expression.value, "use strict");
-            assert.equal(result[1].expression.value, "use asm");
+            assert.strictEqual(result.length, 2);
+            assert.strictEqual(result[0].expression.value, "use strict");
+            assert.strictEqual(result[1].expression.value, "use asm");
         });
 
         it("should return directives in FunctionExpression body", () => {
             const ast = espree.parse("var foo = function() { 'use strict'; 'use asm'; return bar; }");
             const result = astUtils.getDirectivePrologue(ast.body[0].declarations[0].init);
 
-            assert.equal(result.length, 2);
-            assert.equal(result[0].expression.value, "use strict");
-            assert.equal(result[1].expression.value, "use asm");
+            assert.strictEqual(result.length, 2);
+            assert.strictEqual(result[0].expression.value, "use strict");
+            assert.strictEqual(result[1].expression.value, "use asm");
         });
 
         it("should return directives in ArrowFunctionExpression body", () => {
             const ast = espree.parse("var foo = () => { 'use strict'; 'use asm'; return bar; };", { ecmaVersion: 6 });
             const result = astUtils.getDirectivePrologue(ast.body[0].declarations[0].init);
 
-            assert.equal(result.length, 2);
-            assert.equal(result[0].expression.value, "use strict");
-            assert.equal(result[1].expression.value, "use asm");
+            assert.strictEqual(result.length, 2);
+            assert.strictEqual(result[0].expression.value, "use strict");
+            assert.strictEqual(result[1].expression.value, "use asm");
         });
     });
 
@@ -770,7 +772,7 @@ describe("ast-utils", () => {
             it(`should return "${JSON.stringify(expectedLoc)}" for "${key}".`, () => {
                 linter.defineRule("checker", mustCall(() => ({
                     ":function": mustCall(node => {
-                        assert.deepEqual(
+                        assert.deepStrictEqual(
                             astUtils.getFunctionHeadLoc(node, linter.getSourceCode()),
                             expectedLoc
                         );
@@ -876,7 +878,7 @@ describe("ast-utils", () => {
 
         tokens.forEach((token, index) => {
             it(`should return ${expected[index]} for '${token.value}'.`, () => {
-                assert.equal(astUtils.isArrowToken(token), expected[index]);
+                assert.strictEqual(astUtils.isArrowToken(token), expected[index]);
             });
         });
     });
@@ -889,7 +891,7 @@ describe("ast-utils", () => {
         describe("isClosingBraceToken", () => {
             tokens.forEach((token, index) => {
                 it(`should return ${expected[index]} for '${token.value}'.`, () => {
-                    assert.equal(astUtils.isClosingBraceToken(token), expected[index]);
+                    assert.strictEqual(astUtils.isClosingBraceToken(token), expected[index]);
                 });
             });
         });
@@ -897,7 +899,7 @@ describe("ast-utils", () => {
         describe("isNotClosingBraceToken", () => {
             tokens.forEach((token, index) => {
                 it(`should return ${expected[index]} for '${token.value}'.`, () => {
-                    assert.equal(astUtils.isNotClosingBraceToken(token), !expected[index]);
+                    assert.strictEqual(astUtils.isNotClosingBraceToken(token), !expected[index]);
                 });
             });
         });
@@ -911,7 +913,7 @@ describe("ast-utils", () => {
         describe("isClosingBracketToken", () => {
             tokens.forEach((token, index) => {
                 it(`should return ${expected[index]} for '${token.value}'.`, () => {
-                    assert.equal(astUtils.isClosingBracketToken(token), expected[index]);
+                    assert.strictEqual(astUtils.isClosingBracketToken(token), expected[index]);
                 });
             });
         });
@@ -919,7 +921,7 @@ describe("ast-utils", () => {
         describe("isNotClosingBracketToken", () => {
             tokens.forEach((token, index) => {
                 it(`should return ${expected[index]} for '${token.value}'.`, () => {
-                    assert.equal(astUtils.isNotClosingBracketToken(token), !expected[index]);
+                    assert.strictEqual(astUtils.isNotClosingBracketToken(token), !expected[index]);
                 });
             });
         });
@@ -933,7 +935,7 @@ describe("ast-utils", () => {
         describe("isClosingParenToken", () => {
             tokens.forEach((token, index) => {
                 it(`should return ${expected[index]} for '${token.value}'.`, () => {
-                    assert.equal(astUtils.isClosingParenToken(token), expected[index]);
+                    assert.strictEqual(astUtils.isClosingParenToken(token), expected[index]);
                 });
             });
         });
@@ -941,7 +943,7 @@ describe("ast-utils", () => {
         describe("isNotClosingParenToken", () => {
             tokens.forEach((token, index) => {
                 it(`should return ${expected[index]} for '${token.value}'.`, () => {
-                    assert.equal(astUtils.isNotClosingParenToken(token), !expected[index]);
+                    assert.strictEqual(astUtils.isNotClosingParenToken(token), !expected[index]);
                 });
             });
         });
@@ -955,7 +957,7 @@ describe("ast-utils", () => {
         describe("isColonToken", () => {
             tokens.forEach((token, index) => {
                 it(`should return ${expected[index]} for '${token.value}'.`, () => {
-                    assert.equal(astUtils.isColonToken(token), expected[index]);
+                    assert.strictEqual(astUtils.isColonToken(token), expected[index]);
                 });
             });
         });
@@ -963,7 +965,7 @@ describe("ast-utils", () => {
         describe("isNotColonToken", () => {
             tokens.forEach((token, index) => {
                 it(`should return ${expected[index]} for '${token.value}'.`, () => {
-                    assert.equal(astUtils.isNotColonToken(token), !expected[index]);
+                    assert.strictEqual(astUtils.isNotColonToken(token), !expected[index]);
                 });
             });
         });
@@ -977,7 +979,7 @@ describe("ast-utils", () => {
         describe("isCommaToken", () => {
             tokens.forEach((token, index) => {
                 it(`should return ${expected[index]} for '${token.value}'.`, () => {
-                    assert.equal(astUtils.isCommaToken(token), expected[index]);
+                    assert.strictEqual(astUtils.isCommaToken(token), expected[index]);
                 });
             });
         });
@@ -985,7 +987,7 @@ describe("ast-utils", () => {
         describe("isNotCommaToken", () => {
             tokens.forEach((token, index) => {
                 it(`should return ${expected[index]} for '${token.value}'.`, () => {
-                    assert.equal(astUtils.isNotCommaToken(token), !expected[index]);
+                    assert.strictEqual(astUtils.isNotCommaToken(token), !expected[index]);
                 });
             });
         });
@@ -997,12 +999,12 @@ describe("ast-utils", () => {
 
         ast.tokens.forEach(token => {
             it(`should return false for '${token.value}'.`, () => {
-                assert.equal(astUtils.isCommentToken(token), false);
+                assert.strictEqual(astUtils.isCommentToken(token), false);
             });
         });
         ast.comments.forEach(comment => {
             it(`should return true for '${comment.value}'.`, () => {
-                assert.equal(astUtils.isCommentToken(comment), true);
+                assert.strictEqual(astUtils.isCommentToken(comment), true);
             });
         });
     });
@@ -1014,7 +1016,7 @@ describe("ast-utils", () => {
 
         tokens.forEach((token, index) => {
             it(`should return ${expected[index]} for '${token.value}'.`, () => {
-                assert.equal(astUtils.isKeywordToken(token), expected[index]);
+                assert.strictEqual(astUtils.isKeywordToken(token), expected[index]);
             });
         });
     });
@@ -1027,7 +1029,7 @@ describe("ast-utils", () => {
         describe("isOpeningBraceToken", () => {
             tokens.forEach((token, index) => {
                 it(`should return ${expected[index]} for '${token.value}'.`, () => {
-                    assert.equal(astUtils.isOpeningBraceToken(token), expected[index]);
+                    assert.strictEqual(astUtils.isOpeningBraceToken(token), expected[index]);
                 });
             });
         });
@@ -1035,7 +1037,7 @@ describe("ast-utils", () => {
         describe("isNotOpeningBraceToken", () => {
             tokens.forEach((token, index) => {
                 it(`should return ${expected[index]} for '${token.value}'.`, () => {
-                    assert.equal(astUtils.isNotOpeningBraceToken(token), !expected[index]);
+                    assert.strictEqual(astUtils.isNotOpeningBraceToken(token), !expected[index]);
                 });
             });
         });
@@ -1049,7 +1051,7 @@ describe("ast-utils", () => {
         describe("isOpeningBracketToken", () => {
             tokens.forEach((token, index) => {
                 it(`should return ${expected[index]} for '${token.value}'.`, () => {
-                    assert.equal(astUtils.isOpeningBracketToken(token), expected[index]);
+                    assert.strictEqual(astUtils.isOpeningBracketToken(token), expected[index]);
                 });
             });
         });
@@ -1057,7 +1059,7 @@ describe("ast-utils", () => {
         describe("isNotOpeningBracketToken", () => {
             tokens.forEach((token, index) => {
                 it(`should return ${expected[index]} for '${token.value}'.`, () => {
-                    assert.equal(astUtils.isNotOpeningBracketToken(token), !expected[index]);
+                    assert.strictEqual(astUtils.isNotOpeningBracketToken(token), !expected[index]);
                 });
             });
         });
@@ -1071,7 +1073,7 @@ describe("ast-utils", () => {
         describe("isOpeningParenToken", () => {
             tokens.forEach((token, index) => {
                 it(`should return ${expected[index]} for '${token.value}'.`, () => {
-                    assert.equal(astUtils.isOpeningParenToken(token), expected[index]);
+                    assert.strictEqual(astUtils.isOpeningParenToken(token), expected[index]);
                 });
             });
         });
@@ -1079,7 +1081,7 @@ describe("ast-utils", () => {
         describe("isNotOpeningParenToken", () => {
             tokens.forEach((token, index) => {
                 it(`should return ${expected[index]} for '${token.value}'.`, () => {
-                    assert.equal(astUtils.isNotOpeningParenToken(token), !expected[index]);
+                    assert.strictEqual(astUtils.isNotOpeningParenToken(token), !expected[index]);
                 });
             });
         });
@@ -1093,7 +1095,7 @@ describe("ast-utils", () => {
         describe("isSemicolonToken", () => {
             tokens.forEach((token, index) => {
                 it(`should return ${expected[index]} for '${token.value}'.`, () => {
-                    assert.equal(astUtils.isSemicolonToken(token), expected[index]);
+                    assert.strictEqual(astUtils.isSemicolonToken(token), expected[index]);
                 });
             });
         });
@@ -1101,7 +1103,7 @@ describe("ast-utils", () => {
         describe("isNotSemicolonToken", () => {
             tokens.forEach((token, index) => {
                 it(`should return ${expected[index]} for '${token.value}'.`, () => {
-                    assert.equal(astUtils.isNotSemicolonToken(token), !expected[index]);
+                    assert.strictEqual(astUtils.isNotSemicolonToken(token), !expected[index]);
                 });
             });
         });
@@ -1194,6 +1196,24 @@ describe("ast-utils", () => {
             it(tokenStrings.join(", "), () => {
                 assert.strictEqual(astUtils.canTokensBeAdjacent(tokenStrings[0], tokenStrings[1]), expectedResult);
             });
+        });
+    });
+
+    describe("equalTokens", () => {
+        it("should return true if tokens are equal", () => {
+            const code = "a=0;a=0;";
+            const ast = espree.parse(code, ESPREE_CONFIG);
+            const sourceCode = new SourceCode(code, ast);
+
+            assert.strictEqual(astUtils.equalTokens(ast.body[0], ast.body[1], sourceCode), true);
+        });
+
+        it("should return false if tokens are not equal", () => {
+            const code = "a=0;a=1;";
+            const ast = espree.parse(code, ESPREE_CONFIG);
+            const sourceCode = new SourceCode(code, ast);
+
+            assert.strictEqual(astUtils.equalTokens(ast.body[0], ast.body[1], sourceCode), false);
         });
     });
 });

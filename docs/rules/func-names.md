@@ -103,7 +103,7 @@ Foo.prototype.bar = function() {};
 ## Further Reading
 
 * [Functions Explained](http://markdaggett.com/blog/2013/02/15/functions-explained/)
-* [Function Names in ES6](http://www.2ality.com/2015/09/function-names-es6.html)
+* [Function Names in ES6](http://2ality.com/2015/09/function-names-es6.html)
 
 ## Compatibility
 

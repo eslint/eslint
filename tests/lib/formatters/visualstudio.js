@@ -26,7 +26,7 @@ describe("formatter:visualstudio", () => {
         it("should return nothing", () => {
             const result = formatter(code);
 
-            assert.equal(result, "no problems");
+            assert.strictEqual(result, "no problems");
         });
     });
 
@@ -45,14 +45,14 @@ describe("formatter:visualstudio", () => {
         it("should return a string in the format filename(x,y): error z for errors", () => {
             const result = formatter(code);
 
-            assert.equal(result, "foo.js(5,10): error foo : Unexpected foo.\n\n1 problem");
+            assert.strictEqual(result, "foo.js(5,10): error foo : Unexpected foo.\n\n1 problem");
         });
 
         it("should return a string in the format filename(x,y): warning z for warnings", () => {
             code[0].messages[0].severity = 1;
             const result = formatter(code);
 
-            assert.equal(result, "foo.js(5,10): warning foo : Unexpected foo.\n\n1 problem");
+            assert.strictEqual(result, "foo.js(5,10): warning foo : Unexpected foo.\n\n1 problem");
         });
     });
 
@@ -71,7 +71,7 @@ describe("formatter:visualstudio", () => {
         it("should return a string in the format filename(x,y): error  z", () => {
             const result = formatter(code);
 
-            assert.equal(result, "foo.js(5,10): error foo : Unexpected foo.\n\n1 problem");
+            assert.strictEqual(result, "foo.js(5,10): error foo : Unexpected foo.\n\n1 problem");
         });
     });
 
@@ -96,7 +96,7 @@ describe("formatter:visualstudio", () => {
         it("should return a string with multiple entries", () => {
             const result = formatter(code);
 
-            assert.equal(result, "foo.js(5,10): error foo : Unexpected foo.\nfoo.js(6,11): warning bar : Unexpected bar.\n\n2 problems");
+            assert.strictEqual(result, "foo.js(5,10): error foo : Unexpected foo.\nfoo.js(6,11): warning bar : Unexpected bar.\n\n2 problems");
         });
     });
 
@@ -124,7 +124,7 @@ describe("formatter:visualstudio", () => {
         it("should return a string with multiple entries", () => {
             const result = formatter(code);
 
-            assert.equal(result, "foo.js(5,10): error foo : Unexpected foo.\nbar.js(6,11): warning bar : Unexpected bar.\n\n2 problems");
+            assert.strictEqual(result, "foo.js(5,10): error foo : Unexpected foo.\nbar.js(6,11): warning bar : Unexpected bar.\n\n2 problems");
         });
     });
 
@@ -140,7 +140,7 @@ describe("formatter:visualstudio", () => {
         it("should return a string without line and column", () => {
             const result = formatter(code);
 
-            assert.equal(result, "foo.js(0): error : Couldn't find foo.js.\n\n1 problem");
+            assert.strictEqual(result, "foo.js(0): error : Couldn't find foo.js.\n\n1 problem");
         });
     });
 });

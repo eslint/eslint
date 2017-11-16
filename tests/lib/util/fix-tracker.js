@@ -58,7 +58,7 @@ describe("FixTracker", () => {
                 .retainRange([4, 14])
                 .replaceTextRange([10, 11], "-");
 
-            assert.deepEqual(result, {
+            assert.deepStrictEqual(result, {
                 range: [4, 14],
                 text: "foo = -bar"
             });
@@ -70,7 +70,7 @@ describe("FixTracker", () => {
                 .retainRange([5, 7])
                 .replaceTextRange([4, 8], "123");
 
-            assert.deepEqual(result, {
+            assert.deepStrictEqual(result, {
                 range: [4, 8],
                 text: "123"
             });
@@ -81,7 +81,7 @@ describe("FixTracker", () => {
             const result = new FixTracker(ruleFixer, sourceCode)
                 .replaceTextRange([4, 8], "123");
 
-            assert.deepEqual(result, {
+            assert.deepStrictEqual(result, {
                 range: [4, 8],
                 text: "123"
             });
@@ -95,7 +95,7 @@ describe("FixTracker", () => {
                 .retainRange([4, 10])
                 .remove(sourceCode.ast.tokens[4]);
 
-            assert.deepEqual(result, {
+            assert.deepStrictEqual(result, {
                 range: [4, 10],
                 text: "b + c"
             });
@@ -110,7 +110,7 @@ describe("FixTracker", () => {
                 .retainEnclosingFunction(xNode)
                 .replaceTextRange(xNode.range, "y");
 
-            assert.deepEqual(result, {
+            assert.deepStrictEqual(result, {
                 range: [4, 28],
                 text: "function() { return y; }"
             });
@@ -123,7 +123,7 @@ describe("FixTracker", () => {
                 .retainEnclosingFunction(bNode)
                 .replaceTextRange(bNode.range, "c");
 
-            assert.deepEqual(result, {
+            assert.deepStrictEqual(result, {
                 range: [0, 12],
                 text: "const a = c;"
             });
@@ -138,7 +138,7 @@ describe("FixTracker", () => {
                 .retainSurroundingTokens(plusToken)
                 .replaceTextRange(plusToken.range, "*");
 
-            assert.deepEqual(result, {
+            assert.deepStrictEqual(result, {
                 range: [10, 15],
                 text: "j * k"
             });

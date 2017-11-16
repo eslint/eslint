@@ -51,11 +51,11 @@ module.exports = {
 
 The following rules have been deprecated with new rules created to take their place. The following is a list of the removed rules and their replacements:
 
-* [no-arrow-condition](http://eslint.org/docs/rules/no-arrow-condition) is replaced by a combination of [no-confusing-arrow](http://eslint.org/docs/rules/no-confusing-arrow) and [no-constant-condition](http://eslint.org/docs/rules/no-constant-condition). Turn on both of these rules to get the same functionality as `no-arrow-condition`.
-* [no-empty-label](http://eslint.org/docs/rules/no-empty-label) is replaced by [no-labels](http://eslint.org/docs/rules/no-labels) with `{"allowLoop": true, "allowSwitch": true}` option.
-* [space-after-keywords](http://eslint.org/docs/rules/space-after-keywords) is replaced by [keyword-spacing](http://eslint.org/docs/rules/keyword-spacing).
-* [space-before-keywords](http://eslint.org/docs/rules/space-before-keywords) is replaced by [keyword-spacing](http://eslint.org/docs/rules/keyword-spacing).
-* [space-return-throw-case](http://eslint.org/docs/rules/space-return-throw-case) is replaced by [keyword-spacing](http://eslint.org/docs/rules/keyword-spacing).
+* [no-arrow-condition](https://eslint.org/docs/rules/no-arrow-condition) is replaced by a combination of [no-confusing-arrow](https://eslint.org/docs/rules/no-confusing-arrow) and [no-constant-condition](https://eslint.org/docs/rules/no-constant-condition). Turn on both of these rules to get the same functionality as `no-arrow-condition`.
+* [no-empty-label](https://eslint.org/docs/rules/no-empty-label) is replaced by [no-labels](https://eslint.org/docs/rules/no-labels) with `{"allowLoop": true, "allowSwitch": true}` option.
+* [space-after-keywords](https://eslint.org/docs/rules/space-after-keywords) is replaced by [keyword-spacing](https://eslint.org/docs/rules/keyword-spacing).
+* [space-before-keywords](https://eslint.org/docs/rules/space-before-keywords) is replaced by [keyword-spacing](https://eslint.org/docs/rules/keyword-spacing).
+* [space-return-throw-case](https://eslint.org/docs/rules/space-return-throw-case) is replaced by [keyword-spacing](https://eslint.org/docs/rules/keyword-spacing).
 
 **To address:** You'll need to update your rule configurations to use the new rules. ESLint v2.0.0 will also warn you when you're using a rule that has been removed and will suggest the replacement rules. Hopefully, this will result in few surprises during the upgrade process.
 
@@ -207,17 +207,17 @@ If you're not using `ecmaFeatures` in your configuration or your custom/plugin r
 
 In 2.0.0, the following 11 rules were added to `"eslint:recommended"`.
 
-* [constructor-super](http://eslint.org/docs/rules/constructor-super)
-* [no-case-declarations](http://eslint.org/docs/rules/no-case-declarations)
-* [no-class-assign](http://eslint.org/docs/rules/no-class-assign)
-* [no-const-assign](http://eslint.org/docs/rules/no-const-assign)
-* [no-dupe-class-members](http://eslint.org/docs/rules/no-dupe-class-members)
-* [no-empty-pattern](http://eslint.org/docs/rules/no-empty-pattern)
-* [no-new-symbol](http://eslint.org/docs/rules/no-new-symbol)
-* [no-self-assign](http://eslint.org/docs/rules/no-self-assign)
-* [no-this-before-super](http://eslint.org/docs/rules/no-this-before-super)
-* [no-unexpected-multiline](http://eslint.org/docs/rules/no-unexpected-multiline)
-* [no-unused-labels](http://eslint.org/docs/rules/no-unused-labels)
+* [constructor-super](https://eslint.org/docs/rules/constructor-super)
+* [no-case-declarations](https://eslint.org/docs/rules/no-case-declarations)
+* [no-class-assign](https://eslint.org/docs/rules/no-class-assign)
+* [no-const-assign](https://eslint.org/docs/rules/no-const-assign)
+* [no-dupe-class-members](https://eslint.org/docs/rules/no-dupe-class-members)
+* [no-empty-pattern](https://eslint.org/docs/rules/no-empty-pattern)
+* [no-new-symbol](https://eslint.org/docs/rules/no-new-symbol)
+* [no-self-assign](https://eslint.org/docs/rules/no-self-assign)
+* [no-this-before-super](https://eslint.org/docs/rules/no-this-before-super)
+* [no-unexpected-multiline](https://eslint.org/docs/rules/no-unexpected-multiline)
+* [no-unused-labels](https://eslint.org/docs/rules/no-unused-labels)
 
 **To address:** If you don't want to be notified by those rules, you can simply disable those rules.
 

@@ -354,3 +354,8 @@ if (a) {
 ## When Not To Use It
 
 You can turn this rule off if you are not concerned with the consistency of padding within blocks.
+
+## Related Rules
+
+* [lines-between-class-members](lines-between-class-members.md)
+* [padding-line-between-statements](padding-line-between-statements.md)

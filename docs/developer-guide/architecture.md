@@ -4,7 +4,10 @@ At a high level, there are a few key parts to ESLint:
 
 * `bin/eslint.js` - this is the file that actually gets executed with the command line utility. It's a dumb wrapper that does nothing more than bootstrap ESLint, passing the command line arguments to `cli`. This is intentionally small so as not to require heavy testing.
 * `lib/cli.js` - this is the heart of the ESLint CLI. It takes an array of arguments and then uses `eslint` to execute the commands. By keeping this as a separate utility, it allows others to effectively call ESLint from within another Node.js program as if it were done on the command line. The main call is `cli.execute()`. This is also the part that does all the file reading, directory traversing, input, and output.
-* `lib/eslint.js` - this is the core `eslint` object that does code verifying based on configuration options. This file does no file I/O and does not interact with the `console` at all. For other Node.js programs that have JavaScript text to verify, they would be able to use this interface directly.
+* `lib/linter.js` - this is the core Linter class that does code verifying based on configuration options. This file does no file I/O and does not interact with the `console` at all. For other Node.js programs that have JavaScript text to verify, they would be able to use this interface directly.
+* `lib/api.js` - this exposes an object that contains Linter, CLIEngine, RuleTester, and SourceCode.
+* `lib/testers/rule-tester.js` - this is a wrapper around Mocha, so that rules can be unit tested. This class lets us write consistently formatted tests for each rule that is implemented and be confident that each of the rules work. The RuleTester interface was modeled after Mocha and works with Mocha's global testing methods. RuleTester can also be modified to work with other testing frameworks.
+* `lib/util/source-code.js` - this contains a SourceCode class that is used to represent the parsed source code. It takes in source code and the Program node of the AST representing the code.
 
 ## The `cli` object
 

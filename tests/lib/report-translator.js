@@ -53,7 +53,7 @@ describe("createReportTranslator", () => {
 
     describe("old-style call with location", () => {
         it("should extract the location correctly", () => {
-            assert.deepEqual(
+            assert.deepStrictEqual(
                 translateReport(node, location, message, {}),
                 {
                     ruleId: "foo-rule",
@@ -70,7 +70,7 @@ describe("createReportTranslator", () => {
 
     describe("old-style call without location", () => {
         it("should use the start location and end location of the node", () => {
-            assert.deepEqual(
+            assert.deepStrictEqual(
                 translateReport(node, message, {}),
                 {
                     ruleId: "foo-rule",
@@ -96,7 +96,7 @@ describe("createReportTranslator", () => {
                 fix: () => ({ range: [1, 2], text: "foo" })
             };
 
-            assert.deepEqual(
+            assert.deepStrictEqual(
                 translateReport(reportDescriptor),
                 {
                     ruleId: "foo-rule",
@@ -123,7 +123,7 @@ describe("createReportTranslator", () => {
                 fix: () => [{ range: [1, 2], text: "foo" }, { range: [4, 5], text: "bar" }]
             };
 
-            assert.deepEqual(
+            assert.deepStrictEqual(
                 translateReport(reportDescriptor),
                 {
                     ruleId: "foo-rule",
@@ -152,7 +152,7 @@ describe("createReportTranslator", () => {
                 }
             };
 
-            assert.deepEqual(
+            assert.deepStrictEqual(
                 translateReport(reportDescriptor),
                 {
                     ruleId: "foo-rule",
@@ -178,7 +178,7 @@ describe("createReportTranslator", () => {
                 fix: () => [{ range: [1, 2], text: "foo" }]
             };
 
-            assert.deepEqual(
+            assert.deepStrictEqual(
                 translateReport(reportDescriptor),
                 {
                     ruleId: "foo-rule",
@@ -204,7 +204,7 @@ describe("createReportTranslator", () => {
                 fix: () => [{ range: [0, 3], text: "\uFEFFfoo" }, { range: [4, 5], text: "x" }]
             };
 
-            assert.deepEqual(
+            assert.deepStrictEqual(
                 translateReport(reportDescriptor),
                 {
                     ruleId: "foo-rule",
@@ -234,7 +234,7 @@ describe("createReportTranslator", () => {
                 fix: () => [{ range: [-1, 3], text: "foo" }, { range: [4, 5], text: "x" }]
             };
 
-            assert.deepEqual(
+            assert.deepStrictEqual(
                 createReportTranslator({ ruleId: "foo-rule", severity: 1, sourceCode })(reportDescriptor),
                 {
                     ruleId: "foo-rule",
@@ -269,7 +269,7 @@ describe("createReportTranslator", () => {
         });
 
         it("should include a fix passed as the last argument when location is passed", () => {
-            assert.deepEqual(
+            assert.deepStrictEqual(
                 translateReport(
                     node,
                     { line: 42, column: 23 },
@@ -297,7 +297,7 @@ describe("createReportTranslator", () => {
 
     describe("message interpolation", () => {
         it("should correctly parse a message when being passed all options in an old-style report", () => {
-            assert.deepEqual(
+            assert.deepStrictEqual(
                 translateReport(node, node.loc.end, "hello {{dynamic}}", { dynamic: node.type }),
                 {
                     severity: 2,
@@ -312,7 +312,7 @@ describe("createReportTranslator", () => {
         });
 
         it("should correctly parse a message when being passed all options in a new-style report", () => {
-            assert.deepEqual(
+            assert.deepStrictEqual(
                 translateReport({ node, loc: node.loc.end, message: "hello {{dynamic}}", data: { dynamic: node.type } }),
                 {
                     severity: 2,
@@ -399,7 +399,7 @@ describe("createReportTranslator", () => {
 
     describe("location inference", () => {
         it("should use the provided location when given in an old-style call", () => {
-            assert.deepEqual(
+            assert.deepStrictEqual(
                 translateReport(node, { line: 42, column: 13 }, "hello world"),
                 {
                     severity: 2,
@@ -414,7 +414,7 @@ describe("createReportTranslator", () => {
         });
 
         it("should use the provided location when given in an new-style call", () => {
-            assert.deepEqual(
+            assert.deepStrictEqual(
                 translateReport({ node, loc: { line: 42, column: 13 }, message: "hello world" }),
                 {
                     severity: 2,
@@ -429,7 +429,7 @@ describe("createReportTranslator", () => {
         });
 
         it("should extract the start and end locations from a node if no location is provided", () => {
-            assert.deepEqual(
+            assert.deepStrictEqual(
                 translateReport(node, "hello world"),
                 {
                     severity: 2,
@@ -446,7 +446,7 @@ describe("createReportTranslator", () => {
         });
 
         it("should have 'endLine' and 'endColumn' when 'loc' property has 'end' property.", () => {
-            assert.deepEqual(
+            assert.deepStrictEqual(
                 translateReport({ loc: node.loc, message: "hello world" }),
                 {
                     severity: 2,
@@ -463,7 +463,7 @@ describe("createReportTranslator", () => {
         });
 
         it("should not have 'endLine' and 'endColumn' when 'loc' property does not have 'end' property.", () => {
-            assert.deepEqual(
+            assert.deepStrictEqual(
                 translateReport({ loc: node.loc.start, message: "hello world" }),
                 {
                     severity: 2,
@@ -478,7 +478,7 @@ describe("createReportTranslator", () => {
         });
 
         it("should infer an 'endLine' and 'endColumn' property when using the object-based context.report API", () => {
-            assert.deepEqual(
+            assert.deepStrictEqual(
                 translateReport({ node, message: "hello world" }),
                 {
                     severity: 2,
@@ -497,7 +497,7 @@ describe("createReportTranslator", () => {
 
     describe("converting old-style calls", () => {
         it("should include a fix passed as the last argument when location is not passed", () => {
-            assert.deepEqual(
+            assert.deepStrictEqual(
                 translateReport(node, "my message {{1}}{{0}}", ["!", "testing"], () => ({ range: [1, 1], text: "" })),
                 {
                     severity: 2,
@@ -526,7 +526,7 @@ describe("createReportTranslator", () => {
 
 
         it("should not throw an error if location is provided and node is not in an old-style call", () => {
-            assert.deepEqual(
+            assert.deepStrictEqual(
                 translateReport(null, { line: 1, column: 1 }, "hello world"),
                 {
                     severity: 2,
@@ -541,7 +541,7 @@ describe("createReportTranslator", () => {
         });
 
         it("should not throw an error if location is provided and node is not in a new-style call", () => {
-            assert.deepEqual(
+            assert.deepStrictEqual(
                 translateReport({ loc: { line: 1, column: 1 }, message: "hello world" }),
                 {
                     severity: 2,

@@ -37,8 +37,8 @@ describe("Traverser", () => {
             leave: node => exitedNodes.push(node)
         });
 
-        assert.deepEqual(enteredNodes, [fakeAst, fakeAst.body[0], fakeAst.body[1], fakeAst.body[1].foo]);
-        assert.deepEqual(exitedNodes, [fakeAst.body[0], fakeAst.body[1].foo, fakeAst.body[1], fakeAst]);
+        assert.deepStrictEqual(enteredNodes, [fakeAst, fakeAst.body[0], fakeAst.body[1], fakeAst.body[1].foo]);
+        assert.deepStrictEqual(exitedNodes, [fakeAst.body[0], fakeAst.body[1].foo, fakeAst.body[1], fakeAst]);
     });
 
     it("traverses AST as using 'keys' option if given", () => {
@@ -74,7 +74,7 @@ describe("Traverser", () => {
         traverser.traverse(fakeAst, {
             enter: node => visited.push(node.type)
         });
-        assert.deepEqual(visited, ["Program", "ClassDeclaration", "Identifier", "ClassBody"]);
+        assert.deepStrictEqual(visited, ["Program", "ClassDeclaration", "Identifier", "ClassBody"]);
 
         visited.splice(0, visited.length);
 
@@ -85,6 +85,6 @@ describe("Traverser", () => {
                 ClassDeclaration: Traverser.DEFAULT_VISITOR_KEYS.ClassDeclaration.concat(["experimentalDecorators"])
             })
         });
-        assert.deepEqual(visited, ["Program", "ClassDeclaration", "Identifier", "ClassBody", "Decorator"]);
+        assert.deepStrictEqual(visited, ["Program", "ClassDeclaration", "Identifier", "ClassBody", "Decorator"]);
     });
 });

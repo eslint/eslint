@@ -28,8 +28,10 @@ ruleTester.run("array-bracket-newline", rule, {
 
     valid: [
 
-        // ArrayExpression
-        // "default" { multiline: true }
+        /*
+         * ArrayExpression
+         * "default" { multiline: true }
+         */
         "var foo = [];",
         "var foo = [1];",
         "var foo = /* any comment */[1];",
@@ -40,6 +42,8 @@ ruleTester.run("array-bracket-newline", rule, {
         "var foo = [\n1, 2\n// any comment\n];",
         "var foo = [\n1,\n2\n];",
         "var foo = [\nfunction foo() {\nreturn dosomething();\n}\n];",
+        "var foo = [/* \nany comment\n */];",
+        "var foo = [/* single line multiline comment for no real reason */];",
 
         // "always"
         { code: "var foo = [\n];", options: ["always"] },
@@ -61,6 +65,12 @@ ruleTester.run("array-bracket-newline", rule, {
         { code: "var foo = [1,\n/* any comment */\n2];", options: ["never"] },
         { code: "var foo = [function foo() {\ndosomething();\n}];", options: ["never"] },
 
+        // "consistent"
+        { code: "var a = []", options: ["consistent"] },
+        { code: "var a = [\n]", options: ["consistent"] },
+        { code: "var a = [1]", options: ["consistent"] },
+        { code: "var a = [\n1\n]", options: ["consistent"] },
+
         // { multiline: true }
         { code: "var foo = [];", options: [{ multiline: true }] },
         { code: "var foo = [1];", options: [{ multiline: true }] },
@@ -72,6 +82,7 @@ ruleTester.run("array-bracket-newline", rule, {
         { code: "var foo = [\n1, 2\n// any comment\n];", options: [{ multiline: true }] },
         { code: "var foo = [\n1,\n2\n];", options: [{ multiline: true }] },
         { code: "var foo = [\nfunction foo() {\nreturn dosomething();\n}\n];", options: [{ multiline: true }] },
+        { code: "var foo = [/* \nany comment\n */];", options: [{ multiline: true }] },
 
         // { multiline: false }
         { code: "var foo = [];", options: [{ multiline: false }] },
@@ -121,8 +132,10 @@ ruleTester.run("array-bracket-newline", rule, {
         { code: "var d = [\n1,\n2\n];", options: [{ multiline: true, minItems: 2 }] },
         { code: "var e = [\nfunction foo() {\ndosomething();\n}\n];", options: [{ multiline: true, minItems: 2 }] },
 
-        // ArrayPattern
-        // default { multiline: true }
+        /*
+         * ArrayPattern
+         * default { multiline: true }
+         */
         { code: "var [] = foo", parserOptions: { ecmaVersion: 6 } },
         { code: "var [a] = foo;", parserOptions: { ecmaVersion: 6 } },
         { code: "var /* any comment */[a] = foo;", parserOptions: { ecmaVersion: 6 } },
@@ -143,6 +156,12 @@ ruleTester.run("array-bracket-newline", rule, {
         { code: "var [\na, b /* any comment */\n] = foo;", options: ["always"], parserOptions: { ecmaVersion: 6 } },
         { code: "var [\na,\nb\n] = foo;", options: ["always"], parserOptions: { ecmaVersion: 6 } },
 
+        // "consistent"
+        { code: "var [] = foo", options: ["consistent"], parserOptions: { ecmaVersion: 6 } },
+        { code: "var [\n] = foo", options: ["consistent"], parserOptions: { ecmaVersion: 6 } },
+        { code: "var [a] = foo", options: ["consistent"], parserOptions: { ecmaVersion: 6 } },
+        { code: "var [\na\n] = foo", options: ["consistent"], parserOptions: { ecmaVersion: 6 } },
+
         // { multiline: true }
         { code: "var [] = foo;", options: [{ multiline: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "var [a] = foo;", options: [{ multiline: true }], parserOptions: { ecmaVersion: 6 } },
@@ -158,8 +177,10 @@ ruleTester.run("array-bracket-newline", rule, {
 
     invalid: [
 
-        // ArrayExpression
-        // "always"
+        /*
+         * ArrayExpression
+         * "always"
+         */
         {
             code: "var foo = [];",
             output: "var foo = [\n];",
@@ -478,6 +499,38 @@ ruleTester.run("array-bracket-newline", rule, {
                     type: "ArrayExpression",
                     line: 5,
                     column: 1
+                }
+            ]
+        },
+
+        // "consistent"
+        {
+            code: "var foo = [\n1]",
+            output: "var foo = [\n1\n]",
+            options: ["consistent"],
+            errors: [
+                {
+                    message: ERR_BREAK_BEFORE,
+                    type: "ArrayExpression",
+                    line: 2,
+                    column: 2,
+                    endLine: 2,
+                    endColumn: 3
+                }
+            ]
+        },
+        {
+            code: "var foo = [1\n]",
+            output: "var foo = [1]",
+            options: ["consistent"],
+            errors: [
+                {
+                    message: ERR_NO_BREAK_BEFORE,
+                    type: "ArrayExpression",
+                    line: 2,
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 2
                 }
             ]
         },
@@ -1084,8 +1137,10 @@ ruleTester.run("array-bracket-newline", rule, {
             ]
         },
 
-        // extra test cases
-        // "always"
+        /*
+         * extra test cases
+         * "always"
+         */
         {
             code: "var foo = [\n1, 2];",
             output: "var foo = [\n1, 2\n];",
@@ -1229,8 +1284,10 @@ ruleTester.run("array-bracket-newline", rule, {
             ]
         },
 
-        // ArrayPattern
-        // "always"
+        /*
+         * ArrayPattern
+         * "always"
+         */
         {
             code: "var [] = foo;",
             output: "var [\n] = foo;",
@@ -1370,6 +1427,40 @@ ruleTester.run("array-bracket-newline", rule, {
                     type: "ArrayPattern",
                     line: 2,
                     column: 2
+                }
+            ]
+        },
+
+        // "consistent"
+        {
+            code: "var [\na] = foo",
+            output: "var [\na\n] = foo",
+            options: ["consistent"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: ERR_BREAK_BEFORE,
+                    type: "ArrayPattern",
+                    line: 2,
+                    column: 2,
+                    endLine: 2,
+                    endColumn: 3
+                }
+            ]
+        },
+        {
+            code: "var [a\n] = foo",
+            output: "var [a] = foo",
+            options: ["consistent"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: ERR_NO_BREAK_BEFORE,
+                    type: "ArrayPattern",
+                    line: 2,
+                    column: 1,
+                    endLine: 2,
+                    endColumn: 2
                 }
             ]
         },

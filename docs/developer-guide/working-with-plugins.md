@@ -4,7 +4,7 @@ Each plugin is an npm module with a name in the format of `eslint-plugin-<plugin
 
 ## Create a Plugin
 
-The easiest way to start creating a plugin is to use the [Yeoman generator](https://npmjs.com/package/generator-eslint). The generator will guide you through setting up the skeleton of a plugin.
+The easiest way to start creating a plugin is to use the [Yeoman generator](https://www.npmjs.com/package/generator-eslint). The generator will guide you through setting up the skeleton of a plugin.
 
 ### Rules in Plugins
 
@@ -72,15 +72,45 @@ processors: {
 
             // you need to return a one-dimensional array of the messages you want to keep
             return [Message];
-        }
+        },
+
+        supportsAutofix: true // (optional, defaults to false)
     }
 }
 ```
 
 The `preprocess` method takes the file contents and filename as arguments, and returns an array of strings to lint. The strings will be linted separately but still be registered to the filename. It's up to the plugin to decide if it needs to return just one part, or multiple pieces. For example in the case of processing `.html` files, you might want to return just one item in the array by combining all scripts, but for `.md` file where each JavaScript block might be independent, you can return multiple items.
 
-The `postprocess` method takes a two-dimensional array of arrays of lint messages and the filename. Each item in the input
-array corresponds to the part that was returned from the `preprocess` method. The `postprocess` method must adjust the location of all errors and aggregate them into a single flat array and return it.
+The `postprocess` method takes a two-dimensional array of arrays of lint messages and the filename. Each item in the input array corresponds to the part that was returned from the `preprocess` method. The `postprocess` method must adjust the locations of all errors to correspond to locations in the original, unprocessed code, and aggregate them into a single flat array and return it.
+
+Reported problems have the following location information:
+
+```typescript
+{
+    line: number,
+    column: number,
+
+    endLine?: number,
+    endColumn?: number
+}
+```
+
+By default, ESLint will not perform autofixes when a processor is used, even when the `--fix` flag is enabled on the command line. To allow ESLint to autofix code when using your processor, you should take the following additional steps:
+
+1. Update the `postprocess` method to additionally transform the `fix` property of reported problems. All autofixable problems will have a `fix` property, which is an object with the following schema:
+
+    ```js
+    {
+        range: [number, number],
+        text: string
+    }
+    ```
+
+    The `range` property contains two indexes in the code, referring to the start and end location of a contiguous section of text that will be replaced. The `text` property refers to the text that will replace the given range.
+
+    In the initial list of problems, the `fix` property will refer refer to a fix in the processed JavaScript. The `postprocess` method should transform the object to refer to a fix in the original, unprocessed file.
+
+2. Add a `supportsAutofix: true` property to the processor.
 
 You can have both rules and processors in a single plugin. You can also have multiple processors in one plugin.
 To support multiple extensions, add each one to the `processors` element and point them to the same object.
@@ -102,7 +132,7 @@ configs: {
 }
 ```
 
-**Note:** Please note that configuration will not automatically attach your rules and you have to specify your plugin name and any rules you want to enable that are part of the plugin. Any plugin rules must be prefixed with the short or long plugin name. See [Configuring Plugins](../user-guide/configuring#configuring-plugins)
+**Note:** Please note that configuration will not automatically attach your rules and you have to specify your plugin name and any rules you want to enable that are part of the plugin. Any plugin rules must be prefixed with the short or long plugin name. See [Configuring Plugins](../user-guide/configuring.md#configuring-plugins)
 
 ### Peer Dependency
 
@@ -119,7 +149,7 @@ The plugin support was introduced in ESLint version `0.8.0`. Ensure the `peerDep
 
 ### Testing
 
-ESLint provides the [`RuleTester`](/docs/developer-guide/nodejs-api#ruletester) utility to make it easy to test the rules of your plugin.
+ESLint provides the [`RuleTester`](/docs/developer-guide/nodejs-api.md#ruletester) utility to make it easy to test the rules of your plugin.
 
 ## Share Plugins
 

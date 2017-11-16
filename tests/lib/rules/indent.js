@@ -54,10 +54,10 @@ function expectedErrors(indentType, errors) {
 }
 
 /**
-* Prevents leading spaces in a multiline template literal from appearing in the resulting string
-* @param {string[]} strings The strings in the template literal
-* @returns {string} The template literal, with spaces removed from all lines
-*/
+ * Prevents leading spaces in a multiline template literal from appearing in the resulting string
+ * @param {string[]} strings The strings in the template literal
+ * @returns {string} The template literal, with spaces removed from all lines
+ */
 function unIndent(strings) {
     const templateValue = strings[0];
     const lines = templateValue.replace(/^\n/, "").replace(/\n\s*$/, "").split("\n");
@@ -2051,8 +2051,10 @@ ruleTester.run("indent", rule, {
         `,
         {
 
-            // Checking comments:
-            // https://github.com/eslint/eslint/issues/3845, https://github.com/eslint/eslint/issues/6571
+            /*
+             * Checking comments:
+             * https://github.com/eslint/eslint/issues/3845, https://github.com/eslint/eslint/issues/6571
+             */
             code: unIndent`
                 foo();
                 // Line
@@ -2090,8 +2092,10 @@ ruleTester.run("indent", rule, {
         `,
         {
 
-            // Destructuring assignments:
-            // https://github.com/eslint/eslint/issues/6813
+            /*
+             * Destructuring assignments:
+             * https://github.com/eslint/eslint/issues/6813
+             */
             code: unIndent`
                 var {
                   foo,
@@ -3591,6 +3595,31 @@ ruleTester.run("indent", rule, {
             `,
             options: [4, { flatTernaryExpressions: true }]
         },
+        {
+            code: unIndent`
+                function foo() {
+                    return foo ? bar :
+                        baz
+                }
+            `,
+            options: [4, { flatTernaryExpressions: true }]
+        },
+        {
+            code: unIndent`
+                throw foo ? bar :
+                    baz
+            `,
+            options: [4, { flatTernaryExpressions: true }]
+        },
+        {
+            code: unIndent`
+                foo(
+                    bar
+                ) ? baz :
+                    qux
+            `,
+            options: [4, { flatTernaryExpressions: true }]
+        },
         unIndent`
                 foo
                     [
@@ -4322,7 +4351,7 @@ ruleTester.run("indent", rule, {
                   <span>
                     {condition ?
                       <Thing
-                        foo={super}
+                        foo={bar}
                       /> :
                       <Thing/>
                     }
@@ -4719,6 +4748,32 @@ ruleTester.run("indent", rule, {
                 </foo>
             `,
             options: [4, { ignoredNodes: ["JSXOpeningElement"] }]
+        },
+        {
+            code: unIndent`
+                {
+                \tvar x = 1,
+                \t    y = 2;
+                }
+            `,
+            options: ["tab"]
+        },
+        {
+            code: unIndent`
+                var x = 1,
+                    y = 2;
+                var z;
+            `,
+            options: ["tab", { ignoredNodes: ["VariableDeclarator"] }]
+        },
+        {
+            code: unIndent`
+                [
+                    foo(),
+                    bar
+                ]
+            `,
+            options: ["tab", { ArrayExpression: "first", ignoredNodes: ["CallExpression"] }]
         }
     ],
 
@@ -7010,8 +7065,10 @@ ruleTester.run("indent", rule, {
         },
         {
 
-            // Checking comments:
-            // https://github.com/eslint/eslint/issues/6571
+            /*
+             * Checking comments:
+             * https://github.com/eslint/eslint/issues/6571
+             */
             code: unIndent`
                 foo();
                   // comment
@@ -7073,8 +7130,10 @@ ruleTester.run("indent", rule, {
         },
         {
 
-            // Destructuring assignments:
-            // https://github.com/eslint/eslint/issues/6813
+            /*
+             * Destructuring assignments:
+             * https://github.com/eslint/eslint/issues/6813
+             */
             code: unIndent`
                 var {
                 foo,
@@ -7598,10 +7657,12 @@ ruleTester.run("indent", rule, {
         },
         {
 
-            // https://github.com/eslint/eslint/issues/1801
-            // Note: This issue also mentioned checking the indentation for the 2 below. However,
-            // this is intentionally ignored because everyone seems to have a different idea of how
-            // BinaryExpressions should be indented.
+            /*
+             * https://github.com/eslint/eslint/issues/1801
+             * Note: This issue also mentioned checking the indentation for the 2 below. However,
+             * this is intentionally ignored because everyone seems to have a different idea of how
+             * BinaryExpressions should be indented.
+             */
             code: unIndent`
                 if (true) {
                     a = (
@@ -8667,8 +8728,10 @@ ruleTester.run("indent", rule, {
         },
         {
 
-            // Multiline ternary
-            // (colon at the end of the first expression)
+            /*
+             * Multiline ternary
+             * (colon at the end of the first expression)
+             */
             code: unIndent`
                 foo ?
                     <Foo /> :
@@ -8683,8 +8746,10 @@ ruleTester.run("indent", rule, {
         },
         {
 
-            // Multiline ternary
-            // (colon on its own line)
+            /*
+             * Multiline ternary
+             * (colon on its own line)
+             */
             code: unIndent`
                 foo ?
                     <Foo />
@@ -8701,8 +8766,10 @@ ruleTester.run("indent", rule, {
         },
         {
 
-            // Multiline ternary
-            // (colon at the end of the first expression, parenthesized first expression)
+            /*
+             * Multiline ternary
+             * (colon at the end of the first expression, parenthesized first expression)
+             */
             code: unIndent`
                 foo ? (
                     <Foo />

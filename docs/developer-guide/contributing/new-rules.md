@@ -19,7 +19,7 @@ Even though these are the formal criteria for inclusion, each rule is evaluated 
 
 ## Proposing a Rule
 
-If you want to propose a new rule, [create a pull request](/docs/developer-guide/contributing/pull-requests) or new issue and paste the questions from the [rule proposal template](https://github.com/eslint/eslint/blob/master/templates/rule-proposal.md) into the description.
+If you want to propose a new rule, [create a pull request](/docs/developer-guide/contributing/pull-requests.md) or new issue and paste the questions from the [rule proposal template](https://github.com/eslint/eslint/blob/master/templates/rule-proposal.md) into the description.
 
 We need all of this information in order to determine whether or not the rule is a good core rule candidate.
 
@@ -39,4 +39,4 @@ The ESLint team doesn't implement new rules that are suggested by users because 
 
 ## Alternative: Creating Your Own Rules
 
-Remember that ESLint is completely pluggable, which means you can create your own rules and distribute them using plugins. We did this on purpose because we don't want to be the gatekeepers for all possible rules. Even if we don't accept a rule into the core, that doesn't mean you can't have the exact rule that you want. See the [working with rules](../working-with-rules) and [working with plugins](../working-with-plugins) documentation for more information.
+Remember that ESLint is completely pluggable, which means you can create your own rules and distribute them using plugins. We did this on purpose because we don't want to be the gatekeepers for all possible rules. Even if we don't accept a rule into the core, that doesn't mean you can't have the exact rule that you want. See the [working with rules](../working-with-rules.md) and [working with plugins](../working-with-plugins.md) documentation for more information.

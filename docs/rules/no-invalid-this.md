@@ -6,7 +6,7 @@ Under the strict mode, `this` keywords outside of classes or class-like objects 
 
 This rule aims to flag usage of `this` keywords outside of classes or class-like objects.
 
-Basically this rule checks whether or not a function which are containing `this` keywords is a constructor or a method.
+Basically, this rule checks whether or not a function containing `this` keyword is a constructor or a method.
 
 This rule judges from following conditions whether or not the function is a constructor:
 

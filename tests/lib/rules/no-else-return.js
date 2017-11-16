@@ -42,7 +42,19 @@ ruleTester.run("no-else-return", rule, {
                     if (bar) return;
                     else baz;
             }
-        `
+        `,
+        {
+            code: "function foo19() { if (true) { return x; } else if (false) { return y; } }",
+            options: [{ allowElseIf: true }]
+        },
+        {
+            code: "function foo20() {if (x) { return true; } else if (y) { notAReturn() } else { notAReturn(); } }",
+            options: [{ allowElseIf: true }]
+        },
+        {
+            code: "function foo21() { var x = true; if (x) { return x; } else if (x === false) { return false; } }",
+            options: [{ allowElseIf: true }]
+        }
     ],
     invalid: [
         {
@@ -97,6 +109,18 @@ ruleTester.run("no-else-return", rule, {
             errors: [{ message: "Unnecessary 'else' after 'return'.", type: "BlockStatement" }]
         },
         {
+            code: "function foo9a() {if (x) { return true; } else if (y) { return true; } else { notAReturn(); } }",
+            output: "function foo9a() {if (x) { return true; } if (y) { return true; } else { notAReturn(); } }",
+            options: [{ allowElseIf: false }],
+            errors: [{ message: "Unnecessary 'else' after 'return'.", type: "IfStatement" }]
+        },
+        {
+            code: "function foo9b() {if (x) { return true; } if (y) { return true; } else { notAReturn(); } }",
+            output: "function foo9b() {if (x) { return true; } if (y) { return true; }  notAReturn();  }",
+            options: [{ allowElseIf: false }],
+            errors: [{ message: "Unnecessary 'else' after 'return'.", type: "BlockStatement" }]
+        },
+        {
             code: "function foo10() { if (foo) return bar; else (foo).bar(); }",
             output: "function foo10() { if (foo) return bar; (foo).bar(); }",
             errors: [{ message: "Unnecessary 'else' after 'return'.", type: "ExpressionStatement" }]
@@ -140,6 +164,24 @@ ruleTester.run("no-else-return", rule, {
             code: "function foo18() { if (foo) return function() {} \nelse [1, 2, 3].map(bar) }",
             output: null,
             errors: [{ message: "Unnecessary 'else' after 'return'.", type: "ExpressionStatement" }]
+        },
+        {
+            code: "function foo19() { if (true) { return x; } else if (false) { return y; } }",
+            output: "function foo19() { if (true) { return x; } if (false) { return y; } }",
+            options: [{ allowElseIf: false }],
+            errors: [{ message: "Unnecessary 'else' after 'return'.", type: "IfStatement" }]
+        },
+        {
+            code: "function foo20() {if (x) { return true; } else if (y) { notAReturn() } else { notAReturn(); } }",
+            output: "function foo20() {if (x) { return true; } if (y) { notAReturn() } else { notAReturn(); } }",
+            options: [{ allowElseIf: false }],
+            errors: [{ message: "Unnecessary 'else' after 'return'.", type: "IfStatement" }]
+        },
+        {
+            code: "function foo21() { var x = true; if (x) { return x; } else if (x === false) { return false; } }",
+            output: "function foo21() { var x = true; if (x) { return x; } if (x === false) { return false; } }",
+            options: [{ allowElseIf: false }],
+            errors: [{ message: "Unnecessary 'else' after 'return'.", type: "IfStatement" }]
         }
     ]
 });

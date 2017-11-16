@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const rule = require("../../../lib/internal-rules/internal-no-invalid-meta"),
+const rule = require("../../../tools/internal-rules/no-invalid-meta"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
@@ -18,7 +18,7 @@ const rule = require("../../../lib/internal-rules/internal-no-invalid-meta"),
 
 const ruleTester = new RuleTester();
 
-ruleTester.run("internal-no-invalid-meta", rule, {
+ruleTester.run("no-invalid-meta", rule, {
     valid: [
 
         // context.report() call with no fix

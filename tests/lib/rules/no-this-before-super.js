@@ -77,7 +77,23 @@ ruleTester.run("no-this-before-super", rule, {
 
         // https://github.com/eslint/eslint/issues/5894
         "class A { constructor() { return; this; } }",
-        "class A extends B { constructor() { return; this; } }"
+        "class A extends B { constructor() { return; this; } }",
+
+        // https://github.com/eslint/eslint/issues/8848
+        `
+            class A extends B {
+                constructor(props) {
+                    super(props);
+
+                    try {
+                        let arr = [];
+                        for (let a of arr) {
+                        }
+                    } catch (err) {
+                    }
+                }
+            }
+        `
     ],
     invalid: [
 

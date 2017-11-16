@@ -40,6 +40,9 @@ ruleTester.run("dot-notation", rule, {
         { code: "a.null;", options: [{ allowKeywords: true }] },
         { code: "a['snake_case'];", options: [{ allowPattern: "^[a-z]+(_[a-z]+)+$" }] },
         { code: "a['lots_of_snake_case'];", options: [{ allowPattern: "^[a-z]+(_[a-z]+)+$" }] },
+        { code: "a[`time${range}`];", parserOptions: { ecmaVersion: 6 } },
+        { code: "a[`while`];", options: [{ allowKeywords: false }], parserOptions: { ecmaVersion: 6 } },
+        { code: "a[`time range`];", parserOptions: { ecmaVersion: 6 } },
         "a.true;",
         "a.null;",
         "a[undefined];",
@@ -57,6 +60,12 @@ ruleTester.run("dot-notation", rule, {
             code: "a['true'];",
             output: "a.true;",
             errors: [{ message: "[\"true\"] is better written in dot notation." }]
+        },
+        {
+            code: "a[`time`];",
+            output: "a.time;",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "[`time`] is better written in dot notation." }]
         },
         {
             code: "a[null];",

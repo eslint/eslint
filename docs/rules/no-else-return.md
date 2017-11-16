@@ -16,6 +16,23 @@ function foo() {
 
 This rule is aimed at highlighting an unnecessary block of code following an `if` containing a return statement. As such, it will warn when it encounters an `else` following a chain of `if`s, all of them containing a `return` statement.
 
+## Options
+
+This rule has an object option:
+
+```json
+{
+    "no-else-return": ["error", { "allowElseIf": true }],
+    // or
+    "no-else-return": ["error", { "allowElseIf": false }]
+}
+```
+
+* `allowElseIf: true` (default) allows `else if` blocks after a return
+* `allowElseIf: false` disallows `else if` blocks after a return
+
+### `allowElseIf: true`
+
 Examples of **incorrect** code for this rule:
 
 ```js
@@ -47,6 +64,16 @@ function foo() {
     }
 
     return t;
+}
+
+function foo() {
+    if (error) {
+        return 'It failed';
+    } else {
+        if (loading) {
+            return "It's still loading";
+        }
+    }
 }
 
 // Two warnings for nested occurrences
@@ -93,6 +120,46 @@ function foo() {
         }
     } else {
         return z;
+    }
+}
+
+function foo() {
+    if (error) {
+        return 'It failed';
+    } else if (loading) {
+        return "It's still loading";
+    }
+}
+```
+
+### `allowElseIf: false`
+
+Examples of **incorrect** code for this rule:
+
+```js
+/*eslint no-else-return: ["error", {allowElseIf: false}]*/
+
+function foo() {
+    if (error) {
+        return 'It failed';
+    } else if (loading) {
+        return "It's still loading";
+    }
+}
+```
+
+Examples of **correct** code for this rule:
+
+```js
+/*eslint no-else-return: ["error", {allowElseIf: false}]*/
+
+function foo() {
+    if (error) {
+        return 'It failed';
+    }
+
+    if (loading) {
+        return "It's still loading";
     }
 }
 ```

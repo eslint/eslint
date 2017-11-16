@@ -54,12 +54,12 @@ describe("Plugins", () => {
 
         it("should load a plugin when referenced by short name", () => {
             StubbedPlugins.load("example");
-            assert.equal(StubbedPlugins.get("example"), plugin);
+            assert.strictEqual(StubbedPlugins.get("example"), plugin);
         });
 
         it("should load a plugin when referenced by long name", () => {
             StubbedPlugins.load("eslint-plugin-example");
-            assert.equal(StubbedPlugins.get("example"), plugin);
+            assert.strictEqual(StubbedPlugins.get("example"), plugin);
         });
 
         it("should register environments when plugin has environments", () => {
@@ -74,8 +74,8 @@ describe("Plugins", () => {
 
             StubbedPlugins.load("eslint-plugin-example");
 
-            assert.deepEqual(environments.get("example/foo"), plugin.environments.foo);
-            assert.deepEqual(environments.get("example/bar"), plugin.environments.bar);
+            assert.deepStrictEqual(environments.get("example/foo"), plugin.environments.foo);
+            assert.deepStrictEqual(environments.get("example/bar"), plugin.environments.bar);
         });
 
         it("should register rules when plugin has rules", () => {
@@ -86,8 +86,8 @@ describe("Plugins", () => {
 
             StubbedPlugins.load("eslint-plugin-example");
 
-            assert.deepEqual(rules.get("example/baz"), plugin.rules.baz);
-            assert.deepEqual(rules.get("example/qux"), plugin.rules.qux);
+            assert.deepStrictEqual(rules.get("example/baz"), plugin.rules.baz);
+            assert.deepStrictEqual(rules.get("example/qux"), plugin.rules.qux);
         });
 
         it("should throw an error when a plugin has whitespace", () => {
@@ -128,12 +128,12 @@ describe("Plugins", () => {
 
         it("should load a scoped plugin when referenced by short name", () => {
             StubbedPlugins.load("@scope/example");
-            assert.equal(StubbedPlugins.get("@scope/example"), scopedPlugin);
+            assert.strictEqual(StubbedPlugins.get("@scope/example"), scopedPlugin);
         });
 
         it("should load a scoped plugin when referenced by long name", () => {
             StubbedPlugins.load("@scope/eslint-plugin-example");
-            assert.equal(StubbedPlugins.get("@scope/example"), scopedPlugin);
+            assert.strictEqual(StubbedPlugins.get("@scope/example"), scopedPlugin);
         });
 
         it("should register environments when scoped plugin has environments", () => {
@@ -142,7 +142,7 @@ describe("Plugins", () => {
             };
             StubbedPlugins.load("@scope/eslint-plugin-example");
 
-            assert.equal(environments.get("@scope/example/foo"), scopedPlugin.environments.foo);
+            assert.strictEqual(environments.get("@scope/example/foo"), scopedPlugin.environments.foo);
         });
 
         it("should register rules when scoped plugin has rules", () => {
@@ -151,18 +151,18 @@ describe("Plugins", () => {
             };
             StubbedPlugins.load("@scope/eslint-plugin-example");
 
-            assert.equal(rules.get("@scope/example/foo"), scopedPlugin.rules.foo);
+            assert.strictEqual(rules.get("@scope/example/foo"), scopedPlugin.rules.foo);
         });
 
         describe("when referencing a scope plugin and omitting @scope/", () => {
             it("should load a scoped plugin when referenced by short name, but should not get the plugin if '@scope/' is omitted", () => {
                 StubbedPlugins.load("@scope/example");
-                assert.equal(StubbedPlugins.get("example"), null);
+                assert.strictEqual(StubbedPlugins.get("example"), null);
             });
 
             it("should load a scoped plugin when referenced by long name, but should not get the plugin if '@scope/' is omitted", () => {
                 StubbedPlugins.load("@scope/eslint-plugin-example");
-                assert.equal(StubbedPlugins.get("example"), null);
+                assert.strictEqual(StubbedPlugins.get("example"), null);
             });
 
             it("should register environments when scoped plugin has environments, but should not get the environment if '@scope/' is omitted", () => {
@@ -171,7 +171,7 @@ describe("Plugins", () => {
                 };
                 StubbedPlugins.load("@scope/eslint-plugin-example");
 
-                assert.equal(environments.get("example/foo"), null);
+                assert.strictEqual(environments.get("example/foo"), null);
             });
 
             it("should register rules when scoped plugin has rules, but should not get the rule if '@scope/' is omitted", () => {
@@ -204,8 +204,8 @@ describe("Plugins", () => {
 
         it("should load plugins when passed multiple plugins", () => {
             StubbedPlugins.loadAll(["example1", "example2"]);
-            assert.equal(StubbedPlugins.get("example1"), plugin1);
-            assert.equal(StubbedPlugins.get("example2"), plugin2);
+            assert.strictEqual(StubbedPlugins.get("example1"), plugin1);
+            assert.strictEqual(StubbedPlugins.get("example2"), plugin2);
         });
 
         it("should load environments from plugins when passed multiple plugins", () => {
@@ -218,8 +218,8 @@ describe("Plugins", () => {
             };
 
             StubbedPlugins.loadAll(["example1", "example2"]);
-            assert.equal(environments.get("example1/foo"), plugin1.environments.foo);
-            assert.equal(environments.get("example2/bar"), plugin2.environments.bar);
+            assert.strictEqual(environments.get("example1/foo"), plugin1.environments.foo);
+            assert.strictEqual(environments.get("example2/bar"), plugin2.environments.bar);
         });
 
         it("should load rules from plugins when passed multiple plugins", () => {
@@ -232,8 +232,8 @@ describe("Plugins", () => {
             };
 
             StubbedPlugins.loadAll(["example1", "example2"]);
-            assert.equal(rules.get("example1/foo"), plugin1.rules.foo);
-            assert.equal(rules.get("example2/bar"), plugin2.rules.bar);
+            assert.strictEqual(rules.get("example1/foo"), plugin1.rules.foo);
+            assert.strictEqual(rules.get("example2/bar"), plugin2.rules.bar);
         });
 
         it("should throw an error if plugins is not an array", () => {
@@ -241,35 +241,4 @@ describe("Plugins", () => {
         });
 
     });
-
-    describe("removePrefix()", () => {
-        it("should remove common prefix when passed a plugin name  with a prefix", () => {
-            const pluginName = Plugins.removePrefix("eslint-plugin-test");
-
-            assert.equal(pluginName, "test");
-        });
-
-        it("should not modify plugin name when passed a plugin name without a prefix", () => {
-            const pluginName = Plugins.removePrefix("test");
-
-            assert.equal(pluginName, "test");
-        });
-    });
-
-    describe("getNamespace()", () => {
-        it("should remove namepace when passed with namepace", () => {
-            const namespace = Plugins.getNamespace("@namepace/eslint-plugin-test");
-
-            assert.equal(namespace, "@namepace/");
-        });
-    });
-
-    describe("removeNamespace()", () => {
-        it("should remove namepace when passed with namepace", () => {
-            const namespace = Plugins.removeNamespace("@namepace/eslint-plugin-test");
-
-            assert.equal(namespace, "eslint-plugin-test");
-        });
-    });
-
 });

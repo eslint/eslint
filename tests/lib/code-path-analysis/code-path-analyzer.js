@@ -10,11 +10,11 @@
 //------------------------------------------------------------------------------
 
 const assert = require("assert"),
-    EventEmitter = require("events").EventEmitter,
     fs = require("fs"),
     path = require("path"),
     Linter = require("../../../lib/linter"),
     EventGeneratorTester = require("../../../tools/internal-testers/event-generator-tester"),
+    createEmitter = require("../../../lib/util/safe-emitter"),
     debug = require("../../../lib/code-path-analysis/debug-helpers"),
     CodePath = require("../../../lib/code-path-analysis/code-path"),
     CodePathAnalyzer = require("../../../lib/code-path-analysis/code-path-analyzer"),
@@ -55,7 +55,7 @@ function getExpectedDotArrows(source) {
 
 describe("CodePathAnalyzer", () => {
     EventGeneratorTester.testEventGeneratorInterface(
-        new CodePathAnalyzer(new NodeEventGenerator(new EventEmitter()))
+        new CodePathAnalyzer(new NodeEventGenerator(createEmitter()))
     );
 
     describe("interface of code paths", () => {
@@ -559,11 +559,11 @@ describe("CodePathAnalyzer", () => {
                 }));
                 const messages = linter.verify(source, { rules: { test: 2 }, env: { es6: true } });
 
-                assert.equal(messages.length, 0);
-                assert.equal(actual.length, expected.length, "a count of code paths is wrong.");
+                assert.strictEqual(messages.length, 0);
+                assert.strictEqual(actual.length, expected.length, "a count of code paths is wrong.");
 
                 for (let i = 0; i < actual.length; ++i) {
-                    assert.equal(actual[i], expected[i]);
+                    assert.strictEqual(actual[i], expected[i]);
                 }
             });
         });

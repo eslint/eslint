@@ -20,7 +20,6 @@ const lodash = require("lodash"),
     fs = require("fs"),
     glob = require("glob"),
     markdownlint = require("markdownlint"),
-    nodeCLI = require("shelljs-nodecli"),
     os = require("os"),
     path = require("path"),
     semver = require("semver"),
@@ -73,7 +72,7 @@ const NODE = "node ", // intentional extra space
 
     // Utilities - intentional extra space at the end of each string
     MOCHA = `${NODE_MODULES}mocha/bin/_mocha `,
-    ESLINT = `${NODE} bin/eslint.js --rulesdir lib/internal-rules/ `,
+    ESLINT = `${NODE} bin/eslint.js --report-unused-disable-directives `,
 
     // Files
     MAKEFILE = "./Makefile.js",
@@ -84,9 +83,6 @@ const NODE = "node ", // intentional extra space
     PERF_ESLINTRC = path.join(PERF_TMP_DIR, "eslintrc.yml"),
     PERF_MULTIFILES_TARGET_DIR = path.join(PERF_TMP_DIR, "eslint"),
     PERF_MULTIFILES_TARGETS = `"${PERF_MULTIFILES_TARGET_DIR + path.sep}{lib,tests${path.sep}lib}${path.sep}**${path.sep}*.js"`,
-
-    // Regex
-    TAG_REGEX = /^(?:Breaking|Build|Chore|Docs|Fix|New|Update|Upgrade):/,
 
     // Settings
     MOCHA_TIMEOUT = 10000;
@@ -106,7 +102,7 @@ function getTestFilePatterns() {
             initialValue.push(`"tests/lib/${currentValues}/**/*.js"`);
         }
         return initialValue;
-    }, ["tests/lib/rules/**/*.js", "tests/lib/*.js", "tests/templates/*.js", "tests/bin/**/*.js", "tests/tools/*.js"]).join(" ");
+    }, ["\"tests/lib/rules/**/*.js\"", "\"tests/lib/*.js\"", "\"tests/bin/**/*.js\"", "\"tests/tools/**/*.js\""]).join(" ");
 }
 
 /**
@@ -383,24 +379,6 @@ function getFirstVersionOfDeletion(filePath) {
         .sort(semver.compare)[0];
 }
 
-
-/**
- * Returns all the branch names
- * @returns {string[]} branch names
- * @private
- */
-function getBranches() {
-    const branchesRaw = splitCommandResultToLines(execSilent("git branch --list")),
-        branches = [];
-
-    for (let i = 0; i < branchesRaw.length; i++) {
-        const branchName = branchesRaw[i].replace(/^\*(.*)/, "$1").trim();
-
-        branches.push(branchName);
-    }
-    return branches;
-}
-
 /**
  * Lints Markdown files.
  * @param {array} files Array of file names to lint.
@@ -443,18 +421,6 @@ function lintMarkdown(files) {
         console.error(resultString);
     }
     return { code: returnCode };
-}
-
-/**
- * Check if the branch name is valid
- * @param {string} branchName Branch name to check
- * @returns {boolean} true is branch exists
- * @private
- */
-function hasBranch(branchName) {
-    const branches = getBranches();
-
-    return branches.indexOf(branchName) !== -1;
 }
 
 /**
@@ -501,6 +467,15 @@ function getFormatterResults() {
     }, { formatterResults: {} });
 }
 
+/**
+ * Gets a path to an executable in node_modules/.bin
+ * @param {string} command The executable name
+ * @returns {string} The executable path
+ */
+function getBinFile(command) {
+    return path.join("node_modules", ".bin", command);
+}
+
 //------------------------------------------------------------------------------
 // Tasks
 //------------------------------------------------------------------------------
@@ -515,6 +490,12 @@ target.lint = function() {
 
     echo("Validating Makefile.js");
     lastReturn = exec(`${ESLINT} ${MAKEFILE}`);
+    if (lastReturn.code !== 0) {
+        errors++;
+    }
+
+    echo("Validating .eslintrc.js");
+    lastReturn = exec(`${ESLINT} .eslintrc.js`);
     if (lastReturn.code !== 0) {
         errors++;
     }
@@ -587,21 +568,20 @@ target.test = function() {
     let errors = 0,
         lastReturn;
 
-    // exec(ISTANBUL + " cover " + MOCHA + "-- -c " + TEST_FILES);
-    lastReturn = nodeCLI.exec("istanbul", "cover", MOCHA, `-- -R progress -t ${MOCHA_TIMEOUT}`, "-c", TEST_FILES);
+    lastReturn = exec(`${getBinFile("istanbul")} cover ${MOCHA} -- -R progress -t ${MOCHA_TIMEOUT} -c ${TEST_FILES}`);
     if (lastReturn.code !== 0) {
         errors++;
     }
 
-    // exec(ISTANBUL + "check-coverage --statement 99 --branch 98 --function 99 --lines 99");
-    lastReturn = nodeCLI.exec("istanbul", "check-coverage", "--statement 99 --branch 98 --function 99 --lines 99");
+    lastReturn = exec(`${getBinFile("istanbul")} check-coverage --statement 99 --branch 98 --function 99 --lines 99`);
+
     if (lastReturn.code !== 0) {
         errors++;
     }
 
     target.browserify();
 
-    lastReturn = nodeCLI.exec("karma", "start karma.conf.js");
+    lastReturn = exec(`${getBinFile("karma")} start karma.conf.js`);
     if (lastReturn.code !== 0) {
         errors++;
     }
@@ -615,7 +595,7 @@ target.test = function() {
 
 target.docs = function() {
     echo("Generating documentation");
-    nodeCLI.exec("jsdoc", "-d jsdoc lib");
+    exec(`${getBinFile("jsdoc")} -d jsdoc lib`);
     echo("Documentation has been output to /jsdoc");
 };
 
@@ -826,10 +806,10 @@ target.browserify = function() {
     generateRulesIndex(TEMP_DIR);
 
     // 5. browserify the temp directory
-    nodeCLI.exec("browserify", "-x espree", `${TEMP_DIR}linter.js`, "-o", `${BUILD_DIR}eslint.js`, "-s eslint", "--global-transform [ babelify --presets [ es2015 ] ]");
+    exec(`${getBinFile("browserify")} -x espree ${TEMP_DIR}linter.js -o ${BUILD_DIR}eslint.js -s eslint --global-transform [ babelify --presets [ es2015 ] ]`);
 
     // 6. Browserify espree
-    nodeCLI.exec("browserify", "-r espree", "-o", `${TEMP_DIR}espree.js`);
+    exec(`${getBinFile("browserify")} -r espree -o ${TEMP_DIR}espree.js`);
 
     // 7. Concatenate Babel polyfill, Espree, and ESLint files together
     cat("./node_modules/babel-polyfill/dist/polyfill.js", `${TEMP_DIR}espree.js`, `${BUILD_DIR}eslint.js`).to(`${BUILD_DIR}eslint.js`);
@@ -870,9 +850,11 @@ target.checkRuleFiles = function() {
             const docText = cat(docFilename);
             const idOldAtEndOfTitleRegExp = new RegExp(`^# (.*?) \\(${id}\\)`); // original format
             const idNewAtBeginningOfTitleRegExp = new RegExp(`^# ${id}: `); // new format is same as rules index
-            // 1. Added support for new format.
-            // 2. Will remove support for old format after all docs files have new format.
-            // 3. Will remove this check when the main heading is automatically generated from rule metadata.
+            /*
+             * 1. Added support for new format.
+             * 2. Will remove support for old format after all docs files have new format.
+             * 3. Will remove this check when the main heading is automatically generated from rule metadata.
+             */
 
             return idNewAtBeginningOfTitleRegExp.test(docText) || idOldAtEndOfTitleRegExp.test(docText);
         }
@@ -952,57 +934,6 @@ target.checkLicenses = function() {
             exit(1);
         }
     });
-};
-
-target.checkGitCommit = function() {
-    let commitMsgs,
-        failed;
-
-    if (hasBranch("master")) {
-        commitMsgs = splitCommandResultToLines(execSilent("git log HEAD --not master --format=format:%s --no-merges"));
-    } else {
-        commitMsgs = [execSilent("git log -1 --format=format:%s --no-merges")];
-    }
-
-    echo("Validating Commit Message");
-
-    // No commit since master should not cause test to fail
-    if (commitMsgs[0] === "") {
-        return;
-    }
-
-    // Check for more than one commit
-    if (commitMsgs.length > 1) {
-        echo(" - More than one commit found, please squash.");
-        failed = true;
-    }
-
-    // Only check non-release messages
-    if (!semver.valid(commitMsgs[0]) && !/^Revert /.test(commitMsgs[0])) {
-        if (commitMsgs[0].split(/\r?\n/)[0].length > 72) {
-            echo(" - First line of commit message must not exceed 72 characters");
-            failed = true;
-        }
-
-        // Check for tag at start of message
-        if (!TAG_REGEX.test(commitMsgs[0])) {
-            echo([" - Commit summary must start with one of:",
-                "    'Fix:'",
-                "    'Update:'",
-                "    'Breaking:'",
-                "    'Docs:'",
-                "    'Build:'",
-                "    'New:'",
-                "    'Upgrade:'",
-                "    'Chore:'",
-                "   Please refer to the contribution guidelines for more details."].join("\n"));
-            failed = true;
-        }
-    }
-
-    if (failed) {
-        exit(1);
-    }
 };
 
 /**

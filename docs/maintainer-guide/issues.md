@@ -41,10 +41,10 @@ The steps for triaging an issue are:
             * "documentation" - related to content on eslint.org
             * "infrastructure" - related to resources needed for builds or deployment (VMs, CI tools, bots, etc.)
 1. Once it's clear what type of issue it is, make sure all of the relevant information is provided:
-    * **Bugs**: See [bug reporting guidelines](/docs/developer-guide/contributing/reporting-bugs)
-    * **New Rules:** See [rule proposal guidelines](/docs/developer-guide/contributing/new-rules)
-    * **Rule Changes:** See [rule change proposal guidelines](/docs/developer-guide/contributing/rule-changes)
-    * **Other Changes:** See [change proposal guidelines](http://eslint.org/docs/developer-guide/contributing/changes)
+    * **Bugs**: See [bug reporting guidelines](/docs/developer-guide/contributing/reporting-bugs.md)
+    * **New Rules:** See [rule proposal guidelines](/docs/developer-guide/contributing/new-rules.md)
+    * **Rule Changes:** See [rule change proposal guidelines](/docs/developer-guide/contributing/rule-changes.md)
+    * **Other Changes:** See [change proposal guidelines](/docs/developer-guide/contributing/changes.md)
 1. Next steps:
     * **Questions:** answer the question and close the issue when the conversation is over.
     * **Bugs:** if you can verify the bug, add the "accepted" label and ask if they would like to submit a pull request.

@@ -221,9 +221,9 @@ foo();
 If you don't want to notify warnings about linebreaks, then it's safe to disable this rule.
 
 
-[lines-around-directive]: http://eslint.org/docs/rules/lines-around-directive
-[newline-after-var]: http://eslint.org/docs/rules/newline-after-var
-[newline-before-return]: http://eslint.org/docs/rules/newline-before-return
+[lines-around-directive]: https://eslint.org/docs/rules/lines-around-directive
+[newline-after-var]: https://eslint.org/docs/rules/newline-after-var
+[newline-before-return]: https://eslint.org/docs/rules/newline-before-return
 [requirePaddingNewLineAfterVariableDeclaration]: http://jscs.info/rule/requirePaddingNewLineAfterVariableDeclaration
 [requirePaddingNewLinesAfterBlocks]: http://jscs.info/rule/requirePaddingNewLinesAfterBlocks
 [disallowPaddingNewLinesAfterBlocks]: http://jscs.info/rule/disallowPaddingNewLinesAfterBlocks

@@ -40,9 +40,9 @@ const SOURCE_CODE = "/*A*/var answer/*B*/=/*C*/a/*D*/* b/*E*///F\n    call();\n/
 function check(tokens, expected) {
     const length = tokens.length;
 
-    assert.equal(length, expected.length);
+    assert.strictEqual(length, expected.length);
     for (let i = 0; i < length; i++) {
-        assert.equal(tokens[i].value, expected[i]);
+        assert.strictEqual(tokens[i].value, expected[i]);
     }
 }
 
@@ -208,64 +208,64 @@ describe("TokenStore", () => {
     describe("when calling getTokenBefore", () => {
 
         it("should retrieve one token before a node", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getTokenBefore(BinaryExpression).value,
                 "="
             );
         });
 
         it("should skip a given number of tokens", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getTokenBefore(BinaryExpression, 1).value,
                 "answer"
             );
-            assert.equal(
+            assert.strictEqual(
                 store.getTokenBefore(BinaryExpression, 2).value,
                 "var"
             );
         });
 
         it("should skip a given number of tokens with skip option", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getTokenBefore(BinaryExpression, { skip: 1 }).value,
                 "answer"
             );
-            assert.equal(
+            assert.strictEqual(
                 store.getTokenBefore(BinaryExpression, { skip: 2 }).value,
                 "var"
             );
         });
 
         it("should retrieve matched token with filter option", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getTokenBefore(BinaryExpression, t => t.value !== "=").value,
                 "answer"
             );
         });
 
         it("should retrieve matched token with skip and filter options", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getTokenBefore(BinaryExpression, { skip: 1, filter: t => t.value !== "=" }).value,
                 "var"
             );
         });
 
         it("should retrieve one token or comment before a node with includeComments option", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getTokenBefore(BinaryExpression, { includeComments: true }).value,
                 "C"
             );
         });
 
         it("should retrieve one token or comment before a node with includeComments and skip options", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getTokenBefore(BinaryExpression, { includeComments: true, skip: 1 }).value,
                 "="
             );
         });
 
         it("should retrieve one token or comment before a node with includeComments and skip and filter options", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getTokenBefore(BinaryExpression, { includeComments: true, skip: 1, filter: t => t.type.startsWith("Block") }).value,
                 "B"
             );
@@ -377,68 +377,68 @@ describe("TokenStore", () => {
     describe("when calling getTokenAfter", () => {
 
         it("should retrieve one token after a node", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getTokenAfter(VariableDeclarator.id).value,
                 "="
             );
         });
 
         it("should skip a given number of tokens", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getTokenAfter(VariableDeclarator.id, 1).value,
                 "a"
             );
-            assert.equal(
+            assert.strictEqual(
                 store.getTokenAfter(VariableDeclarator.id, 2).value,
                 "*"
             );
         });
 
         it("should skip a given number of tokens with skip option", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getTokenAfter(VariableDeclarator.id, { skip: 1 }).value,
                 "a"
             );
-            assert.equal(
+            assert.strictEqual(
                 store.getTokenAfter(VariableDeclarator.id, { skip: 2 }).value,
                 "*"
             );
         });
 
         it("should retrieve matched token with filter option", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getTokenAfter(VariableDeclarator.id, t => t.type === "Identifier").value,
                 "a"
             );
-            assert.equal(
+            assert.strictEqual(
                 store.getTokenAfter(VariableDeclarator.id, { filter: t => t.type === "Identifier" }).value,
                 "a"
             );
         });
 
         it("should retrieve matched token with filter and skip options", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getTokenAfter(VariableDeclarator.id, { skip: 1, filter: t => t.type === "Identifier" }).value,
                 "b"
             );
         });
 
         it("should retrieve one token or comment after a node with includeComments option", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getTokenAfter(VariableDeclarator.id, { includeComments: true }).value,
                 "B"
             );
         });
 
         it("should retrieve one token or comment after a node with includeComments and skip options", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getTokenAfter(VariableDeclarator.id, { includeComments: true, skip: 2 }).value,
                 "C"
             );
         });
 
         it("should retrieve one token or comment after a node with includeComments and skip and filter options", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getTokenAfter(VariableDeclarator.id, { includeComments: true, skip: 2, filter: t => t.type.startsWith("Block") }).value,
                 "D"
             );
@@ -554,68 +554,68 @@ describe("TokenStore", () => {
     describe("when calling getFirstToken", () => {
 
         it("should retrieve the first token of a node's token stream", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getFirstToken(BinaryExpression).value,
                 "a"
             );
         });
 
         it("should skip a given number of tokens", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getFirstToken(BinaryExpression, 1).value,
                 "*"
             );
-            assert.equal(
+            assert.strictEqual(
                 store.getFirstToken(BinaryExpression, 2).value,
                 "b"
             );
         });
 
         it("should skip a given number of tokens with skip option", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getFirstToken(BinaryExpression, { skip: 1 }).value,
                 "*"
             );
-            assert.equal(
+            assert.strictEqual(
                 store.getFirstToken(BinaryExpression, { skip: 2 }).value,
                 "b"
             );
         });
 
         it("should retrieve matched token with filter option", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getFirstToken(BinaryExpression, t => t.type === "Identifier").value,
                 "a"
             );
-            assert.equal(
+            assert.strictEqual(
                 store.getFirstToken(BinaryExpression, { filter: t => t.type === "Identifier" }).value,
                 "a"
             );
         });
 
         it("should retrieve matched token with filter and skip options", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getFirstToken(BinaryExpression, { skip: 1, filter: t => t.type === "Identifier" }).value,
                 "b"
             );
         });
 
         it("should retrieve the first token or comment of a node's token stream with includeComments option", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getFirstToken(BinaryExpression, { includeComments: true }).value,
                 "a"
             );
         });
 
         it("should retrieve the first matched token or comment of a node's token stream with includeComments and skip options", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getFirstToken(BinaryExpression, { includeComments: true, skip: 1 }).value,
                 "D"
             );
         });
 
         it("should retrieve the first matched token or comment of a node's token stream with includeComments and skip and filter options", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getFirstToken(BinaryExpression, { includeComments: true, skip: 1, filter: t => t.value !== "a" }).value,
                 "*"
             );
@@ -626,8 +626,10 @@ describe("TokenStore", () => {
             const ast = espree.parse(code, { loc: true, range: true, tokens: true, comment: true });
             const tokenStore = new TokenStore(ast.tokens, ast.comments);
 
-            // Actually, the first of nodes is always tokens, not comments.
-            // But I think this test case is needed for completeness.
+            /*
+             * Actually, the first of nodes is always tokens, not comments.
+             * But I think this test case is needed for completeness.
+             */
             const token = tokenStore.getFirstToken(
                 { range: [ast.comments[0].range[0], ast.tokens[5].range[1]] },
                 { includeComments: true }
@@ -641,8 +643,10 @@ describe("TokenStore", () => {
             const ast = espree.parse(code, { loc: true, range: true, tokens: true, comment: true });
             const tokenStore = new TokenStore(ast.tokens, ast.comments);
 
-            // Actually, the first of nodes is always tokens, not comments.
-            // But I think this test case is needed for completeness.
+            /*
+             * Actually, the first of nodes is always tokens, not comments.
+             * But I think this test case is needed for completeness.
+             */
             const token = tokenStore.getFirstToken(
                 { range: [ast.comments[0].range[0], ast.tokens[5].range[1]] }
             );
@@ -733,72 +737,72 @@ describe("TokenStore", () => {
     describe("when calling getLastToken", () => {
 
         it("should retrieve the last token of a node's token stream", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getLastToken(BinaryExpression).value,
                 "b"
             );
-            assert.equal(
+            assert.strictEqual(
                 store.getLastToken(VariableDeclaration).value,
                 "b"
             );
         });
 
         it("should skip a given number of tokens", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getLastToken(BinaryExpression, 1).value,
                 "*"
             );
-            assert.equal(
+            assert.strictEqual(
                 store.getLastToken(BinaryExpression, 2).value,
                 "a"
             );
         });
 
         it("should skip a given number of tokens with skip option", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getLastToken(BinaryExpression, { skip: 1 }).value,
                 "*"
             );
-            assert.equal(
+            assert.strictEqual(
                 store.getLastToken(BinaryExpression, { skip: 2 }).value,
                 "a"
             );
         });
 
         it("should retrieve the last matched token of a node's token stream with filter option", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getLastToken(BinaryExpression, t => t.value !== "b").value,
                 "*"
             );
-            assert.equal(
+            assert.strictEqual(
                 store.getLastToken(BinaryExpression, { filter: t => t.value !== "b" }).value,
                 "*"
             );
         });
 
         it("should retrieve the last matched token of a node's token stream with filter and skip options", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getLastToken(BinaryExpression, { skip: 1, filter: t => t.type === "Identifier" }).value,
                 "a"
             );
         });
 
         it("should retrieve the last token of a node's token stream with includeComments option", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getLastToken(BinaryExpression, { includeComments: true }).value,
                 "b"
             );
         });
 
         it("should retrieve the last token of a node's token stream with includeComments and skip options", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getLastToken(BinaryExpression, { includeComments: true, skip: 2 }).value,
                 "D"
             );
         });
 
         it("should retrieve the last token of a node's token stream with includeComments and skip and filter options", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getLastToken(BinaryExpression, { includeComments: true, skip: 1, filter: t => t.type !== "Identifier" }).value,
                 "D"
             );
@@ -809,8 +813,10 @@ describe("TokenStore", () => {
             const ast = espree.parse(code, { loc: true, range: true, tokens: true, comment: true });
             const tokenStore = new TokenStore(ast.tokens, ast.comments);
 
-            // Actually, the last of nodes is always tokens, not comments.
-            // But I think this test case is needed for completeness.
+            /*
+             * Actually, the last of nodes is always tokens, not comments.
+             * But I think this test case is needed for completeness.
+             */
             const token = tokenStore.getLastToken(
                 { range: [ast.tokens[0].range[0], ast.comments[0].range[1]] },
                 { includeComments: true }
@@ -824,8 +830,10 @@ describe("TokenStore", () => {
             const ast = espree.parse(code, { loc: true, range: true, tokens: true, comment: true });
             const tokenStore = new TokenStore(ast.tokens, ast.comments);
 
-            // Actually, the last of nodes is always tokens, not comments.
-            // But I think this test case is needed for completeness.
+            /*
+             * Actually, the last of nodes is always tokens, not comments.
+             * But I think this test case is needed for completeness.
+             */
             const token = tokenStore.getLastToken(
                 { range: [ast.tokens[0].range[0], ast.comments[0].range[1]] }
             );
@@ -895,64 +903,64 @@ describe("TokenStore", () => {
     describe("when calling getFirstTokenBetween", () => {
 
         it("should return null between adjacent nodes", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getFirstTokenBetween(BinaryExpression, CallExpression),
                 null
             );
         });
 
         it("should retrieve one token between non-adjacent nodes with count option", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getFirstTokenBetween(VariableDeclarator.id, BinaryExpression.right).value,
                 "="
             );
         });
 
         it("should retrieve one token between non-adjacent nodes with skip option", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getFirstTokenBetween(VariableDeclarator.id, BinaryExpression.right, 1).value,
                 "a"
             );
-            assert.equal(
+            assert.strictEqual(
                 store.getFirstTokenBetween(VariableDeclarator.id, BinaryExpression.right, { skip: 2 }).value,
                 "*"
             );
         });
 
         it("should return null if it's skipped beyond the right token", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getFirstTokenBetween(VariableDeclarator.id, BinaryExpression.right, { skip: 3 }),
                 null
             );
-            assert.equal(
+            assert.strictEqual(
                 store.getFirstTokenBetween(VariableDeclarator.id, BinaryExpression.right, { skip: 4 }),
                 null
             );
         });
 
         it("should retrieve the first matched token between non-adjacent nodes with filter option", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getFirstTokenBetween(VariableDeclarator.id, BinaryExpression.right, { filter: t => t.type !== "Identifier" }).value,
                 "="
             );
         });
 
         it("should retrieve first token or comment between non-adjacent nodes with includeComments option", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getFirstTokenBetween(VariableDeclarator.id, BinaryExpression.right, { includeComments: true }).value,
                 "B"
             );
         });
 
         it("should retrieve first token or comment between non-adjacent nodes with includeComments and skip options", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getFirstTokenBetween(VariableDeclarator.id, BinaryExpression.right, { includeComments: true, skip: 1 }).value,
                 "="
             );
         });
 
         it("should retrieve first token or comment between non-adjacent nodes with includeComments and skip and filter options", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getFirstTokenBetween(VariableDeclarator.id, BinaryExpression.right, { includeComments: true, skip: 1, filter: t => t.type !== "Punctuator" }).value,
                 "C"
             );
@@ -1020,64 +1028,64 @@ describe("TokenStore", () => {
     describe("when calling getLastTokenBetween", () => {
 
         it("should return null between adjacent nodes", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getLastTokenBetween(BinaryExpression, CallExpression),
                 null
             );
         });
 
         it("should retrieve one token between non-adjacent nodes with count option", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getLastTokenBetween(VariableDeclarator.id, BinaryExpression.right).value,
                 "*"
             );
         });
 
         it("should retrieve one token between non-adjacent nodes with skip option", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getLastTokenBetween(VariableDeclarator.id, BinaryExpression.right, 1).value,
                 "a"
             );
-            assert.equal(
+            assert.strictEqual(
                 store.getLastTokenBetween(VariableDeclarator.id, BinaryExpression.right, { skip: 2 }).value,
                 "="
             );
         });
 
         it("should return null if it's skipped beyond the right token", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getLastTokenBetween(VariableDeclarator.id, BinaryExpression.right, { skip: 3 }),
                 null
             );
-            assert.equal(
+            assert.strictEqual(
                 store.getLastTokenBetween(VariableDeclarator.id, BinaryExpression.right, { skip: 4 }),
                 null
             );
         });
 
         it("should retrieve the first matched token between non-adjacent nodes with filter option", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getLastTokenBetween(VariableDeclarator.id, BinaryExpression.right, { filter: t => t.type !== "Identifier" }).value,
                 "*"
             );
         });
 
         it("should retrieve first token or comment between non-adjacent nodes with includeComments option", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getLastTokenBetween(VariableDeclarator.id, BinaryExpression.right, { includeComments: true }).value,
                 "*"
             );
         });
 
         it("should retrieve first token or comment between non-adjacent nodes with includeComments and skip options", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getLastTokenBetween(VariableDeclarator.id, BinaryExpression.right, { includeComments: true, skip: 1 }).value,
                 "D"
             );
         });
 
         it("should retrieve first token or comment between non-adjacent nodes with includeComments and skip and filter options", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getLastTokenBetween(VariableDeclarator.id, BinaryExpression.right, { includeComments: true, skip: 1, filter: t => t.type !== "Punctuator" }).value,
                 "a"
             );
@@ -1122,8 +1130,8 @@ describe("TokenStore", () => {
         it("should return identifier token", () => {
             const result = store.getTokenByRangeStart(9);
 
-            assert.equal(result.type, "Identifier");
-            assert.equal(result.value, "answer");
+            assert.strictEqual(result.type, "Identifier");
+            assert.strictEqual(result.value, "answer");
         });
 
         it("should return null when token doesn't exist", () => {
@@ -1135,8 +1143,8 @@ describe("TokenStore", () => {
         it("should return a comment token when includeComments is true", () => {
             const result = store.getTokenByRangeStart(15, { includeComments: true });
 
-            assert.equal(result.type, "Block");
-            assert.equal(result.value, "B");
+            assert.strictEqual(result.type, "Block");
+            assert.strictEqual(result.value, "B");
         });
 
         it("should not return a comment token at the supplied index when includeComments is false", () => {
@@ -1156,18 +1164,18 @@ describe("TokenStore", () => {
     describe("when calling getTokenOrCommentBefore", () => {
 
         it("should retrieve one token or comment before a node", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getTokenOrCommentBefore(BinaryExpression).value,
                 "C"
             );
         });
 
         it("should skip a given number of tokens", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getTokenOrCommentBefore(BinaryExpression, 1).value,
                 "="
             );
-            assert.equal(
+            assert.strictEqual(
                 store.getTokenOrCommentBefore(BinaryExpression, 2).value,
                 "B"
             );
@@ -1178,18 +1186,18 @@ describe("TokenStore", () => {
     describe("when calling getTokenOrCommentAfter", () => {
 
         it("should retrieve one token or comment after a node", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getTokenOrCommentAfter(VariableDeclarator.id).value,
                 "B"
             );
         });
 
         it("should skip a given number of tokens", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getTokenOrCommentAfter(VariableDeclarator.id, 1).value,
                 "="
             );
-            assert.equal(
+            assert.strictEqual(
                 store.getTokenOrCommentAfter(VariableDeclarator.id, 2).value,
                 "C"
             );
@@ -1287,14 +1295,14 @@ describe("TokenStore", () => {
 
     describe("getCommentsBefore", () => {
         it("should retrieve comments before a node", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getCommentsBefore(VariableDeclaration)[0].value,
                 "A"
             );
         });
 
         it("should retrieve comments before a token", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getCommentsBefore(TOKENS[2] /* "=" token */)[0].value,
                 "B"
             );
@@ -1303,13 +1311,13 @@ describe("TokenStore", () => {
         it("should retrieve multiple comments before a node", () => {
             const comments = store.getCommentsBefore(CallExpression);
 
-            assert.equal(comments.length, 2);
-            assert.equal(comments[0].value, "E");
-            assert.equal(comments[1].value, "F");
+            assert.strictEqual(comments.length, 2);
+            assert.strictEqual(comments[0].value, "E");
+            assert.strictEqual(comments[1].value, "F");
         });
 
         it("should retrieve comments before a Program node", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getCommentsBefore(Program)[0].value,
                 "A"
             );
@@ -1329,14 +1337,14 @@ describe("TokenStore", () => {
 
     describe("getCommentsAfter", () => {
         it("should retrieve comments after a node", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getCommentsAfter(VariableDeclarator.id)[0].value,
                 "B"
             );
         });
 
         it("should retrieve comments after a token", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getCommentsAfter(TOKENS[2] /* "=" token */)[0].value,
                 "C"
             );
@@ -1345,13 +1353,13 @@ describe("TokenStore", () => {
         it("should retrieve multiple comments after a node", () => {
             const comments = store.getCommentsAfter(VariableDeclaration);
 
-            assert.equal(comments.length, 2);
-            assert.equal(comments[0].value, "E");
-            assert.equal(comments[1].value, "F");
+            assert.strictEqual(comments.length, 2);
+            assert.strictEqual(comments[0].value, "E");
+            assert.strictEqual(comments[1].value, "F");
         });
 
         it("should retrieve comments after a Program node", () => {
-            assert.equal(
+            assert.strictEqual(
                 store.getCommentsAfter(Program)[0].value,
                 "Z"
             );

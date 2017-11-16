@@ -11,20 +11,20 @@ const assert = require("chai").assert;
 const EXECUTABLE_PATH = require("path").resolve(`${__dirname}/../../bin/eslint.js`);
 
 /**
-* Returns a Promise for when a child process exits
-* @param {ChildProcess} exitingProcess The child process
-* @returns {Promise<number>} A Promise that fulfills with the exit code when the child process exits
-*/
+ * Returns a Promise for when a child process exits
+ * @param {ChildProcess} exitingProcess The child process
+ * @returns {Promise<number>} A Promise that fulfills with the exit code when the child process exits
+ */
 function awaitExit(exitingProcess) {
     return new Promise(resolve => exitingProcess.once("exit", resolve));
 }
 
 /**
-* Asserts that the exit code of a given child process will equal the given value.
-* @param {ChildProcess} exitingProcess The child process
-* @param {number} expectedExitCode The expected exit code of the child process
-* @returns {Promise} A Promise that fufills if the exit code ends up matching, and rejects otherwise.
-*/
+ * Asserts that the exit code of a given child process will equal the given value.
+ * @param {ChildProcess} exitingProcess The child process
+ * @param {number} expectedExitCode The expected exit code of the child process
+ * @returns {Promise} A Promise that fufills if the exit code ends up matching, and rejects otherwise.
+ */
 function assertExitCode(exitingProcess, expectedExitCode) {
     return awaitExit(exitingProcess).then(exitCode => {
         assert.strictEqual(exitCode, expectedExitCode, `Expected an exit code of ${expectedExitCode} but got ${exitCode}.`);
@@ -32,11 +32,11 @@ function assertExitCode(exitingProcess, expectedExitCode) {
 }
 
 /**
-* Returns a Promise for the stdout of a process.
-* @param {ChildProcess} runningProcess The child process
-* @returns {Promise<{stdout: string, stderr: string}>} A Promise that fulfills with all of the
-* stdout and stderr output produced by the process when it exits.
-*/
+ * Returns a Promise for the stdout of a process.
+ * @param {ChildProcess} runningProcess The child process
+ * @returns {Promise<{stdout: string, stderr: string}>} A Promise that fulfills with all of the
+ * stdout and stderr output produced by the process when it exits.
+ */
 function getOutput(runningProcess) {
     let stdout = "";
     let stderr = "";
@@ -50,11 +50,11 @@ describe("bin/eslint.js", () => {
     const forkedProcesses = new Set();
 
     /**
-    * Forks the process to run an instance of ESLint.
-    * @param {string[]} [args] An array of arguments
-    * @param {Object} [options] An object containing options for the resulting child process
-    * @returns {ChildProcess} The resulting child process
-    */
+     * Forks the process to run an instance of ESLint.
+     * @param {string[]} [args] An array of arguments
+     * @param {Object} [options] An object containing options for the resulting child process
+     * @returns {ChildProcess} The resulting child process
+     */
     function runESLint(args, options) {
         const newProcess = childProcess.fork(EXECUTABLE_PATH, args, Object.assign({ silent: true }, options));
 
@@ -69,6 +69,41 @@ describe("bin/eslint.js", () => {
             child.stdin.write("var foo = bar;\n");
             child.stdin.end();
             return assertExitCode(child, 0);
+        });
+
+        it("has exit code 0 if no linting errors are reported", () => {
+            const child = runESLint([
+                "--stdin",
+                "--no-eslintrc",
+                "--rule",
+                "{'no-extra-semi': 2}",
+                "--fix-dry-run",
+                "--format",
+                "json"
+            ]);
+
+            const expectedOutput = JSON.stringify([
+                {
+                    filePath: "<text>",
+                    messages: [],
+                    errorCount: 0,
+                    warningCount: 0,
+                    fixableErrorCount: 0,
+                    fixableWarningCount: 0,
+                    output: "var foo = bar;\n"
+                }
+            ]);
+
+            const exitCodePromise = assertExitCode(child, 0);
+            const stdoutPromise = getOutput(child).then(output => {
+                assert.strictEqual(output.stdout.trim(), expectedOutput);
+                assert.strictEqual(output.stderr, "");
+            });
+
+            child.stdin.write("var foo = bar;;\n");
+            child.stdin.end();
+
+            return Promise.all([exitCodePromise, stdoutPromise]);
         });
 
         it("has exit code 1 if a syntax error is thrown", () => {
@@ -87,19 +122,35 @@ describe("bin/eslint.js", () => {
             return assertExitCode(child, 1);
         });
 
-        it("gives a detailed error message if no config file is found", () => {
-            const child = runESLint(["--stdin"], { cwd: "/" }); // Assumes the root directory has no .eslintrc file
+        it(
+            "gives a detailed error message if no config file is found in /",
+            () => {
+                if (
+                    fs.readdirSync("/").some(
+                        fileName =>
+                            /^\.eslintrc(?:\.(?:js|yaml|yml|json))?$/
+                                .test(fileName)
+                    )
+                ) {
+                    return Promise.resolve(true);
+                }
+                const child = runESLint(
+                    ["--stdin"], { cwd: "/", env: { HOME: "/" } }
+                );
 
-            const exitCodePromise = assertExitCode(child, 1);
-            const stdoutPromise = getOutput(child).then(output => {
-                assert.match(output.stderr, /ESLint couldn't find a configuration file/);
-            });
+                const exitCodePromise = assertExitCode(child, 1);
+                const stderrPromise = getOutput(child).then(output => {
+                    assert.match(
+                        output.stderr,
+                        /ESLint couldn't find a configuration file/
+                    );
+                });
 
-            child.stdin.write("var foo = bar\n");
-            child.stdin.end();
-
-            return Promise.all([exitCodePromise, stdoutPromise]);
-        });
+                child.stdin.write("1 < 3;\n");
+                child.stdin.end();
+                return Promise.all([exitCodePromise, stderrPromise]);
+            }
+        );
 
     });
 

@@ -191,6 +191,40 @@ ruleTester.run("require-jsdoc", rule, {
                 }
             }],
             parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "/**\nJSDoc Block\n*/\nvar foo = function() {}",
+            options: [{
+                require: {
+                    FunctionExpression: true
+                }
+            }]
+        },
+        {
+            code: "const foo = {/**\nJSDoc Block\n*/\nbar() {}}",
+            options: [{
+                require: {
+                    FunctionExpression: true
+                }
+            }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = {/**\nJSDoc Block\n*/\nbar: function() {}}",
+            options: [{
+                require: {
+                    FunctionExpression: true
+                }
+            }]
+        },
+        {
+            code: " var foo = { [function() {}]: 1 };",
+            options: [{
+                require: {
+                    FunctionExpression: true
+                }
+            }],
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
 
@@ -340,6 +374,43 @@ ruleTester.run("require-jsdoc", rule, {
             errors: [{
                 message: "Missing JSDoc comment.",
                 type: "ArrowFunctionExpression"
+            }]
+        },
+        {
+            code: "var foo = function() {}",
+            options: [{
+                require: {
+                    FunctionExpression: true
+                }
+            }],
+            errors: [{
+                message: "Missing JSDoc comment.",
+                type: "FunctionExpression"
+            }]
+        },
+        {
+            code: "const foo = {bar() {}}",
+            options: [{
+                require: {
+                    FunctionExpression: true
+                }
+            }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Missing JSDoc comment.",
+                type: "FunctionExpression"
+            }]
+        },
+        {
+            code: "var foo = {bar: function() {}}",
+            options: [{
+                require: {
+                    FunctionExpression: true
+                }
+            }],
+            errors: [{
+                message: "Missing JSDoc comment.",
+                type: "FunctionExpression"
             }]
         }
     ]

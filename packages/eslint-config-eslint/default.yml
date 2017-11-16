@@ -40,6 +40,13 @@ rules:
         beforeLineComment: true,
         afterLineComment: false
     }]
+    max-len: ["error", 160, {
+        "ignoreComments": true,
+        "ignoreUrls": true,
+        "ignoreStrings": true,
+        "ignoreTemplateLiterals": true,
+        "ignoreRegExpLiterals": true
+    }]
     max-statements-per-line: "error"
     new-cap: "error"
     new-parens: "error"
@@ -51,7 +58,7 @@ rules:
     no-confusing-arrow: "error"
     no-console: "error"
     no-delete-var: "error"
-    no-else-return: "error"
+    no-else-return: ["error", { allowElseIf: false }]
     no-eval: "error"
     no-extend-native: "error"
     no-extra-bind: "error"
@@ -85,7 +92,11 @@ rules:
     no-restricted-properties: [
         "error",
         { property: "substring", message: "Use .slice instead of .substring." },
-        { property: "substr", message: "Use .slice instead of .substr." }
+        { property: "substr", message: "Use .slice instead of .substr." },
+        { object: "assert", property: "equal", message: "Use assert.strictEqual instead of assert.equal." },
+        { object: "assert", property: "notEqual", message: "Use assert.notStrictEqual instead of assert.notEqual." },
+        { object: "assert", property: "deepEqual", message: "Use assert.deepStrictEqual instead of assert.deepStrictEqual." },
+        { object: "assert", property: "notDeepEqual", message: "Use assert.notDeepStrictEqual instead of assert.notDeepEqual." }
     ]
     no-return-assign: "error"
     no-script-url: "error"

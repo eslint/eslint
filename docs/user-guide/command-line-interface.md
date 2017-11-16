@@ -30,50 +30,52 @@ The command line utility has several options. You can view the options by runnin
 eslint [options] file.js [file.js] [dir]
 
 Basic configuration:
-  -c, --config path::String    Use configuration from this file or shareable config
-  --no-eslintrc                Disable use of configuration from .eslintrc
-  --env [String]               Specify environments
-  --ext [String]               Specify JavaScript file extensions - default: .js
-  --global [String]            Define global variables
-  --parser String              Specify the parser to be used
-  --parser-options Object      Specify parser options
+  -c, --config path::String      Use configuration from this file or shareable config
+  --no-eslintrc                  Disable use of configuration from .eslintrc
+  --env [String]                 Specify environments
+  --ext [String]                 Specify JavaScript file extensions - default: .js
+  --global [String]              Define global variables
+  --parser String                Specify the parser to be used
+  --parser-options Object        Specify parser options
 
 Caching:
-  --cache                      Only check changed files - default: false
-  --cache-file path::String    Path to the cache file. Deprecated: use --cache-location - default: .eslintcache
+  --cache                        Only check changed files - default: false
+  --cache-file path::String      Path to the cache file. Deprecated: use --cache-location - default: .eslintcache
   --cache-location path::String  Path to the cache file or directory
 
 Specifying rules and plugins:
-  --rulesdir [path::String]    Use additional rules from this directory
-  --plugin [String]            Specify plugins
-  --rule Object                Specify rules
+  --rulesdir [path::String]      Use additional rules from this directory
+  --plugin [String]              Specify plugins
+  --rule Object                  Specify rules
 
 Ignoring files:
-  --ignore-path path::String   Specify path of ignore file
-  --no-ignore                  Disable use of ignore files and patterns
-  --ignore-pattern [String]    Pattern of files to ignore (in addition to those in .eslintignore)
+  --ignore-path path::String     Specify path of ignore file
+  --no-ignore                    Disable use of ignore files and patterns
+  --ignore-pattern [String]      Pattern of files to ignore (in addition to those in .eslintignore)
 
 Using stdin:
-  --stdin                      Lint code provided on <STDIN> - default: false
-  --stdin-filename String      Specify filename to process STDIN as
+  --stdin                        Lint code provided on <STDIN> - default: false
+  --stdin-filename String        Specify filename to process STDIN as
 
 Handling warnings:
-  --quiet                      Report errors only - default: false
-  --max-warnings Int           Number of warnings to trigger nonzero exit code - default: -1
+  --quiet                        Report errors only - default: false
+  --max-warnings Int             Number of warnings to trigger nonzero exit code - default: -1
 
 Output:
   -o, --output-file path::String  Specify file to write report to
-  -f, --format String          Use a specific output format - default: stylish
-  --color, --no-color          Force enabling/disabling of color
+  -f, --format String            Use a specific output format - default: stylish
+  --color, --no-color            Force enabling/disabling of color
 
 Miscellaneous:
-  --init                       Run config initialization wizard - default: false
-  --fix                        Automatically fix problems
-  --debug                      Output debugging information
-  -h, --help                   Show help
-  -v, --version                Output the version number
-  --no-inline-config           Prevent comments from changing config or rules
-  --print-config path::String  Print the configuration for the given file
+  --init                         Run config initialization wizard - default: false
+  --fix                          Automatically fix problems
+  --fix-dry-run                  Automatically fix problems without saving the changes to the file system
+  --debug                        Output debugging information
+  -h, --help                     Show help
+  -v, --version                  Output the version number
+  --no-inline-config             Prevent comments from changing config or rules
+  --report-unused-disable-directives  Adds reported errors for unused eslint-disable directives
+  --print-config path::String    Print the configuration for the given file
 ```
 
 Options that accept array values can be specified by repeating the option or with a comma-delimited list (other than `--ignore-pattern` which does not allow the second style).
@@ -114,7 +116,7 @@ Example:
 
 #### `--env`
 
-This option enables specific environments. Details about the global variables defined by each environment are available on the [configuration](configuring) documentation. This option only enables environments; it does not disable environments set in other configuration files. To specify multiple environments, separate them using commas, or use the option multiple times.
+This option enables specific environments. Details about the global variables defined by each environment are available on the [configuration](configuring.md) documentation. This option only enables environments; it does not disable environments set in other configuration files. To specify multiple environments, separate them using commas, or use the option multiple times.
 
 Examples:
 
@@ -152,11 +154,11 @@ Examples:
 
 #### `--parser`
 
-This option allows you to specify a parser to be used by eslint. By default, `espree` will be used.
+This option allows you to specify a parser to be used by ESLint. By default, `espree` will be used.
 
 #### `--parser-options`
 
-This option allows you to specify parser options to be used by eslint. Note that the available parser options are determined by the parser being used.
+This option allows you to specify parser options to be used by ESLint. Note that the available parser options are determined by the parser being used.
 
 Examples:
 
@@ -308,18 +310,18 @@ When specified, the given format is output into the provided file name.
 
 This option specifies the output format for the console. Possible formats are:
 
-* [checkstyle](formatters/#checkstyle)
-* [codeframe](formatters/#codeframe)
-* [compact](formatters/#compact)
-* [html](formatters/#html)
-* [jslint-xml](formatters/#jslint-xml)
-* [json](formatters/#json)
-* [junit](formatters/#junit)
-* [stylish](formatters/#stylish) (the default)
-* [table](formatters/#table)
-* [tap](formatters/#tap)
-* [unix](formatters/#unix)
-* [visualstudio](formatters/#visualstudio)
+* [checkstyle](formatters.md/#checkstyle)
+* [codeframe](formatters.md/#codeframe)
+* [compact](formatters.md/#compact)
+* [html](formatters.md/#html)
+* [jslint-xml](formatters.md/#jslint-xml)
+* [json](formatters.md/#json)
+* [junit](formatters.md/#junit)
+* [stylish](formatters.md/#stylish) (the default)
+* [table](formatters.md/#table)
+* [tap](formatters.md/#tap)
+* [unix](formatters.md/#unix)
+* [visualstudio](formatters.md/#visualstudio)
 
 Example:
 
@@ -330,6 +332,17 @@ You can also use a custom formatter from the command line by specifying a path t
 Example:
 
     eslint -f ./customformat.js file.js
+
+An npm-installed formatter is resolved with or without `eslint-formatter-` prefix.
+
+Example:
+
+    npm install eslint-formatter-pretty
+
+    eslint -f pretty file.js
+
+    // equivalent:
+    eslint -f eslint-formatter-pretty file.js
 
 When specified, the given format is output to the console. If you'd like to save that output into a file, you can do so on the command line like so:
 
@@ -359,7 +372,21 @@ The resulting configuration file will be created in the current directory.
 This option instructs ESLint to try to fix as many issues as possible. The fixes are made to the actual files themselves and only the remaining unfixed issues are output. Not all problems are fixable using this option, and the option does not work in these situations:
 
 1. This option throws an error when code is piped to ESLint.
-1. This option has no effect on code that uses processors.
+1. This option has no effect on code that uses a processor, unless the processor opts into allowing autofixes.
+
+If you want to fix code from `stdin` or otherwise want to get the fixes without actually writing them to the file, use the [`--fix-dry-run`](#--fix-dry-run) option.
+
+#### `--fix-dry-run`
+
+This option has the same effect as `--fix` with one difference: the fixes are not saved to the file system. This makes it possible to fix code from `stdin` (when used with the `--stdin` flag).
+
+Because the default formatter does not output the fixed code, you'll have to use another one (e.g. `json`) to get the fixes. Here's an example of this pattern:
+
+```
+getSomeText | eslint --stdin --fix-dry-run --format=json
+```
+
+This flag can be useful for integrations (e.g. editor plugins) which need to autofix text from the command line without saving it to the filesystem.
 
 #### `--debug`
 
@@ -391,6 +418,16 @@ Example:
 
     eslint --no-inline-config file.js
 
+#### `--report-unused-disable-directives`
+
+This option causes ESLint to report directive comments like `// eslint-disable-line` when no errors would have been reported on that line anyway. This can be useful to prevent future errors from unexpectedly being suppressed, by cleaning up old `eslint-disable` comments which are no longer applicable.
+
+**Warning**: When using this option, it is possible that new errors will start being reported whenever ESLint or custom rules are upgraded. For example, suppose a rule has a bug that causes it to report a false positive, and an `eslint-disable` comment is added to suppress the incorrect report. If the bug is then fixed in a patch release of ESLint, the `eslint-disable` comment will become unused since ESLint is no longer generating an incorrect report. This will result in a new reported error for the unused directive if the `report-unused-disable-directives` option is used.
+
+Example:
+
+    eslint --report-unused-disable-directives file.js
+
 #### `--print-config`
 
 This option outputs the configuration to be used for the file passed. When present, no linting is performed and only config-related options are valid.
@@ -406,4 +443,4 @@ ESLint supports `.eslintignore` files to exclude files from the linting process 
     node_modules/*
     **/vendor/*.js
 
-A more detailed breakdown of supported patterns and directories ESLint ignores by default can be found in [Configuring ESLint](http://eslint.org/docs/user-guide/configuring#ignoring-files-and-directories).
+A more detailed breakdown of supported patterns and directories ESLint ignores by default can be found in [Configuring ESLint](configuring.md#ignoring-files-and-directories).

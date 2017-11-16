@@ -9,6 +9,21 @@ var foo = (a && b) || c || d;  /*GOOD*/
 var foo = a && (b || c || d);  /*GOOD*/
 ```
 
+**Note:**
+It is expected for this rule to emit one error for each mixed operator in a pair. As a result, for each two consecutive mixed operators used, a distinct error will be displayed, pointing to where the specific operator that breaks the rule is used:
+
+```js
+var foo = a && b || c || d;
+```
+
+will generate
+
+```sh
+1:13  Unexpected mix of '&&' and '||'. (no-mixed-operators)
+1:18  Unexpected mix of '&&' and '||'. (no-mixed-operators)
+```
+
+
 ## Rule Details
 
 This rule checks `BinaryExpression` and `LogicalExpression`.

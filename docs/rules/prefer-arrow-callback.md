@@ -76,7 +76,7 @@ By default `{ "allowUnboundThis": true }`, this `boolean` option allows function
 
 When set to `false` this option prohibits the use of function expressions as callbacks or function arguments entirely, without exception.
 
-`{ "allowNamedFunctions": false }` **will** flag the following examples:
+`{ "allowUnboundThis": false }` **will** flag the following examples:
 
 ```js
 /* eslint prefer-arrow-callback: [ "error", { "allowUnboundThis": false } ] */

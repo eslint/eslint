@@ -63,7 +63,7 @@ describe("formatter:codeframe", () => {
         it("should return nothing", () => {
             const result = formatter(code);
 
-            assert.equal(result, "");
+            assert.strictEqual(result, "");
         });
     });
 
@@ -87,7 +87,7 @@ describe("formatter:codeframe", () => {
         it("should return a string in the correct format for warnings", () => {
             const result = formatter(code);
 
-            assert.equal(stripAnsi(result), [
+            assert.strictEqual(stripAnsi(result), [
                 `warning: Unexpected foo (foo) at ${path.join("lib", "foo.js")}:1:5:`,
                 "> 1 | var foo = 1;",
                 "    |     ^",
@@ -104,8 +104,8 @@ describe("formatter:codeframe", () => {
 
             formatter(code);
 
-            assert.equal(chalkStub.yellow.bold.callCount, 1);
-            assert.equal(chalkStub.red.bold.callCount, 0);
+            assert.strictEqual(chalkStub.yellow.bold.callCount, 1);
+            assert.strictEqual(chalkStub.red.bold.callCount, 0);
         });
 
         describe("when the warning is fixable", () => {
@@ -116,7 +116,7 @@ describe("formatter:codeframe", () => {
             it("should return a string in the correct format", () => {
                 const result = formatter(code);
 
-                assert.equal(stripAnsi(result), [
+                assert.strictEqual(stripAnsi(result), [
                     `warning: Unexpected foo (foo) at ${path.join("lib", "foo.js")}:1:5:`,
                     "> 1 | var foo = 1;",
                     "    |     ^",
@@ -148,7 +148,7 @@ describe("formatter:codeframe", () => {
         it("should return a string in the correct format for errors", () => {
             const result = formatter(code);
 
-            assert.equal(stripAnsi(result), [
+            assert.strictEqual(stripAnsi(result), [
                 `error: Unexpected foo (foo) at ${path.join("lib", "foo.js")}:1:5:`,
                 "> 1 | var foo = 1;",
                 "    |     ^",
@@ -165,8 +165,8 @@ describe("formatter:codeframe", () => {
 
             formatter(code);
 
-            assert.equal(chalkStub.yellow.bold.callCount, 0);
-            assert.equal(chalkStub.red.bold.callCount, 1);
+            assert.strictEqual(chalkStub.yellow.bold.callCount, 0);
+            assert.strictEqual(chalkStub.red.bold.callCount, 1);
         });
     });
 
@@ -186,7 +186,7 @@ describe("formatter:codeframe", () => {
         it("should return a string in the correct format (retaining the ' .')", () => {
             const result = formatter(code);
 
-            assert.equal(stripAnsi(result), "error: Unexpected . (foo) at foo.js\n\n\n1 error found.");
+            assert.strictEqual(stripAnsi(result), "error: Unexpected . (foo) at foo.js\n\n\n1 error found.");
         });
     });
 
@@ -214,7 +214,7 @@ describe("formatter:codeframe", () => {
         it("should return a string with multiple entries", () => {
             const result = formatter(code);
 
-            assert.equal(stripAnsi(result), [
+            assert.strictEqual(stripAnsi(result), [
                 "error: Missing semicolon (semi) at foo.js:1:14:",
                 "> 1 | const foo = 1",
                 "    |              ^",
@@ -238,8 +238,8 @@ describe("formatter:codeframe", () => {
 
             formatter(code);
 
-            assert.equal(chalkStub.yellow.bold.callCount, 0);
-            assert.equal(chalkStub.red.bold.callCount, 1);
+            assert.strictEqual(chalkStub.yellow.bold.callCount, 0);
+            assert.strictEqual(chalkStub.red.bold.callCount, 1);
         });
     });
 
@@ -262,7 +262,7 @@ describe("formatter:codeframe", () => {
         it("should return a string with code preview pointing to the correct location after fixes", () => {
             const result = formatter(code);
 
-            assert.equal(stripAnsi(result), [
+            assert.strictEqual(stripAnsi(result), [
                 "error: 'foo' is assigned a value but never used (no-unused-vars) at foo.js:4:11:",
                 "  2 | ",
                 "  3 |     // a comment",
@@ -307,7 +307,7 @@ describe("formatter:codeframe", () => {
         it("should return a string with multiple entries", () => {
             const result = formatter(code);
 
-            assert.equal(stripAnsi(result), [
+            assert.strictEqual(stripAnsi(result), [
                 "error: Missing semicolon (semi) at foo.js:1:14:",
                 "> 1 | const foo = 1",
                 "    |              ^",
@@ -343,7 +343,7 @@ describe("formatter:codeframe", () => {
         it("should return a string in the correct format", () => {
             const result = formatter(code);
 
-            assert.equal(stripAnsi(result), [
+            assert.strictEqual(stripAnsi(result), [
                 "error: Parsing error: Unexpected token { at foo.js:1:2:",
                 "> 1 | e{}",
                 "    |  ^",
@@ -368,7 +368,7 @@ describe("formatter:codeframe", () => {
         it("should return a string without code preview (codeframe)", () => {
             const result = formatter(code);
 
-            assert.equal(stripAnsi(result), "error: Couldn't find foo.js at foo.js\n\n\n1 error found.");
+            assert.strictEqual(stripAnsi(result), "error: Couldn't find foo.js at foo.js\n\n\n1 error found.");
         });
     });
 
@@ -388,13 +388,13 @@ describe("formatter:codeframe", () => {
         it("should return a string without code preview (codeframe)", () => {
             const result = formatter(code);
 
-            assert.equal(stripAnsi(result), "error: Unexpected foo (foo) at foo.js\n\n\n1 error found.");
+            assert.strictEqual(stripAnsi(result), "error: Unexpected foo (foo) at foo.js\n\n\n1 error found.");
         });
 
         it("should output filepath but without 'line:column' appended", () => {
             const result = formatter(code);
 
-            assert.equal(stripAnsi(result), "error: Unexpected foo (foo) at foo.js\n\n\n1 error found.");
+            assert.strictEqual(stripAnsi(result), "error: Unexpected foo (foo) at foo.js\n\n\n1 error found.");
         });
     });
 

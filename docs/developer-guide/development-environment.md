@@ -6,7 +6,7 @@ ESLint has a very lightweight development environment that makes updating code f
 
 Go to <http://nodejs.org/> to download and install the latest stable version for your operating system.
 
-Most of the installers come with [npm](http://npmjs.org/) already installed, but if for some reason it doesn't work on your system, you can install it manually using the instructions on the website.
+Most of the installers come with [npm](https://www.npmjs.com/) already installed, but if for some reason it doesn't work on your system, you can install it manually using the instructions on the site.
 
 ## Step 2: Fork and checkout your own ESLint repository
 
@@ -53,15 +53,19 @@ Running the tests is the best way to ensure you have correctly set up your devel
 npm test
 ```
 
-The testing takes a few seconds to complete. If any tests fail, that likely means one or more parts of the environment setup didn't complete correctly. The upstream tests always pass.
+The testing takes a few minutes to complete. If any tests fail, that likely means one or more parts of the environment setup didn't complete correctly. The upstream tests always pass.
 
+## Reference Information
 
+### Workflow
 
-## Build Scripts
+Once you have your development environment installed, you can make and submit changes to the ESLint source files. Doing this successfully requires careful adherence to our [pull-request submission workflow](contributing/pull-requests.md).
+
+### Build Scripts
 
 ESLint has several build scripts that help with various parts of development.
 
-### npm test
+#### npm test
 
 The primary script to use is `npm test`, which does several things:
 
@@ -75,19 +79,19 @@ Be sure to run this after making changes and before sending a pull request with 
 
 **Note:** The full code coverage report is output into `/coverage`.
 
-### npm run lint
+#### npm run lint
 
 Runs just the JavaScript and JSON linting on the repository
 
-### npm run browserify
+#### npm run browserify
 
 Generates `build/eslint.js`, a version of ESLint for use in the browser
 
-### npm run docs
+#### npm run docs
 
 Generates JSDoc documentation and places it into `/jsdoc`.
 
-### npm run profile
+#### npm run profile
 
 This command is used for intensive profiling of ESLint using Chrome Developer Tools. It starts a development server that runs through three profiles:
 
@@ -101,12 +105,3 @@ Your browser should automatically open to the page in question. When that happen
 1. Click on Profiles
 
 You should start to see profiles for each run show up on the left side. If not, reload the page in the browser. Once all three profiles have completed, they will be available for inspection.
-
-## Workflow
-
-Whenever you make changes to the ESLint source files, you'll need to run `npm test` to rerun the tests. The workflow is:
-
-1. Make changes
-2. Run `npm test` to run tests on the command line
-
-You'll have to do this each time you make a change. The tests are run automatically whenever a pull request is received, so make sure to verify your changes work before submitting them.

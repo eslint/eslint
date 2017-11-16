@@ -27,12 +27,12 @@ describe("ConfigRule", () => {
 
         it("should create a config with only severity for an empty schema", () => {
             actualConfigs = ConfigRule.generateConfigsFromSchema([]);
-            assert.deepEqual(actualConfigs, [SEVERITY]);
+            assert.deepStrictEqual(actualConfigs, [SEVERITY]);
         });
 
         it("should create a config with only severity with no arguments", () => {
             actualConfigs = ConfigRule.generateConfigsFromSchema();
-            assert.deepEqual(actualConfigs, [SEVERITY]);
+            assert.deepStrictEqual(actualConfigs, [SEVERITY]);
         });
 
         describe("for a single enum schema", () => {
@@ -43,17 +43,17 @@ describe("ConfigRule", () => {
 
             it("should create an array of configs", () => {
                 assert.isArray(actualConfigs);
-                assert.equal(actualConfigs.length, 3);
+                assert.strictEqual(actualConfigs.length, 3);
             });
 
             it("should include the error severity (2) without options as the first config", () => {
-                assert.equal(actualConfigs[0], SEVERITY);
+                assert.strictEqual(actualConfigs[0], SEVERITY);
             });
 
             it("should set all configs to error severity (2)", () => {
                 actualConfigs.forEach(actualConfig => {
                     if (Array.isArray(actualConfig)) {
-                        assert.equal(actualConfig[0], SEVERITY);
+                        assert.strictEqual(actualConfig[0], SEVERITY);
                     }
                 });
             });
@@ -82,7 +82,7 @@ describe("ConfigRule", () => {
             it("should use the object property name from the schema", () => {
                 const propName = "enumProperty";
 
-                assert.equal(actualConfigs.length, 3);
+                assert.strictEqual(actualConfigs.length, 3);
                 actualConfigs.slice(1).forEach(actualConfig => {
                     const actualConfigOption = actualConfig[1];
 
@@ -112,7 +112,7 @@ describe("ConfigRule", () => {
             it("should create configs for all properties in each config", () => {
                 const expectedProperties = ["firstEnum", "anotherEnum"];
 
-                assert.equal(actualConfigs.length, 7);
+                assert.strictEqual(actualConfigs.length, 7);
                 actualConfigs.slice(1).forEach(actualConfig => {
                     const configOption = actualConfig[1];
                     const actualProperties = Object.keys(configOption);
@@ -144,7 +144,7 @@ describe("ConfigRule", () => {
             });
 
             it("should return configs with option objects", () => {
-                assert.equal(actualConfigs.length, 3);
+                assert.strictEqual(actualConfigs.length, 3);
                 actualConfigs.slice(1).forEach(actualConfig => {
                     const actualConfigOption = actualConfig[1];
 
@@ -155,7 +155,7 @@ describe("ConfigRule", () => {
             it("should use the object property name from the schema", () => {
                 const propName = "boolProperty";
 
-                assert.equal(actualConfigs.length, 3);
+                assert.strictEqual(actualConfigs.length, 3);
                 actualConfigs.slice(1).forEach(actualConfig => {
                     const actualConfigOption = actualConfig[1];
 
@@ -185,7 +185,7 @@ describe("ConfigRule", () => {
             it("should create configs for all properties in each config", () => {
                 const expectedProperties = ["firstBool", "anotherBool"];
 
-                assert.equal(actualConfigs.length, 5);
+                assert.strictEqual(actualConfigs.length, 5);
                 actualConfigs.slice(1).forEach(config => {
                     const configOption = config[1];
                     const actualProperties = Object.keys(configOption);
@@ -214,15 +214,15 @@ describe("ConfigRule", () => {
             });
 
             it("should create configs with only the enum values", () => {
-                assert.equal(actualConfigs[1].length, 2);
-                assert.equal(actualConfigs[2].length, 2);
+                assert.strictEqual(actualConfigs[1].length, 2);
+                assert.strictEqual(actualConfigs[2].length, 2);
                 const actualOptions = [actualConfigs[1][1], actualConfigs[2][1]];
 
                 assert.sameMembers(actualOptions, ["always", "never"]);
             });
 
             it("should create configs with a string and an object", () => {
-                assert.equal(actualConfigs.length, 7);
+                assert.strictEqual(actualConfigs.length, 7);
                 actualConfigs.slice(3).forEach(config => {
                     assert.isString(config[1]);
                     assert.isObject(config[2]);

@@ -25,7 +25,7 @@ const cheerio = require("cheerio");
  */
 function checkOverview($, args) {
     assert($("#overview").hasClass(args.bgColor), "Check if color is correct");
-    assert.equal($("#overview span").text(), args.problems, "Check if correct problem totals");
+    assert.strictEqual($("#overview span").text(), args.problems, "Check if correct problem totals");
 }
 
 /**
@@ -38,9 +38,9 @@ function checkOverview($, args) {
 function checkHeaderRow($, row, args) {
     row = $(row);
     assert(row.hasClass(args.bgColor), "Check that background color is correct");
-    assert.equal(row.attr("data-group"), args.group, "Check that header group is correct");
-    assert.equal(row.find("th span").text(), args.problems, "Check if correct totals");
-    assert.equal(row.find("th").html().trim().match(/ [^<]*/)[0].trim(), args.file, "Check if correctly displays filePath");
+    assert.strictEqual(row.attr("data-group"), args.group, "Check that header group is correct");
+    assert.strictEqual(row.find("th span").text(), args.problems, "Check if correct totals");
+    assert.strictEqual(row.find("th").html().trim().match(/ [^<]*/)[0].trim(), args.file, "Check if correctly displays filePath");
 }
 
 /**
@@ -53,10 +53,10 @@ function checkHeaderRow($, row, args) {
 function checkContentRow($, row, args) {
     row = $(row);
     assert(row.hasClass(args.group), "Check that linked to correct header");
-    assert.equal($(row.find("td")[0]).text(), args.lineCol, "Check that line:column is correct");
+    assert.strictEqual($(row.find("td")[0]).text(), args.lineCol, "Check that line:column is correct");
     assert($(row.find("td")[1]).hasClass(args.color), "Check that severity color is correct");
-    assert.equal($(row.find("td")[2]).html(), args.message, "Check that message is correct");
-    assert.equal($(row.find("td")[3]).find("a").text(), args.ruleId, "Check that ruleId is correct");
+    assert.strictEqual($(row.find("td")[2]).html(), args.message, "Check that message is correct");
+    assert.strictEqual($(row.find("td")[3]).find("a").text(), args.ruleId, "Check that ruleId is correct");
 }
 
 //------------------------------------------------------------------------------
@@ -88,8 +88,8 @@ describe("formatter:html", () => {
             checkOverview($, { bgColor: "bg-2", problems: "1 problem (1 error, 0 warnings)" });
 
             // Check rows
-            assert.equal($("tr").length, 2, "Check that there are two (1 header, 1 content)");
-            assert.equal($("tr[data-group|=\"f\"]").length, 1, "Check that is 1 header row (implying 1 content row)");
+            assert.strictEqual($("tr").length, 2, "Check that there are two (1 header, 1 content)");
+            assert.strictEqual($("tr[data-group|=\"f\"]").length, 1, "Check that is 1 header row (implying 1 content row)");
             checkHeaderRow($, $("tr")[0], { bgColor: "bg-2", group: "f-0", file: "foo.js", problems: "1 problem (1 error, 0 warnings)" });
             checkContentRow($, $("tr")[1], { group: "f-0", lineCol: "5:10", color: "clr-2", message: "Unexpected foo.", ruleId: "foo" });
         });
@@ -119,8 +119,8 @@ describe("formatter:html", () => {
             checkOverview($, { bgColor: "bg-1", problems: "1 problem (0 errors, 1 warning)" });
 
             // Check rows
-            assert.equal($("tr").length, 2, "Check that there are two (1 header, 1 content)");
-            assert.equal($("tr[data-group|=\"f\"]").length, 1, "Check that is 1 header row (implying 1 content row)");
+            assert.strictEqual($("tr").length, 2, "Check that there are two (1 header, 1 content)");
+            assert.strictEqual($("tr[data-group|=\"f\"]").length, 1, "Check that is 1 header row (implying 1 content row)");
             checkHeaderRow($, $("tr")[0], { bgColor: "bg-1", group: "f-0", file: "foo.js", problems: "1 problem (0 errors, 1 warning)" });
             checkContentRow($, $("tr")[1], { group: "f-0", lineCol: "5:10", color: "clr-1", message: "Unexpected foo.", ruleId: "foo" });
         });
@@ -150,8 +150,8 @@ describe("formatter:html", () => {
             checkOverview($, { bgColor: "bg-2", problems: "1 problem (1 error, 0 warnings)" });
 
             // Check rows
-            assert.equal($("tr").length, 2, "Check that there are two (1 header, 1 content)");
-            assert.equal($("tr[data-group|=\"f\"]").length, 1, "Check that is 1 header row (implying 1 content row)");
+            assert.strictEqual($("tr").length, 2, "Check that there are two (1 header, 1 content)");
+            assert.strictEqual($("tr[data-group|=\"f\"]").length, 1, "Check that is 1 header row (implying 1 content row)");
             checkHeaderRow($, $("tr")[0], { bgColor: "bg-2", group: "f-0", file: "foo.js", problems: "1 problem (1 error, 0 warnings)" });
             checkContentRow($, $("tr")[1], { group: "f-0", lineCol: "5:10", color: "clr-2", message: "Unexpected foo.", ruleId: "foo" });
         });
@@ -174,7 +174,7 @@ describe("formatter:html", () => {
             checkOverview($, { bgColor: "bg-0", problems: "0 problems" });
 
             // Check rows
-            assert.equal($("tr").length, 1, "Check that there is 1 row (header)");
+            assert.strictEqual($("tr").length, 1, "Check that there is 1 row (header)");
             checkHeaderRow($, $("tr")[0], { bgColor: "bg-0", group: "f-0", file: "foo.js", problems: "0 problems" });
         });
     });
@@ -209,8 +209,8 @@ describe("formatter:html", () => {
             checkOverview($, { bgColor: "bg-2", problems: "2 problems (1 error, 1 warning)" });
 
             // Check rows
-            assert.equal($("tr").length, 3, "Check that there are two (1 header, 2 content)");
-            assert.equal($("tr[data-group|=\"f\"]").length, 1, "Check that is 1 header row (implying 2 content row)");
+            assert.strictEqual($("tr").length, 3, "Check that there are two (1 header, 2 content)");
+            assert.strictEqual($("tr[data-group|=\"f\"]").length, 1, "Check that is 1 header row (implying 2 content row)");
             checkHeaderRow($, $("tr")[0], { bgColor: "bg-2", group: "f-0", file: "foo.js", problems: "2 problems (1 error, 1 warning)" });
             checkContentRow($, $("tr")[1], { group: "f-0", lineCol: "5:10", color: "clr-2", message: "Unexpected foo.", ruleId: "foo" });
             checkContentRow($, $("tr")[2], { group: "f-0", lineCol: "6:11", color: "clr-1", message: "Unexpected bar.", ruleId: "bar" });
@@ -252,8 +252,8 @@ describe("formatter:html", () => {
             checkOverview($, { bgColor: "bg-2", problems: "2 problems (1 error, 1 warning)" });
 
             // Check rows
-            assert.equal($("tr").length, 4, "Check that there are two (2 header, 2 content)");
-            assert.equal($("tr[data-group|=\"f\"]").length, 2, "Check that is 2 header row (implying 2 content row)");
+            assert.strictEqual($("tr").length, 4, "Check that there are two (2 header, 2 content)");
+            assert.strictEqual($("tr[data-group|=\"f\"]").length, 2, "Check that is 2 header row (implying 2 content row)");
             checkHeaderRow($, $("tr")[0], { bgColor: "bg-2", group: "f-0", file: "foo.js", problems: "1 problem (1 error, 0 warnings)" });
             checkContentRow($, $("tr")[1], { group: "f-0", lineCol: "5:10", color: "clr-2", message: "Unexpected foo.", ruleId: "foo" });
             checkHeaderRow($, $("tr")[2], { bgColor: "bg-1", group: "f-1", file: "bar.js", problems: "1 problem (0 errors, 1 warning)" });
@@ -296,8 +296,8 @@ describe("formatter:html", () => {
             checkOverview($, { bgColor: "bg-1", problems: "2 problems (0 errors, 2 warnings)" });
 
             // Check rows
-            assert.equal($("tr").length, 4, "Check that there are two (2 header, 2 content)");
-            assert.equal($("tr[data-group|=\"f\"]").length, 2, "Check that is 2 header row (implying 2 content row)");
+            assert.strictEqual($("tr").length, 4, "Check that there are two (2 header, 2 content)");
+            assert.strictEqual($("tr[data-group|=\"f\"]").length, 2, "Check that is 2 header row (implying 2 content row)");
             checkHeaderRow($, $("tr")[0], { bgColor: "bg-1", group: "f-0", file: "foo.js", problems: "1 problem (0 errors, 1 warning)" });
             checkContentRow($, $("tr")[1], { group: "f-0", lineCol: "5:10", color: "clr-1", message: "Unexpected foo.", ruleId: "foo" });
             checkHeaderRow($, $("tr")[2], { bgColor: "bg-1", group: "f-1", file: "bar.js", problems: "1 problem (0 errors, 1 warning)" });
@@ -328,28 +328,6 @@ describe("formatter:html", () => {
             checkContentRow($, $("tr")[1], { group: "f-0", lineCol: "5:10", color: "clr-2", message: "Unexpected &lt;&amp;&quot;&apos;&gt; foo.", ruleId: "foo" });
         });
     });
-
-    // // Formatter doesn't use source property
-    // /*
-    // describe("when passing a single message with no source", function() {
-
-    //     var code = [{
-    //         filePath: "foo.js",
-    //         messages: [{
-    //             message: "Unexpected foo.",
-    //             severity: 2,
-    //             line: 5,
-    //             column: 10,
-    //             ruleId: "foo"
-    //         }]
-    //     }];
-
-    //     it("should return a string in HTML format with 1 issue in 1 file", function() {
-    //         var result = formatter(code);
-    //         assert.equal(parseHTML(result), "");
-    //     });
-    // });
-    // */
 
     describe("when passing a single message with no rule id or message", () => {
         const code = [{

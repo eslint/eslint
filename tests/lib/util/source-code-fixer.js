@@ -152,7 +152,7 @@ describe("SourceCodeFixer", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE, [INSERT_AT_END], false);
 
                 assert.isFalse(result.fixed);
-                assert.equal(result.output, TEST_CODE);
+                assert.strictEqual(result.output, TEST_CODE);
             });
 
             it("Should perform fixes if 'shouldFix' is not provided", () => {
@@ -172,7 +172,7 @@ describe("SourceCodeFixer", () => {
                 const shouldFixSpy = sinon.spy();
 
                 SourceCodeFixer.applyFixes(TEST_CODE, [INSERT_AT_START], shouldFixSpy);
-                assert.equal(shouldFixSpy.firstCall.args[0], INSERT_AT_START);
+                assert.strictEqual(shouldFixSpy.firstCall.args[0], INSERT_AT_START);
             });
 
             it("should not perform fixes if 'shouldFix' function returns false", () => {
@@ -186,14 +186,14 @@ describe("SourceCodeFixer", () => {
                 const shouldFixSpy = sinon.spy(() => false);
                 const result = SourceCodeFixer.applyFixes(TEST_CODE, [INSERT_AT_START], shouldFixSpy);
 
-                assert.equal(result.output, TEST_CODE);
+                assert.strictEqual(result.output, TEST_CODE);
             });
 
             it("should only apply fixes for which the 'shouldFix' function returns true", () => {
                 const shouldFixSpy = sinon.spy(problem => problem.message === "foo");
                 const result = SourceCodeFixer.applyFixes(TEST_CODE, [INSERT_AT_START, REPLACE_ID], shouldFixSpy);
 
-                assert.equal(result.output, "var foo = 6 * 7;");
+                assert.strictEqual(result.output, "var foo = 6 * 7;");
             });
 
             it("is called without access to internal eslint state", () => {
@@ -210,36 +210,36 @@ describe("SourceCodeFixer", () => {
             it("should insert text at the end of the code", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE, [INSERT_AT_END]);
 
-                assert.equal(result.output, TEST_CODE + INSERT_AT_END.fix.text);
-                assert.equal(result.messages.length, 0);
+                assert.strictEqual(result.output, TEST_CODE + INSERT_AT_END.fix.text);
+                assert.strictEqual(result.messages.length, 0);
             });
 
             it("should insert text at the beginning of the code", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE, [INSERT_AT_START]);
 
-                assert.equal(result.output, INSERT_AT_START.fix.text + TEST_CODE);
-                assert.equal(result.messages.length, 0);
+                assert.strictEqual(result.output, INSERT_AT_START.fix.text + TEST_CODE);
+                assert.strictEqual(result.messages.length, 0);
             });
 
             it("should insert text in the middle of the code", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE, [INSERT_IN_MIDDLE]);
 
-                assert.equal(result.output, TEST_CODE.replace("6 *", `${INSERT_IN_MIDDLE.fix.text}6 *`));
-                assert.equal(result.messages.length, 0);
+                assert.strictEqual(result.output, TEST_CODE.replace("6 *", `${INSERT_IN_MIDDLE.fix.text}6 *`));
+                assert.strictEqual(result.messages.length, 0);
             });
 
             it("should insert text at the beginning, middle, and end of the code", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE, [INSERT_IN_MIDDLE, INSERT_AT_START, INSERT_AT_END]);
 
-                assert.equal(result.output, INSERT_AT_START.fix.text + TEST_CODE.replace("6 *", `${INSERT_IN_MIDDLE.fix.text}6 *`) + INSERT_AT_END.fix.text);
-                assert.equal(result.messages.length, 0);
+                assert.strictEqual(result.output, INSERT_AT_START.fix.text + TEST_CODE.replace("6 *", `${INSERT_IN_MIDDLE.fix.text}6 *`) + INSERT_AT_END.fix.text);
+                assert.strictEqual(result.messages.length, 0);
             });
 
 
             it("should ignore reversed ranges", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE, [REVERSED_RANGE]);
 
-                assert.equal(result.output, TEST_CODE);
+                assert.strictEqual(result.output, TEST_CODE);
             });
 
         });
@@ -250,32 +250,32 @@ describe("SourceCodeFixer", () => {
             it("should replace text at the end of the code", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE, [REPLACE_VAR]);
 
-                assert.equal(result.messages.length, 0);
-                assert.equal(result.output, TEST_CODE.replace("var", "let"));
+                assert.strictEqual(result.messages.length, 0);
+                assert.strictEqual(result.output, TEST_CODE.replace("var", "let"));
                 assert.isTrue(result.fixed);
             });
 
             it("should replace text at the beginning of the code", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE, [REPLACE_ID]);
 
-                assert.equal(result.messages.length, 0);
-                assert.equal(result.output, TEST_CODE.replace("answer", "foo"));
+                assert.strictEqual(result.messages.length, 0);
+                assert.strictEqual(result.output, TEST_CODE.replace("answer", "foo"));
                 assert.isTrue(result.fixed);
             });
 
             it("should replace text in the middle of the code", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE, [REPLACE_NUM]);
 
-                assert.equal(result.messages.length, 0);
-                assert.equal(result.output, TEST_CODE.replace("6", "5"));
+                assert.strictEqual(result.messages.length, 0);
+                assert.strictEqual(result.output, TEST_CODE.replace("6", "5"));
                 assert.isTrue(result.fixed);
             });
 
             it("should replace text at the beginning and end of the code", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE, [REPLACE_ID, REPLACE_VAR, REPLACE_NUM]);
 
-                assert.equal(result.messages.length, 0);
-                assert.equal(result.output, "let foo = 5 * 7;");
+                assert.strictEqual(result.messages.length, 0);
+                assert.strictEqual(result.output, "let foo = 5 * 7;");
                 assert.isTrue(result.fixed);
             });
 
@@ -286,32 +286,32 @@ describe("SourceCodeFixer", () => {
             it("should remove text at the start of the code", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE, [REMOVE_START]);
 
-                assert.equal(result.messages.length, 0);
-                assert.equal(result.output, TEST_CODE.replace("var ", ""));
+                assert.strictEqual(result.messages.length, 0);
+                assert.strictEqual(result.output, TEST_CODE.replace("var ", ""));
                 assert.isTrue(result.fixed);
             });
 
             it("should remove text in the middle of the code", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE, [REMOVE_MIDDLE]);
 
-                assert.equal(result.messages.length, 0);
-                assert.equal(result.output, TEST_CODE.replace("answer", "a"));
+                assert.strictEqual(result.messages.length, 0);
+                assert.strictEqual(result.output, TEST_CODE.replace("answer", "a"));
                 assert.isTrue(result.fixed);
             });
 
             it("should remove text towards the end of the code", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE, [REMOVE_END]);
 
-                assert.equal(result.messages.length, 0);
-                assert.equal(result.output, TEST_CODE.replace(" * 7", ""));
+                assert.strictEqual(result.messages.length, 0);
+                assert.strictEqual(result.output, TEST_CODE.replace(" * 7", ""));
                 assert.isTrue(result.fixed);
             });
 
             it("should remove text at the beginning, middle, and end of the code", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE, [REMOVE_END, REMOVE_START, REMOVE_MIDDLE]);
 
-                assert.equal(result.messages.length, 0);
-                assert.equal(result.output, "a = 6;");
+                assert.strictEqual(result.messages.length, 0);
+                assert.strictEqual(result.output, "a = 6;");
                 assert.isTrue(result.fixed);
             });
         });
@@ -321,36 +321,36 @@ describe("SourceCodeFixer", () => {
             it("should replace text at the beginning, remove text in the middle, and insert text at the end", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE, [INSERT_AT_END, REMOVE_END, REPLACE_VAR]);
 
-                assert.equal(result.output, "let answer = 6;// end");
+                assert.strictEqual(result.output, "let answer = 6;// end");
                 assert.isTrue(result.fixed);
-                assert.equal(result.messages.length, 0);
+                assert.strictEqual(result.messages.length, 0);
             });
 
             it("should only apply one fix when ranges overlap", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE, [REMOVE_MIDDLE, REPLACE_ID]);
 
-                assert.equal(result.output, TEST_CODE.replace("answer", "foo"));
-                assert.equal(result.messages.length, 1);
-                assert.equal(result.messages[0].message, "removemiddle");
+                assert.strictEqual(result.output, TEST_CODE.replace("answer", "foo"));
+                assert.strictEqual(result.messages.length, 1);
+                assert.strictEqual(result.messages[0].message, "removemiddle");
                 assert.isTrue(result.fixed);
             });
 
             it("should apply one fix when the end of one range is the same as the start of a previous range overlap", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE, [REMOVE_START, REPLACE_ID]);
 
-                assert.equal(result.output, TEST_CODE.replace("var ", ""));
-                assert.equal(result.messages.length, 1);
-                assert.equal(result.messages[0].message, "foo");
+                assert.strictEqual(result.output, TEST_CODE.replace("var ", ""));
+                assert.strictEqual(result.messages.length, 1);
+                assert.strictEqual(result.messages[0].message, "foo");
                 assert.isTrue(result.fixed);
             });
 
             it("should only apply one fix when ranges overlap and one message has no fix", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE, [REMOVE_MIDDLE, REPLACE_ID, NO_FIX]);
 
-                assert.equal(result.output, TEST_CODE.replace("answer", "foo"));
-                assert.equal(result.messages.length, 2);
-                assert.equal(result.messages[0].message, "nofix");
-                assert.equal(result.messages[1].message, "removemiddle");
+                assert.strictEqual(result.output, TEST_CODE.replace("answer", "foo"));
+                assert.strictEqual(result.messages.length, 2);
+                assert.strictEqual(result.messages[0].message, "nofix");
+                assert.strictEqual(result.messages[1].message, "removemiddle");
                 assert.isTrue(result.fixed);
             });
 
@@ -358,7 +358,7 @@ describe("SourceCodeFixer", () => {
                 const result1 = SourceCodeFixer.applyFixes(TEST_CODE, [REMOVE_MIDDLE, REPLACE_ID]);
                 const result2 = SourceCodeFixer.applyFixes(TEST_CODE, [REPLACE_ID, REMOVE_MIDDLE]);
 
-                assert.equal(result1.output, result2.output);
+                assert.strictEqual(result1.output, result2.output);
             });
         });
 
@@ -367,19 +367,19 @@ describe("SourceCodeFixer", () => {
             it("should only apply one fix when ranges overlap and one message has no fix", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE, [NO_FIX]);
 
-                assert.equal(result.output, TEST_CODE);
-                assert.equal(result.messages.length, 1);
-                assert.equal(result.messages[0].message, "nofix");
+                assert.strictEqual(result.output, TEST_CODE);
+                assert.strictEqual(result.messages.length, 1);
+                assert.strictEqual(result.messages[0].message, "nofix");
                 assert.isFalse(result.fixed);
             });
 
             it("should sort the no fix messages correctly", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE, [REPLACE_ID, NO_FIX2, NO_FIX1]);
 
-                assert.equal(result.output, TEST_CODE.replace("answer", "foo"));
-                assert.equal(result.messages.length, 2);
-                assert.equal(result.messages[0].message, "nofix1");
-                assert.equal(result.messages[1].message, "nofix2");
+                assert.strictEqual(result.output, TEST_CODE.replace("answer", "foo"));
+                assert.strictEqual(result.messages.length, 2);
+                assert.strictEqual(result.messages[0].message, "nofix1");
+                assert.strictEqual(result.messages[1].message, "nofix2");
                 assert.isTrue(result.fixed);
             });
 
@@ -390,41 +390,43 @@ describe("SourceCodeFixer", () => {
             it("should insert BOM with an insertion of '\uFEFF' at 0", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE, [INSERT_BOM]);
 
-                assert.equal(result.output, `\uFEFF${TEST_CODE}`);
+                assert.strictEqual(result.output, `\uFEFF${TEST_CODE}`);
                 assert.isTrue(result.fixed);
-                assert.equal(result.messages.length, 0);
+                assert.strictEqual(result.messages.length, 0);
             });
 
             it("should insert BOM with an insertion of '\uFEFFfoobar' at 0", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE, [INSERT_BOM_WITH_TEXT]);
 
-                assert.equal(result.output, `\uFEFF// start\n${TEST_CODE}`);
+                assert.strictEqual(result.output, `\uFEFF// start\n${TEST_CODE}`);
                 assert.isTrue(result.fixed);
-                assert.equal(result.messages.length, 0);
+                assert.strictEqual(result.messages.length, 0);
             });
 
             it("should remove BOM with a negative range", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE, [REMOVE_BOM]);
 
-                assert.equal(result.output, TEST_CODE);
+                assert.strictEqual(result.output, TEST_CODE);
                 assert.isTrue(result.fixed);
-                assert.equal(result.messages.length, 0);
+                assert.strictEqual(result.messages.length, 0);
             });
 
             it("should replace BOM with a negative range and 'foobar'", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE, [REPLACE_BOM_WITH_TEXT]);
 
-                assert.equal(result.output, `// start\n${TEST_CODE}`);
+                assert.strictEqual(result.output, `// start\n${TEST_CODE}`);
                 assert.isTrue(result.fixed);
-                assert.equal(result.messages.length, 0);
+                assert.strictEqual(result.messages.length, 0);
             });
 
         });
 
     });
 
-    // This section is almost same as "with no BOM".
-    // Just `result.output` has BOM.
+    /*
+     * This section is almost same as "with no BOM".
+     * Just `result.output` has BOM.
+     */
     describe("applyFixes() with BOM", () => {
 
         const TEST_CODE_WITH_BOM = `\uFEFF${TEST_CODE}`;
@@ -434,36 +436,36 @@ describe("SourceCodeFixer", () => {
             it("should insert text at the end of the code", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE_WITH_BOM, [INSERT_AT_END]);
 
-                assert.equal(result.output, `\uFEFF${TEST_CODE}${INSERT_AT_END.fix.text}`);
-                assert.equal(result.messages.length, 0);
+                assert.strictEqual(result.output, `\uFEFF${TEST_CODE}${INSERT_AT_END.fix.text}`);
+                assert.strictEqual(result.messages.length, 0);
             });
 
             it("should insert text at the beginning of the code", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE_WITH_BOM, [INSERT_AT_START]);
 
-                assert.equal(result.output, `\uFEFF${INSERT_AT_START.fix.text}${TEST_CODE}`);
-                assert.equal(result.messages.length, 0);
+                assert.strictEqual(result.output, `\uFEFF${INSERT_AT_START.fix.text}${TEST_CODE}`);
+                assert.strictEqual(result.messages.length, 0);
             });
 
             it("should insert text in the middle of the code", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE_WITH_BOM, [INSERT_IN_MIDDLE]);
 
-                assert.equal(result.output, `\uFEFF${TEST_CODE.replace("6 *", `${INSERT_IN_MIDDLE.fix.text}6 *`)}`);
-                assert.equal(result.messages.length, 0);
+                assert.strictEqual(result.output, `\uFEFF${TEST_CODE.replace("6 *", `${INSERT_IN_MIDDLE.fix.text}6 *`)}`);
+                assert.strictEqual(result.messages.length, 0);
             });
 
             it("should insert text at the beginning, middle, and end of the code", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE_WITH_BOM, [INSERT_IN_MIDDLE, INSERT_AT_START, INSERT_AT_END]);
                 const insertInMiddle = TEST_CODE.replace("6 *", `${INSERT_IN_MIDDLE.fix.text}6 *`);
 
-                assert.equal(result.output, `\uFEFF${INSERT_AT_START.fix.text}${insertInMiddle}${INSERT_AT_END.fix.text}`);
-                assert.equal(result.messages.length, 0);
+                assert.strictEqual(result.output, `\uFEFF${INSERT_AT_START.fix.text}${insertInMiddle}${INSERT_AT_END.fix.text}`);
+                assert.strictEqual(result.messages.length, 0);
             });
 
             it("should ignore reversed ranges", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE_WITH_BOM, [REVERSED_RANGE]);
 
-                assert.equal(result.output, `\uFEFF${TEST_CODE}`);
+                assert.strictEqual(result.output, `\uFEFF${TEST_CODE}`);
             });
 
         });
@@ -473,32 +475,32 @@ describe("SourceCodeFixer", () => {
             it("should replace text at the end of the code", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE_WITH_BOM, [REPLACE_VAR]);
 
-                assert.equal(result.messages.length, 0);
-                assert.equal(result.output, `\uFEFF${TEST_CODE.replace("var", "let")}`);
+                assert.strictEqual(result.messages.length, 0);
+                assert.strictEqual(result.output, `\uFEFF${TEST_CODE.replace("var", "let")}`);
                 assert.isTrue(result.fixed);
             });
 
             it("should replace text at the beginning of the code", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE_WITH_BOM, [REPLACE_ID]);
 
-                assert.equal(result.messages.length, 0);
-                assert.equal(result.output, `\uFEFF${TEST_CODE.replace("answer", "foo")}`);
+                assert.strictEqual(result.messages.length, 0);
+                assert.strictEqual(result.output, `\uFEFF${TEST_CODE.replace("answer", "foo")}`);
                 assert.isTrue(result.fixed);
             });
 
             it("should replace text in the middle of the code", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE_WITH_BOM, [REPLACE_NUM]);
 
-                assert.equal(result.messages.length, 0);
-                assert.equal(result.output, `\uFEFF${TEST_CODE.replace("6", "5")}`);
+                assert.strictEqual(result.messages.length, 0);
+                assert.strictEqual(result.output, `\uFEFF${TEST_CODE.replace("6", "5")}`);
                 assert.isTrue(result.fixed);
             });
 
             it("should replace text at the beginning and end of the code", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE_WITH_BOM, [REPLACE_ID, REPLACE_VAR, REPLACE_NUM]);
 
-                assert.equal(result.messages.length, 0);
-                assert.equal(result.output, "\uFEFFlet foo = 5 * 7;");
+                assert.strictEqual(result.messages.length, 0);
+                assert.strictEqual(result.output, "\uFEFFlet foo = 5 * 7;");
                 assert.isTrue(result.fixed);
             });
 
@@ -509,32 +511,32 @@ describe("SourceCodeFixer", () => {
             it("should remove text at the start of the code", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE_WITH_BOM, [REMOVE_START]);
 
-                assert.equal(result.messages.length, 0);
-                assert.equal(result.output, `\uFEFF${TEST_CODE.replace("var ", "")}`);
+                assert.strictEqual(result.messages.length, 0);
+                assert.strictEqual(result.output, `\uFEFF${TEST_CODE.replace("var ", "")}`);
                 assert.isTrue(result.fixed);
             });
 
             it("should remove text in the middle of the code", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE_WITH_BOM, [REMOVE_MIDDLE]);
 
-                assert.equal(result.messages.length, 0);
-                assert.equal(result.output, `\uFEFF${TEST_CODE.replace("answer", "a")}`);
+                assert.strictEqual(result.messages.length, 0);
+                assert.strictEqual(result.output, `\uFEFF${TEST_CODE.replace("answer", "a")}`);
                 assert.isTrue(result.fixed);
             });
 
             it("should remove text towards the end of the code", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE_WITH_BOM, [REMOVE_END]);
 
-                assert.equal(result.messages.length, 0);
-                assert.equal(result.output, `\uFEFF${TEST_CODE.replace(" * 7", "")}`);
+                assert.strictEqual(result.messages.length, 0);
+                assert.strictEqual(result.output, `\uFEFF${TEST_CODE.replace(" * 7", "")}`);
                 assert.isTrue(result.fixed);
             });
 
             it("should remove text at the beginning, middle, and end of the code", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE_WITH_BOM, [REMOVE_END, REMOVE_START, REMOVE_MIDDLE]);
 
-                assert.equal(result.messages.length, 0);
-                assert.equal(result.output, "\uFEFFa = 6;");
+                assert.strictEqual(result.messages.length, 0);
+                assert.strictEqual(result.output, "\uFEFFa = 6;");
                 assert.isTrue(result.fixed);
             });
         });
@@ -544,36 +546,36 @@ describe("SourceCodeFixer", () => {
             it("should replace text at the beginning, remove text in the middle, and insert text at the end", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE_WITH_BOM, [INSERT_AT_END, REMOVE_END, REPLACE_VAR]);
 
-                assert.equal(result.output, "\uFEFFlet answer = 6;// end");
+                assert.strictEqual(result.output, "\uFEFFlet answer = 6;// end");
                 assert.isTrue(result.fixed);
-                assert.equal(result.messages.length, 0);
+                assert.strictEqual(result.messages.length, 0);
             });
 
             it("should only apply one fix when ranges overlap", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE_WITH_BOM, [REMOVE_MIDDLE, REPLACE_ID]);
 
-                assert.equal(result.output, `\uFEFF${TEST_CODE.replace("answer", "foo")}`);
-                assert.equal(result.messages.length, 1);
-                assert.equal(result.messages[0].message, "removemiddle");
+                assert.strictEqual(result.output, `\uFEFF${TEST_CODE.replace("answer", "foo")}`);
+                assert.strictEqual(result.messages.length, 1);
+                assert.strictEqual(result.messages[0].message, "removemiddle");
                 assert.isTrue(result.fixed);
             });
 
             it("should apply one fix when the end of one range is the same as the start of a previous range overlap", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE_WITH_BOM, [REMOVE_START, REPLACE_ID]);
 
-                assert.equal(result.output, `\uFEFF${TEST_CODE.replace("var ", "")}`);
-                assert.equal(result.messages.length, 1);
-                assert.equal(result.messages[0].message, "foo");
+                assert.strictEqual(result.output, `\uFEFF${TEST_CODE.replace("var ", "")}`);
+                assert.strictEqual(result.messages.length, 1);
+                assert.strictEqual(result.messages[0].message, "foo");
                 assert.isTrue(result.fixed);
             });
 
             it("should only apply one fix when ranges overlap and one message has no fix", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE_WITH_BOM, [REMOVE_MIDDLE, REPLACE_ID, NO_FIX]);
 
-                assert.equal(result.output, `\uFEFF${TEST_CODE.replace("answer", "foo")}`);
-                assert.equal(result.messages.length, 2);
-                assert.equal(result.messages[0].message, "nofix");
-                assert.equal(result.messages[1].message, "removemiddle");
+                assert.strictEqual(result.output, `\uFEFF${TEST_CODE.replace("answer", "foo")}`);
+                assert.strictEqual(result.messages.length, 2);
+                assert.strictEqual(result.messages[0].message, "nofix");
+                assert.strictEqual(result.messages[1].message, "removemiddle");
                 assert.isTrue(result.fixed);
             });
 
@@ -581,7 +583,7 @@ describe("SourceCodeFixer", () => {
                 const result1 = SourceCodeFixer.applyFixes(TEST_CODE_WITH_BOM, [REMOVE_MIDDLE, REPLACE_ID]);
                 const result2 = SourceCodeFixer.applyFixes(TEST_CODE_WITH_BOM, [REPLACE_ID, REMOVE_MIDDLE]);
 
-                assert.equal(result1.output, result2.output);
+                assert.strictEqual(result1.output, result2.output);
             });
 
         });
@@ -591,9 +593,9 @@ describe("SourceCodeFixer", () => {
             it("should only apply one fix when ranges overlap and one message has no fix", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE_WITH_BOM, [NO_FIX]);
 
-                assert.equal(result.output, `\uFEFF${TEST_CODE}`);
-                assert.equal(result.messages.length, 1);
-                assert.equal(result.messages[0].message, "nofix");
+                assert.strictEqual(result.output, `\uFEFF${TEST_CODE}`);
+                assert.strictEqual(result.messages.length, 1);
+                assert.strictEqual(result.messages[0].message, "nofix");
                 assert.isFalse(result.fixed);
             });
 
@@ -604,33 +606,33 @@ describe("SourceCodeFixer", () => {
             it("should insert BOM with an insertion of '\uFEFF' at 0", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE_WITH_BOM, [INSERT_BOM]);
 
-                assert.equal(result.output, `\uFEFF${TEST_CODE}`);
+                assert.strictEqual(result.output, `\uFEFF${TEST_CODE}`);
                 assert.isTrue(result.fixed);
-                assert.equal(result.messages.length, 0);
+                assert.strictEqual(result.messages.length, 0);
             });
 
             it("should insert BOM with an insertion of '\uFEFFfoobar' at 0", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE_WITH_BOM, [INSERT_BOM_WITH_TEXT]);
 
-                assert.equal(result.output, `\uFEFF// start\n${TEST_CODE}`);
+                assert.strictEqual(result.output, `\uFEFF// start\n${TEST_CODE}`);
                 assert.isTrue(result.fixed);
-                assert.equal(result.messages.length, 0);
+                assert.strictEqual(result.messages.length, 0);
             });
 
             it("should remove BOM with a negative range", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE_WITH_BOM, [REMOVE_BOM]);
 
-                assert.equal(result.output, TEST_CODE);
+                assert.strictEqual(result.output, TEST_CODE);
                 assert.isTrue(result.fixed);
-                assert.equal(result.messages.length, 0);
+                assert.strictEqual(result.messages.length, 0);
             });
 
             it("should replace BOM with a negative range and 'foobar'", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE_WITH_BOM, [REPLACE_BOM_WITH_TEXT]);
 
-                assert.equal(result.output, `// start\n${TEST_CODE}`);
+                assert.strictEqual(result.output, `// start\n${TEST_CODE}`);
                 assert.isTrue(result.fixed);
-                assert.equal(result.messages.length, 0);
+                assert.strictEqual(result.messages.length, 0);
             });
 
         });

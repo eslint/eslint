@@ -221,12 +221,24 @@ ruleTester.run("lines-around-comment", rule, {
         },
         {
             code: "class A {\n/**\n* hi\n */\nconstructor() {}\n}",
-            options: [{ allowBlockStart: true }],
+            options: [{
+                allowBlockStart: true
+            }],
             parserOptions: { ecmaVersion: 6 }
         },
         {
-            code: "class A {\nconstructor() {\n/**\n* hi\n */\n}\n}",
-            options: [{ allowBlockStart: true }],
+            code: "class A {\n/**\n* hi\n */\nconstructor() {}\n}",
+            options: [{
+                allowClassStart: true
+            }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "class A {\n/**\n* hi\n */\nconstructor() {}\n}",
+            options: [{
+                allowBlockStart: false,
+                allowClassStart: true
+            }],
             parserOptions: { ecmaVersion: 6 }
         },
         {
@@ -415,6 +427,23 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{
                 afterBlockComment: true,
                 allowBlockEnd: true
+            }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "class B {\nconstructor() {}\n\n/**\n* hi\n */\n}",
+            options: [{
+                afterBlockComment: true,
+                allowClassEnd: true
+            }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "class B {\nconstructor() {}\n\n/**\n* hi\n */\n}",
+            options: [{
+                afterBlockComment: true,
+                allowBlockEnd: false,
+                allowClassEnd: true
             }],
             parserOptions: { ecmaVersion: 6 }
         },
@@ -966,6 +995,46 @@ ruleTester.run("lines-around-comment", rule, {
                 allowBlockEnd: true
             }],
             errors: [{ message: beforeMessage, type: "Line", line: 2 }]
+        },
+        {
+            code: "class A {\n// line at class start\nconstructor() {}\n}",
+            output: "class A {\n\n// line at class start\nconstructor() {}\n}",
+            options: [{
+                beforeLineComment: true
+            }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: beforeMessage, type: "Line", line: 2 }]
+        },
+        {
+            code: "class A {\n// line at class start\nconstructor() {}\n}",
+            output: "class A {\n\n// line at class start\nconstructor() {}\n}",
+            options: [{
+                allowBlockStart: true,
+                allowClassStart: false,
+                beforeLineComment: true
+            }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: beforeMessage, type: "Line", line: 2 }]
+        },
+        {
+            code: "class B {\nconstructor() {}\n\n// line at class end\n}",
+            output: "class B {\nconstructor() {}\n\n// line at class end\n\n}",
+            options: [{
+                afterLineComment: true
+            }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: afterMessage, type: "Line", line: 4 }]
+        },
+        {
+            code: "class B {\nconstructor() {}\n\n// line at class end\n}",
+            output: "class B {\nconstructor() {}\n\n// line at class end\n\n}",
+            options: [{
+                afterLineComment: true,
+                allowBlockEnd: true,
+                allowClassEnd: false
+            }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: afterMessage, type: "Line", line: 4 }]
         },
         {
             code: "switch ('foo'){\ncase 'foo':\nvar g = 1;\n\n// line at switch case end\n}",

@@ -37,7 +37,7 @@ describe("ConfigOps", () => {
 
             const result = ConfigOps.applyEnvironments(config, envContext);
 
-            assert.deepEqual(result, {
+            assert.deepStrictEqual(result, {
                 env: config.env,
                 rules: config.rules,
                 parserOptions: {
@@ -56,7 +56,7 @@ describe("ConfigOps", () => {
 
             const result = ConfigOps.applyEnvironments(config, envContext);
 
-            assert.equal(result, config);
+            assert.strictEqual(result, config);
         });
 
         it("should apply multiple environment settings to config without destroying original settings", () => {
@@ -72,7 +72,7 @@ describe("ConfigOps", () => {
 
             const result = ConfigOps.applyEnvironments(config, envContext);
 
-            assert.deepEqual(result, {
+            assert.deepStrictEqual(result, {
                 env: config.env,
                 rules: config.rules,
                 parserOptions: {
@@ -89,7 +89,7 @@ describe("ConfigOps", () => {
         it("should return empty config if called without any config", () => {
             const config = ConfigOps.createEnvironmentConfig(null, envContext);
 
-            assert.deepEqual(config, {
+            assert.deepStrictEqual(config, {
                 globals: {},
                 env: {},
                 rules: {},
@@ -100,7 +100,7 @@ describe("ConfigOps", () => {
         it("should return correct config for env with no globals", () => {
             const config = ConfigOps.createEnvironmentConfig({ test: true }, new Environments());
 
-            assert.deepEqual(config, {
+            assert.deepStrictEqual(config, {
                 globals: {},
                 env: {
                     test: true
@@ -113,7 +113,7 @@ describe("ConfigOps", () => {
         it("should create the correct config for Node.js environment", () => {
             const config = ConfigOps.createEnvironmentConfig({ node: true }, envContext);
 
-            assert.deepEqual(config, {
+            assert.deepStrictEqual(config, {
                 env: {
                     node: true
                 },
@@ -128,7 +128,7 @@ describe("ConfigOps", () => {
         it("should create the correct config for ES6 environment", () => {
             const config = ConfigOps.createEnvironmentConfig({ es6: true }, envContext);
 
-            assert.deepEqual(config, {
+            assert.deepStrictEqual(config, {
                 env: {
                     es6: true
                 },
@@ -143,7 +143,7 @@ describe("ConfigOps", () => {
         it("should create empty config when no environments are specified", () => {
             const config = ConfigOps.createEnvironmentConfig({}, envContext);
 
-            assert.deepEqual(config, {
+            assert.deepStrictEqual(config, {
                 env: {},
                 parserOptions: {},
                 globals: {},
@@ -154,7 +154,7 @@ describe("ConfigOps", () => {
         it("should create empty config when an unknown environment is specified", () => {
             const config = ConfigOps.createEnvironmentConfig({ foo: true }, envContext);
 
-            assert.deepEqual(config, {
+            assert.deepStrictEqual(config, {
                 env: {
                     foo: true
                 },
@@ -176,7 +176,7 @@ describe("ConfigOps", () => {
 
             const result = ConfigOps.merge(config[0], config[1]);
 
-            assert.equal(result.globals.foo, "bar");
+            assert.strictEqual(result.globals.foo, "bar");
             assert.isTrue(result.env.browser);
         });
 
@@ -188,7 +188,7 @@ describe("ConfigOps", () => {
 
             const result = ConfigOps.merge(config[0], config[1]);
 
-            assert.equal(result.env.node, null);
+            assert.strictEqual(result.env.node, null);
             assert.isTrue(result.env.browser);
         });
 
@@ -200,7 +200,7 @@ describe("ConfigOps", () => {
 
             const result = ConfigOps.merge(config[0], config[1]);
 
-            assert.equal(result.parser, "espree");
+            assert.strictEqual(result.parser, "espree");
         });
 
         it("should combine configs and override rules when passed configs with the same rules", () => {
@@ -212,44 +212,44 @@ describe("ConfigOps", () => {
             const result = ConfigOps.merge(config[0], config[1]);
 
             assert.isArray(result.rules["no-mixed-requires"]);
-            assert.equal(result.rules["no-mixed-requires"][0], 1);
-            assert.equal(result.rules["no-mixed-requires"][1], true);
+            assert.strictEqual(result.rules["no-mixed-requires"][0], 1);
+            assert.strictEqual(result.rules["no-mixed-requires"][1], true);
         });
 
         it("should combine configs when passed configs with parserOptions", () => {
             const config = [
-                { parserOptions: { ecmaFeatures: { blockBindings: true } } },
-                { parserOptions: { ecmaFeatures: { forOf: true } } }
+                { parserOptions: { ecmaFeatures: { jsx: true } } },
+                { parserOptions: { ecmaFeatures: { globalReturn: true } } }
             ];
 
             const result = ConfigOps.merge(config[0], config[1]);
 
-            assert.deepEqual(result, {
+            assert.deepStrictEqual(result, {
                 parserOptions: {
                     ecmaFeatures: {
-                        blockBindings: true,
-                        forOf: true
+                        jsx: true,
+                        globalReturn: true
                     }
                 }
             });
 
             // double-check that originals were not changed
-            assert.deepEqual(config[0], { parserOptions: { ecmaFeatures: { blockBindings: true } } });
-            assert.deepEqual(config[1], { parserOptions: { ecmaFeatures: { forOf: true } } });
+            assert.deepStrictEqual(config[0], { parserOptions: { ecmaFeatures: { jsx: true } } });
+            assert.deepStrictEqual(config[1], { parserOptions: { ecmaFeatures: { globalReturn: true } } });
         });
 
         it("should override configs when passed configs with the same ecmaFeatures", () => {
             const config = [
-                { parserOptions: { ecmaFeatures: { forOf: false } } },
-                { parserOptions: { ecmaFeatures: { forOf: true } } }
+                { parserOptions: { ecmaFeatures: { globalReturn: false } } },
+                { parserOptions: { ecmaFeatures: { globalReturn: true } } }
             ];
 
             const result = ConfigOps.merge(config[0], config[1]);
 
-            assert.deepEqual(result, {
+            assert.deepStrictEqual(result, {
                 parserOptions: {
                     ecmaFeatures: {
-                        forOf: true
+                        globalReturn: true
                     }
                 }
             });
@@ -265,10 +265,10 @@ describe("ConfigOps", () => {
             const result = ConfigOps.merge(config[0], config[1]);
 
             assert.isArray(result.rules["no-mixed-requires"]);
-            assert.equal(result.rules["no-mixed-requires"][0], 1);
-            assert.equal(result.rules["no-mixed-requires"][1], false);
-            assert.deepEqual(config[0], { rules: { "no-mixed-requires": [0, false] } });
-            assert.deepEqual(config[1], { rules: { "no-mixed-requires": 1 } });
+            assert.strictEqual(result.rules["no-mixed-requires"][0], 1);
+            assert.strictEqual(result.rules["no-mixed-requires"][1], false);
+            assert.deepStrictEqual(config[0], { rules: { "no-mixed-requires": [0, false] } });
+            assert.deepStrictEqual(config[1], { rules: { "no-mixed-requires": 1 } });
         });
 
         it("should combine configs and override rules options completely", () => {
@@ -281,9 +281,9 @@ describe("ConfigOps", () => {
             const result = ConfigOps.merge(config[0], config[1]);
 
             assert.isArray(result.rules["no-mixed-requires"]);
-            assert.deepEqual(result.rules["no-mixed-requires"][1], { err: ["error", "e"] });
-            assert.deepEqual(config[0], { rules: { "no-mixed-requires": [1, { event: ["evt", "e"] }] } });
-            assert.deepEqual(config[1], { rules: { "no-mixed-requires": [1, { err: ["error", "e"] }] } });
+            assert.deepStrictEqual(result.rules["no-mixed-requires"][1], { err: ["error", "e"] });
+            assert.deepStrictEqual(config[0], { rules: { "no-mixed-requires": [1, { event: ["evt", "e"] }] } });
+            assert.deepStrictEqual(config[1], { rules: { "no-mixed-requires": [1, { err: ["error", "e"] }] } });
         });
 
         it("should combine configs and override rules options without array or object", () => {
@@ -298,8 +298,8 @@ describe("ConfigOps", () => {
             assert.strictEqual(result.rules["no-mixed-requires"][0], 2);
             assert.strictEqual(result.rules["no-mixed-requires"][1], "requirejs");
             assert.isUndefined(result.rules["no-mixed-requires"][2]);
-            assert.deepEqual(config[0], { rules: { "no-mixed-requires": ["warn", "nconf", "underscore"] } });
-            assert.deepEqual(config[1], { rules: { "no-mixed-requires": [2, "requirejs"] } });
+            assert.deepStrictEqual(config[0], { rules: { "no-mixed-requires": ["warn", "nconf", "underscore"] } });
+            assert.deepStrictEqual(config[1], { rules: { "no-mixed-requires": [2, "requirejs"] } });
         });
 
         it("should combine configs and override rules options without array or object but special case", () => {
@@ -314,8 +314,8 @@ describe("ConfigOps", () => {
             assert.strictEqual(result.rules["no-mixed-requires"][0], "error");
             assert.strictEqual(result.rules["no-mixed-requires"][1], "nconf");
             assert.strictEqual(result.rules["no-mixed-requires"][2], "underscore");
-            assert.deepEqual(config[0], { rules: { "no-mixed-requires": [1, "nconf", "underscore"] } });
-            assert.deepEqual(config[1], { rules: { "no-mixed-requires": "error" } });
+            assert.deepStrictEqual(config[0], { rules: { "no-mixed-requires": [1, "nconf", "underscore"] } });
+            assert.deepStrictEqual(config[1], { rules: { "no-mixed-requires": "error" } });
         });
 
         it("should combine extends correctly", () => {
@@ -342,7 +342,7 @@ describe("ConfigOps", () => {
                         smile: [1, ["hi", "bye"]]
                     },
                     parserOptions: {
-                        ecmaFeatures: { blockBindings: true }
+                        ecmaFeatures: { jsx: true }
                     },
                     env: { browser: true },
                     globals: { foo: false }
@@ -355,7 +355,7 @@ describe("ConfigOps", () => {
                         smile: [1, ["xxx", "yyy"]]
                     },
                     parserOptions: {
-                        ecmaFeatures: { forOf: true }
+                        ecmaFeatures: { globalReturn: true }
                     },
                     env: { browser: false },
                     globals: { foo: true }
@@ -364,11 +364,11 @@ describe("ConfigOps", () => {
 
             const result = ConfigOps.merge(config[0], config[1]);
 
-            assert.deepEqual(result, {
+            assert.deepStrictEqual(result, {
                 parserOptions: {
                     ecmaFeatures: {
-                        blockBindings: true,
-                        forOf: true
+                        jsx: true,
+                        globalReturn: true
                     }
                 },
                 env: {
@@ -399,7 +399,7 @@ describe("ConfigOps", () => {
                     "valid-jsdoc": 2
                 }
             });
-            assert.deepEqual(config[0], {
+            assert.deepStrictEqual(config[0], {
                 rules: {
                     "no-mixed-requires": [1, { event: ["evt", "e"] }],
                     "valid-jsdoc": 1,
@@ -408,12 +408,12 @@ describe("ConfigOps", () => {
                     smile: [1, ["hi", "bye"]]
                 },
                 parserOptions: {
-                    ecmaFeatures: { blockBindings: true }
+                    ecmaFeatures: { jsx: true }
                 },
                 env: { browser: true },
                 globals: { foo: false }
             });
-            assert.deepEqual(config[1], {
+            assert.deepStrictEqual(config[1], {
                 rules: {
                     "no-mixed-requires": [1, { err: ["error", "e"] }],
                     "valid-jsdoc": 2,
@@ -421,7 +421,7 @@ describe("ConfigOps", () => {
                     smile: [1, ["xxx", "yyy"]]
                 },
                 parserOptions: {
-                    ecmaFeatures: { forOf: true }
+                    ecmaFeatures: { globalReturn: true }
                 },
                 env: { browser: false },
                 globals: { foo: true }
@@ -455,9 +455,9 @@ describe("ConfigOps", () => {
                     expectedResult = { plugins: ["foo", "bar", "baz"] },
                     result = ConfigOps.merge(baseConfig, customConfig);
 
-                assert.deepEqual(result, expectedResult);
-                assert.deepEqual(baseConfig, { plugins: ["foo", "bar"] });
-                assert.deepEqual(customConfig, { plugins: ["baz"] });
+                assert.deepStrictEqual(result, expectedResult);
+                assert.deepStrictEqual(baseConfig, { plugins: ["foo", "bar"] });
+                assert.deepStrictEqual(customConfig, { plugins: ["baz"] });
             });
 
             it("should avoid duplicate plugin entries when each config has the same plugin", () => {
@@ -465,15 +465,15 @@ describe("ConfigOps", () => {
                     expectedResult = { plugins: ["foo", "bar"] },
                     result = ConfigOps.merge(baseConfig, customConfig);
 
-                assert.deepEqual(result, expectedResult);
+                assert.deepStrictEqual(result, expectedResult);
             });
 
             it("should create a valid config when one argument is an empty object", () => {
                 const customConfig = { plugins: ["foo"] },
                     result = ConfigOps.merge({}, customConfig);
 
-                assert.deepEqual(result, customConfig);
-                assert.notEqual(result, customConfig);
+                assert.deepStrictEqual(result, customConfig);
+                assert.notStrictEqual(result, customConfig);
             });
         });
 
@@ -490,7 +490,7 @@ describe("ConfigOps", () => {
 
                 const result = ConfigOps.merge(baseConfig, customConfig);
 
-                assert.deepEqual(result, expectedResult);
+                assert.deepStrictEqual(result, expectedResult);
             });
 
             it("should work if the base config doesn’t have an overrides property", () => {
@@ -504,7 +504,7 @@ describe("ConfigOps", () => {
 
                 const result = ConfigOps.merge(baseConfig, customConfig);
 
-                assert.deepEqual(result, expectedResult);
+                assert.deepStrictEqual(result, expectedResult);
             });
 
             it("should work if the custom config doesn’t have an overrides property", () => {
@@ -518,7 +518,7 @@ describe("ConfigOps", () => {
 
                 const result = ConfigOps.merge(baseConfig, customConfig);
 
-                assert.deepEqual(result, expectedResult);
+                assert.deepStrictEqual(result, expectedResult);
             });
 
             it("should work if overrides are null in the base config", () => {
@@ -532,7 +532,7 @@ describe("ConfigOps", () => {
 
                 const result = ConfigOps.merge(baseConfig, customConfig);
 
-                assert.deepEqual(result, expectedResult);
+                assert.deepStrictEqual(result, expectedResult);
             });
 
             it("should work if overrides are null in the custom config", () => {
@@ -546,7 +546,7 @@ describe("ConfigOps", () => {
 
                 const result = ConfigOps.merge(baseConfig, customConfig);
 
-                assert.deepEqual(result, expectedResult);
+                assert.deepStrictEqual(result, expectedResult);
             });
         });
     });
@@ -594,7 +594,7 @@ describe("ConfigOps", () => {
 
             ConfigOps.normalizeToStrings(config);
 
-            assert.deepEqual(config, {
+            assert.deepStrictEqual(config, {
                 rules: {
                     foo: "error",
                     bar: "error"
@@ -612,7 +612,7 @@ describe("ConfigOps", () => {
 
             ConfigOps.normalizeToStrings(config);
 
-            assert.deepEqual(config, {
+            assert.deepStrictEqual(config, {
                 rules: {
                     foo: ["error", "something"],
                     bar: "error"
@@ -630,7 +630,7 @@ describe("ConfigOps", () => {
 
             ConfigOps.normalizeToStrings(config);
 
-            assert.deepEqual(config, {
+            assert.deepStrictEqual(config, {
                 rules: {
                     foo: "warn",
                     bar: "warn"
@@ -648,7 +648,7 @@ describe("ConfigOps", () => {
 
             ConfigOps.normalizeToStrings(config);
 
-            assert.deepEqual(config, {
+            assert.deepStrictEqual(config, {
                 rules: {
                     foo: ["warn", "something"],
                     bar: "warn"
@@ -666,7 +666,7 @@ describe("ConfigOps", () => {
 
             ConfigOps.normalizeToStrings(config);
 
-            assert.deepEqual(config, {
+            assert.deepStrictEqual(config, {
                 rules: {
                     foo: "off",
                     bar: "off"
@@ -684,7 +684,7 @@ describe("ConfigOps", () => {
 
             ConfigOps.normalizeToStrings(config);
 
-            assert.deepEqual(config, {
+            assert.deepStrictEqual(config, {
                 rules: {
                     foo: ["off", "something"],
                     bar: "off"
@@ -702,7 +702,7 @@ describe("ConfigOps", () => {
 
             ConfigOps.normalizeToStrings(config);
 
-            assert.deepEqual(config, {
+            assert.deepStrictEqual(config, {
                 rules: {
                     foo: "off",
                     bar: "off"
@@ -720,7 +720,7 @@ describe("ConfigOps", () => {
 
             ConfigOps.normalizeToStrings(config);
 
-            assert.deepEqual(config, {
+            assert.deepStrictEqual(config, {
                 rules: {
                     foo: ["off", "something"],
                     bar: "off"
@@ -746,7 +746,7 @@ describe("ConfigOps", () => {
             it(`should return ${expected}when passed ${input}`, () => {
                 const result = ConfigOps.isErrorSeverity(input);
 
-                assert.equal(result, expected);
+                assert.strictEqual(result, expected);
             });
 
         });
@@ -771,7 +771,7 @@ describe("ConfigOps", () => {
 
             const result = ConfigOps.getConfigFromVector(vector, configCache);
 
-            assert.deepEqual(result, merged);
+            assert.deepStrictEqual(result, merged);
         });
 
         it("should get from raw cached configs when no merged vectors are cached", () => {
@@ -802,8 +802,8 @@ describe("ConfigOps", () => {
 
             const result = ConfigOps.getConfigFromVector(vector, configCache);
 
-            assert.equal(result.rules.foo1, "error");
-            assert.equal(result.rules.foo2, "off");
+            assert.strictEqual(result.rules.foo1, "error");
+            assert.strictEqual(result.rules.foo2, "off");
         });
     });
 });

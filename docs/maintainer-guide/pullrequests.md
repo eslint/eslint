@@ -38,7 +38,7 @@ Committers may merge a pull request if it is a non-breaking change and is:
 1. A documentation change
 1. A bug fix (for either rules or core)
 1. A dependency upgrade
-1. Related to the build system
+1. Related to the build tool
 1. A chore
 
 In addition, committers may merge any non-breaking pull request if it has been approved by at least one TSC member.
@@ -59,7 +59,7 @@ Team members may merge a pull request immediately if it:
 
 1. Makes a small documentation change
 1. Is a chore
-1. Fixes a block of other work on the repo (build-related, test-related, dependency-related, etc.)
+1. Fixes a block of other work on the repository (build-related, test-related, dependency-related, etc.)
 1. Is an important fix to get into a patch release
 
 Otherwise, team members should observe a waiting period before merging a pull request:
@@ -68,6 +68,8 @@ Otherwise, team members should observe a waiting period before merging a pull re
 * Wait **3 days** if the pull request was opened on Saturday or Sunday.
 
 The waiting period ensures that other team members have a chance to review the pull request before it is merged.
+
+If the pull request was created from a branch on the `eslint/eslint` repository (as opposed to a fork), delete the branch after merging the pull request. (GitHub will display a "Delete branch" button after the pull request is merged.)
 
 **Note:** You should not merge your own pull request unless you're received feedback from at least one other team member.
 

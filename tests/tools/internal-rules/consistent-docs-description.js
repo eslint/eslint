@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const rule = require("../../../lib/internal-rules/internal-consistent-docs-description"),
+const rule = require("../../../tools/internal-rules/consistent-docs-description"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
@@ -18,7 +18,7 @@ const rule = require("../../../lib/internal-rules/internal-consistent-docs-descr
 
 const ruleTester = new RuleTester();
 
-ruleTester.run("internal-consistent-docs-description", rule, {
+ruleTester.run("consistent-docs-description", rule, {
     valid: [
 
         // wrong exports format: "internal-no-invalid-meta" reports this already
