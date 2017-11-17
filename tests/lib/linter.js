@@ -3988,7 +3988,7 @@ describe("Linter", () => {
     // only test in Node.js, not browser
     if (typeof window === "undefined") {
         const escope = require("eslint-scope");
-        const Traverser = require("../../lib/util/traverser");
+        const vk = require("eslint-visitor-keys");
 
         describe("Custom parser", () => {
 
@@ -4071,7 +4071,7 @@ describe("Linter", () => {
                 it("Traverser should use the visitorKeys (so 'types' includes 'Decorator')", () => {
                     assert.deepStrictEqual(
                         types,
-                        ["Program", "ClassDeclaration", "Identifier", "ClassBody", "Decorator", "Identifier"]
+                        ["Program", "ClassDeclaration", "Decorator", "Identifier", "Identifier", "ClassBody"]
                     );
                 });
 
@@ -4079,7 +4079,7 @@ describe("Linter", () => {
                     assert(scopeAnalyzeStub.calledOnce);
                     assert.deepStrictEqual(
                         scopeAnalyzeStub.firstCall.args[1].childVisitorKeys.ClassDeclaration,
-                        Traverser.DEFAULT_VISITOR_KEYS.ClassDeclaration.concat(["experimentalDecorators"])
+                        vk.unionWith({ ClassDeclaration: ["experimentalDecorators"] }).ClassDeclaration
                     );
                 });
 
@@ -4099,7 +4099,7 @@ describe("Linter", () => {
 
                     assert.deepStrictEqual(
                         types2,
-                        ["Program", "ClassDeclaration", "Identifier", "ClassBody", "Decorator", "Identifier"]
+                        ["Program", "ClassDeclaration", "Decorator", "Identifier", "Identifier", "ClassBody"]
                     );
                 });
             });

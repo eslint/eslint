@@ -3,7 +3,7 @@
 const assert = require("assert");
 const ScopeManager = require("eslint-scope/lib/scope-manager");
 const Referencer = require("eslint-scope/lib/referencer");
-const Traverser = require("../../../lib/util/traverser");
+const vk = require("eslint-visitor-keys");
 
 class EnhancedReferencer extends Referencer {
     visitClass(node) {
@@ -35,7 +35,7 @@ function analyzeScope(ast) {
         sourceType: "script",
         ecmaVersion: 6,
         childVisitorKeys: null,
-        fallback: Traverser.getKeys
+        fallback: vk.getKeys
     };
     const scopeManager = new ScopeManager(options);
     const referencer = new EnhancedReferencer(options, scopeManager);

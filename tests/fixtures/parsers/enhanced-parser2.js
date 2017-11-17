@@ -1,11 +1,11 @@
 "use strict";
 
 const assert = require("assert");
-const Traverser = require("../../../lib/util/traverser");
-const KEYS = Object.assign({}, Traverser.DEFAULT_VISITOR_KEYS, {
-    ClassDeclaration: Traverser.DEFAULT_VISITOR_KEYS.ClassDeclaration.concat(["experimentalDecorators"]),
-    ClassExpression: Traverser.DEFAULT_VISITOR_KEYS.ClassExpression.concat(["experimentalDecorators"])
-});
+const vk = require("eslint-visitor-keys");
+const KEYS = vk.unionWith({
+    ClassDeclaration: ["experimentalDecorators"],
+    ClassExpression: ["experimentalDecorators"]
+})
 
 exports.parseForESLint = code => {
     assert(code === "@foo class A {}");
