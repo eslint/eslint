@@ -66,6 +66,7 @@ You can supply any number of configurations. If an statement pair matches multip
     - `"if"` is `if` statements.
     - `"import"` is `import` declarations.
     - `"let"` is `let` variable declarations.
+    - `"multiline"` is any multiline statement.
     - `"multiline-block-like"` is block like statements. This is the same as `block-like` type, but only the block is multiline.
     - `"return"` is `return` statements.
     - `"switch"` is `switch` statements.
