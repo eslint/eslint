@@ -327,6 +327,8 @@ There are also some properties you can access:
 * `hasBOM` - the flag to indicate whether or not the source code has Unicode BOM.
 * `text` - the full text of the code being linted. Unicode BOM has been stripped from this text.
 * `ast` - the `Program` node of the AST for the code being linted.
+* `scopeManager` - the [ScopeManager](http://estools.github.io/escope/ScopeManager) object of the code.
+* `visitorKeys` - the visitor keys to traverse this AST.
 * `lines` - an array of lines, split according to the specification's definition of line breaks.
 
 You should use a `SourceCode` object whenever you need to get more information about the code being linted.
