@@ -90,7 +90,8 @@ console.log(b);
 {
     "prefer-const": ["error", {
         "destructuring": "any",
-        "ignoreReadBeforeAssign": false
+        "ignoreReadBeforeAssign": false,
+        "constsAreConstant": false
     }]
 }
 ```
@@ -186,6 +187,44 @@ function initialize() {
 }
 ```
 
+### constsAreConstant
+
+This is an option to avoid mutating assignments.
+If `true` is specifided, this rule will notify when a non-primitive `const` is being mutated. It is recommended to pair this option with [no-param-reassign](no-param-reassign.md) so that consts are not mutated when being passed to functions.
+Default is `false`
+
+Examples of **correct** code for the `{"constsAreConstant": true}` option:
+
+```js
+/*eslint prefer-const: ["error", {"constsAreConstant": true}]*/
+/*eslint-env es6*/
+
+let timer = {};
+timer.time = new Date();
+Object.assign(timer, {
+    timezones: {...}
+});
+
+let friends = ['bob'];
+friends.push('sally');
+```
+
+Examples of **correct** code for the default `{"constsAreConst": false}` option:
+
+```js
+/*eslint prefer-const: ["error", {"constsAreConst": false}]*/
+/*eslint-env es6*/
+
+const timer = {};
+timer.time = new Date();
+Object.assign(timer, {
+    timezones: {...}
+});
+
+const friends = ['bob'];
+friends.push('sally');
+```
+
 ## When Not To Use It
 
 If you don't want to be notified about variables that are never reassigned after initial assignment, you can safely disable this rule.
@@ -194,3 +233,4 @@ If you don't want to be notified about variables that are never reassigned after
 
 * [no-var](no-var.md)
 * [no-use-before-define](no-use-before-define.md)
+* [no-param-reassign](no-param-reassign.md)
