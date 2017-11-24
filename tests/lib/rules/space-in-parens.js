@@ -110,7 +110,8 @@ ruleTester.run("space-in-parens", rule, {
         { code: "foo( ); bar( {bar:'baz'} ); baz( [1,2] )", options: ["never", { exceptions: ["{}", "[]", "empty"] }] },
 
         // faulty exceptions option
-        { code: "foo( { bar: 'baz' } )", options: ["always", { exceptions: [] }] }
+        { code: "foo( { bar: 'baz' } )", options: ["always", { exceptions: [] }] },
+        { code: "foo( { bar: 'baz' } )", options: ["always", {}] }
     ],
 
     invalid: [
