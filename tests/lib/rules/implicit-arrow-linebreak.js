@@ -20,7 +20,7 @@ const UNEXPECTED_LINEBREAK = { message: "Expected no linebreak before this expre
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 
-ruleTester.run("arrow-linebreak", rule, {
+ruleTester.run("implicit-arrow-linebreak", rule, {
 
     valid: [
 
