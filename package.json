@@ -40,7 +40,7 @@
     "concat-stream": "^1.6.0",
     "cross-spawn": "^5.1.0",
     "debug": "^3.0.1",
-    "doctrine": "^2.0.0",
+    "doctrine": "^2.0.2",
     "eslint-scope": "^3.7.1",
     "espree": "^3.5.2",
     "esquery": "^1.0.0",
