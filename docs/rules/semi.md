@@ -66,9 +66,15 @@ String option:
 * `"always"` (default) requires semicolons at the end of statements
 * `"never"` disallows semicolons as the end of statements (except to disambiguate statements beginning with `[`, `(`, `/`, `+`, or `-`)
 
-Object option:
+Object option (when `"always"`):
 
 * `"omitLastInOneLineBlock": true` ignores the last semicolon in a block in which its braces (and therefore the content of the block) are in the same line
+
+Object option (when `"never"`):
+
+* `"beforeStatementContinuationChars": "any"` (default) ignores semicolons (or lacking semicolon) at the end of statements if the next line starts with `[`, `(`, `/`, `+`, or `-`.
+* `"beforeStatementContinuationChars": "always"` requires semicolons at the end of statements if the next line starts with `[`, `(`, `/`, `+`, or `-`.
+* `"beforeStatementContinuationChars": "never"` disallows semicolons as the end of statements if it doesn't make ASI hazard even if the next line starts with `[`, `(`, `/`, `+`, or `-`.
 
 ### always
 
@@ -126,6 +132,16 @@ var name = "ESLint"
 ;(function() {
     // ...
 })()
+
+import a from "a"
+(function() {
+    // ...
+})()
+
+import b from "b"
+;(function() {
+    // ...
+})()
 ```
 
 #### omitLastInOneLineBlock
@@ -138,6 +154,30 @@ Examples of additional **correct** code for this rule with the `"always", { "omi
 if (foo) { bar() }
 
 if (foo) { bar(); baz() }
+```
+
+#### beforeStatementContinuationChars
+
+Examples of additional **incorrect** code for this rule with the `"never", { "beforeStatementContinuationChars": "always" }` options:
+
+```js
+/*eslint semi: ["error", "never", { "beforeStatementContinuationChars": "always"}] */
+import a from "a"
+
+(function() {
+    // ...
+})()
+```
+
+Examples of additional **incorrect** code for this rule with the `"never", { "beforeStatementContinuationChars": "never" }` options:
+
+```js
+/*eslint semi: ["error", "never", { "beforeStatementContinuationChars": "never"}] */
+import a from "a"
+
+;(function() {
+    // ...
+})()
 ```
 
 ## When Not To Use It
