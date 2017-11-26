@@ -1,3 +1,19 @@
+v4.12.0 - November 25, 2017
+
+* 76dab18 Upgrade: doctrine@^2.0.2 (#9656) (Kevin Partington)
+* 28c9c8e New: add a Linter#defineParser function (#9321) (Ives van Hoorne)
+* 5619910 Update: Add autofix for `sort-vars` (#9496) (Trevin Hofmann)
+* 71eedbf Update: add `beforeStatementContinuationChars` to semi (fixes #9521) (#9594) (Toru Nagashima)
+* 4118f14 New: Adds implicit-arrow-linebreak rule (refs #9510) (#9629) (Sharmila Jesupaul)
+* 208fb0f Fix: Use XML 1.1 on XML formatters (fixes #9607) (#9608) (Daniel Reigada)
+* 6e04f14 Upgrade: `globals` to 11.0.1 (fixes #9614) (#9632) (Toru Nagashima)
+* e13d439 Fix: space-in-parens crash (#9655) (Toru Nagashima)
+* 92171cc Docs: Updating migration guide for single-line disable (#9385) (Justin Helmer)
+* f39ffe7 Docs: remove extra punctuation from readme (#9640) (Teddy Katz)
+* a015234 Fix: prefer-destructuring false positive on "super" (fixes #9625) (#9626) (Kei Ito)
+* 0cf081e Update: add importNames option to no-restricted-imports (#9506) (Benjamin R Gibson)
+* 332c214 Docs: Add @platinumazure to TSC (#9618) (Ilya Volodin)
+
 v4.11.0 - November 10, 2017
 
 * d4557a6 Docs: disallow use of the comma operator using no-restricted-syntax (#9585) (薛定谔的猫)
