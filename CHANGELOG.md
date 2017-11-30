@@ -1,3 +1,7 @@
+v4.12.1 - November 30, 2017
+
+* 1e362a0 Revert "Fix: Use XML 1.1 on XML formatters (fixes #9607) (#9608)" (#9667) (Kevin Partington)
+
 v4.12.0 - November 25, 2017
 
 * 76dab18 Upgrade: doctrine@^2.0.2 (#9656) (Kevin Partington)
