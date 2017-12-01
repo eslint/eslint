@@ -35,7 +35,7 @@ async function foo() {
   try {
     return await bar();
   } catch (error) {}
-} 
+}
 ```
 
 In the last example the `await` is necessary to be able to catch errors thrown from `bar()`.
