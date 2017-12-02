@@ -644,7 +644,7 @@ bar();
 
 ### banner
 
-Examples of **correct** code for this rule with the `4, { "banner": true }` option:
+Examples of **correct** code for this rule with the `4, { "banner": true, "FunctionDeclaration": {"body": 1, "parameters": 2} }` option:
 
 ```js
 class A {
