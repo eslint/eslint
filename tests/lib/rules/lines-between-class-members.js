@@ -36,6 +36,7 @@ ruleTester.run("lines-between-class-members", rule, {
         "class foo{ bar(){}\n\nbaz(){}}",
         "class foo{ bar(){}\n\n/*comments*/baz(){}}",
         "class foo{ bar(){}\n\n//comments\nbaz(){}}",
+        "class foo{ bar(){}\n//comments\n\nbaz(){}}",
 
         "class foo{ bar(){}\n\n;;baz(){}}",
         "class foo{ bar(){};\n\nbaz(){}}",
