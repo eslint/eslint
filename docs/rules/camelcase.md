@@ -12,6 +12,7 @@ This rule has an object option:
 
 * `"properties": "always"` (default) enforces camelcase style for property names
 * `"properties": "never"` does not check property names
+* `"exceptions"` allows an array of specified identifier names
 
 ### always
 
@@ -56,6 +57,21 @@ do_something();
 new do_something();
 
 var { category_id: category } = query;
+```
+
+### always with exceptions
+
+Examples of **correct** code for this rule with `{ "exceptions": ["allow_this", "camel_cased"] }`:
+
+```js
+/*eslint camelcase: ["error", {exceptions: ["allow_this"]}]*/
+
+import { camel_cased } from "external-module";
+
+const allow_this = true;
+const someObject = {
+    allow_this: true
+};
 ```
 
 ### never

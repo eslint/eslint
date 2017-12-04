@@ -44,6 +44,14 @@ ruleTester.run("camelcase", rule, {
             options: [{ properties: "always" }]
         },
         {
+            code: "var o = {camel_case: 1}",
+            options: [{ exceptions: ["camel_case"] }]
+        },
+        {
+            code: "var o = {camel_case: 1}",
+            options: [{ properties: "always", exceptions: ["camel_case"] }]
+        },
+        {
             code: "var o = {bar_baz: 1}",
             options: [{ properties: "never" }]
         },
