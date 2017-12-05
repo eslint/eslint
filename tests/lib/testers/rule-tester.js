@@ -126,7 +126,7 @@ describe("RuleTester", () => {
                     { code: "var foo = bar;", errors: [{ message: "Bad error message." }] }
                 ]
             });
-        }, /Bad var\..*==.*Bad error message/);
+        }, /Bad var\.((.*==)|(.*strictEqual)).*Bad error message/);
     });
 
     it("should throw an error when the error message regex does not match", () => {
@@ -167,7 +167,7 @@ describe("RuleTester", () => {
                     { code: "var foo = bar;", errors: ["Bad error message."] }
                 ]
             });
-        }, /Bad var\..*==.*Bad error message/);
+        }, /Bad var\.((.*==)|(.*strictEqual)).*Bad error message/);
     });
 
     it("should throw an error when the error is a string and it does not match error message", () => {
