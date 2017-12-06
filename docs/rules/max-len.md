@@ -30,7 +30,7 @@ This rule has a number or object option:
 Examples of **incorrect** code for this rule with the default `{ "code": 80 }` option:
 
 ```js
-/*eslint max-len: ["error", 80]*/
+/*eslint max-len: ["error", { "code": 80 }]*/
 
 var foo = { "bar": "This is a bar.", "baz": { "qux": "This is a qux" }, "difficult": "to read" };
 ```
@@ -38,7 +38,7 @@ var foo = { "bar": "This is a bar.", "baz": { "qux": "This is a qux" }, "difficu
 Examples of **correct** code for this rule with the default `{ "code": 80 }` option:
 
 ```js
-/*eslint max-len: ["error", 80]*/
+/*eslint max-len: ["error", { "code": 80 }]*/
 
 var foo = {
   "bar": "This is a bar.",
@@ -52,7 +52,7 @@ var foo = {
 Examples of **incorrect** code for this rule with the default `{ "tabWidth": 4 }` option:
 
 ```js
-/*eslint max-len: ["error", 80, 4]*/
+/*eslint max-len: ["error", { "code": 80, "tabWidth": 4 }]*/
 
 \t  \t  var foo = { "bar": "This is a bar.", "baz": { "qux": "This is a qux" } };
 ```
@@ -60,7 +60,7 @@ Examples of **incorrect** code for this rule with the default `{ "tabWidth": 4 }
 Examples of **correct** code for this rule with the default `{ "tabWidth": 4 }` option:
 
 ```js
-/*eslint max-len: ["error", 80, 4]*/
+/*eslint max-len: ["error", { "code": 80, "tabWidth": 4 }]*/
 
 \t  \t  var foo = {
 \t  \t  \t  \t  "bar": "This is a bar.",
