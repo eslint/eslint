@@ -946,6 +946,33 @@ describe("Linter", () => {
 
     });
 
+    describe("when a custom parser is defined using defineParser", () => {
+
+        it("should be able to define a custom parser", () => {
+            const parser = {
+                parseForESLint: function parse(code, options) {
+                    return {
+                        ast: require("espree").parse(code, options),
+                        services: {
+                            test: {
+                                getMessage() {
+                                    return "Hi!";
+                                }
+                            }
+                        }
+                    };
+                }
+            };
+
+            linter.defineParser("test-parser", parser);
+            const config = { rules: {}, parser: "test-parser" };
+            const messages = linter.verify("0", config, filename);
+
+            assert.strictEqual(messages.length, 0);
+        });
+
+    });
+
     describe("when config has parser", () => {
 
         // custom parser unsupported in browser, only test in Node

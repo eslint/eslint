@@ -100,7 +100,7 @@ Both JSCS and ESLint use comments inside of files to disable rules around certai
 | Enable one rule | `// jscs:enable ruleName` or `/* jscs:enable ruleName */` | `/* eslint-enable rule-name */` |
 | Disable multiple rules | `// jscs:disable ruleName1, ruleName2` or `/* jscs:disable ruleName1, ruleName2 */` | `/* eslint-disable rule-name1, rule-name2 */` |
 | Enable multiple rules | `// jscs:enable ruleName1, ruleName2` or `/* jscs:enable ruleName1, ruleName2 */` | `/* eslint-enable rule-name1, rule-name2 */` |
-| Disable one rule on single line | `// jscs:ignore ruleName` | `/* eslint-disable-line rule-name */` |
+| Disable one rule on single line | `// jscs:ignore ruleName` | `// eslint-disable-line rule-name` |
 
 ## Command Line Options
 

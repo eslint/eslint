@@ -1,6 +1,6 @@
 {
   "name": "eslint",
-  "version": "4.11.0",
+  "version": "4.12.1",
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "An AST-based pattern checker for JavaScript.",
   "bin": {
@@ -40,7 +40,7 @@
     "concat-stream": "^1.6.0",
     "cross-spawn": "^5.1.0",
     "debug": "^3.0.1",
-    "doctrine": "^2.0.0",
+    "doctrine": "^2.0.2",
     "eslint-scope": "^3.7.1",
     "eslint-visitor-keys": "^0.1.0",
     "espree": "^3.5.2",
@@ -49,7 +49,7 @@
     "file-entry-cache": "^2.0.0",
     "functional-red-black-tree": "^1.0.1",
     "glob": "^7.1.2",
-    "globals": "^9.17.0",
+    "globals": "^11.0.1",
     "ignore": "^3.3.3",
     "imurmurhash": "^0.1.4",
     "inquirer": "^3.0.6",
