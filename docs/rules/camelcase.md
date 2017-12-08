@@ -32,9 +32,27 @@ obj.do_something = function() {
     // ...
 };
 
+function foo({ no_camelcased }) {
+    // ...
+};
+
+function foo({ isCamelcased: no_camelcased }) {
+    // ...
+}
+
+function foo({ no_camelcased = 'default value' }) {
+    // ...
+};
+
 var obj = {
     my_pref: 1
 };
+
+var { category_id = 1 } = query;
+
+var { foo: no_camelcased } = bar;
+
+var { foo: bar_baz = 1 } = quz;
 ```
 
 Examples of **correct** code for this rule with the default `{ "properties": "always" }` option:
@@ -56,6 +74,25 @@ do_something();
 new do_something();
 
 var { category_id: category } = query;
+
+function foo({ isCamelCased }) {
+    // ...
+};
+
+function foo({ isCamelCased: isAlsoCamelCased }) {
+    // ...
+}
+
+function foo({ isCamelCased = 'default value' }) {
+    // ...
+};
+
+var { categoryId = 1 } = query;
+
+var { foo: isCamelCased } = bar;
+
+var { foo: isCamelCased = 1 } = quz;
+
 ```
 
 ### never
