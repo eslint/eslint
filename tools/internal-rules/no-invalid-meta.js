@@ -175,13 +175,20 @@ module.exports = {
                 }
             },
 
-            "Program:exit"() {
-                if (!isCorrectExportsFormat(exportsNode)) {
-                    context.report({ node: exportsNode, message: "Rule does not export an Object. Make sure the rule follows the new rule format." });
-                    return;
+            "Program:exit"(node) {
+                if (!exportsNode) {
+                    context.report({
+                        node,
+                        message: "Rule does not export anything. Make sure rule exports an object according to new rule format."
+                    });
+                } else if (!isCorrectExportsFormat(exportsNode)) {
+                    context.report({
+                        node: exportsNode,
+                        message: "Rule does not export an Object. Make sure the rule follows the new rule format."
+                    });
+                } else {
+                    checkMetaValidity(context, exportsNode);
                 }
-
-                checkMetaValidity(context, exportsNode);
             }
         };
     }
