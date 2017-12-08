@@ -1,3 +1,10 @@
+v4.13.0 - December 8, 2017
+
+* 256481b Update: update handling of destructuring in camelcase (fixes #8511) (#9468) (Erin)
+* d067ae1 Docs: Don’t use undocumented array-style configuration for max-len (#9690) (Jed Fox)
+* 1ad3091 Chore: fix test-suite to work with node master (#9688) (Myles Borins)
+* cdb1488 Docs: Adds an example with try/catch. (#9672) (Jaap Taal)
+
 v4.12.1 - November 30, 2017
 
 * 1e362a0 Revert "Fix: Use XML 1.1 on XML formatters (fixes #9607) (#9608)" (#9667) (Kevin Partington)
