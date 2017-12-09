@@ -248,7 +248,10 @@ describe("ast-utils", () => {
                 "/*eslint-enable no-undef*/",
                 "/* eslint-env {\"es6\": true} */",
                 "/* eslint foo */",
-                "/*eslint bar*/"
+                "/*eslint bar*/",
+                "/*\neslint no-undef\n*/",
+                "/*\n* eslint-disable foo\n*/",
+                "/*\n*eslint-enable no-undef\n*/"
             ].join("\n");
             const ast = espree.parse(code, ESPREE_CONFIG);
             const sourceCode = new SourceCode(code, ast);
