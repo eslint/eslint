@@ -239,7 +239,7 @@ Once a language feature has been adopted into the ECMAScript standard (stage 4 a
 
 ### Where to ask for help?
 
-Join our [Mailing List](https://groups.google.com/group/eslint) or [Chatroom](https://gitter.im/eslint/eslint)
+Join our [Mailing List](https://groups.google.com/group/eslint) or [Chatroom](https://gitter.im/eslint/eslint).
 
 
 [npm-image]: https://img.shields.io/npm/v/eslint.svg?style=flat-square
