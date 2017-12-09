@@ -241,6 +241,40 @@ ruleTester.run("no-invalid-meta", rule, {
                 line: 2,
                 column: 5
             }]
+        },
+
+        /*
+         * Rule doesn't export anything: Should warn on the Program node.
+         * See https://github.com/eslint/eslint/issues/9534
+         */
+
+        /*
+         * Should be invalid, but will currently show as valid due to #9534.
+         * FIXME: Uncomment when #9534 is fixed in major release.
+         * {
+         *     code: "",
+         *     errors: [{
+         *         message: "Rule does not export anything. Make sure rule exports an object according to new rule format.",
+         *         line: 1,
+         *         column: 1
+         *     }]
+         * },
+         */
+        {
+            code: "foo();",
+            errors: [{
+                message: "Rule does not export anything. Make sure rule exports an object according to new rule format.",
+                line: 1,
+                column: 1
+            }]
+        },
+        {
+            code: "foo = bar;",
+            errors: [{
+                message: "Rule does not export anything. Make sure rule exports an object according to new rule format.",
+                line: 1,
+                column: 1
+            }]
         }
     ]
 });
