@@ -105,6 +105,67 @@ ruleTester.run("prefer-const", rule, {
         {
             code: "let x; function foo() { bar(x); } x = 0;",
             options: [{ ignoreReadBeforeAssign: true }]
+        },
+
+        // constsAreConstant
+        {
+            code: [
+                "const root = {};",
+                "const foo = { bar: 'bar' }"
+            ].join(""),
+            options: [{ constsAreConstant: true }]
+        },
+        {
+            code: [
+                "const foo = { bar: 'bar'};",
+                "const foo2 = Object.assign({}, foo);"
+            ].join(""),
+            options: [{ constsAreConstant: true }]
+        },
+        {
+            code: [
+                "const foo = {};",
+                "const foo2 = { ...foo };"
+            ].join(""),
+            options: [{ constsAreConstant: true }],
+            parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } }
+        },
+        {
+            code: [
+                "const foo = [ 1, 2, 3];"
+            ].join(""),
+            options: [{ constsAreConstant: true }]
+        },
+        {
+            code: [
+                "let foo = [];",
+                "foo.push(1);"
+            ].join(""),
+            options: [{ constsAreConstant: true }]
+        },
+
+        // NOTE: not tracking down mutations in function scope
+        {
+            code: [
+                "const foo = [1];",
+                "const foo2 = increaseByOne(foo);",
+                `function increaseByOne(arr) {
+                    return arr.forEach((val, i) => {
+                        return arr[i] = val + 1;
+                    });
+                }`
+            ].join(""),
+            options: [{ constsAreConstant: true }]
+        },
+        {
+            code: [
+                "const foo = [];",
+                `function mutate(arr) {
+                    arr.push(1);
+                    return arr;
+                }`
+            ].join(""),
+            options: [{ constsAreConstant: true }]
         }
     ],
     invalid: [
@@ -345,6 +406,74 @@ ruleTester.run("prefer-const", rule, {
                 { message: "'foo' is never reassigned. Use 'const' instead.", type: "Identifier" },
                 { message: "'bar' is never reassigned. Use 'const' instead.", type: "Identifier" }
             ]
+        },
+
+        // constsAreConstant
+        {
+            code: [
+                "const foo = {};",
+                "foo.bar = 'barValue';"
+            ].join(""),
+            output: [
+                "let foo = {};",
+                "foo.bar = 'barValue';"
+            ].join(""),
+            options: [{ constsAreConstant: true }],
+            errors: [{ message: "'foo' is mutated. Use 'let' instead.", type: "Identifier" }]
+        },
+        {
+            code: [
+                "const foo = [];",
+                "foo.push('bar');"
+            ].join(""),
+            output: [
+                "let foo = [];",
+                "foo.push('bar');"
+            ].join(""),
+            options: [{ constsAreConstant: true }],
+            errors: [{ message: "'foo' is mutated. Use 'let' instead.", type: "Identifier" }]
+        },
+        {
+            code: [
+                "const foo = {};",
+                "Object.assign(foo, { bar: 'bar' })"
+            ].join(""),
+            output: [
+                "let foo = {};",
+                "Object.assign(foo, { bar: 'bar' })"
+            ].join(""),
+            options: [{ constsAreConstant: true }],
+            errors: [{ message: "'foo' is mutated. Use 'let' instead.", type: "Identifier" }]
+        },
+        {
+            code: [
+                "const foo = [];",
+                "Array.prototype.push.apply(foo, [1 ,2, 3]);"
+            ].join(""),
+            output: [
+                "let foo = [];",
+                "Array.prototype.push.apply(foo, [1 ,2, 3]);"
+            ].join(""),
+            options: [{ constsAreConstant: true }],
+            errors: [{ message: "'foo' is mutated. Use 'let' instead.", type: "Identifier" }]
+        },
+        {
+            code: [
+                "const foo = [ 1, 2 ];",
+                `foo.forEach((val, i, arr) => {
+                    arr[i] = val + 1;
+                });
+                `
+            ].join(""),
+            output: [
+                "let foo = [ 1, 2 ];",
+                `foo.forEach((val, i, arr) => {
+                    arr[i] = val + 1;
+                });
+                `
+            ].join(""),
+            options: [{ constsAreConstant: true }],
+            errors: [{ message: "'foo' is mutated. Use 'let' instead.", type: "Identifier" }]
         }
     ]
 });
