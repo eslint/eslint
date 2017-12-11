@@ -1,3 +1,10 @@
+v4.13.1 - December 11, 2017
+
+* b72dc83 Fix: eol-last allow empty-string to always pass (refs #9534) (#9696) (Kevin Partington)
+* d80aa7c Fix: camelcase destructure leading/trailing underscore (fixes #9700) (#9701) (Kevin Partington)
+* d49d9d0 Docs: Add missing period to the README (#9702) (Kevin Partington)
+* 4564fe0 Chore: no-invalid-meta crash if no export assignment (refs #9534) (#9698) (Kevin Partington)
+
 v4.13.0 - December 8, 2017
 
 * 256481b Update: update handling of destructuring in camelcase (fixes #8511) (#9468) (Erin)
