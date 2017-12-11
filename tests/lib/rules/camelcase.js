@@ -44,11 +44,43 @@ ruleTester.run("camelcase", rule, {
             options: [{ properties: "always" }]
         },
         {
+            code: "var o = {_leading: 1}",
+            options: [{ properties: "always" }]
+        },
+        {
+            code: "var o = {trailing_: 1}",
+            options: [{ properties: "always" }]
+        },
+        {
             code: "var o = {bar_baz: 1}",
             options: [{ properties: "never" }]
         },
         {
+            code: "var o = {_leading: 1}",
+            options: [{ properties: "never" }]
+        },
+        {
+            code: "var o = {trailing_: 1}",
+            options: [{ properties: "never" }]
+        },
+        {
             code: "obj.a_b = 2;",
+            options: [{ properties: "never" }]
+        },
+        {
+            code: "obj._a = 2;",
+            options: [{ properties: "always" }]
+        },
+        {
+            code: "obj.a_ = 2;",
+            options: [{ properties: "always" }]
+        },
+        {
+            code: "obj._a = 2;",
+            options: [{ properties: "never" }]
+        },
+        {
+            code: "obj.a_ = 2;",
             options: [{ properties: "never" }]
         },
         {
@@ -64,11 +96,35 @@ ruleTester.run("camelcase", rule, {
             parserOptions: { ecmaVersion: 6 }
         },
         {
+            code: "var { _leading } = query;",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var { trailing_ } = query;",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
             code: "import { camelCased } from \"external module\";",
             parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
+            code: "import { _leading } from \"external module\";",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "import { trailing_ } from \"external module\";",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
             code: "import { no_camelcased as camelCased } from \"external-module\";",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "import { no_camelcased as _leading } from \"external-module\";",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "import { no_camelcased as trailing_ } from \"external-module\";",
             parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
@@ -80,11 +136,35 @@ ruleTester.run("camelcase", rule, {
             parserOptions: { ecmaVersion: 6 }
         },
         {
+            code: "function foo({ no_camelcased: _leading }) {};",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "function foo({ no_camelcased: trailing_ }) {};",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
             code: "function foo({ camelCased = 'default value' }) {};",
             parserOptions: { ecmaVersion: 6 }
         },
         {
+            code: "function foo({ _leading = 'default value' }) {};",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "function foo({ trailing_ = 'default value' }) {};",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
             code: "function foo({ camelCased }) {};",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "function foo({ _leading }) {}",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "function foo({ trailing_ }) {}",
             parserOptions: { ecmaVersion: 6 }
         }
     ],
