@@ -42,6 +42,46 @@ ruleTester.run("sort-imports", rule, {
                 memberSyntaxSortOrder: ["single", "multiple", "none", "all"]
             }]
         },
+        {
+            code:
+                "import A from 'bar.js';\n" +
+                "import {b, c} from 'foo.js';",
+            options: [{
+                memberSyntaxSortOrder: []
+            }]
+        },
+        {
+            code:
+                "import A from 'bar.js';\n" +
+                "import {b, c} from 'foo.js';",
+            options: [{
+                memberSyntaxSortOrder: ["single"]
+            }]
+        },
+        {
+            code:
+                "import {b, c} from 'foo.js'\n;" +
+                "import A from 'bar.js';",
+            options: [{
+                memberSyntaxSortOrder: ["multiple"]
+            }]
+        },
+        {
+            code:
+                "import A from 'bar.js';\n" +
+                "import {b, c} from 'foo.js';",
+            options: [{
+                memberSyntaxSortOrder: ["other", "multiple"]
+            }]
+        },
+        {
+            code:
+                "import A from 'bar.js';\n" +
+                "import {b, c} from 'foo.js';",
+            options: [{
+                memberSyntaxSortOrder: ["other", "single", "multiple", "none", "all"]
+            }]
+        },
         "import {a, b} from 'bar.js';\n" +
                 "import {c, d} from 'foo.js';",
         "import A from 'foo.js';\n" +
@@ -126,6 +166,27 @@ ruleTester.run("sort-imports", rule, {
         },
         {
             code:
+                "import b from 'bar.js';\n" +
+                "import * as a from 'foo.js';",
+            output: null,
+            options: [{
+                memberSyntaxSortOrder: []
+            }],
+            errors: [expectedError]
+        },
+        {
+            code:
+                "import * as a from 'foo.js';\n" +
+                "import {c, d} from 'bar.js';\n" +
+                "import b from 'baz.js';",
+            output: null,
+            options: [{
+                memberSyntaxSortOrder: ["all"]
+            }],
+            errors: [expectedError]
+        },
+        {
+            code:
                 "import a from 'foo.js';\n" +
                 "import {b, c} from 'bar.js';",
             output: null,
@@ -164,6 +225,45 @@ ruleTester.run("sort-imports", rule, {
             }],
             errors: [{
                 message: "Expected 'all' syntax before 'single' syntax.",
+                type: "ImportDeclaration"
+            }]
+        },
+        {
+            code:
+                "import b from 'bar.js';\n" +
+                "import * as a from 'foo.js';",
+            output: null,
+            options: [{
+                memberSyntaxSortOrder: ["all"]
+            }],
+            errors: [{
+                message: "Expected 'all' syntax before 'other' syntax.",
+                type: "ImportDeclaration"
+            }]
+        },
+        {
+            code:
+                "import * as a from 'foo.js';\n" +
+                "import b from 'bar.js';\n",
+            output: null,
+            options: [{
+                memberSyntaxSortOrder: ["single"]
+            }],
+            errors: [{
+                message: "Expected 'single' syntax before 'other' syntax.",
+                type: "ImportDeclaration"
+            }]
+        },
+        {
+            code:
+                "import * as a from 'foo.js';\n" +
+                "import b from 'bar.js';\n",
+            output: null,
+            options: [{
+                memberSyntaxSortOrder: ["other", "all"]
+            }],
+            errors: [{
+                message: "Expected 'other' syntax before 'all' syntax.",
                 type: "ImportDeclaration"
             }]
         },
