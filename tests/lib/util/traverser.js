@@ -41,7 +41,7 @@ describe("Traverser", () => {
         assert.deepStrictEqual(exitedNodes, [fakeAst.body[0], fakeAst.body[1].foo, fakeAst.body[1], fakeAst]);
     });
 
-    it("traverses AST as using 'keys' option if given", () => {
+    it("traverses AST as using 'visitorKeys' option if given", () => {
         const traverser = new Traverser();
         const fakeAst = {
             type: "Program",

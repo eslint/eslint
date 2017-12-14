@@ -140,7 +140,7 @@ Those members are defined but not used in ESLint.
 #### taints
 
 * **Type:** `Map<string, boolean>`
-* **Description:** The map from variable names to `tained` flag. (I'm not sure what this means.)
+* **Description:** The map from variable names to `tainted` flag.
 
 #### dynamic
 
@@ -226,7 +226,7 @@ Those members are defined but not used in ESLint.
 #### tainted
 
 * **Type:** `boolean`
-* **Description:** The `tained` flag. (I'm not sure what this means.)
+* **Description:** The `tainted` flag. (always `false`)
 
 #### stack
 
@@ -305,7 +305,7 @@ Those members are defined but not used in ESLint.
 #### tainted
 
 * **Type:** `boolean`
-* **Description:** The `tained` flag. (I'm not sure what this means.)
+* **Description:** The `tainted` flag. (always `false`)
 
 #### flag
 
