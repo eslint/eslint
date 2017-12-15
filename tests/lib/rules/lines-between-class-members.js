@@ -36,6 +36,10 @@ ruleTester.run("lines-between-class-members", rule, {
         "class foo{ bar(){}\n\nbaz(){}}",
         "class foo{ bar(){}\n\n/*comments*/baz(){}}",
         "class foo{ bar(){}\n\n//comments\nbaz(){}}",
+        "class foo{ bar(){}\n//comments\n\nbaz(){}}",
+        "class A{ foo() {} // a comment\n\nbar() {}}",
+        "class A{ foo() {}\n/* a */ /* b */\n\nbar() {}}",
+        "class A{ foo() {}/* a */ \n\n /* b */bar() {}}",
 
         "class foo{ bar(){}\n\n;;baz(){}}",
         "class foo{ bar(){};\n\nbaz(){}}",
@@ -43,6 +47,9 @@ ruleTester.run("lines-between-class-members", rule, {
         { code: "class foo{ bar(){}\nbaz(){}}", options: ["never"] },
         { code: "class foo{ bar(){}\n/*comments*/baz(){}}", options: ["never"] },
         { code: "class foo{ bar(){}\n//comments\nbaz(){}}", options: ["never"] },
+        { code: "class foo{ bar(){}/* comments\n\n*/baz(){}}", options: ["never"] },
+        { code: "class foo{ bar(){}/* \ncomments\n*/baz(){}}", options: ["never"] },
+        { code: "class foo{ bar(){}\n/* \ncomments\n*/\nbaz(){}}", options: ["never"] },
 
         { code: "class foo{ bar(){}\n\nbaz(){}}", options: ["always"] },
         { code: "class foo{ bar(){}\n\n/*comments*/baz(){}}", options: ["always"] },
