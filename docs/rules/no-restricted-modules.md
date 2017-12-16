@@ -5,7 +5,7 @@ application. The keyword `require` is used in Node.js/CommonJS to import modules
 
 Why would you want to restrict a module?
 
-Disallowing usage of specific Node.js modules can be useful if you want to limit the available methods a developer can use. For example, You can block usage of the `fs` module if you want to disallow file system access.
+Disallowing usage of specific Node.js modules can be useful if you want to limit the available methods a developer can use. For example, you can block usage of the `fs` module if you want to disallow file system access.
 
 ## Rule Details
 
