@@ -119,7 +119,7 @@ ruleTester.run("arrow-body-style", rule, {
                     line: 1,
                     column: 17,
                     type: "ArrowFunctionExpression",
-                    message: "Unexpected block statement surrounding arrow body; put `undefined` immediately after the `=>`."
+                    message: "Unexpected block statement surrounding arrow body; put a value of `undefined` immediately after the `=>`."
                 }
             ]
         },
