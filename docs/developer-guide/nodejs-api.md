@@ -839,4 +839,4 @@ ruleTester.run("my-rule", myRule, {
 ## Deprecated APIs
 
 * `cli` - the `cli` object has been deprecated in favor of `CLIEngine`. As of v1.0.0, `cli` is no longer exported and should not be used by external tools.
-* `linter` - the `linter` object has has been deprecated in favor of `Linter`, as of v4.0.0
+* `linter` - the `linter` object has been deprecated in favor of `Linter`, as of v4.0.0
