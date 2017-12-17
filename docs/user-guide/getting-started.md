@@ -102,4 +102,4 @@ Because of this line, all of the rules marked "(recommended)" on the [rules page
 * Get familiar with the [command line options](command-line-interface.md).
 * Explore [ESLint integrations](integrations.md) into other tools like editors, build systems, and more.
 * Can't find just the right rule?  Make your own [custom rule](/docs/developer-guide/working-with-rules.md).
-* Make ESLint even better by [contributing](/docs/developer-guide/contributing/README.md).
+* Make ESLint even better by [contributing](/docs/developer-guide/contributing/).
