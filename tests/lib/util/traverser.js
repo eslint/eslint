@@ -70,15 +70,7 @@ describe("Traverser", () => {
 
         const visited = [];
 
-        // default.
-        traverser.traverse(fakeAst, {
-            enter: node => visited.push(node.type)
-        });
-        assert.deepStrictEqual(visited, ["Program", "ClassDeclaration", "Identifier", "ClassBody"]);
-
-        visited.splice(0, visited.length);
-
-        // with keys option.
+        // with 'visitorKeys' option to traverse decorators.
         traverser.traverse(fakeAst, {
             enter: node => visited.push(node.type),
             visitorKeys: Object.assign({}, Traverser.DEFAULT_VISITOR_KEYS, {

@@ -173,7 +173,7 @@ If you want to use your own parser and provide additional capabilities for your 
 * `ast` should contain the AST.
 * `services` can contain any parser-dependent services (such as type checkers for nodes). The value of the `services` property is available to rules as `context.parserServices`. Default is an empty object.
 * `scopeManager` can be a [ScopeManager](./scope-manager-interface.md) object. Custom parsers can use customized scope analysis for experimental/enhancement syntaxes. Default is the `ScopeManager` object which is created by [eslint-scope](https://github.com/eslint/eslint-scope).
-* `visitorKeys` can be an object to customize AST traversal. The keys of the object are the type of AST nodes. Each value is an array of the property names which should be traversed. Default is [KEYS of `eslint-visitor-keys`](https://github.com/eslint/eslint-scope).
+* `visitorKeys` can be an object to customize AST traversal. The keys of the object are the type of AST nodes. Each value is an array of the property names which should be traversed. Default is [KEYS of `eslint-visitor-keys`](https://github.com/eslint/eslint-visitor-keys#evkkeys).
 
 You can find an ESLint parser project [here](https://github.com/eslint/typescript-eslint-parser).
 

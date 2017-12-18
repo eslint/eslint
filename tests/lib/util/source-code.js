@@ -1813,12 +1813,6 @@ describe("SourceCode", () => {
         it("should use visitorKeys", () => {
             const text = "a + b";
             const ast = espree.parse(text, DEFAULT_CONFIG);
-            let node;
-
-            // default
-            sourceCode = new SourceCode(text, ast);
-            node = sourceCode.getNodeByRangeIndex(0);
-            assert.strictEqual(node.type, "Identifier");
 
             // no traverse BinaryExpression#left
             sourceCode = new SourceCode({
@@ -1830,8 +1824,9 @@ describe("SourceCode", () => {
                     BinaryExpression: ["right"]
                 })
             });
-            node = sourceCode.getNodeByRangeIndex(0);
-            assert.strictEqual(node.type, "BinaryExpression");
+            const node = sourceCode.getNodeByRangeIndex(0);
+
+            assert.strictEqual(node.type, "BinaryExpression"); // This is Identifier if 'BinaryExpression#left' was traversed.
         });
 
     });

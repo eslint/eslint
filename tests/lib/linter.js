@@ -4068,15 +4068,16 @@ describe("Linter", () => {
             });
 
             describe("if a parser provides 'visitorKeys'", () => {
-                const types = [];
+                let types = [];
                 let scopeAnalyzeStub = null;
                 let sourceCode = null;
 
-                before(() => {
-                    scopeAnalyzeStub = sinon.spy(escope, "analyze");
+                beforeEach(() => {
+                    scopeAnalyzeStub = sandbox.spy(escope, "analyze");
 
                     const parser = path.join(parserFixtures, "enhanced-parser2.js");
 
+                    types = [];
                     linter.defineRule("collect-node-types", () => ({
                         "*"(node) {
                             types.push(node.type);
@@ -4090,9 +4091,6 @@ describe("Linter", () => {
                     });
 
                     sourceCode = linter.getSourceCode();
-                });
-                after(() => {
-                    scopeAnalyzeStub.restore();
                 });
 
                 it("Traverser should use the visitorKeys (so 'types' includes 'Decorator')", () => {
@@ -4136,8 +4134,8 @@ describe("Linter", () => {
                 let scope = null;
                 let sourceCode = null;
 
-                before(() => {
-                    scopeAnalyzeStub = sinon.spy(escope, "analyze");
+                beforeEach(() => {
+                    scopeAnalyzeStub = sandbox.spy(escope, "analyze");
 
                     const parser = path.join(parserFixtures, "enhanced-parser3.js");
 
@@ -4149,9 +4147,6 @@ describe("Linter", () => {
                     linter.verify("@foo class A {}", { parser, rules: { "save-scope1": 2 } });
 
                     sourceCode = linter.getSourceCode();
-                });
-                after(() => {
-                    scopeAnalyzeStub.restore();
                 });
 
                 it("should not use eslint-scope analyzer", () => {
