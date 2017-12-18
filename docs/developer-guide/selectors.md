@@ -32,7 +32,7 @@ The following selectors are supported:
 * attribute existence: `[attr]`
 * attribute value: `[attr="foo"]` or `[attr=123]`
 * attribute regex: `[attr=/foo.*/]`
-* attribute conditons: `[attr!="foo"]`, `[attr>2]`, `[attr<3]`, `[attr>=2]`, or `[attr<=3]`
+* attribute conditions: `[attr!="foo"]`, `[attr>2]`, `[attr<3]`, `[attr>=2]`, or `[attr<=3]`
 * nested attribute: `[attr.level2="foo"]`
 * field: `FunctionDeclaration > Identifier.id`
 * First or last child: `:first-child` or `:last-child`

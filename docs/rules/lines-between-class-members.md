@@ -39,8 +39,8 @@ This rule has a string option and an object option.
 
 String option:
 
-* `"always"`(default) require an empty line after after class members
-* `"never"` disallows an empty line after after class members
+* `"always"`(default) require an empty line after class members
+* `"never"` disallows an empty line after class members
 
 Object option:
 

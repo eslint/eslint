@@ -117,7 +117,7 @@ Additionally, the `context` object has the following methods:
 * `getDeclaredVariables(node)` - returns a list of [variables](./scope-manager-interface.md#variable-interface) declared by the given node. This information can be used to track references to variables.
     * If the node is a `VariableDeclaration`, all variables declared in the declaration are returned.
     * If the node is a `VariableDeclarator`, all variables declared in the declarator are returned.
-    * If the node is a `FunctionDeclaration` or `FunctionExpression`, the variable for the function name is returned,in addition to variables for the function parameters.
+    * If the node is a `FunctionDeclaration` or `FunctionExpression`, the variable for the function name is returned, in addition to variables for the function parameters.
     * If the node is an `ArrowFunctionExpression`, variables for the parameters are returned.
     * If the node is a `ClassDeclaration` or a `ClassExpression`, the variable for the class name is returned.
     * If the node is a `CatchClause`, the variable for the exception is returned.
