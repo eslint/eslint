@@ -26,8 +26,8 @@ ruleTester.run("array-callback-return", rule, {
         { code: "Int32Array.from(x, function() { return true; })", options: [{ allowImplicit: false }] },
 
         // options: { allowImplicit: true }
-        { code: "Array.from(x, function() { return; })", allowImplicitOptions },
-        { code: "Int32Array.from(x, function() { return; })", allowImplicitOptions },
+        { code: "Array.from(x, function() { return; })", options: allowImplicitOptions },
+        { code: "Int32Array.from(x, function() { return; })", options: allowImplicitOptions },
 
         "Arrow.from(x, function() {})",
 
@@ -43,15 +43,15 @@ ruleTester.run("array-callback-return", rule, {
         "foo.sort(function() { return 0; })",
 
         // options: { allowImplicit: true }
-        { code: "foo.every(function() { return; })", allowImplicitOptions },
-        { code: "foo.filter(function() { return; })", allowImplicitOptions },
-        { code: "foo.find(function() { return; })", allowImplicitOptions },
-        { code: "foo.findIndex(function() { return; })", allowImplicitOptions },
-        { code: "foo.map(function() { return; })", allowImplicitOptions },
-        { code: "foo.reduce(function() { return; })", allowImplicitOptions },
-        { code: "foo.reduceRight(function() { return; })", allowImplicitOptions },
-        { code: "foo.some(function() { return; })", allowImplicitOptions },
-        { code: "foo.sort(function() { return; })", allowImplicitOptions },
+        { code: "foo.every(function() { return; })", options: allowImplicitOptions },
+        { code: "foo.filter(function() { return; })", options: allowImplicitOptions },
+        { code: "foo.find(function() { return; })", options: allowImplicitOptions },
+        { code: "foo.findIndex(function() { return; })", options: allowImplicitOptions },
+        { code: "foo.map(function() { return; })", options: allowImplicitOptions },
+        { code: "foo.reduce(function() { return; })", options: allowImplicitOptions },
+        { code: "foo.reduceRight(function() { return; })", options: allowImplicitOptions },
+        { code: "foo.some(function() { return; })", options: allowImplicitOptions },
+        { code: "foo.sort(function() { return; })", options: allowImplicitOptions },
 
         "foo.abc(function() {})",
         "every(function() {})",
@@ -68,11 +68,11 @@ ruleTester.run("array-callback-return", rule, {
         "foo.every(function() { try { bar(); } finally { return true; } })",
 
         // options: { allowImplicit: true }
-        { code: "foo.every(() => { return; })", parserOptions: { ecmaVersion: 6 }, allowImplicitOptions },
-        { code: "foo.every(function() { if (a) return; else return; })", allowImplicitOptions },
-        { code: "foo.every(function() { switch (a) { case 0: bar(); default: return; } })", allowImplicitOptions },
-        { code: "foo.every(function() { try { bar(); return; } catch (err) { return; } })", allowImplicitOptions },
-        { code: "foo.every(function() { try { bar(); } finally { return; } })", allowImplicitOptions },
+        { code: "foo.every(() => { return; })", options: allowImplicitOptions, parserOptions: { ecmaVersion: 6 } },
+        { code: "foo.every(function() { if (a) return; else return; })", options: allowImplicitOptions },
+        { code: "foo.every(function() { switch (a) { case 0: bar(); default: return; } })", options: allowImplicitOptions },
+        { code: "foo.every(function() { try { bar(); return; } catch (err) { return; } })", options: allowImplicitOptions },
+        { code: "foo.every(function() { try { bar(); } finally { return; } })", options: allowImplicitOptions },
 
         "foo.every(function(){}())",
         "foo.every(function(){ return function() { return true; }; }())",
