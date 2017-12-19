@@ -22,6 +22,8 @@ ruleTester.run("array-callback-return", rule, {
         // options: { allowImplicit: false }
         "Array.from(x, function() { return true; })",
         "Int32Array.from(x, function() { return true; })",
+        { code: "Array.from(x, function() { return true; })", options: [{ allowImplicit: false }] },
+        { code: "Int32Array.from(x, function() { return true; })", options: [{ allowImplicit: false }] },
 
         // options: { allowImplicit: true }
         { code: "Array.from(x, function() { return; })", allowImplicitOptions },
