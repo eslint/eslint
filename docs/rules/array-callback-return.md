@@ -76,7 +76,7 @@ var bar = foo.map(node => node.getAttribute("id"));
 
 This rule has an object option:
 
-* `"allowImplicit": false` (default) disallows implicitly returning undefined with a return; statement.
+* `"allowImplicit": false` (default) disallows implicitly returning `undefined` with a `return` statement.
 
 Examples of **correct** code for the `{ "allowImplicit": true }` option:
 
