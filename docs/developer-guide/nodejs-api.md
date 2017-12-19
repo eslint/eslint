@@ -126,12 +126,11 @@ The information available for each linting message is:
 * `nodeType` - the node or token type that was reported with the problem.
 * `ruleId` - the ID of the rule that triggered the messages (or null if `fatal` is true).
 * `severity` - either 1 or 2, depending on your configuration.
-* `source` - the line of code where the problem is (or empty string if it can't be found).
 * `endColumn` - the end column of the range on which the error occurred (this property is omitted if it's not range).
 * `endLine` - the end line of the range on which the error occurred (this property is omitted if it's not range).
 * `fix` - an object describing the fix for the problem (this property is omitted if no fix is available).
 
-**Please note**: the `source` property will be removed from the linting messages in an upcoming breaking release. If you depend on this property, you can still use the `getSourceCode` method described below to get the line of code for each message.
+Linting message objects have a deprecated `source` property. This property **will be removed** from linting messages in an upcoming breaking release. If you depend on this property, you should now use the `SourceCode` instance provided by the linter.
 
 You can also get an instance of the `SourceCode` object used inside of `linter` by using the `getSourceCode()` method:
 
@@ -374,7 +373,6 @@ The return value is an object containing the results of the linting operation. H
                 line: 1,
                 column: 13,
                 nodeType: "ExpressionStatement",
-                source: "\"use strict\"", // Deprecated: see "please note" paragraph below.
                 fix: { range: [12, 12], text: ";" }
             }],
             errorCount: 1,
@@ -423,7 +421,6 @@ var report = cli.executeOnFiles(["myfile.js", "lib/"]);
                     line: 1,
                     column: 13,
                     nodeType: "ExpressionStatement",
-                    source: "\"use strict\"", // Deprecated: see "please note" paragraph below.
                     fix: { range: [12, 12], text: ";" }
                 },
                 {
@@ -432,8 +429,7 @@ var report = cli.executeOnFiles(["myfile.js", "lib/"]);
                     message: "Function name `bar` should match variable name `foo`",
                     line: 2,
                     column: 5,
-                    nodeType: "VariableDeclarator",
-                    source: "var foo = function bar() {};"
+                    nodeType: "VariableDeclarator"
                 }
             ],
             errorCount: 2,
@@ -462,7 +458,6 @@ If the operation ends with a parsing error, you will get a single message for th
                     ruleId: null,
                     fatal: true,
                     severity: 2,
-                    source: "fucntion foo() {}",
                     message: "Parsing error: Unexpected token foo",
                     line: 1,
                     column: 10
@@ -492,7 +487,7 @@ The top-level report object has a `results` array containing all linting results
 
 The top-level report object also has `errorCount` and `warningCount` which give the exact number of errors and warnings respectively on all the files.
 
-**Please note**: the `source` property will be removed from the linting messages returned in `messages` in an upcoming breaking release. If you depend on this property, you should now use the top-level `source` or `output` properties instead.
+Report message objects have a deprecated `source` property. This property **will be removed** from the linting messages returned in `messages` in an upcoming breaking release. If you depend on this property, you should now use the top-level `source` or `output` properties instead.
 
 Once you get a report object, it's up to you to determine how to output the results. Fixes will not be automatically applied to the files, even if you set `fix: true` when constructing the `CLIEngine` instance. To apply fixes to the files, call [`outputFixes`](#outputfixes).
 
@@ -839,4 +834,4 @@ ruleTester.run("my-rule", myRule, {
 ## Deprecated APIs
 
 * `cli` - the `cli` object has been deprecated in favor of `CLIEngine`. As of v1.0.0, `cli` is no longer exported and should not be used by external tools.
-* `linter` - the `linter` object has been deprecated in favor of `Linter`, as of v4.0.0
+* `linter` - the `linter` object has been deprecated in favor of `Linter` as of v4.0.0.
