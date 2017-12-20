@@ -860,6 +860,15 @@ describe("ConfigOps", () => {
             });
         }
 
+        // files relative to project root
+        match("foo.js", ["./foo.js"], []);
+        match("foo.js", ["./*"], []);
+        match("foo.js", ["./**"], []);
+        match("subdir/foo.js", ["./**"], []);
+        match("subdir/foo.js", ["./subdir/**"], []);
+        match("subdir/foo.js", ["./subdir/*"], []);
+        match("subdir/foo.js", ["./subdir/foo.js"], []);
+
         // files in the project root
         match("foo.js", ["foo.js"], []);
         match("foo.js", ["*"], []);
@@ -867,9 +876,6 @@ describe("ConfigOps", () => {
         match("foo.js", ["**/*.js"], []);
         match("bar.js", ["*.js"], ["foo.js"]);
 
-        noMatch("foo.js", ["./foo.js"], []);
-        noMatch("foo.js", ["./*"], []);
-        noMatch("foo.js", ["./**"], []);
         noMatch("foo.js", ["*"], ["foo.js"]);
         noMatch("foo.js", ["*.js"], ["foo.js"]);
         noMatch("foo.js", ["**/*.js"], ["foo.js"]);
@@ -885,9 +891,6 @@ describe("ConfigOps", () => {
         match("subdir/second/foo.js", ["subdir/**"], []);
 
         noMatch("subdir/foo.js", ["./foo.js"], []);
-        noMatch("subdir/foo.js", ["./**"], []);
-        noMatch("subdir/foo.js", ["./subdir/**"], []);
-        noMatch("subdir/foo.js", ["./subdir/*"], []);
         noMatch("subdir/foo.js", ["*"], ["subdir/**"]);
         noMatch("subdir/very/deep/foo.js", ["*.js"], ["subdir/**"]);
         noMatch("subdir/second/foo.js", ["subdir/*"], []);
