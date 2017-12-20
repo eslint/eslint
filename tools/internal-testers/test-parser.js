@@ -34,7 +34,7 @@ function defineStartEndAsError(node) {
  * @returns {void}
  */
 function defineStartEndAsErrorInTree(ast) {
-    new Traverser().traverse(ast, { enter: defineStartEndAsError });
+    Traverser.traverse(ast, { enter: defineStartEndAsError });
     ast.tokens.forEach(defineStartEndAsError);
     ast.comments.forEach(defineStartEndAsError);
 }

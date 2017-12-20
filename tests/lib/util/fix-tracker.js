@@ -37,7 +37,7 @@ const DEFAULT_CONFIG = {
 function createSourceCode(text) {
     const ast = espree.parse(text, DEFAULT_CONFIG);
 
-    new Traverser().traverse(ast, {
+    Traverser.traverse(ast, {
         enter(node, parent) {
             node.parent = parent;
         }
