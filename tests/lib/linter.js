@@ -1018,6 +1018,30 @@ describe("Linter", () => {
                 assert.strictEqual(messages.length, 1);
                 assert.strictEqual(messages[0].message, "Hi!");
             });
+
+            it("should use the same parserServices if source code object is reused", () => {
+                const parser = path.resolve(__dirname, "../fixtures/parsers/enhanced-parser.js");
+
+                linter.defineRule("test-service-rule", context => ({
+                    Literal(node) {
+                        context.report({
+                            node,
+                            message: context.parserServices.test.getMessage()
+                        });
+                    }
+                }));
+
+                const config = { rules: { "test-service-rule": 2 }, parser };
+                const messages = linter.verify("0", config, filename);
+
+                assert.strictEqual(messages.length, 1);
+                assert.strictEqual(messages[0].message, "Hi!");
+
+                const messages2 = linter.verify(linter.getSourceCode(), config, filename);
+
+                assert.strictEqual(messages2.length, 1);
+                assert.strictEqual(messages2[0].message, "Hi!");
+            });
         }
 
         it("should pass parser as parserPath to all rules when default parser is used", () => {
@@ -3990,6 +4014,8 @@ describe("Linter", () => {
 
     // only test in Node.js, not browser
     if (typeof window === "undefined") {
+        const escope = require("eslint-scope");
+        const vk = require("eslint-visitor-keys");
 
         describe("Custom parser", () => {
 
@@ -4039,6 +4065,115 @@ describe("Linter", () => {
                 assert.strictEqual(messages.length, 1);
                 assert.strictEqual(messages[0].severity, 2);
                 assert.strictEqual(messages[0].message, errorPrefix + require(parser).expectedError);
+            });
+
+            describe("if a parser provides 'visitorKeys'", () => {
+                let types = [];
+                let scopeAnalyzeStub = null;
+                let sourceCode = null;
+
+                beforeEach(() => {
+                    scopeAnalyzeStub = sandbox.spy(escope, "analyze");
+
+                    const parser = path.join(parserFixtures, "enhanced-parser2.js");
+
+                    types = [];
+                    linter.defineRule("collect-node-types", () => ({
+                        "*"(node) {
+                            types.push(node.type);
+                        }
+                    }));
+                    linter.verify("@foo class A {}", {
+                        parser,
+                        rules: {
+                            "collect-node-types": "error"
+                        }
+                    });
+
+                    sourceCode = linter.getSourceCode();
+                });
+
+                it("Traverser should use the visitorKeys (so 'types' includes 'Decorator')", () => {
+                    assert.deepStrictEqual(
+                        types,
+                        ["Program", "ClassDeclaration", "Decorator", "Identifier", "Identifier", "ClassBody"]
+                    );
+                });
+
+                it("eslint-scope should use the visitorKeys (so 'childVisitorKeys.ClassDeclaration' includes 'experimentalDecorators')", () => {
+                    assert(scopeAnalyzeStub.calledOnce);
+                    assert.deepStrictEqual(
+                        scopeAnalyzeStub.firstCall.args[1].childVisitorKeys.ClassDeclaration,
+                        vk.unionWith({ ClassDeclaration: ["experimentalDecorators"] }).ClassDeclaration
+                    );
+                });
+
+                it("should use the same visitorKeys if the source code object is reused", () => {
+                    const types2 = [];
+
+                    linter.defineRule("collect-node-types", () => ({
+                        "*"(node) {
+                            types2.push(node.type);
+                        }
+                    }));
+                    linter.verify(sourceCode, {
+                        rules: {
+                            "collect-node-types": "error"
+                        }
+                    });
+
+                    assert.deepStrictEqual(
+                        types2,
+                        ["Program", "ClassDeclaration", "Decorator", "Identifier", "Identifier", "ClassBody"]
+                    );
+                });
+            });
+
+            describe("if a parser provides 'scope'", () => {
+                let scopeAnalyzeStub = null;
+                let scope = null;
+                let sourceCode = null;
+
+                beforeEach(() => {
+                    scopeAnalyzeStub = sandbox.spy(escope, "analyze");
+
+                    const parser = path.join(parserFixtures, "enhanced-parser3.js");
+
+                    linter.defineRule("save-scope1", context => ({
+                        Program() {
+                            scope = context.getScope();
+                        }
+                    }));
+                    linter.verify("@foo class A {}", { parser, rules: { "save-scope1": 2 } });
+
+                    sourceCode = linter.getSourceCode();
+                });
+
+                it("should not use eslint-scope analyzer", () => {
+                    assert(scopeAnalyzeStub.notCalled);
+                });
+
+                it("should use the scope (so the global scope has the reference of '@foo')", () => {
+                    assert.strictEqual(scope.references.length, 1);
+                    assert.deepStrictEqual(
+                        scope.references[0].identifier.name,
+                        "foo"
+                    );
+                });
+
+                it("should use the same scope if the source code object is reused", () => {
+                    let scope2 = null;
+
+                    linter.defineRule("save-scope2", context => ({
+                        Program() {
+                            scope2 = context.getScope();
+                        }
+                    }));
+                    linter.verify(sourceCode, { rules: { "save-scope2": 2 } }, "test.js");
+
+                    assert(scope2 !== null);
+                    assert(scope2 === scope);
+                });
             });
 
             it("should not pass any default parserOptions to the parser", () => {
