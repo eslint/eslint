@@ -394,13 +394,18 @@ You can also disable or enable specific rules for an entire file:
 alert('foo');
 ```
 
-To disable all rules on a specific line, use a line comment in one of the following formats:
+To disable all rules on a specific line, use a line or block comment in one of the following formats:
 
 ```js
 alert('foo'); // eslint-disable-line
 
 // eslint-disable-next-line
 alert('foo');
+
+/* eslint-disable-next-line */
+alert('foo');
+
+alert('foo'); /* eslint-disable-line */
 ```
 
 To disable a specific rule on a specific line:
@@ -409,6 +414,11 @@ To disable a specific rule on a specific line:
 alert('foo'); // eslint-disable-line no-alert
 
 // eslint-disable-next-line no-alert
+alert('foo');
+
+alert('foo'); /* eslint-disable-line no-alert */
+
+/* eslint-disable-next-line no-alert */
 alert('foo');
 ```
 
@@ -419,12 +429,18 @@ alert('foo'); // eslint-disable-line no-alert, quotes, semi
 
 // eslint-disable-next-line no-alert, quotes, semi
 alert('foo');
+
+alert('foo'); /* eslint-disable-line no-alert, quotes, semi */
+
+/* eslint-disable-next-line no-alert, quotes, semi */
+alert('foo');
 ```
 
 All of the above methods also work for plugin rules. For example, to disable `eslint-plugin-example`'s `rule-name` rule, combine the plugin's name (`example`) and the rule's name (`rule-name`) into `example/rule-name`:
 
 ```js
 foo(); // eslint-disable-line example/rule-name
+foo(); /* eslint-disable-line example/rule-name */
 ```
 
 **Note:** Comments that disable warnings for a portion of a file tell ESLint not to report rule violations for the disabled code. ESLint still parses the entire file, however, so disabled code still needs to be syntactically valid JavaScript.
