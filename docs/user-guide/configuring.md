@@ -730,6 +730,14 @@ Sometimes a more fine-controlled configuration is necessary, for example if the 
 
 ### Relative glob patterns
 
+Globs provided in the `files` or `excludedFiles` arrays can be processed in a few different ways:
+
+* Globs with a leading `./` are considered as relative to the config file location. For example, a glob pattern of `./*.js` would _only_ match `.js` files in the same directory as the config file itself.
+* Globs containing any number of `/` (though keep in mind that absolute paths are not allowed, a glob cannot _start_ with a `/`) are considered as matching paths relative to the config file location.
+* Globs without a `/` in them, are matched against the files base name. For example, a glob of `*.js` matches all `.js` files within the entire directory structure regardless of depth.
+
+Lets take a look at a few examples given the following project structure:
+
 ```
 project-root
 ├── app
@@ -740,13 +748,20 @@ project-root
 │   │   ├── bar.js
 │   │   ├── barSpec.js
 │   ├── .eslintrc.json
+│   ├── index.js
 ├── server
+│   ├── index.js
 │   ├── server.js
 │   ├── serverSpec.js
 ├── .eslintrc.json
+├── index.js
 ```
 
-The config in `app/.eslintrc.json` defines the glob pattern `**/*Spec.js`. This pattern is relative to the base directory of `app/.eslintrc.json`. So, this pattern would match `app/lib/fooSpec.js` and `app/components/barSpec.js` but **NOT** `server/serverSpec.js`. If you defined the same pattern in the `.eslintrc.json` file within in the `project-root` folder, it would match all three of the `*Spec` files.
+Assume that the config file in `app/.eslintrc.json` defines the glob pattern `**/*Spec.js`. This pattern is relative to the base directory of `app/.eslintrc.json`. So, this pattern would match `app/lib/fooSpec.js` and `app/components/barSpec.js` but **NOT** `server/serverSpec.js`.
+
+If you wanted to match all `*Spec.js` files throughout your entire heirarchy, you could instead use either `**/*Spec.js` or simply `*Spec.js` in your `project-root/.eslintrc.json` file.
+
+If you wanted to match the `project-root/index.js` file but not the `app/index.js` or `server/index.js` files, you could use a glob of `./index.js` in `project-root/.eslintrc.json`.
 
 ### Example configuration
 
