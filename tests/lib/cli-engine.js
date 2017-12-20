@@ -134,7 +134,7 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.results[0].fixableWarningCount, 0);
         });
 
-        it("should report the toatl and per file warnings when using local cwd .eslintrc", () => {
+        it("should report the total and per file warnings when using local cwd .eslintrc", () => {
 
             engine = new CLIEngine({
                 rules: {
