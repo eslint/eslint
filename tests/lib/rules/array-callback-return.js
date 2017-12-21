@@ -14,11 +14,24 @@ const rule = require("../../../lib/rules/array-callback-return"),
 
 const ruleTester = new RuleTester();
 
+const allowImplicitOptions = [{ allowImplicit: true }];
+
 ruleTester.run("array-callback-return", rule, {
     valid: [
+
+        // options: { allowImplicit: false }
         "Array.from(x, function() { return true; })",
         "Int32Array.from(x, function() { return true; })",
+        { code: "Array.from(x, function() { return true; })", options: [{ allowImplicit: false }] },
+        { code: "Int32Array.from(x, function() { return true; })", options: [{ allowImplicit: false }] },
+
+        // options: { allowImplicit: true }
+        { code: "Array.from(x, function() { return; })", options: allowImplicitOptions },
+        { code: "Int32Array.from(x, function() { return; })", options: allowImplicitOptions },
+
         "Arrow.from(x, function() {})",
+
+        // options: { allowImplicit: false }
         "foo.every(function() { return true; })",
         "foo.filter(function() { return true; })",
         "foo.find(function() { return true; })",
@@ -28,17 +41,39 @@ ruleTester.run("array-callback-return", rule, {
         "foo.reduceRight(function() { return true; })",
         "foo.some(function() { return true; })",
         "foo.sort(function() { return 0; })",
+
+        // options: { allowImplicit: true }
+        { code: "foo.every(function() { return; })", options: allowImplicitOptions },
+        { code: "foo.filter(function() { return; })", options: allowImplicitOptions },
+        { code: "foo.find(function() { return; })", options: allowImplicitOptions },
+        { code: "foo.findIndex(function() { return; })", options: allowImplicitOptions },
+        { code: "foo.map(function() { return; })", options: allowImplicitOptions },
+        { code: "foo.reduce(function() { return; })", options: allowImplicitOptions },
+        { code: "foo.reduceRight(function() { return; })", options: allowImplicitOptions },
+        { code: "foo.some(function() { return; })", options: allowImplicitOptions },
+        { code: "foo.sort(function() { return; })", options: allowImplicitOptions },
+
         "foo.abc(function() {})",
         "every(function() {})",
         "foo[every](function() {})",
         "var every = function() {}",
         { code: "foo[`${every}`](function() {})", parserOptions: { ecmaVersion: 6 } },
         { code: "foo.every(() => true)", parserOptions: { ecmaVersion: 6 } },
+
+        // options: { allowImplicit: false }
         { code: "foo.every(() => { return true; })", parserOptions: { ecmaVersion: 6 } },
         "foo.every(function() { if (a) return true; else return false; })",
         "foo.every(function() { switch (a) { case 0: bar(); default: return true; } })",
         "foo.every(function() { try { bar(); return true; } catch (err) { return false; } })",
         "foo.every(function() { try { bar(); } finally { return true; } })",
+
+        // options: { allowImplicit: true }
+        { code: "foo.every(() => { return; })", options: allowImplicitOptions, parserOptions: { ecmaVersion: 6 } },
+        { code: "foo.every(function() { if (a) return; else return a; })", options: allowImplicitOptions },
+        { code: "foo.every(function() { switch (a) { case 0: bar(); default: return; } })", options: allowImplicitOptions },
+        { code: "foo.every(function() { try { bar(); return; } catch (err) { return; } })", options: allowImplicitOptions },
+        { code: "foo.every(function() { try { bar(); } finally { return; } })", options: allowImplicitOptions },
+
         "foo.every(function(){}())",
         "foo.every(function(){ return function() { return true; }; }())",
         "foo.every(function(){ return function() { return; }; })",
@@ -93,6 +128,8 @@ ruleTester.run("array-callback-return", rule, {
         { code: "foo.every(a ? function() {} : function() {})", errors: ["Expected to return a value in function.", "Expected to return a value in function."] },
         { code: "foo.every(a ? function foo() {} : function bar() {})", errors: ["Expected to return a value in function 'foo'.", "Expected to return a value in function 'bar'."] },
         { code: "foo.every(function(){ return function() {}; }())", errors: [{ message: "Expected to return a value in function.", column: 30 }] },
-        { code: "foo.every(function(){ return function foo() {}; }())", errors: [{ message: "Expected to return a value in function 'foo'.", column: 39 }] }
+        { code: "foo.every(function(){ return function foo() {}; }())", errors: [{ message: "Expected to return a value in function 'foo'.", column: 39 }] },
+        { code: "foo.every(() => {})", options: [{ allowImplicit: false }], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected to return a value in arrow function." }] },
+        { code: "foo.every(() => {})", options: [{ allowImplicit: true }], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected to return a value in arrow function." }] }
     ]
 });
