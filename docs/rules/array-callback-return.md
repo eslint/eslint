@@ -72,6 +72,21 @@ var foo = Array.from(nodes, function(node) {
 var bar = foo.map(node => node.getAttribute("id"));
 ```
 
+## Options
+
+This rule has an object option:
+
+* `"allowImplicit": false` (default) When set to true, allows implicitly returning `undefined` with a `return` statement containing no expression.
+
+Examples of **correct** code for the `{ "allowImplicit": true }` option:
+
+```js
+/*eslint array-callback-return: ["error", { allowImplicit: true }]*/
+var undefAllTheThings = myArray.map(function(item) {
+    return;
+});
+```
+
 ## Known Limitations
 
 This rule checks callback functions of methods with the given names, *even if* the object which has the method is *not* an array.
