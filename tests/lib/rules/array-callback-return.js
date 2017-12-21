@@ -69,7 +69,7 @@ ruleTester.run("array-callback-return", rule, {
 
         // options: { allowImplicit: true }
         { code: "foo.every(() => { return; })", options: allowImplicitOptions, parserOptions: { ecmaVersion: 6 } },
-        { code: "foo.every(function() { if (a) return; else return; })", options: allowImplicitOptions },
+        { code: "foo.every(function() { if (a) return; else return a; })", options: allowImplicitOptions },
         { code: "foo.every(function() { switch (a) { case 0: bar(); default: return; } })", options: allowImplicitOptions },
         { code: "foo.every(function() { try { bar(); return; } catch (err) { return; } })", options: allowImplicitOptions },
         { code: "foo.every(function() { try { bar(); } finally { return; } })", options: allowImplicitOptions },
