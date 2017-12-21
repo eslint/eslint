@@ -165,7 +165,7 @@ There are four different styles and the default member syntax sort order is:
 * `multiple` - import multiple members.
 * `single` - import single member.
 
-All four options must be specified in the array, but you can customise their order.
+All four options must be specified in the array, but you can customize their order.
 
 Examples of **incorrect** code for this rule with the default `{ "memberSyntaxSortOrder": ["none", "all", "multiple", "single"] }` option:
 
