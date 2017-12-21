@@ -8,8 +8,7 @@ This rule always ignores extra parentheses around the following:
 
 * RegExp literals such as `(/abc/).test(var)` to avoid conflicts with the [wrap-regex](wrap-regex.md) rule
 * immediately-invoked function expressions (also known as IIFEs) such as `var x = (function () {})();` and `((function foo() {return 1;})())` to avoid conflicts with the [wrap-iife](wrap-iife.md) rule
-
-In addition, this rule ignores parentheses around arrow function arguments to avoid conflicts with the [arrow-parens](arrow-parens.md) rule.
+* arrow function arguments to avoid conflicts with the [arrow-parens](arrow-parens.md) rule
 
 ## Options
 
