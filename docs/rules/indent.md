@@ -84,7 +84,8 @@ This rule has an object option:
 * `"ObjectExpression"` (default: 1) enforces indentation level for properties in objects. It can be set to the string `"first"`, indicating that all properties in the object should be aligned with the first property. This can also be set to `"off"` to disable checking for object properties.
 * `"ImportDeclaration"` (default: 1) enforces indentation level for import statements. It can be set to the string `"first"`, indicating that all imported members from a module should be aligned with the first member in the list. This can also be set to `"off"` to disable checking for imported module members.
 * `"flatTernaryExpressions": true` (`false` by default) requires no indentation for ternary expressions which are nested in other ternary expressions.
-* `ignoredNodes` accepts an array of [selectors](/docs/developer-guide/selectors.md). If an AST node is matched by any of the selectors, the indentation of tokens which are direct children of that node will be ignored. This can be used as an escape hatch to relax the rule if you disagree with the indentation that it enforces for a particular syntactic pattern.
+* `"ignoredNodes"` accepts an array of [selectors](/docs/developer-guide/selectors.md). If an AST node is matched by any of the selectors, the indentation of tokens which are direct children of that node will be ignored. This can be used as an escape hatch to relax the rule if you disagree with the indentation that it enforces for a particular syntactic pattern.
+* `"ignoreComments"` (default: false) can be used when comments do not need to be aligned with nodes on the previous or next line.
 
 Level of indentation denotes the multiple of the indent specified. Example:
 
@@ -640,6 +641,22 @@ bar();
 
 })
 ```
+
+### ignoreComments
+
+Examples of additional **correct** code for this rule with the `4, { "ignoreComments": true }` option:
+
+```js
+/*eslint indent: ["error", 4, { "ignoreComments": true }] */
+
+if (foo) {
+    doSomething();
+
+// comment intentionally de-indented
+    doSomethingElse();
+}
+```
+
 
 ## Compatibility
 
