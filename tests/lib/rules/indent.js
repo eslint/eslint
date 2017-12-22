@@ -4785,6 +4785,17 @@ ruleTester.run("indent", rule, {
                 }
             `,
             options: [4, { ignoreComments: true }]
+        },
+        {
+            code: unIndent`
+                if (foo) {
+                    doSomething();
+
+                /* Intentionally unindented comment */
+                    doSomethingElse();
+                }
+            `,
+            options: [4, { ignoreComments: true }]
         }
     ],
 
@@ -9230,6 +9241,26 @@ ruleTester.run("indent", rule, {
             `,
             options: [4, { ignoreComments: false }],
             errors: expectedErrors([4, 4, 0, "Line"])
+        },
+        {
+            code: unIndent`
+                if (foo) {
+                    doSomething();
+
+                /* Intentionally unindented comment */
+                    doSomethingElse();
+                }
+            `,
+            output: unIndent`
+                if (foo) {
+                    doSomething();
+
+                    /* Intentionally unindented comment */
+                    doSomethingElse();
+                }
+            `,
+            options: [4, { ignoreComments: false }],
+            errors: expectedErrors([4, 4, 0, "Block"])
         }
     ]
 });
