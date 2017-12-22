@@ -38,11 +38,6 @@ Basic configuration:
   --parser String                Specify the parser to be used
   --parser-options Object        Specify parser options
 
-Caching:
-  --cache                        Only check changed files - default: false
-  --cache-file path::String      Path to the cache file. Deprecated: use --cache-location - default: .eslintcache
-  --cache-location path::String  Path to the cache file or directory
-
 Specifying rules and plugins:
   --rulesdir [path::String]      Use additional rules from this directory
   --plugin [String]              Specify plugins
@@ -65,6 +60,11 @@ Output:
   -o, --output-file path::String  Specify file to write report to
   -f, --format String            Use a specific output format - default: stylish
   --color, --no-color            Force enabling/disabling of color
+
+Caching:
+  --cache                        Only check changed files - default: false
+  --cache-file path::String      Path to the cache file. Deprecated: use --cache-location - default: .eslintcache
+  --cache-location path::String  Path to the cache file or directory
 
 Miscellaneous:
   --init                         Run config initialization wizard - default: false
