@@ -61,6 +61,10 @@ Output:
   -f, --format String            Use a specific output format - default: stylish
   --color, --no-color            Force enabling/disabling of color
 
+Inline configuration comments:
+  --no-inline-config             Prevent comments from changing config or rules
+  --report-unused-disable-directives  Adds reported errors for unused eslint-disable directives
+
 Caching:
   --cache                        Only check changed files - default: false
   --cache-file path::String      Path to the cache file. Deprecated: use --cache-location - default: .eslintcache
@@ -73,8 +77,6 @@ Miscellaneous:
   --debug                        Output debugging information
   -h, --help                     Show help
   -v, --version                  Output the version number
-  --no-inline-config             Prevent comments from changing config or rules
-  --report-unused-disable-directives  Adds reported errors for unused eslint-disable directives
   --print-config path::String    Print the configuration for the given file
 ```
 
