@@ -43,6 +43,10 @@ Specifying rules and plugins:
   --plugin [String]              Specify plugins
   --rule Object                  Specify rules
 
+Fixing problems:
+  --fix                          Automatically fix problems
+  --fix-dry-run                  Automatically fix problems without saving the changes to the file system
+
 Ignoring files:
   --ignore-path path::String     Specify path of ignore file
   --no-ignore                    Disable use of ignore files and patterns
@@ -72,8 +76,6 @@ Caching:
 
 Miscellaneous:
   --init                         Run config initialization wizard - default: false
-  --fix                          Automatically fix problems
-  --fix-dry-run                  Automatically fix problems without saving the changes to the file system
   --debug                        Output debugging information
   -h, --help                     Show help
   -v, --version                  Output the version number
