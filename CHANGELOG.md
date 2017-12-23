@@ -1,3 +1,23 @@
+v4.14.0 - December 23, 2017
+
+* be2f57e Update: support separate requires in one-var. (fixes #6175) (#9441) (薛定谔的猫)
+* 370d614 Docs: Fix typos (#9751) (Jed Fox)
+* 8196c45 Chore: Reorganize CLI options and associated docs (#9758) (Kevin Partington)
+* 75c7419 Update: Logical-and is counted in `complexity` rule (fixes #8535) (#9754) (Kevin Partington)
+* eb4b1e0 Docs: reintroduce misspelling in `valid-typeof` example (#9753) (Teddy Katz)
+* ae51eb2 New: Add allowImplicit option to array-callback-return (fixes #8539) (#9344) (James C. Davis)
+* e9d5dfd Docs: improve no-extra-parens formatting (#9747) (Rich Trott)
+* 37d066c Chore: Add unit tests for overrides glob matching. (#9744) (Robert Jackson)
+* 805a94e Chore: Fix typo in CLIEngine test name (#9741) (@scriptdaemon)
+* 1c2aafd Update: Improve parser integrations (fixes #8392) (#8755) (Toru Nagashima)
+* 4ddc131 Upgrade: debug@^3.1.0 (#9731) (Kevin Partington)
+* f252c19 Docs: Make the lint message `source` property a little more subtle (#9735) (Jed Fox)
+* 5a5c23c Docs: fix the link to contributing page (#9727) (Victor Hom)
+* f44ce11 Docs: change beginner to good first issue label text (#9726) (Victor Hom)
+* 14baa2e Chore: improve arrow-body-style error message (refs #5498) (#9718) (Teddy Katz)
+* f819920 Docs: fix typos (#9723) (Thomas Broadley)
+* 43d4ba8 Fix: false positive on rule`lines-between-class-members` (fixes #9665) (#9680) (sakabar)
+
 v4.13.1 - December 11, 2017
 
 * b72dc83 Fix: eol-last allow empty-string to always pass (refs #9534) (#9696) (Kevin Partington)
