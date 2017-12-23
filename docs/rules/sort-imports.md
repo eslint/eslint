@@ -35,11 +35,12 @@ This rule accepts an object with its properties as
 
 * `ignoreCase` (default: `false`)
 * `ignoreMemberSort` (default: `false`)
-* `memberSyntaxSortOrder` (default: `["none", "all", "multiple", "single"]`); all 4 items must be present in the array, but you can change the order:
+* `memberSyntaxSortOrder` (default: `["none", "all", "multiple", "single"]`); you can use any number of the following with "other" implicitly as the last item unless explicitly ordered:
     * `none` = import module without exported bindings.
     * `all` = import all members provided by exported bindings.
     * `multiple` = import multiple members.
     * `single` = import single member.
+    * `other` = any import type not explicitly in the order.
 
 Default option settings are:
 
@@ -158,14 +159,15 @@ Default is `false`.
 
 ### `memberSyntaxSortOrder`
 
-There are four different styles and the default member syntax sort order is:
+There are five different styles and the default member syntax sort order is:
 
 * `none` - import module without exported bindings.
 * `all` - import all members provided by exported bindings.
 * `multiple` - import multiple members.
 * `single` - import single member.
+* `other` - any import type not explicitly in the order.
 
-All four options must be specified in the array, but you can customise their order.
+Any number of options can be specified in the array in any custom order with "other" treated as the last item if not included.
 
 Examples of **incorrect** code for this rule with the default `{ "memberSyntaxSortOrder": ["none", "all", "multiple", "single"] }` option:
 
@@ -193,6 +195,43 @@ import * as foo from 'foo.js';
 import z from 'zoo.js';
 import {a, b} from 'foo.js';
 
+```
+
+Examples of **incorrect** code for this rule with the `{ "memberSyntaxSortOrder": ['all'] }` option:
+
+```js
+/*eslint sort-imports: ["error", { "memberSyntaxSortOrder": ['all'] }]*/
+
+import a from 'foo.js';
+import * as b from 'bar.js';
+```
+
+Examples of **correct** code for this rule with the `{ "memberSyntaxSortOrder": ['all'] }` option:
+
+```js
+/*eslint sort-imports: ["error", { "memberSyntaxSortOrder": ['all'] }]*/
+
+import * as b from 'bar.js';
+import a from 'foo.js';
+import {z, zoo} from 'zoo.js';
+```
+
+Examples of **correct** code for this rule with the `{ "memberSyntaxSortOrder": ['single'] }` option:
+
+```js
+/*eslint sort-imports: ["error", { "memberSyntaxSortOrder": ['single'] }]*/
+
+import a from 'foo.js';
+import * as b from 'bar.js';
+```
+
+Examples of **correct** code for this rule with the `{ "memberSyntaxSortOrder": ['other', 'all'] }` option:
+
+```js
+/*eslint sort-imports: ["error", { "memberSyntaxSortOrder": ['other', 'all'] }]*/
+
+import a from 'foo.js';
+import * as b from 'bar.js';
 ```
 
 Default is `["none", "all", "multiple", "single"]`.
