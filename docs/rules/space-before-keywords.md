@@ -28,7 +28,7 @@ must be preceded by at least one space. If `"never"` then no spaces will be allo
 the keywords `else`, `while` (do...while), `finally` and `catch`. The default value is `"always"`.
 
 This rule will allow keywords to be preceded by an opening curly brace (`{`). If you wish to alter
-this behaviour, consider using the [block-spacing](block-spacing.md) rule.
+this behavior, consider using the [block-spacing](block-spacing.md) rule.
 
 Examples of **incorrect** code for this rule with the default `"always"` option:
 

@@ -44,8 +44,8 @@ String option:
 
 Object option:
 
-* `"exceptAfterSingleLine": false`(default) **do not** skip checking empty lines after singleline class members
-* `"exceptAfterSingleLine": true` skip checking empty lines after singleline class members
+* `"exceptAfterSingleLine": false`(default) **do not** skip checking empty lines after single-line class members
+* `"exceptAfterSingleLine": true` skip checking empty lines after single-line class members
 
 Examples of **incorrect** code for this rule with the string option:
 

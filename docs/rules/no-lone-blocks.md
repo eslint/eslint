@@ -44,7 +44,7 @@ function bar() {
 }
 ```
 
-Examples of **correct** code for this rule with es6 environment:
+Examples of **correct** code for this rule with ES6 environment:
 
 ```js
 /*eslint no-lone-blocks: "error"*/
@@ -80,7 +80,7 @@ aLabel: {
 }
 ```
 
-Examples of **correct** code for this rule with es6 environment and strict mode via `"parserOptions": { "sourceType": "module" }` in the ESLint configuration or `"use strict"` directive in the code:
+Examples of **correct** code for this rule with ES6 environment and strict mode via `"parserOptions": { "sourceType": "module" }` in the ESLint configuration or `"use strict"` directive in the code:
 
 ```js
 /*eslint no-lone-blocks: "error"*/
