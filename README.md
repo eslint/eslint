@@ -188,7 +188,7 @@ According to our policy, any minor update may report more errors than the previo
 
 ### How is ESLint different from JSHint?
 
-The most significant difference is that ESlint has pluggable linting rules. That means you can use the rules it comes with, or you can extend it with rules created by others or by yourself!
+The most significant difference is that ESLint has pluggable linting rules. That means you can use the rules it comes with, or you can extend it with rules created by others or by yourself!
 
 ### How does ESLint performance compare to JSHint?
 

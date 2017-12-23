@@ -259,7 +259,7 @@ And in YAML:
     - eslint-plugin-plugin2
 ```
 
-**Note:** Due to the behaviour of Node's `require` function, a globally-installed instance of ESLint can only use globally-installed ESLint plugins, and locally-installed version can only use *locally-installed* plugins. Mixing local and global plugins is not supported.
+**Note:** Due to the behavior of Node's `require` function, a globally-installed instance of ESLint can only use globally-installed ESLint plugins, and locally-installed version can only use *locally-installed* plugins. Mixing local and global plugins is not supported.
 
 ## Configuring Rules
 
