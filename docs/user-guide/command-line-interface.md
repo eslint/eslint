@@ -38,15 +38,14 @@ Basic configuration:
   --parser String                Specify the parser to be used
   --parser-options Object        Specify parser options
 
-Caching:
-  --cache                        Only check changed files - default: false
-  --cache-file path::String      Path to the cache file. Deprecated: use --cache-location - default: .eslintcache
-  --cache-location path::String  Path to the cache file or directory
-
 Specifying rules and plugins:
   --rulesdir [path::String]      Use additional rules from this directory
   --plugin [String]              Specify plugins
   --rule Object                  Specify rules
+
+Fixing problems:
+  --fix                          Automatically fix problems
+  --fix-dry-run                  Automatically fix problems without saving the changes to the file system
 
 Ignoring files:
   --ignore-path path::String     Specify path of ignore file
@@ -66,15 +65,20 @@ Output:
   -f, --format String            Use a specific output format - default: stylish
   --color, --no-color            Force enabling/disabling of color
 
+Inline configuration comments:
+  --no-inline-config             Prevent comments from changing config or rules
+  --report-unused-disable-directives  Adds reported errors for unused eslint-disable directives
+
+Caching:
+  --cache                        Only check changed files - default: false
+  --cache-file path::String      Path to the cache file. Deprecated: use --cache-location - default: .eslintcache
+  --cache-location path::String  Path to the cache file or directory
+
 Miscellaneous:
   --init                         Run config initialization wizard - default: false
-  --fix                          Automatically fix problems
-  --fix-dry-run                  Automatically fix problems without saving the changes to the file system
   --debug                        Output debugging information
   -h, --help                     Show help
   -v, --version                  Output the version number
-  --no-inline-config             Prevent comments from changing config or rules
-  --report-unused-disable-directives  Adds reported errors for unused eslint-disable directives
   --print-config path::String    Print the configuration for the given file
 ```
 
