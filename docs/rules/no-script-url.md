@@ -18,4 +18,4 @@ location.href = "javascript:void(0)";
 
 ## Further Reading
 
-* [What is the matter with script-targeted URLs?](http://stackoverflow.com/questions/13497971/what-is-the-matter-with-script-targeted-urls)
+* [What is the matter with script-targeted URLs?](https://stackoverflow.com/questions/13497971/what-is-the-matter-with-script-targeted-urls)
