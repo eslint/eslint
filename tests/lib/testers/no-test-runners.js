@@ -14,18 +14,22 @@ const tmpDescribe = describe;
 it = null;
 describe = null;
 
-const ruleTester = new RuleTester();
+try {
+    const ruleTester = new RuleTester();
 
-assert.throws(() => {
-    ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
-        valid: [
-            "bar = baz;"
-        ],
-        invalid: [
-            { code: "var foo = bar;", output: "invalid output", errors: 1 }
-        ]
-    });
-}, /' foo = bar;' == 'invalid output'/);
-
-it = tmpIt;
-describe = tmpDescribe;
+    assert.throws(() => {
+        ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+            valid: [
+                "bar = baz;"
+            ],
+            invalid: [
+                { code: "var foo = bar;", output: "invalid output", errors: 1 }
+            ]
+        });
+    }, /' foo = bar;' == 'invalid output'/);
+} catch (e) {
+    throw e;
+} finally {
+    it = tmpIt;
+    describe = tmpDescribe;
+}
