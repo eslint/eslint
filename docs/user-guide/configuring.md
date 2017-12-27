@@ -31,7 +31,7 @@ Parser options are set in your `.eslintrc.*` file by using the `parserOptions` p
 * `ecmaFeatures` - an object indicating which additional language features you'd like to use:
     * `globalReturn` - allow `return` statements in the global scope
     * `impliedStrict` - enable global [strict mode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode) (if `ecmaVersion` is 5 or greater)
-    * `jsx` - enable [JSX](http://facebook.github.io/jsx/)
+    * `jsx` - enable [JSX](https://facebook.github.io/jsx/)
     * `experimentalObjectRestSpread` - enable support for the experimental [object rest/spread properties](https://github.com/tc39/proposal-object-rest-spread) (**IMPORTANT:** This is an experimental feature that may change significantly in the future. It's recommended that you do *not* write rules relying on this functionality unless you are willing to incur maintenance cost when it changes.)
 
 Here's an example `.eslintrc.json` file:
@@ -77,7 +77,7 @@ To indicate the npm module to use as your parser, specify it using the `parser` 
 The following parsers are compatible with ESLint:
 
 * [Esprima](https://www.npmjs.com/package/esprima)
-* [Babel-ESLint](https://www.npmjs.com/package/babel-eslint) - A wrapper around the [Babel](http://babeljs.io) parser that makes it compatible with ESLint.
+* [Babel-ESLint](https://www.npmjs.com/package/babel-eslint) - A wrapper around the [Babel](https://babeljs.io) parser that makes it compatible with ESLint.
 * [typescript-eslint-parser(Experimental)](https://www.npmjs.com/package/typescript-eslint-parser) - A parser that converts TypeScript into an ESTree-compatible form so it can be used in ESLint. The goal is to allow TypeScript files to be parsed by ESLint (though not necessarily pass all ESLint rules).
 
 Note when using a custom parser, the `parserOptions` configuration property is still required for ESLint to work properly with features not in ECMAScript 5 by default. Parsers are all passed `parserOptions` and may or may not use them to determine which features to enable.
@@ -805,7 +805,7 @@ Globs are matched using [node-ignore](https://github.com/kaelzhang/node-ignore),
 
 * Lines beginning with `#` are treated as comments and do not affect ignore patterns.
 * Paths are relative to `.eslintignore` location or the current working directory. This also influences paths passed via `--ignore-pattern`.
-* Ignore patterns behave according to the `.gitignore` [specification](http://git-scm.com/docs/gitignore)
+* Ignore patterns behave according to the `.gitignore` [specification](https://git-scm.com/docs/gitignore)
 * Lines preceded by `!` are negated patterns that re-include a pattern that was ignored by an earlier pattern.
 
 In addition to any patterns in a `.eslintignore` file, ESLint always ignores files in `/node_modules/*` and `/bower_components/*`.

@@ -40,5 +40,5 @@ var __iterator__ = foo; // Not using the `__iterator__` property.
 ## Further Reading
 
 * [MDN - Iterators and Generators](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators)
-* [ECMAScript 6 compatibility table - Iterators](http://kangax.github.io/es5-compat-table/es6/#Iterators)
+* [ECMAScript 6 compatibility table - Iterators](https://kangax.github.io/es5-compat-table/es6/#Iterators)
 * [Deprecated and Obsolete Features](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Deprecated_and_obsolete_features#Object_methods)

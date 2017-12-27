@@ -2,7 +2,7 @@
 
 Releases are when a project formally publishes a new version so the community can use it. There are two types of releases:
 
-* Regular releases that follow [semantic versioning](http://semver.org/) and are considered production-ready.
+* Regular releases that follow [semantic versioning](https://semver.org/) and are considered production-ready.
 * Prereleases that are not considered production-ready and are intended to give the community a preview of upcoming changes.
 
 ## Release Team
