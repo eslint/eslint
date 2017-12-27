@@ -156,7 +156,7 @@ Before filing an issue, please be sure to read the guidelines for what you're re
 
 ## Semantic Versioning Policy
 
-ESLint follows [semantic versioning](http://semver.org). However, due to the nature of ESLint as a code quality tool, it's not always clear when a minor or major version bump occurs. To help clarify this for everyone, we've defined the following semantic versioning policy for ESLint:
+ESLint follows [semantic versioning](https://semver.org). However, due to the nature of ESLint as a code quality tool, it's not always clear when a minor or major version bump occurs. To help clarify this for everyone, we've defined the following semantic versioning policy for ESLint:
 
 * Patch release (intended to not break your lint build)
     * A bug fix in a rule that results in ESLint reporting fewer errors.

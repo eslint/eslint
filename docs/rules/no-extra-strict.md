@@ -47,4 +47,4 @@ Examples of **correct** code for this rule:
 
 ## Further Reading
 
-* [The ECMAScript 5 Annotated Specification - Strict Mode](http://es5.github.io/#C)
+* [The ECMAScript 5 Annotated Specification - Strict Mode](https://es5.github.io/#C)
