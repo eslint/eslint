@@ -4,6 +4,34 @@ While ESLint is designed to be run on the command line, it's possible to use ESL
 
 **Note:** Use undocumented parts of the API at your own risk. Only those parts that are specifically mentioned in this document are approved for use and will remain stable and reliable. Anything left undocumented is unstable and may change or be removed at any point.
 
+## Table of Contents
+
+* [SourceCode](#sourcecode)
+    * [splitLines()](#sourcecodesplitlines)
+* [Linter](#linter)
+    * [verify()](#linterverify)
+    * [verifyAndFix()](#linterverifyandfix)
+    * [defineRule()](#linterdefinerule)
+    * [defineRules()](#linterdefinerules)
+    * [getRules()](#lintergetrules)
+    * [defineParser()](#linterdefineparser)
+    * [version](#linterversion)
+* [linter (deprecated)](#linter-1)
+* [CLIEngine](#cliengine)
+    * [executeOnFiles()](#cliengineexecuteonfiles)
+    * [resolveFileGlobPatterns()](#cliengineresolvefileglobpatterns)
+    * [getConfigForFile()](#clienginegetconfigforfile)
+    * [executeOnText()](#cliengineexecuteontext)
+    * [addPlugin()](#cliengineaddplugin)
+    * [isPathIgnored()](#cliengineispathignored)
+    * [getFormatter()](#clienginegetformatter)
+    * [getErrorResults()](#clienginegeterrorresults)
+    * [outputFixes()](#cliengineoutputfixes)
+    * [version](#cliengineversion)
+* [RuleTester](#ruletester)
+    * [Customizing RuleTester](#customizing-ruletester)
+* [Deprecated APIs](#deprecated-apis)
+
 ## SourceCode
 
 The `SourceCode` type represents the parsed source code that ESLint executes on. It's used internally in ESLint and is also available so that already-parsed code can be used. You can create a new instance of `SourceCode` by passing in the text string representing the code and an abstract syntax tree (AST) in [ESTree](https://github.com/estree/estree) format (including location information, range information, comments, and tokens):
@@ -28,7 +56,7 @@ assert(code.hasBOM === true);
 assert(code.text === "var foo = bar;");
 ```
 
-### splitLines()
+### SourceCode#splitLines()
 
 This is a static function on `SourceCode` that is used to split the source code text into an array of lines.
 
@@ -64,7 +92,7 @@ The most important method on `Linter` is `verify()`, which initiates linting of 
 
 * `code` - the source code to lint (a string or instance of `SourceCode`).
 * `config` - a configuration object that has been processed and normalized by CLIEngine using eslintrc files and/or other configuration arguments.
-    * **Note**: If you want to lint text and have your configuration be read and processed, use CLIEngine's [`executeOnFiles`](#executeonfiles) or [`executeOnText`](#executeontext) instead.
+    * **Note**: If you want to lint text and have your configuration be read and processed, use CLIEngine's [`executeOnFiles`](#cliengineexecuteonfiles) or [`executeOnText`](#cliengineexecuteontext) instead.
 * `options` - (optional) Additional options for this run.
     * `filename` - (optional) the filename to associate with the source code.
     * `preprocess` - (optional) A function that accepts a string containing source text, and returns an array of strings containing blocks of code to lint. Also see: [Processors in Plugins](/docs/developer-guide/working-with-plugins.md#processors-in-plugins)
@@ -244,7 +272,7 @@ Map {
 ### Linter#defineParser
 
 Each instance of `Linter` holds a map of custom parsers. If you want to define a parser programmatically you can add this function
-with the name of the parser as first argument and the [parser object](/docs/developer-guide/working-with-plugins#working-with-custom-parsers) as second argument.
+with the name of the parser as first argument and the [parser object](/docs/developer-guide/working-with-plugins.md#working-with-custom-parsers) as second argument.
 
 If during linting the parser is not found, it will fallback to `require(parserId)`.
 
@@ -274,7 +302,7 @@ linter.version; // => '4.5.0'
 
 ## linter
 
-The `eslint.linter` object (deprecated) is an instance of the `Linter` class as defined [above](#Linter). `eslint.linter` exists for backwards compatibility, but we do not recommend using it because any mutations to it are shared among every module that uses `eslint`. Instead, please create your own instance of `eslint.Linter`.
+The `eslint.linter` object (deprecated) is an instance of the `Linter` class as defined [above](#linter). `eslint.linter` exists for backwards compatibility, but we do not recommend using it because any mutations to it are shared among every module that uses `eslint`. Instead, please create your own instance of `eslint.Linter`.
 
 ```js
 var linter = require("eslint").linter;
@@ -309,7 +337,7 @@ The `CLIEngine` is a constructor, and you can create a new instance by passing i
 * `cwd` - Path to a directory that should be considered as the current working directory.
 * `envs` - An array of environments to load (default: empty array). Corresponds to `--env`.
 * `extensions` - An array of filename extensions that should be checked for code. The default is an array containing just `".js"`. Corresponds to `--ext`. It is only used in conjunction with directories, not with filenames or glob patterns.
-* `fix` - This can be a boolean or a function which will be provided each linting message and should return a boolean. True indicates that fixes should be included with the output report, and that errors and warnings should not be listed if they can be fixed. However, the files on disk will not be changed. To persist changes to disk, call [`outputFixes()`](#outputfixes).
+* `fix` - This can be a boolean or a function which will be provided each linting message and should return a boolean. True indicates that fixes should be included with the output report, and that errors and warnings should not be listed if they can be fixed. However, the files on disk will not be changed. To persist changes to disk, call [`outputFixes()`](#cliengineoutputfixes).
 * `globals` - An array of global variables to declare (default: empty array). Corresponds to `--global`.
 * `ignore` - False disables use of `.eslintignore`, `ignorePath` and `ignorePattern` (default: true). Corresponds to `--no-ignore`.
 * `ignorePath` - The ignore file to use instead of `.eslintignore` (default: null). Corresponds to `--ignore-path`.
@@ -340,7 +368,7 @@ var cli = new CLIEngine({
 
 In this code, a new `CLIEngine` instance is created that sets two environments, `"browser"` and `"mocha"`, disables loading of `.eslintrc` and `package.json` files, and enables the `semi` rule as an error. You can then call methods on `cli` and these options will be used to perform the correct action.
 
-### executeOnFiles()
+### CLIEngine#executeOnFiles()
 
 If you want to lint one or more files, use the `executeOnFiles()` method. This method accepts a single argument, which is an array of files and/or directories to traverse for files. You can pass the same values as you would using the ESLint command line interface, such as `"."` to search all JavaScript files in the current directory. Here's an example:
 
@@ -489,9 +517,9 @@ The top-level report object also has `errorCount` and `warningCount` which give 
 
 Report message objects have a deprecated `source` property. This property **will be removed** from the linting messages returned in `messages` in an upcoming breaking release. If you depend on this property, you should now use the top-level `source` or `output` properties instead.
 
-Once you get a report object, it's up to you to determine how to output the results. Fixes will not be automatically applied to the files, even if you set `fix: true` when constructing the `CLIEngine` instance. To apply fixes to the files, call [`outputFixes`](#outputfixes).
+Once you get a report object, it's up to you to determine how to output the results. Fixes will not be automatically applied to the files, even if you set `fix: true` when constructing the `CLIEngine` instance. To apply fixes to the files, call [`outputFixes`](#cliengineoutputfixes).
 
-### resolveFileGlobPatterns()
+### CLIEngine#resolveFileGlobPatterns()
 
 You can pass filesystem-style or glob patterns to ESLint and have it function properly. In order to achieve this, ESLint must resolve non-glob patterns into glob patterns before determining which files to execute on. The `resolveFileGlobPatterns()` methods uses the current settings from `CLIEngine` to resolve non-glob patterns into glob patterns. Pass an array of patterns that might be passed to the ESLint CLI and it will return an array of glob patterns that mean the same thing. Here's an example:
 
@@ -506,7 +534,7 @@ var globPatterns = cli.resolveFileGlobPatterns(["."]);
 console.log(globPatterns[i]);       // ["**/*.js"]
 ```
 
-### getConfigForFile()
+### CLIEngine#getConfigForFile()
 
 If you want to retrieve a configuration object for a given file, use the `getConfigForFile()` method. This method accepts one argument, a file path, and returns an object represented the calculated configuration of the file. Here's an example:
 
@@ -543,7 +571,7 @@ var config = cli.getConfigForFile("myfile.js");
 var messages = linter.verify('var foo;', config);
 ```
 
-### executeOnText()
+### CLIEngine#executeOnText()
 
 If you already have some text to lint, then you can use the `executeOnText()` method to lint that text. The linter will assume that the text is a file in the current working directory, and so will still obey any `.eslintrc` and `.eslintignore` files that may be present. Here's an example:
 
@@ -567,7 +595,7 @@ The `report` returned from `executeOnText()` is in the same format as from `exec
 
 If a filename in the optional second parameter matches a file that is configured to be ignored, then this function returns no errors or warnings. To return a warning instead, call the method with true as the optional third parameter.
 
-### addPlugin()
+### CLIEngine#addPlugin()
 
 Loads a plugin from configuration object with specified name. Name can include plugin prefix ("eslint-plugin-")
 
@@ -590,7 +618,7 @@ cli.addPlugin("eslint-plugin-processor", {
 });
 ```
 
-### isPathIgnored()
+### CLIEngine#isPathIgnored()
 
 Checks if a given path is ignored by ESLint.
 
@@ -605,7 +633,7 @@ var cli = new CLIEngine({
 var isIgnored = cli.isPathIgnored("foo/bar.js");
 ```
 
-### getFormatter()
+### CLIEngine#getFormatter()
 
 Retrieves a formatter, which you can then use to format a report object. The argument is either the name of a built-in formatter:
 
@@ -657,7 +685,7 @@ var formatter = CLIEngine.getFormatter();
 
 **Important:** You must pass in the `results` property of the report. Passing in `report` directly will result in an error.
 
-### getErrorResults()
+### CLIEngine#getErrorResults()
 
 This is a static function on `CLIEngine`. It can be used to filter out all the non error messages from the report object.
 
@@ -681,7 +709,7 @@ var errorReport = CLIEngine.getErrorResults(report.results)
 
 **Important:** You must pass in the `results` property of the report. Passing in `report` directly will result in an error.
 
-### outputFixes()
+### CLIEngine#outputFixes()
 
 This is a static function on `CLIEngine` that is used to output fixes from `report` to disk. It does by looking for files that have an `output` property in their results. Here's an example:
 
