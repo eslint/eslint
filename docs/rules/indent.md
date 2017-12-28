@@ -85,6 +85,7 @@ This rule has an object option:
 * `"ImportDeclaration"` (default: 1) enforces indentation level for import statements. It can be set to the string `"first"`, indicating that all imported members from a module should be aligned with the first member in the list. This can also be set to `"off"` to disable checking for imported module members.
 * `"flatTernaryExpressions": true` (`false` by default) requires no indentation for ternary expressions which are nested in other ternary expressions.
 * `ignoredNodes` accepts an array of [selectors](/docs/developer-guide/selectors.md). If an AST node is matched by any of the selectors, the indentation of tokens which are direct children of that node will be ignored. This can be used as an escape hatch to relax the rule if you disagree with the indentation that it enforces for a particular syntactic pattern.
+* `"banner": true` (`false` by default) allows for [Ratlif](https://en.wikipedia.org/wiki/Indentation_style#Ratliff_style)) closing brackets. This style is also known as banner style and code layout looks like Python. In this style, closing brackets (parentheses, curly braces and square brackets) align with the elements that they embed rather than with the opening token.
 
 Level of indentation denotes the multiple of the indent specified. Example:
 
@@ -639,6 +640,21 @@ foo();
 bar();
 
 })
+```
+
+### banner
+
+Examples of **correct** code for this rule with the `4, { "banner": true, "FunctionDeclaration": {"body": 1, "parameters": 2} }` option:
+
+```js
+class A {
+    constructor (
+            val
+            ) {
+        this.i = val;
+        }
+    get val () { return this.val++; }
+    }
 ```
 
 ## Compatibility

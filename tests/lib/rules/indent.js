@@ -84,11 +84,30 @@ ruleTester.run("indent", rule, {
         {
             code: unIndent`
                 bridge.callHandler(
+                    'getAppVersion', 'test23', function(responseData) {
+                        window.ah.mobileAppVersion = responseData;
+                        }
+                    );
+            `,
+            options: [4, { banner: true }]
+        },
+        {
+            code: unIndent`
+                bridge.callHandler(
                   'getAppVersion', 'test23', function(responseData) {
                     window.ah.mobileAppVersion = responseData;
                   });
             `,
             options: [2]
+        },
+        {
+            code: unIndent`
+                bridge.callHandler(
+                    'getAppVersion', 'test23', function(responseData) {
+                        window.ah.mobileAppVersion = responseData;
+                        });
+            `,
+            options: [4, { banner: true }]
         },
         {
             code: unIndent`
@@ -101,6 +120,18 @@ ruleTester.run("indent", rule, {
                 );
             `,
             options: [2]
+        },
+        {
+            code: unIndent`
+                bridge.callHandler(
+                    'getAppVersion',
+                    null,
+                    function responseCallback(responseData) {
+                        window.ah.mobileAppVersion = responseData;
+                        }
+                    );
+            `,
+            options: [4, { banner: true }]
         },
         {
             code: unIndent`
@@ -128,6 +159,19 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                function doStuff(keys) {
+                    _.forEach(
+                        keys,
+                        key => {
+                            doSomething(key);
+                            }
+                        );
+                    }
+            `,
+            options: [4, { banner: true }]
+        },
+        {
+            code: unIndent`
                 example(
                     function () {
                         console.log('example');
@@ -150,6 +194,18 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                let foo = somethingList
+                    .filter(x => {
+                        return x;
+                        })
+                    .map(x => {
+                        return 100 * x;
+                        });
+            `,
+            options: [4, { banner: true }]
+        },
+        {
+            code: unIndent`
                 var x = 0 &&
                     {
                         a: 1,
@@ -161,12 +217,32 @@ ruleTester.run("indent", rule, {
         {
             code: unIndent`
                 var x = 0 &&
+                    {
+                        a: 1,
+                        b: 2
+                        };
+            `,
+            options: [4, { banner: true }]
+        },
+        {
+            code: unIndent`
+                var x = 0 &&
                 \t{
                 \t\ta: 1,
                 \t\tb: 2
                 \t};
             `,
             options: ["tab"]
+        },
+        {
+            code: unIndent`
+                var x = 0 &&
+                \t{
+                \t\ta: 1,
+                \t\tb: 2
+                \t\t};
+            `,
+            options: ["tab", { banner: true }]
         },
         {
             code: unIndent`
@@ -184,6 +260,20 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                var x = 0 &&
+                    {
+                        a: 1,
+                        b: 2
+                        } ||
+                    {
+                        c: 3,
+                        d: 4
+                        };
+            `,
+            options: [4, { banner: true }]
+        },
+        {
+            code: unIndent`
                 var x = [
                     'a',
                     'b',
@@ -191,6 +281,16 @@ ruleTester.run("indent", rule, {
                 ];
             `,
             options: [4]
+        },
+        {
+            code: unIndent`
+                var x = [
+                    'a',
+                    'b',
+                    'c'
+                    ];
+            `,
+            options: [4, { banner: true }]
         },
         {
             code: unIndent`
@@ -202,12 +302,22 @@ ruleTester.run("indent", rule, {
             options: [4]
         },
         {
+            code: unIndent`
+                var x = ['a',
+                    'b',
+                    'c',
+                    ];
+            `,
+            options: [4, { banner: true }]
+        },
+
+        {
             code: "var x = 0 && 1;",
             options: [4]
         },
         {
             code: "var x = 0 && { a: 1, b: 2 };",
-            options: [4]
+            options: [4, { banner: true }]
         },
         {
             code: unIndent`
@@ -217,6 +327,15 @@ ruleTester.run("indent", rule, {
                     );
             `,
             options: [4]
+        },
+        {
+            code: unIndent`
+                var x = 0 &&
+                    (
+                        1
+                        );
+            `,
+            options: [4, { banner: true }]
         },
         {
             code: unIndent`
@@ -243,6 +362,23 @@ ruleTester.run("indent", rule, {
                 }
             `,
             options: [2]
+        },
+        {
+            code: unIndent`
+                function test() {
+                  return client.signUp(email, PASSWORD, { preVerified: true })
+                    .then(function (result) {
+                      // hi
+                      })
+                    .then(function () {
+                      return FunctionalHelpers.clearBrowserState(self, {
+                        contentServer: true,
+                        contentServer1: true
+                        });
+                      });
+                  }
+            `,
+            options: [2, { banner: true }]
         },
         {
             code: unIndent`
@@ -500,6 +636,19 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                var abc = [
+                  c,
+                  xyz,
+                  {
+                    a: 1,
+                    b: 2
+                    }
+                  ];
+            `,
+            options: [2, { VariableDeclarator: 1, SwitchCase: 1, banner: true }]
+        },
+        {
+            code: unIndent`
                 var abc = 5,
                     c = 2,
                     xyz =
@@ -634,10 +783,10 @@ ruleTester.run("indent", rule, {
                 var a = new abc({
                         a: 1,
                         b: 2
-                    }),
+                        }),
                     b = 2;
             `,
-            options: [4, { VariableDeclarator: 1, SwitchCase: 1 }]
+            options: [4, { VariableDeclarator: 1, SwitchCase: 1, banner: true }]
         },
         {
             code: unIndent`
@@ -753,6 +902,18 @@ ruleTester.run("indent", rule, {
                 }
             `,
             options: [2, { VariableDeclarator: 2, SwitchCase: 1 }]
+        },
+        {
+            code: unIndent`
+                function test(){
+                  switch(length){
+                    case 1: return function(a){
+                      return fn.call(that, a);
+                      };
+                    }
+                  }
+            `,
+            options: [2, { VariableDeclarator: 2, SwitchCase: 1, banner: true }]
         },
         {
             code: unIndent`
@@ -918,6 +1079,26 @@ ruleTester.run("indent", rule, {
             `,
             options: [4, { SwitchCase: 2 }]
         },
+        {
+            code: unIndent`
+                switch (x) {
+                    case "foo":
+                        a();
+                        break;
+                    case "bar":
+                        switch (y) {
+                            case "1":
+                                break;
+                            case "2":
+                                a = 6;
+                                break;
+                            }
+                    case "test":
+                        break;
+                    }
+            `,
+            options: [4, { SwitchCase: 1, banner: true }]
+        },
         unIndent`
             switch (a) {
             case "foo":
@@ -1010,6 +1191,29 @@ ruleTester.run("indent", rule, {
             `,
             options: [4, { SwitchCase: 1 }]
         },
+        {
+            code: unIndent`
+                switch(value){
+                    case "1":
+                    case "2":
+                        a();
+                        break;
+                    default:
+                        a();
+                        break;
+                    }
+                switch(value){
+                    case "1":
+                        a();
+                        break;
+                    case "2":
+                        break;
+                    default:
+                        break;
+                    }
+            `,
+            options: [4, { SwitchCase: 1, banner: true }]
+        },
         unIndent`
             var obj = {foo: 1, bar: 2};
             with (obj) {
@@ -1083,6 +1287,17 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                function salutation () {
+                  switch (1) {
+                    case 0: return console.log('hi')
+                    case 1: return console.log('hey')
+                    }
+                  }
+            `,
+            options: [2, { SwitchCase: 1, banner: true }]
+        },
+        {
+            code: unIndent`
                 var items = [
                   {
                     foo: 'bar'
@@ -1107,6 +1322,24 @@ ruleTester.run("indent", rule, {
                 );
             `,
             options: [2, { VariableDeclarator: 3 }]
+
+        },
+        {
+            code: unIndent`
+                const a = 1,
+                      b = 2;
+                const items1 = [
+                  {
+                    foo: 'bar'
+                    }
+                  ];
+                const items2 = Items(
+                  {
+                    foo: 'bar'
+                    }
+                  );
+            `,
+            options: [2, { VariableDeclarator: 3, banner: true }]
 
         },
         {
@@ -1222,6 +1455,31 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                export function create (id, xfilter, rawType,
+                                        width=defaultWidth, height=defaultHeight,
+                                        footerHeight=defaultFooterHeight,
+                                        padding=defaultPadding) {
+                  // ... function body, indented two spaces
+                  }
+            `,
+            options: [2, { FunctionDeclaration: { parameters: "first" }, banner: true }],
+            parserOptions: { sourceType: "module" }
+        },
+        {
+            code: unIndent`
+                export function create (id, xfilter, rawType,
+                                        width=defaultWidth, height=defaultHeight,
+                                        footerHeight=defaultFooterHeight,
+                                        padding=defaultPadding
+                                        ) {
+                  // ... function body, indented two spaces
+                  }
+            `,
+            options: [2, { FunctionDeclaration: { parameters: "first" }, banner: true }],
+            parserOptions: { sourceType: "module" }
+        },
+        {
+            code: unIndent`
                 var obj = {
                   foo: function () {
                     return new p()
@@ -1234,6 +1492,21 @@ ruleTester.run("indent", rule, {
                 };
             `,
             options: [2]
+        },
+        {
+            code: unIndent`
+                var obj = {
+                  foo: function () {
+                    return new p()
+                      .then(function (ok) {
+                        return ok;
+                        }, function () {
+                        // ignore things
+                        });
+                    }
+                  };
+            `,
+            options: [2, { banner: true }]
         },
         {
             code: unIndent`
@@ -1577,12 +1850,32 @@ ruleTester.run("indent", rule, {
         {
             code: unIndent`
                 (function(){
+                function foo(x) {
+                  return x + 1;
+                  }
+                })();
+            `,
+            options: [2, { outerIIFEBody: 0, banner: true }]
+        },
+        {
+            code: unIndent`
+                (function(){
                         function foo(x) {
                             return x + 1;
                         }
                 })();
             `,
             options: [4, { outerIIFEBody: 2 }]
+        },
+        {
+            code: unIndent`
+                (function(){
+                        function foo(x) {
+                            return x + 1;
+                            }
+                        })();
+            `,
+            options: [4, { outerIIFEBody: 2, banner: true }]
         },
         {
             code: unIndent`
@@ -1673,6 +1966,16 @@ ruleTester.run("indent", rule, {
                 }(x));
             `,
             options: [4, { outerIIFEBody: 2 }]
+        },
+        {
+            code: unIndent`
+                var ns = (function(){
+                        function fooVar(x) {
+                            return x + 1;
+                            }
+                        }(x));
+            `,
+            options: [4, { outerIIFEBody: 2, banner: true }]
         },
         {
             code: unIndent`
@@ -1926,6 +2229,17 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                function foo(
+                  aaa,
+                  bbb
+                  ) {
+                    bar();
+                    }
+            `,
+            options: [2, { FunctionDeclaration: { parameters: "first", body: 2 }, banner: true }]
+        },
+        {
+            code: unIndent`
                 var foo = function(aaa,
                     bbb,
                     ccc,
@@ -1957,6 +2271,17 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                var foo = function(aaa,
+                                   bbb, ccc, ddd,
+                                   eee, fff
+                                   ) {
+                    bar();
+                    }
+            `,
+            options: [4, { FunctionExpression: { parameters: "first", body: 1 }, banner: true }]
+        },
+        {
+            code: unIndent`
                 var foo = function(
                   aaa, bbb, ccc,
                   ddd, eee) {
@@ -1974,6 +2299,16 @@ ruleTester.run("indent", rule, {
                 );
             `,
             options: [2, { FunctionExpression: { body: 3 }, CallExpression: { arguments: 3 } }]
+        },
+        {
+            code: unIndent`
+                foo.bar(
+                      baz, qux, function() {
+                            qux;
+                            }
+                      );
+            `,
+            options: [2, { FunctionExpression: { body: 3 }, CallExpression: { arguments: 3 }, banner: true }]
         },
         {
             code: unIndent`
@@ -2461,6 +2796,16 @@ ruleTester.run("indent", rule, {
             `,
             options: [2, { CallExpression: { arguments: 4 } }]
         },
+        {
+            code: unIndent`
+                foo(bar,
+                        1 + 2,
+                        !baz,
+                        new Car('!')
+                        );
+            `,
+            options: [2, { CallExpression: { arguments: 4 }, banner: true }]
+        },
         unIndent`
             foo(
                 (bar)
@@ -2562,6 +2907,18 @@ ruleTester.run("indent", rule, {
                 ]
             `,
             options: [4, { ArrayExpression: 2, ObjectExpression: "first" }]
+        },
+        {
+            code: unIndent`
+                var foo = [
+                        { bar: 1,
+                          baz: 2
+                          },
+                        { bar: 3,
+                          baz: 4 }
+                        ]
+            `,
+            options: [4, { ArrayExpression: 2, ObjectExpression: "first", banner: true }]
         },
         {
             code: unIndent`
@@ -4869,6 +5226,24 @@ ruleTester.run("indent", rule, {
             errors: expectedErrors([[3, 4, 6, "Identifier"], [4, 4, 1, "Identifier"]])
         },
         {
+            code: unIndent`
+                if (a){
+                    b=c;
+                      c=d;
+                 e=f;
+                }
+            `,
+            output: unIndent`
+                if (a){
+                    b=c;
+                    c=d;
+                    e=f;
+                    }
+            `,
+            options: [4, { banner: true }],
+            errors: expectedErrors([[3, 4, 6, "Identifier"], [4, 4, 1, "Identifier"], [5, 4, 0, "Punctuator"]])
+        },
+        {
             code: fixture,
             output: fixedFixture,
             options: [2, { SwitchCase: 1, MemberExpression: 1, CallExpression: { arguments: "off" } }],
@@ -5011,6 +5386,45 @@ ruleTester.run("indent", rule, {
             `,
             options: [4, { SwitchCase: 1 }],
             errors: expectedErrors([[4, 8, 4, "Keyword"], [7, 8, 4, "Keyword"]])
+        },
+        {
+            code: unIndent`
+                switch(value){
+                    case "1":
+                        a();
+                    break;
+                    case "2": {
+                        a();
+                        b();
+                    }
+                    break;
+                    default:
+                        a();
+                        break;
+                }
+            `,
+            output: unIndent`
+                switch(value){
+                    case "1":
+                        a();
+                        break;
+                    case "2": {
+                        a();
+                        b();
+                        }
+                        break;
+                    default:
+                        a();
+                        break;
+                    }
+            `,
+            options: [4, { SwitchCase: 1, banner: true }],
+            errors: expectedErrors([
+                [4, 8, 4, "Keyword"],
+                [8, 8, 4, "Punctuator"],
+                [9, 8, 4, "Keyword"],
+                [13, 4, 0, "Punctuator"]
+            ])
         },
         {
             code: unIndent`
@@ -5315,6 +5729,42 @@ ruleTester.run("indent", rule, {
                 [6, 0, 4, "Punctuator"],
                 [7, 0, 4, "Punctuator"],
                 [8, 4, 8, "Identifier"]
+            ])
+        },
+        {
+            code: unIndent`
+                lmn = [
+                    {
+                        a: 1
+                    },
+                    {
+                    b: 2
+                    },
+                    {
+                        x: 2
+                    }
+                ];
+            `,
+            output: unIndent`
+                lmn = [
+                    {
+                        a: 1
+                        },
+                    {
+                        b: 2
+                        },
+                    {
+                        x: 2
+                        }
+                    ];
+            `,
+            options: [4, { banner: true }],
+            errors: expectedErrors([
+                [4, 8, 4, "Punctuator"],
+                [6, 8, 4, "Identifier"],
+                [7, 8, 4, "Punctuator"],
+                [10, 8, 4, "Punctuator"],
+                [11, 4, 0, "Punctuator"]
             ])
         },
         {
@@ -6443,6 +6893,34 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                if (foo) bar();
+                else if (baz) {
+                    foobar();
+                     }
+                     else if (boop) {
+                       qux();
+                     }
+            `,
+            output: unIndent`
+                if (foo) bar();
+                else if (baz) {
+                  foobar();
+                  }
+                else if (boop) {
+                  qux();
+                  }
+            `,
+            options: [2, { banner: true }],
+            errors: expectedErrors([
+                [3, 2, 4, "Identifier"],
+                [4, 2, 5, "Punctuator"],
+                [5, 0, 5, "Keyword"],
+                [6, 2, 7, "Identifier"],
+                [7, 2, 5, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
                 function foo(aaa,
                     bbb, ccc, ddd) {
                       bar();
@@ -6506,7 +6984,7 @@ ruleTester.run("indent", rule, {
                   bar();
                 }
             `,
-            options: [2, { FunctionDeclaration: { parameters: "first", body: 1 } }],
+            options: [2, { FunctionDeclaration: { parameters: "first", body: 1 }, banner: false }],
             errors: expectedErrors([[2, 13, 2, "Identifier"], [3, 13, 19, "Identifier"], [4, 2, 3, "Identifier"]])
         },
         {
@@ -6739,6 +7217,24 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                foo.bar(
+                      baz, qux, function() {
+                        qux;
+                      }
+                );
+            `,
+            output: unIndent`
+                foo.bar(
+                      baz, qux, function() {
+                          qux;
+                          }
+                      );
+            `,
+            options: [2, { FunctionExpression: { body: 2 }, CallExpression: { arguments: 3 }, banner: true }],
+            errors: expectedErrors([[3, 10, 8, "Identifier"], [4, 10, 6, "Punctuator"], [5, 6, 0, "Punctuator"]])
+        },
+        {
+            code: unIndent`
                 {
                     try {
                     }
@@ -6766,6 +7262,35 @@ ruleTester.run("indent", rule, {
         {
             code: unIndent`
                 {
+                    try {
+                    }
+                    catch (err) {
+                    }
+                    finally {
+                    }
+                }
+            `,
+            output: unIndent`
+                {
+                    try {
+                        }
+                    catch (err) {
+                        }
+                    finally {
+                        }
+                    }
+            `,
+            options: [4, { banner: true }],
+            errors: expectedErrors([
+                [3, 8, 4, "Punctuator"],
+                [5, 8, 4, "Punctuator"],
+                [7, 8, 4, "Punctuator"],
+                [8, 4, 0, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                {
                     do {
                     }
                 while (true)
@@ -6779,6 +7304,31 @@ ruleTester.run("indent", rule, {
                 }
             `,
             errors: expectedErrors([4, 4, 0, "Keyword"])
+        },
+        {
+            code: unIndent`
+                {
+                    do {
+                    work();
+                    }
+                while (true);
+                }
+            `,
+            output: unIndent`
+                {
+                    do {
+                        work();
+                        }
+                    while (true);
+                    }
+            `,
+            options: [4, { banner: true }],
+            errors: expectedErrors([
+                [3, 8, 4, "Identifier"],
+                [4, 8, 4, "Punctuator"],
+                [5, 4, 0, "Keyword"],
+                [6, 4, 0, "Punctuator"]
+            ])
         },
         {
             code: unIndent`
@@ -7129,6 +7679,20 @@ ruleTester.run("indent", rule, {
             errors: expectedErrors([2, 4, 8, "Line"])
         },
         {
+            code: unIndent`
+                [
+                        // no elements
+                ]
+            `,
+            output: unIndent`
+                [
+                    // no elements
+                    ]
+            `,
+            options: [4, { banner: true }],
+            errors: expectedErrors([[2, 4, 8, "Line"], [3, 4, 0, "Punctuator"]])
+        },
+        {
 
             /*
              * Destructuring assignments:
@@ -7170,6 +7734,40 @@ ruleTester.run("indent", rule, {
             `,
             options: [2],
             errors: expectedErrors([[4, 2, 4, "Identifier"], [5, 0, 2, "Punctuator"]])
+        },
+        {
+            code: unIndent`
+                const {
+                  a
+                } = {
+                    a: 1
+                  }
+            `,
+            output: unIndent`
+                const {
+                  a
+                  } = {
+                    a: 1
+                    }
+            `,
+            options: [2, { banner: true }],
+            errors: expectedErrors([[3, 2, 0, "Punctuator"], [5, 4, 2, "Punctuator"]])
+        },
+        {
+            code: unIndent`
+                const { a, b } = {
+                    a: 1,
+                    b: 2
+                  }
+            `,
+            output: unIndent`
+                const { a, b } = {
+                  a: 1,
+                  b: 2
+                  }
+            `,
+            options: [2, { banner: true }],
+            errors: expectedErrors([[2, 2, 4, "Identifier"], [3, 2, 4, "Identifier"]])
         },
         {
             code: unIndent`
@@ -7282,6 +7880,36 @@ ruleTester.run("indent", rule, {
             `,
             options: [4, { ArrayExpression: 2, ObjectExpression: "first" }],
             errors: expectedErrors([[3, 10, 12, "Identifier"], [5, 10, 12, "Identifier"]])
+        },
+        {
+            code: unIndent`
+                var foo = [
+                        { bar: 1,
+                            baz: 2
+                        },
+                        { bar: 3,
+                            qux: 4
+                        }
+                ]
+            `,
+            output: unIndent`
+                var foo = [
+                        { bar: 1,
+                          baz: 2
+                          },
+                        { bar: 3,
+                          qux: 4
+                          }
+                        ]
+            `,
+            options: [4, { ArrayExpression: 2, ObjectExpression: "first", banner: true }],
+            errors: expectedErrors([
+                [3, 10, 12, "Identifier"],
+                [4, 10, 8, "Punctuator"],
+                [6, 10, 12, "Identifier"],
+                [7, 10, 8, "Punctuator"],
+                [8, 8, 0, "Punctuator"]
+            ])
         },
         {
             code: unIndent`
@@ -7581,6 +8209,29 @@ ruleTester.run("indent", rule, {
             `,
             options: [2],
             errors: expectedErrors([[2, 2, 4, "Template"], [3, 4, 2, "Identifier"], [4, 2, 4, "Template"], [5, 0, 2, "Template"]])
+        },
+        {
+            code: unIndent`
+                \`foo\${
+                    \`bar\${
+                  baz
+                      }\`
+                }\`
+            `,
+            output: unIndent`
+                \`foo\${
+                  \`bar\${
+                    baz
+                    }\`
+                  }\`
+            `,
+            options: [2, { banner: true }],
+            errors: expectedErrors([
+                [2, 2, 4, "Template"],
+                [3, 4, 2, "Identifier"],
+                [4, 4, 6, "Template"],
+                [5, 2, 0, "Template"]
+            ])
         },
         {
             code: unIndent`
