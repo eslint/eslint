@@ -27,6 +27,7 @@ While ESLint is designed to be run on the command line, it's possible to use ESL
     * [getFormatter()](#clienginegetformatter)
     * [getErrorResults()](#clienginegeterrorresults)
     * [outputFixes()](#cliengineoutputfixes)
+    * [getRules()](#clienginegetrules)
     * [version](#cliengineversion)
 * [RuleTester](#ruletester)
     * [Customizing RuleTester](#customizing-ruletester)
@@ -731,6 +732,26 @@ var report = cli.executeOnFiles(["myfile.js", "lib/"]);
 // output fixes to disk
 CLIEngine.outputFixes(report);
 ```
+
+### CLIEngine#getRules()
+
+This method returns a map of all loaded rules. Under the hood, it calls [Linter#getRules](#lintergetrules).
+
+```js
+const CLIEngine = require("eslint").CLIEngine;
+const cli = new CLIEngine();
+
+cli.getRules();
+
+/*
+Map {
+  'accessor-pairs' => { meta: { docs: [Object], schema: [Array] }, create: [Function: create] },
+  'array-bracket-newline' => { meta: { docs: [Object], schema: [Array] }, create: [Function: create] },
+  ...
+}
+*/
+```
+
 
 ### CLIEngine.version
 
