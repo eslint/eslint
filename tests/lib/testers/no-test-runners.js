@@ -26,7 +26,7 @@ try {
                 { code: "var foo = bar;", output: "invalid output", errors: 1 }
             ]
         });
-    }, /Output is incorrect\. ' foo = bar;' == 'invalid output'$/);
+    }, /Output is incorrect\. \(' foo = bar;' == 'invalid output'\)$/);
 } catch (e) {
     throw e;
 } finally {
