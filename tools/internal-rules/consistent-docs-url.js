@@ -1,15 +1,11 @@
 /**
- * @fileoverview Internal rule to enforce meta.docs.description conventions.
- * @author Vitor Balocco
+ * @fileoverview Internal rule to enforce meta.docs.url conventions.
+ * @author Patrick McElhaney
  */
 
 "use strict";
 
-const ALLOWED_FIRST_WORDS = [
-    "enforce",
-    "require",
-    "disallow"
-];
+const path = require("path");
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -35,13 +31,13 @@ function getPropertyFromObject(property, node) {
 }
 
 /**
- * Verifies that the meta.docs.description property follows our internal conventions.
+ * Verifies that the meta.docs.url property is present and has the correct value.
  *
  * @param {RuleContext} context The ESLint rule context.
  * @param {ASTNode} exportsNode ObjectExpression node that the rule exports.
  * @returns {void}
  */
-function checkMetaDocsDescription(context, exportsNode) {
+function checkMetaDocsUrl(context, exportsNode) {
     if (exportsNode.type !== "ObjectExpression") {
 
         // if the exported node is not the correct format, "internal-no-invalid-meta" will already report this.
@@ -50,52 +46,27 @@ function checkMetaDocsDescription(context, exportsNode) {
 
     const metaProperty = getPropertyFromObject("meta", exportsNode);
     const metaDocs = metaProperty && getPropertyFromObject("docs", metaProperty.value);
-    const metaDocsDescription = metaDocs && getPropertyFromObject("description", metaDocs.value);
+    const metaDocsUrl = metaDocs && getPropertyFromObject("url", metaDocs.value);
 
-    if (!metaDocsDescription) {
-
-        // if there is no `meta.docs.description` property, "internal-no-invalid-meta" will already report this.
-        return;
-    }
-
-    const description = metaDocsDescription.value.value;
-
-    if (typeof description !== "string") {
+    if (!metaDocsUrl) {
         context.report({
-            node: metaDocsDescription.value,
-            message: "`meta.docs.description` should be a string."
+            node: metaDocs,
+            message: "Rule is missing a meta.docs.url property"
         });
         return;
     }
 
-    if (description === "") {
-        context.report({
-            node: metaDocsDescription.value,
-            message: "`meta.docs.description` should not be empty."
-        });
-        return;
-    }
+    const ruleId = path.basename(context.getFilename().replace(/.js$/, ""));
+    const expected = `https://eslint.org/docs/rules/${ruleId}`;
+    const url = metaDocsUrl.value.value;
 
-    if (description.indexOf(" ") === 0) {
+    if (url !== expected) {
         context.report({
-            node: metaDocsDescription.value,
-            message: "`meta.docs.description` should not start with whitespace."
-        });
-        return;
-    }
-
-    const firstWord = description.split(" ")[0];
-
-    if (ALLOWED_FIRST_WORDS.indexOf(firstWord) === -1) {
-        context.report({
-            node: metaDocsDescription.value,
-            message: "`meta.docs.description` should start with one of the following words: {{ allowedWords }}. Started with \"{{ firstWord }}\" instead.",
-            data: {
-                allowedWords: ALLOWED_FIRST_WORDS.join(", "),
-                firstWord
-            }
+            node: metaDocsUrl.value,
+            message: `Incorrect url. Expected "${expected}" but got "${url}"`
         });
     }
+
 }
 
 //------------------------------------------------------------------------------
@@ -105,7 +76,7 @@ function checkMetaDocsDescription(context, exportsNode) {
 module.exports = {
     meta: {
         docs: {// eslint-disable-line rulesdir/consistent-docs-url
-            description: "enforce correct conventions of `meta.docs.description` property in core rules",
+            description: "enforce correct conventions of `meta.docs.url` property in core rules",
             category: "Internal",
             recommended: false
         },
@@ -122,7 +93,7 @@ module.exports = {
                     node.left.object.name === "module" &&
                     node.left.property.name === "exports") {
 
-                    checkMetaDocsDescription(context, node.right);
+                    checkMetaDocsUrl(context, node.right);
                 }
             }
         };
