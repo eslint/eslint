@@ -675,6 +675,18 @@ ruleTester.run("no-unused-vars", rule, {
                 "'a' is defined but never used.",
                 "'c' is defined but never used."
             ]
+        },
+
+        // https://github.com/eslint/eslint/issues/9774
+        {
+            code: "(function(_a) {})();",
+            options: [{ args: "all", varsIgnorePattern: "^_" }],
+            errors: [{ message: "'_a' is defined but never used." }]
+        },
+        {
+            code: "(function(_a) {})();",
+            options: [{ args: "all", caughtErrorsIgnorePattern: "^_" }],
+            errors: [{ message: "'_a' is defined but never used." }]
         }
     ]
 });
