@@ -145,7 +145,9 @@ ruleTester.run("no-extra-parens", rule, {
         "do; while(a);",
         "for(;;);",
         "for(a in b);",
+        "for(a in b, c);",
         "for(a of b);",
+        "for (a of (b, c));",
         "var a = (b, c);",
         "[]",
         "[a, b]",
@@ -1035,6 +1037,7 @@ ruleTester.run("no-extra-parens", rule, {
             "for (let.foo.bar in baz);",
             "Identifier",
             1
-        )
+        ),
+        invalid("for (a in (b, c));", "for (a in b, c);", "SequenceExpression", null)
     ]
 });
