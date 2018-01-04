@@ -186,13 +186,12 @@ import * as b from 'bar.js';
 
 Examples of **correct** code for this rule with the `{ "memberSyntaxSortOrder": ['all', 'single', 'multiple', 'none'] }` option:
 
-```
+```js
 /*eslint sort-imports: ["error", { "memberSyntaxSortOrder": ['all', 'single', 'multiple', 'none'] }]*/
 
 import * as foo from 'foo.js';
 import z from 'zoo.js';
 import {a, b} from 'foo.js';
-
 ```
 
 Default is `["none", "all", "multiple", "single"]`.
