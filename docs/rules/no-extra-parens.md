@@ -36,6 +36,12 @@ a = (b * c);
 
 (a * b) + c;
 
+for (a in (b, c));
+
+for (a in (b));
+
+for (a of (b));
+
 typeof (a);
 
 (function(){} ? a() : b());
@@ -55,6 +61,14 @@ Examples of **correct** code for this rule with the default `"all"` option:
 (function(){}) ? a() : b();
 
 (/^a$/).test(x);
+
+for (a of (b, c));
+
+for (a of b);
+
+for (a in b, c);
+
+for (a in b);
 ```
 
 ### conditionalAssign
