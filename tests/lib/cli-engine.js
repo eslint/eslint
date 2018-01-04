@@ -2935,6 +2935,15 @@ describe("CLIEngine", () => {
 
     });
 
+    describe("getRules()", () => {
+        it("should expose the list of rules", () => {
+            const engine = new CLIEngine();
+
+            assert.isTrue(engine.getRules().has("no-eval"), "no-eval is present");
+
+        });
+    });
+
     describe("resolveFileGlobPatterns", () => {
 
         leche.withData([
