@@ -11,6 +11,7 @@
 [ ] Add autofixing to a rule
 [ ] Add a CLI option
 [ ] Add something to the core
+[ ] Changes to build process
 [ ] Other, please explain:
 
 <!--
