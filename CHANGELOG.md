@@ -1,3 +1,18 @@
+v4.15.0 - January 6, 2018
+
+* 6ab04b5 New: Add context.report({ messageId }) (fixes #6740) (#9165) (Jed Fox)
+* fc7f404 Docs: add url to each of the rules (refs #6582) (#9788) (Patrick McElhaney)
+* fc44da9 Docs: fix sort-imports rule block language (#9805) (ferhat elmas)
+* 65f0176 New: CLIEngine#getRules() (refs #6582) (#9782) (Patrick McElhaney)
+* c64195f Update: More detailed assert message for rule-tester (#9769) (Weijia Wang)
+* 9fcfabf Fix: no-extra-parens false positive (fixes: #9755) (#9795) (Erin)
+* 61e5fa0 Docs: Add table of contents to Node.js API docs (#9785) (Patrick McElhaney)
+* 4c87f42 Fix: incorrect error messages of no-unused-vars (fixes #9774) (#9791) (akouryy)
+* bbabf34 Update: add `ignoreComments` option to `indent` rule (fixes #9018) (#9752) (Kevin Partington)
+* db431cb Docs: HTTP -> HTTPS (fixes #9768) (#9768) (Ronald Eddy Jr)
+* cbf0fb9 Docs: describe how to feature-detect scopeManager/visitorKeys support (#9764) (Teddy Katz)
+* f7dcb70 Docs: Add note about "patch release pending" label to maintainer guide (#9763) (Teddy Katz)
+
 v4.14.0 - December 23, 2017
 
 * be2f57e Update: support separate requires in one-var. (fixes #6175) (#9441) (薛定谔的猫)

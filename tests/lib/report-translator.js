@@ -48,7 +48,7 @@ describe("createReportTranslator", () => {
         node = sourceCode.ast.body[0];
         location = sourceCode.ast.body[1].loc.start;
         message = "foo";
-        translateReport = createReportTranslator({ ruleId: "foo-rule", severity: 2, sourceCode });
+        translateReport = createReportTranslator({ ruleId: "foo-rule", severity: 2, sourceCode, messageIds: { testMessage: message } });
     });
 
     describe("old-style call with location", () => {
@@ -111,6 +111,61 @@ describe("createReportTranslator", () => {
                         text: "foo"
                     }
                 }
+            );
+        });
+        it("should translate the messageId into a message", () => {
+            const reportDescriptor = {
+                node,
+                loc: location,
+                messageId: "testMessage",
+                fix: () => ({ range: [1, 2], text: "foo" })
+            };
+
+            assert.deepStrictEqual(
+                translateReport(reportDescriptor),
+                {
+                    ruleId: "foo-rule",
+                    severity: 2,
+                    message: "foo",
+                    messageId: "testMessage",
+                    line: 2,
+                    column: 1,
+                    nodeType: "ExpressionStatement",
+                    source: "bar",
+                    fix: {
+                        range: [1, 2],
+                        text: "foo"
+                    }
+                }
+            );
+        });
+        it("should throw when both messageId and message are provided", () => {
+            const reportDescriptor = {
+                node,
+                loc: location,
+                messageId: "testMessage",
+                message: "bar",
+                fix: () => ({ range: [1, 2], text: "foo" })
+            };
+
+            assert.throws(
+                () => translateReport(reportDescriptor),
+                TypeError,
+                "context.report() called with a message and a messageId. Please only pass one."
+            );
+        });
+        it("should throw when an invalid messageId is provided", () => {
+            const reportDescriptor = {
+                node,
+                loc: location,
+                messageId: "thisIsNotASpecifiedMessageId",
+                fix: () => ({ range: [1, 2], text: "foo" })
+            };
+
+            assert.throws(
+                () => translateReport(reportDescriptor),
+                TypeError,
+                /^context\.report\(\) called with a messageId of '[^']+' which is not present in the 'messages' config:/
             );
         });
     });

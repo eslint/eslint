@@ -181,6 +181,63 @@ Note that leading and trailing whitespace is optional in message parameters.
 
 The node contains all of the information necessary to figure out the line and column number of the offending text as well the source text representing the node.
 
+### `messageId`s
+
+Instead of typing out messages in both the `context.report()` call and your tests, you can use `messageId`s instead.
+
+This allows you to avoid retyping error messages. It also prevents errors reported in different sections of your rule from having out-of-date messages.
+
+```js
+// in your rule
+module.exports = {
+    meta: {
+        messages: {
+            avoidName: "Avoid using variables named '{{ name }}'"
+        }
+    },
+    create(context) {
+        return {
+            Identifier(node) {
+                if (node.name === "foo") {
+                    context.report({
+                        node,
+                        messageId: "avoidName",
+                        data: {
+                            name: "foo",
+                        },
+                    });
+                }
+            }
+        };
+    }
+};
+
+// in the file to lint:
+
+var foo = 2
+//  ^ error: Avoid using variables named 'foo'
+
+// In your tests:
+var rule = require('../../../lib/rules/no-insecure-random')
+var RuleTester = require('eslint').RuleTester
+
+var ruleTester = new RuleTester()
+ruleTester.run('my-rule', rule, {
+  valid: ['bar', 'baz'],
+
+  invalid: [
+    {
+      code: 'foo',
+      errors: [
+        {
+          messageId: 'foo',
+        },
+      ],
+    },
+  ],
+})
+```
+
 ### Applying Fixes
 
 If you'd like ESLint to attempt to fix the problem you're reporting, you can do so by specifying the `fix` function when using `context.report()`. The `fix` function receives a single argument, a `fixer` object, that you can use to apply a fix. For example:
