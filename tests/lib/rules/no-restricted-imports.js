@@ -194,6 +194,34 @@ ruleTester.run("no-restricted-imports", rule, {
         options: [{ patterns: ["foo/*", "!foo/baz"] }],
         errors: [{ message: "'foo/bar' import is restricted from being used by a pattern.", type: "ImportDeclaration" }]
     }, {
+        code: "export * from \"fs\"",
+        options: ["fs"],
+        errors: [{ message: "'fs' import is restricted from being used.", type: "ExportAllDeclaration" }]
+    }, {
+        code: "import { default as os } from \"os \";",
+        options: ["fs", "crypto ", "stream", "os"],
+        errors: [{ message: "'os' import is restricted from being used.", type: "ExportNamedDeclaration" }]
+    }, {
+        code: "export * from \"foo/bar\";",
+        options: ["foo/bar"],
+        errors: [{ message: "'foo/bar' import is restricted from being used.", type: "ExportAllDeclaration" }]
+    }, {
+        code: "export { withPaths } from \"foo/bar\";",
+        options: [{ paths: ["foo/bar"] }],
+        errors: [{ message: "'foo/bar' import is restricted from being used.", type: "ExportNamedDeclaration" }]
+    }, {
+        code: "export { withPatterns } from \"foo/bar\";",
+        options: [{ patterns: ["foo"] }],
+        errors: [{ message: "'foo/bar' import is restricted from being used by a pattern.", type: "ExportNamedDeclaration" }]
+    }, {
+        code: "import withPatterns from \"foo/bar\";",
+        options: [{ patterns: ["bar"] }],
+        errors: [{ message: "'foo/bar' import is restricted from being used by a pattern.", type: "ImportDeclaration" }]
+    }, {
+        code: "import withGitignores from \"foo/bar\";",
+        options: [{ patterns: ["foo/*", "!foo/baz"] }],
+        errors: [{ message: "'foo/bar' import is restricted from being used by a pattern.", type: "ImportDeclaration" }]
+    }, {
         code: "import withGitignores from \"foo\";",
         options: [{
             name: "foo",
