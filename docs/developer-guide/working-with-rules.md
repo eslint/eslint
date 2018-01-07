@@ -188,6 +188,7 @@ Instead of typing out messages in both the `context.report()` call and your test
 This allows you to avoid retyping error messages. It also prevents errors reported in different sections of your rule from having out-of-date messages.
 
 ```js
+{% raw %}
 // in your rule
 module.exports = {
     meta: {
@@ -236,6 +237,7 @@ ruleTester.run('my-rule', rule, {
     },
   ],
 })
+{% endraw %}
 ```
 
 ### Applying Fixes
