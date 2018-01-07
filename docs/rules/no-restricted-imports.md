@@ -85,12 +85,14 @@ Examples of **incorrect** code for this rule:
 /*eslint no-restricted-imports: ["error", "fs"]*/
 
 import fs from 'fs';
+export { readFile } from 'fs';
 ```
 
 ```js
 /*eslint no-restricted-imports: ["error", { "paths": ["cluster"] }]*/
 
 import cluster from 'cluster';
+export { default as cluster } from 'cluster';
 ```
 
 ```js
@@ -107,6 +109,7 @@ import pick from 'lodash/pick';
 }]}]*/
 
 import DisallowedObject from "foo";
+export { default as DisallowedObject } from "foo";
 ```
 
 ```js
@@ -117,6 +120,7 @@ import DisallowedObject from "foo";
 }]}]*/
 
 import { DisallowedObject as AllowedObject } from "foo";
+export { DisallowedObject as AllowedObject } from "foo";
 ```
 
 ```js
@@ -127,6 +131,7 @@ import { DisallowedObject as AllowedObject } from "foo";
 }]}]*/
 
 import * as Foo from "foo";
+epxort * from "foo";
 ```
 
 Examples of **correct** code for this rule:
