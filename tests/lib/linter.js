@@ -1625,6 +1625,8 @@ describe("Linter", () => {
                         message: "Configuration for rule \"no-alert\" is invalid:\n\tSeverity should be one of the following: 0 = off, 1 = warn, 2 = error (you passed 'true').\n",
                         line: 1,
                         column: 1,
+                        endLine: 1,
+                        endColumn: 25,
                         source: null,
                         nodeType: null
                     }
@@ -1642,6 +1644,8 @@ describe("Linter", () => {
                         message: "Configuration for rule \"no-alert\" is invalid:\n\tValue [{\"nonExistentPropertyName\":true}] should NOT have more than 0 items.\n",
                         line: 1,
                         column: 1,
+                        endLine: 1,
+                        endColumn: 63,
                         source: null,
                         nodeType: null
                     }
