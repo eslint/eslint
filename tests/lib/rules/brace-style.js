@@ -659,8 +659,10 @@ ruleTester.run("brace-style", rule, {
 });
 
 const importRuleTester = new RuleTester({ parserOptions: { ecmaVersion: 6, sourceType: "module" } });
+
 importRuleTester.run("brace-style", rule, {
     valid: [
+
         // w/o braces rule shouldn't be active at all
         "import a from 'module'",
         "import 'module'",
@@ -682,9 +684,9 @@ importRuleTester.run("brace-style", rule, {
         { code: "import \n{\n a,\n b \n}\n from 'module'", options: ["allman"] },
 
         // multiple import specifiers on a single line
-        { code: "import { a, b } from 'a'", options: ["1tbs", {allowSingleLine: true}] },
-        { code: "import { a, b }\n from 'a'", options: ["stroustrup", {allowSingleLine: true}] },
-        { code: "import { a, b }\n from 'a'", options: ["allman", {allowSingleLine: true}] }
+        { code: "import { a, b } from 'a'", options: ["1tbs", { allowSingleLine: true }] },
+        { code: "import { a, b }\n from 'a'", options: ["stroustrup", { allowSingleLine: true }] },
+        { code: "import { a, b }\n from 'a'", options: ["allman", { allowSingleLine: true }] }
     ],
 
     invalid: [
@@ -715,7 +717,7 @@ importRuleTester.run("brace-style", rule, {
         {
             code: "import { a,\n b } from 'module'",
             output: "import {\n a,\n b \n} from 'module'",
-            options: ["1tbs", {allowSingleLine: true}],
+            options: ["1tbs", { allowSingleLine: true }],
             errors: [{ message: BODY_MESSAGE, type: "Punctuator" }, { message: CLOSE_MESSAGE_SINGLE, type: "Punctuator" }]
         },
 
@@ -746,7 +748,7 @@ importRuleTester.run("brace-style", rule, {
         {
             code: "import{a,b}from 'module'",
             output: "import{a,b}\nfrom 'module'",
-            options: ["allman", {allowSingleLine: true}],
+            options: ["allman", { allowSingleLine: true }],
             errors: [{ message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "Punctuator" }]
         },
 
@@ -777,7 +779,7 @@ importRuleTester.run("brace-style", rule, {
         {
             code: "import{a,b}from 'module'",
             output: "import{a,b}\nfrom 'module'",
-            options: ["stroustrup", {allowSingleLine: true}],
+            options: ["stroustrup", { allowSingleLine: true }],
             errors: [{ message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "Punctuator" }]
         }
     ]
