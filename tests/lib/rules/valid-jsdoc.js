@@ -1101,7 +1101,7 @@ ruleTester.run("valid-jsdoc", rule, {
         },
         {
             code: "/** Foo \n@return {void} Foo\n */\nfunction foo(){}",
-            output: null,
+            output: "/** Foo \n@returns {void} Foo\n */\nfunction foo(){}",
             options: [{ prefer: { return: "returns" } }],
             errors: [{
                 message: "Use @returns instead.",
@@ -1114,7 +1114,7 @@ ruleTester.run("valid-jsdoc", rule, {
         },
         {
             code: "/** Foo \n@argument {int} bar baz\n */\nfunction foo(bar){}",
-            output: null,
+            output: "/** Foo \n@arg {int} bar baz\n */\nfunction foo(bar){}",
             options: [{ prefer: { argument: "arg" } }],
             errors: [{
                 message: "Missing JSDoc @returns for function.",
@@ -1139,7 +1139,7 @@ ruleTester.run("valid-jsdoc", rule, {
         },
         {
             code: "/** Foo \n@return {void} Foo\n */\nfoo.bar = () => {}",
-            output: null,
+            output: "/** Foo \n@returns {void} Foo\n */\nfoo.bar = () => {}",
             options: [{ prefer: { return: "returns" } }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
@@ -1399,7 +1399,7 @@ ruleTester.run("valid-jsdoc", rule, {
         },
         {
             code: "/**\n * Does something. \n* @param {string} a - this is a \n* @return {Array<number>} The result of doing it \n*/\n export function doSomething(a) { }",
-            output: null,
+            output: "/**\n * Does something. \n* @param {string} a - this is a \n* @returns {Array<number>} The result of doing it \n*/\n export function doSomething(a) { }",
             options: [{ prefer: { return: "returns" } }],
             parserOptions: { sourceType: "module" },
             errors: [{
@@ -1413,7 +1413,7 @@ ruleTester.run("valid-jsdoc", rule, {
         },
         {
             code: "/**\n * Does something. \n* @param {string} a - this is a \n* @return {Array<number>} The result of doing it \n*/\n export default function doSomething(a) { }",
-            output: null,
+            output: "/**\n * Does something. \n* @param {string} a - this is a \n* @returns {Array<number>} The result of doing it \n*/\n export default function doSomething(a) { }",
             options: [{ prefer: { return: "returns" } }],
             parserOptions: { sourceType: "module" },
             errors: [{
