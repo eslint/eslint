@@ -657,3 +657,128 @@ ruleTester.run("brace-style", rule, {
         }
     ]
 });
+
+const importRuleTester = new RuleTester({ parserOptions: { ecmaVersion: 6, sourceType: "module" } });
+importRuleTester.run("brace-style", rule, {
+    valid: [
+        // w/o braces rule shouldn't be active at all
+        "import a from 'module'",
+        "import 'module'",
+        "import * as a from 'module'",
+
+        // single import specifier
+        { code: "import { \n a \n} from 'module'", options: ["1tbs"] },
+        { code: "import { \n a \n}\n from 'module'", options: ["stroustrup"] },
+        { code: "import \n{\n a \n}\n from 'module'", options: ["allman"] },
+
+        // single import specifier with alias
+        { code: "import { \n a as b \n} from 'module'", options: ["1tbs"] },
+        { code: "import { \n a as b \n}\n from 'module'", options: ["stroustrup"] },
+        { code: "import \n{\n a as b \n}\n from 'module'", options: ["allman"] },
+
+        // multiple import specifiers
+        { code: "import { \n a,\n b \n} from 'module'", options: ["1tbs"] },
+        { code: "import { \n a,\n b \n}\n from 'module'", options: ["stroustrup"] },
+        { code: "import \n{\n a,\n b \n}\n from 'module'", options: ["allman"] },
+
+        // multiple import specifiers on a single line
+        { code: "import { a, b } from 'a'", options: ["1tbs", {allowSingleLine: true}] },
+        { code: "import { a, b }\n from 'a'", options: ["stroustrup", {allowSingleLine: true}] },
+        { code: "import { a, b }\n from 'a'", options: ["allman", {allowSingleLine: true}] }
+    ],
+
+    invalid: [
+        {
+            code: "import\n{\na \n} from 'module'",
+            output: "import {\na \n} from 'module'",
+            options: ["1tbs"],
+            errors: [{ message: OPEN_MESSAGE, type: "Punctuator" }]
+        },
+        {
+            code: "import { a \n} from 'module'",
+            output: "import {\n a \n} from 'module'",
+            options: ["1tbs"],
+            errors: [{ message: BODY_MESSAGE, type: "Punctuator" }]
+        },
+        {
+            code: "import {\n a \n}\n from 'module'",
+            output: "import {\n a \n} from 'module'",
+            options: ["1tbs"],
+            errors: [{ message: CLOSE_MESSAGE, type: "Punctuator" }]
+        },
+        {
+            code: "import {\n a } from 'module'",
+            output: "import {\n a \n} from 'module'",
+            options: ["1tbs"],
+            errors: [{ message: CLOSE_MESSAGE_SINGLE, type: "Punctuator" }]
+        },
+        {
+            code: "import { a,\n b } from 'module'",
+            output: "import {\n a,\n b \n} from 'module'",
+            options: ["1tbs", {allowSingleLine: true}],
+            errors: [{ message: BODY_MESSAGE, type: "Punctuator" }, { message: CLOSE_MESSAGE_SINGLE, type: "Punctuator" }]
+        },
+
+        {
+            code: "import{\na\n}\nfrom 'module'",
+            output: "import\n{\na\n}\nfrom 'module'",
+            options: ["allman"],
+            errors: [{ message: OPEN_MESSAGE_ALLMAN, type: "Punctuator" }]
+        },
+        {
+            code: "import\n{ a \n}\nfrom 'module'",
+            output: "import\n{\n a \n}\nfrom 'module'",
+            options: ["allman"],
+            errors: [{ message: BODY_MESSAGE, type: "Punctuator" }]
+        },
+        {
+            code: "import\n{\n a }\n from 'module'",
+            output: "import\n{\n a \n}\n from 'module'",
+            options: ["allman"],
+            errors: [{ message: CLOSE_MESSAGE_SINGLE, type: "Punctuator" }]
+        },
+        {
+            code: "import\n{\n a \n}from 'module'",
+            output: "import\n{\n a \n}\nfrom 'module'",
+            options: ["allman"],
+            errors: [{ message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "Punctuator" }]
+        },
+        {
+            code: "import{a,b}from 'module'",
+            output: "import{a,b}\nfrom 'module'",
+            options: ["allman", {allowSingleLine: true}],
+            errors: [{ message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "Punctuator" }]
+        },
+
+        {
+            code: "import\n{\na\n}\nfrom 'module'",
+            output: "import {\na\n}\nfrom 'module'",
+            options: ["stroustrup"],
+            errors: [{ message: OPEN_MESSAGE, type: "Punctuator" }]
+        },
+        {
+            code: "import { a \n}\nfrom 'module'",
+            output: "import {\n a \n}\nfrom 'module'",
+            options: ["stroustrup"],
+            errors: [{ message: BODY_MESSAGE, type: "Punctuator" }]
+        },
+        {
+            code: "import {\n a }\n from 'module'",
+            output: "import {\n a \n}\n from 'module'",
+            options: ["stroustrup"],
+            errors: [{ message: CLOSE_MESSAGE_SINGLE, type: "Punctuator" }]
+        },
+        {
+            code: "import {\n a \n}from 'module'",
+            output: "import {\n a \n}\nfrom 'module'",
+            options: ["stroustrup"],
+            errors: [{ message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "Punctuator" }]
+        },
+        {
+            code: "import{a,b}from 'module'",
+            output: "import{a,b}\nfrom 'module'",
+            options: ["stroustrup", {allowSingleLine: true}],
+            errors: [{ message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "Punctuator" }]
+        }
+    ]
+});
