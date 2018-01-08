@@ -186,14 +186,6 @@ ruleTester.run("no-restricted-imports", rule, {
         options: [{ patterns: ["foo"] }],
         errors: [{ message: "'foo/bar' import is restricted from being used by a pattern.", type: "ImportDeclaration" }]
     }, {
-        code: "import withPatterns from \"foo/bar\";",
-        options: [{ patterns: ["bar"] }],
-        errors: [{ message: "'foo/bar' import is restricted from being used by a pattern.", type: "ImportDeclaration" }]
-    }, {
-        code: "import withGitignores from \"foo/bar\";",
-        options: [{ patterns: ["foo/*", "!foo/baz"] }],
-        errors: [{ message: "'foo/bar' import is restricted from being used by a pattern.", type: "ImportDeclaration" }]
-    }, {
         code: "export * from \"fs\"",
         options: ["fs"],
         errors: [{ message: "'fs' import is restricted from being used.", type: "ExportAllDeclaration" }]
