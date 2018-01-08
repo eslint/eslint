@@ -74,7 +74,7 @@ Another benefit of this rule is specificity of diffs when a property is changed:
 
 ### Optional Exception
 
-The rule offers one object option, `allowMultiplePropertiesPerLine`. If you set it to `true`, object literals such as the first two above, with all property specifications on the same line, will be permitted, but one like
+The rule offers one object option, `allowAllPropertiesOnSameLine` (a deprecated synonym is `allowMultiplePropertiesPerLine`). If you set it to `true`, object literals such as the first two above, with all property specifications on the same line, will be permitted, but one like
 
 ```js
 const newObject = {
@@ -172,7 +172,7 @@ As illustrated above, the `--fix` option, applied to this rule, does not comply 
 
 ## Examples
 
-Examples of **incorrect** code for this rule, with no object option or with `allowMultiplePropertiesPerLine` set to `false`:
+Examples of **incorrect** code for this rule, with no object option or with `allowAllPropertiesOnSameLine` set to `false`:
 
 ```js
 /*eslint object-property-newline: "error"*/
@@ -208,7 +208,7 @@ const obj5 = {
 ]: true};
 ```
 
-Examples of **correct** code for this rule, with no object option or with `allowMultiplePropertiesPerLine` set to `false`:
+Examples of **correct** code for this rule, with no object option or with `allowAllPropertiesOnSameLine` set to `false`:
 
 ```js
 /*eslint object-property-newline: "error"*/
@@ -238,10 +238,10 @@ const obj3 = {
 };
 ```
 
-Examples of additional **correct** code for this rule with the `{ "allowMultiplePropertiesPerLine": true }` option:
+Examples of additional **correct** code for this rule with the `{ "allowAllPropertiesOnSameLine": true }` option:
 
 ```js
-/*eslint object-property-newline: ["error", { "allowMultiplePropertiesPerLine": true }]*/
+/*eslint object-property-newline: ["error", { "allowAllPropertiesOnSameLine": true }]*/
 
 const obj = { foo: "foo", bar: "bar", baz: "baz" };
 
