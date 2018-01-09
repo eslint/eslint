@@ -123,7 +123,7 @@ const newFunction = multiplier => ({
 });
 ```
 
-This object option makes the rule stricter by prohibiting one of the patterns by which you could comply with the rule. Specifically, the comma between two property specifications may not appear before the second one on the same line. The JSCS rule `requireObjectKeysOnNewLine` treats commas this way, so this object option makes ESLint compatible with JSCS in this respect.
+This object option makes the rule stricter by prohibiting one of the patterns by which you could comply with the rule. Specifically, the comma between two property specifications may not appear before the second one on the same line. The JSCS rule `requireObjectKeysOnNewLine` treats commas this way, so setting this object option to `true` makes ESLint compatible with JSCS in this respect.
 
 You can use the `comma-style` rule instead of this option to achieve partial JSCS compatibility, but not in combination with the `ignoreBracketsOfComputedNames` object option. Using the `comma-style` rule for the sole purpose of JSCS compatibility would also require you to enumerate 9 exceptions, leaving only `ObjectExpression` subject to the rule.
 
