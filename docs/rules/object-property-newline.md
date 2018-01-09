@@ -125,7 +125,36 @@ const newFunction = multiplier => ({
 
 This object option makes the rule stricter by prohibiting one of the patterns by which you could comply with the rule. Specifically, the comma between two property specifications may not appear before the second one on the same line. The JSCS rule `requireObjectKeysOnNewLine` treats commas this way, so setting this object option to `true` makes ESLint compatible with JSCS in this respect.
 
-You can use the `comma-style` rule instead of this option to achieve partial JSCS compatibility, but not in combination with the `ignoreBracketsOfComputedNames` object option. Using the `comma-style` rule for the sole purpose of JSCS compatibility would also require you to enumerate 9 exceptions, leaving only `ObjectExpression` subject to the rule.
+You might question the need for this option in achieving JSCS compatibility, because there is another rule, `comma-style`, that regulates the placement of commas between property specifications of object literals. Why not just use that rule, with its string option `last`, together with the `ignoreBracketsOfComputedNames` option of this rule, to emulate JSCS’s `requireObjectKeysOnNewLine` rule?
+
+The answer is that you cannot accomplish this by adding `comma-style`, for at least two reasons:
+
+First the `comma-style` rule would reject a line that contains only an inter-property comma followed by the opening bracket of a computed property name, such as in
+
+```js
+const newObject = {
+  a: 0
+  , [
+    'a' + 'b'
+  ]: 1
+};
+```
+
+The `comma-style` rule would issue a `',' should be placed last` error on that line. The JSCS `requireObjectKeysOnNewLine` rule, by contrast, would permit the line, since it does not treat the `[` as part of the computed property name.
+
+Second, the `comma-style` rule would reject a line that contains only an inter-property comma, such as in
+
+```js
+const newObject = {
+  a: 0
+  ,
+  b: 1
+};
+```
+
+The `comma-style` rule would issue a `Bad line breaking before and after ','` error on that line. The JSCS `requireObjectKeysOnNewLine` rule, by contrast, would permit the line, since it does not treat the `,` as part of either the previous or the subsequent property specification.
+
+By setting this rule’s `ignoreBracketsOfComputedNames` and `noCommaFirst` both to `true`, you can emulate the JSCS `requireObjectKeysOnNewLine` rule’s acceptance of both these patterns. You are then free to use `comma-style` as you wish on the 9 other node types that it can apply to. Of course, you should not combine this rule’s `noCommaFirst` option with `comma-style`’s `last` string option unless you include `"ObjectExpression": true` as a property of the `exceptions` object in your `comma-style` invocation. Otherwise, lines of object literals that begin or end with commas would pass one test but fail the other.
 
 ### Notations
 
