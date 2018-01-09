@@ -109,7 +109,7 @@ const newObject = {
 };
 ```
 
-Otherwise, this rule will prohibit it, because ESLint treats the opening bracket of a computed property name as part of the property specification. The JSCS rule `requireObjectKeysOnNewLine` does not, so this object option makes ESLint compatible with JSCS in this respect.
+Otherwise, this rule will prohibit it, because ESLint treats the opening bracket of a computed property name as part of the property specification. The JSCS rule `requireObjectKeysOnNewLine` does not, so setting this object option to `true` makes ESLint compatible with JSCS in this respect.
 
 #### `noCommaFirst`
 
