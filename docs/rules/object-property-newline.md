@@ -148,7 +148,7 @@ const newObject = {
 };
 ```
 
-(This behavior differs from that of the JSCS rule cited below, which does not treat the leading `[` of a computed property name as part of that property specification. The JSCS rule prohibits the second of these formats but permits the first.)
+(This behavior differs from that of the JSCS `requireObjectKeysOnNewLine` rule, which does not treat the leading `[` of a computed property name as part of the property specification. The JSCS rule prohibits the second of these formats but permits the first.)
 
 ### Multiline Properties
 
