@@ -163,7 +163,7 @@ const newObject = {a: [
 
 because 1 character of the specification of `a` (i.e. the trailing `]` of its value) is on the same line as the specification of `b`.
 
-The `allowMultiplePropertiesPerLine` object option would not excuse this case, because the entire collection of property specifications spans 4 lines, not 1.
+The `allowAllPropertiesOnSameLine` object option would not excuse this case, because the entire collection of property specifications spans 4 lines, not 1.
 
 ### --fix
 
