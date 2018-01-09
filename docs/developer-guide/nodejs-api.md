@@ -820,9 +820,9 @@ In addition to the properties above, invalid test cases can also have the follow
     * `message` (string/regexp): The message for the error
     * `type` (string): The type of the reported AST node
     * `line` (number): The 1-based line number of the reported location
-    * `column` (number): The 0-based column number of the reported location
+    * `column` (number): The 1-based column number of the reported location
     * `endLine` (number): The 1-based line number of the end of the reported location
-    * `endColumn` (number): The 0-based column number of the end of the reported location
+    * `endColumn` (number): The 1-based column number of the end of the reported location
 
     If a string is provided as an error instead of an object, the string is used to assert the `message` of the error.
 * `output` (string, optional): Asserts the output that will be produced when using this rule for a single pass of autofixing (e.g. with the `--fix` command line flag). If this is `null`, asserts that none of the reported problems suggest autofixes.
