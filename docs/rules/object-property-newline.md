@@ -75,7 +75,7 @@ Another benefit of this rule is specificity of diffs when a property is changed:
 
 The rule offers three object options.
 
-#### `allowMultiplePropertiesPerLine`
+#### `allowAllPropertiesOnSameLine`
 
 If you set `allowAllPropertiesOnSameLine` (a deprecated synonym is `allowMultiplePropertiesPerLine`) to `true`, object literals such as the first two above, with all property specifications on the same line, will be permitted, but one like
 
