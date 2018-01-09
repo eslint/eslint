@@ -77,7 +77,16 @@ The rule offers three object options.
 
 #### `allowAllPropertiesOnSameLine`
 
-If you set `allowAllPropertiesOnSameLine` (a deprecated synonym is `allowMultiplePropertiesPerLine`) to `true`, object literals such as the first two above, with all property specifications on the same line, will be permitted, but one like
+If you set `allowAllPropertiesOnSameLine` (a deprecated synonym is `allowMultiplePropertiesPerLine`) to `true`, object literals such as
+
+```js
+const newObject = {a: 1, b: [2, {a: 3, b: 4}]};
+const newObject = {
+    a: 1, b: [2, {a: 3, b: 4}]
+};
+```
+
+that have **all** property specifications on the same line will be permitted, but one like
 
 ```js
 const newObject = {
@@ -88,9 +97,9 @@ const newObject = {
 
 will be prohibited, because two properties, but not all properties, appear on the same line.
 
-#### `treatComputedPropertiesLikeJSCS`
+#### `ignoreBracketsOfComputedProperties`
 
-If you set `treatComputedPropertiesLikeJSCS` to `true`, an object literal such as the one below will be permitted:
+If you set `ignoreBracketsOfComputedProperties` to `true`, an object literal such as the one below will be permitted:
 
 ```js
 const newObject = {
@@ -116,7 +125,7 @@ const newFunction = multiplier => ({
 
 This object option makes the rule stricter by prohibiting one of the patterns by which you could comply with the rule. Specifically, the comma between two property specifications may not appear before the second one on the same line. The JSCS rule `requireObjectKeysOnNewLine` treats commas this way, so this object option makes ESLint compatible with JSCS in this respect.
 
-You can use the `comma-style` rule instead of this option to achieve partial JSCS compatibility, but not in combination with the `treatComputedPropertiesLikeJSCS` object option. Using the `comma-style` rule for the sole purpose of JSCS compatibility would also require you to enumerate 9 exceptions, leaving only `ObjectExpression` subject to the rule.
+You can use the `comma-style` rule instead of this option to achieve partial JSCS compatibility, but not in combination with the `ignoreBracketsOfComputedProperties` object option. Using the `comma-style` rule for the sole purpose of JSCS compatibility would also require you to enumerate 9 exceptions, leaving only `ObjectExpression` subject to the rule.
 
 ### Notations
 
@@ -279,10 +288,10 @@ const obj = {
 };
 ```
 
-Example of additional **correct** code for this rule with the `{ "treatComputedPropertiesLikeJSCS": true }` option:
+Example of additional **correct** code for this rule with the `{ "ignoreBracketsOfComputedProperties": true }` option:
 
 ```js
-/*eslint object-property-newline: ["error", { "treatComputedPropertiesLikeJSCS": true }]*/
+/*eslint object-property-newline: ["error", { "ignoreBracketsOfComputedProperties": true }]*/
 
 const domain = process.argv[4];
 const obj = {

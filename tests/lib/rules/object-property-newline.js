@@ -573,11 +573,11 @@ ruleTester.run("object-property-newline", rule, {
             ]
         },
 
-        // treatComputedPropertiesLikeJSCS: true
+        // ignoreBracketsOfComputedProperties: true
         {
             code: "foo({\nk1: 'val1', [\nisFoo ? 'foo' : 'noo'\n]: 'val2', baz})",
             output: "foo({\nk1: 'val1', [\nisFoo ? 'foo' : 'noo'\n]: 'val2',\nbaz})",
-            options: [{ treatComputedPropertiesLikeJSCS: true }],
+            options: [{ ignoreBracketsOfComputedProperties: true }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
@@ -591,7 +591,7 @@ ruleTester.run("object-property-newline", rule, {
         {
             code: "var obj = { k1: 'val1',\nk2: [\n'val2a', 'val2b', 'val2c'\n], k3: 'val3' };",
             output: "var obj = { k1: 'val1',\nk2: [\n'val2a', 'val2b', 'val2c'\n],\nk3: 'val3' };",
-            options: [{ treatComputedPropertiesLikeJSCS: true }],
+            options: [{ ignoreBracketsOfComputedProperties: true }],
             errors: [
                 {
                     message: "Object properties must go on a new line. The opening bracket of a computed property name may end a line on which another property appears.",
@@ -643,12 +643,12 @@ ruleTester.run("object-property-newline", rule, {
             ]
         },
 
-        // { treatComputedPropertiesLikeJSCS: true, noCommaFirst: true }
+        // { ignoreBracketsOfComputedProperties: true, noCommaFirst: true }
         {
             code: "var obj = {\nk1: 'val1'\n, k2: 'val2'\n, [\nbaz2\n]: 'val3'\n};",
             output: "var obj = {\nk1: 'val1'\n,\nk2: 'val2'\n, [\nbaz2\n]: 'val3'\n};",
             options: [{
-                treatComputedPropertiesLikeJSCS: true, noCommaFirst: true
+                ignoreBracketsOfComputedProperties: true, noCommaFirst: true
             }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
