@@ -177,7 +177,7 @@ b: 'p.m.',
 };
 ```
 
-The modification does not depend on whether the `allowMultiplePropertiesPerLine` object option is set to `true`. In other words, ESLint never collects all the property specifications onto a single line, even when this object option would permit that.
+The modification does not depend on whether the `allowAllPropertiesOnSameLine` object option is set to `true`. In other words, ESLint never collects all the property specifications onto a single line, even when this object option would permit that.
 
 ESLint does not correct a violation of this rule if a comment immediately precedes the second or subsequent property specification on a line, since ESLint cannot determine which line to put the comment onto.
 
