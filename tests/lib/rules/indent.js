@@ -2831,6 +2831,13 @@ ruleTester.run("indent", rule, {
             options: [2]
         },
         unIndent`
+            foo(\`
+                bar
+            \`, {
+                baz: 1
+            });
+        `,
+        unIndent`
             function foo() {
                 \`foo\${bar}baz\${
                     qux}foo\${
@@ -3856,21 +3863,20 @@ ruleTester.run("indent", rule, {
         unIndent`
             foo(\`foo
                     \`, {
-                    ok: true
-                },
-                {
-                    ok: false
-                }
-            )
+                ok: true
+            },
+            {
+                ok: false
+            })
         `,
         unIndent`
             foo(tag\`foo
                     \`, {
-                    ok: true
-                },
-                {
-                    ok: false
-                }
+                ok: true
+            },
+            {
+                ok: false
+            }
             )
         `,
 
