@@ -4796,7 +4796,16 @@ ruleTester.run("indent", rule, {
                 }
             `,
             options: [4, { ignoreComments: true }]
-        }
+        },
+        unIndent`
+            const obj = {
+                foo () {
+                    return condition ? // comment
+                        1 :
+                        2
+                }
+            }
+        `
     ],
 
     invalid: [
@@ -9261,6 +9270,27 @@ ruleTester.run("indent", rule, {
             `,
             options: [4, { ignoreComments: false }],
             errors: expectedErrors([4, 4, 0, "Block"])
+        },
+        {
+            code: unIndent`
+                const obj = {
+                    foo () {
+                        return condition ? // comment
+                        1 :
+                            2
+                    }
+                }
+            `,
+            output: unIndent`
+                const obj = {
+                    foo () {
+                        return condition ? // comment
+                            1 :
+                            2
+                    }
+                }
+            `,
+            errors: expectedErrors([4, 12, 8, "Numeric"])
         }
     ]
 });
