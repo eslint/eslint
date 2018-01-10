@@ -67,11 +67,11 @@ ruleTester.run("object-property-newline", rule, {
         { code: "var obj = { k1: 'val1', k2: 'val2', k3: 'val3' };", options: [{ allowMultiplePropertiesPerLine: true }] },
 
         // ignoreBracketsOfComputedNames: true
-        { code: "var obj = { k1: 'val1', [\nk2\k]: 'val2' };", options: [{ ignoreBracketsOfComputedNames: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "var obj = { k1: 'val1', [\nk2\n]: 'val2' };", options: [{ ignoreBracketsOfComputedNames: true }], parserOptions: { ecmaVersion: 6 } },
 
         // noCommaFirst: true
         { code: "var obj = { k1: 'val1',\nk2: 'val2',\nk3: 'val3',\nk4: 'val4' };", options: [{ noCommaFirst: true }] },
-        { code: "var obj = { k1: 'val1'\n,\nk2: 'val2'\n,\nk3: 'val3'\n,\nk4: 'val4' };", options: [{ noCommaFirst: true }] }
+        { code: "var obj = { k1: 'val1'\n,\nk2: 'val2'\n,\nk3: 'val3'\n,\nk4: 'val4' };", options: [{ noCommaFirst: true }] },
 
         // { ignoreBracketsOfComputedNames: true, noCommaFirst: true }
         { code: "var obj = { k1: 'val1'\n, [\nk2 + 'prop'\n]: 'val2' };", options: [{ ignoreBracketsOfComputedNames: true }], parserOptions: { ecmaVersion: 6 } }

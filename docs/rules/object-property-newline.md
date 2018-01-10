@@ -129,7 +129,7 @@ You might question the need for this option in achieving JSCS compatibility, bec
 
 The answer is that you cannot accomplish this by adding `comma-style`, for at least two reasons:
 
-First the `comma-style` rule would reject a line that contains only an inter-property comma followed by the opening bracket of a computed property name, such as in
+First, the `comma-style` rule would reject a line that contains only an inter-property comma followed by the opening bracket of a computed property name, such as in
 
 ```js
 const newObject = {
@@ -154,7 +154,7 @@ const newObject = {
 
 The `comma-style` rule would issue a `Bad line breaking before and after ','` error on that line. The JSCS `requireObjectKeysOnNewLine` rule, by contrast, would permit the line, since it does not treat the `,` as part of either the previous or the subsequent property specification.
 
-By setting this rule’s `ignoreBracketsOfComputedNames` and `noCommaFirst` both to `true`, you can emulate the JSCS `requireObjectKeysOnNewLine` rule’s acceptance of both these patterns. You are then free to use `comma-style` as you wish on the 9 other node types that it can apply to. Of course, you should not combine this rule’s `noCommaFirst` option with `comma-style`’s `last` string option unless you include `"ObjectExpression": true` as a property of the `exceptions` object in your `comma-style` invocation. Otherwise, lines of object literals that begin or end with commas would pass one test but fail the other.
+By setting this rule’s `ignoreBracketsOfComputedNames` and `noCommaFirst` both to `true`, you can emulate the JSCS `requireObjectKeysOnNewLine` rule’s acceptance of both these patterns. You are then free to use `comma-style` as you wish on the 9 other node types that it can apply to. Of course, you should not combine this rule’s `noCommaFirst` option with `comma-style`’s `first` string option unless you include `"ObjectExpression": true` as a property of the `exceptions` object in your `comma-style` invocation. Otherwise, lines of object literals that begin or end with commas would pass one test but fail the other.
 
 ### Notations
 
