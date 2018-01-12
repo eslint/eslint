@@ -57,7 +57,21 @@ function checkContentRow($, row, args) {
     assert($(row.find("td")[1]).hasClass(args.color), "Check that severity color is correct");
     assert.strictEqual($(row.find("td")[2]).html(), args.message, "Check that message is correct");
     assert.strictEqual($(row.find("td")[3]).find("a").text(), args.ruleId, "Check that ruleId is correct");
+    assert.strictEqual($(row.find("td")[3]).find("a").attr("href"), "http://example.com/docs/some-rule", "Check that URL is correct");
 }
+
+const RULES = {
+    get() {
+        return {
+            meta: {
+                docs: {
+                    url: "http://example.com/docs/some-rule"
+                }
+            }
+        };
+    }
+};
+
 
 //------------------------------------------------------------------------------
 // Tests
@@ -81,7 +95,7 @@ describe("formatter:html", () => {
         }];
 
         it("should return a string in HTML format with 1 issue in 1 file and styled accordingly", () => {
-            const result = formatter(code);
+            const result = formatter(code, RULES);
             const $ = cheerio.load(result);
 
             // Check overview
@@ -112,7 +126,7 @@ describe("formatter:html", () => {
         }];
 
         it("should return a string in HTML format with 1 issue in 1 file and styled accordingly", () => {
-            const result = formatter(code);
+            const result = formatter(code, RULES);
             const $ = cheerio.load(result);
 
             // Check overview
@@ -143,7 +157,7 @@ describe("formatter:html", () => {
         }];
 
         it("should return a string in HTML format with 1 issue in 1 file and styled accordingly", () => {
-            const result = formatter(code);
+            const result = formatter(code, RULES);
             const $ = cheerio.load(result);
 
             // Check overview
@@ -167,7 +181,7 @@ describe("formatter:html", () => {
         }];
 
         it("should return a string in HTML format with 0 issues in 1 file and styled accordingly", () => {
-            const result = formatter(code);
+            const result = formatter(code, RULES);
             const $ = cheerio.load(result);
 
             // Check overview
@@ -202,7 +216,7 @@ describe("formatter:html", () => {
         }];
 
         it("should return a string in HTML format with 2 issues in 1 file and styled accordingly", () => {
-            const result = formatter(code);
+            const result = formatter(code, RULES);
             const $ = cheerio.load(result);
 
             // Check overview
@@ -245,7 +259,7 @@ describe("formatter:html", () => {
         }];
 
         it("should return a string in HTML format with 2 issues in 2 files and styled accordingly", () => {
-            const result = formatter(code);
+            const result = formatter(code, RULES);
             const $ = cheerio.load(result);
 
             // Check overview
@@ -289,7 +303,7 @@ describe("formatter:html", () => {
         }];
 
         it("should return a string in HTML format with 2 issues in 2 files and styled accordingly", () => {
-            const result = formatter(code);
+            const result = formatter(code, RULES);
             const $ = cheerio.load(result);
 
             // Check overview
@@ -322,7 +336,7 @@ describe("formatter:html", () => {
         }];
 
         it("should return a string in HTML format with 1 issue in 1 file", () => {
-            const result = formatter(code);
+            const result = formatter(code, RULES);
             const $ = cheerio.load(result);
 
             checkContentRow($, $("tr")[1], { group: "f-0", lineCol: "5:10", color: "clr-2", message: "Unexpected &lt;&amp;&quot;&apos;&gt; foo.", ruleId: "foo" });
@@ -342,7 +356,7 @@ describe("formatter:html", () => {
         }];
 
         it("should return a string in HTML format with 1 issue in 1 file", () => {
-            const result = formatter(code);
+            const result = formatter(code, RULES);
             const $ = cheerio.load(result);
 
             checkContentRow($, $("tr")[1], { group: "f-0", lineCol: "5:10", color: "clr-2", message: "", ruleId: "" });
@@ -364,7 +378,7 @@ describe("formatter:html", () => {
         }];
 
         it("should return a string in HTML format with 1 issue in 1 file and styled accordingly", () => {
-            const result = formatter(code);
+            const result = formatter(code, RULES);
             const $ = cheerio.load(result);
 
             checkContentRow($, $("tr")[1], { group: "f-0", lineCol: "0:0", color: "clr-2", message: "Unexpected foo.", ruleId: "foo" });
