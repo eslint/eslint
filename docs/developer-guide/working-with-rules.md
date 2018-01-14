@@ -208,7 +208,7 @@ module.exports = {
                         messageId: "avoidName",
                         data: {
                             name: "foo",
-                        },
+                        }
                     });
                 }
             }
@@ -218,14 +218,14 @@ module.exports = {
 
 // in the file to lint:
 
-var foo = 2
+var foo = 2;
 //  ^ error: Avoid using variables named 'foo'
 
 // In your tests:
-var rule = require('../../../lib/rules/no-insecure-random')
-var RuleTester = require('eslint').RuleTester
+var rule = require('../../../lib/rules/no-insecure-random');
+var RuleTester = require('eslint').RuleTester;
 
-var ruleTester = new RuleTester()
+var ruleTester = new RuleTester();
 ruleTester.run('my-rule', rule, {
   valid: ['bar', 'baz'],
 
@@ -235,11 +235,11 @@ ruleTester.run('my-rule', rule, {
       errors: [
         {
           messageId: 'foo',
-        },
-      ],
-    },
-  ],
-})
+        }
+      ]
+    }
+  ]
+});
 {% endraw %}
 ```
 
