@@ -75,7 +75,7 @@ function checkMetaDocsUrl(context, exportsNode) {
 
 module.exports = {
     meta: {
-        docs: {// eslint-disable-line rulesdir/consistent-docs-url
+        docs: {
             description: "enforce correct conventions of `meta.docs.url` property in core rules",
             category: "Internal",
             recommended: false
