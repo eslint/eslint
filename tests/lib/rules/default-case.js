@@ -63,21 +63,21 @@ ruleTester.run("default-case", rule, {
         {
             code: "switch (a) { case 1: break; }",
             errors: [{
-                messageId: "missing",
+                messageId: "missingDefaultCase",
                 type: "SwitchStatement"
             }]
         },
         {
             code: "switch (a) { \n // no default \n case 1: break;  }",
             errors: [{
-                messageId: "missing",
+                messageId: "missingDefaultCase",
                 type: "SwitchStatement"
             }]
         },
         {
             code: "switch (a) { case 1: break; \n // no default \n // nope \n  }",
             errors: [{
-                messageId: "missing",
+                messageId: "missingDefaultCase",
                 type: "SwitchStatement"
             }]
         },
@@ -87,7 +87,7 @@ ruleTester.run("default-case", rule, {
                 commentPattern: "skipped default case"
             }],
             errors: [{
-                messageId: "missing",
+                messageId: "missingDefaultCase",
                 type: "SwitchStatement"
             }]
         },
@@ -97,7 +97,7 @@ ruleTester.run("default-case", rule, {
                 commentPattern: "default omitted"
             }],
             errors: [{
-                messageId: "missing",
+                messageId: "missingDefaultCase",
                 type: "SwitchStatement"
             }]
         },
@@ -107,7 +107,7 @@ ruleTester.run("default-case", rule, {
                 commentPattern: ".?"
             }],
             errors: [{
-                messageId: "missing",
+                messageId: "missingDefaultCase",
                 type: "SwitchStatement"
             }]
         }

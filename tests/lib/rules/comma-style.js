@@ -215,7 +215,7 @@ ruleTester.run("comma-style", rule, {
             code: "var foo = { a: 1. //comment \n, b: 2\n}",
             output: "var foo = { a: 1., //comment \n b: 2\n}",
             errors: [{
-                messageId: "before",
+                messageId: "expectedCommaLast",
                 type: "Property"
             }]
         },
@@ -223,7 +223,7 @@ ruleTester.run("comma-style", rule, {
             code: "var foo = { a: 1. //comment \n //comment1 \n //comment2 \n, b: 2\n}",
             output: "var foo = { a: 1., //comment \n //comment1 \n //comment2 \n b: 2\n}",
             errors: [{
-                messageId: "before",
+                messageId: "expectedCommaLast",
                 type: "Property"
             }]
         },
@@ -231,7 +231,7 @@ ruleTester.run("comma-style", rule, {
             code: "var foo = 1\n,\nbar = 2;",
             output: "var foo = 1,\nbar = 2;",
             errors: [{
-                messageId: "beforeAndAfter",
+                messageId: "unexpectedLineBeforeAndAfterComma",
                 type: "VariableDeclarator"
             }]
         },
@@ -239,7 +239,7 @@ ruleTester.run("comma-style", rule, {
             code: "var foo = 1 //comment\n,\nbar = 2;",
             output: "var foo = 1, //comment\nbar = 2;",
             errors: [{
-                messageId: "beforeAndAfter",
+                messageId: "unexpectedLineBeforeAndAfterComma",
                 type: "VariableDeclarator"
             }]
         },
@@ -247,7 +247,7 @@ ruleTester.run("comma-style", rule, {
             code: "var foo = 1 //comment\n, // comment 2\nbar = 2;",
             output: "var foo = 1, //comment // comment 2\nbar = 2;",
             errors: [{
-                messageId: "beforeAndAfter",
+                messageId: "unexpectedLineBeforeAndAfterComma",
                 type: "VariableDeclarator"
             }]
         },
@@ -255,7 +255,7 @@ ruleTester.run("comma-style", rule, {
             code: "var foo = 1\n,bar = 2;",
             output: "var foo = 1,\nbar = 2;",
             errors: [{
-                messageId: "before",
+                messageId: "expectedCommaLast",
                 type: "VariableDeclarator"
             }]
         },
@@ -263,7 +263,7 @@ ruleTester.run("comma-style", rule, {
             code: "f([1,2\n,3]);",
             output: "f([1,2,\n3]);",
             errors: [{
-                messageId: "before",
+                messageId: "expectedCommaLast",
                 type: "Literal"
             }]
         },
@@ -271,7 +271,7 @@ ruleTester.run("comma-style", rule, {
             code: "f([1,2\n,]);",
             output: "f([1,2,\n]);",
             errors: [{
-                messageId: "before",
+                messageId: "expectedCommaLast",
                 type: "Punctuator"
             }]
         },
@@ -279,7 +279,7 @@ ruleTester.run("comma-style", rule, {
             code: "f([,2\n,3]);",
             output: "f([,2,\n3]);",
             errors: [{
-                messageId: "before",
+                messageId: "expectedCommaLast",
                 type: "Literal"
             }]
         },
@@ -287,7 +287,7 @@ ruleTester.run("comma-style", rule, {
             code: "var foo = ['apples'\n, 'oranges'];",
             output: "var foo = ['apples',\n 'oranges'];",
             errors: [{
-                messageId: "before",
+                messageId: "expectedCommaLast",
                 type: "Literal"
             }]
         },
@@ -303,7 +303,7 @@ ruleTester.run("comma-style", rule, {
                 ecmaVersion: 6
             },
             errors: [{
-                messageId: "before",
+                messageId: "expectedCommaLast",
                 type: "Identifier"
             }]
         },
@@ -316,7 +316,7 @@ ruleTester.run("comma-style", rule, {
                 }
             }],
             errors: [{
-                messageId: "before",
+                messageId: "expectedCommaLast",
                 type: "Literal"
             }]
         },
@@ -329,7 +329,7 @@ ruleTester.run("comma-style", rule, {
                 }
             }],
             errors: [{
-                messageId: "before",
+                messageId: "expectedCommaLast",
                 type: "Identifier"
             }]
         },
@@ -346,7 +346,7 @@ ruleTester.run("comma-style", rule, {
                 sourceType: "module"
             },
             errors: [{
-                messageId: "before",
+                messageId: "expectedCommaLast",
                 type: "Identifier"
             }]
         },
@@ -362,7 +362,7 @@ ruleTester.run("comma-style", rule, {
                 ecmaVersion: 6
             },
             errors: [{
-                messageId: "before",
+                messageId: "expectedCommaLast",
                 type: "Identifier"
             }]
         },
@@ -378,7 +378,7 @@ ruleTester.run("comma-style", rule, {
                 ecmaVersion: 6
             },
             errors: [{
-                messageId: "before",
+                messageId: "expectedCommaLast",
                 type: "Identifier"
             }]
         },
@@ -394,7 +394,7 @@ ruleTester.run("comma-style", rule, {
                 ecmaVersion: 6
             },
             errors: [{
-                messageId: "before",
+                messageId: "expectedCommaLast",
                 type: "Identifier"
             }]
         },
@@ -411,7 +411,7 @@ ruleTester.run("comma-style", rule, {
                 sourceType: "module"
             },
             errors: [{
-                messageId: "before",
+                messageId: "expectedCommaLast",
                 type: "ImportSpecifier"
             }]
         },
@@ -427,7 +427,7 @@ ruleTester.run("comma-style", rule, {
                 ecmaVersion: 6
             },
             errors: [{
-                messageId: "before",
+                messageId: "expectedCommaLast",
                 type: "Property"
             }]
         },
@@ -436,7 +436,7 @@ ruleTester.run("comma-style", rule, {
             output: "var foo = 1\n,bar = 2;",
             options: ["first"],
             errors: [{
-                messageId: "after",
+                messageId: "expectedCommaFirst",
                 type: "VariableDeclarator"
             }]
         },
@@ -445,7 +445,7 @@ ruleTester.run("comma-style", rule, {
             output: "f([1\n,2,3]);",
             options: ["first"],
             errors: [{
-                messageId: "after",
+                messageId: "expectedCommaFirst",
                 type: "Literal"
             }]
         },
@@ -454,7 +454,7 @@ ruleTester.run("comma-style", rule, {
             output: "var foo = ['apples' \n ,'oranges'];",
             options: ["first"],
             errors: [{
-                messageId: "after",
+                messageId: "expectedCommaFirst",
                 type: "Literal"
             }]
         },
@@ -463,7 +463,7 @@ ruleTester.run("comma-style", rule, {
             output: "var foo = {'a': 1 \n ,'b': 2\n ,'c': 3};",
             options: ["first"],
             errors: [{
-                messageId: "after",
+                messageId: "expectedCommaFirst",
                 type: "Property"
             }]
         },
@@ -472,7 +472,7 @@ ruleTester.run("comma-style", rule, {
             output: "var a = 'a',\no = 'o',\narr = [1\n,2];",
             options: ["first", { exceptions: { VariableDeclaration: true } }],
             errors: [{
-                messageId: "after",
+                messageId: "expectedCommaFirst",
                 type: "Literal"
             }]
         },
@@ -481,7 +481,7 @@ ruleTester.run("comma-style", rule, {
             output: "var a = 'a',\nobj = {a: 'a'\n,b: 'b'};",
             options: ["first", { exceptions: { VariableDeclaration: true } }],
             errors: [{
-                messageId: "after",
+                messageId: "expectedCommaFirst",
                 type: "Property"
             }]
         },
@@ -490,7 +490,7 @@ ruleTester.run("comma-style", rule, {
             output: "var a = 'a'\n,obj = {a: 'a',\nb: 'b'};",
             options: ["first", { exceptions: { ObjectExpression: true } }],
             errors: [{
-                messageId: "after",
+                messageId: "expectedCommaFirst",
                 type: "VariableDeclarator"
             }]
         },
@@ -499,7 +499,7 @@ ruleTester.run("comma-style", rule, {
             output: "var a = 'a'\n,arr = [1,\n2];",
             options: ["first", { exceptions: { ArrayExpression: true } }],
             errors: [{
-                messageId: "after",
+                messageId: "expectedCommaFirst",
                 type: "VariableDeclarator"
             }]
         },
@@ -508,7 +508,7 @@ ruleTester.run("comma-style", rule, {
             output: "var ar =[1,\n{a: 'a'\n,b: 'b'}];",
             options: ["first", { exceptions: { ArrayExpression: true } }],
             errors: [{
-                messageId: "after",
+                messageId: "expectedCommaFirst",
                 type: "Property"
             }]
         },
@@ -517,7 +517,7 @@ ruleTester.run("comma-style", rule, {
             output: "var ar =[1\n,{a: 'a',\nb: 'b'}];",
             options: ["first", { exceptions: { ObjectExpression: true } }],
             errors: [{
-                messageId: "after",
+                messageId: "expectedCommaFirst",
                 type: "ObjectExpression"
             }]
         },
@@ -526,7 +526,7 @@ ruleTester.run("comma-style", rule, {
             output: "var ar ={fst:1,\nsnd: [1\n,2]};",
             options: ["first", { exceptions: { ObjectExpression: true } }],
             errors: [{
-                messageId: "after",
+                messageId: "expectedCommaFirst",
                 type: "Literal"
             }]
         },
@@ -535,7 +535,7 @@ ruleTester.run("comma-style", rule, {
             output: "var ar ={fst:1\n,snd: [1,\n2]};",
             options: ["first", { exceptions: { ArrayExpression: true } }],
             errors: [{
-                messageId: "after",
+                messageId: "expectedCommaFirst",
                 type: "Property"
             }]
         },
@@ -543,14 +543,14 @@ ruleTester.run("comma-style", rule, {
             code: "var foo = [\n(bar\n)\n,\nbaz\n];",
             output: "var foo = [\n(bar\n),\nbaz\n];",
             errors: [{
-                messageId: "beforeAndAfter",
+                messageId: "unexpectedLineBeforeAndAfterComma",
                 type: "Identifier"
             }]
         },
         {
             code: "[(foo),\n,\nbar]",
             output: "[(foo),,\nbar]",
-            errors: [{ messageId: "beforeAndAfter" }]
+            errors: [{ messageId: "unexpectedLineBeforeAndAfterComma" }]
         }
     ]
 });

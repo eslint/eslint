@@ -57,13 +57,13 @@ ruleTester.run("consistent-this", rule, {
         { code: "var context = this", errors: [{ messageId: "unexpectedAlias", data: { name: "context" }, type: "VariableDeclarator" }] },
         { code: "var that = this", options: ["self"], errors: [{ messageId: "unexpectedAlias", data: { name: "that" }, type: "VariableDeclarator" }] },
         { code: "var foo = 42, self = this", options: ["that"], errors: [{ messageId: "unexpectedAlias", data: { name: "self" }, type: "VariableDeclarator" }] },
-        { code: "var self = 42", options: ["self"], errors: [{ messageId: "aliasIsNotThis", data: { name: "self" }, type: "VariableDeclarator" }] },
-        { code: "var self", options: ["self"], errors: [{ messageId: "aliasIsNotThis", data: { name: "self" }, type: "VariableDeclarator" }] },
-        { code: "var self; self = 42", options: ["self"], errors: [{ messageId: "aliasIsNotThis", data: { name: "self" }, type: "VariableDeclarator" }, { messageId: "aliasIsNotThis", data: { name: "self" }, type: "AssignmentExpression" }] },
+        { code: "var self = 42", options: ["self"], errors: [{ messageId: "aliasNotAssignedToThis", data: { name: "self" }, type: "VariableDeclarator" }] },
+        { code: "var self", options: ["self"], errors: [{ messageId: "aliasNotAssignedToThis", data: { name: "self" }, type: "VariableDeclarator" }] },
+        { code: "var self; self = 42", options: ["self"], errors: [{ messageId: "aliasNotAssignedToThis", data: { name: "self" }, type: "VariableDeclarator" }, { messageId: "aliasNotAssignedToThis", data: { name: "self" }, type: "AssignmentExpression" }] },
         { code: "context = this", options: ["that"], errors: [{ messageId: "unexpectedAlias", data: { name: "context" }, type: "AssignmentExpression" }] },
         { code: "that = this", options: ["self"], errors: [{ messageId: "unexpectedAlias", data: { name: "that" }, type: "AssignmentExpression" }] },
         { code: "self = this", options: ["that"], errors: [{ messageId: "unexpectedAlias", data: { name: "self" }, type: "AssignmentExpression" }] },
-        { code: "self += this", options: ["self"], errors: [{ messageId: "aliasIsNotThis", data: { name: "self" }, type: "AssignmentExpression" }] },
-        { code: "var self; (function() { self = this; }())", options: ["self"], errors: [{ messageId: "aliasIsNotThis", data: { name: "self" }, type: "VariableDeclarator" }] }
+        { code: "self += this", options: ["self"], errors: [{ messageId: "aliasNotAssignedToThis", data: { name: "self" }, type: "AssignmentExpression" }] },
+        { code: "var self; (function() { self = this; }())", options: ["self"], errors: [{ messageId: "aliasNotAssignedToThis", data: { name: "self" }, type: "VariableDeclarator" }] }
     ]
 });

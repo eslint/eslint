@@ -134,7 +134,7 @@ ruleTester.run("array-element-newline", rule, {
             options: ["always"],
             errors: [
                 {
-                    messageId: "lineBreak",
+                    messageId: "missingLineBreak",
                     line: 1,
                     column: 14,
                     endLine: 1,
@@ -148,14 +148,14 @@ ruleTester.run("array-element-newline", rule, {
             options: ["always"],
             errors: [
                 {
-                    messageId: "lineBreak",
+                    messageId: "missingLineBreak",
                     line: 1,
                     column: 14,
                     endLine: 1,
                     endColumn: 15
                 },
                 {
-                    messageId: "lineBreak",
+                    messageId: "missingLineBreak",
                     line: 1,
                     column: 17,
                     endLine: 1,
@@ -169,14 +169,14 @@ ruleTester.run("array-element-newline", rule, {
             options: ["always"],
             errors: [
                 {
-                    messageId: "lineBreak",
+                    messageId: "missingLineBreak",
                     line: 1,
                     column: 14,
                     endLine: 1,
                     endColumn: 14
                 },
                 {
-                    messageId: "lineBreak",
+                    messageId: "missingLineBreak",
                     line: 1,
                     column: 16,
                     endLine: 1,
@@ -190,14 +190,14 @@ ruleTester.run("array-element-newline", rule, {
             options: ["always"],
             errors: [
                 {
-                    messageId: "lineBreak",
+                    messageId: "missingLineBreak",
                     line: 1,
                     column: 14,
                     endLine: 1,
                     endColumn: 15
                 },
                 {
-                    messageId: "lineBreak",
+                    messageId: "missingLineBreak",
                     line: 1,
                     column: 19,
                     endLine: 1,
@@ -211,12 +211,12 @@ ruleTester.run("array-element-newline", rule, {
             options: ["always"],
             errors: [
                 {
-                    messageId: "lineBreak",
+                    messageId: "missingLineBreak",
                     line: 1,
                     column: 14
                 },
                 {
-                    messageId: "lineBreak",
+                    messageId: "missingLineBreak",
                     line: 3,
                     column: 3
                 }
@@ -228,7 +228,7 @@ ruleTester.run("array-element-newline", rule, {
             options: ["always"],
             errors: [
                 {
-                    messageId: "lineBreak",
+                    messageId: "missingLineBreak",
                     line: 1,
                     column: 14
                 }
@@ -240,14 +240,14 @@ ruleTester.run("array-element-newline", rule, {
             options: ["always"],
             errors: [
                 {
-                    messageId: "lineBreak",
+                    messageId: "missingLineBreak",
                     line: 1,
                     column: 14,
                     endLine: 1,
                     endColumn: 15
                 },
                 {
-                    messageId: "lineBreak",
+                    messageId: "missingLineBreak",
                     line: 1,
                     column: 25,
                     endLine: 1,
@@ -261,14 +261,14 @@ ruleTester.run("array-element-newline", rule, {
             options: ["always"],
             errors: [
                 {
-                    messageId: "lineBreak",
+                    messageId: "missingLineBreak",
                     line: 1,
                     column: 31,
                     endLine: 1,
                     endColumn: 31
                 },
                 {
-                    messageId: "lineBreak",
+                    messageId: "missingLineBreak",
                     line: 1,
                     column: 35,
                     endLine: 1,
@@ -282,14 +282,14 @@ ruleTester.run("array-element-newline", rule, {
             options: ["always"],
             errors: [
                 {
-                    messageId: "lineBreak",
+                    messageId: "missingLineBreak",
                     line: 1,
                     column: 14,
                     endLine: 1,
                     endColumn: 14
                 },
                 {
-                    messageId: "lineBreak",
+                    messageId: "missingLineBreak",
                     line: 1,
                     column: 20,
                     endLine: 1,
@@ -303,14 +303,14 @@ ruleTester.run("array-element-newline", rule, {
             options: ["always"],
             errors: [
                 {
-                    messageId: "lineBreak",
+                    messageId: "missingLineBreak",
                     line: 1,
                     column: 14,
                     endLine: 1,
                     endColumn: 15
                 },
                 {
-                    messageId: "lineBreak",
+                    messageId: "missingLineBreak",
                     line: 1,
                     column: 19,
                     endLine: 1,
@@ -324,7 +324,7 @@ ruleTester.run("array-element-newline", rule, {
             options: ["always"],
             errors: [
                 {
-                    messageId: "lineBreak",
+                    messageId: "missingLineBreak",
                     line: 4,
                     column: 3
                 }
@@ -336,7 +336,7 @@ ruleTester.run("array-element-newline", rule, {
             options: ["always"],
             errors: [
                 {
-                    messageId: "lineBreak",
+                    messageId: "missingLineBreak",
                     line: 4,
                     column: 4
                 }
@@ -350,7 +350,7 @@ ruleTester.run("array-element-newline", rule, {
             options: ["never"],
             errors: [
                 {
-                    messageId: "noLineBreak",
+                    messageId: "unexpectedLineBreak",
                     line: 2,
                     column: 3
                 }
@@ -362,7 +362,7 @@ ruleTester.run("array-element-newline", rule, {
             options: ["never"],
             errors: [
                 {
-                    messageId: "noLineBreak",
+                    messageId: "unexpectedLineBreak",
                     line: 3,
                     column: 2
                 }
@@ -374,7 +374,7 @@ ruleTester.run("array-element-newline", rule, {
             options: ["never"],
             errors: [
                 {
-                    messageId: "noLineBreak",
+                    messageId: "unexpectedLineBreak",
                     line: 3,
                     column: 2
                 }
@@ -386,7 +386,7 @@ ruleTester.run("array-element-newline", rule, {
             options: ["never"],
             errors: [
                 {
-                    messageId: "noLineBreak",
+                    messageId: "unexpectedLineBreak",
                     line: 2,
                     column: 18
                 }
@@ -398,7 +398,7 @@ ruleTester.run("array-element-newline", rule, {
             options: ["never"],
             errors: [
                 {
-                    messageId: "noLineBreak",
+                    messageId: "unexpectedLineBreak",
                     line: 2,
                     column: 3
                 }
@@ -410,14 +410,14 @@ ruleTester.run("array-element-newline", rule, {
             options: ["never"],
             errors: [
                 {
-                    messageId: "noLineBreak",
+                    messageId: "unexpectedLineBreak",
                     line: 2,
                     column: 3,
                     endLine: 3,
                     endColumn: 1
                 },
                 {
-                    messageId: "noLineBreak",
+                    messageId: "unexpectedLineBreak",
                     line: 3,
                     column: 3,
                     endLine: 4,
@@ -431,7 +431,7 @@ ruleTester.run("array-element-newline", rule, {
             options: ["never"],
             errors: [
                 {
-                    messageId: "noLineBreak",
+                    messageId: "unexpectedLineBreak",
                     line: 4,
                     column: 3
                 }
@@ -443,7 +443,7 @@ ruleTester.run("array-element-newline", rule, {
             options: ["never"],
             errors: [
                 {
-                    messageId: "noLineBreak",
+                    messageId: "unexpectedLineBreak",
                     line: 4,
                     column: 21
                 }
@@ -457,7 +457,7 @@ ruleTester.run("array-element-newline", rule, {
             options: [{ multiline: true }],
             errors: [
                 {
-                    messageId: "noLineBreak",
+                    messageId: "unexpectedLineBreak",
                     line: 1,
                     column: 14
                 }
@@ -469,7 +469,7 @@ ruleTester.run("array-element-newline", rule, {
             options: [{ multiline: true }],
             errors: [
                 {
-                    messageId: "lineBreak",
+                    messageId: "missingLineBreak",
                     line: 4,
                     column: 3
                 }
@@ -481,7 +481,7 @@ ruleTester.run("array-element-newline", rule, {
             options: [{ multiline: true }],
             errors: [
                 {
-                    messageId: "lineBreak",
+                    messageId: "missingLineBreak",
                     line: 4,
                     column: 21
                 }
@@ -495,7 +495,7 @@ ruleTester.run("array-element-newline", rule, {
             options: [{ minItems: null }],
             errors: [
                 {
-                    messageId: "noLineBreak",
+                    messageId: "unexpectedLineBreak",
                     line: 1,
                     column: 14
                 }
@@ -507,12 +507,12 @@ ruleTester.run("array-element-newline", rule, {
             options: [{ minItems: null }],
             errors: [
                 {
-                    messageId: "noLineBreak",
+                    messageId: "unexpectedLineBreak",
                     line: 1,
                     column: 14
                 },
                 {
-                    messageId: "noLineBreak",
+                    messageId: "unexpectedLineBreak",
                     line: 2,
                     column: 3
                 }
@@ -524,7 +524,7 @@ ruleTester.run("array-element-newline", rule, {
             options: [{ minItems: null }],
             errors: [
                 {
-                    messageId: "noLineBreak",
+                    messageId: "unexpectedLineBreak",
                     line: 4,
                     column: 3
                 }
@@ -538,7 +538,7 @@ ruleTester.run("array-element-newline", rule, {
             options: [{ minItems: 0 }],
             errors: [
                 {
-                    messageId: "lineBreak",
+                    messageId: "missingLineBreak",
                     line: 1,
                     column: 14
                 }
@@ -550,12 +550,12 @@ ruleTester.run("array-element-newline", rule, {
             options: [{ minItems: 0 }],
             errors: [
                 {
-                    messageId: "lineBreak",
+                    messageId: "missingLineBreak",
                     line: 1,
                     column: 14
                 },
                 {
-                    messageId: "lineBreak",
+                    messageId: "missingLineBreak",
                     line: 1,
                     column: 17
                 }
@@ -567,7 +567,7 @@ ruleTester.run("array-element-newline", rule, {
             options: [{ minItems: 0 }],
             errors: [
                 {
-                    messageId: "lineBreak",
+                    messageId: "missingLineBreak",
                     line: 4,
                     column: 3
                 }
@@ -581,7 +581,7 @@ ruleTester.run("array-element-newline", rule, {
             options: [{ minItems: 3 }],
             errors: [
                 {
-                    messageId: "noLineBreak",
+                    messageId: "unexpectedLineBreak",
                     line: 1,
                     column: 14
                 }
@@ -593,12 +593,12 @@ ruleTester.run("array-element-newline", rule, {
             options: [{ minItems: 3 }],
             errors: [
                 {
-                    messageId: "lineBreak",
+                    messageId: "missingLineBreak",
                     line: 1,
                     column: 14
                 },
                 {
-                    messageId: "lineBreak",
+                    messageId: "missingLineBreak",
                     line: 1,
                     column: 17
                 }
@@ -610,7 +610,7 @@ ruleTester.run("array-element-newline", rule, {
             options: [{ minItems: 3 }],
             errors: [
                 {
-                    messageId: "noLineBreak",
+                    messageId: "unexpectedLineBreak",
                     line: 4,
                     column: 3
                 }
@@ -624,12 +624,12 @@ ruleTester.run("array-element-newline", rule, {
             options: [{ multiline: true, minItems: 3 }],
             errors: [
                 {
-                    messageId: "lineBreak",
+                    messageId: "missingLineBreak",
                     line: 1,
                     column: 14
                 },
                 {
-                    messageId: "lineBreak",
+                    messageId: "missingLineBreak",
                     line: 1,
                     column: 17
                 }
@@ -641,7 +641,7 @@ ruleTester.run("array-element-newline", rule, {
             options: [{ multiline: true, minItems: 3 }],
             errors: [
                 {
-                    messageId: "noLineBreak",
+                    messageId: "unexpectedLineBreak",
                     line: 1,
                     column: 14
                 }
@@ -653,7 +653,7 @@ ruleTester.run("array-element-newline", rule, {
             options: [{ multiline: true, minItems: 3 }],
             errors: [
                 {
-                    messageId: "lineBreak",
+                    messageId: "missingLineBreak",
                     line: 4,
                     column: 3
                 }
@@ -671,7 +671,7 @@ ruleTester.run("array-element-newline", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    messageId: "lineBreak",
+                    messageId: "missingLineBreak",
                     line: 1,
                     column: 8
                 }
@@ -684,12 +684,12 @@ ruleTester.run("array-element-newline", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    messageId: "lineBreak",
+                    messageId: "missingLineBreak",
                     line: 1,
                     column: 8
                 },
                 {
-                    messageId: "lineBreak",
+                    messageId: "missingLineBreak",
                     line: 1,
                     column: 11
                 }
@@ -704,7 +704,7 @@ ruleTester.run("array-element-newline", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    messageId: "noLineBreak",
+                    messageId: "unexpectedLineBreak",
                     line: 1,
                     column: 8
                 }
@@ -717,12 +717,12 @@ ruleTester.run("array-element-newline", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    messageId: "lineBreak",
+                    messageId: "missingLineBreak",
                     line: 1,
                     column: 8
                 },
                 {
-                    messageId: "lineBreak",
+                    messageId: "missingLineBreak",
                     line: 1,
                     column: 11
                 }

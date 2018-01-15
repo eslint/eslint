@@ -82,7 +82,7 @@ ruleTester.run("computed-property-spacing", rule, {
             options: ["always"],
             errors: [
                 {
-                    messageId: "missingBefore",
+                    messageId: "missingSpaceBefore",
                     data: { tokenValue: "]" },
                     type: "MemberExpression",
                     column: 17,
@@ -96,7 +96,7 @@ ruleTester.run("computed-property-spacing", rule, {
             options: ["always"],
             errors: [
                 {
-                    messageId: "missingAfter",
+                    messageId: "missingSpaceAfter",
                     data: { tokenValue: "[" },
                     type: "MemberExpression",
                     column: 14,
@@ -110,7 +110,7 @@ ruleTester.run("computed-property-spacing", rule, {
             options: ["never"],
             errors: [
                 {
-                    messageId: "after",
+                    messageId: "unexpectedSpaceAfter",
                     data: { tokenValue: "[" },
                     type: "MemberExpression",
                     column: 14,
@@ -124,7 +124,7 @@ ruleTester.run("computed-property-spacing", rule, {
             options: ["never"],
             errors: [
                 {
-                    messageId: "before",
+                    messageId: "unexpectedSpaceBefore",
                     data: { tokenValue: "]" },
                     type: "MemberExpression"
                 }
@@ -136,14 +136,14 @@ ruleTester.run("computed-property-spacing", rule, {
             options: ["never"],
             errors: [
                 {
-                    messageId: "after",
+                    messageId: "unexpectedSpaceAfter",
                     data: { tokenValue: "[" },
                     type: "MemberExpression",
                     column: 4,
                     line: 1
                 },
                 {
-                    messageId: "before",
+                    messageId: "unexpectedSpaceBefore",
                     data: { tokenValue: "]" },
                     type: "MemberExpression",
                     column: 10,
@@ -157,7 +157,7 @@ ruleTester.run("computed-property-spacing", rule, {
             options: ["never"],
             errors: [
                 {
-                    messageId: "before",
+                    messageId: "unexpectedSpaceBefore",
                     data: { tokenValue: "]" },
                     type: "MemberExpression",
                     column: 9,
@@ -171,7 +171,7 @@ ruleTester.run("computed-property-spacing", rule, {
             options: ["never"],
             errors: [
                 {
-                    messageId: "after",
+                    messageId: "unexpectedSpaceAfter",
                     data: { tokenValue: "[" },
                     type: "MemberExpression",
                     column: 4,
@@ -185,14 +185,14 @@ ruleTester.run("computed-property-spacing", rule, {
             options: ["always"],
             errors: [
                 {
-                    messageId: "missingAfter",
+                    messageId: "missingSpaceAfter",
                     data: { tokenValue: "[" },
                     type: "MemberExpression",
                     column: 14,
                     line: 1
                 },
                 {
-                    messageId: "missingBefore",
+                    messageId: "missingSpaceBefore",
                     data: { tokenValue: "]" },
                     type: "MemberExpression",
                     column: 16,
@@ -209,14 +209,14 @@ ruleTester.run("computed-property-spacing", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    messageId: "missingAfter",
+                    messageId: "missingSpaceAfter",
                     data: { tokenValue: "[" },
                     type: "Property",
                     column: 10,
                     line: 1
                 },
                 {
-                    messageId: "missingBefore",
+                    messageId: "missingSpaceBefore",
                     data: { tokenValue: "]" },
                     type: "Property",
                     column: 12,
@@ -231,7 +231,7 @@ ruleTester.run("computed-property-spacing", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    messageId: "missingAfter",
+                    messageId: "missingSpaceAfter",
                     data: { tokenValue: "[" },
                     type: "Property",
                     column: 10,
@@ -246,7 +246,7 @@ ruleTester.run("computed-property-spacing", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    messageId: "missingBefore",
+                    messageId: "missingSpaceBefore",
                     data: { tokenValue: "]" },
                     type: "Property",
                     column: 13,
@@ -263,14 +263,14 @@ ruleTester.run("computed-property-spacing", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    messageId: "after",
+                    messageId: "unexpectedSpaceAfter",
                     data: { tokenValue: "[" },
                     type: "Property",
                     column: 10,
                     line: 1
                 },
                 {
-                    messageId: "before",
+                    messageId: "unexpectedSpaceBefore",
                     data: { tokenValue: "]" },
                     type: "Property",
                     column: 14,
@@ -285,7 +285,7 @@ ruleTester.run("computed-property-spacing", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    messageId: "before",
+                    messageId: "unexpectedSpaceBefore",
                     data: { tokenValue: "]" },
                     type: "Property",
                     column: 13,
@@ -300,7 +300,7 @@ ruleTester.run("computed-property-spacing", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    messageId: "after",
+                    messageId: "unexpectedSpaceAfter",
                     data: { tokenValue: "[" },
                     type: "Property",
                     column: 10,
@@ -315,7 +315,7 @@ ruleTester.run("computed-property-spacing", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    messageId: "after",
+                    messageId: "unexpectedSpaceAfter",
                     data: { tokenValue: "[" },
                     type: "Property",
                     column: 10,
