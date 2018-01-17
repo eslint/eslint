@@ -334,7 +334,7 @@ The `CLIEngine` is a constructor, and you can create a new instance by passing i
 * `cache` - Operate only on changed files (default: `false`). Corresponds to `--cache`.
 * `cacheFile` - Name of the file where the cache will be stored (default: `.eslintcache`). Corresponds to `--cache-file`. Deprecated: use `cacheLocation` instead.
 * `cacheLocation` - Name of the file or directory where the cache will be stored (default: `.eslintcache`). Corresponds to `--cache-location`.
-* `configFile` - The configuration file to use (default: null). Corresponds to `-c`.
+* `configFile` - The configuration file to use (default: null). If `useEslintrc` is true or not specified, this configuration will be merged with any configuration defined in `.eslintrc.*` files, with options in this configuration having precedence. Corresponds to `-c`.
 * `cwd` - Path to a directory that should be considered as the current working directory.
 * `envs` - An array of environments to load (default: empty array). Corresponds to `--env`.
 * `extensions` - An array of filename extensions that should be checked for code. The default is an array containing just `".js"`. Corresponds to `--ext`. It is only used in conjunction with directories, not with filenames or glob patterns.
