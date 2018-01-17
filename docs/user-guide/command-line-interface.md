@@ -30,8 +30,8 @@ The command line utility has several options. You can view the options by runnin
 eslint [options] file.js [file.js] [dir]
 
 Basic configuration:
-  -c, --config path::String      Use configuration from this file or shareable config
-  --no-eslintrc                  Disable use of configuration from .eslintrc
+  --no-eslintrc                  Disable use of configuration from .eslintrc.*
+  -c, --config path::String      Use this configuration, overriding .eslintrc.* config options if present
   --env [String]                 Specify environments
   --ext [String]                 Specify JavaScript file extensions - default: .js
   --global [String]              Define global variables
@@ -92,6 +92,14 @@ Example:
 
 ### Basic configuration
 
+#### `--no-eslintrc`
+
+Disables use of configuration from `.eslintrc.*` and `package.json` files.
+
+Example:
+
+    eslint --no-eslintrc file.js
+
 #### `-c`, `--config`
 
 This option allows you to specify an additional configuration file for ESLint (see [Configuring ESLint](configuring) for more).
@@ -110,13 +118,7 @@ Example:
 
 This example directly uses the sharable config `eslint-config-myconfig`.
 
-#### `--no-eslintrc`
-
-Disables use of configuration from `.eslintrc` and `package.json` files.
-
-Example:
-
-    eslint --no-eslintrc file.js
+If `.eslintrc.*` and/or `package.json` files are also used for configuration (i.e., `--no-eslintrc` was not specified), the configurations will be merged. Options from this configuration file have precedence over the options from `.eslintrc.*` and `package.json` files.
 
 #### `--env`
 
