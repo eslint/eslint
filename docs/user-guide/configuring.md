@@ -552,7 +552,7 @@ The complete configuration hierarchy, from highest precedence to lowest preceden
     1. `/*global*/`
     1. `/*eslint*/`
     1. `/*eslint-env*/`
-1. Command line options:
+1. Command line options (or CLIEngine equivalents):
     1. `--global`
     1. `--rule`
     1. `--env`
