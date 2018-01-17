@@ -190,7 +190,7 @@ ruleTester.run("no-restricted-imports", rule, {
         options: ["fs"],
         errors: [{ message: "'fs' import is restricted from being used.", type: "ExportAllDeclaration" }]
     }, {
-        code: "import { default as os } from \"os \";",
+        code: "export { default as os } from \"os \";",
         options: ["fs", "crypto ", "stream", "os"],
         errors: [{ message: "'os' import is restricted from being used.", type: "ExportNamedDeclaration" }]
     }, {
