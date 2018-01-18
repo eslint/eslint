@@ -34,7 +34,7 @@
   "homepage": "https://eslint.org",
   "bugs": "https://github.com/eslint/eslint/issues/",
   "dependencies": {
-    "ajv": "^5.3.0",
+    "ajv": "^6.0.1",
     "babel-code-frame": "^6.26.0",
     "chalk": "^2.1.0",
     "concat-stream": "^1.6.2",
