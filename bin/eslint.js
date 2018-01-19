@@ -15,6 +15,7 @@
 
 const useStdIn = (process.argv.indexOf("--stdin") > -1),
     init = (process.argv.indexOf("--init") > -1),
+    yarn = (process.argv.indexOf("--yarn") > -1),
     debug = (process.argv.indexOf("--debug") > -1);
 
 // must do this initialization *before* other requires in order to work
@@ -62,6 +63,8 @@ if (useStdIn) {
     }));
 } else if (init) {
     const configInit = require("../lib/config/config-initializer");
+
+    configInit.setCliOptions({ yarn });
 
     configInit.initializeConfig().then(() => {
         process.exitCode = 0;
