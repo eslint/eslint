@@ -2,10 +2,11 @@
 
 **Note:** This page covers the most recent rule format for ESLint >= 3.0.0. There is also a [deprecated rule format](./working-with-rules-deprecated.md).
 
-Each rule in ESLint has two files named with its identifier (for example, `no-extra-semi`).
+Each rule in ESLint has three files named with its identifier (for example, `no-extra-semi`).
 
 * in the `lib/rules` directory: a source file (for example, `no-extra-semi.js`)
 * in the `tests/lib/rules` directory: a test file (for example, `no-extra-semi.js`)
+* in the `docs/rules` directory: a Markdown documentation file (for example, `no-extra-semi.md`)
 
 **Important:** If you submit a **core** rule to the ESLint repository, you **must** follow some conventions explained below.
 
@@ -28,7 +29,8 @@ module.exports = {
         docs: {
             description: "disallow unnecessary semicolons",
             category: "Possible Errors",
-            recommended: true
+            recommended: true,
+            url: "https://eslint.org/docs/rules/no-extra-semi"
         },
         fixable: "code",
         schema: [] // no options
@@ -52,6 +54,7 @@ The source file for a rule exports an object with the following properties.
     * `description` (string) provides the short description of the rule in the [rules index](../rules/)
     * `category` (string) specifies the heading under which the rule is listed in the [rules index](../rules/)
     * `recommended` (boolean) is whether the `"extends": "eslint:recommended"` property in a [configuration file](../user-guide/configuring.md#extending-configuration-files) enables the rule
+    * `url` (string) specifies the URL at which the full documentation can be accessed
 
     In a custom rule or plugin, you can omit `docs` or include any properties that you need in it.
 
@@ -188,6 +191,7 @@ Instead of typing out messages in both the `context.report()` call and your test
 This allows you to avoid retyping error messages. It also prevents errors reported in different sections of your rule from having out-of-date messages.
 
 ```js
+{% raw %}
 // in your rule
 module.exports = {
     meta: {
@@ -204,7 +208,7 @@ module.exports = {
                         messageId: "avoidName",
                         data: {
                             name: "foo",
-                        },
+                        }
                     });
                 }
             }
@@ -214,14 +218,14 @@ module.exports = {
 
 // in the file to lint:
 
-var foo = 2
+var foo = 2;
 //  ^ error: Avoid using variables named 'foo'
 
 // In your tests:
-var rule = require('../../../lib/rules/no-insecure-random')
-var RuleTester = require('eslint').RuleTester
+var rule = require('../../../lib/rules/no-insecure-random');
+var RuleTester = require('eslint').RuleTester;
 
-var ruleTester = new RuleTester()
+var ruleTester = new RuleTester();
 ruleTester.run('my-rule', rule, {
   valid: ['bar', 'baz'],
 
@@ -231,11 +235,12 @@ ruleTester.run('my-rule', rule, {
       errors: [
         {
           messageId: 'foo',
-        },
-      ],
-    },
-  ],
-})
+        }
+      ]
+    }
+  ]
+});
+{% endraw %}
 ```
 
 ### Applying Fixes

@@ -334,7 +334,7 @@ The `CLIEngine` is a constructor, and you can create a new instance by passing i
 * `cache` - Operate only on changed files (default: `false`). Corresponds to `--cache`.
 * `cacheFile` - Name of the file where the cache will be stored (default: `.eslintcache`). Corresponds to `--cache-file`. Deprecated: use `cacheLocation` instead.
 * `cacheLocation` - Name of the file or directory where the cache will be stored (default: `.eslintcache`). Corresponds to `--cache-location`.
-* `configFile` - The configuration file to use (default: null). Corresponds to `-c`.
+* `configFile` - The configuration file to use (default: null). If `useEslintrc` is true or not specified, this configuration will be merged with any configuration defined in `.eslintrc.*` files, with options in this configuration having precedence. Corresponds to `-c`.
 * `cwd` - Path to a directory that should be considered as the current working directory.
 * `envs` - An array of environments to load (default: empty array). Corresponds to `--env`.
 * `extensions` - An array of filename extensions that should be checked for code. The default is an array containing just `".js"`. Corresponds to `--ext`. It is only used in conjunction with directories, not with filenames or glob patterns.
@@ -820,9 +820,9 @@ In addition to the properties above, invalid test cases can also have the follow
     * `message` (string/regexp): The message for the error
     * `type` (string): The type of the reported AST node
     * `line` (number): The 1-based line number of the reported location
-    * `column` (number): The 0-based column number of the reported location
+    * `column` (number): The 1-based column number of the reported location
     * `endLine` (number): The 1-based line number of the end of the reported location
-    * `endColumn` (number): The 0-based column number of the end of the reported location
+    * `endColumn` (number): The 1-based column number of the end of the reported location
 
     If a string is provided as an error instead of an object, the string is used to assert the `message` of the error.
 * `output` (string, optional): Asserts the output that will be produced when using this rule for a single pass of autofixing (e.g. with the `--fix` command line flag). If this is `null`, asserts that none of the reported problems suggest autofixes.

@@ -1,3 +1,26 @@
+v4.16.0 - January 19, 2018
+
+* e26a25f Update: allow continue instead of if wrap in guard-for-in (fixes #7567) (#9796) (Michael Ficarra)
+* af043eb Update: Add NewExpression support to comma-style (#9591) (Frazer McLean)
+* 4f898c7 Build: Fix JSDoc syntax errors (#9813) (Matija Marohnić)
+* 13bcf3c Fix: Removing curly quotes in no-eq-null report message (#9852) (Kevin Partington)
+* b96fb31 Docs: configuration hierarchy for CLIEngine options (fixes #9526) (#9855) (PiIsFour)
+* 8ccbdda Docs: Clarify that -c configs merge with `.eslintrc.*` (fixes #9535) (#9847) (Kevin Partington)
+* 978574f Docs: Fix examples for no-useless-escape (#9853) (Toru Kobayashi)
+* cd5681d Chore: Deactivate consistent-docs-url in internal rules folder (#9815) (Kevin Partington)
+* 2e87ddd Docs: Sync messageId examples' style with other examples (#9816) (Kevin Partington)
+* 1d61930 Update: use doctrine range information in valid-jsdoc (#9831) (Teddy Katz)
+* 133336e Update: fix indent behavior on template literal arguments (fixes #9061) (#9820) (Teddy Katz)
+* ea1b15d Fix: avoid crashing on malformed configuration comments (fixes #9373) (#9819) (Teddy Katz)
+* add1e70 Update: fix indent bug on comments in ternary expressions (fixes #9729) (#9818) (Teddy Katz)
+* 6a5cd32 Fix: prefer-destructuring error with computed properties (fixes #9784) (#9817) (Teddy Katz)
+* 601f851 Docs: Minor modification to code comments for clarity (#9821) (rgovind92)
+* b9da067 Docs: fix misleading info about RuleTester column numbers (#9830) (Teddy Katz)
+* 2cf4522 Update: Rename and deprecate object-property-newline option (#9570) (Jonathan Pool)
+* acde640 Docs: Add ES 2018 to Configuring ESLint (#9829) (Kai Cataldo)
+* ccfce15 Docs: Minor tweaks to working with rules page (#9824) (Kevin Partington)
+* 54b329a Docs: fix substitution of {{ name }} (#9822) (Andres Kalle)
+
 v4.15.0 - January 6, 2018
 
 * 6ab04b5 New: Add context.report({ messageId }) (fixes #6740) (#9165) (Jed Fox)

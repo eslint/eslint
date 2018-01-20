@@ -151,7 +151,7 @@ function isCorrectExportsFormat(node) {
 
 module.exports = {
     meta: {
-        docs: {// eslint-disable-line rulesdir/consistent-docs-url
+        docs: {
             description: "enforce correct use of `meta` property in core rules",
             category: "Internal",
             recommended: false

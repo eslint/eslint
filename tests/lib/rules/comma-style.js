@@ -36,6 +36,7 @@ ruleTester.run("comma-style", rule, {
         "var foo = [\n(bar),\nbaz\n];",
         "var foo = [\n(bar\n),\nbaz\n];",
         "var foo = [\n(\nbar\n),\nbaz\n];",
+        "new Foo(a\n,b);",
         { code: "var foo = [\n(bar\n)\n,baz\n];", options: ["first"] },
         "var foo = \n1, \nbar = [1,\n2,\n3]",
         { code: "var foo = ['apples'\n,'oranges'];", options: ["first"] },
@@ -45,6 +46,7 @@ ruleTester.run("comma-style", rule, {
         { code: "var foo = [1 \n ,2 \n, 3];", options: ["first"] },
         { code: "function foo(){return {'a': 1\n,'b': 2}}", options: ["first"] },
         { code: "function foo(){var a=[1\n, 2]}", options: ["first"] },
+        { code: "new Foo(a,\nb);", options: ["first"] },
         "f(1\n, 2);",
         "function foo(a\n, b) { return a + b; }",
         {
@@ -124,6 +126,14 @@ ruleTester.run("comma-style", rule, {
             parserOptions: {
                 ecmaVersion: 6
             }
+        },
+        {
+            code: "new Foo(a,\nb);",
+            options: ["first", {
+                exceptions: {
+                    NewExpression: true
+                }
+            }]
         },
         {
             code: "f(1\n, 2);",
@@ -207,6 +217,22 @@ ruleTester.run("comma-style", rule, {
             parserOptions: {
                 ecmaVersion: 6
             }
+        },
+        {
+            code: "new Foo(a,\nb);",
+            options: ["last", {
+                exceptions: {
+                    NewExpression: false
+                }
+            }]
+        },
+        {
+            code: "new Foo(a\n,b);",
+            options: ["last", {
+                exceptions: {
+                    NewExpression: true
+                }
+            }]
         }
     ],
 
@@ -250,6 +276,16 @@ ruleTester.run("comma-style", rule, {
                 messageId: "unexpectedLineBeforeAndAfterComma",
                 type: "VariableDeclarator"
             }]
+        },
+        {
+            code: "new Foo(a\n,\nb);",
+            output: "new Foo(a,\nb);",
+            options: ["last", {
+                exceptions: {
+                    NewExpression: false
+                }
+            }],
+            errors: [{ messageId: "unexpectedLineBeforeAndAfterComma" }]
         },
         {
             code: "var foo = 1\n,bar = 2;",
@@ -540,6 +576,16 @@ ruleTester.run("comma-style", rule, {
             }]
         },
         {
+            code: "new Foo(a,\nb);",
+            output: "new Foo(a\n,b);",
+            options: ["first", {
+                exceptions: {
+                    NewExpression: false
+                }
+            }],
+            errors: [{ messageId: "expectedCommaFirst" }]
+        },
+        {
             code: "var foo = [\n(bar\n)\n,\nbaz\n];",
             output: "var foo = [\n(bar\n),\nbaz\n];",
             errors: [{
@@ -551,6 +597,16 @@ ruleTester.run("comma-style", rule, {
             code: "[(foo),\n,\nbar]",
             output: "[(foo),,\nbar]",
             errors: [{ messageId: "unexpectedLineBeforeAndAfterComma" }]
+        },
+        {
+            code: "new Foo(a\n,b);",
+            output: "new Foo(a,\nb);",
+            options: ["last", {
+                exceptions: {
+                    NewExpression: false
+                }
+            }],
+            errors: [{ messageId: "expectedCommaLast" }]
         }
     ]
 });
