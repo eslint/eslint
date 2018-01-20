@@ -179,6 +179,16 @@ describe("npmUtil", () => {
             stub.restore();
         });
 
+        it("should invoke yarn when called with yarn option", () => {
+            const stub = sandbox.stub(spawn, "sync").returns({ stdout: "" });
+
+            npmUtil.installSyncSaveDev("desired-package", { yarn: true });
+            assert(stub.calledOnce);
+            assert.strictEqual(stub.firstCall.args[0], "yarn");
+            assert.deepStrictEqual(stub.firstCall.args[1], ["add", "--dev", "desired-package"]);
+            stub.restore();
+        });
+
         it("should accept an array of packages to install", () => {
             const stub = sandbox.stub(spawn, "sync").returns({ stdout: "" });
 

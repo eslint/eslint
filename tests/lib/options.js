@@ -320,6 +320,14 @@ describe("options", () => {
         });
     });
 
+    describe("--yarn", () => {
+        it("should return true for --yarn when passed", () => {
+            const currentOptions = options.parse("--yarn");
+
+            assert.isTrue(currentOptions.yarn);
+        });
+    });
+
     describe("--fix", () => {
         it("should return true for --fix when passed", () => {
             const currentOptions = options.parse("--fix");
