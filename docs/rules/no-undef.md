@@ -1,6 +1,6 @@
 # Disallow Undeclared Variables (no-undef)
 
-This rule can help you locate potential ReferenceErrors resulting from misspellings of variable and parameter names, or accidental implicit globals (for example, from forgetting the `var` keyword in a `for` loop initializer). If you use specific globals that are defined in a different file (e.g. imported via an HTML `<script>` tag), you can specify them in the [`globals` key in the configuration file](https://eslint.org/docs/user-guide/configuring#specifying-globals).
+This rule can help you locate potential ReferenceErrors resulting from misspellings of variable and parameter names, or accidental implicit globals (for example, from forgetting the `var` keyword in a `for` loop initializer). If you intentionally use globals that are defined elsewhere, you can specify them in the [`globals` key in the configuration file](https://eslint.org/docs/user-guide/configuring#specifying-globals).
 
 ## Rule Details
 
