@@ -37,6 +37,7 @@ var foo = array[someIndex];
 // With `object` enabled
 var { foo } = object;
 var foo = object.bar;
+({ foo } = object.bar);
 ```
 
 Examples of **incorrect** code when `enforceForRenamedProperties` is enabled:
