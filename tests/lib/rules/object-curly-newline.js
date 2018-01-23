@@ -432,6 +432,134 @@ ruleTester.run("object-curly-newline", rule, {
             ].join("\n"),
             options: [{ ObjectExpression: "always", ObjectPattern: "never" }],
             parserOptions: { ecmaVersion: 6 }
+        },
+
+        // "ImportDeclaration" ---------------------------------------------
+        {
+            code: [
+                "import {",
+                "    a,",
+                " b",
+                "} from 'module';"
+            ].join("\n"),
+            options: [{ ImportDeclaration: "always" }],
+            parserOptions: { sourceType: "module" }
+        },
+        {
+            code: [
+                "import {a as a, b} from 'module';"
+            ].join("\n"),
+            options: [{ ImportDeclaration: "never" }],
+            parserOptions: { sourceType: "module" }
+        },
+        {
+            code: [
+                "import { a, } from 'module';"
+            ].join("\n"),
+            options: [{ ImportDeclaration: { multiline: true } }],
+            parserOptions: { sourceType: "module" }
+        },
+        {
+            code: [
+                "import {",
+                "a, ",
+                "b",
+                "} from 'module';"
+            ].join("\n"),
+            options: [{ ImportDeclaration: { multiline: true } }],
+            parserOptions: { sourceType: "module" }
+        },
+        {
+            code: [
+                "import {",
+                " a,",
+                "} from 'module';"
+            ].join("\n"),
+            options: [{ ImportDeclaration: { consistent: true } }],
+            parserOptions: { sourceType: "module" }
+        },
+        {
+            code: [
+                "import { a } from 'module';"
+            ].join("\n"),
+            options: [{ ImportDeclaration: { consistent: true } }],
+            parserOptions: { sourceType: "module" }
+        },
+        {
+            code: [
+                "import {",
+                "a, b",
+                "} from 'module';"
+            ].join("\n"),
+            options: [{ ImportDeclaration: { minProperties: 2 } }],
+            parserOptions: { sourceType: "module" }
+        },
+        {
+            code: [
+                "import {a, b} from 'module';"
+            ].join("\n"),
+            options: [{ ImportDeclaration: { minProperties: 3 } }],
+            parserOptions: { sourceType: "module" }
+        },
+
+        // "ExportDeclaration" ---------------------------------------------
+        {
+            code: [
+                "export {a,",
+                "b};"
+            ].join("\n"),
+            options: [{ ExportDeclaration: "never" }],
+            parserOptions: { sourceType: "module" }
+        },
+        {
+            code: [
+                "export {",
+                "a as a, b",
+                "} from 'module';"
+            ].join("\n"),
+            options: [{ ExportDeclaration: "always" }],
+            parserOptions: { sourceType: "module" }
+        },
+        {
+            code: [
+                "export { a } from 'module';"
+            ].join("\n"),
+            options: [{ ExportDeclaration: { multiline: true } }],
+            parserOptions: { sourceType: "module" }
+        },
+        {
+            code: [
+                "export {",
+                "a, ",
+                "b",
+                "} from 'module';"
+            ].join("\n"),
+            options: [{ ExportDeclaration: { multiline: true } }],
+            parserOptions: { sourceType: "module" }
+        },
+        {
+            code: [
+                "export {a, ",
+                "b} from 'module';"
+            ].join("\n"),
+            options: [{ ExportDeclaration: { consistent: true } }],
+            parserOptions: { sourceType: "module" }
+        },
+        {
+            code: [
+                "export {",
+                "a, b",
+                "} from 'module';"
+            ].join("\n"),
+            options: [{ ExportDeclaration: { minProperties: 2 } }],
+            parserOptions: { sourceType: "module" }
+        },
+        {
+            code: [
+                "export {a, b} from 'module';"
+            ].join("\n"),
+            options: [{ ExportDeclaration: { minProperties: 3 } }],
+            parserOptions: { sourceType: "module" }
         }
     ],
     invalid: [
@@ -1351,6 +1479,254 @@ ruleTester.run("object-curly-newline", rule, {
                 { line: 3, column: 1, message: "Unexpected line break before this closing brace." },
                 { line: 3, column: 5, message: "Expected a line break after this opening brace." },
                 { line: 3, column: 16, message: "Expected a line break before this closing brace." }
+            ]
+        },
+
+        // "ImportDeclaration" ---------------------------------------------
+        {
+            code: [
+                "import {",
+                "    a,",
+                " b",
+                "} from 'module';"
+            ].join("\n"),
+            output: [
+                "import {a,",
+                " b} from 'module';"
+            ].join("\n"),
+            options: [{ ImportDeclaration: "never" }],
+            parserOptions: { sourceType: "module" },
+            errors: [
+                { line: 1, column: 8, message: "Unexpected line break after this opening brace." },
+                { line: 4, column: 1, message: "Unexpected line break before this closing brace." }
+            ]
+        },
+        {
+            code: [
+                "import {a, b} from 'module';"
+            ].join("\n"),
+            output: [
+                "import {",
+                "a, b",
+                "} from 'module';"
+            ].join("\n"),
+            options: [{ ImportDeclaration: "always" }],
+            parserOptions: { sourceType: "module" },
+            errors: [
+                { line: 1, column: 8, message: "Expected a line break after this opening brace." },
+                { line: 1, column: 13, message: "Expected a line break before this closing brace." }
+            ]
+        },
+        {
+            code: [
+                "import {a as c, b} from 'module';"
+            ].join("\n"),
+            output: [
+                "import {",
+                "a as c, b",
+                "} from 'module';"
+            ].join("\n"),
+            options: [{ ImportDeclaration: "always" }],
+            parserOptions: { sourceType: "module" },
+            errors: [
+                { line: 1, column: 8, message: "Expected a line break after this opening brace." },
+                { line: 1, column: 18, message: "Expected a line break before this closing brace." }
+            ]
+        },
+        {
+            code: [
+                "import {a, ",
+                "b} from 'module';"
+            ].join("\n"),
+            output: [
+                "import {",
+                "a, ",
+                "b",
+                "} from 'module';"
+            ].join("\n"),
+            options: [{ ImportDeclaration: { multiline: true } }],
+            parserOptions: { sourceType: "module" },
+            errors: [
+                { line: 1, column: 8, message: "Expected a line break after this opening brace." },
+                { line: 2, column: 2, message: "Expected a line break before this closing brace." }
+            ]
+        },
+        {
+            code: [
+                "import {a, ",
+                "b",
+                "} from 'module';"
+            ].join("\n"),
+            output: [
+                "import {a, ",
+                "b} from 'module';"
+            ].join("\n"),
+            options: [{ ImportDeclaration: { consistent: true } }],
+            parserOptions: { sourceType: "module" },
+            errors: [
+                { line: 3, column: 1, message: "Unexpected line break before this closing brace." }
+            ]
+        },
+        {
+            code: [
+                "import {a, b",
+                "} from 'module';"
+            ].join("\n"),
+            output: [
+                "import {a, b} from 'module';"
+            ].join("\n"),
+            options: [{ ImportDeclaration: { consistent: true } }],
+            parserOptions: { sourceType: "module" },
+            errors: [
+                { line: 2, column: 1, message: "Unexpected line break before this closing brace." }
+            ]
+        },
+        {
+            code: [
+                "import {a, b} from 'module';"
+            ].join("\n"),
+            output: [
+                "import {",
+                "a, b",
+                "} from 'module';"
+            ].join("\n"),
+            options: [{ ImportDeclaration: { minProperties: 2 } }],
+            parserOptions: { sourceType: "module" },
+            errors: [
+                { line: 1, column: 8, message: "Expected a line break after this opening brace." },
+                { line: 1, column: 13, message: "Expected a line break before this closing brace." }
+            ]
+        },
+        {
+            code: [
+                "import {",
+                "a, b",
+                "} from 'module';"
+            ].join("\n"),
+            output: [
+                "import {a, b} from 'module';"
+            ].join("\n"),
+            options: [{ ImportDeclaration: { minProperties: 3 } }],
+            parserOptions: { sourceType: "module" },
+            errors: [
+                { line: 1, column: 8, message: "Unexpected line break after this opening brace." },
+                { line: 3, column: 1, message: "Unexpected line break before this closing brace." }
+            ]
+        },
+
+        // "ExportDeclaration" ---------------------------------------------
+        {
+            code: [
+                "export {",
+                "    a,",
+                "    b",
+                "};"
+            ].join("\n"),
+            output: [
+                "export {a,",
+                "    b};"
+            ].join("\n"),
+            options: [{ ExportDeclaration: "never" }],
+            parserOptions: { sourceType: "module" },
+            errors: [
+                { line: 1, column: 8, message: "Unexpected line break after this opening brace." },
+                { line: 4, column: 1, message: "Unexpected line break before this closing brace." }
+            ]
+        },
+        {
+            code: [
+                "export {a as a, b} from 'module';"
+            ].join("\n"),
+            output: [
+                "export {",
+                "a as a, b",
+                "} from 'module';"
+            ].join("\n"),
+            options: [{ ExportDeclaration: "always" }],
+            parserOptions: { sourceType: "module" },
+            errors: [
+                { line: 1, column: 8, message: "Expected a line break after this opening brace." },
+                { line: 1, column: 18, message: "Expected a line break before this closing brace." }
+            ]
+        },
+        {
+            code: [
+                "export {a, ",
+                "b} from 'module';"
+            ].join("\n"),
+            output: [
+                "export {",
+                "a, ",
+                "b",
+                "} from 'module';"
+            ].join("\n"),
+            options: [{ ExportDeclaration: { multiline: true } }],
+            parserOptions: { sourceType: "module" },
+            errors: [
+                { line: 1, column: 8, message: "Expected a line break after this opening brace." },
+                { line: 2, column: 2, message: "Expected a line break before this closing brace." }
+            ]
+        },
+        {
+            code: [
+                "export {a, ",
+                "b,",
+                "} from 'module';"
+            ].join("\n"),
+            output: [
+                "export {a, ",
+                "b,} from 'module';"
+            ].join("\n"),
+            options: [{ ExportDeclaration: { consistent: true } }],
+            parserOptions: { sourceType: "module" },
+            errors: [
+                { line: 3, column: 1, message: "Unexpected line break before this closing brace." }
+            ]
+        },
+        {
+            code: [
+                "export {a, b",
+                "} from 'module';"
+            ].join("\n"),
+            output: [
+                "export {a, b} from 'module';"
+            ].join("\n"),
+            options: [{ ExportDeclaration: { consistent: true } }],
+            parserOptions: { sourceType: "module" },
+            errors: [
+                { line: 2, column: 1, message: "Unexpected line break before this closing brace." }
+            ]
+        },
+        {
+            code: [
+                "export {a, b,} from 'module';"
+            ].join("\n"),
+            output: [
+                "export {",
+                "a, b,",
+                "} from 'module';"
+            ].join("\n"),
+            options: [{ ExportDeclaration: { minProperties: 2 } }],
+            parserOptions: { sourceType: "module" },
+            errors: [
+                { line: 1, column: 8, message: "Expected a line break after this opening brace." },
+                { line: 1, column: 14, message: "Expected a line break before this closing brace." }
+            ]
+        },
+        {
+            code: [
+                "export {",
+                "a, b",
+                "} from 'module';"
+            ].join("\n"),
+            output: [
+                "export {a, b} from 'module';"
+            ].join("\n"),
+            options: [{ ExportDeclaration: { minProperties: 3 } }],
+            parserOptions: { sourceType: "module" },
+            errors: [
+                { line: 1, column: 8, message: "Unexpected line break after this opening brace." },
+                { line: 3, column: 1, message: "Unexpected line break before this closing brace." }
             ]
         }
     ]
