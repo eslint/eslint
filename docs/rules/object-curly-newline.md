@@ -19,19 +19,23 @@ Or an object option:
 * `"minProperties"` requires line breaks if the number of properties is at least the given integer. By default, an error will also be reported if an object contains linebreaks and has fewer properties than the given integer. However, the second behavior is disabled if the `consistent` option is set to `true`
 * `"consistent": true` requires that either both curly braces, or neither, directly enclose newlines. Note that enabling this option will also change the behavior of the `minProperties` option. (See `minProperties` above for more information)
 
-You can specify different options for object literals and destructuring assignments:
+You can specify different options for object literals, destructuring assignments, named imports and exports:
 
 ```json
 {
     "object-curly-newline": ["error", {
         "ObjectExpression": "always",
-        "ObjectPattern": { "multiline": true }
+        "ObjectPattern": { "multiline": true },
+        "ImportDeclaration": "never",
+        "ExportDeclaration": { "multiline": true, "minProperties": 3 }
     }]
 }
 ```
 
 * `"ObjectExpression"` configuration for object literals
 * `"ObjectPattern"` configuration for object patterns of destructuring assignments
+* `"ImportDeclaration"` configuration for named imports
+* `"ExportDeclaration"` configuration for named exports
 
 ### always
 
@@ -461,6 +465,48 @@ let {i,
 let {k = function() {
     dosomething();
 }} = obj;
+```
+
+### ImportDeclaration and ExportDeclaration
+
+Examples of **incorrect** code for this rule with the `{ "ImportDeclaration": "always", "ExportDeclaration": "never" }` options:
+
+```js
+/*eslint object-curly-newline: ["error", { "ImportDeclaration": "always", "ExportDeclaration": "never" }]*/
+/*eslint-env es6*/
+
+import {foo, bar} from 'foo-bar';
+import {foo as f, bar} from 'foo-bar';
+import {foo,
+    bar} from 'foo-bar';
+
+export {
+   foo,
+   bar
+};
+export {
+   foo as f,
+   bar
+} from 'foo-bar';
+```
+
+Examples of **correct** code for this rule with the `{ "ImportDeclaration": "always", "ExportDeclaration": "never" }` options:
+
+```js
+/*eslint object-curly-newline: ["error", { "ImportDeclaration": "always", "ExportDeclaration": "never" }]*/
+/*eslint-env es6*/
+
+import {
+    foo,
+    bar
+} from 'foo-bar';
+import {
+    foo as f,
+    bar
+} from 'foo-bar';
+
+export { foo, bar } from 'foo-bar';
+export { foo as f, bar } from 'foo-bar';
 ```
 
 ## Compatibility
