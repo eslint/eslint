@@ -222,23 +222,26 @@ var foo = 2;
 //  ^ error: Avoid using variables named 'foo'
 
 // In your tests:
-var rule = require('../../../lib/rules/no-insecure-random');
-var RuleTester = require('eslint').RuleTester;
+var rule = require("../../../lib/rules/my-rule");
+var RuleTester = require("eslint").RuleTester;
 
 var ruleTester = new RuleTester();
-ruleTester.run('my-rule', rule, {
-  valid: ['bar', 'baz'],
+ruleTester.run("my-rule", rule, {
+    valid: ["bar", "baz"],
 
-  invalid: [
-    {
-      code: 'foo',
-      errors: [
+    invalid: [
         {
-          messageId: 'foo',
+            code: "foo",
+            errors: [
+                {
+                    messageId: "avoidName",
+                    data: {
+                        name: "foo"
+                    }
+                }
+            ]
         }
-      ]
-    }
-  ]
+    ]
 });
 {% endraw %}
 ```
