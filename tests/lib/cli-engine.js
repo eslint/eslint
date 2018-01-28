@@ -351,6 +351,7 @@ describe("CLIEngine", () => {
                                 ruleId: "no-undef",
                                 severity: 2,
                                 message: "'foo' is not defined.",
+                                data: { name: "foo" },
                                 line: 1,
                                 column: 11,
                                 endLine: 1,
@@ -1395,6 +1396,10 @@ describe("CLIEngine", () => {
                                     column: 9,
                                     line: 2,
                                     message: "Expected '===' and instead saw '=='.",
+                                    data: {
+                                        actualOperator: "==",
+                                        expectedOperator: "==="
+                                    },
                                     nodeType: "BinaryExpression",
                                     ruleId: "eqeqeq",
                                     severity: 2,
@@ -1416,6 +1421,7 @@ describe("CLIEngine", () => {
                                     endColumn: 21,
                                     endLine: 1,
                                     message: "'foo' is not defined.",
+                                    data: { name: "foo" },
                                     nodeType: "Identifier",
                                     ruleId: "no-undef",
                                     severity: 2,
