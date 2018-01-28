@@ -228,16 +228,12 @@ var RuleTester = require("eslint").RuleTester;
 var ruleTester = new RuleTester();
 ruleTester.run("my-rule", rule, {
     valid: ["bar", "baz"],
-
     invalid: [
         {
             code: "foo",
             errors: [
                 {
-                    messageId: "avoidName",
-                    data: {
-                        name: "foo"
-                    }
+                    messageId: "avoidName"
                 }
             ]
         }
