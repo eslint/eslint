@@ -8,8 +8,8 @@ The primary reason ESLint was created was to allow developers to create their ow
 
 ESLint is written using Node.js to provide a fast runtime environment and easy installation via [npm][].
 
-[linting]: http://en.wikipedia.org/wiki/Lint_(software)
-[npm]: http://npmjs.org/
+[linting]: https://en.wikipedia.org/wiki/Lint_(software)
+[npm]: https://npmjs.org/
 
 ## Philosophy
 

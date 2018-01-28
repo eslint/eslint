@@ -33,15 +33,16 @@ ruleTester.run("comma-style", rule, {
         "var foo = {'a': 1, \n 'b': 2, \n'c': 3};",
         "var foo = {'a': 1, \n 'b': 2, 'c':\n 3};",
         "var foo = {'a': 1, \n 'b': 2, 'c': [{'d': 1}, \n {'e': 2}, \n {'f': 3}]};",
-        { code: "var foo = [1, \n2, \n3];" },
-        { code: "function foo(){var a=[1,\n 2]}" },
-        { code: "function foo(){return {'a': 1,\n'b': 2}}" },
-        { code: "var foo = \n1, \nbar = \n2;" },
-        { code: "var foo = [\n(bar),\nbaz\n];" },
-        { code: "var foo = [\n(bar\n),\nbaz\n];" },
-        { code: "var foo = [\n(\nbar\n),\nbaz\n];" },
+        "var foo = [1, \n2, \n3];",
+        "function foo(){var a=[1,\n 2]}",
+        "function foo(){return {'a': 1,\n'b': 2}}",
+        "var foo = \n1, \nbar = \n2;",
+        "var foo = [\n(bar),\nbaz\n];",
+        "var foo = [\n(bar\n),\nbaz\n];",
+        "var foo = [\n(\nbar\n),\nbaz\n];",
+        "new Foo(a\n,b);",
         { code: "var foo = [\n(bar\n)\n,baz\n];", options: ["first"] },
-        { code: "var foo = \n1, \nbar = [1,\n2,\n3]" },
+        "var foo = \n1, \nbar = [1,\n2,\n3]",
         { code: "var foo = ['apples'\n,'oranges'];", options: ["first"] },
         { code: "var foo = 1, bar = 2;", options: ["first"] },
         { code: "var foo = 1 \n ,bar = 2;", options: ["first"] },
@@ -49,8 +50,9 @@ ruleTester.run("comma-style", rule, {
         { code: "var foo = [1 \n ,2 \n, 3];", options: ["first"] },
         { code: "function foo(){return {'a': 1\n,'b': 2}}", options: ["first"] },
         { code: "function foo(){var a=[1\n, 2]}", options: ["first"] },
-        { code: "f(1\n, 2);" },
-        { code: "function foo(a\n, b) { return a + b; }" },
+        { code: "new Foo(a,\nb);", options: ["first"] },
+        "f(1\n, 2);",
+        "function foo(a\n, b) { return a + b; }",
         {
             code: "var a = 'a',\no = 'o';",
             options: ["first", { exceptions: { VariableDeclaration: true } }]
@@ -66,10 +68,6 @@ ruleTester.run("comma-style", rule, {
         {
             code: "var a = 'a',\no = 'o',\narr = [1,\n2];",
             options: ["first", { exceptions: { VariableDeclaration: true, ArrayExpression: true } }]
-        },
-        {
-            code: "var ar ={fst:1,\nsnd: [1,\n2]};",
-            options: ["first", { exceptions: { ArrayExpression: true, ObjectExpression: true } }]
         },
         {
             code: "var ar ={fst:1,\nsnd: [1,\n2]};",
@@ -124,12 +122,6 @@ ruleTester.run("comma-style", rule, {
         },
         {
             code: "var {foo\n, bar} = {foo:'apples', bar:'oranges'};",
-            parserOptions: {
-                ecmaVersion: 6
-            }
-        },
-        {
-            code: "var {foo\n, bar} = {foo:'apples', bar:'oranges'};",
             options: ["first", {
                 exceptions: {
                     ObjectPattern: true
@@ -138,6 +130,14 @@ ruleTester.run("comma-style", rule, {
             parserOptions: {
                 ecmaVersion: 6
             }
+        },
+        {
+            code: "new Foo(a,\nb);",
+            options: ["first", {
+                exceptions: {
+                    NewExpression: true
+                }
+            }]
         },
         {
             code: "f(1\n, 2);",
@@ -221,6 +221,22 @@ ruleTester.run("comma-style", rule, {
             parserOptions: {
                 ecmaVersion: 6
             }
+        },
+        {
+            code: "new Foo(a,\nb);",
+            options: ["last", {
+                exceptions: {
+                    NewExpression: false
+                }
+            }]
+        },
+        {
+            code: "new Foo(a\n,b);",
+            options: ["last", {
+                exceptions: {
+                    NewExpression: true
+                }
+            }]
         }
     ],
 
@@ -266,6 +282,16 @@ ruleTester.run("comma-style", rule, {
             }]
         },
         {
+            code: "new Foo(a\n,\nb);",
+            output: "new Foo(a,\nb);",
+            options: ["last", {
+                exceptions: {
+                    NewExpression: false
+                }
+            }],
+            errors: [{ message: BAD_LN_BRK_MSG }]
+        },
+        {
             code: "var foo = 1\n,bar = 2;",
             output: "var foo = 1,\nbar = 2;",
             errors: [{
@@ -307,12 +333,12 @@ ruleTester.run("comma-style", rule, {
         },
         {
             code: "var [foo\n, bar] = ['apples', 'oranges'];",
+            output: "var [foo,\n bar] = ['apples', 'oranges'];",
             options: ["last", {
                 exceptions: {
                     ArrayPattern: false
                 }
             }],
-            output: "var [foo,\n bar] = ['apples', 'oranges'];",
             parserOptions: {
                 ecmaVersion: 6
             },
@@ -323,12 +349,12 @@ ruleTester.run("comma-style", rule, {
         },
         {
             code: "f(1\n, 2);",
+            output: "f(1,\n 2);",
             options: ["last", {
                 exceptions: {
                     CallExpression: false
                 }
             }],
-            output: "f(1,\n 2);",
             errors: [{
                 message: LAST_MSG,
                 type: "Literal"
@@ -336,12 +362,12 @@ ruleTester.run("comma-style", rule, {
         },
         {
             code: "function foo(a\n, b) { return a + b; }",
+            output: "function foo(a,\n b) { return a + b; }",
             options: ["last", {
                 exceptions: {
                     FunctionDeclaration: false
                 }
             }],
-            output: "function foo(a,\n b) { return a + b; }",
             errors: [{
                 message: LAST_MSG,
                 type: "Identifier"
@@ -349,12 +375,12 @@ ruleTester.run("comma-style", rule, {
         },
         {
             code: "const foo = function (a\n, b) { return a + b; }",
+            output: "const foo = function (a,\n b) { return a + b; }",
             options: ["last", {
                 exceptions: {
                     FunctionExpression: false
                 }
             }],
-            output: "const foo = function (a,\n b) { return a + b; }",
             parserOptions: {
                 ecmaVersion: 6,
                 sourceType: "module"
@@ -366,12 +392,12 @@ ruleTester.run("comma-style", rule, {
         },
         {
             code: "function foo([a\n, b]) { return a + b; }",
+            output: "function foo([a,\n b]) { return a + b; }",
             options: ["last", {
                 exceptions: {
                     ArrayPattern: false
                 }
             }],
-            output: "function foo([a,\n b]) { return a + b; }",
             parserOptions: {
                 ecmaVersion: 6
             },
@@ -382,12 +408,12 @@ ruleTester.run("comma-style", rule, {
         },
         {
             code: "const foo = (a\n, b) => { return a + b; }",
+            output: "const foo = (a,\n b) => { return a + b; }",
             options: ["last", {
                 exceptions: {
                     ArrowFunctionExpression: false
                 }
             }],
-            output: "const foo = (a,\n b) => { return a + b; }",
             parserOptions: {
                 ecmaVersion: 6
             },
@@ -398,12 +424,12 @@ ruleTester.run("comma-style", rule, {
         },
         {
             code: "const foo = ([a\n, b]) => { return a + b; }",
+            output: "const foo = ([a,\n b]) => { return a + b; }",
             options: ["last", {
                 exceptions: {
                     ArrayPattern: false
                 }
             }],
-            output: "const foo = ([a,\n b]) => { return a + b; }",
             parserOptions: {
                 ecmaVersion: 6
             },
@@ -414,12 +440,12 @@ ruleTester.run("comma-style", rule, {
         },
         {
             code: "import { a\n, b } from './source';",
+            output: "import { a,\n b } from './source';",
             options: ["last", {
                 exceptions: {
                     ImportDeclaration: false
                 }
             }],
-            output: "import { a,\n b } from './source';",
             parserOptions: {
                 ecmaVersion: 6,
                 sourceType: "module"
@@ -431,12 +457,12 @@ ruleTester.run("comma-style", rule, {
         },
         {
             code: "var {foo\n, bar} = {foo:'apples', bar:'oranges'};",
+            output: "var {foo,\n bar} = {foo:'apples', bar:'oranges'};",
             options: ["last", {
                 exceptions: {
                     ObjectPattern: false
                 }
             }],
-            output: "var {foo,\n bar} = {foo:'apples', bar:'oranges'};",
             parserOptions: {
                 ecmaVersion: 6
             },
@@ -470,15 +496,6 @@ ruleTester.run("comma-style", rule, {
             errors: [{
                 message: FIRST_MSG,
                 type: "Literal"
-            }]
-        },
-        {
-            code: "var foo = {'a': 1, \n 'b': 2\n ,'c': 3};",
-            output: "var foo = {'a': 1 \n ,'b': 2\n ,'c': 3};",
-            options: ["first"],
-            errors: [{
-                message: FIRST_MSG,
-                type: "Property"
             }]
         },
         {
@@ -563,6 +580,16 @@ ruleTester.run("comma-style", rule, {
             }]
         },
         {
+            code: "new Foo(a,\nb);",
+            output: "new Foo(a\n,b);",
+            options: ["first", {
+                exceptions: {
+                    NewExpression: false
+                }
+            }],
+            errors: [{ message: FIRST_MSG }]
+        },
+        {
             code: "var foo = [\n(bar\n)\n,\nbaz\n];",
             output: "var foo = [\n(bar\n),\nbaz\n];",
             errors: [{
@@ -574,6 +601,16 @@ ruleTester.run("comma-style", rule, {
             code: "[(foo),\n,\nbar]",
             output: "[(foo),,\nbar]",
             errors: [{ message: BAD_LN_BRK_MSG }]
+        },
+        {
+            code: "new Foo(a\n,b);",
+            output: "new Foo(a,\nb);",
+            options: ["last", {
+                exceptions: {
+                    NewExpression: false
+                }
+            }],
+            errors: [{ message: LAST_MSG }]
         }
     ]
 });

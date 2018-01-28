@@ -106,18 +106,6 @@ ruleTester.run("no-unsafe-finally", rule, {
         {
             code: "var foo = function() { a: switch (true) { case true: try {} finally { switch (true) { case true: break a; } } } }",
             errors: [{ message: "Unsafe usage of BreakStatement.", type: "BreakStatement", line: 1, column: 98 }]
-        },
-        {
-            code: "var foo = function() { a: switch (true) { case true: try {} finally { switch (true) { case true: break a; } } } }",
-            errors: [{ message: "Unsafe usage of BreakStatement.", type: "BreakStatement", line: 1, column: 98 }]
-        },
-        {
-            code: "var foo = function() { a: while (true) try {} finally { switch (true) { case true: break a; } } }",
-            errors: [{ message: "Unsafe usage of BreakStatement.", type: "BreakStatement", line: 1, column: 84 }]
-        },
-        {
-            code: "var foo = function() { a: while (true) try {} finally { switch (true) { case true: continue; } } }",
-            errors: [{ message: "Unsafe usage of ContinueStatement.", type: "ContinueStatement", line: 1, column: 84 }]
         }
     ]
 });

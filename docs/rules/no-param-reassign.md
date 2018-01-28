@@ -99,4 +99,4 @@ If you want to allow assignment to function parameters, then you can safely disa
 
 ## Further Reading
 
-* [JavaScript: Don’t Reassign Your Function Arguments](http://spin.atomicobject.com/2011/04/10/javascript-don-t-reassign-your-function-arguments/)
+* [JavaScript: Don’t Reassign Your Function Arguments](https://spin.atomicobject.com/2011/04/10/javascript-don-t-reassign-your-function-arguments/)

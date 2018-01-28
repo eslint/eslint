@@ -124,8 +124,10 @@ ruleTester.run("object-curly-spacing", rule, {
         // never - objectsInObjects
         { code: "var obj = {'foo': {'bar': 1, 'baz': 2} };", options: ["never", { objectsInObjects: true }] },
 
-        // https://github.com/eslint/eslint/issues/3658
-        // Empty cases.
+        /*
+         * https://github.com/eslint/eslint/issues/3658
+         * Empty cases.
+         */
         { code: "var {} = foo;", parserOptions: { ecmaVersion: 6 } },
         { code: "var [] = foo;", parserOptions: { ecmaVersion: 6 } },
         { code: "var {a: {}} = foo;", parserOptions: { ecmaVersion: 6 } },
@@ -144,8 +146,8 @@ ruleTester.run("object-curly-spacing", rule, {
         // https://github.com/eslint/eslint/issues/6940
         {
             code: "function foo ({a, b}: Props) {\n}",
-            parser: resolvePath(__dirname, "../../fixtures/parsers/object-curly-spacing/flow-stub-parser-never-valid"),
-            options: ["never"]
+            options: ["never"],
+            parser: resolvePath(__dirname, "../../fixtures/parsers/object-curly-spacing/flow-stub-parser-never-valid")
         }
     ],
 
@@ -627,8 +629,8 @@ ruleTester.run("object-curly-spacing", rule, {
         {
             code: "export const thing = {value: 1 };",
             output: "export const thing = { value: 1 };",
-            parserOptions: { sourceType: "module" },
             options: ["always"],
+            parserOptions: { sourceType: "module" },
             errors: [
                 {
                     message: "A space is required after '{'.",
@@ -643,8 +645,8 @@ ruleTester.run("object-curly-spacing", rule, {
         {
             code: "var {x, y} = y",
             output: "var { x, y } = y",
-            parserOptions: { ecmaVersion: 6 },
             options: ["always"],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "A space is required after '{'.",
@@ -663,8 +665,8 @@ ruleTester.run("object-curly-spacing", rule, {
         {
             code: "var { x, y} = y",
             output: "var { x, y } = y",
-            parserOptions: { ecmaVersion: 6 },
             options: ["always"],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "A space is required before '}'.",
@@ -677,8 +679,8 @@ ruleTester.run("object-curly-spacing", rule, {
         {
             code: "var { x, y } = y",
             output: "var {x, y} = y",
-            parserOptions: { ecmaVersion: 6 },
             options: ["never"],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "There should be no space after '{'.",
@@ -697,8 +699,8 @@ ruleTester.run("object-curly-spacing", rule, {
         {
             code: "var {x, y } = y",
             output: "var {x, y} = y",
-            parserOptions: { ecmaVersion: 6 },
             options: ["never"],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "There should be no space before '}'.",
@@ -711,8 +713,8 @@ ruleTester.run("object-curly-spacing", rule, {
         {
             code: "var { x=10} = y",
             output: "var { x=10 } = y",
-            parserOptions: { ecmaVersion: 6 },
             options: ["always"],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "A space is required before '}'.",
@@ -725,8 +727,8 @@ ruleTester.run("object-curly-spacing", rule, {
         {
             code: "var {x=10 } = y",
             output: "var { x=10 } = y",
-            parserOptions: { ecmaVersion: 6 },
             options: ["always"],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "A space is required after '{'.",
@@ -765,14 +767,14 @@ ruleTester.run("object-curly-spacing", rule, {
         {
             code: "function foo ({a, b }: Props) {\n}",
             output: "function foo ({a, b}: Props) {\n}",
-            parser: resolvePath(__dirname, "../../fixtures/parsers/object-curly-spacing/flow-stub-parser-never-invalid"),
             options: ["never"],
             errors: [
                 {
                     message: "There should be no space before '}'.",
                     type: "ObjectPattern"
                 }
-            ]
+            ],
+            parser: resolvePath(__dirname, "../../fixtures/parsers/object-curly-spacing/flow-stub-parser-never-invalid")
         }
     ]
 });

@@ -206,11 +206,6 @@ ruleTester.run("indent-legacy", rule, {
         },
         {
             code:
-            "var x = 0 && { a: 1, b: 2 };",
-            options: [4]
-        },
-        {
-            code:
             "require('http').request({hostname: 'localhost',\n" +
             "  port: 80}, function(res) {\n" +
             "  res.end();\n" +
@@ -708,9 +703,7 @@ ruleTester.run("indent-legacy", rule, {
             "}",
             options: [4, { SwitchCase: 2 }]
         },
-        {
-            code:
-            "switch (a) {\n" +
+        "switch (a) {\n" +
             "case \"foo\":\n" +
             "    a();\n" +
             "    break;\n" +
@@ -722,11 +715,8 @@ ruleTester.run("indent-legacy", rule, {
             "        a = 6;\n" +
             "        break;\n" +
             "    }\n" +
-            "}"
-        },
-        {
-            code:
-            "switch (a) {\n" +
+            "}",
+        "switch (a) {\n" +
             "case \"foo\":\n" +
             "    a();\n" +
             "    break;\n" +
@@ -737,11 +727,8 @@ ruleTester.run("indent-legacy", rule, {
             "    else{\n" +
             "        a = 6;\n" +
             "    }\n" +
-            "}"
-        },
-        {
-            code:
-            "switch (a) {\n" +
+            "}",
+        "switch (a) {\n" +
             "case \"foo\":\n" +
             "    a();\n" +
             "    break;\n" +
@@ -751,11 +738,8 @@ ruleTester.run("indent-legacy", rule, {
             "    }\n" +
             "    else\n" +
             "        a = 6;\n" +
-            "}"
-        },
-        {
-            code:
-            "switch (a) {\n" +
+            "}",
+        "switch (a) {\n" +
             "case \"foo\":\n" +
             "    a();\n" +
             "    break;\n" +
@@ -763,14 +747,9 @@ ruleTester.run("indent-legacy", rule, {
             "    a(); break;\n" +
             "case \"baz\":\n" +
             "    a(); break;\n" +
-            "}"
-        },
-        {
-            code: "switch (0) {\n}"
-        },
-        {
-            code:
-            "function foo() {\n" +
+            "}",
+        "switch (0) {\n}",
+        "function foo() {\n" +
             "    var a = \"a\";\n" +
             "    switch(a) {\n" +
             "    case \"a\":\n" +
@@ -779,8 +758,7 @@ ruleTester.run("indent-legacy", rule, {
             "        return \"B\";\n" +
             "    }\n" +
             "}\n" +
-            "foo();"
-        },
+            "foo();",
         {
             code:
             "switch(value){\n" +
@@ -803,23 +781,14 @@ ruleTester.run("indent-legacy", rule, {
             "}",
             options: [4, { SwitchCase: 1 }]
         },
-        {
-            code:
-                "var obj = {foo: 1, bar: 2};\n" +
+        "var obj = {foo: 1, bar: 2};\n" +
                 "with (obj) {\n" +
                 "    console.log(foo + bar);\n" +
-                "}\n"
-        },
-        {
-            code:
-                "if (a) {\n" +
+                "}\n",
+        "if (a) {\n" +
                 "    (1 + 2 + 3);\n" + // no error on this line
-                "}"
-        },
-        {
-            code:
-                "switch(value){ default: a(); break; }\n"
-        },
+                "}",
+        "switch(value){ default: a(); break; }\n",
         {
             code: "import {addons} from 'react/addons'\nimport React from 'react'",
             options: [2],
@@ -945,12 +914,9 @@ ruleTester.run("indent-legacy", rule, {
                 "  ;\n",
             options: [2]
         },
-        {
-            code:
-                "var a = 1\n" +
+        "var a = 1\n" +
                 "   ,b = 2\n" +
-                "   ;"
-        },
+                "   ;",
         {
             code:
                 "export function create (some,\n" +
@@ -960,8 +926,8 @@ ruleTester.run("indent-legacy", rule, {
                 "    b: argument\n" +
                 "  });\n" +
                 "};",
-            parserOptions: { sourceType: "module" },
-            options: [2]
+            options: [2],
+            parserOptions: { sourceType: "module" }
         },
         {
             code:
@@ -971,8 +937,8 @@ ruleTester.run("indent-legacy", rule, {
                 "                        padding=defaultPadding) {\n" +
                 "  // ... function body, indented two spaces\n" +
                 "}\n",
-            parserOptions: { sourceType: "module" },
-            options: [2]
+            options: [2],
+            parserOptions: { sourceType: "module" }
         },
         {
             code:
@@ -1004,8 +970,8 @@ ruleTester.run("indent-legacy", rule, {
                 "var res,\n" +
                 "    a = 5,\n" +
                 "    b = 4\n",
-            parserOptions: { ecmaVersion: 6 },
-            options: [2, { VariableDeclarator: { var: 2, let: 2, const: 3 } }]
+            options: [2, { VariableDeclarator: { var: 2, let: 2, const: 3 } }],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -1017,8 +983,8 @@ ruleTester.run("indent-legacy", rule, {
                 "    b = 4\n" +
                 "\n" +
                 "if (YO) console.log(TE)",
-            parserOptions: { ecmaVersion: 6 },
-            options: [2, { VariableDeclarator: { var: 2, let: 2, const: 3 } }]
+            options: [2, { VariableDeclarator: { var: 2, let: 2, const: 3 } }],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -1182,8 +1148,8 @@ ruleTester.run("indent-legacy", rule, {
             "        ].forEach(command => { doSomething(); });\n" +
             "    });\n" +
             "};",
-            parserOptions: { ecmaVersion: 6 },
-            options: [4, { MemberExpression: 0 }]
+            options: [4, { MemberExpression: 0 }],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -1195,8 +1161,8 @@ ruleTester.run("indent-legacy", rule, {
             "            ].forEach(command => { doSomething(); });\n" +
             "        });\n" +
             "};",
-            parserOptions: { ecmaVersion: 6 },
-            options: [4]
+            options: [4],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -1239,8 +1205,8 @@ ruleTester.run("indent-legacy", rule, {
             "      .value();\n" +
             "  }\n" +
             "};",
-            parserOptions: { ecmaVersion: 6 },
-            options: [2]
+            options: [2],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -1248,8 +1214,8 @@ ruleTester.run("indent-legacy", rule, {
             "  extends Bar {\n" +
             "  baz() {}\n" +
             "}",
-            parserOptions: { ecmaVersion: 6 },
-            options: [2]
+            options: [2],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -1257,8 +1223,8 @@ ruleTester.run("indent-legacy", rule, {
             "  Bar {\n" +
             "  baz() {}\n" +
             "}",
-            parserOptions: { ecmaVersion: 6 },
-            options: [2]
+            options: [2],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -1394,8 +1360,8 @@ ruleTester.run("indent-legacy", rule, {
             "  return x + 1;\n" +
             "}\n" +
             "})();",
-            parserOptions: { ecmaVersion: 6 },
-            options: [2, { outerIIFEBody: 0 }]
+            options: [2, { outerIIFEBody: 0 }],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -1410,8 +1376,8 @@ ruleTester.run("indent-legacy", rule, {
             "  return x + 1;\n" +
             "}\n" +
             "})();",
-            parserOptions: { ecmaVersion: 6 },
-            options: [2, { outerIIFEBody: 0 }]
+            options: [2, { outerIIFEBody: 0 }],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -1737,20 +1703,14 @@ ruleTester.run("indent-legacy", rule, {
             ")",
             parserOptions: { ecmaFeatures: { globalReturn: true } }
         },
-        {
-            code:
-            "var foo = [\n" +
+        "var foo = [\n" +
             "    bar,\n" +
             "    baz\n" +
-            "]"
-        },
-        {
-            code:
-            "var foo = [bar,\n" +
+            "]",
+        "var foo = [bar,\n" +
             "    baz,\n" +
             "    qux\n" +
-            "]"
-        },
+            "]",
         {
             code:
             "var foo = [bar,\n" +
@@ -1933,13 +1893,13 @@ ruleTester.run("indent-legacy", rule, {
                 "if (a) {\n" +
                 "b();\n" +
                 "}\n",
-            options: [2],
-            errors: expectedErrors([[3, 2, 0, "ExpressionStatement"]]),
             output:
                 "var a = b;\n" +
                 "if (a) {\n" +
                 "  b();\n" +
-                "}\n"
+                "}\n",
+            options: [2],
+            errors: expectedErrors([[3, 2, 0, "ExpressionStatement"]])
         },
         {
             code:
@@ -3560,18 +3520,6 @@ ruleTester.run("indent-legacy", rule, {
         {
             code:
             "function foo() {\n" +
-            "  bar();\n" +
-            "\t\t}",
-            output:
-            "function foo() {\n" +
-            "  bar();\n" +
-            "}",
-            options: [2],
-            errors: expectedErrors([[3, "0 spaces", "2 tabs", "BlockStatement"]])
-        },
-        {
-            code:
-            "function foo() {\n" +
             "  return (\n" +
             "    1\n" +
             "    )\n" +
@@ -3600,18 +3548,6 @@ ruleTester.run("indent-legacy", rule, {
             "}",
             options: [2],
             errors: expectedErrors([[4, "2 spaces", "4", "ReturnStatement"]])
-        },
-        {
-            code:
-            "function foo() {\n" +
-            "  bar();\n" +
-            "\t\t}",
-            output:
-            "function foo() {\n" +
-            "  bar();\n" +
-            "}",
-            options: [2],
-            errors: expectedErrors([[3, "0 spaces", "2 tabs", "BlockStatement"]])
         },
         {
             code:

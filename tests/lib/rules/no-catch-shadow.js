@@ -34,7 +34,12 @@ ruleTester.run("no-catch-shadow", rule, {
                 "}",
                 "",
                 "module.exports = broken;"
-            ].join("\n"), parserOptions: { ecmaVersion: 6 }
+            ].join("\n"),
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "try {} catch (error) {}",
+            env: { shelljs: false }
         }
     ],
     invalid: [

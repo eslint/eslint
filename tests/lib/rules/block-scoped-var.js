@@ -67,7 +67,7 @@ ruleTester.run("block-scoped-var", rule, {
         "a:;",
         "foo: while (true) { bar: for (var i = 0; i < 13; ++i) {if (i === 7) break foo; } }",
         "foo: while (true) { bar: for (var i = 0; i < 13; ++i) {if (i === 7) continue foo; } }",
-        { code: "const React = require(\"react/addons\");const cx = React.addons.classSet;", globals: { require: false }, parserOptions: { sourceType: "module" } },
+        { code: "const React = require(\"react/addons\");const cx = React.addons.classSet;", parserOptions: { sourceType: "module" }, globals: { require: false } },
         { code: "var v = 1;  function x() { return v; };", parserOptions: { parserOptions: { ecmaVersion: 6 } } },
         { code: "import * as y from \"./other.js\"; y();", parserOptions: { sourceType: "module" } },
         { code: "import y from \"./other.js\"; y();", parserOptions: { sourceType: "module" } },
@@ -83,22 +83,22 @@ ruleTester.run("block-scoped-var", rule, {
         { code: "function foo({x: y}) { return y; }", parserOptions: { ecmaVersion: 6 } },
 
         // those are the same as `no-undef`.
-        { code: "!function f(){}; f" },
-        { code: "var f = function foo() { }; foo(); var exports = { f: foo };" },
+        "!function f(){}; f",
+        "var f = function foo() { }; foo(); var exports = { f: foo };",
         { code: "var f = () => { x; }", parserOptions: { ecmaVersion: 6 } },
-        { code: "function f(){ x; }" },
-        { code: "var eslint = require('eslint');" },
-        { code: "function f(a) { return a[b]; }" },
-        { code: "function f() { return b.a; }" },
-        { code: "var a = { foo: bar };" },
-        { code: "var a = { foo: foo };" },
-        { code: "var a = { bar: 7, foo: bar };" },
-        { code: "var a = arguments;" },
-        { code: "function x(){}; var a = arguments;" },
-        { code: "function z(b){}; var a = b;" },
-        { code: "function z(){var b;}; var a = b;" },
-        { code: "function f(){ try{}catch(e){} e }" },
-        { code: "a:b;" },
+        "function f(){ x; }",
+        "var eslint = require('eslint');",
+        "function f(a) { return a[b]; }",
+        "function f() { return b.a; }",
+        "var a = { foo: bar };",
+        "var a = { foo: foo };",
+        "var a = { bar: 7, foo: bar };",
+        "var a = arguments;",
+        "function x(){}; var a = arguments;",
+        "function z(b){}; var a = b;",
+        "function z(){var b;}; var a = b;",
+        "function f(){ try{}catch(e){} e }",
+        "a:b;",
 
         // https://github.com/eslint/eslint/issues/2253
         { code: "/*global React*/ let {PropTypes, addons: {PureRenderMixin}} = React; let Test = React.createClass({mixins: [PureRenderMixin]});", parserOptions: { ecmaVersion: 6 } },
@@ -106,10 +106,10 @@ ruleTester.run("block-scoped-var", rule, {
         { code: "const { dummy: { data, isLoading }, auth: { isLoggedIn } } = this.props;", parserOptions: { ecmaVersion: 6 } },
 
         // https://github.com/eslint/eslint/issues/2747
-        { code: "function a(n) { return n > 0 ? b(n - 1) : \"a\"; } function b(n) { return n > 0 ? a(n - 1) : \"b\"; }" },
+        "function a(n) { return n > 0 ? b(n - 1) : \"a\"; } function b(n) { return n > 0 ? a(n - 1) : \"b\"; }",
 
         // https://github.com/eslint/eslint/issues/2967
-        { code: "(function () { foo(); })(); function foo() {}" },
+        "(function () { foo(); })(); function foo() {}",
         { code: "(function () { foo(); })(); function foo() {}", parserOptions: { sourceType: "module" } }
     ],
     invalid: [

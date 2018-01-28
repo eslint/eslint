@@ -16,7 +16,7 @@ This rule has either a string option:
 Or an object option:
 
 * `"multiline": true` (default) requires line breaks if there are line breaks inside properties or between properties
-* `"minProperties"` requires line breaks if the number of properties is more than the given integer. By default, an error will also be reported if an object contains linebreaks and has fewer properties than the given integer. However, the second behavior is disabled if the `consistent` option is set to `true`
+* `"minProperties"` requires line breaks if the number of properties is at least the given integer. By default, an error will also be reported if an object contains linebreaks and has fewer properties than the given integer. However, the second behavior is disabled if the `consistent` option is set to `true`
 * `"consistent": true` requires that either both curly braces, or neither, directly enclose newlines. Note that enabling this option will also change the behavior of the `minProperties` option. (See `minProperties` above for more information)
 
 You can specify different options for object literals and destructuring assignments:

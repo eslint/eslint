@@ -85,7 +85,7 @@ function countDefaultPatterns(ignoredPaths) {
     let count = ignoredPaths.defaultPatterns.length;
 
     if (!ignoredPaths.options || (ignoredPaths.options.dotfiles !== true)) {
-        count = count + 2; // Two patterns for ignoring dotfiles
+        count += 2; // Two patterns for ignoring dotfiles
     }
     return count;
 }
@@ -127,14 +127,14 @@ describe("IgnoredPaths", () => {
             const ignorePatterns = getIgnorePatterns(ignoredPaths);
 
             assert.isNotNull(ignoredPaths.baseDir);
-            assert.equal(getIgnoreFiles(ignoredPaths), expectedIgnoreFile);
+            assert.deepStrictEqual(getIgnoreFiles(ignoredPaths), [expectedIgnoreFile]);
             assert.include(ignorePatterns, "sampleignorepattern");
         });
 
         it("should set baseDir to cwd when no ignore file was loaded", () => {
             const ignoredPaths = new IgnoredPaths({ cwd: getFixturePath("no-ignore-file") });
 
-            assert.equal(ignoredPaths.baseDir, getFixturePath("no-ignore-file"));
+            assert.strictEqual(ignoredPaths.baseDir, getFixturePath("no-ignore-file"));
         });
 
         it("should not travel to parent directories to find .eslintignore when it's missing and cwd is provided", () => {
@@ -159,10 +159,55 @@ describe("IgnoredPaths", () => {
             });
 
             assert.ok(
-                ignorePattern.every(pattern =>
+                ignorePattern.every(pattern => (
                     getIgnoreRules(ignoredPaths).some(rule => rule.pattern === pattern)
-                )
+                ))
             );
+        });
+
+        it("should use package.json's eslintIgnore files if no specified .eslintignore file", () => {
+            const ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath("package-json-ignore") });
+
+            assert.isTrue(ignoredPaths.contains("hello.js"));
+            assert.isTrue(ignoredPaths.contains("world.js"));
+        });
+
+        it("should not use package.json's eslintIgnore files if specified .eslintignore file", () => {
+            const ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath() });
+
+            assert.isFalse(ignoredPaths.contains("hello.js"));
+            assert.isFalse(ignoredPaths.contains("world.js"));
+            assert.isTrue(ignoredPaths.contains("sampleignorepattern"));
+        });
+
+        it("should error if package.json's eslintIgnore is not an array of file paths", () => {
+            assert.throws(() => {
+                const ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath("bad-package-json-ignore") });
+
+                assert.ok(ignoredPaths);
+            }, "Package.json eslintIgnore property requires an array of paths");
+        });
+    });
+
+    describe("caching file reads", () => {
+
+        let readFileSyncCount;
+
+        before(() => {
+            readFileSyncCount = sinon.spy(fs, "readFileSync");
+        });
+
+        after(() => {
+            readFileSyncCount.restore();
+        });
+
+        it("should cache readFileSync on same file paths", () => {
+            const ignoreFilePath = getFixturePath(".eslintignore");
+            const ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath() });
+
+            ignoredPaths.readIgnoreFile(ignoreFilePath);
+            assert.isTrue(ignoredPaths.contains(ignoreFilePath));
+            sinon.assert.calledOnce(readFileSyncCount);
         });
     });
 
@@ -187,7 +232,7 @@ describe("IgnoredPaths", () => {
         it("should set baseDir to directory containing ignorePath if provided", () => {
             const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: ignoreFilePath, cwd: getFixturePath() });
 
-            assert.equal(ignoredPaths.baseDir, path.dirname(ignoreFilePath));
+            assert.strictEqual(ignoredPaths.baseDir, path.dirname(ignoreFilePath));
         });
 
     });
@@ -203,19 +248,19 @@ describe("IgnoredPaths", () => {
         it("should work when cwd is a parent directory", () => {
             const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: ignoreFilePath, cwd: getFixturePath() });
 
-            assert.notEqual(getIgnoreRules(ignoredPaths).length, countDefaultPatterns(ignoredPaths));
+            assert.notStrictEqual(getIgnoreRules(ignoredPaths).length, countDefaultPatterns(ignoredPaths));
         });
 
         it("should work when the file is in the cwd", () => {
             const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: ignoreFilePath, cwd: getFixturePath("custom-name") });
 
-            assert.notEqual(getIgnoreRules(ignoredPaths).length, countDefaultPatterns(ignoredPaths));
+            assert.notStrictEqual(getIgnoreRules(ignoredPaths).length, countDefaultPatterns(ignoredPaths));
         });
 
         it("should work when cwd is a subdirectory", () => {
             const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: ignoreFilePath, cwd: getFixturePath("custom-name", "subdirectory") });
 
-            assert.notEqual(getIgnoreRules(ignoredPaths).length, countDefaultPatterns(ignoredPaths));
+            assert.notStrictEqual(getIgnoreRules(ignoredPaths).length, countDefaultPatterns(ignoredPaths));
         });
 
     });
@@ -363,7 +408,7 @@ describe("IgnoredPaths", () => {
             const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: ignoreFilePath, cwd: getFixturePath() });
             const ignorePatterns = getIgnorePatterns(ignoredPaths);
 
-            assert.equal(getIgnoreRules(ignoredPaths).length, countDefaultPatterns(ignoredPaths) + 1);
+            assert.strictEqual(getIgnoreRules(ignoredPaths).length, countDefaultPatterns(ignoredPaths) + 1);
             assert.include(ignorePatterns, "this_one_not");
         });
 

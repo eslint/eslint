@@ -23,7 +23,7 @@ ruleTester.run("max-depth", rule, {
         { code: "function foo() { if (true) { if (false) { if (true) { } } } }", options: [3] },
         { code: "function foo() { if (true) { } else if (false) { } else if (true) { } else if (false) {} }", options: [3] },
         { code: "var foo = () => { if (true) { if (false) { if (true) { } } } }", options: [3], parserOptions: { ecmaVersion: 6 } },
-        { code: "function foo() { if (true) { if (false) { if (true) { } } } }" },
+        "function foo() { if (true) { if (false) { if (true) { } } } }",
 
         // object property options
         { code: "function foo() { if (true) { if (false) { if (true) { } } } }", options: [{ max: 3 }] }

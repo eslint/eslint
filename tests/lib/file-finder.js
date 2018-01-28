@@ -35,11 +35,11 @@ describe("FileFinder", () => {
 
             it("should be found, and returned as the first element of an array", () => {
                 finder = new FileFinder(uniqueFileName, process.cwd());
-                actual = finder.findAllInDirectoryAndParents(fileFinderDir);
+                actual = Array.from(finder.findAllInDirectoryAndParents(fileFinderDir));
                 expected = path.join(fileFinderDir, uniqueFileName);
 
                 assert.isArray(actual);
-                assert.equal(actual[0], expected);
+                assert.strictEqual(actual[0], expected);
             });
         });
 
@@ -47,11 +47,11 @@ describe("FileFinder", () => {
 
             it("should be found, and returned as the first element of an array", () => {
                 finder = new FileFinder(uniqueFileName, process.cwd());
-                actual = finder.findAllInDirectoryAndParents(subsubsubdir);
+                actual = Array.from(finder.findAllInDirectoryAndParents(subsubsubdir));
                 expected = path.join(fileFinderDir, "subdir", uniqueFileName);
 
                 assert.isArray(actual);
-                assert.equal(actual[0], expected);
+                assert.strictEqual(actual[0], expected);
             });
         });
 
@@ -59,11 +59,11 @@ describe("FileFinder", () => {
 
             it("should be found, and returned as the first element of an array", () => {
                 finder = new FileFinder(uniqueFileName, subsubdir);
-                actual = finder.findAllInDirectoryAndParents("./subsubsubdir");
+                actual = Array.from(finder.findAllInDirectoryAndParents("./subsubsubdir"));
                 expected = path.join(fileFinderDir, "subdir", uniqueFileName);
 
                 assert.isArray(actual);
-                assert.equal(actual[0], expected);
+                assert.strictEqual(actual[0], expected);
             });
         });
 
@@ -74,11 +74,11 @@ describe("FileFinder", () => {
                     secondExpected = path.join(fileFinderDir, "empty");
 
                 finder = new FileFinder(["empty", uniqueFileName], process.cwd());
-                actual = finder.findAllInDirectoryAndParents(subdir);
+                actual = Array.from(finder.findAllInDirectoryAndParents(subdir));
 
-                assert.equal(actual.length, 2);
-                assert.equal(actual[0], firstExpected);
-                assert.equal(actual[1], secondExpected);
+                assert.strictEqual(actual.length, 2);
+                assert.strictEqual(actual[0], firstExpected);
+                assert.strictEqual(actual[1], secondExpected);
             });
 
             it("should return the second file when the first is missing", () => {
@@ -86,11 +86,11 @@ describe("FileFinder", () => {
                     secondExpected = path.join(fileFinderDir, uniqueFileName);
 
                 finder = new FileFinder(["notreal", uniqueFileName], process.cwd());
-                actual = finder.findAllInDirectoryAndParents(subdir);
+                actual = Array.from(finder.findAllInDirectoryAndParents(subdir));
 
-                assert.equal(actual.length, 2);
-                assert.equal(actual[0], firstExpected);
-                assert.equal(actual[1], secondExpected);
+                assert.strictEqual(actual.length, 2);
+                assert.strictEqual(actual[0], firstExpected);
+                assert.strictEqual(actual[1], secondExpected);
             });
 
             it("should return multiple files when the first is missing and more than one filename is requested", () => {
@@ -98,11 +98,11 @@ describe("FileFinder", () => {
                     secondExpected = path.join(fileFinderDir, uniqueFileName);
 
                 finder = new FileFinder(["notreal", uniqueFileName, "empty2"], process.cwd());
-                actual = finder.findAllInDirectoryAndParents(subdir);
+                actual = Array.from(finder.findAllInDirectoryAndParents(subdir));
 
-                assert.equal(actual.length, 2);
-                assert.equal(actual[0], firstExpected);
-                assert.equal(actual[1], secondExpected);
+                assert.strictEqual(actual.length, 2);
+                assert.strictEqual(actual[0], firstExpected);
+                assert.strictEqual(actual[1], secondExpected);
             });
 
         });
@@ -116,23 +116,23 @@ describe("FileFinder", () => {
             });
 
             it("should both be found, and returned in an array", () => {
-                actual = finder.findAllInDirectoryAndParents(subsubsubdir);
+                actual = Array.from(finder.findAllInDirectoryAndParents(subsubsubdir));
 
                 assert.isArray(actual);
-                assert.equal(actual[0], firstExpected);
-                assert.equal(actual[1], secondExpected);
+                assert.strictEqual(actual[0], firstExpected);
+                assert.strictEqual(actual[1], secondExpected);
             });
 
             it("should be in the cache after they have been found", () => {
 
-                assert.equal(finder.cache[subsubsubdir][0], firstExpected);
-                assert.equal(finder.cache[subsubsubdir][1], secondExpected);
-                assert.equal(finder.cache[subsubdir][0], firstExpected);
-                assert.equal(finder.cache[subsubdir][1], secondExpected);
-                assert.equal(finder.cache[subdir][0], firstExpected);
-                assert.equal(finder.cache[subdir][1], secondExpected);
-                assert.equal(finder.cache[fileFinderDir][0], secondExpected);
-                assert.equal(finder.cache[fileFinderDir][1], void 0);
+                assert.strictEqual(finder.cache[subsubsubdir][0], firstExpected);
+                assert.strictEqual(finder.cache[subsubsubdir][1], secondExpected);
+                assert.strictEqual(finder.cache[subsubdir][0], firstExpected);
+                assert.strictEqual(finder.cache[subsubdir][1], secondExpected);
+                assert.strictEqual(finder.cache[subdir][0], firstExpected);
+                assert.strictEqual(finder.cache[subdir][1], secondExpected);
+                assert.strictEqual(finder.cache[fileFinderDir][0], secondExpected);
+                assert.strictEqual(finder.cache[fileFinderDir][1], void 0);
             });
         });
 
@@ -140,7 +140,7 @@ describe("FileFinder", () => {
 
             it("should not be found, and an empty array returned", () => {
                 finder = new FileFinder(absentFileName, process.cwd());
-                actual = finder.findAllInDirectoryAndParents();
+                actual = Array.from(finder.findAllInDirectoryAndParents());
 
                 assert.isArray(actual);
                 assert.lengthOf(actual, 0);
@@ -160,7 +160,7 @@ describe("FileFinder", () => {
             it("should only find one package.json from the root", () => {
                 expected = path.join(process.cwd(), "package.json");
                 finder = new FileFinder("package.json", process.cwd());
-                actual = finder.findAllInDirectoryAndParents(fileFinderDir);
+                actual = Array.from(finder.findAllInDirectoryAndParents(fileFinderDir));
 
                 /**
                  * Filter files outside of current workspace, otherwise test fails,
@@ -170,7 +170,7 @@ describe("FileFinder", () => {
                  */
                 actual = actual.filter(file => (file || "").indexOf(process.cwd()) === 0);
 
-                assert.equal(actual, expected);
+                assert.deepStrictEqual(actual, [expected]);
             });
         });
     });

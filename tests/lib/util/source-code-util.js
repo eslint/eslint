@@ -137,7 +137,7 @@ describe("SourceCodeUtil", () => {
             process.chdir(fixtureDir);
             getSourceCodeOfFiles(filename, spy);
             process.chdir(originalDir);
-            assert.equal(spy.firstCall.args[0], 1);
+            assert.strictEqual(spy.firstCall.args[0], 1);
         });
 
         it("should use default options if none are provided", () => {
@@ -146,7 +146,7 @@ describe("SourceCodeUtil", () => {
 
             getSourceCodeOfFiles(filename);
             assert(spy.called);
-            assert.deepEqual(spy.firstCall.args[1].extensions, [".js"]);
+            assert.deepStrictEqual(spy.firstCall.args[1].extensions, [".js"]);
         });
 
         it("should create an object with located filenames as keys", () => {
@@ -214,7 +214,7 @@ describe("SourceCodeUtil", () => {
             const barFile = getFixturePath("nested/bar.js");
             const sourceCode = getSourceCodeOfFiles(folder, { cwd: fixtureDir });
 
-            assert.equal(Object.keys(sourceCode).length, 2);
+            assert.strictEqual(Object.keys(sourceCode).length, 2);
             assert.instanceOf(sourceCode[fooFile], SourceCode);
             assert.instanceOf(sourceCode[barFile], SourceCode);
         });
@@ -225,7 +225,7 @@ describe("SourceCodeUtil", () => {
             const cliOptions = { extensions: [".abc"], cwd: fixtureDir };
             const sourceCode = getSourceCodeOfFiles(pattern, cliOptions);
 
-            assert.equal(Object.keys(sourceCode).length, 1);
+            assert.strictEqual(Object.keys(sourceCode).length, 1);
             assert.instanceOf(sourceCode[abcFile], SourceCode);
         });
 
@@ -243,7 +243,7 @@ describe("SourceCodeUtil", () => {
             const barFilename = getFixturePath("bar.js");
 
             getSourceCodeOfFiles([fooFilename, barFilename], { cwd: fixtureDir }, callback);
-            assert.equal(callback.callCount, 2);
+            assert.strictEqual(callback.callCount, 2);
         });
 
         it("should call callback function with total number of files with sourceCode", () => {

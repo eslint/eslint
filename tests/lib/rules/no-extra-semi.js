@@ -46,117 +46,117 @@ ruleTester.run("no-extra-semi", rule, {
     invalid: [
         {
             code: "var x = 5;;",
-            errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement" }],
-            output: "var x = 5;"
+            output: "var x = 5;",
+            errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement" }]
         },
         {
             code: "function foo(){};",
-            errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement" }],
-            output: "function foo(){}"
+            output: "function foo(){}",
+            errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement" }]
         },
         {
             code: "for(;;);;",
-            errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement" }],
-            output: "for(;;);"
+            output: "for(;;);",
+            errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement" }]
         },
         {
             code: "while(0);;",
-            errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement" }],
-            output: "while(0);"
+            output: "while(0);",
+            errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement" }]
         },
         {
             code: "do;while(0);;",
-            errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement" }],
-            output: "do;while(0);"
+            output: "do;while(0);",
+            errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement" }]
         },
         {
             code: "for(a in b);;",
-            errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement" }],
-            output: "for(a in b);"
+            output: "for(a in b);",
+            errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement" }]
         },
         {
             code: "for(a of b);;",
+            output: "for(a of b);",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement" }],
-            output: "for(a of b);"
+            errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement" }]
         },
         {
             code: "if(true);;",
-            errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement" }],
-            output: "if(true);"
+            output: "if(true);",
+            errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement" }]
         },
         {
             code: "if(true){} else;;",
-            errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement" }],
-            output: "if(true){} else;"
+            output: "if(true){} else;",
+            errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement" }]
         },
         {
             code: "if(true){;} else {;}",
-            errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement" }, { message: "Unnecessary semicolon.", type: "EmptyStatement" }],
-            output: "if(true){} else {}"
+            output: "if(true){} else {}",
+            errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement" }, { message: "Unnecessary semicolon.", type: "EmptyStatement" }]
         },
         {
             code: "foo:;;",
-            errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement" }],
-            output: "foo:;"
+            output: "foo:;",
+            errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement" }]
         },
         {
             code: "with(foo);;",
-            errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement" }],
-            output: "with(foo);"
+            output: "with(foo);",
+            errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement" }]
         },
         {
             code: "with(foo){;}",
-            errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement" }],
-            output: "with(foo){}"
+            output: "with(foo){}",
+            errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement" }]
         },
 
         // Class body.
         {
             code: "class A { ; }",
+            output: "class A {  }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Unnecessary semicolon.", type: "Punctuator", column: 11 }],
-            output: "class A {  }"
+            errors: [{ message: "Unnecessary semicolon.", type: "Punctuator", column: 11 }]
         },
         {
             code: "class A { /*a*/; }",
+            output: "class A { /*a*/ }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Unnecessary semicolon.", type: "Punctuator", column: 16 }],
-            output: "class A { /*a*/ }"
+            errors: [{ message: "Unnecessary semicolon.", type: "Punctuator", column: 16 }]
         },
         {
             code: "class A { ; a() {} }",
+            output: "class A {  a() {} }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Unnecessary semicolon.", type: "Punctuator", column: 11 }],
-            output: "class A {  a() {} }"
+            errors: [{ message: "Unnecessary semicolon.", type: "Punctuator", column: 11 }]
         },
         {
             code: "class A { a() {}; }",
+            output: "class A { a() {} }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Unnecessary semicolon.", type: "Punctuator", column: 17 }],
-            output: "class A { a() {} }"
+            errors: [{ message: "Unnecessary semicolon.", type: "Punctuator", column: 17 }]
         },
         {
             code: "class A { a() {}; b() {} }",
+            output: "class A { a() {} b() {} }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Unnecessary semicolon.", type: "Punctuator", column: 17 }],
-            output: "class A { a() {} b() {} }"
+            errors: [{ message: "Unnecessary semicolon.", type: "Punctuator", column: 17 }]
         },
         {
             code: "class A {; a() {}; b() {}; }",
+            output: "class A { a() {} b() {} }",
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Unnecessary semicolon.", type: "Punctuator", column: 10 },
                 { message: "Unnecessary semicolon.", type: "Punctuator", column: 18 },
                 { message: "Unnecessary semicolon.", type: "Punctuator", column: 26 }
-            ],
-            output: "class A { a() {} b() {} }"
+            ]
         },
         {
             code: "class A { a() {}; get b() {} }",
+            output: "class A { a() {} get b() {} }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Unnecessary semicolon.", type: "Punctuator", column: 17 }],
-            output: "class A { a() {} get b() {} }"
+            errors: [{ message: "Unnecessary semicolon.", type: "Punctuator", column: 17 }]
         }
     ]
 });

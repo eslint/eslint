@@ -26,7 +26,6 @@ const linter = new Linter();
 function parseCodePaths(code) {
     const retv = [];
 
-    linter.reset();
     linter.defineRule("test", () => ({
         onCodePathStart(codePath) {
             retv.push(codePath);
@@ -67,11 +66,12 @@ function getOrderOfTraversing(codePath, options, callback) {
 describe("CodePathAnalyzer", () => {
     describe(".traverseSegments()", () => {
         describe("should traverse segments from the first to the end:", () => {
+            /* eslint-disable rulesdir/multiline-comment-style */
             it("simple", () => {
                 const codePath = parseCodePaths("foo(); bar(); baz();")[0];
                 const order = getOrderOfTraversing(codePath);
 
-                assert.deepEqual(order, ["s1_1"]);
+                assert.deepStrictEqual(order, ["s1_1"]);
 
                 /*
                 digraph {
@@ -88,7 +88,7 @@ describe("CodePathAnalyzer", () => {
                 const codePath = parseCodePaths("if (a) foo(); else bar(); baz();")[0];
                 const order = getOrderOfTraversing(codePath);
 
-                assert.deepEqual(order, ["s1_1", "s1_2", "s1_3", "s1_4"]);
+                assert.deepStrictEqual(order, ["s1_1", "s1_2", "s1_3", "s1_4"]);
 
                 /*
                 digraph {
@@ -109,7 +109,7 @@ describe("CodePathAnalyzer", () => {
                 const codePath = parseCodePaths("switch (a) { case 0: foo(); break; case 1: bar(); } baz();")[0];
                 const order = getOrderOfTraversing(codePath);
 
-                assert.deepEqual(order, ["s1_1", "s1_2", "s1_4", "s1_5", "s1_6"]);
+                assert.deepStrictEqual(order, ["s1_1", "s1_2", "s1_4", "s1_5", "s1_6"]);
 
                 /*
                 digraph {
@@ -134,7 +134,7 @@ describe("CodePathAnalyzer", () => {
                 const codePath = parseCodePaths("while (a) foo(); bar();")[0];
                 const order = getOrderOfTraversing(codePath);
 
-                assert.deepEqual(order, ["s1_1", "s1_2", "s1_3", "s1_4"]);
+                assert.deepStrictEqual(order, ["s1_1", "s1_2", "s1_3", "s1_4"]);
 
                 /*
                 digraph {
@@ -154,7 +154,7 @@ describe("CodePathAnalyzer", () => {
                 const codePath = parseCodePaths("for (var i = 0; i < 10; ++i) foo(i); bar();")[0];
                 const order = getOrderOfTraversing(codePath);
 
-                assert.deepEqual(order, ["s1_1", "s1_2", "s1_3", "s1_4", "s1_5"]);
+                assert.deepStrictEqual(order, ["s1_1", "s1_2", "s1_3", "s1_4", "s1_5"]);
 
                 /*
                 digraph {
@@ -175,7 +175,7 @@ describe("CodePathAnalyzer", () => {
                 const codePath = parseCodePaths("for (var key in obj) foo(key); bar();")[0];
                 const order = getOrderOfTraversing(codePath);
 
-                assert.deepEqual(order, ["s1_1", "s1_3", "s1_2", "s1_4", "s1_5"]);
+                assert.deepStrictEqual(order, ["s1_1", "s1_3", "s1_2", "s1_4", "s1_5"]);
 
                 /*
                 digraph {
@@ -198,7 +198,7 @@ describe("CodePathAnalyzer", () => {
                 const codePath = parseCodePaths("try { foo(); } catch (e) { bar(); } baz();")[0];
                 const order = getOrderOfTraversing(codePath);
 
-                assert.deepEqual(order, ["s1_1", "s1_2", "s1_3", "s1_4"]);
+                assert.deepStrictEqual(order, ["s1_1", "s1_2", "s1_3", "s1_4"]);
 
                 /*
                 digraph {
@@ -224,7 +224,7 @@ describe("CodePathAnalyzer", () => {
                 last: codePath.initialSegment.nextSegments[0].nextSegments[1]
             });
 
-            assert.deepEqual(order, ["s1_2", "s1_3", "s1_4"]);
+            assert.deepStrictEqual(order, ["s1_2", "s1_3", "s1_4"]);
 
             /*
             digraph {
@@ -253,7 +253,7 @@ describe("CodePathAnalyzer", () => {
                 }
             });
 
-            assert.deepEqual(order, ["s1_1", "s1_2"]);
+            assert.deepStrictEqual(order, ["s1_1", "s1_2"]);
 
             /*
             digraph {
@@ -282,7 +282,7 @@ describe("CodePathAnalyzer", () => {
                 }
             });
 
-            assert.deepEqual(order, ["s1_1", "s1_2", "s1_5", "s1_6"]);
+            assert.deepStrictEqual(order, ["s1_1", "s1_2", "s1_5", "s1_6"]);
 
             /*
             digraph {
@@ -302,5 +302,7 @@ describe("CodePathAnalyzer", () => {
             }
             */
         });
+
+        /* eslint-enable rulesdir/multiline-comment-style */
     });
 });

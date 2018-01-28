@@ -48,7 +48,7 @@ This rule has a string option or an object option:
         "objects": "never",
         "imports": "never",
         "exports": "never",
-        "functions": "ignore",
+        "functions": "ignore"
     }]
 }
 ```

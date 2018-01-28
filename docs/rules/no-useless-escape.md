@@ -41,8 +41,8 @@ Examples of **correct** code for this rule:
 "\371";
 "xs\u2111";
 `\``;
-`\${${foo}\}`;
-`$\{${foo}\}`;
+`\${${foo}}`;
+`$\{${foo}}`;
 /\\/g;
 /\t/g;
 /\w\$\*\^\./;

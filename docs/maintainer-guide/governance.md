@@ -92,13 +92,14 @@ A Committer is invited to become a TSC member by existing TSC members. A nominat
 #### Process for Adding TSC Members
 
 1. Add the GitHub user to the "ESLint TSC" team
-2. Set the GitHub user to be have the "Owner" role for the ESLint organization
-3. Send welcome email with link to maintainer guide
-4. Add TSC member to the README
-5. Invite to Gitter TSC chatroom
-6. Make TSC member an admin on the ESLint team mailing list
-7. Add TSC member as an admin to ESLint Twitter Account on Tweetdeck
-8. Tweet congratulations to the new TSC member from the ESLint Twitter account
+1. Set the GitHub user to be have the "Owner" role for the ESLint organization
+1. Send welcome email with link to maintainer guide
+1. Add the TSC member to the README
+1. Invite to the Gitter TSC chatroom
+1. Make the TSC member an admin on the ESLint team mailing list
+1. Add the TSC member to the recurring TSC meeting event on Google Calendar
+1. Add the TSC member as an admin to ESLint Twitter Account on Tweetdeck
+1. Tweet congratulations to the new TSC member from the ESLint Twitter account
 
 #### TSC Meetings
 
@@ -135,7 +136,7 @@ agenda item and sending it as a pull request after the meeting.
 ## Consensus Seeking Process
 
 The TSC follows a
-[Consensus Seeking](http://en.wikipedia.org/wiki/Consensus-seeking_decision-making)
+[Consensus Seeking](https://en.wikipedia.org/wiki/Consensus-seeking_decision-making)
 decision making model.
 
 When an agenda item has appeared to reach a consensus, the moderator
@@ -151,4 +152,4 @@ or else the discussion will continue. Simple majority wins.
 
 This work is a derivative of [YUI Contributor Model](https://github.com/yui/yui3/wiki/Contributor-Model) and the [Node.js Project Governance Model](https://github.com/nodejs/node/blob/master/GOVERNANCE.md).
 
-This work is licensed under a [Creative Commons Attribution-ShareAlike 2.0 UK: England & Wales License](http://creativecommons.org/licenses/by-sa/2.0/uk/).
+This work is licensed under a [Creative Commons Attribution-ShareAlike 2.0 UK: England & Wales License](https://creativecommons.org/licenses/by-sa/2.0/uk/).

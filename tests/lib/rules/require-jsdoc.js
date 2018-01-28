@@ -39,7 +39,6 @@ ruleTester.run("require-jsdoc", rule, {
         "var object = {\n/**\n @method myFunction - Some function \n*/\nmyFunction: function() {} }",
         "var object = {\n/**\n @function myFunction - Some function \n*/\nmyFunction: function() {} }",
 
-        "var array = [1,2,3];\narray.forEach(function() {});",
         "var array = [1,2,3];\narray.filter(function() {});",
         "Object.keys(this.options.rules || {}).forEach(function(name) {}.bind(this));",
         "var object = { name: 'key'};\nObject.keys(object).forEach(function() {})",
@@ -77,13 +76,13 @@ ruleTester.run("require-jsdoc", rule, {
                 "        this.a = xs;" +
                 "    }\n" +
                 "}",
-            parserOptions: { ecmaVersion: 6 },
             options: [{
                 require: {
                     MethodDefinition: true,
                     ClassDeclaration: true
                 }
-            }]
+            }],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -99,13 +98,13 @@ ruleTester.run("require-jsdoc", rule, {
             "        this.a = xs;" +
             "    }\n" +
             "}",
-            parserOptions: { ecmaVersion: 6 },
             options: [{
                 require: {
                     MethodDefinition: true,
                     ClassDeclaration: true
                 }
-            }]
+            }],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code:
@@ -121,13 +120,13 @@ ruleTester.run("require-jsdoc", rule, {
             "        this.a = xs;" +
             "    }\n" +
             "}",
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             options: [{
                 require: {
                     MethodDefinition: true,
                     ClassDeclaration: true
                 }
-            }]
+            }],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code:
@@ -143,13 +142,13 @@ ruleTester.run("require-jsdoc", rule, {
             "        this.a = xs;" +
             "    }\n" +
             "}",
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             options: [{
                 require: {
                     MethodDefinition: true,
                     ClassDeclaration: true
                 }
-            }]
+            }],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code:
@@ -158,40 +157,74 @@ ruleTester.run("require-jsdoc", rule, {
             "        this.a = xs;" +
             "    }\n" +
             "}",
-            parserOptions: { ecmaVersion: 6 },
             options: [{
                 require: {
                     MethodDefinition: false,
                     ClassDeclaration: false
                 }
-            }]
+            }],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "/**\n Function doing something\n*/\nvar myFunction = () => {}",
-            parserOptions: { ecmaVersion: 6 },
             options: [{
                 require: {
                     ArrowFunctionExpression: true
                 }
-            }]
+            }],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "/**\n Function doing something\n*/\nvar myFunction = () => () => {}",
-            parserOptions: { ecmaVersion: 6 },
             options: [{
                 require: {
                     ArrowFunctionExpression: true
+                }
+            }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "setTimeout(() => {}, 10);",
+            options: [{
+                require: {
+                    ArrowFunctionExpression: true
+                }
+            }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "/**\nJSDoc Block\n*/\nvar foo = function() {}",
+            options: [{
+                require: {
+                    FunctionExpression: true
                 }
             }]
         },
         {
-            code: "setTimeout(() => {}, 10);",
-            parserOptions: { ecmaVersion: 6 },
+            code: "const foo = {/**\nJSDoc Block\n*/\nbar() {}}",
             options: [{
                 require: {
-                    ArrowFunctionExpression: true
+                    FunctionExpression: true
+                }
+            }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = {/**\nJSDoc Block\n*/\nbar: function() {}}",
+            options: [{
+                require: {
+                    FunctionExpression: true
                 }
             }]
+        },
+        {
+            code: " var foo = { [function() {}]: 1 };",
+            options: [{
+                require: {
+                    FunctionExpression: true
+                }
+            }],
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
 
@@ -213,13 +246,13 @@ ruleTester.run("require-jsdoc", rule, {
                 "        this.a = xs;" +
                 "    }\n" +
                 "}",
-            parserOptions: { ecmaVersion: 6 },
             options: [{
                 require: {
                     MethodDefinition: true,
                     ClassDeclaration: true
                 }
             }],
+            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Missing JSDoc comment.",
                 type: "FunctionExpression"
@@ -236,13 +269,13 @@ ruleTester.run("require-jsdoc", rule, {
                 "        this.a = xs;" +
                 "    }\n" +
                 "}",
-            parserOptions: { ecmaVersion: 6 },
             options: [{
                 require: {
                     MethodDefinition: true,
                     ClassDeclaration: true
                 }
             }],
+            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Missing JSDoc comment.",
                 type: "ClassDeclaration"
@@ -259,13 +292,13 @@ ruleTester.run("require-jsdoc", rule, {
             "        this.a = xs;" +
             "    }\n" +
             "}",
-            parserOptions: { ecmaVersion: 6 },
             options: [{
                 require: {
                     MethodDefinition: true,
                     ClassDeclaration: true
                 }
             }],
+            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Missing JSDoc comment.",
                 type: "ClassDeclaration"
@@ -282,13 +315,13 @@ ruleTester.run("require-jsdoc", rule, {
             "        this.a = xs;" +
             "    }\n" +
             "}",
-            parserOptions: { sourceType: "module" },
             options: [{
                 require: {
                     MethodDefinition: true,
                     ClassDeclaration: true
                 }
             }],
+            parserOptions: { sourceType: "module" },
             errors: [{
                 message: "Missing JSDoc comment.",
                 type: "ClassDeclaration"
@@ -305,13 +338,13 @@ ruleTester.run("require-jsdoc", rule, {
             "        this.a = xs;" +
             "    }\n" +
             "}",
-            parserOptions: { sourceType: "module" },
             options: [{
                 require: {
                     MethodDefinition: true,
                     ClassDeclaration: true
                 }
             }],
+            parserOptions: { sourceType: "module" },
             errors: [{
                 message: "Missing JSDoc comment.",
                 type: "ClassDeclaration"
@@ -319,12 +352,12 @@ ruleTester.run("require-jsdoc", rule, {
         },
         {
             code: "var myFunction = () => {}",
-            parserOptions: { ecmaVersion: 6 },
             options: [{
                 require: {
                     ArrowFunctionExpression: true
                 }
             }],
+            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Missing JSDoc comment.",
                 type: "ArrowFunctionExpression"
@@ -332,15 +365,52 @@ ruleTester.run("require-jsdoc", rule, {
         },
         {
             code: "var myFunction = () => () => {}",
-            parserOptions: { ecmaVersion: 6 },
             options: [{
                 require: {
                     ArrowFunctionExpression: true
                 }
             }],
+            parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Missing JSDoc comment.",
                 type: "ArrowFunctionExpression"
+            }]
+        },
+        {
+            code: "var foo = function() {}",
+            options: [{
+                require: {
+                    FunctionExpression: true
+                }
+            }],
+            errors: [{
+                message: "Missing JSDoc comment.",
+                type: "FunctionExpression"
+            }]
+        },
+        {
+            code: "const foo = {bar() {}}",
+            options: [{
+                require: {
+                    FunctionExpression: true
+                }
+            }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Missing JSDoc comment.",
+                type: "FunctionExpression"
+            }]
+        },
+        {
+            code: "var foo = {bar: function() {}}",
+            options: [{
+                require: {
+                    FunctionExpression: true
+                }
+            }],
+            errors: [{
+                message: "Missing JSDoc comment.",
+                type: "FunctionExpression"
             }]
         }
     ]

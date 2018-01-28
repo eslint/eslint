@@ -31,12 +31,8 @@ ruleTester.run("no-loop-func", rule, {
         },
 
         // no refers to variables that declared on upper scope.
-        {
-            code: "for (var i=0; i<l; i++) { (function() {}) }"
-        },
-        {
-            code: "for (var i in {}) { (function() {}) }"
-        },
+        "for (var i=0; i<l; i++) { (function() {}) }",
+        "for (var i in {}) { (function() {}) }",
         {
             code: "for (var i of {}) { (function() {}) }",
             parserOptions: { ecmaVersion: 6 }

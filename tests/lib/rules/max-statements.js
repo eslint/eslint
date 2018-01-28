@@ -23,7 +23,7 @@ ruleTester.run("max-statements", rule, {
         { code: "function foo() { var bar = 1; function qux () { var noCount = 2; } return 3; }", options: [3] },
         { code: "function foo() { var bar = 1; if (true) { for (;;) { var qux = null; } } else { quxx(); } return 3; }", options: [6] },
         { code: "function foo() { var x = 5; function bar() { var y = 6; } bar(); z = 10; baz(); }", options: [5] },
-        { code: "function foo() { var a; var b; var c; var x; var y; var z; bar(); baz(); qux(); quxx(); }" },
+        "function foo() { var a; var b; var c; var x; var y; var z; bar(); baz(); qux(); quxx(); }",
         { code: "(function() { var bar = 1; return function () { return 42; }; })()", options: [1, { ignoreTopLevelFunctions: true }] },
         { code: "function foo() { var bar = 1; var baz = 2; }", options: [1, { ignoreTopLevelFunctions: true }] },
         { code: "define(['foo', 'qux'], function(foo, qux) { var bar = 1; var baz = 2; })", options: [1, { ignoreTopLevelFunctions: true }] },
@@ -113,13 +113,15 @@ ruleTester.run("max-statements", rule, {
             errors: [{ message: "Method 'thing' has too many statements (3). Maximum allowed is 2." }]
         },
 
-        // TODO decide if we want this or not
-        // {
-        //     code: "var foo = { ['thing']() { var bar = 1; var baz = 2; var baz2; } }",
-        //     options: [2],
-        //     parserOptions: { ecmaVersion: 6 },
-        //     errors: [{ message: "Method ''thing'' has too many statements (3). Maximum allowed is 2." }]
-        // },
+        /*
+         * TODO decide if we want this or not
+         * {
+         *     code: "var foo = { ['thing']() { var bar = 1; var baz = 2; var baz2; } }",
+         *     options: [2],
+         *     parserOptions: { ecmaVersion: 6 },
+         *     errors: [{ message: "Method ''thing'' has too many statements (3). Maximum allowed is 2." }]
+         * },
+         */
 
         {
             code: "var foo = { thing: () => { var bar = 1; var baz = 2; var baz2; } }",

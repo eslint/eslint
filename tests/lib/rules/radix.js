@@ -20,7 +20,6 @@ ruleTester.run("radix", rule, {
         "parseInt(\"10\", 10);",
         "parseInt(\"10\", foo);",
         "Number.parseInt(\"10\", foo);",
-        "Number.parseInt(\"10\", foo);",
         {
             code: "parseInt(\"10\", 10);",
             options: ["always"]
@@ -42,10 +41,10 @@ ruleTester.run("radix", rule, {
         "Number[parseInt]();",
 
         // Ignores if it's shadowed.
-        { code: "var parseInt; parseInt();" },
+        "var parseInt; parseInt();",
         { code: "var parseInt; parseInt(foo);", options: ["always"] },
         { code: "var parseInt; parseInt(foo, 10);", options: ["as-needed"] },
-        { code: "var Number; Number.parseInt();" },
+        "var Number; Number.parseInt();",
         { code: "var Number; Number.parseInt(foo);", options: ["always"] },
         { code: "var Number; Number.parseInt(foo, 10);", options: ["as-needed"] }
     ],

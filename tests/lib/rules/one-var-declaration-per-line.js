@@ -46,7 +46,7 @@ ruleTester.run("one-var-declaration-per-line", rule, {
         { code: "var a, b,\nc=0\nd = 0;", options: ["initializations"] },
         { code: "let a, b;", options: ["initializations"], parserOptions: { ecmaVersion: 6 } },
         { code: "var a = 0; var b = 0;", options: ["initializations"] },
-        { code: "var a, b,\nc=0\nd = 0;" },
+        "var a, b,\nc=0\nd = 0;",
 
         { code: "var a,\nb,\nc,\nd = 0;", options: ["always"] },
         { code: "var a = 0,\nb;", options: ["always"] },
@@ -69,12 +69,12 @@ ruleTester.run("one-var-declaration-per-line", rule, {
 
     invalid: [
         { code: "var a, b;", output: "var a, \nb;", options: ["always"], errors: [errorAt(1, 8)] },
-        { code: "let a, b;", output: "let a, \nb;", options: ["always"], errors: [errorAt(1, 8)], parserOptions: { ecmaVersion: 6 } },
+        { code: "let a, b;", output: "let a, \nb;", options: ["always"], parserOptions: { ecmaVersion: 6 }, errors: [errorAt(1, 8)] },
         { code: "var a, b = 0;", output: "var a, \nb = 0;", options: ["always"], errors: [errorAt(1, 8)] },
         { code: "var a = {\n foo: bar\n}, b;", output: "var a = {\n foo: bar\n}, \nb;", options: ["always"], errors: [errorAt(3, 4)] },
         { code: "var a\n=0, b;", output: "var a\n=0, \nb;", options: ["always"], errors: [errorAt(2, 5)] },
-        { code: "let a, b = 0;", output: "let a, \nb = 0;", options: ["always"], errors: [errorAt(1, 8)], parserOptions: { ecmaVersion: 6 } },
-        { code: "const a = 0, b = 0;", output: "const a = 0, \nb = 0;", options: ["always"], errors: [errorAt(1, 14)], parserOptions: { ecmaVersion: 6 } },
+        { code: "let a, b = 0;", output: "let a, \nb = 0;", options: ["always"], parserOptions: { ecmaVersion: 6 }, errors: [errorAt(1, 8)] },
+        { code: "const a = 0, b = 0;", output: "const a = 0, \nb = 0;", options: ["always"], parserOptions: { ecmaVersion: 6 }, errors: [errorAt(1, 14)] },
 
         { code: "var a, b, c = 0;", output: "var a, b, \nc = 0;", options: ["initializations"], errors: [errorAt(1, 11)] },
         { code: "var a, b,\nc = 0, d;", output: "var a, b,\nc = 0, \nd;", options: ["initializations"], errors: [errorAt(2, 8)] },
@@ -83,7 +83,7 @@ ruleTester.run("one-var-declaration-per-line", rule, {
         { code: "var a = {\n foo: bar\n}, b;", output: "var a = {\n foo: bar\n}, \nb;", options: ["initializations"], errors: [errorAt(3, 4)] },
 
         { code: "for(var a = 0, b = 0;;){\nvar c,d;}", output: "for(var a = 0, b = 0;;){\nvar c,\nd;}", options: ["always"], errors: [errorAt(2, 7)] },
-        { code: "export let a, b;", output: "export let a, \nb;", options: ["always"], errors: [errorAt(1, 15)], parserOptions: { sourceType: "module" } },
-        { code: "export let a, b = 0;", output: "export let a, \nb = 0;", options: ["initializations"], errors: [errorAt(1, 15)], parserOptions: { sourceType: "module" } }
+        { code: "export let a, b;", output: "export let a, \nb;", options: ["always"], parserOptions: { sourceType: "module" }, errors: [errorAt(1, 15)] },
+        { code: "export let a, b = 0;", output: "export let a, \nb = 0;", options: ["initializations"], parserOptions: { sourceType: "module" }, errors: [errorAt(1, 15)] }
     ]
 });

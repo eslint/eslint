@@ -22,17 +22,17 @@ const ruleTester = new RuleTester();
 ruleTester.run("no-useless-concat", rule, {
 
     valid: [
-        { code: "var a = 1 + 1;" },
-        { code: "var a = 1 * '2';" },
-        { code: "var a = 1 - 2;" },
-        { code: "var a = foo + bar;" },
-        { code: "var a = 'foo' + bar;" },
-        { code: "var foo = 'foo' +\n 'bar';" },
+        "var a = 1 + 1;",
+        "var a = 1 * '2';",
+        "var a = 1 - 2;",
+        "var a = foo + bar;",
+        "var a = 'foo' + bar;",
+        "var foo = 'foo' +\n 'bar';",
 
         // https://github.com/eslint/eslint/issues/3575
-        { code: "var string = (number + 1) + 'px';" },
-        { code: "'a' + 1" },
-        { code: "1 + '1'" },
+        "var string = (number + 1) + 'px';",
+        "'a' + 1",
+        "1 + '1'",
         { code: "1 + `1`", parserOptions: { ecmaVersion: 6 } },
         { code: "`1` + 1", parserOptions: { ecmaVersion: 6 } },
         { code: "(1 + +2) + `b`", parserOptions: { ecmaVersion: 6 } }

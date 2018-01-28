@@ -9,7 +9,8 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const rule = require("../../../lib/rules/object-curly-newline"),
+const resolvePath = require("path").resolve,
+    rule = require("../../../lib/rules/object-curly-newline"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
@@ -64,6 +65,26 @@ ruleTester.run("object-curly-newline", rule, {
             ].join("\n"),
             options: ["always"]
         },
+        {
+            code: [
+                "function foo({",
+                " a,",
+                " b",
+                "} : MyType) {}"
+            ].join("\n"),
+            options: ["always"],
+            parser: resolvePath(__dirname, "../../fixtures/parsers/object-curly-newline/flow-stub-parser-multiline")
+        },
+        {
+            code: [
+                "function foo({",
+                " a,",
+                " b",
+                "} : { a : string, b : string }) {}"
+            ].join("\n"),
+            options: ["always"],
+            parser: resolvePath(__dirname, "../../fixtures/parsers/object-curly-newline/flow-stub-parser-multiline-type-literal")
+        },
 
         // "never" -------------------------------------------------------------
         {
@@ -98,6 +119,16 @@ ruleTester.run("object-curly-newline", rule, {
                 "}};"
             ].join("\n"),
             options: ["never"]
+        },
+        {
+            code: "function foo({ a, b } : MyType) {}",
+            options: ["never"],
+            parser: resolvePath(__dirname, "../../fixtures/parsers/object-curly-newline/flow-stub-parser-singleline")
+        },
+        {
+            code: "function foo({ a, b } : { a : string, b : string }) {}",
+            options: ["never"],
+            parser: resolvePath(__dirname, "../../fixtures/parsers/object-curly-newline/flow-stub-parser-singleline-type-literal")
         },
 
         // "multiline" ---------------------------------------------------------
@@ -486,6 +517,34 @@ ruleTester.run("object-curly-newline", rule, {
                 { line: 3, column: 2, message: "Expected a line break before this closing brace." }
             ]
         },
+        {
+            code: "function foo({ a, b } : MyType) {}",
+            output: [
+                "function foo({",
+                " a, b ",
+                "} : MyType) {}"
+            ].join("\n"),
+            options: ["always"],
+            errors: [
+                { line: 1, column: 14, message: "Expected a line break after this opening brace." },
+                { line: 1, column: 21, message: "Expected a line break before this closing brace." }
+            ],
+            parser: resolvePath(__dirname, "../../fixtures/parsers/object-curly-newline/flow-stub-parser-singleline")
+        },
+        {
+            code: "function foo({ a, b } : { a : string, b : string }) {}",
+            output: [
+                "function foo({",
+                " a, b ",
+                "} : { a : string, b : string }) {}"
+            ].join("\n"),
+            options: ["always"],
+            errors: [
+                { line: 1, column: 14, message: "Expected a line break after this opening brace." },
+                { line: 1, column: 21, message: "Expected a line break before this closing brace." }
+            ],
+            parser: resolvePath(__dirname, "../../fixtures/parsers/object-curly-newline/flow-stub-parser-singleline-type-literal")
+        },
 
         // "never" ------------------------------------------------------------
         {
@@ -568,6 +627,42 @@ ruleTester.run("object-curly-newline", rule, {
                 { line: 5, column: 1, message: "Unexpected line break before this closing brace." }
             ]
         },
+        {
+            code: [
+                "function foo({",
+                " a,",
+                " b",
+                "} : MyType) {}"
+            ].join("\n"),
+            output: [
+                "function foo({a,",
+                " b} : MyType) {}"
+            ].join("\n"),
+            options: ["never"],
+            errors: [
+                { line: 1, column: 14, message: "Unexpected line break after this opening brace." },
+                { line: 4, column: 1, message: "Unexpected line break before this closing brace." }
+            ],
+            parser: resolvePath(__dirname, "../../fixtures/parsers/object-curly-newline/flow-stub-parser-multiline")
+        },
+        {
+            code: [
+                "function foo({",
+                " a,",
+                " b",
+                "} : { a : string, b : string }) {}"
+            ].join("\n"),
+            output: [
+                "function foo({a,",
+                " b} : { a : string, b : string }) {}"
+            ].join("\n"),
+            options: ["never"],
+            errors: [
+                { line: 1, column: 14, message: "Unexpected line break after this opening brace." },
+                { line: 4, column: 1, message: "Unexpected line break before this closing brace." }
+            ],
+            parser: resolvePath(__dirname, "../../fixtures/parsers/object-curly-newline/flow-stub-parser-multiline-type-literal")
+        },
 
         // "multiline" ---------------------------------------------------------
         {
@@ -578,6 +673,31 @@ ruleTester.run("object-curly-newline", rule, {
             output: [
                 "var a = {};"
             ].join("\n"),
+            options: [{ multiline: true }],
+            errors: [
+                { line: 1, column: 9, message: "Unexpected line break after this opening brace." },
+                { line: 2, column: 1, message: "Unexpected line break before this closing brace." }
+            ]
+        },
+        {
+            code: [
+                "var a = {",
+                " /* comment */ ",
+                "};"
+            ].join("\n"),
+            output: null,
+            options: [{ multiline: true }],
+            errors: [
+                { line: 1, column: 9, message: "Unexpected line break after this opening brace." },
+                { line: 3, column: 1, message: "Unexpected line break before this closing brace." }
+            ]
+        },
+        {
+            code: [
+                "var a = { // comment",
+                "};"
+            ].join("\n"),
+            output: null,
             options: [{ multiline: true }],
             errors: [
                 { line: 1, column: 9, message: "Unexpected line break after this opening brace." },
@@ -601,12 +721,44 @@ ruleTester.run("object-curly-newline", rule, {
         },
         {
             code: [
+                "var b = {",
+                "   a: 1 // comment",
+                "};"
+            ].join("\n"),
+            output: [
+                "var b = {a: 1 // comment",
+                "};"
+            ].join("\n"),
+            options: [{ multiline: true }],
+            errors: [
+                { line: 1, column: 9, message: "Unexpected line break after this opening brace." },
+                { line: 3, column: 1, message: "Unexpected line break before this closing brace." }
+            ]
+        },
+        {
+            code: [
                 "var c = {",
                 "    a: 1, b: 2",
                 "};"
             ].join("\n"),
             output: [
                 "var c = {a: 1, b: 2};"
+            ].join("\n"),
+            options: [{ multiline: true }],
+            errors: [
+                { line: 1, column: 9, message: "Unexpected line break after this opening brace." },
+                { line: 3, column: 1, message: "Unexpected line break before this closing brace." }
+            ]
+        },
+        {
+            code: [
+                "var c = {",
+                "    a: 1, b: 2 // comment",
+                "};"
+            ].join("\n"),
+            output: [
+                "var c = {a: 1, b: 2 // comment",
+                "};"
             ].join("\n"),
             options: [{ multiline: true }],
             errors: [
@@ -633,6 +785,23 @@ ruleTester.run("object-curly-newline", rule, {
         },
         {
             code: [
+                "var d = {a: 1, // comment",
+                "    b: 2};"
+            ].join("\n"),
+            output: [
+                "var d = {",
+                "a: 1, // comment",
+                "    b: 2",
+                "};"
+            ].join("\n"),
+            options: [{ multiline: true }],
+            errors: [
+                { line: 1, column: 9, message: "Expected a line break after this opening brace." },
+                { line: 2, column: 9, message: "Expected a line break before this closing brace." }
+            ]
+        },
+        {
+            code: [
                 "var e = {a: function foo() {",
                 "    dosomething();",
                 "}};"
@@ -648,6 +817,71 @@ ruleTester.run("object-curly-newline", rule, {
             errors: [
                 { line: 1, column: 9, message: "Expected a line break after this opening brace." },
                 { line: 3, column: 2, message: "Expected a line break before this closing brace." }
+            ]
+        },
+        {
+            code: [
+                "var e = {a: function foo() { // comment",
+                "    dosomething();",
+                "}};"
+            ].join("\n"),
+            output: [
+                "var e = {",
+                "a: function foo() { // comment",
+                "    dosomething();",
+                "}",
+                "};"
+            ].join("\n"),
+            options: [{ multiline: true }],
+            errors: [
+                { line: 1, column: 9, message: "Expected a line break after this opening brace." },
+                { line: 3, column: 2, message: "Expected a line break before this closing brace." }
+            ]
+        },
+        {
+            code: [
+                "var e = {a: 1, /* comment */",
+                "    b: 2, // another comment",
+                "};"
+            ].join("\n"),
+            output: [
+                "var e = {",
+                "a: 1, /* comment */",
+                "    b: 2, // another comment",
+                "};"
+            ].join("\n"),
+            options: [{ multiline: true }],
+            errors: [
+                { line: 1, column: 9, message: "Expected a line break after this opening brace." }
+            ]
+        },
+        {
+            code: [
+                "var f = { /* comment */ a:",
+                "2",
+                "};"
+            ].join("\n"),
+            output: null,
+            options: [{ multiline: true }],
+            errors: [
+                { line: 1, column: 9, message: "Expected a line break after this opening brace." }
+            ]
+        },
+        {
+            code: [
+                "var f = {",
+                "/* comment */",
+                "a: 1};"
+            ].join("\n"),
+            output: [
+                "var f = {",
+                "/* comment */",
+                "a: 1",
+                "};"
+            ].join("\n"),
+            options: [{ multiline: true }],
+            errors: [
+                { line: 3, column: 5, message: "Expected a line break before this closing brace." }
             ]
         },
 

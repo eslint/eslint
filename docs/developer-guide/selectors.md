@@ -32,7 +32,7 @@ The following selectors are supported:
 * attribute existence: `[attr]`
 * attribute value: `[attr="foo"]` or `[attr=123]`
 * attribute regex: `[attr=/foo.*/]`
-* attribute conditons: `[attr!="foo"]`, `[attr>2]`, `[attr<3]`, `[attr>=2]`, or `[attr<=3]`
+* attribute conditions: `[attr!="foo"]`, `[attr>2]`, `[attr<3]`, `[attr>=2]`, or `[attr<=3]`
 * nested attribute: `[attr.level2="foo"]`
 * field: `FunctionDeclaration > Identifier.id`
 * First or last child: `:first-child` or `:last-child`
@@ -90,7 +90,7 @@ If multiple selectors have equal specificity, their listeners will be called in 
 
 ### Restricting syntax with selectors
 
-With the [no-restricted-syntax](/docs/rules/no-restricted-syntax) rule, you can restrict the usage of particular syntax in your code. For example, you can use the following configuration to disallow using `if` statements that do not have block statements as their body:
+With the [no-restricted-syntax](/docs/rules/no-restricted-syntax.md) rule, you can restrict the usage of particular syntax in your code. For example, you can use the following configuration to disallow using `if` statements that do not have block statements as their body:
 
 ```json
 {

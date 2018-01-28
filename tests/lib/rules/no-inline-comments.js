@@ -28,21 +28,11 @@ const ruleTester = new RuleTester(),
 ruleTester.run("no-inline-comments", rule, {
 
     valid: [
-        {
-            code: "// A valid comment before code\nvar a = 1;"
-        },
-        {
-            code: "var a = 2;\n// A valid comment after code"
-        },
-        {
-            code: "// A solitary comment"
-        },
-        {
-            code: "var a = 1; // eslint-disable-line some-rule"
-        },
-        {
-            code: "var a = 1; /* eslint-disable-line some-rule */"
-        }
+        "// A valid comment before code\nvar a = 1;",
+        "var a = 2;\n// A valid comment after code",
+        "// A solitary comment",
+        "var a = 1; // eslint-disable-line some-rule",
+        "var a = 1; /* eslint-disable-line some-rule */"
     ],
 
     invalid: [

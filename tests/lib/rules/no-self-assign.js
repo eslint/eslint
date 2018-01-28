@@ -47,11 +47,11 @@ ruleTester.run("no-self-assign", rule, {
         { code: "a.b().c = a.b().c", options: [{ props: true }] },
         { code: "b().c = b().c", options: [{ props: true }] },
         { code: "a[b + 1] = a[b + 1]", options: [{ props: true }] }, // it ignores non-simple computed properties.
-        { code: "a.b = a.b" },
-        { code: "a.b.c = a.b.c" },
-        { code: "a[b] = a[b]" },
-        { code: "a['b'] = a['b']" },
-        { code: "a[\n    'b'\n] = a[\n    'b'\n]" }
+        "a.b = a.b",
+        "a.b.c = a.b.c",
+        "a[b] = a[b]",
+        "a['b'] = a['b']",
+        "a[\n    'b'\n] = a[\n    'b'\n]"
     ],
     invalid: [
         { code: "a = a", errors: ["'a' is assigned to itself."] },

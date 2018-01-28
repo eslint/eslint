@@ -54,7 +54,7 @@ This rule aims to enforce consistent spacing between rest and spread operators a
 }
 ```
 
-Please read the user guide's section on [configuring parser options](http://eslint.org/docs/user-guide/configuring#specifying-parser-options) to learn more.
+Please read the user guide's section on [configuring parser options](/docs/user-guide/configuring#specifying-parser-options) to learn more.
 
 ## Options
 
@@ -140,4 +140,4 @@ You can safely disable this rule if you do not care about enforcing consistent s
 
 ## Further Reading
 
-* [Object Rest/Spread Properties for ECMAScript](https://github.com/sebmarkbage/ecmascript-rest-spread)
+* [Object Rest/Spread Properties for ECMAScript](https://github.com/tc39/proposal-object-rest-spread)

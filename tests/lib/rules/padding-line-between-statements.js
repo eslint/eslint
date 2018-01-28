@@ -709,43 +709,43 @@ ruleTester.run("padding-line-between-statements", rule, {
 
         {
             code: "export default 1\n\nfoo()",
-            parserOptions: { sourceType: "module" },
             options: [
                 { blankLine: "never", prev: "*", next: "*" },
                 { blankLine: "always", prev: "export", next: "*" }
-            ]
+            ],
+            parserOptions: { sourceType: "module" }
         },
         {
             code: "export let a=1\n\nfoo()",
-            parserOptions: { sourceType: "module" },
             options: [
                 { blankLine: "never", prev: "*", next: "*" },
                 { blankLine: "always", prev: "export", next: "*" }
-            ]
+            ],
+            parserOptions: { sourceType: "module" }
         },
         {
             code: "export {a}\n\nfoo()",
-            parserOptions: { sourceType: "module" },
             options: [
                 { blankLine: "never", prev: "*", next: "*" },
                 { blankLine: "always", prev: "export", next: "*" }
-            ]
+            ],
+            parserOptions: { sourceType: "module" }
         },
         {
             code: "exports.foo=1\nfoo()",
-            parserOptions: { sourceType: "module" },
             options: [
                 { blankLine: "never", prev: "*", next: "*" },
                 { blankLine: "always", prev: "export", next: "*" }
-            ]
+            ],
+            parserOptions: { sourceType: "module" }
         },
         {
             code: "module.exports={}\nfoo()",
-            parserOptions: { sourceType: "module" },
             options: [
                 { blankLine: "never", prev: "*", next: "*" },
                 { blankLine: "always", prev: "export", next: "*" }
-            ]
+            ],
+            parserOptions: { sourceType: "module" }
         },
 
         //----------------------------------------------------------------------
@@ -839,43 +839,43 @@ ruleTester.run("padding-line-between-statements", rule, {
 
         {
             code: "import 'a'\n\nfoo()",
-            parserOptions: { sourceType: "module" },
             options: [
                 { blankLine: "never", prev: "*", next: "*" },
                 { blankLine: "always", prev: "import", next: "*" }
-            ]
+            ],
+            parserOptions: { sourceType: "module" }
         },
         {
             code: "import a from 'a'\n\nfoo()",
-            parserOptions: { sourceType: "module" },
             options: [
                 { blankLine: "never", prev: "*", next: "*" },
                 { blankLine: "always", prev: "import", next: "*" }
-            ]
+            ],
+            parserOptions: { sourceType: "module" }
         },
         {
             code: "import * as a from 'a'\n\nfoo()",
-            parserOptions: { sourceType: "module" },
             options: [
                 { blankLine: "never", prev: "*", next: "*" },
                 { blankLine: "always", prev: "import", next: "*" }
-            ]
+            ],
+            parserOptions: { sourceType: "module" }
         },
         {
             code: "import {a} from 'a'\n\nfoo()",
-            parserOptions: { sourceType: "module" },
             options: [
                 { blankLine: "never", prev: "*", next: "*" },
                 { blankLine: "always", prev: "import", next: "*" }
-            ]
+            ],
+            parserOptions: { sourceType: "module" }
         },
         {
             code: "const a=require('a')\nfoo()",
-            parserOptions: { sourceType: "module" },
             options: [
                 { blankLine: "never", prev: "*", next: "*" },
                 { blankLine: "always", prev: "import", next: "*" }
-            ]
+            ],
+            parserOptions: { sourceType: "module" }
         },
 
         //----------------------------------------------------------------------
@@ -1388,34 +1388,6 @@ ruleTester.run("padding-line-between-statements", rule, {
         },
         {
             code: "for(var a = 1; a < 1; a++){\n break;\n}",
-            options: [
-                { blankLine: "never", prev: ["const", "let", "var"], next: "*" },
-                { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
-            ]
-        },
-        {
-            code: "for(let a in obj){\n break;\n}",
-            options: [
-                { blankLine: "always", prev: ["const", "let", "var"], next: "*" },
-                { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
-            ]
-        },
-        {
-            code: "for(var a in obj){\n break;\n}",
-            options: [
-                { blankLine: "always", prev: ["const", "let", "var"], next: "*" },
-                { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
-            ]
-        },
-        {
-            code: "for(let a in obj){\n break;\n}",
-            options: [
-                { blankLine: "never", prev: ["const", "let", "var"], next: "*" },
-                { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
-            ]
-        },
-        {
-            code: "for(var a in obj){\n break;\n}",
             options: [
                 { blankLine: "never", prev: ["const", "let", "var"], next: "*" },
                 { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
@@ -2026,38 +1998,38 @@ ruleTester.run("padding-line-between-statements", rule, {
         },
         {
             code: "return;",
-            parserOptions: { ecmaFeatures: { globalReturn: true } },
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
-            ]
+            ],
+            parserOptions: { ecmaFeatures: { globalReturn: true } }
         },
         {
             code: "var a;\n\nreturn;",
-            parserOptions: { ecmaFeatures: { globalReturn: true } },
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
-            ]
+            ],
+            parserOptions: { ecmaFeatures: { globalReturn: true } }
         },
         {
             code: "// comment\nreturn;",
-            parserOptions: { ecmaFeatures: { globalReturn: true } },
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
-            ]
+            ],
+            parserOptions: { ecmaFeatures: { globalReturn: true } }
         },
         {
             code: "/* comment */\nreturn;",
-            parserOptions: { ecmaFeatures: { globalReturn: true } },
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
-            ]
+            ],
+            parserOptions: { ecmaFeatures: { globalReturn: true } }
         },
         {
             code: "/* multi-line\ncomment */\nreturn;",
-            parserOptions: { ecmaFeatures: { globalReturn: true } },
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
-            ]
+            ],
+            parserOptions: { ecmaFeatures: { globalReturn: true } }
         },
 
         //----------------------------------------------------------------------
@@ -2174,7 +2146,8 @@ ruleTester.run("padding-line-between-statements", rule, {
             ]
         },
 
-        /* TODO: May it need an option to ignore blank lines followed by comments?
+        /*
+         * TODO: May it need an option to ignore blank lines followed by comments?
          * {
          *     code: "var a = 2;\n\n// foo\nmodule.exports = a;",
          *     options: [
@@ -2404,6 +2377,12 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: ["if", "for", "return", "switch", "case", "break", "throw", "while", "default"] }
             ]
+        },
+        {
+            code: "function test() {};",
+            options: [
+                { blankLine: "always", prev: "block-like", next: "block-like" }
+            ]
         }
     ],
     invalid: [
@@ -2480,14 +2459,6 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "never", prev: "block-like", next: "*" }
             ],
             errors: [MESSAGE_NEVER]
-        },
-        {
-            code: "{}\nfoo()",
-            output: "{}\n\nfoo()",
-            options: [
-                { blankLine: "always", prev: "block-like", next: "*" }
-            ],
-            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "{}\nfoo()",
@@ -2790,14 +2761,6 @@ ruleTester.run("padding-line-between-statements", rule, {
             errors: [MESSAGE_ALWAYS]
         },
         {
-            code: "{\n}\nfoo()",
-            output: "{\n}\n\nfoo()",
-            options: [
-                { blankLine: "always", prev: "block-like", next: "*" }
-            ],
-            errors: [MESSAGE_ALWAYS]
-        },
-        {
             code: "if(a){\n}\nfoo()",
             output: "if(a){\n}\n\nfoo()",
             options: [
@@ -2832,14 +2795,6 @@ ruleTester.run("padding-line-between-statements", rule, {
         {
             code: "switch(a){\n}\nfoo()",
             output: "switch(a){\n}\n\nfoo()",
-            options: [
-                { blankLine: "always", prev: "block-like", next: "*" }
-            ],
-            errors: [MESSAGE_ALWAYS]
-        },
-        {
-            code: "switch(a){case 0:}\nfoo()",
-            output: "switch(a){case 0:}\n\nfoo()",
             options: [
                 { blankLine: "always", prev: "block-like", next: "*" }
             ],
@@ -3217,55 +3172,55 @@ ruleTester.run("padding-line-between-statements", rule, {
         {
             code: "export default 1\n\nfoo()",
             output: "export default 1\nfoo()",
-            parserOptions: { sourceType: "module" },
             options: [
                 { blankLine: "never", prev: "export", next: "*" }
             ],
+            parserOptions: { sourceType: "module" },
             errors: [MESSAGE_NEVER]
         },
         {
             code: "export let a=1\n\nfoo()",
             output: "export let a=1\nfoo()",
-            parserOptions: { sourceType: "module" },
             options: [
                 { blankLine: "never", prev: "export", next: "*" }
             ],
+            parserOptions: { sourceType: "module" },
             errors: [MESSAGE_NEVER]
         },
         {
             code: "export {a}\n\nfoo()",
             output: "export {a}\nfoo()",
-            parserOptions: { sourceType: "module" },
             options: [
                 { blankLine: "never", prev: "export", next: "*" }
             ],
+            parserOptions: { sourceType: "module" },
             errors: [MESSAGE_NEVER]
         },
         {
             code: "export default 1\nfoo()",
             output: "export default 1\n\nfoo()",
-            parserOptions: { sourceType: "module" },
             options: [
                 { blankLine: "always", prev: "export", next: "*" }
             ],
+            parserOptions: { sourceType: "module" },
             errors: [MESSAGE_ALWAYS]
         },
         {
             code: "export let a=1\nfoo()",
             output: "export let a=1\n\nfoo()",
-            parserOptions: { sourceType: "module" },
             options: [
                 { blankLine: "always", prev: "export", next: "*" }
             ],
+            parserOptions: { sourceType: "module" },
             errors: [MESSAGE_ALWAYS]
         },
         {
             code: "export {a}\nfoo()",
             output: "export {a}\n\nfoo()",
-            parserOptions: { sourceType: "module" },
             options: [
                 { blankLine: "always", prev: "export", next: "*" }
             ],
+            parserOptions: { sourceType: "module" },
             errors: [MESSAGE_ALWAYS]
         },
 
@@ -3387,55 +3342,55 @@ ruleTester.run("padding-line-between-statements", rule, {
         {
             code: "import a from 'a'\n\nfoo()",
             output: "import a from 'a'\nfoo()",
-            parserOptions: { sourceType: "module" },
             options: [
                 { blankLine: "never", prev: "import", next: "*" }
             ],
+            parserOptions: { sourceType: "module" },
             errors: [MESSAGE_NEVER]
         },
         {
             code: "import * as a from 'a'\n\nfoo()",
             output: "import * as a from 'a'\nfoo()",
-            parserOptions: { sourceType: "module" },
             options: [
                 { blankLine: "never", prev: "import", next: "*" }
             ],
+            parserOptions: { sourceType: "module" },
             errors: [MESSAGE_NEVER]
         },
         {
             code: "import {a} from 'a'\n\nfoo()",
             output: "import {a} from 'a'\nfoo()",
-            parserOptions: { sourceType: "module" },
             options: [
                 { blankLine: "never", prev: "import", next: "*" }
             ],
+            parserOptions: { sourceType: "module" },
             errors: [MESSAGE_NEVER]
         },
         {
             code: "import a from 'a'\nfoo()",
             output: "import a from 'a'\n\nfoo()",
-            parserOptions: { sourceType: "module" },
             options: [
                 { blankLine: "always", prev: "import", next: "*" }
             ],
+            parserOptions: { sourceType: "module" },
             errors: [MESSAGE_ALWAYS]
         },
         {
             code: "import * as a from 'a'\nfoo()",
             output: "import * as a from 'a'\n\nfoo()",
-            parserOptions: { sourceType: "module" },
             options: [
                 { blankLine: "always", prev: "import", next: "*" }
             ],
+            parserOptions: { sourceType: "module" },
             errors: [MESSAGE_ALWAYS]
         },
         {
             code: "import {a} from 'a'\nfoo()",
             output: "import {a} from 'a'\n\nfoo()",
-            parserOptions: { sourceType: "module" },
             options: [
                 { blankLine: "always", prev: "import", next: "*" }
             ],
+            parserOptions: { sourceType: "module" },
             errors: [MESSAGE_ALWAYS]
         },
 
@@ -3970,261 +3925,261 @@ ruleTester.run("padding-line-between-statements", rule, {
 
         {
             code: "function a() {\nvar b; return;\n}",
-            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nvar b;\n\n return;\n}",
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
-            ]
+            ],
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "function a() {\nvar b;\nreturn;\n}",
-            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nvar b;\n\nreturn;\n}",
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
-            ]
+            ],
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "function a() {\nif (b) return b;\nelse if (c) return c;\nelse {\ne();\nreturn d;\n}\n}",
-            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nif (b) return b;\nelse if (c) return c;\nelse {\ne();\n\nreturn d;\n}\n}",
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
-            ]
+            ],
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "function a() {\nif (b) return b;\nelse if (c) return c;\nelse {\ne(); return d;\n}\n}",
-            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nif (b) return b;\nelse if (c) return c;\nelse {\ne();\n\n return d;\n}\n}",
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
-            ]
+            ],
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "function a() {\n while (b) {\nc();\nreturn;\n}\n}",
-            errors: [MESSAGE_ALWAYS],
             output: "function a() {\n while (b) {\nc();\n\nreturn;\n}\n}",
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
-            ]
+            ],
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "function a() {\ndo {\nc();\nreturn;\n} while (b);\n}",
-            errors: [MESSAGE_ALWAYS],
             output: "function a() {\ndo {\nc();\n\nreturn;\n} while (b);\n}",
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
-            ]
+            ],
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "function a() {\nfor (var b; b < c; b++) {\nc();\nreturn;\n}\n}",
-            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nfor (var b; b < c; b++) {\nc();\n\nreturn;\n}\n}",
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
-            ]
+            ],
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "function a() {\nfor (b in c) {\nd();\nreturn;\n}\n}",
-            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nfor (b in c) {\nd();\n\nreturn;\n}\n}",
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
-            ]
+            ],
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "function a() {\nfor (b of c) {\nd();\nreturn;\n}\n}",
-            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nfor (b of c) {\nd();\n\nreturn;\n}\n}",
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
-            ]
+            ],
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "function a() {\nif (b) {\nc();\n}\n//comment\nreturn b;\n}",
-            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nif (b) {\nc();\n}\n\n//comment\nreturn b;\n}",
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
-            ]
+            ],
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "function a() {\n/*comment\ncomment*/\nif (b) {\nc();\nreturn b;\n} else {\n//comment\n\nreturn d;\n}\n/*multi-line\ncomment*/\nreturn e;\n}",
-            errors: [MESSAGE_ALWAYS, MESSAGE_ALWAYS],
             output: "function a() {\n/*comment\ncomment*/\nif (b) {\nc();\n\nreturn b;\n} else {\n//comment\n\nreturn d;\n}\n\n/*multi-line\ncomment*/\nreturn e;\n}",
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
-            ]
+            ],
+            errors: [MESSAGE_ALWAYS, MESSAGE_ALWAYS]
         },
         {
             code: "function a() {\nif (b) { return; } //comment\nreturn c;\n}",
-            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nif (b) { return; } //comment\n\nreturn c;\n}",
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
-            ]
+            ],
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "function a() {\nif (b) { return; } /*multi-line\ncomment*/\nreturn c;\n}",
-            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nif (b) { return; } /*multi-line\ncomment*/\n\nreturn c;\n}",
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
-            ]
+            ],
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "function a() {\nif (b) { return; }\n/*multi-line\ncomment*/ return c;\n}",
-            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nif (b) { return; }\n\n/*multi-line\ncomment*/ return c;\n}",
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
-            ]
+            ],
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "function a() {\nif (b) { return; } /*multi-line\ncomment*/ return c;\n}",
-            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nif (b) { return; } /*multi-line\ncomment*/\n\n return c;\n}",
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
-            ]
+            ],
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "var a;\nreturn;",
-            parserOptions: { ecmaFeatures: { globalReturn: true } },
-            errors: [MESSAGE_ALWAYS],
             output: "var a;\n\nreturn;",
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
-            ]
+            ],
+            parserOptions: { ecmaFeatures: { globalReturn: true } },
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "var a; return;",
-            parserOptions: { ecmaFeatures: { globalReturn: true } },
-            errors: [MESSAGE_ALWAYS],
             output: "var a;\n\n return;",
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
-            ]
+            ],
+            parserOptions: { ecmaFeatures: { globalReturn: true } },
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "function a() {\n{\n//comment\n}\nreturn\n}",
-            errors: [MESSAGE_ALWAYS],
             output: "function a() {\n{\n//comment\n}\n\nreturn\n}",
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
-            ]
+            ],
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "function a() {\n{\n//comment\n} return\n}",
-            errors: [MESSAGE_ALWAYS],
             output: "function a() {\n{\n//comment\n}\n\n return\n}",
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
-            ]
+            ],
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "function a() {\nvar c;\nwhile (b) {\n c = d; //comment\n}\nreturn c;\n}",
-            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nvar c;\nwhile (b) {\n c = d; //comment\n}\n\nreturn c;\n}",
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
-            ]
+            ],
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "function a() {\nfor (var b; b < c; b++) {\nif (d) {\nbreak; //comment\n}\nreturn;\n}\n}",
-            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nfor (var b; b < c; b++) {\nif (d) {\nbreak; //comment\n}\n\nreturn;\n}\n}",
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
-            ]
+            ],
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "function a() {\nvar b; /*multi-line\ncomment*/\nreturn c;\n}",
-            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nvar b; /*multi-line\ncomment*/\n\nreturn c;\n}",
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
-            ]
+            ],
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "function a() {\nvar b;\n/*multi-line\ncomment*/ return c;\n}",
-            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nvar b;\n\n/*multi-line\ncomment*/ return c;\n}",
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
-            ]
+            ],
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "function a() {\nvar b; /*multi-line\ncomment*/ return c;\n}",
-            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nvar b; /*multi-line\ncomment*/\n\n return c;\n}",
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
-            ]
+            ],
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "function a() {\nvar b;\n//comment\nreturn;\n}",
-            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nvar b;\n\n//comment\nreturn;\n}",
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
-            ]
+            ],
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "function a() {\nvar b; //comment\nreturn;\n}",
-            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nvar b; //comment\n\nreturn;\n}",
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
-            ]
+            ],
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "function a() {\nvar b;\n/* comment */ return;\n}",
-            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nvar b;\n\n/* comment */ return;\n}",
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
-            ]
+            ],
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "function a() {\nvar b;\n//comment\n/* comment */ return;\n}",
-            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nvar b;\n\n//comment\n/* comment */ return;\n}",
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
-            ]
+            ],
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "function a() {\nvar b; /* comment */ return;\n}",
-            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nvar b; /* comment */\n\n return;\n}",
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
-            ]
+            ],
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "function a() {\nvar b; /* comment */\nreturn;\n}",
-            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nvar b; /* comment */\n\nreturn;\n}",
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
-            ]
+            ],
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "function a() {\nvar b;\nreturn; //comment\n}",
-            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nvar b;\n\nreturn; //comment\n}",
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
-            ]
+            ],
+            errors: [MESSAGE_ALWAYS]
         },
         {
             code: "function a() {\nvar b; return; //comment\n}",
-            errors: [MESSAGE_ALWAYS],
             output: "function a() {\nvar b;\n\n return; //comment\n}",
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
-            ]
+            ],
+            errors: [MESSAGE_ALWAYS]
         },
 
         //----------------------------------------------------------------------

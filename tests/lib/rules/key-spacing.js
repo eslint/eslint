@@ -16,11 +16,7 @@ const ruleTester = new RuleTester();
 
 ruleTester.run("key-spacing", rule, {
 
-    valid: [{
-        code: "({\n})"
-    }, {
-        code: "({\na: b\n})"
-    }, {
+    valid: ["({\n})", "({\na: b\n})", {
         code: "({\n})",
         options: [{ align: "colon" }]
     }, {
@@ -212,8 +208,8 @@ ruleTester.run("key-spacing", rule, {
             "    b",
             "};"
         ].join("\n"),
-        parserOptions: { sourceType: "module" },
-        options: [{ align: "value" }]
+        options: [{ align: "value" }],
+        parserOptions: { sourceType: "module" }
     }, {
         code: [
             "var test = {",
@@ -231,8 +227,8 @@ ruleTester.run("key-spacing", rule, {
             "    d",
             "};"
         ].join("\n"),
-        parserOptions: { ecmaVersion: 6 },
-        options: [{ align: "value" }]
+        options: [{ align: "value" }],
+        parserOptions: { ecmaVersion: 6 }
     }, {
         code: [
             "var obj = {",
@@ -241,8 +237,8 @@ ruleTester.run("key-spacing", rule, {
             "    baz:    456",
             "};"
         ].join("\n"),
-        parserOptions: { ecmaVersion: 6 },
-        options: [{ align: "value" }]
+        options: [{ align: "value" }],
+        parserOptions: { ecmaVersion: 6 }
     }, {
         code: [
             "var test = {",
@@ -259,8 +255,8 @@ ruleTester.run("key-spacing", rule, {
             "    b() { }",
             "};"
         ].join("\n"),
-        parserOptions: { ecmaVersion: 6 },
-        options: [{ align: "value" }]
+        options: [{ align: "value" }],
+        parserOptions: { ecmaVersion: 6 }
     }, {
         code: [
             "var obj = {",
@@ -269,8 +265,8 @@ ruleTester.run("key-spacing", rule, {
             "    baz:    456",
             "};"
         ].join("\n"),
-        parserOptions: { ecmaVersion: 6 },
-        options: [{ align: "value" }]
+        options: [{ align: "value" }],
+        parserOptions: { ecmaVersion: 6 }
     }, {
         code: [
             "var obj = {",
@@ -281,8 +277,8 @@ ruleTester.run("key-spacing", rule, {
             "    baz: 456",
             "};"
         ].join("\n"),
-        parserOptions: { ecmaVersion: 6 },
-        options: [{ align: "value" }]
+        options: [{ align: "value" }],
+        parserOptions: { ecmaVersion: 6 }
     }, {
         code: [
             "var obj = {",
@@ -1089,8 +1085,8 @@ ruleTester.run("key-spacing", rule, {
             "    baz:    456",
             "};"
         ].join("\n"),
-        parserOptions: { ecmaVersion: 6 },
         options: [{ align: "value" }],
+        parserOptions: { ecmaVersion: 6 },
         errors: [
             { message: "Missing space before value for key 'baz'.", line: 4, column: 10, type: "Literal" }
         ]
@@ -1109,8 +1105,8 @@ ruleTester.run("key-spacing", rule, {
             "    baz:    456",
             "};"
         ].join("\n"),
-        parserOptions: { ecmaVersion: 6 },
         options: [{ align: "value" }],
+        parserOptions: { ecmaVersion: 6 },
         errors: [
             { message: "Extra space before value for key 'foobar'.", line: 2, column: 14, type: "Literal" }
         ]
@@ -1129,8 +1125,8 @@ ruleTester.run("key-spacing", rule, {
             "    baz:    456",
             "};"
         ].join("\n"),
-        parserOptions: { ecmaVersion: 6 },
         options: [{ align: "value" }],
+        parserOptions: { ecmaVersion: 6 },
         errors: [
             { message: "Missing space before value for key 'baz'.", line: 4, column: 10, type: "Literal" }
         ]
@@ -1149,8 +1145,8 @@ ruleTester.run("key-spacing", rule, {
             "    baz:    456",
             "};"
         ].join("\n"),
-        parserOptions: { ecmaVersion: 6 },
         options: [{ align: "value" }],
+        parserOptions: { ecmaVersion: 6 },
         errors: [
             { message: "Extra space before value for key 'foobar'.", line: 2, column: 14, type: "Literal" }
         ]
@@ -1173,8 +1169,8 @@ ruleTester.run("key-spacing", rule, {
             "    baz: 456",
             "};"
         ].join("\n"),
-        parserOptions: { ecmaVersion: 6 },
         options: [{ align: "value" }],
+        parserOptions: { ecmaVersion: 6 },
         errors: [
             { message: "Extra space before value for key 'baz'.", line: 6, column: 13, type: "Literal" }
         ]

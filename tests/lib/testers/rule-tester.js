@@ -126,7 +126,7 @@ describe("RuleTester", () => {
                     { code: "var foo = bar;", errors: [{ message: "Bad error message." }] }
                 ]
             });
-        }, /Bad var\..*==.*Bad error message/);
+        }, /Bad var\.((.*==)|(.*strictEqual)).*Bad error message/);
     });
 
     it("should throw an error when the error message regex does not match", () => {
@@ -167,7 +167,7 @@ describe("RuleTester", () => {
                     { code: "var foo = bar;", errors: ["Bad error message."] }
                 ]
             });
-        }, /Bad var\..*==.*Bad error message/);
+        }, /Bad var\.((.*==)|(.*strictEqual)).*Bad error message/);
     });
 
     it("should throw an error when the error is a string and it does not match error message", () => {
@@ -403,10 +403,13 @@ describe("RuleTester", () => {
                     "Eval(foo)"
                 ],
                 invalid: [
-                    { code: "eval(foo)", errors: [
-                        { message: "eval sucks.", type: "CallExpression" },
-                        { message: "eval sucks.", type: "CallExpression" }
-                    ] }
+                    {
+                        code: "eval(foo)",
+                        errors: [
+                            { message: "eval sucks.", type: "CallExpression" },
+                            { message: "eval sucks.", type: "CallExpression" }
+                        ]
+                    }
                 ]
             });
         }, /Should have 2 errors but had 1/);
@@ -603,7 +606,7 @@ describe("RuleTester", () => {
                     }
                 ]
             });
-            assert.equal(spy.args[1][1].parser, "esprima");
+            assert.strictEqual(spy.args[1][1].parser, "esprima");
         });
     });
 
@@ -619,7 +622,7 @@ describe("RuleTester", () => {
                     { code: "var answer = 6 * 7;", options: ["bar"], errors: [{ message: "Expected nothing." }] }
                 ]
             });
-        }, /Schema for rule .* is invalid/);
+        }, "Schema for rule no-invalid-schema is invalid:,\titems: should be object\n\titems[0].enum: should NOT have less than 1 items\n\titems: should match some schema in anyOf");
 
     });
 
@@ -635,7 +638,7 @@ describe("RuleTester", () => {
                     { code: "var answer = 6 * 7;", options: ["bar"], errors: [{ message: "Expected foo." }] }
                 ]
             });
-        }, /Value "bar" must be an enum value./);
+        }, /Value "bar" should be equal to one of the allowed values./);
 
     });
 
@@ -648,7 +651,7 @@ describe("RuleTester", () => {
                 ],
                 invalid: []
             });
-        }, /ESLint configuration is invalid./);
+        }, /ESLint configuration in rule-tester is invalid./);
     });
 
     it("throw an error when an invalid config value is included", () => {
@@ -694,7 +697,7 @@ describe("RuleTester", () => {
 
         RuleTester.setDefaultConfig(config);
         RuleTester.resetDefaultConfig();
-        assert.deepEqual(
+        assert.deepStrictEqual(
             RuleTester.getDefaultConfig(),
             { rules: {} },
             "The default configuration has not reset correctly"

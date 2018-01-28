@@ -7,8 +7,8 @@ If you want to contribute to an ESLint repo, please use a GitHub pull request. T
 If you'd like to work on a pull request and you've never submitted code before, follow these steps:
 
 1. Sign our [Contributor License Agreement](https://cla.js.foundation/eslint/eslint).
-1. Set up a [development environment](../development-environment).
-1. If you want to implement a breaking change or a change to the core, ensure there's an issue that describes what you're doing and the issue has been accepted. You can create a new issue or just indicate you're [working on an existing issue](working-on-issues). Bug fixes, documentation changes, and other pull requests do not require an issue.
+1. Set up a [development environment](../development-environment.md).
+1. If you want to implement a breaking change or a change to the core, ensure there's an issue that describes what you're doing and the issue has been accepted. You can create a new issue or just indicate you're [working on an existing issue](working-on-issues.md). Bug fixes, documentation changes, and other pull requests do not require an issue.
 
 After that, you're ready to start working on code.
 
@@ -40,7 +40,7 @@ You should do all of your development for the issue in this branch.
 
 ### Step 2: Make your changes<a name="step2"></a>
 
-Make the changes to the code and tests, following the [code conventions](../code-conventions) as you go. Once you have finished, commit the changes to your branch:
+Make the changes to the code and tests, following the [code conventions](../code-conventions.md) as you go. Once you have finished, commit the changes to your branch:
 
 ```
 $ git add -A
@@ -60,7 +60,7 @@ The first line of the commit message (the summary) must have a specific format. 
 The `Tag` is one of the following:
 
 * `Fix` - for a bug fix.
-* `Update` - for a backwards-compatible enhancement or a change to a rule that increases the number of reported problems.
+* `Update` - either for a backwards-compatible enhancement or for a rule change that adds reported problems.
 * `New` - implemented a new feature.
 * `Breaking` - for a backwards-incompatible enhancement or feature.
 * `Docs` - changes to documentation only.
@@ -68,7 +68,7 @@ The `Tag` is one of the following:
 * `Upgrade` - for a dependency upgrade.
 * `Chore` - for refactoring, adding tests, etc. (anything that isn't user-facing).
 
-Use the [labels of the issue you are working on](working-on-issues#issue-labels) to determine the best tag.
+Use the [labels of the issue you are working on](working-on-issues.md#issue-labels) to determine the best tag.
 
 The message summary should be a one-sentence description of the change, and it must be 72 characters in length or shorter. If the pull request addresses an issue, then the issue number should be mentioned at the end. If the commit doesn't completely fix the issue, then use `(refs #1234)` instead of `(fixes #1234)`.
 
@@ -77,7 +77,7 @@ Here are some good commit message summary examples:
 ```
 Build: Update Travis to only test Node 0.10 (refs #734)
 Fix: Semi rule incorrectly flagging extra semicolon (fixes #840)
-Upgrade: Esprima to 1.2, switch to using Esprima comment attachment (fixes #730)
+Upgrade: Esprima to 1.2, switch to using comment attachment (fixes #730)
 ```
 
 The commit message format is important because these messages are used to create a changelog for each release. The tag and issue number help to create more consistent and useful changelogs.
@@ -105,7 +105,7 @@ If there are any failing tests, update your code until all tests pass.
 
 With your code ready to go, this is a good time to double-check your submission to make sure it follows our conventions. Here are the things to check:
 
-* Run `npm run check-commit` to double-check that your commit is formatted correctly.
+* Make sure your commit is formatted correctly.
 * The pull request must have a description. The description should explain what you did and how its effects can be seen.
 * The commit message is properly formatted.
 * The change introduces no functional regression. Be sure to run `npm test` to verify your changes before submitting a pull request.
@@ -168,7 +168,7 @@ When updating the code, it's usually better to add additional commits to your br
 
 ### Rebasing
 
-If your code is out-of-date, we might ask you to rebase. That means we want you to apply your changes on top of the latest upstream code. Make sure you have set up a [development environment](../development-environment) and then you can rebase using these commands:
+If your code is out-of-date, we might ask you to rebase. That means we want you to apply your changes on top of the latest upstream code. Make sure you have set up a [development environment](../development-environment.md) and then you can rebase using these commands:
 
 ```
 $ git fetch upstream

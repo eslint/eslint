@@ -21,10 +21,10 @@ const ruleTester = new RuleTester();
 ruleTester.run("max-statements-per-line", rule, {
     valid: [
         { code: "{ }", options: [{ max: 1 }] },
-        { code: "var bar = 1;" },
+        "var bar = 1;",
         { code: "var bar = 1;", options: [{ max: 1 }] },
-        { code: "var bar = 1;;" },
-        { code: ";(function foo() {\n})()" },
+        "var bar = 1;;",
+        ";(function foo() {\n})()",
         { code: "if (condition) var bar = 1;", options: [{ max: 1 }] },
         { code: "if (condition) { }", options: [{ max: 1 }] },
         { code: "if (condition) { } else { }", options: [{ max: 1 }] },
@@ -78,14 +78,12 @@ ruleTester.run("max-statements-per-line", rule, {
             options: [{ max: 1 }],
             parserOptions: { ecmaVersion: 6 }
         },
-        {
-            code: [
-                "if (foo > 1)",
-                "    foo--;",
-                "else",
-                "    foo++;"
-            ].join("\n")
-        },
+        [
+            "if (foo > 1)",
+            "    foo--;",
+            "else",
+            "    foo++;"
+        ].join("\n"),
         {
             code: "export default foo = 0;",
             options: [{ max: 1 }],
