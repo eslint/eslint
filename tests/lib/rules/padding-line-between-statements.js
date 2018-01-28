@@ -550,6 +550,18 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "always", prev: "*", next: "multiline-expression" }
             ]
         },
+        {
+            code: "() => {\n\tsomeArray.forEach(x => doSomething(x));\n\treturn theThing;\n}",
+            options: [
+                { blankLine: "always", prev: "multiline-expression", next: "return" }
+            ]
+        },
+        {
+            code: "() => {\n\tsomeArray.forEach(\n\t\tx => doSomething(x)\n\t);\n\n\treturn theThing;\n}",
+            options: [
+                { blankLine: "always", prev: "multiline-expression", next: "return" }
+            ]
+        },
 
         //----------------------------------------------------------------------
         // break
@@ -2977,6 +2989,14 @@ ruleTester.run("padding-line-between-statements", rule, {
             output: "foo()\n\nfoo(\n\tx,\n\ty\n)",
             options: [
                 { blankLine: "always", prev: "*", next: "multiline-expression" }
+            ],
+            errors: [MESSAGE_ALWAYS]
+        },
+        {
+            code: "() => {\n\tsomeArray.forEach(\n\t\tx => doSomething(x)\n\t);\n\treturn theThing;\n}",
+            output: "() => {\n\tsomeArray.forEach(\n\t\tx => doSomething(x)\n\t);\n\n\treturn theThing;\n}",
+            options: [
+                { blankLine: "always", prev: "multiline-expression", next: "return" }
             ],
             errors: [MESSAGE_ALWAYS]
         },
