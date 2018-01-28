@@ -190,6 +190,8 @@ Instead of typing out messages in both the `context.report()` call and your test
 
 This allows you to avoid retyping error messages. It also prevents errors reported in different sections of your rule from having out-of-date messages.
 
+If the `data` property is included, it is checked for strict deep equality with the resulting runtime error's `data` field. However, if the `data` property is omitted, only the `messageId` will be checked.
+
 ```js
 {% raw %}
 // in your rule
@@ -226,14 +228,34 @@ var rule = require("../../../lib/rules/my-rule");
 var RuleTester = require("eslint").RuleTester;
 
 var ruleTester = new RuleTester();
+
 ruleTester.run("my-rule", rule, {
     valid: ["bar", "baz"],
-
     invalid: [
         {
             code: "foo",
             errors: [
                 {
+                    // Here we are asserting that the avoideName message
+                    // was used, but not checking against the data object
+                    // used to format it. This form is also used when the
+                    // message has no formatting options and is just a string.
+                    messageId: "avoidName"
+                }
+            ]
+        }
+    ]
+});
+
+ruleTester.run("my-rule", rule, {
+    valid: ["bar", "baz"],
+    invalid: [
+        {
+            code: "foo",
+            errors: [
+                {
+                    // Here we're asserting that both the messageId "avoidName"
+                    // was used as well as the exact data used to format it.
                     messageId: "avoidName",
                     data: {
                         name: "foo"
