@@ -36,7 +36,9 @@ var foo = array[someIndex];
 
 // With `object` enabled
 var { foo } = object;
+
 var foo = object.bar;
+
 let foo;
 ({ foo } = object.bar);
 ```
