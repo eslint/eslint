@@ -41,6 +41,7 @@ ruleTester.run("space-unary-ops", rule, {
             code: "foo.bar --",
             options: [{ nonwords: true }]
         },
+
         {
             code: "delete foo.bar",
             options: [{ words: true }]
@@ -48,6 +49,14 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "delete foo[\"bar\"]",
             options: [{ words: true }]
+        },
+        {
+            code: "delete foo.bar",
+            options: [{ words: false }]
+        },
+        {
+            code: "delete(foo.bar)",
+            options: [{ words: false }]
         },
 
         {
@@ -80,6 +89,14 @@ ruleTester.run("space-unary-ops", rule, {
             options: [{ words: true }]
         },
         {
+            code: "typeof (foo)",
+            options: [{ words: true }]
+        },
+        {
+            code: "typeof(foo)",
+            options: [{ words: false }]
+        },
+        {
             code: "typeof!foo",
             options: [{ words: false }]
         },
@@ -99,6 +116,14 @@ ruleTester.run("space-unary-ops", rule, {
         {
             code: "void foo",
             options: [{ words: true }]
+        },
+        {
+            code: "void foo",
+            options: [{ words: false }]
+        },
+        {
+            code: "void(foo)",
+            options: [{ words: false }]
         },
 
         {
@@ -217,12 +242,12 @@ ruleTester.run("space-unary-ops", rule, {
             options: [{ words: false, overrides: { new: false } }]
         },
         {
-            code: "function *foo () { yield (0) }",
+            code: "function *foo () { yield(0) }",
             options: [{ words: true, overrides: { yield: false } }],
             parserOptions: { ecmaVersion: 6 }
         },
         {
-            code: "function *foo () { yield (0) }",
+            code: "function *foo () { yield(0) }",
             options: [{ words: false, overrides: { yield: false } }],
             parserOptions: { ecmaVersion: 6 }
         }
@@ -248,11 +273,29 @@ ruleTester.run("space-unary-ops", rule, {
             }]
         },
         {
+            code: "delete (foo.bar)",
+            output: "delete(foo.bar)",
+            options: [{ words: false }],
+            errors: [{
+                message: "Unexpected space after unary word operator 'delete'.",
+                type: "UnaryExpression"
+            }]
+        },
+        {
             code: "new(Foo)",
             output: "new (Foo)",
             options: [{ words: true }],
             errors: [{
                 message: "Unary word operator 'new' must be followed by whitespace.",
+                type: "NewExpression"
+            }]
+        },
+        {
+            code: "new (Foo)",
+            output: "new(Foo)",
+            options: [{ words: false }],
+            errors: [{
+                message: "Unexpected space after unary word operator 'new'.",
                 type: "NewExpression"
             }]
         },
@@ -265,6 +308,15 @@ ruleTester.run("space-unary-ops", rule, {
                 type: "NewExpression"
             }]
         },
+        {
+            code: "new [foo][0]",
+            output: "new[foo][0]",
+            options: [{ words: false }],
+            errors: [{
+                message: "Unexpected space after unary word operator 'new'.",
+                type: "NewExpression"
+            }]
+        },
 
         {
             code: "typeof(foo)",
@@ -272,6 +324,33 @@ ruleTester.run("space-unary-ops", rule, {
             options: [{ words: true }],
             errors: [{
                 message: "Unary word operator 'typeof' must be followed by whitespace.",
+                type: "UnaryExpression"
+            }]
+        },
+        {
+            code: "typeof (foo)",
+            output: "typeof(foo)",
+            options: [{ words: false }],
+            errors: [{
+                message: "Unexpected space after unary word operator 'typeof'.",
+                type: "UnaryExpression"
+            }]
+        },
+        {
+            code: "typeof[foo]",
+            output: "typeof [foo]",
+            options: [{ words: true }],
+            errors: [{
+                message: "Unary word operator 'typeof' must be followed by whitespace.",
+                type: "UnaryExpression"
+            }]
+        },
+        {
+            code: "typeof [foo]",
+            output: "typeof[foo]",
+            options: [{ words: false }],
+            errors: [{
+                message: "Unexpected space after unary word operator 'typeof'.",
                 type: "UnaryExpression"
             }]
         },
@@ -322,11 +401,38 @@ ruleTester.run("space-unary-ops", rule, {
             }]
         },
         {
+            code: "void[foo];",
+            output: "void [foo];",
+            options: [{ words: true }],
+            errors: [{
+                message: "Unary word operator 'void' must be followed by whitespace.",
+                type: "UnaryExpression"
+            }]
+        },
+        {
             code: "void{a:0};",
             output: "void {a:0};",
             options: [{ words: true }],
             errors: [{
                 message: "Unary word operator 'void' must be followed by whitespace.",
+                type: "UnaryExpression"
+            }]
+        },
+        {
+            code: "void (foo)",
+            output: "void(foo)",
+            options: [{ words: false }],
+            errors: [{
+                message: "Unexpected space after unary word operator 'void'.",
+                type: "UnaryExpression"
+            }]
+        },
+        {
+            code: "void [foo]",
+            output: "void[foo]",
+            options: [{ words: false }],
+            errors: [{
+                message: "Unexpected space after unary word operator 'void'.",
                 type: "UnaryExpression"
             }]
         },
@@ -483,6 +589,18 @@ ruleTester.run("space-unary-ops", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Unary word operator 'yield' must be followed by whitespace.",
+                type: "YieldExpression",
+                line: 1,
+                column: 19
+            }]
+        },
+        {
+            code: "function *foo() { yield (0) }",
+            output: "function *foo() { yield(0) }",
+            options: [{ words: false }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Unexpected space after unary word operator 'yield'.",
                 type: "YieldExpression",
                 line: 1,
                 column: 19
