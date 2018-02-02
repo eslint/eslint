@@ -1,3 +1,61 @@
+v4.16.0 - January 19, 2018
+
+* e26a25f Update: allow continue instead of if wrap in guard-for-in (fixes #7567) (#9796) (Michael Ficarra)
+* af043eb Update: Add NewExpression support to comma-style (#9591) (Frazer McLean)
+* 4f898c7 Build: Fix JSDoc syntax errors (#9813) (Matija Marohnić)
+* 13bcf3c Fix: Removing curly quotes in no-eq-null report message (#9852) (Kevin Partington)
+* b96fb31 Docs: configuration hierarchy for CLIEngine options (fixes #9526) (#9855) (PiIsFour)
+* 8ccbdda Docs: Clarify that -c configs merge with `.eslintrc.*` (fixes #9535) (#9847) (Kevin Partington)
+* 978574f Docs: Fix examples for no-useless-escape (#9853) (Toru Kobayashi)
+* cd5681d Chore: Deactivate consistent-docs-url in internal rules folder (#9815) (Kevin Partington)
+* 2e87ddd Docs: Sync messageId examples' style with other examples (#9816) (Kevin Partington)
+* 1d61930 Update: use doctrine range information in valid-jsdoc (#9831) (Teddy Katz)
+* 133336e Update: fix indent behavior on template literal arguments (fixes #9061) (#9820) (Teddy Katz)
+* ea1b15d Fix: avoid crashing on malformed configuration comments (fixes #9373) (#9819) (Teddy Katz)
+* add1e70 Update: fix indent bug on comments in ternary expressions (fixes #9729) (#9818) (Teddy Katz)
+* 6a5cd32 Fix: prefer-destructuring error with computed properties (fixes #9784) (#9817) (Teddy Katz)
+* 601f851 Docs: Minor modification to code comments for clarity (#9821) (rgovind92)
+* b9da067 Docs: fix misleading info about RuleTester column numbers (#9830) (Teddy Katz)
+* 2cf4522 Update: Rename and deprecate object-property-newline option (#9570) (Jonathan Pool)
+* acde640 Docs: Add ES 2018 to Configuring ESLint (#9829) (Kai Cataldo)
+* ccfce15 Docs: Minor tweaks to working with rules page (#9824) (Kevin Partington)
+* 54b329a Docs: fix substitution of {{ name }} (#9822) (Andres Kalle)
+
+v4.15.0 - January 6, 2018
+
+* 6ab04b5 New: Add context.report({ messageId }) (fixes #6740) (#9165) (Jed Fox)
+* fc7f404 Docs: add url to each of the rules (refs #6582) (#9788) (Patrick McElhaney)
+* fc44da9 Docs: fix sort-imports rule block language (#9805) (ferhat elmas)
+* 65f0176 New: CLIEngine#getRules() (refs #6582) (#9782) (Patrick McElhaney)
+* c64195f Update: More detailed assert message for rule-tester (#9769) (Weijia Wang)
+* 9fcfabf Fix: no-extra-parens false positive (fixes: #9755) (#9795) (Erin)
+* 61e5fa0 Docs: Add table of contents to Node.js API docs (#9785) (Patrick McElhaney)
+* 4c87f42 Fix: incorrect error messages of no-unused-vars (fixes #9774) (#9791) (akouryy)
+* bbabf34 Update: add `ignoreComments` option to `indent` rule (fixes #9018) (#9752) (Kevin Partington)
+* db431cb Docs: HTTP -> HTTPS (fixes #9768) (#9768) (Ronald Eddy Jr)
+* cbf0fb9 Docs: describe how to feature-detect scopeManager/visitorKeys support (#9764) (Teddy Katz)
+* f7dcb70 Docs: Add note about "patch release pending" label to maintainer guide (#9763) (Teddy Katz)
+
+v4.14.0 - December 23, 2017
+
+* be2f57e Update: support separate requires in one-var. (fixes #6175) (#9441) (薛定谔的猫)
+* 370d614 Docs: Fix typos (#9751) (Jed Fox)
+* 8196c45 Chore: Reorganize CLI options and associated docs (#9758) (Kevin Partington)
+* 75c7419 Update: Logical-and is counted in `complexity` rule (fixes #8535) (#9754) (Kevin Partington)
+* eb4b1e0 Docs: reintroduce misspelling in `valid-typeof` example (#9753) (Teddy Katz)
+* ae51eb2 New: Add allowImplicit option to array-callback-return (fixes #8539) (#9344) (James C. Davis)
+* e9d5dfd Docs: improve no-extra-parens formatting (#9747) (Rich Trott)
+* 37d066c Chore: Add unit tests for overrides glob matching. (#9744) (Robert Jackson)
+* 805a94e Chore: Fix typo in CLIEngine test name (#9741) (@scriptdaemon)
+* 1c2aafd Update: Improve parser integrations (fixes #8392) (#8755) (Toru Nagashima)
+* 4ddc131 Upgrade: debug@^3.1.0 (#9731) (Kevin Partington)
+* f252c19 Docs: Make the lint message `source` property a little more subtle (#9735) (Jed Fox)
+* 5a5c23c Docs: fix the link to contributing page (#9727) (Victor Hom)
+* f44ce11 Docs: change beginner to good first issue label text (#9726) (Victor Hom)
+* 14baa2e Chore: improve arrow-body-style error message (refs #5498) (#9718) (Teddy Katz)
+* f819920 Docs: fix typos (#9723) (Thomas Broadley)
+* 43d4ba8 Fix: false positive on rule`lines-between-class-members` (fixes #9665) (#9680) (sakabar)
+
 v4.13.1 - December 11, 2017
 
 * b72dc83 Fix: eol-last allow empty-string to always pass (refs #9534) (#9696) (Kevin Partington)

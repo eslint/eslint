@@ -806,4 +806,96 @@ describe("ConfigOps", () => {
             assert.strictEqual(result.rules.foo2, "off");
         });
     });
+
+    describe("pathMatchesGlobs", () => {
+
+        /**
+         * Emits a test that confirms the specified file path matches the specified combination of patterns.
+         * @param {string} filePath The file path to test patterns against
+         * @param {string|string[]} patterns One or more glob patterns
+         * @param {string|string[]} [excludedPatterns] One or more glob patterns
+         * @returns {void}
+         */
+        function match(filePath, patterns, excludedPatterns) {
+            it(`matches ${filePath} given '${patterns.join("','")}' includes and '${excludedPatterns.join("','")}' excludes`, () => {
+                const result = ConfigOps.pathMatchesGlobs(filePath, patterns, excludedPatterns);
+
+                assert.strictEqual(result, true);
+            });
+        }
+
+        /**
+         * Emits a test that confirms the specified file path does not match the specified combination of patterns.
+         * @param {string} filePath The file path to test patterns against
+         * @param {string|string[]} patterns One or more glob patterns
+         * @param {string|string[]} [excludedPatterns] One or more glob patterns
+         * @returns {void}
+         */
+        function noMatch(filePath, patterns, excludedPatterns) {
+            it(`does not match ${filePath} given '${patterns.join("','")}' includes and '${excludedPatterns.join("','")}' excludes`, () => {
+                const result = ConfigOps.pathMatchesGlobs(filePath, patterns, excludedPatterns);
+
+                assert.strictEqual(result, false);
+            });
+        }
+
+        /**
+         * Emits a test that confirms the specified pattern throws an error.
+         * @param {string} filePath The file path to test the pattern against
+         * @param {string} pattern The glob pattern that should trigger the error condition
+         * @param {string} expectedMessage The expected error's message
+         * @returns {void}
+         */
+        function error(filePath, pattern, expectedMessage) {
+            it(`emits an error given '${pattern}'`, () => {
+                let errorMessage;
+
+                try {
+                    ConfigOps.pathMatchesGlobs(filePath, pattern);
+                } catch (e) {
+                    errorMessage = e.message;
+                }
+
+                assert.strictEqual(errorMessage, expectedMessage);
+            });
+        }
+
+        // files in the project root
+        match("foo.js", ["foo.js"], []);
+        match("foo.js", ["*"], []);
+        match("foo.js", ["*.js"], []);
+        match("foo.js", ["**/*.js"], []);
+        match("bar.js", ["*.js"], ["foo.js"]);
+
+        noMatch("foo.js", ["./foo.js"], []);
+        noMatch("foo.js", ["./*"], []);
+        noMatch("foo.js", ["./**"], []);
+        noMatch("foo.js", ["*"], ["foo.js"]);
+        noMatch("foo.js", ["*.js"], ["foo.js"]);
+        noMatch("foo.js", ["**/*.js"], ["foo.js"]);
+
+        // files in a subdirectory
+        match("subdir/foo.js", ["foo.js"], []);
+        match("subdir/foo.js", ["*"], []);
+        match("subdir/foo.js", ["*.js"], []);
+        match("subdir/foo.js", ["**/*.js"], []);
+        match("subdir/foo.js", ["subdir/*.js"], []);
+        match("subdir/foo.js", ["subdir/foo.js"], []);
+        match("subdir/foo.js", ["subdir/*"], []);
+        match("subdir/second/foo.js", ["subdir/**"], []);
+
+        noMatch("subdir/foo.js", ["./foo.js"], []);
+        noMatch("subdir/foo.js", ["./**"], []);
+        noMatch("subdir/foo.js", ["./subdir/**"], []);
+        noMatch("subdir/foo.js", ["./subdir/*"], []);
+        noMatch("subdir/foo.js", ["*"], ["subdir/**"]);
+        noMatch("subdir/very/deep/foo.js", ["*.js"], ["subdir/**"]);
+        noMatch("subdir/second/foo.js", ["subdir/*"], []);
+        noMatch("subdir/second/foo.js", ["subdir/**"], ["subdir/second/*"]);
+
+        // error conditions
+        error("foo.js", ["/*.js"], "Invalid override pattern (expected relative path not containing '..'): /*.js");
+        error("foo.js", ["/foo.js"], "Invalid override pattern (expected relative path not containing '..'): /foo.js");
+        error("foo.js", ["../**"], "Invalid override pattern (expected relative path not containing '..'): ../**");
+    });
 });

@@ -30,23 +30,22 @@ The command line utility has several options. You can view the options by runnin
 eslint [options] file.js [file.js] [dir]
 
 Basic configuration:
-  -c, --config path::String      Use configuration from this file or shareable config
-  --no-eslintrc                  Disable use of configuration from .eslintrc
+  --no-eslintrc                  Disable use of configuration from .eslintrc.*
+  -c, --config path::String      Use this configuration, overriding .eslintrc.* config options if present
   --env [String]                 Specify environments
   --ext [String]                 Specify JavaScript file extensions - default: .js
   --global [String]              Define global variables
   --parser String                Specify the parser to be used
   --parser-options Object        Specify parser options
 
-Caching:
-  --cache                        Only check changed files - default: false
-  --cache-file path::String      Path to the cache file. Deprecated: use --cache-location - default: .eslintcache
-  --cache-location path::String  Path to the cache file or directory
-
 Specifying rules and plugins:
   --rulesdir [path::String]      Use additional rules from this directory
   --plugin [String]              Specify plugins
   --rule Object                  Specify rules
+
+Fixing problems:
+  --fix                          Automatically fix problems
+  --fix-dry-run                  Automatically fix problems without saving the changes to the file system
 
 Ignoring files:
   --ignore-path path::String     Specify path of ignore file
@@ -66,15 +65,20 @@ Output:
   -f, --format String            Use a specific output format - default: stylish
   --color, --no-color            Force enabling/disabling of color
 
+Inline configuration comments:
+  --no-inline-config             Prevent comments from changing config or rules
+  --report-unused-disable-directives  Adds reported errors for unused eslint-disable directives
+
+Caching:
+  --cache                        Only check changed files - default: false
+  --cache-file path::String      Path to the cache file. Deprecated: use --cache-location - default: .eslintcache
+  --cache-location path::String  Path to the cache file or directory
+
 Miscellaneous:
   --init                         Run config initialization wizard - default: false
-  --fix                          Automatically fix problems
-  --fix-dry-run                  Automatically fix problems without saving the changes to the file system
   --debug                        Output debugging information
   -h, --help                     Show help
   -v, --version                  Output the version number
-  --no-inline-config             Prevent comments from changing config or rules
-  --report-unused-disable-directives  Adds reported errors for unused eslint-disable directives
   --print-config path::String    Print the configuration for the given file
 ```
 
@@ -87,6 +91,14 @@ Example:
     eslint --ext .jsx,.js lib/
 
 ### Basic configuration
+
+#### `--no-eslintrc`
+
+Disables use of configuration from `.eslintrc.*` and `package.json` files.
+
+Example:
+
+    eslint --no-eslintrc file.js
 
 #### `-c`, `--config`
 
@@ -106,13 +118,7 @@ Example:
 
 This example directly uses the sharable config `eslint-config-myconfig`.
 
-#### `--no-eslintrc`
-
-Disables use of configuration from `.eslintrc` and `package.json` files.
-
-Example:
-
-    eslint --no-eslintrc file.js
+If `.eslintrc.*` and/or `package.json` files are also used for configuration (i.e., `--no-eslintrc` was not specified), the configurations will be merged. Options from this configuration file have precedence over the options from `.eslintrc.*` and `package.json` files.
 
 #### `--env`
 

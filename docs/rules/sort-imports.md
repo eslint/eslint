@@ -165,7 +165,7 @@ There are four different styles and the default member syntax sort order is:
 * `multiple` - import multiple members.
 * `single` - import single member.
 
-All four options must be specified in the array, but you can customise their order.
+All four options must be specified in the array, but you can customize their order.
 
 Examples of **incorrect** code for this rule with the default `{ "memberSyntaxSortOrder": ["none", "all", "multiple", "single"] }` option:
 
@@ -186,13 +186,12 @@ import * as b from 'bar.js';
 
 Examples of **correct** code for this rule with the `{ "memberSyntaxSortOrder": ['all', 'single', 'multiple', 'none'] }` option:
 
-```
+```js
 /*eslint sort-imports: ["error", { "memberSyntaxSortOrder": ['all', 'single', 'multiple', 'none'] }]*/
 
 import * as foo from 'foo.js';
 import z from 'zoo.js';
 import {a, b} from 'foo.js';
-
 ```
 
 Default is `["none", "all", "multiple", "single"]`.

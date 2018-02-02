@@ -1615,14 +1615,42 @@ describe("Linter", () => {
     });
 
     describe("when evaluating code with invalid comments to enable rules", () => {
-        const code = "/*eslint no-alert:true*/ alert('test');";
+        it("should report a violation when the config is not a valid rule configuration", () => {
+            assert.deepStrictEqual(
+                linter.verify("/*eslint no-alert:true*/ alert('test');", {}),
+                [
+                    {
+                        severity: 2,
+                        ruleId: "no-alert",
+                        message: "Configuration for rule \"no-alert\" is invalid:\n\tSeverity should be one of the following: 0 = off, 1 = warn, 2 = error (you passed 'true').\n",
+                        line: 1,
+                        column: 1,
+                        endLine: 1,
+                        endColumn: 25,
+                        source: null,
+                        nodeType: null
+                    }
+                ]
+            );
+        });
 
-        it("should report a violation", () => {
-            const config = { rules: {} };
-
-            const fn = linter.verify.bind(linter, code, config, filename);
-
-            assert.throws(fn, "filename.js line 1:\n\tConfiguration for rule \"no-alert\" is invalid:\n\tSeverity should be one of the following: 0 = off, 1 = warn, 2 = error (you passed 'true').\n");
+        it("should report a violation when the config violates a rule's schema", () => {
+            assert.deepStrictEqual(
+                linter.verify("/* eslint no-alert: [error, {nonExistentPropertyName: true}]*/", {}),
+                [
+                    {
+                        severity: 2,
+                        ruleId: "no-alert",
+                        message: "Configuration for rule \"no-alert\" is invalid:\n\tValue [{\"nonExistentPropertyName\":true}] should NOT have more than 0 items.\n",
+                        line: 1,
+                        column: 1,
+                        endLine: 1,
+                        endColumn: 63,
+                        source: null,
+                        nodeType: null
+                    }
+                ]
+            );
         });
     });
 

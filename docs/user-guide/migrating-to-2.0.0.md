@@ -285,7 +285,7 @@ if (variable) {
 }
 ```
 
-Further Reading: http://estools.github.io/escope/
+Further Reading: https://estools.github.io/escope/
 
 ## Default Changes When Using `eslint:recommended`
 

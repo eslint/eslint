@@ -19,7 +19,7 @@ Even though these are the formal criteria for inclusion, each rule is evaluated 
 
 ## Proposing a Rule
 
-If you want to propose a new rule, [create a pull request](/docs/developer-guide/contributing/pull-requests.md) or new issue and paste the questions from the [rule proposal template](https://github.com/eslint/eslint/blob/master/templates/rule-proposal.md) into the description.
+If you want to propose a new rule, [create a pull request](/docs/developer-guide/contributing/pull-requests.md) or [new issue](https://github.com/eslint/eslint/issues/new?template=NEW_RULE.md) and fill out the template.
 
 We need all of this information in order to determine whether or not the rule is a good core rule candidate.
 

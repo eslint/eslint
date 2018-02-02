@@ -3,7 +3,7 @@
 ESLint is designed to be completely configurable, meaning you can turn off every rule and run only with basic syntax validation, or mix and match the bundled rules and your custom rules to make ESLint perfect for your project. There are two primary ways to configure ESLint:
 
 1. **Configuration Comments** - use JavaScript comments to embed configuration information directly into a file.
-1. **Configuration Files** - use a JavaScript, JSON or YAML file to specify configuration information for an entire directory (other than your home directory) and all of its subdirectories. This can be in the form of an [.eslintrc.*](#configuration-file-formats) file or an `eslintConfig` field in a [`package.json`](https://docs.npmjs.com/files/package.json) file, both of which ESLint will look for and read automatically, or you can specify a configuration file on the [command line](command-line-interface).
+1. **Configuration Files** - use a JavaScript, JSON or YAML file to specify configuration information for an entire directory (other than your home directory) and all of its subdirectories. This can be in the form of an [`.eslintrc.*`](#configuration-file-formats) file or an `eslintConfig` field in a [`package.json`](https://docs.npmjs.com/files/package.json) file, both of which ESLint will look for and read automatically, or you can specify a configuration file on the [command line](command-line-interface).
 
     If you have a configuration file in your home directory (generally `~/`), ESLint uses it **only** if ESLint cannot find any other configuration file.
 
@@ -26,12 +26,12 @@ For ES6 syntax, use `{ "parserOptions": { "ecmaVersion": 6 } }`; for new ES6 glo
 { "es6": true } }` (this setting enables ES6 syntax automatically).
 Parser options are set in your `.eslintrc.*` file by using the `parserOptions` property. The available options are:
 
-* `ecmaVersion` - set to 3, 5 (default), 6, 7, or 8 to specify the version of ECMAScript syntax you want to use. You can also set to 2015 (same as 6), 2016 (same as 7), or 2017 (same as 8) to use the year-based naming.
+* `ecmaVersion` - set to 3, 5 (default), 6, 7, 8, or 9 to specify the version of ECMAScript syntax you want to use. You can also set to 2015 (same as 6), 2016 (same as 7), 2017 (same as 8), or 2018 (same as 9) to use the year-based naming.
 * `sourceType` - set to `"script"` (default) or `"module"` if your code is in ECMAScript modules.
 * `ecmaFeatures` - an object indicating which additional language features you'd like to use:
     * `globalReturn` - allow `return` statements in the global scope
     * `impliedStrict` - enable global [strict mode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode) (if `ecmaVersion` is 5 or greater)
-    * `jsx` - enable [JSX](http://facebook.github.io/jsx/)
+    * `jsx` - enable [JSX](https://facebook.github.io/jsx/)
     * `experimentalObjectRestSpread` - enable support for the experimental [object rest/spread properties](https://github.com/tc39/proposal-object-rest-spread) (**IMPORTANT:** This is an experimental feature that may change significantly in the future. It's recommended that you do *not* write rules relying on this functionality unless you are willing to incur maintenance cost when it changes.)
 
 Here's an example `.eslintrc.json` file:
@@ -77,7 +77,7 @@ To indicate the npm module to use as your parser, specify it using the `parser` 
 The following parsers are compatible with ESLint:
 
 * [Esprima](https://www.npmjs.com/package/esprima)
-* [Babel-ESLint](https://www.npmjs.com/package/babel-eslint) - A wrapper around the [Babel](http://babeljs.io) parser that makes it compatible with ESLint.
+* [Babel-ESLint](https://www.npmjs.com/package/babel-eslint) - A wrapper around the [Babel](https://babeljs.io) parser that makes it compatible with ESLint.
 * [typescript-eslint-parser(Experimental)](https://www.npmjs.com/package/typescript-eslint-parser) - A parser that converts TypeScript into an ESTree-compatible form so it can be used in ESLint. The goal is to allow TypeScript files to be parsed by ESLint (though not necessarily pass all ESLint rules).
 
 Note when using a custom parser, the `parserOptions` configuration property is still required for ESLint to work properly with features not in ECMAScript 5 by default. Parsers are all passed `parserOptions` and may or may not use them to determine which features to enable.
@@ -259,7 +259,7 @@ And in YAML:
     - eslint-plugin-plugin2
 ```
 
-**Note:** Due to the behaviour of Node's `require` function, a globally-installed instance of ESLint can only use globally-installed ESLint plugins, and locally-installed version can only use *locally-installed* plugins. Mixing local and global plugins is not supported.
+**Note:** Due to the behavior of Node's `require` function, a globally-installed instance of ESLint can only use globally-installed ESLint plugins, and locally-installed version can only use *locally-installed* plugins. Mixing local and global plugins is not supported.
 
 ## Configuring Rules
 
@@ -453,11 +453,15 @@ And in YAML:
 
 ## Using Configuration Files
 
-There are two ways to use configuration files. The first is to save the file wherever you would like and pass its location to the CLI using the `-c` option, such as:
+There are two ways to use configuration files.
+
+The first way to use configuration files is via `.eslintrc.*` and `package.json` files. ESLint will automatically look for them in the directory of the file to be linted, and in successive parent directories all the way up to the root directory of the filesystem (unless `root: true` is specified). This option is useful when you want different configurations for different parts of a project or when you want others to be able to use ESLint directly without needing to remember to pass in the configuration file.
+
+The second is to save the file wherever you would like and pass its location to the CLI using the `-c` option, such as:
 
     eslint -c myconfig.json myfiletotest.js
 
-The second way to use configuration files is via `.eslintrc.*` and `package.json` files. ESLint will automatically look for them in the directory of the file to be linted, and in successive parent directories all the way up to the root directory of the filesystem. This option is useful when you want different configurations for different parts of a project or when you want others to be able to use ESLint directly without needing to remember to pass in the configuration file.
+If you are using one configuration file and want ESLint to ignore any `.eslintrc.*` files, make sure to use `--no-eslintrc` along with the `-c` flag.
 
 In each case, the settings in the configuration file override default settings.
 
@@ -548,15 +552,15 @@ The complete configuration hierarchy, from highest precedence to lowest preceden
     1. `/*global*/`
     1. `/*eslint*/`
     1. `/*eslint-env*/`
-2. Command line options:
+1. Command line options (or CLIEngine equivalents):
     1. `--global`
     1. `--rule`
     1. `--env`
     1. `-c`, `--config`
-3. Project-level configuration:
+1. Project-level configuration:
     1. `.eslintrc.*` or `package.json` file in same directory as linted file
     1. Continue searching for `.eslintrc` and `package.json` files in ancestor directories (parent has highest precedence, then grandparent, etc.), up to and including the root directory or until a config with `"root": true` is found.
-    1. In the absence of any configuration from (1) thru (3), fall back to a personal default configuration in  `~/.eslintrc`.
+1. In the absence of any configuration from (1) thru (3), fall back to a personal default configuration in  `~/.eslintrc`.
 
 ## Extending Configuration Files
 
@@ -805,7 +809,7 @@ Globs are matched using [node-ignore](https://github.com/kaelzhang/node-ignore),
 
 * Lines beginning with `#` are treated as comments and do not affect ignore patterns.
 * Paths are relative to `.eslintignore` location or the current working directory. This also influences paths passed via `--ignore-pattern`.
-* Ignore patterns behave according to the `.gitignore` [specification](http://git-scm.com/docs/gitignore)
+* Ignore patterns behave according to the `.gitignore` [specification](https://git-scm.com/docs/gitignore)
 * Lines preceded by `!` are negated patterns that re-include a pattern that was ignored by an earlier pattern.
 
 In addition to any patterns in a `.eslintignore` file, ESLint always ignores files in `/node_modules/*` and `/bower_components/*`.

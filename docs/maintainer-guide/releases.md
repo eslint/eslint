@@ -2,7 +2,7 @@
 
 Releases are when a project formally publishes a new version so the community can use it. There are two types of releases:
 
-* Regular releases that follow [semantic versioning](http://semver.org/) and are considered production-ready.
+* Regular releases that follow [semantic versioning](https://semver.org/) and are considered production-ready.
 * Prereleases that are not considered production-ready and are intended to give the community a preview of upcoming changes.
 
 ## Release Team
@@ -35,6 +35,7 @@ On the day of a scheduled release, the release team should follow these steps:
 1. Make a release announcement in the public chatroom.
 1. Make a release announcement on Twitter.
 1. Make a release announcement on the release issue. Document any problems that occurred during the release, and remind the team not to merge anything other than documentation changes and bug fixes. Leave the release issue open.
+1. Add the `patch release pending` label to the release issue. (When this label is present, `eslint-github-bot` will create a pending status check on non-semver-patch pull requests, to ensure that they aren't accidentally merged while a patch release is pending.)
 
 On the Monday following the scheduled release, the release team needs to determine if a patch release is necessary. A patch release is considered necessary if any of the following occurred since the scheduled release:
 

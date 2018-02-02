@@ -45,5 +45,5 @@ for (key in foo) {
 
 ## Further Reading
 
-* [Exploring JavaScript for-in loops](http://javascriptweblog.wordpress.com/2011/01/04/exploring-javascript-for-in-loops/)
+* [Exploring JavaScript for-in loops](https://javascriptweblog.wordpress.com/2011/01/04/exploring-javascript-for-in-loops/)
 * [The pitfalls of using objects as maps in JavaScript](http://2ality.com/2012/01/objects-as-maps.html)
