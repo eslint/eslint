@@ -17,7 +17,7 @@ const resolvePath = require("path").resolve,
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({ parserOptions: { sourceType: "module" } });
 
 ruleTester.run("object-curly-newline", rule, {
     valid: [
@@ -442,22 +442,19 @@ ruleTester.run("object-curly-newline", rule, {
                 " b",
                 "} from 'module';"
             ].join("\n"),
-            options: [{ ImportDeclaration: "always" }],
-            parserOptions: { sourceType: "module" }
+            options: [{ ImportDeclaration: "always" }]
         },
         {
             code: [
                 "import {a as a, b} from 'module';"
             ].join("\n"),
-            options: [{ ImportDeclaration: "never" }],
-            parserOptions: { sourceType: "module" }
+            options: [{ ImportDeclaration: "never" }]
         },
         {
             code: [
                 "import { a, } from 'module';"
             ].join("\n"),
-            options: [{ ImportDeclaration: { multiline: true } }],
-            parserOptions: { sourceType: "module" }
+            options: [{ ImportDeclaration: { multiline: true } }]
         },
         {
             code: [
@@ -466,8 +463,7 @@ ruleTester.run("object-curly-newline", rule, {
                 "b",
                 "} from 'module';"
             ].join("\n"),
-            options: [{ ImportDeclaration: { multiline: true } }],
-            parserOptions: { sourceType: "module" }
+            options: [{ ImportDeclaration: { multiline: true } }]
         },
         {
             code: [
@@ -475,15 +471,13 @@ ruleTester.run("object-curly-newline", rule, {
                 " a,",
                 "} from 'module';"
             ].join("\n"),
-            options: [{ ImportDeclaration: { consistent: true } }],
-            parserOptions: { sourceType: "module" }
+            options: [{ ImportDeclaration: { consistent: true } }]
         },
         {
             code: [
                 "import { a } from 'module';"
             ].join("\n"),
-            options: [{ ImportDeclaration: { consistent: true } }],
-            parserOptions: { sourceType: "module" }
+            options: [{ ImportDeclaration: { consistent: true } }]
         },
         {
             code: [
@@ -491,15 +485,13 @@ ruleTester.run("object-curly-newline", rule, {
                 "a, b",
                 "} from 'module';"
             ].join("\n"),
-            options: [{ ImportDeclaration: { minProperties: 2 } }],
-            parserOptions: { sourceType: "module" }
+            options: [{ ImportDeclaration: { minProperties: 2 } }]
         },
         {
             code: [
                 "import {a, b} from 'module';"
             ].join("\n"),
-            options: [{ ImportDeclaration: { minProperties: 3 } }],
-            parserOptions: { sourceType: "module" }
+            options: [{ ImportDeclaration: { minProperties: 3 } }]
         },
 
         // "ExportDeclaration" ---------------------------------------------
@@ -508,8 +500,7 @@ ruleTester.run("object-curly-newline", rule, {
                 "export {a,",
                 "b};"
             ].join("\n"),
-            options: [{ ExportDeclaration: "never" }],
-            parserOptions: { sourceType: "module" }
+            options: [{ ExportDeclaration: "never" }]
         },
         {
             code: [
@@ -517,15 +508,13 @@ ruleTester.run("object-curly-newline", rule, {
                 "a as a, b",
                 "} from 'module';"
             ].join("\n"),
-            options: [{ ExportDeclaration: "always" }],
-            parserOptions: { sourceType: "module" }
+            options: [{ ExportDeclaration: "always" }]
         },
         {
             code: [
                 "export { a } from 'module';"
             ].join("\n"),
-            options: [{ ExportDeclaration: { multiline: true } }],
-            parserOptions: { sourceType: "module" }
+            options: [{ ExportDeclaration: { multiline: true } }]
         },
         {
             code: [
@@ -534,16 +523,14 @@ ruleTester.run("object-curly-newline", rule, {
                 "b",
                 "} from 'module';"
             ].join("\n"),
-            options: [{ ExportDeclaration: { multiline: true } }],
-            parserOptions: { sourceType: "module" }
+            options: [{ ExportDeclaration: { multiline: true } }]
         },
         {
             code: [
                 "export {a, ",
                 "b} from 'module';"
             ].join("\n"),
-            options: [{ ExportDeclaration: { consistent: true } }],
-            parserOptions: { sourceType: "module" }
+            options: [{ ExportDeclaration: { consistent: true } }]
         },
         {
             code: [
@@ -551,15 +538,13 @@ ruleTester.run("object-curly-newline", rule, {
                 "a, b",
                 "} from 'module';"
             ].join("\n"),
-            options: [{ ExportDeclaration: { minProperties: 2 } }],
-            parserOptions: { sourceType: "module" }
+            options: [{ ExportDeclaration: { minProperties: 2 } }]
         },
         {
             code: [
                 "export {a, b} from 'module';"
             ].join("\n"),
-            options: [{ ExportDeclaration: { minProperties: 3 } }],
-            parserOptions: { sourceType: "module" }
+            options: [{ ExportDeclaration: { minProperties: 3 } }]
         }
     ],
     invalid: [
@@ -1495,7 +1480,6 @@ ruleTester.run("object-curly-newline", rule, {
                 " b} from 'module';"
             ].join("\n"),
             options: [{ ImportDeclaration: "never" }],
-            parserOptions: { sourceType: "module" },
             errors: [
                 { line: 1, column: 8, message: "Unexpected line break after this opening brace." },
                 { line: 4, column: 1, message: "Unexpected line break before this closing brace." }
@@ -1511,7 +1495,6 @@ ruleTester.run("object-curly-newline", rule, {
                 "} from 'module';"
             ].join("\n"),
             options: [{ ImportDeclaration: "always" }],
-            parserOptions: { sourceType: "module" },
             errors: [
                 { line: 1, column: 8, message: "Expected a line break after this opening brace." },
                 { line: 1, column: 13, message: "Expected a line break before this closing brace." }
@@ -1527,7 +1510,6 @@ ruleTester.run("object-curly-newline", rule, {
                 "} from 'module';"
             ].join("\n"),
             options: [{ ImportDeclaration: "always" }],
-            parserOptions: { sourceType: "module" },
             errors: [
                 { line: 1, column: 8, message: "Expected a line break after this opening brace." },
                 { line: 1, column: 18, message: "Expected a line break before this closing brace." }
@@ -1545,7 +1527,6 @@ ruleTester.run("object-curly-newline", rule, {
                 "} from 'module';"
             ].join("\n"),
             options: [{ ImportDeclaration: { multiline: true } }],
-            parserOptions: { sourceType: "module" },
             errors: [
                 { line: 1, column: 8, message: "Expected a line break after this opening brace." },
                 { line: 2, column: 2, message: "Expected a line break before this closing brace." }
@@ -1562,7 +1543,6 @@ ruleTester.run("object-curly-newline", rule, {
                 "b} from 'module';"
             ].join("\n"),
             options: [{ ImportDeclaration: { consistent: true } }],
-            parserOptions: { sourceType: "module" },
             errors: [
                 { line: 3, column: 1, message: "Unexpected line break before this closing brace." }
             ]
@@ -1576,7 +1556,6 @@ ruleTester.run("object-curly-newline", rule, {
                 "import {a, b} from 'module';"
             ].join("\n"),
             options: [{ ImportDeclaration: { consistent: true } }],
-            parserOptions: { sourceType: "module" },
             errors: [
                 { line: 2, column: 1, message: "Unexpected line break before this closing brace." }
             ]
@@ -1591,7 +1570,6 @@ ruleTester.run("object-curly-newline", rule, {
                 "} from 'module';"
             ].join("\n"),
             options: [{ ImportDeclaration: { minProperties: 2 } }],
-            parserOptions: { sourceType: "module" },
             errors: [
                 { line: 1, column: 8, message: "Expected a line break after this opening brace." },
                 { line: 1, column: 13, message: "Expected a line break before this closing brace." }
@@ -1607,7 +1585,6 @@ ruleTester.run("object-curly-newline", rule, {
                 "import {a, b} from 'module';"
             ].join("\n"),
             options: [{ ImportDeclaration: { minProperties: 3 } }],
-            parserOptions: { sourceType: "module" },
             errors: [
                 { line: 1, column: 8, message: "Unexpected line break after this opening brace." },
                 { line: 3, column: 1, message: "Unexpected line break before this closing brace." }
@@ -1627,7 +1604,6 @@ ruleTester.run("object-curly-newline", rule, {
                 "    b};"
             ].join("\n"),
             options: [{ ExportDeclaration: "never" }],
-            parserOptions: { sourceType: "module" },
             errors: [
                 { line: 1, column: 8, message: "Unexpected line break after this opening brace." },
                 { line: 4, column: 1, message: "Unexpected line break before this closing brace." }
@@ -1643,7 +1619,6 @@ ruleTester.run("object-curly-newline", rule, {
                 "} from 'module';"
             ].join("\n"),
             options: [{ ExportDeclaration: "always" }],
-            parserOptions: { sourceType: "module" },
             errors: [
                 { line: 1, column: 8, message: "Expected a line break after this opening brace." },
                 { line: 1, column: 18, message: "Expected a line break before this closing brace." }
@@ -1661,7 +1636,6 @@ ruleTester.run("object-curly-newline", rule, {
                 "} from 'module';"
             ].join("\n"),
             options: [{ ExportDeclaration: { multiline: true } }],
-            parserOptions: { sourceType: "module" },
             errors: [
                 { line: 1, column: 8, message: "Expected a line break after this opening brace." },
                 { line: 2, column: 2, message: "Expected a line break before this closing brace." }
@@ -1678,7 +1652,6 @@ ruleTester.run("object-curly-newline", rule, {
                 "b,} from 'module';"
             ].join("\n"),
             options: [{ ExportDeclaration: { consistent: true } }],
-            parserOptions: { sourceType: "module" },
             errors: [
                 { line: 3, column: 1, message: "Unexpected line break before this closing brace." }
             ]
@@ -1692,7 +1665,6 @@ ruleTester.run("object-curly-newline", rule, {
                 "export {a, b} from 'module';"
             ].join("\n"),
             options: [{ ExportDeclaration: { consistent: true } }],
-            parserOptions: { sourceType: "module" },
             errors: [
                 { line: 2, column: 1, message: "Unexpected line break before this closing brace." }
             ]
@@ -1707,7 +1679,6 @@ ruleTester.run("object-curly-newline", rule, {
                 "} from 'module';"
             ].join("\n"),
             options: [{ ExportDeclaration: { minProperties: 2 } }],
-            parserOptions: { sourceType: "module" },
             errors: [
                 { line: 1, column: 8, message: "Expected a line break after this opening brace." },
                 { line: 1, column: 14, message: "Expected a line break before this closing brace." }
@@ -1723,7 +1694,6 @@ ruleTester.run("object-curly-newline", rule, {
                 "export {a, b} from 'module';"
             ].join("\n"),
             options: [{ ExportDeclaration: { minProperties: 3 } }],
-            parserOptions: { sourceType: "module" },
             errors: [
                 { line: 1, column: 8, message: "Unexpected line break after this opening brace." },
                 { line: 3, column: 1, message: "Unexpected line break before this closing brace." }
