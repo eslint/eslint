@@ -54,7 +54,7 @@ describe("createReportTranslator", () => {
     describe("old-style call with location", () => {
         it("should extract the location correctly", () => {
             assert.deepStrictEqual(
-                translateReport(node, location, message, {}),
+                translateReport(node, location, message),
                 {
                     ruleId: "foo-rule",
                     severity: 2,
@@ -71,7 +71,7 @@ describe("createReportTranslator", () => {
     describe("old-style call without location", () => {
         it("should use the start location and end location of the node", () => {
             assert.deepStrictEqual(
-                translateReport(node, message, {}),
+                translateReport(node, message),
                 {
                     ruleId: "foo-rule",
                     severity: 2,
@@ -336,6 +336,7 @@ describe("createReportTranslator", () => {
                     ruleId: "foo-rule",
                     severity: 2,
                     message: "my message testing!",
+                    data: ["!", "testing"],
                     line: 42,
                     column: 24,
                     nodeType: "ExpressionStatement",
@@ -358,6 +359,7 @@ describe("createReportTranslator", () => {
                     severity: 2,
                     ruleId: "foo-rule",
                     message: "hello ExpressionStatement",
+                    data: { dynamic: "ExpressionStatement" },
                     nodeType: "ExpressionStatement",
                     line: 1,
                     column: 4,
@@ -373,6 +375,7 @@ describe("createReportTranslator", () => {
                     severity: 2,
                     ruleId: "foo-rule",
                     message: "hello ExpressionStatement",
+                    data: { dynamic: "ExpressionStatement" },
                     nodeType: "ExpressionStatement",
                     line: 1,
                     column: 4,
@@ -558,6 +561,7 @@ describe("createReportTranslator", () => {
                     severity: 2,
                     ruleId: "foo-rule",
                     message: "my message testing!",
+                    data: ["!", "testing"],
                     nodeType: "ExpressionStatement",
                     line: 1,
                     column: 1,
