@@ -1,11 +1,12 @@
 <!--
     ESLint adheres to the [JS Foundation Code of Conduct](https://js.foundation/community/code-of-conduct).
 
-    This template is for bug reports. If you are reporting a bug, please continue on. If you are here for another reason, please see below:
+    This template is for bug reports. If you are here for another reason, please see below:
 
     1. To propose a new rule: https://eslint.org/docs/developer-guide/contributing/new-rules
-    2. To request a change: https://eslint.org/docs/developer-guide/contributing/changes
-    3. If you have any questions, please stop by our chatroom: https://gitter.im/eslint/eslint
+    2. To request a rule change: https://eslint.org/docs/developer-guide/contributing/rule-changes
+    3. To request a change that is not a bug fix, rule change, or new rule: https://eslint.org/docs/developer-guide/contributing/changes
+    4. If you have any questions, please stop by our chatroom: https://gitter.im/eslint/eslint
 
     Note that leaving sections blank will make it difficult for us to troubleshoot and we may have to close the issue.
 -->
@@ -26,8 +27,6 @@
 <!-- Paste your configuration below: -->
 ```js
 
-
-
 ```
 
 </details>
@@ -36,10 +35,6 @@
 
 <!-- Paste the source code below: -->
 ```js
-
-
-
-
 
 ```
 
