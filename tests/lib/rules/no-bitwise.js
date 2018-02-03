@@ -29,18 +29,18 @@ ruleTester.run("no-bitwise", rule, {
         { code: "a|0", options: [{ allow: ["|"], int32Hint: false }] }
     ],
     invalid: [
-        { code: "a ^ b", errors: [{ message: "Unexpected use of '^'.", type: "BinaryExpression" }] },
-        { code: "a | b", errors: [{ message: "Unexpected use of '|'.", type: "BinaryExpression" }] },
-        { code: "a & b", errors: [{ message: "Unexpected use of '&'.", type: "BinaryExpression" }] },
-        { code: "a << b", errors: [{ message: "Unexpected use of '<<'.", type: "BinaryExpression" }] },
-        { code: "a >> b", errors: [{ message: "Unexpected use of '>>'.", type: "BinaryExpression" }] },
-        { code: "a >>> b", errors: [{ message: "Unexpected use of '>>>'.", type: "BinaryExpression" }] },
-        { code: "~a", errors: [{ message: "Unexpected use of '~'.", type: "UnaryExpression" }] },
-        { code: "a ^= b", errors: [{ message: "Unexpected use of '^='.", type: "AssignmentExpression" }] },
-        { code: "a |= b", errors: [{ message: "Unexpected use of '|='.", type: "AssignmentExpression" }] },
-        { code: "a &= b", errors: [{ message: "Unexpected use of '&='.", type: "AssignmentExpression" }] },
-        { code: "a <<= b", errors: [{ message: "Unexpected use of '<<='.", type: "AssignmentExpression" }] },
-        { code: "a >>= b", errors: [{ message: "Unexpected use of '>>='.", type: "AssignmentExpression" }] },
-        { code: "a >>>= b", errors: [{ message: "Unexpected use of '>>>='.", type: "AssignmentExpression" }] }
+        { code: "a ^ b", errors: [{ messageId: "unexpected", data: { operator: "^" }, type: "BinaryExpression" }] },
+        { code: "a | b", errors: [{ messageId: "unexpected", data: { operator: "|" }, type: "BinaryExpression" }] },
+        { code: "a & b", errors: [{ messageId: "unexpected", data: { operator: "&" }, type: "BinaryExpression" }] },
+        { code: "a << b", errors: [{ messageId: "unexpected", data: { operator: "<<" }, type: "BinaryExpression" }] },
+        { code: "a >> b", errors: [{ messageId: "unexpected", data: { operator: ">>" }, type: "BinaryExpression" }] },
+        { code: "a >>> b", errors: [{ messageId: "unexpected", data: { operator: ">>>" }, type: "BinaryExpression" }] },
+        { code: "~a", errors: [{ messageId: "unexpected", data: { operator: "~" }, type: "UnaryExpression" }] },
+        { code: "a ^= b", errors: [{ messageId: "unexpected", data: { operator: "^=" }, type: "AssignmentExpression" }] },
+        { code: "a |= b", errors: [{ messageId: "unexpected", data: { operator: "|=" }, type: "AssignmentExpression" }] },
+        { code: "a &= b", errors: [{ messageId: "unexpected", data: { operator: "&=" }, type: "AssignmentExpression" }] },
+        { code: "a <<= b", errors: [{ messageId: "unexpected", data: { operator: "<<=" }, type: "AssignmentExpression" }] },
+        { code: "a >>= b", errors: [{ messageId: "unexpected", data: { operator: ">>=" }, type: "AssignmentExpression" }] },
+        { code: "a >>>= b", errors: [{ messageId: "unexpected", data: { operator: ">>>=" }, type: "AssignmentExpression" }] }
     ]
 });

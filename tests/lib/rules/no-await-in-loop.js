@@ -8,7 +8,7 @@
 const rule = require("../../../lib/rules/no-await-in-loop"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
-const message = "Unexpected `await` inside a loop.";
+const error = { messageId: "unexpectedAwait" };
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: "2017" } });
 
@@ -41,29 +41,29 @@ ruleTester.run("no-await-in-loop", rule, {
     invalid: [
 
         // While loops
-        { code: "async function foo() { while (baz) { await bar; } }", errors: [message] },
-        { code: "async function foo() { while (await foo()) {  } }", errors: [message] },
+        { code: "async function foo() { while (baz) { await bar; } }", errors: [error] },
+        { code: "async function foo() { while (await foo()) {  } }", errors: [error] },
 
         // For of loops
-        { code: "async function foo() { for (var bar of baz) { await bar; } }", errors: [message] },
-        { code: "async function foo() { for (var bar of baz) await bar; }", errors: [message] },
+        { code: "async function foo() { for (var bar of baz) { await bar; } }", errors: [error] },
+        { code: "async function foo() { for (var bar of baz) await bar; }", errors: [error] },
 
         // For in loops
-        { code: "async function foo() { for (var bar in baz) { await bar; } }", errors: [message] },
+        { code: "async function foo() { for (var bar in baz) { await bar; } }", errors: [error] },
 
         // For loops
-        { code: "async function foo() { for (var i; i < n; i++) { await bar; } }", errors: [message] },
-        { code: "async function foo() { for (var i; await foo(i); i++) {  } }", errors: [message] },
-        { code: "async function foo() { for (var i; i < n; i = await bar) {  } }", errors: [message] },
+        { code: "async function foo() { for (var i; i < n; i++) { await bar; } }", errors: [error] },
+        { code: "async function foo() { for (var i; await foo(i); i++) {  } }", errors: [error] },
+        { code: "async function foo() { for (var i; i < n; i = await bar) {  } }", errors: [error] },
 
         // Do while loops
-        { code: "async function foo() { do { await bar; } while (baz); }", errors: [message] },
-        { code: "async function foo() { do { } while (await bar); }", errors: [message] },
+        { code: "async function foo() { do { await bar; } while (baz); }", errors: [error] },
+        { code: "async function foo() { do { } while (await bar); }", errors: [error] },
 
         // Deep in a loop body
-        { code: "async function foo() { while (true) { if (bar) { foo(await bar); } } }", errors: [message] },
+        { code: "async function foo() { while (true) { if (bar) { foo(await bar); } } }", errors: [error] },
 
         // Deep in a loop condition
-        { code: "async function foo() { while (xyz || 5 > await x) {  } }", errors: [message] }
+        { code: "async function foo() { while (xyz || 5 > await x) {  } }", errors: [error] }
     ]
 });

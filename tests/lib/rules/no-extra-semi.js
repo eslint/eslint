@@ -47,68 +47,68 @@ ruleTester.run("no-extra-semi", rule, {
         {
             code: "var x = 5;;",
             output: "var x = 5;",
-            errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement" }]
+            errors: [{ messgeId: "unexpected", type: "EmptyStatement" }]
         },
         {
             code: "function foo(){};",
             output: "function foo(){}",
-            errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement" }]
+            errors: [{ messgeId: "unexpected", type: "EmptyStatement" }]
         },
         {
             code: "for(;;);;",
             output: "for(;;);",
-            errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement" }]
+            errors: [{ messgeId: "unexpected", type: "EmptyStatement" }]
         },
         {
             code: "while(0);;",
             output: "while(0);",
-            errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement" }]
+            errors: [{ messgeId: "unexpected", type: "EmptyStatement" }]
         },
         {
             code: "do;while(0);;",
             output: "do;while(0);",
-            errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement" }]
+            errors: [{ messgeId: "unexpected", type: "EmptyStatement" }]
         },
         {
             code: "for(a in b);;",
             output: "for(a in b);",
-            errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement" }]
+            errors: [{ messgeId: "unexpected", type: "EmptyStatement" }]
         },
         {
             code: "for(a of b);;",
             output: "for(a of b);",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement" }]
+            errors: [{ messgeId: "unexpected", type: "EmptyStatement" }]
         },
         {
             code: "if(true);;",
             output: "if(true);",
-            errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement" }]
+            errors: [{ messgeId: "unexpected", type: "EmptyStatement" }]
         },
         {
             code: "if(true){} else;;",
             output: "if(true){} else;",
-            errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement" }]
+            errors: [{ messgeId: "unexpected", type: "EmptyStatement" }]
         },
         {
             code: "if(true){;} else {;}",
             output: "if(true){} else {}",
-            errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement" }, { message: "Unnecessary semicolon.", type: "EmptyStatement" }]
+            errors: [{ messgeId: "unexpected", type: "EmptyStatement" }, { messgeId: "unexpected", type: "EmptyStatement" }]
         },
         {
             code: "foo:;;",
             output: "foo:;",
-            errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement" }]
+            errors: [{ messgeId: "unexpected", type: "EmptyStatement" }]
         },
         {
             code: "with(foo);;",
             output: "with(foo);",
-            errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement" }]
+            errors: [{ messgeId: "unexpected", type: "EmptyStatement" }]
         },
         {
             code: "with(foo){;}",
             output: "with(foo){}",
-            errors: [{ message: "Unnecessary semicolon.", type: "EmptyStatement" }]
+            errors: [{ messgeId: "unexpected", type: "EmptyStatement" }]
         },
 
         // Class body.
@@ -116,47 +116,47 @@ ruleTester.run("no-extra-semi", rule, {
             code: "class A { ; }",
             output: "class A {  }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Unnecessary semicolon.", type: "Punctuator", column: 11 }]
+            errors: [{ messgeId: "unexpected", type: "Punctuator", column: 11 }]
         },
         {
             code: "class A { /*a*/; }",
             output: "class A { /*a*/ }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Unnecessary semicolon.", type: "Punctuator", column: 16 }]
+            errors: [{ messgeId: "unexpected", type: "Punctuator", column: 16 }]
         },
         {
             code: "class A { ; a() {} }",
             output: "class A {  a() {} }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Unnecessary semicolon.", type: "Punctuator", column: 11 }]
+            errors: [{ messgeId: "unexpected", type: "Punctuator", column: 11 }]
         },
         {
             code: "class A { a() {}; }",
             output: "class A { a() {} }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Unnecessary semicolon.", type: "Punctuator", column: 17 }]
+            errors: [{ messgeId: "unexpected", type: "Punctuator", column: 17 }]
         },
         {
             code: "class A { a() {}; b() {} }",
             output: "class A { a() {} b() {} }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Unnecessary semicolon.", type: "Punctuator", column: 17 }]
+            errors: [{ messgeId: "unexpected", type: "Punctuator", column: 17 }]
         },
         {
             code: "class A {; a() {}; b() {}; }",
             output: "class A { a() {} b() {} }",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Unnecessary semicolon.", type: "Punctuator", column: 10 },
-                { message: "Unnecessary semicolon.", type: "Punctuator", column: 18 },
-                { message: "Unnecessary semicolon.", type: "Punctuator", column: 26 }
+                { messgeId: "unexpected", type: "Punctuator", column: 10 },
+                { messgeId: "unexpected", type: "Punctuator", column: 18 },
+                { messgeId: "unexpected", type: "Punctuator", column: 26 }
             ]
         },
         {
             code: "class A { a() {}; get b() {} }",
             output: "class A { a() {} get b() {} }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Unnecessary semicolon.", type: "Punctuator", column: 17 }]
+            errors: [{ messgeId: "unexpected", type: "Punctuator", column: 17 }]
         }
     ]
 });

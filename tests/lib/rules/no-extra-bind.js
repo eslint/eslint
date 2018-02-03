@@ -16,7 +16,7 @@ const rule = require("../../../lib/rules/no-extra-bind"),
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester();
-const errors = [{ message: "The function binding is unnecessary.", type: "CallExpression" }];
+const errors = [{ messageId: "unexpected", type: "CallExpression" }];
 
 ruleTester.run("no-extra-bind", rule, {
     valid: [
@@ -73,7 +73,7 @@ ruleTester.run("no-extra-bind", rule, {
         {
             code: "var a = function() { (function(){ (function(){ this.d }.bind(c)) }) }.bind(b)",
             output: "var a = function() { (function(){ (function(){ this.d }.bind(c)) }) }",
-            errors: [{ message: "The function binding is unnecessary.", type: "CallExpression", column: 71 }]
+            errors: [{ messageId: "unexpected", type: "CallExpression", column: 71 }]
         }
     ]
 });
