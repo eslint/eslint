@@ -567,7 +567,6 @@ The rule naming conventions for ESLint are fairly simple:
 
 * If your rule is disallowing something, prefix it with `no-` such as `no-eval` for disallowing `eval()` and `no-debugger` for disallowing `debugger`.
 * If your rule is enforcing the inclusion of something, use a short name without a special prefix.
-* Keep your rule names as short as possible, use abbreviations where appropriate, and no more than four words.
 * Use dashes between words.
 
 ## Runtime Rules
