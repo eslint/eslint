@@ -1,3 +1,15 @@
+v4.17.0 - February 2, 2018
+
+* 1da1ada Update: Add "multiline" type to padding-line-between-statements (#8668) (Matthew Bennett)
+* bb213dc Chore: Use messageIds in some of the core rules (#9648) (Jed Fox)
+* 1aa1970 Docs: remove outdated rule naming convention (#9925) (Teddy Katz)
+* 3afaff6 Docs: Add prefer-destructuring variable reassignment example (#9873) (LePirlouit)
+* d20f6b4 Fix: Typo in error message when running npm (#9866) (Maciej Kasprzyk)
+* 51ec6a7 Docs: Use GitHub Multiple PR/Issue templates (#9911) (Kai Cataldo)
+* dc80487 Update: space-unary-ops uses astUtils.canTokensBeAdjacent (fixes #9907) (#9906) (Kevin Partington)
+* 084351b Docs: Fix the messageId example (fixes #9889) (#9892) (Jed Fox)
+* 9cbb487 Docs: Mention the `globals` key in the no-undef docs (#9867) (Dan Dascalescu)
+
 v4.16.0 - January 19, 2018
 
 * e26a25f Update: allow continue instead of if wrap in guard-for-in (fixes #7567) (#9796) (Michael Ficarra)
