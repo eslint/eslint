@@ -11,7 +11,6 @@
 
 const rule = require("../../../lib/rules/no-cond-assign"),
     RuleTester = require("../../../lib/testers/rule-tester");
-const ERROR_MESSAGE = "Expected a conditional expression and instead saw an assignment.";
 
 //------------------------------------------------------------------------------
 // Tests
@@ -44,22 +43,22 @@ ruleTester.run("no-cond-assign", rule, {
         { code: "x = 0;", options: ["always"] }
     ],
     invalid: [
-        { code: "var x; if (x = 0) { var b = 1; }", errors: [{ message: ERROR_MESSAGE, type: "IfStatement", line: 1, column: 12 }] },
-        { code: "var x; while (x = 0) { var b = 1; }", errors: [{ message: ERROR_MESSAGE, type: "WhileStatement" }] },
-        { code: "var x = 0, y; do { y = x; } while (x = x + 1);", errors: [{ message: ERROR_MESSAGE, type: "DoWhileStatement" }] },
-        { code: "var x; for(; x+=1 ;){};", errors: [{ message: ERROR_MESSAGE, type: "ForStatement" }] },
-        { code: "var x; if ((x) = (0));", errors: [{ message: ERROR_MESSAGE, type: "IfStatement" }] },
-        { code: "if (someNode || (someNode = parentNode)) { }", options: ["always"], errors: [{ message: "Unexpected assignment within an 'if' statement.", type: "IfStatement" }] },
-        { code: "while (someNode || (someNode = parentNode)) { }", options: ["always"], errors: [{ message: "Unexpected assignment within a 'while' statement.", type: "WhileStatement" }] },
-        { code: "do { } while (someNode || (someNode = parentNode));", options: ["always"], errors: [{ message: "Unexpected assignment within a 'do...while' statement.", type: "DoWhileStatement" }] },
-        { code: "for (; (typeof l === 'undefined' ? (l = 0) : l); i++) { }", options: ["always"], errors: [{ message: "Unexpected assignment within a 'for' statement.", type: "ForStatement" }] },
-        { code: "if (x = 0) { }", options: ["always"], errors: [{ message: "Unexpected assignment within an 'if' statement.", type: "IfStatement" }] },
-        { code: "while (x = 0) { }", options: ["always"], errors: [{ message: "Unexpected assignment within a 'while' statement.", type: "WhileStatement" }] },
-        { code: "do { } while (x = x + 1);", options: ["always"], errors: [{ message: "Unexpected assignment within a 'do...while' statement.", type: "DoWhileStatement" }] },
-        { code: "for(; x = y; ) { }", options: ["always"], errors: [{ message: "Unexpected assignment within a 'for' statement.", type: "ForStatement" }] },
-        { code: "if ((x = 0)) { }", options: ["always"], errors: [{ message: "Unexpected assignment within an 'if' statement.", type: "IfStatement" }] },
-        { code: "while ((x = 0)) { }", options: ["always"], errors: [{ message: "Unexpected assignment within a 'while' statement.", type: "WhileStatement" }] },
-        { code: "do { } while ((x = x + 1));", options: ["always"], errors: [{ message: "Unexpected assignment within a 'do...while' statement.", type: "DoWhileStatement" }] },
-        { code: "for(; (x = y); ) { }", options: ["always"], errors: [{ message: "Unexpected assignment within a 'for' statement.", type: "ForStatement" }] }
+        { code: "var x; if (x = 0) { var b = 1; }", errors: [{ messageId: "missing", type: "IfStatement", line: 1, column: 12 }] },
+        { code: "var x; while (x = 0) { var b = 1; }", errors: [{ messageId: "missing", type: "WhileStatement" }] },
+        { code: "var x = 0, y; do { y = x; } while (x = x + 1);", errors: [{ messageId: "missing", type: "DoWhileStatement" }] },
+        { code: "var x; for(; x+=1 ;){};", errors: [{ messageId: "missing", type: "ForStatement" }] },
+        { code: "var x; if ((x) = (0));", errors: [{ messageId: "missing", type: "IfStatement" }] },
+        { code: "if (someNode || (someNode = parentNode)) { }", options: ["always"], errors: [{ messageId: "unexpected", data: { type: "an 'if' statement" }, type: "IfStatement" }] },
+        { code: "while (someNode || (someNode = parentNode)) { }", options: ["always"], errors: [{ messageId: "unexpected", data: { type: "a 'while' statement" }, type: "WhileStatement" }] },
+        { code: "do { } while (someNode || (someNode = parentNode));", options: ["always"], errors: [{ messageId: "unexpected", data: { type: "a 'do...while' statement" }, type: "DoWhileStatement" }] },
+        { code: "for (; (typeof l === 'undefined' ? (l = 0) : l); i++) { }", options: ["always"], errors: [{ messageId: "unexpected", data: { type: "a 'for' statement" }, type: "ForStatement" }] },
+        { code: "if (x = 0) { }", options: ["always"], errors: [{ messageId: "unexpected", data: { type: "an 'if' statement" }, type: "IfStatement" }] },
+        { code: "while (x = 0) { }", options: ["always"], errors: [{ messageId: "unexpected", data: { type: "a 'while' statement" }, type: "WhileStatement" }] },
+        { code: "do { } while (x = x + 1);", options: ["always"], errors: [{ messageId: "unexpected", data: { type: "a 'do...while' statement" }, type: "DoWhileStatement" }] },
+        { code: "for(; x = y; ) { }", options: ["always"], errors: [{ messageId: "unexpected", data: { type: "a 'for' statement" }, type: "ForStatement" }] },
+        { code: "if ((x = 0)) { }", options: ["always"], errors: [{ messageId: "unexpected", data: { type: "an 'if' statement" }, type: "IfStatement" }] },
+        { code: "while ((x = 0)) { }", options: ["always"], errors: [{ messageId: "unexpected", data: { type: "a 'while' statement" }, type: "WhileStatement" }] },
+        { code: "do { } while ((x = x + 1));", options: ["always"], errors: [{ messageId: "unexpected", data: { type: "a 'do...while' statement" }, type: "DoWhileStatement" }] },
+        { code: "for(; (x = y); ) { }", options: ["always"], errors: [{ messageId: "unexpected", data: { type: "a 'for' statement" }, type: "ForStatement" }] }
     ]
 });

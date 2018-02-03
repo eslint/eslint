@@ -173,7 +173,8 @@ ruleTester.run("camelcase", rule, {
             code: "first_name = \"Nicholas\"",
             errors: [
                 {
-                    message: "Identifier 'first_name' is not in camel case.",
+                    messageId: "notCamelCase",
+                    data: { name: "first_name" },
                     type: "Identifier"
                 }
             ]
@@ -182,7 +183,8 @@ ruleTester.run("camelcase", rule, {
             code: "__private_first_name = \"Patrick\"",
             errors: [
                 {
-                    message: "Identifier '__private_first_name' is not in camel case.",
+                    messageId: "notCamelCase",
+                    data: { name: "__private_first_name" },
                     type: "Identifier"
                 }
             ]
@@ -191,7 +193,8 @@ ruleTester.run("camelcase", rule, {
             code: "function foo_bar(){}",
             errors: [
                 {
-                    message: "Identifier 'foo_bar' is not in camel case.",
+                    messageId: "notCamelCase",
+                    data: { name: "foo_bar" },
                     type: "Identifier"
                 }
             ]
@@ -200,7 +203,8 @@ ruleTester.run("camelcase", rule, {
             code: "obj.foo_bar = function(){};",
             errors: [
                 {
-                    message: "Identifier 'foo_bar' is not in camel case.",
+                    messageId: "notCamelCase",
+                    data: { name: "foo_bar" },
                     type: "Identifier"
                 }
             ]
@@ -209,7 +213,8 @@ ruleTester.run("camelcase", rule, {
             code: "bar_baz.foo = function(){};",
             errors: [
                 {
-                    message: "Identifier 'bar_baz' is not in camel case.",
+                    messageId: "notCamelCase",
+                    data: { name: "bar_baz" },
                     type: "Identifier"
                 }
             ]
@@ -218,7 +223,8 @@ ruleTester.run("camelcase", rule, {
             code: "[foo_bar.baz]",
             errors: [
                 {
-                    message: "Identifier 'foo_bar' is not in camel case.",
+                    messageId: "notCamelCase",
+                    data: { name: "foo_bar" },
                     type: "Identifier"
                 }
             ]
@@ -227,7 +233,8 @@ ruleTester.run("camelcase", rule, {
             code: "if (foo.bar_baz === boom.bam_pow) { [foo_bar.baz] }",
             errors: [
                 {
-                    message: "Identifier 'foo_bar' is not in camel case.",
+                    messageId: "notCamelCase",
+                    data: { name: "foo_bar" },
                     type: "Identifier"
                 }
             ]
@@ -236,7 +243,8 @@ ruleTester.run("camelcase", rule, {
             code: "foo.bar_baz = boom.bam_pow",
             errors: [
                 {
-                    message: "Identifier 'bar_baz' is not in camel case.",
+                    messageId: "notCamelCase",
+                    data: { name: "bar_baz" },
                     type: "Identifier"
                 }
             ]
@@ -245,7 +253,8 @@ ruleTester.run("camelcase", rule, {
             code: "var foo = { bar_baz: boom.bam_pow }",
             errors: [
                 {
-                    message: "Identifier 'bar_baz' is not in camel case.",
+                    messageId: "notCamelCase",
+                    data: { name: "bar_baz" },
                     type: "Identifier"
                 }
             ]
@@ -254,7 +263,8 @@ ruleTester.run("camelcase", rule, {
             code: "foo.qux.boom_pow = { bar: boom.bam_pow }",
             errors: [
                 {
-                    message: "Identifier 'boom_pow' is not in camel case.",
+                    messageId: "notCamelCase",
+                    data: { name: "boom_pow" },
                     type: "Identifier"
                 }
             ]
@@ -264,7 +274,8 @@ ruleTester.run("camelcase", rule, {
             options: [{ properties: "always" }],
             errors: [
                 {
-                    message: "Identifier 'bar_baz' is not in camel case.",
+                    messageId: "notCamelCase",
+                    data: { name: "bar_baz" },
                     type: "Identifier"
                 }
             ]
@@ -274,7 +285,8 @@ ruleTester.run("camelcase", rule, {
             options: [{ properties: "always" }],
             errors: [
                 {
-                    message: "Identifier 'a_b' is not in camel case.",
+                    messageId: "notCamelCase",
+                    data: { name: "a_b" },
                     type: "Identifier"
                 }
             ]
@@ -284,7 +296,8 @@ ruleTester.run("camelcase", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Identifier 'category_id' is not in camel case.",
+                    messageId: "notCamelCase",
+                    data: { name: "category_id" },
                     type: "Identifier"
                 }
             ]
@@ -294,7 +307,8 @@ ruleTester.run("camelcase", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Identifier 'category_id' is not in camel case.",
+                    messageId: "notCamelCase",
+                    data: { name: "category_id" },
                     type: "Identifier"
                 }
             ]
@@ -314,7 +328,8 @@ ruleTester.run("camelcase", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
-                    message: "Identifier 'no_camelcased' is not in camel case.",
+                    messageId: "notCamelCase",
+                    data: { name: "no_camelcased" },
                     type: "Identifier"
                 }
             ]
@@ -324,7 +339,8 @@ ruleTester.run("camelcase", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
-                    message: "Identifier 'no_camelcased' is not in camel case.",
+                    messageId: "notCamelCase",
+                    data: { name: "no_camelcased" },
                     type: "Identifier"
                 }
             ]
@@ -334,7 +350,8 @@ ruleTester.run("camelcase", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
-                    message: "Identifier 'no_camelcased' is not in camel case.",
+                    messageId: "notCamelCase",
+                    data: { name: "no_camelcased" },
                     type: "Identifier"
                 }
             ]
@@ -344,7 +361,8 @@ ruleTester.run("camelcase", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
-                    message: "Identifier 'no_camel_cased' is not in camel case.",
+                    messageId: "notCamelCase",
+                    data: { name: "no_camel_cased" },
                     type: "Identifier"
                 }
             ]
@@ -354,7 +372,8 @@ ruleTester.run("camelcase", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
-                    message: "Identifier 'no_camel_cased' is not in camel case.",
+                    messageId: "notCamelCase",
+                    data: { name: "no_camel_cased" },
                     type: "Identifier"
                 }
             ]
@@ -364,7 +383,8 @@ ruleTester.run("camelcase", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
-                    message: "Identifier 'no_camelcased' is not in camel case.",
+                    messageId: "notCamelCase",
+                    data: { name: "no_camelcased" },
                     type: "Identifier"
                 }
             ]
@@ -374,7 +394,8 @@ ruleTester.run("camelcase", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
-                    message: "Identifier 'another_no_camelcased' is not in camel case.",
+                    messageId: "notCamelCase",
+                    data: { name: "another_no_camelcased" },
                     type: "Identifier"
                 }
             ]
@@ -384,7 +405,8 @@ ruleTester.run("camelcase", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
-                    message: "Identifier 'no_camelcased' is not in camel case.",
+                    messageId: "notCamelCase",
+                    data: { name: "no_camelcased" },
                     type: "Identifier"
                 }
             ]
@@ -394,7 +416,8 @@ ruleTester.run("camelcase", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
-                    message: "Identifier 'no_camelcased' is not in camel case.",
+                    messageId: "notCamelCase",
+                    data: { name: "no_camelcased" },
                     type: "Identifier"
                 }
             ]

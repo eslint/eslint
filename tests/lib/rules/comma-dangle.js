@@ -410,7 +410,7 @@ ruleTester.run("comma-dangle", rule, {
             output: "var foo = { bar: 'baz' }",
             errors: [
                 {
-                    message: "Unexpected trailing comma.",
+                    messageId: "unexpected",
                     type: "Property",
                     line: 1,
                     column: 23
@@ -422,7 +422,7 @@ ruleTester.run("comma-dangle", rule, {
             output: "var foo = {\nbar: 'baz'\n}",
             errors: [
                 {
-                    message: "Unexpected trailing comma.",
+                    messageId: "unexpected",
                     type: "Property",
                     line: 2,
                     column: 11
@@ -434,7 +434,7 @@ ruleTester.run("comma-dangle", rule, {
             output: "foo({ bar: 'baz', qux: 'quux' });",
             errors: [
                 {
-                    message: "Unexpected trailing comma.",
+                    messageId: "unexpected",
                     type: "Property",
                     line: 1,
                     column: 30
@@ -446,7 +446,7 @@ ruleTester.run("comma-dangle", rule, {
             output: "foo({\nbar: 'baz',\nqux: 'quux'\n});",
             errors: [
                 {
-                    message: "Unexpected trailing comma.",
+                    messageId: "unexpected",
                     type: "Property",
                     line: 3,
                     column: 12
@@ -458,7 +458,7 @@ ruleTester.run("comma-dangle", rule, {
             output: "var foo = [ 'baz' ]",
             errors: [
                 {
-                    message: "Unexpected trailing comma.",
+                    messageId: "unexpected",
                     type: "Literal",
                     line: 1,
                     column: 18
@@ -470,7 +470,7 @@ ruleTester.run("comma-dangle", rule, {
             output: "var foo = [ 'baz'\n]",
             errors: [
                 {
-                    message: "Unexpected trailing comma.",
+                    messageId: "unexpected",
                     type: "Literal",
                     line: 1,
                     column: 18
@@ -482,7 +482,7 @@ ruleTester.run("comma-dangle", rule, {
             output: "var foo = { bar: 'bar'\n\n }",
             errors: [
                 {
-                    message: "Unexpected trailing comma.",
+                    messageId: "unexpected",
                     type: "Property",
                     line: 3,
                     column: 1
@@ -497,7 +497,7 @@ ruleTester.run("comma-dangle", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: "Unexpected trailing comma.",
+                    messageId: "unexpected",
                     type: "Property",
                     line: 1,
                     column: 23
@@ -510,7 +510,7 @@ ruleTester.run("comma-dangle", rule, {
             options: ["only-multiline"],
             errors: [
                 {
-                    message: "Unexpected trailing comma.",
+                    messageId: "unexpected",
                     type: "Property",
                     line: 1,
                     column: 23
@@ -523,7 +523,7 @@ ruleTester.run("comma-dangle", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: "Unexpected trailing comma.",
+                    messageId: "unexpected",
                     type: "Property",
                     line: 2,
                     column: 11
@@ -536,7 +536,7 @@ ruleTester.run("comma-dangle", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: "Unexpected trailing comma.",
+                    messageId: "unexpected",
                     type: "Property",
                     line: 1,
                     column: 30
@@ -549,7 +549,7 @@ ruleTester.run("comma-dangle", rule, {
             options: ["only-multiline"],
             errors: [
                 {
-                    message: "Unexpected trailing comma.",
+                    messageId: "unexpected",
                     type: "Property",
                     line: 1,
                     column: 30
@@ -563,7 +563,7 @@ ruleTester.run("comma-dangle", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: "Missing trailing comma.",
+                    messageId: "missing",
                     type: "Property",
                     line: 1,
                     column: 23
@@ -576,7 +576,7 @@ ruleTester.run("comma-dangle", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: "Missing trailing comma.",
+                    messageId: "missing",
                     type: "Property",
                     line: 2,
                     column: 11
@@ -589,7 +589,7 @@ ruleTester.run("comma-dangle", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: "Missing trailing comma.",
+                    messageId: "missing",
                     type: "Property",
                     line: 1,
                     column: 30
@@ -602,7 +602,7 @@ ruleTester.run("comma-dangle", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: "Missing trailing comma.",
+                    messageId: "missing",
                     type: "Property",
                     line: 3,
                     column: 12
@@ -615,7 +615,7 @@ ruleTester.run("comma-dangle", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: "Missing trailing comma.",
+                    messageId: "missing",
                     type: "Literal",
                     line: 1,
                     column: 18
@@ -628,7 +628,7 @@ ruleTester.run("comma-dangle", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: "Missing trailing comma.",
+                    messageId: "missing",
                     type: "Literal",
                     line: 1,
                     column: 18
@@ -641,7 +641,7 @@ ruleTester.run("comma-dangle", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: "Missing trailing comma.",
+                    messageId: "missing",
                     type: "Property",
                     line: 3,
                     column: 6
@@ -655,7 +655,7 @@ ruleTester.run("comma-dangle", rule, {
             options: ["always-multiline"],
             errors: [
                 {
-                    message: "Missing trailing comma.",
+                    messageId: "missing",
                     type: "Property",
                     line: 2,
                     column: 11
@@ -680,7 +680,7 @@ ruleTester.run("comma-dangle", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: "Missing trailing comma.",
+                    messageId: "missing",
                     type: "Identifier",
                     line: 5,
                     column: 4
@@ -705,7 +705,7 @@ ruleTester.run("comma-dangle", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: "Missing trailing comma.",
+                    messageId: "missing",
                     type: "Property",
                     line: 5,
                     column: 4
@@ -732,7 +732,7 @@ ruleTester.run("comma-dangle", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: "Missing trailing comma.",
+                    messageId: "missing",
                     type: "ConditionalExpression",
                     line: 5,
                     column: 4
@@ -745,7 +745,7 @@ ruleTester.run("comma-dangle", rule, {
             options: ["always-multiline"],
             errors: [
                 {
-                    message: "Unexpected trailing comma.",
+                    messageId: "unexpected",
                     type: "Property",
                     line: 1,
                     column: 23
@@ -758,7 +758,7 @@ ruleTester.run("comma-dangle", rule, {
             options: ["always-multiline"],
             errors: [
                 {
-                    message: "Missing trailing comma.",
+                    messageId: "missing",
                     type: "Property",
                     line: 3,
                     column: 12
@@ -771,7 +771,7 @@ ruleTester.run("comma-dangle", rule, {
             options: ["always-multiline"],
             errors: [
                 {
-                    message: "Unexpected trailing comma.",
+                    messageId: "unexpected",
                     type: "Property",
                     line: 1,
                     column: 30
@@ -784,7 +784,7 @@ ruleTester.run("comma-dangle", rule, {
             options: ["always-multiline"],
             errors: [
                 {
-                    message: "Missing trailing comma.",
+                    messageId: "missing",
                     type: "Literal",
                     line: 2,
                     column: 6
@@ -797,7 +797,7 @@ ruleTester.run("comma-dangle", rule, {
             options: ["always-multiline"],
             errors: [
                 {
-                    message: "Unexpected trailing comma.",
+                    messageId: "unexpected",
                     type: "Literal",
                     line: 1,
                     column: 17
@@ -810,7 +810,7 @@ ruleTester.run("comma-dangle", rule, {
             options: ["only-multiline"],
             errors: [
                 {
-                    message: "Unexpected trailing comma.",
+                    messageId: "unexpected",
                     type: "Literal",
                     line: 1,
                     column: 17
@@ -823,7 +823,7 @@ ruleTester.run("comma-dangle", rule, {
             options: ["always-multiline"],
             errors: [
                 {
-                    message: "Unexpected trailing comma.",
+                    messageId: "unexpected",
                     type: "Property",
                     line: 3,
                     column: 2
@@ -836,7 +836,7 @@ ruleTester.run("comma-dangle", rule, {
             options: ["always-multiline"],
             errors: [
                 {
-                    message: "Unexpected trailing comma.",
+                    messageId: "unexpected",
                     type: "Property",
                     line: 2,
                     column: 11
@@ -849,7 +849,7 @@ ruleTester.run("comma-dangle", rule, {
             options: ["only-multiline"],
             errors: [
                 {
-                    message: "Unexpected trailing comma.",
+                    messageId: "unexpected",
                     type: "Property",
                     line: 2,
                     column: 11
@@ -862,7 +862,7 @@ ruleTester.run("comma-dangle", rule, {
             options: ["always-multiline"],
             errors: [
                 {
-                    message: "Unexpected trailing comma.",
+                    messageId: "unexpected",
                     type: "ObjectExpression",
                     line: 6,
                     column: 2
@@ -876,7 +876,7 @@ ruleTester.run("comma-dangle", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Unexpected trailing comma.",
+                    messageId: "unexpected",
                     type: "Property",
                     line: 1,
                     column: 11
@@ -890,7 +890,7 @@ ruleTester.run("comma-dangle", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Unexpected trailing comma.",
+                    messageId: "unexpected",
                     type: "Property",
                     line: 1,
                     column: 11
@@ -904,7 +904,7 @@ ruleTester.run("comma-dangle", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Unexpected trailing comma.",
+                    messageId: "unexpected",
                     type: "Identifier",
                     line: 1,
                     column: 11
@@ -918,7 +918,7 @@ ruleTester.run("comma-dangle", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Unexpected trailing comma.",
+                    messageId: "unexpected",
                     type: "Identifier",
                     line: 1,
                     column: 11
@@ -931,7 +931,7 @@ ruleTester.run("comma-dangle", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: "Unexpected trailing comma.",
+                    messageId: "unexpected",
                     type: "Literal",
                     line: 1,
                     column: 5
@@ -944,7 +944,7 @@ ruleTester.run("comma-dangle", rule, {
             options: ["only-multiline"],
             errors: [
                 {
-                    message: "Unexpected trailing comma.",
+                    messageId: "unexpected",
                     type: "Literal",
                     line: 1,
                     column: 5
@@ -957,7 +957,7 @@ ruleTester.run("comma-dangle", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: "Unexpected trailing comma.",
+                    messageId: "unexpected",
                     type: "Property",
                     line: 1,
                     column: 19
@@ -970,7 +970,7 @@ ruleTester.run("comma-dangle", rule, {
             options: ["only-multiline"],
             errors: [
                 {
-                    message: "Unexpected trailing comma.",
+                    messageId: "unexpected",
                     type: "Property",
                     line: 1,
                     column: 19
@@ -984,91 +984,91 @@ ruleTester.run("comma-dangle", rule, {
             output: "import {foo,} from 'foo';",
             options: ["always"],
             parserOptions: { sourceType: "module" },
-            errors: [{ message: "Missing trailing comma.", type: "ImportSpecifier" }]
+            errors: [{ messageId: "missing", type: "ImportSpecifier" }]
         },
         {
             code: "import foo, {abc} from 'foo';",
             output: "import foo, {abc,} from 'foo';",
             options: ["always"],
             parserOptions: { sourceType: "module" },
-            errors: [{ message: "Missing trailing comma.", type: "ImportSpecifier" }]
+            errors: [{ messageId: "missing", type: "ImportSpecifier" }]
         },
         {
             code: "export {foo} from 'foo';",
             output: "export {foo,} from 'foo';",
             options: ["always"],
             parserOptions: { sourceType: "module" },
-            errors: [{ message: "Missing trailing comma.", type: "ExportSpecifier" }]
+            errors: [{ messageId: "missing", type: "ExportSpecifier" }]
         },
         {
             code: "import {foo,} from 'foo';",
             output: "import {foo} from 'foo';",
             options: ["never"],
             parserOptions: { sourceType: "module" },
-            errors: [{ message: "Unexpected trailing comma.", type: "ImportSpecifier" }]
+            errors: [{ messageId: "unexpected", type: "ImportSpecifier" }]
         },
         {
             code: "import {foo,} from 'foo';",
             output: "import {foo} from 'foo';",
             options: ["only-multiline"],
             parserOptions: { sourceType: "module" },
-            errors: [{ message: "Unexpected trailing comma.", type: "ImportSpecifier" }]
+            errors: [{ messageId: "unexpected", type: "ImportSpecifier" }]
         },
         {
             code: "import foo, {abc,} from 'foo';",
             output: "import foo, {abc} from 'foo';",
             options: ["never"],
             parserOptions: { sourceType: "module" },
-            errors: [{ message: "Unexpected trailing comma.", type: "ImportSpecifier" }]
+            errors: [{ messageId: "unexpected", type: "ImportSpecifier" }]
         },
         {
             code: "import foo, {abc,} from 'foo';",
             output: "import foo, {abc} from 'foo';",
             options: ["only-multiline"],
             parserOptions: { sourceType: "module" },
-            errors: [{ message: "Unexpected trailing comma.", type: "ImportSpecifier" }]
+            errors: [{ messageId: "unexpected", type: "ImportSpecifier" }]
         },
         {
             code: "export {foo,} from 'foo';",
             output: "export {foo} from 'foo';",
             options: ["never"],
             parserOptions: { sourceType: "module" },
-            errors: [{ message: "Unexpected trailing comma.", type: "ExportSpecifier" }]
+            errors: [{ messageId: "unexpected", type: "ExportSpecifier" }]
         },
         {
             code: "export {foo,} from 'foo';",
             output: "export {foo} from 'foo';",
             options: ["only-multiline"],
             parserOptions: { sourceType: "module" },
-            errors: [{ message: "Unexpected trailing comma.", type: "ExportSpecifier" }]
+            errors: [{ messageId: "unexpected", type: "ExportSpecifier" }]
         },
         {
             code: "import {foo,} from 'foo';",
             output: "import {foo} from 'foo';",
             options: ["always-multiline"],
             parserOptions: { sourceType: "module" },
-            errors: [{ message: "Unexpected trailing comma.", type: "ImportSpecifier" }]
+            errors: [{ messageId: "unexpected", type: "ImportSpecifier" }]
         },
         {
             code: "export {foo,} from 'foo';",
             output: "export {foo} from 'foo';",
             options: ["always-multiline"],
             parserOptions: { sourceType: "module" },
-            errors: [{ message: "Unexpected trailing comma.", type: "ExportSpecifier" }]
+            errors: [{ messageId: "unexpected", type: "ExportSpecifier" }]
         },
         {
             code: "import {\n  foo\n} from 'foo';",
             output: "import {\n  foo,\n} from 'foo';",
             options: ["always-multiline"],
             parserOptions: { sourceType: "module" },
-            errors: [{ message: "Missing trailing comma.", type: "ImportSpecifier" }]
+            errors: [{ messageId: "missing", type: "ImportSpecifier" }]
         },
         {
             code: "export {\n  foo\n} from 'foo';",
             output: "export {\n  foo,\n} from 'foo';",
             options: ["always-multiline"],
             parserOptions: { sourceType: "module" },
-            errors: [{ message: "Missing trailing comma.", type: "ExportSpecifier" }]
+            errors: [{ messageId: "missing", type: "ExportSpecifier" }]
         },
 
         // https://github.com/eslint/eslint/issues/6233
@@ -1076,19 +1076,19 @@ ruleTester.run("comma-dangle", rule, {
             code: "var foo = {a: (1)}",
             output: "var foo = {a: (1),}",
             options: ["always"],
-            errors: [{ message: "Missing trailing comma.", type: "Property" }]
+            errors: [{ messageId: "missing", type: "Property" }]
         },
         {
             code: "var foo = [(1)]",
             output: "var foo = [(1),]",
             options: ["always"],
-            errors: [{ message: "Missing trailing comma.", type: "Literal" }]
+            errors: [{ messageId: "missing", type: "Literal" }]
         },
         {
             code: "var foo = [\n1,\n(2)\n]",
             output: "var foo = [\n1,\n(2),\n]",
             options: ["always-multiline"],
-            errors: [{ message: "Missing trailing comma.", type: "Literal" }]
+            errors: [{ messageId: "missing", type: "Literal" }]
         },
 
         // trailing commas in functions
@@ -1097,56 +1097,56 @@ ruleTester.run("comma-dangle", rule, {
             output: "function foo(a) {}",
             options: [{ functions: "never" }],
             parserOptions: { ecmaVersion: 8 },
-            errors: [{ message: "Unexpected trailing comma.", type: "Identifier" }]
+            errors: [{ messageId: "unexpected", type: "Identifier" }]
         },
         {
             code: "(function foo(a,) {})",
             output: "(function foo(a) {})",
             options: [{ functions: "never" }],
             parserOptions: { ecmaVersion: 8 },
-            errors: [{ message: "Unexpected trailing comma.", type: "Identifier" }]
+            errors: [{ messageId: "unexpected", type: "Identifier" }]
         },
         {
             code: "(a,) => a",
             output: "(a) => a",
             options: [{ functions: "never" }],
             parserOptions: { ecmaVersion: 8 },
-            errors: [{ message: "Unexpected trailing comma.", type: "Identifier" }]
+            errors: [{ messageId: "unexpected", type: "Identifier" }]
         },
         {
             code: "(a,) => (a)",
             output: "(a) => (a)",
             options: [{ functions: "never" }],
             parserOptions: { ecmaVersion: 8 },
-            errors: [{ message: "Unexpected trailing comma.", type: "Identifier" }]
+            errors: [{ messageId: "unexpected", type: "Identifier" }]
         },
         {
             code: "({foo(a,) {}})",
             output: "({foo(a) {}})",
             options: [{ functions: "never" }],
             parserOptions: { ecmaVersion: 8 },
-            errors: [{ message: "Unexpected trailing comma.", type: "Identifier" }]
+            errors: [{ messageId: "unexpected", type: "Identifier" }]
         },
         {
             code: "class A {foo(a,) {}}",
             output: "class A {foo(a) {}}",
             options: [{ functions: "never" }],
             parserOptions: { ecmaVersion: 8 },
-            errors: [{ message: "Unexpected trailing comma.", type: "Identifier" }]
+            errors: [{ messageId: "unexpected", type: "Identifier" }]
         },
         {
             code: "foo(a,)",
             output: "foo(a)",
             options: [{ functions: "never" }],
             parserOptions: { ecmaVersion: 8 },
-            errors: [{ message: "Unexpected trailing comma.", type: "Identifier" }]
+            errors: [{ messageId: "unexpected", type: "Identifier" }]
         },
         {
             code: "foo(...a,)",
             output: "foo(...a)",
             options: [{ functions: "never" }],
             parserOptions: { ecmaVersion: 8 },
-            errors: [{ message: "Unexpected trailing comma.", type: "SpreadElement" }]
+            errors: [{ messageId: "unexpected", type: "SpreadElement" }]
         },
 
         {
@@ -1154,56 +1154,56 @@ ruleTester.run("comma-dangle", rule, {
             output: "function foo(a,) {}",
             options: [{ functions: "always" }],
             parserOptions: { ecmaVersion: 8 },
-            errors: [{ message: "Missing trailing comma.", type: "Identifier" }]
+            errors: [{ messageId: "missing", type: "Identifier" }]
         },
         {
             code: "(function foo(a) {})",
             output: "(function foo(a,) {})",
             options: [{ functions: "always" }],
             parserOptions: { ecmaVersion: 8 },
-            errors: [{ message: "Missing trailing comma.", type: "Identifier" }]
+            errors: [{ messageId: "missing", type: "Identifier" }]
         },
         {
             code: "(a) => a",
             output: "(a,) => a",
             options: [{ functions: "always" }],
             parserOptions: { ecmaVersion: 8 },
-            errors: [{ message: "Missing trailing comma.", type: "Identifier" }]
+            errors: [{ messageId: "missing", type: "Identifier" }]
         },
         {
             code: "(a) => (a)",
             output: "(a,) => (a)",
             options: [{ functions: "always" }],
             parserOptions: { ecmaVersion: 8 },
-            errors: [{ message: "Missing trailing comma.", type: "Identifier" }]
+            errors: [{ messageId: "missing", type: "Identifier" }]
         },
         {
             code: "({foo(a) {}})",
             output: "({foo(a,) {}})",
             options: [{ functions: "always" }],
             parserOptions: { ecmaVersion: 8 },
-            errors: [{ message: "Missing trailing comma.", type: "Identifier" }]
+            errors: [{ messageId: "missing", type: "Identifier" }]
         },
         {
             code: "class A {foo(a) {}}",
             output: "class A {foo(a,) {}}",
             options: [{ functions: "always" }],
             parserOptions: { ecmaVersion: 8 },
-            errors: [{ message: "Missing trailing comma.", type: "Identifier" }]
+            errors: [{ messageId: "missing", type: "Identifier" }]
         },
         {
             code: "foo(a)",
             output: "foo(a,)",
             options: [{ functions: "always" }],
             parserOptions: { ecmaVersion: 8 },
-            errors: [{ message: "Missing trailing comma.", type: "Identifier" }]
+            errors: [{ messageId: "missing", type: "Identifier" }]
         },
         {
             code: "foo(...a)",
             output: "foo(...a,)",
             options: [{ functions: "always" }],
             parserOptions: { ecmaVersion: 8 },
-            errors: [{ message: "Missing trailing comma.", type: "SpreadElement" }]
+            errors: [{ messageId: "missing", type: "SpreadElement" }]
         },
 
         {
@@ -1211,49 +1211,49 @@ ruleTester.run("comma-dangle", rule, {
             output: "function foo(a) {}",
             options: [{ functions: "always-multiline" }],
             parserOptions: { ecmaVersion: 8 },
-            errors: [{ message: "Unexpected trailing comma.", type: "Identifier" }]
+            errors: [{ messageId: "unexpected", type: "Identifier" }]
         },
         {
             code: "(function foo(a,) {})",
             output: "(function foo(a) {})",
             options: [{ functions: "always-multiline" }],
             parserOptions: { ecmaVersion: 8 },
-            errors: [{ message: "Unexpected trailing comma.", type: "Identifier" }]
+            errors: [{ messageId: "unexpected", type: "Identifier" }]
         },
         {
             code: "foo(a,)",
             output: "foo(a)",
             options: [{ functions: "always-multiline" }],
             parserOptions: { ecmaVersion: 8 },
-            errors: [{ message: "Unexpected trailing comma.", type: "Identifier" }]
+            errors: [{ messageId: "unexpected", type: "Identifier" }]
         },
         {
             code: "foo(...a,)",
             output: "foo(...a)",
             options: [{ functions: "always-multiline" }],
             parserOptions: { ecmaVersion: 8 },
-            errors: [{ message: "Unexpected trailing comma.", type: "SpreadElement" }]
+            errors: [{ messageId: "unexpected", type: "SpreadElement" }]
         },
         {
             code: "function foo(\na,\nb\n) {}",
             output: "function foo(\na,\nb,\n) {}",
             options: [{ functions: "always-multiline" }],
             parserOptions: { ecmaVersion: 8 },
-            errors: [{ message: "Missing trailing comma.", type: "Identifier" }]
+            errors: [{ messageId: "missing", type: "Identifier" }]
         },
         {
             code: "foo(\na,\nb\n)",
             output: "foo(\na,\nb,\n)",
             options: [{ functions: "always-multiline" }],
             parserOptions: { ecmaVersion: 8 },
-            errors: [{ message: "Missing trailing comma.", type: "Identifier" }]
+            errors: [{ messageId: "missing", type: "Identifier" }]
         },
         {
             code: "foo(\n...a,\n...b\n)",
             output: "foo(\n...a,\n...b,\n)",
             options: [{ functions: "always-multiline" }],
             parserOptions: { ecmaVersion: 8 },
-            errors: [{ message: "Missing trailing comma.", type: "SpreadElement" }]
+            errors: [{ messageId: "missing", type: "SpreadElement" }]
         },
 
         {
@@ -1261,28 +1261,28 @@ ruleTester.run("comma-dangle", rule, {
             output: "function foo(a) {}",
             options: [{ functions: "only-multiline" }],
             parserOptions: { ecmaVersion: 8 },
-            errors: [{ message: "Unexpected trailing comma.", type: "Identifier" }]
+            errors: [{ messageId: "unexpected", type: "Identifier" }]
         },
         {
             code: "(function foo(a,) {})",
             output: "(function foo(a) {})",
             options: [{ functions: "only-multiline" }],
             parserOptions: { ecmaVersion: 8 },
-            errors: [{ message: "Unexpected trailing comma.", type: "Identifier" }]
+            errors: [{ messageId: "unexpected", type: "Identifier" }]
         },
         {
             code: "foo(a,)",
             output: "foo(a)",
             options: [{ functions: "only-multiline" }],
             parserOptions: { ecmaVersion: 8 },
-            errors: [{ message: "Unexpected trailing comma.", type: "Identifier" }]
+            errors: [{ messageId: "unexpected", type: "Identifier" }]
         },
         {
             code: "foo(...a,)",
             output: "foo(...a)",
             options: [{ functions: "only-multiline" }],
             parserOptions: { ecmaVersion: 8 },
-            errors: [{ message: "Unexpected trailing comma.", type: "SpreadElement" }]
+            errors: [{ messageId: "unexpected", type: "SpreadElement" }]
         },
 
         // separated options
@@ -1306,8 +1306,8 @@ export {d,};
             }],
             parserOptions: { ecmaVersion: 8, sourceType: "module" },
             errors: [
-                { message: "Unexpected trailing comma.", line: 1 },
-                { message: "Unexpected trailing comma.", line: 1 }
+                { messageId: "unexpected", line: 1 },
+                { messageId: "unexpected", line: 1 }
             ]
         },
         {
@@ -1330,8 +1330,8 @@ export {d,};
             }],
             parserOptions: { ecmaVersion: 8, sourceType: "module" },
             errors: [
-                { message: "Unexpected trailing comma.", line: 2 },
-                { message: "Unexpected trailing comma.", line: 2 }
+                { messageId: "unexpected", line: 2 },
+                { messageId: "unexpected", line: 2 }
             ]
         },
         {
@@ -1354,7 +1354,7 @@ export {d,};
             }],
             parserOptions: { ecmaVersion: 8, sourceType: "module" },
             errors: [
-                { message: "Unexpected trailing comma.", line: 3 }
+                { messageId: "unexpected", line: 3 }
             ]
         },
         {
@@ -1377,7 +1377,7 @@ export {d};
             }],
             parserOptions: { ecmaVersion: 8, sourceType: "module" },
             errors: [
-                { message: "Unexpected trailing comma.", line: 4 }
+                { messageId: "unexpected", line: 4 }
             ]
         },
         {
@@ -1400,8 +1400,8 @@ export {d,};
             }],
             parserOptions: { ecmaVersion: 8, sourceType: "module" },
             errors: [
-                { message: "Unexpected trailing comma.", line: 5 },
-                { message: "Unexpected trailing comma.", line: 5 }
+                { messageId: "unexpected", line: 5 },
+                { messageId: "unexpected", line: 5 }
             ]
         },
 
@@ -1410,28 +1410,28 @@ export {d,};
             code: "function foo({a}: {a: string,}) {}",
             output: "function foo({a,}: {a: string,}) {}",
             options: ["always"],
-            errors: [{ message: "Missing trailing comma." }],
+            errors: [{ messageId: "missing" }],
             parser: parser("object-pattern-1")
         },
         {
             code: "function foo({a,}: {a: string}) {}",
             output: "function foo({a}: {a: string}) {}",
             options: ["never"],
-            errors: [{ message: "Unexpected trailing comma." }],
+            errors: [{ messageId: "unexpected" }],
             parser: parser("object-pattern-2")
         },
         {
             code: "function foo(a): {b: boolean,} {}",
             output: "function foo(a,): {b: boolean,} {}",
             options: [{ functions: "always" }],
-            errors: [{ message: "Missing trailing comma." }],
+            errors: [{ messageId: "missing" }],
             parser: parser("return-type-1")
         },
         {
             code: "function foo(a,): {b: boolean} {}",
             output: "function foo(a): {b: boolean} {}",
             options: [{ functions: "never" }],
-            errors: [{ message: "Unexpected trailing comma." }],
+            errors: [{ messageId: "unexpected" }],
             parser: parser("return-type-2")
         }
     ]
