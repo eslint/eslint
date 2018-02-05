@@ -98,6 +98,11 @@ ruleTester.run("prefer-const", rule, {
         {
             code: "let { name, ...otherStuff } = obj; otherStuff = {};",
             options: [{ destructuring: "all" }],
+            parserOptions: { ecmaVersion: 2018 }
+        },
+        {
+            code: "let { name, ...otherStuff } = obj; otherStuff = {};",
+            options: [{ destructuring: "all" }],
             parser: fixtureParser("babel-eslint5/destructuring-object-spread")
         },
 
@@ -309,6 +314,13 @@ ruleTester.run("prefer-const", rule, {
             output: null,
             options: [{ destructuring: "any" }],
             parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } },
+            errors: [{ message: "'name' is never reassigned. Use 'const' instead.", type: "Identifier", column: 7 }]
+        },
+        {
+            code: "let { name, ...otherStuff } = obj; otherStuff = {};",
+            output: null,
+            options: [{ destructuring: "any" }],
+            parserOptions: { ecmaVersion: 2018 },
             errors: [{ message: "'name' is never reassigned. Use 'const' instead.", type: "Identifier", column: 7 }]
         },
         {
