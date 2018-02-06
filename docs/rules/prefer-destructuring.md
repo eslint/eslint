@@ -40,7 +40,7 @@ var { foo } = object;
 var foo = object.bar;
 
 let foo;
-({ foo } = object.bar);
+({ foo } = object);
 ```
 
 Examples of **incorrect** code when `enforceForRenamedProperties` is enabled:
