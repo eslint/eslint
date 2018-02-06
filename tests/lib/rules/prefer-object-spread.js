@@ -17,8 +17,8 @@ const parserOptions = {
     }
 };
 
-const defaultErrorMessage =
-    "Use an object spread instead of `Object.assign()` eg: `{ ...foo }`";
+const defaultErrorMessage = "Use an object spread instead of `Object.assign()` eg: `{ ...foo }`";
+const useObjLiteralErrorMessage = "Use an object literal instead of `Object.assign`.";
 const ruleTester = new RuleTester();
 
 ruleTester.run("prefer-object-spread", rule, {
@@ -187,6 +187,32 @@ ruleTester.run("prefer-object-spread", rule, {
             errors: [
                 {
                     message: defaultErrorMessage,
+                    type: "CallExpression"
+                }
+            ]
+        },
+
+        /*
+         * This is a special case where Object.assign is called with a single argument
+         * and that argument is an object expression. In this case we warn and display
+         * a message to use an object literal instead.
+         */
+        {
+            code: "Object.assign({})",
+            output: "{}",
+            errors: [
+                {
+                    message: useObjLiteralErrorMessage,
+                    type: "CallExpression"
+                }
+            ]
+        },
+        {
+            code: "Object.assign({ foo: bar })",
+            output: "{ foo: bar }",
+            errors: [
+                {
+                    message: useObjLiteralErrorMessage,
                     type: "CallExpression"
                 }
             ]
