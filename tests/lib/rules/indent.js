@@ -4696,6 +4696,15 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                foo &&
+                <Bar
+                >
+                </Bar>
+            `,
+            options: [4, { ignoredNodes: ["JSXElement", "JSXOpeningElement"] }]
+        },
+        {
+            code: unIndent`
                 (function($) {
                 $(function() {
                     foo;
