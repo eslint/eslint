@@ -104,7 +104,7 @@ describe("Linter", () => {
                 linter.verify(code, config, filename, true);
             }, "Intentional error.");
 
-            assert.strictEqual(logs.length, 1);
+            assert.strictEqual(logs.length, 5);
             assert.strictEqual(logs[0], "An error occurred while traversing");
         });
 
