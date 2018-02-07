@@ -1931,7 +1931,7 @@ describe("Linter", () => {
                 assert.strictEqual(messages[0].ruleId, "no-alert");
             });
 
-            it("should report a violation", () => {
+            it("should report a violation if eslint-disable-line in a block comment is not on a single line", () => {
                 const code = [
                     "/* eslint-disable-line",
                     "*",
@@ -1939,7 +1939,6 @@ describe("Linter", () => {
                 ].join("\n");
                 const config = {
                     rules: {
-                        "no-alert": 1,
                         "no-console": 1
                     }
                 };
@@ -1951,18 +1950,16 @@ describe("Linter", () => {
                 assert.strictEqual(messages[0].ruleId, "no-console");
             });
 
-            it("should report a violation if block comment is not on a single line", () => {
+            it("should report a violation if eslint-disable-line in a block comment is not on a single line", () => {
                 const code = [
                     "alert('test'); /* eslint-disable-line ",
-                    "no-alert */",
-                    "console.log('test'); /* eslint-disable-line */"
+                    "no-alert */"
                 ].join("\n");
                 const config = {
                     rules: {
                         "no-alert": 1,
                         quotes: [1, "double"],
-                        semi: [1, "always"],
-                        "no-console": 1
+                        semi: [1, "always"]
                     }
                 };
 
@@ -1974,10 +1971,10 @@ describe("Linter", () => {
                 assert.strictEqual(messages[1].ruleId, "quotes");
             });
 
-            it("should not report a violation", () => {
+            it("should not report a violation for eslint-disable-line in block comment", () => {
                 const code = [
                     "alert('test'); // eslint-disable-line no-alert",
-                    "alert('test'); /*eslint-disable-line no-alert*/" // here
+                    "alert('test'); /*eslint-disable-line no-alert*/"
                 ].join("\n");
                 const config = {
                     rules: {
@@ -2052,8 +2049,7 @@ describe("Linter", () => {
                 const config = {
                     rules: {
                         "no-alert": 1,
-                        quotes: [1, "single"],
-                        "no-console": 1
+                        quotes: [1, "single"]
                     }
                 };
                 const messages = linter.verify(code, config, filename);
@@ -2081,7 +2077,7 @@ describe("Linter", () => {
                 assert.strictEqual(messages[0].ruleId, "no-console");
             });
 
-            it("should ignore violation of specified rule if comment is in block quotes", () => {
+            it("should ignore violation of specified rule if eslint-disable-next-line is a block comment", () => {
                 const code = [
                     "/* eslint-disable-next-line no-alert */",
                     "alert('test');",
@@ -2098,7 +2094,7 @@ describe("Linter", () => {
                 assert.strictEqual(messages.length, 1);
                 assert.strictEqual(messages[0].ruleId, "no-console");
             });
-            it("should ignore violation of specified rule if comment is in block quotes", () => {
+            it("should ignore violation of specified rule if eslint-disable-next-line is a block comment", () => {
                 const code = [
                     "/* eslint-disable-next-line no-alert */",
                     "alert('test');"
@@ -2248,7 +2244,7 @@ describe("Linter", () => {
                 assert.strictEqual(messages[0].ruleId, "no-console");
             });
 
-            it("should ignore violations if comment is in block quotes", () => {
+            it("should ignore violations if eslint-disable-next-line is a block comment", () => {
                 const code = [
                     "alert('test');",
                     "/* eslint-disable-next-line no-alert */",
