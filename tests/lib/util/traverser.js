@@ -79,28 +79,4 @@ describe("Traverser", () => {
         });
         assert.deepStrictEqual(visited, ["Program", "ClassDeclaration", "Identifier", "ClassBody", "Decorator"]);
     });
-
-    it("emits debugging on error", () => {
-        const logs = [];
-        const traverser = new Traverser();
-        const err = new Error();
-        const fakeAst = {
-            type: "Program",
-            body: []
-        };
-
-        /* eslint-disable no-underscore-dangle */
-        traverser._logger = arg => logs.push(arg);
-        assert.throws(
-            () => traverser.traverse(fakeAst, {
-                enter: () => {
-                    throw err;
-                }
-            }),
-            err
-        );
-
-        assert.strictEqual(logs.length, 1);
-        assert.strictEqual(logs[0], "An error occurred while traversing");
-    });
 });

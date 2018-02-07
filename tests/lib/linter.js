@@ -89,7 +89,10 @@ describe("Linter", () => {
         const code = TEST_CODE;
 
         it("an error should be thrown when an error occurs inside of an event handler", () => {
+            const logs = [];
             const config = { rules: { checker: "error" } };
+
+            linter._logger = arg => logs.push(arg); // eslint-disable-line no-underscore-dangle
 
             linter.defineRule("checker", () => ({
                 Program() {
@@ -100,6 +103,9 @@ describe("Linter", () => {
             assert.throws(() => {
                 linter.verify(code, config, filename, true);
             }, "Intentional error.");
+
+            assert.strictEqual(logs.length, 1);
+            assert.strictEqual(logs[0], "An error occurred while traversing");
         });
 
         it("does not call rule listeners with a `this` value", () => {
@@ -4213,6 +4219,4 @@ describe("Linter", () => {
             });
         });
     }
-
-
 });
