@@ -147,7 +147,7 @@ var longRegExpLiteral = /this is a really really really really really long regul
 Examples of **correct** code for this rule with the `ignorePattern` option:
 
 ```js
-/*eslint max-len: ["error", { "ignorePattern": "^\\s*var\\s.+=\\s*require\\s*\(" }]*/
+/*eslint max-len: ["error", { "ignorePattern": "^\\s*var\\s.+=\\s*require\\s*\\(" }]*/
 
 var dep = require('really/really/really/really/really/really/really/really/long/module');
 ```
