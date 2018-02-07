@@ -2101,8 +2101,7 @@ describe("Linter", () => {
                 ].join("\n");
                 const config = {
                     rules: {
-                        "no-alert": 1,
-                        "no-console": 1
+                        "no-alert": 1
                     }
                 };
                 const messages = linter.verify(code, config, filename);
@@ -2117,8 +2116,7 @@ describe("Linter", () => {
                 ].join("\n");
                 const config = {
                     rules: {
-                        "no-alert": 1,
-                        "no-console": 1
+                        "no-alert": 1
                     }
                 };
                 const messages = linter.verify(code, config, filename);
@@ -2168,20 +2166,17 @@ describe("Linter", () => {
             it("should ignore violations of multiple rules when specified in mixed comments", () => {
                 const code = [
                     "/* eslint-disable-next-line no-alert */ // eslint-disable-next-line quotes",
-                    "alert(\"test\");",
-                    "console.log('test');"
+                    "alert(\"test\");"
                 ].join("\n");
                 const config = {
                     rules: {
                         "no-alert": 1,
-                        quotes: [1, "single"],
-                        "no-console": 1
+                        quotes: [1, "single"]
                     }
                 };
                 const messages = linter.verify(code, config, filename);
 
-                assert.strictEqual(messages.length, 1);
-                assert.strictEqual(messages[0].ruleId, "no-console");
+                assert.strictEqual(messages.length, 0);
             });
 
             it("should ignore violations of only the specified rule on next line", () => {
