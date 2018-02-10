@@ -46,9 +46,8 @@ function invalid(code, output, type, line, config) {
 
 const ruleTester = new RuleTester({
     parserOptions: {
-        ecmaVersion: 8,
+        ecmaVersion: 2018,
         ecmaFeatures: {
-            experimentalObjectRestSpread: true,
             jsx: true
         }
     }
@@ -409,8 +408,16 @@ ruleTester.run("no-extra-parens", rule, {
 
         "let a = [ ...b ]",
         "let a = { ...b }",
+        {
+            code: "let a = { ...b }",
+            parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } }
+        },
         "let a = [ ...(b, c) ]",
         "let a = { ...(b, c) }",
+        {
+            code: "let a = { ...(b, c) }",
+            parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } }
+        },
         "var [x = (1, foo)] = bar",
         "class A extends B {}",
         "const A = class extends B {}",
@@ -955,6 +962,13 @@ ruleTester.run("no-extra-parens", rule, {
             1
         ),
         invalid(
+            "let a = {...(b)}",
+            "let a = {...b}",
+            "Identifier",
+            1,
+            { parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } } }
+        ),
+        invalid(
             "let a = [...((b, c))]",
             "let a = [...(b, c)]",
             "SequenceExpression",
@@ -965,6 +979,13 @@ ruleTester.run("no-extra-parens", rule, {
             "let a = {...(b, c)}",
             "SequenceExpression",
             1
+        ),
+        invalid(
+            "let a = {...((b, c))}",
+            "let a = {...(b, c)}",
+            "SequenceExpression",
+            1,
+            { parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } } }
         ),
         invalid(
             "class A extends (B) {}",
