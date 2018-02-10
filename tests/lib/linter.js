@@ -1889,7 +1889,7 @@ describe("Linter", () => {
         });
     });
 
-    describe("when evaluating code with comments to ignore reporting on of specific rules on a specific line", () => {
+    describe("when evaluating code with comments to ignore reporting on specific rules on a specific line", () => {
 
         describe("eslint-disable-line", () => {
             it("should report a violation", () => {
@@ -1931,10 +1931,50 @@ describe("Linter", () => {
                 assert.strictEqual(messages[0].ruleId, "no-alert");
             });
 
-            it("should report a violation", () => {
+            it("should report a violation if eslint-disable-line in a block comment is not on a single line", () => {
+                const code = [
+                    "/* eslint-disable-line",
+                    "*",
+                    "*/ console.log('test');" // here
+                ].join("\n");
+                const config = {
+                    rules: {
+                        "no-console": 1
+                    }
+                };
+
+                const messages = linter.verify(code, config, filename);
+
+                assert.strictEqual(messages.length, 1);
+
+                assert.strictEqual(messages[0].ruleId, "no-console");
+            });
+
+            it("should report a violation if eslint-disable-line in a block comment is not on a single line", () => {
+                const code = [
+                    "alert('test'); /* eslint-disable-line ",
+                    "no-alert */"
+                ].join("\n");
+                const config = {
+                    rules: {
+                        "no-alert": 1,
+                        quotes: [1, "double"],
+                        semi: [1, "always"]
+                    }
+                };
+
+                const messages = linter.verify(code, config, filename);
+
+                assert.strictEqual(messages.length, 2);
+
+                assert.strictEqual(messages[0].ruleId, "no-alert");
+                assert.strictEqual(messages[1].ruleId, "quotes");
+            });
+
+            it("should not report a violation for eslint-disable-line in block comment", () => {
                 const code = [
                     "alert('test'); // eslint-disable-line no-alert",
-                    "alert('test'); /*eslint-disable-line no-alert*/" // here
+                    "alert('test'); /*eslint-disable-line no-alert*/"
                 ].join("\n");
                 const config = {
                     rules: {
@@ -1944,9 +1984,7 @@ describe("Linter", () => {
 
                 const messages = linter.verify(code, config, filename);
 
-                assert.strictEqual(messages.length, 1);
-
-                assert.strictEqual(messages[0].ruleId, "no-alert");
+                assert.strictEqual(messages.length, 0);
             });
 
             it("should not report a violation", () => {
@@ -1984,6 +2022,40 @@ describe("Linter", () => {
 
                 assert.strictEqual(messages.length, 0);
             });
+
+            it("should not report a violation", () => {
+                const code = [
+                    "alert('test') /* eslint-disable-line no-alert, quotes, semi */",
+                    "console.log('test'); /* eslint-disable-line */"
+                ].join("\n");
+                const config = {
+                    rules: {
+                        "no-alert": 1,
+                        quotes: [1, "double"],
+                        semi: [1, "always"],
+                        "no-console": 1
+                    }
+                };
+
+                const messages = linter.verify(code, config, filename);
+
+                assert.strictEqual(messages.length, 0);
+            });
+
+            it("should ignore violations of multiple rules when specified in mixed comments", () => {
+                const code = [
+                    " alert(\"test\"); /* eslint-disable-line no-alert */ // eslint-disable-line quotes"
+                ].join("\n");
+                const config = {
+                    rules: {
+                        "no-alert": 1,
+                        quotes: [1, "single"]
+                    }
+                };
+                const messages = linter.verify(code, config, filename);
+
+                assert.strictEqual(messages.length, 0);
+            });
         });
 
         describe("eslint-disable-next-line", () => {
@@ -2003,6 +2075,54 @@ describe("Linter", () => {
 
                 assert.strictEqual(messages.length, 1);
                 assert.strictEqual(messages[0].ruleId, "no-console");
+            });
+
+            it("should ignore violation of specified rule if eslint-disable-next-line is a block comment", () => {
+                const code = [
+                    "/* eslint-disable-next-line no-alert */",
+                    "alert('test');",
+                    "console.log('test');"
+                ].join("\n");
+                const config = {
+                    rules: {
+                        "no-alert": 1,
+                        "no-console": 1
+                    }
+                };
+                const messages = linter.verify(code, config, filename);
+
+                assert.strictEqual(messages.length, 1);
+                assert.strictEqual(messages[0].ruleId, "no-console");
+            });
+            it("should ignore violation of specified rule if eslint-disable-next-line is a block comment", () => {
+                const code = [
+                    "/* eslint-disable-next-line no-alert */",
+                    "alert('test');"
+                ].join("\n");
+                const config = {
+                    rules: {
+                        "no-alert": 1
+                    }
+                };
+                const messages = linter.verify(code, config, filename);
+
+                assert.strictEqual(messages.length, 0);
+            });
+
+            it("should not ignore violation if block comment is not on a single line", () => {
+                const code = [
+                    "/* eslint-disable-next-line",
+                    "no-alert */alert('test');"
+                ].join("\n");
+                const config = {
+                    rules: {
+                        "no-alert": 1
+                    }
+                };
+                const messages = linter.verify(code, config, filename);
+
+                assert.strictEqual(messages.length, 1);
+                assert.strictEqual(messages[0].ruleId, "no-alert");
             });
 
             it("should ignore violations only of specified rule", () => {
@@ -2041,6 +2161,22 @@ describe("Linter", () => {
 
                 assert.strictEqual(messages.length, 1);
                 assert.strictEqual(messages[0].ruleId, "no-console");
+            });
+
+            it("should ignore violations of multiple rules when specified in mixed comments", () => {
+                const code = [
+                    "/* eslint-disable-next-line no-alert */ // eslint-disable-next-line quotes",
+                    "alert(\"test\");"
+                ].join("\n");
+                const config = {
+                    rules: {
+                        "no-alert": 1,
+                        quotes: [1, "single"]
+                    }
+                };
+                const messages = linter.verify(code, config, filename);
+
+                assert.strictEqual(messages.length, 0);
             });
 
             it("should ignore violations of only the specified rule on next line", () => {
@@ -2103,7 +2239,7 @@ describe("Linter", () => {
                 assert.strictEqual(messages[0].ruleId, "no-console");
             });
 
-            it("should not ignore violations if comment is in block quotes", () => {
+            it("should ignore violations if eslint-disable-next-line is a block comment", () => {
                 const code = [
                     "alert('test');",
                     "/* eslint-disable-next-line no-alert */",
@@ -2118,10 +2254,30 @@ describe("Linter", () => {
                 };
                 const messages = linter.verify(code, config, filename);
 
-                assert.strictEqual(messages.length, 3);
+                assert.strictEqual(messages.length, 2);
                 assert.strictEqual(messages[0].ruleId, "no-alert");
-                assert.strictEqual(messages[1].ruleId, "no-alert");
-                assert.strictEqual(messages[2].ruleId, "no-console");
+                assert.strictEqual(messages[1].ruleId, "no-console");
+            });
+
+            it("should report a violation", () => {
+                const code = [
+                    "/* eslint-disable-next-line",
+                    "*",
+                    "*/",
+                    "console.log('test');" // here
+                ].join("\n");
+                const config = {
+                    rules: {
+                        "no-alert": 1,
+                        "no-console": 1
+                    }
+                };
+
+                const messages = linter.verify(code, config, filename);
+
+                assert.strictEqual(messages.length, 1);
+
+                assert.strictEqual(messages[0].ruleId, "no-console");
             });
 
             it("should not ignore violations if comment is of the type Shebang", () => {
