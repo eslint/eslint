@@ -16,7 +16,7 @@ const rule = require("../../../lib/rules/no-useless-computed-key"),
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2018 } });
 
 ruleTester.run("no-useless-computed-key", rule, {
     valid: [
@@ -159,6 +159,12 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "({ *[2]() {} })",
             output: "({ *2() {} })",
+            errors: [{
+                message: "Unnecessarily computed property [2] found.", type: "Property"
+            }]
+        }, {
+            code: "({ async*[2]() {} })",
+            output: "({ async*2() {} })",
             errors: [{
                 message: "Unnecessarily computed property [2] found.", type: "Property"
             }]

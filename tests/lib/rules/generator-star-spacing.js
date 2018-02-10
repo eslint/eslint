@@ -16,7 +16,7 @@ const rule = require("../../../lib/rules/generator-star-spacing"),
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2018 } });
 
 ruleTester.run("generator-star-spacing", rule, {
 
@@ -1334,6 +1334,80 @@ ruleTester.run("generator-star-spacing", rule, {
             options: [{ before: false, after: false, named: { before: true } }],
             errors: [{
                 message: "Missing space before *.",
+                type: "Punctuator"
+            }]
+        },
+
+        // async generators
+        {
+            code: "({ async * foo(){} })",
+            output: "({ async*foo(){} })",
+            options: [{ before: false, after: false }],
+            errors: [{
+                message: "Unexpected space before *.",
+                type: "Punctuator"
+            }, {
+                message: "Unexpected space after *.",
+                type: "Punctuator"
+            }]
+        },
+        {
+            code: "({ async*foo(){} })",
+            output: "({ async * foo(){} })",
+            options: [{ before: true, after: true }],
+            errors: [{
+                message: "Missing space before *.",
+                type: "Punctuator"
+            }, {
+                message: "Missing space after *.",
+                type: "Punctuator"
+            }]
+        },
+        {
+            code: "class Foo { async * foo(){} }",
+            output: "class Foo { async*foo(){} }",
+            options: [{ before: false, after: false }],
+            errors: [{
+                message: "Unexpected space before *.",
+                type: "Punctuator"
+            }, {
+                message: "Unexpected space after *.",
+                type: "Punctuator"
+            }]
+        },
+        {
+            code: "class Foo { async*foo(){} }",
+            output: "class Foo { async * foo(){} }",
+            options: [{ before: true, after: true }],
+            errors: [{
+                message: "Missing space before *.",
+                type: "Punctuator"
+            }, {
+                message: "Missing space after *.",
+                type: "Punctuator"
+            }]
+        },
+        {
+            code: "class Foo { static async * foo(){} }",
+            output: "class Foo { static async*foo(){} }",
+            options: [{ before: false, after: false }],
+            errors: [{
+                message: "Unexpected space before *.",
+                type: "Punctuator"
+            }, {
+                message: "Unexpected space after *.",
+                type: "Punctuator"
+            }]
+        },
+        {
+            code: "class Foo { static async*foo(){} }",
+            output: "class Foo { static async * foo(){} }",
+            options: [{ before: true, after: true }],
+            errors: [{
+                message: "Missing space before *.",
+                type: "Punctuator"
+            }, {
+                message: "Missing space after *.",
                 type: "Punctuator"
             }]
         }
