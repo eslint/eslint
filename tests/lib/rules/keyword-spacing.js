@@ -180,6 +180,10 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "a[ async function foo() {}]", options: [NEITHER], parserOptions: { ecmaVersion: 8 } },
         { code: "({[ async function foo() {}]: 0})", options: [NEITHER], parserOptions: { ecmaVersion: 8 } },
 
+        // not conflict with `generator-star-spacing`
+        { code: "({ async* foo() {} })", parserOptions: { ecmaVersion: 2018 } },
+        { code: "({ async *foo() {} })", options: [NEITHER], parserOptions: { ecmaVersion: 2018 } },
+
         // not conflict with `key-spacing`
         { code: "({a:async function foo() {} })", parserOptions: { ecmaVersion: 8 } },
         { code: "({a: async function foo() {} })", options: [NEITHER], parserOptions: { ecmaVersion: 8 } },
@@ -1528,6 +1532,34 @@ ruleTester.run("keyword-spacing", rule, {
             options: [override("await", NEITHER)],
             parserOptions: { ecmaVersion: 8 },
             errors: unexpectedBefore("await")
+        },
+
+        {
+            code: "async function wrap() { for await(x of xs); }",
+            output: "async function wrap() { for await (x of xs); }",
+            parserOptions: { ecmaVersion: 2018 },
+            errors: expectedAfter("await")
+        },
+        {
+            code: "async function wrap() { for await (x of xs); }",
+            output: "async function wrap() { for await(x of xs); }",
+            options: [NEITHER],
+            parserOptions: { ecmaVersion: 2018 },
+            errors: unexpectedAfter("await")
+        },
+        {
+            code: "async function wrap() { for await(x of xs); }",
+            output: "async function wrap() { for await (x of xs); }",
+            options: [override("await", BOTH)],
+            parserOptions: { ecmaVersion: 2018 },
+            errors: expectedAfter("await")
+        },
+        {
+            code: "async function wrap() { for await (x of xs); }",
+            output: "async function wrap() { for await(x of xs); }",
+            options: [override("await", NEITHER)],
+            parserOptions: { ecmaVersion: 2018 },
+            errors: unexpectedAfter("await")
         },
 
         //----------------------------------------------------------------------

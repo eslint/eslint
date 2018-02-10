@@ -10,13 +10,14 @@ const rule = require("../../../lib/rules/no-await-in-loop"),
 
 const error = { messageId: "unexpectedAwait" };
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: "2017" } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2018 } });
 
 ruleTester.run("no-await-in-loop", rule, {
     valid: [
         "async function foo() { await bar; }",
         "async function foo() { for (var bar in await baz) { } }",
         "async function foo() { for (var bar of await baz) { } }",
+        "async function foo() { for await (var bar of await baz) { } }",
         "async function foo() { for (var bar = await baz in qux) {} }",
 
         // While loops
@@ -35,14 +36,17 @@ ruleTester.run("no-await-in-loop", rule, {
         "async function foo() { while (true) { var y = async () => { await foo; } } }",
 
         // Blocked by a class method
-        "async function foo() { while (true) { class Foo { async foo() { await bar; } } } }"
+        "async function foo() { while (true) { class Foo { async foo() { await bar; } } } }",
 
+        // Asynchronous iteration intentionally
+        "async function foo() { for await (var x of xs) { await f(x) } }"
     ],
     invalid: [
 
         // While loops
         { code: "async function foo() { while (baz) { await bar; } }", errors: [error] },
         { code: "async function foo() { while (await foo()) {  } }", errors: [error] },
+        { code: "async function foo() { while (baz) { for await (x of xs); } }", errors: [error] },
 
         // For of loops
         { code: "async function foo() { for (var bar of baz) { await bar; } }", errors: [error] },
@@ -64,6 +68,9 @@ ruleTester.run("no-await-in-loop", rule, {
         { code: "async function foo() { while (true) { if (bar) { foo(await bar); } } }", errors: [error] },
 
         // Deep in a loop condition
-        { code: "async function foo() { while (xyz || 5 > await x) {  } }", errors: [error] }
+        { code: "async function foo() { while (xyz || 5 > await x) {  } }", errors: [error] },
+
+        // In a nested loop of for-await-of
+        { code: "async function foo() { for await (var x of xs) { while (1) await f(x) } }", errors: [error] }
     ]
 });

@@ -24,7 +24,7 @@ const LONGFORM_METHOD_STRING_LITERAL_ERROR = { message: "Expected longform metho
 const ALL_SHORTHAND_ERROR = { message: "Expected shorthand for all properties.", type: "ObjectExpression" };
 const MIXED_SHORTHAND_ERROR = { message: "Unexpected mix of shorthand and non-shorthand properties.", type: "ObjectExpression" };
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2018 } });
 
 ruleTester.run("object-shorthand", rule, {
     valid: [
@@ -979,6 +979,20 @@ ruleTester.run("object-shorthand", rule, {
             output: "({ a() { return foo; } })",
             options: ["always", { avoidExplicitReturnArrows: true }],
             errors: [METHOD_ERROR]
+        },
+
+        // async generators
+        {
+            code: "({ a: async function*() {} })",
+            output: "({ async *a() {} })",
+            options: ["always"],
+            errors: [METHOD_ERROR]
+        },
+        {
+            code: "({ async* a() {} })",
+            output: "({ a: async function*() {} })",
+            options: ["never"],
+            errors: [LONGFORM_METHOD_ERROR]
         }
     ]
 });
