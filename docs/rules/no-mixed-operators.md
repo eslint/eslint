@@ -138,6 +138,15 @@ Examples of **incorrect** code for this rule with `{"allowSamePrecedence": false
 var foo = a + b - c;
 ```
 
+Examples of **correct** code for this rule with `{"allowSamePrecedence": false}` option:
+
+```js
+/*eslint no-mixed-operators: ["error", {"allowSamePrecedence": false}]*/
+
+// + and - have the same precedence.
+var foo = (a + b) - c;
+```
+
 ## When Not To Use It
 
 If you don't want to be notified about mixed operators, then it's safe to disable this rule.
