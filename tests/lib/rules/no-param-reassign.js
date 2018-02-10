@@ -41,6 +41,16 @@ ruleTester.run("no-param-reassign", rule, {
             code: "function foo(a) { ({ [a]: variable } = value) }",
             options: [{ props: true }],
             parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "function foo(a) { ([...a.b] = obj); }",
+            options: [{ props: false }],
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: "function foo(a) { ({...a.b} = obj); }",
+            options: [{ props: false }],
+            parserOptions: { ecmaVersion: 2018 }
         }
     ],
 
@@ -100,6 +110,28 @@ ruleTester.run("no-param-reassign", rule, {
             options: [{ props: true }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Assignment to function parameter 'a'." }]
+        },
+        {
+            code: "function foo(a) { ([...a] = obj); }",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{ message: "Assignment to function parameter 'a'." }]
+        },
+        {
+            code: "function foo(a) { ({...a} = obj); }",
+            parserOptions: { ecmaVersion: 2018 },
+            errors: [{ message: "Assignment to function parameter 'a'." }]
+        },
+        {
+            code: "function foo(a) { ([...a.b] = obj); }",
+            options: [{ props: true }],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{ message: "Assignment to property of function parameter 'a'." }]
+        },
+        {
+            code: "function foo(a) { ({...a.b} = obj); }",
+            options: [{ props: true }],
+            parserOptions: { ecmaVersion: 2018 },
+            errors: [{ message: "Assignment to property of function parameter 'a'." }]
         }
     ]
 });

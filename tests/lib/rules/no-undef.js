@@ -81,6 +81,13 @@ ruleTester.run("no-undef", rule, {
                 }
             },
             globals: { stuff: false, foo: false }
+        },
+        {
+            code: "var {bacon, ...others} = stuff; foo(others)",
+            parserOptions: {
+                ecmaVersion: 2018
+            },
+            globals: { stuff: false, foo: false }
         }
     ],
     invalid: [
@@ -105,6 +112,13 @@ ruleTester.run("no-undef", rule, {
                 ecmaFeatures: {
                     experimentalObjectRestSpread: true
                 }
+            },
+            errors: [{ message: "'b' is not defined." }]
+        },
+        {
+            code: "const c = 0; const a = {...b, c};",
+            parserOptions: {
+                ecmaVersion: 2018
             },
             errors: [{ message: "'b' is not defined." }]
         }
