@@ -39,7 +39,7 @@ Examples of **correct** code for this rule:
 /*eslint no-func-assign: "error"*/
 
 var foo = function () {}
-foo = bar;
+bar = foo;
 
 function foo(foo) { // `foo` is shadowed.
     foo = bar;
