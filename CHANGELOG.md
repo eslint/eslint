@@ -1,3 +1,18 @@
+v4.18.0 - February 16, 2018
+
+* 70f22f3 Chore: Apply memoization to config creation within glob utils (#9944) (Kenton Jacobsen)
+* 0e4ae22 Update: fix indent bug with binary operators/ignoredNodes (fixes #9882) (#9951) (Teddy Katz)
+* 47ac478 Update: add named imports and exports for object-curly-newline (#9876) (Nicholas Chua)
+* e8efdd0 Fix: support Rest/Spread Properties (fixes #9885) (#9943) (Toru Nagashima)
+* f012b8c Fix: support Async iteration (fixes #9891) (#9957) (Toru Nagashima)
+* 74fa253 Docs: Clarify no-mixed-operators options (fixes #9962) (#9964) (Ivan Hayes)
+* 426868f Docs: clean up key-spacing docs (fixes #9900) (#9963) (Abid Uzair)
+* 4a6f22e Update: support eslint-disable-* block comments (fixes #8781) (#9745) (Erin)
+* 777283b Docs: Propose fix typo for function (#9965) (John Eismeier)
+* bf3d494 Docs: Fix typo in max-len ignorePattern example. (#9956) (Tim Martin)
+* d64fbb4 Docs: fix typo in prefer-destructuring.md example (#9930) (Vse Mozhet Byt)
+* f8d343f Chore: Fix default issue template (#9946) (Kai Cataldo)
+
 v4.17.0 - February 2, 2018
 
 * 1da1ada Update: Add "multiline" type to padding-line-between-statements (#8668) (Matthew Bennett)
