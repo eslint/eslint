@@ -178,6 +178,34 @@ ruleTester.run("valid-jsdoc", rule, {
                 "function Thing() {}",
             options: [{ requireReturn: true }]
         },
+        {
+            code:
+                "/**\n" +
+                " * A thing interface. \n" +
+                " * @interface\n" +
+                " */\n" +
+                "function Thing() {}" +
+                "/**\n" +
+                " * A dummy interface method.\n" +
+                " * @returns {Object} an object\n" +
+                " */\n" +
+                "Thing.prototype.dummy = function() {}",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+                "/**\n" +
+                " * A thing interface. \n" +
+                " * @interface\n" +
+                " */\n" +
+                "function Thing() {}" +
+                "/**\n" +
+                " * A dummy interface method.\n" +
+                " * @returns {Object} an object\n" +
+                " */\n" +
+                "Thing.prototype.dummy = function() {}",
+            options: [{ requireReturn: true }]
+        },
 
         // classes
         {
