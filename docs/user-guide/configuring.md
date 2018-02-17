@@ -32,7 +32,6 @@ Parser options are set in your `.eslintrc.*` file by using the `parserOptions` p
     * `globalReturn` - allow `return` statements in the global scope
     * `impliedStrict` - enable global [strict mode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode) (if `ecmaVersion` is 5 or greater)
     * `jsx` - enable [JSX](https://facebook.github.io/jsx/)
-    * `experimentalObjectRestSpread` - enable support for the experimental [object rest/spread properties](https://github.com/tc39/proposal-object-rest-spread) (**IMPORTANT:** This is an experimental feature that may change significantly in the future. It's recommended that you do *not* write rules relying on this functionality unless you are willing to incur maintenance cost when it changes.)
 
 Here's an example `.eslintrc.json` file:
 
@@ -52,6 +51,10 @@ Here's an example `.eslintrc.json` file:
 ```
 
 Setting parser options helps ESLint determine what is a parsing error. All language options are `false` by default.
+
+### Deprecated
+
+* `ecmaFeatures.experimentalObjectRestSpread` - enable support for the experimental [object rest/spread properties](https://github.com/tc39/proposal-object-rest-spread). This syntax has been supported in `ecmaVersion: 2018`. This option will be removed in ESLint 5.0.0.
 
 ## Specifying Parser
 
