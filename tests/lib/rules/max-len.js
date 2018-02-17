@@ -110,6 +110,11 @@ ruleTester.run("max-len", rule, {
             options: [29, 4, { ignoreStrings: true }]
         },
         {
+            code: "var foo = <div className=\"this is a very long string\"></div>;",
+            options: [29, 4, { ignoreStrings: true }],
+            parserOptions: { ecmaFeatures: { jsx: true } }
+        },
+        {
             code: "var foo = veryLongIdentifier;\nvar bar = `this is a very long string`;",
             options: [29, 4, { ignoreTemplateLiterals: true }],
             parserOptions
