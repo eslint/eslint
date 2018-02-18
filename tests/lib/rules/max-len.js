@@ -558,6 +558,19 @@ ruleTester.run("max-len", rule, {
                 }
             ]
         },
+        {
+            code: "var foo = <div>this is a very very very long string</div>;",
+            options: [29, 4, { ignoreStrings: true }],
+            parserOptions: { ecmaFeatures: { jsx: true } },
+            errors: [
+                {
+                    message: "Line 1 exceeds the maximum line length of 29.",
+                    type: "Program",
+                    line: 1,
+                    column: 1
+                }
+            ]
+        },
 
         // Multi-code-point unicode glyphs
         {
