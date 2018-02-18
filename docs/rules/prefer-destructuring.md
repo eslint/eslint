@@ -46,12 +46,20 @@ let foo;
 Examples of **incorrect** code when `enforceForRenamedProperties` is enabled:
 
 ```javascript
+// With `array` enabled
+var foo = array[someIndex];
+
+// With `object` enabled
 var foo = object.bar;
 ```
 
 Examples of **correct** code when `enforceForRenamedProperties` is enabled:
 
 ```javascript
+// With `array` enabled
+var { [someIndex]: foo } = array;
+
+// With `object` enabled
 var { bar: foo } = object;
 ```
 
