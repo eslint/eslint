@@ -1,3 +1,9 @@
+v4.18.1 - February 20, 2018
+
+* f417506 Fix: ensure no-await-in-loop reports the correct node (fixes #9992) (#9993) (Teddy Katz)
+* 3e99363 Docs: Fixed typo in key-spacing rule doc (#9987) (Jaid)
+* 7c2cd70 Docs: deprecate experimentalObjectRestSpread (#9986) (Toru Nagashima)
+
 v4.18.0 - February 16, 2018
 
 * 70f22f3 Chore: Apply memoization to config creation within glob utils (#9944) (Kenton Jacobsen)
