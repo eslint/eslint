@@ -862,7 +862,13 @@ ruleTester.run("one-var", rule, {
         {
             code: "const foo = require('foo'); const bar = require('bar');",
             options: [{ separateRequires: true, const: "always" }],
-            parserOptions: { env: { node: true } }
+            parserOptions: { env: { node: true } },
+            errors: [{
+                message: "Combine this with the previous 'const' statement.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 29
+            }]
         },
 
         // https://github.com/eslint/eslint/issues/4680

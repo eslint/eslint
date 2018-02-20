@@ -36,7 +36,7 @@ String option:
 
 * `"always"` (default) requires one variable declaration per scope
 * `"never"` requires multiple variable declarations per scope
-* `"consecutive"` allows multiple variable declarations per scope but requires consecutive variables declarations to be a single declaration
+* `"consecutive"` allows multiple variable declarations per scope but requires consecutive variables declarations to be combined into a single declaration
 
 Object option:
 
@@ -327,6 +327,8 @@ var bar = "bar";
 
 var foo = require("foo"),
     bar = require("bar");
+```
+
 Examples of **incorrect** code for this rule with the `{ var: "never", let: "consecutive", const: "consecutive" }` option:
 
 ```js
