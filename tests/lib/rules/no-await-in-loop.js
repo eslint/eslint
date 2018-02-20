@@ -8,7 +8,7 @@
 const rule = require("../../../lib/rules/no-await-in-loop"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
-const error = { messageId: "unexpectedAwait" };
+const error = { messageId: "unexpectedAwait", type: "AwaitExpression" };
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2018 } });
 
@@ -46,7 +46,10 @@ ruleTester.run("no-await-in-loop", rule, {
         // While loops
         { code: "async function foo() { while (baz) { await bar; } }", errors: [error] },
         { code: "async function foo() { while (await foo()) {  } }", errors: [error] },
-        { code: "async function foo() { while (baz) { for await (x of xs); } }", errors: [error] },
+        {
+            code: "async function foo() { while (baz) { for await (x of xs); } }",
+            errors: [Object.assign({}, error, { type: "ForOfStatement" })]
+        },
 
         // For of loops
         { code: "async function foo() { for (var bar of baz) { await bar; } }", errors: [error] },
