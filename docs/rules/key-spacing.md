@@ -16,7 +16,7 @@ This rule has an object option:
 * `"afterColon": true (default) | false`
     * `true`: requires at least one space between the colon and the value in object literals.
     * `false`: disallows spaces between the colon and the value in object literals.
-* `"mode": "strict" (default) | "miniumum"`
+* `"mode": "strict" (default) | "minimum"`
     * `"strict"`: enforces exactly one space before or after colons in object literals.
     * `"minimum"`: enforces one or more spaces before or after colons in object literals.
 * `"align": "value" | "colon"`
