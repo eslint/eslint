@@ -234,6 +234,34 @@ describe("RuleTester", () => {
         }, /Output is incorrect/);
     });
 
+    it("should use strict equality to compare output", () => {
+        const replaceProgramWith5Rule = {
+            create: context => ({
+                Program(node) {
+                    context.report({ node, message: "bad", fix: fixer => fixer.replaceText(node, "5") });
+                }
+            })
+        };
+
+        assert.doesNotThrow(() => {
+            ruleTester.run("foo", replaceProgramWith5Rule, {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", output: "5", errors: 1 }
+                ]
+            });
+        });
+
+        assert.throws(() => {
+            ruleTester.run("foo", replaceProgramWith5Rule, {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", output: 5, errors: 1 }
+                ]
+            });
+        }, /Output is incorrect/);
+    });
+
     it("should throw an error when the expected output doesn't match and errors is just a number", () => {
 
         assert.throws(() => {
