@@ -2808,6 +2808,21 @@ describe("Linter", () => {
         });
     });
 
+    describe("when evaluating an empty string", () => {
+        it("runs rules", () => {
+            linter.defineRule("no-programs", context => ({
+                Program(node) {
+                    context.report({ node, message: "No programs allowed." });
+                }
+            }));
+
+            assert.strictEqual(
+                linter.verify("", { rules: { "no-programs": "error" } }).length,
+                1
+            );
+        });
+    });
+
     describe("when evaluating code without comments to environment", () => {
         it("should report a violation when using typed array", () => {
             const code = "var array = new Uint8Array();";
