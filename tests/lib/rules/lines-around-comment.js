@@ -822,6 +822,60 @@ ruleTester.run("lines-around-comment", rule, {
             parserOptions: { ecmaVersion: 6 }
         },
 
+        // check for before else comments
+        {
+            code:
+            "if(true) {\n" +
+            "  a\n" +
+            "}\n" +
+            "// line before else\n" +
+            "else {\n" +
+            "  b\n" +
+            "}",
+            options: [{
+                allowBeforeElse: true
+            }]
+        },
+        {
+            code:
+            "if(true) {\n" +
+            "  a\n" +
+            "}\n" +
+            "/* block comment before else*/\n" +
+            "else {\n" +
+            "  b\n" +
+            "}",
+            options: [{
+                allowBeforeElse: true
+            }]
+        },
+        {
+            code:
+            "if(true) {\n" +
+            "  a\n" +
+            "}\n" +
+            "// line before else if\n" +
+            "else if(false) {\n" +
+            "  b\n" +
+            "}",
+            options: [{
+                allowBeforeElse: true
+            }]
+        },
+        {
+            code:
+            "if(true) {\n" +
+            "  a\n" +
+            "}\n" +
+            "/* block comment before else if*/\n" +
+            "else if(false) {\n" +
+            "  b\n" +
+            "}",
+            options: [{
+                allowBeforeElse: true
+            }]
+        },
+
         // ignorePattern
         {
             code:
@@ -1522,6 +1576,152 @@ ruleTester.run("lines-around-comment", rule, {
                 afterBlockComment: true
             }],
             parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: afterMessage, type: "Block", line: 4 }]
+        },
+
+        // before else comments
+        {
+            code:
+            "if(true) {\n" +
+            "  a\n" +
+            "}\n" +
+            "// line before else\n" +
+            "else {\n" +
+            "  b\n" +
+            "}",
+            output:
+            "if(true) {\n" +
+            "  a\n" +
+            "}\n" +
+            "\n" +
+            "// line before else\n" +
+            "else {\n" +
+            "  b\n" +
+            "}",
+            options: [{
+                beforeLineComment: true
+            }],
+            errors: [{ message: beforeMessage, type: "Line", line: 4 }]
+        },
+        {
+            code:
+            "if(true) {\n" +
+            "  a\n" +
+            "}\n" +
+            "/* block comment before else*/\n" +
+            "else {\n" +
+            "  b\n" +
+            "}",
+            output:
+            "if(true) {\n" +
+            "  a\n" +
+            "}\n" +
+            "\n" +
+            "/* block comment before else*/\n" +
+            "else {\n" +
+            "  b\n" +
+            "}",
+            options: [{
+                beforeBlockComment: true
+            }],
+            errors: [{ message: beforeMessage, type: "Block", line: 4 }]
+        },
+        {
+            code:
+            "if(true) {\n" +
+            "  b\n" +
+            "}\n" +
+            "// line before else\n" +
+            "else {\n" +
+            "  c\n" +
+            "}",
+            output:
+            "if(true) {\n" +
+            "  b\n" +
+            "}\n" +
+            "// line before else\n" +
+            "\n" +
+            "else {\n" +
+            "  c\n" +
+            "}",
+            options: [{
+                afterLineComment: true
+            }],
+            errors: [{ message: afterMessage, type: "Line", line: 4 }]
+        },
+        {
+            code:
+            "if(true) {\n" +
+            "  b\n" +
+            "}\n" +
+            "/* block comment before else*/\n" +
+            "else {\n" +
+            "  c\n" +
+            "}",
+            output:
+            "if(true) {\n" +
+            "  b\n" +
+            "}\n" +
+            "\n" +
+            "/* block comment before else*/\n" +
+            "\n" +
+            "else {\n" +
+            "  c\n" +
+            "}",
+            options: [{
+                afterBlockComment: true
+            }],
+            errors: [
+                { message: beforeMessage, type: "Block", line: 4 },
+                { message: afterMessage, type: "Block", line: 4 }
+            ]
+        },
+        {
+            code:
+            "if(true) {\n" +
+            "  c\n" +
+            "}\n" +
+            "// line before else\n" +
+            "else {\n" +
+            "  d\n" +
+            "}",
+            output:
+            "if(true) {\n" +
+            "  c\n" +
+            "}\n" +
+            "// line before else\n" +
+            "\n" +
+            "else {\n" +
+            "  d\n" +
+            "}",
+            options: [{
+                afterLineComment: true,
+                allowBeforeElse: true
+            }],
+            errors: [{ message: afterMessage, type: "Line", line: 4 }]
+        },
+        {
+            code:
+            "if(true) {\n" +
+            "  c\n" +
+            "}\n" +
+            "/* block comment before else*/\n" +
+            "else {\n" +
+            "  d\n" +
+            "}",
+            output:
+            "if(true) {\n" +
+            "  c\n" +
+            "}\n" +
+            "/* block comment before else*/\n" +
+            "\n" +
+            "else {\n" +
+            "  d\n" +
+            "}",
+            options: [{
+                afterBlockComment: true,
+                allowBeforeElse: true
+            }],
             errors: [{ message: afterMessage, type: "Block", line: 4 }]
         },
 
