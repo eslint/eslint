@@ -1,7 +1,5 @@
-var defaultOptions = require("../../../../conf/default-config-options");
-
 module.exports = {
-    parser: defaultOptions.parser,
+    parser: "espree",
     rules: {
         semi: [2, "always"]
     }
