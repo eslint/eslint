@@ -342,6 +342,8 @@ describe("CLIEngine", () => {
 
             const report = engine.executeOnText("var bar = foo", "passing.js");
 
+            delete report.results[0].messages[0].data;
+
             assert.deepStrictEqual(report, {
                 results: [
                     {
@@ -1369,6 +1371,13 @@ describe("CLIEngine", () => {
                 const report = engine.executeOnFiles([path.resolve(fixtureDir, `${fixtureDir}/fixmode`)]);
 
                 report.results.forEach(convertCRLF);
+                report.results.forEach(result => {
+                    if (result && result.messages) {
+                        result.messages.forEach(message => {
+                            delete message.data;
+                        });
+                    }
+                });
                 assert.deepStrictEqual(report, {
                     results: [
                         {
@@ -2131,6 +2140,8 @@ describe("CLIEngine", () => {
 
                 const cachedResult = engine.executeOnFiles([badFile, goodFile]);
 
+                delete result.results[0].messages[0].data;
+                delete cachedResult.results[0].messages[0].data;
                 assert.deepStrictEqual(result, cachedResult, "result is the same with or without cache");
             });
 
@@ -2346,6 +2357,8 @@ describe("CLIEngine", () => {
 
                     const cachedResult = engine.executeOnFiles([badFile, goodFile]);
 
+                    delete result.results[0].messages[0].data;
+                    delete cachedResult.results[0].messages[0].data;
                     assert.deepStrictEqual(result, cachedResult, "result is the same with or without cache");
                 });
             });

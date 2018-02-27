@@ -62,7 +62,8 @@ describe("createReportTranslator", () => {
                     line: 2,
                     column: 1,
                     nodeType: "ExpressionStatement",
-                    source: "bar"
+                    source: "bar",
+                    data: {}
                 }
             );
         });
@@ -81,7 +82,8 @@ describe("createReportTranslator", () => {
                     endLine: 1,
                     endColumn: 4,
                     nodeType: "ExpressionStatement",
-                    source: "foo"
+                    source: "foo",
+                    data: {}
                 }
             );
         });
@@ -343,7 +345,11 @@ describe("createReportTranslator", () => {
                     fix: {
                         range: [1, 1],
                         text: ""
-                    }
+                    },
+                    data: [
+                        "!",
+                        "testing"
+                    ]
                 }
             );
         });
@@ -361,7 +367,10 @@ describe("createReportTranslator", () => {
                     nodeType: "ExpressionStatement",
                     line: 1,
                     column: 4,
-                    source: "foo"
+                    source: "foo",
+                    data: {
+                        dynamic: "ExpressionStatement"
+                    }
                 }
             );
         });
@@ -376,7 +385,10 @@ describe("createReportTranslator", () => {
                     nodeType: "ExpressionStatement",
                     line: 1,
                     column: 4,
-                    source: "foo"
+                    source: "foo",
+                    data: {
+                        dynamic: "ExpressionStatement"
+                    }
                 }
             );
         });
@@ -564,7 +576,11 @@ describe("createReportTranslator", () => {
                     endLine: 1,
                     endColumn: 4,
                     source: "foo",
-                    fix: { range: [1, 1], text: "" }
+                    fix: { range: [1, 1], text: "" },
+                    data: [
+                        "!",
+                        "testing"
+                    ]
                 }
             );
         });
