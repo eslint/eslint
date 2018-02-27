@@ -453,7 +453,7 @@ A more detailed breakdown of supported patterns and directories ESLint ignores b
 
 ## Exit codes
 
-ESLint will exit with one of the following exit codes:
+When linting files, ESLint will exit with one of the following exit codes:
 
 * `0`: Linting was successful and there are no linting errors. If the `--max-warnings` flag is set to `n`, the number of linting warnings is at most `n`.
 * `1`: Linting was successful and there is at least one linting error, or there are more linting warnings than allowed by the `--max-warnings` option.
