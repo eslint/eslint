@@ -25,6 +25,7 @@ module.exports = {
         "eslint-plugin/report-message-format": ["error", "[^a-z].*\\.$"],
         "eslint-plugin/test-case-property-ordering": "error",
         "eslint-plugin/test-case-shorthand-strings": "error",
-        "rulesdir/multiline-comment-style": "error"
+        "rulesdir/multiline-comment-style": "error",
+        "rulesdir/no-useless-catch": "error"
     }
 };

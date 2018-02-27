@@ -2790,16 +2790,6 @@ describe("Linter", () => {
         });
     });
 
-    describe("when using invalid rule config", () => {
-        const code = TEST_CODE;
-
-        it("should throw an error", () => {
-            assert.throws(() => {
-                linter.verify(code, { rules: { foobar: null } });
-            }, /Invalid config for rule 'foobar'\./);
-        });
-    });
-
     describe("when calling getRules", () => {
         it("should return all loaded rules", () => {
             const rules = linter.getRules();

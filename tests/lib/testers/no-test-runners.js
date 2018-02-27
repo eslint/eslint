@@ -27,8 +27,6 @@ try {
             ]
         });
     }, /Output is incorrect\. \(' foo = bar;' === 'invalid output'\)$/);
-} catch (e) {
-    throw e;
 } finally {
     it = tmpIt;
     describe = tmpDescribe;
