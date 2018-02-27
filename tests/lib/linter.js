@@ -120,7 +120,7 @@ describe("Linter", () => {
         });
 
         it("has all the `parent` properties on nodes when the rule listeners are created", () => {
-            linter.defineRule("checker", context => {
+            const spy = sandbox.spy(context => {
                 const ast = context.getSourceCode().ast;
 
                 assert.strictEqual(ast.body[0].parent, ast);
@@ -131,7 +131,10 @@ describe("Linter", () => {
                 return {};
             });
 
+            linter.defineRule("checker", spy);
+
             linter.verify("foo + bar", { rules: { checker: "error" } });
+            assert(spy.calledOnce);
         });
     });
 
