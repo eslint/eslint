@@ -636,6 +636,66 @@ ruleTester.run("one-var", rule, {
                 line: 1,
                 column: 1
             }]
+        },
+        {
+            code: "var foo = require('foo'), bar;",
+            output: null,
+            options: [{ separateRequires: true, var: "always" }],
+            parserOptions: { env: { node: true } },
+            errors: [{
+                message: "Split requires to be separated into a single block.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 1
+            }]
+        },
+        {
+            code: "var foo, bar = require('bar');",
+            output: null,
+            options: [{ separateRequires: true, var: "always" }],
+            parserOptions: { env: { node: true } },
+            errors: [{
+                message: "Split requires to be separated into a single block.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 1
+            }]
+        },
+        {
+            code: "let foo, bar = require('bar');",
+            output: null,
+            options: [{ separateRequires: true, let: "always" }],
+            parserOptions: { env: { node: true } },
+            errors: [{
+                message: "Split requires to be separated into a single block.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 1
+            }]
+        },
+        {
+            code: "const foo = 0, bar = require('bar');",
+            output: null,
+            options: [{ separateRequires: true, const: "always" }],
+            parserOptions: { env: { node: true } },
+            errors: [{
+                message: "Split requires to be separated into a single block.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 1
+            }]
+        },
+        {
+            code: "const foo = require('foo'); const bar = require('bar');",
+            output: null,
+            options: [{ separateRequires: true, const: "always" }],
+            parserOptions: { env: { node: true } },
+            errors: [{
+                message: "Combine this with the previous 'const' statement.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 29
+            }]
         }
     ]
 });
