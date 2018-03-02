@@ -1,3 +1,16 @@
+v4.18.2 - March 2, 2018
+
+* 6b71fd0 Fix: table@4.0.2, because 4.0.3 needs "ajv": "^6.0.1" (#10022) (Mathieu Seiler)
+* 3c697de Chore: fix incorrect comment about linter.verify return value (#10030) (Teddy Katz)
+* 9df8653 Chore: refactor parser-loading out of linter.verify (#10028) (Teddy Katz)
+* f6901d0 Fix: remove catastrophic backtracking vulnerability (fixes #10002) (#10019) (Jamie Davis)
+* e4f52ce Chore: Simplify dataflow in linter.verify (#10020) (Teddy Katz)
+* 33177cd Chore: make library files non-executable (#10021) (Teddy Katz)
+* 558ccba Chore: refactor directive comment processing (#10007) (Teddy Katz)
+* 18e15d9 Chore: avoid useless catch clauses that just rethrow errors (#10010) (Teddy Katz)
+* a1c3759 Chore: refactor populating configs with defaults in linter (#10006) (Teddy Katz)
+* aea07dc Fix: Make max-len ignoreStrings ignore JSXText (fixes #9954) (#9985) (Rachael Sim)
+
 v4.18.1 - February 20, 2018
 
 * f417506 Fix: ensure no-await-in-loop reports the correct node (fixes #9992) (#9993) (Teddy Katz)
