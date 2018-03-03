@@ -36,7 +36,7 @@ String option:
 
 * `"always"` (default) requires one variable declaration per scope
 * `"never"` requires multiple variable declarations per scope
-* `"consecutive"` allows multiple variable declarations per scope but requires consecutive variables declarations to be combined into a single declaration
+* `"consecutive"` allows multiple variable declarations per scope but requires consecutive variable declarations to be combined into a single declaration
 
 Object option:
 
