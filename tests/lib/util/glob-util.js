@@ -46,7 +46,7 @@ describe("globUtil", () => {
     });
 
     after(() => {
-        sh.rm("-r", fixtureDir);
+        sh.rm("-rf", fixtureDir);
     });
 
     describe("resolveFileGlobPatterns()", () => {
@@ -276,6 +276,13 @@ describe("globUtil", () => {
 
         it("should not return a file which does not exist", () => {
             const patterns = ["tests/fixtures/glob-util/hidden/bar.js"];
+            const result = globUtil.listFilesToProcess(patterns);
+
+            assert.strictEqual(result.length, 0);
+        });
+
+        it("should not return a broken link", () => {
+            const patterns = [getFixturePath("glob-util", "broken-link", "foo.js")];
             const result = globUtil.listFilesToProcess(patterns);
 
             assert.strictEqual(result.length, 0);

@@ -92,7 +92,7 @@ describe("cli", () => {
     });
 
     after(() => {
-        sh.rm("-r", fixtureDir);
+        sh.rm("-rf", fixtureDir);
     });
 
     describe("execute()", () => {

@@ -143,7 +143,7 @@ describe("Config", () => {
     });
 
     after(() => {
-        rm("-r", fixtureDir);
+        rm("-rf", fixtureDir);
     });
 
     describe("new Config()", () => {

@@ -112,7 +112,7 @@ describe("configInitializer", () => {
     });
 
     after(() => {
-        sh.rm("-r", fixtureDir);
+        sh.rm("-rf", fixtureDir);
     });
 
     describe("processAnswers()", () => {

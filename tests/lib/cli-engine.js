@@ -93,7 +93,7 @@ describe("CLIEngine", () => {
     });
 
     after(() => {
-        shell.rm("-r", fixtureDir);
+        shell.rm("-rf", fixtureDir);
     });
 
     describe("new CLIEngine(options)", () => {

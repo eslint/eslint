@@ -116,7 +116,7 @@ describe("IgnoredPaths", () => {
     });
 
     after(() => {
-        rm("-r", fixtureDir);
+        rm("-rf", fixtureDir);
     });
 
     describe("initialization", () => {
