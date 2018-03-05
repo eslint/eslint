@@ -33,7 +33,7 @@ Basic configuration:
   --no-eslintrc                  Disable use of configuration from .eslintrc.*
   -c, --config path::String      Use this configuration, overriding .eslintrc.* config options if present
   --env [String]                 Specify environments
-  --ext [String]                 Specify JavaScript file extensions - default: .js
+  --ext [String]                 Specify JavaScript file extensions - default: mjs,js
   --global [String]              Define global variables
   --parser String                Specify the parser to be used
   --parser-options Object        Specify parser options
@@ -86,9 +86,9 @@ Options that accept array values can be specified by repeating the option or wit
 
 Example:
 
-    eslint --ext .jsx --ext .js lib/
+    eslint --ext jsx --ext js lib/
 
-    eslint --ext .jsx,.js lib/
+    eslint --ext jsx,js lib/
 
 ### Basic configuration
 
@@ -132,22 +132,22 @@ Examples:
 #### `--ext`
 
 This option allows you to specify which file extensions ESLint will use when searching for JavaScript files in the directories you specify.
-By default, it uses `.js` as the only file extension.
+By default, it uses `mjs` and `js` file extensions.
 
 Examples:
 
     # Use only .js2 extension
-    eslint . --ext .js2
+    eslint . --ext js2
 
     # Use both .js and .js2
-    eslint . --ext .js --ext .js2
+    eslint . --ext js --ext js2
 
     # Also use both .js and .js2
-    eslint . --ext .js,.js2
+    eslint . --ext js,js2
 
 **Note:** `--ext` is only used when the arguments are directories. If you use glob patterns or file names, then `--ext` is ignored.
 
-For example, `eslint lib/* --ext .js` will match all files within the `lib/` directory, regardless of extension.
+For example, `eslint lib/* --ext js` will match all files within the `lib/` directory, regardless of extension.
 
 #### `--global`
 
