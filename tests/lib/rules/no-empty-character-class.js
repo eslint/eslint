@@ -30,7 +30,9 @@ ruleTester.run("no-empty-character-class", rule, {
         "var foo = /[\\[a-z[]]/;",
         "var foo = /[\\-\\[\\]\\/\\{\\}\\(\\)\\*\\+\\?\\.\\\\^\\$\\|]/g;",
         "var foo = /\\s*:\\s*/gim;",
-        { code: "var foo = /[\\]]/uy;", parserOptions: { ecmaVersion: 6 } }
+        { code: "var foo = /[\\]]/uy;", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = /[\\]]/s;", parserOptions: { ecmaVersion: 2018 } },
+        "var foo = /\\[]/"
     ],
     invalid: [
         { code: "var foo = /^abc[]/;", errors: [{ messageId: "unexpected", type: "Literal" }] },
