@@ -4607,6 +4607,16 @@ ruleTester.run("indent", rule, {
                     );
                 }
             `,
+        unIndent`
+            <div>foo
+                <div>bar</div>
+            </div>
+        `,
+        unIndent`
+            <small>Foo bar&nbsp;
+                <a>baz qux</a>.
+            </small>
+        `,
         {
             code: unIndent`
                 a(b
@@ -9135,6 +9145,32 @@ ruleTester.run("indent", rule, {
                 </div>
             `,
             errors: expectedErrors([3, 8, 6, "Block"])
+        },
+        {
+            code: unIndent`
+                <div>foo
+                <div>bar</div>
+                </div>
+            `,
+            output: unIndent`
+                <div>foo
+                    <div>bar</div>
+                </div>
+            `,
+            errors: expectedErrors([2, 4, 0, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                <small>Foo bar&nbsp;
+                <a>baz qux</a>.
+                </small>
+            `,
+            output: unIndent`
+                <small>Foo bar&nbsp;
+                    <a>baz qux</a>.
+                </small>
+            `,
+            errors: expectedErrors([2, 4, 0, "Punctuator"])
         },
         {
             code: unIndent`
