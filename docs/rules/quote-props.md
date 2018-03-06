@@ -42,7 +42,7 @@ String option:
 
 * `"always"` (default) requires quotes around all object literal property names
 * `"as-needed"` disallows quotes around object literal property names that are not strictly required
-* `"consistent"` enforces a consistent quote style requires quotes around object literal property names
+* `"consistent"` enforces a consistent quote style; in a given object, either all of the properties should be quoted, or none of the properties should be quoted
 * `"consistent-as-needed"` requires quotes around all object literal property names if any name strictly requires quotes, otherwise disallows quotes around object property names
 
 Object option:
