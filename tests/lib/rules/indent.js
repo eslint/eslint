@@ -2302,6 +2302,17 @@ ruleTester.run("indent", rule, {
             `,
             options: [4]
         },
+        unIndent`
+            foo &&
+                !bar(
+                )
+        `,
+        unIndent`
+            foo &&
+                ![].map(() => {
+                    bar();
+                })
+        `,
         {
             code: unIndent`
                 foo =
@@ -7548,6 +7559,34 @@ ruleTester.run("indent", rule, {
             `,
             options: [4],
             errors: expectedErrors([2, 4, 8, "Identifier"])
+        },
+        {
+            code: unIndent`
+                foo &&
+                    !bar(
+                )
+            `,
+            output: unIndent`
+                foo &&
+                    !bar(
+                    )
+            `,
+            errors: expectedErrors([3, 4, 0, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                foo &&
+                    ![].map(() => {
+                    bar();
+                })
+            `,
+            output: unIndent`
+                foo &&
+                    ![].map(() => {
+                        bar();
+                    })
+            `,
+            errors: expectedErrors([[3, 8, 4, "Identifier"], [4, 4, 0, "Punctuator"]])
         },
         {
             code: unIndent`
