@@ -638,6 +638,39 @@ ruleTester.run("one-var", rule, {
             }]
         },
         {
+            code: "var f, k /* test */, l;",
+            output: "var f; var k /* test */; var l;",
+            options: ["never"],
+            errors: [{
+                message: "Split 'var' declarations into multiple statements.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 1
+            }]
+        },
+        {
+            code: "var f,          /* test */ l;",
+            output: "var f;\n/* test */\nvar l;",
+            options: ["never"],
+            errors: [{
+                message: "Split 'var' declarations into multiple statements.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 1
+            }]
+        },
+        {
+            code: "var f, k /* test \n some more comment \n even more */, l = 1, P;",
+            output: "var f; var k /* test \n some more comment \n even more */; var l = 1; var P;",
+            options: ["never"],
+            errors: [{
+                message: "Split 'var' declarations into multiple statements.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 1
+            }]
+        },
+        {
             code: "var foo = require('foo'), bar;",
             output: null,
             options: [{ separateRequires: true, var: "always" }],
