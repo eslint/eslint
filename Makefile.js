@@ -345,9 +345,10 @@ function getFirstVersionOfFile(filePath) {
 
     tags = splitCommandResultToLines(tags);
     return tags.reduce((list, version) => {
-        version = semver.valid(version.trim());
-        if (version) {
-            list.push(version);
+        const validatedVersion = semver.valid(version.trim());
+
+        if (validatedVersion) {
+            list.push(validatedVersion);
         }
         return list;
     }, []).sort(semver.compare)[0];
