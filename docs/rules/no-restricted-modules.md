@@ -68,7 +68,7 @@ To restrict the use of all Node.js core modules (via https://github.com/nodejs/n
 
 ## Examples
 
-Examples of **incorrect** code for this rule  with sample `"fs", "cluster","loadash"` restricted modules:
+Examples of **incorrect** code for this rule  with sample `"fs", "cluster", "lodash"` restricted modules:
 
 ```js
 /*eslint no-restricted-modules: ["error", "fs", "cluster"]*/
@@ -89,7 +89,7 @@ var cluster = require('cluster');
 var pick = require('lodash/pick');
 ```
 
-Examples of **correct** code for this rule with sample `"fs", "cluster","loadash"` restricted modules:
+Examples of **correct** code for this rule with sample `"fs", "cluster", "lodash"` restricted modules:
 
 ```js
 /*eslint no-restricted-modules: ["error", "fs", "cluster"]*/
