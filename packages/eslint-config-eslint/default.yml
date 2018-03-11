@@ -85,6 +85,7 @@ rules:
     no-new-wrappers: "error"
     no-octal: "error"
     no-octal-escape: "error"
+    no-param-reassign: "error"
     no-path-concat: "error"
     no-process-exit: "error"
     no-proto: "error"

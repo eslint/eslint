@@ -23,19 +23,17 @@ const rule = require("../../../lib/rules/no-extra-parens"),
  * @private
  */
 function invalid(code, output, type, line, config) {
-    config = config || {};
-
     const result = {
         code,
         output,
-        parserOptions: config.parserOptions || {},
+        parserOptions: config && config.parserOptions || {},
         errors: [
             {
                 messageId: "unexpected",
                 type
             }
         ],
-        options: config.options || []
+        options: config && config.options || []
     };
 
     if (line) {
