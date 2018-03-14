@@ -29,12 +29,8 @@ var thing = foo ? bar : foobar;
 
 var thing;
 
-if (foo) {
-  thing = bar;
-} else if (baz === qux) {
+if (baz === qux) {
   thing = quxx;
-} else {
-  thing = foobar;
 }
 ```
 
