@@ -30,12 +30,17 @@ ruleTester.run("no-control-regex", rule, {
     ],
     invalid: [
         { code: `var regex = ${/\x1f/}`, errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }] }, // eslint-disable-line no-control-regex
-        { code: `var regex = ${/\\\x1f\\x1e/}`, errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f, \\x1e" }, type: "Literal" }] }, // eslint-disable-line no-control-regex
-        { code: `var regex = ${/\\\x1fFOO\\x00/}`, errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f, \\x00" }, type: "Literal" }] }, // eslint-disable-line no-control-regex
-        { code: `var regex = ${/FOO\\\x1fFOO\\x1f/}`, errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f, \\x1f" }, type: "Literal" }] }, // eslint-disable-line no-control-regex
+        { code: `var regex = ${/\\\x1f\\x1e/}`, errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }] }, // eslint-disable-line no-control-regex
+        { code: `var regex = ${/\\\x1fFOO\\x00/}`, errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }] }, // eslint-disable-line no-control-regex
+        { code: `var regex = ${/FOO\\\x1fFOO\\x1f/}`, errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }] }, // eslint-disable-line no-control-regex
         { code: "var regex = new RegExp('\\x1f\\x1e')", errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f, \\x1e" }, type: "Literal" }] },
         { code: "var regex = new RegExp('\\x1fFOO\\x00')", errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f, \\x00" }, type: "Literal" }] },
         { code: "var regex = new RegExp('FOO\\x1fFOO\\x1f')", errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f, \\x1f" }, type: "Literal" }] },
-        { code: "var regex = RegExp('\\x1f')", errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }] }
+        { code: "var regex = RegExp('\\x1f')", errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }] },
+        {
+            code: "var regex = /(?<a>\\x1f)/",
+            parserOptions: { ecmaVersion: 2018 },
+            errors: [{ messageId: "unexpected", data: { controlChars: "\\x1f" }, type: "Literal" }]
+        }
     ]
 });
