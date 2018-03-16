@@ -113,7 +113,15 @@ ruleTester.run("no-useless-escape", rule, {
         { code: String.raw`/\]/u`, parserOptions: { ecmaVersion: 6 } },
         String.raw`var foo = /foo\]/`,
         String.raw`var foo = /[[]\]/`, // A character class containing '[', followed by a ']' character
-        String.raw`var foo = /\[foo\.bar\]/`
+        String.raw`var foo = /\[foo\.bar\]/`,
+
+        // ES2018
+        { code: String.raw`var foo = /(?<a>)\k<a>/`, parserOptions: { ecmaVersion: 2018 } },
+        { code: String.raw`var foo = /(\\?<a>)/`, parserOptions: { ecmaVersion: 2018 } },
+        { code: String.raw`var foo = /\p{ASCII}/u`, parserOptions: { ecmaVersion: 2018 } },
+        { code: String.raw`var foo = /\P{ASCII}/u`, parserOptions: { ecmaVersion: 2018 } },
+        { code: String.raw`var foo = /[\p{ASCII}]/u`, parserOptions: { ecmaVersion: 2018 } },
+        { code: String.raw`var foo = /[\P{ASCII}]/u`, parserOptions: { ecmaVersion: 2018 } }
     ],
 
     invalid: [
