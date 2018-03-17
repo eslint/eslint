@@ -42,10 +42,6 @@ function getExpectedError(lines) {
  * @private
  */
 function getExpectedErrorEOF(lines) {
-    if (typeof lines !== "number") {
-        lines = 0;
-    }
-
     return {
         message: `Too many blank lines at the end of file. Max of ${lines} allowed.`,
         type: "Program",
@@ -60,10 +56,6 @@ function getExpectedErrorEOF(lines) {
  * @private
  */
 function getExpectedErrorBOF(lines) {
-    if (typeof lines !== "number") {
-        lines = 0;
-    }
-
     return {
         message: `Too many blank lines at the beginning of file. Max of ${lines} allowed.`,
         type: "Program",

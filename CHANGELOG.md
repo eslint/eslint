@@ -1,3 +1,29 @@
+v4.19.0 - March 16, 2018
+
+* 55a1593 Update: consecutive option for one-var (fixes #4680) (#9994) (薛定谔的猫)
+* 8d3814e Fix: false positive about ES2018 RegExp enhancements (fixes #9893) (#10062) (Toru Nagashima)
+* 935f4e4 Docs: Clarify default ignoring of node_modules (#10092) (Matijs Brinkhuis)
+* 72ed3db Docs: Wrap `Buffer()` in backticks in `no-buffer-constructor` rule description (#10084) (Stephen Edgar)
+* 3aded2f Docs: Fix lodash typos, make spacing consistent (#10073) (Josh Smith)
+* e33bb64 Chore: enable no-param-reassign on ESLint codebase (#10065) (Teddy Katz)
+* 66a1e9a Docs: fix possible typo (#10060) (Vse Mozhet Byt)
+* 2e68be6 Update: give a node at least the indentation of its parent (fixes #9995) (#10054) (Teddy Katz)
+* 72ca5b3 Update: Correctly indent JSXText with trailing linebreaks (fixes #9878) (#10055) (Teddy Katz)
+* 2a4c838 Docs: Update ECMAScript versions in FAQ (#10047) (alberto)
+
+v4.18.2 - March 2, 2018
+
+* 6b71fd0 Fix: table@4.0.2, because 4.0.3 needs "ajv": "^6.0.1" (#10022) (Mathieu Seiler)
+* 3c697de Chore: fix incorrect comment about linter.verify return value (#10030) (Teddy Katz)
+* 9df8653 Chore: refactor parser-loading out of linter.verify (#10028) (Teddy Katz)
+* f6901d0 Fix: remove catastrophic backtracking vulnerability (fixes #10002) (#10019) (Jamie Davis)
+* e4f52ce Chore: Simplify dataflow in linter.verify (#10020) (Teddy Katz)
+* 33177cd Chore: make library files non-executable (#10021) (Teddy Katz)
+* 558ccba Chore: refactor directive comment processing (#10007) (Teddy Katz)
+* 18e15d9 Chore: avoid useless catch clauses that just rethrow errors (#10010) (Teddy Katz)
+* a1c3759 Chore: refactor populating configs with defaults in linter (#10006) (Teddy Katz)
+* aea07dc Fix: Make max-len ignoreStrings ignore JSXText (fixes #9954) (#9985) (Rachael Sim)
+
 v4.18.1 - February 20, 2018
 
 * f417506 Fix: ensure no-await-in-loop reports the correct node (fixes #9992) (#9993) (Teddy Katz)
