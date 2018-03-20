@@ -186,16 +186,6 @@ According to our policy, any minor update may report more errors than the previo
 
 ## Frequently Asked Questions
 
-### How is ESLint different from JSHint?
-
-The most significant difference is that ESLint has pluggable linting rules. That means you can use the rules it comes with, or you can extend it with rules created by others or by yourself!
-
-### How does ESLint performance compare to JSHint?
-
-ESLint is slower than JSHint, usually 2-3x slower on a single file. This is because ESLint uses Espree to construct an AST before it can evaluate your code whereas JSHint evaluates your code as it's being parsed. The speed is also based on the number of rules you enable; the more rules you enable, the slower the process.
-
-Despite being slower, we believe that ESLint is fast enough to replace JSHint without causing significant pain.
-
 ### I heard ESLint is going to replace JSCS?
 
 Yes. Since we are solving the same problems, ESLint and JSCS teams have decided to join forces and work together in the development of ESLint instead of competing with each other. You can read more about this in both [ESLint](https://eslint.org/blog/2016/04/welcoming-jscs-to-eslint) and [JSCS](https://medium.com/@markelog/jscs-end-of-the-line-bc9bf0b3fdb2#.u76sx334n) announcements.
