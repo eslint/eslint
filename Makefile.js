@@ -569,6 +569,8 @@ target.test = function() {
     let errors = 0,
         lastReturn;
 
+    echo("Running unit tests");
+
     lastReturn = exec(`${getBinFile("istanbul")} cover ${MOCHA} -- -R progress -t ${MOCHA_TIMEOUT} -c ${TEST_FILES}`);
     if (lastReturn.code !== 0) {
         errors++;
