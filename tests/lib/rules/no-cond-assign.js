@@ -40,7 +40,8 @@ ruleTester.run("no-cond-assign", rule, {
         { code: "if ((node => node = parentNode)(someNode)) { }", options: ["always"], parserOptions: { ecmaVersion: 6 } },
         { code: "if (function(node) { return node = parentNode; }) { }", options: ["except-parens"] },
         { code: "if (function(node) { return node = parentNode; }) { }", options: ["always"] },
-        { code: "x = 0;", options: ["always"] }
+        { code: "x = 0;", options: ["always"] },
+        "var x; var b = (x === 0) ? 1 : 0;"
     ],
     invalid: [
         { code: "var x; if (x = 0) { var b = 1; }", errors: [{ messageId: "missing", type: "IfStatement", line: 1, column: 12 }] },
