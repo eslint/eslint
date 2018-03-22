@@ -53,7 +53,7 @@ process.once("uncaughtException", err => {
         console.error(err.stack);
     }
 
-    process.exitCode = 1;
+    process.exitCode = 2;
 });
 
 if (useStdIn) {
