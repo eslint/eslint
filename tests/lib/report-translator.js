@@ -164,6 +164,15 @@ describe("createReportTranslator", () => {
                 /^context\.report\(\) called with a messageId of '[^']+' which is not present in the 'messages' config:/
             );
         });
+        it("should throw when no message is provided", () => {
+            const reportDescriptor = { node };
+
+            assert.throws(
+                () => translateReport(reportDescriptor),
+                TypeError,
+                "Missing `message` property in report() call; add a message that describes the linting problem."
+            );
+        });
     });
     describe("combining autofixes", () => {
         it("should merge fixes to one if 'fix' function returns an array of fixes.", () => {

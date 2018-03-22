@@ -851,6 +851,20 @@ describe("Linter", () => {
             sinon.assert.calledTwice(spyLiteral);
             sinon.assert.calledOnce(spyBinaryExpression);
         });
+
+        it("should throw an error if a rule reports a problem without a message", () => {
+            linter.defineRule("invalid-report", context => ({
+                Program(node) {
+                    context.report({ node });
+                }
+            }));
+
+            assert.throws(
+                () => linter.verify("foo", { rules: { "invalid-report": "error" } }),
+                TypeError,
+                "Missing `message` property in report() call; add a message that describes the linting problem."
+            );
+        });
     });
 
     describe("when config has shared settings for rules", () => {
