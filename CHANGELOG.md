@@ -1,3 +1,11 @@
+v4.19.1 - March 21, 2018
+
+* 3ff5d11 Fix: no-invalid-regexp not understand variable for flags (fixes #10112) (#10113) (薛定谔的猫)
+* abc765c Fix: object-curly-newline minProperties w/default export (fixes #10101) (#10103) (Kevin Partington)
+* 6f9e155 Docs: Update ambiguous for...in example for guard-for-in (#10114) (CJ R)
+* 0360cc2 Chore: Adding debug logs on successful plugin loads (#10100) (Kevin Partington)
+* a717c5d Chore: Adding log at beginning of unit tests in Makefile.js (#10102) (Kevin Partington)
+
 v4.19.0 - March 16, 2018
 
 * 55a1593 Update: consecutive option for one-var (fixes #4680) (#9994) (薛定谔的猫)
