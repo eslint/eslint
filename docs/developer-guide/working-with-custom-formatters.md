@@ -30,8 +30,7 @@ The output of the previous command will be something like this
                 "message": "Expected { after 'if' condition.",
                 "line": 2,
                 "column": 1,
-                "nodeType": "IfStatement",
-                "source": "if (err) console.log('failed tests: ' + err);"
+                "nodeType": "IfStatement"
             },
             {
                 "ruleId": "no-process-exit",
@@ -39,8 +38,7 @@ The output of the previous command will be something like this
                 "message": "Don't use process.exit(); throw an error instead.",
                 "line": 3,
                 "column": 1,
-                "nodeType": "CallExpression",
-                "source": "process.exit(1);"
+                "nodeType": "CallExpression"
             }
         ],
         "errorCount": 2,
@@ -82,9 +80,6 @@ The following are the fields of the result object:
 - **line**: the line where the issue is located.
 - **column**: the column where the issue is located.
 - **nodeType**: the type of the node in the [AST](https://github.com/estree/estree/blob/master/spec.md#node-objects)
-- **source**: an extract of the code the line where the failure happened.
-
-**Please note**: the `source` property will be removed from the message object in an upcoming breaking release. If you depend on this property, you should now use the `source` or `output` properties from [the result object](#the-result-object) instead.
 
 ## Examples
 
@@ -137,8 +132,7 @@ module.exports = function ( results ) {
                 ruleId: msg.ruleId,
                 message: msg.message,
                 line: msg.line,
-                column: msg.column,
-                source: msg.source
+                column: msg.column
             };
 
             if ( msg.severity === 1 ) {
@@ -207,8 +201,7 @@ module.exports = function ( results ) {
                 ruleId: msg.ruleId,
                 message: msg.message,
                 line: msg.line,
-                column: msg.column,
-                source: msg.source
+                column: msg.column
             };
 
             if ( msg.severity === 1 ) {
