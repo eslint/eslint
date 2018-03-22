@@ -16,7 +16,6 @@ const fs = require("fs"),
     leche = require("leche"),
     Linter = require("../../../lib/linter"),
     SourceCode = require("../../../lib/util/source-code"),
-    Traverser = require("../../../lib/util/traverser"),
     astUtils = require("../../../lib/ast-utils");
 
 //------------------------------------------------------------------------------
@@ -1791,44 +1790,6 @@ describe("SourceCode", () => {
             node = sourceCode.getNodeByRangeIndex(-99);
             assert.isNull(node);
         });
-
-        it("should attach the node's parent", () => {
-            const node = sourceCode.getNodeByRangeIndex(14);
-
-            assert.property(node, "parent");
-            assert.strictEqual(node.parent.type, "VariableDeclarator");
-        });
-
-        it("should not modify the node when attaching the parent", () => {
-            let node = sourceCode.getNodeByRangeIndex(10);
-
-            assert.strictEqual(node.type, "VariableDeclarator");
-            node = sourceCode.getNodeByRangeIndex(4);
-            assert.strictEqual(node.type, "Identifier");
-            assert.property(node, "parent");
-            assert.strictEqual(node.parent.type, "VariableDeclarator");
-            assert.notProperty(node.parent, "parent");
-        });
-
-        it("should use visitorKeys", () => {
-            const text = "a + b";
-            const ast = espree.parse(text, DEFAULT_CONFIG);
-
-            // no traverse BinaryExpression#left
-            sourceCode = new SourceCode({
-                text,
-                ast,
-                parserServices: null,
-                scopeManager: null,
-                visitorKeys: Object.assign({}, Traverser.DEFAULT_VISITOR_KEYS, {
-                    BinaryExpression: ["right"]
-                })
-            });
-            const node = sourceCode.getNodeByRangeIndex(0);
-
-            assert.strictEqual(node.type, "BinaryExpression"); // This is Identifier if 'BinaryExpression#left' was traversed.
-        });
-
     });
 
     describe("isSpaceBetweenTokens()", () => {
