@@ -440,7 +440,6 @@ describe("apply-disable-directives", () => {
                         line: 1,
                         column: 5,
                         severity: 2,
-                        source: null,
                         nodeType: null
                     }
                 ]
@@ -472,7 +471,6 @@ describe("apply-disable-directives", () => {
                         line: 1,
                         column: 5,
                         severity: 2,
-                        source: null,
                         nodeType: null
                     }
                 ]
@@ -493,7 +491,6 @@ describe("apply-disable-directives", () => {
                         line: 1,
                         column: 5,
                         severity: 2,
-                        source: null,
                         nodeType: null
                     },
                     {
@@ -527,7 +524,6 @@ describe("apply-disable-directives", () => {
                         line: 1,
                         column: 5,
                         severity: 2,
-                        source: null,
                         nodeType: null
                     }
                 ]
@@ -551,7 +547,6 @@ describe("apply-disable-directives", () => {
                         line: 1,
                         column: 5,
                         severity: 2,
-                        source: null,
                         nodeType: null
                     }
                 ]
@@ -575,7 +570,6 @@ describe("apply-disable-directives", () => {
                         line: 1,
                         column: 1,
                         severity: 2,
-                        source: null,
                         nodeType: null
                     },
                     {
@@ -584,7 +578,6 @@ describe("apply-disable-directives", () => {
                         line: 2,
                         column: 1,
                         severity: 2,
-                        source: null,
                         nodeType: null
                     }
                 ]
@@ -608,7 +601,6 @@ describe("apply-disable-directives", () => {
                         line: 1,
                         column: 1,
                         severity: 2,
-                        source: null,
                         nodeType: null
                     }
                 ]
@@ -632,7 +624,6 @@ describe("apply-disable-directives", () => {
                         line: 1,
                         column: 1,
                         severity: 2,
-                        source: null,
                         nodeType: null
                     }
                 ]
@@ -667,7 +658,6 @@ describe("apply-disable-directives", () => {
                         line: 1,
                         column: 1,
                         severity: 2,
-                        source: null,
                         nodeType: null
                     }
                 ]
@@ -691,7 +681,6 @@ describe("apply-disable-directives", () => {
                         line: 2,
                         column: 1,
                         severity: 2,
-                        source: null,
                         nodeType: null
                     }
                 ]
@@ -715,7 +704,6 @@ describe("apply-disable-directives", () => {
                         line: 1,
                         column: 5,
                         severity: 2,
-                        source: null,
                         nodeType: null
                     },
                     {
@@ -744,7 +732,6 @@ describe("apply-disable-directives", () => {
                         line: 1,
                         column: 5,
                         severity: 2,
-                        source: null,
                         nodeType: null
                     },
                     {
@@ -774,7 +761,6 @@ describe("apply-disable-directives", () => {
                         line: 1,
                         column: 1,
                         severity: 2,
-                        source: null,
                         nodeType: null
                     },
                     {
@@ -783,7 +769,7 @@ describe("apply-disable-directives", () => {
                         line: 2,
                         column: 1,
                         severity: 2,
-                        source: null,
+
                         nodeType: null
                     },
                     {
@@ -809,7 +795,6 @@ describe("apply-disable-directives", () => {
                         line: 1,
                         column: 5,
                         severity: 2,
-                        source: null,
                         nodeType: null
                     }
                 ]
@@ -842,7 +827,6 @@ describe("apply-disable-directives", () => {
                         line: 1,
                         column: 5,
                         severity: 2,
-                        source: null,
                         nodeType: null
                     }
                 ]
@@ -877,7 +861,6 @@ describe("apply-disable-directives", () => {
                         line: 1,
                         column: 1,
                         severity: 2,
-                        source: null,
                         nodeType: null
                     },
                     {
@@ -886,7 +869,6 @@ describe("apply-disable-directives", () => {
                         line: 1,
                         column: 5,
                         severity: 2,
-                        source: null,
                         nodeType: null
                     }
                 ]

@@ -61,8 +61,7 @@ describe("createReportTranslator", () => {
                     message: "foo",
                     line: 2,
                     column: 1,
-                    nodeType: "ExpressionStatement",
-                    source: "bar"
+                    nodeType: "ExpressionStatement"
                 }
             );
         });
@@ -80,8 +79,7 @@ describe("createReportTranslator", () => {
                     column: 1,
                     endLine: 1,
                     endColumn: 4,
-                    nodeType: "ExpressionStatement",
-                    source: "foo"
+                    nodeType: "ExpressionStatement"
                 }
             );
         });
@@ -105,7 +103,6 @@ describe("createReportTranslator", () => {
                     line: 2,
                     column: 1,
                     nodeType: "ExpressionStatement",
-                    source: "bar",
                     fix: {
                         range: [1, 2],
                         text: "foo"
@@ -131,7 +128,6 @@ describe("createReportTranslator", () => {
                     line: 2,
                     column: 1,
                     nodeType: "ExpressionStatement",
-                    source: "bar",
                     fix: {
                         range: [1, 2],
                         text: "foo"
@@ -187,7 +183,6 @@ describe("createReportTranslator", () => {
                     line: 2,
                     column: 1,
                     nodeType: "ExpressionStatement",
-                    source: "bar",
                     fix: {
                         range: [1, 5],
                         text: "fooo\nbar"
@@ -216,7 +211,6 @@ describe("createReportTranslator", () => {
                     line: 2,
                     column: 1,
                     nodeType: "ExpressionStatement",
-                    source: "bar",
                     fix: {
                         range: [1, 5],
                         text: "fooo\nbar"
@@ -242,7 +236,6 @@ describe("createReportTranslator", () => {
                     line: 2,
                     column: 1,
                     nodeType: "ExpressionStatement",
-                    source: "bar",
                     fix: {
                         range: [1, 2],
                         text: "foo"
@@ -268,7 +261,6 @@ describe("createReportTranslator", () => {
                     line: 2,
                     column: 1,
                     nodeType: "ExpressionStatement",
-                    source: "bar",
                     fix: {
                         range: [0, 5],
                         text: "\uFEFFfoo\nx"
@@ -300,7 +292,6 @@ describe("createReportTranslator", () => {
                     endLine: 1,
                     endColumn: 4,
                     nodeType: "ExpressionStatement",
-                    source: "foo",
                     fix: {
                         range: [-1, 5],
                         text: "foo\nx"
@@ -339,7 +330,6 @@ describe("createReportTranslator", () => {
                     line: 42,
                     column: 24,
                     nodeType: "ExpressionStatement",
-                    source: "",
                     fix: {
                         range: [1, 1],
                         text: ""
@@ -360,8 +350,7 @@ describe("createReportTranslator", () => {
                     message: "hello ExpressionStatement",
                     nodeType: "ExpressionStatement",
                     line: 1,
-                    column: 4,
-                    source: "foo"
+                    column: 4
                 }
             );
         });
@@ -375,8 +364,7 @@ describe("createReportTranslator", () => {
                     message: "hello ExpressionStatement",
                     nodeType: "ExpressionStatement",
                     line: 1,
-                    column: 4,
-                    source: "foo"
+                    column: 4
                 }
             );
         });
@@ -462,8 +450,7 @@ describe("createReportTranslator", () => {
                     message: "hello world",
                     nodeType: "ExpressionStatement",
                     line: 42,
-                    column: 14,
-                    source: ""
+                    column: 14
                 }
             );
         });
@@ -477,8 +464,7 @@ describe("createReportTranslator", () => {
                     message: "hello world",
                     nodeType: "ExpressionStatement",
                     line: 42,
-                    column: 14,
-                    source: ""
+                    column: 14
                 }
             );
         });
@@ -494,8 +480,7 @@ describe("createReportTranslator", () => {
                     line: 1,
                     column: 1,
                     endLine: 1,
-                    endColumn: 4,
-                    source: "foo"
+                    endColumn: 4
                 }
             );
         });
@@ -511,8 +496,7 @@ describe("createReportTranslator", () => {
                     line: 1,
                     column: 1,
                     endLine: 1,
-                    endColumn: 4,
-                    source: "foo"
+                    endColumn: 4
                 }
             );
         });
@@ -526,8 +510,7 @@ describe("createReportTranslator", () => {
                     message: "hello world",
                     nodeType: null,
                     line: 1,
-                    column: 1,
-                    source: "foo"
+                    column: 1
                 }
             );
         });
@@ -543,8 +526,7 @@ describe("createReportTranslator", () => {
                     line: 1,
                     column: 1,
                     endLine: 1,
-                    endColumn: 4,
-                    source: "foo"
+                    endColumn: 4
                 }
             );
         });
@@ -563,7 +545,6 @@ describe("createReportTranslator", () => {
                     column: 1,
                     endLine: 1,
                     endColumn: 4,
-                    source: "foo",
                     fix: { range: [1, 1], text: "" }
                 }
             );
@@ -589,8 +570,7 @@ describe("createReportTranslator", () => {
                     message: "hello world",
                     nodeType: null,
                     line: 1,
-                    column: 2,
-                    source: "foo"
+                    column: 2
                 }
             );
         });
@@ -604,8 +584,7 @@ describe("createReportTranslator", () => {
                     message: "hello world",
                     nodeType: null,
                     line: 1,
-                    column: 2,
-                    source: "foo"
+                    column: 2
                 }
             );
         });

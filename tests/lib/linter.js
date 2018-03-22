@@ -1627,7 +1627,6 @@ describe("Linter", () => {
                         column: 1,
                         endLine: 1,
                         endColumn: 25,
-                        source: null,
                         nodeType: null
                     }
                 ]
@@ -1646,7 +1645,6 @@ describe("Linter", () => {
                         column: 1,
                         endLine: 1,
                         endColumn: 63,
-                        source: null,
                         nodeType: null
                     }
                 ]
@@ -2703,7 +2701,6 @@ describe("Linter", () => {
             assert.strictEqual(messages.length, 1);
             assert.strictEqual(messages[0].severity, 2);
             assert.isNull(messages[0].ruleId);
-            assert.strictEqual(messages[0].source, BROKEN_TEST_CODE);
             assert.strictEqual(messages[0].line, 1);
             assert.strictEqual(messages[0].column, 4);
             assert.isTrue(messages[0].fatal);
@@ -2721,7 +2718,6 @@ describe("Linter", () => {
 
             assert.strictEqual(messages.length, 1);
             assert.strictEqual(messages[0].severity, 2);
-            assert.strictEqual(messages[0].source, inValidCode[1]);
             assert.isTrue(messages[0].fatal);
             assert.match(messages[0].message, /^Parsing error:/);
         });
@@ -2773,7 +2769,6 @@ describe("Linter", () => {
                     line: 1,
                     column: 1,
                     severity: 1,
-                    source: "var answer = 6 * 7;",
                     nodeType: null
                 }
             );
@@ -3085,7 +3080,6 @@ describe("Linter", () => {
                         line: 1,
                         column: 1,
                         severity: 2,
-                        source: null,
                         nodeType: null
                     }
                 ]
@@ -4228,7 +4222,6 @@ describe("Linter", () => {
 
                 assert.strictEqual(messages.length, 1);
                 assert.strictEqual(messages[0].severity, 2);
-                assert.isNull(messages[0].source);
                 assert.strictEqual(messages[0].message, errorPrefix + require(parser).expectedError);
             });
 
