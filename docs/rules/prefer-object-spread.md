@@ -2,8 +2,6 @@
 
 When Object.assign is called using an object literal the first argument, this rule requires using the object spread syntax instead. This rule also warns on cases where an `Object.assign` call is made using a single argument that is an object literal, in this case, the `Object.assign` call is not needed.
 
-**Please note:** This rule can only be used when using an `ecmaVersion` of 2018 or higher, 9 or higher, or when using an `ecmaVersion` of 2015-2017 or 5-8 with the `experimentalObjectRestSpread` parser option enabled.
-
 ## Rule Details
 
 The following patterns are considered errors:

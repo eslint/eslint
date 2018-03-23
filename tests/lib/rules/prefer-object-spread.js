@@ -11,14 +11,12 @@ const rule = require("../../../lib/rules/prefer-object-spread");
 const RuleTester = require("../../../lib/testers/rule-tester");
 
 const parserOptions = {
-    ecmaVersion: 6,
+    ecmaVersion: 2018,
     ecmaFeatures: {
         experimentalObjectRestSpread: true
     }
 };
 
-const defaultErrorMessage = "Use an object spread instead of `Object.assign()` eg: `{ ...foo }`";
-const useObjLiteralErrorMessage = "Use an object literal instead of `Object.assign`.";
 const ruleTester = new RuleTester();
 
 ruleTester.run("prefer-object-spread", rule, {
@@ -43,47 +41,47 @@ ruleTester.run("prefer-object-spread", rule, {
             output: "{...foo}",
             errors: [
                 {
-                    message: defaultErrorMessage,
+                    messageId: "useSpreadMessage",
                     type: "CallExpression"
                 }
             ]
         },
         {
             code: "Object.assign({}, { foo: 'bar' })",
-            output: "{foo: 'bar'}",
+            output: "{...{ foo: 'bar' }}",
             errors: [
                 {
-                    message: defaultErrorMessage,
+                    messageId: "useSpreadMessage",
                     type: "CallExpression"
                 }
             ]
         },
         {
             code: "Object.assign({}, baz, { foo: 'bar' })",
-            output: "{...baz, foo: 'bar'}",
+            output: "{...baz,...{ foo: 'bar' }}",
             errors: [
                 {
-                    message: defaultErrorMessage,
+                    messageId: "useSpreadMessage",
                     type: "CallExpression"
                 }
             ]
         },
         {
             code: "Object.assign({}, { foo: 'bar', baz: 'foo' })",
-            output: "{foo: 'bar', baz: 'foo'}",
+            output: "{...{ foo: 'bar', baz: 'foo' }}",
             errors: [
                 {
-                    message: defaultErrorMessage,
+                    messageId: "useSpreadMessage",
                     type: "CallExpression"
                 }
             ]
         },
         {
             code: "Object.assign({ foo: 'bar' }, baz)",
-            output: "{foo: 'bar', ...baz}",
+            output: "{ foo: 'bar' ,...baz}",
             errors: [
                 {
-                    message: defaultErrorMessage,
+                    messageId: "useSpreadMessage",
                     type: "CallExpression"
                 }
             ]
@@ -92,11 +90,11 @@ ruleTester.run("prefer-object-spread", rule, {
         // Many args
         {
             code: "Object.assign({ foo: 'bar' }, cats, dogs, trees, birds)",
-            output: "{foo: 'bar', ...cats, ...dogs, ...trees, ...birds}",
+            output: "{ foo: 'bar' ,...cats,...dogs,...trees,...birds}",
             parserOptions,
             errors: [
                 {
-                    message: defaultErrorMessage,
+                    messageId: "useSpreadMessage",
                     type: "CallExpression"
                 }
             ]
@@ -106,15 +104,15 @@ ruleTester.run("prefer-object-spread", rule, {
         {
             code:
                 "Object.assign({ foo: 'bar' }, Object.assign({ bar: 'foo' }, baz))",
-            output: "{foo: 'bar', bar: 'foo', ...baz}",
+            output: "{ foo: 'bar' ,...Object.assign({ bar: 'foo' }, baz)}",
             parserOptions,
             errors: [
                 {
-                    message: defaultErrorMessage,
+                    messageId: "useSpreadMessage",
                     type: "CallExpression"
                 },
                 {
-                    message: defaultErrorMessage,
+                    messageId: "useSpreadMessage",
                     type: "CallExpression"
                 }
             ]
@@ -122,19 +120,19 @@ ruleTester.run("prefer-object-spread", rule, {
         {
             code:
                 "Object.assign({ foo: 'bar' }, Object.assign({ bar: 'foo' }, Object.assign({}, { superNested: 'butwhy' })))",
-            output: "{foo: 'bar', bar: 'foo', superNested: 'butwhy'}",
+            output: "{ foo: 'bar' ,...Object.assign({ bar: 'foo' }, Object.assign({}, { superNested: 'butwhy' }))}",
             parserOptions,
             errors: [
                 {
-                    message: defaultErrorMessage,
+                    messageId: "useSpreadMessage",
                     type: "CallExpression"
                 },
                 {
-                    message: defaultErrorMessage,
+                    messageId: "useSpreadMessage",
                     type: "CallExpression"
                 },
                 {
-                    message: defaultErrorMessage,
+                    messageId: "useSpreadMessage",
                     type: "CallExpression"
                 }
             ]
@@ -143,11 +141,11 @@ ruleTester.run("prefer-object-spread", rule, {
         // Mix spread in argument
         {
             code: "Object.assign({ foo: 'bar', ...bar }, baz)",
-            output: "{foo: 'bar', ...bar, ...baz}",
+            output: "{ foo: 'bar', ...bar ,...baz}",
             parserOptions,
             errors: [
                 {
-                    message: defaultErrorMessage,
+                    messageId: "useSpreadMessage",
                     type: "CallExpression"
                 }
             ]
@@ -156,11 +154,11 @@ ruleTester.run("prefer-object-spread", rule, {
         // Object shorthand
         {
             code: "Object.assign({}, { foo, bar, baz })",
-            output: "{foo, bar, baz}",
+            output: "{...{ foo, bar, baz }}",
             parserOptions,
             errors: [
                 {
-                    message: defaultErrorMessage,
+                    messageId: "useSpreadMessage",
                     type: "CallExpression"
                 }
             ]
@@ -169,11 +167,11 @@ ruleTester.run("prefer-object-spread", rule, {
         // Objects with computed properties
         {
             code: "Object.assign({}, { [bar]: 'foo' })",
-            output: "{[bar]: 'foo'}",
+            output: "{...{ [bar]: 'foo' }}",
             parserOptions,
             errors: [
                 {
-                    message: defaultErrorMessage,
+                    messageId: "useSpreadMessage",
                     type: "CallExpression"
                 }
             ]
@@ -182,11 +180,60 @@ ruleTester.run("prefer-object-spread", rule, {
         // Objects with spread properties
         {
             code: "Object.assign({ ...bar }, { ...baz })",
-            output: "{...bar, ...baz}",
+            output: "{ ...bar ,...{ ...baz }}",
             parserOptions,
             errors: [
                 {
-                    message: defaultErrorMessage,
+                    messageId: "useSpreadMessage",
+                    type: "CallExpression"
+                }
+            ]
+        },
+
+        // Multiline objects
+        {
+            code: `Object.assign({ ...bar }, {
+                // this is a bar
+                foo: 'bar',
+                baz: 'cats'
+            })`,
+            output: `{ ...bar ,...{
+                // this is a bar
+                foo: 'bar',
+                baz: 'cats'
+            }}`,
+            parserOptions,
+            errors: [
+                {
+                    messageId: "useSpreadMessage",
+                    type: "CallExpression"
+                }
+            ]
+        },
+
+        {
+            code: `Object.assign({
+                boo: 'lol',
+                // I'm a comment
+                dog: 'cat'
+             }, {
+                // this is a bar
+                foo: 'bar',
+                baz: 'cats'
+            })`,
+            output: `{
+                boo: 'lol',
+                // I'm a comment
+                dog: 'cat'
+             ,...{
+                // this is a bar
+                foo: 'bar',
+                baz: 'cats'
+            }}`,
+            parserOptions,
+            errors: [
+                {
+                    messageId: "useSpreadMessage",
                     type: "CallExpression"
                 }
             ]
@@ -202,7 +249,7 @@ ruleTester.run("prefer-object-spread", rule, {
             output: "{}",
             errors: [
                 {
-                    message: useObjLiteralErrorMessage,
+                    messageId: "useLiteralMessage",
                     type: "CallExpression"
                 }
             ]
@@ -212,7 +259,7 @@ ruleTester.run("prefer-object-spread", rule, {
             output: "{ foo: bar }",
             errors: [
                 {
-                    message: useObjLiteralErrorMessage,
+                    messageId: "useLiteralMessage",
                     type: "CallExpression"
                 }
             ]
