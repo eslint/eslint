@@ -150,7 +150,7 @@ console.log(secondVar);
 
 The `args` option has three settings:
 
-* `after-used` - only the last argument must be used. This allows you, for instance, to have two named parameters to a function and as long as you use the second argument, ESLint will not warn you about the first. This is the default setting.
+* `after-used` - unused arguments that occur before the last used argument will not be checked, but all other arguments (including after the last used argument) will be checked.
 * `all` - all named arguments must be used.
 * `none` - do not check arguments.
 
@@ -161,9 +161,10 @@ Examples of **incorrect** code for the default `{ "args": "after-used" }` option
 ```js
 /*eslint no-unused-vars: ["error", { "args": "after-used" }]*/
 
-// 1 error
+// 2 errors, for the parameters after the last used parameter (bar)
 // "baz" is defined but never used
-(function(foo, bar, baz) {
+// "qux" is defined but never used
+(function(foo, bar, baz, qux) {
     return bar;
 })();
 ```
@@ -173,8 +174,8 @@ Examples of **correct** code for the default `{ "args": "after-used" }` option:
 ```js
 /*eslint no-unused-vars: ["error", {"args": "after-used"}]*/
 
-(function(foo, bar, baz) {
-    return baz;
+(function(foo, bar, baz, qux) {
+    return qux;
 })();
 ```
 
