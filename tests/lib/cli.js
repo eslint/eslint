@@ -121,7 +121,7 @@ describe("cli", () => {
             const filePath = getFixturePath("files");
             const result = cli.execute(`--blah --another ${filePath}`);
 
-            assert.strictEqual(result, 1);
+            assert.strictEqual(result, 2);
         });
 
     });
@@ -245,7 +245,7 @@ describe("cli", () => {
             const filePath = getFixturePath("passing.js");
             const exit = cli.execute(`-f fakeformatter ${filePath}`);
 
-            assert.strictEqual(exit, 1);
+            assert.strictEqual(exit, 2);
         });
     });
 
@@ -265,14 +265,14 @@ describe("cli", () => {
             const filePath = getFixturePath("passing.js");
             const exit = cli.execute(`-f ${formatterPath} ${filePath}`);
 
-            assert.strictEqual(exit, 1);
+            assert.strictEqual(exit, 2);
         });
     });
 
     describe("when executing a file with a lint error", () => {
         it("should exit with error", () => {
             const filePath = getFixturePath("undef.js");
-            const code = `--no-ignore --config --rule no-undef:2 ${filePath}`;
+            const code = `--no-ignore --rule no-undef:2 ${filePath}`;
 
             const exit = cli.execute(code);
 
@@ -308,7 +308,7 @@ describe("cli", () => {
 
     describe("when executing with version flag", () => {
         it("should print out current version", () => {
-            cli.execute("-v");
+            assert.strictEqual(cli.execute("-v"), 0);
 
             assert.strictEqual(log.info.callCount, 1);
         });
@@ -316,7 +316,7 @@ describe("cli", () => {
 
     describe("when executing with help flag", () => {
         it("should print out help", () => {
-            cli.execute("-h");
+            assert.strictEqual(cli.execute("-h"), 0);
 
             assert.strictEqual(log.info.callCount, 1);
         });
@@ -403,7 +403,7 @@ describe("cli", () => {
             assert.throws(() => {
                 const exit = cli.execute(code);
 
-                assert.strictEqual(exit, 1);
+                assert.strictEqual(exit, 2);
             }, /Error while loading rule 'custom-rule': Cannot read property/);
         });
 
@@ -559,7 +559,7 @@ describe("cli", () => {
 
             const exit = cli.execute(code);
 
-            assert.strictEqual(exit, 1);
+            assert.strictEqual(exit, 2);
             assert.isTrue(log.info.notCalled);
             assert.isTrue(log.error.calledOnce);
         });
@@ -572,7 +572,7 @@ describe("cli", () => {
 
             const exit = cli.execute(code);
 
-            assert.strictEqual(exit, 1);
+            assert.strictEqual(exit, 2);
             assert.isTrue(log.info.notCalled);
             assert.isTrue(log.error.calledOnce);
         });
@@ -611,7 +611,7 @@ describe("cli", () => {
             const filePath = getFixturePath("passing.js");
             const exit = cli.execute(`--no-ignore --parser-options test111 ${filePath}`);
 
-            assert.strictEqual(exit, 1);
+            assert.strictEqual(exit, 2);
         });
 
         it("should exit with no error if parser is valid", () => {
@@ -862,7 +862,7 @@ describe("cli", () => {
 
             const exitCode = localCLI.execute("--fix .", "foo = bar;");
 
-            assert.strictEqual(exitCode, 1);
+            assert.strictEqual(exitCode, 2);
         });
 
     });
@@ -1020,7 +1020,7 @@ describe("cli", () => {
 
             const exitCode = localCLI.execute("--fix --fix-dry-run .", "foo = bar;");
 
-            assert.strictEqual(exitCode, 1);
+            assert.strictEqual(exitCode, 2);
         });
     });
 
@@ -1042,7 +1042,7 @@ describe("cli", () => {
 
             assert.isTrue(log.info.notCalled);
             assert.isTrue(log.error.calledOnce);
-            assert.strictEqual(exitCode, 1);
+            assert.strictEqual(exitCode, 2);
         });
 
         it("should error out when executing on text", () => {
@@ -1050,7 +1050,7 @@ describe("cli", () => {
 
             assert.isTrue(log.info.notCalled);
             assert.isTrue(log.error.calledOnce);
-            assert.strictEqual(exitCode, 1);
+            assert.strictEqual(exitCode, 2);
         });
     });
 

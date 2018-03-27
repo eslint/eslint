@@ -24,19 +24,21 @@ const parser = require("../../fixtures/fixture-parser");
 
 /**
  * Create error message object for failure cases with a single 'found' indentation type
- * @param {string} indentType indent type of string or tab
- * @param {array} errors error info
+ * @param {string} providedIndentType indent type of string or tab
+ * @param {array} providedErrors error info
  * @returns {Object} returns the error messages collection
  * @private
  */
-function expectedErrors(indentType, errors) {
-    if (Array.isArray(indentType)) {
-        errors = indentType;
-        indentType = "space";
-    }
+function expectedErrors(providedIndentType, providedErrors) {
+    let indentType;
+    let errors;
 
-    if (!errors[0].length) {
-        errors = [errors];
+    if (Array.isArray(providedIndentType)) {
+        errors = Array.isArray(providedIndentType[0]) ? providedIndentType : [providedIndentType];
+        indentType = "space";
+    } else {
+        errors = Array.isArray(providedErrors[0]) ? providedErrors : [providedErrors];
+        indentType = providedIndentType;
     }
 
     return errors.map(err => {
@@ -2302,6 +2304,17 @@ ruleTester.run("indent", rule, {
             `,
             options: [4]
         },
+        unIndent`
+            foo &&
+                !bar(
+                )
+        `,
+        unIndent`
+            foo &&
+                ![].map(() => {
+                    bar();
+                })
+        `,
         {
             code: unIndent`
                 foo =
@@ -4607,6 +4620,16 @@ ruleTester.run("indent", rule, {
                     );
                 }
             `,
+        unIndent`
+            <div>foo
+                <div>bar</div>
+            </div>
+        `,
+        unIndent`
+            <small>Foo bar&nbsp;
+                <a>baz qux</a>.
+            </small>
+        `,
         {
             code: unIndent`
                 a(b
@@ -4693,6 +4716,15 @@ ruleTester.run("indent", rule, {
                             bar="1" />
             `,
             options: [4, { ignoredNodes: ["JSXOpeningElement"] }]
+        },
+        {
+            code: unIndent`
+                foo &&
+                <Bar
+                >
+                </Bar>
+            `,
+            options: [4, { ignoredNodes: ["JSXElement", "JSXOpeningElement"] }]
         },
         {
             code: unIndent`
@@ -7532,6 +7564,34 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                foo &&
+                    !bar(
+                )
+            `,
+            output: unIndent`
+                foo &&
+                    !bar(
+                    )
+            `,
+            errors: expectedErrors([3, 4, 0, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                foo &&
+                    ![].map(() => {
+                    bar();
+                })
+            `,
+            output: unIndent`
+                foo &&
+                    ![].map(() => {
+                        bar();
+                    })
+            `,
+            errors: expectedErrors([[3, 8, 4, "Identifier"], [4, 4, 0, "Punctuator"]])
+        },
+        {
+            code: unIndent`
                 [
                 ] || [
                     ]
@@ -9126,6 +9186,32 @@ ruleTester.run("indent", rule, {
                 </div>
             `,
             errors: expectedErrors([3, 8, 6, "Block"])
+        },
+        {
+            code: unIndent`
+                <div>foo
+                <div>bar</div>
+                </div>
+            `,
+            output: unIndent`
+                <div>foo
+                    <div>bar</div>
+                </div>
+            `,
+            errors: expectedErrors([2, 4, 0, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                <small>Foo bar&nbsp;
+                <a>baz qux</a>.
+                </small>
+            `,
+            output: unIndent`
+                <small>Foo bar&nbsp;
+                    <a>baz qux</a>.
+                </small>
+            `,
+            errors: expectedErrors([2, 4, 0, "Punctuator"])
         },
         {
             code: unIndent`

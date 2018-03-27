@@ -113,57 +113,57 @@ ruleTester.run("block-scoped-var", rule, {
         { code: "(function () { foo(); })(); function foo() {}", parserOptions: { sourceType: "module" } }
     ],
     invalid: [
-        { code: "function f(){ x; { var x; } }", errors: [{ message: "'x' used outside of binding context.", type: "Identifier" }] },
-        { code: "function f(){ { var x; } x; }", errors: [{ message: "'x' used outside of binding context.", type: "Identifier" }] },
-        { code: "function f() { var a; { var b = 0; } a = b; }", errors: [{ message: "'b' used outside of binding context.", type: "Identifier" }] },
-        { code: "function f() { try { var a = 0; } catch (e) { var b = a; } }", errors: [{ message: "'a' used outside of binding context.", type: "Identifier" }] },
+        { code: "function f(){ x; { var x; } }", errors: [{ messageId: "outOfScope", data: { name: "x" }, type: "Identifier" }] },
+        { code: "function f(){ { var x; } x; }", errors: [{ messageId: "outOfScope", data: { name: "x" }, type: "Identifier" }] },
+        { code: "function f() { var a; { var b = 0; } a = b; }", errors: [{ messageId: "outOfScope", data: { name: "b" }, type: "Identifier" }] },
+        { code: "function f() { try { var a = 0; } catch (e) { var b = a; } }", errors: [{ messageId: "outOfScope", data: { name: "a" }, type: "Identifier" }] },
         {
             code: "function a() { for(var b in {}) { var c = b; } c; }",
-            errors: [{ message: "'c' used outside of binding context.", type: "Identifier" }]
+            errors: [{ messageId: "outOfScope", data: { name: "c" }, type: "Identifier" }]
         },
         {
             code: "function a() { for(var b of {}) { var c = b; } c; }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'c' used outside of binding context.", type: "Identifier" }]
+            errors: [{ messageId: "outOfScope", data: { name: "c" }, type: "Identifier" }]
         },
         {
             code: "function f(){ switch(2) { case 1: var b = 2; b; break; default: b; break;} b; }",
-            errors: [{ message: "'b' used outside of binding context.", type: "Identifier" }]
+            errors: [{ messageId: "outOfScope", data: { name: "b" }, type: "Identifier" }]
         },
         {
             code: "for (var a = 0;;) {} a;",
-            errors: [{ message: "'a' used outside of binding context.", type: "Identifier" }]
+            errors: [{ messageId: "outOfScope", data: { name: "a" }, type: "Identifier" }]
         },
         {
             code: "for (var a in []) {} a;",
-            errors: [{ message: "'a' used outside of binding context.", type: "Identifier" }]
+            errors: [{ messageId: "outOfScope", data: { name: "a" }, type: "Identifier" }]
         },
         {
             code: "for (var a of []) {} a;",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'a' used outside of binding context.", type: "Identifier" }]
+            errors: [{ messageId: "outOfScope", data: { name: "a" }, type: "Identifier" }]
         },
         {
             code: "{ var a = 0; } a;",
             parserOptions: { sourceType: "module" },
-            errors: [{ message: "'a' used outside of binding context.", type: "Identifier" }]
+            errors: [{ messageId: "outOfScope", data: { name: "a" }, type: "Identifier" }]
         },
         {
             code: "if (true) { var a; } a;",
-            errors: [{ message: "'a' used outside of binding context.", type: "Identifier" }]
+            errors: [{ messageId: "outOfScope", data: { name: "a" }, type: "Identifier" }]
         },
         {
             code: "if (true) { var a = 1; } else { var a = 2; }",
             errors: [
-                { message: "'a' used outside of binding context.", type: "Identifier" },
-                { message: "'a' used outside of binding context.", type: "Identifier" }
+                { messageId: "outOfScope", data: { name: "a" }, type: "Identifier" },
+                { messageId: "outOfScope", data: { name: "a" }, type: "Identifier" }
             ]
         },
         {
             code: "for (var i = 0;;) {} for(var i = 0;;) {}",
             errors: [
-                { message: "'i' used outside of binding context.", type: "Identifier" },
-                { message: "'i' used outside of binding context.", type: "Identifier" }
+                { messageId: "outOfScope", data: { name: "i" }, type: "Identifier" },
+                { messageId: "outOfScope", data: { name: "i" }, type: "Identifier" }
             ]
         }
     ]

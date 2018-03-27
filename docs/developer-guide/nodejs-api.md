@@ -496,7 +496,7 @@ If the operation ends with a parsing error, you will get a single message for th
             warningCount: 0,
             fixableErrorCount: 0,
             fixableWarningCount: 0,
-            source: "fucntion foo() {}"
+            source: "function foo() {}"
         }
     ],
     errorCount: 1,
@@ -515,8 +515,6 @@ The top-level report object has a `results` array containing all linting results
 * `output` - The source code for the given file with as many fixes applied as possible, so you can use that to rewrite the files if necessary. This property is omitted if no fix is available.
 
 The top-level report object also has `errorCount` and `warningCount` which give the exact number of errors and warnings respectively on all the files.
-
-Report message objects have a deprecated `source` property. This property **will be removed** from the linting messages returned in `messages` in an upcoming breaking release. If you depend on this property, you should now use the top-level `source` or `output` properties instead.
 
 Once you get a report object, it's up to you to determine how to output the results. Fixes will not be automatically applied to the files, even if you set `fix: true` when constructing the `CLIEngine` instance. To apply fixes to the files, call [`outputFixes`](#cliengineoutputfixes).
 

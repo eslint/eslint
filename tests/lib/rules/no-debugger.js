@@ -26,12 +26,12 @@ ruleTester.run("no-debugger", rule, {
         {
             code: "debugger",
             output: "",
-            errors: [{ message: "Unexpected 'debugger' statement.", type: "DebuggerStatement" }]
+            errors: [{ messageId: "unexpected", type: "DebuggerStatement" }]
         },
         {
             code: "if (foo) debugger",
             output: null,
-            errors: [{ message: "Unexpected 'debugger' statement.", type: "DebuggerStatement" }]
+            errors: [{ messageId: "unexpected", type: "DebuggerStatement" }]
         }
     ]
 });

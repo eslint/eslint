@@ -32,7 +32,6 @@ Parser options are set in your `.eslintrc.*` file by using the `parserOptions` p
     * `globalReturn` - allow `return` statements in the global scope
     * `impliedStrict` - enable global [strict mode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode) (if `ecmaVersion` is 5 or greater)
     * `jsx` - enable [JSX](https://facebook.github.io/jsx/)
-    * `experimentalObjectRestSpread` - enable support for the experimental [object rest/spread properties](https://github.com/tc39/proposal-object-rest-spread) (**IMPORTANT:** This is an experimental feature that may change significantly in the future. It's recommended that you do *not* write rules relying on this functionality unless you are willing to incur maintenance cost when it changes.)
 
 Here's an example `.eslintrc.json` file:
 
@@ -52,6 +51,10 @@ Here's an example `.eslintrc.json` file:
 ```
 
 Setting parser options helps ESLint determine what is a parsing error. All language options are `false` by default.
+
+### Deprecated
+
+* `ecmaFeatures.experimentalObjectRestSpread` - enable support for the experimental [object rest/spread properties](https://github.com/tc39/proposal-object-rest-spread). This syntax has been supported in `ecmaVersion: 2018`. This option will be removed in the future.
 
 ## Specifying Parser
 
@@ -394,13 +397,18 @@ You can also disable or enable specific rules for an entire file:
 alert('foo');
 ```
 
-To disable all rules on a specific line, use a line comment in one of the following formats:
+To disable all rules on a specific line, use a line or block comment in one of the following formats:
 
 ```js
 alert('foo'); // eslint-disable-line
 
 // eslint-disable-next-line
 alert('foo');
+
+/* eslint-disable-next-line */
+alert('foo');
+
+alert('foo'); /* eslint-disable-line */
 ```
 
 To disable a specific rule on a specific line:
@@ -409,6 +417,11 @@ To disable a specific rule on a specific line:
 alert('foo'); // eslint-disable-line no-alert
 
 // eslint-disable-next-line no-alert
+alert('foo');
+
+alert('foo'); /* eslint-disable-line no-alert */
+
+/* eslint-disable-next-line no-alert */
 alert('foo');
 ```
 
@@ -419,12 +432,18 @@ alert('foo'); // eslint-disable-line no-alert, quotes, semi
 
 // eslint-disable-next-line no-alert, quotes, semi
 alert('foo');
+
+alert('foo'); /* eslint-disable-line no-alert, quotes, semi */
+
+/* eslint-disable-next-line no-alert, quotes, semi */
+alert('foo');
 ```
 
 All of the above methods also work for plugin rules. For example, to disable `eslint-plugin-example`'s `rule-name` rule, combine the plugin's name (`example`) and the rule's name (`rule-name`) into `example/rule-name`:
 
 ```js
 foo(); // eslint-disable-line example/rule-name
+foo(); /* eslint-disable-line example/rule-name */
 ```
 
 **Note:** Comments that disable warnings for a portion of a file tell ESLint not to report rule violations for the disabled code. ESLint still parses the entire file, however, so disabled code still needs to be syntactically valid JavaScript.
@@ -814,15 +833,17 @@ Globs are matched using [node-ignore](https://github.com/kaelzhang/node-ignore),
 
 In addition to any patterns in a `.eslintignore` file, ESLint always ignores files in `/node_modules/*` and `/bower_components/*`.
 
-For example, placing the following `.eslintignore` file in the current working directory will ignore all of `node_modules`, `bower_components` and anything in the `build/` directory except `build/index.js`:
+For example, placing the following `.eslintignore` file in the current working directory will ignore all of `node_modules`, `bower_components` in the project root and anything in the `build/` directory except `build/index.js`:
 
 ```text
-# /node_modules/* and /bower_components/* ignored by default
+# /node_modules/* and /bower_components/* in the project root are ignored by default
 
 # Ignore built files except build/index.js
 build/*
 !build/index.js
 ```
+
+**Important**: Note that `node_modules` directories in, for example, a `packages` directory in a mono repo are *not* ignored by default and need to be added to `.eslintignore` explicitly.
 
 ### Using an Alternate File
 

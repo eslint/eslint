@@ -345,9 +345,10 @@ function getFirstVersionOfFile(filePath) {
 
     tags = splitCommandResultToLines(tags);
     return tags.reduce((list, version) => {
-        version = semver.valid(version.trim());
-        if (version) {
-            list.push(version);
+        const validatedVersion = semver.valid(version.trim());
+
+        if (validatedVersion) {
+            list.push(validatedVersion);
         }
         return list;
     }, []).sort(semver.compare)[0];
@@ -567,6 +568,8 @@ target.test = function() {
     target.checkRuleFiles();
     let errors = 0,
         lastReturn;
+
+    echo("Running unit tests");
 
     lastReturn = exec(`${getBinFile("istanbul")} cover ${MOCHA} -- -R progress -t ${MOCHA_TIMEOUT} -c ${TEST_FILES}`);
     if (lastReturn.code !== 0) {

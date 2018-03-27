@@ -234,6 +234,34 @@ describe("RuleTester", () => {
         }, /Output is incorrect/);
     });
 
+    it("should use strict equality to compare output", () => {
+        const replaceProgramWith5Rule = {
+            create: context => ({
+                Program(node) {
+                    context.report({ node, message: "bad", fix: fixer => fixer.replaceText(node, "5") });
+                }
+            })
+        };
+
+        assert.doesNotThrow(() => {
+            ruleTester.run("foo", replaceProgramWith5Rule, {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", output: "5", errors: 1 }
+                ]
+            });
+        });
+
+        assert.throws(() => {
+            ruleTester.run("foo", replaceProgramWith5Rule, {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", output: 5, errors: 1 }
+                ]
+            });
+        }, /Output is incorrect/);
+    });
+
     it("should throw an error when the expected output doesn't match and errors is just a number", () => {
 
         assert.throws(() => {
@@ -828,6 +856,81 @@ describe("RuleTester", () => {
                 invalid: []
             });
         }, "Test Scenarios for rule foo is invalid:\nCould not find any valid test scenarios");
+    });
+
+    // Nominal message/messageId use cases
+    it("should assert match if message provided in both test and result.", () => {
+        assert.throws(() => {
+            ruleTester.run("foo", require("../../fixtures/testers/rule-tester/messageId").withMessageOnly, {
+                valid: [],
+                invalid: [{ code: "foo", errors: [{ message: "something" }] }]
+            });
+        }, /Avoid using variables named/);
+
+        assert.doesNotThrow(() => {
+            ruleTester.run("foo", require("../../fixtures/testers/rule-tester/messageId").withMessageOnly, {
+                valid: [],
+                invalid: [{ code: "foo", errors: [{ message: "Avoid using variables named 'foo'." }] }]
+            });
+        });
+    });
+
+    it("should assert match between messageId if provided in both test and result.", () => {
+        assert.throws(() => {
+            ruleTester.run("foo", require("../../fixtures/testers/rule-tester/messageId").withMetaWithData, {
+                valid: [],
+                invalid: [{ code: "foo", errors: [{ messageId: "unused" }] }]
+            });
+        }, "messageId 'avoidFoo' does not match expected messageId 'unused'.");
+
+        assert.doesNotThrow(() => {
+            ruleTester.run("foo", require("../../fixtures/testers/rule-tester/messageId").withMetaWithData, {
+                valid: [],
+                invalid: [{ code: "foo", errors: [{ messageId: "avoidFoo" }] }]
+            });
+        });
+    });
+    it("should assert match between resulting message output if messageId and data provided in both test and result", () => {
+        assert.throws(() => {
+            ruleTester.run("foo", require("../../fixtures/testers/rule-tester/messageId").withMetaWithData, {
+                valid: [],
+                invalid: [{ code: "foo", errors: [{ messageId: "avoidFoo", data: { name: "notFoo" } }] }]
+            });
+        }, "Hydrated message \"Avoid using variables named 'notFoo'.\" does not match \"Avoid using variables named 'foo'.\"");
+    });
+
+    // messageId/message misconfiguration cases
+    it("should throw if user tests for both message and messageId", () => {
+        assert.throws(() => {
+            ruleTester.run("foo", require("../../fixtures/testers/rule-tester/messageId").withMetaWithData, {
+                valid: [],
+                invalid: [{ code: "foo", errors: [{ message: "something", messageId: "avoidFoo" }] }]
+            });
+        }, "Error should not specify both 'message' and a 'messageId'.");
+    });
+    it("should throw if user tests for messageId but the rule doesn't use the messageId meta syntax.", () => {
+        assert.throws(() => {
+            ruleTester.run("foo", require("../../fixtures/testers/rule-tester/messageId").withMessageOnly, {
+                valid: [],
+                invalid: [{ code: "foo", errors: [{ messageId: "avoidFoo" }] }]
+            });
+        }, "Error can not use 'messageId' if rule under test doesn't define 'meta.messages'");
+    });
+    it("should throw if user tests for messageId not listed in the rule's meta syntax.", () => {
+        assert.throws(() => {
+            ruleTester.run("foo", require("../../fixtures/testers/rule-tester/messageId").withMetaWithData, {
+                valid: [],
+                invalid: [{ code: "foo", errors: [{ messageId: "useFoo" }] }]
+            });
+        }, /Invalid messageId 'useFoo'/);
+    });
+    it("should throw if data provided without messageId.", () => {
+        assert.throws(() => {
+            ruleTester.run("foo", require("../../fixtures/testers/rule-tester/messageId").withMetaWithData, {
+                valid: [],
+                invalid: [{ code: "foo", errors: [{ data: "something" }] }]
+            });
+        }, "Error must specify 'messageId' if 'data' is used.");
     });
 
     describe("naming test cases", () => {

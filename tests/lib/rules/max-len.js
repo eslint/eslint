@@ -110,6 +110,11 @@ ruleTester.run("max-len", rule, {
             options: [29, 4, { ignoreStrings: true }]
         },
         {
+            code: "var foo = <div className=\"this is a very long string\"></div>;",
+            options: [29, 4, { ignoreStrings: true }],
+            parserOptions: { ecmaFeatures: { jsx: true } }
+        },
+        {
             code: "var foo = veryLongIdentifier;\nvar bar = `this is a very long string`;",
             options: [29, 4, { ignoreTemplateLiterals: true }],
             parserOptions
@@ -549,6 +554,19 @@ ruleTester.run("max-len", rule, {
                     message: "Line 3 exceeds the maximum line length of 29.",
                     type: "Program",
                     line: 3,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "var foo = <div>this is a very very very long string</div>;",
+            options: [29, 4, { ignoreStrings: true }],
+            parserOptions: { ecmaFeatures: { jsx: true } },
+            errors: [
+                {
+                    message: "Line 1 exceeds the maximum line length of 29.",
+                    type: "Program",
+                    line: 1,
                     column: 1
                 }
             ]

@@ -186,16 +186,6 @@ According to our policy, any minor update may report more errors than the previo
 
 ## Frequently Asked Questions
 
-### How is ESLint different from JSHint?
-
-The most significant difference is that ESLint has pluggable linting rules. That means you can use the rules it comes with, or you can extend it with rules created by others or by yourself!
-
-### How does ESLint performance compare to JSHint?
-
-ESLint is slower than JSHint, usually 2-3x slower on a single file. This is because ESLint uses Espree to construct an AST before it can evaluate your code whereas JSHint evaluates your code as it's being parsed. The speed is also based on the number of rules you enable; the more rules you enable, the slower the process.
-
-Despite being slower, we believe that ESLint is fast enough to replace JSHint without causing significant pain.
-
 ### I heard ESLint is going to replace JSCS?
 
 Yes. Since we are solving the same problems, ESLint and JSCS teams have decided to join forces and work together in the development of ESLint instead of competing with each other. You can read more about this in both [ESLint](https://eslint.org/blog/2016/04/welcoming-jscs-to-eslint) and [JSCS](https://medium.com/@markelog/jscs-end-of-the-line-bc9bf0b3fdb2#.u76sx334n) announcements.
@@ -227,9 +217,9 @@ In all cases, make sure your plugins' peerDependencies have been installed as we
 
 Yes, ESLint natively supports parsing JSX syntax (this must be enabled in [configuration](https://eslint.org/docs/user-guide/configuring)). Please note that supporting JSX syntax *is not* the same as supporting React. React applies specific semantics to JSX syntax that ESLint doesn't recognize. We recommend using [eslint-plugin-react](https://www.npmjs.com/package/eslint-plugin-react) if you are using React and want React semantics.
 
-### What about ECMAScript 6 support?
+### What ECMAScript versions does ESLint support?
 
-ESLint has full support for ECMAScript 6. By default, this support is off. You can enable ECMAScript 6 syntax and global variables through [configuration](https://eslint.org/docs/user-guide/configuring).
+ESLint has full support for ECMAScript 3, 5 (default), 2015, 2016, 2017, and 2018. You can set your desired ECMAScript syntax (and other settings, like global variables or your target environments) through [configuration](https://eslint.org/docs/user-guide/configuring).
 
 ### What about experimental features?
 

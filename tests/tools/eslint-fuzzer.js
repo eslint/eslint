@@ -162,7 +162,6 @@ describe("eslint-fuzzer", function() {
                     ruleId: null,
                     fatal: true,
                     severity: 2,
-                    source: INVALID_SYNTAX,
                     message: `Parsing error: ${expectedSyntaxError.message}`,
                     line: expectedSyntaxError.lineNumber,
                     column: expectedSyntaxError.column
@@ -209,7 +208,6 @@ describe("eslint-fuzzer", function() {
                     ruleId: null,
                     fatal: true,
                     severity: 2,
-                    source: INVALID_SYNTAX,
                     message: `Parsing error: ${expectedSyntaxError.message}`,
                     line: expectedSyntaxError.lineNumber,
                     column: expectedSyntaxError.column

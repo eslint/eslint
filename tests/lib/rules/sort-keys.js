@@ -35,6 +35,7 @@ ruleTester.run("sort-keys", rule, {
 
         // ignore spread properties.
         { code: "var obj = {a:1, ...z, b:1}", options: [], parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } } },
+        { code: "var obj = {a:1, ...z, b:1}", options: [], parserOptions: { ecmaVersion: 2018 } },
 
         // ignore destructuring patterns.
         { code: "let {a, b} = {}", options: [], parserOptions: { ecmaVersion: 6 } },
@@ -163,6 +164,15 @@ ruleTester.run("sort-keys", rule, {
             parserOptions: {
                 ecmaVersion: 6,
                 ecmaFeatures: { experimentalObjectRestSpread: true }
+            },
+            errors: [
+                "Expected object keys to be in ascending order. 'a' should be before 'b'."
+            ]
+        },
+        {
+            code: "var obj = {b:1, ...z, a:1}",
+            parserOptions: {
+                ecmaVersion: 2018
             },
             errors: [
                 "Expected object keys to be in ascending order. 'a' should be before 'b'."

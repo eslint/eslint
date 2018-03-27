@@ -54,7 +54,7 @@ ruleTester.run("arrow-body-style", rule, {
                     line: 1,
                     column: 17,
                     type: "ArrowFunctionExpression",
-                    message: "Expected block statement surrounding arrow body."
+                    messageId: "expectedBlock"
                 }
             ]
         },
@@ -67,7 +67,7 @@ ruleTester.run("arrow-body-style", rule, {
                     line: 1,
                     column: 18,
                     type: "ArrowFunctionExpression",
-                    message: "Expected block statement surrounding arrow body."
+                    messageId: "expectedBlock"
                 }
             ]
         },
@@ -80,7 +80,7 @@ ruleTester.run("arrow-body-style", rule, {
                     line: 1,
                     column: 17,
                     type: "ArrowFunctionExpression",
-                    message: "Unexpected block statement surrounding arrow body; move the returned value immediately after the `=>`."
+                    messageId: "unexpectedSingleBlock"
                 }
             ]
         },
@@ -93,7 +93,7 @@ ruleTester.run("arrow-body-style", rule, {
                     line: 1,
                     column: 17,
                     type: "ArrowFunctionExpression",
-                    message: "Unexpected block statement surrounding arrow body; move the returned value immediately after the `=>`."
+                    messageId: "unexpectedSingleBlock"
                 }
             ]
         },
@@ -106,7 +106,7 @@ ruleTester.run("arrow-body-style", rule, {
                     line: 1,
                     column: 17,
                     type: "ArrowFunctionExpression",
-                    message: "Unexpected block statement surrounding arrow body; move the returned value immediately after the `=>`."
+                    messageId: "unexpectedSingleBlock"
                 }
             ]
         },
@@ -119,7 +119,7 @@ ruleTester.run("arrow-body-style", rule, {
                     line: 1,
                     column: 17,
                     type: "ArrowFunctionExpression",
-                    message: "Unexpected block statement surrounding arrow body; put a value of `undefined` immediately after the `=>`."
+                    messageId: "unexpectedEmptyBlock"
                 }
             ]
         },
@@ -132,7 +132,7 @@ ruleTester.run("arrow-body-style", rule, {
                     line: 1,
                     column: 17,
                     type: "ArrowFunctionExpression",
-                    message: "Unexpected block statement surrounding arrow body; move the returned value immediately after the `=>`."
+                    messageId: "unexpectedSingleBlock"
                 }
             ]
         },
@@ -145,7 +145,7 @@ ruleTester.run("arrow-body-style", rule, {
                     line: 1,
                     column: 17,
                     type: "ArrowFunctionExpression",
-                    message: "Unexpected block statement surrounding arrow body; parenthesize the returned value and move it immediately after the `=>`."
+                    messageId: "unexpectedObjectBlock"
                 }
             ]
         },
@@ -158,7 +158,7 @@ ruleTester.run("arrow-body-style", rule, {
                     line: 1,
                     column: 17,
                     type: "ArrowFunctionExpression",
-                    message: "Unexpected block statement surrounding arrow body; move the returned value immediately after the `=>`."
+                    messageId: "unexpectedSingleBlock"
                 }
             ]
         },
@@ -171,7 +171,7 @@ ruleTester.run("arrow-body-style", rule, {
                     line: 1,
                     column: 17,
                     type: "ArrowFunctionExpression",
-                    message: "Unexpected block statement surrounding arrow body; move the returned value immediately after the `=>`."
+                    messageId: "unexpectedSingleBlock"
                 }
             ]
         },
@@ -184,7 +184,7 @@ ruleTester.run("arrow-body-style", rule, {
                     line: 1,
                     column: 17,
                     type: "ArrowFunctionExpression",
-                    message: "Unexpected block statement surrounding arrow body; move the returned value immediately after the `=>`."
+                    messageId: "unexpectedSingleBlock"
                 }
             ]
         },
@@ -197,7 +197,7 @@ ruleTester.run("arrow-body-style", rule, {
                     line: 1,
                     column: 17,
                     type: "ArrowFunctionExpression",
-                    message: "Unexpected block statement surrounding arrow body; move the returned value immediately after the `=>`."
+                    messageId: "unexpectedSingleBlock"
                 }
             ]
         },
@@ -210,7 +210,7 @@ ruleTester.run("arrow-body-style", rule, {
                     line: 1,
                     column: 17,
                     type: "ArrowFunctionExpression",
-                    message: "Unexpected block statement surrounding arrow body; parenthesize the returned value and move it immediately after the `=>`."
+                    messageId: "unexpectedObjectBlock"
                 }
             ]
         },
@@ -219,7 +219,7 @@ ruleTester.run("arrow-body-style", rule, {
             output: null, // not fixed
             options: ["never"],
             errors: [
-                { line: 1, column: 27, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body." }
+                { line: 1, column: 27, type: "ArrowFunctionExpression", messageId: "unexpectedOtherBlock" }
             ]
         },
         {
@@ -231,7 +231,7 @@ ruleTester.run("arrow-body-style", rule, {
                     line: 1,
                     column: 17,
                     type: "ArrowFunctionExpression",
-                    message: "Unexpected block statement surrounding arrow body; move the returned value immediately after the `=>`."
+                    messageId: "unexpectedSingleBlock"
                 }
             ]
         },
@@ -244,7 +244,7 @@ ruleTester.run("arrow-body-style", rule, {
                     line: 1,
                     column: 17,
                     type: "ArrowFunctionExpression",
-                    message: "Unexpected block statement surrounding arrow body; move the returned value immediately after the `=>`."
+                    messageId: "unexpectedSingleBlock"
                 }
             ]
         },
@@ -257,7 +257,7 @@ ruleTester.run("arrow-body-style", rule, {
                     line: 1,
                     column: 18,
                     type: "ArrowFunctionExpression",
-                    message: "Expected block statement surrounding arrow body."
+                    messageId: "expectedBlock"
                 }
             ]
         },
@@ -270,7 +270,7 @@ ruleTester.run("arrow-body-style", rule, {
                     line: 1,
                     column: 18,
                     type: "ArrowFunctionExpression",
-                    message: "Expected block statement surrounding arrow body."
+                    messageId: "expectedBlock"
                 }
             ]
         },
@@ -283,7 +283,7 @@ ruleTester.run("arrow-body-style", rule, {
                     line: 1,
                     column: 24,
                     type: "ArrowFunctionExpression",
-                    message: "Expected block statement surrounding arrow body."
+                    messageId: "expectedBlock"
                 }
             ]
         },
@@ -296,7 +296,7 @@ ruleTester.run("arrow-body-style", rule, {
             output: null,
             options: ["never"],
             errors: [
-                { line: 1, column: 17, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body; move the returned value immediately after the `=>`." }
+                { line: 1, column: 17, type: "ArrowFunctionExpression", messageId: "unexpectedSingleBlock" }
             ]
         },
         {
@@ -308,7 +308,7 @@ ruleTester.run("arrow-body-style", rule, {
             output: null,
             options: ["never"],
             errors: [
-                { line: 1, column: 17, type: "ArrowFunctionExpression", message: "Unexpected block statement surrounding arrow body; move the returned value immediately after the `=>`." }
+                { line: 1, column: 17, type: "ArrowFunctionExpression", messageId: "unexpectedSingleBlock" }
             ]
         },
         {
@@ -326,7 +326,7 @@ ruleTester.run("arrow-body-style", rule, {
                     line: 1,
                     column: 17,
                     type: "ArrowFunctionExpression",
-                    message: "Unexpected block statement surrounding arrow body; move the returned value immediately after the `=>`."
+                    messageId: "unexpectedSingleBlock"
                 }
             ]
         },
@@ -339,7 +339,7 @@ ruleTester.run("arrow-body-style", rule, {
                     line: 1,
                     column: 50,
                     type: "ArrowFunctionExpression",
-                    message: "Unexpected block statement surrounding arrow body; move the returned value immediately after the `=>`."
+                    messageId: "unexpectedSingleBlock"
                 }
             ]
         },
@@ -352,7 +352,7 @@ ruleTester.run("arrow-body-style", rule, {
                     line: 1,
                     column: 60,
                     type: "ArrowFunctionExpression",
-                    message: "Expected block statement surrounding arrow body."
+                    messageId: "expectedBlock"
                 }
             ]
         },
@@ -364,7 +364,7 @@ ruleTester.run("arrow-body-style", rule, {
                     line: 1,
                     column: 17,
                     type: "ArrowFunctionExpression",
-                    message: "Unexpected block statement surrounding arrow body; move the returned value immediately after the `=>`."
+                    messageId: "unexpectedSingleBlock"
                 }
             ]
         },
@@ -376,7 +376,7 @@ ruleTester.run("arrow-body-style", rule, {
                     line: 1,
                     column: 17,
                     type: "ArrowFunctionExpression",
-                    message: "Unexpected block statement surrounding arrow body; move the returned value immediately after the `=>`."
+                    messageId: "unexpectedSingleBlock"
                 }
             ]
         },
@@ -388,7 +388,7 @@ ruleTester.run("arrow-body-style", rule, {
                     line: 1,
                     column: 17,
                     type: "ArrowFunctionExpression",
-                    message: "Unexpected block statement surrounding arrow body; move the returned value immediately after the `=>`."
+                    messageId: "unexpectedSingleBlock"
                 }
             ]
         },
@@ -408,7 +408,7 @@ ruleTester.run("arrow-body-style", rule, {
                     line: 2,
                     column: 31,
                     type: "ArrowFunctionExpression",
-                    message: "Unexpected block statement surrounding arrow body; move the returned value immediately after the `=>`."
+                    messageId: "unexpectedSingleBlock"
                 }
             ]
         },
@@ -432,7 +432,7 @@ ruleTester.run("arrow-body-style", rule, {
                     line: 2,
                     column: 31,
                     type: "ArrowFunctionExpression",
-                    message: "Unexpected block statement surrounding arrow body; parenthesize the returned value and move it immediately after the `=>`."
+                    messageId: "unexpectedObjectBlock"
                 }
             ]
         },
@@ -440,13 +440,13 @@ ruleTester.run("arrow-body-style", rule, {
             code: "var foo = () => ({foo: 1}).foo();",
             output: "var foo = () => {return {foo: 1}.foo()};",
             options: ["always"],
-            errors: ["Expected block statement surrounding arrow body."]
+            errors: [{ messageId: "expectedBlock" }]
         },
         {
             code: "var foo = () => ({foo: 1}.foo());",
             output: "var foo = () => {return {foo: 1}.foo()};",
             options: ["always"],
-            errors: ["Expected block statement surrounding arrow body."]
+            errors: [{ messageId: "expectedBlock" }]
         }
     ]
 });

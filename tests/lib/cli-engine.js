@@ -355,8 +355,7 @@ describe("CLIEngine", () => {
                                 column: 11,
                                 endLine: 1,
                                 endColumn: 14,
-                                nodeType: "Identifier",
-                                source: "var bar = foo"
+                                nodeType: "Identifier"
                             }
                         ],
                         errorCount: 1,
@@ -397,8 +396,7 @@ describe("CLIEngine", () => {
                                 severity: 2,
                                 message: "Parsing error: Unexpected token is",
                                 line: 1,
-                                column: 19,
-                                source: "var bar = foothis is a syntax error."
+                                column: 19
                             }
                         ],
                         errorCount: 1,
@@ -439,8 +437,7 @@ describe("CLIEngine", () => {
                                 severity: 2,
                                 message: "Parsing error: Unexpected token",
                                 line: 1,
-                                column: 10,
-                                source: "var bar ="
+                                column: 10
                             }
                         ],
                         errorCount: 1,
@@ -527,8 +524,7 @@ describe("CLIEngine", () => {
                                 severity: 2,
                                 message: "Parsing error: Unexpected token is",
                                 line: 1,
-                                column: 19,
-                                source: "var bar = foothis is a syntax error."
+                                column: 19
                             }
                         ],
                         errorCount: 1,
@@ -1395,10 +1391,10 @@ describe("CLIEngine", () => {
                                     column: 9,
                                     line: 2,
                                     message: "Expected '===' and instead saw '=='.",
+                                    messageId: "unexpected",
                                     nodeType: "BinaryExpression",
                                     ruleId: "eqeqeq",
-                                    severity: 2,
-                                    source: "if (msg == \"hi\") {"
+                                    severity: 2
                                 }
                             ],
                             errorCount: 1,
@@ -1418,8 +1414,7 @@ describe("CLIEngine", () => {
                                     message: "'foo' is not defined.",
                                     nodeType: "Identifier",
                                     ruleId: "no-undef",
-                                    severity: 2,
-                                    source: "var msg = \"hi\" + foo;"
+                                    severity: 2
                                 }
                             ],
                             errorCount: 1,
@@ -3037,7 +3032,6 @@ describe("CLIEngine", () => {
                                     line: 1,
                                     column: 1,
                                     severity: 2,
-                                    source: null,
                                     nodeType: null
                                 }
                             ],

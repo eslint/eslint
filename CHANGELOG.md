@@ -1,3 +1,70 @@
+v4.19.1 - March 21, 2018
+
+* 3ff5d11 Fix: no-invalid-regexp not understand variable for flags (fixes #10112) (#10113) (薛定谔的猫)
+* abc765c Fix: object-curly-newline minProperties w/default export (fixes #10101) (#10103) (Kevin Partington)
+* 6f9e155 Docs: Update ambiguous for...in example for guard-for-in (#10114) (CJ R)
+* 0360cc2 Chore: Adding debug logs on successful plugin loads (#10100) (Kevin Partington)
+* a717c5d Chore: Adding log at beginning of unit tests in Makefile.js (#10102) (Kevin Partington)
+
+v4.19.0 - March 16, 2018
+
+* 55a1593 Update: consecutive option for one-var (fixes #4680) (#9994) (薛定谔的猫)
+* 8d3814e Fix: false positive about ES2018 RegExp enhancements (fixes #9893) (#10062) (Toru Nagashima)
+* 935f4e4 Docs: Clarify default ignoring of node_modules (#10092) (Matijs Brinkhuis)
+* 72ed3db Docs: Wrap `Buffer()` in backticks in `no-buffer-constructor` rule description (#10084) (Stephen Edgar)
+* 3aded2f Docs: Fix lodash typos, make spacing consistent (#10073) (Josh Smith)
+* e33bb64 Chore: enable no-param-reassign on ESLint codebase (#10065) (Teddy Katz)
+* 66a1e9a Docs: fix possible typo (#10060) (Vse Mozhet Byt)
+* 2e68be6 Update: give a node at least the indentation of its parent (fixes #9995) (#10054) (Teddy Katz)
+* 72ca5b3 Update: Correctly indent JSXText with trailing linebreaks (fixes #9878) (#10055) (Teddy Katz)
+* 2a4c838 Docs: Update ECMAScript versions in FAQ (#10047) (alberto)
+
+v4.18.2 - March 2, 2018
+
+* 6b71fd0 Fix: table@4.0.2, because 4.0.3 needs "ajv": "^6.0.1" (#10022) (Mathieu Seiler)
+* 3c697de Chore: fix incorrect comment about linter.verify return value (#10030) (Teddy Katz)
+* 9df8653 Chore: refactor parser-loading out of linter.verify (#10028) (Teddy Katz)
+* f6901d0 Fix: remove catastrophic backtracking vulnerability (fixes #10002) (#10019) (Jamie Davis)
+* e4f52ce Chore: Simplify dataflow in linter.verify (#10020) (Teddy Katz)
+* 33177cd Chore: make library files non-executable (#10021) (Teddy Katz)
+* 558ccba Chore: refactor directive comment processing (#10007) (Teddy Katz)
+* 18e15d9 Chore: avoid useless catch clauses that just rethrow errors (#10010) (Teddy Katz)
+* a1c3759 Chore: refactor populating configs with defaults in linter (#10006) (Teddy Katz)
+* aea07dc Fix: Make max-len ignoreStrings ignore JSXText (fixes #9954) (#9985) (Rachael Sim)
+
+v4.18.1 - February 20, 2018
+
+* f417506 Fix: ensure no-await-in-loop reports the correct node (fixes #9992) (#9993) (Teddy Katz)
+* 3e99363 Docs: Fixed typo in key-spacing rule doc (#9987) (Jaid)
+* 7c2cd70 Docs: deprecate experimentalObjectRestSpread (#9986) (Toru Nagashima)
+
+v4.18.0 - February 16, 2018
+
+* 70f22f3 Chore: Apply memoization to config creation within glob utils (#9944) (Kenton Jacobsen)
+* 0e4ae22 Update: fix indent bug with binary operators/ignoredNodes (fixes #9882) (#9951) (Teddy Katz)
+* 47ac478 Update: add named imports and exports for object-curly-newline (#9876) (Nicholas Chua)
+* e8efdd0 Fix: support Rest/Spread Properties (fixes #9885) (#9943) (Toru Nagashima)
+* f012b8c Fix: support Async iteration (fixes #9891) (#9957) (Toru Nagashima)
+* 74fa253 Docs: Clarify no-mixed-operators options (fixes #9962) (#9964) (Ivan Hayes)
+* 426868f Docs: clean up key-spacing docs (fixes #9900) (#9963) (Abid Uzair)
+* 4a6f22e Update: support eslint-disable-* block comments (fixes #8781) (#9745) (Erin)
+* 777283b Docs: Propose fix typo for function (#9965) (John Eismeier)
+* bf3d494 Docs: Fix typo in max-len ignorePattern example. (#9956) (Tim Martin)
+* d64fbb4 Docs: fix typo in prefer-destructuring.md example (#9930) (Vse Mozhet Byt)
+* f8d343f Chore: Fix default issue template (#9946) (Kai Cataldo)
+
+v4.17.0 - February 2, 2018
+
+* 1da1ada Update: Add "multiline" type to padding-line-between-statements (#8668) (Matthew Bennett)
+* bb213dc Chore: Use messageIds in some of the core rules (#9648) (Jed Fox)
+* 1aa1970 Docs: remove outdated rule naming convention (#9925) (Teddy Katz)
+* 3afaff6 Docs: Add prefer-destructuring variable reassignment example (#9873) (LePirlouit)
+* d20f6b4 Fix: Typo in error message when running npm (#9866) (Maciej Kasprzyk)
+* 51ec6a7 Docs: Use GitHub Multiple PR/Issue templates (#9911) (Kai Cataldo)
+* dc80487 Update: space-unary-ops uses astUtils.canTokensBeAdjacent (fixes #9907) (#9906) (Kevin Partington)
+* 084351b Docs: Fix the messageId example (fixes #9889) (#9892) (Jed Fox)
+* 9cbb487 Docs: Mention the `globals` key in the no-undef docs (#9867) (Dan Dascalescu)
+
 v4.16.0 - January 19, 2018
 
 * e26a25f Update: allow continue instead of if wrap in guard-for-in (fixes #7567) (#9796) (Michael Ficarra)

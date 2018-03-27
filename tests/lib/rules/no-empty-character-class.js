@@ -30,15 +30,17 @@ ruleTester.run("no-empty-character-class", rule, {
         "var foo = /[\\[a-z[]]/;",
         "var foo = /[\\-\\[\\]\\/\\{\\}\\(\\)\\*\\+\\?\\.\\\\^\\$\\|]/g;",
         "var foo = /\\s*:\\s*/gim;",
-        { code: "var foo = /[\\]]/uy;", parserOptions: { ecmaVersion: 6 } }
+        { code: "var foo = /[\\]]/uy;", parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = /[\\]]/s;", parserOptions: { ecmaVersion: 2018 } },
+        "var foo = /\\[]/"
     ],
     invalid: [
-        { code: "var foo = /^abc[]/;", errors: [{ message: "Empty class.", type: "Literal" }] },
-        { code: "var foo = /foo[]bar/;", errors: [{ message: "Empty class.", type: "Literal" }] },
-        { code: "if (foo.match(/^abc[]/)) {}", errors: [{ message: "Empty class.", type: "Literal" }] },
-        { code: "if (/^abc[]/.test(foo)) {}", errors: [{ message: "Empty class.", type: "Literal" }] },
-        { code: "var foo = /[]]/;", errors: [{ message: "Empty class.", type: "Literal" }] },
-        { code: "var foo = /\\[[]/;", errors: [{ message: "Empty class.", type: "Literal" }] },
-        { code: "var foo = /\\[\\[\\]a-z[]/;", errors: [{ message: "Empty class.", type: "Literal" }] }
+        { code: "var foo = /^abc[]/;", errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "var foo = /foo[]bar/;", errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "if (foo.match(/^abc[]/)) {}", errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "if (/^abc[]/.test(foo)) {}", errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "var foo = /[]]/;", errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "var foo = /\\[[]/;", errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "var foo = /\\[\\[\\]a-z[]/;", errors: [{ messageId: "unexpected", type: "Literal" }] }
     ]
 });

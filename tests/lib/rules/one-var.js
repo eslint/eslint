@@ -213,7 +213,268 @@ ruleTester.run("one-var", rule, {
             code: "var foo = require('foo'); var bar = 'bar';",
             options: [{ separateRequires: true, var: "always" }],
             parserOptions: { env: { node: true } }
+        },
+
+        // https://github.com/eslint/eslint/issues/4680
+        {
+            code: "var a = 0, b, c;",
+            options: ["consecutive"]
+        },
+        {
+            code: "var a = 0, b = 1, c = 2;",
+            options: ["consecutive"]
+        },
+        {
+            code: "var a = 0, b = 1; foo(); var c = 2;",
+            options: ["consecutive"]
+        },
+        {
+            code: "let a = 0, b, c;",
+            options: ["consecutive"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "let a = 0, b = 1, c = 2;",
+            options: ["consecutive"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "let a = 0, b = 1; foo(); let c = 2;",
+            options: ["consecutive"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "const a = 0, b = 1; foo(); const c = 2;",
+            options: ["consecutive"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "const a = 0; var b = 1;",
+            options: ["consecutive"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "const a = 0; let b = 1;",
+            options: ["consecutive"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "let a = 0; const b = 1; var c = 2;",
+            options: ["consecutive"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var a = 0, b = 1; var c, d;",
+            options: [{ initialized: "consecutive", uninitialized: "always" }]
+        },
+        {
+            code: "var a = 0; var b, c; var d = 1;",
+            options: [{ initialized: "consecutive", uninitialized: "always" }]
+        },
+        {
+            code: "let a = 0, b = 1; let c, d;",
+            options: [{ initialized: "consecutive", uninitialized: "always" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "let a = 0; let b, c; let d = 1;",
+            options: [{ initialized: "consecutive", uninitialized: "always" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "const a = 0, b = 1; let c, d;",
+            options: [{ initialized: "consecutive", uninitialized: "always" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "const a = 0; let b, c; const d = 1;",
+            options: [{ initialized: "consecutive", uninitialized: "always" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var a = 0, b = 1; var c; var d;",
+            options: [{ initialized: "consecutive", uninitialized: "never" }]
+        },
+        {
+            code: "var a = 0; var b; var c; var d = 1;",
+            options: [{ initialized: "consecutive", uninitialized: "never" }]
+        },
+        {
+            code: "let a = 0, b = 1; let c; let d;",
+            options: [{ initialized: "consecutive", uninitialized: "never" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "let a = 0; let b; let c; let d = 1;",
+            options: [{ initialized: "consecutive", uninitialized: "never" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "const a = 0, b = 1; let c; let d;",
+            options: [{ initialized: "consecutive", uninitialized: "never" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "const a = 0; let b; let c; const d = 1;",
+            options: [{ initialized: "consecutive", uninitialized: "never" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var a, b; var c = 0, d = 1;",
+            options: [{ uninitialized: "consecutive", initialized: "always" }]
+        },
+        {
+            code: "var a; var b = 0, c = 1; var d;",
+            options: [{ uninitialized: "consecutive", initialized: "always" }]
+        },
+        {
+            code: "let a, b; let c = 0, d = 1;",
+            options: [{ uninitialized: "consecutive", initialized: "always" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "let a; let b = 0, c = 1; let d;",
+            options: [{ uninitialized: "consecutive", initialized: "always" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "let a, b; const c = 0, d = 1;",
+            options: [{ uninitialized: "consecutive", initialized: "always" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "let a; const b = 0, c = 1; let d;",
+            options: [{ uninitialized: "consecutive", initialized: "always" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var a, b; var c = 0; var d = 1;",
+            options: [{ uninitialized: "consecutive", initialized: "never" }]
+        },
+        {
+            code: "var a; var b = 0; var c = 1; var d;",
+            options: [{ uninitialized: "consecutive", initialized: "never" }]
+        },
+        {
+            code: "let a, b; let c = 0; let d = 1;",
+            options: [{ uninitialized: "consecutive", initialized: "never" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "let a; let b = 0; let c = 1; let d;",
+            options: [{ uninitialized: "consecutive", initialized: "never" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "let a, b; const c = 0; const d = 1;",
+            options: [{ uninitialized: "consecutive", initialized: "never" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "let a; const b = 0; const c = 1; let d;",
+            options: [{ uninitialized: "consecutive", initialized: "never" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var a = 0, b = 1;",
+            options: [{ var: "consecutive" }]
+        },
+        {
+            code: "var a = 0; foo; var b = 1;",
+            options: [{ var: "consecutive" }]
+        },
+        {
+            code: "let a = 0, b = 1;",
+            options: [{ let: "consecutive" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "let a = 0; foo; let b = 1;",
+            options: [{ let: "consecutive" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "const a = 0, b = 1;",
+            options: [{ const: "consecutive" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "const a = 0; foo; const b = 1;",
+            options: [{ const: "consecutive" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "let a, b; const c = 0, d = 1;",
+            options: [{ let: "consecutive", const: "always" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "let a; const b = 0, c = 1; let d;",
+            options: [{ let: "consecutive", const: "always" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "let a, b; const c = 0; const d = 1;",
+            options: [{ let: "consecutive", const: "never" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "let a; const b = 0; const c = 1; let d;",
+            options: [{ let: "consecutive", const: "never" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "const a = 0, b = 1; let c, d;",
+            options: [{ const: "consecutive", let: "always" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "const a = 0; let b, c; const d = 1;",
+            options: [{ const: "consecutive", let: "always" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "const a = 0, b = 1; let c; let d;",
+            options: [{ const: "consecutive", let: "never" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "const a = 0; let b; let c; const d = 1;",
+            options: [{ const: "consecutive", let: "never" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var a = 1, b = 2; foo(); var c = 3, d = 4;",
+            options: [{ initialized: "consecutive" }]
+        },
+        {
+            code: "var bar, baz;",
+            options: ["consecutive"]
+        },
+        {
+            code: "var bar = 1, baz = 2; qux(); var qux = 3, quux;",
+            options: ["consecutive"]
+        },
+        {
+            code: "let a, b; var c; var d; let e;",
+            options: [{ var: "never", let: "consecutive", const: "consecutive" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "const a = 1, b = 2; var d; var e; const f = 3;",
+            options: [{ var: "never", let: "consecutive", const: "consecutive" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var a, b; const c = 1; const d = 2; let e; let f; ",
+            options: [{ var: "consecutive" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var a = 1, b = 2; var c; var d; var e = 3, f = 4;",
+            options: [{ initialized: "consecutive", uninitialized: "never" }]
         }
+
     ],
     invalid: [
         {
@@ -607,6 +868,657 @@ ruleTester.run("one-var", rule, {
                 type: "VariableDeclaration",
                 line: 1,
                 column: 29
+            }]
+        },
+
+        // https://github.com/eslint/eslint/issues/4680
+        {
+            code: "var a = 1, b; var c;",
+            options: ["consecutive"],
+            errors: [{
+                message: "Combine this with the previous 'var' statement.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 15
+            }]
+        },
+        {
+            code: "var a = 0, b = 1; var c = 2;",
+            options: ["consecutive"],
+            errors: [{
+                message: "Combine this with the previous 'var' statement.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 19
+            }]
+        },
+        {
+            code: "let a = 1, b; let c;",
+            options: ["consecutive"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Combine this with the previous 'let' statement.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 15
+            }]
+        },
+        {
+            code: "let a = 0, b = 1; let c = 2;",
+            options: ["consecutive"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Combine this with the previous 'let' statement.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 19
+            }]
+        },
+        {
+            code: "const a = 0, b = 1; const c = 2;",
+            options: ["consecutive"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Combine this with the previous 'const' statement.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 21
+            }]
+        },
+        {
+            code: "const a = 0; var b = 1; var c = 2; const d = 3;",
+            options: ["consecutive"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Combine this with the previous 'var' statement.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 25
+            }]
+        },
+        {
+            code: "const a = 0; let b = 1; let c = 2; const d = 3;",
+            options: ["consecutive"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Combine this with the previous 'let' statement.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 25
+            }]
+        },
+        {
+            code: "let a = 0; const b = 1; const c = 1; var d = 2;",
+            options: ["consecutive"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Combine this with the previous 'const' statement.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 25
+            }]
+        },
+        {
+            code: "var a = 0; var b; var c; var d = 1",
+            options: [{ initialized: "consecutive", uninitialized: "always" }],
+            errors: [{
+                message: "Combine this with the previous 'var' statement with uninitialized variables.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 19
+            }]
+        },
+        {
+            code: "var a = 0; var b = 1; var c; var d;",
+            options: [{ initialized: "consecutive", uninitialized: "always" }],
+            errors: [{
+                message: "Combine this with the previous 'var' statement with initialized variables.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 12
+            },
+            {
+                message: "Combine this with the previous 'var' statement with uninitialized variables.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 30
+            }]
+        },
+        {
+            code: "let a = 0; let b; let c; let d = 1;",
+            options: [{ initialized: "consecutive", uninitialized: "always" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Combine this with the previous 'let' statement with uninitialized variables.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 19
+            }]
+        },
+        {
+            code: "let a = 0; let b = 1; let c; let d;",
+            options: [{ initialized: "consecutive", uninitialized: "always" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Combine this with the previous 'let' statement with initialized variables.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 12
+            },
+            {
+                message: "Combine this with the previous 'let' statement with uninitialized variables.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 30
+            }]
+        },
+        {
+            code: "const a = 0; let b; let c; const d = 1;",
+            options: [{ initialized: "consecutive", uninitialized: "always" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Combine this with the previous 'let' statement with uninitialized variables.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 21
+            }]
+        },
+        {
+            code: "const a = 0; const b = 1; let c; let d;",
+            options: [{ initialized: "consecutive", uninitialized: "always" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Combine this with the previous 'const' statement with initialized variables.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 14
+            },
+            {
+                message: "Combine this with the previous 'let' statement with uninitialized variables.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 34
+            }]
+        },
+        {
+            code: "var a = 0; var b = 1; var c, d;",
+            options: [{ initialized: "consecutive", uninitialized: "never" }],
+            errors: [{
+                message: "Combine this with the previous 'var' statement with initialized variables.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 12
+            },
+            {
+                message: "Split uninitialized 'var' declarations into multiple statements.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 23
+            }]
+        },
+        {
+            code: "var a = 0; var b, c; var d = 1;",
+            options: [{ initialized: "consecutive", uninitialized: "never" }],
+            errors: [{
+                message: "Split uninitialized 'var' declarations into multiple statements.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 12
+            }]
+        },
+        {
+            code: "let a = 0; let b = 1; let c, d;",
+            options: [{ initialized: "consecutive", uninitialized: "never" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Combine this with the previous 'let' statement with initialized variables.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 12
+            },
+            {
+                message: "Split uninitialized 'let' declarations into multiple statements.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 23
+            }]
+        },
+        {
+            code: "let a = 0; let b, c; let d = 1;",
+            options: [{ initialized: "consecutive", uninitialized: "never" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Split uninitialized 'let' declarations into multiple statements.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 12
+            }]
+        },
+        {
+            code: "const a = 0; const b = 1; let c, d;",
+            options: [{ initialized: "consecutive", uninitialized: "never" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Combine this with the previous 'const' statement with initialized variables.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 14
+            },
+            {
+                message: "Split uninitialized 'let' declarations into multiple statements.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 27
+            }]
+        },
+        {
+            code: "const a = 0; let b, c; const d = 1;",
+            options: [{ initialized: "consecutive", uninitialized: "never" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Split uninitialized 'let' declarations into multiple statements.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 14
+            }]
+        },
+        {
+            code: "var a; var b; var c = 0; var d = 1;",
+            options: [{ uninitialized: "consecutive", initialized: "always" }],
+            errors: [{
+                message: "Combine this with the previous 'var' statement with uninitialized variables.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 8
+            },
+            {
+                message: "Combine this with the previous 'var' statement with initialized variables.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 26
+            }]
+        },
+        {
+            code: "var a; var b = 0; var c = 1; var d;",
+            options: [{ uninitialized: "consecutive", initialized: "always" }],
+            errors: [{
+                message: "Combine this with the previous 'var' statement with initialized variables.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 19
+            }]
+        },
+        {
+            code: "let a; let b; let c = 0; let d = 1;",
+            options: [{ uninitialized: "consecutive", initialized: "always" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Combine this with the previous 'let' statement with uninitialized variables.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 8
+            },
+            {
+                message: "Combine this with the previous 'let' statement with initialized variables.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 26
+            }]
+        },
+        {
+            code: "let a; let b = 0; let c = 1; let d;",
+            options: [{ uninitialized: "consecutive", initialized: "always" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Combine this with the previous 'let' statement with initialized variables.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 19
+            }]
+        },
+        {
+            code: "let a; let b; const c = 0; const d = 1;",
+            options: [{ uninitialized: "consecutive", initialized: "always" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Combine this with the previous 'let' statement with uninitialized variables.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 8
+            },
+            {
+                message: "Combine this with the previous 'const' statement with initialized variables.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 28
+            }]
+        },
+        {
+            code: "let a; const b = 0; const c = 1; let d;",
+            options: [{ uninitialized: "consecutive", initialized: "always" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Combine this with the previous 'const' statement with initialized variables.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 21
+            }]
+        },
+        {
+            code: "var a; var b; var c = 0, d = 1;",
+            options: [{ uninitialized: "consecutive", initialized: "never" }],
+            errors: [{
+                message: "Combine this with the previous 'var' statement with uninitialized variables.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 8
+            },
+            {
+                message: "Split initialized 'var' declarations into multiple statements.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 15
+            }]
+        },
+        {
+            code: "var a; var b = 0, c = 1; var d;",
+            options: [{ uninitialized: "consecutive", initialized: "never" }],
+            errors: [{
+                message: "Split initialized 'var' declarations into multiple statements.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 8
+            }]
+        },
+        {
+            code: "let a; let b; let c = 0, d = 1;",
+            options: [{ uninitialized: "consecutive", initialized: "never" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Combine this with the previous 'let' statement with uninitialized variables.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 8
+            },
+            {
+                message: "Split initialized 'let' declarations into multiple statements.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 15
+            }]
+        },
+        {
+            code: "let a; let b = 0, c = 1; let d;",
+            options: [{ uninitialized: "consecutive", initialized: "never" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Split initialized 'let' declarations into multiple statements.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 8
+            }]
+        },
+        {
+            code: "let a; let b; const c = 0, d = 1;",
+            options: [{ uninitialized: "consecutive", initialized: "never" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Combine this with the previous 'let' statement with uninitialized variables.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 8
+            },
+            {
+                message: "Split initialized 'const' declarations into multiple statements.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 15
+            }]
+        },
+        {
+            code: "let a; const b = 0, c = 1; let d;",
+            options: [{ uninitialized: "consecutive", initialized: "never" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Split initialized 'const' declarations into multiple statements.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 8
+            }]
+        },
+        {
+            code: "var a = 0; var b = 1;",
+            options: [{ var: "consecutive" }],
+            errors: [{
+                message: "Combine this with the previous 'var' statement.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 12
+            }]
+        },
+        {
+            code: "let a = 0; let b = 1;",
+            options: [{ let: "consecutive" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Combine this with the previous 'let' statement.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 12
+            }]
+        },
+        {
+            code: "const a = 0; const b = 1;",
+            options: [{ const: "consecutive" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Combine this with the previous 'const' statement.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 14
+            }]
+        },
+        {
+            code: "let a; let b; const c = 0; const d = 1;",
+            options: [{ let: "consecutive", const: "always" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Combine this with the previous 'let' statement.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 8
+            },
+            {
+                message: "Combine this with the previous 'const' statement.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 28
+            }]
+        },
+        {
+            code: "let a; const b = 0; const c = 1; let d;",
+            options: [{ let: "consecutive", const: "always" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Combine this with the previous 'const' statement.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 21
+            }]
+        },
+        {
+            code: "let a; let b; const c = 0, d = 1;",
+            options: [{ let: "consecutive", const: "never" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Combine this with the previous 'let' statement.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 8
+            },
+            {
+                message: "Split 'const' declarations into multiple statements.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 15
+            }]
+        },
+        {
+            code: "let a; const b = 0, c = 1; let d;",
+            options: [{ let: "consecutive", const: "never" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Split 'const' declarations into multiple statements.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 8
+            }]
+        },
+        {
+            code: "const a = 0; const b = 1; let c; let d;",
+            options: [{ const: "consecutive", let: "always" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Combine this with the previous 'const' statement.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 14
+            },
+            {
+                message: "Combine this with the previous 'let' statement.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 34
+            }]
+        },
+        {
+            code: "const a = 0; let b; let c; const d = 1;",
+            options: [{ const: "consecutive", let: "always" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Combine this with the previous 'let' statement.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 21
+            }]
+        },
+        {
+            code: "const a = 0; const b = 1; let c, d;",
+            options: [{ const: "consecutive", let: "never" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Combine this with the previous 'const' statement.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 14
+            },
+            {
+                message: "Split 'let' declarations into multiple statements.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 27
+            }]
+        },
+        {
+            code: "const a = 0; let b, c; const d = 1;",
+            options: [{ const: "consecutive", let: "never" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Split 'let' declarations into multiple statements.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 14
+            }]
+        },
+        {
+            code: "var bar; var baz;",
+            options: ["consecutive"],
+            errors: [{
+                message: "Combine this with the previous 'var' statement.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 10
+            }]
+        },
+        {
+            code: "var bar = 1; var baz = 2; qux(); var qux = 3; var quux;",
+            options: ["consecutive"],
+            errors: [{
+                message: "Combine this with the previous 'var' statement.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 14
+            },
+            {
+                message: "Combine this with the previous 'var' statement.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 47
+            }]
+        },
+        {
+            code: "let a, b; let c; var d, e;",
+            options: [{ var: "never", let: "consecutive", const: "consecutive" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Combine this with the previous 'let' statement.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 11
+            },
+            {
+                message: "Split 'var' declarations into multiple statements.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 18
+            }]
+        },
+        {
+            code: "var a; var b;",
+            options: [{ var: "consecutive" }],
+            errors: [{
+                message: "Combine this with the previous 'var' statement.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 8
+            }]
+        },
+        {
+            code: "var a = 1; var b = 2; var c, d; var e = 3; var f = 4;",
+            options: [{ initialized: "consecutive", uninitialized: "never" }],
+            errors: [{
+                message: "Combine this with the previous 'var' statement with initialized variables.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 12
+            },
+            {
+                message: "Split uninitialized 'var' declarations into multiple statements.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 23
+            },
+            {
+                message: "Combine this with the previous 'var' statement with initialized variables.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 44
+            }]
+        },
+        {
+            code: "var a = 1; var b = 2; foo(); var c = 3; var d = 4;",
+            options: [{ initialized: "consecutive" }],
+            errors: [{
+                message: "Combine this with the previous 'var' statement with initialized variables.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 12
+            },
+            {
+                message: "Combine this with the previous 'var' statement with initialized variables.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 41
             }]
         }
     ]

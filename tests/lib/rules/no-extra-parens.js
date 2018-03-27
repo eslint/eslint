@@ -23,19 +23,17 @@ const rule = require("../../../lib/rules/no-extra-parens"),
  * @private
  */
 function invalid(code, output, type, line, config) {
-    config = config || {};
-
     const result = {
         code,
         output,
-        parserOptions: config.parserOptions || {},
+        parserOptions: config && config.parserOptions || {},
         errors: [
             {
-                message: "Gratuitous parentheses around expression.",
+                messageId: "unexpected",
                 type
             }
         ],
-        options: config.options || []
+        options: config && config.options || []
     };
 
     if (line) {
@@ -46,9 +44,8 @@ function invalid(code, output, type, line, config) {
 
 const ruleTester = new RuleTester({
     parserOptions: {
-        ecmaVersion: 8,
+        ecmaVersion: 2018,
         ecmaFeatures: {
-            experimentalObjectRestSpread: true,
             jsx: true
         }
     }
@@ -409,8 +406,16 @@ ruleTester.run("no-extra-parens", rule, {
 
         "let a = [ ...b ]",
         "let a = { ...b }",
+        {
+            code: "let a = { ...b }",
+            parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } }
+        },
         "let a = [ ...(b, c) ]",
         "let a = { ...(b, c) }",
+        {
+            code: "let a = { ...(b, c) }",
+            parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } }
+        },
         "var [x = (1, foo)] = bar",
         "class A extends B {}",
         "const A = class extends B {}",
@@ -709,7 +714,7 @@ ruleTester.run("no-extra-parens", rule, {
             options: ["all", { returnAssign: false }],
             errors: [
                 {
-                    message: "Gratuitous parentheses around expression.",
+                    messgeId: "unexpected",
                     type: "LogicalExpression"
                 }
             ]
@@ -719,7 +724,7 @@ ruleTester.run("no-extra-parens", rule, {
             output: "function a(b) { return (b = c) || (d = e); }",
             errors: [
                 {
-                    message: "Gratuitous parentheses around expression.",
+                    messgeId: "unexpected",
                     type: "LogicalExpression"
                 }
             ]
@@ -729,7 +734,7 @@ ruleTester.run("no-extra-parens", rule, {
             output: "function a(b) { return b = 1; }",
             errors: [
                 {
-                    message: "Gratuitous parentheses around expression.",
+                    messgeId: "unexpected",
                     type: "AssignmentExpression"
                 }
             ]
@@ -739,11 +744,11 @@ ruleTester.run("no-extra-parens", rule, {
             output: "function a(b) { return c ? d = b : e = b; }",
             errors: [
                 {
-                    message: "Gratuitous parentheses around expression.",
+                    messgeId: "unexpected",
                     type: "AssignmentExpression"
                 },
                 {
-                    message: "Gratuitous parentheses around expression.",
+                    messgeId: "unexpected",
                     type: "AssignmentExpression"
                 }
             ]
@@ -755,7 +760,7 @@ ruleTester.run("no-extra-parens", rule, {
 
             errors: [
                 {
-                    message: "Gratuitous parentheses around expression.",
+                    messgeId: "unexpected",
                     type: "LogicalExpression"
                 }
             ]
@@ -765,7 +770,7 @@ ruleTester.run("no-extra-parens", rule, {
             output: "b => (b = c) || (d = e);",
             errors: [
                 {
-                    message: "Gratuitous parentheses around expression.",
+                    messgeId: "unexpected",
                     type: "LogicalExpression"
                 }
             ]
@@ -775,7 +780,7 @@ ruleTester.run("no-extra-parens", rule, {
             output: "b => b = 1;",
             errors: [
                 {
-                    message: "Gratuitous parentheses around expression.",
+                    messgeId: "unexpected",
                     type: "AssignmentExpression"
                 }
             ]
@@ -785,11 +790,11 @@ ruleTester.run("no-extra-parens", rule, {
             output: "b => c ? d = b : e = b;",
             errors: [
                 {
-                    message: "Gratuitous parentheses around expression.",
+                    messgeId: "unexpected",
                     type: "AssignmentExpression"
                 },
                 {
-                    message: "Gratuitous parentheses around expression.",
+                    messgeId: "unexpected",
                     type: "AssignmentExpression"
                 }
             ]
@@ -800,7 +805,7 @@ ruleTester.run("no-extra-parens", rule, {
             options: ["all", { returnAssign: false }],
             errors: [
                 {
-                    message: "Gratuitous parentheses around expression.",
+                    messgeId: "unexpected",
                     type: "LogicalExpression"
                 }
             ]
@@ -810,7 +815,7 @@ ruleTester.run("no-extra-parens", rule, {
             output: "b => { return (b = c) || (d = e) };",
             errors: [
                 {
-                    message: "Gratuitous parentheses around expression.",
+                    messgeId: "unexpected",
                     type: "LogicalExpression"
                 }
             ]
@@ -820,7 +825,7 @@ ruleTester.run("no-extra-parens", rule, {
             output: "b => { return b = 1 };",
             errors: [
                 {
-                    message: "Gratuitous parentheses around expression.",
+                    messgeId: "unexpected",
                     type: "AssignmentExpression"
                 }
             ]
@@ -830,11 +835,11 @@ ruleTester.run("no-extra-parens", rule, {
             output: "b => { return c ? d = b : e = b; }",
             errors: [
                 {
-                    message: "Gratuitous parentheses around expression.",
+                    messgeId: "unexpected",
                     type: "AssignmentExpression"
                 },
                 {
-                    message: "Gratuitous parentheses around expression.",
+                    messgeId: "unexpected",
                     type: "AssignmentExpression"
                 }
             ]
@@ -846,11 +851,11 @@ ruleTester.run("no-extra-parens", rule, {
             output: "async function a() { await a + await b; }",
             errors: [
                 {
-                    message: "Gratuitous parentheses around expression.",
+                    messgeId: "unexpected",
                     type: "AwaitExpression"
                 },
                 {
-                    message: "Gratuitous parentheses around expression.",
+                    messgeId: "unexpected",
                     type: "AwaitExpression"
                 }
             ]
@@ -924,7 +929,7 @@ ruleTester.run("no-extra-parens", rule, {
             options: ["all", { enforceForArrowConditionals: true }],
             errors: [
                 {
-                    message: "Gratuitous parentheses around expression."
+                    messgeId: "unexpected"
                 }
             ]
         },
@@ -936,7 +941,7 @@ ruleTester.run("no-extra-parens", rule, {
             options: ["all", { enforceForArrowConditionals: false }],
             errors: [
                 {
-                    message: "Gratuitous parentheses around expression."
+                    messgeId: "unexpected"
                 }
             ]
         },
@@ -955,6 +960,13 @@ ruleTester.run("no-extra-parens", rule, {
             1
         ),
         invalid(
+            "let a = {...(b)}",
+            "let a = {...b}",
+            "Identifier",
+            1,
+            { parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } } }
+        ),
+        invalid(
             "let a = [...((b, c))]",
             "let a = [...(b, c)]",
             "SequenceExpression",
@@ -965,6 +977,13 @@ ruleTester.run("no-extra-parens", rule, {
             "let a = {...(b, c)}",
             "SequenceExpression",
             1
+        ),
+        invalid(
+            "let a = {...((b, c))}",
+            "let a = {...(b, c)}",
+            "SequenceExpression",
+            1,
+            { parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } } }
         ),
         invalid(
             "class A extends (B) {}",
