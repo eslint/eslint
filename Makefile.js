@@ -128,6 +128,17 @@ function fileType(extension) {
         return filename.slice(filename.lastIndexOf(".") + 1) === extension;
     };
 }
+/**
+ * Generates a function that matches files with a particular parent directory.
+ * @param {string} dirName The parent directory (i.e. "rules")
+ * @returns {Function} The function to pass into a filter method.
+ * @private
+ */
+function parentDirectory(dirName) {
+    return function(filename) {
+        return path.basename(path.dirname(filename)) === dirName;
+    }
+}
 
 /**
  * Generates a static file that includes each rule by name rather than dynamically
@@ -140,10 +151,12 @@ function generateRulesIndex(basedir) {
 
     output += "    var rules = Object.create(null);\n";
 
-    find(`${basedir}rules/`).filter(fileType("js")).forEach(filename => {
-        const basename = path.basename(filename, ".js");
-
-        output += `    rules["${basename}"] = require("./rules/${basename}");\n`;
+    find(`${basedir}rules/`)
+        .filter(filename => parentDirectory("rules")(filename) && fileType("js")(filename))
+        .forEach(filename => {
+            const basename = path.basename(filename, ".js");
+    
+            output += `    rules["${basename}"] = require("./rules/${basename}");\n`;
     });
 
     output += "\n    return rules;\n};";
@@ -162,10 +175,11 @@ function execSilent(cmd) {
 /**
  * Generates a release blog post for eslint.org
  * @param {Object} releaseInfo The release metadata.
+ * @param {string} blogDirPath The directory path to the blog repository
  * @returns {void}
  * @private
  */
-function generateBlogPost(releaseInfo) {
+function generateBlogPost(releaseInfo, blogDirPath) {
     const ruleList = ls("lib/rules")
 
         // Strip the .js extension
@@ -181,7 +195,7 @@ function generateBlogPost(releaseInfo) {
         now = new Date(),
         month = now.getMonth() + 1,
         day = now.getDate(),
-        filename = `../eslint.github.io/_posts/${now.getFullYear()}-${
+        filename = `${blogDirPath}_posts/${now.getFullYear()}-${
             month < 10 ? `0${month}` : month}-${
             day < 10 ? `0${day}` : day}-eslint-v${
             releaseInfo.version}-released.md`;
@@ -194,12 +208,13 @@ function generateBlogPost(releaseInfo) {
  * @param  {Object} formatterInfo Linting results from each formatter
  * @param  {string} [prereleaseVersion] The version used for a prerelease. This
  *      changes where the output is stored.
+ * @param {string} blogDirPath The directory path to the blog repository
  * @returns {void}
  */
-function generateFormatterExamples(formatterInfo, prereleaseVersion) {
+function generateFormatterExamples(formatterInfo, prereleaseVersion, blogDirPath) {
     const output = ejs.render(cat("./templates/formatter-examples.md.ejs"), formatterInfo);
-    let filename = "../eslint.github.io/docs/user-guide/formatters/index.md",
-        htmlFilename = "../eslint.github.io/docs/user-guide/formatters/html-formatter-example.html";
+    let filename = `${blogDirPath}docs/user-guide/formatters/index.md`,
+        htmlFilename = `${blogDirPath}docs/user-guide/formatters/html-formatter-example.html`;
 
     if (prereleaseVersion) {
         filename = filename.replace("/docs", `/docs/${prereleaseVersion}`);
@@ -213,10 +228,11 @@ function generateFormatterExamples(formatterInfo, prereleaseVersion) {
 /**
  * Generate a doc page that lists all of the rules and links to them
  * @param {string} basedir The directory in which to look for code.
+ * @param {string} blogDirPath The directory path to the blog repository
  * @returns {void}
  */
-function generateRuleIndexPage(basedir) {
-    const outputFile = "../eslint.github.io/_data/rules.yml",
+function generateRuleIndexPage(basedir, blogDirPath) {
+    const outputFile = `${blogDirPath}_data/rules.yml`,
         categoryList = "conf/category-list.json",
         categoriesData = JSON.parse(cat(path.resolve(categoryList)));
 
@@ -287,7 +303,7 @@ function release(ciRelease) {
 
     echo("Generating site");
     target.gensite();
-    generateBlogPost(releaseInfo);
+    generateBlogPost(releaseInfo, SITE_DIR);
     publishSite(`v${releaseInfo.version}`);
     echo("Site has been published");
 
@@ -308,7 +324,7 @@ function prerelease(prereleaseId) {
 
     // always write docs into the next major directory (so 2.0.0-alpha.0 writes to 2.0.0)
     target.gensite(semver.inc(releaseInfo.version, "major"));
-    generateBlogPost(releaseInfo);
+    generateBlogPost(releaseInfo, SITE_DIR);
     echo("Site has not been pushed, please update blog post and push manually.");
 }
 
@@ -454,7 +470,6 @@ function getFormatterResults() {
             "};"
         ].join("\n"),
         rawMessages = cli.executeOnText(codeString, "fullOfProblems.js", true);
-
     return formatterFiles.reduce((data, filename) => {
         const fileExt = path.extname(filename),
             name = path.basename(filename, fileExt);
@@ -766,7 +781,7 @@ target.gensite = function(prereleaseVersion) {
 
     // 11. Generate rule listing page
     echo("> Generating the rule listing (Step 11)");
-    generateRuleIndexPage(process.cwd());
+    generateRuleIndexPage(process.cwd(), SITE_DIR);
 
     // 12. Delete temporary directory
     echo("> Removing the temporary directory (Step 12)");
@@ -783,7 +798,7 @@ target.gensite = function(prereleaseVersion) {
 
     // 14. Create Example Formatter Output Page
     echo("> Creating the formatter examples (Step 14)");
-    generateFormatterExamples(getFormatterResults(), prereleaseVersion);
+    generateFormatterExamples(getFormatterResults(), prereleaseVersion, SITE_DIR);
 
     echo("Done generating eslint.org");
 };
@@ -989,7 +1004,7 @@ function createConfigForPerformanceTest() {
  */
 function time(cmd, runs, runNumber, results, cb) {
     const start = process.hrtime();
-
+    
     exec(cmd, { silent: true }, (code, stdout, stderr) => {
         const diff = process.hrtime(start),
             actual = (diff[0] * 1e3 + diff[1] / 1e6); // ms
@@ -1127,4 +1142,26 @@ target.publishsite = function() {
 
 target.prerelease = function(args) {
     prerelease(args[0]);
+};
+
+// exporting methods for unit test
+// does this change other functionality
+module.exports = {
+    getTestFilePatterns,
+    validateJsonFile,
+    fileType,
+    parentDirectory,
+    generateRulesIndex,
+    execSilent,
+    generateBlogPost,
+    generateFormatterExamples,
+    generateRuleIndexPage,
+    splitCommandResultToLines,
+    getFirstCommitOfFile,
+    getBranches,
+    lintMarkdown,
+    hasBranch,
+    getFormatterResults,
+    downloadMultifilesTestTarget,
+    createConfigForPerformanceTest
 };
