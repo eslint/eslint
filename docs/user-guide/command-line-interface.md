@@ -171,30 +171,6 @@ Examples:
     echo '3 ** 4' | eslint --stdin --parser-options=ecmaVersion:6 # will fail with a parsing error
     echo '3 ** 4' | eslint --stdin --parser-options=ecmaVersion:7 # succeeds, yay!
 
-### Caching
-
-#### `--cache`
-
-Store the info about processed files in order to only operate on the changed ones. The cache is stored in `.eslintcache` by default. Enabling this option can dramatically improve ESLint's running time by ensuring that only changed files are linted.
-
-**Note:** If you run ESLint with `--cache` and then run ESLint without `--cache`, the `.eslintcache` file will be deleted. This is necessary because the results of the lint might change and make `.eslintcache` invalid. If you want to control when the cache file is deleted, then use `--cache-location` to specify an alternate location for the cache file.
-
-#### `--cache-file`
-
-Path to the cache file. If none specified `.eslintcache` will be used. The file will be created in the directory where the `eslint` command is executed. **Deprecated**: Use `--cache-location` instead.
-
-#### `--cache-location`
-
-Path to the cache location. Can be a file or a directory. If no location is specified, `.eslintcache` will be used. In that case, the file will be created in the directory where the `eslint` command is executed.
-
-If a directory is specified, a cache file will be created inside the specified folder. The name of the file will be based on the hash of the current working directory (CWD). e.g.: `.cache_hashOfCWD`
-
-**Important note:** If the directory for the cache does not exist make sure you add a trailing `/` on \*nix systems or `\` in windows. Otherwise the path will be assumed to be a file.
-
-Example:
-
-    eslint "src/**/*.js" --cache --cache-location "/Users/user/.eslintcache/"
-
 ### Specifying rules and plugins
 
 #### `--rulesdir`
@@ -233,6 +209,29 @@ Examples:
     eslint --rule 'quotes: [2, double]'
     eslint --rule 'guard-for-in: 2' --rule 'brace-style: [2, 1tbs]'
     eslint --rule 'jquery/dollar-sign: 2'
+
+### Fixing problems
+
+#### `--fix`
+
+This option instructs ESLint to try to fix as many issues as possible. The fixes are made to the actual files themselves and only the remaining unfixed issues are output. Not all problems are fixable using this option, and the option does not work in these situations:
+
+1. This option throws an error when code is piped to ESLint.
+1. This option has no effect on code that uses a processor, unless the processor opts into allowing autofixes.
+
+If you want to fix code from `stdin` or otherwise want to get the fixes without actually writing them to the file, use the [`--fix-dry-run`](#--fix-dry-run) option.
+
+#### `--fix-dry-run`
+
+This option has the same effect as `--fix` with one difference: the fixes are not saved to the file system. This makes it possible to fix code from `stdin` (when used with the `--stdin` flag).
+
+Because the default formatter does not output the fixed code, you'll have to use another one (e.g. `json`) to get the fixes. Here's an example of this pattern:
+
+```
+getSomeText | eslint --stdin --fix-dry-run --format=json
+```
+
+This flag can be useful for integrations (e.g. editor plugins) which need to autofix text from the command line without saving it to the filesystem.
 
 ### Ignoring files
 
@@ -365,46 +364,7 @@ Examples:
     eslint --color file.js | cat
     eslint --no-color file.js
 
-### Miscellaneous
-
-#### `--init`
-
-This option will start config initialization wizard. It's designed to help new users quickly create .eslintrc file by answering a few questions, choosing a popular style guide, or inspecting your source files and attempting to automatically generate a suitable configuration.
-
-The resulting configuration file will be created in the current directory.
-
-#### `--fix`
-
-This option instructs ESLint to try to fix as many issues as possible. The fixes are made to the actual files themselves and only the remaining unfixed issues are output. Not all problems are fixable using this option, and the option does not work in these situations:
-
-1. This option throws an error when code is piped to ESLint.
-1. This option has no effect on code that uses a processor, unless the processor opts into allowing autofixes.
-
-If you want to fix code from `stdin` or otherwise want to get the fixes without actually writing them to the file, use the [`--fix-dry-run`](#--fix-dry-run) option.
-
-#### `--fix-dry-run`
-
-This option has the same effect as `--fix` with one difference: the fixes are not saved to the file system. This makes it possible to fix code from `stdin` (when used with the `--stdin` flag).
-
-Because the default formatter does not output the fixed code, you'll have to use another one (e.g. `json`) to get the fixes. Here's an example of this pattern:
-
-```
-getSomeText | eslint --stdin --fix-dry-run --format=json
-```
-
-This flag can be useful for integrations (e.g. editor plugins) which need to autofix text from the command line without saving it to the filesystem.
-
-#### `--debug`
-
-This option outputs debugging information to the console. This information is useful when you're seeing a problem and having a hard time pinpointing it. The ESLint team may ask for this debugging information to help solve bugs.
-
-#### `-h`, `--help`
-
-This option outputs the help menu, displaying all of the available options. All other options are ignored when this is present.
-
-#### `-v`, `--version`
-
-This option outputs the current ESLint version onto the console. All other options are ignored when this is present.
+### Inline configuration comments
 
 #### `--no-inline-config`
 
@@ -433,6 +393,50 @@ This option causes ESLint to report directive comments like `// eslint-disable-l
 Example:
 
     eslint --report-unused-disable-directives file.js
+
+### Caching
+
+#### `--cache`
+
+Store the info about processed files in order to only operate on the changed ones. The cache is stored in `.eslintcache` by default. Enabling this option can dramatically improve ESLint's running time by ensuring that only changed files are linted.
+
+**Note:** If you run ESLint with `--cache` and then run ESLint without `--cache`, the `.eslintcache` file will be deleted. This is necessary because the results of the lint might change and make `.eslintcache` invalid. If you want to control when the cache file is deleted, then use `--cache-location` to specify an alternate location for the cache file.
+
+#### `--cache-file`
+
+Path to the cache file. If none specified `.eslintcache` will be used. The file will be created in the directory where the `eslint` command is executed. **Deprecated**: Use `--cache-location` instead.
+
+#### `--cache-location`
+
+Path to the cache location. Can be a file or a directory. If no location is specified, `.eslintcache` will be used. In that case, the file will be created in the directory where the `eslint` command is executed.
+
+If a directory is specified, a cache file will be created inside the specified folder. The name of the file will be based on the hash of the current working directory (CWD). e.g.: `.cache_hashOfCWD`
+
+**Important note:** If the directory for the cache does not exist make sure you add a trailing `/` on \*nix systems or `\` in windows. Otherwise the path will be assumed to be a file.
+
+Example:
+
+    eslint "src/**/*.js" --cache --cache-location "/Users/user/.eslintcache/"
+
+### Miscellaneous
+
+#### `--init`
+
+This option will start config initialization wizard. It's designed to help new users quickly create .eslintrc file by answering a few questions, choosing a popular style guide, or inspecting your source files and attempting to automatically generate a suitable configuration.
+
+The resulting configuration file will be created in the current directory.
+
+#### `--debug`
+
+This option outputs debugging information to the console. This information is useful when you're seeing a problem and having a hard time pinpointing it. The ESLint team may ask for this debugging information to help solve bugs.
+
+#### `-h`, `--help`
+
+This option outputs the help menu, displaying all of the available options. All other options are ignored when this is present.
+
+#### `-v`, `--version`
+
+This option outputs the current ESLint version onto the console. All other options are ignored when this is present.
 
 #### `--print-config`
 
