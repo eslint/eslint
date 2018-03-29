@@ -234,6 +234,29 @@ Examples:
     eslint --rule 'guard-for-in: 2' --rule 'brace-style: [2, 1tbs]'
     eslint --rule 'jquery/dollar-sign: 2'
 
+### Fixing problems
+
+#### `--fix`
+
+This option instructs ESLint to try to fix as many issues as possible. The fixes are made to the actual files themselves and only the remaining unfixed issues are output. Not all problems are fixable using this option, and the option does not work in these situations:
+
+1. This option throws an error when code is piped to ESLint.
+1. This option has no effect on code that uses a processor, unless the processor opts into allowing autofixes.
+
+If you want to fix code from `stdin` or otherwise want to get the fixes without actually writing them to the file, use the [`--fix-dry-run`](#--fix-dry-run) option.
+
+#### `--fix-dry-run`
+
+This option has the same effect as `--fix` with one difference: the fixes are not saved to the file system. This makes it possible to fix code from `stdin` (when used with the `--stdin` flag).
+
+Because the default formatter does not output the fixed code, you'll have to use another one (e.g. `json`) to get the fixes. Here's an example of this pattern:
+
+```
+getSomeText | eslint --stdin --fix-dry-run --format=json
+```
+
+This flag can be useful for integrations (e.g. editor plugins) which need to autofix text from the command line without saving it to the filesystem.
+
 ### Ignoring files
 
 #### `--ignore-path`
@@ -372,27 +395,6 @@ Examples:
 This option will start config initialization wizard. It's designed to help new users quickly create .eslintrc file by answering a few questions, choosing a popular style guide, or inspecting your source files and attempting to automatically generate a suitable configuration.
 
 The resulting configuration file will be created in the current directory.
-
-#### `--fix`
-
-This option instructs ESLint to try to fix as many issues as possible. The fixes are made to the actual files themselves and only the remaining unfixed issues are output. Not all problems are fixable using this option, and the option does not work in these situations:
-
-1. This option throws an error when code is piped to ESLint.
-1. This option has no effect on code that uses a processor, unless the processor opts into allowing autofixes.
-
-If you want to fix code from `stdin` or otherwise want to get the fixes without actually writing them to the file, use the [`--fix-dry-run`](#--fix-dry-run) option.
-
-#### `--fix-dry-run`
-
-This option has the same effect as `--fix` with one difference: the fixes are not saved to the file system. This makes it possible to fix code from `stdin` (when used with the `--stdin` flag).
-
-Because the default formatter does not output the fixed code, you'll have to use another one (e.g. `json`) to get the fixes. Here's an example of this pattern:
-
-```
-getSomeText | eslint --stdin --fix-dry-run --format=json
-```
-
-This flag can be useful for integrations (e.g. editor plugins) which need to autofix text from the command line without saving it to the filesystem.
 
 #### `--debug`
 
