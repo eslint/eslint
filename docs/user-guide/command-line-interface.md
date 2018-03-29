@@ -364,6 +364,36 @@ Examples:
     eslint --color file.js | cat
     eslint --no-color file.js
 
+### Inline configuration comments
+
+#### `--no-inline-config`
+
+This option prevents inline comments like `/*eslint-disable*/` or
+`/*global foo*/` from having any effect. This allows you to set an ESLint
+config without files modifying it. All inline config comments are ignored, e.g.:
+
+* `/*eslint-disable*/`
+* `/*eslint-enable*/`
+* `/*global*/`
+* `/*eslint*/`
+* `/*eslint-env*/`
+* `// eslint-disable-line`
+* `// eslint-disable-next-line`
+
+Example:
+
+    eslint --no-inline-config file.js
+
+#### `--report-unused-disable-directives`
+
+This option causes ESLint to report directive comments like `// eslint-disable-line` when no errors would have been reported on that line anyway. This can be useful to prevent future errors from unexpectedly being suppressed, by cleaning up old `eslint-disable` comments which are no longer applicable.
+
+**Warning**: When using this option, it is possible that new errors will start being reported whenever ESLint or custom rules are upgraded. For example, suppose a rule has a bug that causes it to report a false positive, and an `eslint-disable` comment is added to suppress the incorrect report. If the bug is then fixed in a patch release of ESLint, the `eslint-disable` comment will become unused since ESLint is no longer generating an incorrect report. This will result in a new reported error for the unused directive if the `report-unused-disable-directives` option is used.
+
+Example:
+
+    eslint --report-unused-disable-directives file.js
+
 ### Caching
 
 #### `--cache`
@@ -407,34 +437,6 @@ This option outputs the help menu, displaying all of the available options. All 
 #### `-v`, `--version`
 
 This option outputs the current ESLint version onto the console. All other options are ignored when this is present.
-
-#### `--no-inline-config`
-
-This option prevents inline comments like `/*eslint-disable*/` or
-`/*global foo*/` from having any effect. This allows you to set an ESLint
-config without files modifying it. All inline config comments are ignored, e.g.:
-
-* `/*eslint-disable*/`
-* `/*eslint-enable*/`
-* `/*global*/`
-* `/*eslint*/`
-* `/*eslint-env*/`
-* `// eslint-disable-line`
-* `// eslint-disable-next-line`
-
-Example:
-
-    eslint --no-inline-config file.js
-
-#### `--report-unused-disable-directives`
-
-This option causes ESLint to report directive comments like `// eslint-disable-line` when no errors would have been reported on that line anyway. This can be useful to prevent future errors from unexpectedly being suppressed, by cleaning up old `eslint-disable` comments which are no longer applicable.
-
-**Warning**: When using this option, it is possible that new errors will start being reported whenever ESLint or custom rules are upgraded. For example, suppose a rule has a bug that causes it to report a false positive, and an `eslint-disable` comment is added to suppress the incorrect report. If the bug is then fixed in a patch release of ESLint, the `eslint-disable` comment will become unused since ESLint is no longer generating an incorrect report. This will result in a new reported error for the unused directive if the `report-unused-disable-directives` option is used.
-
-Example:
-
-    eslint --report-unused-disable-directives file.js
 
 #### `--print-config`
 
