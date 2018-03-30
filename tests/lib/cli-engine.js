@@ -2979,9 +2979,10 @@ describe("CLIEngine", () => {
     describe("resolveFileGlobPatterns", () => {
 
         leche.withData([
-            [".", "**/*.js"],
-            ["./", "**/*.js"],
-            ["../", "../**/*.js"]
+            [".", ["**/*.js"]],
+            ["./", ["**/*.js"]],
+            ["../", ["../**/*.js"]],
+            ["", []]
         ], (input, expected) => {
 
             it(`should correctly resolve ${input} to ${expected}`, () => {
@@ -2989,7 +2990,7 @@ describe("CLIEngine", () => {
 
                 const result = engine.resolveFileGlobPatterns([input]);
 
-                assert.strictEqual(result[0], expected);
+                assert.deepStrictEqual(result, expected);
 
             });
         });
