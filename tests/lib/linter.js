@@ -3259,10 +3259,7 @@ describe("Linter", () => {
 
             const messages = linter.verify("var x = { ...y };", {
                 parserOptions: {
-                    ecmaVersion: 6,
-                    ecmaFeatures: {
-                        experimentalObjectRestSpread: true
-                    }
+                    ecmaVersion: 2018
                 }
             }, filename);
 
