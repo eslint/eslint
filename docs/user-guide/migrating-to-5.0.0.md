@@ -21,6 +21,7 @@ The lists below are ordered roughly by the number of users each change is expect
 
 ### Breaking changes for integration developers
 
+1. [The `source` property is no longer available on individual linting messages](#source-property)
 1. [Fatal errors now result in an exit code of 2](#exit-code-two)
 1. [The `eslint.linter` property is now non-enumerable](#non-enumerable-linter)
 
@@ -138,6 +139,12 @@ In ESLint v5, reporting a problem without providing a message always results in 
 **To address:** If you have written a custom rule that reports a problem without providing a message, update it to provide a message along with the report.
 
 ---
+
+## <a name="source-property"/> The `source` property is no longer available on individual linting messages
+
+As announced in [October 2016](/blog/2016/10/eslint-v3.8.0-released#additional-property-on-linting-results), the `source` property has been removed from individual lint message objects.
+
+**To address:** If you have a formatter or integration which relies on using the `source` property on individual linting messages, you should update it to use the `source` property on file results objects instead.
 
 ## <a name="exit-code-two"/> Fatal errors now result in an exit code of 2
 
