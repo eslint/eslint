@@ -37,7 +37,7 @@ As of April 30th, 2018, Node.js 4 will be at EOL and will no longer be receiving
 
 **To address:** Make sure you upgrade to at least Node.js 6 when using ESLint v5. If you are unable to upgrade, we recommend continuing to use ESLint v4.x until you are able to upgrade Node.js.
 
-*Note: Node.js 4 can still be used with the latest alpha release of ESLint v5, but we plan to officially drop support for it before the first stable release.*
+*Note: The latest alpha release of ESLint v5 may still function on Node.js 4, but we plan to officially drop support for it before the first stable release.*
 
 ## <a name="experimental-object-rest-spread"></a> The `experimentalObjectRestSpread` option has been deprecated
 
