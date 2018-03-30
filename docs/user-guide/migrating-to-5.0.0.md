@@ -27,7 +27,7 @@ The lists below are ordered roughly by the number of users each change is expect
 
 ---
 
-## <a name="drop-node-4"/> Node.js 4 is no longer supported
+## <a name="drop-node-4"></a> Node.js 4 is no longer supported
 
 As of April 30th, 2018, Node.js 4 will be at EOL and will no longer be receiving security updates. As a result, we have decided to drop support for it in ESLint v5. We now support the following versions of Node.js:
 
@@ -39,7 +39,7 @@ As of April 30th, 2018, Node.js 4 will be at EOL and will no longer be receiving
 
 *Note: Node.js 4 can still be used with the latest alpha release of ESLint v5, but we plan to officially drop support for it before the first stable release.*
 
-## <a name="experimental-object-rest-spread"/> The `experimentalObjectRestSpread` option has been deprecated
+## <a name="experimental-object-rest-spread"></a> The `experimentalObjectRestSpread` option has been deprecated
 
 Previously, when using the default parser it was possible to use the `experimentalObjectRestSpread` option to enable support for [rest/spread properties](https://developers.google.com/web/updates/2017/06/object-rest-spread), as follows:
 
@@ -71,7 +71,7 @@ For compatibility, ESLint v5 will treat `ecmaFeatures: { experimentalObjectRestS
 
 *Note: In the latest alpha release of ESLint v5, `experimentalObjectRestSpread` is not yet implemented as an alias for `ecmaVersion: 2018`, so configs that use `experimentalObjectRestSpread` may temporarily cause parsing errors. We plan to add this alias in a future prerelease.*
 
-## <a name="nonexistent-files"/> Linting nonexistent files from the command line is now a fatal error
+## <a name="nonexistent-files"></a> Linting nonexistent files from the command line is now a fatal error
 
 Previous versions of ESLint silently ignored any nonexistent files and globs provided on the command line:
 
@@ -94,7 +94,7 @@ If you use a boilerplate generator that relies on this behavior (e.g. to generat
 
 *Note: This change has not yet appeared in the latest alpha release. We plan to add it in a future prerelease.*
 
-## <a name="empty-files"/> Empty files are now linted
+## <a name="empty-files"></a> Empty files are now linted
 
 ESLint v4 had a special behavior when linting files that only contain whitespace: it would skip running the parser and rules, and it would always return zero errors. This led to some confusion for users and rule authors, particularly when writing tests for rules. (When writing a stylistic rule, rule authors would occasionally write a test where the source code only contained whitespace, to ensure that the rule behaved correctly when no applicable code was found. However, a test like this would actually not run the rule at all, so an aspect of the rule would end up untested.)
 
@@ -102,7 +102,7 @@ ESLint v5 treats whitespace-only files the same way as all other files: it parse
 
 **To address:** If you have an empty file in your project and you don't want it to be linted, consider adding it to an [`.eslintignore` file](/docs/user-guide/configuring#ignoring-files-and-directories).
 
-## <a name="scoped-plugins"/> Plugins in scoped packages are now resolvable in configs
+## <a name="scoped-plugins"></a> Plugins in scoped packages are now resolvable in configs
 
 When it encounters a plugin name in a config starting with `@`, ESLint v5 will resolve it as a [scoped npm package](https://docs.npmjs.com/misc/scope). For example, if a config contains `"plugins": ["@foo"]`, ESLint v5 will attempt to load a package called `@foo/eslint-plugin`. (On the other hand, ESLint v4 would attempt to load a package called `eslint-plugin-@foo`.) This is a breaking change because users might have been relying on ESLint finding a package at `node_modules/eslint-plugin-@foo`. However, we think it is unlikely that many users were relying on this behavior, because packages published to npm cannot contain an `@` character in the middle.
 
@@ -110,7 +110,7 @@ When it encounters a plugin name in a config starting with `@`, ESLint v5 will r
 
 ---
 
-## <a name="parent-before-rules"/> The `parent` property of AST nodes is now set before rules start running
+## <a name="parent-before-rules"></a> The `parent` property of AST nodes is now set before rules start running
 
 Previously, ESLint would set the `parent` property on each AST node immediately before running rule listeners for that node. This caused some confusion for rule authors, because the `parent` property would not initially be present on any nodes, and it was sometimes necessary to complicate the structure of a rule to ensure that the `parent` property of a given node would be available when needed.
 
@@ -118,19 +118,19 @@ In ESLint v5, the `parent` property is set on all AST nodes before any rules hav
 
 **To address:** If you have written a custom rule that enumerates all properties of an AST node, consider excluding the `parent` property or implementing cycle detection to ensure that you obtain the correct result.
 
-## <a name="jsx-text-nodes"/> When using the default parser, text nodes in JSX elements now have type `JSXText`
+## <a name="jsx-text-nodes"></a> When using the default parser, text nodes in JSX elements now have type `JSXText`
 
 When parsing JSX code like `<a>foo</a>`, the default parser will now give the `foo` AST node the `JSXText` type, rather than the `Literal` type. This makes the AST compliant with a recent update to the JSX spec.
 
 **To address:** If you have written a custom rule that relies on text nodes in JSX elements having the `Literal` type, you should update it to also work with nodes that have the `JSXText` type.
 
-## <a name="rule-tester-equality"/> `RuleTester` now uses strict equality checks in its assertions
+## <a name="rule-tester-equality"></a> `RuleTester` now uses strict equality checks in its assertions
 
 Previously, `RuleTester` used loose equality when making some of its assertions. For example, if a rule produced the string `"7"` as a result of autofixing, `RuleTester` would allow the number `7` in an `output` assertion, rather than the string `"7"`. In ESLint v5, comparisons from `RuleTester` use strict equality, so an assertion like this will no longer pass.
 
 **To address:** If you use `RuleTester` to write tests for your custom rules, make sure the expected values in your assertions are strictly equal to the actual values.
 
-## <a name="required-report-messages"/> Rules are now required to provide messages along with reports
+## <a name="required-report-messages"></a> Rules are now required to provide messages along with reports
 
 Previously, it was possible for rules to report AST nodes without providing a report message. This was not intended behavior, and as a result the default formatter would crash if a rule omitted a message. However, it was possible to avoid a crash when using a non-default formatter, such as `json`.
 
@@ -140,13 +140,13 @@ In ESLint v5, reporting a problem without providing a message always results in 
 
 ---
 
-## <a name="source-property"/> The `source` property is no longer available on individual linting messages
+## <a name="source-property"></a> The `source` property is no longer available on individual linting messages
 
 As announced in [October 2016](/blog/2016/10/eslint-v3.8.0-released#additional-property-on-linting-results), the `source` property has been removed from individual lint message objects.
 
 **To address:** If you have a formatter or integration which relies on using the `source` property on individual linting messages, you should update it to use the `source` property on file results objects instead.
 
-## <a name="exit-code-two"/> Fatal errors now result in an exit code of 2
+## <a name="exit-code-two"></a> Fatal errors now result in an exit code of 2
 
 When using ESLint v4, both of the following scenarios resulted in an exit code of 1 when running ESLint on the command line:
 
@@ -159,7 +159,7 @@ In ESLint v5, an unsuccessful linting run due to a fatal error will result in an
 
 **To address:** If you have an integration that detects all problems with linting runs by checking whether the exit code is equal to 1, update it to check whether the exit code is nonzero instead.
 
-## <a name="non-enumerable-linter"/> The `eslint.linter` property is now non-enumerable
+## <a name="non-enumerable-linter"></a> The `eslint.linter` property is now non-enumerable
 
 When using ESLint's Node.js API, the [`linter`](/docs/developer-guide/nodejs-api#linter-1) property is now non-enumerable. Note that the `linter` property was deprecated in ESLint v4 in favor of the [`Linter`](/docs/developer-guide/nodejs-api#linter) property.
 
