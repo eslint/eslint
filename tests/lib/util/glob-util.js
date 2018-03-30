@@ -274,6 +274,17 @@ describe("globUtil", () => {
             }, `'${filename}' was not found.`);
         });
 
+        it("should throw if a folder that does not have any applicable files is linted", () => {
+            const filename = getFixturePath("glob-util", "empty");
+            const patterns = [filename];
+
+            assert.throws(() => {
+                globUtil.listFilesToProcess(patterns, {
+                    cwd: getFixturePath()
+                });
+            }, `'${filename}' was not found.`);
+        });
+
         it("should not return an ignored file", () => {
 
             // Relying here on the .eslintignore from the repo root
