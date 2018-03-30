@@ -309,7 +309,11 @@ function prerelease(prereleaseId) {
     // always write docs into the next major directory (so 2.0.0-alpha.0 writes to 2.0.0)
     target.gensite(semver.inc(releaseInfo.version, "major"));
     generateBlogPost(releaseInfo);
-    echo("Site has not been pushed, please update blog post and push manually.");
+    publishSite(`v${releaseInfo.version}`);
+    echo("Site has been published");
+
+    echo("Publishing to GitHub");
+    ReleaseOps.publishReleaseToGitHub(releaseInfo);
 }
 
 
