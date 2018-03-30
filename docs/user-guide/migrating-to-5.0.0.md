@@ -102,6 +102,8 @@ ESLint v5 treats whitespace-only files the same way as all other files: it parse
 
 **To address:** If you have an empty file in your project and you don't want it to be linted, consider adding it to an [`.eslintignore` file](/docs/user-guide/configuring#ignoring-files-and-directories).
 
+If you have a custom rule, you should make sure it handles empty files appropriately. (In most cases, no changes should be necessary.)
+
 ## <a name="scoped-plugins"></a> Plugins in scoped packages are now resolvable in configs
 
 When it encounters a plugin name in a config starting with `@`, ESLint v5 will resolve it as a [scoped npm package](https://docs.npmjs.com/misc/scope). For example, if a config contains `"plugins": ["@foo"]`, ESLint v5 will attempt to load a package called `@foo/eslint-plugin`. (On the other hand, ESLint v4 would attempt to load a package called `eslint-plugin-@foo`.) This is a breaking change because users might have been relying on ESLint finding a package at `node_modules/eslint-plugin-@foo`. However, we think it is unlikely that many users were relying on this behavior, because packages published to npm cannot contain an `@` character in the middle.
