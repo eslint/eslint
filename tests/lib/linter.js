@@ -98,7 +98,7 @@ describe("Linter", () => {
             }));
 
             assert.throws(() => {
-                linter.verify(code, config, filename, true);
+                linter.verify(code, config, filename);
             }, "Intentional error.");
         });
 
@@ -4362,6 +4362,4 @@ describe("Linter", () => {
             });
         });
     }
-
-
 });
