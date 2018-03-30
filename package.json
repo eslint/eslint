@@ -88,7 +88,7 @@
     "eslint-plugin-eslint-plugin": "^1.2.0",
     "eslint-plugin-node": "^5.1.0",
     "eslint-plugin-rulesdir": "^0.1.0",
-    "eslint-release": "^0.10.1",
+    "eslint-release": "^0.11.1",
     "eslint-rule-composer": "^0.1.0",
     "eslump": "1.6.0",
     "esprima": "^4.0.0",
