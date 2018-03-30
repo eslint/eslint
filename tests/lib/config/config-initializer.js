@@ -170,7 +170,7 @@ describe("configInitializer", () => {
                 const config = init.processAnswers(answers);
 
                 assert.strictEqual(config.parserOptions.ecmaFeatures.jsx, true);
-                assert.strictEqual(config.parserOptions.ecmaFeatures.experimentalObjectRestSpread, true);
+                assert.strictEqual(config.parserOptions.ecmaVersion, 2018);
                 assert.deepStrictEqual(config.plugins, ["react"]);
             });
 

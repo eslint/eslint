@@ -3255,14 +3255,11 @@ describe("Linter", () => {
             });
         });
 
-        it("should properly parse object spread when passed ecmaFeatures", () => {
+        it("should properly parse object spread when ecmaVersion is 2018", () => {
 
             const messages = linter.verify("var x = { ...y };", {
                 parserOptions: {
-                    ecmaVersion: 6,
-                    ecmaFeatures: {
-                        experimentalObjectRestSpread: true
-                    }
+                    ecmaVersion: 2018
                 }
             }, filename);
 
