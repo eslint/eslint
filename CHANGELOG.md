@@ -1,3 +1,27 @@
+v5.0.0-alpha.0 - March 30, 2018
+
+* f4b3af5 Breaking: Upgrade to Espree v4 alpha (refs #9990) (#10152) (Brandon Mills)
+* 3351129 Docs: add v5.0.0 migration guide (fixes #10142) (#10147) (Teddy Katz)
+* f2f98dd Build: make prerelease script publish to GitHub/website (#10151) (Teddy Katz)
+* d440e84 Breaking: support @scope shorthand in plugins (fixes #9903) (#9905) (Toru Nagashima)
+* 462b058 Update: Include debugging information when rule throws error (#9742) (Patrick Hayes)
+* 9a020dc Chore: refactor --no-ignore flag logic (#10146) (Teddy Katz)
+* 4f61a0d Chore: add noopener/noreferrer (薛定谔的猫)
+* 65cc834 Docs: Ensure CLI doc sections match command line help order (#10144) (Kevin Partington)
+* 9c79174 Docs: Update capitalized-comments with missing letters (fixes #10135) (#10134) (jasonfry)
+* 9e66bfb Docs: remove eslint vs jshint from faq (#10108) (alberto)
+* 692e383 Docs: Add modified variable examples for no-loop-func (fixes #9527) (#10098) (Rachael Sim)
+* a9ee9ae Breaking: require rules to provide report messages (fixes #10011) (#10057) (Teddy Katz)
+* 837edc7 Chore: Uncommented test for empty program for no-invalid-meta (#10046) (Kevin Partington)
+* c383bc5 Breaking: Make require('eslint').linter non-enumerable (fixes #9270) (#9692) (Jed Fox)
+* 4eaebe5 Breaking: set `parent` of AST nodes before rules run (fixes #9122) (#10014) (Teddy Katz)
+* 91ece32 Breaking: remove special exception for linting empty files (fixes #9534) (#10013) (Teddy Katz)
+* 27e3f24 Breaking: remove `source` property from linting messages (fixes #7358) (#10012) (Teddy Katz)
+* e4c3b3c Breaking: use an exit code of 2 for fatal config problems (fixes #9384) (#10009) (Teddy Katz)
+* 2a7ecaa Breaking: Use strict equality in RuleTester comparisons (fixes #9417) (#10008) (Teddy Katz)
+* 0bc4a38 Fix: Make rule-tester strictly check messageId. (ref #9890) (#9908) (Jacques Favreau)
+* ea6fb17 Update: Make no-cond-assign work for ternaries (fixes #10091) (#10109) (Aaron Harper)
+
 v4.19.1 - March 21, 2018
 
 * 3ff5d11 Fix: no-invalid-regexp not understand variable for flags (fixes #10112) (#10113) (薛定谔的猫)
