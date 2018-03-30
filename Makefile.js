@@ -204,6 +204,9 @@ function generateFormatterExamples(formatterInfo, prereleaseVersion) {
     if (prereleaseVersion) {
         filename = filename.replace("/docs", `/docs/${prereleaseVersion}`);
         htmlFilename = htmlFilename.replace("/docs", `/docs/${prereleaseVersion}`);
+        if (!test("-d", path.dirname(filename))) {
+            mkdir(path.dirname(filename));
+        }
     }
 
     output.to(filename);
@@ -765,6 +768,9 @@ target.gensite = function(prereleaseVersion) {
 
     if (prereleaseVersion) {
         outputDir += `/${prereleaseVersion}`;
+        if (!test("-d", outputDir)) {
+            mkdir(outputDir);
+        }
     }
     cp("-rf", `${TEMP_DIR}*`, outputDir);
 
