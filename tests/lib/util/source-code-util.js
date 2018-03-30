@@ -158,7 +158,7 @@ describe("SourceCodeUtil", () => {
             assert.property(sourceCode, barFilename);
         });
 
-        it("should should not include non-existent filesnames in results", () => {
+        it("should should not include non-existent filenames in results", () => {
             const filename = getFixturePath("missing.js");
 
             assert.throws(() => {

@@ -2597,7 +2597,7 @@ describe("CLIEngine", () => {
                 }, "'aaa.js' was not found.");
             });
 
-            it("a mix of an exist file and a non-exist file", () => {
+            it("a mix of an existing file and a non-existing file", () => {
                 assert.throws(() => {
                     engine.executeOnFiles(["console.js", "non-exist.js"]);
                 }, "'non-exist.js' was not found.");
