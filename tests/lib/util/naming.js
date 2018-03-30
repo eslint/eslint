@@ -36,32 +36,23 @@ describe("naming", () => {
 
     });
 
-    describe("removePrefixFromTerm()", () => {
-        it("should remove prefix when passed a term with a prefix", () => {
-            const pluginName = naming.removePrefixFromTerm("eslint-plugin-", "eslint-plugin-test");
+    describe("getShorthandName()", () => {
 
-            assert.strictEqual(pluginName, "test");
+        leche.withData([
+            ["foo", "foo"],
+            ["eslint-config-foo", "foo"],
+            ["@z", "@z"],
+            ["@z/eslint-config", "@z"],
+            ["@z/foo", "@z/foo"],
+            ["@z/eslint-config-foo", "@z/foo"]
+        ], (input, expected) => {
+            it(`should return ${expected} when passed ${input}`, () => {
+                const result = naming.getShorthandName(input, "eslint-config");
+
+                assert.strictEqual(result, expected);
+            });
         });
 
-        it("should not modify term when passed a term without a prefix", () => {
-            const pluginName = naming.removePrefixFromTerm("eslint-plugin-", "test");
-
-            assert.strictEqual(pluginName, "test");
-        });
-    });
-
-    describe("addPrefixToTerm()", () => {
-        it("should add prefix when passed a term without a prefix", () => {
-            const pluginName = naming.addPrefixToTerm("eslint-plugin-", "test");
-
-            assert.strictEqual(pluginName, "eslint-plugin-test");
-        });
-
-        it("should not modify term when passed a term with a prefix", () => {
-            const pluginName = naming.addPrefixToTerm("eslint-plugin-", "eslint-plugin-test");
-
-            assert.strictEqual(pluginName, "eslint-plugin-test");
-        });
     });
 
     describe("getNamespaceFromTerm()", () => {
@@ -69,14 +60,6 @@ describe("naming", () => {
             const namespace = naming.getNamespaceFromTerm("@namepace/eslint-plugin-test");
 
             assert.strictEqual(namespace, "@namepace/");
-        });
-    });
-
-    describe("removeNamespaceFromTerm()", () => {
-        it("should remove namepace when passed with namepace", () => {
-            const namespace = naming.removeNamespaceFromTerm("@namepace/eslint-plugin-test");
-
-            assert.strictEqual(namespace, "eslint-plugin-test");
         });
     });
 });
