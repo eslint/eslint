@@ -150,7 +150,7 @@ console.log(secondVar);
 
 The `args` option has three settings:
 
-* `after-used` - unused arguments that occur before the last used argument will not be checked, but all other arguments (including after the last used argument) will be checked.
+* `after-used` - unused positional arguments that occur before the last used argument will not be checked, but all named arguments and all positional arguments after the last used argument will be checked.
 * `all` - all named arguments must be used.
 * `none` - do not check arguments.
 
