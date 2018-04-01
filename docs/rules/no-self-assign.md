@@ -58,7 +58,7 @@ This rule has the option to check properties as well.
 Examples of **incorrect** code for the `{ "props": true }` option:
 
 ```js
-/*eslint no-self-assign: [error, {props: true}]*/
+/*eslint no-self-assign: ["error", {"props": true}]*/
 
 // self-assignments with properties.
 obj.a = obj.a;
@@ -70,7 +70,7 @@ obj[a] = obj[a];
 Examples of **correct** code for the `{ "props": true }` option:
 
 ```js
-/*eslint no-self-assign: [error, {props: true}]*/
+/*eslint no-self-assign: ["error", {"props": true}]*/
 
 // non-self-assignments with properties.
 obj.a = obj.b;
