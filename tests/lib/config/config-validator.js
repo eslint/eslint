@@ -306,6 +306,12 @@ describe("Validator", () => {
                 assert.doesNotThrow(fn);
             });
 
+            it("should throw an error when the rule does not exist", () => {
+                const fn = validator.validate.bind(null, { rules: { "non-exsistent-rule": "off" } }, "tests", ruleMapper, linter.environments);
+
+                assert.throws(fn, "Definition for rule 'non-exsistent-rule' was not found.");
+            });
+
             it("should do nothing with an invalid config when severity is an array with 'off'", () => {
                 const fn = validator.validate.bind(null, { rules: { "mock-required-options-rule": ["off"] } }, "tests", ruleMapper, linter.environments);
 
