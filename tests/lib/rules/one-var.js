@@ -473,8 +473,19 @@ ruleTester.run("one-var", rule, {
         {
             code: "var a = 1, b = 2; var c; var d; var e = 3, f = 4;",
             options: [{ initialized: "consecutive", uninitialized: "never" }]
+        },
+        {
+            code: "var a; somethingElse(); var b;",
+            output: null,
+            options: [{ var: "never" }],
+            errors: null
+        },
+        {
+            code: "var foo = 1;\nlet bar = function() { var x; };\nvar baz = 2;",
+            output: null,
+            options: [{ var: "never" }],
+            errors: null
         }
-
     ],
     invalid: [
         {
