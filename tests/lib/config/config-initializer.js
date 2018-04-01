@@ -226,12 +226,6 @@ describe("configInitializer", () => {
                 assert.deepStrictEqual(config, { extends: "standard", installedESLint: true });
             });
 
-            it("should throw when encountering an unsupported style guide", () => {
-                assert.throws(() => {
-                    init.getConfigForStyleGuide("non-standard");
-                }, "You referenced an unsupported guide.");
-            });
-
             it("should install required sharable config", () => {
                 init.getConfigForStyleGuide("google");
                 assert(npmInstallStub.calledOnce);
