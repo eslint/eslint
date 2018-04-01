@@ -65,6 +65,7 @@ module.exports = {
         "lines-around-comment": "off",
         "lines-around-directive": "off",
         "lines-between-class-members": "off",
+        "max-classes-per-file": "off",
         "max-depth": "off",
         "max-len": "off",
         "max-lines": "off",
