@@ -94,7 +94,7 @@
     "esprima": "^4.0.0",
     "istanbul": "^0.4.5",
     "jsdoc": "^3.5.5",
-    "karma": "^1.7.0",
+    "karma": "^2.0.0",
     "karma-babel-preprocessor": "^6.0.1",
     "karma-mocha": "^1.3.0",
     "karma-mocha-reporter": "^2.2.3",
