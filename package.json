@@ -38,7 +38,7 @@
     "babel-code-frame": "^6.26.0",
     "chalk": "^2.1.0",
     "concat-stream": "^1.6.2",
-    "cross-spawn": "^5.1.0",
+    "cross-spawn": "^6.0.5",
     "debug": "^3.1.0",
     "doctrine": "^2.1.0",
     "eslint-scope": "^3.7.1",
