@@ -37,9 +37,9 @@ ruleTester.run("no-restricted-syntax", rule, {
             code: "({ foo: 1, bar: 2 })",
             options: [{ selector: "FunctionDeclaration[params.length>2]", message: "custom error message." }]
         },
-        
+
         // https://github.com/eslint/eslint/issues/8733
-        { code: "console.log(/a/);", options: ["Literal[regex.flags=/./]"] },
+        { code: "console.log(/a/);", options: ["Literal[regex.flags=/./]"] }
     ],
     invalid: [
 
@@ -123,7 +123,7 @@ ruleTester.run("no-restricted-syntax", rule, {
             options: [{ selector: "FunctionDeclaration[params.length>2]", message: "custom message with {{selector}}" }],
             errors: [{ message: "custom message with {{selector}}", type: "FunctionDeclaration" }]
         },
-        
+
         // https://github.com/eslint/eslint/issues/8733
         {
             code: "console.log(/a/i);",
