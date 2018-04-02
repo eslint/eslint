@@ -98,7 +98,6 @@ ruleTester.run("no-restricted-syntax", rule, {
             options: ["FunctionDeclaration[params.length>2]"],
             errors: [{ message: "Using 'FunctionDeclaration[params.length>2]' is not allowed.", type: "FunctionDeclaration" }]
         },
-        { code: "console.log(/a/);", options: ["Literal[regex.flags=/./]"] },
 
         // object format
         {
