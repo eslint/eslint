@@ -36,7 +36,10 @@ ruleTester.run("no-restricted-syntax", rule, {
         {
             code: "({ foo: 1, bar: 2 })",
             options: [{ selector: "FunctionDeclaration[params.length>2]", message: "custom error message." }]
-        }
+        },
+        
+        // https://github.com/eslint/eslint/issues/8733
+        { code: "console.log(/a/);", options: ["Literal[regex.flags=/./]"] },
     ],
     invalid: [
 
@@ -95,6 +98,7 @@ ruleTester.run("no-restricted-syntax", rule, {
             options: ["FunctionDeclaration[params.length>2]"],
             errors: [{ message: "Using 'FunctionDeclaration[params.length>2]' is not allowed.", type: "FunctionDeclaration" }]
         },
+        { code: "console.log(/a/);", options: ["Literal[regex.flags=/./]"] },
 
         // object format
         {
@@ -118,6 +122,13 @@ ruleTester.run("no-restricted-syntax", rule, {
             code: "function foo(bar, baz, qux) {}",
             options: [{ selector: "FunctionDeclaration[params.length>2]", message: "custom message with {{selector}}" }],
             errors: [{ message: "custom message with {{selector}}", type: "FunctionDeclaration" }]
+        },
+        
+        // https://github.com/eslint/eslint/issues/8733
+        {
+            code: "console.log(/a/i);",
+            options: ["Literal[regex.flags=/./]"],
+            errors: [{ message: "Using 'Literal[regex.flags=/./]' is not allowed.", type: "Literal" }]
         }
     ]
 });
