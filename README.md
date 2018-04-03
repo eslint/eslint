@@ -98,49 +98,6 @@ The names `"semi"` and `"quotes"` are the names of [rules](https://eslint.org/do
 
 The three error levels allow you fine-grained control over how ESLint applies rules (for more configuration options and details, see the [configuration docs](https://eslint.org/docs/user-guide/configuring)).
 
-## Sponsors
-
-* Site search ([eslint.org](https://eslint.org)) is sponsored by [Algolia](https://www.algolia.com)
-
-## Team
-
-These folks keep the project moving and are resources for help.
-
-### Technical Steering Committee (TSC)
-
-* Nicholas C. Zakas ([@nzakas](https://github.com/nzakas))
-* Ilya Volodin ([@ilyavolodin](https://github.com/ilyavolodin))
-* Brandon Mills ([@btmills](https://github.com/btmills))
-* Gyandeep Singh ([@gyandeeps](https://github.com/gyandeeps))
-* Toru Nagashima ([@mysticatea](https://github.com/mysticatea))
-* Alberto Rodríguez ([@alberto](https://github.com/alberto))
-* Kai Cataldo ([@kaicataldo](https://github.com/kaicataldo))
-* Teddy Katz ([@not-an-aardvark](https://github.com/not-an-aardvark))
-* Kevin Partington ([@platinumazure](https://github.com/platinumazure))
-
-### Development Team
-
-* Mathias Schreck ([@lo1tuma](https://github.com/lo1tuma))
-* Jamund Ferguson ([@xjamundx](https://github.com/xjamundx))
-* Ian VanSchooten ([@ianvs](https://github.com/ianvs))
-* Burak Yiğit Kaya ([@byk](https://github.com/byk))
-* Michael Ficarra ([@michaelficarra](https://github.com/michaelficarra))
-* Mark Pedrotti ([@pedrottimark](https://github.com/pedrottimark))
-* Oleg Gaidarenko ([@markelog](https://github.com/markelog))
-* Mike Sherov ([@mikesherov](https://github.com/mikesherov))
-* Henry Zhu ([@hzoo](https://github.com/hzoo))
-* Marat Dulin ([@mdevils](https://github.com/mdevils))
-* Alexej Yaroshevich ([@zxqfox](https://github.com/zxqfox))
-* Vitor Balocco ([@vitorbal](https://github.com/vitorbal))
-* James Henry ([@JamesHenry](https://github.com/JamesHenry))
-* Reyad Attiyat ([@soda0289](https://github.com/soda0289))
-* 薛定谔的猫 ([@Aladdin-ADD](https://github.com/Aladdin-ADD))
-* Victor Hom ([@VictorHom](https://github.com/VictorHom))
-
-## Releases
-
-We have scheduled releases every two weeks on Friday or Saturday.
-
 ## Code of Conduct
 
 ESLint adheres to the [JS Foundation Code of Conduct](https://js.foundation/community/code-of-conduct).
@@ -153,36 +110,6 @@ Before filing an issue, please be sure to read the guidelines for what you're re
 * [Propose a New Rule](https://eslint.org/docs/developer-guide/contributing/new-rules)
 * [Proposing a Rule Change](https://eslint.org/docs/developer-guide/contributing/rule-changes)
 * [Request a Change](https://eslint.org/docs/developer-guide/contributing/changes)
-
-## Semantic Versioning Policy
-
-ESLint follows [semantic versioning](https://semver.org). However, due to the nature of ESLint as a code quality tool, it's not always clear when a minor or major version bump occurs. To help clarify this for everyone, we've defined the following semantic versioning policy for ESLint:
-
-* Patch release (intended to not break your lint build)
-    * A bug fix in a rule that results in ESLint reporting fewer errors.
-    * A bug fix to the CLI or core (including formatters).
-    * Improvements to documentation.
-    * Non-user-facing changes such as refactoring code, adding, deleting, or modifying tests, and increasing test coverage.
-    * Re-releasing after a failed release (i.e., publishing a release that doesn't work for anyone).
-* Minor release (might break your lint build)
-    * A bug fix in a rule that results in ESLint reporting more errors.
-    * A new rule is created.
-    * A new option to an existing rule that does not result in ESLint reporting more errors by default.
-    * An existing rule is deprecated.
-    * A new CLI capability is created.
-    * New capabilities to the public API are added (new classes, new methods, new arguments to existing methods, etc.).
-    * A new formatter is created.
-* Major release (likely to break your lint build)
-    * `eslint:recommended` is updated.
-    * A new option to an existing rule that results in ESLint reporting more errors by default.
-    * An existing formatter is removed.
-    * Part of the public API is removed or changed in an incompatible way.
-
-According to our policy, any minor update may report more errors than the previous release (ex: from a bug fix). As such, we recommend using the tilde (`~`) in `package.json` e.g. `"eslint": "~3.1.0"` to guarantee the results of your builds.
-
-## License
-
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Feslint%2Feslint.svg?type=large)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Feslint%2Feslint?ref=badge_large)
 
 ## Frequently Asked Questions
 
@@ -230,6 +157,79 @@ Once a language feature has been adopted into the ECMAScript standard (stage 4 a
 ### Where to ask for help?
 
 Join our [Mailing List](https://groups.google.com/group/eslint) or [Chatroom](https://gitter.im/eslint/eslint).
+
+## Releases
+
+We have scheduled releases every two weeks on Friday or Saturday.
+
+## Semantic Versioning Policy
+
+ESLint follows [semantic versioning](https://semver.org). However, due to the nature of ESLint as a code quality tool, it's not always clear when a minor or major version bump occurs. To help clarify this for everyone, we've defined the following semantic versioning policy for ESLint:
+
+* Patch release (intended to not break your lint build)
+    * A bug fix in a rule that results in ESLint reporting fewer errors.
+    * A bug fix to the CLI or core (including formatters).
+    * Improvements to documentation.
+    * Non-user-facing changes such as refactoring code, adding, deleting, or modifying tests, and increasing test coverage.
+    * Re-releasing after a failed release (i.e., publishing a release that doesn't work for anyone).
+* Minor release (might break your lint build)
+    * A bug fix in a rule that results in ESLint reporting more errors.
+    * A new rule is created.
+    * A new option to an existing rule that does not result in ESLint reporting more errors by default.
+    * An existing rule is deprecated.
+    * A new CLI capability is created.
+    * New capabilities to the public API are added (new classes, new methods, new arguments to existing methods, etc.).
+    * A new formatter is created.
+* Major release (likely to break your lint build)
+    * `eslint:recommended` is updated.
+    * A new option to an existing rule that results in ESLint reporting more errors by default.
+    * An existing formatter is removed.
+    * Part of the public API is removed or changed in an incompatible way.
+
+According to our policy, any minor update may report more errors than the previous release (ex: from a bug fix). As such, we recommend using the tilde (`~`) in `package.json` e.g. `"eslint": "~3.1.0"` to guarantee the results of your builds.
+
+## License
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Feslint%2Feslint.svg?type=large)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Feslint%2Feslint?ref=badge_large)
+
+## Team
+
+These folks keep the project moving and are resources for help.
+
+### Technical Steering Committee (TSC)
+
+* Nicholas C. Zakas ([@nzakas](https://github.com/nzakas))
+* Ilya Volodin ([@ilyavolodin](https://github.com/ilyavolodin))
+* Brandon Mills ([@btmills](https://github.com/btmills))
+* Gyandeep Singh ([@gyandeeps](https://github.com/gyandeeps))
+* Toru Nagashima ([@mysticatea](https://github.com/mysticatea))
+* Alberto Rodríguez ([@alberto](https://github.com/alberto))
+* Kai Cataldo ([@kaicataldo](https://github.com/kaicataldo))
+* Teddy Katz ([@not-an-aardvark](https://github.com/not-an-aardvark))
+* Kevin Partington ([@platinumazure](https://github.com/platinumazure))
+
+### Development Team
+
+* Mathias Schreck ([@lo1tuma](https://github.com/lo1tuma))
+* Jamund Ferguson ([@xjamundx](https://github.com/xjamundx))
+* Ian VanSchooten ([@ianvs](https://github.com/ianvs))
+* Burak Yiğit Kaya ([@byk](https://github.com/byk))
+* Michael Ficarra ([@michaelficarra](https://github.com/michaelficarra))
+* Mark Pedrotti ([@pedrottimark](https://github.com/pedrottimark))
+* Oleg Gaidarenko ([@markelog](https://github.com/markelog))
+* Mike Sherov ([@mikesherov](https://github.com/mikesherov))
+* Henry Zhu ([@hzoo](https://github.com/hzoo))
+* Marat Dulin ([@mdevils](https://github.com/mdevils))
+* Alexej Yaroshevich ([@zxqfox](https://github.com/zxqfox))
+* Vitor Balocco ([@vitorbal](https://github.com/vitorbal))
+* James Henry ([@JamesHenry](https://github.com/JamesHenry))
+* Reyad Attiyat ([@soda0289](https://github.com/soda0289))
+* 薛定谔的猫 ([@Aladdin-ADD](https://github.com/Aladdin-ADD))
+* Victor Hom ([@VictorHom](https://github.com/VictorHom))
+
+## Sponsors
+
+* Site search ([eslint.org](https://eslint.org)) is sponsored by [Algolia](https://www.algolia.com)
 
 
 [npm-image]: https://img.shields.io/npm/v/eslint.svg?style=flat-square
