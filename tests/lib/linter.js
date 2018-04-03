@@ -974,7 +974,7 @@ describe("Linter", () => {
         if (typeof window === "undefined") {
             it("should pass parser as parserPath to all rules when provided on config", () => {
 
-                const alternateParser = "esprima-fb";
+                const alternateParser = "esprima";
 
                 linter.defineRule("test-rule", sandbox.mock().withArgs(
                     sinon.match({ parserPath: alternateParser })
@@ -4209,18 +4209,18 @@ describe("Linter", () => {
 
             it("should not report an error when JSX code contains a spread operator and JSX is enabled", () => {
                 const code = "var myDivElement = <div {...this.props} />;";
-                const messages = linter.verify(code, { parser: "esprima-fb" }, "filename");
+                const messages = linter.verify(code, { parser: "esprima", parserOptions: { jsx: true } }, "filename");
 
                 assert.strictEqual(messages.length, 0);
             });
 
             it("should return an error when the custom parser can't be found", () => {
                 const code = "var myDivElement = <div {...this.props} />;";
-                const messages = linter.verify(code, { parser: "esprima-fbxyz" }, "filename");
+                const messages = linter.verify(code, { parser: "esprima-xyz" }, "filename");
 
                 assert.strictEqual(messages.length, 1);
                 assert.strictEqual(messages[0].severity, 2);
-                assert.strictEqual(messages[0].message, "Cannot find module 'esprima-fbxyz'");
+                assert.strictEqual(messages[0].message, "Cannot find module 'esprima-xyz'");
             });
 
             it("should strip leading line: prefix from parser error", () => {
