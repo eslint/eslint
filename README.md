@@ -98,9 +98,99 @@ The names `"semi"` and `"quotes"` are the names of [rules](https://eslint.org/do
 
 The three error levels allow you fine-grained control over how ESLint applies rules (for more configuration options and details, see the [configuration docs](https://eslint.org/docs/user-guide/configuring)).
 
-## Sponsors
+## Code of Conduct
 
-* Site search ([eslint.org](https://eslint.org)) is sponsored by [Algolia](https://www.algolia.com)
+ESLint adheres to the [JS Foundation Code of Conduct](https://js.foundation/community/code-of-conduct).
+
+## Filing Issues
+
+Before filing an issue, please be sure to read the guidelines for what you're reporting:
+
+* [Bug Report](https://eslint.org/docs/developer-guide/contributing/reporting-bugs)
+* [Propose a New Rule](https://eslint.org/docs/developer-guide/contributing/new-rules)
+* [Proposing a Rule Change](https://eslint.org/docs/developer-guide/contributing/rule-changes)
+* [Request a Change](https://eslint.org/docs/developer-guide/contributing/changes)
+
+## Frequently Asked Questions
+
+### I heard ESLint is going to replace JSCS?
+
+Yes. Since we are solving the same problems, ESLint and JSCS teams have decided to join forces and work together in the development of ESLint instead of competing with each other. You can read more about this in both [ESLint](https://eslint.org/blog/2016/04/welcoming-jscs-to-eslint) and [JSCS](https://medium.com/@markelog/jscs-end-of-the-line-bc9bf0b3fdb2#.u76sx334n) announcements.
+
+### So, should I stop using JSCS and start using ESLint?
+
+Maybe, depending on how much you need it. [JSCS has reached end of life](https://eslint.org/blog/2016/07/jscs-end-of-life), but if it is working for you then there is no reason to move yet. We are still working to smooth the transition. You can see our progress [here](https://github.com/eslint/eslint/milestones/JSCS%20Compatibility). We’ll announce when all of the changes necessary to support JSCS users in ESLint are complete and will start encouraging JSCS users to switch to ESLint at that time.
+
+If you are having issues with JSCS, you can try to move to ESLint. We are focusing our time and energy on JSCS compatibility issues.
+
+### Is ESLint just linting or does it also check style?
+
+ESLint does both traditional linting (looking for problematic patterns) and style checking (enforcement of conventions). You can use it for both.
+
+### Why can't ESLint find my plugins?
+
+ESLint can be [globally or locally installed](#installation-and-usage). If you install ESLint globally, your plugins must also be installed globally; if you install ESLint locally, your plugins must also be installed locally.
+
+If you are trying to run globally, make sure your plugins are installed globally (use `npm ls -g`).
+
+If you are trying to run locally:
+
+* Make sure your plugins (and ESLint) are both in your project's `package.json` as devDependencies (or dependencies, if your project uses ESLint at runtime).
+* Make sure you have run `npm install` and all your dependencies are installed.
+
+In all cases, make sure your plugins' peerDependencies have been installed as well. You can use `npm view eslint-plugin-myplugin peerDepencies` to see what peer dependencies `eslint-plugin-myplugin` has.
+
+### Does ESLint support JSX?
+
+Yes, ESLint natively supports parsing JSX syntax (this must be enabled in [configuration](https://eslint.org/docs/user-guide/configuring)). Please note that supporting JSX syntax *is not* the same as supporting React. React applies specific semantics to JSX syntax that ESLint doesn't recognize. We recommend using [eslint-plugin-react](https://www.npmjs.com/package/eslint-plugin-react) if you are using React and want React semantics.
+
+### What ECMAScript versions does ESLint support?
+
+ESLint has full support for ECMAScript 3, 5 (default), 2015, 2016, 2017, and 2018. You can set your desired ECMAScript syntax (and other settings, like global variables or your target environments) through [configuration](https://eslint.org/docs/user-guide/configuring).
+
+### What about experimental features?
+
+ESLint doesn't natively support experimental ECMAScript language features. You can use [babel-eslint](https://github.com/babel/babel-eslint) to use any option available in Babel.
+
+Once a language feature has been adopted into the ECMAScript standard (stage 4 according to the [TC39 process](https://tc39.github.io/process-document/)), we will accept issues and pull requests related to the new feature, subject to our [contributing guidelines](https://eslint.org/docs/developer-guide/contributing). Until then, please use the appropriate parser and plugin(s) for your experimental feature.
+
+### Where to ask for help?
+
+Join our [Mailing List](https://groups.google.com/group/eslint) or [Chatroom](https://gitter.im/eslint/eslint).
+
+## Releases
+
+We have scheduled releases every two weeks on Friday or Saturday.
+
+## Semantic Versioning Policy
+
+ESLint follows [semantic versioning](https://semver.org). However, due to the nature of ESLint as a code quality tool, it's not always clear when a minor or major version bump occurs. To help clarify this for everyone, we've defined the following semantic versioning policy for ESLint:
+
+* Patch release (intended to not break your lint build)
+    * A bug fix in a rule that results in ESLint reporting fewer errors.
+    * A bug fix to the CLI or core (including formatters).
+    * Improvements to documentation.
+    * Non-user-facing changes such as refactoring code, adding, deleting, or modifying tests, and increasing test coverage.
+    * Re-releasing after a failed release (i.e., publishing a release that doesn't work for anyone).
+* Minor release (might break your lint build)
+    * A bug fix in a rule that results in ESLint reporting more errors.
+    * A new rule is created.
+    * A new option to an existing rule that does not result in ESLint reporting more errors by default.
+    * An existing rule is deprecated.
+    * A new CLI capability is created.
+    * New capabilities to the public API are added (new classes, new methods, new arguments to existing methods, etc.).
+    * A new formatter is created.
+* Major release (likely to break your lint build)
+    * `eslint:recommended` is updated.
+    * A new option to an existing rule that results in ESLint reporting more errors by default.
+    * An existing formatter is removed.
+    * Part of the public API is removed or changed in an incompatible way.
+
+According to our policy, any minor update may report more errors than the previous release (ex: from a bug fix). As such, we recommend using the tilde (`~`) in `package.json` e.g. `"eslint": "~3.1.0"` to guarantee the results of your builds.
+
+## License
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Feslint%2Feslint.svg?type=large)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Feslint%2Feslint?ref=badge_large)
 
 ## Team
 
@@ -137,109 +227,9 @@ These folks keep the project moving and are resources for help.
 * 薛定谔的猫 ([@Aladdin-ADD](https://github.com/Aladdin-ADD))
 * Victor Hom ([@VictorHom](https://github.com/VictorHom))
 
-## Releases
+## Sponsors
 
-We have scheduled releases every two weeks on Friday or Saturday.
-
-## Code of Conduct
-
-ESLint adheres to the [JS Foundation Code of Conduct](https://js.foundation/community/code-of-conduct).
-
-## Filing Issues
-
-Before filing an issue, please be sure to read the guidelines for what you're reporting:
-
-* [Bug Report](https://eslint.org/docs/developer-guide/contributing/reporting-bugs)
-* [Propose a New Rule](https://eslint.org/docs/developer-guide/contributing/new-rules)
-* [Proposing a Rule Change](https://eslint.org/docs/developer-guide/contributing/rule-changes)
-* [Request a Change](https://eslint.org/docs/developer-guide/contributing/changes)
-
-## Semantic Versioning Policy
-
-ESLint follows [semantic versioning](https://semver.org). However, due to the nature of ESLint as a code quality tool, it's not always clear when a minor or major version bump occurs. To help clarify this for everyone, we've defined the following semantic versioning policy for ESLint:
-
-* Patch release (intended to not break your lint build)
-    * A bug fix in a rule that results in ESLint reporting fewer errors.
-    * A bug fix to the CLI or core (including formatters).
-    * Improvements to documentation.
-    * Non-user-facing changes such as refactoring code, adding, deleting, or modifying tests, and increasing test coverage.
-    * Re-releasing after a failed release (i.e., publishing a release that doesn't work for anyone).
-* Minor release (might break your lint build)
-    * A bug fix in a rule that results in ESLint reporting more errors.
-    * A new rule is created.
-    * A new option to an existing rule that does not result in ESLint reporting more errors by default.
-    * An existing rule is deprecated.
-    * A new CLI capability is created.
-    * New capabilities to the public API are added (new classes, new methods, new arguments to existing methods, etc.).
-    * A new formatter is created.
-* Major release (likely to break your lint build)
-    * `eslint:recommended` is updated.
-    * A new option to an existing rule that results in ESLint reporting more errors by default.
-    * An existing formatter is removed.
-    * Part of the public API is removed or changed in an incompatible way.
-
-According to our policy, any minor update may report more errors than the previous release (ex: from a bug fix). As such, we recommend using the tilde (`~`) in `package.json` e.g. `"eslint": "~3.1.0"` to guarantee the results of your builds.
-
-## License
-
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Feslint%2Feslint.svg?type=large)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Feslint%2Feslint?ref=badge_large)
-
-## Frequently Asked Questions
-
-### How is ESLint different from JSHint?
-
-The most significant difference is that ESLint has pluggable linting rules. That means you can use the rules it comes with, or you can extend it with rules created by others or by yourself!
-
-### How does ESLint performance compare to JSHint?
-
-ESLint is slower than JSHint, usually 2-3x slower on a single file. This is because ESLint uses Espree to construct an AST before it can evaluate your code whereas JSHint evaluates your code as it's being parsed. The speed is also based on the number of rules you enable; the more rules you enable, the slower the process.
-
-Despite being slower, we believe that ESLint is fast enough to replace JSHint without causing significant pain.
-
-### I heard ESLint is going to replace JSCS?
-
-Yes. Since we are solving the same problems, ESLint and JSCS teams have decided to join forces and work together in the development of ESLint instead of competing with each other. You can read more about this in both [ESLint](https://eslint.org/blog/2016/04/welcoming-jscs-to-eslint) and [JSCS](https://medium.com/@markelog/jscs-end-of-the-line-bc9bf0b3fdb2#.u76sx334n) announcements.
-
-### So, should I stop using JSCS and start using ESLint?
-
-Maybe, depending on how much you need it. [JSCS has reached end of life](https://eslint.org/blog/2016/07/jscs-end-of-life), but if it is working for you then there is no reason to move yet. We are still working to smooth the transition. You can see our progress [here](https://github.com/eslint/eslint/milestones/JSCS%20Compatibility). We’ll announce when all of the changes necessary to support JSCS users in ESLint are complete and will start encouraging JSCS users to switch to ESLint at that time.
-
-If you are having issues with JSCS, you can try to move to ESLint. We are focusing our time and energy on JSCS compatibility issues.
-
-### Is ESLint just linting or does it also check style?
-
-ESLint does both traditional linting (looking for problematic patterns) and style checking (enforcement of conventions). You can use it for both.
-
-### Why can't ESLint find my plugins?
-
-ESLint can be [globally or locally installed](#installation-and-usage). If you install ESLint globally, your plugins must also be installed globally; if you install ESLint locally, your plugins must also be installed locally.
-
-If you are trying to run globally, make sure your plugins are installed globally (use `npm ls -g`).
-
-If you are trying to run locally:
-
-* Make sure your plugins (and ESLint) are both in your project's `package.json` as devDependencies (or dependencies, if your project uses ESLint at runtime).
-* Make sure you have run `npm install` and all your dependencies are installed.
-
-In all cases, make sure your plugins' peerDependencies have been installed as well. You can use `npm view eslint-plugin-myplugin peerDepencies` to see what peer dependencies `eslint-plugin-myplugin` has.
-
-### Does ESLint support JSX?
-
-Yes, ESLint natively supports parsing JSX syntax (this must be enabled in [configuration](https://eslint.org/docs/user-guide/configuring)). Please note that supporting JSX syntax *is not* the same as supporting React. React applies specific semantics to JSX syntax that ESLint doesn't recognize. We recommend using [eslint-plugin-react](https://www.npmjs.com/package/eslint-plugin-react) if you are using React and want React semantics.
-
-### What about ECMAScript 6 support?
-
-ESLint has full support for ECMAScript 6. By default, this support is off. You can enable ECMAScript 6 syntax and global variables through [configuration](https://eslint.org/docs/user-guide/configuring).
-
-### What about experimental features?
-
-ESLint doesn't natively support experimental ECMAScript language features. You can use [babel-eslint](https://github.com/babel/babel-eslint) to use any option available in Babel.
-
-Once a language feature has been adopted into the ECMAScript standard (stage 4 according to the [TC39 process](https://tc39.github.io/process-document/)), we will accept issues and pull requests related to the new feature, subject to our [contributing guidelines](https://eslint.org/docs/developer-guide/contributing). Until then, please use the appropriate parser and plugin(s) for your experimental feature.
-
-### Where to ask for help?
-
-Join our [Mailing List](https://groups.google.com/group/eslint) or [Chatroom](https://gitter.im/eslint/eslint).
+* Site search ([eslint.org](https://eslint.org)) is sponsored by [Algolia](https://www.algolia.com)
 
 
 [npm-image]: https://img.shields.io/npm/v/eslint.svg?style=flat-square

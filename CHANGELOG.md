@@ -1,3 +1,61 @@
+v5.0.0-alpha.0 - March 30, 2018
+
+* f4b3af5 Breaking: Upgrade to Espree v4 alpha (refs #9990) (#10152) (Brandon Mills)
+* 3351129 Docs: add v5.0.0 migration guide (fixes #10142) (#10147) (Teddy Katz)
+* f2f98dd Build: make prerelease script publish to GitHub/website (#10151) (Teddy Katz)
+* d440e84 Breaking: support @scope shorthand in plugins (fixes #9903) (#9905) (Toru Nagashima)
+* 462b058 Update: Include debugging information when rule throws error (#9742) (Patrick Hayes)
+* 9a020dc Chore: refactor --no-ignore flag logic (#10146) (Teddy Katz)
+* 4f61a0d Chore: add noopener/noreferrer (薛定谔的猫)
+* 65cc834 Docs: Ensure CLI doc sections match command line help order (#10144) (Kevin Partington)
+* 9c79174 Docs: Update capitalized-comments with missing letters (fixes #10135) (#10134) (jasonfry)
+* 9e66bfb Docs: remove eslint vs jshint from faq (#10108) (alberto)
+* 692e383 Docs: Add modified variable examples for no-loop-func (fixes #9527) (#10098) (Rachael Sim)
+* a9ee9ae Breaking: require rules to provide report messages (fixes #10011) (#10057) (Teddy Katz)
+* 837edc7 Chore: Uncommented test for empty program for no-invalid-meta (#10046) (Kevin Partington)
+* c383bc5 Breaking: Make require('eslint').linter non-enumerable (fixes #9270) (#9692) (Jed Fox)
+* 4eaebe5 Breaking: set `parent` of AST nodes before rules run (fixes #9122) (#10014) (Teddy Katz)
+* 91ece32 Breaking: remove special exception for linting empty files (fixes #9534) (#10013) (Teddy Katz)
+* 27e3f24 Breaking: remove `source` property from linting messages (fixes #7358) (#10012) (Teddy Katz)
+* e4c3b3c Breaking: use an exit code of 2 for fatal config problems (fixes #9384) (#10009) (Teddy Katz)
+* 2a7ecaa Breaking: Use strict equality in RuleTester comparisons (fixes #9417) (#10008) (Teddy Katz)
+* 0bc4a38 Fix: Make rule-tester strictly check messageId. (ref #9890) (#9908) (Jacques Favreau)
+* ea6fb17 Update: Make no-cond-assign work for ternaries (fixes #10091) (#10109) (Aaron Harper)
+
+v4.19.1 - March 21, 2018
+
+* 3ff5d11 Fix: no-invalid-regexp not understand variable for flags (fixes #10112) (#10113) (薛定谔的猫)
+* abc765c Fix: object-curly-newline minProperties w/default export (fixes #10101) (#10103) (Kevin Partington)
+* 6f9e155 Docs: Update ambiguous for...in example for guard-for-in (#10114) (CJ R)
+* 0360cc2 Chore: Adding debug logs on successful plugin loads (#10100) (Kevin Partington)
+* a717c5d Chore: Adding log at beginning of unit tests in Makefile.js (#10102) (Kevin Partington)
+
+v4.19.0 - March 16, 2018
+
+* 55a1593 Update: consecutive option for one-var (fixes #4680) (#9994) (薛定谔的猫)
+* 8d3814e Fix: false positive about ES2018 RegExp enhancements (fixes #9893) (#10062) (Toru Nagashima)
+* 935f4e4 Docs: Clarify default ignoring of node_modules (#10092) (Matijs Brinkhuis)
+* 72ed3db Docs: Wrap `Buffer()` in backticks in `no-buffer-constructor` rule description (#10084) (Stephen Edgar)
+* 3aded2f Docs: Fix lodash typos, make spacing consistent (#10073) (Josh Smith)
+* e33bb64 Chore: enable no-param-reassign on ESLint codebase (#10065) (Teddy Katz)
+* 66a1e9a Docs: fix possible typo (#10060) (Vse Mozhet Byt)
+* 2e68be6 Update: give a node at least the indentation of its parent (fixes #9995) (#10054) (Teddy Katz)
+* 72ca5b3 Update: Correctly indent JSXText with trailing linebreaks (fixes #9878) (#10055) (Teddy Katz)
+* 2a4c838 Docs: Update ECMAScript versions in FAQ (#10047) (alberto)
+
+v4.18.2 - March 2, 2018
+
+* 6b71fd0 Fix: table@4.0.2, because 4.0.3 needs "ajv": "^6.0.1" (#10022) (Mathieu Seiler)
+* 3c697de Chore: fix incorrect comment about linter.verify return value (#10030) (Teddy Katz)
+* 9df8653 Chore: refactor parser-loading out of linter.verify (#10028) (Teddy Katz)
+* f6901d0 Fix: remove catastrophic backtracking vulnerability (fixes #10002) (#10019) (Jamie Davis)
+* e4f52ce Chore: Simplify dataflow in linter.verify (#10020) (Teddy Katz)
+* 33177cd Chore: make library files non-executable (#10021) (Teddy Katz)
+* 558ccba Chore: refactor directive comment processing (#10007) (Teddy Katz)
+* 18e15d9 Chore: avoid useless catch clauses that just rethrow errors (#10010) (Teddy Katz)
+* a1c3759 Chore: refactor populating configs with defaults in linter (#10006) (Teddy Katz)
+* aea07dc Fix: Make max-len ignoreStrings ignore JSXText (fixes #9954) (#9985) (Rachael Sim)
+
 v4.18.1 - February 20, 2018
 
 * f417506 Fix: ensure no-await-in-loop reports the correct node (fixes #9992) (#9993) (Teddy Katz)

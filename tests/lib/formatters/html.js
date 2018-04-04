@@ -31,12 +31,13 @@ function checkOverview($, args) {
 /**
  * Run unit tests on the header section
  * @param {Object} $ Cheerio instance
- * @param {Object} row Header row being tested
+ * @param {Object} rowObject Header row being tested
  * @param {Object} args Array of relevant info to be tested
  * @returns {void}
  */
-function checkHeaderRow($, row, args) {
-    row = $(row);
+function checkHeaderRow($, rowObject, args) {
+    const row = $(rowObject);
+
     assert(row.hasClass(args.bgColor), "Check that background color is correct");
     assert.strictEqual(row.attr("data-group"), args.group, "Check that header group is correct");
     assert.strictEqual(row.find("th span").text(), args.problems, "Check if correct totals");
@@ -46,12 +47,13 @@ function checkHeaderRow($, row, args) {
 /**
  * Run unit tests on the content section
  * @param {Object} $ Cheerio instance
- * @param {Object} row Content row being tested
+ * @param {Object} rowObject Content row being tested
  * @param {Object} args Array of relevant info to be tested
  * @returns {void}
  */
-function checkContentRow($, row, args) {
-    row = $(row);
+function checkContentRow($, rowObject, args) {
+    const row = $(rowObject);
+
     assert(row.hasClass(args.group), "Check that linked to correct header");
     assert.strictEqual($(row.find("td")[0]).text(), args.lineCol, "Check that line:column is correct");
     assert($(row.find("td")[1]).hasClass(args.color), "Check that severity color is correct");

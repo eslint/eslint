@@ -204,6 +204,9 @@ function generateFormatterExamples(formatterInfo, prereleaseVersion) {
     if (prereleaseVersion) {
         filename = filename.replace("/docs", `/docs/${prereleaseVersion}`);
         htmlFilename = htmlFilename.replace("/docs", `/docs/${prereleaseVersion}`);
+        if (!test("-d", path.dirname(filename))) {
+            mkdir(path.dirname(filename));
+        }
     }
 
     output.to(filename);
@@ -309,7 +312,11 @@ function prerelease(prereleaseId) {
     // always write docs into the next major directory (so 2.0.0-alpha.0 writes to 2.0.0)
     target.gensite(semver.inc(releaseInfo.version, "major"));
     generateBlogPost(releaseInfo);
-    echo("Site has not been pushed, please update blog post and push manually.");
+    publishSite(`v${releaseInfo.version}`);
+    echo("Site has been published");
+
+    echo("Publishing to GitHub");
+    ReleaseOps.publishReleaseToGitHub(releaseInfo);
 }
 
 
@@ -345,9 +352,10 @@ function getFirstVersionOfFile(filePath) {
 
     tags = splitCommandResultToLines(tags);
     return tags.reduce((list, version) => {
-        version = semver.valid(version.trim());
-        if (version) {
-            list.push(version);
+        const validatedVersion = semver.valid(version.trim());
+
+        if (validatedVersion) {
+            list.push(validatedVersion);
         }
         return list;
     }, []).sort(semver.compare)[0];
@@ -568,6 +576,8 @@ target.test = function() {
     let errors = 0,
         lastReturn;
 
+    echo("Running unit tests");
+
     lastReturn = exec(`${getBinFile("istanbul")} cover ${MOCHA} -- -R progress -t ${MOCHA_TIMEOUT} -c ${TEST_FILES}`);
     if (lastReturn.code !== 0) {
         errors++;
@@ -758,6 +768,9 @@ target.gensite = function(prereleaseVersion) {
 
     if (prereleaseVersion) {
         outputDir += `/${prereleaseVersion}`;
+        if (!test("-d", outputDir)) {
+            mkdir(outputDir);
+        }
     }
     cp("-rf", `${TEMP_DIR}*`, outputDir);
 

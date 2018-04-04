@@ -31,11 +31,8 @@ ruleTester.run("object-property-newline", rule, {
         "var obj = {\nk1: 'val1'\n};",
         "var obj = {};",
         { code: "var obj = {\n[bar]: 'baz',\nbaz\n};", parserOptions: { ecmaVersion: 6 } },
-        { code: "var obj = {\nk1: 'val1',\nk2: 'val2',\n...{}\n};", parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } } },
         { code: "var obj = {\nk1: 'val1',\nk2: 'val2',\n...{}\n};", parserOptions: { ecmaVersion: 2018 } },
-        { code: "var obj = { k1: 'val1',\nk2: 'val2',\n...{} };", parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } } },
         { code: "var obj = { k1: 'val1',\nk2: 'val2',\n...{} };", parserOptions: { ecmaVersion: 2018 } },
-        { code: "var obj = { ...{} };", parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } } },
         { code: "var obj = { ...{} };", parserOptions: { ecmaVersion: 2018 } },
         "foo({ k1: 'val1',\nk2: 'val2' });",
         "foo({\nk1: 'val1',\nk2: 'val2'\n});",
@@ -43,11 +40,8 @@ ruleTester.run("object-property-newline", rule, {
         { code: "foo({\na,\nb,\n});", parserOptions: { ecmaVersion: 6 } },
         { code: "foo({\nbar() {},\nbaz\n});", parserOptions: { ecmaVersion: 6 } },
         { code: "foo({\n[bar]: 'baz',\nbaz \n})", parserOptions: { ecmaVersion: 6 } },
-        { code: "foo({\nk1: 'val1',\nk2: 'val2',\n...{}\n});", parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } } },
         { code: "foo({\nk1: 'val1',\nk2: 'val2',\n...{}\n});", parserOptions: { ecmaVersion: 2018 } },
-        { code: "foo({ k1: 'val1',\nk2: 'val2',\n...{} });", parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } } },
         { code: "foo({ k1: 'val1',\nk2: 'val2',\n...{} });", parserOptions: { ecmaVersion: 2018 } },
-        { code: "foo({ ...{} });", parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } } },
         { code: "foo({ ...{} });", parserOptions: { ecmaVersion: 2018 } },
 
         // allowAllPropertiesOnSameLine: true
@@ -56,18 +50,14 @@ ruleTester.run("object-property-newline", rule, {
         { code: "var obj = { k1: 'val1' };", options: [{ allowAllPropertiesOnSameLine: true }] },
         { code: "var obj = {\nk1: 'val1'\n};", options: [{ allowAllPropertiesOnSameLine: true }] },
         { code: "var obj = {};", options: [{ allowAllPropertiesOnSameLine: true }] },
-        { code: "var obj = { 'k1': 'val1', k2: 'val2', ...{} };", options: [{ allowAllPropertiesOnSameLine: true }], parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } } },
         { code: "var obj = { 'k1': 'val1', k2: 'val2', ...{} };", options: [{ allowAllPropertiesOnSameLine: true }], parserOptions: { ecmaVersion: 2018 } },
-        { code: "var obj = {\n'k1': 'val1', k2: 'val2', ...{}\n};", options: [{ allowAllPropertiesOnSameLine: true }], parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } } },
         { code: "var obj = {\n'k1': 'val1', k2: 'val2', ...{}\n};", options: [{ allowAllPropertiesOnSameLine: true }], parserOptions: { ecmaVersion: 2018 } },
         { code: "foo({ k1: 'val1', k2: 'val2' });", options: [{ allowAllPropertiesOnSameLine: true }] },
         { code: "foo({\nk1: 'val1', k2: 'val2'\n});", options: [{ allowAllPropertiesOnSameLine: true }] },
         { code: "foo({ a, b });", options: [{ allowAllPropertiesOnSameLine: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "foo({ bar() {}, baz });", options: [{ allowAllPropertiesOnSameLine: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "foo({ [bar]: 'baz', baz })", options: [{ allowAllPropertiesOnSameLine: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: "foo({ 'k1': 'val1', k2: 'val2', ...{} });", options: [{ allowAllPropertiesOnSameLine: true }], parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } } },
         { code: "foo({ 'k1': 'val1', k2: 'val2', ...{} });", options: [{ allowAllPropertiesOnSameLine: true }], parserOptions: { ecmaVersion: 2018 } },
-        { code: "foo({\n'k1': 'val1', k2: 'val2', ...{}\n});", options: [{ allowAllPropertiesOnSameLine: true }], parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } } },
         { code: "foo({\n'k1': 'val1', k2: 'val2', ...{}\n});", options: [{ allowAllPropertiesOnSameLine: true }], parserOptions: { ecmaVersion: 2018 } },
         { code: "var obj = {k1: ['foo', 'bar'], k2: 'val1', k3: 'val2'};", options: [{ allowAllPropertiesOnSameLine: true }] },
         { code: "var obj = {\nk1: ['foo', 'bar'], k2: 'val1', k3: 'val2'\n};", options: [{ allowAllPropertiesOnSameLine: true }] },
@@ -216,19 +206,6 @@ ruleTester.run("object-property-newline", rule, {
         {
             code: "var obj = { k1: 'val1', ...{} };",
             output: "var obj = { k1: 'val1',\n...{} };",
-            parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } },
-            errors: [
-                {
-                    message: "Object properties must go on a new line.",
-                    type: "ObjectExpression",
-                    line: 1,
-                    column: 25
-                }
-            ]
-        },
-        {
-            code: "var obj = { k1: 'val1', ...{} };",
-            output: "var obj = { k1: 'val1',\n...{} };",
             parserOptions: { ecmaVersion: 2018 },
             errors: [
                 {
@@ -236,19 +213,6 @@ ruleTester.run("object-property-newline", rule, {
                     type: "ObjectExpression",
                     line: 1,
                     column: 25
-                }
-            ]
-        },
-        {
-            code: "var obj = {\nk1: 'val1', ...{}\n};",
-            output: "var obj = {\nk1: 'val1',\n...{}\n};",
-            parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } },
-            errors: [
-                {
-                    message: "Object properties must go on a new line.",
-                    type: "ObjectExpression",
-                    line: 2,
-                    column: 13
                 }
             ]
         },
@@ -357,19 +321,6 @@ ruleTester.run("object-property-newline", rule, {
         {
             code: "foo({ k1: 'val1', ...{} })",
             output: "foo({ k1: 'val1',\n...{} })",
-            parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } },
-            errors: [
-                {
-                    message: "Object properties must go on a new line.",
-                    type: "ObjectExpression",
-                    line: 1,
-                    column: 19
-                }
-            ]
-        },
-        {
-            code: "foo({ k1: 'val1', ...{} })",
-            output: "foo({ k1: 'val1',\n...{} })",
             parserOptions: { ecmaVersion: 2018 },
             errors: [
                 {
@@ -377,19 +328,6 @@ ruleTester.run("object-property-newline", rule, {
                     type: "ObjectExpression",
                     line: 1,
                     column: 19
-                }
-            ]
-        },
-        {
-            code: "foo({\nk1: 'val1', ...{}\n})",
-            output: "foo({\nk1: 'val1',\n...{}\n})",
-            parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } },
-            errors: [
-                {
-                    message: "Object properties must go on a new line.",
-                    type: "ObjectExpression",
-                    line: 2,
-                    column: 13
                 }
             ]
         },
@@ -552,35 +490,7 @@ ruleTester.run("object-property-newline", rule, {
             code: "var obj = {\nk1: 'val1',\nk2: 'val2', ...{}\n};",
             output: "var obj = {\nk1: 'val1',\nk2: 'val2',\n...{}\n};",
             options: [{ allowAllPropertiesOnSameLine: true }],
-            parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } },
-            errors: [
-                {
-                    message: "Object properties must go on a new line if they aren't all on the same line.",
-                    type: "ObjectExpression",
-                    line: 3,
-                    column: 13
-                }
-            ]
-        },
-        {
-            code: "var obj = {\nk1: 'val1',\nk2: 'val2', ...{}\n};",
-            output: "var obj = {\nk1: 'val1',\nk2: 'val2',\n...{}\n};",
-            options: [{ allowAllPropertiesOnSameLine: true }],
             parserOptions: { ecmaVersion: 2018 },
-            errors: [
-                {
-                    message: "Object properties must go on a new line if they aren't all on the same line.",
-                    type: "ObjectExpression",
-                    line: 3,
-                    column: 13
-                }
-            ]
-        },
-        {
-            code: "var obj = {\n...{},\nk1: 'val1', k2: 'val2'\n};",
-            output: "var obj = {\n...{},\nk1: 'val1',\nk2: 'val2'\n};",
-            options: [{ allowAllPropertiesOnSameLine: true }],
-            parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } },
             errors: [
                 {
                     message: "Object properties must go on a new line if they aren't all on the same line.",
@@ -622,35 +532,7 @@ ruleTester.run("object-property-newline", rule, {
             code: "foo({\nk1: 'val1',\nk2: 'val2', ...{}\n})",
             output: "foo({\nk1: 'val1',\nk2: 'val2',\n...{}\n})",
             options: [{ allowAllPropertiesOnSameLine: true }],
-            parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } },
-            errors: [
-                {
-                    message: "Object properties must go on a new line if they aren't all on the same line.",
-                    type: "ObjectExpression",
-                    line: 3,
-                    column: 13
-                }
-            ]
-        },
-        {
-            code: "foo({\nk1: 'val1',\nk2: 'val2', ...{}\n})",
-            output: "foo({\nk1: 'val1',\nk2: 'val2',\n...{}\n})",
-            options: [{ allowAllPropertiesOnSameLine: true }],
             parserOptions: { ecmaVersion: 2018 },
-            errors: [
-                {
-                    message: "Object properties must go on a new line if they aren't all on the same line.",
-                    type: "ObjectExpression",
-                    line: 3,
-                    column: 13
-                }
-            ]
-        },
-        {
-            code: "foo({\n...{},\nk1: 'val1', k2: 'val2'\n})",
-            output: "foo({\n...{},\nk1: 'val1',\nk2: 'val2'\n})",
-            options: [{ allowAllPropertiesOnSameLine: true }],
-            parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } },
             errors: [
                 {
                     message: "Object properties must go on a new line if they aren't all on the same line.",

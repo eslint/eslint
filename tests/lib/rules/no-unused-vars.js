@@ -183,11 +183,6 @@ ruleTester.run("no-unused-vars", rule, {
         {
             code: "const data = { type: 'coords', x: 1, y: 2 };\nconst { type, ...coords } = data;\n console.log(coords);",
             options: [{ ignoreRestSiblings: true }],
-            parserOptions: { ecmaVersion: 2015, ecmaFeatures: { experimentalObjectRestSpread: true } }
-        },
-        {
-            code: "const data = { type: 'coords', x: 1, y: 2 };\nconst { type, ...coords } = data;\n console.log(coords);",
-            options: [{ ignoreRestSiblings: true }],
             parserOptions: { ecmaVersion: 2018 }
         },
 
@@ -272,11 +267,6 @@ ruleTester.run("no-unused-vars", rule, {
         },
 
         // https://github.com/eslint/eslint/issues/8119
-        {
-            code: "(({a, ...rest}) => rest)",
-            options: [{ args: "all", ignoreRestSiblings: true }],
-            parserOptions: { ecmaVersion: 2015, ecmaFeatures: { experimentalObjectRestSpread: true } }
-        },
         {
             code: "(({a, ...rest}) => rest)",
             options: [{ args: "all", ignoreRestSiblings: true }],
@@ -378,13 +368,6 @@ ruleTester.run("no-unused-vars", rule, {
         // Rest property sibling without ignoreRestSiblings
         {
             code: "const data = { type: 'coords', x: 1, y: 2 };\nconst { type, ...coords } = data;\n console.log(coords);",
-            parserOptions: { ecmaVersion: 2015, ecmaFeatures: { experimentalObjectRestSpread: true } },
-            errors: [
-                { line: 2, column: 9, message: "'type' is assigned a value but never used." }
-            ]
-        },
-        {
-            code: "const data = { type: 'coords', x: 1, y: 2 };\nconst { type, ...coords } = data;\n console.log(coords);",
             parserOptions: { ecmaVersion: 2018 },
             errors: [
                 { line: 2, column: 9, message: "'type' is assigned a value but never used." }
@@ -392,14 +375,6 @@ ruleTester.run("no-unused-vars", rule, {
         },
 
         // Unused rest property with ignoreRestSiblings
-        {
-            code: "const data = { type: 'coords', x: 1, y: 2 };\nconst { type, ...coords } = data;\n console.log(type)",
-            options: [{ ignoreRestSiblings: true }],
-            parserOptions: { ecmaVersion: 2015, ecmaFeatures: { experimentalObjectRestSpread: true } },
-            errors: [
-                { line: 2, column: 18, message: "'coords' is assigned a value but never used." }
-            ]
-        },
         {
             code: "const data = { type: 'coords', x: 1, y: 2 };\nconst { type, ...coords } = data;\n console.log(type)",
             options: [{ ignoreRestSiblings: true }],
@@ -412,13 +387,6 @@ ruleTester.run("no-unused-vars", rule, {
         // Unused rest property without ignoreRestSiblings
         {
             code: "const data = { type: 'coords', x: 1, y: 2 };\nconst { type, ...coords } = data;\n console.log(type)",
-            parserOptions: { ecmaVersion: 2015, ecmaFeatures: { experimentalObjectRestSpread: true } },
-            errors: [
-                { line: 2, column: 18, message: "'coords' is assigned a value but never used." }
-            ]
-        },
-        {
-            code: "const data = { type: 'coords', x: 1, y: 2 };\nconst { type, ...coords } = data;\n console.log(type)",
             parserOptions: { ecmaVersion: 2018 },
             errors: [
                 { line: 2, column: 18, message: "'coords' is assigned a value but never used." }
@@ -426,13 +394,6 @@ ruleTester.run("no-unused-vars", rule, {
         },
 
         // Nested array destructuring with rest property
-        {
-            code: "const data = { vars: ['x','y'], x: 1, y: 2 };\nconst { vars: [x], ...coords } = data;\n console.log(coords)",
-            parserOptions: { ecmaVersion: 2015, ecmaFeatures: { experimentalObjectRestSpread: true } },
-            errors: [
-                { line: 2, column: 16, message: "'x' is assigned a value but never used." }
-            ]
-        },
         {
             code: "const data = { vars: ['x','y'], x: 1, y: 2 };\nconst { vars: [x], ...coords } = data;\n console.log(coords)",
             parserOptions: { ecmaVersion: 2018 },
@@ -444,19 +405,13 @@ ruleTester.run("no-unused-vars", rule, {
         // Nested object destructuring with rest property
         {
             code: "const data = { defaults: { x: 0 }, x: 1, y: 2 };\nconst { defaults: { x }, ...coords } = data;\n console.log(coords)",
-            parserOptions: { ecmaVersion: 2015, ecmaFeatures: { experimentalObjectRestSpread: true } },
+            parserOptions: { ecmaVersion: 2018 },
             errors: [
                 { line: 2, column: 21, message: "'x' is assigned a value but never used." }
             ]
         },
 
         // https://github.com/eslint/eslint/issues/8119
-        {
-            code: "(({a, ...rest}) => {})",
-            options: [{ args: "all", ignoreRestSiblings: true }],
-            parserOptions: { ecmaVersion: 2015, ecmaFeatures: { experimentalObjectRestSpread: true } },
-            errors: ["'rest' is defined but never used."]
-        },
         {
             code: "(({a, ...rest}) => {})",
             options: [{ args: "all", ignoreRestSiblings: true }],
