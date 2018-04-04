@@ -75,16 +75,6 @@ ruleTester.run("no-undef", rule, {
         {
             code: "var {bacon, ...others} = stuff; foo(others)",
             parserOptions: {
-                ecmaVersion: 6,
-                ecmaFeatures: {
-                    experimentalObjectRestSpread: true
-                }
-            },
-            globals: { stuff: false, foo: false }
-        },
-        {
-            code: "var {bacon, ...others} = stuff; foo(others)",
-            parserOptions: {
                 ecmaVersion: 2018
             },
             globals: { stuff: false, foo: false }
@@ -105,16 +95,6 @@ ruleTester.run("no-undef", rule, {
         { code: "[obj.a, obj.b] = [0, 1];", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'obj' is not defined." }, { message: "'obj' is not defined." }] },
 
         // Experimental
-        {
-            code: "const c = 0; const a = {...b, c};",
-            parserOptions: {
-                ecmaVersion: 6,
-                ecmaFeatures: {
-                    experimentalObjectRestSpread: true
-                }
-            },
-            errors: [{ message: "'b' is not defined." }]
-        },
         {
             code: "const c = 0; const a = {...b, c};",
             parserOptions: {

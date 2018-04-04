@@ -493,6 +493,10 @@ ruleTester.run("object-curly-newline", rule, {
             ].join("\n"),
             options: [{ ImportDeclaration: { minProperties: 3 } }]
         },
+        {
+            code: "import DefaultExport, {a} from 'module';",
+            options: [{ ImportDeclaration: { minProperties: 2 } }]
+        },
 
         // "ExportDeclaration" ---------------------------------------------
         {
@@ -1588,6 +1592,19 @@ ruleTester.run("object-curly-newline", rule, {
             errors: [
                 { line: 1, column: 8, message: "Unexpected line break after this opening brace." },
                 { line: 3, column: 1, message: "Unexpected line break before this closing brace." }
+            ]
+        },
+        {
+            code: "import DefaultExport, {a, b} from 'module';",
+            output: [
+                "import DefaultExport, {",
+                "a, b",
+                "} from 'module';"
+            ].join("\n"),
+            options: [{ ImportDeclaration: { minProperties: 2 } }],
+            errors: [
+                { line: 1, column: 23, message: "Expected a line break after this opening brace." },
+                { line: 1, column: 28, message: "Expected a line break before this closing brace." }
             ]
         },
 

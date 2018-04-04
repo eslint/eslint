@@ -98,7 +98,7 @@ describe("Linter", () => {
             }));
 
             assert.throws(() => {
-                linter.verify(code, config, filename, true);
+                linter.verify(code, config, filename);
             }, "Intentional error.");
         });
 
@@ -117,6 +117,24 @@ describe("Linter", () => {
             linter.defineRule("checker", () => ({ newListener: spy }));
             linter.verify("foo", { rules: { checker: "error", "no-undef": "error" } });
             assert(spy.notCalled);
+        });
+
+        it("has all the `parent` properties on nodes when the rule listeners are created", () => {
+            const spy = sandbox.spy(context => {
+                const ast = context.getSourceCode().ast;
+
+                assert.strictEqual(ast.body[0].parent, ast);
+                assert.strictEqual(ast.body[0].expression.parent, ast.body[0]);
+                assert.strictEqual(ast.body[0].expression.left.parent, ast.body[0].expression);
+                assert.strictEqual(ast.body[0].expression.right.parent, ast.body[0].expression);
+
+                return {};
+            });
+
+            linter.defineRule("checker", spy);
+
+            linter.verify("foo + bar", { rules: { checker: "error" } });
+            assert(spy.calledOnce);
         });
     });
 
@@ -450,43 +468,6 @@ describe("Linter", () => {
             linter.verify(code, config);
             assert(spy.calledOnce);
         });
-
-        it("should attach the node's parent", () => {
-            const config = { rules: { checker: "error" } };
-            const spy = sandbox.spy(context => {
-                const node = context.getNodeByRangeIndex(14);
-
-                assert.property(node, "parent");
-                assert.strictEqual(node.parent.type, "VariableDeclarator");
-                return {};
-            });
-
-            linter.defineRule("checker", spy);
-            linter.verify(code, config);
-            assert(spy.calledOnce);
-        });
-
-        it("should not modify the node when attaching the parent", () => {
-            const config = { rules: { checker: "error" } };
-            const spy = sandbox.spy(context => {
-                const node1 = context.getNodeByRangeIndex(10);
-
-                assert.strictEqual(node1.type, "VariableDeclarator");
-
-                const node2 = context.getNodeByRangeIndex(4);
-
-                assert.strictEqual(node2.type, "Identifier");
-                assert.property(node2, "parent");
-                assert.strictEqual(node2.parent.type, "VariableDeclarator");
-                assert.notProperty(node2.parent, "parent");
-                return {};
-            });
-
-            linter.defineRule("checker", spy);
-            linter.verify(code, config);
-            assert(spy.calledOnce);
-        });
-
     });
 
 
@@ -870,6 +851,20 @@ describe("Linter", () => {
             sinon.assert.calledTwice(spyLiteral);
             sinon.assert.calledOnce(spyBinaryExpression);
         });
+
+        it("should throw an error if a rule reports a problem without a message", () => {
+            linter.defineRule("invalid-report", context => ({
+                Program(node) {
+                    context.report({ node });
+                }
+            }));
+
+            assert.throws(
+                () => linter.verify("foo", { rules: { "invalid-report": "error" } }),
+                TypeError,
+                "Missing `message` property in report() call; add a message that describes the linting problem."
+            );
+        });
     });
 
     describe("when config has shared settings for rules", () => {
@@ -979,7 +974,7 @@ describe("Linter", () => {
         if (typeof window === "undefined") {
             it("should pass parser as parserPath to all rules when provided on config", () => {
 
-                const alternateParser = "esprima-fb";
+                const alternateParser = "esprima";
 
                 linter.defineRule("test-rule", sandbox.mock().withArgs(
                     sinon.match({ parserPath: alternateParser })
@@ -1627,7 +1622,6 @@ describe("Linter", () => {
                         column: 1,
                         endLine: 1,
                         endColumn: 25,
-                        source: null,
                         nodeType: null
                     }
                 ]
@@ -1646,7 +1640,6 @@ describe("Linter", () => {
                         column: 1,
                         endLine: 1,
                         endColumn: 63,
-                        source: null,
                         nodeType: null
                     }
                 ]
@@ -2703,7 +2696,6 @@ describe("Linter", () => {
             assert.strictEqual(messages.length, 1);
             assert.strictEqual(messages[0].severity, 2);
             assert.isNull(messages[0].ruleId);
-            assert.strictEqual(messages[0].source, BROKEN_TEST_CODE);
             assert.strictEqual(messages[0].line, 1);
             assert.strictEqual(messages[0].column, 4);
             assert.isTrue(messages[0].fatal);
@@ -2721,7 +2713,6 @@ describe("Linter", () => {
 
             assert.strictEqual(messages.length, 1);
             assert.strictEqual(messages[0].severity, 2);
-            assert.strictEqual(messages[0].source, inValidCode[1]);
             assert.isTrue(messages[0].fatal);
             assert.match(messages[0].message, /^Parsing error:/);
         });
@@ -2773,7 +2764,6 @@ describe("Linter", () => {
                     line: 1,
                     column: 1,
                     severity: 1,
-                    source: "var answer = 6 * 7;",
                     nodeType: null
                 }
             );
@@ -2805,6 +2795,21 @@ describe("Linter", () => {
 
             assert.isString(version);
             assert.isTrue(parseInt(version[0], 10) >= 3);
+        });
+    });
+
+    describe("when evaluating an empty string", () => {
+        it("runs rules", () => {
+            linter.defineRule("no-programs", context => ({
+                Program(node) {
+                    context.report({ node, message: "No programs allowed." });
+                }
+            }));
+
+            assert.strictEqual(
+                linter.verify("", { rules: { "no-programs": "error" } }).length,
+                1
+            );
         });
     });
 
@@ -3085,7 +3090,6 @@ describe("Linter", () => {
                         line: 1,
                         column: 1,
                         severity: 2,
-                        source: null,
                         nodeType: null
                     }
                 ]
@@ -3251,14 +3255,11 @@ describe("Linter", () => {
             });
         });
 
-        it("should properly parse object spread when passed ecmaFeatures", () => {
+        it("should properly parse object spread when ecmaVersion is 2018", () => {
 
             const messages = linter.verify("var x = { ...y };", {
                 parserOptions: {
-                    ecmaVersion: 6,
-                    ecmaFeatures: {
-                        experimentalObjectRestSpread: true
-                    }
+                    ecmaVersion: 2018
                 }
             }, filename);
 
@@ -4208,18 +4209,18 @@ describe("Linter", () => {
 
             it("should not report an error when JSX code contains a spread operator and JSX is enabled", () => {
                 const code = "var myDivElement = <div {...this.props} />;";
-                const messages = linter.verify(code, { parser: "esprima-fb" }, "filename");
+                const messages = linter.verify(code, { parser: "esprima", parserOptions: { jsx: true } }, "filename");
 
                 assert.strictEqual(messages.length, 0);
             });
 
             it("should return an error when the custom parser can't be found", () => {
                 const code = "var myDivElement = <div {...this.props} />;";
-                const messages = linter.verify(code, { parser: "esprima-fbxyz" }, "filename");
+                const messages = linter.verify(code, { parser: "esprima-xyz" }, "filename");
 
                 assert.strictEqual(messages.length, 1);
                 assert.strictEqual(messages[0].severity, 2);
-                assert.strictEqual(messages[0].message, "Cannot find module 'esprima-fbxyz'");
+                assert.strictEqual(messages[0].message, "Cannot find module 'esprima-xyz'");
             });
 
             it("should strip leading line: prefix from parser error", () => {
@@ -4228,7 +4229,6 @@ describe("Linter", () => {
 
                 assert.strictEqual(messages.length, 1);
                 assert.strictEqual(messages[0].severity, 2);
-                assert.isNull(messages[0].source);
                 assert.strictEqual(messages[0].message, errorPrefix + require(parser).expectedError);
             });
 
@@ -4359,6 +4359,4 @@ describe("Linter", () => {
             });
         });
     }
-
-
 });

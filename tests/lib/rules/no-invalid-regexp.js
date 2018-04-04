@@ -23,6 +23,7 @@ ruleTester.run("no-invalid-regexp", rule, {
         "new RegExp",
         "new RegExp('.', 'im')",
         "global.RegExp('\\\\')",
+        "new RegExp('.', y)",
         { code: "new RegExp('.', 'y')", options: [{ allowConstructorFlags: ["y"] }] },
         { code: "new RegExp('.', 'u')", options: [{ allowConstructorFlags: ["U"] }] },
         { code: "new RegExp('.', 'yu')", options: [{ allowConstructorFlags: ["y", "u"] }] },

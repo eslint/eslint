@@ -355,8 +355,7 @@ describe("CLIEngine", () => {
                                 column: 11,
                                 endLine: 1,
                                 endColumn: 14,
-                                nodeType: "Identifier",
-                                source: "var bar = foo"
+                                nodeType: "Identifier"
                             }
                         ],
                         errorCount: 1,
@@ -397,8 +396,7 @@ describe("CLIEngine", () => {
                                 severity: 2,
                                 message: "Parsing error: Unexpected token is",
                                 line: 1,
-                                column: 19,
-                                source: "var bar = foothis is a syntax error."
+                                column: 19
                             }
                         ],
                         errorCount: 1,
@@ -439,8 +437,7 @@ describe("CLIEngine", () => {
                                 severity: 2,
                                 message: "Parsing error: Unexpected token",
                                 line: 1,
-                                column: 10,
-                                source: "var bar ="
+                                column: 10
                             }
                         ],
                         errorCount: 1,
@@ -527,8 +524,7 @@ describe("CLIEngine", () => {
                                 severity: 2,
                                 message: "Parsing error: Unexpected token is",
                                 line: 1,
-                                column: 19,
-                                source: "var bar = foothis is a syntax error."
+                                column: 19
                             }
                         ],
                         errorCount: 1,
@@ -561,6 +557,44 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.results[0].messages[0].message, expectedMsg);
         });
 
+        // @scope for @scope/eslint-plugin
+        describe("(plugin shorthand)", () => {
+            const Module = require("module");
+            let originalFindPath = null;
+
+            /* eslint-disable no-underscore-dangle */
+            before(() => {
+                originalFindPath = Module._findPath;
+                Module._findPath = function(id) {
+                    if (id === "@scope/eslint-plugin") {
+                        return path.resolve(__dirname, "../fixtures/plugin-shorthand/basic/node_modules/@scope/eslint-plugin/index.js");
+                    }
+                    return originalFindPath.apply(this, arguments);
+                };
+            });
+            after(() => {
+                Module._findPath = originalFindPath;
+            });
+            /* eslint-enable no-underscore-dangle */
+
+            it("should resolve 'plugins:[\"@scope\"]' to 'node_modules/@scope/eslint-plugin'.", () => {
+                engine = new CLIEngine({ cwd: getFixturePath("plugin-shorthand/basic") });
+                const report = engine.executeOnText("var x = 0", "index.js").results[0];
+
+                assert.strictEqual(report.filePath, getFixturePath("plugin-shorthand/basic/index.js"));
+                assert.strictEqual(report.messages[0].ruleId, "@scope/rule");
+                assert.strictEqual(report.messages[0].message, "OK");
+            });
+
+            it("should resolve 'extends:[\"plugin:@scope/recommended\"]' to 'node_modules/@scope/eslint-plugin'.", () => {
+                engine = new CLIEngine({ cwd: getFixturePath("plugin-shorthand/extends") });
+                const report = engine.executeOnText("var x = 0", "index.js").results[0];
+
+                assert.strictEqual(report.filePath, getFixturePath("plugin-shorthand/extends/index.js"));
+                assert.strictEqual(report.messages[0].ruleId, "@scope/rule");
+                assert.strictEqual(report.messages[0].message, "OK");
+            });
+        });
     });
 
     describe("executeOnFiles()", () => {
@@ -1398,8 +1432,7 @@ describe("CLIEngine", () => {
                                     messageId: "unexpected",
                                     nodeType: "BinaryExpression",
                                     ruleId: "eqeqeq",
-                                    severity: 2,
-                                    source: "if (msg == \"hi\") {"
+                                    severity: 2
                                 }
                             ],
                             errorCount: 1,
@@ -1419,8 +1452,7 @@ describe("CLIEngine", () => {
                                     message: "'foo' is not defined.",
                                     nodeType: "Identifier",
                                     ruleId: "no-undef",
-                                    severity: 2,
-                                    source: "var msg = \"hi\" + foo;"
+                                    severity: 2
                                 }
                             ],
                             errorCount: 1,
@@ -3038,7 +3070,6 @@ describe("CLIEngine", () => {
                                     line: 1,
                                     column: 1,
                                     severity: 2,
-                                    source: null,
                                     nodeType: null
                                 }
                             ],
