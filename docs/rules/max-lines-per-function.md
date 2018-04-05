@@ -127,3 +127,4 @@ You can turn this rule off if you are not concerned with the number of lines in 
 * [max-nested-callbacks](max-nested-callbacks.md)
 * [max-params](max-params.md)
 * [max-statements](max-statements.md)
+* [max-statements-per-line](max-statements-per-line.md)
