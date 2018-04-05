@@ -116,6 +116,7 @@ You can turn this rule off if you are not concerned with the number of lines in 
 
 * [complexity](complexity.md)
 * [max-depth](max-depth.md)
+* [max-lines-per-function](max-lines-per-function.md)
 * [max-nested-callbacks](max-nested-callbacks.md)
 * [max-params](max-params.md)
 * [max-statements](max-statements.md)
