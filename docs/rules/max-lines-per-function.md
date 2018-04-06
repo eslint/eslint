@@ -1,17 +1,44 @@
 # enforce a maximum function length (max-lines-per-function)
 
-Some people consider large functions a code smell. Large functions tend to do a lot of things and can make it hard following what's going on. While there is not an objective maximum number of lines considered acceptable in a function, most people would agree it should not be above 200. Google's JS style guide (by proxy of their C++ style guide), recommends 40 lines or fewer per function. The Linux Kernel's style guide recommends 48 lines or fewer.
+Some people consider large functions a code smell. Large functions tend to do a lot of things and can make it hard following what's going on. Many coding style guides dictate a limit of the number of lines that a function can comprise of. This rule can help enforce that style.
 
 ## Rule Details
 
-This rule enforces a maximum number of lines per function, in order to aid in maintainability and reduce complexity. This rule does not count any top-level function code.
+This rule enforces a maximum number of lines per function, in order to aid in maintainability and reduce complexity.
 
+## Why not use `max-statements` or other complexity measurement rules instead?
+
+Nested long method chains like the below example are often broken onto separate lines for readability:
+
+```
+function() {
+    return m("div", [
+        m("table", {className: "table table-striped latest-data"}, [
+            m("tbody",
+                data.map(function(db) {
+                    return m("tr", {key: db.dbname}, [
+                        m("td", {className: "dbname"}, db.dbname),
+                        m("td", {className: "query-count"},  [
+                            m("span", {className: db.lastSample.countClassName}, db.lastSample.nbQueries)
+                        ])
+                    ])
+                })
+            )
+        ])
+    ])
+}
+```
+
+* `max-statements` will only report this as 1 statement, despite being 16 lines of code.
+* `complexity` will only report a complexity of 1
+* `max-nested-callbacks` will only report 1
+* `max-depth` will report a depth of 0
 
 ## Options
 
 This rule has a number or object option:
 
-* `"max"` (default `200`) enforces a maximum number of lines in a function
+* `"max"` (default `50`) enforces a maximum number of lines in a function
 
 * `"skipBlankLines": true` ignore lines made up purely of whitespace.
 
