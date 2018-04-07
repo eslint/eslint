@@ -85,6 +85,7 @@ ruleTester.run("no-unused-vars", rule, {
         { code: "function g(bar, baz) { return baz; }; g();", options: [{ vars: "all" }] },
         { code: "function g(bar, baz) { return baz; }; g();", options: [{ vars: "all", args: "after-used" }] },
         { code: "function g(bar, baz) { return bar; }; g();", options: [{ vars: "all", args: "none" }] },
+        { code: "function g(bar = 1, baz) { return baz; }; g();", options: [{ vars: "all", args: "after-used" }], parserOptions: { ecmaVersion: 6 } },
         { code: "function g(bar, baz) { return 2; }; g();", options: [{ vars: "all", args: "none" }] },
         { code: "function g(bar, baz) { return bar + baz; }; g();", options: [{ vars: "local", args: "all" }] },
         { code: "var g = function(bar, baz) { return 2; }; g();", options: [{ vars: "all", args: "none" }] },
