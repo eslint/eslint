@@ -733,6 +733,33 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.results[1].messages.length, 0);
         });
 
+        it("should resolve globs when 'globInputPaths' option is true", () => {
+            engine = new CLIEngine({
+                extensions: [".js", ".js2"],
+                ignore: false,
+                cwd: getFixturePath("..")
+            });
+
+            const report = engine.executeOnFiles(["fixtures/files/*"]);
+
+            assert.strictEqual(report.results.length, 2);
+            assert.strictEqual(report.results[0].messages.length, 0);
+            assert.strictEqual(report.results[1].messages.length, 0);
+        });
+
+        it("should not resolve globs when 'globInputPaths' option is false", () => {
+            engine = new CLIEngine({
+                extensions: [".js", ".js2"],
+                ignore: false,
+                cwd: getFixturePath(".."),
+                globInputPaths: false
+            });
+
+            assert.throws(() => {
+                engine.executeOnFiles(["fixtures/files/*"]);
+            }, `ENOENT: no such file or directory, open '${getFixturePath("..", "fixtures", "files", "*")}`);
+        });
+
         it("should report on all files passed explicitly, even if ignored by default", () => {
 
             engine = new CLIEngine({
