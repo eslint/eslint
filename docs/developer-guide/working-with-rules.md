@@ -427,7 +427,7 @@ module.exports = {
                 },
                 "additionalProperties": false
             }
-        ];
+        ]
     },
 };
 ```
