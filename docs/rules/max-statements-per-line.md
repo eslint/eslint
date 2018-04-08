@@ -3,7 +3,7 @@
 A line of code containing too many statements can be difficult to read. Code is generally read from the top down, especially when scanning, so limiting the number of statements allowed on a single line can be very beneficial for readability and maintainability.
 
 ```js
-function () { var bar; if (condition) { bar = 1; } else { bar = 2; } return true; } // too many statements
+function foo () { var bar; if (condition) { bar = 1; } else { bar = 2; } return true; } // too many statements
 ```
 
 ## Rule Details
