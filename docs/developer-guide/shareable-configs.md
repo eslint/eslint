@@ -110,7 +110,7 @@ As an example, you can create a file called `my-special-config.js` in the root o
 ```js
 module.exports = {
     rules: {
-        quotes: [2, "double"];
+        quotes: [2, "double"]
     }
 };
 ```
