@@ -196,7 +196,7 @@ describe("globUtil", () => {
             ]);
         });
 
-        it("should not return hidden files for standard glob patterns", () => {
+        it("should ignore hidden files for standard glob patterns", () => {
             const patterns = [getFixturePath("glob-util", "hidden", "**/*.js")];
 
             assert.throws(() => {
@@ -220,7 +220,7 @@ describe("globUtil", () => {
             ]);
         });
 
-        it("should silently ignore default ignored files if not passed explicitly", () => {
+        it("should ignore default ignored files if not passed explicitly", () => {
             const directory = getFixturePath("glob-util", "hidden");
             const patterns = [directory];
 
@@ -242,7 +242,7 @@ describe("globUtil", () => {
             assert.deepStrictEqual(result[0], { filename, ignored: true });
         });
 
-        it("should silently ignore default ignored files if not passed explicitly even if ignore is false", () => {
+        it("should ignore default ignored files if not passed explicitly even if ignore is false", () => {
             const directory = getFixturePath("glob-util", "hidden");
             const patterns = [directory];
 
@@ -266,7 +266,7 @@ describe("globUtil", () => {
             assert.deepStrictEqual(result[0], { filename, ignored: false });
         });
 
-        it("should not return a file which does not exist", () => {
+        it("should throw an error for a file which does not exist", () => {
             const filename = getFixturePath("glob-util", "hidden", "bar.js");
             const patterns = [filename];
 
@@ -298,7 +298,7 @@ describe("globUtil", () => {
             }, `All files matched by '${pattern}' are ignored.`);
         });
 
-        it("should not return an ignored file", () => {
+        it("should throw an error if no files match a glob", () => {
 
             // Relying here on the .eslintignore from the repo root
             const patterns = ["tests/fixtures/glob-util/ignored/**/*.js"];
@@ -316,7 +316,7 @@ describe("globUtil", () => {
             assert.strictEqual(result.length, 1);
         });
 
-        it("should not return a file from a glob if it matches a pattern in an ignore file", () => {
+        it("should ignore a file from a glob if it matches a pattern in an ignore file", () => {
             const options = { ignore: true, ignorePath: getFixturePath("glob-util", "ignored", ".eslintignore") };
             const patterns = [getFixturePath("glob-util", "ignored", "**/*.js")];
 
@@ -325,7 +325,7 @@ describe("globUtil", () => {
             }, `All files matched by '${patterns[0]}' are ignored.`);
         });
 
-        it("should not return a file from a glob if matching a specified ignore pattern", () => {
+        it("should ignore a file from a glob if matching a specified ignore pattern", () => {
             const options = { ignore: true, ignorePattern: "foo.js", cwd: getFixturePath() };
             const patterns = [getFixturePath("glob-util", "ignored", "**/*.js")];
 
