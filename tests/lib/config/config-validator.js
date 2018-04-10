@@ -107,14 +107,11 @@ describe("Validator", () => {
     describe("validate", () => {
 
         it("should do nothing with an empty config", () => {
-            const fn = validator.validate.bind(null, {}, "tests", ruleMapper, linter.environments);
-
-            assert.doesNotThrow(fn);
+            validator.validate({}, "tests", ruleMapper, linter.environments);
         });
 
         it("should do nothing with a valid eslint config", () => {
-            const fn = validator.validate.bind(
-                null,
+            validator.validate(
                 {
                     root: true,
                     globals: { globalFoo: "bar" },
@@ -130,8 +127,6 @@ describe("Validator", () => {
                 ruleMapper,
                 linter.environments
             );
-
-            assert.doesNotThrow(fn);
         });
 
         it("should throw with an unknown property", () => {
@@ -178,9 +173,7 @@ describe("Validator", () => {
 
         describe("parser", () => {
             it("should not throw with a null value", () => {
-                const fn = validator.validate.bind(null, { parser: null }, null, ruleMapper, linter.environments);
-
-                assert.doesNotThrow(fn);
+                validator.validate({ parser: null }, null, ruleMapper, linter.environments);
             });
         });
 
@@ -211,18 +204,14 @@ describe("Validator", () => {
             });
 
             it("should do nothing with an undefined environment", () => {
-                const fn = validator.validate.bind(null, {}, null, ruleMapper, linter.environments);
-
-                assert.doesNotThrow(fn);
+                validator.validate({}, null, ruleMapper, linter.environments);
             });
 
         });
 
         describe("plugins", () => {
             it("should not throw with an empty array", () => {
-                const fn = validator.validate.bind(null, { plugins: [] }, null, ruleMapper, linter.environments);
-
-                assert.doesNotThrow(fn);
+                validator.validate({ plugins: [] }, null, ruleMapper, linter.environments);
             });
 
             it("should throw with a string", () => {
@@ -234,9 +223,7 @@ describe("Validator", () => {
 
         describe("settings", () => {
             it("should not throw with an empty object", () => {
-                const fn = validator.validate.bind(null, { settings: {} }, null, ruleMapper, linter.environments);
-
-                assert.doesNotThrow(fn);
+                validator.validate({ settings: {} }, null, ruleMapper, linter.environments);
             });
 
             it("should throw with an array", () => {
@@ -248,15 +235,11 @@ describe("Validator", () => {
 
         describe("extends", () => {
             it("should not throw with an empty array", () => {
-                const fn = validator.validate.bind(null, { extends: [] }, null, ruleMapper, linter.environments);
-
-                assert.doesNotThrow(fn);
+                validator.validate({ extends: [] }, null, ruleMapper, linter.environments);
             });
 
             it("should not throw with a string", () => {
-                const fn = validator.validate.bind(null, { extends: "react" }, null, ruleMapper, linter.environments);
-
-                assert.doesNotThrow(fn);
+                validator.validate({ extends: "react" }, null, ruleMapper, linter.environments);
             });
 
             it("should throw with an object", () => {
@@ -268,9 +251,7 @@ describe("Validator", () => {
 
         describe("parserOptions", () => {
             it("should not throw with an empty object", () => {
-                const fn = validator.validate.bind(null, { parserOptions: {} }, null, ruleMapper, linter.environments);
-
-                assert.doesNotThrow(fn);
+                validator.validate({ parserOptions: {} }, null, ruleMapper, linter.environments);
             });
 
             it("should throw with an array", () => {
@@ -283,63 +264,43 @@ describe("Validator", () => {
         describe("rules", () => {
 
             it("should do nothing with an empty rules object", () => {
-                const fn = validator.validate.bind(null, { rules: {} }, "tests", ruleMapper, linter.environments);
-
-                assert.doesNotThrow(fn);
+                validator.validate({ rules: {} }, "tests", ruleMapper, linter.environments);
             });
 
             it("should do nothing with a valid config with rules", () => {
-                const fn = validator.validate.bind(null, { rules: { "mock-rule": [2, "second"] } }, "tests", ruleMapper, linter.environments);
-
-                assert.doesNotThrow(fn);
+                validator.validate({ rules: { "mock-rule": [2, "second"] } }, "tests", ruleMapper, linter.environments);
             });
 
             it("should do nothing with a valid config when severity is off", () => {
-                const fn = validator.validate.bind(null, { rules: { "mock-rule": ["off", "second"] } }, "tests", ruleMapper, linter.environments);
-
-                assert.doesNotThrow(fn);
+                validator.validate({ rules: { "mock-rule": ["off", "second"] } }, "tests", ruleMapper, linter.environments);
             });
 
             it("should do nothing with an invalid config when severity is off", () => {
-                const fn = validator.validate.bind(null, { rules: { "mock-required-options-rule": "off" } }, "tests", ruleMapper, linter.environments);
-
-                assert.doesNotThrow(fn);
+                validator.validate({ rules: { "mock-required-options-rule": "off" } }, "tests", ruleMapper, linter.environments);
             });
 
             it("should do nothing with an invalid config when severity is an array with 'off'", () => {
-                const fn = validator.validate.bind(null, { rules: { "mock-required-options-rule": ["off"] } }, "tests", ruleMapper, linter.environments);
-
-                assert.doesNotThrow(fn);
+                validator.validate({ rules: { "mock-required-options-rule": ["off"] } }, "tests", ruleMapper, linter.environments);
             });
 
             it("should do nothing with a valid config when severity is warn", () => {
-                const fn = validator.validate.bind(null, { rules: { "mock-rule": ["warn", "second"] } }, "tests", ruleMapper, linter.environments);
-
-                assert.doesNotThrow(fn);
+                validator.validate({ rules: { "mock-rule": ["warn", "second"] } }, "tests", ruleMapper, linter.environments);
             });
 
             it("should do nothing with a valid config when severity is error", () => {
-                const fn = validator.validate.bind(null, { rules: { "mock-rule": ["error", "second"] } }, "tests", ruleMapper, linter.environments);
-
-                assert.doesNotThrow(fn);
+                validator.validate({ rules: { "mock-rule": ["error", "second"] } }, "tests", ruleMapper, linter.environments);
             });
 
             it("should do nothing with a valid config when severity is Off", () => {
-                const fn = validator.validate.bind(null, { rules: { "mock-rule": ["Off", "second"] } }, "tests", ruleMapper, linter.environments);
-
-                assert.doesNotThrow(fn);
+                validator.validate({ rules: { "mock-rule": ["Off", "second"] } }, "tests", ruleMapper, linter.environments);
             });
 
             it("should do nothing with a valid config when severity is Warn", () => {
-                const fn = validator.validate.bind(null, { rules: { "mock-rule": ["Warn", "second"] } }, "tests", ruleMapper, linter.environments);
-
-                assert.doesNotThrow(fn);
+                validator.validate({ rules: { "mock-rule": ["Warn", "second"] } }, "tests", ruleMapper, linter.environments);
             });
 
             it("should do nothing with a valid config when severity is Error", () => {
-                const fn = validator.validate.bind(null, { rules: { "mock-rule": ["Error", "second"] } }, "tests", ruleMapper, linter.environments);
-
-                assert.doesNotThrow(fn);
+                validator.validate({ rules: { "mock-rule": ["Error", "second"] } }, "tests", ruleMapper, linter.environments);
             });
 
             it("should catch invalid rule options", () => {
@@ -351,9 +312,7 @@ describe("Validator", () => {
             it("should allow for rules with no options", () => {
                 linter.defineRule("mock-no-options-rule", mockNoOptionsRule);
 
-                const fn = validator.validate.bind(null, { rules: { "mock-no-options-rule": 2 } }, "tests", ruleMapper, linter.environments);
-
-                assert.doesNotThrow(fn);
+                validator.validate({ rules: { "mock-no-options-rule": 2 } }, "tests", ruleMapper, linter.environments);
             });
 
             it("should not allow options for rules with no options", () => {
@@ -367,15 +326,11 @@ describe("Validator", () => {
 
         describe("overrides", () => {
             it("should not throw with an empty overrides array", () => {
-                const fn = validator.validate.bind(null, { overrides: [] }, "tests", ruleMapper, linter.environments);
-
-                assert.doesNotThrow(fn);
+                validator.validate({ overrides: [] }, "tests", ruleMapper, linter.environments);
             });
 
             it("should not throw with a valid overrides array", () => {
-                const fn = validator.validate.bind(null, { overrides: [{ files: "*", rules: {} }] }, "tests", ruleMapper, linter.environments);
-
-                assert.doesNotThrow(fn);
+                validator.validate({ overrides: [{ files: "*", rules: {} }] }, "tests", ruleMapper, linter.environments);
             });
 
             it("should throw if override does not specify files", () => {
