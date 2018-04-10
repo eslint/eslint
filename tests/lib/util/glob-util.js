@@ -275,7 +275,7 @@ describe("globUtil", () => {
                     cwd: getFixturePath(),
                     allowMissingGlobs: true
                 });
-            }, `'${filename}' was not found.`);
+            }, `No files matching '${filename}' were found.`);
         });
 
         it("should throw if a folder that does not have any applicable files is linted", () => {
@@ -286,7 +286,7 @@ describe("globUtil", () => {
                 globUtil.listFilesToProcess(patterns, {
                     cwd: getFixturePath()
                 });
-            }, `'${filename}' was not found.`);
+            }, `No files matching '${filename}' were found.`);
         });
 
         it("should throw if only ignored files match a glob", () => {
@@ -305,7 +305,7 @@ describe("globUtil", () => {
 
             assert.throws(() => {
                 globUtil.listFilesToProcess(patterns);
-            }, `'${patterns[0]}' was not found.`);
+            }, `No files matching '${patterns[0]}' were found.`);
         });
 
         it("should return an ignored file, if ignore option is turned off", () => {

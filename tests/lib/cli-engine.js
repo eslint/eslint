@@ -1055,7 +1055,7 @@ describe("CLIEngine", () => {
 
             assert.throws(() => {
                 engine.executeOnFiles(["./tests/fixtures/cli-engine/"]);
-            }, "'./tests/fixtures/cli-engine/' was not found.");
+            }, "No files matching './tests/fixtures/cli-engine/' were found.");
         });
 
         it("should throw an error when all given files are ignored via ignore-pattern", () => {
@@ -2552,31 +2552,31 @@ describe("CLIEngine", () => {
             it("one file", () => {
                 assert.throws(() => {
                     engine.executeOnFiles(["non-exist.js"]);
-                }, "'non-exist.js' was not found.");
+                }, "No files matching 'non-exist.js' were found.");
             });
 
             it("should throw if the directory exists and is empty", () => {
                 assert.throws(() => {
                     engine.executeOnFiles(["empty"]);
-                }, "'empty' was not found.");
+                }, "No files matching 'empty' were found.");
             });
 
             it("one glob pattern", () => {
                 assert.throws(() => {
                     engine.executeOnFiles(["non-exist/**/*.js"]);
-                }, "'non-exist/**/*.js' was not found.");
+                }, "No files matching 'non-exist/**/*.js' were found.");
             });
 
             it("two files", () => {
                 assert.throws(() => {
                     engine.executeOnFiles(["aaa.js", "bbb.js"]);
-                }, "'aaa.js' was not found.");
+                }, "No files matching 'aaa.js' were found.");
             });
 
             it("a mix of an existing file and a non-existing file", () => {
                 assert.throws(() => {
                     engine.executeOnFiles(["console.js", "non-exist.js"]);
-                }, "'non-exist.js' was not found.");
+                }, "No files matching 'non-exist.js' were found.");
             });
         });
     });

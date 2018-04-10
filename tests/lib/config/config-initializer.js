@@ -387,7 +387,7 @@ describe("configInitializer", () => {
                 process.chdir(fixtureDir);
                 assert.throws(() => {
                     config = init.processAnswers(answers);
-                }, "'not-a-real-filename' was not found.");
+                }, "No files matching 'not-a-real-filename' were found.");
                 process.chdir(originalDir);
                 autoconfig.extendFromRecommended.restore();
             });

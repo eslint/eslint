@@ -163,7 +163,7 @@ describe("SourceCodeUtil", () => {
 
             assert.throws(() => {
                 getSourceCodeOfFiles(filename, { cwd: fixtureDir });
-            }, `'${filename}' was not found.`);
+            }, `No files matching '${filename}' were found.`);
         });
 
         it("should throw for files with parsing errors", () => {
