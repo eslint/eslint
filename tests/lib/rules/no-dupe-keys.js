@@ -24,7 +24,6 @@ ruleTester.run("no-dupe-keys", rule, {
         "var x = { foo: 1, bar: 2 };",
         "+{ get a() { }, set a(b) { } };",
         { code: "var x = { a: b, [a]: b };", parserOptions: { ecmaVersion: 6 } },
-        { code: "var x = { a: b, ...c }", parserOptions: { ecmaVersion: 6, ecmaFeatures: { experimentalObjectRestSpread: true } } },
         { code: "var x = { a: b, ...c }", parserOptions: { ecmaVersion: 2018 } },
         { code: "var x = { get a() {}, set a (value) {} };", parserOptions: { ecmaVersion: 6 } },
         { code: "var x = { a: 1, b: { a: 2 } };", parserOptions: { ecmaVersion: 6 } },

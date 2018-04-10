@@ -132,11 +132,6 @@ ruleTester.run("comma-dangle", rule, {
         {
             code: "var {foo, ...bar} = baz",
             options: ["always"],
-            parserOptions: { ecmaVersion: 8, ecmaFeatures: { experimentalObjectRestSpread: true } }
-        },
-        {
-            code: "var {foo, ...bar} = baz",
-            options: ["always"],
             parserOptions: { ecmaVersion: 2018 }
         },
 

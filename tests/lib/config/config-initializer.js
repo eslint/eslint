@@ -170,7 +170,7 @@ describe("configInitializer", () => {
                 const config = init.processAnswers(answers);
 
                 assert.strictEqual(config.parserOptions.ecmaFeatures.jsx, true);
-                assert.strictEqual(config.parserOptions.ecmaFeatures.experimentalObjectRestSpread, true);
+                assert.strictEqual(config.parserOptions.ecmaVersion, 2018);
                 assert.deepStrictEqual(config.plugins, ["react"]);
             });
 
@@ -316,6 +316,7 @@ describe("configInitializer", () => {
         describe("auto", () => {
             const completeSpy = sinon.spy();
             let config;
+            let sandbox;
 
             before(() => {
                 const patterns = [
@@ -334,23 +335,21 @@ describe("configInitializer", () => {
                     commonjs: false
                 };
 
-                const sandbox = sinon.sandbox.create();
-
+                sandbox = sinon.sandbox.create();
                 sandbox.stub(console, "log"); // necessary to replace, because of progress bar
 
                 process.chdir(fixtureDir);
+                config = init.processAnswers(answers);
+                sandbox.restore();
+            });
 
-                try {
-                    config = init.processAnswers(answers);
-                    process.chdir(originalDir);
-                } catch (err) {
+            after(() => {
+                sandbox.restore();
+            });
 
-                    // if processAnswers crashes, we need to be sure to restore cwd
-                    process.chdir(originalDir);
-                    throw err;
-                } finally {
-                    sandbox.restore(); // restore console.log()
-                }
+            afterEach(() => {
+                process.chdir(originalDir);
+                sandbox.restore();
             });
 
             it("should create a config", () => {
@@ -371,25 +370,21 @@ describe("configInitializer", () => {
             it("should throw on fatal parsing error", () => {
                 const filename = getFixturePath("parse-error");
 
-                sinon.stub(autoconfig, "extendFromRecommended");
+                sandbox.stub(autoconfig, "extendFromRecommended");
                 answers.patterns = filename;
                 process.chdir(fixtureDir);
                 assert.throws(() => {
                     config = init.processAnswers(answers);
                 }, "Parsing error: Unexpected token ;");
-                process.chdir(originalDir);
-                autoconfig.extendFromRecommended.restore();
             });
 
             it("should throw if no files are matched from patterns", () => {
-                sinon.stub(autoconfig, "extendFromRecommended");
+                sandbox.stub(autoconfig, "extendFromRecommended");
                 answers.patterns = "not-a-real-filename";
                 process.chdir(fixtureDir);
                 assert.throws(() => {
                     config = init.processAnswers(answers);
                 }, "No files matching 'not-a-real-filename' were found.");
-                process.chdir(originalDir);
-                autoconfig.extendFromRecommended.restore();
             });
         });
     });

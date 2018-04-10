@@ -557,6 +557,44 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.results[0].messages[0].message, expectedMsg);
         });
 
+        // @scope for @scope/eslint-plugin
+        describe("(plugin shorthand)", () => {
+            const Module = require("module");
+            let originalFindPath = null;
+
+            /* eslint-disable no-underscore-dangle */
+            before(() => {
+                originalFindPath = Module._findPath;
+                Module._findPath = function(id) {
+                    if (id === "@scope/eslint-plugin") {
+                        return path.resolve(__dirname, "../fixtures/plugin-shorthand/basic/node_modules/@scope/eslint-plugin/index.js");
+                    }
+                    return originalFindPath.apply(this, arguments);
+                };
+            });
+            after(() => {
+                Module._findPath = originalFindPath;
+            });
+            /* eslint-enable no-underscore-dangle */
+
+            it("should resolve 'plugins:[\"@scope\"]' to 'node_modules/@scope/eslint-plugin'.", () => {
+                engine = new CLIEngine({ cwd: getFixturePath("plugin-shorthand/basic") });
+                const report = engine.executeOnText("var x = 0", "index.js").results[0];
+
+                assert.strictEqual(report.filePath, getFixturePath("plugin-shorthand/basic/index.js"));
+                assert.strictEqual(report.messages[0].ruleId, "@scope/rule");
+                assert.strictEqual(report.messages[0].message, "OK");
+            });
+
+            it("should resolve 'extends:[\"plugin:@scope/recommended\"]' to 'node_modules/@scope/eslint-plugin'.", () => {
+                engine = new CLIEngine({ cwd: getFixturePath("plugin-shorthand/extends") });
+                const report = engine.executeOnText("var x = 0", "index.js").results[0];
+
+                assert.strictEqual(report.filePath, getFixturePath("plugin-shorthand/extends/index.js"));
+                assert.strictEqual(report.messages[0].ruleId, "@scope/rule");
+                assert.strictEqual(report.messages[0].message, "OK");
+            });
+        });
     });
 
     describe("executeOnFiles()", () => {
