@@ -103,6 +103,14 @@ describe("CLIEngine", () => {
                 process.chdir(originalDir);
             }
         });
+
+        it("should report one fatal message when given a path by --ignore-path that is not a file when ignore is true.", () => {
+            assert.throws(() => {
+                const engine = new CLIEngine({ ignorePath: fixtureDir });
+
+                void (engine);
+            }, `Error: Could not load file ${fixtureDir}\nError: ${fixtureDir} is not a file`);
+        });
     });
 
     describe("executeOnText()", () => {
