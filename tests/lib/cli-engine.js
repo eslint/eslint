@@ -46,15 +46,11 @@ describe("CLIEngine", () => {
      * @returns {string} The path inside the fixture directory.
      * @private
      */
-    function getFixturePath() {
-        const args = Array.prototype.slice.call(arguments);
-
-        args.unshift(fixtureDir);
-        let filepath = path.join.apply(path, args);
+    function getFixturePath(...args) {
+        const filepath = path.join(fixtureDir, ...args);
 
         try {
-            filepath = fs.realpathSync(filepath);
-            return filepath;
+            return fs.realpathSync(filepath);
         } catch (e) {
             return filepath;
         }
@@ -565,11 +561,11 @@ describe("CLIEngine", () => {
             /* eslint-disable no-underscore-dangle */
             before(() => {
                 originalFindPath = Module._findPath;
-                Module._findPath = function(id) {
+                Module._findPath = function(id, ...otherArgs) {
                     if (id === "@scope/eslint-plugin") {
                         return path.resolve(__dirname, "../fixtures/plugin-shorthand/basic/node_modules/@scope/eslint-plugin/index.js");
                     }
-                    return originalFindPath.apply(this, arguments);
+                    return originalFindPath.call(this, id, ...otherArgs);
                 };
             });
             after(() => {

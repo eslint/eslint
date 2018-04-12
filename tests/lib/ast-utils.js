@@ -42,10 +42,10 @@ describe("ast-utils", () => {
      */
     function mustCall(func) {
         callCounts.set(func, 0);
-        return function Wrapper() {
+        return function Wrapper(...args) {
             callCounts.set(func, callCounts.get(func) + 1);
 
-            return func.apply(this, arguments);
+            return func.call(this, ...args);
         };
     }
 

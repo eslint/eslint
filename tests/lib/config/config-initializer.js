@@ -64,15 +64,11 @@ describe("configInitializer", () => {
      * @returns {string} The path inside the fixture directory.
      * @private
      */
-    function getFixturePath() {
-        const args = Array.prototype.slice.call(arguments);
-
-        args.unshift(fixtureDir);
-        let filepath = path.join.apply(path, args);
+    function getFixturePath(...args) {
+        const filepath = path.join(fixtureDir, ...args);
 
         try {
-            filepath = fs.realpathSync(filepath);
-            return filepath;
+            return fs.realpathSync(filepath);
         } catch (e) {
             return filepath;
         }
