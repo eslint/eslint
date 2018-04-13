@@ -97,12 +97,8 @@ describe("Config", () => {
      * @returns {string} The path inside the fixture directory.
      * @private
      */
-    function getFixturePath() {
-        const args = Array.prototype.slice.call(arguments);
-
-        args.unshift("config-hierarchy");
-        args.unshift(fixtureDir);
-        return path.join.apply(path, args);
+    function getFixturePath(...args) {
+        return path.join(fixtureDir, "config-hierarchy", ...args);
     }
 
     /**
@@ -184,14 +180,8 @@ describe("Config", () => {
          * @returns {string} The path inside the fixture directory.
          * @private
          */
-        function getFakeFixturePath() {
-            const args = Array.prototype.slice.call(arguments);
-
-            args.unshift("config-hierarchy");
-            args.unshift("fixtures");
-            args.unshift("eslint");
-            args.unshift(process.cwd());
-            return path.join.apply(path, args);
+        function getFakeFixturePath(...args) {
+            return path.join(process.cwd(), "eslint", "fixtures", "config-hierarchy", ...args);
         }
 
         before(() => {
@@ -834,14 +824,8 @@ describe("Config", () => {
              * @returns {string} The path inside the fixture directory.
              * @private
              */
-            function getFakeFixturePath() {
-                const args = Array.prototype.slice.call(arguments);
-
-                args.unshift("config-hierarchy");
-                args.unshift("fixtures");
-                args.unshift("eslint");
-                args.unshift(process.cwd());
-                return path.join.apply(path, args);
+            function getFakeFixturePath(...args) {
+                return path.join(process.cwd(), "eslint", "fixtures", "config-hierarchy", ...args);
             }
 
             /**
@@ -979,14 +963,8 @@ describe("Config", () => {
              * @returns {string} The path inside the fixture directory.
              * @private
              */
-            function getFakeFixturePath() {
-                const args = Array.prototype.slice.call(arguments);
-
-                args.unshift("config-hierarchy");
-                args.unshift("fixtures");
-                args.unshift("eslint");
-                args.unshift(process.cwd());
-                return path.join.apply(path, args);
+            function getFakeFixturePath(...args) {
+                return path.join(process.cwd(), "eslint", "fixtures", "config-hierarchy", ...args);
             }
 
             /**
@@ -1117,15 +1095,8 @@ describe("Config", () => {
              * @returns {string} The path inside the fixture directory.
              * @private
              */
-            function getFakeFixturePath() {
-                const pathSegments = Array.from(arguments);
-
-                pathSegments.unshift("config-hierarchy");
-                pathSegments.unshift("fixtures");
-                pathSegments.unshift("eslint");
-                pathSegments.unshift(process.cwd());
-
-                return path.join.apply(path, pathSegments);
+            function getFakeFixturePath(...pathSegments) {
+                return path.join(process.cwd(), "eslint", "fixtures", "config-hierarchy", ...pathSegments);
             }
 
             before(() => {

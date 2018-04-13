@@ -72,11 +72,8 @@ describe("cli", () => {
      * @returns {string} The path inside the fixture directory.
      * @private
      */
-    function getFixturePath() {
-        const args = Array.prototype.slice.call(arguments);
-
-        args.unshift(fixtureDir);
-        return path.join.apply(path, args);
+    function getFixturePath(...args) {
+        return path.join(fixtureDir, ...args);
     }
 
     // copy into clean area so as not to get "infected" by this project's .eslintrc files
