@@ -27,8 +27,7 @@ if (debug) {
 //------------------------------------------------------------------------------
 
 // now we can safely include the other modules that use debug
-const concat = require("concat-stream"),
-    cli = require("../lib/cli"),
+const cli = require("../lib/cli"),
     path = require("path"),
     fs = require("fs");
 
@@ -57,9 +56,7 @@ process.once("uncaughtException", err => {
 });
 
 if (useStdIn) {
-    process.stdin.pipe(concat({ encoding: "string" }, text => {
-        process.exitCode = cli.execute(process.argv, text);
-    }));
+    process.exitCode = cli.execute(process.argv, fs.readFileSync(process.stdin.fd, "utf8"));
 } else if (init) {
     const configInit = require("../lib/config/config-initializer");
 
