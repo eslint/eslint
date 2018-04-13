@@ -979,10 +979,7 @@ function createConfigForPerformanceTest() {
         "rules:"
     ];
 
-    content.push.apply(
-        content,
-        ls("lib/rules").map(fileName => `    ${path.basename(fileName, ".js")}: 1`)
-    );
+    content.push(...ls("lib/rules").map(fileName => `    ${path.basename(fileName, ".js")}: 1`));
 
     content.join("\n").to(PERF_ESLINTRC);
 }
