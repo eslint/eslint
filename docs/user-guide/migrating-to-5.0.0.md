@@ -9,6 +9,7 @@ The lists below are ordered roughly by the number of users each change is expect
 1. [Node.js 4 is no longer supported](#drop-node-4)
 1. [The `experimentalObjectRestSpread` option has been deprecated](#experimental-object-rest-spread)
 1. [Linting nonexistent files from the command line is now a fatal error](#nonexistent-files)
+1. [Deprecated globals have been removed from the `node`, `browser`, and `jest` environments](#deprecated-globals)
 1. [Empty files are now linted](#empty-files)
 1. [Plugins in scoped packages are now resolvable in configs](#scoped-plugins)
 
@@ -16,6 +17,7 @@ The lists below are ordered roughly by the number of users each change is expect
 
 1. [The `parent` property of AST nodes is now set before rules start running](#parent-before-rules)
 1. [When using the default parser, text nodes in JSX elements now have type `JSXText`](#jsx-text-nodes)
+1. [The `_linter` property on rule context objects has been removed](#no-context-linter)
 1. [`RuleTester` now uses strict equality checks in its assertions](#rule-tester-equality)
 1. [Rules are now required to provide messages along with reports](#required-report-messages)
 
@@ -32,12 +34,10 @@ The lists below are ordered roughly by the number of users each change is expect
 As of April 30th, 2018, Node.js 4 will be at EOL and will no longer be receiving security updates. As a result, we have decided to drop support for it in ESLint v5. We now support the following versions of Node.js:
 
 * Node.js 6 (6.14.0 and above)
-* Node.js 8 (8.11.0 and above)
+* Node.js 8 (8.10.0 and above)
 * Anything above Node.js 9.10.0
 
 **To address:** Make sure you upgrade to at least Node.js 6 when using ESLint v5. If you are unable to upgrade, we recommend continuing to use ESLint v4.x until you are able to upgrade Node.js.
-
-*Note: The latest alpha release of ESLint v5 may still function on Node.js 4, but we plan to officially drop support for it before the first stable release.*
 
 ## <a name="experimental-object-rest-spread"></a> The `experimentalObjectRestSpread` option has been deprecated
 
@@ -94,6 +94,23 @@ If you use a boilerplate generator that relies on this behavior (e.g. to generat
 
 *Note: This change has not yet appeared in the latest alpha release. We plan to add it in a future prerelease.*
 
+## <a name="deprecated-globals"></a> Deprecated globals have been removed from the `node`, `browser`, and `jest` environments
+
+Some global variables have been deprecated or removed for code running in Node.js, browsers, and Jest. (For example, browsers used to expose an `SVGAltGlyphElement` global variable to JavaScript code, but this global has been removed from web standards and is no longer present in browsers.) As a result, we have removed these globals from the corresponding `eslint` environments, so use of these globals will trigger an error when using rules such as [`no-undef`](/docs/rules/no-undef).
+
+**To address:** If you use deprecated globals in the `node`, `browser`, or `jest` environments, you can add a `globals` section to your configuration to re-enable any globals you need. For example:
+
+```json
+{
+  "env": {
+    "browser": true
+  },
+  "globals": {
+    "SVGAltGlyphElement": false
+  }
+}
+```
+
 ## <a name="empty-files"></a> Empty files are now linted
 
 ESLint v4 had a special behavior when linting files that only contain whitespace: it would skip running the parser and rules, and it would always return zero errors. This led to some confusion for users and rule authors, particularly when writing tests for rules. (When writing a stylistic rule, rule authors would occasionally write a test where the source code only contained whitespace, to ensure that the rule behaved correctly when no applicable code was found. However, a test like this would actually not run the rule at all, so an aspect of the rule would end up untested.)
@@ -125,6 +142,12 @@ In ESLint v5, the `parent` property is set on all AST nodes before any rules hav
 When parsing JSX code like `<a>foo</a>`, the default parser will now give the `foo` AST node the `JSXText` type, rather than the `Literal` type. This makes the AST compliant with a recent update to the JSX spec.
 
 **To address:** If you have written a custom rule that relies on text nodes in JSX elements having the `Literal` type, you should update it to also work with nodes that have the `JSXText` type.
+
+## <a name="no-context-linter"></a> The `_linter` property on rule context objects has been removed
+
+Previously, rule context objects had an undocumented `_linter` property, which was used internally within ESLint to process reports from rules. Some rules used this property to achieve functionality that was not intended to be possible for rules. For example, several plugins used the `_linter` property in a rule to monitor reports from other rules, for the purpose of checking for unused `/* eslint-disable */` directive comments. Although this functionality was useful for users, it could also cause stability problems for projects using ESLint. For example, an upgrade to a rule in one plugin could unexpectedly cause a rule in another plugin to start reporting errors.
+
+The `_linter` property has been removed in ESLint v5.0, so it is no longer possible to implement rules with this functionality. However, the [`--report-unused-disable-directives`](/docs/user-guide/command-line-interface#--report-unused-disable-directives) CLI flag can be used to flag unused directive comments.
 
 ## <a name="rule-tester-equality"></a> `RuleTester` now uses strict equality checks in its assertions
 
