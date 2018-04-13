@@ -596,25 +596,59 @@ ruleTester.run("no-unused-vars", rule, {
         {
             code: "(function(a, b, c) {})",
             options: [{ argsIgnorePattern: "c" }],
-            errors: [{ message: "'b' is defined but never used. Allowed unused args must match /c/." }]
+            errors: [
+                {
+                    message: "'a' is defined but never used. Allowed unused args must match /c/."
+                },
+                {
+                    message: "'b' is defined but never used. Allowed unused args must match /c/."
+                }
+            ]
         },
         {
             code: "(function(a, b, {c, d}) {})",
             options: [{ argsIgnorePattern: "[cd]" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'b' is defined but never used. Allowed unused args must match /[cd]/." }]
+            errors: [
+                {
+                    message: "'a' is defined but never used. Allowed unused args must match /[cd]/."
+                },
+                {
+                    message: "'b' is defined but never used. Allowed unused args must match /[cd]/."
+                }
+            ]
         },
         {
             code: "(function(a, b, {c, d}) {})",
             options: [{ argsIgnorePattern: "c" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'d' is defined but never used. Allowed unused args must match /c/." }]
+            errors: [
+                {
+                    message: "'a' is defined but never used. Allowed unused args must match /c/."
+                },
+                {
+                    message: "'b' is defined but never used. Allowed unused args must match /c/."
+                },
+                {
+                    message: "'d' is defined but never used. Allowed unused args must match /c/."
+                }
+            ]
         },
         {
             code: "(function(a, b, {c, d}) {})",
             options: [{ argsIgnorePattern: "d" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'c' is defined but never used. Allowed unused args must match /d/." }]
+            errors: [
+                {
+                    message: "'a' is defined but never used. Allowed unused args must match /d/."
+                },
+                {
+                    message: "'b' is defined but never used. Allowed unused args must match /d/."
+                },
+                {
+                    message: "'c' is defined but never used. Allowed unused args must match /d/."
+                }
+            ]
         },
         {
             code: "/*global\rfoo*/",
