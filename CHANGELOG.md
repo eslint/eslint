@@ -1,3 +1,32 @@
+v5.0.0-alpha.1 - April 13, 2018
+
+* b2a48a9 Breaking: stop using fake `context._linter` property (fixes #10140) (#10209) (Teddy Katz)
+* a039956 Breaking: remove deprecated browser/jest/node globals (fixes #10141) (#10210) (Teddy Katz)
+* 98f1cad Docs: update migration guide with latest changes (#10212) (Teddy Katz)
+* 2e60017 Chore: remove concat-stream dependency (#10173) (Teddy Katz)
+* 7f69f11 Chore:  rearrange init options. (#10131) (薛定谔的猫)
+* f595fd8 Upgrade: upgrade deps (#10184) (alberto)
+* 71167be Docs: fix wrong config in id-length (#10196) (薛定谔的猫)
+* 81629d2 Chore: enable rest/spread rules on ESLint codebase (#10211) (Teddy Katz)
+* 2324570 Breaking: no-unused-vars reports all after-used params (fixes #9909) (#10119) (Kevin Partington)
+* 7765fc4 Upgrade: ajv@^6.0.1, still using json schema draft 04 (#9856) (Kevin Partington)
+* b77846d Breaking: drop supporting Node.js 4 (fixes #10052) (#10074) (薛定谔的猫)
+* cd34d44 Chore: avoid modifying global state when tests fail (#10201) (Teddy Katz)
+* 731da1e Docs: fix code in correct example. (#10195) (薛定谔的猫)
+* 3780915 Docs: fix some small errors in examples (#10194) (薛定谔的猫)
+* 869c9f5 Upgrade: babelify (#10185) (alberto)
+* 218ee57 Fix: report no-case-declarations from declarations (fixes #10048) (#10167) (Carlo Abelli)
+* b7ee1ed Upgrade: upgrade devdeps (#10178) (alberto)
+* db1a582 Chore: Add debug logging for CLI args as they came in (#10174) (Kevin Partington)
+* f3a0291 Upgrade: Update dependencies. (#10168) (alberto)
+* 7d6e052 Upgrade: esquery@^1.0.1 (fixes #8733) (#10170) (Kevin Partington)
+* 1e7252f Docs: Add more related rules for object-curly-spacing (#10175) (Saugat Acharya)
+* e5cf9cc Docs: Reorder README sections (#10172) (alberto)
+* c85578f Chore: Remove `esprima-fb` dependency. (#10171) (alberto)
+* d0dc2e3 Docs: Add Missing Quotes (#10162) (Samarth Verma)
+* 7a63bfa Upgrade: eslint-release to v0.11.1 (#10156) (Teddy Katz)
+* b7a1a7a Build: Gensite creates prerelease dirs if needed (#10154) (Brandon Mills)
+
 v5.0.0-alpha.0 - March 30, 2018
 
 * f4b3af5 Breaking: Upgrade to Espree v4 alpha (refs #9990) (#10152) (Brandon Mills)
