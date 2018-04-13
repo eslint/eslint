@@ -152,11 +152,14 @@ rules:
     prefer-const: "error"
     prefer-numeric-literals: "error"
     prefer-promise-reject-errors: "error"
+    prefer-rest-params: "error"
+    prefer-spread: "error"
     prefer-template: "error"
     quotes: ["error", "double"]
     quote-props: ["error", "as-needed"]
     radix: "error"
     require-jsdoc: "error"
+    rest-spread-spacing: "error"
     semi: "error"
     semi-spacing: ["error", {before: false, after: true}]
     semi-style: "error"
