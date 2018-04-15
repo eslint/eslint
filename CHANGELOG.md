@@ -3885,7 +3885,7 @@ v0.5.1 - April 17, 2014
 * Docs: Updated contributor guidelines (Nicholas C. Zakas)
 * Added Mocha global variables for TDD style. Fixes #793. (Golo Roden)
 * Rule: no-sequences (fixes #561) (Brandon Mills)
-* Change .eslintingore to plain text (fixes #761) (Brandon Mills)
+* Change .eslintignore to plain text (fixes #761) (Brandon Mills)
 * Change 'no-spaced-func' message (fixes #762) (Aliaksei Shytkin)
 * Rule 'block-scoped-var' works correct when object inits (fixes #783) (Aliaksei Shytkin)
 * Build: Always build docs site on top of origin/master (Nicholas C. Zakas)
