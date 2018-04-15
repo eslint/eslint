@@ -12,7 +12,7 @@ module.exports = {
     useEslintrc: true,
     envs: [],
     globals: [],
-    extensions: [".js"],
+    extensions: [".mjs", ".js"],
     ignore: true,
     ignorePath: null,
     cache: false,

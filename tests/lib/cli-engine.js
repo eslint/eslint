@@ -2976,9 +2976,9 @@ describe("CLIEngine", () => {
     describe("resolveFileGlobPatterns", () => {
 
         leche.withData([
-            [".", "**/*.js"],
-            ["./", "**/*.js"],
-            ["../", "../**/*.js"]
+            [".", "**/*.{mjs,js}"],
+            ["./", "**/*.{mjs,js}"],
+            ["../", "../**/*.{mjs,js}"]
         ], (input, expected) => {
 
             it(`should correctly resolve ${input} to ${expected}`, () => {
