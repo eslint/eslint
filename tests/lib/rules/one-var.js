@@ -499,7 +499,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "function foo() { var bar = true; var baz = false; }",
-            output: null,
+            output: "function foo() { var bar = true,  baz = false; }",
             options: ["always"],
             errors: [{
                 message: "Combine this with the previous 'var' statement.",
@@ -576,7 +576,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "function foo() { var bar = true; var baz = false; var a; var b;}",
-            output: null,
+            output: "function foo() { var bar = true,  baz = false,  a,  b;}",
             options: [{ uninitialized: "always", initialized: "always" }],
             errors: [
                 {
@@ -595,7 +595,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "function foo() { var a = [1, 2, 3]; var [b, c, d] = a; }",
-            output: null,
+            output: "function foo() { var a = [1, 2, 3],  [b, c, d] = a; }",
             options: ["always"],
             errors: [{
                 message: "Combine this with the previous 'var' statement.",
@@ -604,7 +604,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "function foo() { let a = 1; let b = 2; }",
-            output: null,
+            output: "function foo() { let a = 1,  b = 2; }",
             options: ["always"],
             errors: [{
                 message: "Combine this with the previous 'let' statement.",
@@ -613,7 +613,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "function foo() { const a = 1; const b = 2; }",
-            output: null,
+            output: "function foo() { const a = 1,  b = 2; }",
             options: ["always"],
             errors: [{
                 message: "Combine this with the previous 'const' statement.",
@@ -622,7 +622,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "function foo() { let a = 1; let b = 2; }",
-            output: null,
+            output: "function foo() { let a = 1,  b = 2; }",
             options: [{ let: "always" }],
             errors: [{
                 message: "Combine this with the previous 'let' statement.",
@@ -631,7 +631,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "function foo() { const a = 1; const b = 2; }",
-            output: null,
+            output: "function foo() { const a = 1,  b = 2; }",
             options: [{ const: "always" }],
             errors: [{
                 message: "Combine this with the previous 'const' statement.",
@@ -696,7 +696,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "var one = 1, two = 2;\nvar three;",
-            output: null,
+            output: "var one = 1, two = 2,\n three;",
             options: ["always"],
             errors: [{
                 message: "Combine this with the previous 'var' statement.",
@@ -743,7 +743,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "var foo = function() { var bar = true; var baz = false; }",
-            output: null,
+            output: "var foo = function() { var bar = true,  baz = false; }",
             errors: [{
                 message: "Combine this with the previous 'var' statement.",
                 type: "VariableDeclaration",
@@ -768,7 +768,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "var foo = () => { var bar = true; var baz = false; }",
-            output: null,
+            output: "var foo = () => { var bar = true,  baz = false; }",
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Combine this with the previous 'var' statement.",
@@ -789,7 +789,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "var foo; var bar;",
-            output: null,
+            output: "var foo,  bar;",
             errors: [{
                 message: "Combine this with the previous 'var' statement.",
                 type: "VariableDeclaration",
@@ -877,7 +877,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "const foo = 1,\n    bar = 2;",
-            output: "const foo = 1;\nconst bar = 2;",
+            output: "const foo = 1;\n\n    \nconst bar = 2;",
             options: [{ initialized: "never" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
@@ -889,7 +889,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "var foo = 1,\n    bar = 2;",
-            output: "var foo = 1;\nvar bar = 2;",
+            output: "var foo = 1;\n\n    \nvar bar = 2;",
             options: [{ initialized: "never" }],
             errors: [{
                 message: "Split initialized 'var' declarations into multiple statements.",
@@ -900,7 +900,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "var foo = 1, // comment\n    bar = 2;",
-            output: "var foo = 1;\n// comment\nvar bar = 2;",
+            output: "var foo = 1;\n // comment\n    \nvar bar = 2;",
             options: [{ initialized: "never" }],
             errors: [{
                 message: "Split initialized 'var' declarations into multiple statements.",
@@ -922,40 +922,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "var f,          /* test */ l;",
-            output: "var f;\n/* test */\nvar l;",
-            options: ["never"],
-            errors: [{
-                message: "Split 'var' declarations into multiple statements.",
-                type: "VariableDeclaration",
-                line: 1,
-                column: 1
-            }]
-        },
-        {
-            code: "var f, k /* test \n some more comment \n even more */, l = 1, P;",
-            output: "var f; var k /* test \n some more comment \n even more */; var l = 1; var P;",
-            options: ["never"],
-            errors: [{
-                message: "Split 'var' declarations into multiple statements.",
-                type: "VariableDeclaration",
-                line: 1,
-                column: 1
-            }]
-        },
-        {
-            code: "var f, k /* test */, l;",
-            output: "var f; var k /* test */; var l;",
-            options: ["never"],
-            errors: [{
-                message: "Split 'var' declarations into multiple statements.",
-                type: "VariableDeclaration",
-                line: 1,
-                column: 1
-            }]
-        },
-        {
-            code: "var f,          /* test */ l;",
-            output: "var f;\n/* test */\nvar l;",
+            output: "var f;\n          /* test */ \nvar l;",
             options: ["never"],
             errors: [{
                 message: "Split 'var' declarations into multiple statements.",
@@ -1025,7 +992,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "const foo = require('foo'); const bar = require('bar');",
-            output: null,
+            output: "const foo = require('foo'),  bar = require('bar');",
             options: [{ separateRequires: true, const: "always" }],
             parserOptions: { env: { node: true } },
             errors: [{
@@ -1039,7 +1006,7 @@ ruleTester.run("one-var", rule, {
         // https://github.com/eslint/eslint/issues/4680
         {
             code: "var a = 1, b; var c;",
-            output: null,
+            output: "var a = 1, b,  c;",
             options: ["consecutive"],
             errors: [{
                 message: "Combine this with the previous 'var' statement.",
@@ -1050,7 +1017,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "var a = 0, b = 1; var c = 2;",
-            output: null,
+            output: "var a = 0, b = 1,  c = 2;",
             options: ["consecutive"],
             errors: [{
                 message: "Combine this with the previous 'var' statement.",
@@ -1061,7 +1028,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "let a = 1, b; let c;",
-            output: null,
+            output: "let a = 1, b,  c;",
             options: ["consecutive"],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
@@ -1073,7 +1040,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "let a = 0, b = 1; let c = 2;",
-            output: null,
+            output: "let a = 0, b = 1,  c = 2;",
             options: ["consecutive"],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
@@ -1085,7 +1052,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "const a = 0, b = 1; const c = 2;",
-            output: null,
+            output: "const a = 0, b = 1,  c = 2;",
             options: ["consecutive"],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
@@ -1097,7 +1064,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "const a = 0; var b = 1; var c = 2; const d = 3;",
-            output: null,
+            output: "const a = 0; var b = 1,  c = 2; const d = 3;",
             options: ["consecutive"],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
@@ -1109,7 +1076,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "const a = 0; let b = 1; let c = 2; const d = 3;",
-            output: null,
+            output: "const a = 0; let b = 1,  c = 2; const d = 3;",
             options: ["consecutive"],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
@@ -1121,7 +1088,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "let a = 0; const b = 1; const c = 1; var d = 2;",
-            output: null,
+            output: "let a = 0; const b = 1,  c = 1; var d = 2;",
             options: ["consecutive"],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
@@ -1144,7 +1111,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "var a = 0; var b = 1; var c; var d;",
-            output: "var a = 0; var b = 1; var c,  d;",
+            output: "var a = 0,  b = 1; var c,  d;",
             options: [{ initialized: "consecutive", uninitialized: "always" }],
             errors: [{
                 message: "Combine this with the previous 'var' statement with initialized variables.",
@@ -1173,7 +1140,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "let a = 0; let b = 1; let c; let d;",
-            output: "let a = 0; let b = 1; let c,  d;",
+            output: "let a = 0,  b = 1; let c,  d;",
             options: [{ initialized: "consecutive", uninitialized: "always" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
@@ -1203,7 +1170,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "const a = 0; const b = 1; let c; let d;",
-            output: "const a = 0; const b = 1; let c,  d;",
+            output: "const a = 0,  b = 1; let c,  d;",
             options: [{ initialized: "consecutive", uninitialized: "always" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
@@ -1221,7 +1188,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "var a = 0; var b = 1; var c, d;",
-            output: "var a = 0; var b = 1; var c; var d;",
+            output: "var a = 0,  b = 1; var c; var d;",
             options: [{ initialized: "consecutive", uninitialized: "never" }],
             errors: [{
                 message: "Combine this with the previous 'var' statement with initialized variables.",
@@ -1249,7 +1216,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "let a = 0; let b = 1; let c, d;",
-            output: "let a = 0; let b = 1; let c; let d;",
+            output: "let a = 0,  b = 1; let c; let d;",
             options: [{ initialized: "consecutive", uninitialized: "never" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
@@ -1279,7 +1246,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "const a = 0; const b = 1; let c, d;",
-            output: "const a = 0; const b = 1; let c; let d;",
+            output: "const a = 0,  b = 1; let c; let d;",
             options: [{ initialized: "consecutive", uninitialized: "never" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
@@ -1309,7 +1276,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "var a; var b; var c = 0; var d = 1;",
-            output: "var a; var b; var c = 0,  d = 1;",
+            output: "var a,  b; var c = 0,  d = 1;",
             options: [{ uninitialized: "consecutive", initialized: "always" }],
             errors: [{
                 message: "Combine this with the previous 'var' statement with uninitialized variables.",
@@ -1337,7 +1304,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "let a; let b; let c = 0; let d = 1;",
-            output: "let a; let b; let c = 0,  d = 1;",
+            output: "let a,  b; let c = 0,  d = 1;",
             options: [{ uninitialized: "consecutive", initialized: "always" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
@@ -1367,7 +1334,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "let a; let b; const c = 0; const d = 1;",
-            output: "let a; let b; const c = 0,  d = 1;",
+            output: "let a,  b; const c = 0,  d = 1;",
             options: [{ uninitialized: "consecutive", initialized: "always" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
@@ -1397,7 +1364,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "var a; var b; var c = 0, d = 1;",
-            output: "var a; var b; var c = 0; var d = 1;",
+            output: "var a,  b; var c = 0; var d = 1;",
             options: [{ uninitialized: "consecutive", initialized: "never" }],
             errors: [{
                 message: "Combine this with the previous 'var' statement with uninitialized variables.",
@@ -1425,7 +1392,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "let a; let b; let c = 0, d = 1;",
-            output: "let a; let b; let c = 0; let d = 1;",
+            output: "let a,  b; let c = 0; let d = 1;",
             options: [{ uninitialized: "consecutive", initialized: "never" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
@@ -1455,7 +1422,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "let a; let b; const c = 0, d = 1;",
-            output: "let a; let b; const c = 0; const d = 1;",
+            output: "let a,  b; const c = 0; const d = 1;",
             options: [{ uninitialized: "consecutive", initialized: "never" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
@@ -1485,7 +1452,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "var a = 0; var b = 1;",
-            output: null,
+            output: "var a = 0,  b = 1;",
             options: [{ var: "consecutive" }],
             errors: [{
                 message: "Combine this with the previous 'var' statement.",
@@ -1496,7 +1463,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "let a = 0; let b = 1;",
-            output: null,
+            output: "let a = 0,  b = 1;",
             options: [{ let: "consecutive" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
@@ -1508,7 +1475,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "const a = 0; const b = 1;",
-            output: null,
+            output: "const a = 0,  b = 1;",
             options: [{ const: "consecutive" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
@@ -1520,7 +1487,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "let a; let b; const c = 0; const d = 1;",
-            output: null,
+            output: "let a,  b; const c = 0,  d = 1;",
             options: [{ let: "consecutive", const: "always" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
@@ -1538,7 +1505,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "let a; const b = 0; const c = 1; let d;",
-            output: null,
+            output: "let a; const b = 0,  c = 1; let d;",
             options: [{ let: "consecutive", const: "always" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
@@ -1550,7 +1517,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "let a; let b; const c = 0, d = 1;",
-            output: "let a; let b; const c = 0; const d = 1;",
+            output: "let a,  b; const c = 0; const d = 1;",
             options: [{ let: "consecutive", const: "never" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
@@ -1580,7 +1547,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "const a = 0; const b = 1; let c; let d;",
-            output: null,
+            output: "const a = 0,  b = 1; let c,  d;",
             options: [{ const: "consecutive", let: "always" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
@@ -1598,7 +1565,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "const a = 0; let b; let c; const d = 1;",
-            output: null,
+            output: "const a = 0; let b,  c; const d = 1;",
             options: [{ const: "consecutive", let: "always" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
@@ -1610,7 +1577,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "const a = 0; const b = 1; let c, d;",
-            output: "const a = 0; const b = 1; let c; let d;",
+            output: "const a = 0,  b = 1; let c; let d;",
             options: [{ const: "consecutive", let: "never" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
@@ -1640,7 +1607,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "var bar; var baz;",
-            output: null,
+            output: "var bar,  baz;",
             options: ["consecutive"],
             errors: [{
                 message: "Combine this with the previous 'var' statement.",
@@ -1651,7 +1618,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "var bar = 1; var baz = 2; qux(); var qux = 3; var quux;",
-            output: null,
+            output: "var bar = 1,  baz = 2; qux(); var qux = 3,  quux;",
             options: ["consecutive"],
             errors: [{
                 message: "Combine this with the previous 'var' statement.",
@@ -1668,7 +1635,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "let a, b; let c; var d, e;",
-            output: "let a, b; let c; var d; var e;",
+            output: "let a, b,  c; var d; var e;",
             options: [{ var: "never", let: "consecutive", const: "consecutive" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
@@ -1686,7 +1653,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "var a; var b;",
-            output: null,
+            output: "var a,  b;",
             options: [{ var: "consecutive" }],
             errors: [{
                 message: "Combine this with the previous 'var' statement.",
@@ -1697,7 +1664,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "var a = 1; var b = 2; var c, d; var e = 3; var f = 4;",
-            output: "var a = 1; var b = 2; var c; var d; var e = 3; var f = 4;",
+            output: "var a = 1,  b = 2; var c; var d; var e = 3,  f = 4;",
             options: [{ initialized: "consecutive", uninitialized: "never" }],
             errors: [{
                 message: "Combine this with the previous 'var' statement with initialized variables.",
@@ -1720,7 +1687,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "var a = 1; var b = 2; foo(); var c = 3; var d = 4;",
-            output: null,
+            output: "var a = 1,  b = 2; foo(); var c = 3,  d = 4;",
             options: [{ initialized: "consecutive" }],
             errors: [{
                 message: "Combine this with the previous 'var' statement with initialized variables.",
