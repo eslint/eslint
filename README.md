@@ -123,9 +123,9 @@ Maybe, depending on how much you need it. [JSCS has reached end of life](https:/
 
 If you are having issues with JSCS, you can try to move to ESLint. We are focusing our time and energy on JSCS compatibility issues.
 
-### Is ESLint just linting or does it also check style?
+### Does Prettier replace ESLint?
 
-ESLint does both traditional linting (looking for problematic patterns) and style checking (enforcement of conventions). You can use it for both.
+No, ESLint does both traditional linting (looking for problematic patterns) and style checking (enforcement of conventions). You can use ESLint for everything, or you can combine both using Prettier to format your code and ESLint to catch possible errors.
 
 ### Why can't ESLint find my plugins?
 
