@@ -3492,6 +3492,56 @@ describe("Linter", () => {
             linter.verify("x", { rules: { "foo-bar-baz": "error" } });
             assert(spy.calledOnce);
         });
+
+        it("should parse ES2018 code for backward compatibility if 'parserOptions.ecmaFeatures.experimentalObjectRestSpread' is given.", () => {
+            const messages = linter.verify(
+                "async function* f() { let {a, ...rest} = { a, ...obj }; }",
+                { parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } } }
+            );
+
+            assert(messages.length === 1);
+            assert(messages[0].fatal !== true);
+            assert(messages[0].severity === 1);
+            assert(messages[0].message === "'parserOptions.ecmaFeatures.experimentalObjectRestSpread' has been deprecated. Use 'parserOptions.ecmaVersion' instead.");
+            assert(messages[0].line === 0);
+            assert(messages[0].column === 0);
+        });
+
+        it("should sort messages by locations", () => {
+            linter.defineRule("report", context => ({
+                Program() {
+                    context.report({
+                        loc: { line: 1, column: 1 },
+                        message: "(1,1)"
+                    });
+                    context.report({
+                        loc: { line: 0, column: 1 },
+                        message: "(0,1)"
+                    });
+                    context.report({
+                        loc: { line: 1, column: 0 },
+                        message: "(1,0)"
+                    });
+                }
+            }));
+            const messages = linter.verify(
+                "async function* f() { let {a, ...rest} = { a, ...obj }; }",
+                {
+                    parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } },
+                    rules: { report: "error" }
+                }
+            );
+
+            assert(messages.length === 4);
+            assert(messages[0].line === 0);
+            assert(messages[0].column === 0);
+            assert(messages[1].line === 0);
+            assert(messages[1].column === 2);
+            assert(messages[2].line === 1);
+            assert(messages[2].column === 1);
+            assert(messages[3].line === 1);
+            assert(messages[3].column === 2);
+        });
     });
 
     describe("Variables and references", () => {
