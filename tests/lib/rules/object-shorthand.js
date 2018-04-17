@@ -428,6 +428,11 @@ ruleTester.run("object-shorthand", rule, {
             errors: [METHOD_ERROR]
         },
         {
+            code: "var x = {\n  f: /* comment */ function() {\n  }\n  }",
+            output: null,
+            errors: [METHOD_ERROR]
+        },
+        {
             code: "var x = {y: function() {}}",
             output: "var x = {y() {}}",
             errors: [METHOD_ERROR]
