@@ -1,0 +1,5 @@
+root: true
+
+parserOptions:
+  ecmaFeatures:
+    experimentalObjectRestSpread: true
