@@ -1371,7 +1371,9 @@ describe("Config", () => {
             let warning = null;
 
             function onWarning(w) { // eslint-disable-line require-jsdoc
-                warning = w;
+                if (typeof w.code === "string" && w.code.startsWith("ESLINT_")) {
+                    warning = w;
+                }
             }
 
             beforeEach(() => {
