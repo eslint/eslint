@@ -3503,7 +3503,6 @@ describe("Linter", () => {
         });
     });
 
-
     describe("Variables and references", () => {
         const code = [
             "a;",
