@@ -187,6 +187,11 @@ ruleTester.run("prefer-template", rule, {
             code: "foo + 'handles unicode escapes correctly: \\x27'", // "\x27" === "'"
             output: "`${foo  }handles unicode escapes correctly: \\x27`",
             errors
+        },
+        {
+            code: "foo + 'does not autofix octal escape sequence' + '\\033'",
+            output: null,
+            errors
         }
     ]
 });
