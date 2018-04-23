@@ -135,9 +135,10 @@ function createStubModuleResolver(mapping) {
  * @private
  */
 function overrideNativeResolve(mapping) {
-    const originalFindPath = Module._findPath; // eslint-disable-line no-underscore-dangle
+    let originalFindPath;
 
     beforeEach(() => {
+        originalFindPath = Module._findPath; // eslint-disable-line no-underscore-dangle
         Module._findPath = function(request, paths, isMain) { // eslint-disable-line no-underscore-dangle
             if (mapping.hasOwnProperty(request)) {
                 return mapping[request];
