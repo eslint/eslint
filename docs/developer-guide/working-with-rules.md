@@ -135,6 +135,31 @@ Additionally, the `context` object has the following methods:
 
 **Note:** Earlier versions of ESLint supported additional methods on the `context` object. Those methods were removed in the new format and should not be relied upon.
 
+### context.getScope()
+
+This method returns the scope which has the following types:
+
+| AST Node Type             | Scope Type |
+|:--------------------------|:-----------|
+| `Program`                 | `global`   |
+| `FunctionDeclaration`     | `function` |
+| `FunctionExpression`      | `function` |
+| `ArrowFunctionExpression` | `function` |
+| `ClassDeclaration`        | `class`    |
+| `ClassExpression`         | `class`    |
+| `BlockStatement` ※1      | `block`    |
+| `SwitchStatement` ※1     | `switch`   |
+| `ForStatement` ※2        | `for`      |
+| `ForInStatement` ※2      | `for`      |
+| `ForOfStatement` ※2      | `for`      |
+| `WithStatement`           | `with`     |
+| `CatchClause`             | `catch`    |
+| others                    | ※3        |
+
+**※1** Only if the configured parser provided the block-scope feature. The default parser provides the block-scope feature if `parserOptions.ecmaVersion` is not less than `6`.  
+**※2** Only if the `for` statement defines the iteration variable as a block-scoped variable (E.g., `for (let i = 0;;) {}`).  
+**※3** The scope of the closest ancestor node which has own scope. If the closest ancestor node has multiple scopes then it chooses the innermost scope (E.g., the `Program` node has a `global` scope and a `module` scope if `Program#sourceType` is `"module"`. The innermost scope is the `module` scope.).
+
 ### context.report()
 
 The main method you'll use is `context.report()`, which publishes a warning or error (depending on the configuration being used). This method accepts a single argument, which is an object containing the following properties:
