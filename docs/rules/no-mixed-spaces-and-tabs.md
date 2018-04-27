@@ -41,7 +41,7 @@ function add(x, y) {
 
 This rule has a string option.
 
-* `"smart-tabs"` allows mixed spaces and tabs when the latter are used for alignment.
+* `"smart-tabs"` allows mixed tabs and spaces when the spaces are used for alignment.
 
 ### smart-tabs
 
