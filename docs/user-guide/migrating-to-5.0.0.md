@@ -173,7 +173,7 @@ Additionally, `context.getScope()` incorrectly returned the parent scope of the 
 
 In ESLint v5, the `context.getScope()` method has the same behavior regardless of `parserOptions.ecmaVersion` and returns the proper scope. See [the documentation](../developer-guide/working-with-rules#contextgetscope) for more details on which scopes are returned.
 
-**To address:** If you have written a custom rule that uses the `context.getScope()` method in node handlers, you may need to update it account for the modified scope information.
+**To address:** If you have written a custom rule that uses the `context.getScope()` method in node handlers, you may need to update it to account for the modified scope information.
 
 ## <a name="no-context-linter"></a> The `_linter` property on rule context objects has been removed
 
