@@ -18,10 +18,10 @@ The lists below are ordered roughly by the number of users each change is expect
 
 1. [The `parent` property of AST nodes is now set before rules start running](#parent-before-rules)
 1. [When using the default parser, text nodes in JSX elements now have type `JSXText`](#jsx-text-nodes)
+1. [The `context.getScope()` method now returns more proper scopes](#context-get-scope)
 1. [The `_linter` property on rule context objects has been removed](#no-context-linter)
 1. [`RuleTester` now uses strict equality checks in its assertions](#rule-tester-equality)
 1. [Rules are now required to provide messages along with reports](#required-report-messages)
-1. [The `context.getScope()` method now returns more proper scopes](#context-get-scope)
 
 ### Breaking changes for integration developers
 
@@ -45,8 +45,8 @@ As of April 30th, 2018, Node.js 4 will be at EOL and will no longer be receiving
 
 Two new rules have been added to the [`eslint:recommended`](https://eslint.org/docs/user-guide/configuring#using-eslintrecommended) config:
 
-* [`for-direction`](/docs/rules/for-direction) enforce `for` loop update clause moving the counter in the right direction.
-* [`getter-return`](/docs/rules/getter-return) enforce a `return` statement is present in property getters.
+* [`for-direction`](/docs/rules/for-direction) enforces that a `for` loop update clause moves the counter in the right direction.
+* [`getter-return`](/docs/rules/getter-return) enforces that a `return` statement is present in property getters.
 
 **To address:** To mimic the `eslint:recommended` behavior from 4.x, you can disable these rules in a config file:
 
@@ -165,6 +165,16 @@ When parsing JSX code like `<a>foo</a>`, the default parser will now give the `f
 
 **To address:** If you have written a custom rule that relies on text nodes in JSX elements having the `Literal` type, you should update it to also work with nodes that have the `JSXText` type.
 
+## <a name="context-get-scope"></a> The `context.getScope()` method now returns more proper scopes
+
+Previously, the `context.getScope()` method changed its behavior based on the `parserOptions.ecmaVersion` property. However, this could cause confusing behavior when using a parser that doesn't respond to the `ecmaVersion` option, such as `babel-eslint`.
+
+Additionally, `context.getScope()` incorrectly returned the parent scope of the proper scope on `CatchClause` (in ES5), `ForStatement` (in ≧ES2015), `ForInStatement` (in ≧ES2015), `ForOfStatement`, and `WithStatement` nodes.
+
+In ESLint v5, the `context.getScope()` method has the same behavior regardless of `parserOptions.ecmaVersion` and returns the proper scope. See [the documentation](../developer-guide/working-with-rules#contextgetscope) for more details on which scopes are returned.
+
+**To address:** If you have written a custom rule that uses the `context.getScope()` method in node handlers, you may need to update it to account for the modified scope information.
+
 ## <a name="no-context-linter"></a> The `_linter` property on rule context objects has been removed
 
 Previously, rule context objects had an undocumented `_linter` property, which was used internally within ESLint to process reports from rules. Some rules used this property to achieve functionality that was not intended to be possible for rules. For example, several plugins used the `_linter` property in a rule to monitor reports from other rules, for the purpose of checking for unused `/* eslint-disable */` directive comments. Although this functionality was useful for users, it could also cause stability problems for projects using ESLint. For example, an upgrade to a rule in one plugin could unexpectedly cause a rule in another plugin to start reporting errors.
@@ -184,16 +194,6 @@ Previously, it was possible for rules to report AST nodes without providing a re
 In ESLint v5, reporting a problem without providing a message always results in an error.
 
 **To address:** If you have written a custom rule that reports a problem without providing a message, update it to provide a message along with the report.
-
-## <a name="context-get-scope"></a> The `context.getScope()` method now returns more proper scopes
-
-Previously, the `context.getScope()` method changed that behavior by `parserOptions.ecmaVersion`, but it caused unintentional behavior if a user used a custom parser which doesn't have the `ecmaVersion` option such as `babel-eslint`.
-Also, the method returned the parent scope of the proper scope on any node of `CatchClause` (in ES5), `ForStatement` (in ≧ES2015), `ForInStatement` (in ≧ES2015), `ForOfStatement`, and `WithStatement`.
-
-In ESLint v5, the `context.getScope()` method has a same behavior regardless of `parserOptions.ecmaVersion` and returns the proper scope.
-See [the documentation](../developer-guide/working-with-rules#contextgetscope) to check the proper scopes.
-
-**To address:** If you have written a custom rule that uses the `context.getScope()` method on above node handlers, update it to ensure your rule works fine.
 
 ---
 
