@@ -24,12 +24,10 @@ rules:
     dot-notation: ["error", { allowKeywords: true }]
     eol-last: "error"
     eqeqeq: "error"
-    for-direction: "error"
     func-call-spacing: "error"
     func-style: ["error", "declaration"]
     function-paren-newline: ["error", "consistent"]
     generator-star-spacing: "error"
-    getter-return: "error"
     guard-for-in: "error"
     handle-callback-err: ["error", "err"]
     key-spacing: ["error", { beforeColon: false, afterColon: true }]

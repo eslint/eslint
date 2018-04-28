@@ -7,6 +7,7 @@ The lists below are ordered roughly by the number of users each change is expect
 ### Breaking changes for users
 
 1. [Node.js 4 is no longer supported](#drop-node-4)
+1. [New rules have been added to `eslint:recommended`](#eslint-recommended-changes)
 1. [The `experimentalObjectRestSpread` option has been deprecated](#experimental-object-rest-spread)
 1. [Linting nonexistent files from the command line is now a fatal error](#nonexistent-files)
 1. [Deprecated globals have been removed from the `node`, `browser`, and `jest` environments](#deprecated-globals)
@@ -38,6 +39,26 @@ As of April 30th, 2018, Node.js 4 will be at EOL and will no longer be receiving
 * Anything above Node.js 9.10.0
 
 **To address:** Make sure you upgrade to at least Node.js 6 when using ESLint v5. If you are unable to upgrade, we recommend continuing to use ESLint v4.x until you are able to upgrade Node.js.
+
+## <a name="eslint-recommended-changes"/> `eslint:recommended` changes
+
+Two new rules have been added to the [`eslint:recommended`](https://eslint.org/docs/user-guide/configuring#using-eslintrecommended) config:
+
+* [`for-direction`](/docs/rules/for-direction) enforce `for` loop update clause moving the counter in the right direction.
+* [`getter-return`](/docs/rules/getter-return) enforce a `return` statement is present in property getters.
+
+**To address:** To mimic the `eslint:recommended` behavior from 4.x, you can disable these rules in a config file:
+
+```json
+{
+  "extends": "eslint:recommended",
+
+  "rules": {
+    "for-direction": "off",
+    "getter-return": "off"
+  }
+}
+```
 
 ## <a name="experimental-object-rest-spread"></a> The `experimentalObjectRestSpread` option has been deprecated
 
