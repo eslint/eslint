@@ -1,3 +1,26 @@
+v5.0.0-alpha.2 - April 27, 2018
+
+* 510ca8b Docs: make grammatical tweaks in migration guide (#10278) (Teddy Katz)
+* 02e44a5 Breaking: remove TDZ scopes (fixes #10245) (#10270) (Toru Nagashima)
+* c74933b Breaking: remove extra check in getScope (fixes #10246, fixes #10247) (#10252) (Toru Nagashima)
+* 7c2e83a Chore: improve tests and checking for equality (#10182) (Ruben Bridgewater)
+* 8799972 Docs: make template link wording more clear (#10219) (David Luzar)
+* 8b7c6ea Breaking: report fatal error for linting nonexistent files (fixes #7390) (#10143) (Teddy Katz)
+* 9100819 Breaking: fix plugin resolver in extends (fixes #9904) (#10236) (Toru Nagashima)
+* c45f1d0 Breaking: add rules to recommended (fixes #8865) (#10158) (薛定谔的猫)
+* 1d443a0 Fix: valid-jsdoc does not know async function returns (fixes #9881) (#10161) (Rachael Sim)
+* a82cbea Update: re-enable experimentalObjectRestSpread (fixes #9990) (#10230) (Toru Nagashima)
+* f9c7371 Fix: do not autofix object-shorthand with comments (fixes #10038) (#10238) (Malcolm Groves)
+* 4672b56 Docs: Correct wording in the `smart-tabs` docs page (#10277) (Jed Fox)
+* b32d1f4 Chore: upgrade eslump@1.6.2 (#10258) (薛定谔的猫)
+* 7938bf1 Chore: update eslint-fuzzer ecmaVersion to 2018 (#10255) (薛定谔的猫)
+* a2953ec Chore: small opt to improve readability (#10225) (薛定谔的猫)
+* 85a5191 Docs: Update JSCS FAQ (#10221) (alberto)
+* 8e89d5c Docs: Fix typo (#10223) (alberto)
+* c0c331e Docs: Add Prettier to FAQ (#10222) (alberto)
+* 2443627 Docs: add backticks in getter-return (#10218) (薛定谔的猫)
+* 74bb5b5 Docs: Fix misspelling in changelog (#10216) (Kevin Partington)
+
 v5.0.0-alpha.1 - April 13, 2018
 
 * b2a48a9 Breaking: stop using fake `context._linter` property (fixes #10140) (#10209) (Teddy Katz)
