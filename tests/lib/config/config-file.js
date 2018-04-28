@@ -8,7 +8,8 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const assert = require("chai").assert,
+const Module = require("module"),
+    assert = require("chai").assert,
     leche = require("leche"),
     sinon = require("sinon"),
     path = require("path"),
@@ -127,6 +128,29 @@ function createStubModuleResolver(mapping) {
     };
 }
 
+/**
+ * Overrides the native module resolver to resolve with the given mappings.
+ * @param {Object<string,string>} mapping A mapping of module name to path.
+ * @returns {void}
+ * @private
+ */
+function overrideNativeResolve(mapping) {
+    let originalFindPath;
+
+    beforeEach(() => {
+        originalFindPath = Module._findPath; // eslint-disable-line no-underscore-dangle
+        Module._findPath = function(request, paths, isMain) { // eslint-disable-line no-underscore-dangle
+            if (mapping.hasOwnProperty(request)) {
+                return mapping[request];
+            }
+            return originalFindPath.call(this, request, paths, isMain);
+        };
+    });
+    afterEach(() => {
+        Module._findPath = originalFindPath; // eslint-disable-line no-underscore-dangle
+    });
+}
+
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
@@ -144,6 +168,10 @@ describe("ConfigFile", () => {
     });
 
     describe("applyExtends()", () => {
+
+        overrideNativeResolve({
+            "eslint-plugin-test": getProjectModulePath("eslint-plugin-test")
+        });
 
         it("should apply extension 'foo' when specified from root directory config", () => {
 
@@ -864,6 +892,10 @@ describe("ConfigFile", () => {
 
         describe("Plugins", () => {
 
+            overrideNativeResolve({
+                "eslint-plugin-test": getProjectModulePath("eslint-plugin-test")
+            });
+
             it("should load information from a YML file and load plugins", () => {
 
                 const stubConfig = new Config({}, new Linter());
@@ -895,9 +927,6 @@ describe("ConfigFile", () => {
                 const resolvedPath = path.resolve(PROJECT_PATH, "./node_modules/eslint-plugin-test/index.js");
 
                 const configDeps = {
-                    "../util/module-resolver": createStubModuleResolver({
-                        "eslint-plugin-test": resolvedPath
-                    }),
                     "require-uncached"(filename) {
                         return configDeps[filename];
                     }
@@ -1000,6 +1029,9 @@ describe("ConfigFile", () => {
     describe("resolve()", () => {
 
         describe("Relative to CWD", () => {
+            overrideNativeResolve({
+                "eslint-plugin-foo": getProjectModulePath("eslint-plugin-foo")
+            });
 
             leche.withData([
                 [".eslintrc", path.resolve(".eslintrc")],
@@ -1035,6 +1067,10 @@ describe("ConfigFile", () => {
 
             const relativePath = path.resolve("./foo/bar");
 
+            overrideNativeResolve({
+                "@foo/eslint-plugin-bar": getProjectModulePath("@foo/eslint-plugin-bar")
+            });
+
             leche.withData([
                 [".eslintrc", path.resolve("./foo/bar", ".eslintrc"), relativePath],
                 ["eslint-config-foo", getRelativeModulePath("eslint-config-foo", relativePath), relativePath],
@@ -1042,7 +1078,7 @@ describe("ConfigFile", () => {
                 ["eslint-configfoo", getRelativeModulePath("eslint-config-eslint-configfoo", relativePath), relativePath],
                 ["@foo/eslint-config", getRelativeModulePath("@foo/eslint-config", relativePath), relativePath],
                 ["@foo/bar", getRelativeModulePath("@foo/eslint-config-bar", relativePath), relativePath],
-                ["plugin:@foo/bar/baz", getRelativeModulePath("@foo/eslint-plugin-bar", relativePath), relativePath]
+                ["plugin:@foo/bar/baz", getProjectModulePath("@foo/eslint-plugin-bar"), relativePath]
             ], (input, expected, relativeTo) => {
                 it(`should return ${expected} when passed ${input}`, () => {
 
@@ -1050,9 +1086,7 @@ describe("ConfigFile", () => {
                         "eslint-config-foo": getRelativeModulePath("eslint-config-foo", relativePath),
                         "eslint-config-eslint-configfoo": getRelativeModulePath("eslint-config-eslint-configfoo", relativePath),
                         "@foo/eslint-config": getRelativeModulePath("@foo/eslint-config", relativePath),
-                        "@foo/eslint-config-bar": getRelativeModulePath("@foo/eslint-config-bar", relativePath),
-                        "eslint-plugin-foo": getRelativeModulePath("eslint-plugin-foo", relativePath),
-                        "@foo/eslint-plugin-bar": getRelativeModulePath("@foo/eslint-plugin-bar", relativePath)
+                        "@foo/eslint-config-bar": getRelativeModulePath("@foo/eslint-config-bar", relativePath)
                     };
 
                     const StubbedConfigFile = proxyquire("../../../lib/config/config-file", {
