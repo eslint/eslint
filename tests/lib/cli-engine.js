@@ -767,9 +767,9 @@ describe("CLIEngine", () => {
                 cwd: getFixturePath("cli-engine")
             });
 
-            const report = engine.executeOnFiles(["node_modules"]);
-
-            assert.strictEqual(report.results.length, 0);
+            assert.throws(() => {
+                engine.executeOnFiles(["node_modules"]);
+            }, "All files matched by 'node_modules' are ignored.");
         });
 
         // https://github.com/eslint/eslint/issues/5547
@@ -780,9 +780,9 @@ describe("CLIEngine", () => {
                 ignore: false
             });
 
-            const report = engine.executeOnFiles(["node_modules"]);
-
-            assert.strictEqual(report.results.length, 0);
+            assert.throws(() => {
+                engine.executeOnFiles(["node_modules"]);
+            }, "All files matched by 'node_modules' are ignored.");
         });
 
         it("should not check .hidden files if they are passed explicitly without --no-ignore flag", () => {
@@ -1029,35 +1029,32 @@ describe("CLIEngine", () => {
 
         });
 
-        it("should return zero messages when given a directory with eslint excluded files in the directory", () => {
+        it("should throw an error when given a directory with all eslint excluded files in the directory", () => {
 
             engine = new CLIEngine({
                 ignorePath: getFixturePath(".eslintignore")
             });
 
-            const report = engine.executeOnFiles([getFixturePath("./")]);
-
-            assert.strictEqual(report.results.length, 0);
+            assert.throws(() => {
+                engine.executeOnFiles([getFixturePath("./")]);
+            }, `All files matched by '${getFixturePath("./")}' are ignored.`);
         });
 
-        it("should return zero messages when all given files are ignored", () => {
-            engine = new CLIEngine({
-                ignorePath: getFixturePath(".eslintignore")
-            });
+        it("should throw an error when all given files are ignored", () => {
 
-            const report = engine.executeOnFiles(["tests/fixtures/"]);
-
-            assert.strictEqual(report.results.length, 0);
+            assert.throws(() => {
+                engine.executeOnFiles(["tests/fixtures/"]);
+            }, "All files matched by 'tests/fixtures/' are ignored.");
         });
 
-        it("should return zero messages when all given files are ignored event with a `./` prefix", () => {
+        it("should throw an error when all given files are ignored even with a `./` prefix", () => {
             engine = new CLIEngine({
                 ignorePath: getFixturePath(".eslintignore")
             });
 
-            const report = engine.executeOnFiles(["./tests/fixtures/"]);
-
-            assert.strictEqual(report.results.length, 0);
+            assert.throws(() => {
+                engine.executeOnFiles(["./tests/fixtures/"]);
+            }, "All files matched by './tests/fixtures/' are ignored.");
         });
 
         // https://github.com/eslint/eslint/issues/3788
@@ -1081,7 +1078,7 @@ describe("CLIEngine", () => {
         });
 
         // https://github.com/eslint/eslint/issues/3812
-        it("should ignore all files when tests/fixtures/ is in ignore file", () => {
+        it("should ignore all files and throw an error when tests/fixtures/ is in ignore file", () => {
             engine = new CLIEngine({
                 ignorePath: getFixturePath("cli-engine/.eslintignore2"),
                 useEslintrc: false,
@@ -1090,19 +1087,19 @@ describe("CLIEngine", () => {
                 }
             });
 
-            const report = engine.executeOnFiles(["./tests/fixtures/cli-engine/"]);
-
-            assert.strictEqual(report.results.length, 0);
+            assert.throws(() => {
+                engine.executeOnFiles(["./tests/fixtures/cli-engine/"]);
+            }, "No files matching './tests/fixtures/cli-engine/' were found.");
         });
 
-        it("should return zero messages when all given files are ignored via ignore-pattern", () => {
+        it("should throw an error when all given files are ignored via ignore-pattern", () => {
             engine = new CLIEngine({
                 ignorePattern: "tests/fixtures/single-quoted.js"
             });
 
-            const report = engine.executeOnFiles(["tests/fixtures/*-quoted.js"]);
-
-            assert.strictEqual(report.results.length, 0);
+            assert.throws(() => {
+                engine.executeOnFiles(["tests/fixtures/*-quoted.js"]);
+            }, "All files matched by 'tests/fixtures/*-quoted.js' are ignored.");
         });
 
         it("should return a warning when an explicitly given file is ignored", () => {
@@ -1342,29 +1339,6 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.results.length, 1);
             assert.strictEqual(report.results[0].filePath, filePath);
             assert.strictEqual(report.results[0].messages.length, 0);
-        });
-
-        it("should not fail if an ignored file cannot be resolved", () => {
-
-            const fakeFS = leche.fake(fs),
-                LocalCLIEngine = proxyquire("../../lib/cli-engine", {
-                    fs: fakeFS
-                });
-
-            fakeFS.realpathSync = function() {
-                throw new Error("this error should not happen");
-            };
-            fakeFS.existsSync = fs.existsSync;
-            fakeFS.unlinkSync = fs.unlinkSync;
-
-            engine = new LocalCLIEngine({
-                ignorePattern: "tests"
-            });
-
-            assert.doesNotThrow(() => {
-                engine.executeOnFiles(["tests/fixtures/file-not-found.js"]);
-            });
-
         });
 
         describe("Fix Mode", () => {
@@ -2600,6 +2574,45 @@ describe("CLIEngine", () => {
                 });
             });
         });
+
+        describe("Patterns which match no file should throw errors.", () => {
+            beforeEach(() => {
+                engine = new CLIEngine({
+                    cwd: getFixturePath("cli-engine"),
+                    useEslintrc: false
+                });
+            });
+
+            it("one file", () => {
+                assert.throws(() => {
+                    engine.executeOnFiles(["non-exist.js"]);
+                }, "No files matching 'non-exist.js' were found.");
+            });
+
+            it("should throw if the directory exists and is empty", () => {
+                assert.throws(() => {
+                    engine.executeOnFiles(["empty"]);
+                }, "No files matching 'empty' were found.");
+            });
+
+            it("one glob pattern", () => {
+                assert.throws(() => {
+                    engine.executeOnFiles(["non-exist/**/*.js"]);
+                }, "No files matching 'non-exist/**/*.js' were found.");
+            });
+
+            it("two files", () => {
+                assert.throws(() => {
+                    engine.executeOnFiles(["aaa.js", "bbb.js"]);
+                }, "No files matching 'aaa.js' were found.");
+            });
+
+            it("a mix of an existing file and a non-existing file", () => {
+                assert.throws(() => {
+                    engine.executeOnFiles(["console.js", "non-exist.js"]);
+                }, "No files matching 'non-exist.js' were found.");
+            });
+        });
     });
 
     describe("getConfigForFile", () => {
@@ -2976,9 +2989,10 @@ describe("CLIEngine", () => {
     describe("resolveFileGlobPatterns", () => {
 
         leche.withData([
-            [".", "**/*.js"],
-            ["./", "**/*.js"],
-            ["../", "../**/*.js"]
+            [".", ["**/*.js"]],
+            ["./", ["**/*.js"]],
+            ["../", ["../**/*.js"]],
+            ["", []]
         ], (input, expected) => {
 
             it(`should correctly resolve ${input} to ${expected}`, () => {
@@ -2986,7 +3000,7 @@ describe("CLIEngine", () => {
 
                 const result = engine.resolveFileGlobPatterns([input]);
 
-                assert.strictEqual(result[0], expected);
+                assert.deepStrictEqual(result, expected);
 
             });
         });

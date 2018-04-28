@@ -380,7 +380,7 @@ describe("configInitializer", () => {
                 process.chdir(fixtureDir);
                 assert.throws(() => {
                     config = init.processAnswers(answers);
-                }, "Automatic Configuration failed.  No files were able to be parsed.");
+                }, "No files matching 'not-a-real-filename' were found.");
             });
         });
     });

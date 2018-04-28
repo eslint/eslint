@@ -320,13 +320,13 @@ describe("cli", () => {
     });
 
     describe("when given a directory with eslint excluded files in the directory", () => {
-        it("should not process any files", () => {
+        it("should throw an error and not process any files", () => {
             const ignorePath = getFixturePath(".eslintignore");
             const filePath = getFixturePath(".");
-            const exit = cli.execute(`--ignore-path ${ignorePath} ${filePath}`);
 
-            assert.isTrue(log.info.notCalled);
-            assert.strictEqual(exit, 0);
+            assert.throws(() => {
+                cli.execute(`--ignore-path ${ignorePath} ${filePath}`);
+            }, `All files matched by '${filePath}' are ignored.`);
         });
     });
 

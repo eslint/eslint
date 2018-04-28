@@ -155,11 +155,12 @@ describe("SourceCodeUtil", () => {
             assert.property(sourceCode, barFilename);
         });
 
-        it("should should not include non-existent filesnames in results", () => {
+        it("should should not include non-existent filenames in results", () => {
             const filename = getFixturePath("missing.js");
-            const sourceCode = getSourceCodeOfFiles(filename, { cwd: fixtureDir });
 
-            assert.notProperty(sourceCode, filename);
+            assert.throws(() => {
+                getSourceCodeOfFiles(filename, { cwd: fixtureDir });
+            }, `No files matching '${filename}' were found.`);
         });
 
         it("should throw for files with parsing errors", () => {
@@ -248,9 +249,8 @@ describe("SourceCodeUtil", () => {
             const firstFn = getFixturePath("foo.js");
             const secondFn = getFixturePath("bar.js");
             const thirdFn = getFixturePath("nested/foo.js");
-            const missingFn = getFixturePath("missing.js");
 
-            getSourceCodeOfFiles([firstFn, secondFn, thirdFn, missingFn], { cwd: fixtureDir }, callback);
+            getSourceCodeOfFiles([firstFn, secondFn, thirdFn], { cwd: fixtureDir }, callback);
             assert(callback.calledWith(3));
         });
 
