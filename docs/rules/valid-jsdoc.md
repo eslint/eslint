@@ -158,7 +158,7 @@ This rule has an object option:
 * `"preferType"` enforces consistent type strings specified by an object whose properties mean instead of key use value (for example, `"object": "Object"` means instead of `object` use `Object`)
 * `"requireReturn"` requires a return tag:
     * `true` (default) **even if** the function or method does not have a `return` statement (this option value does not apply to constructors)
-    * `false` **if and only if** the function or method has a `return` statement (this option value does apply to constructors)
+    * `false` **if and only if** the function or method has a `return` statement or returns a value e.g. `async` function (this option value does apply to constructors)
 * `"requireReturnType": false` allows missing type in return tags
 * `"matchDescription"` specifies (as a string) a regular expression to match the description in each JSDoc comment (for example, `".+"` requires a description; this option does not apply to descriptions in parameter or return tags)
 * `"requireParamDescription": false` allows missing description in parameter tags

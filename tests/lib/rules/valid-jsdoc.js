@@ -267,6 +267,32 @@ ruleTester.run("valid-jsdoc", rule, {
             options: [{ requireReturn: false }]
         },
 
+        // async function
+        {
+            code:
+              "/**\n" +
+              " * An async function. Options requires return.\n" +
+              " * @returns {Promise} that is empty\n" +
+              " */\n" +
+              "async function a() {}",
+            options: [{ requireReturn: true }],
+            parserOptions: {
+                ecmaVersion: 2017
+            }
+        },
+        {
+            code:
+              "/**\n" +
+              " * An async function. Options do not require return.\n" +
+              " * @returns {Promise} that is empty\n" +
+              " */\n" +
+              "async function a() {}",
+            options: [{ requireReturn: false }],
+            parserOptions: {
+                ecmaVersion: 2017
+            }
+        },
+
         // type validations
         {
             code:
