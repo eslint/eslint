@@ -91,8 +91,6 @@ For compatibility, ESLint v5 will treat `ecmaFeatures: { experimentalObjectRestS
 
 **To address:** If you use the `experimentalObjectRestSpread` option, you should be able to upgrade to ESLint v5 without any changes, but you will encounter a deprecation warning. To avoid the warning, use `ecmaVersion: 2018` in your config file rather than `ecmaFeatures: { experimentalObjectRestSpread: true }`. If you would like to disallow the use of other ES2018 features, consider using rules such as [`no-restricted-syntax`](/docs/rules/no-restricted-syntax).
 
-*Note: In the latest alpha release of ESLint v5, `experimentalObjectRestSpread` is not yet implemented as an alias for `ecmaVersion: 2018`, so configs that use `experimentalObjectRestSpread` may temporarily cause parsing errors. We plan to add this alias in a future prerelease.*
-
 ## <a name="nonexistent-files"></a> Linting nonexistent files from the command line is now a fatal error
 
 Previous versions of ESLint silently ignored any nonexistent files and globs provided on the command line:
@@ -113,8 +111,6 @@ Note that this also affects the [`CLIEngine.executeOnFiles()`](https://eslint.or
 **To address:** If you encounter an error about missing files after upgrading to ESLint v5, you may want to double-check that there are no typos in the paths you provide to ESLint. To make the error go away, you can simply remove the given files or globs from the list of arguments provided to ESLint on the command line.
 
 If you use a boilerplate generator that relies on this behavior (e.g. to generate a script that runs `eslint tests/` in a new project before any test files are actually present), you can work around this issue by adding a dummy file that matches the given pattern (e.g. an empty `tests/index.js` file).
-
-*Note: This change has not yet appeared in the latest alpha release. We plan to add it in a future prerelease.*
 
 ## <a name="deprecated-globals"></a> Deprecated globals have been removed from the `node`, `browser`, and `jest` environments
 
