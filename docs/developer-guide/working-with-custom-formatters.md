@@ -7,7 +7,7 @@ The simplest formatter will be something like:
 ```javascript
 //my-awesome-formatter.js
 module.exports = function (results) {
-    console.log(JSON.stringify(results, null, 2));
+    return JSON.stringify(results, null, 2);
 }
 ```
 
@@ -43,13 +43,17 @@ The output of the previous command will be something like this
         ],
         "errorCount": 2,
         "warningCount": 0,
+        "fixableErrorCount": 0,
+        "fixableWarningCount": 0,
         "source": "var err = doStuff();\nif (err) console.log('failed tests: ' + err);\nprocess.exit(1);\n"
     },
     {
         "filePath": "Gruntfile.js",
         "messages": [],
         "errorCount": 0,
-        "warningCount": 0
+        "warningCount": 0,
+        "fixableErrorCount": 0,
+        "fixableWarningCount": 0
     }
 ]
 ```
@@ -89,7 +93,6 @@ A formatter that only cares about the total count of errors and warnings will lo
 
 ```javascript
 module.exports = function ( results ) {
-    var results = results || [ ];
 
     // accumulate the errors and warnings
     var summary = results.reduce( function ( seq, current ) {
@@ -99,7 +102,7 @@ module.exports = function ( results ) {
     }, { errors: 0, warnings: 0 } );
 
     if ( summary.errors > 0 || summary.warnings > 0 ) {
-        console.log( 'Errors: ' + summary.errors + ', Warnings: ' + summary.warnings + '\n' );
+        return 'Errors: ' + summary.errors + ', Warnings: ' + summary.warnings + '\n';
     }
 };
 ```
@@ -254,7 +257,7 @@ It is a bit more complicated, but using a simple formatter we can get the raw ou
 ```javascript
 // json.js
 module.exports = function ( results ) {
-    console.log( JSON.stringify( results ) );
+    return JSON.stringify( results );
 }
 ```
 
