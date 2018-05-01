@@ -104,6 +104,8 @@ module.exports = function ( results ) {
     if ( summary.errors > 0 || summary.warnings > 0 ) {
         return 'Errors: ' + summary.errors + ', Warnings: ' + summary.warnings + '\n';
     }
+
+    return '';
 };
 ```
 
