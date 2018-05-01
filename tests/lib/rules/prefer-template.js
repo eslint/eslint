@@ -192,6 +192,16 @@ ruleTester.run("prefer-template", rule, {
             code: "foo + 'does not autofix octal escape sequence' + '\\033'",
             output: null,
             errors
+        },
+        {
+            code: "foo + '\\n other text \\033'",
+            output: null,
+            errors
+        },
+        {
+            code: "foo + '\\\\033'",
+            output: "`${foo  }\\\\033`",
+            errors
         }
     ]
 });
