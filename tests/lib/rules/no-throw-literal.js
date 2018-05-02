@@ -1,3 +1,4 @@
+/* eslint-disable eslint-plugin/consistent-output*/
 /**
  * @fileoverview Tests for no-throw-literal rule.
  * @author Dieter Oberkofler
@@ -43,6 +44,15 @@ ruleTester.run("no-throw-literal", rule, {
     invalid: [
         {
             code: "throw 'error';",
+            output: "throw new Error('error');",
+            errors: [{
+                message: "Expected an object to be thrown.",
+                type: "ThrowStatement"
+            }]
+        },
+        {
+            code: 'throw "error";', // eslint-disable-line quotes
+            output: 'throw new Error("error");', // eslint-disable-line quotes
             errors: [{
                 message: "Expected an object to be thrown.",
                 type: "ThrowStatement"
@@ -50,6 +60,7 @@ ruleTester.run("no-throw-literal", rule, {
         },
         {
             code: "throw 0;",
+            output: "throw new Error(0);",
             errors: [{
                 message: "Expected an object to be thrown.",
                 type: "ThrowStatement"
@@ -57,6 +68,7 @@ ruleTester.run("no-throw-literal", rule, {
         },
         {
             code: "throw false;",
+            output: "throw new Error(false);",
             errors: [{
                 message: "Expected an object to be thrown.",
                 type: "ThrowStatement"
@@ -64,6 +76,7 @@ ruleTester.run("no-throw-literal", rule, {
         },
         {
             code: "throw null;",
+            output: "throw new Error(null);",
             errors: [{
                 message: "Expected an object to be thrown.",
                 type: "ThrowStatement"
