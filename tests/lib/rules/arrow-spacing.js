@@ -24,8 +24,16 @@ const valid = [
         options: [{ after: true, before: true }]
     },
     {
+        code: "a => a",
+        options: ["both"]
+    },
+    {
         code: "() => {}",
         options: [{ after: true, before: true }]
+    },
+    {
+        code: "() => {}",
+        options: ["both"]
     },
     {
         code: "(a) => {}",
@@ -64,8 +72,16 @@ const valid = [
         options: [{ after: false, before: false }]
     },
     {
+        code: "()=>{}",
+        options: ["neither"]
+    },
+    {
         code: "(a)=>{}",
         options: [{ after: false, before: false }]
+    },
+    {
+        code: "(a)=>{}",
+        options: ["neither"]
     },
     {
         code: "a => a",

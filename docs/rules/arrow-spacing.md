@@ -20,6 +20,15 @@ The default configuration is `{ "before": true, "after": true }`.
 
 `true` means there should be **one or more spaces** and `false` means **no spaces**.
 
+The option also has a string shorthand:
+
+* `{"before": true, "after": true}` → `"both"`
+* `{"before": false, "after": false}` → `"neither"`
+
+```json
+"yield-star-spacing": ["error", "after"]
+```
+
 Examples of **incorrect** code for this rule with the default `{ "before": true, "after": true }` option:
 
 ```js
@@ -90,4 +99,27 @@ Examples of **correct** code for this rule with the `{ "before": false, "after":
 ()=> {};
 (a)=> {};
 ()=> {'\n'};
+```
+
+Examples of **correct** code for this rule with the `"both"` option:
+
+```js
+/*eslint arrow-spacing: ["error", "both"]*/
+/*eslint-env es6*/
+
+() => {};
+(a) => {};
+a => a;
+() => {'\n'};
+```
+
+Examples of **correct** code for this rule with the `"neither"` option:
+
+```js
+/*eslint arrow-spacing: ["error", "neither"]*/
+/*eslint-env es6*/
+
+()=>{};
+(a)=>{};
+()=>{'\n'};
 ```
