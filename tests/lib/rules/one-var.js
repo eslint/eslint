@@ -473,6 +473,10 @@ ruleTester.run("one-var", rule, {
         {
             code: "var a = 1, b = 2; var c; var d; var e = 3, f = 4;",
             options: [{ initialized: "consecutive", uninitialized: "never" }]
+        },
+        {
+            code: "const a = 1; const b = 2; let c, d; foo(); let e, f; let g = 3; let h = 4;",
+            options: [{ const: "never", initialized: "never", uninitialized: "consecutive" }]
         }
 
     ],
@@ -1519,6 +1523,28 @@ ruleTester.run("one-var", rule, {
                 type: "VariableDeclaration",
                 line: 1,
                 column: 41
+            }]
+        },
+        {
+            code: "const a = 1, b = 2; let c, d; foo(); let e; let f; let g = 3, h = 4;",
+            options: [{ const: "never", initialized: "never", uninitialized: "consecutive" }],
+            errors: [{
+                message: "Split initialized 'const' declarations into multiple statements.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 1
+            },
+            {
+                message: "Combine this with the previous 'let' statement with uninitialized variables.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 45
+            },
+            {
+                message: "Split initialized 'let' declarations into multiple statements.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 52
             }]
         }
     ]
