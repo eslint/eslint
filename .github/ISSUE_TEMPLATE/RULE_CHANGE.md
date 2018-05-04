@@ -1,3 +1,9 @@
+---
+name: Rule change request
+about: Request a change to an existing rule
+
+---
+
 <!--
     ESLint adheres to the [JS Foundation Code of Conduct](https://js.foundation/community/code-of-conduct).
 
