@@ -1,3 +1,9 @@
+---
+name: New rule proposal
+about: Propose a new rule to be added to ESLint
+
+---
+
 <!--
     ESLint adheres to the [JS Foundation Code of Conduct](https://js.foundation/community/code-of-conduct).
 

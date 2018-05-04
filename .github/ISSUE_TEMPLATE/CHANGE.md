@@ -1,3 +1,9 @@
+---
+name: Non-rule change request
+about: Request a change that is not a bug fix, rule change, or new rule
+
+---
+
 <!--
     ESLint adheres to the [JS Foundation Code of Conduct](https://js.foundation/community/code-of-conduct).
 
@@ -11,15 +17,9 @@
     Note that leaving sections blank will make it difficult for us to troubleshoot and we may have to close the issue.
 -->
 
-**Tell us about your environment**
+**The version of ESLint you are using.**
 
-* **ESLint Version:**
-* **Node Version:**
-* **npm Version:**
+**The problem you want to solve.**
 
-**What did you do?**
-
-**What happened?**
-
-**What did you expect to happen?**
+**Your take on the correct solution to problem.**
 
