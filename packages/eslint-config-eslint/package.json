@@ -22,6 +22,9 @@
   "dependencies": {
     "js-yaml": "^3.5.1"
   },
+  "peerDependencies": {
+    "eslint-plugin-node": "^6.0.1"
+  },
   "keywords": [
     "eslintconfig",
     "eslint-config",

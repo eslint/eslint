@@ -9,12 +9,10 @@ module.exports = {
     root: true,
     plugins: [
         "eslint-plugin",
-        "node",
         "rulesdir"
     ],
     extends: [
         "./packages/eslint-config-eslint/default.yml",
-        "plugin:node/recommended",
         "plugin:eslint-plugin/recommended"
     ],
     rules: {
