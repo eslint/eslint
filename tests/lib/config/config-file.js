@@ -481,6 +481,16 @@ describe("ConfigFile", () => {
             });
         });
 
+        it("should load file by the strategy of how `require()` resolve a js file", () => {
+            assert.doesNotThrow(() => {
+                ConfigFile.load(getFixturePath("js/.eslintrc.resolvable.js"), configContext);
+            });
+
+            assert.throws(() => {
+                ConfigFile.load(getFixturePath("js/.eslintrc.unresolvable.js"), configContext);
+            });
+        });
+
         it("should load information from a legacy file", () => {
             const configFilePath = getFixturePath("legacy/.eslintrc");
             const config = ConfigFile.load(configFilePath, configContext);
