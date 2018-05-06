@@ -34,7 +34,8 @@ ruleTester.run("prefer-template", rule, {
 
         // https://github.com/eslint/eslint/issues/3507
         "var foo = `foo` + `bar` + \"hoge\";",
-        "var foo = `foo` +\n    `bar` +\n    \"hoge\";"
+        "var foo = `foo` +\n    `bar` +\n    \"hoge\";",
+        "var foo = `foo` + `\\0`;"
     ],
     invalid: [
         {
