@@ -25,7 +25,6 @@ ruleTester.run("prefer-object-spread", rule, {
         "let a = Object.assign(a, b)",
         "Object.assign(a, b)",
         "let a = Object.assign(b, { c: 1 })",
-        "let a = Object.assign({}, ...b)",
         "const bar = { ...foo }",
         "Object.assign(...foo)",
         "Object.assign(foo, { bar: baz })"
@@ -38,17 +37,22 @@ ruleTester.run("prefer-object-spread", rule, {
             errors: [
                 {
                     messageId: "useSpreadMessage",
-                    type: "CallExpression"
+                    type: "CallExpression",
+                    line: 1,
+                    column: 1
                 }
             ]
         },
+
         {
             code: "Object.assign({}, { foo: 'bar' })",
             output: "({foo: 'bar'})",
             errors: [
                 {
                     messageId: "useSpreadMessage",
-                    type: "CallExpression"
+                    type: "CallExpression",
+                    line: 1,
+                    column: 1
                 }
             ]
         },
@@ -58,7 +62,9 @@ ruleTester.run("prefer-object-spread", rule, {
             errors: [
                 {
                     messageId: "useSpreadMessage",
-                    type: "CallExpression"
+                    type: "CallExpression",
+                    line: 1,
+                    column: 1
                 }
             ]
         },
@@ -68,7 +74,9 @@ ruleTester.run("prefer-object-spread", rule, {
             errors: [
                 {
                     messageId: "useSpreadMessage",
-                    type: "CallExpression"
+                    type: "CallExpression",
+                    line: 1,
+                    column: 1
                 }
             ]
         },
@@ -78,7 +86,9 @@ ruleTester.run("prefer-object-spread", rule, {
             errors: [
                 {
                     messageId: "useSpreadMessage",
-                    type: "CallExpression"
+                    type: "CallExpression",
+                    line: 1,
+                    column: 1
                 }
             ]
         },
@@ -90,12 +100,13 @@ ruleTester.run("prefer-object-spread", rule, {
             errors: [
                 {
                     messageId: "useSpreadMessage",
-                    type: "CallExpression"
+                    type: "CallExpression",
+                    line: 1,
+                    column: 1
                 }
             ]
         },
 
-        // TODO: Handle nested Object.assign calls
         {
             code:
                 "Object.assign({ foo: 'bar' }, Object.assign({ bar: 'foo' }, baz))",
@@ -103,11 +114,15 @@ ruleTester.run("prefer-object-spread", rule, {
             errors: [
                 {
                     messageId: "useSpreadMessage",
-                    type: "CallExpression"
+                    type: "CallExpression",
+                    line: 1,
+                    column: 1
                 },
                 {
                     messageId: "useSpreadMessage",
-                    type: "CallExpression"
+                    type: "CallExpression",
+                    line: 1,
+                    column: 31
                 }
             ]
         },
@@ -118,15 +133,21 @@ ruleTester.run("prefer-object-spread", rule, {
             errors: [
                 {
                     messageId: "useSpreadMessage",
-                    type: "CallExpression"
+                    type: "CallExpression",
+                    line: 1,
+                    column: 1
                 },
                 {
                     messageId: "useSpreadMessage",
-                    type: "CallExpression"
+                    type: "CallExpression",
+                    line: 1,
+                    column: 31
                 },
                 {
                     messageId: "useSpreadMessage",
-                    type: "CallExpression"
+                    type: "CallExpression",
+                    line: 1,
+                    column: 61
                 }
             ]
         },
@@ -138,7 +159,9 @@ ruleTester.run("prefer-object-spread", rule, {
             errors: [
                 {
                     messageId: "useSpreadMessage",
-                    type: "CallExpression"
+                    type: "CallExpression",
+                    line: 1,
+                    column: 1
                 }
             ]
         },
@@ -150,7 +173,9 @@ ruleTester.run("prefer-object-spread", rule, {
             errors: [
                 {
                     messageId: "useSpreadMessage",
-                    type: "CallExpression"
+                    type: "CallExpression",
+                    line: 1,
+                    column: 1
                 }
             ]
         },
@@ -162,7 +187,9 @@ ruleTester.run("prefer-object-spread", rule, {
             errors: [
                 {
                     messageId: "useSpreadMessage",
-                    type: "CallExpression"
+                    type: "CallExpression",
+                    line: 1,
+                    column: 1
                 }
             ]
         },
@@ -174,7 +201,9 @@ ruleTester.run("prefer-object-spread", rule, {
             errors: [
                 {
                     messageId: "useSpreadMessage",
-                    type: "CallExpression"
+                    type: "CallExpression",
+                    line: 1,
+                    column: 1
                 }
             ]
         },
@@ -194,7 +223,9 @@ ruleTester.run("prefer-object-spread", rule, {
             errors: [
                 {
                     messageId: "useSpreadMessage",
-                    type: "CallExpression"
+                    type: "CallExpression",
+                    line: 1,
+                    column: 1
                 }
             ]
         },
@@ -221,7 +252,9 @@ ruleTester.run("prefer-object-spread", rule, {
             errors: [
                 {
                     messageId: "useSpreadMessage",
-                    type: "CallExpression"
+                    type: "CallExpression",
+                    line: 1,
+                    column: 1
                 }
             ]
         },
@@ -243,7 +276,9 @@ ruleTester.run("prefer-object-spread", rule, {
             errors: [
                 {
                     messageId: "useSpreadMessage",
-                    type: "CallExpression"
+                    type: "CallExpression",
+                    line: 1,
+                    column: 14
                 }
             ]
         },
@@ -260,7 +295,9 @@ ruleTester.run("prefer-object-spread", rule, {
             errors: [
                 {
                     messageId: "useSpreadMessage",
-                    type: "CallExpression"
+                    type: "CallExpression",
+                    line: 1,
+                    column: 14
                 }
             ]
         },
@@ -284,7 +321,9 @@ ruleTester.run("prefer-object-spread", rule, {
             errors: [
                 {
                     messageId: "useSpreadMessage",
-                    type: "CallExpression"
+                    type: "CallExpression",
+                    line: 1,
+                    column: 14
                 }
             ]
         },
@@ -301,7 +340,9 @@ ruleTester.run("prefer-object-spread", rule, {
             errors: [
                 {
                     messageId: "useLiteralMessage",
-                    type: "CallExpression"
+                    type: "CallExpression",
+                    line: 1,
+                    column: 1
                 }
             ]
         },
@@ -311,7 +352,9 @@ ruleTester.run("prefer-object-spread", rule, {
             errors: [
                 {
                     messageId: "useLiteralMessage",
-                    type: "CallExpression"
+                    type: "CallExpression",
+                    line: 1,
+                    column: 1
                 }
             ]
         },
@@ -322,7 +365,9 @@ ruleTester.run("prefer-object-spread", rule, {
             errors: [
                 {
                     messageId: "useLiteralMessage",
-                    type: "CallExpression"
+                    type: "CallExpression",
+                    line: 1,
+                    column: 9
                 }
             ]
         },
@@ -332,7 +377,9 @@ ruleTester.run("prefer-object-spread", rule, {
             errors: [
                 {
                     messageId: "useSpreadMessage",
-                    type: "CallExpression"
+                    type: "CallExpression",
+                    line: 1,
+                    column: 9
                 }
             ]
         },
@@ -342,7 +389,9 @@ ruleTester.run("prefer-object-spread", rule, {
             errors: [
                 {
                     messageId: "useSpreadMessage",
-                    type: "CallExpression"
+                    type: "CallExpression",
+                    line: 1,
+                    column: 9
                 }
             ]
         },
@@ -352,7 +401,9 @@ ruleTester.run("prefer-object-spread", rule, {
             errors: [
                 {
                     messageId: "useSpreadMessage",
-                    type: "CallExpression"
+                    type: "CallExpression",
+                    line: 1,
+                    column: 1
                 }
             ]
         },
@@ -362,7 +413,9 @@ ruleTester.run("prefer-object-spread", rule, {
             errors: [
                 {
                     messageId: "useSpreadMessage",
-                    type: "CallExpression"
+                    type: "CallExpression",
+                    line: 1,
+                    column: 1
                 }
             ]
         },
@@ -374,7 +427,9 @@ ruleTester.run("prefer-object-spread", rule, {
             errors: [
                 {
                     messageId: "useSpreadMessage",
-                    type: "CallExpression"
+                    type: "CallExpression",
+                    line: 1,
+                    column: 8
                 }
             ]
         },
@@ -384,7 +439,21 @@ ruleTester.run("prefer-object-spread", rule, {
             errors: [
                 {
                     messageId: "useSpreadMessage",
-                    type: "CallExpression"
+                    type: "CallExpression",
+                    line: 1,
+                    column: 13
+                }
+            ]
+        },
+        {
+            code: "let a = Object.assign({}, ...b)",
+            output: "let a = {...b}",
+            errors: [
+                {
+                    messageId: "useSpreadMessage",
+                    type: "CallExpression",
+                    line: 1,
+                    column: 9
                 }
             ]
         },
@@ -394,7 +463,9 @@ ruleTester.run("prefer-object-spread", rule, {
             errors: [
                 {
                     messageId: "useSpreadMessage",
-                    type: "CallExpression"
+                    type: "CallExpression",
+                    line: 1,
+                    column: 25
                 }
             ]
         },
@@ -404,7 +475,9 @@ ruleTester.run("prefer-object-spread", rule, {
             errors: [
                 {
                     messageId: "useSpreadMessage",
-                    type: "CallExpression"
+                    type: "CallExpression",
+                    line: 1,
+                    column: 5
                 }
             ]
         },
@@ -414,7 +487,9 @@ ruleTester.run("prefer-object-spread", rule, {
             errors: [
                 {
                     messageId: "useSpreadMessage",
-                    type: "CallExpression"
+                    type: "CallExpression",
+                    line: 1,
+                    column: 30
                 }
             ]
         }

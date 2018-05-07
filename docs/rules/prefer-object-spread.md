@@ -35,7 +35,7 @@ Object.assign(...foo);
 // Any Object.assign call without an object literal as the first argument
 Object.assign(foo, { bar: baz });
 
-Object.assign(foo, Object.assign({ bar: 'foo' }));
+Object.assign(foo, Object.assign(bar));
 
 Object.assign(foo, { bar, baz })
 
