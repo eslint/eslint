@@ -26,6 +26,7 @@ const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 ruleTester.run("prefer-template", rule, {
     valid: [
         "'use strict';",
+        "var foo = 'foo' + '\\0';",
         "var foo = 'bar';",
         "var foo = 'bar' + 'baz';",
         "var foo = foo + +'100';",
@@ -34,8 +35,7 @@ ruleTester.run("prefer-template", rule, {
 
         // https://github.com/eslint/eslint/issues/3507
         "var foo = `foo` + `bar` + \"hoge\";",
-        "var foo = `foo` +\n    `bar` +\n    \"hoge\";",
-        "var foo = `foo` + `\\0`;"
+        "var foo = `foo` +\n    `bar` +\n    \"hoge\";"
     ],
     invalid: [
         {
@@ -205,8 +205,8 @@ ruleTester.run("prefer-template", rule, {
             errors
         },
         {
-            code: "foo + '\\0 other test \\033'",
-            output: null,
+            code: "foo + '\\0'",
+            output: "`${foo  }\\0`",
             errors
         }
     ]
