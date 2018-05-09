@@ -611,7 +611,7 @@ ruleTester.run("comma-style", rule, {
         {
             code: "[\n[foo(3)],\n,\nbar\n];",
             output: "[\n[foo(3)],,\nbar\n];",
-            errors: [{messageId: "unexpectedLineBeforeAndAfterComma" }]
+            errors: [{ messageId: "unexpectedLineBeforeAndAfterComma" }]
         }
     ]
 });
