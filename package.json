@@ -1,6 +1,6 @@
 {
   "name": "eslint",
-  "version": "5.0.0-alpha.0",
+  "version": "5.0.0-alpha.2",
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "An AST-based pattern checker for JavaScript.",
   "bin": {
@@ -34,14 +34,13 @@
   "homepage": "https://eslint.org",
   "bugs": "https://github.com/eslint/eslint/issues/",
   "dependencies": {
-    "ajv": "^5.3.0",
+    "ajv": "^6.0.1",
     "babel-code-frame": "^6.26.0",
     "chalk": "^2.1.0",
-    "concat-stream": "^1.6.2",
-    "cross-spawn": "^5.1.0",
+    "cross-spawn": "^6.0.5",
     "debug": "^3.1.0",
     "doctrine": "^2.1.0",
-    "eslint-scope": "^3.7.1",
+    "eslint-scope": "^4.0.0-alpha.0",
     "eslint-visitor-keys": "^1.0.0",
     "espree": "^4.0.0-alpha.0",
     "esquery": "^1.0.1",
@@ -52,7 +51,7 @@
     "globals": "^11.4.0",
     "ignore": "^3.3.3",
     "imurmurhash": "^0.1.4",
-    "inquirer": "^3.3.0",
+    "inquirer": "^5.2.0",
     "is-resolvable": "^1.1.0",
     "js-yaml": "^3.11.0",
     "json-stable-stringify-without-jsonify": "^1.0.1",
@@ -70,7 +69,7 @@
     "semver": "^5.5.0",
     "strip-ansi": "^4.0.0",
     "strip-json-comments": "^2.0.1",
-    "table": "4.0.2",
+    "table": "^4.0.3",
     "text-table": "^0.2.0"
   },
   "devDependencies": {
@@ -91,7 +90,7 @@
     "eslint-plugin-rulesdir": "^0.1.0",
     "eslint-release": "^0.11.1",
     "eslint-rule-composer": "^0.1.1",
-    "eslump": "^1.6.1",
+    "eslump": "^1.6.2",
     "esprima": "^4.0.0",
     "istanbul": "^0.4.5",
     "jsdoc": "^3.5.5",
@@ -104,7 +103,7 @@
     "load-perf": "^0.2.0",
     "markdownlint": "^0.8.1",
     "mocha": "^5.0.5",
-    "mock-fs": "^4.3.0",
+    "mock-fs": "^4.5.0",
     "npm-license": "^0.3.3",
     "phantomjs-prebuilt": "^2.1.16",
     "proxyquire": "^2.0.1",
@@ -122,6 +121,6 @@
   ],
   "license": "MIT",
   "engines": {
-    "node": ">=4"
+    "node": "^6.14.0 || ^8.10.0 || >=9.10.0"
   }
 }

@@ -72,11 +72,8 @@ describe("cli", () => {
      * @returns {string} The path inside the fixture directory.
      * @private
      */
-    function getFixturePath() {
-        const args = Array.prototype.slice.call(arguments);
-
-        args.unshift(fixtureDir);
-        return path.join.apply(path, args);
+    function getFixturePath(...args) {
+        return path.join(fixtureDir, ...args);
     }
 
     // copy into clean area so as not to get "infected" by this project's .eslintrc files
@@ -323,13 +320,13 @@ describe("cli", () => {
     });
 
     describe("when given a directory with eslint excluded files in the directory", () => {
-        it("should not process any files", () => {
+        it("should throw an error and not process any files", () => {
             const ignorePath = getFixturePath(".eslintignore");
             const filePath = getFixturePath(".");
-            const exit = cli.execute(`--ignore-path ${ignorePath} ${filePath}`);
 
-            assert.isTrue(log.info.notCalled);
-            assert.strictEqual(exit, 0);
+            assert.throws(() => {
+                cli.execute(`--ignore-path ${ignorePath} ${filePath}`);
+            }, `All files matched by '${filePath}' are ignored.`);
         });
     });
 

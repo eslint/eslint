@@ -9,11 +9,20 @@
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
-
 const sinon = require("sinon"),
     EventEmitter = require("events"),
     RuleTester = require("../../../lib/testers/rule-tester"),
-    assert = require("chai").assert;
+    assert = require("chai").assert,
+    nodeAssert = require("assert");
+
+const NODE_ASSERT_STRICT_EQUAL_OPERATOR = (() => {
+    try {
+        nodeAssert.strictEqual(1, 2);
+    } catch (err) {
+        return err.operator;
+    }
+    throw new Error("unexpected successful assertion");
+})();
 
 //------------------------------------------------------------------------------
 // Rewire Things
@@ -52,6 +61,23 @@ RuleTester.it = function(text, method) {
 describe("RuleTester", () => {
 
     let ruleTester;
+
+    /**
+     * @description A helper function to verify Node.js core error messages.
+     * @param {string} actual The actual input
+     * @param {string} expected The expected input
+     * @returns {Function} Error callback to verify that the message is correct
+     *                     for the actual and expected input.
+     */
+    function assertErrorMatches(actual, expected) {
+        const err = new nodeAssert.AssertionError({
+            actual,
+            expected,
+            operator: NODE_ASSERT_STRICT_EQUAL_OPERATOR
+        });
+
+        return err.message;
+    }
 
     beforeEach(() => {
         RuleTester.resetDefaultConfig();
@@ -126,7 +152,7 @@ describe("RuleTester", () => {
                     { code: "var foo = bar;", errors: [{ message: "Bad error message." }] }
                 ]
             });
-        }, /Bad var\.((.*==)|(.*strictEqual)).*Bad error message/);
+        }, assertErrorMatches("Bad var.", "Bad error message."));
     });
 
     it("should throw an error when the error message regex does not match", () => {
@@ -167,7 +193,7 @@ describe("RuleTester", () => {
                     { code: "var foo = bar;", errors: ["Bad error message."] }
                 ]
             });
-        }, /Bad var\.((.*==)|(.*strictEqual)).*Bad error message/);
+        }, assertErrorMatches("Bad var.", "Bad error message."));
     });
 
     it("should throw an error when the error is a string and it does not match error message", () => {

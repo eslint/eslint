@@ -64,15 +64,11 @@ describe("configInitializer", () => {
      * @returns {string} The path inside the fixture directory.
      * @private
      */
-    function getFixturePath() {
-        const args = Array.prototype.slice.call(arguments);
-
-        args.unshift(fixtureDir);
-        let filepath = path.join.apply(path, args);
+    function getFixturePath(...args) {
+        const filepath = path.join(fixtureDir, ...args);
 
         try {
-            filepath = fs.realpathSync(filepath);
-            return filepath;
+            return fs.realpathSync(filepath);
         } catch (e) {
             return filepath;
         }
@@ -384,7 +380,7 @@ describe("configInitializer", () => {
                 process.chdir(fixtureDir);
                 assert.throws(() => {
                     config = init.processAnswers(answers);
-                }, "Automatic Configuration failed.  No files were able to be parsed.");
+                }, "No files matching 'not-a-real-filename' were found.");
             });
         });
     });

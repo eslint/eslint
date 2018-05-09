@@ -83,6 +83,14 @@ function assertConfigsEqual(actual, expected) {
     }
 }
 
+/**
+ * Wait for the next tick.
+ * @returns {Promise<void>} -
+ */
+function nextTick() {
+    return new Promise(resolve => process.nextTick(resolve));
+}
+
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
@@ -97,12 +105,8 @@ describe("Config", () => {
      * @returns {string} The path inside the fixture directory.
      * @private
      */
-    function getFixturePath() {
-        const args = Array.prototype.slice.call(arguments);
-
-        args.unshift("config-hierarchy");
-        args.unshift(fixtureDir);
-        return path.join.apply(path, args);
+    function getFixturePath(...args) {
+        return path.join(fixtureDir, "config-hierarchy", ...args);
     }
 
     /**
@@ -184,14 +188,8 @@ describe("Config", () => {
          * @returns {string} The path inside the fixture directory.
          * @private
          */
-        function getFakeFixturePath() {
-            const args = Array.prototype.slice.call(arguments);
-
-            args.unshift("config-hierarchy");
-            args.unshift("fixtures");
-            args.unshift("eslint");
-            args.unshift(process.cwd());
-            return path.join.apply(path, args);
+        function getFakeFixturePath(...args) {
+            return path.join(process.cwd(), "eslint", "fixtures", "config-hierarchy", ...args);
         }
 
         before(() => {
@@ -834,14 +832,8 @@ describe("Config", () => {
              * @returns {string} The path inside the fixture directory.
              * @private
              */
-            function getFakeFixturePath() {
-                const args = Array.prototype.slice.call(arguments);
-
-                args.unshift("config-hierarchy");
-                args.unshift("fixtures");
-                args.unshift("eslint");
-                args.unshift(process.cwd());
-                return path.join.apply(path, args);
+            function getFakeFixturePath(...args) {
+                return path.join(process.cwd(), "eslint", "fixtures", "config-hierarchy", ...args);
             }
 
             /**
@@ -979,14 +971,8 @@ describe("Config", () => {
              * @returns {string} The path inside the fixture directory.
              * @private
              */
-            function getFakeFixturePath() {
-                const args = Array.prototype.slice.call(arguments);
-
-                args.unshift("config-hierarchy");
-                args.unshift("fixtures");
-                args.unshift("eslint");
-                args.unshift(process.cwd());
-                return path.join.apply(path, args);
+            function getFakeFixturePath(...args) {
+                return path.join(process.cwd(), "eslint", "fixtures", "config-hierarchy", ...args);
             }
 
             /**
@@ -1108,7 +1094,6 @@ describe("Config", () => {
             });
         });
 
-
         describe("with overrides", () => {
 
             /**
@@ -1117,15 +1102,8 @@ describe("Config", () => {
              * @returns {string} The path inside the fixture directory.
              * @private
              */
-            function getFakeFixturePath() {
-                const pathSegments = Array.from(arguments);
-
-                pathSegments.unshift("config-hierarchy");
-                pathSegments.unshift("fixtures");
-                pathSegments.unshift("eslint");
-                pathSegments.unshift(process.cwd());
-
-                return path.join.apply(path, pathSegments);
+            function getFakeFixturePath(...pathSegments) {
+                return path.join(process.cwd(), "eslint", "fixtures", "config-hierarchy", ...pathSegments);
             }
 
             before(() => {
@@ -1387,6 +1365,112 @@ describe("Config", () => {
 
                 assertConfigsEqual(actual, expected);
             });
+        });
+
+        describe("deprecation warnings", () => {
+            let warning = null;
+
+            function onWarning(w) { // eslint-disable-line require-jsdoc
+
+                // Node.js 6.x does not have 'w.code' property.
+                if (!w.hasOwnProperty("code") || typeof w.code === "string" && w.code.startsWith("ESLINT_")) {
+                    warning = w;
+                }
+            }
+
+            beforeEach(() => {
+                warning = null;
+                process.on("warning", onWarning);
+            });
+            afterEach(() => {
+                process.removeListener("warning", onWarning);
+            });
+
+            it("should emit a deprecation warning if 'ecmaFeatures' is given.", () => Promise.resolve()
+                .then(() => {
+                    const cwd = path.resolve(__dirname, "../fixtures/config-file/ecma-features/");
+                    const config = new Config({ cwd }, linter);
+
+                    config.getConfig("test.js");
+
+                    // Wait for "warning" event.
+                    return nextTick();
+                })
+                .then(() => {
+                    assert.notStrictEqual(warning, null);
+                    assert.strictEqual(
+                        warning.message,
+                        `The 'ecmaFeatures' config file property is deprecated, and has no effect. (found in "tests${path.sep}fixtures${path.sep}config-file${path.sep}ecma-features${path.sep}.eslintrc.yml")`
+                    );
+                }));
+
+            it("should emit a deprecation warning if 'parserOptions.ecmaFeatures.experimentalObjectRestSpread' is given.", () => Promise.resolve()
+                .then(() => {
+                    const cwd = path.resolve(__dirname, "../fixtures/config-file/experimental-object-rest-spread/basic/");
+                    const config = new Config({ cwd }, linter);
+
+                    config.getConfig("test.js");
+
+                    // Wait for "warning" event.
+                    return nextTick();
+                })
+                .then(() => {
+                    assert.notStrictEqual(warning, null);
+                    assert.strictEqual(
+                        warning.message,
+                        `The 'parserOptions.ecmaFeatures.experimentalObjectRestSpread' option is deprecated. Use 'parserOptions.ecmaVersion' instead. (found in "tests${path.sep}fixtures${path.sep}config-file${path.sep}experimental-object-rest-spread${path.sep}basic${path.sep}.eslintrc.yml")`
+                    );
+                }));
+
+            it("should emit a deprecation warning if 'parserOptions.ecmaFeatures.experimentalObjectRestSpread' is given in a parent config.", () => Promise.resolve()
+                .then(() => {
+                    const cwd = path.resolve(__dirname, "../fixtures/config-file/experimental-object-rest-spread/subdir/");
+                    const config = new Config({ cwd }, linter);
+
+                    config.getConfig("lib/test.js");
+
+                    // Wait for "warning" event.
+                    return nextTick();
+                })
+                .then(() => {
+                    assert.notStrictEqual(warning, null);
+                    assert.strictEqual(
+                        warning.message,
+                        `The 'parserOptions.ecmaFeatures.experimentalObjectRestSpread' option is deprecated. Use 'parserOptions.ecmaVersion' instead. (found in "tests${path.sep}fixtures${path.sep}config-file${path.sep}experimental-object-rest-spread${path.sep}subdir${path.sep}.eslintrc.yml")`
+                    );
+                }));
+
+            it("should emit a deprecation warning if 'parserOptions.ecmaFeatures.experimentalObjectRestSpread' is given in a shareable config.", () => Promise.resolve()
+                .then(() => {
+                    const cwd = path.resolve(__dirname, "../fixtures/config-file/experimental-object-rest-spread/extends/");
+                    const config = new Config({ cwd }, linter);
+
+                    config.getConfig("test.js");
+
+                    // Wait for "warning" event.
+                    return nextTick();
+                })
+                .then(() => {
+                    assert.notStrictEqual(warning, null);
+                    assert.strictEqual(
+                        warning.message,
+                        `The 'parserOptions.ecmaFeatures.experimentalObjectRestSpread' option is deprecated. Use 'parserOptions.ecmaVersion' instead. (found in "tests${path.sep}fixtures${path.sep}config-file${path.sep}experimental-object-rest-spread${path.sep}extends${path.sep}common.yml")`
+                    );
+                }));
+
+            it("should NOT emit a deprecation warning even if 'parserOptions.ecmaFeatures.experimentalObjectRestSpread' is given, if parser is not espree.", () => Promise.resolve()
+                .then(() => {
+                    const cwd = path.resolve(__dirname, "../fixtures/config-file/experimental-object-rest-spread/another-parser/");
+                    const config = new Config({ cwd }, linter);
+
+                    config.getConfig("test.js");
+
+                    // Wait for "warning" event.
+                    return nextTick();
+                })
+                .then(() => {
+                    assert.strictEqual(warning, null);
+                }));
         });
     });
 
