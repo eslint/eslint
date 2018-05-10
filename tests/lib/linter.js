@@ -3740,8 +3740,7 @@ describe("Linter", () => {
             assert.deepStrictEqual(scope.upper.variables.map(v => v.name), ["x"]);
         });
 
-        // Doesn't work for now because of https://github.com/eslint/eslint/issues/10245.
-        xit("should shadow the same name variable by the iteration variable.", () => {
+        it("should shadow the same name variable by the iteration variable.", () => {
             const { node, scope } = getScope("let x; for (let x of x) {}", "ForOfStatement", 2015);
 
             assert.strictEqual(scope.type, "for");
