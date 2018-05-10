@@ -47,11 +47,26 @@ ruleTester.run("no-self-assign", rule, {
         { code: "a.b().c = a.b().c", options: [{ props: true }] },
         { code: "b().c = b().c", options: [{ props: true }] },
         { code: "a[b + 1] = a[b + 1]", options: [{ props: true }] }, // it ignores non-simple computed properties.
-        "a.b = a.b",
-        "a.b.c = a.b.c",
-        "a[b] = a[b]",
-        "a['b'] = a['b']",
-        "a[\n    'b'\n] = a[\n    'b'\n]"
+        {
+            code: "a.b = a.b",
+            options: [{ props: false }]
+        },
+        {
+            code: "a.b.c = a.b.c",
+            options: [{ props: false }]
+        },
+        {
+            code: "a[b] = a[b]",
+            options: [{ props: false }]
+        },
+        {
+            code: "a['b'] = a['b']",
+            options: [{ props: false }]
+        },
+        {
+            code: "a[\n    'b'\n] = a[\n    'b'\n]",
+            options: [{ props: false }]
+        }
     ],
     invalid: [
         { code: "a = a", errors: ["'a' is assigned to itself."] },
@@ -68,6 +83,26 @@ ruleTester.run("no-self-assign", rule, {
         { code: "({a, b} = {c, a})", parserOptions: { ecmaVersion: 6 }, errors: ["'a' is assigned to itself."] },
         { code: "({a: {b}, c: [d]} = {a: {b}, c: [d]})", parserOptions: { ecmaVersion: 6 }, errors: ["'b' is assigned to itself.", "'d' is assigned to itself."] },
         { code: "({a, b} = {a, ...x, b})", parserOptions: { ecmaVersion: 2018 }, errors: ["'b' is assigned to itself."] },
+        {
+            code: "a.b = a.b",
+            errors: ["'a.b' is assigned to itself."]
+        },
+        {
+            code: "a.b.c = a.b.c",
+            errors: ["'a.b.c' is assigned to itself."]
+        },
+        {
+            code: "a[b] = a[b]",
+            errors: ["'a[b]' is assigned to itself."]
+        },
+        {
+            code: "a['b'] = a['b']",
+            errors: ["'a['b']' is assigned to itself."]
+        },
+        {
+            code: "a[\n    'b'\n] = a[\n    'b'\n]",
+            errors: ["'a['b']' is assigned to itself."]
+        },
         { code: "a.b = a.b", options: [{ props: true }], errors: ["'a.b' is assigned to itself."] },
         { code: "a.b.c = a.b.c", options: [{ props: true }], errors: ["'a.b.c' is assigned to itself."] },
         { code: "a[b] = a[b]", options: [{ props: true }], errors: ["'a[b]' is assigned to itself."] },

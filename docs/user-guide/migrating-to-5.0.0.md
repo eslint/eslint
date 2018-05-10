@@ -10,6 +10,7 @@ The lists below are ordered roughly by the number of users each change is expect
 1. [New rules have been added to `eslint:recommended`](#eslint-recommended-changes)
 1. [The `experimentalObjectRestSpread` option has been deprecated](#experimental-object-rest-spread)
 1. [Linting nonexistent files from the command line is now a fatal error](#nonexistent-files)
+1. [The default options for some rules have changed](#rule-default-changes)
 1. [Deprecated globals have been removed from the `node`, `browser`, and `jest` environments](#deprecated-globals)
 1. [Empty files are now linted](#empty-files)
 1. [Plugins in scoped packages are now resolvable in configs](#scoped-plugins)
@@ -111,6 +112,22 @@ Note that this also affects the [`CLIEngine.executeOnFiles()`](https://eslint.or
 **To address:** If you encounter an error about missing files after upgrading to ESLint v5, you may want to double-check that there are no typos in the paths you provide to ESLint. To make the error go away, you can simply remove the given files or globs from the list of arguments provided to ESLint on the command line.
 
 If you use a boilerplate generator that relies on this behavior (e.g. to generate a script that runs `eslint tests/` in a new project before any test files are actually present), you can work around this issue by adding a dummy file that matches the given pattern (e.g. an empty `tests/index.js` file).
+
+## <a name="rule-default-changes"></a> The default options for some rules have changed
+
+* The default options for the [`object-curly-newline`](/docs/rules/object-curly-newline) rule have changed from `{ multiline: true }` to `{ consistent: true }`.
+* The default options object for the [`no-self-assign`](/docs/rules/no-self-assign) rule has changed from `{ props: false }` to `{ props: true }`.
+
+**To address:** To restore the rule behavior from ESLint v4, you can update your config file to include the previous options:
+
+```json
+{
+  "rules": {
+    "object-curly-newline": ["error", { "multiline": true }],
+    "no-self-assign": ["error", { "props": false }]
+  }
+}
+```
 
 ## <a name="deprecated-globals"></a> Deprecated globals have been removed from the `node`, `browser`, and `jest` environments
 
