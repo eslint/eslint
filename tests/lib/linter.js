@@ -1913,30 +1913,47 @@ describe("Linter", () => {
 
                 const messages = linter.verify(code, config, filename);
 
-                assert.strictEqual(messages.length, 1);
+                assert.strictEqual(messages.length, 2);
 
-                assert.strictEqual(messages[0].ruleId, "no-console");
+                assert.strictEqual(messages[1].ruleId, "no-console");
             });
 
-            it("should report a violation if eslint-disable-line in a block comment is not on a single line", () => {
+            it("should not disable rule and add an extra report if eslint-disable-line in a block comment is not on a single line", () => {
                 const code = [
                     "alert('test'); /* eslint-disable-line ",
                     "no-alert */"
                 ].join("\n");
                 const config = {
                     rules: {
-                        "no-alert": 1,
-                        quotes: [1, "double"],
-                        semi: [1, "always"]
+                        "no-alert": 1
                     }
                 };
 
-                const messages = linter.verify(code, config, filename);
+                const messages = linter.verify(code, config);
 
-                assert.strictEqual(messages.length, 2);
-
-                assert.strictEqual(messages[0].ruleId, "no-alert");
-                assert.strictEqual(messages[1].ruleId, "quotes");
+                assert.deepStrictEqual(messages, [
+                    {
+                        ruleId: "no-alert",
+                        severity: 1,
+                        line: 1,
+                        column: 1,
+                        endLine: 1,
+                        endColumn: 14,
+                        message: "Unexpected alert.",
+                        messageId: "unexpected",
+                        nodeType: "CallExpression"
+                    },
+                    {
+                        ruleId: null,
+                        severity: 2,
+                        message: "eslint-disable-line comment should not span multiple lines.",
+                        line: 1,
+                        column: 16,
+                        endLine: 2,
+                        endColumn: 12,
+                        nodeType: null
+                    }
+                ]);
             });
 
             it("should not report a violation for eslint-disable-line in block comment", () => {
@@ -2089,8 +2106,8 @@ describe("Linter", () => {
                 };
                 const messages = linter.verify(code, config, filename);
 
-                assert.strictEqual(messages.length, 1);
-                assert.strictEqual(messages[0].ruleId, "no-alert");
+                assert.strictEqual(messages.length, 2);
+                assert.strictEqual(messages[1].ruleId, "no-alert");
             });
 
             it("should ignore violations only of specified rule", () => {
@@ -2243,9 +2260,9 @@ describe("Linter", () => {
 
                 const messages = linter.verify(code, config, filename);
 
-                assert.strictEqual(messages.length, 1);
+                assert.strictEqual(messages.length, 2);
 
-                assert.strictEqual(messages[0].ruleId, "no-console");
+                assert.strictEqual(messages[1].ruleId, "no-console");
             });
 
             it("should not ignore violations if comment is of the type Shebang", () => {
