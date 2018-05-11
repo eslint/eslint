@@ -44,11 +44,11 @@ let foo = foo;
 obj.a = obj.b;
 obj.a.b = obj.c.b;
 obj.a.b = obj.a.c;
-obj[a] = obj["a"]
+obj[a] = obj["a"];
 
 // This ignores if there is a function call.
-obj.a().b = obj.a().b
-a().b = a().b
+obj.a().b = obj.a().b;
+a().b = a().b;
 
 // Known limitation: this does not support computed properties except single literal or single identifier.
 obj[a + b] = obj[a + b];
