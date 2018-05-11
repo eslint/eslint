@@ -1,3 +1,26 @@
+v5.0.0-alpha.3 - May 11, 2018
+
+* 1a6b399 New: Adds prefer-object-spread rule (refs: #7230) (#9955) (Sharmila Jesupaul)
+* c4109b2 New: add max-classes-per-file rule (#10163) (James Garbutt)
+* 41f0f6e Breaking: report multiline eslint-disable-line directives (fixes #10334) (#10335) (Teddy Katz)
+* 4ccd25a Chore: add eslint-plugin-node to eslint-config-eslint(fixes #10319) (#10320) (薛定谔的猫)
+* 82757b2 Docs: Adding a little guidance to rule documentation (#10301) (Justin)
+* 09dde26 Breaking: new object-curly-newline/no-self-assign default (fixes #10215) (#10337) (Teddy Katz)
+* d65f11d Fix: correct comma fix in spare array (fixes #10273) (#10329) (Malcolm Groves)
+* c343d86 Fix: do not autofix octal escape sequence (fixes #10031) (#10240) (Malcolm Groves)
+* 514013c New: Add `globInputPaths` CLIEngine option (fixes #9972) (#10191) (Pierre Vanduynslager)
+* 02e7b28 Chore: upgrade deps (#10339) (薛定谔的猫)
+* 1397179 Chore: unskip test for scope analysis (#10336) (Teddy Katz)
+* e5b33be Update: Add --fix for one-var rule (refs #9072) (#10040) (Sebastian Malton)
+* 99b842d Chore: upgrade mock-fs@4.5.0 (#10325) (Tim Schaub)
+* fe91859 Chore: Update issue templates with new format (#10309) (Ilya Volodin)
+* 2f30aa5 Docs: add a better vim linting engine (#10292) (Jon Smithers)
+* df2c1fb Docs: improve formatter guide (refs #9550) (#10294) (Dominic Lee)
+* f7330c1 Chore: Add ESLint path to plugin-missing message (#10283) (Kevin Partington)
+* bb6090f Fix: Throw error when --ignore-path not a file (fixes #10076) (#10205) (Malcolm Groves)
+* 1b6b2b2 Build: remove trailing spaces in blogpost template (#10280) (Teddy Katz)
+* a960d69 Docs: remove outdated notes from migration guide (#10279) (Teddy Katz)
+
 v5.0.0-alpha.2 - April 27, 2018
 
 * 510ca8b Docs: make grammatical tweaks in migration guide (#10278) (Teddy Katz)
