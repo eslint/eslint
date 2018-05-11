@@ -27,7 +27,24 @@ ruleTester.run("prefer-object-spread", rule, {
         "let a = Object.assign(b, { c: 1 })",
         "const bar = { ...foo }",
         "Object.assign(...foo)",
-        "Object.assign(foo, { bar: baz })"
+        "Object.assign(foo, { bar: baz })",
+        "foo({ foo: 'bar' })",
+        `
+        const Object = {};
+        Object.assign({}, foo);
+        `,
+        `
+        Object = {};
+        Object.assign({}, foo);
+        `,
+        `
+        const Object = {};
+        Object.assign({ foo: 'bar' });
+        `,
+        `
+        Object = {};
+        Object.assign({ foo: 'bar' });
+        `
     ],
 
     invalid: [
@@ -360,6 +377,44 @@ ruleTester.run("prefer-object-spread", rule, {
         },
 
         {
+            code: `
+                const foo = 'bar';
+                Object.assign({ foo: bar })
+            `,
+            output: `
+                const foo = 'bar';
+                ({ foo: bar })
+            `,
+            errors: [
+                {
+                    messageId: "useLiteralMessage",
+                    type: "CallExpression",
+                    line: 3,
+                    column: 17
+                }
+            ]
+        },
+
+        {
+            code: `
+                foo = 'bar';
+                Object.assign({ foo: bar })
+            `,
+            output: `
+                foo = 'bar';
+                ({ foo: bar })
+            `,
+            errors: [
+                {
+                    messageId: "useLiteralMessage",
+                    type: "CallExpression",
+                    line: 3,
+                    column: 17
+                }
+            ]
+        },
+
+        {
             code: "let a = Object.assign({})",
             output: "let a = {}",
             errors: [
@@ -416,6 +471,42 @@ ruleTester.run("prefer-object-spread", rule, {
                     type: "CallExpression",
                     line: 1,
                     column: 1
+                }
+            ]
+        },
+        {
+            code: `
+                const someVar = 'foo';
+                Object.assign({}, a ? b : {}, b => c, a = 2)
+            `,
+            output: `
+                const someVar = 'foo';
+                ({...(a ? b : {}), ...(b => c), ...(a = 2)})
+            `,
+            errors: [
+                {
+                    messageId: "useSpreadMessage",
+                    type: "CallExpression",
+                    line: 3,
+                    column: 17
+                }
+            ]
+        },
+        {
+            code: `
+                someVar = 'foo';
+                Object.assign({}, a ? b : {}, b => c, a = 2)
+            `,
+            output: `
+                someVar = 'foo';
+                ({...(a ? b : {}), ...(b => c), ...(a = 2)})
+            `,
+            errors: [
+                {
+                    messageId: "useSpreadMessage",
+                    type: "CallExpression",
+                    line: 3,
+                    column: 17
                 }
             ]
         },
