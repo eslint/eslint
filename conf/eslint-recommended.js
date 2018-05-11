@@ -230,6 +230,7 @@ module.exports = {
         "prefer-const": "off",
         "prefer-destructuring": "off",
         "prefer-numeric-literals": "off",
+        "prefer-object-spread": "off",
         "prefer-promise-reject-errors": "off",
         "prefer-reflect": "off",
         "prefer-rest-params": "off",

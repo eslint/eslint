@@ -67,6 +67,7 @@
     "regexpp": "^1.1.0",
     "require-uncached": "^1.0.3",
     "semver": "^5.5.0",
+    "string.prototype.matchall": "^2.0.0",
     "strip-ansi": "^4.0.0",
     "strip-json-comments": "^2.0.1",
     "table": "^4.0.3",
