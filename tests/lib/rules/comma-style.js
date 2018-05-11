@@ -607,6 +607,11 @@ ruleTester.run("comma-style", rule, {
                 }
             }],
             errors: [{ messageId: "expectedCommaLast" }]
+        },
+        {
+            code: "[\n[foo(3)],\n,\nbar\n];",
+            output: "[\n[foo(3)],,\nbar\n];",
+            errors: [{ messageId: "unexpectedLineBeforeAndAfterComma" }]
         }
     ]
 });
