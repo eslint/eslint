@@ -34,7 +34,33 @@ ruleTester.run("prefer-template", rule, {
 
         // https://github.com/eslint/eslint/issues/3507
         "var foo = `foo` + `bar` + \"hoge\";",
-        "var foo = `foo` +\n    `bar` +\n    \"hoge\";"
+        "var foo = `foo` +\n    `bar` +\n    \"hoge\";",
+
+        // check for max concat
+        {
+            code: "var foo = bar + 'baz';",
+            options: [{
+                maxConcat: 1
+            }]
+        },
+        {
+            code: "var foo = bar + 'baz' + qux;",
+            options: [{
+                maxConcat: 2
+            }]
+        },
+        {
+            code: "var foo = 'hello, ' + name + '!';",
+            options: [{
+                maxConcat: 3
+            }]
+        },
+        {
+            code: "var foo = bar + 'baz' + qux + '!';",
+            options: [{
+                maxConcat: 3
+            }]
+        }
     ],
     invalid: [
         {
@@ -186,6 +212,40 @@ ruleTester.run("prefer-template", rule, {
         {
             code: "foo + 'handles unicode escapes correctly: \\x27'", // "\x27" === "'"
             output: "`${foo  }handles unicode escapes correctly: \\x27`",
+            errors
+        },
+
+        // check against max concat
+        {
+            code: "var foo = bar + 'baz';",
+            output: "var foo = `${bar  }baz`;",
+            options: [{
+                maxConcat: 0
+            }],
+            errors
+        },
+        {
+            code: "var foo = bar + 'baz' + qux;",
+            output: "var foo = `${bar  }baz${  qux}`;",
+            options: [{
+                maxConcat: 1
+            }],
+            errors
+        },
+        {
+            code: "var foo = 'hello, ' + name + '!';",
+            output: "var foo = `hello, ${  name  }!`;",
+            options: [{
+                maxConcat: 1
+            }],
+            errors
+        },
+        {
+            code: "var foo = bar + 'baz' + qux + '!';",
+            output: "var foo = `${bar  }baz${  qux  }!`;",
+            options: [{
+                maxConcat: 2
+            }],
             errors
         }
     ]

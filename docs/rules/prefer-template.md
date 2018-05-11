@@ -16,8 +16,6 @@ var str = `Hello, ${name}!`;
 
 This rule is aimed to flag usage of `+` operators with strings.
 
-## Examples
-
 Examples of **incorrect** code for this rule:
 
 ```js
@@ -39,6 +37,33 @@ var str = `Time: ${12 * 60 * 60 * 1000}`;
 
 // This is reported by `no-useless-concat`.
 var str = "Hello, " + "World!";
+```
+
+## Options
+
+This rule has an object option:
+
+* `"maxConcat"` (default: `0`) allows up to a maximum number of concatenations.
+
+
+### maxConcat
+
+Examples of **incorrect** code for this rule with the object option:
+
+```js
+/*eslint prefer-template: ["error", { "maxConcat": 1 }]*/
+
+var str = "Hello, " + name + ". Nice to meet you.";
+```
+
+Examples of **correct** code for this rule with the object option:
+
+```js
+/*eslint prefer-template: ["error", { "maxConcat": 1 }]*/
+
+var str = "Hello World!";
+var str = "Hello, " + name;
+var str = greeting + "!";
 ```
 
 ## When Not To Use It
