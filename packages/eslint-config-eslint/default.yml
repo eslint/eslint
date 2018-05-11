@@ -1,5 +1,9 @@
 extends:
-    "eslint:recommended"
+    - "eslint:recommended"
+    - "plugin:node/recommended"
+
+plugins:
+    - "node"
 
 rules:
     array-bracket-spacing: "error"
