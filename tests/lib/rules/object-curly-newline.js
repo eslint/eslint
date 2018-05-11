@@ -22,6 +22,20 @@ const ruleTester = new RuleTester({ parserOptions: { sourceType: "module" } });
 ruleTester.run("object-curly-newline", rule, {
     valid: [
 
+        // default ------------------------------------------------------------
+        [
+            "var a = {",
+            "};"
+        ].join("\n"),
+
+        [
+            "var a = {",
+            "   foo",
+            "};"
+        ].join("\n"),
+
+        "var a = { foo }",
+
         // "always" ------------------------------------------------------------
         {
             code: [
@@ -552,6 +566,18 @@ ruleTester.run("object-curly-newline", rule, {
         }
     ],
     invalid: [
+
+        // default ------------------------------------------------------------
+        {
+            code: [
+                "var a = { a",
+                "};"
+            ].join("\n"),
+            output: "var a = { a};",
+            errors: [
+                { line: 2, column: 1, message: "Unexpected line break before this closing brace." }
+            ]
+        },
 
         // "always" ------------------------------------------------------------
         {
