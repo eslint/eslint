@@ -200,26 +200,34 @@ describe("configInitializer", () => {
         describe("guide", () => {
             it("should support the google style guide", () => {
                 const config = init.getConfigForStyleGuide("google");
+                const modules = init.getModulesList(config);
 
                 assert.deepStrictEqual(config, { extends: "google", installedESLint: true });
+                assert.include(modules, "eslint-config-google@latest");
             });
 
             it("should support the airbnb style guide", () => {
                 const config = init.getConfigForStyleGuide("airbnb");
+                const modules = init.getModulesList(config);
 
                 assert.deepStrictEqual(config, { extends: "airbnb", installedESLint: true });
+                assert.include(modules, "eslint-config-airbnb@latest");
             });
 
             it("should support the airbnb base style guide", () => {
                 const config = init.getConfigForStyleGuide("airbnb-base");
+                const modules = init.getModulesList(config);
 
                 assert.deepStrictEqual(config, { extends: "airbnb-base", installedESLint: true });
+                assert.include(modules, "eslint-config-airbnb-base@latest");
             });
 
             it("should support the standard style guide", () => {
                 const config = init.getConfigForStyleGuide("standard");
+                const modules = init.getModulesList(config);
 
                 assert.deepStrictEqual(config, { extends: "standard", installedESLint: true });
+                assert.include(modules, "eslint-config-standard@latest");
             });
 
             it("should throw when encountering an unsupported style guide", () => {
@@ -229,19 +237,25 @@ describe("configInitializer", () => {
             });
 
             it("should install required sharable config", () => {
-                init.getConfigForStyleGuide("google");
+                const config = init.getConfigForStyleGuide("google");
+
+                init.installModules(init.getModulesList(config));
                 assert(npmInstallStub.calledOnce);
                 assert(npmInstallStub.firstCall.args[0].some(name => name.startsWith("eslint-config-google@")));
             });
 
             it("should install ESLint if not installed locally", () => {
-                init.getConfigForStyleGuide("google");
+                const config = init.getConfigForStyleGuide("google");
+
+                init.installModules(init.getModulesList(config));
                 assert(npmInstallStub.calledOnce);
                 assert(npmInstallStub.firstCall.args[0].some(name => name.startsWith("eslint@")));
             });
 
             it("should install peerDependencies of the sharable config", () => {
-                init.getConfigForStyleGuide("airbnb");
+                const config = init.getConfigForStyleGuide("airbnb");
+
+                init.installModules(init.getModulesList(config));
 
                 assert(npmFetchPeerDependenciesStub.calledOnce);
                 assert(npmFetchPeerDependenciesStub.firstCall.args[0] === "eslint-config-airbnb@latest");
