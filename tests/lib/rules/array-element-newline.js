@@ -53,7 +53,7 @@ ruleTester.run("array-element-newline", rule, {
         { code: "var foo = [// any comment \n1,\n2];", options: ["always"] },
         { code: "var foo = [1,\n2 // any comment\n];", options: ["always"] },
         { code: "var foo = [1,\n2,\n3];", options: ["always"] },
-        { code: "var foo = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\nosomething();\n}\n];", options: ["always"] },
+        { code: "var foo = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n}\n];", options: ["always"] },
 
         // "never"
         { code: "var foo = [];", options: ["never"] },
@@ -65,6 +65,23 @@ ruleTester.run("array-element-newline", rule, {
         { code: "var foo = [1, 2, 3];", options: ["never"] },
         { code: "var foo = [1, (\n2\n), 3];", options: ["never"] },
         { code: "var foo = [\nfunction foo() {\ndosomething();\n}, function bar() {\ndosomething();\n}\n];", options: ["never"] },
+
+        // "consistent"
+        { code: "var foo = [];", options: ["consistent"] },
+        { code: "var foo = [1];", options: ["consistent"] },
+        { code: "var foo = [1, 2];", options: ["consistent"] },
+        { code: "var foo = [1,\n2];", options: ["consistent"] },
+        { code: "var foo = [1, 2, 3];", options: ["consistent"] },
+        { code: "var foo = [1,\n2,\n3];", options: ["consistent"] },
+        { code: "var foo = [1,\n2,\n,\n3];", options: ["consistent"] },
+        { code: "var foo = [1, // any comment\n2];", options: ["consistent"] },
+        { code: "var foo = [/* any comment */ 1, 2];", options: ["consistent"] },
+        { code: "var foo = [1, (\n2\n), 3];", options: ["consistent"] },
+        { code: "var foo = [1,\n(2)\n, 3];", options: ["consistent"] },
+        { code: "var foo = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n}\n];", options: ["consistent"] },
+        { code: "var foo = [\nfunction foo() {\ndosomething();\n}, function bar() {\ndosomething();\n}\n];", options: ["consistent"] },
+        { code: "var foo = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n}];", options: ["consistent"] },
+        { code: "var foo = [\nfunction foo() {\ndosomething();\n}, function bar() {\ndosomething();\n}, function bar() {\ndosomething();\n}];", options: ["consistent"] },
 
         // { multiline: true }
         { code: "var foo = [];", options: [{ multiline: true }] },
@@ -446,6 +463,88 @@ ruleTester.run("array-element-newline", rule, {
                     messageId: "unexpectedLineBreak",
                     line: 4,
                     column: 21
+                }
+            ]
+        },
+
+        // "consistent"
+        {
+            code: "var foo = [1,\n2, 3];",
+            output: "var foo = [1,\n2,\n3];",
+            options: ["consistent"],
+            errors: [
+                {
+                    messageId: "missingLineBreak",
+                    line: 2,
+                    column: 3,
+                    endLine: 2,
+                    endColumn: 4
+                }
+            ]
+        },
+        {
+            code: "var foo = [1, 2,\n3];",
+            output: "var foo = [1,\n2,\n3];",
+            options: ["consistent"],
+            errors: [
+                {
+                    messageId: "missingLineBreak",
+                    line: 1,
+                    column: 14,
+                    endLine: 1,
+                    endColumn: 15
+                }
+            ]
+        },
+        {
+            code: "var foo = [1,\n(\n2), 3];",
+            output: "var foo = [1,\n(\n2),\n3];",
+            options: ["consistent"],
+            errors: [
+                {
+                    messageId: "missingLineBreak",
+                    line: 3,
+                    column: 4,
+                    endLine: 3,
+                    endColumn: 5
+                }
+            ]
+        },
+        {
+            code: "var foo = [1,        \t      (\n2\n),\n3];",
+            output: "var foo = [1,\n(\n2\n),\n3];",
+            options: ["consistent"],
+            errors: [
+                {
+                    messageId: "missingLineBreak",
+                    line: 1,
+                    column: 14,
+                    endLine: 1,
+                    endColumn: 29
+                }
+            ]
+        },
+        {
+            code: "var foo = [1, /* any comment */(2),\n3];",
+            output: "var foo = [1, /* any comment */\n(2),\n3];",
+            options: ["consistent"],
+            errors: [
+                {
+                    messageId: "missingLineBreak",
+                    line: 1,
+                    column: 32
+                }
+            ]
+        },
+        {
+            code: "var foo = [\nfunction foo() {\ndosomething();\n},function bar() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n}];",
+            output: "var foo = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n}];",
+            options: ["consistent"],
+            errors: [
+                {
+                    messageId: "missingLineBreak",
+                    line: 4,
+                    column: 3
                 }
             ]
         },
