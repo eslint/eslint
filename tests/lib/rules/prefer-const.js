@@ -69,6 +69,22 @@ ruleTester.run("prefer-const", rule, {
         "/*exported a*/ let a; function init() { a = foo(); }",
         "/*exported a*/ let a = 1",
         "let a; if (true) a = 0; foo(a);",
+        `
+        (function (a) {
+            let b;
+            ({ a, b } = obj);
+        })();
+        `,
+        `
+        (function (a) {
+            let b;
+            ([ a, b ] = obj);
+        })();
+        `,
+        "var a; { var b; ({ a, b } = obj); }",
+        "let a; { let b; ({ a, b } = obj); }",
+        "var a; { var b; ([ a, b ] = obj); }",
+        "let a; { let b; ([ a, b ] = obj); }",
 
         /*
          * The assignment is located in a different scope.
