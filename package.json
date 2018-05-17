@@ -50,7 +50,7 @@
     "ignore": "^3.2.0",
     "imurmurhash": "^0.1.4",
     "inquirer": "^0.12.0",
-    "is-my-json-valid": "^2.10.0",
+    "is-my-json-valid": "^2.17.2",
     "is-resolvable": "^1.0.0",
     "js-yaml": "^3.5.1",
     "json-stable-stringify": "^1.0.0",
