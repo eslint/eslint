@@ -58,6 +58,17 @@ describe("globUtil", () => {
             assert.deepStrictEqual(result, ["one-js-file/**/*.js"]);
         });
 
+        it("should not convert path with globInputPaths option false", () => {
+            const patterns = ["one-js-file"];
+            const opts = {
+                cwd: getFixturePath("glob-util"),
+                globInputPaths: false
+            };
+            const result = globUtil.resolveFileGlobPatterns(patterns, opts);
+
+            assert.deepStrictEqual(result, ["one-js-file"]);
+        });
+
         it("should convert an absolute directory name with no provided extensions into a posix glob pattern", () => {
             const patterns = [getFixturePath("glob-util", "one-js-file")];
             const opts = {
@@ -151,6 +162,19 @@ describe("globUtil", () => {
             });
 
             const file1 = getFixturePath("glob-util", "one-js-file", "baz.js");
+
+            assert.isArray(result);
+            assert.deepStrictEqual(result, [{ filename: file1, ignored: false }]);
+        });
+
+        it("should return an array with a unmodified filename", () => {
+            const patterns = [getFixturePath("glob-util", "one-js-file", "**/*.js")];
+            const result = globUtil.listFilesToProcess(patterns, {
+                cwd: getFixturePath(),
+                globInputPaths: false
+            });
+
+            const file1 = getFixturePath("glob-util", "one-js-file", "**/*.js");
 
             assert.isArray(result);
             assert.deepStrictEqual(result, [{ filename: file1, ignored: false }]);

@@ -39,6 +39,20 @@ let foo = foo;
 
 // The default values have an effect.
 [foo = 1] = [foo];
+
+// non-self-assignments with properties.
+obj.a = obj.b;
+obj.a.b = obj.c.b;
+obj.a.b = obj.a.c;
+obj[a] = obj["a"];
+
+// This ignores if there is a function call.
+obj.a().b = obj.a().b;
+a().b = a().b;
+
+// Known limitation: this does not support computed properties except single literal or single identifier.
+obj[a + b] = obj[a + b];
+obj["a" + "b"] = obj["a" + "b"];
 ```
 
 ## Options
@@ -47,15 +61,15 @@ This rule has the option to check properties as well.
 
 ```json
 {
-    "no-self-assign": ["error", {"props": false}]
+    "no-self-assign": ["error", {"props": true}]
 }
 ```
 
-- `props` - if this is `true`, `no-self-assign` rule warns self-assignments of properties. Default is `false`.
+- `props` - if this is `true`, `no-self-assign` rule warns self-assignments of properties. Default is `true`.
 
 ### props
 
-Examples of **incorrect** code for the `{ "props": true }` option:
+Examples of **correct** code with the `{ "props": false }` option:
 
 ```js
 /*eslint no-self-assign: ["error", {"props": true}]*/
@@ -65,26 +79,6 @@ obj.a = obj.a;
 obj.a.b = obj.a.b;
 obj["a"] = obj["a"];
 obj[a] = obj[a];
-```
-
-Examples of **correct** code for the `{ "props": true }` option:
-
-```js
-/*eslint no-self-assign: ["error", {"props": true}]*/
-
-// non-self-assignments with properties.
-obj.a = obj.b;
-obj.a.b = obj.c.b;
-obj.a.b = obj.a.c;
-obj[a] = obj["a"]
-
-// This ignores if there is a function call.
-obj.a().b = obj.a().b
-a().b = a().b
-
-// Known limitation: this does not support computed properties except single literal or single identifier.
-obj[a + b] = obj[a + b];
-obj["a" + "b"] = obj["a" + "b"];
 ```
 
 ## When Not To Use It

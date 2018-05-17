@@ -10,9 +10,11 @@ The lists below are ordered roughly by the number of users each change is expect
 1. [New rules have been added to `eslint:recommended`](#eslint-recommended-changes)
 1. [The `experimentalObjectRestSpread` option has been deprecated](#experimental-object-rest-spread)
 1. [Linting nonexistent files from the command line is now a fatal error](#nonexistent-files)
+1. [The default options for some rules have changed](#rule-default-changes)
 1. [Deprecated globals have been removed from the `node`, `browser`, and `jest` environments](#deprecated-globals)
 1. [Empty files are now linted](#empty-files)
 1. [Plugins in scoped packages are now resolvable in configs](#scoped-plugins)
+1. [Multi-line `eslint-disable-line` directives are now reported as problems](#multiline-directives)
 
 ### Breaking changes for plugin/custom rule developers
 
@@ -112,6 +114,22 @@ Note that this also affects the [`CLIEngine.executeOnFiles()`](https://eslint.or
 
 If you use a boilerplate generator that relies on this behavior (e.g. to generate a script that runs `eslint tests/` in a new project before any test files are actually present), you can work around this issue by adding a dummy file that matches the given pattern (e.g. an empty `tests/index.js` file).
 
+## <a name="rule-default-changes"></a> The default options for some rules have changed
+
+* The default options for the [`object-curly-newline`](/docs/rules/object-curly-newline) rule have changed from `{ multiline: true }` to `{ consistent: true }`.
+* The default options object for the [`no-self-assign`](/docs/rules/no-self-assign) rule has changed from `{ props: false }` to `{ props: true }`.
+
+**To address:** To restore the rule behavior from ESLint v4, you can update your config file to include the previous options:
+
+```json
+{
+  "rules": {
+    "object-curly-newline": ["error", { "multiline": true }],
+    "no-self-assign": ["error", { "props": false }]
+  }
+}
+```
+
 ## <a name="deprecated-globals"></a> Deprecated globals have been removed from the `node`, `browser`, and `jest` environments
 
 Some global variables have been deprecated or removed for code running in Node.js, browsers, and Jest. (For example, browsers used to expose an `SVGAltGlyphElement` global variable to JavaScript code, but this global has been removed from web standards and is no longer present in browsers.) As a result, we have removed these globals from the corresponding `eslint` environments, so use of these globals will trigger an error when using rules such as [`no-undef`](/docs/rules/no-undef).
@@ -141,9 +159,24 @@ If you have a custom rule, you should make sure it handles empty files appropria
 
 ## <a name="scoped-plugins"></a> Plugins in scoped packages are now resolvable in configs
 
-When it encounters a plugin name in a config starting with `@`, ESLint v5 will resolve it as a [scoped npm package](https://docs.npmjs.com/misc/scope). For example, if a config contains `"plugins": ["@foo"]`, ESLint v5 will attempt to load a package called `@foo/eslint-plugin`. (On the other hand, ESLint v4 would attempt to load a package called `eslint-plugin-@foo`.) This is a breaking change because users might have been relying on ESLint finding a package at `node_modules/eslint-plugin-@foo`. However, we think it is unlikely that many users were relying on this behavior, because packages published to npm cannot contain an `@` character in the middle.
+When ESLint v5 encounters a plugin name in a config starting with `@`, the plugin will be resolved as a [scoped npm package](https://docs.npmjs.com/misc/scope). For example, if a config contains `"plugins": ["@foo"]`, ESLint v5 will attempt to load a package called `@foo/eslint-plugin`. (On the other hand, ESLint v4 would attempt to load a package called `eslint-plugin-@foo`.) This is a breaking change because users might have been relying on ESLint finding a package at `node_modules/eslint-plugin-@foo`. However, we think it is unlikely that many users were relying on this behavior, because packages published to npm cannot contain an `@` character in the middle.
 
 **To address:** If you rely on ESLint loading a package like `eslint-config-@foo`, consider renaming the package to something else.
+
+## <a name="multiline-directives"></a> Multi-line `eslint-disable-line` directives are now reported as problems
+
+`eslint-disable-line` and `eslint-disable-next-line` directive comments are only allowed to span a single line. For example, the following directive comment is invalid:
+
+```js
+alert('foo'); /* eslint-disable-line
+   no-alert */ alert('bar');
+
+// (which line is the rule disabled on?)
+```
+
+Previously, ESLint would ignore these malformed directive comments. ESLint v5 will report an error when it sees a problem like this, so that the issue can be more easily corrected.
+
+**To address:** If you see new reported errors as a result of this change, ensure that your `eslint-disable-line` directives only span a single line. Note that "block comments" (delimited by `/* */`) are still allowed to be used for directives, provided that the block comments do not contain linebreaks.
 
 ---
 
