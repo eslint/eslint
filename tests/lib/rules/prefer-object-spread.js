@@ -28,6 +28,7 @@ ruleTester.run("prefer-object-spread", rule, {
         "const bar = { ...foo }",
         "Object.assign(...foo)",
         "Object.assign(foo, { bar: baz })",
+        "Object.assign({}, ...objects)",
         "foo({ foo: 'bar' })",
         `
         const Object = {};
@@ -533,18 +534,6 @@ ruleTester.run("prefer-object-spread", rule, {
                     type: "CallExpression",
                     line: 1,
                     column: 13
-                }
-            ]
-        },
-        {
-            code: "let a = Object.assign({}, ...b)",
-            output: "let a = {...b}",
-            errors: [
-                {
-                    messageId: "useSpreadMessage",
-                    type: "CallExpression",
-                    line: 1,
-                    column: 9
                 }
             ]
         },
