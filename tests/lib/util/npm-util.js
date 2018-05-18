@@ -71,17 +71,18 @@ describe("npmUtil", () => {
         });
 
         it("should throw with message when parsing invalid package.json", () => {
-            const logInfo = sandbox.stub(log, "info");
-
             mockFs({
                 "package.json": "{ \"not: \"valid json\" }"
             });
 
-            const fn = npmUtil.checkDevDeps.bind(null, ["some-package"]);
-
-            assert.throws(fn, "SyntaxError: Unexpected token v");
-            assert(logInfo.calledOnce);
-            assert.strictEqual(logInfo.firstCall.args[0], "Could not read package.json file. Please check that the file contains valid JSON.");
+            assert.throws(() => {
+                try {
+                    npmUtil.checkDevDeps(["some-package"]);
+                } catch (error) {
+                    assert.strictEqual(error.messageTemplate, "failed-to-read-json");
+                    throw error;
+                }
+            }, "SyntaxError: Unexpected token v");
         });
     });
 
@@ -134,18 +135,18 @@ describe("npmUtil", () => {
         });
 
         it("should throw with message when parsing invalid package.json", () => {
-            const logInfo = sandbox.stub(log, "info");
-
             mockFs({
                 "package.json": "{ \"not: \"valid json\" }"
             });
 
-            const fn = npmUtil.checkDevDeps.bind(null, ["some-package"]);
-
-            assert.throws(fn, "SyntaxError: Unexpected token v");
-            assert(logInfo.calledOnce);
-            assert.strictEqual(logInfo.firstCall.args[0], "Could not read package.json file. Please check that the file contains valid JSON.");
-            logInfo.restore();
+            assert.throws(() => {
+                try {
+                    npmUtil.checkDeps(["some-package"]);
+                } catch (error) {
+                    assert.strictEqual(error.messageTemplate, "failed-to-read-json");
+                    throw error;
+                }
+            }, "SyntaxError: Unexpected token v");
         });
     });
 
