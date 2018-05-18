@@ -31,9 +31,19 @@ class Foo {}
 This rule has a numeric option (defaulted to 1) to specify the
 maximum number of classes.
 
+For example:
+
+```json
+{
+    "max-classes-per-file": ["error", 1]
+}
+```
+
 Examples of **correct** code for this rule with the numeric option set to `2`:
 
 ```js
+/* eslint max-classes-per-file: ["error", 2] */
+
 class Foo {}
 class Bar {}
 ```
