@@ -12,8 +12,10 @@ This rule has an object option:
 
 * `"properties": "always"` (default) enforces camelcase style for property names
 * `"properties": "never"` does not check property names
+* `"ignoreDestructuring": false` (default) enforces camelcase style for destructured identifiers
+* `"ignoreDestructuring": true` does not check destructured identifiers
 
-### always
+### properties: "always"
 
 Examples of **incorrect** code for this rule with the default `{ "properties": "always" }` option:
 
@@ -95,7 +97,7 @@ var { foo: isCamelCased = 1 } = quz;
 
 ```
 
-### never
+### properties: "never"
 
 Examples of **correct** code for this rule with the `{ "properties": "never" }` option:
 
@@ -105,6 +107,48 @@ Examples of **correct** code for this rule with the `{ "properties": "never" }` 
 var obj = {
     my_pref: 1
 };
+```
+
+### ignoreDestructuring: false
+
+Examples of **incorrect** code for this rule with the default `{ "ignoreDestructuring": false }` option:
+
+```js
+/*eslint camelcase: "error"*/
+
+var { category_id } = query;
+
+var { category_id = 1 } = query;
+
+var { category_id: category_id } = query;
+
+var { category_id: category_alias } = query;
+
+var { category_id: categoryId, ...other_props } = query;
+```
+
+### ignoreDestructuring: true
+
+Examples of **incorrect** code for this rule with the `{ "ignoreDestructuring": true }` option:
+
+```js
+/*eslint camelcase: ["error", {ignoreDestructuring: true}]*/
+
+var { category_id: category_alias } = query;
+
+var { category_id, ...other_props } = query;
+```
+
+Examples of **correct** code for this rule with the `{ "ignoreDestructuring": true }` option:
+
+```js
+/*eslint camelcase: ["error", {ignoreDestructuring: true}]*/
+
+var { category_id } = query;
+
+var { category_id = 1 } = query;
+
+var { category_id: category_id } = query;
 ```
 
 ## When Not To Use It
