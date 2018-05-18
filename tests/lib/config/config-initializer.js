@@ -123,8 +123,9 @@ describe("configInitializer", () => {
                     quotes: "single",
                     linebreak: "unix",
                     semi: true,
-                    es6: true,
+                    ecmaVersion: 2015,
                     modules: true,
+                    es6Globals: true,
                     env: ["browser"],
                     jsx: false,
                     react: false,
@@ -141,6 +142,7 @@ describe("configInitializer", () => {
                 assert.deepStrictEqual(config.rules["linebreak-style"], ["error", "unix"]);
                 assert.deepStrictEqual(config.rules.semi, ["error", "always"]);
                 assert.strictEqual(config.env.es6, true);
+                assert.strictEqual(config.parserOptions.ecmaVersion, 2015);
                 assert.strictEqual(config.parserOptions.sourceType, "module");
                 assert.strictEqual(config.env.browser, true);
                 assert.strictEqual(config.extends, "eslint:recommended");
@@ -171,9 +173,10 @@ describe("configInitializer", () => {
             });
 
             it("should not enable es6", () => {
-                answers.es6 = false;
+                answers.ecmaVersion = 5;
                 const config = init.processAnswers(answers);
 
+                assert.strictEqual(config.parserOptions.ecmaVersion, 5);
                 assert.isUndefined(config.env.es6);
             });
 
@@ -323,7 +326,7 @@ describe("configInitializer", () => {
                 answers = {
                     source: "auto",
                     patterns,
-                    es6: false,
+                    ecmaVersion: 5,
                     env: ["browser"],
                     jsx: false,
                     react: false,
@@ -361,6 +364,15 @@ describe("configInitializer", () => {
             it("should extend and not disable recommended rules", () => {
                 assert.strictEqual(config.extends, "eslint:recommended");
                 assert.notProperty(config.rules, "no-console");
+            });
+
+            it("should support new ES features if using later ES version", () => {
+                const filename = getFixturePath("new-es-features");
+
+                answers.patterns = filename;
+                answers.ecmaVersion = 2017;
+                process.chdir(fixtureDir);
+                config = init.processAnswers(answers);
             });
 
             it("should throw on fatal parsing error", () => {
