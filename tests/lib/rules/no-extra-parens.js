@@ -289,6 +289,13 @@ ruleTester.run("no-extra-parens", rule, {
             "}"
         ].join("\n"),
         [
+            "function a() {",
+            "    return (",
+            "        <></>",
+            "    );",
+            "}"
+        ].join("\n"),
+        [
             "throw (",
             "    a",
             ");"
@@ -321,6 +328,14 @@ ruleTester.run("no-extra-parens", rule, {
 
         // ["all", { ignoreJSX: "all" }]
         { code: "const Component = (<div />)", options: ["all", { ignoreJSX: "all" }] },
+        {
+            code: [
+                "const Component = (<>",
+                "  <p />",
+                "</>);"
+            ].join("\n"),
+            options: ["all", { ignoreJSX: "all" }]
+        },
         {
             code: [
                 "const Component = (<div>",
@@ -663,6 +678,19 @@ ruleTester.run("no-extra-parens", rule, {
             "    );",
             "}"
         ].join("\n"), "JSXElement", null),
+        invalid([
+            "function a() {",
+            "    return ((",
+            "       <></>",
+            "    ));",
+            "}"
+        ].join("\n"), [
+            "function a() {",
+            "    return (",
+            "       <></>",
+            "    );",
+            "}"
+        ].join("\n"), "JSXFragment", null),
         invalid("throw (a);", "throw a;", "Identifier"),
         invalid([
             "throw ((",
@@ -882,6 +910,13 @@ ruleTester.run("no-extra-parens", rule, {
             "  <div />",
             ");"
         ].join("\n"), "const Component = \n  <div />\n;", "JSXElement", 1, {
+            options: ["all", { ignoreJSX: "multi-line" }]
+        }),
+        invalid([
+            "const Component = (",
+            "  <></>",
+            ");"
+        ].join("\n"), "const Component = \n  <></>\n;", "JSXFragment", 1, {
             options: ["all", { ignoreJSX: "multi-line" }]
         }),
 
