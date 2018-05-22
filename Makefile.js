@@ -819,10 +819,12 @@ target.browserify = function() {
     generateRulesIndex(TEMP_DIR);
 
     // 5. browserify the temp directory
-    exec(`${getBinFile("browserify")} -x espree ${TEMP_DIR}linter.js -o ${BUILD_DIR}eslint.js -s eslint --global-transform [ babelify --presets [ es2015 ] ]`);
-
+    // exec(`${getBinFile("browserify")} -x espree ${TEMP_DIR}linter.js -o ${BUILD_DIR}eslint.js -s eslint --global-transform [ babelify --presets [ es2015 ] ]`);
+    exec(`${getBinFile("parcel")} build ${TEMP_DIR}linter.js -d ${BUILD_DIR}`);
+    
     // 6. Browserify espree
-    exec(`${getBinFile("browserify")} -r espree -o ${TEMP_DIR}espree.js`);
+    // exec(`${getBinFile("browserify")} -r espree -o ${TEMP_DIR}espree.js`);
+    exec(`${getBinFile("parcel")} build node_modules/espree -d ${BUILD_DIR}`);
 
     // 7. Concatenate Babel polyfill, Espree, and ESLint files together
     cat("./node_modules/babel-polyfill/dist/polyfill.js", `${TEMP_DIR}espree.js`, `${BUILD_DIR}eslint.js`).to(`${BUILD_DIR}eslint.js`);

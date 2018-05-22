@@ -76,6 +76,7 @@
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
     "babel-preset-es2015": "^6.24.1",
     "babelify": "^8.0.0",
     "beefy": "^2.1.8",
@@ -106,6 +107,7 @@
     "mocha": "^5.0.5",
     "mock-fs": "^4.5.0",
     "npm-license": "^0.3.3",
+    "parcel-bundler": "^1.8.1",
     "phantomjs-prebuilt": "^2.1.16",
     "proxyquire": "^2.0.1",
     "shelljs": "^0.8.2",
