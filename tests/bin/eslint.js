@@ -221,11 +221,8 @@ describe("bin/eslint.js", () => {
                 return assertExitCode(child, 0).then(() => {
                     assert.isTrue(fs.existsSync(CACHE_PATH), "Cache file should exist at the given location");
 
-                    assert.doesNotThrow(
-                        () => JSON.parse(fs.readFileSync(CACHE_PATH, "utf8")),
-                        SyntaxError,
-                        "Cache file should contain valid JSON"
-                    );
+                    // Cache file should contain valid JSON
+                    JSON.parse(fs.readFileSync(CACHE_PATH, "utf8"));
                 });
             });
         });
@@ -289,11 +286,9 @@ describe("bin/eslint.js", () => {
 
                 return assertExitCode(child, 0).then(() => {
                     assert.isTrue(fs.existsSync(CACHE_PATH), "Cache file should exist at the given location");
-                    assert.doesNotThrow(
-                        () => JSON.parse(fs.readFileSync(CACHE_PATH, "utf8")),
-                        SyntaxError,
-                        "Cache file should contain valid JSON"
-                    );
+
+                    // Cache file should contain valid JSON
+                    JSON.parse(fs.readFileSync(CACHE_PATH, "utf8"));
                 });
             });
 

@@ -128,9 +128,7 @@ describe("cli", () => {
             const configPath = getFixturePath(".eslintrc");
             const filePath = getFixturePath("passing.js");
 
-            assert.doesNotThrow(() => {
-                cli.execute(`--config ${configPath} ${filePath}`);
-            });
+            cli.execute(`--config ${configPath} ${filePath}`);
         });
     });
 
@@ -141,10 +139,6 @@ describe("cli", () => {
 
             // Mock CWD
             process.eslintCwd = getFixturePath("configurations", "single-quotes");
-
-            assert.doesNotThrow(() => {
-                cli.execute(code);
-            });
 
             cli.execute(code);
 
@@ -170,11 +164,7 @@ describe("cli", () => {
             const filePath = getFixturePath("formatters");
             const code = `--config ${configPath} ${filePath}`;
 
-            let exitStatus;
-
-            assert.doesNotThrow(() => {
-                exitStatus = cli.execute(code);
-            });
+            const exitStatus = cli.execute(code);
 
             assert.strictEqual(exitStatus, 0);
         });

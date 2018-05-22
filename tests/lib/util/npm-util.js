@@ -65,9 +65,8 @@ describe("npmUtil", () => {
                 "package.json": JSON.stringify({ private: true, dependencies: {} })
             });
 
-            const fn = npmUtil.checkDevDeps.bind(null, ["some-package"]);
-
-            assert.doesNotThrow(fn);
+            // Should not throw.
+            npmUtil.checkDevDeps(["some-package"]);
         });
 
         it("should throw with message when parsing invalid package.json", () => {
@@ -128,9 +127,8 @@ describe("npmUtil", () => {
                 "package.json": JSON.stringify({ private: true, devDependencies: {} })
             });
 
-            const fn = npmUtil.checkDeps.bind(null, ["some-package"]);
-
-            assert.doesNotThrow(fn);
+            // Should not throw.
+            npmUtil.checkDeps(["some-package"]);
         });
 
         it("should throw with message when parsing invalid package.json", () => {
