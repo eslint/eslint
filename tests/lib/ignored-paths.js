@@ -302,9 +302,7 @@ describe("IgnoredPaths", () => {
         it("should not throw if given a relative filename", () => {
             const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePattern: "undef.js", cwd: getFixturePath() });
 
-            assert.doesNotThrow(() => {
-                ignoredPaths.contains("undef.js");
-            });
+            ignoredPaths.contains("undef.js");
         });
 
         it("should return true for files which match an ignorePattern even if they do not exist on the filesystem", () => {

@@ -1046,9 +1046,7 @@ describe("Config", () => {
                     useEslintrc: false
                 }, linter);
 
-                assert.doesNotThrow(() => {
-                    config.getConfig(filePath);
-                }, "No ESLint configuration found");
+                config.getConfig(filePath);
             });
 
             it("should not throw an error if no local config and no personal config was found but rules are specified", () => {
@@ -1067,9 +1065,7 @@ describe("Config", () => {
                     rules: { quotes: [2, "single"] }
                 }, linter);
 
-                assert.doesNotThrow(() => {
-                    config.getConfig(filePath);
-                }, "No ESLint configuration found");
+                config.getConfig(filePath);
             });
 
             it("should not throw an error if no local config and no personal config was found but baseConfig is specified", () => {
@@ -1088,9 +1084,7 @@ describe("Config", () => {
                     baseConfig: {}
                 }, linter);
 
-                assert.doesNotThrow(() => {
-                    config.getConfig(filePath);
-                }, "No ESLint configuration found");
+                config.getConfig(filePath);
             });
         });
 

@@ -3494,9 +3494,7 @@ describe("Linter", () => {
             const config = {};
 
             Object.freeze(config);
-            assert.doesNotThrow(() => {
-                linter.verify("var foo", config);
-            });
+            linter.verify("var", config);
         });
 
         it("should pass 'id' to rule contexts with the rule id", () => {
@@ -4357,9 +4355,7 @@ describe("Linter", () => {
                 })
             });
 
-            assert.doesNotThrow(() => {
-                linter.verify("0", { rules: { "test-rule": "error" } });
-            });
+            linter.verify("0", { rules: { "test-rule": "error" } });
         });
     });
 
