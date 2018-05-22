@@ -825,7 +825,7 @@ target.browserify = function() {
     exec(`${getBinFile("parcel")} build ${NODE_MODULES}espree/espree.js -d ${TEMP_DIR}`);
 
     // 7. Concatenate Espree, and ESLint files together
-    cat(`${TEMP_DIR}espree.js`, `${BUILD_DIR}eslint.js`).to(`${BUILD_DIR}eslint.js`);
+    cat(`${TEMP_DIR}espree.js`, `${BUILD_DIR}linter.js`).to(`${BUILD_DIR}eslint.js`);
 
     // 8. remove temp directory
     rm("-r", TEMP_DIR);
