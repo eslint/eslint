@@ -56,7 +56,15 @@ process.once("uncaughtException", err => {
 });
 
 if (useStdIn) {
-    process.exitCode = cli.execute(process.argv, fs.readFileSync(process.stdin.fd, "utf8"));
+
+    /*
+     * Note: `process.stdin.fd` is not used here due to https://github.com/nodejs/node/issues/7439.
+     * Accessing the `process.stdin` property seems to modify the behavior of file descriptor 0, resulting
+     * in an error when stdin is piped in asynchronously.
+     */
+    const STDIN_FILE_DESCRIPTOR = 0;
+
+    process.exitCode = cli.execute(process.argv, fs.readFileSync(STDIN_FILE_DESCRIPTOR, "utf8"));
 } else if (init) {
     const configInit = require("../lib/config/config-initializer");
 

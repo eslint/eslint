@@ -152,6 +152,17 @@ describe("bin/eslint.js", () => {
             }
         );
 
+        it("successfully reads from an asynchronous pipe", () => {
+            const child = runESLint(["--stdin", "--no-eslintrc"]);
+
+            child.stdin.write("var foo = bar;\n");
+            return new Promise(resolve => setTimeout(resolve, 300)).then(() => {
+                child.stdin.write("var baz = qux;\n");
+                child.stdin.end();
+
+                return assertExitCode(child, 0);
+            });
+        });
     });
 
     describe("running on files", () => {
