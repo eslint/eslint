@@ -1701,6 +1701,17 @@ ruleTester.run("one-var", rule, {
                 line: 1,
                 column: 41
             }]
+        },
+        {
+            code: "var a\nvar b",
+            output: "var a,\n b",
+            options: ["always"],
+            errors: [{
+                message: "Combine this with the previous 'var' statement.",
+                type: "VariableDeclaration",
+                line: 2,
+                column: 1
+            }]
         }
     ]
 });
