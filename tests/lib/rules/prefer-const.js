@@ -56,6 +56,31 @@ ruleTester.run("prefer-const", rule, {
         "let a; function foo() { if (a) {} a = bar(); }",
         "let a; function foo() { a = a || bar(); baz(a); }",
         "let a; function foo() { bar(++a); }",
+        {
+            code: "let foo; ({ x: bar.baz, y: foo } = qux);",
+            options: [{ destructuring: "all" }]
+        },
+        {
+            code: "let foo; ({ x: bar.baz, y: foo, z: bar.bro.q } = qux);",
+            options: [{ destructuring: "all" }]
+        },
+        {
+            code: "let foo; [foo, [bar.baz]] = qux;",
+            options: [{ destructuring: "all" }]
+        },
+        {
+            code: "let foo, bar; [foo, [bar, baz.qux]] = qux;",
+            output: null,
+            options: [{ destructuring: "all" }]
+        },
+        {
+            code: "let predicate; [typeNode.returnType, predicate] = foo();",
+            options: [{ destructuring: "all" }]
+        },
+        {
+            code: "let predicate; let rest; [typeNode.returnType, predicate, ...rest] = foo();",
+            options: [{ destructuring: "all" }]
+        },
         [
             "let id;",
             "function foo() {",
@@ -108,6 +133,11 @@ ruleTester.run("prefer-const", rule, {
         }
     ],
     invalid: [
+        {
+            code: "let foo; [foo, []] = qux;",
+            output: null,
+            errors: [{ message: "'foo' is never reassigned. Use 'const' instead.", type: "Identifier" }]
+        },
         {
             code: "let x = 1; foo(x);",
             output: "const x = 1; foo(x);",
@@ -271,6 +301,14 @@ ruleTester.run("prefer-const", rule, {
             ]
         },
         {
+            code: "let [ foo, bar ] = baz();",
+            output: "const [ foo, bar ] = baz();",
+            errors: [
+                { message: "'foo' is never reassigned. Use 'const' instead.", type: "Identifier" },
+                { message: "'bar' is never reassigned. Use 'const' instead.", type: "Identifier" }
+            ]
+        },
+        {
             code: "let {a} = obj",
             output: "const {a} = obj",
             options: [],
@@ -345,6 +383,36 @@ ruleTester.run("prefer-const", rule, {
                 { message: "'foo' is never reassigned. Use 'const' instead.", type: "Identifier" },
                 { message: "'bar' is never reassigned. Use 'const' instead.", type: "Identifier" }
             ]
+        },
+        {
+            code: "let predicate; [predicate, typeNode.returnType] = foo();",
+            output: null,
+            errors: [{ message: "'predicate' is never reassigned. Use 'const' instead.", type: "Identifier" }]
+        },
+        {
+            code: "let predicate; [typeNode.returnType, predicate] = foo();",
+            output: null,
+            errors: [{ message: "'predicate' is never reassigned. Use 'const' instead.", type: "Identifier" }]
+        },
+        {
+            code: "let predicate; let rest; [typeNode.returnType, predicate, ...rest] = foo();",
+            output: null,
+            errors: [
+                { message: "'predicate' is never reassigned. Use 'const' instead.", type: "Identifier" },
+                { message: "'rest' is never reassigned. Use 'const' instead.", type: "Identifier" }
+            ]
+        },
+        {
+            code: "let foo; [foo, [bar.baz]] = qux;",
+            output: null,
+            options: [{ destructuring: "any" }],
+            errors: [{ message: "'foo' is never reassigned. Use 'const' instead.", type: "Identifier" }]
+        },
+        {
+            code: "let foo; ({ x: bar.baz, y: foo } = qux);",
+            output: null,
+            options: [{ destructuring: "any" }],
+            errors: [{ message: "'foo' is never reassigned. Use 'const' instead.", type: "Identifier" }]
         }
     ]
 });
