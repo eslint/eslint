@@ -42,7 +42,7 @@
     "doctrine": "^2.1.0",
     "eslint-scope": "^4.0.0-alpha.0",
     "eslint-visitor-keys": "^1.0.0",
-    "espree": "^4.0.0-alpha.0",
+    "espree": "^4.0.0-alpha.1",
     "esquery": "^1.0.1",
     "esutils": "^2.0.2",
     "file-entry-cache": "^2.0.0",
