@@ -636,7 +636,12 @@ describe("ConfigFile", () => {
 
         it("should throw error when loading invalid package.json file", () => {
             assert.throws(() => {
-                ConfigFile.load(getFixturePath("broken-package-json/package.json"), configContext);
+                try {
+                    ConfigFile.load(getFixturePath("broken-package-json/package.json"), configContext);
+                } catch (error) {
+                    assert.strictEqual(error.messageTemplate, "failed-to-read-json");
+                    throw error;
+                }
             }, /Cannot read config file/);
         });
 
