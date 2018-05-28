@@ -14,7 +14,8 @@ const parserOptions = {
     ecmaVersion: 2018,
     ecmaFeatures: {
         experimentalObjectRestSpread: true
-    }
+    },
+    sourceType: "module"
 };
 
 const ruleTester = new RuleTester({ parserOptions });
@@ -44,6 +45,22 @@ ruleTester.run("prefer-object-spread", rule, {
         `,
         `
         Object = {};
+        Object.assign({ foo: 'bar' });
+        `,
+        `
+        const Object = require('foo');
+        Object.assign({ foo: 'bar' });
+        `,
+        `
+        import Object from 'foo';
+        Object.assign({ foo: 'bar' });
+        `,
+        `
+        import { Something as Object } from 'foo';
+        Object.assign({ foo: 'bar' });
+        `,
+        `
+        import { Object, Array } from 'globals';
         Object.assign({ foo: 'bar' });
         `
     ],
@@ -291,6 +308,9 @@ ruleTester.run("prefer-object-spread", rule, {
                 baz: "cats"
                 --> weird
 }`,
+            parserOptions: {
+                sourceType: "script"
+            },
             errors: [
                 {
                     messageId: "useSpreadMessage",
@@ -570,6 +590,114 @@ ruleTester.run("prefer-object-spread", rule, {
                     type: "CallExpression",
                     line: 1,
                     column: 30
+                }
+            ]
+        },
+        {
+            code: `
+                import Foo from 'foo';
+                Object.assign({ foo: Foo });
+            `,
+            output: `
+                import Foo from 'foo';
+                ({ foo: Foo });
+            `,
+            errors: [
+                {
+                    messageId: "useLiteralMessage",
+                    type: "CallExpression",
+                    line: 3,
+                    column: 17
+                }
+            ]
+        },
+        {
+            code: `
+                import Foo from 'foo';
+                Object.assign({}, Foo);
+            `,
+            output: `
+                import Foo from 'foo';
+                ({...Foo});
+            `,
+            errors: [
+                {
+                    messageId: "useSpreadMessage",
+                    type: "CallExpression",
+                    line: 3,
+                    column: 17
+                }
+            ]
+        },
+        {
+            code: `
+                const Foo = require('foo');
+                Object.assign({ foo: Foo });
+            `,
+            output: `
+                const Foo = require('foo');
+                ({ foo: Foo });
+            `,
+            errors: [
+                {
+                    messageId: "useLiteralMessage",
+                    type: "CallExpression",
+                    line: 3,
+                    column: 17
+                }
+            ]
+        },
+        {
+            code: `
+                import { Something as somethingelse } from 'foo';
+                Object.assign({}, somethingelse);
+            `,
+            output: `
+                import { Something as somethingelse } from 'foo';
+                ({...somethingelse});
+            `,
+            errors: [
+                {
+                    messageId: "useSpreadMessage",
+                    type: "CallExpression",
+                    line: 3,
+                    column: 17
+                }
+            ]
+        },
+        {
+            code: `
+                import { foo } from 'foo';
+                Object.assign({ foo: Foo });
+            `,
+            output: `
+                import { foo } from 'foo';
+                ({ foo: Foo });
+            `,
+            errors: [
+                {
+                    messageId: "useLiteralMessage",
+                    type: "CallExpression",
+                    line: 3,
+                    column: 17
+                }
+            ]
+        },
+        {
+            code: `
+                const Foo = require('foo');
+                Object.assign({}, Foo);
+            `,
+            output: `
+                const Foo = require('foo');
+                ({...Foo});
+            `,
+            errors: [
+                {
+                    messageId: "useSpreadMessage",
+                    type: "CallExpression",
+                    line: 3,
+                    column: 17
                 }
             ]
         }
