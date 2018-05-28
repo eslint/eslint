@@ -362,6 +362,40 @@ describe("Validator", () => {
 
                 assert.throws(fn, "ESLint configuration in tests is invalid:\n\t- Unexpected top-level property \"overrides[0].root\".\n");
             });
+
+            describe("env", () => {
+
+                it("should catch invalid environments", () => {
+                    const fn = validator.validate.bind(null, { overrides: [{ files: "*", env: { browser: true, invalid: true } }] }, null, ruleMapper, linter.environments);
+
+                    assert.throws(fn, "Environment key \"invalid\" is unknown\n");
+                });
+
+                it("should catch disabled invalid environments", () => {
+                    const fn = validator.validate.bind(null, { overrides: [{ files: "*", env: { browser: true, invalid: false } }] }, null, ruleMapper, linter.environments);
+
+                    assert.throws(fn, "Environment key \"invalid\" is unknown\n");
+                });
+
+            });
+
+            describe("rules", () => {
+
+                it("should catch invalid rule options", () => {
+                    const fn = validator.validate.bind(null, { overrides: [{ files: "*", rules: { "mock-rule": [3, "third"] } }] }, "tests", ruleMapper, linter.environments);
+
+                    assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-rule\" is invalid:\n\tSeverity should be one of the following: 0 = off, 1 = warn, 2 = error (you passed '3').\n");
+                });
+
+                it("should not allow options for rules with no options", () => {
+                    linter.defineRule("mock-no-options-rule", mockNoOptionsRule);
+
+                    const fn = validator.validate.bind(null, { overrides: [{ files: "*", rules: { "mock-no-options-rule": [2, "extra"] } }] }, "tests", ruleMapper, linter.environments);
+
+                    assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-no-options-rule\" is invalid:\n\tValue [\"extra\"] should NOT have more than 0 items.\n");
+                });
+            });
+
         });
 
     });
