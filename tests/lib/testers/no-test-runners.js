@@ -6,8 +6,8 @@
 
 /* global describe, it */
 /* eslint-disable no-global-assign*/
-const assert = require("assert"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+const assert = require("assert");
+const RuleTester = require("../../../lib/testers/rule-tester");
 const tmpIt = it;
 const tmpDescribe = describe;
 
@@ -26,7 +26,7 @@ try {
                 { code: "var foo = bar;", output: "invalid output", errors: 1 }
             ]
         });
-    }, /Output is incorrect\. \(' foo = bar;' === 'invalid output'\)$/);
+    }, new assert.AssertionError({ actual: " foo = bar;", expected: "invalid output", operator: "===" }).message);
 } finally {
     it = tmpIt;
     describe = tmpDescribe;
