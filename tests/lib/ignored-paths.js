@@ -169,6 +169,18 @@ describe("IgnoredPaths", () => {
             assert.isTrue(ignoredPaths.contains("world.js"));
         });
 
+        it("should use correct message template if failed to parse package.json", () => {
+            assert.throw(() => {
+                try {
+                    // eslint-disable-next-line no-new
+                    new IgnoredPaths({ ignore: true, cwd: getFixturePath("broken-package-json") });
+                } catch (error) {
+                    assert.strictEqual(error.messageTemplate, "failed-to-read-json");
+                    throw error;
+                }
+            });
+        });
+
         it("should not use package.json's eslintIgnore files if specified .eslintignore file", () => {
             const ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath() });
 
