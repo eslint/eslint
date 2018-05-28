@@ -1,3 +1,24 @@
+v5.0.0-alpha.4 - May 28, 2018
+
+* ce3e62a Docs: remove test coverage badge (#10407) (薛定谔的猫)
+* 240c1a4 Fix: prefer-const object destructuring false positive (fixes #9108) (#10368) (Pig Fang)
+* 93c9a52 Update: config-validator should validate overrides (#10357) (Toru Nagashima)
+* c2e0398 Update: Improves the prefer-object-spread rule by removing extraneous visitors (#10351) (Sharmila Jesupaul)
+* d848949 Update: Support JSXFragment node (fixes #9662) (#9664) (Clement Hoang)
+* f268128 Build: add Node v10 to travis (#10262) (alberto)
+* 9c922ce Update: Add "consistent" option to array-element-newline (fixes #9457) (#10355) (Pig Fang)
+* 65bce3a Fix: ensure --stdin flag works when stdin is piped asynchronously (#10393) (Teddy Katz)
+* b9b23a9 Chore: rm unused argument (#10400) (薛定谔的猫)
+* 8b7a70c Fix: handle one-var with no semicolon (fixes #10330) (#10371) (Malcolm Groves)
+* 465e615 New: prompt users before installing dependencies (#10353) (Pig Fang)
+* e25fc22 Chore: remove assert.doesNotThrow in tests (#10199) (Ruben Bridgewater)
+* fb148aa Fix: allow no tokens after `return` keyword (fixes #10372) (#10379) (Pig Fang)
+* 074bc1c Docs: polish for max-classes-per-file rule (#10377) (Pig Fang)
+* a812845 Fix: allow array spread for prefer-object-spread rule (fixes #10344) (#10347) (Pig Fang)
+* 448fc52 Docs: Update link to Integrations / Build tools / Start (#10354) (Kir Belevich)
+* 4e5e9be Chore: avoid unnecessary filesystem accesses during config search (#10359) (Teddy Katz)
+* 363da01 Chore: avoid code duplication in rule severity checking (#10358) (Teddy Katz)
+
 v5.0.0-alpha.3 - May 11, 2018
 
 * 1a6b399 New: Adds prefer-object-spread rule (refs: #7230) (#9955) (Sharmila Jesupaul)
