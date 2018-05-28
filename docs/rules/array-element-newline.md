@@ -12,6 +12,7 @@ This rule has either a string option:
 
 * `"always"` (default) requires line breaks between array elements
 * `"never"` disallows line breaks between array elements
+* `"consistent"` requires consistent usage of linebreaks between array elements
 
 Or an object option (Requires line breaks if any of properties is satisfied. Otherwise, disallows line breaks):
 
@@ -97,6 +98,69 @@ var e = [
     function foo() {
         dosomething();
     }, function bar() {
+        dosomething();
+    }
+];
+```
+
+### consistent
+
+Examples of **incorrect** code for this rule with the `"consistent"` option:
+
+```js
+/*eslint array-element-newline: ["error", "consistent"]*/
+
+var a = [
+    1, 2,
+    3
+];
+var b = [
+    function foo() {
+        dosomething();
+    }, function bar() {
+        dosomething();
+    },
+    function baz() {
+        dosomething();
+    }
+];
+```
+
+Examples of **correct** code for this rule with the `"consistent"` option:
+
+```js
+/*eslint array-element-newline: ["error", "consistent"]*/
+
+var a = [];
+var b = [1];
+var c = [1, 2];
+var d = [1, 2, 3];
+var e = [
+    1,
+    2
+];
+var f = [
+    1,
+    2,
+    3
+];
+var g = [
+    function foo() {
+        dosomething();
+    }, function bar() {
+        dosomething();
+    }, function baz() {
+        dosomething();
+    }
+];
+var h = [
+    function foo() {
+        dosomething();
+    },
+    function bar() {
+        dosomething();
+    },
+    function baz() {
         dosomething();
     }
 ];
