@@ -20,6 +20,8 @@ The lists below are ordered roughly by the number of users each change is expect
 
 1. [The `parent` property of AST nodes is now set before rules start running](#parent-before-rules)
 1. [When using the default parser, text nodes in JSX elements now have type `JSXText`](#jsx-text-nodes)
+1. [When using the default parser, spread operators now have type `SpreadElement`](#spread-operators)
+1. [When using the default parser, rest operators now have type `RestElement`](#rest-operators)
 1. [The `context.getScope()` method now returns more proper scopes](#context-get-scope)
 1. [The `_linter` property on rule context objects has been removed](#no-context-linter)
 1. [`RuleTester` now uses strict equality checks in its assertions](#rule-tester-equality)
@@ -193,6 +195,22 @@ In ESLint v5, the `parent` property is set on all AST nodes before any rules hav
 When parsing JSX code like `<a>foo</a>`, the default parser will now give the `foo` AST node the `JSXText` type, rather than the `Literal` type. This makes the AST compliant with a recent update to the JSX spec.
 
 **To address:** If you have written a custom rule that relies on text nodes in JSX elements having the `Literal` type, you should update it to also work with nodes that have the `JSXText` type.
+
+## <a name="spread-operators"></a> When using the default parser, spread operators now have type `SpreadElement`
+
+Previously, when parsing JS code like `const foo = {...data}` with the `experimentalObjectRestSpread` option enabled the default parser would set the `...data` AST node the `ExperimentalSpreadProperty` type.
+
+In ESLint v5, the default parser will now always give the `...data` AST node the `SpreadElement` type, even if the [now deprecated]](#experimental-object-rest-spread) `experimentalObjectRestSpread` option was enabled. This makes the AST compliant with the current ESTree spec.
+
+**To address:** If you have written a custom rule that relies on spread operators having the `ExperimentalSpreadProperty` type, you should update it to also work with spread operators that have the `SpreadElement` type.
+
+## <a name="rest-operators"></a> When using the default parser, rest operators now have type `RestElement`
+
+Previously, when parsing JS code like `const {foo, ...rest} = data` with the `experimentalObjectRestSpread` option enabled the default parser would set the `...data` AST node the `ExperimentalRestProperty` type.
+
+In ESLint v5, the default parser will now always give the `...data` AST node the `RestElement` type, even if the [now deprecated]](#experimental-object-rest-spread) `experimentalObjectRestSpread` option was enabled. This makes the AST compliant with the current ESTree spec.
+
+**To address:** If you have written a custom rule that relies on rest operators having the `ExperimentalRestProperty` type, you should update it to also work with rest operators that have the `RestElement` type.
 
 ## <a name="context-get-scope"></a> The `context.getScope()` method now returns more proper scopes
 
