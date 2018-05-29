@@ -21,7 +21,7 @@ ruleTester.run("no-restricted-syntax", rule, {
     valid: [
 
         // string format
-        { code: "doSomething();" },
+        "doSomething();",
         { code: "var foo = 42;", options: ["ConditionalExpression"] },
         { code: "foo += 42;", options: ["VariableDeclaration", "FunctionExpression"] },
         { code: "foo;", options: ["Identifier[name=\"bar\"]"] },
@@ -76,8 +76,8 @@ ruleTester.run("no-restricted-syntax", rule, {
         },
         {
             code: "() => {}",
-            parserOptions: { ecmaVersion: 6 },
             options: ["ArrowFunctionExpression > BlockStatement"],
+            parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Using 'ArrowFunctionExpression > BlockStatement' is not allowed.", type: "BlockStatement" }]
         },
         {

@@ -34,6 +34,6 @@ describe("eslint-all", () => {
         const ruleNames = Object.keys(rules);
         const nonErrorRules = ruleNames.filter(ruleName => rules[ruleName] !== "error");
 
-        assert.equal(nonErrorRules.length, 0);
+        assert.strictEqual(nonErrorRules.length, 0);
     });
 });

@@ -22,8 +22,8 @@ ruleTester.run("computed-property-spacing", rule, {
     valid: [
 
         // default - never
-        { code: "obj[foo]" },
-        { code: "obj['foo']" },
+        "obj[foo]",
+        "obj['foo']",
         { code: "var x = {[b]: a}", parserOptions: { ecmaVersion: 6 } },
 
         // always
@@ -35,7 +35,6 @@ ruleTester.run("computed-property-spacing", rule, {
         { code: "obj.map(function(item) { return [\n1,\n2,\n3,\n4\n]; })", options: ["always"] },
         { code: "obj[ 'map' ](function(item) { return [\n1,\n2,\n3,\n4\n]; })", options: ["always"] },
         { code: "obj[ 'for' + 'Each' ](function(item) { return [\n1,\n2,\n3,\n4\n]; })", options: ["always"] },
-        { code: "obj[ obj2[ foo ] ]", options: ["always"] },
         { code: "var foo = obj[ 1 ]", options: ["always"] },
         { code: "var foo = obj[ 'foo' ];", options: ["always"] },
         { code: "var foo = obj[ [1, 1] ];", options: ["always"] },
@@ -58,7 +57,6 @@ ruleTester.run("computed-property-spacing", rule, {
         { code: "obj[obj2[foo]]", options: ["never"] },
         { code: "obj.map(function(item) { return [\n1,\n2,\n3,\n4\n]; })", options: ["never"] },
         { code: "obj['map'](function(item) { return [\n1,\n2,\n3,\n4\n]; })", options: ["never"] },
-        { code: "obj['for' + 'Each'](function(item) { return [\n1,\n2,\n3,\n4\n]; })", options: ["never"] },
         { code: "obj['for' + 'Each'](function(item) { return [\n1,\n2,\n3,\n4\n]; })", options: ["never"] },
         { code: "obj[\nfoo]", options: ["never"] },
         { code: "obj[foo\n]", options: ["never"] },
@@ -125,32 +123,6 @@ ruleTester.run("computed-property-spacing", rule, {
                 {
                     message: "There should be no space before ']'.",
                     type: "MemberExpression"
-                }
-            ]
-        },
-        {
-            code: "var foo = obj[ 1];",
-            output: "var foo = obj[ 1 ];",
-            options: ["always"],
-            errors: [
-                {
-                    message: "A space is required before ']'.",
-                    type: "MemberExpression",
-                    column: 17,
-                    line: 1
-                }
-            ]
-        },
-        {
-            code: "var foo = obj[1 ];",
-            output: "var foo = obj[ 1 ];",
-            options: ["always"],
-            errors: [
-                {
-                    message: "A space is required after '['.",
-                    type: "MemberExpression",
-                    column: 14,
-                    line: 1
                 }
             ]
         },

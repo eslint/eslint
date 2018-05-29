@@ -37,6 +37,17 @@ ruleTester.run("multiline-ternary", rule, {
         { code: "a\n? b\n? c\n: d\n: e", options: ["always"] },
         { code: "a\n? (b\n? c\n: d)\n: e", options: ["always"] },
 
+        // "always-multiline"
+        { code: "a\n? b\n: c", options: ["always-multiline"] },
+        { code: "a ?\nb :\nc", options: ["always-multiline"] },
+        { code: "a\n? b\n? c\n: d\n: e", options: ["always-multiline"] },
+        { code: "a\n? (b\n? c\n: d)\n: e", options: ["always-multiline"] },
+        { code: "a ? b : c", options: ["always-multiline"] },
+        { code: "a ? b ? c : d : e", options: ["always-multiline"] },
+        { code: "a ? (b ? c : d) : e", options: ["always-multiline"] },
+        { code: "a\n? (b ? c : d)\n: e", options: ["always-multiline"] },
+        { code: "a ?\n(b ? c : d) :\ne", options: ["always-multiline"] },
+
         // "never"
         { code: "a ? b : c", options: ["never"] },
         { code: "a ? b ? c : d : e", options: ["never"] },
@@ -275,6 +286,137 @@ ruleTester.run("multiline-ternary", rule, {
         {
             code: "a ?\n(b\n? c\n : d) : e",
             options: ["always"],
+            errors: [{
+                message: expectedConsAltMsg,
+                line: 2,
+                column: 2
+            }]
+        },
+
+        // "always-multiline"
+        {
+            code: "a\n? b : c",
+            options: ["always-multiline"],
+            errors: [{
+                message: expectedConsAltMsg,
+                line: 2,
+                column: 3
+            }]
+        },
+        {
+            code: "a ? b\n: c",
+            options: ["always-multiline"],
+            errors: [{
+                message: expectedTestConsMsg,
+                line: 1,
+                column: 1
+            }]
+        },
+        {
+            code: "a &&\nb ? c : d",
+            options: ["always-multiline"],
+            errors: [{
+                message: expectedTestConsMsg,
+                line: 1,
+                column: 1
+            },
+            {
+                message: expectedConsAltMsg,
+                line: 2,
+                column: 5
+            }]
+        },
+        {
+            code: "a ? b +\nc : d",
+            options: ["always-multiline"],
+            errors: [{
+                message: expectedTestConsMsg,
+                line: 1,
+                column: 1
+            },
+            {
+                message: expectedConsAltMsg,
+                line: 1,
+                column: 5
+            }]
+        },
+        {
+            code: "a ? b : c +\nd",
+            options: ["always-multiline"],
+            errors: [{
+                message: expectedTestConsMsg,
+                line: 1,
+                column: 1
+            },
+            {
+                message: expectedConsAltMsg,
+                line: 1,
+                column: 5
+            }]
+        },
+        {
+            code: "a ?\n(b ? c : d) : e",
+            options: ["always-multiline"],
+            errors: [{
+                message: expectedConsAltMsg,
+                line: 2,
+                column: 2
+            }]
+        },
+        {
+            code: "a ? (b ? c : d) :\ne",
+            options: ["always-multiline"],
+            errors: [{
+                message: expectedTestConsMsg,
+                line: 1,
+                column: 1
+            }]
+        },
+        {
+            code: "a ? (b\n? c\n: d) : e",
+            options: ["always-multiline"],
+            errors: [{
+                message: expectedTestConsMsg,
+                line: 1,
+                column: 1
+            },
+            {
+                message: expectedConsAltMsg,
+                line: 1,
+                column: 6
+            }]
+        },
+        {
+            code: "a ?\n(b ? c\n: d) : e",
+            options: ["always-multiline"],
+            errors: [{
+                message: expectedConsAltMsg,
+                line: 2,
+                column: 2
+            },
+            {
+                message: expectedTestConsMsg,
+                line: 2,
+                column: 2
+            }]
+        },
+        {
+            code: "a ?\n(b\n? c : d) : e",
+            options: ["always-multiline"],
+            errors: [{
+                message: expectedConsAltMsg,
+                line: 2,
+                column: 2
+            },
+            {
+                message: expectedConsAltMsg,
+                line: 3,
+                column: 3
+            }]
+        },
+        {
+            code: "a ?\n(b\n? c\n : d) : e",
+            options: ["always-multiline"],
             errors: [{
                 message: expectedConsAltMsg,
                 line: 2,

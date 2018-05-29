@@ -17,7 +17,7 @@
     "type": "git",
     "url": "https://github.com/eslint/eslint"
   },
-  "homepage": "http://eslint.org",
+  "homepage": "https://eslint.org",
   "bugs": "https://github.com/eslint/eslint/issues/",
   "dependencies": {
     "js-yaml": "^3.5.1"

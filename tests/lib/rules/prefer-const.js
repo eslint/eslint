@@ -56,24 +56,24 @@ ruleTester.run("prefer-const", rule, {
         "let a; function foo() { if (a) {} a = bar(); }",
         "let a; function foo() { a = a || bar(); baz(a); }",
         "let a; function foo() { bar(++a); }",
-        {
-            code: [
-                "let id;",
-                "function foo() {",
-                "    if (typeof id !== 'undefined') {",
-                "        return;",
-                "    }",
-                "    id = setInterval(() => {}, 250);",
-                "}",
-                "foo();"
-            ].join("\n")
-        },
+        [
+            "let id;",
+            "function foo() {",
+            "    if (typeof id !== 'undefined') {",
+            "        return;",
+            "    }",
+            "    id = setInterval(() => {}, 250);",
+            "}",
+            "foo();"
+        ].join("\n"),
         "/*exported a*/ let a; function init() { a = foo(); }",
         "/*exported a*/ let a = 1",
         "let a; if (true) a = 0; foo(a);",
 
-        // The assignment is located in a different scope.
-        // Those are warned by prefer-smaller-scope.
+        /*
+         * The assignment is located in a different scope.
+         * Those are warned by prefer-smaller-scope.
+         */
         "let x; { x = 0; foo(x); }",
         "(function() { let x; { x = 0; foo(x); } })();",
         "let x; for (const a of [1,2,3]) { x = foo(); bar(x); }",
@@ -315,8 +315,8 @@ ruleTester.run("prefer-const", rule, {
             code: "let { name, ...otherStuff } = obj; otherStuff = {};",
             output: null,
             options: [{ destructuring: "any" }],
-            parser: fixtureParser("babel-eslint5/destructuring-object-spread"),
-            errors: [{ message: "'name' is never reassigned. Use 'const' instead.", type: "Identifier", column: 7 }]
+            errors: [{ message: "'name' is never reassigned. Use 'const' instead.", type: "Identifier", column: 7 }],
+            parser: fixtureParser("babel-eslint5/destructuring-object-spread")
         },
 
         // Warnings are located at declaration if there are reading references before assignments.

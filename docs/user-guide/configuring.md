@@ -3,7 +3,9 @@
 ESLint is designed to be completely configurable, meaning you can turn off every rule and run only with basic syntax validation, or mix and match the bundled rules and your custom rules to make ESLint perfect for your project. There are two primary ways to configure ESLint:
 
 1. **Configuration Comments** - use JavaScript comments to embed configuration information directly into a file.
-1. **Configuration Files** - use a JavaScript, JSON or YAML file to specify configuration information for an entire directory and all of its subdirectories. This can be in the form of an [.eslintrc.*](#configuration-file-formats) file or an `eslintConfig` field in a [`package.json`](https://docs.npmjs.com/files/package.json) file, both of which ESLint will look for and read automatically, or you can specify a configuration file on the [command line](command-line-interface).
+1. **Configuration Files** - use a JavaScript, JSON or YAML file to specify configuration information for an entire directory (other than your home directory) and all of its subdirectories. This can be in the form of an [.eslintrc.*](#configuration-file-formats) file or an `eslintConfig` field in a [`package.json`](https://docs.npmjs.com/files/package.json) file, both of which ESLint will look for and read automatically, or you can specify a configuration file on the [command line](command-line-interface).
+
+    If you have a configuration file in your home directory (generally `~/`), ESLint uses it **only** if ESLint cannot find any other configuration file.
 
 There are several pieces of information that can be configured:
 
@@ -18,7 +20,10 @@ All of these options give you fine-grained control over how ESLint treats your c
 ESLint allows you to specify the JavaScript language options you want to support. By default, ESLint expects ECMAScript 5 syntax. You can override that setting to enable support for other ECMAScript versions as well as JSX by using parser options.
 
 Please note that supporting JSX syntax is not the same as supporting React. React applies specific semantics to JSX syntax that ESLint doesn't recognize. We recommend using [eslint-plugin-react](https://github.com/yannickcr/eslint-plugin-react) if you are using React and want React semantics.
-
+By the same token, supporting ES6 syntax is not the same as supporting new ES6 globals (e.g., new types such as
+`Set`).
+For ES6 syntax, use `{ "parserOptions": { "ecmaVersion": 6 } }`; for new ES6 global variables, use `{ "env":
+{ "es6": true } }` (this setting enables ES6 syntax automatically).
 Parser options are set in your `.eslintrc.*` file by using the `parserOptions` property. The available options are:
 
 * `ecmaVersion` - set to 3, 5 (default), 6, 7, or 8 to specify the version of ECMAScript syntax you want to use. You can also set to 2015 (same as 6), 2016 (same as 7), or 2017 (same as 8) to use the year-based naming.
@@ -26,8 +31,8 @@ Parser options are set in your `.eslintrc.*` file by using the `parserOptions` p
 * `ecmaFeatures` - an object indicating which additional language features you'd like to use:
     * `globalReturn` - allow `return` statements in the global scope
     * `impliedStrict` - enable global [strict mode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode) (if `ecmaVersion` is 5 or greater)
-    * `jsx` - enable [JSX](http://facebook.github.io/jsx/)
-    * `experimentalObjectRestSpread` - enable support for the experimental [object rest/spread properties](https://github.com/sebmarkbage/ecmascript-rest-spread) (**IMPORTANT:** This is an experimental feature that may change significantly in the future. It's recommended that you do *not* write rules relying on this functionality unless you are willing to incur maintenance cost when it changes.)
+    * `jsx` - enable [JSX](https://facebook.github.io/jsx/)
+    * `experimentalObjectRestSpread` - enable support for the experimental [object rest/spread properties](https://github.com/tc39/proposal-object-rest-spread) (**IMPORTANT:** This is an experimental feature that may change significantly in the future. It's recommended that you do *not* write rules relying on this functionality unless you are willing to incur maintenance cost when it changes.)
 
 Here's an example `.eslintrc.json` file:
 
@@ -71,8 +76,9 @@ To indicate the npm module to use as your parser, specify it using the `parser` 
 
 The following parsers are compatible with ESLint:
 
-* [Esprima](https://npmjs.com/package/esprima)
-* [Babel-ESLint](https://npmjs.com/package/babel-eslint) - A wrapper around the [Babel](http://babeljs.io) parser that makes it compatible with ESLint.
+* [Esprima](https://www.npmjs.com/package/esprima)
+* [Babel-ESLint](https://www.npmjs.com/package/babel-eslint) - A wrapper around the [Babel](https://babeljs.io) parser that makes it compatible with ESLint.
+* [typescript-eslint-parser(Experimental)](https://www.npmjs.com/package/typescript-eslint-parser) - A parser that converts TypeScript into an ESTree-compatible form so it can be used in ESLint. The goal is to allow TypeScript files to be parsed by ESLint (though not necessarily pass all ESLint rules).
 
 Note when using a custom parser, the `parserOptions` configuration property is still required for ESLint to work properly with features not in ECMAScript 5 by default. Parsers are all passed `parserOptions` and may or may not use them to determine which features to enable.
 
@@ -83,7 +89,7 @@ An environment defines global variables that are predefined. The available envir
 * `browser` - browser global variables.
 * `node` - Node.js global variables and Node.js scoping.
 * `commonjs` - CommonJS global variables and CommonJS scoping (use this for browser-only code that uses Browserify/WebPack).
-* `shared-node-browser` - Globals common to both Node and Browser.
+* `shared-node-browser` - Globals common to both Node.js and Browser.
 * `es6` - enable all ECMAScript 6 features except for modules (this automatically sets the `ecmaVersion` parser option to 6).
 * `worker` - web workers global variables.
 * `amd` - defines `require()` and `define()` as global variables as per the [amd](https://github.com/amdjs/amdjs-api/wiki/AMD) spec.
@@ -253,7 +259,7 @@ And in YAML:
     - eslint-plugin-plugin2
 ```
 
-**Note:** A globally-installed instance of ESLint can only use globally-installed ESLint plugins. A locally-installed ESLint can make use of both locally- and globally- installed ESLint plugins.
+**Note:** Due to the behavior of Node's `require` function, a globally-installed instance of ESLint can only use globally-installed ESLint plugins, and locally-installed version can only use *locally-installed* plugins. Mixing local and global plugins is not supported.
 
 ## Configuring Rules
 
@@ -522,7 +528,7 @@ And in YAML:
   root: true
 ```
 
-For example, consider `projectA` which has `"root": true` set in the `.eslintrc` file in the main project directory.  In this case, while linting `main.js`, the configurations within `lib/`will be used, but the `.eslintrc` file in `projectA/` will not.
+For example, consider `projectA` which has `"root": true` set in the `.eslintrc` file in the `lib/` directory.  In this case, while linting `main.js`, the configurations within `lib/` will be used, but the `.eslintrc` file in `projectA/` will not.
 
 ```text
 home
@@ -709,6 +715,61 @@ module.exports = {
 }
 ```
 
+## Configuration Based on Glob Patterns
+
+Sometimes a more fine-controlled configuration is necessary, for example if the configuration for files within the same directory has to be different. Therefore you can provide configurations under the `overrides` key that will only apply to files that match specific glob patterns, using the same format you would pass on the command line (e.g., `app/**/*.test.js`).
+
+### How it works
+
+* Glob pattern overrides can only be configured within config files (`.eslintrc.*` or `package.json`).
+* The patterns are applied against the file path relative to the directory of the config file. For example, if your config file has the path `/Users/john/workspace/any-project/.eslintrc.js` and the file you want to lint has the path `/Users/john/workspace/any-project/lib/util.js`, then the pattern provided in `.eslintrc.js` will be executed against the relative path `lib/util.js`.
+* Glob pattern overrides have higher precedence than the regular configuration in the same config file. Multiple overrides within the same config are applied in order. That is, the last override block in a config file always has the highest precedence.
+* A glob specific configuration works almost the same as any other ESLint config. Override blocks can contain any configuration options that are valid in a regular config, with the exception of `extends`, `overrides`, and `root`.
+* Multiple glob patterns can be provided within a single override block. A file must match at least one of the supplied patterns for the configuration to apply.
+* Override blocks can also specify patterns to exclude from matches. If a file matches any of the excluded patterns, the configuration won't apply.
+
+### Relative glob patterns
+
+```
+project-root
+├── app
+│   ├── lib
+│   │   ├── foo.js
+│   │   ├── fooSpec.js
+│   ├── components
+│   │   ├── bar.js
+│   │   ├── barSpec.js
+│   ├── .eslintrc.json
+├── server
+│   ├── server.js
+│   ├── serverSpec.js
+├── .eslintrc.json
+```
+
+The config in `app/.eslintrc.json` defines the glob pattern `**/*Spec.js`. This pattern is relative to the base directory of `app/.eslintrc.json`. So, this pattern would match `app/lib/fooSpec.js` and `app/components/barSpec.js` but **NOT** `server/serverSpec.js`. If you defined the same pattern in the `.eslintrc.json` file within in the `project-root` folder, it would match all three of the `*Spec` files.
+
+### Example configuration
+
+In your `.eslintrc.json`:
+
+```json
+{
+  "rules": {
+    "quotes": [ 2, "double" ]
+  },
+
+  "overrides": [
+    {
+      "files": [ "bin/*.js", "lib/*.js" ],
+      "excludedFiles": "*.test.js",
+      "rules": {
+        "quotes": [ 2, "single" ]
+      }
+    }
+  ]
+}
+```
+
 ## Comments in Configuration Files
 
 Both the JSON and YAML configuration file formats support comments (`package.json` files should not include them). You can use JavaScript-style comments or YAML-style comments in either type of file and ESLint will safely ignore them. This allows your configuration files to be more human-friendly. For example:
@@ -744,12 +805,12 @@ Globs are matched using [node-ignore](https://github.com/kaelzhang/node-ignore),
 
 * Lines beginning with `#` are treated as comments and do not affect ignore patterns.
 * Paths are relative to `.eslintignore` location or the current working directory. This also influences paths passed via `--ignore-pattern`.
-* Ignore patterns behave according to the `.gitignore` [specification](http://git-scm.com/docs/gitignore)
+* Ignore patterns behave according to the `.gitignore` [specification](https://git-scm.com/docs/gitignore)
 * Lines preceded by `!` are negated patterns that re-include a pattern that was ignored by an earlier pattern.
 
 In addition to any patterns in a `.eslintignore` file, ESLint always ignores files in `/node_modules/*` and `/bower_components/*`.
 
-For example, placing the following `.eslintignore` file in the current working directory will ignore all of `node_modules`, `bower_components`, any files with the extensions `.ts.js` or `.coffee.js` extension that might have been transpiled, and anything in the `build/` directory except `build/index.js`:
+For example, placing the following `.eslintignore` file in the current working directory will ignore all of `node_modules`, `bower_components` and anything in the `build/` directory except `build/index.js`:
 
 ```text
 # /node_modules/* and /bower_components/* ignored by default
@@ -770,6 +831,22 @@ You can also use your `.gitignore` file:
     eslint --ignore-path .gitignore file.js
 
 Any file that follows the standard ignore file format can be used. Keep in mind that specifying `--ignore-path` means that any existing `.eslintignore` file will not be used. Note that globbing rules in `.eslintignore` follow those of `.gitignore`.
+
+### Using eslintIgnore in package.json
+
+If an `.eslintignore` file is not found and an alternate file is not specified, ESLint will look in package.json for an `eslintIgnore` key to check for files to ignore.
+
+    {
+      "name": "mypackage",
+      "version": "0.0.1",
+      "eslintConfig": {
+          "env": {
+              "browser": true,
+              "node": true
+          }
+      },
+      "eslintIgnore": ["hello.js", "world.js"]
+    }
 
 ### Ignored File Warnings
 

@@ -20,52 +20,52 @@ const ruleTester = new RuleTester();
 
 ruleTester.run("func-name-matching", rule, {
     valid: [
-        { code: "var foo;" },
-        { code: "var foo = function foo() {};" },
+        "var foo;",
+        "var foo = function foo() {};",
         { code: "var foo = function foo() {};", options: ["always"] },
         { code: "var foo = function bar() {};", options: ["never"] },
-        { code: "var foo = function() {}" },
+        "var foo = function() {}",
         { code: "var foo = () => {}", parserOptions: { ecmaVersion: 6 } },
-        { code: "foo = function foo() {};" },
+        "foo = function foo() {};",
         { code: "foo = function foo() {};", options: ["always"] },
         { code: "foo = function bar() {};", options: ["never"] },
-        { code: "obj.foo = function foo() {};" },
+        "obj.foo = function foo() {};",
         { code: "obj.foo = function foo() {};", options: ["always"] },
         { code: "obj.foo = function bar() {};", options: ["never"] },
-        { code: "obj.foo = function() {};" },
+        "obj.foo = function() {};",
         { code: "obj.foo = function() {};", options: ["always"] },
         { code: "obj.foo = function() {};", options: ["never"] },
-        { code: "obj.bar.foo = function foo() {};" },
+        "obj.bar.foo = function foo() {};",
         { code: "obj.bar.foo = function foo() {};", options: ["always"] },
         { code: "obj.bar.foo = function baz() {};", options: ["never"] },
-        { code: "obj['foo'] = function foo() {};" },
+        "obj['foo'] = function foo() {};",
         { code: "obj['foo'] = function foo() {};", options: ["always"] },
         { code: "obj['foo'] = function bar() {};", options: ["never"] },
-        { code: "obj['foo//bar'] = function foo() {};" },
+        "obj['foo//bar'] = function foo() {};",
         { code: "obj['foo//bar'] = function foo() {};", options: ["always"] },
         { code: "obj['foo//bar'] = function foo() {};", options: ["never"] },
-        { code: "obj[foo] = function bar() {};" },
+        "obj[foo] = function bar() {};",
         { code: "obj[foo] = function bar() {};", options: ["always"] },
         { code: "obj[foo] = function bar() {};", options: ["never"] },
-        { code: "var obj = {foo: function foo() {}};" },
+        "var obj = {foo: function foo() {}};",
         { code: "var obj = {foo: function foo() {}};", options: ["always"] },
         { code: "var obj = {foo: function bar() {}};", options: ["never"] },
-        { code: "var obj = {'foo': function foo() {}};" },
+        "var obj = {'foo': function foo() {}};",
         { code: "var obj = {'foo': function foo() {}};", options: ["always"] },
         { code: "var obj = {'foo': function bar() {}};", options: ["never"] },
-        { code: "var obj = {'foo//bar': function foo() {}};" },
+        "var obj = {'foo//bar': function foo() {}};",
         { code: "var obj = {'foo//bar': function foo() {}};", options: ["always"] },
         { code: "var obj = {'foo//bar': function foo() {}};", options: ["never"] },
-        { code: "var obj = {foo: function() {}};" },
+        "var obj = {foo: function() {}};",
         { code: "var obj = {foo: function() {}};", options: ["always"] },
         { code: "var obj = {foo: function() {}};", options: ["never"] },
         { code: "var obj = {[foo]: function bar() {}} ", parserOptions: { ecmaVersion: 6 } },
         { code: "var obj = {['x' + 2]: function bar(){}};", parserOptions: { ecmaVersion: 6 } },
-        { code: "obj['x' + 2] = function bar(){};" },
+        "obj['x' + 2] = function bar(){};",
         { code: "var [ bar ] = [ function bar(){} ];", parserOptions: { ecmaVersion: 6 } },
         { code: "function a(foo = function bar() {}) {}", parserOptions: { ecmaVersion: 6 } },
-        { code: "module.exports = function foo(name) {};" },
-        { code: "module['exports'] = function foo(name) {};" },
+        "module.exports = function foo(name) {};",
+        "module['exports'] = function foo(name) {};",
         {
             code: "module.exports = function foo(name) {};",
             options: [{ includeCommonJSModuleExports: false }],
@@ -246,48 +246,48 @@ ruleTester.run("func-name-matching", rule, {
         },
         {
             code: "module.exports = function foo(name) {};",
-            parserOptions: { ecmaVersion: 6 },
             options: [{ includeCommonJSModuleExports: true }],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Function name `foo` should match property name `exports`" }
             ]
         },
         {
             code: "module.exports = function foo(name) {};",
-            parserOptions: { ecmaVersion: 6 },
             options: ["always", { includeCommonJSModuleExports: true }],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Function name `foo` should match property name `exports`" }
             ]
         },
         {
             code: "module.exports = function exports(name) {};",
-            parserOptions: { ecmaVersion: 6 },
             options: ["never", { includeCommonJSModuleExports: true }],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Function name `exports` should not match property name `exports`" }
             ]
         },
         {
             code: "module['exports'] = function foo(name) {};",
-            parserOptions: { ecmaVersion: 6 },
             options: [{ includeCommonJSModuleExports: true }],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Function name `foo` should match property name `exports`" }
             ]
         },
         {
             code: "module['exports'] = function foo(name) {};",
-            parserOptions: { ecmaVersion: 6 },
             options: ["always", { includeCommonJSModuleExports: true }],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Function name `foo` should match property name `exports`" }
             ]
         },
         {
             code: "module['exports'] = function exports(name) {};",
-            parserOptions: { ecmaVersion: 6 },
             options: ["never", { includeCommonJSModuleExports: true }],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "Function name `exports` should not match property name `exports`" }
             ]

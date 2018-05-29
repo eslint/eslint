@@ -84,10 +84,10 @@ ruleTester.run("brace-style", rule, {
         { code: "switch(0) {}", options: ["1tbs", { allowSingleLine: true }] },
         { code: "if (foo) {}\nelse {}", options: ["stroustrup", { allowSingleLine: true }] },
         { code: "try {  bar(); }\ncatch (e) { baz();  }", options: ["stroustrup", { allowSingleLine: true }] },
-        { code: "var foo = () => { return; }", parserOptions: { ecmaVersion: 6 }, options: ["stroustrup", { allowSingleLine: true }] },
+        { code: "var foo = () => { return; }", options: ["stroustrup", { allowSingleLine: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "if (foo) {}\nelse {}", options: ["allman", { allowSingleLine: true }] },
         { code: "try {  bar(); }\ncatch (e) { baz();  }", options: ["allman", { allowSingleLine: true }] },
-        { code: "var foo = () => { return; }", parserOptions: { ecmaVersion: 6 }, options: ["allman", { allowSingleLine: true }] },
+        { code: "var foo = () => { return; }", options: ["allman", { allowSingleLine: true }], parserOptions: { ecmaVersion: 6 } },
         {
             code: "if (tag === 1) fontstack.name = pbf.readString(); \nelse if (tag === 2) fontstack.range = pbf.readString(); \nelse if (tag === 3) {\n var glyph = pbf.readMessage(readGlyph, {});\n fontstack.glyphs[glyph.id] = glyph; \n}",
             options: ["1tbs"]
@@ -200,7 +200,7 @@ ruleTester.run("brace-style", rule, {
     invalid: [
         {
             code: "if (f) {\nbar;\n}\nelse\nbaz;",
-            output: "if (f) {\nbar;\n}else\nbaz;",
+            output: "if (f) {\nbar;\n} else\nbaz;",
             errors: [{ message: CLOSE_MESSAGE, type: "Punctuator" }]
         },
         {
@@ -216,83 +216,78 @@ ruleTester.run("brace-style", rule, {
         },
         {
             code: "function foo() \n { \n return; }",
-            output: "function foo()  { \n return; \n}",
+            output: "function foo() { \n return; \n}",
             errors: [{ message: OPEN_MESSAGE, type: "Punctuator" }, { message: CLOSE_MESSAGE_SINGLE, type: "Punctuator" }]
         },
         {
             code: "!function foo() \n { \n return; }",
-            output: "!function foo()  { \n return; \n}",
+            output: "!function foo() { \n return; \n}",
             errors: [{ message: OPEN_MESSAGE, type: "Punctuator" }, { message: CLOSE_MESSAGE_SINGLE, type: "Punctuator" }]
         },
         {
             code: "if (foo) \n { \n bar(); }",
-            output: "if (foo)  { \n bar(); \n}",
-            errors: [{ message: OPEN_MESSAGE, type: "Punctuator" }, { message: CLOSE_MESSAGE_SINGLE, type: "Punctuator" }]
-        },
-        {
-            code: "if (foo) \n { \n bar(); }",
-            output: "if (foo)  { \n bar(); \n}",
+            output: "if (foo) { \n bar(); \n}",
             errors: [{ message: OPEN_MESSAGE, type: "Punctuator" }, { message: CLOSE_MESSAGE_SINGLE, type: "Punctuator" }]
         },
         {
             code: "if (a) { \nb();\n } else \n { c(); }",
-            output: "if (a) { \nb();\n } else  {\n c(); \n}",
+            output: "if (a) { \nb();\n } else {\n c(); \n}",
             errors: [{ message: OPEN_MESSAGE, type: "Punctuator" }, { message: BODY_MESSAGE, type: "Punctuator" }, { message: CLOSE_MESSAGE_SINGLE, type: "Punctuator" }]
         },
         {
             code: "while (foo) \n { \n bar(); }",
-            output: "while (foo)  { \n bar(); \n}",
+            output: "while (foo) { \n bar(); \n}",
             errors: [{ message: OPEN_MESSAGE, type: "Punctuator" }, { message: CLOSE_MESSAGE_SINGLE, type: "Punctuator" }]
         },
         {
             code: "for (;;) \n { \n bar(); }",
-            output: "for (;;)  { \n bar(); \n}",
+            output: "for (;;) { \n bar(); \n}",
             errors: [{ message: OPEN_MESSAGE, type: "Punctuator" }, { message: CLOSE_MESSAGE_SINGLE, type: "Punctuator" }]
         },
         {
             code: "with (foo) \n { \n bar(); }",
-            output: "with (foo)  { \n bar(); \n}",
+            output: "with (foo) { \n bar(); \n}",
             errors: [{ message: OPEN_MESSAGE, type: "Punctuator" }, { message: CLOSE_MESSAGE_SINGLE, type: "Punctuator" }]
         },
         {
             code: "switch (foo) \n { \n case \"bar\": break; }",
-            output: "switch (foo)  { \n case \"bar\": break; \n}",
+            output: "switch (foo) { \n case \"bar\": break; \n}",
             errors: [{ message: OPEN_MESSAGE, type: "Punctuator" }, { message: CLOSE_MESSAGE_SINGLE, type: "Punctuator" }]
         },
         {
             code: "switch (foo) \n { }",
-            output: "switch (foo)  { }",
+            output: "switch (foo) { }",
             errors: [{ message: OPEN_MESSAGE, type: "Punctuator" }]
         },
         {
             code: "try \n { \n bar(); \n } catch (e) {}",
-            output: "try  { \n bar(); \n } catch (e) {}",
+            output: "try { \n bar(); \n } catch (e) {}",
             errors: [{ message: OPEN_MESSAGE, type: "Punctuator" }]
         },
         {
             code: "try { \n bar(); \n } catch (e) \n {}",
-            output: "try { \n bar(); \n } catch (e)  {}",
+            output: "try { \n bar(); \n } catch (e) {}",
             errors: [{ message: OPEN_MESSAGE, type: "Punctuator" }]
         },
         {
             code: "do \n { \n bar(); \n} while (true)",
-            output: "do  { \n bar(); \n} while (true)",
+            output: "do { \n bar(); \n} while (true)",
             errors: [{ message: OPEN_MESSAGE, type: "Punctuator" }]
         },
         {
             code: "for (foo in bar) \n { \n baz(); \n }",
-            output: "for (foo in bar)  { \n baz(); \n }",
+            output: "for (foo in bar) { \n baz(); \n }",
             errors: [{ message: OPEN_MESSAGE, type: "Punctuator" }]
         },
         {
             code: "for (foo of bar) \n { \n baz(); \n }",
-            output: "for (foo of bar)  { \n baz(); \n }",
+            output: "for (foo of bar) { \n baz(); \n }",
             parserOptions: { ecmaVersion: 6 },
             errors: [{ message: OPEN_MESSAGE, type: "Punctuator" }]
         },
         {
             code: "try { \n bar(); \n }\ncatch (e) {\n}",
-            output: "try { \n bar(); \n }catch (e) {\n}",
+            output: "try { \n bar(); \n } catch (e) {\n}",
             errors: [{ message: CLOSE_MESSAGE, type: "Punctuator" }]
         },
         {
@@ -302,7 +297,7 @@ ruleTester.run("brace-style", rule, {
         },
         {
             code: "if (a) { \nb();\n } \n else { \nc();\n }",
-            output: "if (a) { \nb();\n }  else { \nc();\n }",
+            output: "if (a) { \nb();\n } else { \nc();\n }",
             errors: [{ message: CLOSE_MESSAGE, type: "Punctuator" }]
         },
         {
@@ -320,7 +315,8 @@ ruleTester.run("brace-style", rule, {
         {
             code: "if (a) { \nb();\n } else { \nc();\n }",
             output: "if (a) { \nb();\n }\n else { \nc();\n }",
-            options: ["stroustrup"], errors: [{ message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "Punctuator" }]
+            options: ["stroustrup"],
+            errors: [{ message: CLOSE_MESSAGE_STROUSTRUP_ALLMAN, type: "Punctuator" }]
         },
         {
             code: "if (foo) {\nbaz();\n} else if (bar) {\nbaz();\n}\nelse {\nqux();\n}",
@@ -443,7 +439,7 @@ ruleTester.run("brace-style", rule, {
         },
         {
             code: "if (a) { b(); }\nelse { c(); }",
-            output: "if (a) { b(); }else { c(); }",
+            output: "if (a) { b(); } else { c(); }",
             options: ["1tbs", { allowSingleLine: true }],
             errors: [{ message: CLOSE_MESSAGE, type: "Punctuator" }]
         },
@@ -467,49 +463,49 @@ ruleTester.run("brace-style", rule, {
         },
         {
             code: "switch (foo) \n { \n case \"bar\": break; }",
-            output: "switch (foo)  { \n case \"bar\": break; \n}",
+            output: "switch (foo) { \n case \"bar\": break; \n}",
             options: ["1tbs", { allowSingleLine: true }],
             errors: [{ message: OPEN_MESSAGE, type: "Punctuator" }, { message: CLOSE_MESSAGE_SINGLE, type: "Punctuator" }]
         },
         {
             code: "switch (foo) \n { }",
-            output: "switch (foo)  { }",
+            output: "switch (foo) { }",
             options: ["1tbs", { allowSingleLine: true }],
             errors: [{ message: OPEN_MESSAGE, type: "Punctuator" }]
         },
         {
             code: "try {  bar(); }\ncatch (e) { baz();  }",
-            output: "try {  bar(); }catch (e) { baz();  }",
+            output: "try {  bar(); } catch (e) { baz();  }",
             options: ["1tbs", { allowSingleLine: true }],
             errors: [{ message: CLOSE_MESSAGE, type: "Punctuator" }]
         },
         {
             code: "try \n { \n bar(); \n } catch (e) {}",
-            output: "try  { \n bar(); \n } catch (e) {}",
+            output: "try { \n bar(); \n } catch (e) {}",
             options: ["1tbs", { allowSingleLine: true }],
             errors: [{ message: OPEN_MESSAGE, type: "Punctuator" }]
         },
         {
             code: "try { \n bar(); \n } catch (e) \n {}",
-            output: "try { \n bar(); \n } catch (e)  {}",
+            output: "try { \n bar(); \n } catch (e) {}",
             options: ["1tbs", { allowSingleLine: true }],
             errors: [{ message: OPEN_MESSAGE, type: "Punctuator" }]
         },
         {
             code: "do \n { \n bar(); \n} while (true)",
-            output: "do  { \n bar(); \n} while (true)",
+            output: "do { \n bar(); \n} while (true)",
             options: ["1tbs", { allowSingleLine: true }],
             errors: [{ message: OPEN_MESSAGE, type: "Punctuator" }]
         },
         {
             code: "for (foo in bar) \n { \n baz(); \n }",
-            output: "for (foo in bar)  { \n baz(); \n }",
+            output: "for (foo in bar) { \n baz(); \n }",
             options: ["1tbs", { allowSingleLine: true }],
             errors: [{ message: OPEN_MESSAGE, type: "Punctuator" }]
         },
         {
             code: "try { \n bar(); \n }\ncatch (e) {\n}",
-            output: "try { \n bar(); \n }catch (e) {\n}",
+            output: "try { \n bar(); \n } catch (e) {\n}",
             options: ["1tbs", { allowSingleLine: true }],
             errors: [{ message: CLOSE_MESSAGE, type: "Punctuator" }]
         },
@@ -521,7 +517,7 @@ ruleTester.run("brace-style", rule, {
         },
         {
             code: "if (a) { \nb();\n } \n else { \nc();\n }",
-            output: "if (a) { \nb();\n }  else { \nc();\n }",
+            output: "if (a) { \nb();\n } else { \nc();\n }",
             options: ["1tbs", { allowSingleLine: true }],
             errors: [{ message: CLOSE_MESSAGE, type: "Punctuator" }]
         },
@@ -599,12 +595,12 @@ ruleTester.run("brace-style", rule, {
         },
         {
             code: "class Foo\n{\n}",
-            output: "class Foo{\n}",
+            output: "class Foo {\n}",
             errors: [{ message: OPEN_MESSAGE, type: "Punctuator" }]
         },
         {
             code: "(class\n{\n})",
-            output: "(class{\n})",
+            output: "(class {\n})",
             errors: [{ message: OPEN_MESSAGE, type: "Punctuator" }]
         },
         {
@@ -634,6 +630,30 @@ ruleTester.run("brace-style", rule, {
             output: "class\nFoo\n{}",
             options: ["allman"],
             errors: [{ message: OPEN_MESSAGE_ALLMAN, type: "Punctuator" }]
+        },
+
+        // https://github.com/eslint/eslint/issues/7621
+        {
+            code: `
+                if (foo)
+                {
+                    bar
+                }
+                else {
+                    baz
+                }
+            `,
+            output: `
+                if (foo) {
+                    bar
+                } else {
+                    baz
+                }
+            `,
+            errors: [
+                { message: OPEN_MESSAGE, type: "Punctuator" },
+                { message: CLOSE_MESSAGE, type: "Punctuator" }
+            ]
         }
     ]
 });

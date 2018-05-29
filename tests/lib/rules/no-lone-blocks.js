@@ -63,18 +63,18 @@ ruleTester.run("no-lone-blocks", rule, {
         { code: "{var x = 1;}", errors: [{ message: "Block is redundant.", type: "BlockStatement" }] },
         { code: "foo(); {} bar();", errors: [{ message: "Block is redundant.", type: "BlockStatement" }] },
         { code: "if (foo) { bar(); {} baz(); }", errors: [{ message: "Nested block is redundant.", type: "BlockStatement" }] },
-        { code: "{ \n{ } }", errors: [
-            { message: "Block is redundant.", type: "BlockStatement", line: 1 },
-            { message: "Nested block is redundant.", type: "BlockStatement", line: 2 }]
+        {
+            code: "{ \n{ } }",
+            errors: [
+                { message: "Block is redundant.", type: "BlockStatement", line: 1 },
+                { message: "Nested block is redundant.", type: "BlockStatement", line: 2 }]
         },
         { code: "function foo() { bar(); {} baz(); }", errors: [{ message: "Nested block is redundant.", type: "BlockStatement" }] },
         { code: "while (foo) { {} }", errors: [{ message: "Nested block is redundant.", type: "BlockStatement" }] },
 
         // Non-block-level bindings, even in ES6
-        { code: "{ function bar() {} }", errors: [{ message: "Block is redundant.", type: "BlockStatement" }], parserOptions: { ecmaVersion: 6 } },
-        { code: "{var x = 1;}", errors: [{ message: "Block is redundant.", type: "BlockStatement" }], parserOptions: { ecmaVersion: 6 } },
-        { code: "{ function bar() {} }", errors: [{ message: "Block is redundant.", type: "BlockStatement" }], parserOptions: { ecmaVersion: 6 } },
-        { code: "{var x = 1;}", errors: [{ message: "Block is redundant.", type: "BlockStatement" }], parserOptions: { ecmaVersion: 6 } },
+        { code: "{ function bar() {} }", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Block is redundant.", type: "BlockStatement" }] },
+        { code: "{var x = 1;}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Block is redundant.", type: "BlockStatement" }] },
 
         {
             code: "{ \n{var x = 1;}\n let y = 2; } {let z = 1;}",

@@ -36,6 +36,11 @@ ruleTester.run("space-unary-ops", rule, {
             code: "this.a--",
             options: [{ words: true }]
         },
+        "foo .bar++",
+        {
+            code: "foo.bar --",
+            options: [{ nonwords: true }]
+        },
         {
             code: "delete foo.bar",
             options: [{ words: true }]
@@ -415,6 +420,21 @@ ruleTester.run("space-unary-ops", rule, {
             options: [{ nonwords: true }],
             errors: [{
                 message: "Unary operator '++' must be followed by whitespace."
+            }]
+        },
+        {
+            code: "foo .bar++",
+            output: "foo .bar ++",
+            options: [{ nonwords: true }],
+            errors: [{
+                message: "Space is required before unary expressions '++'."
+            }]
+        },
+        {
+            code: "foo.bar --",
+            output: "foo.bar--",
+            errors: [{
+                message: "Unexpected space before unary operator '--'."
             }]
         },
         {

@@ -165,7 +165,31 @@ const invalid = [
         }]
     },
     {
+        code: "(a,) => a",
+        output: "a => a",
+        options: ["as-needed"],
+        parserOptions: { ecmaVersion: 8 },
+        errors: [{
+            line: 1,
+            column: 1,
+            message: asNeededMessage,
+            type
+        }]
+    },
+    {
         code: "async (a) => a",
+        output: "async a => a",
+        options: ["as-needed"],
+        parserOptions: { ecmaVersion: 8 },
+        errors: [{
+            line: 1,
+            column: 1,
+            message: asNeededMessage,
+            type
+        }]
+    },
+    {
+        code: "async(a) => a",
         output: "async a => a",
         options: ["as-needed"],
         parserOptions: { ecmaVersion: 8 },
@@ -214,6 +238,18 @@ const invalid = [
     },
     {
         code: "async (a) => a",
+        output: "async a => a",
+        options: ["as-needed", { requireForBlockBody: true }],
+        parserOptions: { ecmaVersion: 8 },
+        errors: [{
+            line: 1,
+            column: 1,
+            message: requireForBlockBodyMessage,
+            type
+        }]
+    },
+    {
+        code: "async(a) => a",
         output: "async a => a",
         options: ["as-needed", { requireForBlockBody: true }],
         parserOptions: { ecmaVersion: 8 },

@@ -31,8 +31,8 @@ function errorMessage(limitLines, actualLines) {
 
 ruleTester.run("max-lines", rule, {
     valid: [
-        { code: "var x;" },
-        { code: "var xy;\nvar xy;" },
+        "var x;",
+        "var xy;\nvar xy;",
         { code: "var xy;\nvar xy;", options: [2] },
         { code: "var xy;\nvar xy;", options: [{ max: 2 }] },
         {
@@ -158,20 +158,6 @@ ruleTester.run("max-lines", rule, {
             ].join("\n"),
             options: [{ max: 2, skipBlankLines: true }],
             errors: [{ message: errorMessage(2, 6) }]
-        },
-        {
-            code: [
-                "//a single line comment",
-                "var xy;",
-                " ",
-                "var xy;",
-                " ",
-                " /* a multiline",
-                " really really",
-                " long comment*/"
-            ].join("\n"),
-            options: [{ max: 2, skipComments: true }],
-            errors: [{ message: errorMessage(2, 4) }]
         }
     ]
 });

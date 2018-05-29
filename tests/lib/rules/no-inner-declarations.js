@@ -32,19 +32,19 @@ ruleTester.run("no-inner-declarations", rule, {
         { code: "function decl(arg) { var fn; if (arg) { fn = function expr() { }; } }", parserOptions: { ecmaVersion: 6 } },
         "function decl(arg) { var fn; if (arg) { fn = function expr() { }; } }",
         "if (test) { var foo; }",
-        { code: "if (test) { let x = 1; }", parserOptions: { ecmaVersion: 6 }, options: ["both"] },
-        { code: "if (test) { const x = 1; }", parserOptions: { ecmaVersion: 6 }, options: ["both"] },
+        { code: "if (test) { let x = 1; }", options: ["both"], parserOptions: { ecmaVersion: 6 } },
+        { code: "if (test) { const x = 1; }", options: ["both"], parserOptions: { ecmaVersion: 6 } },
         "function doSomething() { while (test) { var foo; } }",
         { code: "var foo;", options: ["both"] },
         { code: "var foo = 42;", options: ["both"] },
         { code: "function doSomething() { var foo; }", options: ["both"] },
         { code: "(function() { var foo; }());", options: ["both"] },
         { code: "foo(() => { function bar() { } });", parserOptions: { ecmaVersion: 6 } },
-        { code: "var fn = () => {var foo;}", parserOptions: { ecmaVersion: 6 }, options: ["both"] },
+        { code: "var fn = () => {var foo;}", options: ["both"], parserOptions: { ecmaVersion: 6 } },
         {
             code: "var x = {doSomething() {var foo;}}",
-            parserOptions: { ecmaVersion: 6 },
-            options: ["both"]
+            options: ["both"],
+            parserOptions: { ecmaVersion: 6 }
         }
 
     ],

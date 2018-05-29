@@ -30,7 +30,15 @@ async function foo() {
   const x = await bar();
   return x;
 }
+
+async function foo() {
+  try {
+    return await bar();
+  } catch (error) {}
+}
 ```
+
+In the last example the `await` is necessary to be able to catch errors thrown from `bar()`.
 
 ## When Not To Use It
 

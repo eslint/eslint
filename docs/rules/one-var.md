@@ -45,6 +45,7 @@ Object option:
 * `"let": "never"` requires multiple `let` declarations per block
 * `"const": "always"` requires one `const` declaration per block
 * `"const": "never"` requires multiple `const` declarations per block
+* `"separateRequires": true` enforces `requires` to be separate from declarations
 
 Alternate object option:
 
@@ -252,6 +253,28 @@ function foo() {
 }
 ```
 
+Examples of **incorrect** code for this rule with the `{ separateRequires: true }` option:
+
+```js
+/*eslint one-var: ["error", { separateRequires: true, var: "always" }]*/
+/*eslint-env node*/
+
+var foo = require("foo"),
+    bar = "bar";
+```
+
+Examples of **correct** code for this rule with the `{ separateRequires: true }` option:
+
+```js
+/*eslint one-var: ["error", { separateRequires: true, var: "always" }]*/
+/*eslint-env node*/
+
+var foo = require("foo");
+var bar = "bar";
+
+var foo = require("foo"),
+    bar = require("bar");
+```
 
 ### initialized and uninitialized
 
@@ -318,4 +341,5 @@ function foo() {
 ## Compatibility
 
 * **JSHint**: This rule maps to the `onevar` JSHint rule, but allows `let` and `const` to be configured separately.
-* **JSCS**: This rule roughly maps to [disallowMultipleVarDecl](http://jscs.info/rule/disallowMultipleVarDecl)
+* **JSCS**: This rule roughly maps to [disallowMultipleVarDecl](http://jscs.info/rule/disallowMultipleVarDecl).
+* **JSCS**: This rule option `separateRequires` roughly maps to [requireMultipleVarDecl](http://jscs.info/rule/requireMultipleVarDecl).

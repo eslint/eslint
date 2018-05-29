@@ -58,4 +58,4 @@ In addition, this rule can be safely turned off if you don't want to enforce pre
 
 ## Further Reading
 
-* [Symbol Objects specification: Symbol description](http://www.ecma-international.org/ecma-262/6.0/#sec-symbol-description)
+* [Symbol Objects specification: Symbol description](https://www.ecma-international.org/ecma-262/6.0/#sec-symbol-description)

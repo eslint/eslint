@@ -35,10 +35,10 @@ ruleTester.defineRule("use-every-a", context => {
 });
 
 /**
-* Returns an extended test that includes es2017 parser options.
-* @param {Object} test The test to extend
-* @returns {Object} A parser-extended test case
-*/
+ * Returns an extended test that includes es2017 parser options.
+ * @param {Object} test The test to extend
+ * @returns {Object} A parser-extended test case
+ */
 function includeRestPropertyParser(test) {
     return Object.assign({
         parserOptions: {
@@ -51,21 +51,21 @@ function includeRestPropertyParser(test) {
 }
 
 /**
-* Returns an expected error for defined-but-not-used variables.
-* @param {string} varName The name of the variable
-* @param {string} [type] The node type (defaults to "Identifier")
-* @returns {Object} An expected error object
-*/
+ * Returns an expected error for defined-but-not-used variables.
+ * @param {string} varName The name of the variable
+ * @param {string} [type] The node type (defaults to "Identifier")
+ * @returns {Object} An expected error object
+ */
 function definedError(varName, type) {
     return { message: `'${varName}' is defined but never used.`, type: type || "Identifier" };
 }
 
 /**
-* Returns an expected error for assigned-but-not-used variables.
-* @param {string} varName The name of the variable
-* @param {string} [type] The node type (defaults to "Identifier")
-* @returns {Object} An expected error object
-*/
+ * Returns an expected error for assigned-but-not-used variables.
+ * @param {string} varName The name of the variable
+ * @param {string} [type] The node type (defaults to "Identifier")
+ * @returns {Object} An expected error object
+ */
 function assignedError(varName, type) {
     return { message: `'${varName}' is assigned a value but never used.`, type: type || "Identifier" };
 }
@@ -144,22 +144,22 @@ ruleTester.run("no-unused-vars", rule, {
         { code: "var x = 1; function foo(y = function() { bar(x); }) { y(); } foo();", parserOptions: { ecmaVersion: 6 } },
 
         // exported variables should work
-        { code: "/*exported toaster*/ var toaster = 'great'" },
-        { code: "/*exported toaster, poster*/ var toaster = 1; poster = 0;" },
+        "/*exported toaster*/ var toaster = 'great'",
+        "/*exported toaster, poster*/ var toaster = 1; poster = 0;",
         { code: "/*exported x*/ var { x } = y", parserOptions: { ecmaVersion: 6 } },
         { code: "/*exported x, y*/  var { x, y } = z", parserOptions: { ecmaVersion: 6 } },
 
         // Can mark variables as used via context.markVariableAsUsed()
-        { code: "/*eslint use-every-a:1*/ var a;" },
-        { code: "/*eslint use-every-a:1*/ !function(a) { return 1; }" },
-        { code: "/*eslint use-every-a:1*/ !function() { var a; return 1 }" },
+        "/*eslint use-every-a:1*/ var a;",
+        "/*eslint use-every-a:1*/ !function(a) { return 1; }",
+        "/*eslint use-every-a:1*/ !function() { var a; return 1 }",
 
         // ignore pattern
         { code: "var _a;", options: [{ vars: "all", varsIgnorePattern: "^_" }] },
         { code: "var a; function foo() { var _b; } foo();", options: [{ vars: "local", varsIgnorePattern: "^_" }] },
         { code: "function foo(_a) { } foo();", options: [{ args: "all", argsIgnorePattern: "^_" }] },
         { code: "function foo(a, _b) { return a; } foo();", options: [{ args: "after-used", argsIgnorePattern: "^_" }] },
-        { code: "var [ firstItemIgnored, secondItem ] = items;\nconsole.log(secondItem);", parserOptions: { ecmaVersion: 6 }, options: [{ vars: "all", varsIgnorePattern: "[iI]gnored" }] },
+        { code: "var [ firstItemIgnored, secondItem ] = items;\nconsole.log(secondItem);", options: [{ vars: "all", varsIgnorePattern: "[iI]gnored" }], parserOptions: { ecmaVersion: 6 } },
 
         // for-in loops (see #2342)
         "(function(obj) { var name; for ( name in obj ) return; })({});",
@@ -202,59 +202,51 @@ ruleTester.run("no-unused-vars", rule, {
         }),
 
         // https://github.com/eslint/eslint/issues/6348
-        { code: "var a = 0, b; b = a = a + 1; foo(b);" },
-        { code: "var a = 0, b; b = a += a + 1; foo(b);" },
-        { code: "var a = 0, b; b = a++; foo(b);" },
-        { code: "function foo(a) { var b = a = a + 1; bar(b) } foo();" },
-        { code: "function foo(a) { var b = a += a + 1; bar(b) } foo();" },
-        { code: "function foo(a) { var b = a++; bar(b) } foo();" },
+        "var a = 0, b; b = a = a + 1; foo(b);",
+        "var a = 0, b; b = a += a + 1; foo(b);",
+        "var a = 0, b; b = a++; foo(b);",
+        "function foo(a) { var b = a = a + 1; bar(b) } foo();",
+        "function foo(a) { var b = a += a + 1; bar(b) } foo();",
+        "function foo(a) { var b = a++; bar(b) } foo();",
 
         // https://github.com/eslint/eslint/issues/6576
-        {
-            code: [
-                "var unregisterFooWatcher;",
-                "// ...",
-                "unregisterFooWatcher = $scope.$watch( \"foo\", function() {",
-                "    // ...some code..",
-                "    unregisterFooWatcher();",
-                "});"
-            ].join("\n")
-        },
-        {
-            code: [
-                "var ref;",
-                "ref = setInterval(",
-                "    function(){",
-                "        clearInterval(ref);",
-                "    }, 10);"
-            ].join("\n")
-        },
-        {
-            code: [
-                "var _timer;",
-                "function f() {",
-                "    _timer = setTimeout(function () {}, _timer ? 100 : 0);",
-                "}",
-                "f();"
-            ].join("\n")
-        },
-        { code: "function foo(cb) { cb = function() { function something(a) { cb(1 + a); } register(something); }(); } foo();" },
+        [
+            "var unregisterFooWatcher;",
+            "// ...",
+            "unregisterFooWatcher = $scope.$watch( \"foo\", function() {",
+            "    // ...some code..",
+            "    unregisterFooWatcher();",
+            "});"
+        ].join("\n"),
+        [
+            "var ref;",
+            "ref = setInterval(",
+            "    function(){",
+            "        clearInterval(ref);",
+            "    }, 10);"
+        ].join("\n"),
+        [
+            "var _timer;",
+            "function f() {",
+            "    _timer = setTimeout(function () {}, _timer ? 100 : 0);",
+            "}",
+            "f();"
+        ].join("\n"),
+        "function foo(cb) { cb = function() { function something(a) { cb(1 + a); } register(something); }(); } foo();",
         { code: "function* foo(cb) { cb = yield function(a) { cb(1 + a); }; } foo();", parserOptions: { ecmaVersion: 6 } },
         { code: "function foo(cb) { cb = tag`hello${function(a) { cb(1 + a); }}`; } foo();", parserOptions: { ecmaVersion: 6 } },
-        { code: "function foo(cb) { var b; cb = b = function(a) { cb(1 + a); }; b(); } foo();" },
+        "function foo(cb) { var b; cb = b = function(a) { cb(1 + a); }; b(); } foo();",
 
         // https://github.com/eslint/eslint/issues/6646
-        {
-            code: [
-                "function someFunction() {",
-                "    var a = 0, i;",
-                "    for (i = 0; i < 2; i++) {",
-                "        a = myFunction(a);",
-                "    }",
-                "}",
-                "someFunction();"
-            ].join("\n")
-        },
+        [
+            "function someFunction() {",
+            "    var a = 0, i;",
+            "    for (i = 0; i < 2; i++) {",
+            "        a = myFunction(a);",
+            "    }",
+            "}",
+            "someFunction();"
+        ].join("\n"),
 
         // https://github.com/eslint/eslint/issues/7124
         {
@@ -334,11 +326,37 @@ ruleTester.run("no-unused-vars", rule, {
         { code: "/*exported x*/ var { x, y } = z", parserOptions: { ecmaVersion: 6 }, errors: [assignedError("y")] },
 
         // ignore pattern
-        { code: "var _a; var b;", options: [{ vars: "all", varsIgnorePattern: "^_" }], errors: [{ message: "'b' is defined but never used.", line: 1, column: 13 }] },
-        { code: "var a; function foo() { var _b; var c_; } foo();", options: [{ vars: "local", varsIgnorePattern: "^_" }], errors: [{ message: "'c_' is defined but never used.", line: 1, column: 37 }] },
-        { code: "function foo(a, _b) { } foo();", options: [{ args: "all", argsIgnorePattern: "^_" }], errors: [{ message: "'a' is defined but never used.", line: 1, column: 14 }] },
-        { code: "function foo(a, _b, c) { return a; } foo();", options: [{ args: "after-used", argsIgnorePattern: "^_" }], errors: [{ message: "'c' is defined but never used.", line: 1, column: 21 }] },
-        { code: "var [ firstItemIgnored, secondItem ] = items;", parserOptions: { ecmaVersion: 6 }, options: [{ vars: "all", varsIgnorePattern: "[iI]gnored" }], errors: [{ message: "'secondItem' is assigned a value but never used.", line: 1, column: 25 }] },
+        {
+            code: "var _a; var b;",
+            options: [{ vars: "all", varsIgnorePattern: "^_" }],
+            errors: [{ message: "'b' is defined but never used. Allowed unused vars must match /^_/.", line: 1, column: 13 }]
+        },
+        {
+            code: "var a; function foo() { var _b; var c_; } foo();",
+            options: [{ vars: "local", varsIgnorePattern: "^_" }],
+            errors: [{ message: "'c_' is defined but never used. Allowed unused vars must match /^_/.", line: 1, column: 37 }]
+        },
+        {
+            code: "function foo(a, _b) { } foo();",
+            options: [{ args: "all", argsIgnorePattern: "^_" }],
+            errors: [{ message: "'a' is defined but never used. Allowed unused args must match /^_/.", line: 1, column: 14 }]
+        },
+        {
+            code: "function foo(a, _b, c) { return a; } foo();",
+            options: [{ args: "after-used", argsIgnorePattern: "^_" }],
+            errors: [{ message: "'c' is defined but never used. Allowed unused args must match /^_/.", line: 1, column: 21 }]
+        },
+        {
+            code: "function foo(_a) { } foo();",
+            options: [{ args: "all", argsIgnorePattern: "[iI]gnored" }],
+            errors: [{ message: "'_a' is defined but never used. Allowed unused args must match /[iI]gnored/.", line: 1, column: 14 }]
+        },
+        {
+            code: "var [ firstItemIgnored, secondItem ] = items;",
+            options: [{ vars: "all", varsIgnorePattern: "[iI]gnored" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "'secondItem' is assigned a value but never used. Allowed unused vars must match /[iI]gnored/.", line: 1, column: 25 }]
+        },
 
         // for-in loops (see #2342)
         { code: "(function(obj) { var name; for ( name in obj ) { i(); return; } })({});", errors: [{ message: "'name' is assigned a value but never used.", line: 1, column: 22 }] },
@@ -452,10 +470,10 @@ ruleTester.run("no-unused-vars", rule, {
         // surrogate pair.
         {
             code: "/*global 𠮷𩸽, 𠮷*/\n\\u{20BB7}\\u{29E3D};",
-            env: { es6: true },
             errors: [
                 { line: 1, column: 16, message: "'𠮷' is defined but never used." }
-            ]
+            ],
+            env: { es6: true }
         },
 
         // https://github.com/eslint/eslint/issues/4047
@@ -499,14 +517,14 @@ ruleTester.run("no-unused-vars", rule, {
         {
             code: "try{}catch(err){};",
             options: [{ caughtErrors: "all", caughtErrorsIgnorePattern: "^ignore" }],
-            errors: [{ message: "'err' is defined but never used." }]
+            errors: [{ message: "'err' is defined but never used. Allowed unused args must match /^ignore/." }]
         },
 
         // multiple try catch with one success
         {
             code: "try{}catch(ignoreErr){}try{}catch(err){};",
             options: [{ caughtErrors: "all", caughtErrorsIgnorePattern: "^ignore" }],
-            errors: [{ message: "'err' is defined but never used." }]
+            errors: [{ message: "'err' is defined but never used. Allowed unused args must match /^ignore/." }]
         },
 
         // multiple try catch both fail
@@ -514,8 +532,8 @@ ruleTester.run("no-unused-vars", rule, {
             code: "try{}catch(error){}try{}catch(err){};",
             options: [{ caughtErrors: "all", caughtErrorsIgnorePattern: "^ignore" }],
             errors: [
-                { message: "'error' is defined but never used." },
-                { message: "'err' is defined but never used." }
+                { message: "'error' is defined but never used. Allowed unused args must match /^ignore/." },
+                { message: "'err' is defined but never used. Allowed unused args must match /^ignore/." }
             ]
         },
 
@@ -586,29 +604,89 @@ ruleTester.run("no-unused-vars", rule, {
         {
             code: "(function(a, b, c) {})",
             options: [{ argsIgnorePattern: "c" }],
-            errors: [{ message: "'b' is defined but never used." }]
+            errors: [{ message: "'b' is defined but never used. Allowed unused args must match /c/." }]
         },
         {
             code: "(function(a, b, {c, d}) {})",
             options: [{ argsIgnorePattern: "[cd]" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'b' is defined but never used." }]
+            errors: [{ message: "'b' is defined but never used. Allowed unused args must match /[cd]/." }]
         },
         {
             code: "(function(a, b, {c, d}) {})",
             options: [{ argsIgnorePattern: "c" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'d' is defined but never used." }]
+            errors: [{ message: "'d' is defined but never used. Allowed unused args must match /c/." }]
         },
         {
             code: "(function(a, b, {c, d}) {})",
             options: [{ argsIgnorePattern: "d" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'c' is defined but never used." }]
+            errors: [{ message: "'c' is defined but never used. Allowed unused args must match /d/." }]
         },
         {
             code: "/*global\rfoo*/",
             errors: [{ message: "'foo' is defined but never used.", line: 2, column: 1 }]
+        },
+
+        // https://github.com/eslint/eslint/issues/8442
+        {
+            code: "(function ({ a }, b ) { return b; })();",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                "'a' is defined but never used."
+            ]
+        },
+        {
+            code: "(function ({ a }, { b, c } ) { return b; })();",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                "'a' is defined but never used.",
+                "'c' is defined but never used."
+            ]
+        },
+        {
+            code: "(function ({ a, b }, { c } ) { return b; })();",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                "'a' is defined but never used.",
+                "'c' is defined but never used."
+            ]
+        },
+        {
+            code: "(function ([ a ], b ) { return b; })();",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                "'a' is defined but never used."
+            ]
+        },
+        {
+            code: "(function ([ a ], [ b, c ] ) { return b; })();",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                "'a' is defined but never used.",
+                "'c' is defined but never used."
+            ]
+        },
+        {
+            code: "(function ([ a, b ], [ c ] ) { return b; })();",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                "'a' is defined but never used.",
+                "'c' is defined but never used."
+            ]
+        },
+
+        // https://github.com/eslint/eslint/issues/9774
+        {
+            code: "(function(_a) {})();",
+            options: [{ args: "all", varsIgnorePattern: "^_" }],
+            errors: [{ message: "'_a' is defined but never used." }]
+        },
+        {
+            code: "(function(_a) {})();",
+            options: [{ args: "all", caughtErrorsIgnorePattern: "^_" }],
+            errors: [{ message: "'_a' is defined but never used." }]
         }
     ]
 });

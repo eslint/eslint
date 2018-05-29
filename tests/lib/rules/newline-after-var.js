@@ -1,6 +1,7 @@
 /**
  * @fileoverview Tests for newline-after-var rule.
  * @author Gopal Venkatesan
+ * @deprecated
  */
 
 "use strict";

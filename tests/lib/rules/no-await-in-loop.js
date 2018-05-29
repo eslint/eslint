@@ -20,7 +20,7 @@ ruleTester.run("no-await-in-loop", rule, {
         "async function foo() { for (var bar = await baz in qux) {} }",
 
         // While loops
-        "async function foo() { while (true) { async function foo() { await bar; } } }",  // Blocked by a function declaration
+        "async function foo() { while (true) { async function foo() { await bar; } } }", // Blocked by a function declaration
         // For loops
         "async function foo() { for (var i = await bar; i < n; i++) {  } }",
 

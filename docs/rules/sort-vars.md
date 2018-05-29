@@ -74,5 +74,5 @@ This rule is a formatting preference and not following it won't negatively affec
 
 ## Related Rules
 
-* [sort-keys](http://eslint.org/docs/rules/sort-keys)
-* [sort-imports](http://eslint.org/docs/rules/sort-imports)
+* [sort-keys](sort-keys.md)
+* [sort-imports](sort-imports.md)

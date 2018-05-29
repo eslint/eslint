@@ -43,7 +43,7 @@ ruleTester.run("max-nested-callbacks", rule, {
         { code: "var foo = function() {}; bar(function(){ baz(function() { qux(foo); }) });", options: [2] },
         { code: "fn(function(){}, function(){}, function(){});", options: [2] },
         { code: "fn(() => {}, function(){}, function(){});", options: [2], parserOptions: { ecmaVersion: 6 } },
-        { code: nestFunctions(10) },
+        nestFunctions(10),
 
         // object property options
         { code: "foo(function() { bar(thing, function(data) {}); });", options: [{ max: 3 }] }

@@ -10,7 +10,7 @@ This rule enforces at least one newline (or absence thereof) at the end
 of non-empty files.
 
 Prior to v0.16.0 this rule also enforced that there was only a single line at
-the end of the file. If you still want this behaviour, consider enabling
+the end of the file. If you still want this behavior, consider enabling
 [no-multiple-empty-lines](no-multiple-empty-lines.md) with `maxEOF` and/or
 [no-trailing-spaces](no-trailing-spaces.md).
 

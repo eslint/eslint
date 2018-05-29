@@ -14,8 +14,10 @@ const assert = require("chai").assert,
     proxyquire = require("proxyquire"),
     sinon = require("sinon");
 
-// Chalk protects its methods so we need to inherit from it
-// for Sinon to work.
+/*
+ * Chalk protects its methods so we need to inherit from it
+ * for Sinon to work.
+ */
 const chalkStub = Object.create(chalk, {
     yellow: {
         value(str) {
@@ -67,17 +69,19 @@ describe("formatter:stylish", () => {
         it("should not return message", () => {
             const result = formatter(code);
 
-            assert.equal(result, "");
-            assert.equal(chalkStub.yellow.bold.callCount, 0);
-            assert.equal(chalkStub.red.bold.callCount, 0);
+            assert.strictEqual(result, "");
+            assert.strictEqual(chalkStub.yellow.bold.callCount, 0);
+            assert.strictEqual(chalkStub.red.bold.callCount, 0);
         });
     });
 
-    describe("when passed a single message", () => {
+    describe("when passed a single error message", () => {
         const code = [{
             filePath: "foo.js",
             errorCount: 1,
             warningCount: 0,
+            fixableErrorCount: 0,
+            fixableWarningCount: 0,
             messages: [{
                 message: "Unexpected foo.",
                 severity: 2,
@@ -87,24 +91,91 @@ describe("formatter:stylish", () => {
             }]
         }];
 
-        it("should return a string in the correct format for errors", () => {
+        it("should return a string in the correct format", () => {
             const result = formatter(code);
 
-            assert.equal(result, "\nfoo.js\n  5:10  error  Unexpected foo  foo\n\n\u2716 1 problem (1 error, 0 warnings)\n");
-            assert.equal(chalkStub.yellow.bold.callCount, 0);
-            assert.equal(chalkStub.red.bold.callCount, 1);
+            assert.strictEqual(result, "\nfoo.js\n  5:10  error  Unexpected foo  foo\n\n\u2716 1 problem (1 error, 0 warnings)\n");
+            assert.strictEqual(chalkStub.yellow.bold.callCount, 0);
+            assert.strictEqual(chalkStub.red.bold.callCount, 1);
         });
 
-        it("should return a string in the correct format for warnings", () => {
-            code[0].messages[0].severity = 1;
-            code[0].errorCount = 0;
-            code[0].warningCount = 1;
+        describe("when the error is fixable", () => {
+            beforeEach(() => {
+                code[0].fixableErrorCount = 1;
+            });
 
+            it("should return a string in the correct format", () => {
+                const result = formatter(code);
+
+                assert.strictEqual(result, "\nfoo.js\n  5:10  error  Unexpected foo  foo\n\n\u2716 1 problem (1 error, 0 warnings)\n  1 error, 0 warnings potentially fixable with the `--fix` option.\n");
+                assert.strictEqual(chalkStub.yellow.bold.callCount, 0);
+                assert.strictEqual(chalkStub.red.bold.callCount, 2);
+            });
+        });
+    });
+
+    describe("when passed a single warning message", () => {
+        const code = [{
+            filePath: "foo.js",
+            errorCount: 0,
+            warningCount: 1,
+            fixableErrorCount: 0,
+            fixableWarningCount: 0,
+            messages: [{
+                message: "Unexpected foo.",
+                severity: 1,
+                line: 5,
+                column: 10,
+                ruleId: "foo"
+            }]
+        }];
+
+        it("should return a string in the correct format", () => {
             const result = formatter(code);
 
-            assert.equal(result, "\nfoo.js\n  5:10  warning  Unexpected foo  foo\n\n\u2716 1 problem (0 errors, 1 warning)\n");
-            assert.equal(chalkStub.yellow.bold.callCount, 1);
-            assert.equal(chalkStub.red.bold.callCount, 0);
+            assert.strictEqual(result, "\nfoo.js\n  5:10  warning  Unexpected foo  foo\n\n\u2716 1 problem (0 errors, 1 warning)\n");
+            assert.strictEqual(chalkStub.yellow.bold.callCount, 1);
+            assert.strictEqual(chalkStub.red.bold.callCount, 0);
+        });
+
+        describe("when the error is fixable", () => {
+            beforeEach(() => {
+                code[0].fixableWarningCount = 1;
+            });
+
+            it("should return a string in the correct format", () => {
+                const result = formatter(code);
+
+                assert.strictEqual(result, "\nfoo.js\n  5:10  warning  Unexpected foo  foo\n\n\u2716 1 problem (0 errors, 1 warning)\n  0 errors, 1 warning potentially fixable with the `--fix` option.\n");
+                assert.strictEqual(chalkStub.yellow.bold.callCount, 2);
+                assert.strictEqual(chalkStub.red.bold.callCount, 0);
+            });
+
+        });
+    });
+
+    describe("when passed a message that ends with ' .'", () => {
+        const code = [{
+            filePath: "foo.js",
+            errorCount: 0,
+            warningCount: 1,
+            fixableErrorCount: 0,
+            fixableWarningCount: 0,
+            messages: [{
+                message: "Unexpected .",
+                severity: 1,
+                line: 5,
+                column: 10,
+                ruleId: "foo"
+            }]
+        }];
+
+        it("should return a string in the correct format (retaining the ' .')", () => {
+            const result = formatter(code);
+
+            assert.strictEqual(result, "\nfoo.js\n  5:10  warning  Unexpected .  foo\n\n\u2716 1 problem (0 errors, 1 warning)\n");
+            assert.strictEqual(chalkStub.yellow.bold.callCount, 1);
+            assert.strictEqual(chalkStub.red.bold.callCount, 0);
         });
     });
 
@@ -125,9 +196,9 @@ describe("formatter:stylish", () => {
         it("should return a string in the correct format", () => {
             const result = formatter(code);
 
-            assert.equal(result, "\nfoo.js\n  5:10  error  Unexpected foo  foo\n\n\u2716 1 problem (1 error, 0 warnings)\n");
-            assert.equal(chalkStub.yellow.bold.callCount, 0);
-            assert.equal(chalkStub.red.bold.callCount, 1);
+            assert.strictEqual(result, "\nfoo.js\n  5:10  error  Unexpected foo  foo\n\n\u2716 1 problem (1 error, 0 warnings)\n");
+            assert.strictEqual(chalkStub.yellow.bold.callCount, 0);
+            assert.strictEqual(chalkStub.red.bold.callCount, 1);
         });
     });
 
@@ -154,9 +225,9 @@ describe("formatter:stylish", () => {
         it("should return a string with multiple entries", () => {
             const result = formatter(code);
 
-            assert.equal(result, "\nfoo.js\n  5:10  error    Unexpected foo  foo\n  6:11  warning  Unexpected bar  bar\n\n\u2716 2 problems (1 error, 1 warning)\n");
-            assert.equal(chalkStub.yellow.bold.callCount, 0);
-            assert.equal(chalkStub.red.bold.callCount, 1);
+            assert.strictEqual(result, "\nfoo.js\n  5:10  error    Unexpected foo  foo\n  6:11  warning  Unexpected bar  bar\n\n\u2716 2 problems (1 error, 1 warning)\n");
+            assert.strictEqual(chalkStub.yellow.bold.callCount, 0);
+            assert.strictEqual(chalkStub.red.bold.callCount, 1);
         });
     });
 
@@ -188,9 +259,9 @@ describe("formatter:stylish", () => {
         it("should return a string with multiple entries", () => {
             const result = formatter(code);
 
-            assert.equal(result, "\nfoo.js\n  5:10  error  Unexpected foo  foo\n\nbar.js\n  6:11  warning  Unexpected bar  bar\n\n\u2716 2 problems (1 error, 1 warning)\n");
-            assert.equal(chalkStub.yellow.bold.callCount, 0);
-            assert.equal(chalkStub.red.bold.callCount, 1);
+            assert.strictEqual(result, "\nfoo.js\n  5:10  error  Unexpected foo  foo\n\nbar.js\n  6:11  warning  Unexpected bar  bar\n\n\u2716 2 problems (1 error, 1 warning)\n");
+            assert.strictEqual(chalkStub.yellow.bold.callCount, 0);
+            assert.strictEqual(chalkStub.red.bold.callCount, 1);
         });
 
         it("should add errorCount", () => {
@@ -201,9 +272,9 @@ describe("formatter:stylish", () => {
 
             const result = formatter(code);
 
-            assert.equal(result, "\nfoo.js\n  5:10  error  Unexpected foo  foo\n\nbar.js\n  6:11  warning  Unexpected bar  bar\n\n\u2716 2 problems (2 errors, 0 warnings)\n");
-            assert.equal(chalkStub.yellow.bold.callCount, 0);
-            assert.equal(chalkStub.red.bold.callCount, 1);
+            assert.strictEqual(result, "\nfoo.js\n  5:10  error  Unexpected foo  foo\n\nbar.js\n  6:11  warning  Unexpected bar  bar\n\n\u2716 2 problems (2 errors, 0 warnings)\n");
+            assert.strictEqual(chalkStub.yellow.bold.callCount, 0);
+            assert.strictEqual(chalkStub.red.bold.callCount, 1);
         });
 
         it("should add warningCount", () => {
@@ -214,9 +285,9 @@ describe("formatter:stylish", () => {
 
             const result = formatter(code);
 
-            assert.equal(result, "\nfoo.js\n  5:10  error  Unexpected foo  foo\n\nbar.js\n  6:11  warning  Unexpected bar  bar\n\n\u2716 2 problems (0 errors, 2 warnings)\n");
-            assert.equal(chalkStub.yellow.bold.callCount, 0);
-            assert.equal(chalkStub.red.bold.callCount, 1);
+            assert.strictEqual(result, "\nfoo.js\n  5:10  error  Unexpected foo  foo\n\nbar.js\n  6:11  warning  Unexpected bar  bar\n\n\u2716 2 problems (0 errors, 2 warnings)\n");
+            assert.strictEqual(chalkStub.yellow.bold.callCount, 0);
+            assert.strictEqual(chalkStub.red.bold.callCount, 1);
         });
     });
 
@@ -234,9 +305,96 @@ describe("formatter:stylish", () => {
         it("should return a string without line and column", () => {
             const result = formatter(code);
 
-            assert.equal(result, "\nfoo.js\n  0:0  error  Couldn't find foo.js\n\n\u2716 1 problem (1 error, 0 warnings)\n");
-            assert.equal(chalkStub.yellow.bold.callCount, 0);
-            assert.equal(chalkStub.red.bold.callCount, 1);
+            assert.strictEqual(result, "\nfoo.js\n  0:0  error  Couldn't find foo.js\n\n\u2716 1 problem (1 error, 0 warnings)\n");
+            assert.strictEqual(chalkStub.yellow.bold.callCount, 0);
+            assert.strictEqual(chalkStub.red.bold.callCount, 1);
+        });
+    });
+
+    describe("fixable problems", () => {
+        it("should not output fixable problems message when no errors or warnings are fixable", () => {
+            const code = [{
+                filePath: "foo.js",
+                errorCount: 1,
+                warningCount: 0,
+                fixableErrorCount: 0,
+                fixableWarningCount: 0,
+                messages: [{
+                    message: "Unexpected foo.",
+                    severity: 2,
+                    line: 5,
+                    column: 10,
+                    ruleId: "foo"
+                }]
+            }];
+
+            const result = formatter(code);
+
+            assert.notInclude(result, "potentially fixable");
+        });
+
+        it("should output the fixable problems message when errors are fixable", () => {
+            const code = [{
+                filePath: "foo.js",
+                errorCount: 1,
+                warningCount: 0,
+                fixableErrorCount: 1,
+                fixableWarningCount: 0,
+                messages: [{
+                    message: "Unexpected foo.",
+                    severity: 2,
+                    line: 5,
+                    column: 10,
+                    ruleId: "foo"
+                }]
+            }];
+
+            const result = formatter(code);
+
+            assert.include(result, "  1 error, 0 warnings potentially fixable with the `--fix` option.\n");
+        });
+
+        it("should output fixable problems message when warnings are fixable", () => {
+            const code = [{
+                filePath: "foo.js",
+                errorCount: 0,
+                warningCount: 3,
+                fixableErrorCount: 0,
+                fixableWarningCount: 2,
+                messages: [{
+                    message: "Unexpected foo."
+                }]
+            }];
+
+            const result = formatter(code);
+
+            assert.include(result, "  0 errors, 2 warnings potentially fixable with the `--fix` option.\n");
+        });
+
+        it("should output the total number of fixable errors and warnings", () => {
+            const code = [{
+                filePath: "foo.js",
+                errorCount: 5,
+                warningCount: 3,
+                fixableErrorCount: 5,
+                fixableWarningCount: 2,
+                messages: [{
+                    message: "Unexpected foo."
+                }]
+            }, {
+                filePath: "bar.js",
+                errorCount: 4,
+                warningCount: 2,
+                fixableErrorCount: 4,
+                fixableWarningCount: 1,
+                messages: [{
+                    message: "Unexpected bar."
+                }]
+            }];
+
+            const result = formatter(code);
+
+            assert.include(result, "  9 errors, 3 warnings potentially fixable with the `--fix` option.\n");
         });
     });
 });

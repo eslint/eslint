@@ -76,6 +76,11 @@ ruleTester.run("max-len", rule, {
             options: [80, { tabWidth: 4, comments: 30 }]
         }, {
             code:
+                "// I like longer comments and shorter code\n" +
+                "function see() { odd(eh()) }",
+            options: [30, { tabWidth: 4, comments: 80 }]
+        }, {
+            code:
                 "// Full line comment\n" +
                 "someCode(); // With a long trailing comment.",
             options: [{ code: 30, tabWidth: 4, comments: 20, ignoreTrailingComments: true }]
@@ -303,6 +308,17 @@ ruleTester.run("max-len", rule, {
             errors: [
                 {
                     message: "Line 1 exceeds the maximum comment line length of 20.",
+                    type: "Program",
+                    line: 1,
+                    column: 1
+                }
+            ]
+        }, {
+            code: "// A comment that exceeds the max comment length and the max code length, but will fail for being too long of a comment",
+            options: [40, 4, { comments: 80 }],
+            errors: [
+                {
+                    message: "Line 1 exceeds the maximum comment line length of 80.",
                     type: "Program",
                     line: 1,
                     column: 1

@@ -28,12 +28,8 @@ ruleTester.run("no-trailing-spaces", rule, {
             code: "var a = 5,\n    b = 3;",
             options: [{}]
         },
-        {
-            code: "var a = 5;"
-        },
-        {
-            code: "var a = 5,\n    b = 3;"
-        },
+        "var a = 5;",
+        "var a = 5,\n    b = 3;",
         {
             code: "var a = 5,\n    b = 3;",
             options: [{ skipBlankLines: true }]
@@ -68,8 +64,28 @@ ruleTester.run("no-trailing-spaces", rule, {
         },
         {
             code: "let str = `${a}\n   \n${b}`;\n   \n   ",
-            parserOptions: { ecmaVersion: 6 },
-            options: [{ skipBlankLines: true }]
+            options: [{ skipBlankLines: true }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "// Trailing comment test. ",
+            options: [{ ignoreComments: true }]
+        },
+        {
+            code: "// Trailing comment test.",
+            options: [{ ignoreComments: false }]
+        },
+        {
+            code: "// Trailing comment test.",
+            options: []
+        },
+        {
+            code: "/* \nTrailing comments test. \n*/",
+            options: [{ ignoreComments: true }]
+        },
+        {
+            code: "#!/usr/bin/env node ",
+            options: [{ ignoreComments: true }]
         }
     ],
 
@@ -238,15 +254,16 @@ ruleTester.run("no-trailing-spaces", rule, {
         {
             code: "var a = 5;      \n",
             output: "var a = 5;\n",
+            options: [{}],
             errors: [{
                 message: "Trailing spaces not allowed.",
                 type: "Program"
-            }],
-            options: [{}]
+            }]
         },
         {
             code: "var a = 5; \n b = 3; ",
             output: "var a = 5;\n b = 3;",
+            options: [{}],
             errors: [{
                 message: "Trailing spaces not allowed.",
                 type: "Program",
@@ -257,56 +274,58 @@ ruleTester.run("no-trailing-spaces", rule, {
                 type: "Program",
                 line: 2,
                 column: 8
-            }],
-            options: [{}]
+            }]
         },
         {
             code: "var a = 5;\t\n  b = 3;",
             output: "var a = 5;\n  b = 3;",
+            options: [{}],
             errors: [{
                 message: "Trailing spaces not allowed.",
                 type: "Program",
                 line: 1,
                 column: 11
-            }],
-            options: [{}]
+            }]
         },
         {
             code: "     \n    var c = 1;",
             output: "\n    var c = 1;",
+            options: [{}],
             errors: [{
                 message: "Trailing spaces not allowed.",
                 type: "Program",
                 line: 1,
                 column: 1
-            }],
-            options: [{}]
+            }]
         },
         {
             code: "\t\n\tvar c = 2;",
             output: "\n\tvar c = 2;",
+            options: [{}],
             errors: [{
                 message: "Trailing spaces not allowed.",
                 type: "Program"
-            }],
-            options: [{}]
+            }]
         },
         {
             code: "var a = 'bar';  \n \n\t",
             output: "var a = 'bar';\n \n\t",
+            options: [{
+                skipBlankLines: true
+            }],
             errors: [{
                 message: "Trailing spaces not allowed.",
                 type: "Program",
                 line: 1,
                 column: 15 // there are invalid spaces in columns 15 and 16
-            }],
-            options: [{
-                skipBlankLines: true
             }]
         },
         {
             code: "var a = 'foo';   \nvar b = 'bar';  \n  \n",
             output: "var a = 'foo';\nvar b = 'bar';\n  \n",
+            options: [{
+                skipBlankLines: true
+            }],
             errors: [
                 {
                     message: "Trailing spaces not allowed.",
@@ -320,10 +339,7 @@ ruleTester.run("no-trailing-spaces", rule, {
                     line: 2,
                     column: 15
                 }
-            ],
-            options: [{
-                skipBlankLines: true
-            }]
+            ]
         },
         {
             code: "let str = `${a}\n  \n${b}`;  \n",
@@ -371,10 +387,10 @@ ruleTester.run("no-trailing-spaces", rule, {
         {
             code: "let str = `${a}\n  \n${b}`;  \n  \n",
             output: "let str = `${a}\n  \n${b}`;\n  \n",
-            parserOptions: { ecmaVersion: 6 },
             options: [{
                 skipBlankLines: true
             }],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     message: "Trailing spaces not allowed.",
@@ -414,6 +430,79 @@ ruleTester.run("no-trailing-spaces", rule, {
                     type: "Program",
                     line: 2,
                     column: 8
+                }
+            ]
+        },
+
+        // Tests for ignoreComments flag.
+        {
+            code: "var foo = 'bar'; ",
+            output: "var foo = 'bar';",
+            options: [{ ignoreComments: true }],
+            errors: [
+                {
+                    message: "Trailing spaces not allowed.",
+                    type: "Program",
+                    line: 1,
+                    column: 17
+                }
+            ]
+        },
+        {
+            code: "// Trailing comment test. ",
+            output: "// Trailing comment test.",
+            options: [{ ignoreComments: false }],
+            errors: [
+                {
+                    message: "Trailing spaces not allowed.",
+                    type: "Program",
+                    line: 1,
+                    column: 26
+                }
+            ]
+        },
+        {
+            code: "/* \nTrailing comments test. \n*/",
+            output: "/*\nTrailing comments test.\n*/",
+            options: [{ ignoreComments: false }],
+            errors: [
+                {
+                    message: "Trailing spaces not allowed.",
+                    type: "Program",
+                    line: 1,
+                    column: 3
+                },
+                {
+                    message: "Trailing spaces not allowed.",
+                    type: "Program",
+                    line: 2,
+                    column: 24
+                }
+            ]
+        },
+        {
+            code: "#!/usr/bin/env node ",
+            output: "#!/usr/bin/env node",
+            options: [{ ignoreComments: false }],
+            errors: [
+                {
+                    message: "Trailing spaces not allowed.",
+                    type: "Program",
+                    line: 1,
+                    column: 20
+                }
+            ]
+        },
+        {
+            code: "// Trailing comment default test. ",
+            output: "// Trailing comment default test.",
+            options: [],
+            errors: [
+                {
+                    message: "Trailing spaces not allowed.",
+                    type: "Program",
+                    line: 1,
+                    column: 34
                 }
             ]
         }

@@ -24,7 +24,6 @@ ruleTester.run("no-cond-assign", rule, {
         "var x = 0; if (x == 0) { var b = 1; }",
         { code: "var x = 0; if (x == 0) { var b = 1; }", options: ["always"] },
         "var x = 5; while (x < 5) { x = x + 1; }",
-        "var x = 0; if (x == 0) { var b = 1; }",
         "if ((someNode = someNode.parentNode) !== null) { }",
         { code: "if ((someNode = someNode.parentNode) !== null) { }", options: ["except-parens"] },
         "if ((a = b));",

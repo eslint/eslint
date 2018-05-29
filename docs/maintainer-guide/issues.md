@@ -41,10 +41,10 @@ The steps for triaging an issue are:
             * "documentation" - related to content on eslint.org
             * "infrastructure" - related to resources needed for builds or deployment (VMs, CI tools, bots, etc.)
 1. Once it's clear what type of issue it is, make sure all of the relevant information is provided:
-    * **Bugs**: See [bug reporting guidelines](/docs/developer-guide/contributing/reporting-bugs)
-    * **New Rules:** See [rule proposal guidelines](/docs/developer-guide/contributing/new-rules)
-    * **Rule Changes:** See [rule change proposal guidelines](/docs/developer-guide/contributing/rule-changes)
-    * **Other Changes:** See [change proposal guidelines](http://eslint.org/docs/developer-guide/contributing/changes)
+    * **Bugs**: See [bug reporting guidelines](/docs/developer-guide/contributing/reporting-bugs.md)
+    * **New Rules:** See [rule proposal guidelines](/docs/developer-guide/contributing/new-rules.md)
+    * **Rule Changes:** See [rule change proposal guidelines](/docs/developer-guide/contributing/rule-changes.md)
+    * **Other Changes:** See [change proposal guidelines](/docs/developer-guide/contributing/changes.md)
 1. Next steps:
     * **Questions:** answer the question and close the issue when the conversation is over.
     * **Bugs:** if you can verify the bug, add the "accepted" label and ask if they would like to submit a pull request.
@@ -54,7 +54,7 @@ The steps for triaging an issue are:
     * **Duplicates:** if you can verify the issue is a duplicate, add a comment mentioning the duplicate issue (such as, "Duplicate of #1234") and close the issue.
 1. Regardless of the above, always leave a comment. Don't just add labels, engage with the person who opened the issue by asking a question (request more information if necessary) or stating your opinion of the issue. If it's a verified bug, ask if the user would like to submit a pull request.
 
-**Note:** "Beginner" issues are intended to help new contributors feel welcome and empowered to make a contribution to ESLint. To ensure that new contributors are given a chance to work on these issues, issues labeled "beginner" must be open for 30 days *from the day the issue was labeled* before a team member is permitted to work on them.
+**Note:** "Good first issue" issues are intended to help new contributors feel welcome and empowered to make a contribution to ESLint. To ensure that new contributors are given a chance to work on these issues, issues labeled "good first issue" must be open for 30 days *from the day the issue was labeled* before a team member is permitted to work on them.
 
 ## Accepting Issues
 
@@ -72,7 +72,7 @@ New rules and rule changes require a champion. As champion, it's your job to:
 * Gain [consensus](#consensus) from the ESLint team on inclusion
 * Guide the rule creation process until it's complete (so only champion a rule that you have time to implement or help another contributor implement)
 
-Once consensus has been reached on inclusion, add the "accepted" and, optionally, "help wanted" and "beginner" labels, as necessary.
+Once consensus has been reached on inclusion, add the "accepted" and, optionally, "help wanted" and "good first issue" labels, as necessary.
 
 ## Consensus
 

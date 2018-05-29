@@ -3,7 +3,7 @@
  * @author nzakas
  */
 
-/* global cat, cd, cp, echo, exec, exit, find, ls, mkdir, pwd, rm, target, test*/
+/* global target */
 /* eslint no-use-before-define: "off", no-console: "off" */
 "use strict";
 
@@ -20,13 +20,26 @@ const lodash = require("lodash"),
     fs = require("fs"),
     glob = require("glob"),
     markdownlint = require("markdownlint"),
-    nodeCLI = require("shelljs-nodecli"),
     os = require("os"),
     path = require("path"),
     semver = require("semver"),
+    shell = require("shelljs"),
     ejs = require("ejs"),
     loadPerf = require("load-perf"),
     yaml = require("js-yaml");
+
+const cat = shell.cat;
+const cd = shell.cd;
+const cp = shell.cp;
+const echo = shell.echo;
+const exec = shell.exec;
+const exit = shell.exit;
+const find = shell.find;
+const ls = shell.ls;
+const mkdir = shell.mkdir;
+const pwd = shell.pwd;
+const rm = shell.rm;
+const test = shell.test;
 
 //------------------------------------------------------------------------------
 // Settings
@@ -41,7 +54,7 @@ const lodash = require("lodash"),
 const PERF_MULTIPLIER = 13e6;
 
 const OPEN_SOURCE_LICENSES = [
-    /MIT/, /BSD/, /Apache/, /ISC/, /WTF/, /Public Domain/
+    /MIT/, /BSD/, /Apache/, /ISC/, /WTF/, /Public Domain/, /LGPL/
 ];
 
 //------------------------------------------------------------------------------
@@ -51,6 +64,7 @@ const OPEN_SOURCE_LICENSES = [
 const NODE = "node ", // intentional extra space
     NODE_MODULES = "./node_modules/",
     TEMP_DIR = "./tmp/",
+    DEBUG_DIR = "./debug/",
     BUILD_DIR = "./build/",
     DOCS_DIR = "../eslint.github.io/docs",
     SITE_DIR = "../eslint.github.io/",
@@ -58,20 +72,17 @@ const NODE = "node ", // intentional extra space
 
     // Utilities - intentional extra space at the end of each string
     MOCHA = `${NODE_MODULES}mocha/bin/_mocha `,
-    ESLINT = `${NODE} bin/eslint.js --rulesdir lib/internal-rules/ `,
+    ESLINT = `${NODE} bin/eslint.js --report-unused-disable-directives `,
 
     // Files
     MAKEFILE = "./Makefile.js",
-    JS_FILES = "\"lib/**/*.js\" \"conf/**/*.js\" \"bin/**/*.js\"",
+    JS_FILES = "\"lib/**/*.js\" \"conf/**/*.js\" \"bin/**/*.js\" \"tools/**/*.js\"",
     JSON_FILES = find("conf/").filter(fileType("json")),
     MARKDOWN_FILES_ARRAY = find("docs/").concat(ls(".")).filter(fileType("md")),
     TEST_FILES = getTestFilePatterns(),
     PERF_ESLINTRC = path.join(PERF_TMP_DIR, "eslintrc.yml"),
     PERF_MULTIFILES_TARGET_DIR = path.join(PERF_TMP_DIR, "eslint"),
     PERF_MULTIFILES_TARGETS = `"${PERF_MULTIFILES_TARGET_DIR + path.sep}{lib,tests${path.sep}lib}${path.sep}**${path.sep}*.js"`,
-
-    // Regex
-    TAG_REGEX = /^(?:Breaking|Build|Chore|Docs|Fix|New|Update|Upgrade):/,
 
     // Settings
     MOCHA_TIMEOUT = 10000;
@@ -86,16 +97,12 @@ const NODE = "node ", // intentional extra space
  * @private
  */
 function getTestFilePatterns() {
-    const testLibPath = "tests/lib/",
-        testTemplatesPath = "tests/templates/",
-        testBinPath = "tests/bin/";
-
-    return ls(testLibPath).filter(pathToCheck => test("-d", testLibPath + pathToCheck)).reduce((initialValue, currentValues) => {
+    return ls("tests/lib/").filter(pathToCheck => test("-d", `tests/lib/${pathToCheck}`)).reduce((initialValue, currentValues) => {
         if (currentValues !== "rules") {
-            initialValue.push(`"${testLibPath + currentValues}/**/*.js"`);
+            initialValue.push(`"tests/lib/${currentValues}/**/*.js"`);
         }
         return initialValue;
-    }, [`"${testLibPath}rules/**/*.js"`, `"${testLibPath}*.js"`, `"${testTemplatesPath}*.js"`, `"${testBinPath}**/*.js"`]).join(" ");
+    }, ["\"tests/lib/rules/**/*.js\"", "\"tests/lib/*.js\"", "\"tests/bin/**/*.js\"", "\"tests/tools/**/*.js\""]).join(" ");
 }
 
 /**
@@ -118,7 +125,7 @@ function validateJsonFile(filePath) {
  */
 function fileType(extension) {
     return function(filename) {
-        return filename.substring(filename.lastIndexOf(".") + 1) === extension;
+        return filename.slice(filename.lastIndexOf(".") + 1) === extension;
     };
 }
 
@@ -149,7 +156,7 @@ function generateRulesIndex(basedir) {
  * @returns {string} The result of the executed command.
  */
 function execSilent(cmd) {
-    return exec(cmd, { silent: true }).output;
+    return exec(cmd, { silent: true }).stdout;
 }
 
 /**
@@ -332,7 +339,7 @@ function getFirstCommitOfFile(filePath) {
  * @param {string} filePath The file path to check.
  * @returns {string} The tag name.
  */
-function getTagOfFirstOccurrence(filePath) {
+function getFirstVersionOfFile(filePath) {
     const firstCommit = getFirstCommitOfFile(filePath);
     let tags = execSilent(`git tag --contains ${firstCommit}`);
 
@@ -344,15 +351,6 @@ function getTagOfFirstOccurrence(filePath) {
         }
         return list;
     }, []).sort(semver.compare)[0];
-}
-
-/**
- * Gets the version number where a given file was introduced first.
- * @param {string} filePath The file path to check.
- * @returns {string} The version number.
- */
-function getFirstVersionOfFile(filePath) {
-    return getTagOfFirstOccurrence(filePath);
 }
 
 /**
@@ -381,24 +379,6 @@ function getFirstVersionOfDeletion(filePath) {
         .sort(semver.compare)[0];
 }
 
-
-/**
- * Returns all the branch names
- * @returns {string[]} branch names
- * @private
- */
-function getBranches() {
-    const branchesRaw = splitCommandResultToLines(execSilent("git branch --list")),
-        branches = [];
-
-    for (let i = 0; i < branchesRaw.length; i++) {
-        const branchName = branchesRaw[i].replace(/^\*(.*)/, "$1").trim();
-
-        branches.push(branchName);
-    }
-    return branches;
-}
-
 /**
  * Lints Markdown files.
  * @param {array} files Array of file names to lint.
@@ -412,7 +392,7 @@ function lintMarkdown(files) {
             // Exclusions for deliberate/widespread violations
             MD001: false, // Header levels should only increment by one level at a time
             MD002: false, // First header should be a h1 header
-            MD007: {      // Unordered list indentation
+            MD007: { // Unordered list indentation
                 indent: 4
             },
             MD012: false, // Multiple consecutive blank lines
@@ -427,7 +407,7 @@ function lintMarkdown(files) {
             MD033: false, // Allow inline HTML
             MD034: false, // Bare URL used
             MD040: false, // Fenced code blocks should have a language specified
-            MD041: false  // First line in file should be a top level header
+            MD041: false // First line in file should be a top level header
         },
         result = markdownlint.sync({
             files,
@@ -444,24 +424,12 @@ function lintMarkdown(files) {
 }
 
 /**
- * Check if the branch name is valid
- * @param {string} branchName Branch name to check
- * @returns {boolean} true is branch exists
- * @private
- */
-function hasBranch(branchName) {
-    const branches = getBranches();
-
-    return branches.indexOf(branchName) !== -1;
-}
-
-/**
  * Gets linting results from every formatter, based on a hard-coded snippet and config
  * @returns {Object} Output from each formatter
  */
 function getFormatterResults() {
     const CLIEngine = require("./lib/cli-engine"),
-        chalk = require("chalk");
+        stripAnsi = require("strip-ansi");
 
     const formatterFiles = fs.readdirSync("./lib/formatters/"),
         cli = new CLIEngine({
@@ -492,11 +460,20 @@ function getFormatterResults() {
 
         if (fileExt === ".js") {
             data.formatterResults[name] = {
-                result: chalk.stripColor(cli.getFormatter(name)(rawMessages.results))
+                result: stripAnsi(cli.getFormatter(name)(rawMessages.results))
             };
         }
         return data;
     }, { formatterResults: {} });
+}
+
+/**
+ * Gets a path to an executable in node_modules/.bin
+ * @param {string} command The executable name
+ * @returns {string} The executable path
+ */
+function getBinFile(command) {
+    return path.join("node_modules", ".bin", command);
 }
 
 //------------------------------------------------------------------------------
@@ -509,20 +486,16 @@ target.all = function() {
 
 target.lint = function() {
     let errors = 0,
-        makeFileCache = " ",
-        jsCache = " ",
-        testCache = " ",
         lastReturn;
 
-    // using the cache locally to speed up linting process
-    if (!process.env.TRAVIS) {
-        makeFileCache = " --cache --cache-file .cache/makefile_cache ";
-        jsCache = " --cache --cache-file .cache/js_cache ";
-        testCache = " --cache --cache-file .cache/test_cache ";
+    echo("Validating Makefile.js");
+    lastReturn = exec(`${ESLINT} ${MAKEFILE}`);
+    if (lastReturn.code !== 0) {
+        errors++;
     }
 
-    echo("Validating Makefile.js");
-    lastReturn = exec(ESLINT + makeFileCache + MAKEFILE);
+    echo("Validating .eslintrc.js");
+    lastReturn = exec(`${ESLINT} .eslintrc.js`);
     if (lastReturn.code !== 0) {
         errors++;
     }
@@ -537,18 +510,54 @@ target.lint = function() {
     }
 
     echo("Validating JavaScript files");
-    lastReturn = exec(ESLINT + jsCache + JS_FILES);
+    lastReturn = exec(`${ESLINT} ${JS_FILES}`);
     if (lastReturn.code !== 0) {
         errors++;
     }
 
     echo("Validating JavaScript test files");
-    lastReturn = exec(`${ESLINT}${testCache}"tests/**/*.js"`);
+    lastReturn = exec(`${ESLINT} "tests/**/*.js"`);
     if (lastReturn.code !== 0) {
         errors++;
     }
 
     if (errors) {
+        exit(1);
+    }
+};
+
+target.fuzz = function() {
+    const fuzzerRunner = require("./tools/fuzzer-runner");
+    const fuzzResults = fuzzerRunner.run({ amount: process.env.CI ? 1000 : 300 });
+
+    if (fuzzResults.length) {
+        echo(`The fuzzer reported ${fuzzResults.length} error${fuzzResults.length === 1 ? "" : "s"}.`);
+
+        const formattedResults = JSON.stringify({ results: fuzzResults }, null, 4);
+
+        if (process.env.CI) {
+            echo("More details can be found below.");
+            echo(formattedResults);
+        } else {
+            if (!test("-d", DEBUG_DIR)) {
+                mkdir(DEBUG_DIR);
+            }
+
+            let fuzzLogPath;
+            let fileSuffix = 0;
+
+            // To avoid overwriting any existing fuzzer log files, append a numeric suffix to the end of the filename.
+            do {
+                fuzzLogPath = path.join(DEBUG_DIR, `fuzzer-log-${fileSuffix}.json`);
+                fileSuffix++;
+            } while (test("-f", fuzzLogPath));
+
+            formattedResults.to(fuzzLogPath);
+
+            // TODO: (not-an-aardvark) Create a better way to isolate and test individual fuzzer errors from the log file
+            echo(`More details can be found in ${fuzzLogPath}.`);
+        }
+
         exit(1);
     }
 };
@@ -559,21 +568,20 @@ target.test = function() {
     let errors = 0,
         lastReturn;
 
-    // exec(ISTANBUL + " cover " + MOCHA + "-- -c " + TEST_FILES);
-    lastReturn = nodeCLI.exec("istanbul", "cover", MOCHA, `-- -R progress -t ${MOCHA_TIMEOUT}`, "-c", TEST_FILES);
+    lastReturn = exec(`${getBinFile("istanbul")} cover ${MOCHA} -- -R progress -t ${MOCHA_TIMEOUT} -c ${TEST_FILES}`);
     if (lastReturn.code !== 0) {
         errors++;
     }
 
-    // exec(ISTANBUL + "check-coverage --statement 99 --branch 98 --function 99 --lines 99");
-    lastReturn = nodeCLI.exec("istanbul", "check-coverage", "--statement 99 --branch 98 --function 99 --lines 99");
+    lastReturn = exec(`${getBinFile("istanbul")} check-coverage --statement 99 --branch 98 --function 99 --lines 99`);
+
     if (lastReturn.code !== 0) {
         errors++;
     }
 
     target.browserify();
 
-    lastReturn = nodeCLI.exec("karma", "start karma.conf.js");
+    lastReturn = exec(`${getBinFile("karma")} start karma.conf.js`);
     if (lastReturn.code !== 0) {
         errors++;
     }
@@ -587,7 +595,7 @@ target.test = function() {
 
 target.docs = function() {
     echo("Generating documentation");
-    nodeCLI.exec("jsdoc", "-d jsdoc lib");
+    exec(`${getBinFile("jsdoc")} -d jsdoc lib`);
     echo("Documentation has been output to /jsdoc");
 };
 
@@ -608,11 +616,13 @@ target.gensite = function(prereleaseVersion) {
     }
 
     // 1. create temp and build directory
+    echo("> Creating a temporary directory (Step 1)");
     if (!test("-d", TEMP_DIR)) {
         mkdir(TEMP_DIR);
     }
 
     // 2. remove old files from the site
+    echo("> Removing old files (Step 2)");
     docFiles.forEach(filePath => {
         const fullPath = path.join(DOCS_DIR, filePath),
             htmlFullPath = fullPath.replace(".md", ".html");
@@ -628,6 +638,7 @@ target.gensite = function(prereleaseVersion) {
     });
 
     // 3. Copy docs folder to a temporary directory
+    echo("> Copying the docs folder (Step 3)");
     cp("-rf", "docs/*", TEMP_DIR);
 
     let versions = test("-f", "./versions.json") ? JSON.parse(cat("./versions.json")) : {};
@@ -645,7 +656,11 @@ target.gensite = function(prereleaseVersion) {
     const FIXABLE_TEXT = "\n\n(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) can automatically fix some of the problems reported by this rule.";
 
     // 4. Loop through all files in temporary directory
-    find(TEMP_DIR).forEach(filename => {
+    process.stdout.write("> Updating files (Steps 4-9): 0/... - ...\r");
+    const tempFiles = find(TEMP_DIR);
+    const length = tempFiles.length;
+
+    tempFiles.forEach((filename, i) => {
         if (test("-f", filename) && path.extname(filename) === ".md") {
 
             const rulesUrl = "https://github.com/eslint/eslint/tree/master/lib/rules/",
@@ -653,9 +668,12 @@ target.gensite = function(prereleaseVersion) {
                 baseName = path.basename(filename),
                 sourceBaseName = `${path.basename(filename, ".md")}.js`,
                 sourcePath = path.join("lib/rules", sourceBaseName),
-                ruleName = path.basename(filename, ".md");
+                ruleName = path.basename(filename, ".md"),
+                filePath = path.join("docs", path.relative("tmp", filename));
             let text = cat(filename),
                 title;
+
+            process.stdout.write(`> Updating files (Steps 4-9): ${i}/${length} - ${filePath + " ".repeat(30)}\r`);
 
             // 5. Prepend page title and layout variables at the top of rules
             if (path.dirname(filename).indexOf("rules") >= 0) {
@@ -672,7 +690,7 @@ target.gensite = function(prereleaseVersion) {
 
                 text = `${ruleHeading}${isRecommended ? RECOMMENDED_TEXT : ""}${isFixable ? FIXABLE_TEXT : ""}\n${ruleDocsContent}`;
 
-                text = `---\ntitle: ${ruleName} - Rules\nlayout: doc\n---\n<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->\n\n${text}`;
+                title = `${ruleName} - Rules`;
             } else {
 
                 // extract the title from the file itself
@@ -682,8 +700,18 @@ target.gensite = function(prereleaseVersion) {
                 } else {
                     title = "Documentation";
                 }
-                text = `---\ntitle: ${title}\nlayout: doc\n---\n<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->\n\n${text}`;
             }
+
+            text = [
+                "---",
+                `title: ${title}`,
+                "layout: doc",
+                `edit_link: https://github.com/eslint/eslint/edit/master/${filePath}`,
+                "---",
+                "<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->",
+                "",
+                text
+            ].join("\n");
 
             // 6. Remove .md extension for relative links and change README to empty string
             text = text.replace(/\((?!https?:\/\/)([^)]*?)\.md.*?\)/g, "($1)").replace("README.html", "");
@@ -722,8 +750,10 @@ target.gensite = function(prereleaseVersion) {
         }
     });
     JSON.stringify(versions).to("./versions.json");
+    echo(`> Updating files (Steps 4-9)${" ".repeat(50)}`);
 
     // 10. Copy temporary directory to site's docs folder
+    echo("> Copying the temporary directory the site (Step 10)");
     let outputDir = DOCS_DIR;
 
     if (prereleaseVersion) {
@@ -732,18 +762,27 @@ target.gensite = function(prereleaseVersion) {
     cp("-rf", `${TEMP_DIR}*`, outputDir);
 
     // 11. Generate rule listing page
+    echo("> Generating the rule listing (Step 11)");
     generateRuleIndexPage(process.cwd());
 
     // 12. Delete temporary directory
+    echo("> Removing the temporary directory (Step 12)");
     rm("-r", TEMP_DIR);
 
     // 13. Update demos, but only for non-prereleases
     if (!prereleaseVersion) {
+        echo("> Updating the demos (Step 13)");
+        target.browserify();
         cp("-f", "build/eslint.js", `${SITE_DIR}js/app/eslint.js`);
+    } else {
+        echo("> Skipped updating the demos (Step 13)");
     }
 
     // 14. Create Example Formatter Output Page
+    echo("> Creating the formatter examples (Step 14)");
     generateFormatterExamples(getFormatterResults(), prereleaseVersion);
+
+    echo("Done generating eslint.org");
 };
 
 target.browserify = function() {
@@ -767,10 +806,10 @@ target.browserify = function() {
     generateRulesIndex(TEMP_DIR);
 
     // 5. browserify the temp directory
-    nodeCLI.exec("browserify", "-x espree", `${TEMP_DIR}eslint.js`, "-o", `${BUILD_DIR}eslint.js`, "-s eslint", "-t [ babelify --presets [ es2015 ] ]");
+    exec(`${getBinFile("browserify")} -x espree ${TEMP_DIR}linter.js -o ${BUILD_DIR}eslint.js -s eslint --global-transform [ babelify --presets [ es2015 ] ]`);
 
     // 6. Browserify espree
-    nodeCLI.exec("browserify", "-r espree", "-o", `${TEMP_DIR}espree.js`);
+    exec(`${getBinFile("browserify")} -r espree -o ${TEMP_DIR}espree.js`);
 
     // 7. Concatenate Babel polyfill, Espree, and ESLint files together
     cat("./node_modules/babel-polyfill/dist/polyfill.js", `${TEMP_DIR}espree.js`, `${BUILD_DIR}eslint.js`).to(`${BUILD_DIR}eslint.js`);
@@ -811,9 +850,11 @@ target.checkRuleFiles = function() {
             const docText = cat(docFilename);
             const idOldAtEndOfTitleRegExp = new RegExp(`^# (.*?) \\(${id}\\)`); // original format
             const idNewAtBeginningOfTitleRegExp = new RegExp(`^# ${id}: `); // new format is same as rules index
-            // 1. Added support for new format.
-            // 2. Will remove support for old format after all docs files have new format.
-            // 3. Will remove this check when the main heading is automatically generated from rule metadata.
+            /*
+             * 1. Added support for new format.
+             * 2. Will remove support for old format after all docs files have new format.
+             * 3. Will remove this check when the main heading is automatically generated from rule metadata.
+             */
 
             return idNewAtBeginningOfTitleRegExp.test(docText) || idOldAtEndOfTitleRegExp.test(docText);
         }
@@ -884,7 +925,8 @@ target.checkLicenses = function() {
 
         if (impermissible.length) {
             impermissible.forEach(dependency => {
-                console.error("%s license for %s is impermissible.",
+                console.error(
+                    "%s license for %s is impermissible.",
                     dependency.licenses,
                     dependency.name
                 );
@@ -892,57 +934,6 @@ target.checkLicenses = function() {
             exit(1);
         }
     });
-};
-
-target.checkGitCommit = function() {
-    let commitMsgs,
-        failed;
-
-    if (hasBranch("master")) {
-        commitMsgs = splitCommandResultToLines(execSilent("git log HEAD --not master --format=format:%s --no-merges"));
-    } else {
-        commitMsgs = [execSilent("git log -1 --format=format:%s --no-merges")];
-    }
-
-    echo("Validating Commit Message");
-
-    // No commit since master should not cause test to fail
-    if (commitMsgs[0] === "") {
-        return;
-    }
-
-    // Check for more than one commit
-    if (commitMsgs.length > 1) {
-        echo(" - More than one commit found, please squash.");
-        failed = true;
-    }
-
-    // Only check non-release messages
-    if (!semver.valid(commitMsgs[0]) && !/^Revert /.test(commitMsgs[0])) {
-        if (commitMsgs[0].split(/\r?\n/)[0].length > 72) {
-            echo(" - First line of commit message must not exceed 72 characters");
-            failed = true;
-        }
-
-        // Check for tag at start of message
-        if (!TAG_REGEX.test(commitMsgs[0])) {
-            echo([" - Commit summary must start with one of:",
-                "    'Fix:'",
-                "    'Update:'",
-                "    'Breaking:'",
-                "    'Docs:'",
-                "    'Build:'",
-                "    'New:'",
-                "    'Upgrade:'",
-                "    'Chore:'",
-                "   Please refer to the contribution guidelines for more details."].join("\n"));
-            failed = true;
-        }
-    }
-
-    if (failed) {
-        exit(1);
-    }
 };
 
 /**
@@ -1042,7 +1033,7 @@ function runPerformanceTest(title, targets, multiplier, cb) {
     echo("  CPU Speed is %d with multiplier %d", cpuSpeed, multiplier);
 
     time(cmd, 5, 1, [], results => {
-        if (!results || results.length === 0) {  // No results? Something is wrong.
+        if (!results || results.length === 0) { // No results? Something is wrong.
             throw new Error("Performance test failed.");
         }
 

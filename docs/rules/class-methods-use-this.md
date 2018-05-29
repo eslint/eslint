@@ -1,6 +1,6 @@
 # Enforce that class methods utilize `this` (class-methods-use-this)
 
-If a class method does not use `this`, it can safely be made a static function.
+If a class method does not use `this`, it can *sometimes* be made into a static function. If you do convert the method into a static function, instances of the class that call that particular method have to be converted to a static call as well (`MyClass.callStaticMethod()`)
 
 It's possible to have a class method which doesn't use `this`, such as:
 
@@ -43,7 +43,7 @@ class A {
 A.sayHi(); // => "hi"
 ```
 
-Also note in the above examples that the code calling the function on an *instance* of the class (`let a = new A(); a.sayHi();`) changes to calling it on the *class* itself (`A.sayHi();`).
+Also note in the above examples that if you switch a method to a static method, *instances* of the class that call the static method (`let a = new A(); a.sayHi();`) have to be updated to being a static call (`A.sayHi();`) instead of having the instance of the *class* call the method
 
 ## Rule Details
 
@@ -94,7 +94,7 @@ class A {
 "class-methods-use-this": [<enabled>, { "exceptMethods": [<...exceptions>] }]
 ```
 
-The `exceptMethods` option allows you to pass an array of method names for which you would like to ignore warnings.
+The `exceptMethods` option allows you to pass an array of method names for which you would like to ignore warnings. For example, you might have a spec from an external library that requires you to overwrite a method as a regular function (and not as a static method) and does not use `this` inside the function body. In this case, you can add that method to ignore in the warnings.
 
 Examples of **incorrect** code for this rule when used without exceptMethods:
 
@@ -117,3 +117,8 @@ class A {
     }
 }
 ```
+
+## Further Reading
+
+* [Classes](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes)
+* [Static Methods](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/static)

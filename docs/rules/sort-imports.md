@@ -62,8 +62,8 @@ Examples of **correct** code for this rule when using default options:
 ```js
 /*eslint sort-imports: "error"*/
 import 'module-without-export.js';
-import * as foo from 'foo.js';
 import * as bar from 'bar.js';
+import * as foo from 'foo.js';
 import {alpha, beta} from 'alpha.js';
 import {delta, gamma} from 'delta.js';
 import a from 'baz.js';
@@ -76,7 +76,7 @@ import c from 'baz.js';
 
 /*eslint sort-imports: "error"*/
 import 'foo.js'
-import * from 'bar.js';
+import * as bar from 'bar.js';
 import {a, b} from 'baz.js';
 import c from 'qux.js';
 
@@ -165,7 +165,7 @@ There are four different styles and the default member syntax sort order is:
 * `multiple` - import multiple members.
 * `single` - import single member.
 
-All four options must be specified in the array, but you can customise their order.
+All four options must be specified in the array, but you can customize their order.
 
 Examples of **incorrect** code for this rule with the default `{ "memberSyntaxSortOrder": ["none", "all", "multiple", "single"] }` option:
 
@@ -186,13 +186,12 @@ import * as b from 'bar.js';
 
 Examples of **correct** code for this rule with the `{ "memberSyntaxSortOrder": ['all', 'single', 'multiple', 'none'] }` option:
 
-```
+```js
 /*eslint sort-imports: ["error", { "memberSyntaxSortOrder": ['all', 'single', 'multiple', 'none'] }]*/
 
 import * as foo from 'foo.js';
 import z from 'zoo.js';
 import {a, b} from 'foo.js';
-
 ```
 
 Default is `["none", "all", "multiple", "single"]`.
@@ -203,5 +202,5 @@ This rule is a formatting preference and not following it won't negatively affec
 
 ## Related Rules
 
-* [sort-keys](http://eslint.org/docs/rules/sort-keys)
-* [sort-vars](http://eslint.org/docs/rules/sort-vars)
+* [sort-keys](sort-keys.md)
+* [sort-vars](sort-vars.md)

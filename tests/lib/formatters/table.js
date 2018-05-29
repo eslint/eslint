@@ -39,7 +39,7 @@ describe("formatter:table", () => {
 
             const result = formatter(code);
 
-            assert.equal(result, expectedOutput);
+            assert.strictEqual(result, expectedOutput);
         });
     });
 
@@ -80,7 +80,7 @@ describe("formatter:table", () => {
 
             const result = formatter(code);
 
-            assert.equal(result, expectedOutput);
+            assert.strictEqual(result, expectedOutput);
         });
 
         it("should return a string in the correct format for warnings", () => {
@@ -119,7 +119,7 @@ describe("formatter:table", () => {
 
             const result = formatter(code);
 
-            assert.equal(result, expectedOutput);
+            assert.strictEqual(result, expectedOutput);
         });
     });
 
@@ -160,7 +160,7 @@ describe("formatter:table", () => {
 
             const result = formatter(code);
 
-            assert.equal(result, expectedOutput);
+            assert.strictEqual(result, expectedOutput);
         });
     });
 
@@ -209,7 +209,7 @@ describe("formatter:table", () => {
 
             const result = formatter(code);
 
-            assert.equal(result, expectedOutput);
+            assert.strictEqual(result, expectedOutput);
         });
     });
 
@@ -269,7 +269,7 @@ describe("formatter:table", () => {
 
             const result = formatter(code);
 
-            assert.equal(result, expectedOutput);
+            assert.strictEqual(result, expectedOutput);
         });
     });
 
@@ -307,7 +307,7 @@ describe("formatter:table", () => {
 
             const result = formatter(code);
 
-            assert.equal(result, expectedOutput);
+            assert.strictEqual(result, expectedOutput);
         });
     });
 });

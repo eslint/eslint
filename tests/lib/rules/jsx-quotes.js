@@ -82,37 +82,37 @@ ruleTester.run("jsx-quotes", rule, {
     invalid: [
         {
             code: "<foo bar='baz' />",
+            output: "<foo bar=\"baz\" />",
             parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } },
             errors: [
                 { message: "Unexpected usage of singlequote.", line: 1, column: 10, type: "Literal" }
-            ],
-            output: "<foo bar=\"baz\" />"
+            ]
         },
         {
             code: "<foo bar=\"baz\" />",
+            output: "<foo bar='baz' />",
             options: ["prefer-single"],
             parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } },
             errors: [
                 { message: "Unexpected usage of doublequote.", line: 1, column: 10, type: "Literal" }
-            ],
-            output: "<foo bar='baz' />"
+            ]
         },
         {
             code: "<foo bar=\"&quot;\" />",
+            output: "<foo bar='&quot;' />",
             options: ["prefer-single"],
             parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } },
             errors: [
                 { message: "Unexpected usage of doublequote.", line: 1, column: 10, type: "Literal" }
-            ],
-            output: "<foo bar='&quot;' />"
+            ]
         },
         {
             code: "<foo bar='&#39;' />",
+            output: "<foo bar=\"&#39;\" />",
             parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } },
             errors: [
                 { message: "Unexpected usage of singlequote.", line: 1, column: 10, type: "Literal" }
-            ],
-            output: "<foo bar=\"&#39;\" />"
+            ]
         }
     ]
 });

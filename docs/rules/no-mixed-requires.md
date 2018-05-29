@@ -76,7 +76,7 @@ Examples of **incorrect** code for this rule with the `{ "grouping": true }` opt
 ```js
 /*eslint no-mixed-requires: ["error", { "grouping": true }]*/
 
-// invalid because of mixed types "core" and "file"
+// invalid because of mixed types "core" and "module"
 var fs = require('fs'),
     async = require('async');
 
@@ -118,7 +118,7 @@ var async = require('async'),
 
 If you use a pattern such as [UMD][4] where the `require`d modules are not loaded in variable declarations, this rule will obviously do nothing for you.
 
-[1]: http://nodejs.org/api/modules.html#modules_core_modules
-[2]: http://nodejs.org/api/modules.html#modules_file_modules
-[3]: http://nodejs.org/api/modules.html#modules_loading_from_node_modules_folders
+[1]: https://nodejs.org/api/modules.html#modules_core_modules
+[2]: https://nodejs.org/api/modules.html#modules_file_modules
+[3]: https://nodejs.org/api/modules.html#modules_loading_from_node_modules_folders
 [4]: https://github.com/umdjs/umd

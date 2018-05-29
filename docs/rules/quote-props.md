@@ -265,5 +265,5 @@ If you don't care if property names are consistently wrapped in quotes or not, a
 
 ## Further Reading
 
-* [Reserved words as property names](http://kangax.github.io/compat-table/es5/#Reserved_words_as_property_names)
+* [Reserved words as property names](https://kangax.github.io/compat-table/es5/#Reserved_words_as_property_names)
 * [Unquoted property names / object keys in JavaScript](https://mathiasbynens.be/notes/javascript-properties)

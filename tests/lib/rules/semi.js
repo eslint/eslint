@@ -96,7 +96,141 @@ ruleTester.run("semi", rule, {
 
         // https://github.com/eslint/eslint/issues/7782
         { code: "var a = b;\n/foo/.test(c)", options: ["never"] },
-        { code: "var a = b;\n`foo`", options: ["never"], parserOptions: { ecmaVersion: 6 } }
+        { code: "var a = b;\n`foo`", options: ["never"], parserOptions: { ecmaVersion: 6 } },
+
+        // https://github.com/eslint/eslint/issues/9521
+        {
+            code: `
+                do; while(a);
+                [1,2,3].forEach(doSomething)
+            `,
+            options: ["never", { beforeStatementContinuationChars: "any" }]
+        },
+        {
+            code: `
+                do; while(a)
+                [1,2,3].forEach(doSomething)
+            `,
+            options: ["never", { beforeStatementContinuationChars: "any" }]
+        },
+        {
+            code: `
+                import a from "a";
+                [1,2,3].forEach(doSomething)
+            `,
+            options: ["never", { beforeStatementContinuationChars: "always" }],
+            parserOptions: { sourceType: "module" }
+        },
+        {
+            code: `
+                export {a};
+                [a] = b
+            `,
+            options: ["never", { beforeStatementContinuationChars: "always" }],
+            parserOptions: { sourceType: "module" }
+        },
+        {
+            code: `
+                function wrap() {
+                    return;
+                    ({a} = b)
+                }
+            `,
+            options: ["never", { beforeStatementContinuationChars: "always" }],
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: `
+                while (true) {
+                    break;
+                    +i
+                }
+            `,
+            options: ["never", { beforeStatementContinuationChars: "always" }]
+        },
+        {
+            code: `
+                while (true) {
+                    continue;
+                    [1,2,3].forEach(doSomething)
+                }
+            `,
+            options: ["never", { beforeStatementContinuationChars: "always" }]
+        },
+        {
+            code: `
+                do; while(a);
+                [1,2,3].forEach(doSomething)
+            `,
+            options: ["never", { beforeStatementContinuationChars: "always" }]
+        },
+        {
+            code: `
+                const f = () => {};
+                [1,2,3].forEach(doSomething)
+            `,
+            options: ["never", { beforeStatementContinuationChars: "always" }],
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: `
+                import a from "a"
+                [1,2,3].forEach(doSomething)
+            `,
+            options: ["never", { beforeStatementContinuationChars: "never" }],
+            parserOptions: { sourceType: "module" }
+        },
+        {
+            code: `
+                export {a}
+                [a] = b
+            `,
+            options: ["never", { beforeStatementContinuationChars: "never" }],
+            parserOptions: { sourceType: "module" }
+        },
+        {
+            code: `
+                function wrap() {
+                    return
+                    ({a} = b)
+                }
+            `,
+            options: ["never", { beforeStatementContinuationChars: "never" }],
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: `
+                while (true) {
+                    break
+                    +i
+                }
+            `,
+            options: ["never", { beforeStatementContinuationChars: "never" }]
+        },
+        {
+            code: `
+                while (true) {
+                    continue
+                    [1,2,3].forEach(doSomething)
+                }
+            `,
+            options: ["never", { beforeStatementContinuationChars: "never" }]
+        },
+        {
+            code: `
+                do; while(a)
+                [1,2,3].forEach(doSomething)
+            `,
+            options: ["never", { beforeStatementContinuationChars: "never" }]
+        },
+        {
+            code: `
+                const f = () => {}
+                [1,2,3].forEach(doSomething)
+            `,
+            options: ["never", { beforeStatementContinuationChars: "never" }],
+            parserOptions: { ecmaVersion: 2015 }
+        }
     ],
     invalid: [
         { code: "import * as utils from './utils'", output: "import * as utils from './utils';", parserOptions: { sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ImportDeclaration", column: 33 }] },
@@ -112,7 +246,6 @@ ruleTester.run("semi", rule, {
         { code: "var x = 5, y", output: "var x = 5, y;", errors: [{ message: "Missing semicolon.", type: "VariableDeclaration" }] },
         { code: "debugger", output: "debugger;", errors: [{ message: "Missing semicolon.", type: "DebuggerStatement" }] },
         { code: "foo()", output: "foo();", errors: [{ message: "Missing semicolon.", type: "ExpressionStatement" }] },
-        { code: "var x = 5, y", output: "var x = 5, y;", errors: [{ message: "Missing semicolon.", type: "VariableDeclaration" }] },
         { code: "for (var a in b) var i ", output: "for (var a in b) var i; ", errors: [{ message: "Missing semicolon.", type: "VariableDeclaration" }] },
         { code: "for (;;){var i}", output: "for (;;){var i;}", errors: [{ message: "Missing semicolon.", type: "VariableDeclaration" }] },
         { code: "for (;;) var i ", output: "for (;;) var i; ", errors: [{ message: "Missing semicolon.", type: "VariableDeclaration" }] },
@@ -126,12 +259,11 @@ ruleTester.run("semi", rule, {
         { code: "function foo() { return []; }", output: "function foo() { return [] }", options: ["never"], errors: [{ message: "Extra semicolon.", type: "ReturnStatement" }] },
         { code: "while(true) { break; }", output: "while(true) { break }", options: ["never"], errors: [{ message: "Extra semicolon.", type: "BreakStatement" }] },
         { code: "while(true) { continue; }", output: "while(true) { continue }", options: ["never"], errors: [{ message: "Extra semicolon.", type: "ContinueStatement" }] },
-        { code: "let x = 5;", output: "let x = 5", parserOptions: { ecmaVersion: 6 }, options: ["never"], errors: [{ message: "Extra semicolon.", type: "VariableDeclaration" }] },
+        { code: "let x = 5;", output: "let x = 5", options: ["never"], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Extra semicolon.", type: "VariableDeclaration" }] },
         { code: "var x = 5;", output: "var x = 5", options: ["never"], errors: [{ message: "Extra semicolon.", type: "VariableDeclaration" }] },
         { code: "var x = 5, y;", output: "var x = 5, y", options: ["never"], errors: [{ message: "Extra semicolon.", type: "VariableDeclaration" }] },
         { code: "debugger;", output: "debugger", options: ["never"], errors: [{ message: "Extra semicolon.", type: "DebuggerStatement" }] },
         { code: "foo();", output: "foo()", options: ["never"], errors: [{ message: "Extra semicolon.", type: "ExpressionStatement" }] },
-        { code: "var x = 5, y;", output: "var x = 5, y", options: ["never"], errors: [{ message: "Extra semicolon.", type: "VariableDeclaration" }] },
         { code: "for (var a in b) var i; ", output: "for (var a in b) var i ", options: ["never"], errors: [{ message: "Extra semicolon.", type: "VariableDeclaration" }] },
         { code: "for (;;){var i;}", output: "for (;;){var i}", options: ["never"], errors: [{ message: "Extra semicolon.", type: "VariableDeclaration" }] },
         { code: "for (;;) var i; ", output: "for (;;) var i ", options: ["never"], errors: [{ message: "Extra semicolon.", type: "VariableDeclaration" }] },
@@ -169,6 +301,326 @@ ruleTester.run("semi", rule, {
         { code: "export default (foo) => foo.bar();", output: "export default (foo) => foo.bar()", options: ["never"], parserOptions: { sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "ExportDefaultDeclaration" }] },
         { code: "export default foo = 42;", output: "export default foo = 42", options: ["never"], parserOptions: { sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "ExportDefaultDeclaration" }] },
         { code: "export default foo += 42;", output: "export default foo += 42", options: ["never"], parserOptions: { sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "ExportDefaultDeclaration" }] },
-        { code: "a;\n++b", output: "a\n++b", options: ["never"], errors: [{ message: "Extra semicolon." }] }
+        { code: "a;\n++b", output: "a\n++b", options: ["never"], errors: [{ message: "Extra semicolon." }] },
+
+        // https://github.com/eslint/eslint/issues/7928
+        {
+            code: [
+                "/*eslint no-extra-semi: error */",
+                "foo();",
+                ";[0,1,2].forEach(bar)"
+            ].join("\n"),
+            output: [
+                "/*eslint no-extra-semi: error */",
+                "foo()",
+                ";[0,1,2].forEach(bar)"
+            ].join("\n"),
+            options: ["never"],
+            errors: [
+                "Extra semicolon.",
+                "Unnecessary semicolon."
+            ]
+        },
+
+        // https://github.com/eslint/eslint/issues/9521
+        {
+            code: `
+                import a from "a"
+                [1,2,3].forEach(doSomething)
+            `,
+            output: `
+                import a from "a";
+                [1,2,3].forEach(doSomething)
+            `,
+            options: ["never", { beforeStatementContinuationChars: "always" }],
+            parserOptions: { sourceType: "module" },
+            errors: ["Missing semicolon."]
+        },
+        {
+            code: `
+                export {a}
+                [a] = b
+            `,
+            output: `
+                export {a};
+                [a] = b
+            `,
+            options: ["never", { beforeStatementContinuationChars: "always" }],
+            parserOptions: { sourceType: "module" },
+            errors: ["Missing semicolon."]
+        },
+        {
+            code: `
+                function wrap() {
+                    return
+                    ({a} = b)
+                }
+            `,
+            output: `
+                function wrap() {
+                    return;
+                    ({a} = b)
+                }
+            `,
+            options: ["never", { beforeStatementContinuationChars: "always" }],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: ["Missing semicolon."]
+        },
+        {
+            code: `
+                while (true) {
+                    break
+                   +i
+                }
+            `,
+            output: `
+                while (true) {
+                    break;
+                   +i
+                }
+            `,
+            options: ["never", { beforeStatementContinuationChars: "always" }],
+            errors: ["Missing semicolon."]
+        },
+        {
+            code: `
+                while (true) {
+                    continue
+                    [1,2,3].forEach(doSomething)
+                }
+            `,
+            output: `
+                while (true) {
+                    continue;
+                    [1,2,3].forEach(doSomething)
+                }
+            `,
+            options: ["never", { beforeStatementContinuationChars: "always" }],
+            errors: ["Missing semicolon."]
+        },
+        {
+            code: `
+                do; while(a)
+                [1,2,3].forEach(doSomething)
+            `,
+            output: `
+                do; while(a);
+                [1,2,3].forEach(doSomething)
+            `,
+            options: ["never", { beforeStatementContinuationChars: "always" }],
+            errors: ["Missing semicolon."]
+        },
+        {
+            code: `
+                const f = () => {}
+                [1,2,3].forEach(doSomething)
+            `,
+            output: `
+                const f = () => {};
+                [1,2,3].forEach(doSomething)
+            `,
+            options: ["never", { beforeStatementContinuationChars: "always" }],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: ["Missing semicolon."]
+        },
+        {
+            code: `
+                import a from "a";
+                [1,2,3].forEach(doSomething)
+            `,
+            output: `
+                import a from "a"
+                [1,2,3].forEach(doSomething)
+            `,
+            options: ["never", { beforeStatementContinuationChars: "never" }],
+            parserOptions: { sourceType: "module" },
+            errors: ["Extra semicolon."]
+        },
+        {
+            code: `
+                export {a};
+                [a] = b
+            `,
+            output: `
+                export {a}
+                [a] = b
+            `,
+            options: ["never", { beforeStatementContinuationChars: "never" }],
+            parserOptions: { sourceType: "module" },
+            errors: ["Extra semicolon."]
+        },
+        {
+            code: `
+                function wrap() {
+                    return;
+                    ({a} = b)
+                }
+            `,
+            output: `
+                function wrap() {
+                    return
+                    ({a} = b)
+                }
+            `,
+            options: ["never", { beforeStatementContinuationChars: "never" }],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: ["Extra semicolon."]
+        },
+        {
+            code: `
+                while (true) {
+                    break;
+                    +i
+                }
+            `,
+            output: `
+                while (true) {
+                    break
+                    +i
+                }
+            `,
+            options: ["never", { beforeStatementContinuationChars: "never" }],
+            errors: ["Extra semicolon."]
+        },
+        {
+            code: `
+                while (true) {
+                    continue;
+                    [1,2,3].forEach(doSomething)
+                }
+            `,
+            output: `
+                while (true) {
+                    continue
+                    [1,2,3].forEach(doSomething)
+                }
+            `,
+            options: ["never", { beforeStatementContinuationChars: "never" }],
+            errors: ["Extra semicolon."]
+        },
+        {
+            code: `
+                do; while(a);
+                [1,2,3].forEach(doSomething)
+            `,
+            output: `
+                do; while(a)
+                [1,2,3].forEach(doSomething)
+            `,
+            options: ["never", { beforeStatementContinuationChars: "never" }],
+            errors: ["Extra semicolon."]
+        },
+        {
+            code: `
+                const f = () => {};
+                [1,2,3].forEach(doSomething)
+            `,
+            output: `
+                const f = () => {}
+                [1,2,3].forEach(doSomething)
+            `,
+            options: ["never", { beforeStatementContinuationChars: "never" }],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: ["Extra semicolon."]
+        },
+        {
+            code: `
+                import a from "a"
+                ;[1,2,3].forEach(doSomething)
+            `,
+            output: `
+                import a from "a"
+                [1,2,3].forEach(doSomething)
+            `,
+            options: ["never", { beforeStatementContinuationChars: "never" }],
+            parserOptions: { sourceType: "module" },
+            errors: ["Extra semicolon."]
+        },
+        {
+            code: `
+                export {a}
+                ;[1,2,3].forEach(doSomething)
+            `,
+            output: `
+                export {a}
+                [1,2,3].forEach(doSomething)
+            `,
+            options: ["never", { beforeStatementContinuationChars: "never" }],
+            parserOptions: { sourceType: "module" },
+            errors: ["Extra semicolon."]
+        },
+        {
+            code: `
+                function wrap() {
+                    return
+                    ;[1,2,3].forEach(doSomething)
+                }
+            `,
+            output: `
+                function wrap() {
+                    return
+                    [1,2,3].forEach(doSomething)
+                }
+            `,
+            options: ["never", { beforeStatementContinuationChars: "never" }],
+            errors: ["Extra semicolon."]
+        },
+        {
+            code: `
+                while (true) {
+                    break
+                    ;[1,2,3].forEach(doSomething)
+                }
+            `,
+            output: `
+                while (true) {
+                    break
+                    [1,2,3].forEach(doSomething)
+                }
+            `,
+            options: ["never", { beforeStatementContinuationChars: "never" }],
+            errors: ["Extra semicolon."]
+        },
+        {
+            code: `
+                while (true) {
+                    continue
+                    ;[1,2,3].forEach(doSomething)
+                }
+            `,
+            output: `
+                while (true) {
+                    continue
+                    [1,2,3].forEach(doSomething)
+                }
+            `,
+            options: ["never", { beforeStatementContinuationChars: "never" }],
+            errors: ["Extra semicolon."]
+        },
+        {
+            code: `
+                do; while(a)
+                ;[1,2,3].forEach(doSomething)
+            `,
+            output: `
+                do; while(a)
+                [1,2,3].forEach(doSomething)
+            `,
+            options: ["never", { beforeStatementContinuationChars: "never" }],
+            errors: ["Extra semicolon."]
+        },
+        {
+            code: `
+                const f = () => {}
+                ;[1,2,3].forEach(doSomething)
+            `,
+            output: `
+                const f = () => {}
+                [1,2,3].forEach(doSomething)
+            `,
+            options: ["never", { beforeStatementContinuationChars: "never" }],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: ["Extra semicolon."]
+        }
     ]
 });

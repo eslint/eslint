@@ -30,8 +30,6 @@ ruleTester.run("no-extra-label", rule, {
         "A: while (a) { switch (b) { case 0: break A; } }",
         "A: while (a) { switch (b) { case 0: continue A; } }",
         "A: switch (a) { case 0: while (b) { break A; } }",
-        "A: switch (a) { case 0: while (b) { break A; } }",
-        "A: switch (a) { case 0: switch (b) { case 0: break A; } }",
         "A: switch (a) { case 0: switch (b) { case 0: break A; } }",
         "A: for (;;) { while (b) { break A; } }",
         "A: do { switch (b) { case 0: break A; break; } } while (a);",
@@ -72,8 +70,8 @@ ruleTester.run("no-extra-label", rule, {
         {
             code: "A: for (a of ary) { break A; }",
             output: "A: for (a of ary) { break; }",
-            errors: ["This label 'A' is unnecessary."],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: ["This label 'A' is unnecessary."]
         },
         {
             code: "A: switch (a) { case 0: break A; }",

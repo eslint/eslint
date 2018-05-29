@@ -24,8 +24,8 @@ This rule has one option, which can be a string option or an object option.
 
 String option:
 
-* `"always"` (default) requires empty lines at the beginning and ending of block statements (except `switch` statements and classes)
-* `"never"` disallows empty lines at the beginning and ending of block statements (except `switch` statements and classes)
+* `"always"` (default) requires empty lines at the beginning and ending of block statements and classes
+* `"never"` disallows empty lines at the beginning and ending of block statements and classes
 
 Object option:
 
@@ -354,3 +354,8 @@ if (a) {
 ## When Not To Use It
 
 You can turn this rule off if you are not concerned with the consistency of padding within blocks.
+
+## Related Rules
+
+* [lines-between-class-members](lines-between-class-members.md)
+* [padding-line-between-statements](padding-line-between-statements.md)
