@@ -137,12 +137,14 @@ ruleTester.run("no-use-before-define", rule, {
             errors: ["'x' was used before it was defined."]
         },
         {
-            code: "with (x); let x = {}",
+            code: "with (obj) x; let x = {}",
             parserOptions: { ecmaVersion: 2015 },
             errors: ["'x' was used before it was defined."]
         },
+
+        // WithStatements.
         {
-            code: "with (obj) x; let x = {}",
+            code: "with (x); let x = {}",
             parserOptions: { ecmaVersion: 2015 },
             errors: ["'x' was used before it was defined."]
         },
