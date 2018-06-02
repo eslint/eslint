@@ -1,0 +1,14 @@
+{
+  "presets": [
+    [
+      "env",
+      {
+        "targets": {
+          "browsers": [
+            "defaults"
+          ]
+        }
+      }
+    ]
+  ]
+}
