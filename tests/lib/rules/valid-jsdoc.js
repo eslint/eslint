@@ -170,6 +170,10 @@ ruleTester.run("valid-jsdoc", rule, {
             options: [{ requireReturnType: false }]
         },
         {
+            code: "/**\n* Description\n* @param p bar\n* @returns {void}*/\nFoo.bar = function(p){var t = function(){function name(){}; return name;}};",
+            options: [{ requireParamType: false }]
+        },
+        {
             code:
                 "/**\n" +
                 " * A thing interface. \n" +

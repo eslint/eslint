@@ -163,6 +163,7 @@ This rule has an object option:
 * `"matchDescription"` specifies (as a string) a regular expression to match the description in each JSDoc comment (for example, `".+"` requires a description; this option does not apply to descriptions in parameter or return tags)
 * `"requireParamDescription": false` allows missing description in parameter tags
 * `"requireReturnDescription": false` allows missing description in return tags
+* `"requireParamType": false` allows missing type in parameter tags
 
 ### prefer
 
@@ -300,6 +301,24 @@ Example of additional **correct** code for this rule with the `"requireReturnTyp
  * @param {number} num1 The first number.
  * @param {number} num2 The second number.
  * @returns The sum of the two numbers.
+ */
+function add(num1, num2) {
+    return num1 + num2;
+}
+```
+
+### requireParamType
+
+Example of additional **correct** code for this rule with the `"requireParamType": false` option:
+
+```js
+/*eslint valid-jsdoc: ["error", { "requireParamType": false }]*/
+
+/**
+ * Add two numbers.
+ * @param num1 The first number.
+ * @param num2 The second number.
+ * @returns {number} The sum of the two numbers.
  */
 function add(num1, num2) {
     return num1 + num2;
