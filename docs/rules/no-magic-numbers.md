@@ -78,6 +78,18 @@ var data = ['foo', 'bar', 'baz'];
 var dataLast = data[2];
 ```
 
+### ignoreRadixes
+
+A boolean to specify if radixes of `parseInt` and `parseFloat` are considered okay. `true` by default.
+
+Examples of **incorrect** code for the `{ "ignoreRadixes": false }` option:
+
+```js
+/*eslint no-magic-numbers: ["error", { "ignoreRadixes": false }]*/
+
+var price = parseInt('100', 10);
+```
+
 ### enforceConst
 
 A boolean to specify if we should check for the const keyword in variable declaration of numbers. `false` by default.
