@@ -23,6 +23,9 @@ ruleTester.run("no-magic-numbers", rule, {
         "var x = parseInt(y, 10);",
         "var x = parseInt(y, -10);",
         "var x = Number.parseInt(y, 10);",
+        "var x = parseFloat(y, 10);",
+        "var x = parseFloat(y, -10);",
+        "var x = Number.parseFloat(y, 10);",
         {
             code: "const foo = 42;",
             env: { es6: true }
@@ -78,6 +81,60 @@ ruleTester.run("no-magic-numbers", rule, {
         }
     ],
     invalid: [
+        {
+            code: "var x = parseInt(y, 10);",
+            options: [{
+                ignoreRadixes: false
+            }],
+            errors: [
+                { message: "No magic number: 10." }
+            ]
+        },
+        {
+            code: "var x = parseInt(y, -10);",
+            options: [{
+                ignoreRadixes: false
+            }],
+            errors: [
+                { message: "No magic number: -10." }
+            ]
+        },
+        {
+            code: "var x = Number.parseInt(y, 10);",
+            options: [{
+                ignoreRadixes: false
+            }],
+            errors: [
+                { message: "No magic number: 10." }
+            ]
+        },
+        {
+            code: "var x = parseFloat(y, 10);",
+            options: [{
+                ignoreRadixes: false
+            }],
+            errors: [
+                { message: "No magic number: 10." }
+            ]
+        },
+        {
+            code: "var x = parseFloat(y, -10);",
+            options: [{
+                ignoreRadixes: false
+            }],
+            errors: [
+                { message: "No magic number: -10." }
+            ]
+        },
+        {
+            code: "var x = Number.parseFloat(y, 10);",
+            options: [{
+                ignoreRadixes: false
+            }],
+            errors: [
+                { message: "No magic number: 10." }
+            ]
+        },
         {
             code: "var foo = 42",
             options: [{
