@@ -113,6 +113,55 @@ ruleTester.run("no-use-before-define", rule, {
             code: "foo; var foo;",
             options: [{ variables: false }],
             errors: [{ message: "'foo' was used before it was defined.", type: "Identifier" }]
+        },
+
+        // https://github.com/eslint/eslint/issues/10227
+        {
+            code: "for (let x = x;;); let x = 0",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: ["'x' was used before it was defined."]
+        },
+        {
+            code: "for (let x in xs); let xs = []",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: ["'xs' was used before it was defined."]
+        },
+        {
+            code: "for (let x of xs); let xs = []",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: ["'xs' was used before it was defined."]
+        },
+        {
+            code: "try {} catch ({message = x}) {} let x = ''",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: ["'x' was used before it was defined."]
+        },
+        {
+            code: "with (obj) x; let x = {}",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: ["'x' was used before it was defined."]
+        },
+
+        // WithStatements.
+        {
+            code: "with (x); let x = {}",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: ["'x' was used before it was defined."]
+        },
+        {
+            code: "with (obj) { x } let x = {}",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: ["'x' was used before it was defined."]
+        },
+        {
+            code: "with (obj) { if (a) { x } } let x = {}",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: ["'x' was used before it was defined."]
+        },
+        {
+            code: "with (obj) { (() => { if (a) { x } })() } let x = {}",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: ["'x' was used before it was defined."]
         }
     ]
 });
