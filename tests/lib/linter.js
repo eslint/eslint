@@ -1560,6 +1560,15 @@ describe("Linter", () => {
             assert.include(messages[0].nodeType, "CallExpression");
         });
 
+        // https://github.com/eslint/eslint/issues/9366
+        it("rules should parse regex option correctly", () => {
+            const config = {};
+            const code = String.raw`/* eslint id-match: [2, "^(([^$\\W]|\\$[a-f\\d]{2})+|[$_]\\w*|[^\\W\\d]\\w*|[A-Z]([A-Z_]*[A-Z])?)$", {properties: true}] */ var is$2dvoid = 0;`;
+            const messages = linter.verify(code, config, filename, false);
+
+            assert.equal(messages.length, 0);
+        });
+
         it("rules should not change initial config", () => {
             const config = { rules: { strict: 2 } };
             const codeA = "/*eslint strict: 0*/ function bar() { return 2; }";
