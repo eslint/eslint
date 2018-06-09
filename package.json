@@ -15,6 +15,7 @@
     "ci-release": "node Makefile.js ciRelease",
     "alpharelease": "node Makefile.js prerelease -- alpha",
     "betarelease": "node Makefile.js prerelease -- beta",
+    "rcrelease": "node Makefile.js prerelease -- rc",
     "docs": "node Makefile.js docs",
     "gensite": "node Makefile.js gensite",
     "browserify": "node Makefile.js browserify",
