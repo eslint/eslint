@@ -92,6 +92,21 @@ ruleTester.run("camelcase", rule, {
             options: [{ properties: "never" }]
         },
         {
+            code: "var { category_id } = query;",
+            options: [{ ignoreDestructuring: true }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var { category_id: category_id } = query;",
+            options: [{ ignoreDestructuring: true }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var { category_id = 1 } = query;",
+            options: [{ ignoreDestructuring: true }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
             code: "var { category_id: category } = query;",
             parserOptions: { ecmaVersion: 6 }
         },
@@ -292,12 +307,36 @@ ruleTester.run("camelcase", rule, {
             ]
         },
         {
-            code: "var { category_id: category_id } = query;",
+            code: "var { category_id: category_alias } = query;",
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "notCamelCase",
-                    data: { name: "category_id" },
+                    data: { name: "category_alias" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "var { category_id: category_alias } = query;",
+            options: [{ ignoreDestructuring: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "category_alias" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "var { category_id: categoryId, ...other_props } = query;",
+            options: [{ ignoreDestructuring: true }],
+            parserOptions: { ecmaVersion: 2018 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "other_props" },
                     type: "Identifier"
                 }
             ]
