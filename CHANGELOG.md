@@ -1,3 +1,21 @@
+v5.0.0-rc.0 - June 9, 2018
+
+* abf400d Update: Add ignoreDestructing option to camelcase rule (fixes #9807) (#10373) (Andrew Lunny)
+* e2b394d Upgrade: espree and eslint-scope to rc versions (#10457) (Kevin Partington)
+* a370da2 Chore: small opt to improve readability (#10241) (薛定谔的猫)
+* 640bf07 Update: Fixes multiline no-warning-comments rule. (fixes #9884) (#10381) (Scott Stern)
+* 831c39a Build: Adding rc release script to package.json (#10456) (Kevin Partington)
+* dc4075e Update: fix false negative in no-use-before-define (fixes #10227) (#10396) (Toru Nagashima)
+* 3721841 Docs: Add new experimental syntax policy to README (fixes #9804) (#10408) (Kevin Partington)
+* d0aae3c Docs: Create docs landing page (#10453) (Kevin Partington)
+* fe8bec3 Fix: fix writing config file when `source` is `prompt` (#10422) (Pig Fang)
+* 917108d Update: Add requireParamType option to valid-jsdoc (fixes #6753) (#10220) (Tomasz Sterna)
+* 1984c21 Docs: move custom parsers docs into a page (fixes #9919) (#10431) (Pig Fang)
+* 400d4b5 Docs: Add rest and spread operator changes to migration guide (#10416) (Yannick Croissant)
+* e7bdd02 Upgrade: Consume espree@4.0.0-alpha.1 (#10410) (Kevin Partington)
+* 3e9f33a Fix: prevent crashing from JSON parsing error (fixes #10364) (#10376) (Pig Fang)
+* 636457d Fix: parse later ES files in `eslint --init` (fixes #10003) (#10378) (Pig Fang)
+
 v5.0.0-alpha.4 - May 28, 2018
 
 * ce3e62a Docs: remove test coverage badge (#10407) (薛定谔的猫)
