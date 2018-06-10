@@ -278,8 +278,9 @@ These folks keep the project moving and are resources for help.
                 <sub>Michael Ficarra</sub></a>
             </td>
             <td align="center" valign="top" width="11%">
+                <a href="https://github.com/pedrottimark">
                 <img src="https://github.com/pedrottimark.png?s=75" width="75px" height="75px"><br/>
-                <a href="https://github.com/pedrottimark">Mark Pedrotti</a>
+                <sub>Mark Pedrotti</sub></a>
             </td>
             <td align="center" valign="top" width="11%">
                 <a href="https://github.com/markelog">
