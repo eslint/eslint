@@ -307,7 +307,7 @@ function prerelease(prereleaseId) {
 
     const releaseInfo = ReleaseOps.release(prereleaseId);
     const nextMajor = semver.inc(releaseInfo.version, "major");
-    
+
     releaseInfo.prereleaseMajorVersion = nextMajor;
 
     echo("Generating site");
