@@ -242,6 +242,19 @@ ruleTester.run("func-name-matching", rule, {
             code: "Object.create(proto, { bar: { value() {} } })",
             options: ["never", { considerPropertyDescriptor: true }],
             parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "Reflect.defineProperty(foo, 'bar', { value: function bar() {} })",
+            options: ["always", { considerPropertyDescriptor: true }]
+        },
+        {
+            code: "Reflect.defineProperty(foo, 'b' + 'ar', { value: function baz() {} })",
+            options: ["always", { considerPropertyDescriptor: true }]
+        },
+        {
+            code: "Reflect.defineProperty(foo, 'bar', { value() {} })",
+            options: ["never", { considerPropertyDescriptor: true }],
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
     invalid: [
@@ -415,6 +428,20 @@ ruleTester.run("func-name-matching", rule, {
         },
         {
             code: "Object.create(proto, { bar: { value: function bar() {} } })",
+            options: ["never", { considerPropertyDescriptor: true }],
+            errors: [
+                { message: "Function name `bar` should not match property name `bar`" }
+            ]
+        },
+        {
+            code: "Reflect.defineProperty(foo, 'bar', { value: function baz() {} })",
+            options: ["always", { considerPropertyDescriptor: true }],
+            errors: [
+                { message: "Function name `baz` should match property name `bar`" }
+            ]
+        },
+        {
+            code: "Reflect.defineProperty(foo, 'bar', { value: function bar() {} })",
             options: ["never", { considerPropertyDescriptor: true }],
             errors: [
                 { message: "Function name `bar` should not match property name `bar`" }

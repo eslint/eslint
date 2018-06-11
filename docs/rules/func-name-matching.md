@@ -91,7 +91,7 @@ This rule takes an optional string of "always" or "never" (when omitted, it defa
 
 ### considerPropertyDescriptor
 
-A boolean value that defaults to `false`. If `considerPropertyDescriptor` is set to true, the check will take into account the use `Object.create`, `Object.defineProperty`, and `Object.defineProperties`.
+A boolean value that defaults to `false`. If `considerPropertyDescriptor` is set to true, the check will take into account the use `Object.create`, `Object.defineProperty`, `Object.defineProperties`, and `Reflect.defineProperty`.
 
 Examples of **correct** code for the `{ considerPropertyDescriptor: true }` option:
 
@@ -102,6 +102,7 @@ var obj = {};
 Object.create(obj, {foo:{value: function foo() {}}});
 Object.defineProperty(obj, 'bar', {value: function bar() {}});
 Object.defineProperties(obj, {baz:{value: function baz() {} }});
+Reflect.defineProperty(obj, 'foo', {value: function foo() {}});
 ```
 
 Examples of **incorrect** code for the `{ considerPropertyDescriptor: true }` option:
@@ -113,6 +114,7 @@ var obj = {};
 Object.create(obj, {foo:{value: function bar() {}}});
 Object.defineProperty(obj, 'bar', {value: function baz() {}});
 Object.defineProperties(obj, {baz:{value: function foo() {} }});
+Reflect.defineProperty(obj, 'foo', {value: function value() {}});
 ```
 
 ### includeCommonJSModuleExports
