@@ -307,10 +307,13 @@ function prerelease(prereleaseId) {
 
     const releaseInfo = ReleaseOps.release(prereleaseId);
 
+    const nextMajor = semver.inc(releaseInfo.version, "major");
+    releaseInfo.prereleaseMajorVersion = nextMajor;
+
     echo("Generating site");
 
     // always write docs into the next major directory (so 2.0.0-alpha.0 writes to 2.0.0)
-    target.gensite(semver.inc(releaseInfo.version, "major"));
+    target.gensite(nextMajor);
     generateBlogPost(releaseInfo);
     publishSite(`v${releaseInfo.version}`);
     echo("Site has been published");
