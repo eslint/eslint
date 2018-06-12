@@ -198,6 +198,18 @@ ruleTester.run("no-unneeded-ternary", rule, {
             }]
         },
         {
+            code: "function* fn() { foo ? foo : yield bar }",
+            output: "function* fn() { foo || (yield bar) }",
+            options: [{ defaultAssignment: false }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Unnecessary use of conditional expression for default assignment.",
+                type: "ConditionalExpression",
+                line: 1,
+                column: 24
+            }]
+        },
+        {
             code: "var a = foo ? foo : 'No';",
             output: "var a = foo || 'No';",
             options: [{ defaultAssignment: false }],
