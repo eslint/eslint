@@ -20,7 +20,11 @@ ruleTester.run("no-shadow-restricted-names", rule, {
         "!function foo(bar){ var baz; }",
         "!function(bar){ var baz; }",
         "try {} catch(e) {}",
-        { code: "export default function() {}", parserOptions: { sourceType: "module" } }
+        { code: "export default function() {}", parserOptions: { sourceType: "module" } },
+        {
+            code: "try {} catch {}",
+            parserOptions: { ecmaVersion: 2019 }
+        }
     ],
     invalid: [
         {

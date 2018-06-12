@@ -40,6 +40,10 @@ ruleTester.run("no-catch-shadow", rule, {
         {
             code: "try {} catch (error) {}",
             env: { shelljs: false }
+        },
+        {
+            code: "try {} catch {}",
+            parserOptions: { ecmaVersion: 2019 }
         }
     ],
     invalid: [
