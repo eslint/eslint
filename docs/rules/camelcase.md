@@ -14,6 +14,10 @@ This rule has an object option:
 * `"properties": "never"` does not check property names
 * `"ignoreDestructuring": false` (default) enforces camelcase style for destructured identifiers
 * `"ignoreDestructuring": true` does not check destructured identifiers
+* `"allowLeadingUnderscores": true` (default) allow leading underscores, which is commonly used to flag private/protected identifiers
+* `"allowLeadingUnderscores": false` does not allow leading underscores
+* `"allowTrailingUnderscores": true` (default) allow trailing underscores, which is commonly used to flag private/protected identifiers
+* `"allowTrailingUnderscores": false` does not allow trailing underscores
 
 ### properties: "always"
 
@@ -149,6 +153,42 @@ var { category_id } = query;
 var { category_id = 1 } = query;
 
 var { category_id: category_id } = query;
+```
+
+### allowLeadingUnderscores: false
+
+Examples of **incorrect** code for this rule with the `{ "allowLeadingUnderscores": false }` option:
+
+```js
+/*eslint camelcase: ["error", {allowLeadingUnderscores: false}]*/
+
+var __leadingUnderscore = query;
+```
+
+Examples of **correct** code for this rule with the `{ "allowDestructuring": false }` option:
+
+```js
+/*eslint camelcase: ["error", {allowDestructuring: false}]*/
+
+var noLeadingUnderscore = query;
+```
+
+### allowTrailingUnderscores: false
+
+Examples of **incorrect** code for this rule with the `{ "allowTrailingUnderscores": false }` option:
+
+```js
+/*eslint camelcase: ["error", {allowTrailingUnderscores: false}]*/
+
+var trailingUnderscore__ = query;
+```
+
+Examples of **correct** code for this rule with the `{ "allowDestructuring": false }` option:
+
+```js
+/*eslint camelcase: ["error", {allowDestructuring: false}]*/
+
+var noTrailingUnderscore = query;
 ```
 
 ## When Not To Use It

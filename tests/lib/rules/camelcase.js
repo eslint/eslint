@@ -185,6 +185,28 @@ ruleTester.run("camelcase", rule, {
     ],
     invalid: [
         {
+            code: "__leadingUnderscores = null",
+            options: [{ allowLeadingUnderscores: false }],
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "__leadingUnderscores" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "trailingUnderscores__ = null",
+            options: [{ allowTrailingUnderscores: false }],
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "trailingUnderscores__" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
             code: "first_name = \"Nicholas\"",
             errors: [
                 {
