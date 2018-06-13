@@ -98,9 +98,11 @@ ruleTester.run("no-shadow-restricted-names", rule, {
             ]
         },
         {
-            code: "var {undefined} = obj; var {foo: undefined} = obj;",
-            parserOptions: { ecmaVersion: 6 },
+            code: "var {undefined} = obj; var {a: undefined} = obj; var {a: {b: {undefined}}} = obj; var {a, ...undefined} = obj;",
+            parserOptions: { ecmaVersion: 9 },
             errors: [
+                { message: "Shadowing of global property 'undefined'.", type: "Identifier" },
+                { message: "Shadowing of global property 'undefined'.", type: "Identifier" },
                 { message: "Shadowing of global property 'undefined'.", type: "Identifier" },
                 { message: "Shadowing of global property 'undefined'.", type: "Identifier" }
             ]
