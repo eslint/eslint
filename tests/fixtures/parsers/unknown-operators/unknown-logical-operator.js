@@ -3,6 +3,7 @@
  * (replaced ?? with %%)
  *
  * Parser: babel-eslint v8.2.3
+ * (with this fix for tokens: https://github.com/babel/babel-eslint/pull/632)
  * Source code:
  * null ?? 'foo'
  */
@@ -42,18 +43,7 @@ exports.parse = () => ({
             range: [0, 4]
         },
         {
-            type: {
-                label: "%%",
-                beforeExpr: true,
-                startsExpr: false,
-                rightAssociative: false,
-                isLoop: false,
-                isAssign: false,
-                prefix: false,
-                postfix: false,
-                binop: 1,
-                updateContext: null
-            },
+            type: "Punctuator",
             value: "%%",
             start: 5,
             end: 7,
