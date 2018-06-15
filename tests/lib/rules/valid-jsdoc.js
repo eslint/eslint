@@ -296,6 +296,17 @@ ruleTester.run("valid-jsdoc", rule, {
                 ecmaVersion: 2017
             }
         },
+        {
+            code:
+              "/**\n" +
+              " * An async function. Options do not require return.\n" +
+              " */\n" +
+              "async function a() {}",
+            options: [{ requireReturn: false }],
+            parserOptions: {
+                ecmaVersion: 2017
+            }
+        },
 
         // type validations
         {
@@ -1673,6 +1684,24 @@ ruleTester.run("valid-jsdoc", rule, {
             options: [{ requireReturn: false }],
             errors: [{
                 message: "JSDoc syntax error.",
+                type: "Block"
+            }]
+        },
+
+        // async function
+        {
+            code:
+              "/**\n" +
+              " * An async function. Options requires return.\n" +
+              " */\n" +
+              "async function a() {}",
+            output: null,
+            options: [{ requireReturn: true }],
+            parserOptions: {
+                ecmaVersion: 2017
+            },
+            errors: [{
+                message: "Missing JSDoc @returns for function.",
                 type: "Block"
             }]
         },
