@@ -61,6 +61,64 @@ ruleTester.run("max-lines-per-function", rule, {
         {
             code: "function name() {\nvar x = 5;\n/* a \n multi \n line \n comment \n*/\n\nvar x = 2; // end of line comment\n}",
             options: [{ max: 5, ignoreComments: true, skipBlankLines: false }]
+        },
+        {
+            code: `function foo(
+    aaa = 1,
+    bbb = 2,
+    ccc = 3
+) {
+    return aaa + bbb + ccc
+}`,
+            options: [{ max: 7, ignoreComments: true, skipBlankLines: false }],
+            parserOptions
+        },
+        {
+            code: `(
+function
+()
+{
+}
+)
+()`,
+            options: [{ max: 4, ignoreComments: true, skipBlankLines: false, ignoreIIFEs: false }],
+            parserOptions
+        },
+        {
+            code: `function parent() {
+var x = 0;
+function nested() {
+    var y = 0;
+    x = 2;
+}
+if ( x === y ) {
+    x++;
+}
+}`,
+            options: [{ max: 10, ignoreComments: true, skipBlankLines: false }],
+            parserOptions
+        },
+        {
+            code: `class foo {
+    method() {
+        let y = 10;
+        let x = 20;
+        return y + x;
+    }
+}`,
+            options: [{ max: 5, ignoreComments: true, skipBlankLines: false }],
+            parserOptions
+        },
+        {
+            code: `(function(){
+    let x = 0;
+    let y = 0;
+    let z = x + y;
+    let foo = {};
+    return bar;
+}());`,
+            options: [{ max: 2, ignoreComments: true, skipBlankLines: false, ignoreIIFEs: true }],
+            parserOptions
         }
     ],
 
@@ -128,6 +186,147 @@ ruleTester.run("max-lines-per-function", rule, {
             options: [{ max: 1, ignoreComments: false, skipBlankLines: true }],
             errors: [
                 "function 'name' has too many lines (5). Maximum allowed is 1."
+            ]
+        },
+        {
+            code: `function foo(
+    aaa = 1,
+    bbb = 2,
+    ccc = 3
+) {
+    return aaa + bbb + ccc
+}`,
+            options: [{ max: 2, ignoreComments: true, skipBlankLines: false }],
+            parserOptions,
+            errors: [
+                "function 'foo' has too many lines (7). Maximum allowed is 2."
+            ]
+        },
+        {
+            code: `(
+function
+()
+{
+}
+)
+()`,
+            options: [{ max: 2, ignoreComments: true, skipBlankLines: false, ignoreIIFEs: false }],
+            parserOptions,
+            errors: [
+                "function has too many lines (4). Maximum allowed is 2."
+            ]
+        },
+        {
+            code: `function parent() {
+var x = 0;
+function nested() {
+    var y = 0;
+    x = 2;
+}
+if ( x === y ) {
+    x++;
+}
+}`,
+            options: [{ max: 9, ignoreComments: true, skipBlankLines: false }],
+            parserOptions,
+            errors: [
+                "function 'parent' has too many lines (10). Maximum allowed is 9."
+            ]
+        },
+        {
+            code: `function parent() {
+var x = 0;
+function nested() {
+    var y = 0;
+    x = 2;
+}
+if ( x === y ) {
+    x++;
+}
+}`,
+            options: [{ max: 2, ignoreComments: true, skipBlankLines: false }],
+            parserOptions,
+            errors: [
+                "function 'parent' has too many lines (10). Maximum allowed is 2.",
+                "function 'nested' has too many lines (4). Maximum allowed is 2."
+            ]
+        },
+        {
+            code: `class foo {
+    method() {
+        let y = 10;
+        let x = 20;
+        return y + x;
+    }
+}`,
+            options: [{ max: 2, ignoreComments: true, skipBlankLines: false }],
+            parserOptions,
+            errors: [
+                "method 'method' has too many lines (5). Maximum allowed is 2."
+            ]
+        },
+        {
+            code: `class A {
+    static
+    foo
+    // This FunctionExpression starts from below '(', so this is 3.
+    (a) {
+        return a
+    }
+}`,
+            options: [{ max: 2, ignoreComments: true, skipBlankLines: false }],
+            parserOptions,
+            errors: [
+                "static method 'foo' has too many lines (5). Maximum allowed is 2."
+            ]
+        },
+        {
+            code: `// Getters/setters are similar to it.
+var obj = {
+    get
+    foo
+    // This FunctionExpression starts from below '(', so this is 3.
+    () {
+        return 1
+    }
+}`,
+            options: [{ max: 2, ignoreComments: true, skipBlankLines: false }],
+            parserOptions,
+            errors: [
+                "getter 'foo' has too many lines (5). Maximum allowed is 2."
+            ]
+        },
+        {
+            code: `// The computed property cases can be longer.
+class A {
+    static
+    [
+        foo +
+            bar
+    ]
+    // This FunctionExpression starts from below '(', so this is 3.
+    (a) {
+        return a
+    }
+}`,
+            options: [{ max: 2, ignoreComments: true, skipBlankLines: false }],
+            parserOptions,
+            errors: [
+                "static method has too many lines (8). Maximum allowed is 2."
+            ]
+        },
+        {
+            code: `(function(){
+    let x = 0;
+    let y = 0;
+    let z = x + y;
+    let foo = {};
+    return bar;
+}());`,
+            options: [{ max: 2, ignoreComments: true, skipBlankLines: false, ignoreIIFEs: false }],
+            parserOptions,
+            errors: [
+                "function has too many lines (7). Maximum allowed is 2."
             ]
         }
     ]
