@@ -4470,6 +4470,16 @@ describe("Linter", () => {
                 assert.strictEqual(messages[0].message, "Cannot find module 'esprima-xyz'");
             });
 
+            it("should not throw or report errors when the custom parser returns unrecognized operators (https://github.com/eslint/eslint/issues/10475)", () => {
+                const code = "null %% 'foo'";
+                const parser = path.join(parserFixtures, "unknown-operators", "unknown-logical-operator.js");
+
+                // This shouldn't throw
+                const messages = linter.verify(code, { parser }, filename, true);
+
+                assert.strictEqual(messages.length, 0);
+            });
+
             it("should strip leading line: prefix from parser error", () => {
                 const parser = path.join(parserFixtures, "line-error.js");
                 const messages = linter.verify(";", { parser }, "filename");
