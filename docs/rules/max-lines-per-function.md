@@ -38,11 +38,13 @@ function() {
 
 This rule has a number or object option:
 
-* `"max"` (default `50`) enforces a maximum number of lines in a function
+* `"max"` (default `50`) enforces a maximum number of lines in a function.
 
 * `"skipBlankLines": true` ignore lines made up purely of whitespace.
 
-* `"skipComments": true` ignore lines containing just comments
+* `"skipComments": true` ignore lines containing just comments.
+
+* `"IIFEs": true` include any code included in IIFEs.
 
 ### code
 
@@ -140,6 +142,26 @@ function foo() {
     // a comment
     var x = 0;
 }
+```
+
+### IIFEs
+
+Examples of **incorrect** code for this rule with the `{ "IIFEs": true }` option:
+
+```js
+/*eslint max-lines-per-function: ["error", {"max": 2, "IIFEs": true}]*/
+(function(){
+    var x = 0;
+}());
+```
+
+Examples of **correct** code for this rule with the `{ "IIFEs": true }` option:
+
+```js
+/*eslint max-lines-per-function: ["error", {"max": 3, "IIFEs": true}]*/
+(function(){
+    var x = 0;
+}());
 ```
 
 ## When Not To Use It

@@ -44,23 +44,23 @@ ruleTester.run("max-lines-per-function", rule, {
         },
         {
             code: "function name() {\nvar x = 5;\n\t\n \n\nvar x = 2;\n}",
-            options: [{ max: 7, ignoreComments: false, skipBlankLines: false }]
+            options: [{ max: 7, skipComments: false, skipBlankLines: false }]
         },
         {
             code: "function name() {\nvar x = 5;\nvar x = 2; // end of line comment\n}",
-            options: [{ max: 4, ignoreComments: true, skipBlankLines: false }]
+            options: [{ max: 4, skipComments: true, skipBlankLines: false }]
         },
         {
             code: "function name() {\nvar x = 5;\n// a comment on it's own line\nvar x = 2; // end of line comment\n}",
-            options: [{ max: 5, ignoreComments: true, skipBlankLines: false }]
+            options: [{ max: 5, skipComments: true, skipBlankLines: false }]
         },
         {
             code: "function name() {\nvar x = 5;\n// a comment on it's own line\n// and another line comment\nvar x = 2; // end of line comment\n}",
-            options: [{ max: 5, ignoreComments: true, skipBlankLines: false }]
+            options: [{ max: 5, skipComments: true, skipBlankLines: false }]
         },
         {
             code: "function name() {\nvar x = 5;\n/* a \n multi \n line \n comment \n*/\n\nvar x = 2; // end of line comment\n}",
-            options: [{ max: 5, ignoreComments: true, skipBlankLines: false }]
+            options: [{ max: 5, skipComments: true, skipBlankLines: false }]
         },
         {
             code: `function foo(
@@ -70,7 +70,7 @@ ruleTester.run("max-lines-per-function", rule, {
 ) {
     return aaa + bbb + ccc
 }`,
-            options: [{ max: 7, ignoreComments: true, skipBlankLines: false }],
+            options: [{ max: 7, skipComments: true, skipBlankLines: false }],
             parserOptions
         },
         {
@@ -81,7 +81,7 @@ function
 }
 )
 ()`,
-            options: [{ max: 4, ignoreComments: true, skipBlankLines: false, ignoreIIFEs: false }],
+            options: [{ max: 4, skipComments: true, skipBlankLines: false, IIFEs: true }],
             parserOptions
         },
         {
@@ -95,7 +95,7 @@ if ( x === y ) {
     x++;
 }
 }`,
-            options: [{ max: 10, ignoreComments: true, skipBlankLines: false }],
+            options: [{ max: 10, skipComments: true, skipBlankLines: false }],
             parserOptions
         },
         {
@@ -106,7 +106,7 @@ if ( x === y ) {
         return y + x;
     }
 }`,
-            options: [{ max: 5, ignoreComments: true, skipBlankLines: false }],
+            options: [{ max: 5, skipComments: true, skipBlankLines: false }],
             parserOptions
         },
         {
@@ -117,7 +117,18 @@ if ( x === y ) {
     let foo = {};
     return bar;
 }());`,
-            options: [{ max: 2, ignoreComments: true, skipBlankLines: false, ignoreIIFEs: true }],
+            options: [{ max: 7, skipComments: true, skipBlankLines: false, IIFEs: true }],
+            parserOptions
+        },
+        {
+            code: `(function(){
+    let x = 0;
+    let y = 0;
+    let z = x + y;
+    let foo = {};
+    return bar;
+}());`,
+            options: [{ max: 2, skipComments: true, skipBlankLines: false, IIFEs: false }],
             parserOptions
         }
     ],
@@ -155,35 +166,35 @@ if ( x === y ) {
         },
         {
             code: "function name() {\nvar x = 5;\n\t\n \n\nvar x = 2;\n}",
-            options: [{ max: 6, ignoreComments: false, skipBlankLines: false }],
+            options: [{ max: 6, skipComments: false, skipBlankLines: false }],
             errors: [
                 "function 'name' has too many lines (7). Maximum allowed is 6."
             ]
         },
         {
             code: "function name() {\nvar x = 5;\n\t\n \n\nvar x = 2;\n}",
-            options: [{ max: 6, ignoreComments: true, skipBlankLines: false }],
+            options: [{ max: 6, skipComments: true, skipBlankLines: false }],
             errors: [
                 "function 'name' has too many lines (7). Maximum allowed is 6."
             ]
         },
         {
             code: "function name() { // end of line comment\nvar x = 5; /* mid line comment */\n\t// single line comment taking up whole line\n\t\n \n\nvar x = 2;\n}",
-            options: [{ max: 6, ignoreComments: true, skipBlankLines: false }],
+            options: [{ max: 6, skipComments: true, skipBlankLines: false }],
             errors: [
                 "function 'name' has too many lines (7). Maximum allowed is 6."
             ]
         },
         {
             code: "function name() { // end of line comment\nvar x = 5; /* mid line comment */\n\t// single line comment taking up whole line\n\t\n \n\nvar x = 2;\n}",
-            options: [{ max: 1, ignoreComments: true, skipBlankLines: true }],
+            options: [{ max: 1, skipComments: true, skipBlankLines: true }],
             errors: [
                 "function 'name' has too many lines (4). Maximum allowed is 1."
             ]
         },
         {
             code: "function name() { // end of line comment\nvar x = 5; /* mid line comment */\n\t// single line comment taking up whole line\n\t\n \n\nvar x = 2;\n}",
-            options: [{ max: 1, ignoreComments: false, skipBlankLines: true }],
+            options: [{ max: 1, skipComments: false, skipBlankLines: true }],
             errors: [
                 "function 'name' has too many lines (5). Maximum allowed is 1."
             ]
@@ -196,7 +207,7 @@ if ( x === y ) {
 ) {
     return aaa + bbb + ccc
 }`,
-            options: [{ max: 2, ignoreComments: true, skipBlankLines: false }],
+            options: [{ max: 2, skipComments: true, skipBlankLines: false }],
             parserOptions,
             errors: [
                 "function 'foo' has too many lines (7). Maximum allowed is 2."
@@ -210,7 +221,7 @@ function
 }
 )
 ()`,
-            options: [{ max: 2, ignoreComments: true, skipBlankLines: false, ignoreIIFEs: false }],
+            options: [{ max: 2, skipComments: true, skipBlankLines: false, IIFEs: true }],
             parserOptions,
             errors: [
                 "function has too many lines (4). Maximum allowed is 2."
@@ -227,7 +238,7 @@ if ( x === y ) {
     x++;
 }
 }`,
-            options: [{ max: 9, ignoreComments: true, skipBlankLines: false }],
+            options: [{ max: 9, skipComments: true, skipBlankLines: false }],
             parserOptions,
             errors: [
                 "function 'parent' has too many lines (10). Maximum allowed is 9."
@@ -244,7 +255,7 @@ if ( x === y ) {
     x++;
 }
 }`,
-            options: [{ max: 2, ignoreComments: true, skipBlankLines: false }],
+            options: [{ max: 2, skipComments: true, skipBlankLines: false }],
             parserOptions,
             errors: [
                 "function 'parent' has too many lines (10). Maximum allowed is 2.",
@@ -259,7 +270,7 @@ if ( x === y ) {
         return y + x;
     }
 }`,
-            options: [{ max: 2, ignoreComments: true, skipBlankLines: false }],
+            options: [{ max: 2, skipComments: true, skipBlankLines: false }],
             parserOptions,
             errors: [
                 "method 'method' has too many lines (5). Maximum allowed is 2."
@@ -274,7 +285,7 @@ if ( x === y ) {
         return a
     }
 }`,
-            options: [{ max: 2, ignoreComments: true, skipBlankLines: false }],
+            options: [{ max: 2, skipComments: true, skipBlankLines: false }],
             parserOptions,
             errors: [
                 "static method 'foo' has too many lines (5). Maximum allowed is 2."
@@ -290,7 +301,7 @@ var obj = {
         return 1
     }
 }`,
-            options: [{ max: 2, ignoreComments: true, skipBlankLines: false }],
+            options: [{ max: 2, skipComments: true, skipBlankLines: false }],
             parserOptions,
             errors: [
                 "getter 'foo' has too many lines (5). Maximum allowed is 2."
@@ -309,7 +320,7 @@ class A {
         return a
     }
 }`,
-            options: [{ max: 2, ignoreComments: true, skipBlankLines: false }],
+            options: [{ max: 2, skipComments: true, skipBlankLines: false }],
             parserOptions,
             errors: [
                 "static method has too many lines (8). Maximum allowed is 2."
@@ -323,7 +334,7 @@ class A {
     let foo = {};
     return bar;
 }());`,
-            options: [{ max: 2, ignoreComments: true, skipBlankLines: false, ignoreIIFEs: false }],
+            options: [{ max: 2, skipComments: true, skipBlankLines: false, IIFEs: true }],
             parserOptions,
             errors: [
                 "function has too many lines (7). Maximum allowed is 2."
