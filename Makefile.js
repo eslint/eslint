@@ -308,7 +308,22 @@ function prerelease(prereleaseId) {
     const releaseInfo = ReleaseOps.release(prereleaseId);
     const nextMajor = semver.inc(releaseInfo.version, "major");
 
-    releaseInfo.prereleaseMajorVersion = nextMajor;
+    /*
+     * Premajor release should have identical "next major version".
+     * Preminor and prepatch release will not.
+     * 5.0.0-alpha.0 --> next major = 5, current major = 5
+     * 4.4.0-alpha.0 --> next major = 5, current major = 4
+     * 4.0.1-alpha.0 --> next major = 5, current major = 4
+     */
+    if (semver.major(prereleaseId) === semver.major(nextMajor)) {
+
+        /*
+         * This prerelease is for a major release (not preminor/prepatch).
+         * Blog post generation logic needs to be aware of this (as well as
+         * know what the next major version is actually supposed to be).
+         */
+        releaseInfo.prereleaseMajorVersion = nextMajor;
+    }
 
     echo("Generating site");
 
