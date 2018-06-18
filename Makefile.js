@@ -315,7 +315,7 @@ function prerelease(prereleaseId) {
      * 4.4.0-alpha.0 --> next major = 5, current major = 4
      * 4.0.1-alpha.0 --> next major = 5, current major = 4
      */
-    if (semver.major(prereleaseId) === semver.major(nextMajor)) {
+    if (semver.major(releaseInfo.version) === semver.major(nextMajor)) {
 
         /*
          * This prerelease is for a major release (not preminor/prepatch).
