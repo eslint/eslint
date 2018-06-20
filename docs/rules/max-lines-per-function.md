@@ -36,7 +36,7 @@ function() {
 
 ## Options
 
-This rule has a number or object option:
+This rule has a number or object options:
 
 * `"max"` (default `50`) enforces a maximum number of lines in a function.
 
@@ -45,6 +45,18 @@ This rule has a number or object option:
 * `"skipComments": true` ignore lines containing just comments.
 
 * `"IIFEs": true` include any code included in IIFEs.
+
+Optionally, you may specify an singular integer for the `max` option:
+
+```json
+"max-lines-per-function": ["error", 20]
+```
+
+is equivalent to
+
+```json
+"max-lines-per-function": ["error", { "max": 20 }]
+```
 
 ### code
 
