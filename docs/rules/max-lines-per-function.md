@@ -36,7 +36,7 @@ function() {
 
 ## Options
 
-This rule has a number or object options:
+This rule has the following options that can be specified using an object:
 
 * `"max"` (default `50`) enforces a maximum number of lines in a function.
 
@@ -46,7 +46,7 @@ This rule has a number or object options:
 
 * `"IIFEs": true` include any code included in IIFEs.
 
-Optionally, you may specify an singular integer for the `max` option:
+Alternatively, you may specify an single integer for the `max` option:
 
 ```json
 "max-lines-per-function": ["error", 20]
