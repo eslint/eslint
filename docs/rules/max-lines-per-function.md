@@ -46,7 +46,7 @@ This rule has the following options that can be specified using an object:
 
 * `"IIFEs": true` include any code included in IIFEs.
 
-Alternatively, you may specify an single integer for the `max` option:
+Alternatively, you may specify a single integer for the `max` option:
 
 ```json
 "max-lines-per-function": ["error", 20]
