@@ -551,6 +551,12 @@ ruleTester.run("padding-line-between-statements", rule, {
             ]
         },
         {
+            code: "if (true) {}\n\n// comment\n;[].map(x => \nx)",
+            options: [
+                { blankLine: "always", prev: "*", next: "multiline-expression" }
+            ]
+        },
+        {
             code: "() => {\n\tsomeArray.forEach(x => doSomething(x));\n\treturn theThing;\n}",
             options: [
                 { blankLine: "always", prev: "multiline-expression", next: "return" }
