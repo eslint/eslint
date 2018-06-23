@@ -100,6 +100,7 @@ module.exports = {
         "no-control-regex": "error",
         "no-debugger": "error",
         "no-delete-var": "error",
+        "no-dismantled-character-class": "off",
         "no-div-regex": "off",
         "no-dupe-args": "error",
         "no-dupe-class-members": "error",
