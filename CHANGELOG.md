@@ -1,3 +1,17 @@
+v5.0.0 - June 22, 2018
+
+* 0feedfd New: Added max-lines-per-function rule (fixes #9842) (#10188) (peteward44)
+* daefbdb Upgrade: eslint-scope and espree to 4.0.0 (refs #10458) (#10500) (Brandon Mills)
+* 077358b Docs: no-process-exit: recommend process.exitCode (#10478) (Andres Kalle)
+* f93d6ff Fix: do not fail on unknown operators from custom parsers (fixes #10475) (#10476) (Rubén Norte)
+* 05343fd Fix: add parens for yield statement (fixes #10432) (#10468) (Pig Fang)
+* d477c5e Fix: check destructuring for "no-shadow-restricted-names" (fixes #10467) (#10470) (Pig Fang)
+* 7a7580b Update: Add considerPropertyDescriptor option to func-name-matching (#9078) (Dieter Luypaert)
+* e0a0418 Fix: crash on optional catch binding (#10429) (Toru Nagashima)
+* de4dba9 Docs: styling team members (#10460) (薛定谔的猫)
+* 5e453a3 Docs: display team members in tables. (#10433) (薛定谔的猫)
+* b1895eb Docs: Restore intentional spelling mistake (#10459) (Wilfred Hughes)
+
 v5.0.0-rc.0 - June 9, 2018
 
 * abf400d Update: Add ignoreDestructing option to camelcase rule (fixes #9807) (#10373) (Andrew Lunny)
