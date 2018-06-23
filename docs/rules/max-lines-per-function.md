@@ -86,7 +86,7 @@ function foo() {
 }
 ```
 
-Examples of **correct** code for this rule with a max value of `2`:
+Examples of **correct** code for this rule with a max value of `3`:
 
 ```js
 /*eslint max-lines-per-function: ["error", 3]*/
