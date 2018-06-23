@@ -79,5 +79,7 @@ function handleFoo4() {
 * [complexity](complexity.md)
 * [max-depth](max-depth.md)
 * [max-len](max-len.md)
+* [max-lines](max-lines.md)
+* [max-lines-per-function](max-lines-per-function.md)
 * [max-params](max-params.md)
 * [max-statements](max-statements.md)
