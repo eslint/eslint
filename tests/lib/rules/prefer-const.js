@@ -121,7 +121,11 @@ ruleTester.run("prefer-const", rule, {
         {
             code: "let x; function foo() { bar(x); } x = 0;",
             options: [{ ignoreReadBeforeAssign: true }]
-        }
+        },
+
+        // https://github.com/eslint/eslint/issues/10520
+        "const x = [1,2]; let y; [,y] = x; y = 0;",
+        "const x = [1,2,3]; let y, z; [y,,z] = x; y = 0; z = 0;"
     ],
     invalid: [
         {
