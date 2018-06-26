@@ -1,3 +1,8 @@
+v5.0.1 - June 25, 2018
+
+* 196c102 Fix: valid-jsdoc should allow optional returns for async (fixes #10386) (#10480) (Mark Banner)
+* 4c823bd Docs: Fix max-lines-per-function correct code's max value (#10513) (Rhys Bower)
+
 v5.0.0 - June 22, 2018
 
 * 0feedfd New: Added max-lines-per-function rule (fixes #9842) (#10188) (peteward44)
