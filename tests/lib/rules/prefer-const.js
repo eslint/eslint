@@ -365,6 +365,21 @@ ruleTester.run("prefer-const", rule, {
                 { message: "'foo' is never reassigned. Use 'const' instead.", type: "Identifier" },
                 { message: "'bar' is never reassigned. Use 'const' instead.", type: "Identifier" }
             ]
+        },
+
+        // https://github.com/eslint/eslint/issues/10520
+        {
+            code: "const x = [1,2]; let [,y] = x;",
+            output: "const x = [1,2]; const [,y] = x;",
+            errors: [{ message: "'y' is never reassigned. Use 'const' instead.", type: "Identifier" }]
+        },
+        {
+            code: "const x = [1,2,3]; let [y,,z] = x;",
+            output: "const x = [1,2,3]; const [y,,z] = x;",
+            errors: [
+                { message: "'y' is never reassigned. Use 'const' instead.", type: "Identifier" },
+                { message: "'z' is never reassigned. Use 'const' instead.", type: "Identifier" }
+            ]
         }
     ]
 });
