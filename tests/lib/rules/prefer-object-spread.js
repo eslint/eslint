@@ -795,6 +795,22 @@ ruleTester.run("prefer-object-spread", rule, {
                     column: 33
                 }
             ]
+        },
+        {
+            code: `
+                eventData = Object.assign({}, eventData, { outsideLocality: \`\${originLocality} - \${destinationLocality}\` })
+            `,
+            output: `
+                eventData = ({ ...eventData, outsideLocality: \`\${originLocality} - \${destinationLocality}\`})
+            `,
+            errors: [
+                {
+                    messageId: "useSpreadMessage",
+                    type: "CallExpression",
+                    line: 2,
+                    column: 29
+                }
+            ]
         }
     ]
 });
