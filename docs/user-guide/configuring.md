@@ -455,8 +455,8 @@ To disable rules inside of a configuration file for a group of files, use the `o
 
 ```json
 {
- "rules": {...},
- "overrides": [
+  "rules": {...},
+  "overrides": [
     {
       "files": ["*-test.js","*.spec.js"],
       "rules": {
