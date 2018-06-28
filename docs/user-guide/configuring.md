@@ -454,7 +454,8 @@ foo(); /* eslint-disable-line example/rule-name */
 To disable rules inside of a configuration file for a group of files, use the `overrides` key along with a `files` key. For example:
 
 ```json
- "rules": [...],
+{
+ "rules": {...},
  "overrides": [
     {
       "files": ["*-test.js","*.spec.js"],
@@ -463,6 +464,7 @@ To disable rules inside of a configuration file for a group of files, use the `o
       }
     }
   ]
+}
 ```
 
 ## Adding Shared Settings
