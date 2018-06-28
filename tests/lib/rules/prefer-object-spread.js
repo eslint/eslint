@@ -801,7 +801,7 @@ ruleTester.run("prefer-object-spread", rule, {
                 eventData = Object.assign({}, eventData, { outsideLocality: \`\${originLocality} - \${destinationLocality}\` })
             `,
             output: `
-                eventData = ({ ...eventData, outsideLocality: \`\${originLocality} - \${destinationLocality}\`})
+                eventData = { ...eventData, outsideLocality: \`\${originLocality} - \${destinationLocality}\`}
             `,
             errors: [
                 {
