@@ -448,6 +448,33 @@ foo(); /* eslint-disable-line example/rule-name */
 
 **Note:** Comments that disable warnings for a portion of a file tell ESLint not to report rule violations for the disabled code. ESLint still parses the entire file, however, so disabled code still needs to be syntactically valid JavaScript.
 
+
+### Disabling Rules only for a group of files
+
+To disable rule warnings for a group of files, use the override block in the following format:
+
+```json
+ "overrides": [
+    {
+      "files": ["*-test.js","*.spec.js"],
+      "rules": {
+        "no-unused-expressions": "off"
+      }
+    }
+  ]
+```  
+
+So, you can have a test fille called `foo-test.js` with assertions such:
+
+```js
+describe('Foo', () => {
+  it('bar', () => {
+    var foo = fooBar()
+    expect(foo).to.be.true
+  })
+```
+
+
 ## Adding Shared Settings
 
 ESLint supports adding shared settings into configuration file. You can add `settings` object to ESLint configuration file and it will be supplied to every rule that will be executed. This may be useful if you are adding custom rules and want them to have access to the same information and be easily configurable.
@@ -895,3 +922,4 @@ foo.js
 ```
 
 This message occurs because ESLint is unsure if you wanted to actually lint the file or not. As the message indicates, you can use `--no-ignore` to omit using the ignore rules.
+
