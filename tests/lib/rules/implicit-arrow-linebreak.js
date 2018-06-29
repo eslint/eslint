@@ -76,7 +76,7 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
                         baz;
             `,
             options: ["below"]
-        }
+        },
     ],
 
     invalid: [
@@ -151,6 +151,47 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
             output: `
                 // comment\nconst foo = () => []
             `,
+            errors: [UNEXPECTED_LINEBREAK]
+        }, {
+            code: `
+                (foo) =>
+                    (
+                    //comment
+                        bar
+                    )
+            `,
+            output: `
+                (foo) => (
+                    //comment
+                        bar
+                    )
+            `,
+            errors: [UNEXPECTED_LINEBREAK]
+        }, {
+            code: `
+                (foo) =>
+                    (
+                        bar
+                    //comment
+                    )
+            
+            `,
+            output: `
+                (foo) => (
+                        bar
+                    //comment
+                    )
+            
+            `,
+            errors: [UNEXPECTED_LINEBREAK]
+
+        }, {
+            code: `() => // comment \n bar`,
+            output: `// comment \n() => bar`,
+            errors: [UNEXPECTED_LINEBREAK]
+        }, {
+            code: `(foo) => //comment \n bar`,
+            output: `//comment \n(foo) => bar`,
             errors: [UNEXPECTED_LINEBREAK]
         },
 
