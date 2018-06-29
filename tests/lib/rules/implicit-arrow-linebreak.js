@@ -142,6 +142,16 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
                 // test comment\n(foo) => bar
             `,
             errors: [UNEXPECTED_LINEBREAK]
+        }, {
+            code: `
+                const foo = () =>
+                // comment
+                []
+            `,
+            output: `
+                // comment\nconst foo = () => []
+            `,
+            errors: [UNEXPECTED_LINEBREAK]
         },
 
         // 'below' option
