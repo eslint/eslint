@@ -192,6 +192,18 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
                         bar`,
             output: "// comment\n// another comment\n(foo) => bar",
             errors: [UNEXPECTED_LINEBREAK]
+        }, {
+            code: `(foo) =>
+                   // comment
+                   (
+                   // another comment
+                   bar
+                   )`,
+            output: `// comment\n(foo) => (
+                   // another comment
+                   bar
+                   )`,
+            errors: [UNEXPECTED_LINEBREAK]
         },
         {
             code: "() => // comment \n bar",
