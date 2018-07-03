@@ -448,6 +448,25 @@ foo(); /* eslint-disable-line example/rule-name */
 
 **Note:** Comments that disable warnings for a portion of a file tell ESLint not to report rule violations for the disabled code. ESLint still parses the entire file, however, so disabled code still needs to be syntactically valid JavaScript.
 
+
+### Disabling Rules Only for a Group of Files
+
+To disable rules inside of a configuration file for a group of files, use the `overrides` key along with a `files` key. For example:
+
+```json
+{
+  "rules": {...},
+  "overrides": [
+    {
+      "files": ["*-test.js","*.spec.js"],
+      "rules": {
+        "no-unused-expressions": "off"
+      }
+    }
+  ]
+}
+```
+
 ## Adding Shared Settings
 
 ESLint supports adding shared settings into configuration file. You can add `settings` object to ESLint configuration file and it will be supplied to every rule that will be executed. This may be useful if you are adding custom rules and want them to have access to the same information and be easily configurable.
