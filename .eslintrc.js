@@ -25,5 +25,17 @@ module.exports = {
         "eslint-plugin/test-case-shorthand-strings": "error",
         "rulesdir/multiline-comment-style": "error",
         "rulesdir/no-useless-catch": "error"
-    }
+    },
+    overrides: [
+        {
+            files: ["tests/**/*"],
+            env: { mocha: true },
+            rules: {
+                "no-restricted-syntax": ["error", {
+                    selector: "CallExpression[callee.object.name='assert'][callee.property.name='doesNotThrow']",
+                    message: "`assert.doesNotThrow()` should be replaced with a comment next to the code."
+                }]
+            }
+        }
+    ]
 };
