@@ -4,7 +4,6 @@
  */
 "use strict";
 
-/* global describe, it */
 /* eslint-disable no-global-assign*/
 const assert = require("assert");
 const RuleTester = require("../../../lib/testers/rule-tester");
