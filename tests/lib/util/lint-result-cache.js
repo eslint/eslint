@@ -44,6 +44,7 @@ describe("LintResultCache", () => {
         // Get lint results for test fixtures with and without errors
         const cliEngine = new CLIEngine({
             cache: false,
+            ignore: false,
             globInputPaths: false
         });
 
@@ -108,7 +109,10 @@ describe("LintResultCache", () => {
         beforeEach(() => {
             cacheEntry = {
                 meta: {
-                    results: fakeErrorResults,
+
+                    // Serialized results will have null source
+                    results: Object.assign({}, fakeErrorResults, { source: null }),
+
                     hashOfConfig
                 }
             };
@@ -173,6 +177,7 @@ describe("LintResultCache", () => {
                 const result = lintResultsCache.getCachedLintResults(filePath);
 
                 assert.deepStrictEqual(result, fakeErrorResults);
+                assert.ok(result.source, "source property should be hydrated from filesystem");
             });
         });
     });
@@ -228,11 +233,22 @@ describe("LintResultCache", () => {
         });
 
         describe("When file is found on filesystem", () => {
-            it("stores results and hash of config in file entry", () => {
+            beforeEach(() => {
                 lintResultsCache.setCachedLintResults(filePath, fakeErrorResults);
+            });
 
-                assert.deepStrictEqual(cacheEntry.meta.results, fakeErrorResults);
+            it("stores hash of config in file entry", () => {
                 assert.strictEqual(cacheEntry.meta.hashOfConfig, hashOfConfig);
+            });
+
+            it("stores results (except source) in file entry", () => {
+                const expectedCachedResults = Object.assign(
+                    {},
+                    fakeErrorResults,
+                    { source: null }
+                );
+
+                assert.deepStrictEqual(cacheEntry.meta.results, expectedCachedResults);
             });
         });
     });
