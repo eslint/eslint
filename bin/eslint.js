@@ -26,10 +26,15 @@ if (debug) {
 // Requirements
 //------------------------------------------------------------------------------
 
+const pkg = require("../package.json");
+
+require("please-upgrade-node-fork")(pkg);
+
 // now we can safely include the other modules that use debug
-const cli = require("../lib/cli"),
-    path = require("path"),
-    fs = require("fs");
+const cli = require("../lib/cli");
+const path = require("path");
+const fs = require("fs");
+
 
 //------------------------------------------------------------------------------
 // Execution
@@ -42,7 +47,6 @@ process.once("uncaughtException", err => {
 
     if (typeof err.messageTemplate === "string" && err.messageTemplate.length > 0) {
         const template = lodash.template(fs.readFileSync(path.resolve(__dirname, `../messages/${err.messageTemplate}.txt`), "utf-8"));
-        const pkg = require("../package.json");
 
         console.error("\nOops! Something went wrong! :(");
         console.error(`\nESLint: ${pkg.version}.\n${template(err.messageData || {})}`);
