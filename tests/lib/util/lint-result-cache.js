@@ -279,34 +279,4 @@ describe("LintResultCache", () => {
             assert.isTrue(reconcileStub.calledOnce);
         });
     });
-
-    describe("removeEntry", () => {
-        const filePath = path.join(fixturePath, "test-with-errors.js");
-
-        let removeEntryStub,
-            lintResultsCache;
-
-        before(() => {
-            removeEntryStub = sandbox.stub();
-
-            fileEntryCacheStubs.create = () => ({
-                removeEntry: removeEntryStub
-            });
-        });
-
-        after(() => {
-            delete fileEntryCacheStubs.create;
-        });
-
-        beforeEach(() => {
-            lintResultsCache = new LintResultCache(cacheFileLocation, fakeConfigHelper);
-        });
-
-        it("calls removeEntry on the underlying cache", () => {
-            lintResultsCache.removeEntry(filePath);
-
-            assert.isTrue(removeEntryStub.calledOnce);
-            assert.isTrue(removeEntryStub.alwaysCalledWith(filePath));
-        });
-    });
 });
