@@ -241,6 +241,25 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
                  );
             `,
             errors: [UNEXPECTED_LINEBREAK, UNEXPECTED_LINEBREAK]
+        }, {
+            code: `
+                (foo) =>
+                  // hi
+                     bar => (
+                       // there
+                         baz
+                     )
+            `,
+            output: `
+                (foo) => (
+                  // hi
+                     bar => (
+                       // there
+                         baz
+                     )
+                 )
+            `,
+            errors: [UNEXPECTED_LINEBREAK]
         },
 
         // 'below' option
