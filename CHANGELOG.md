@@ -1,3 +1,26 @@
+v5.1.0 - July 8, 2018
+
+* 7328f99 Build: package.json update for eslint-config-eslint release (ESLint Jenkins)
+* b161f6b Build: Include prerelease install info in release blog post (#10463) (Kevin Partington)
+* b2df738 Fix: prefer-object-spread duplicated comma (fixes #10512, fixes #10532) (#10524) (Toru Nagashima)
+* d8c3a25 Fix: wrap-regex doesn't work in some expression(fixes #10573) (#10576) (薛定谔的猫)
+* 114f42e Docs: Clarify option defaults in max-lines-per-function docs (#10569) (Chris Harwood)
+* 63f36f7 Fix: sort-keys in an object that contains spread (fixes #10261) (#10495) (katerberg)
+* 601a5c4 Fix: Prefer-const rule crashing on array destructuring (fixes #10520) (#10527) (Michael Mason)
+* 143890a Update: Adjust grammar of error/warnings fixable (#10546) (Matt Mischuk)
+* 8ee39c5 Chore: small refactor config-validator (#10565) (薛定谔的猫)
+* 100f1be Docs: add note about release issues to readme (#10572) (Teddy Katz)
+* 02efeac Fix: do not fail on nested unknown operators (#10561) (Rubén Norte)
+* 92b19ca Chore: use eslintrc overrides(dogfooding) (#10566) (薛定谔的猫)
+* 076a6b6 Docs: add actionable fix to no-irregular-whitespace (#10558) (Matteo Collina)
+* de663ec Docs: Only successfully linted files are cached (fixes #9802) (#10557) (Kevin Partington)
+* f0e22fc Upgrade: globals@11.7.0 (#10497) (薛定谔的猫)
+* 8a2ff2c Docs:  adding a section about disable rules for some files (#10536) (Wellington Soares)
+* f22a3f8 Docs: fix a word in no-implied-eval (#10539) (Dan Homola)
+* 20d8bbd Docs: add missing paragraph about "custom parsers" (#10547) (Pig Fang)
+* b7addf6 Update: deprecate no-catch-shadow (fixes #10466) (#10526) (Toru Nagashima)
+* e862dc3 Fix: Remove autofixer for no-debugger (fixes #10242) (#10509) (Teddy Katz)
+
 v5.0.1 - June 25, 2018
 
 * 196c102 Fix: valid-jsdoc should allow optional returns for async (fixes #10386) (#10480) (Mark Banner)
