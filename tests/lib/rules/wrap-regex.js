@@ -37,6 +37,13 @@ ruleTester.run("wrap-regex", rule, {
             code: "/foo/ig.test(bar);",
             output: "(/foo/ig).test(bar);",
             errors: [{ message: "Wrap the regexp literal in parens to disambiguate the slash.", type: "Literal" }]
+        },
+
+        // https://github.com/eslint/eslint/issues/10573
+        {
+            code: "if(/foo/ig.test(bar));",
+            output: "if((/foo/ig).test(bar));",
+            errors: [{ message: "Wrap the regexp literal in parens to disambiguate the slash.", type: "Literal" }]
         }
     ]
 });
