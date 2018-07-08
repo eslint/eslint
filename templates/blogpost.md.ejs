@@ -27,6 +27,31 @@ function outputList(items) {
 
 %>
 
+<% if (prereleaseMajorVersion) { %>
+## Highlights
+
+This is a summary of the major changes you need to know about for this version of ESLint.
+
+### Installing
+
+Since this is a pre-release version, you will not automatically be upgraded by npm. You must specify the `next` tag when installing:
+
+```
+npm i eslint@next --save-dev
+```
+
+You can also specify the version directly:
+
+```
+npm i eslint@<%- version %> --save-dev
+```
+
+### Migration Guide
+
+As there are a lot of changes, we've created a [migration guide](/docs/<%- prereleaseMajorVersion %>/user-guide/migrating-to-<%- prereleaseMajorVersion %>) describing the changes in great detail along with the steps you should take to address them. We expect that most users should be able to upgrade without any build changes, but the migration guide should be a useful resource if you encounter problems.
+
+<% } %>
+
 <% if (typeof changelog.breaking !== "undefined") { %>
 ## Breaking Changes
 
