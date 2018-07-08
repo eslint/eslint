@@ -121,7 +121,11 @@ ruleTester.run("prefer-const", rule, {
         {
             code: "let x; function foo() { bar(x); } x = 0;",
             options: [{ ignoreReadBeforeAssign: true }]
-        }
+        },
+
+        // https://github.com/eslint/eslint/issues/10520
+        "const x = [1,2]; let y; [,y] = x; y = 0;",
+        "const x = [1,2,3]; let y, z; [y,,z] = x; y = 0; z = 0;"
     ],
     invalid: [
         {
@@ -360,6 +364,21 @@ ruleTester.run("prefer-const", rule, {
             errors: [
                 { message: "'foo' is never reassigned. Use 'const' instead.", type: "Identifier" },
                 { message: "'bar' is never reassigned. Use 'const' instead.", type: "Identifier" }
+            ]
+        },
+
+        // https://github.com/eslint/eslint/issues/10520
+        {
+            code: "const x = [1,2]; let [,y] = x;",
+            output: "const x = [1,2]; const [,y] = x;",
+            errors: [{ message: "'y' is never reassigned. Use 'const' instead.", type: "Identifier" }]
+        },
+        {
+            code: "const x = [1,2,3]; let [y,,z] = x;",
+            output: "const x = [1,2,3]; const [y,,z] = x;",
+            errors: [
+                { message: "'y' is never reassigned. Use 'const' instead.", type: "Identifier" },
+                { message: "'z' is never reassigned. Use 'const' instead.", type: "Identifier" }
             ]
         }
     ]
