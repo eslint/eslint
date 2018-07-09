@@ -41,7 +41,7 @@ describe("configInitializer", () => {
         error: sinon.spy()
     };
     const requireStubs = {
-        "../logging": log,
+        "../util/logging": log,
         "../util/module-resolver": class ModuleResolver {
 
             /**
