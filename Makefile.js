@@ -177,7 +177,10 @@ function generateBlogPost(releaseInfo) {
          * instead of getting matched with the `no-undef` rule followed by the string "ined".
          */
         .sort((ruleA, ruleB) => ruleB.length - ruleA.length);
-    const output = ejs.render(cat("./templates/blogpost.md.ejs"), Object.assign({ ruleList }, releaseInfo)),
+
+    const renderContext = Object.assign({ prereleaseMajorVersion: null, ruleList }, releaseInfo);
+
+    const output = ejs.render(cat("./templates/blogpost.md.ejs"), renderContext),
         now = new Date(),
         month = now.getMonth() + 1,
         day = now.getDate(),
