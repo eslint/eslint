@@ -139,7 +139,8 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
                   bar
             `,
             output: `
-                // test comment\n(foo) => bar
+                // test comment
+                (foo) => bar
             `,
             errors: [UNEXPECTED_LINEBREAK]
         }, {
@@ -149,7 +150,8 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
                 []
             `,
             output: `
-                // comment\nconst foo = () => []
+                // comment
+                const foo = () => []
             `,
             errors: [UNEXPECTED_LINEBREAK]
         }, {
@@ -220,7 +222,8 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
                   bar
             `,
             output: `
-                /* test comment */\n(foo) => bar
+                /* test comment */
+                (foo) => bar
             `,
             errors: [UNEXPECTED_LINEBREAK]
         }, {
@@ -259,6 +262,87 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
                      )
                  )
             `,
+            errors: [UNEXPECTED_LINEBREAK]
+        }, {
+            code: `
+            const foo = {
+              id: 'bar',
+              prop: (foo1) =>
+                // comment
+                'returning this string', 
+            }
+            `,
+            output: `
+            const foo = {
+              id: 'bar',
+              // comment
+              prop: (foo1) => 'returning this string', 
+            }
+            `,
+            errors: [UNEXPECTED_LINEBREAK]
+        }, {
+            code: `
+            [ foo => 
+              // comment
+              'bar'
+            ]
+            `,
+            output: `
+            [ // comment
+              foo => 'bar'
+            ]
+            `,
+            errors: [UNEXPECTED_LINEBREAK]
+        }, {
+            code: `
+             "foo".split('').map((char) =>
+                // comment
+                char
+             )
+            `,
+            output: `
+             // comment
+             "foo".split('').map((char) => char
+             )
+            `,
+            errors: [UNEXPECTED_LINEBREAK]
+        }, {
+            code: `
+            async foo =>
+                // comment
+                'string'
+            `,
+            output: `
+            // comment
+            async foo => 'string'
+            `,
+            parserOptions: { ecmaVersion: 8 },
+            errors: [UNEXPECTED_LINEBREAK]
+        }, {
+            code: `
+            async foo =>
+                // comment
+                // another
+                bar;
+            `,
+            output: `
+            // comment
+            // another
+            async foo => bar;
+            `,
+            parserOptions: { ecmaVersion: 8 },
+            errors: [UNEXPECTED_LINEBREAK]
+        }, {
+            code: `
+            async (foo) =>
+                // comment
+                'string'
+            `,
+            output: `
+            // comment
+            async (foo) => 'string'
+            `,
+            parserOptions: { ecmaVersion: 8 },
             errors: [UNEXPECTED_LINEBREAK]
         },
 
