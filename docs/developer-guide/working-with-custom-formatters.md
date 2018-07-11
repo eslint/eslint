@@ -294,7 +294,7 @@ error semi
   src/configs/bundler.js:6:10
 ```
 
-### Using a JSON formatter first
+### Outputting to a standard format for other programs to consume
 
 You can use ESLint's built-in JSON formatter first, and pipe the output to another program that accepts JSON linter results.
 
