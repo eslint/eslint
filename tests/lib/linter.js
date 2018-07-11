@@ -52,20 +52,11 @@ const TEST_CODE = "var answer = 6 * 7;",
  * Get variables in the current scope
  * @param {Object} scope current scope
  * @param {string} name name of the variable to look for
- * @returns {ASTNode} The variable object
+ * @returns {ASTNode|null} The variable object
  * @private
  */
 function getVariable(scope, name) {
-    let variable = null;
-
-    scope.variables.some(v => {
-        if (v.name === name) {
-            variable = v;
-            return true;
-        }
-        return false;
-    });
-    return variable;
+    return scope.variables.find(v => v.name === name) || null;
 }
 
 //------------------------------------------------------------------------------
