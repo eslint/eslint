@@ -335,12 +335,11 @@ describe("SourceCodeFixer", () => {
                 assert.isTrue(result.fixed);
             });
 
-            it("should apply one fix when the end of one range is the same as the start of a previous range overlap", () => {
+            it("should apply both fixes when the end of one range is the same as the start of a next range", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE, [REMOVE_START, REPLACE_ID]);
 
-                assert.strictEqual(result.output, TEST_CODE.replace("var ", ""));
-                assert.strictEqual(result.messages.length, 1);
-                assert.strictEqual(result.messages[0].message, "foo");
+                assert.strictEqual(result.output, TEST_CODE.replace("var ", "").replace("answer", "foo"));
+                assert.strictEqual(result.messages.length, 0);
                 assert.isTrue(result.fixed);
             });
 
@@ -560,12 +559,11 @@ describe("SourceCodeFixer", () => {
                 assert.isTrue(result.fixed);
             });
 
-            it("should apply one fix when the end of one range is the same as the start of a previous range overlap", () => {
+            it("should apply both fixes when the end of one range is the same as the start of a next range", () => {
                 const result = SourceCodeFixer.applyFixes(TEST_CODE_WITH_BOM, [REMOVE_START, REPLACE_ID]);
 
-                assert.strictEqual(result.output, `\uFEFF${TEST_CODE.replace("var ", "")}`);
-                assert.strictEqual(result.messages.length, 1);
-                assert.strictEqual(result.messages[0].message, "foo");
+                assert.strictEqual(result.output, `\uFEFF${TEST_CODE.replace("var ", "").replace("answer", "foo")}`);
+                assert.strictEqual(result.messages.length, 0);
                 assert.isTrue(result.fixed);
             });
 
