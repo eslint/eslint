@@ -30,8 +30,6 @@ describe("LintResultCache", () => {
         fakeConfigHelper,
         fakeErrorResults;
 
-    // let fakeSuccessResults;
-
     before(() => {
         sandbox = sinon.sandbox.create();
 
@@ -48,7 +46,6 @@ describe("LintResultCache", () => {
             globInputPaths: false
         });
 
-        // fakeSuccessResults = cliEngine.executeOnFiles([path.join(fixturePath, "test-no-errors.js")]).results[0];
         fakeErrorResults = cliEngine.executeOnFiles([path.join(fixturePath, "test-with-errors.js")]).results[0];
 
         // Set up LintResultCache with fake fileEntryCache module
