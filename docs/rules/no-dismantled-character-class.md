@@ -59,6 +59,15 @@ Examples of **incorrect** code for this rule:
 /^[👍]$/
 ```
 
+Examples of **correct** code for this rule:
+
+```js
+/*eslint no-dismantled-character-class: error */
+
+/^[abc]$/
+/^[👍]$/u
+```
+
 ## When Not To Use It
 
 You can turn this rule off if you don't want to check RegExp character class syntax for multiple code point characters.
