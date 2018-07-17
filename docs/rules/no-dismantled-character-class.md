@@ -1,13 +1,13 @@
 # Disallow characters which are made with multiple code points in character class syntax (no-dismantled-character-class)
 
 Unicode includes the characters which are made with multiple code points.
-RegExp character class syntax (`/[abc]/`) cannot such a character as a character. For example, `❇️` is made by `❇` (`U+2747`) and VARIATION SELECTOR-16 (`U+FE0F`). If this character is in RegExp character class, it will match to either `❇` (`U+2747`) or VARIATION SELECTOR-16 (`U+FE0F`) rather than `❇️`.
+RegExp character class syntax (`/[abc]/`) cannot handle characters which are made by multiple code points as a character; those characters will be dissolved to each code point. For example, `❇️` is made by `❇` (`U+2747`) and VARIATION SELECTOR-16 (`U+FE0F`). If this character is in RegExp character class, it will match to either `❇` (`U+2747`) or VARIATION SELECTOR-16 (`U+FE0F`) rather than `❇️`.
 
 This rule reports the regular expressions which include multiple code point characters in character class syntax. This rule considers the following characters as multiple code point characters.
 
 **A character with combining characters:**
 
-The combining characters are characters which belong to one of `Mc`, `Me`, and `Mn` categories ([Unicode general categories](http://www.unicode.org/L2/L1999/UnicodeData.html#General%20Category)).
+The combining characters are characters which belong to one of `Mc`, `Me`, and `Mn` [Unicode general categories](http://www.unicode.org/L2/L1999/UnicodeData.html#General%20Category).
 
 ```js
 /^[Á]$/u.test("Á") //→ false
