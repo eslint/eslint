@@ -40,11 +40,11 @@ This rule has the following options that can be specified using an object:
 
 * `"max"` (default `50`) enforces a maximum number of lines in a function.
 
-* `"skipBlankLines": true` ignore lines made up purely of whitespace.
+* `"skipBlankLines"` (default `false`) ignore lines made up purely of whitespace.
 
-* `"skipComments": true` ignore lines containing just comments.
+* `"skipComments"` (default `false`) ignore lines containing just comments.
 
-* `"IIFEs": true` include any code included in IIFEs.
+* `"IIFEs"` (default `false`) include any code included in IIFEs.
 
 Alternatively, you may specify a single integer for the `max` option:
 
@@ -86,7 +86,7 @@ function foo() {
 }
 ```
 
-Examples of **correct** code for this rule with a max value of `2`:
+Examples of **correct** code for this rule with a max value of `3`:
 
 ```js
 /*eslint max-lines-per-function: ["error", 3]*/

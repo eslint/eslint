@@ -4,6 +4,8 @@ Invalid or irregular whitespace causes issues with ECMAScript 5 parsers and also
 
 Various whitespace characters can be inputted by programmers by mistake for example from copying or keyboard shortcuts. Pressing Alt + Space on macOS adds in a non breaking space character for example.
 
+A simple fix for this problem could be to rewrite the offending line from scratch. This might also be a problem introduced by the text editor: if rewriting the line does not fix it, try using a different editor.
+
 Known issues these spaces cause:
 
 * Zero Width Space

@@ -107,7 +107,7 @@ describe("formatter:stylish", () => {
             it("should return a string in the correct format", () => {
                 const result = formatter(code);
 
-                assert.strictEqual(result, "\nfoo.js\n  5:10  error  Unexpected foo  foo\n\n\u2716 1 problem (1 error, 0 warnings)\n  1 error, 0 warnings potentially fixable with the `--fix` option.\n");
+                assert.strictEqual(result, "\nfoo.js\n  5:10  error  Unexpected foo  foo\n\n\u2716 1 problem (1 error, 0 warnings)\n  1 error and 0 warnings potentially fixable with the `--fix` option.\n");
                 assert.strictEqual(chalkStub.yellow.bold.callCount, 0);
                 assert.strictEqual(chalkStub.red.bold.callCount, 2);
             });
@@ -146,7 +146,7 @@ describe("formatter:stylish", () => {
             it("should return a string in the correct format", () => {
                 const result = formatter(code);
 
-                assert.strictEqual(result, "\nfoo.js\n  5:10  warning  Unexpected foo  foo\n\n\u2716 1 problem (0 errors, 1 warning)\n  0 errors, 1 warning potentially fixable with the `--fix` option.\n");
+                assert.strictEqual(result, "\nfoo.js\n  5:10  warning  Unexpected foo  foo\n\n\u2716 1 problem (0 errors, 1 warning)\n  0 errors and 1 warning potentially fixable with the `--fix` option.\n");
                 assert.strictEqual(chalkStub.yellow.bold.callCount, 2);
                 assert.strictEqual(chalkStub.red.bold.callCount, 0);
             });
@@ -351,7 +351,7 @@ describe("formatter:stylish", () => {
 
             const result = formatter(code);
 
-            assert.include(result, "  1 error, 0 warnings potentially fixable with the `--fix` option.\n");
+            assert.include(result, "  1 error and 0 warnings potentially fixable with the `--fix` option.\n");
         });
 
         it("should output fixable problems message when warnings are fixable", () => {
@@ -368,7 +368,7 @@ describe("formatter:stylish", () => {
 
             const result = formatter(code);
 
-            assert.include(result, "  0 errors, 2 warnings potentially fixable with the `--fix` option.\n");
+            assert.include(result, "  0 errors and 2 warnings potentially fixable with the `--fix` option.\n");
         });
 
         it("should output the total number of fixable errors and warnings", () => {
@@ -394,7 +394,7 @@ describe("formatter:stylish", () => {
 
             const result = formatter(code);
 
-            assert.include(result, "  9 errors, 3 warnings potentially fixable with the `--fix` option.\n");
+            assert.include(result, "  9 errors and 3 warnings potentially fixable with the `--fix` option.\n");
         });
     });
 });

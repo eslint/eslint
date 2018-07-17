@@ -52,20 +52,11 @@ const TEST_CODE = "var answer = 6 * 7;",
  * Get variables in the current scope
  * @param {Object} scope current scope
  * @param {string} name name of the variable to look for
- * @returns {ASTNode} The variable object
+ * @returns {ASTNode|null} The variable object
  * @private
  */
 function getVariable(scope, name) {
-    let variable = null;
-
-    scope.variables.some(v => {
-        if (v.name === name) {
-            variable = v;
-            return true;
-        }
-        return false;
-    });
-    return variable;
+    return scope.variables.find(v => v.name === name) || null;
 }
 
 //------------------------------------------------------------------------------
@@ -4473,6 +4464,16 @@ describe("Linter", () => {
             it("should not throw or report errors when the custom parser returns unrecognized operators (https://github.com/eslint/eslint/issues/10475)", () => {
                 const code = "null %% 'foo'";
                 const parser = path.join(parserFixtures, "unknown-operators", "unknown-logical-operator.js");
+
+                // This shouldn't throw
+                const messages = linter.verify(code, { parser }, filename, true);
+
+                assert.strictEqual(messages.length, 0);
+            });
+
+            it("should not throw or report errors when the custom parser returns nested unrecognized operators (https://github.com/eslint/eslint/issues/10560)", () => {
+                const code = "foo && bar %% baz";
+                const parser = path.join(parserFixtures, "unknown-operators", "unknown-logical-operator-nested.js");
 
                 // This shouldn't throw
                 const messages = linter.verify(code, { parser }, filename, true);

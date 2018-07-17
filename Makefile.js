@@ -177,7 +177,10 @@ function generateBlogPost(releaseInfo) {
          * instead of getting matched with the `no-undef` rule followed by the string "ined".
          */
         .sort((ruleA, ruleB) => ruleB.length - ruleA.length);
-    const output = ejs.render(cat("./templates/blogpost.md.ejs"), Object.assign({ ruleList }, releaseInfo)),
+
+    const renderContext = Object.assign({ prereleaseMajorVersion: null, ruleList }, releaseInfo);
+
+    const output = ejs.render(cat("./templates/blogpost.md.ejs"), renderContext),
         now = new Date(),
         month = now.getMonth() + 1,
         day = now.getDate(),
@@ -306,11 +309,29 @@ function release(ciRelease) {
 function prerelease(prereleaseId) {
 
     const releaseInfo = ReleaseOps.release(prereleaseId);
+    const nextMajor = semver.inc(releaseInfo.version, "major");
+
+    /*
+     * Premajor release should have identical "next major version".
+     * Preminor and prepatch release will not.
+     * 5.0.0-alpha.0 --> next major = 5, current major = 5
+     * 4.4.0-alpha.0 --> next major = 5, current major = 4
+     * 4.0.1-alpha.0 --> next major = 5, current major = 4
+     */
+    if (semver.major(releaseInfo.version) === semver.major(nextMajor)) {
+
+        /*
+         * This prerelease is for a major release (not preminor/prepatch).
+         * Blog post generation logic needs to be aware of this (as well as
+         * know what the next major version is actually supposed to be).
+         */
+        releaseInfo.prereleaseMajorVersion = nextMajor;
+    }
 
     echo("Generating site");
 
     // always write docs into the next major directory (so 2.0.0-alpha.0 writes to 2.0.0)
-    target.gensite(semver.inc(releaseInfo.version, "major"));
+    target.gensite(nextMajor);
     generateBlogPost(releaseInfo);
     publishSite(`v${releaseInfo.version}`);
     echo("Site has been published");
