@@ -157,7 +157,7 @@ rules:
     prefer-rest-params: "error"
     prefer-spread: "error"
     prefer-template: "error"
-    quotes: ["error", "double"]
+    quotes: ["error", "double", {avoidEscape: true}]
     quote-props: ["error", "as-needed"]
     radix: "error"
     require-jsdoc: "error"
