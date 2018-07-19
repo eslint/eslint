@@ -16,7 +16,7 @@ const rule = require("../../../lib/rules/no-empty-function"),
 // Helpers
 //------------------------------------------------------------------------------
 
-const ALLOW_OPTIONS = Object.freeze([
+const ALLOW_OPTIONS = [
     "functions",
     "arrowFunctions",
     "generatorFunctions",
@@ -25,7 +25,7 @@ const ALLOW_OPTIONS = Object.freeze([
     "getters",
     "setters",
     "constructors"
-]);
+];
 
 /**
  * Folds test items to `{valid: [], invalid: []}`.
