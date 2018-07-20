@@ -28,7 +28,8 @@ describe("LintResultCache", () => {
         hashStub,
         sandbox,
         fakeConfigHelper,
-        fakeErrorResults;
+        fakeErrorResults,
+        fakeErrorResultsAutofix;
 
     before(() => {
         sandbox = sinon.sandbox.create();
@@ -39,14 +40,22 @@ describe("LintResultCache", () => {
 
         hashStub = sandbox.stub();
 
-        // Get lint results for test fixtures with and without errors
+        let shouldFix = false;
+
+        // Get lint results for test fixtures
         const cliEngine = new CLIEngine({
             cache: false,
             ignore: false,
-            globInputPaths: false
+            globInputPaths: false,
+            fix: () => shouldFix
         });
 
+        // Get results without autofixing...
         fakeErrorResults = cliEngine.executeOnFiles([path.join(fixturePath, "test-with-errors.js")]).results[0];
+
+        // ...and with autofixing
+        shouldFix = true;
+        fakeErrorResultsAutofix = cliEngine.executeOnFiles([path.join(fixturePath, "test-with-errors.js")]).results[0];
 
         // Set up LintResultCache with fake fileEntryCache module
         LintResultCache = proxyquire("../../../lib/util/lint-result-cache", {
@@ -214,6 +223,15 @@ describe("LintResultCache", () => {
             hashStub.returns(hashOfConfig);
 
             lintResultsCache = new LintResultCache(cacheFileLocation, fakeConfigHelper);
+        });
+
+        describe("When lint result has output property", () => {
+            it("does not modify file entry", () => {
+                lintResultsCache.setCachedLintResults(filePath, fakeErrorResultsAutofix);
+
+                assert.notProperty(cacheEntry.meta, "results");
+                assert.notProperty(cacheEntry.meta, "hashOfConfig");
+            });
         });
 
         describe("When file is not found on filesystem", () => {
