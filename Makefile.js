@@ -68,7 +68,7 @@ const NODE = "node ", // intentional extra space
     BUILD_DIR = "./build/",
     DOCS_DIR = "../eslint.github.io/docs",
     SITE_DIR = "../eslint.github.io/",
-    PERF_TMP_DIR = path.join(os.tmpdir(), "eslint", "performance"),
+    PERF_TMP_DIR = path.join(TEMP_DIR, "eslint", "performance"),
 
     // Utilities - intentional extra space at the end of each string
     MOCHA = `${NODE_MODULES}mocha/bin/_mocha `,
@@ -660,10 +660,10 @@ target.gensite = function(prereleaseVersion) {
 
         if (test("-f", fullPath)) {
 
-            rm("-r", fullPath);
+            rm("-rf", fullPath);
 
             if (filePath.indexOf(".md") >= 0 && test("-f", htmlFullPath)) {
-                rm("-r", htmlFullPath);
+                rm("-rf", htmlFullPath);
             }
         }
     });
@@ -801,7 +801,7 @@ target.gensite = function(prereleaseVersion) {
 
     // 12. Delete temporary directory
     echo("> Removing the temporary directory (Step 12)");
-    rm("-r", TEMP_DIR);
+    rm("-rf", TEMP_DIR);
 
     // 13. Update demos, but only for non-prereleases
     if (!prereleaseVersion) {
@@ -834,7 +834,7 @@ target.browserify = function() {
     cp("-r", "lib/*", TEMP_DIR);
 
     // 3. delete the load-rules.js file
-    rm(`${TEMP_DIR}load-rules.js`);
+    rm("-rf", `${TEMP_DIR}load-rules.js`);
 
     // 4. create new load-rule.js with hardcoded requires
     generateRulesIndex(TEMP_DIR);
@@ -849,7 +849,7 @@ target.browserify = function() {
     cat("./node_modules/babel-polyfill/dist/polyfill.js", `${TEMP_DIR}espree.js`, `${BUILD_DIR}eslint.js`).to(`${BUILD_DIR}eslint.js`);
 
     // 8. remove temp directory
-    rm("-r", TEMP_DIR);
+    rm("-rf", TEMP_DIR);
 };
 
 target.checkRuleFiles = function() {
