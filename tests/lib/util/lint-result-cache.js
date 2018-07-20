@@ -248,6 +248,29 @@ describe("LintResultCache", () => {
                 assert.deepStrictEqual(cacheEntry.meta.results, expectedCachedResults);
             });
         });
+
+        describe("When file is found and empty", () => {
+            beforeEach(() => {
+                lintResultsCache.setCachedLintResults(
+                    filePath,
+                    Object.assign({}, fakeErrorResults, { source: "" })
+                );
+            });
+
+            it("stores hash of config in file entry", () => {
+                assert.strictEqual(cacheEntry.meta.hashOfConfig, hashOfConfig);
+            });
+
+            it("stores results (except source) in file entry", () => {
+                const expectedCachedResults = Object.assign(
+                    {},
+                    fakeErrorResults,
+                    { source: null }
+                );
+
+                assert.deepStrictEqual(cacheEntry.meta.results, expectedCachedResults);
+            });
+        });
     });
 
     describe("reconcile", () => {
