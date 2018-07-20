@@ -89,7 +89,7 @@
     "dateformat": "^3.0.3",
     "ejs": "^2.6.1",
     "eslint-plugin-eslint-plugin": "^1.2.0",
-    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-node": "^7.0.1",
     "eslint-plugin-rulesdir": "^0.1.0",
     "eslint-release": "^0.11.1",
     "eslint-rule-composer": "^0.3.0",
