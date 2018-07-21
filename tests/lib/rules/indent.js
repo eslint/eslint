@@ -64,7 +64,7 @@ function unIndent(strings) {
     const templateValue = strings[0];
     const lines = templateValue.replace(/^\n/, "").replace(/\n\s*$/, "").split("\n");
     const lineIndents = lines.filter(line => line.trim()).map(line => line.match(/ */)[0].length);
-    const minLineIndent = Math.min.apply(null, lineIndents);
+    const minLineIndent = Math.min(...lineIndents);
 
     return lines.map(line => line.slice(minLineIndent)).join("\n");
 }
@@ -4843,6 +4843,56 @@ ruleTester.run("indent", rule, {
                         2
                 }
             }
+        `,
+
+        //----------------------------------------------------------------------
+        // Comment alignment tests
+        //----------------------------------------------------------------------
+        unIndent`
+            if (foo) {
+            // Comment can align with code immediately above even if "incorrect" alignment
+                doSomething();
+            }
+        `,
+        unIndent`
+            if (foo) {
+                doSomething();
+            // Comment can align with code immediately below even if "incorrect" alignment
+            }
+        `,
+        unIndent`
+            if (foo) {
+                // Comment can be in correct alignment even if not aligned with code above/below
+            }
+        `,
+        unIndent`
+            if (foo) {
+
+                // Comment can be in correct alignment even if gaps between (and not aligned with) code above/below
+
+            }
+        `,
+        unIndent`
+            [{
+                foo
+            },
+
+            // Comment between nodes
+
+            {
+                bar
+            }];
+        `,
+        unIndent`
+            [{
+                foo
+            },
+
+            // Comment between nodes
+
+            { // comment
+                bar
+            }];
         `
     ],
 
@@ -9383,6 +9433,46 @@ ruleTester.run("indent", rule, {
                 }
             `,
             errors: expectedErrors([4, 12, 8, "Numeric"])
+        },
+
+        //----------------------------------------------------------------------
+        // Comment alignment tests
+        //----------------------------------------------------------------------
+        {
+            code: unIndent`
+                if (foo) {
+
+                // Comment cannot align with code immediately above if there is a whitespace gap
+                    doSomething();
+                }
+            `,
+            output: unIndent`
+                if (foo) {
+
+                    // Comment cannot align with code immediately above if there is a whitespace gap
+                    doSomething();
+                }
+            `,
+            errors: expectedErrors([3, 4, 0, "Line"])
+        },
+        {
+            code: unIndent`
+                if (foo) {
+                    foo(
+                        bar);
+                // Comment cannot align with code immediately below if there is a whitespace gap
+
+                }
+            `,
+            output: unIndent`
+                if (foo) {
+                    foo(
+                        bar);
+                    // Comment cannot align with code immediately below if there is a whitespace gap
+
+                }
+            `,
+            errors: expectedErrors([4, 4, 0, "Line"])
         }
     ]
 });
