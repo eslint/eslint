@@ -2132,7 +2132,7 @@ describe("CLIEngine", () => {
                 assert.isFalse(shell.test("-f", cacheFile), "the cache for eslint was deleted since last run did not used the cache");
             });
 
-            it("should not store in the cache a file that failed the test", () => {
+            it("should store in the cache a file that failed the test", () => {
 
                 const cacheFile = getFixturePath(".eslintcache");
 
@@ -2163,7 +2163,7 @@ describe("CLIEngine", () => {
 
                 assert.isTrue(typeof cache[goodFile] === "object", "the entry for the good file is in the cache");
 
-                assert.isTrue(typeof cache[badFile] === "undefined", "the entry for the bad file is not in the cache");
+                assert.isTrue(typeof cache[badFile] === "object", "the entry for the bad file is in the cache");
 
                 const cachedResult = engine.executeOnFiles([badFile, goodFile]);
 
@@ -2378,7 +2378,7 @@ describe("CLIEngine", () => {
 
                     assert.isTrue(typeof cache[goodFile] === "object", "the entry for the good file is in the cache");
 
-                    assert.isTrue(typeof cache[badFile] === "undefined", "the entry for the bad file is not in the cache");
+                    assert.isTrue(typeof cache[badFile] === "object", "the entry for the bad file is in the cache");
 
                     const cachedResult = engine.executeOnFiles([badFile, goodFile]);
 
