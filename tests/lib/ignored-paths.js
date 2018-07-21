@@ -123,7 +123,7 @@ describe("IgnoredPaths", () => {
             const ignoredPaths = new IgnoredPaths({ ignore: true, cwd: getFixturePath() });
             const ignorePatterns = getIgnorePatterns(ignoredPaths);
 
-            assert.isNotNull(ignoredPaths.baseDir);
+            assert.isNotNull(ignoredPaths.ignoreFileDir);
             assert.deepStrictEqual(getIgnoreFiles(ignoredPaths), [expectedIgnoreFile]);
             assert.include(ignorePatterns, "sampleignorepattern");
         });
@@ -131,7 +131,7 @@ describe("IgnoredPaths", () => {
         it("should set baseDir to cwd when no ignore file was loaded", () => {
             const ignoredPaths = new IgnoredPaths({ cwd: getFixturePath("no-ignore-file") });
 
-            assert.strictEqual(ignoredPaths.baseDir, getFixturePath("no-ignore-file"));
+            assert.strictEqual(ignoredPaths.ignoreFileDir, getFixturePath("no-ignore-file"));
         });
 
         it("should not travel to parent directories to find .eslintignore when it's missing and cwd is provided", () => {
@@ -241,7 +241,7 @@ describe("IgnoredPaths", () => {
         it("should set baseDir to directory containing ignorePath if provided", () => {
             const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: ignoreFilePath, cwd: getFixturePath() });
 
-            assert.strictEqual(ignoredPaths.baseDir, path.dirname(ignoreFilePath));
+            assert.strictEqual(ignoredPaths.ignoreFileDir, path.dirname(ignoreFilePath));
         });
 
     });
@@ -400,6 +400,40 @@ describe("IgnoredPaths", () => {
 
             assert.isFalse(ignoredPaths.contains(getFixturePath("subdir/undef.js")));
             assert.isTrue(ignoredPaths.contains(getFixturePath("undef.js")));
+        });
+
+        it("should resolve relative paths from the ignorePath when it's in a child directory", () => {
+            const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: getFixturePath("subdir/.eslintignoreInChildDir"), cwd: getFixturePath() });
+
+            assert.isTrue(ignoredPaths.contains(getFixturePath("subdir/undef.js")));
+            assert.isFalse(ignoredPaths.contains(getFixturePath("undef.js")));
+            assert.isTrue(ignoredPaths.contains(getFixturePath("foo.js")));
+            assert.isTrue(ignoredPaths.contains(getFixturePath("subdir/foo.js")));
+
+            assert.isTrue(ignoredPaths.contains(getFixturePath("node_modules/bar.js")));
+        });
+
+        it("should resolve relative paths from the ignorePath when it contains negated globs", () => {
+            const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: getFixturePath("subdir/.eslintignoreInChildDir"), cwd: getFixturePath() });
+
+            assert.isTrue(ignoredPaths.contains("subdir/blah.txt"));
+            assert.isTrue(ignoredPaths.contains("blah.txt"));
+            assert.isFalse(ignoredPaths.contains("subdir/bar.txt"));
+            assert.isTrue(ignoredPaths.contains("bar.txt"));
+            assert.isFalse(ignoredPaths.contains("subdir/baz.txt"));
+            assert.isFalse(ignoredPaths.contains("baz.txt"));
+        });
+
+        it("should resolve default ignore patterns from the CWD even when the ignorePath is in a subdirectory", () => {
+            const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: getFixturePath("subdir/.eslintignoreInChildDir"), cwd: getFixturePath() });
+
+            assert.isTrue(ignoredPaths.contains("node_modules/blah.js"));
+        });
+
+        it("should resolve default ignore patterns from the CWD even when the ignorePath is in a parent directory", () => {
+            const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: getFixturePath(".eslintignoreForDifferentCwd"), cwd: getFixturePath("subdir") });
+
+            assert.isTrue(ignoredPaths.contains("node_modules/blah.js"));
         });
     });
 
