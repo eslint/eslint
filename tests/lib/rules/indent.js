@@ -9473,6 +9473,31 @@ ruleTester.run("indent", rule, {
                 }
             `,
             errors: expectedErrors([4, 4, 0, "Line"])
+        },
+        {
+            code: unIndent`
+                [{
+                    foo
+                },
+
+                    // Comment between nodes
+
+                {
+                    bar
+                }];
+            `,
+            output: unIndent`
+                [{
+                    foo
+                },
+
+                // Comment between nodes
+
+                {
+                    bar
+                }];
+            `,
+            errors: expectedErrors([5, 0, 4, "Line"])
         }
     ]
 });
