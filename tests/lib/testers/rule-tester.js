@@ -44,12 +44,12 @@ const ruleTesterTestEmitter = new EventEmitter();
 
 RuleTester.describe = function(text, method) {
     ruleTesterTestEmitter.emit("describe", text, method);
-    return method.apply(this);
+    return method.call(this);
 };
 
 RuleTester.it = function(text, method) {
     ruleTesterTestEmitter.emit("it", text, method);
-    return method.apply(this);
+    return method.call(this);
 };
 
 //------------------------------------------------------------------------------
