@@ -83,7 +83,7 @@ function extractPatterns(patterns, type) {
     }));
 
     // Flatten.
-    return Array.prototype.concat.apply([], patternsList);
+    return [].concat(...patternsList);
 }
 
 
