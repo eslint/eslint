@@ -825,6 +825,18 @@ ruleTester.run("prefer-object-spread", rule, {
                     column: 1
                 }
             ]
+        },
+        {
+            code: "Object.assign({\n});",
+            output: "({});",
+            errors: [
+                {
+                    messageId: "useLiteralMessage",
+                    type: "CallExpression",
+                    line: 1,
+                    column: 1
+                }
+            ]
         }
     ]
 });
