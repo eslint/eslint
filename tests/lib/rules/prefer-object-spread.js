@@ -12,9 +12,6 @@ const RuleTester = require("../../../lib/testers/rule-tester");
 
 const parserOptions = {
     ecmaVersion: 2018,
-    ecmaFeatures: {
-        experimentalObjectRestSpread: true
-    },
     sourceType: "module"
 };
 
