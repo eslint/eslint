@@ -46,10 +46,6 @@ if(("" + !key) in object) {
 }
 ```
 
-## Options
-
-Nothing.
-
 ## When Not To Use It
 
 If you don't want to notify unsafe logical negations, then it's safe to disable this rule.
