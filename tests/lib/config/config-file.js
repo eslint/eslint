@@ -1267,6 +1267,29 @@ describe("ConfigFile", () => {
                 ConfigFile.write({}, getFixturePath("yaml/.eslintrc.class"));
             }, /write to unknown file type/);
         });
+
+        it("should format file consistent with config if format is .js", () => {
+            const fakeFS = leche.fake(fs);
+
+            const singleQuoteNoSemiConfig = {
+                rules: {
+                    quotes: [2, "single"],
+                    semi: [2, "never"]
+                }
+            };
+
+            sandbox.mock(fakeFS).expects("writeFileSync").withExactArgs(
+                "dummyfile.js",
+                sinon.match(value => !(value.includes("\"") || value.includes(";"))),
+                "utf8"
+            );
+
+            const StubbedConfigFile = proxyquire("../../../lib/config/config-file", {
+                fs: fakeFS
+            });
+
+            StubbedConfigFile.write(singleQuoteNoSemiConfig, "dummyfile.js");
+        });
     });
 
 });
