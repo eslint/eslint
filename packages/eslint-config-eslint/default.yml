@@ -160,6 +160,7 @@ rules:
     quotes: ["error", "double"]
     quote-props: ["error", "as-needed"]
     radix: "error"
+    require-atomic-updates: "error"
     require-jsdoc: "error"
     rest-spread-spacing: "error"
     semi: "error"
