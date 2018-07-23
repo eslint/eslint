@@ -684,7 +684,7 @@ target.gensite = function(prereleaseVersion) {
     const rules = require(".").linter.getRules();
 
     const RECOMMENDED_TEXT = "\n\n(recommended) The `\"extends\": \"eslint:recommended\"` property in a configuration file enables this rule.";
-    const FIXABLE_TEXT = "\n\n(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) can automatically fix some of the problems reported by this rule.";
+    const FIXABLE_TEXT = "\n\n(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fixing-problems) can automatically fix some of the problems reported by this rule.";
 
     // 4. Loop through all files in temporary directory
     process.stdout.write("> Updating files (Steps 4-9): 0/... - ...\r");
