@@ -83,6 +83,7 @@ module.exports = {
         "newline-per-chained-call": "off",
         "no-alert": "off",
         "no-array-constructor": "off",
+        "no-async-promise-executor": "off",
         "no-await-in-loop": "off",
         "no-bitwise": "off",
         "no-buffer-constructor": "off",
