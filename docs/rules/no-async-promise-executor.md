@@ -21,7 +21,7 @@ The executor function can also be an `async function`. However, this is usually 
 
 ## Rule Details
 
-This rule aims to...
+This rule aims to disallow async Promise executor functions.
 
 Examples of **incorrect** code for this rule:
 

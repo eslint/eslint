@@ -46,6 +46,16 @@ ruleTester.run("no-async-promise-executor", rule, {
                 endLine: 1,
                 endColumn: 18
             }]
+        },
+        {
+            code: "new Promise(((((async () => {})))))",
+            errors: [{
+                message: "Promise executor functions should not be async.",
+                line: 1,
+                column: 17,
+                endLine: 1,
+                endColumn: 22
+            }]
         }
     ]
 });
