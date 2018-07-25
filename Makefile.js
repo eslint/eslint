@@ -87,6 +87,8 @@ const NODE = "node ", // intentional extra space
     // Settings
     MOCHA_TIMEOUT = 10000;
 
+const hasOwn = ({}).hasOwnProperty;
+
 //------------------------------------------------------------------------------
 // Helpers
 //------------------------------------------------------------------------------
@@ -871,7 +873,7 @@ target.checkRuleFiles = function() {
          * @private
          */
         function isInConfig() {
-            return eslintRecommended.hasOwnProperty(basename);
+            return hasOwn.call(eslintRecommended, basename);
         }
 
         /**

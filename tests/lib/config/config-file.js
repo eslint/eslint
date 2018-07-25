@@ -25,6 +25,8 @@ const Module = require("module"),
 const userHome = os.homedir();
 const temp = require("temp").track();
 const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
+const hasOwn = ({}).hasOwnProperty;
+
 let configContext;
 
 //------------------------------------------------------------------------------
@@ -119,7 +121,7 @@ function createStubModuleResolver(mapping) {
      */
     return class StubModuleResolver {
         resolve(name) { // eslint-disable-line class-methods-use-this
-            if (mapping.hasOwnProperty(name)) {
+            if (hasOwn.call(mapping, name)) {
                 return mapping[name];
             }
 
@@ -140,7 +142,7 @@ function overrideNativeResolve(mapping) {
     beforeEach(() => {
         originalFindPath = Module._findPath; // eslint-disable-line no-underscore-dangle
         Module._findPath = function(request, paths, isMain) { // eslint-disable-line no-underscore-dangle
-            if (mapping.hasOwnProperty(request)) {
+            if (hasOwn.call(mapping, request)) {
                 return mapping[request];
             }
             return originalFindPath.call(this, request, paths, isMain);
