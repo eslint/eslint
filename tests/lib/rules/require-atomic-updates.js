@@ -19,17 +19,20 @@ const RuleTester = require("../../../lib/testers/rule-tester");
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2018 } });
 
 const VARIABLE_ERROR = {
-    message: "Possible race condition: `foo` might be reassigned based on an outdated value of `foo`.",
+    messageId: "nonAtomicUpdate",
+    data: { value: "foo" },
     type: "AssignmentExpression"
 };
 
 const STATIC_PROPERTY_ERROR = {
-    message: "Possible race condition: `foo.bar` might be reassigned based on an outdated value of `foo.bar`.",
+    messageId: "nonAtomicUpdate",
+    data: { value: "foo.bar" },
     type: "AssignmentExpression"
 };
 
 const COMPUTED_PROPERTY_ERROR = {
-    message: "Possible race condition: `foo[bar].baz` might be reassigned based on an outdated value of `foo[bar].baz`.",
+    messageId: "nonAtomicUpdate",
+    data: { value: "foo[bar].baz" },
     type: "AssignmentExpression"
 };
 
@@ -54,7 +57,7 @@ ruleTester.run("require-atomic-updates", rule, {
     invalid: [
         {
             code: "let foo; async function x() { foo += await amount; }",
-            errors: [VARIABLE_ERROR]
+            errors: [{ messageId: "nonAtomicUpdate", data: { value: "foo" } }]
         },
         {
             code: "let foo; async function x() { while (condition) { foo += await amount; } }",
