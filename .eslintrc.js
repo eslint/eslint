@@ -35,6 +35,13 @@ module.exports = {
                 "rulesdir/consistent-docs-url": "error"
             }
         }, {
+            files: ["tools/internal-rules/*"],
+            rules: {
+                "rulesdir/no-invalid-meta": "error",
+                "rulesdir/consistent-docs-description": "error",
+                "rulesdir/consistent-docs-url": "off"
+            }
+        }, {
             files: ["tests/**/*"],
             env: { mocha: true },
             rules: {
