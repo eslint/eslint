@@ -20,6 +20,12 @@ This rule has a string option:
 * `"as-needed"` requires function expressions to have a name, if the name cannot be assigned automatically in an ES6 environment
 * `"never"` disallows named function expressions, except in recursive functions, where a name is needed
 
+This rule has an object option:
+
+* `"generators": true (default) | false`
+    * `true`: require generators to follow the func-names rule. `"always"` or `"as-needed"` will require named generator functions, `"never"` will allow unnamed generator functions.
+    * `false`: require generators to not follow the func-names rule. `"always"` or `"as-needed"` will allow unnamed generator functions, `"never"` will require named generator functions.
+
 ### always
 
 Examples of **incorrect** code for this rule with the default `"always"` option:
@@ -98,6 +104,56 @@ Foo.prototype.bar = function() {};
 (function() {
     // ...
 }())
+```
+
+### generators
+
+Examples of **incorrect** code for this rule with the `"always", { "generators": false }` options:
+
+```js
+/*eslint func-names: ["error", "always", { "generators": false }]*/
+
+var foo = bar(function *baz() {});
+```
+
+Examples of **correct** code for this rule with the `"always", { "generators": false }` options:
+
+```js
+/*eslint func-names: ["error", "always", { "generators": false }]*/
+
+var foo = bar(function *() {});
+```
+
+Examples of **incorrect** code for this rule with the `"as-needed", { "generators": false }` options:
+
+```js
+/*eslint func-names: ["error", "as-needed", { "generators": false }]*/
+
+var foo = bar(function *baz() {});
+```
+
+Examples of **correct** code for this rule with the `"as-needed", { "generators": false }` options:
+
+```js
+/*eslint func-names: ["error", "as-needed", { "generators": false }]*/
+
+var foo = bar(function *() {});
+```
+
+Examples of **incorrect** code for this rule with the `"never", { "generators": false }` options:
+
+```js
+/*eslint func-names: ["error", "never", { "generators": false }]*/
+
+var foo = bar(function *() {});
+```
+
+Examples of **correct** code for this rule with the `"never", { "generators": false }` options:
+
+```js
+/*eslint func-names: ["error", "never", { "generators": false }]*/
+
+var foo = bar(function *baz() {});
 ```
 
 ## Further Reading

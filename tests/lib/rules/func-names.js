@@ -125,6 +125,38 @@ ruleTester.run("func-names", rule, {
             code: "({ foo() {} });",
             options: ["never"],
             parserOptions: { ecmaVersion: 6 }
+        },
+
+        // generators
+        {
+            code: "var foo = bar(function *baz() {});",
+            options: ["always", { generators: true }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = bar(function *() {});",
+            options: ["always", { generators: false }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = bar(function *baz() {});",
+            options: ["as-needed", { generators: true }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = bar(function *() {});",
+            options: ["as-needed", { generators: false }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = bar(function *() {});",
+            options: ["never", { generators: true }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = bar(function *baz() {});",
+            options: ["never", { generators: false }],
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
     invalid: [
@@ -197,6 +229,56 @@ ruleTester.run("func-names", rule, {
             code: "({foo: function foo() {}})",
             options: ["never"],
             errors: [{ message: "Unexpected named method 'foo'.", type: "FunctionExpression" }]
+        },
+
+        // generators
+        {
+            code: "var foo = bar(function *() {});",
+            options: ["always", { generators: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Unexpected unnamed generator function."
+            }]
+        },
+        {
+            code: "var foo = bar(function *baz() {});",
+            options: ["always", { generators: false }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Unexpected named generator function 'baz'."
+            }]
+        },
+        {
+            code: "var foo = bar(function *() {});",
+            options: ["as-needed", { generators: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Unexpected unnamed generator function."
+            }]
+        },
+        {
+            code: "var foo = bar(function *baz() {});",
+            options: ["as-needed", { generators: false }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Unexpected named generator function 'baz'."
+            }]
+        },
+        {
+            code: "var foo = bar(function *baz() {});",
+            options: ["never", { generators: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Unexpected named generator function 'baz'."
+            }]
+        },
+        {
+            code: "var foo = bar(function *() {});",
+            options: ["never", { generators: false }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Unexpected unnamed generator function."
+            }]
         }
     ]
 });
