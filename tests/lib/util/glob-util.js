@@ -12,7 +12,7 @@ const assert = require("chai").assert,
     path = require("path"),
     os = require("os"),
     sh = require("shelljs"),
-    globUtil = require("../../../lib/util/glob-util"),
+    globUtil = require("../../../lib/util/glob-utils"),
     fs = require("fs");
 
 //------------------------------------------------------------------------------

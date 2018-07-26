@@ -11,7 +11,7 @@
 const path = require("path"),
     assert = require("chai").assert,
     sinon = require("sinon"),
-    pathUtil = require("../../../lib/util/path-util");
+    pathUtil = require("../../../lib/util/path-utils");
 
 //------------------------------------------------------------------------------
 // Tests
