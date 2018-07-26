@@ -41,13 +41,13 @@ $ npm install eslint --save-dev
 You should then setup a configuration file:
 
 ```
-$ ./node_modules/.bin/eslint --init
+$ npx eslint --init
 ```
 
 After that, you can run ESLint on any file or directory like this:
 
 ```
-$ ./node_modules/.bin/eslint yourfile.js
+$ npx eslint yourfile.js
 ```
 
 Any plugins or shareable configs that you use must also be installed locally to work with a locally-installed ESLint.
