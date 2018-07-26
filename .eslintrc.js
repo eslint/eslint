@@ -28,6 +28,13 @@ module.exports = {
     },
     overrides: [
         {
+            files: ["lib/rules/*"],
+            rules: {
+                "rulesdir/no-invalid-meta": "error",
+                "rulesdir/consistent-docs-description": "error",
+                "rulesdir/consistent-docs-url": "error"
+            }
+        }, {
             files: ["tests/**/*"],
             env: { mocha: true },
             rules: {
