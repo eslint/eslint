@@ -272,7 +272,7 @@ ESLint comes with a large number of rules. You can modify which rules your proje
 * `"warn"` or `1` - turn the rule on as a warning (doesn't affect exit code)
 * `"error"` or `2` - turn the rule on as an error (exit code is 1 when triggered)
 
-### Using configuration Comments
+### Using Configuration Comments
 
 To configure rules inside of a file using configuration comments, use a comment in the following format:
 
@@ -296,7 +296,7 @@ If a rule has additional options, you can specify them using array literal synta
 
 This comment specifies the "double" option for the [`quotes`](../rules/quotes) rule. The first item in the array is always the rule severity (number or string).
 
-### Using configuration Files
+### Using Configuration Files
 
 To configure rules inside of a configuration file, use the `rules` key along with an error level and any options you want to use. For example:
 
