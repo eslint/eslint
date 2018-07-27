@@ -268,7 +268,7 @@ describe("IgnoredPaths", () => {
 
         it("should work when cwd is a subdirectory", () => {
             const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: ignoreFilePath, cwd: getFixturePath("custom-name", "subdirectory") });
-
+            
             assert.notStrictEqual(getIgnoreRules(ignoredPaths).length, countDefaultPatterns(ignoredPaths));
         });
 
@@ -644,6 +644,9 @@ describe("IgnoredPaths", () => {
             assert.isTrue(shouldIgnore(resolve("bower_components/a/b")));
             assert.isFalse(shouldIgnore(resolve(".hidden")));
             assert.isTrue(shouldIgnore(resolve(".hidden/a")));
+
+            assert.isFalse(shouldIgnore(resolve("..")));
+            assert.isFalse(shouldIgnore(resolve("../..")));
         });
 
         it("should ignore default folders when there is an ignore file without unignored defaults", () => {
