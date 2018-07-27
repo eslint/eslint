@@ -1,3 +1,19 @@
+v5.2.0 - July 20, 2018
+
+* 81283d0 Update: Cache files that failed linting (fixes #9948) (#10571) (Kevin Partington)
+* 13cc63e Upgrade: ignore@4.0.2 (#10619) (Rouven Weßling)
+* ac77a80 Chore: Fixing a call to Object.assign.apply in Linter (#10629) (Kevin Partington)
+* 761f802 Upgrade: eslint-plugin-node to 7.0.1 (#10612) (Toru Nagashima)
+* c517b2a Build: fix npm run perf failing(fixes #10577) (#10607) (薛定谔的猫)
+* e596939 Chore: fix redundant equality check (#10617) (Toru Nagashima)
+* 9f93d5f Docs: Updated Working with Custom Formatters (fixes #9950) (#10592) (Marla Foreman)
+* 9aaf195 Chore: Extract lint result cache logic (refs #9948) (#10562) (Kevin Partington)
+* 80b296e Build: package.json update for eslint-config-eslint release (ESLint Jenkins)
+* e4e7ff2 Chore: fix error message in eslint-config-eslint (#10588) (薛定谔的猫)
+* 1e88170 Chore: Move lib/logging and lib/timing to lib/util/ (refs #10559) (#10579) (Kevin Partington)
+* 64dfa21 Build: Fix prerelease logic in blog post generation (fixes #10578) (#10581) (Kevin Partington)
+* 0faf633 Chore: Simplify helper method in Linter tests (#10580) (Kevin Partington)
+
 v5.1.0 - July 8, 2018
 
 * 7328f99 Build: package.json update for eslint-config-eslint release (ESLint Jenkins)
