@@ -268,7 +268,7 @@ describe("IgnoredPaths", () => {
 
         it("should work when cwd is a subdirectory", () => {
             const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: ignoreFilePath, cwd: getFixturePath("custom-name", "subdirectory") });
-            
+
             assert.notStrictEqual(getIgnoreRules(ignoredPaths).length, countDefaultPatterns(ignoredPaths));
         });
 
