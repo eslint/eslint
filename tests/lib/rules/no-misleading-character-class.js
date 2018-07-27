@@ -8,7 +8,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const rule = require("../../../lib/rules/no-dismantled-character-class"),
+const rule = require("../../../lib/rules/no-misleading-character-class"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
@@ -27,7 +27,7 @@ const ruleTester = new RuleTester({
  * /[👶🏻]/u // ERROR: an emoji which is made with an emoji and skin tone selector, in a character class.
  */
 
-ruleTester.run("no-dismantled-character-class", rule, {
+ruleTester.run("no-misleading-character-class", rule, {
     valid: [
         "var r = /[👍]/u",
         "var r = /[\\uD83D\\uDC4D]/u",
