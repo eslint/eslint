@@ -240,6 +240,7 @@ module.exports = {
         "quote-props": "off",
         quotes: "off",
         radix: "off",
+        "require-atomic-updates": "off",
         "require-await": "off",
         "require-jsdoc": "off",
         "require-yield": "error",
