@@ -7,6 +7,7 @@
 
 const childProcess = require("child_process");
 const fs = require("fs");
+const sh = require("shelljs");
 const assert = require("chai").assert;
 const EXECUTABLE_PATH = require("path").resolve(`${__dirname}/../../bin/eslint.js`);
 
@@ -61,6 +62,80 @@ describe("bin/eslint.js", () => {
         forkedProcesses.add(newProcess);
         return newProcess;
     }
+    describe.only("reading from stdin with the --output flag", () => {
+        afterEach(() => {
+            sh.rm("-rf", "tests/output");
+        });
+
+        it("consoles out the console-format", () => {
+            const child = runESLint([
+                "--stdin",
+                "--no-eslintrc",
+                "--rule",
+                "{'no-extra-semi': 2}",
+                "--fix-dry-run",
+                "--format",
+                "junit",
+                "--o",
+                "tests/output/eslint-output.txt",
+                "--console-format",
+                "json"
+            ]);
+
+            const expectedOutput = JSON.stringify([
+                {
+                    filePath: "<text>",
+                    messages: [],
+                    errorCount: 0,
+                    warningCount: 0,
+                    fixableErrorCount: 0,
+                    fixableWarningCount: 0,
+                    output: "var foo = bar;\n"
+                }
+            ]);
+
+            const exitCodePromise = assertExitCode(child, 0);
+            const stdoutPromise = getOutput(child).then(output => {
+
+                assert.strictEqual(output.stdout.trim(), expectedOutput);
+                assert.strictEqual(output.stderr, "");
+            });
+
+            child.stdin.write("var foo = bar;;\n");
+            child.stdin.end();
+
+            return Promise.all([exitCodePromise, stdoutPromise]);
+        });
+
+
+        it("does not output to stdout if the console format is not set", () => {
+            const child = runESLint([
+                "--stdin",
+                "--no-eslintrc",
+                "--rule",
+                "{'no-extra-semi': 2}",
+                "--fix-dry-run",
+                "--format",
+                "junit",
+                "--o",
+                "tests/output/eslint-output.txt"
+            ]);
+
+            const expectedOutput = "";
+
+            const exitCodePromise = assertExitCode(child, 0);
+            const stdoutPromise = getOutput(child).then(output => {
+
+                assert.strictEqual(output.stdout.trim(), expectedOutput);
+                assert.strictEqual(output.stderr, "");
+            });
+
+            child.stdin.write("var foo = bar;;\n");
+            child.stdin.end();
+
+            return Promise.all([exitCodePromise, stdoutPromise]);
+        });
+    });
 
     describe("reading from stdin", () => {
         it("has exit code 0 if no linting errors are reported", () => {
@@ -105,6 +180,7 @@ describe("bin/eslint.js", () => {
 
             return Promise.all([exitCodePromise, stdoutPromise]);
         });
+
 
         it("has exit code 1 if a syntax error is thrown", () => {
             const child = runESLint(["--stdin", "--no-eslintrc"]);

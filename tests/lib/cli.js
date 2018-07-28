@@ -538,6 +538,16 @@ describe("cli", () => {
             assert.isTrue(log.info.notCalled);
         });
 
+        it("should do a thing save the file in the format specified by the --output-format flag", () => {
+            const filePath = getFixturePath("single-quoted.js");
+            const code = `--no-ignore --rule 'quotes: [1, double]' --o tests/output/eslint-output.txt ${filePath} --output-format junit`;
+
+            cli.execute(code);
+
+            assert.include(fs.readFileSync("tests/output/eslint-output.txt", "utf8"), "<failure message=\"Strings must use doublequote.\">");
+            assert.isTrue(log.info.notCalled);
+        });
+
         it("should return an error if the path is a directory", () => {
             const filePath = getFixturePath("single-quoted.js");
             const code = `--no-ignore --rule 'quotes: [1, double]' --o tests/output ${filePath}`;
