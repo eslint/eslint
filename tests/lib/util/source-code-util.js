@@ -15,7 +15,7 @@ const path = require("path"),
     assert = require("chai").assert,
     sinon = require("sinon"),
     sh = require("shelljs"),
-    globUtil = require("../../../lib/util/glob-util"),
+    globUtil = require("../../../lib/util/glob-utils"),
     SourceCode = require("../../../lib/util/source-code");
 
 const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
@@ -63,7 +63,7 @@ describe("SourceCodeUtil", () => {
     });
 
     beforeEach(() => {
-        getSourceCodeOfFiles = proxyquire("../../../lib/util/source-code-util", requireStubs).getSourceCodeOfFiles;
+        getSourceCodeOfFiles = proxyquire("../../../lib/util/source-code-utils", requireStubs).getSourceCodeOfFiles;
     });
 
     afterEach(() => {

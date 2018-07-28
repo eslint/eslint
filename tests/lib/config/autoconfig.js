@@ -11,7 +11,7 @@
 
 const assert = require("chai").assert,
     autoconfig = require("../../../lib/config/autoconfig"),
-    sourceCodeUtil = require("../../../lib/util/source-code-util"),
+    sourceCodeUtil = require("../../../lib/util/source-code-utils"),
     baseDefaultOptions = require("../../../conf/default-cli-options");
 
 const defaultOptions = Object.assign({}, baseDefaultOptions, { cwd: process.cwd() });

@@ -16,7 +16,7 @@ const assert = require("chai").assert,
     sinon = require("sinon"),
     sh = require("shelljs"),
     autoconfig = require("../../../lib/config/autoconfig"),
-    npmUtil = require("../../../lib/util/npm-util");
+    npmUtil = require("../../../lib/util/npm-utils");
 
 const originalDir = process.cwd();
 const proxyquire = require("proxyquire").noPreserveCache();
