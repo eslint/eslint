@@ -647,6 +647,9 @@ describe("IgnoredPaths", () => {
 
             assert.isFalse(shouldIgnore(resolve("..")));
             assert.isFalse(shouldIgnore(resolve("../..")));
+            assert.isFalse(shouldIgnore(resolve("../foo")));
+            assert.isFalse(shouldIgnore(resolve("../../..")));
+            assert.isFalse(shouldIgnore(resolve("../../foo")));
         });
 
         it("should ignore default folders when there is an ignore file without unignored defaults", () => {
