@@ -4,44 +4,7 @@
 "use strict";
 
 const fs = require("fs");
-const http = require("https");
 const path = require("path");
-const logger = console;
-
-/**
- * Fetch a file then process every line.
- * @param {string} url The URL to fetch.
- * @param {Function} cb The callback function to process each line.
- * @returns {Promise<void>} The promise which will be fulfilled after done.
- */
-function processEachLine(url, cb) {
-    return new Promise((resolve, reject) => {
-        http.get(url, res => {
-            let buffer = "";
-
-            res.setEncoding("utf8");
-            res.on("data", chunk => {
-                const lines = (buffer + chunk).split("\n");
-
-                if (lines.length === 1) {
-                    buffer = lines[0];
-                } else {
-                    buffer = lines.pop();
-                    for (const line of lines) {
-                        cb(line); // eslint-disable-line callback-return
-                    }
-                }
-            });
-            res.on("end", () => {
-                if (buffer) {
-                    cb(buffer); // eslint-disable-line callback-return
-                }
-                resolve();
-            });
-            res.on("error", reject);
-        }).on("error", reject);
-    });
-}
 
 /**
  * Render the content of `lib/util/unicode/is-combining-character.js`.
@@ -69,24 +32,16 @@ module.exports = function isCombiningCharacter(c) {
 // Main
 //------------------------------------------------------------------------------
 
-const combiningChars = [];
-
-processEachLine(
-    "https://www.unicode.org/Public/UCD/latest/ucd/UnicodeData.txt",
-    line => {
-        const [code, name, category] = line.split(";");
-
-        if (category === "Mc" || category === "Me" || category === "Mn") {
-            logger.log(code, name);
-            combiningChars.push(parseInt(code, 16));
+const combiningChars = Array.from(function *() {
+    for (let codePoint = 0; codePoint <= 0x10FFFF; ++codePoint) {
+        // eslint-disable-next-line node/no-unsupported-features/es-syntax
+        if (/^[\p{Mc}\p{Me}\p{Mn}]$/u.test(String.fromCodePoint(codePoint))) {
+            yield codePoint;
         }
     }
-).then(() => {
-    fs.writeFileSync(
-        path.resolve(__dirname, "../lib/util/unicode/is-combining-character.js"),
-        renderIsCombiningCharacter(combiningChars)
-    );
-}).catch(error => {
-    logger.error(error.stack);
-    process.exitCode = 1;
-});
+}());
+
+fs.writeFileSync(
+    path.resolve(__dirname, "../lib/util/unicode/is-combining-character.js"),
+    renderIsCombiningCharacter(combiningChars)
+);
