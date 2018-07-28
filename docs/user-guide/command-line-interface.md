@@ -64,6 +64,7 @@ Output:
   -o, --output-file path::String  Specify file to write report to
   -f, --format String            Use a specific output format - default: stylish
   --color, --no-color            Force enabling/disabling of color
+  --console-format               When outputing to a file, you can choose a format that will output to the terminal
 
 Inline configuration comments:
   --no-inline-config             Prevent comments from changing config or rules

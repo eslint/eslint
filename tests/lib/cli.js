@@ -551,6 +551,15 @@ describe("cli", () => {
             assert.isTrue(log.error.calledOnce);
         });
 
+        it("should default to saving in format when console-format is set", () => {
+            const filePath = getFixturePath("single-quoted.js");
+            const code = `--no-ignore --format junit --rule 'quotes: [1, double]' --console-format stylish --o tests/output/eslint-output.txt ${filePath}`;
+
+            cli.execute(code);
+            assert.include(fs.readFileSync("tests/output/eslint-output.txt", "utf8"), "<testsuites>");
+            assert.isTrue(log.info.calledOnce);
+        });
+
         it("should return an error if the path could not be written to", () => {
             const filePath = getFixturePath("single-quoted.js");
             const code = `--no-ignore --rule 'quotes: [1, double]' --o tests/output/eslint-output.txt ${filePath}`;
