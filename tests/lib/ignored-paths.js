@@ -244,6 +244,12 @@ describe("IgnoredPaths", () => {
             assert.strictEqual(ignoredPaths.ignoreFileDir, path.dirname(ignoreFilePath));
         });
 
+        it("should set the common ancestor directory of cwd and ignorePath", () => {
+            const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: ignoreFilePath, cwd: path.resolve(ignoreFilePath, "../../../testcwd") });
+
+            assert.strictEqual(ignoredPaths.getBaseDir(), path.resolve(ignoreFilePath, "../../.."));
+        });
+
     });
 
     describe("initialization with ignorePath file not named .eslintignore", () => {
