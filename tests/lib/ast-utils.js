@@ -11,7 +11,7 @@
 
 const assert = require("chai").assert,
     espree = require("espree"),
-    astUtils = require("../../lib/ast-utils"),
+    astUtils = require("../../lib/util/ast-utils"),
     Linter = require("../../lib/linter"),
     SourceCode = require("../../lib/util/source-code");
 
