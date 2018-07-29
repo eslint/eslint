@@ -11,14 +11,14 @@
 
 const assert = require("chai").assert,
     path = require("path"),
-    FileFinder = require("../../lib/file-finder.js");
+    FileFinder = require("../../../lib/util/file-finder.js");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
 describe("FileFinder", () => {
-    const fixtureDir = path.resolve(__dirname, "..", "fixtures"),
+    const fixtureDir = path.resolve(__dirname, "../..", "fixtures"),
         fileFinderDir = path.join(fixtureDir, "file-finder"),
         subdir = path.join(fileFinderDir, "subdir"),
         subsubdir = path.join(subdir, "subsubdir"),
