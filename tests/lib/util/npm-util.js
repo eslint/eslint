@@ -11,7 +11,7 @@
 const assert = require("chai").assert,
     spawn = require("cross-spawn"),
     sinon = require("sinon"),
-    npmUtil = require("../../../lib/util/npm-util"),
+    npmUtil = require("../../../lib/util/npm-utils"),
     log = require("../../../lib/util/logging"),
     mockFs = require("mock-fs");
 

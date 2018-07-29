@@ -19,7 +19,7 @@ const RuleTester = require("../../../lib/testers/rule-tester");
 const MESSAGE_NEVER = "Unexpected blank line before this statement.";
 const MESSAGE_ALWAYS = "Expected blank line before this statement.";
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2015 } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2017 } });
 
 ruleTester.run("padding-line-between-statements", rule, {
     valid: [
@@ -806,6 +806,13 @@ ruleTester.run("padding-line-between-statements", rule, {
         },
         {
             code: "var foo=function(){}\nfoo()",
+            options: [
+                { blankLine: "never", prev: "*", next: "*" },
+                { blankLine: "always", prev: "function", next: "*" }
+            ]
+        },
+        {
+            code: "async function foo(){}\n\nfoo()",
             options: [
                 { blankLine: "never", prev: "*", next: "*" },
                 { blankLine: "always", prev: "function", next: "*" }
@@ -3313,6 +3320,15 @@ ruleTester.run("padding-line-between-statements", rule, {
             code: "function foo(){}\nfoo()",
             output: "function foo(){}\n\nfoo()",
             options: [
+                { blankLine: "always", prev: "function", next: "*" }
+            ],
+            errors: [MESSAGE_ALWAYS]
+        },
+        {
+            code: "async function foo(){}\nfoo()",
+            output: "async function foo(){}\n\nfoo()",
+            options: [
+                { blankLine: "never", prev: "*", next: "*" },
                 { blankLine: "always", prev: "function", next: "*" }
             ],
             errors: [MESSAGE_ALWAYS]
