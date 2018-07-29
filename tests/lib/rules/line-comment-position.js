@@ -76,6 +76,10 @@ ruleTester.run("line-comment-position", rule, {
         {
             code: "// pragma valid comment\n1 + 1;",
             options: [{ position: "beside", ignorePattern: "pragma|linter" }]
+        },
+        {
+            code: "// above\n1 + 1; // ignored",
+            options: [{ ignorePattern: "ignored" }]
         }
     ],
 
