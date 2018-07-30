@@ -103,5 +103,8 @@ If you don't want to enforce empty lines between class members, you can disable 
 
 * [padded-blocks](padded-blocks.md)
 * [padding-line-between-statements](padding-line-between-statements.md)
-* [requirePaddingNewLinesAfterBlocks](http://jscs.info/rule/requirePaddingNewLinesAfterBlocks)
-* [disallowPaddingNewLinesAfterBlocks](http://jscs.info/rule/disallowPaddingNewLinesAfterBlocks)
+
+## Compatibility
+ 
+* **JSCS**: `requirePaddingNewLinesAfterBlocks`
+* **JSCS**: `disallowPaddingNewLinesAfterBlocks`

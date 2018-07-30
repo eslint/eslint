@@ -318,5 +318,5 @@ You can safely disable this rule if you do not have any strict conventions about
 
 ## Compatibility
 
-* **JSCS**: [requirePaddingNewLinesAfterUseStrict](http://jscs.info/rule/requirePaddingNewLinesAfterUseStrict)
-* **JSCS**: [disallowPaddingNewLinesAfterUseStrict](http://jscs.info/rule/disallowPaddingNewLinesAfterUseStrict)
+* **JSCS**: `requirePaddingNewLinesAfterUseStrict`
+* **JSCS**: `disallowPaddingNewLinesAfterUseStrict`
