@@ -644,6 +644,12 @@ describe("IgnoredPaths", () => {
             assert.isTrue(shouldIgnore(resolve("bower_components/a/b")));
             assert.isFalse(shouldIgnore(resolve(".hidden")));
             assert.isTrue(shouldIgnore(resolve(".hidden/a")));
+
+            assert.isFalse(shouldIgnore(resolve("..")));
+            assert.isFalse(shouldIgnore(resolve("../..")));
+            assert.isFalse(shouldIgnore(resolve("../foo")));
+            assert.isFalse(shouldIgnore(resolve("../../..")));
+            assert.isFalse(shouldIgnore(resolve("../../foo")));
         });
 
         it("should ignore default folders when there is an ignore file without unignored defaults", () => {
