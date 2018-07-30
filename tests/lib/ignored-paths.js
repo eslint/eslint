@@ -244,10 +244,18 @@ describe("IgnoredPaths", () => {
             assert.strictEqual(ignoredPaths.ignoreFileDir, path.dirname(ignoreFilePath));
         });
 
-        it("should set the common ancestor directory of cwd and ignorePath", () => {
-            const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: ignoreFilePath, cwd: path.resolve(ignoreFilePath, "../../../testcwd") });
+        it("should set the common ancestor directory of cwd and ignorePath to baseDir (in the case that 'ignoreFilePath' and 'cwd' are siblings)", () => {
+            const baseDir = path.dirname(ignoreFilePath);
+            const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: ignoreFilePath, cwd: path.resolve(baseDir, "testcwd") });
 
-            assert.strictEqual(ignoredPaths.getBaseDir(), path.resolve(ignoreFilePath, "../../.."));
+            assert.strictEqual(ignoredPaths.getBaseDir(), baseDir);
+        });
+
+        it("should set the common ancestor directory of cwd and ignorePath to baseDir", () => {
+            const baseDir = path.resolve(ignoreFilePath, "../../..");
+            const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: ignoreFilePath, cwd: path.resolve(baseDir, "fix/testcwd") });
+
+            assert.strictEqual(ignoredPaths.getBaseDir(), baseDir);
         });
 
     });
