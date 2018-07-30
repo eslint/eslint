@@ -441,6 +441,22 @@ describe("IgnoredPaths", () => {
 
             assert.isTrue(ignoredPaths.contains("node_modules/blah.js"));
         });
+
+        it("should handle .eslintignore which contains CRLF correctly.", () => {
+            const ignoreFileContent = fs.readFileSync(getFixturePath("crlf/.eslintignore"), "utf8");
+
+            assert.isTrue(ignoreFileContent.includes("\r"), "crlf/.eslintignore should contains CR.");
+
+            const ignoredPaths = new IgnoredPaths({
+                ignore: true,
+                ignorePath: getFixturePath("crlf/.eslintignore"),
+                cwd: getFixturePath()
+            });
+
+            assert.isTrue(ignoredPaths.contains(getFixturePath("crlf/hide1/a.js")));
+            assert.isTrue(ignoredPaths.contains(getFixturePath("crlf/hide2/a.js")));
+            assert.isFalse(ignoredPaths.contains(getFixturePath("crlf/hide3/a.js")));
+        });
     });
 
     describe("initialization with ignorePath containing commented lines", () => {
