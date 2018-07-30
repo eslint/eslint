@@ -140,6 +140,7 @@ module.exports = {
         "no-lonely-if": "off",
         "no-loop-func": "off",
         "no-magic-numbers": "off",
+        "no-misleading-character-class": "off",
         "no-mixed-operators": "off",
         "no-mixed-requires": "off",
         "no-mixed-spaces-and-tabs": "error",
