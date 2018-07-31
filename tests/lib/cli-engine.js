@@ -1473,6 +1473,31 @@ describe("CLIEngine", () => {
                 });
             });
 
+            it("should run autofix even if files are cached without autofix results", () => {
+                const baseOptions = {
+                    cwd: path.join(fixtureDir, ".."),
+                    useEslintrc: false,
+                    rules: {
+                        semi: 2,
+                        quotes: [2, "double"],
+                        eqeqeq: 2,
+                        "no-undef": 2,
+                        "space-infix-ops": 2
+                    }
+                };
+
+                engine = new CLIEngine(Object.assign({}, baseOptions, { cache: true, fix: false }));
+
+                // Do initial lint run and populate the cache file
+                engine.executeOnFiles([path.resolve(fixtureDir, `${fixtureDir}/fixmode`)]);
+
+                engine = new CLIEngine(Object.assign({}, baseOptions, { cache: true, fix: true }));
+
+                const report = engine.executeOnFiles([path.resolve(fixtureDir, `${fixtureDir}/fixmode`)]);
+
+                assert.ok(report.results.some(result => result.output));
+            });
+
         });
 
         // These tests have to do with https://github.com/eslint/eslint/issues/963
