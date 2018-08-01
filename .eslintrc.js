@@ -28,18 +28,15 @@ module.exports = {
     },
     overrides: [
         {
-            files: ["lib/rules/*"],
+            files: ["lib/rules/*", "tools/internal-rules/*"],
             rules: {
                 "rulesdir/no-invalid-meta": "error",
-                "rulesdir/consistent-docs-description": "error",
-                "rulesdir/consistent-docs-url": "error"
+                "rulesdir/consistent-docs-description": "error"
             }
         }, {
-            files: ["tools/internal-rules/*"],
+            files: ["lib/rules/*"],
             rules: {
-                "rulesdir/no-invalid-meta": "error",
-                "rulesdir/consistent-docs-description": "error",
-                "rulesdir/consistent-docs-url": "off"
+                "rulesdir/consistent-docs-url": "error"
             }
         }, {
             files: ["tests/**/*"],
