@@ -530,4 +530,4 @@ var foo = { bar: 1,
 ## Compatibility
 
 * **JSHint**: `indent`
-* **JSCS**: [validateIndentation](http://jscs.info/rule/validateIndentation)
+* **JSCS**: `validateIndentation`

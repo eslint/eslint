@@ -661,4 +661,4 @@ if (foo) {
 ## Compatibility
 
 * **JSHint**: `indent`
-* **JSCS**: [validateIndentation](http://jscs.info/rule/validateIndentation)
+* **JSCS**: `validateIndentation`
