@@ -745,7 +745,7 @@ target.gensite = function(prereleaseVersion) {
             ].join("\n");
 
             // 6. Remove .md extension for relative links and change README to empty string
-            text = text.replace(/\((?!https?:\/\/)([^)]*?)\.md.*?\)/g, "($1)").replace("README.html", "");
+            text = text.replace(/\((?!https?:\/\/)([^)]*?)\.md(.*?)\)/g, "($1$2)").replace("README.html", "");
 
             // 7. Check if there's a trailing white line at the end of the file, if there isn't one, add it
             if (!/\n$/.test(text)) {
