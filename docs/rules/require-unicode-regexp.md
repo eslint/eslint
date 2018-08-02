@@ -1,4 +1,4 @@
-# enforce the use of `u` flag on RegExp (require-unicode-regexp)
+# Enforce the use of `u` flag on RegExp (require-unicode-regexp)
 
 RegExp `u` flag has two effects:
 
