@@ -245,6 +245,7 @@ module.exports = {
         "require-atomic-updates": "off",
         "require-await": "off",
         "require-jsdoc": "off",
+        "require-unicode-regexp": "off",
         "require-yield": "error",
         "rest-spread-spacing": "off",
         semi: "off",
