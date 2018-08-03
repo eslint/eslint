@@ -12,7 +12,7 @@ const assert = require("chai").assert,
     path = require("path"),
     os = require("os"),
     sh = require("shelljs"),
-    globUtil = require("../../../lib/util/glob-utils"),
+    globUtils = require("../../../lib/util/glob-utils"),
     fs = require("fs");
 
 //------------------------------------------------------------------------------
@@ -34,7 +34,7 @@ function getFixturePath(...args) {
 // Tests
 //------------------------------------------------------------------------------
 
-describe("globUtil", () => {
+describe("globUtils", () => {
 
     before(() => {
         fixtureDir = `${os.tmpdir()}/eslint/tests/fixtures/`;
@@ -53,7 +53,7 @@ describe("globUtil", () => {
             const opts = {
                 cwd: getFixturePath("glob-util")
             };
-            const result = globUtil.resolveFileGlobPatterns(patterns, opts);
+            const result = globUtils.resolveFileGlobPatterns(patterns, opts);
 
             assert.deepStrictEqual(result, ["one-js-file/**/*.js"]);
         });
@@ -64,7 +64,7 @@ describe("globUtil", () => {
                 cwd: getFixturePath("glob-util"),
                 globInputPaths: false
             };
-            const result = globUtil.resolveFileGlobPatterns(patterns, opts);
+            const result = globUtils.resolveFileGlobPatterns(patterns, opts);
 
             assert.deepStrictEqual(result, ["one-js-file"]);
         });
@@ -74,7 +74,7 @@ describe("globUtil", () => {
             const opts = {
                 cwd: getFixturePath("glob-util")
             };
-            const result = globUtil.resolveFileGlobPatterns(patterns, opts);
+            const result = globUtils.resolveFileGlobPatterns(patterns, opts);
             const expected = [`${getFixturePath("glob-util", "one-js-file").replace(/\\/g, "/")}/**/*.js`];
 
             assert.deepStrictEqual(result, expected);
@@ -86,7 +86,7 @@ describe("globUtil", () => {
                 cwd: getFixturePath("glob-util"),
                 extensions: [".jsx"]
             };
-            const result = globUtil.resolveFileGlobPatterns(patterns, opts);
+            const result = globUtils.resolveFileGlobPatterns(patterns, opts);
 
             assert.deepStrictEqual(result, ["one-js-file/**/*.jsx"]);
         });
@@ -97,7 +97,7 @@ describe("globUtil", () => {
                 cwd: getFixturePath("glob-util"),
                 extensions: [".jsx", ".js"]
             };
-            const result = globUtil.resolveFileGlobPatterns(patterns, opts);
+            const result = globUtils.resolveFileGlobPatterns(patterns, opts);
 
             assert.deepStrictEqual(result, ["one-js-file/**/*.{jsx,js}"]);
         });
@@ -107,7 +107,7 @@ describe("globUtil", () => {
             const opts = {
                 cwd: getFixturePath("glob-util")
             };
-            const result = globUtil.resolveFileGlobPatterns(patterns, opts);
+            const result = globUtils.resolveFileGlobPatterns(patterns, opts);
 
             assert.deepStrictEqual(result, ["one-js-file/**/*.js", "two-js-files/**/*.js"]);
         });
@@ -117,7 +117,7 @@ describe("globUtil", () => {
             const opts = {
                 cwd: getFixturePath("glob-util")
             };
-            const result = globUtil.resolveFileGlobPatterns(patterns, opts);
+            const result = globUtils.resolveFileGlobPatterns(patterns, opts);
 
             assert.deepStrictEqual(result, ["one-js-file/**/*.js"]);
         });
@@ -127,7 +127,7 @@ describe("globUtil", () => {
             const opts = {
                 cwd: getFixturePath("glob-util")
             };
-            const result = globUtil.resolveFileGlobPatterns(patterns, opts);
+            const result = globUtils.resolveFileGlobPatterns(patterns, opts);
 
             assert.deepStrictEqual(result, ["one-js-file/**/*.js"]);
         });
@@ -137,7 +137,7 @@ describe("globUtil", () => {
             const opts = {
                 cwd: getFixturePath("glob-util")
             };
-            const result = globUtil.resolveFileGlobPatterns(patterns, opts);
+            const result = globUtils.resolveFileGlobPatterns(patterns, opts);
 
             assert.deepStrictEqual(result, ["some-file.js"]);
         });
@@ -147,7 +147,7 @@ describe("globUtil", () => {
             const opts = {
                 cwd: getFixturePath()
             };
-            const result = globUtil.resolveFileGlobPatterns(patterns, opts);
+            const result = globUtils.resolveFileGlobPatterns(patterns, opts);
 
             assert.deepStrictEqual(result, ["one-js-file/example.js"]);
         });
@@ -157,7 +157,7 @@ describe("globUtil", () => {
 
         it("should return an array with a resolved (absolute) filename", () => {
             const patterns = [getFixturePath("glob-util", "one-js-file", "**/*.js")];
-            const result = globUtil.listFilesToProcess(patterns, {
+            const result = globUtils.listFilesToProcess(patterns, {
                 cwd: getFixturePath()
             });
 
@@ -169,7 +169,7 @@ describe("globUtil", () => {
 
         it("should return an array with a unmodified filename", () => {
             const patterns = [getFixturePath("glob-util", "one-js-file", "**/*.js")];
-            const result = globUtil.listFilesToProcess(patterns, {
+            const result = globUtils.listFilesToProcess(patterns, {
                 cwd: getFixturePath(),
                 globInputPaths: false
             });
@@ -182,7 +182,7 @@ describe("globUtil", () => {
 
         it("should return all files matching a glob pattern", () => {
             const patterns = [getFixturePath("glob-util", "two-js-files", "**/*.js")];
-            const result = globUtil.listFilesToProcess(patterns, {
+            const result = globUtils.listFilesToProcess(patterns, {
                 cwd: getFixturePath()
             });
 
@@ -201,7 +201,7 @@ describe("globUtil", () => {
                 getFixturePath("glob-util", "two-js-files", "**/*.js"),
                 getFixturePath("glob-util", "one-js-file", "**/*.js")
             ];
-            const result = globUtil.listFilesToProcess(patterns, {
+            const result = globUtils.listFilesToProcess(patterns, {
                 cwd: getFixturePath()
             });
 
@@ -221,7 +221,7 @@ describe("globUtil", () => {
             const patterns = [getFixturePath("glob-util", "hidden", "**/*.js")];
 
             assert.throws(() => {
-                globUtil.listFilesToProcess(patterns, {
+                globUtils.listFilesToProcess(patterns, {
                     cwd: getFixturePath()
                 });
             }, `All files matched by '${patterns[0]}' are ignored.`);
@@ -229,7 +229,7 @@ describe("globUtil", () => {
 
         it("should return hidden files if included in glob pattern", () => {
             const patterns = [getFixturePath("glob-util", "hidden", "**/.*.js")];
-            const result = globUtil.listFilesToProcess(patterns, {
+            const result = globUtils.listFilesToProcess(patterns, {
                 cwd: getFixturePath()
             });
 
@@ -246,7 +246,7 @@ describe("globUtil", () => {
             const patterns = [directory];
 
             assert.throws(() => {
-                globUtil.listFilesToProcess(patterns, {
+                globUtils.listFilesToProcess(patterns, {
                     cwd: getFixturePath()
                 });
             }, `All files matched by '${directory}' are ignored.`);
@@ -255,7 +255,7 @@ describe("globUtil", () => {
         it("should ignore and warn for default ignored files when passed explicitly", () => {
             const filename = getFixturePath("glob-util", "hidden", ".foo.js");
             const patterns = [filename];
-            const result = globUtil.listFilesToProcess(patterns, {
+            const result = globUtils.listFilesToProcess(patterns, {
                 cwd: getFixturePath()
             });
 
@@ -268,7 +268,7 @@ describe("globUtil", () => {
             const patterns = [directory];
 
             assert.throws(() => {
-                globUtil.listFilesToProcess(patterns, {
+                globUtils.listFilesToProcess(patterns, {
                     cwd: getFixturePath(),
                     ignore: false
                 });
@@ -278,7 +278,7 @@ describe("globUtil", () => {
         it("should not ignore default ignored files when passed explicitly if ignore is false", () => {
             const filename = getFixturePath("glob-util", "hidden", ".foo.js");
             const patterns = [filename];
-            const result = globUtil.listFilesToProcess(patterns, {
+            const result = globUtils.listFilesToProcess(patterns, {
                 cwd: getFixturePath(),
                 ignore: false
             });
@@ -292,7 +292,7 @@ describe("globUtil", () => {
             const patterns = [filename];
 
             assert.throws(() => {
-                globUtil.listFilesToProcess(patterns, {
+                globUtils.listFilesToProcess(patterns, {
                     cwd: getFixturePath(),
                     allowMissingGlobs: true
                 });
@@ -304,7 +304,7 @@ describe("globUtil", () => {
             const patterns = [filename];
 
             assert.throws(() => {
-                globUtil.listFilesToProcess(patterns, {
+                globUtils.listFilesToProcess(patterns, {
                     cwd: getFixturePath()
                 });
             }, `No files matching '${filename}' were found.`);
@@ -315,7 +315,7 @@ describe("globUtil", () => {
             const options = { ignore: true, ignorePath: getFixturePath("glob-util", "ignored", ".eslintignore") };
 
             assert.throws(() => {
-                globUtil.listFilesToProcess([pattern], options);
+                globUtils.listFilesToProcess([pattern], options);
             }, `All files matched by '${pattern}' are ignored.`);
         });
 
@@ -325,14 +325,14 @@ describe("globUtil", () => {
             const patterns = ["tests/fixtures/glob-util/ignored/**/*.js"];
 
             assert.throws(() => {
-                globUtil.listFilesToProcess(patterns);
+                globUtils.listFilesToProcess(patterns);
             }, `No files matching '${patterns[0]}' were found.`);
         });
 
         it("should return an ignored file, if ignore option is turned off", () => {
             const options = { ignore: false };
             const patterns = [getFixturePath("glob-util", "ignored", "**/*.js")];
-            const result = globUtil.listFilesToProcess(patterns, options);
+            const result = globUtils.listFilesToProcess(patterns, options);
 
             assert.strictEqual(result.length, 1);
         });
@@ -342,7 +342,7 @@ describe("globUtil", () => {
             const patterns = [getFixturePath("glob-util", "ignored", "**/*.js")];
 
             assert.throws(() => {
-                globUtil.listFilesToProcess(patterns, options);
+                globUtils.listFilesToProcess(patterns, options);
             }, `All files matched by '${patterns[0]}' are ignored.`);
         });
 
@@ -351,7 +351,7 @@ describe("globUtil", () => {
             const patterns = [getFixturePath("glob-util", "ignored", "**/*.js")];
 
             assert.throws(() => {
-                globUtil.listFilesToProcess(patterns, options);
+                globUtils.listFilesToProcess(patterns, options);
             }, `All files matched by '${patterns[0]}' are ignored.`);
         });
 
@@ -360,7 +360,7 @@ describe("globUtil", () => {
                 getFixturePath("glob-util", "one-js-file", "**/*.js"),
                 getFixturePath("glob-util", "one-js-file", "baz.js")
             ];
-            const result = globUtil.listFilesToProcess(patterns, {
+            const result = globUtils.listFilesToProcess(patterns, {
                 cwd: path.join(fixtureDir, "..")
             });
 
@@ -376,7 +376,7 @@ describe("globUtil", () => {
             const options = { ignore: true, ignorePattern: "foo.js", cwd: getFixturePath() };
             const filename = getFixturePath("glob-util", "ignored", "foo.js");
             const patterns = [filename];
-            const result = globUtil.listFilesToProcess(patterns, options);
+            const result = globUtils.listFilesToProcess(patterns, options);
 
             assert.strictEqual(result.length, 1);
             assert.deepStrictEqual(result, [
@@ -388,7 +388,7 @@ describe("globUtil", () => {
             const options = { cwd: getFixturePath("glob-util") };
             const glob = getFixturePath("glob-util", "**/*.js");
             const patterns = [glob];
-            const result = globUtil.listFilesToProcess(patterns, options);
+            const result = globUtils.listFilesToProcess(patterns, options);
             const resultFilenames = result.map(resultObj => resultObj.filename);
 
             assert.notInclude(resultFilenames, getFixturePath("glob-util", "node_modules", "dependency.js"));
@@ -398,7 +398,7 @@ describe("globUtil", () => {
             const options = { ignorePattern: "!/node_modules/dependency.js", cwd: getFixturePath("glob-util") };
             const glob = getFixturePath("glob-util", "**/*.js");
             const patterns = [glob];
-            const result = globUtil.listFilesToProcess(patterns, options);
+            const result = globUtils.listFilesToProcess(patterns, options);
             const unignoredFilename = getFixturePath("glob-util", "node_modules", "dependency.js");
 
             assert.includeDeepMembers(result, [{ filename: unignoredFilename, ignored: false }]);
