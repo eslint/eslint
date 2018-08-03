@@ -16,7 +16,7 @@ const assert = require("chai").assert,
     sinon = require("sinon"),
     sh = require("shelljs"),
     autoconfig = require("../../../lib/config/autoconfig"),
-    npmUtil = require("../../../lib/util/npm-utils");
+    npmUtils = require("../../../lib/util/npm-utils");
 
 const originalDir = process.cwd();
 const proxyquire = require("proxyquire").noPreserveCache();
@@ -83,13 +83,13 @@ describe("configInitializer", () => {
     });
 
     beforeEach(() => {
-        npmInstallStub = sinon.stub(npmUtil, "installSyncSaveDev");
-        npmCheckStub = sinon.stub(npmUtil, "checkDevDeps").callsFake(packages => packages.reduce((status, pkg) => {
+        npmInstallStub = sinon.stub(npmUtils, "installSyncSaveDev");
+        npmCheckStub = sinon.stub(npmUtils, "checkDevDeps").callsFake(packages => packages.reduce((status, pkg) => {
             status[pkg] = false;
             return status;
         }, {}));
         npmFetchPeerDependenciesStub = sinon
-            .stub(npmUtil, "fetchPeerDependencies")
+            .stub(npmUtils, "fetchPeerDependencies")
             .returns({
                 eslint: "^3.19.0",
                 "eslint-plugin-jsx-a11y": "^5.0.1",

@@ -15,7 +15,7 @@ const path = require("path"),
     assert = require("chai").assert,
     sinon = require("sinon"),
     sh = require("shelljs"),
-    globUtil = require("../../../lib/util/glob-utils"),
+    globUtils = require("../../../lib/util/glob-utils"),
     SourceCode = require("../../../lib/util/source-code");
 
 const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
@@ -139,7 +139,7 @@ describe("SourceCodeUtil", () => {
 
         it("should use default options if none are provided", () => {
             const filename = getFixturePath("foo.js");
-            const spy = sinon.spy(globUtil, "resolveFileGlobPatterns");
+            const spy = sinon.spy(globUtils, "resolveFileGlobPatterns");
 
             getSourceCodeOfFiles(filename);
             assert(spy.called);
