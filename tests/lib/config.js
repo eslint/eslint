@@ -376,6 +376,17 @@ describe("Config", () => {
             assert.strictEqual(noUndef, 2);
         });
 
+        // YAML files can have JS comments in strings.  Need to be careful
+        // about this when file could be JSON-with-comments or YAML.
+        it("should not mangle a YAML config file with JS-style comments", () => {
+            const configPath = path.resolve(__dirname, "..", "fixtures", "configurations", "yaml-js-comments", ".eslintrc"),
+                configHelper = new Config({ configFile: configPath }, linter),
+                maxLen = configHelper.specificConfig.rules["max-len"],
+                ignorePattern = maxLen[3].ignorePattern;
+
+            assert.equal(ignorePattern, "^\\s*//");
+        });
+
         it("should contain the correct value for parser when a custom parser is specified", () => {
             const configPath = path.resolve(__dirname, "../fixtures/configurations/parser/.eslintrc.json"),
                 configHelper = new Config({ cwd: process.cwd() }, linter),
