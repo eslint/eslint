@@ -130,32 +130,108 @@ ruleTester.run("func-names", rule, {
         // generators
         {
             code: "var foo = bar(function *baz() {});",
-            options: ["always", { generators: true }],
-            parserOptions: { ecmaVersion: 6 }
-        },
-        {
-            code: "var foo = bar(function *() {});",
-            options: ["always", { generators: false }],
+            options: ["always"],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = bar(function *baz() {});",
-            options: ["as-needed", { generators: true }],
-            parserOptions: { ecmaVersion: 6 }
-        },
-        {
-            code: "var foo = bar(function *() {});",
-            options: ["as-needed", { generators: false }],
-            parserOptions: { ecmaVersion: 6 }
-        },
-        {
-            code: "var foo = bar(function *() {});",
-            options: ["never", { generators: true }],
+            options: [{ base: "always", generators: "always" }],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = bar(function *baz() {});",
-            options: ["never", { generators: false }],
+            options: ["always", { generators: "always" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = bar(function *baz() {});",
+            options: [{ base: "always", generators: "as-needed" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = bar(function *baz() {});",
+            options: ["always", { generators: "as-needed" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = bar(function *baz() {});",
+            options: ["as-needed"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = bar(function *baz() {});",
+            options: [{ base: "as-needed", generators: "always" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = bar(function *baz() {});",
+            options: ["as-needed", { generators: "always" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = bar(function *baz() {});",
+            options: [{ base: "as-needed", generators: "as-needed" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = bar(function *baz() {});",
+            options: ["as-needed", { generators: "as-needed" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = bar(function *baz() {});",
+            options: [{ base: "never", generators: "always" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = bar(function *baz() {});",
+            options: ["never", { generators: "always" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = bar(function *baz() {});",
+            options: [{ base: "never", generators: "as-needed" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = bar(function *baz() {});",
+            options: ["never", { generators: "as-needed" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+
+        {
+            code: "var foo = bar(function *() {});",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = bar(function *() {});",
+            options: [{ base: "never", generators: "never" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = bar(function *() {});",
+            options: ["never", { generators: "never" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = bar(function *() {});",
+            options: [{ base: "always", generators: "never" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = bar(function *() {});",
+            options: ["always", { generators: "never" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = bar(function *() {});",
+            options: [{ base: "as-needed", generators: "never" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = bar(function *() {});",
+            options: ["as-needed", { generators: "never" }],
             parserOptions: { ecmaVersion: 6 }
         }
     ],
@@ -234,50 +310,171 @@ ruleTester.run("func-names", rule, {
         // generators
         {
             code: "var foo = bar(function *() {});",
-            options: ["always", { generators: true }],
+            options: ["always"],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Unexpected unnamed generator function."
-            }]
-        },
-        {
-            code: "var foo = bar(function *baz() {});",
-            options: ["always", { generators: false }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{
-                message: "Unexpected named generator function 'baz'."
             }]
         },
         {
             code: "var foo = bar(function *() {});",
-            options: ["as-needed", { generators: true }],
+            options: [{ base: "always", generators: "always" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Unexpected unnamed generator function."
-            }]
-        },
-        {
-            code: "var foo = bar(function *baz() {});",
-            options: ["as-needed", { generators: false }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{
-                message: "Unexpected named generator function 'baz'."
-            }]
-        },
-        {
-            code: "var foo = bar(function *baz() {});",
-            options: ["never", { generators: true }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{
-                message: "Unexpected named generator function 'baz'."
             }]
         },
         {
             code: "var foo = bar(function *() {});",
-            options: ["never", { generators: false }],
+            options: ["always", { generators: "always" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Unexpected unnamed generator function."
+            }]
+        },
+        {
+            code: "var foo = bar(function *() {});",
+            options: [{ base: "always", generators: "as-needed" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Unexpected unnamed generator function."
+            }]
+        },
+        {
+            code: "var foo = bar(function *() {});",
+            options: ["always", { generators: "as-needed" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Unexpected unnamed generator function."
+            }]
+        },
+        {
+            code: "var foo = bar(function *() {});",
+            options: ["as-needed"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Unexpected unnamed generator function."
+            }]
+        },
+        {
+            code: "var foo = bar(function *() {});",
+            options: [{ base: "as-needed", generators: "always" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Unexpected unnamed generator function."
+            }]
+        },
+        {
+            code: "var foo = bar(function *() {});",
+            options: ["as-needed", { generators: "always" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Unexpected unnamed generator function."
+            }]
+        },
+        {
+            code: "var foo = bar(function *() {});",
+            options: [{ base: "as-needed", generators: "as-needed" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Unexpected unnamed generator function."
+            }]
+        },
+        {
+            code: "var foo = bar(function *() {});",
+            options: ["as-needed", { generators: "as-needed" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Unexpected unnamed generator function."
+            }]
+        },
+        {
+            code: "var foo = bar(function *() {});",
+            options: [{ base: "never", generators: "always" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Unexpected unnamed generator function."
+            }]
+        },
+        {
+            code: "var foo = bar(function *() {});",
+            options: ["never", { generators: "always" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Unexpected unnamed generator function."
+            }]
+        },
+        {
+            code: "var foo = bar(function *() {});",
+            options: [{ base: "never", generators: "as-needed" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Unexpected unnamed generator function."
+            }]
+        },
+        {
+            code: "var foo = bar(function *() {});",
+            options: ["never", { generators: "as-needed" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Unexpected unnamed generator function."
+            }]
+        },
+
+        {
+            code: "var foo = bar(function *baz() {});",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Unexpected named generator function 'baz'."
+            }]
+        },
+        {
+            code: "var foo = bar(function *baz() {});",
+            options: [{ base: "never", generators: "never" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Unexpected named generator function 'baz'."
+            }]
+        },
+        {
+            code: "var foo = bar(function *baz() {});",
+            options: ["never", { generators: "never" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Unexpected named generator function 'baz'."
+            }]
+        },
+        {
+            code: "var foo = bar(function *baz() {});",
+            options: [{ base: "always", generators: "never" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Unexpected named generator function 'baz'."
+            }]
+        },
+        {
+            code: "var foo = bar(function *baz() {});",
+            options: ["always", { generators: "never" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Unexpected named generator function 'baz'."
+            }]
+        },
+        {
+            code: "var foo = bar(function *baz() {});",
+            options: [{ base: "as-needed", generators: "never" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Unexpected named generator function 'baz'."
+            }]
+        },
+        {
+            code: "var foo = bar(function *baz() {});",
+            options: ["as-needed", { generators: "never" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Unexpected named generator function 'baz'."
             }]
         }
     ]
