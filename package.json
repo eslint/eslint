@@ -53,7 +53,7 @@
     "globals": "^11.7.0",
     "ignore": "^4.0.2",
     "imurmurhash": "^0.1.4",
-    "inquirer": "^5.2.0",
+    "inquirer": "^6.0.0",
     "is-resolvable": "^1.1.0",
     "js-yaml": "^3.11.0",
     "json-stable-stringify-without-jsonify": "^1.0.1",
