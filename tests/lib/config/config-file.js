@@ -25,8 +25,6 @@ const Module = require("module"),
 const userHome = os.homedir();
 const temp = require("temp").track();
 const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
-const hasOwn = ({}).hasOwnProperty;
-
 let configContext;
 
 //------------------------------------------------------------------------------

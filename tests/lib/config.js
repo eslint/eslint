@@ -21,7 +21,6 @@ const assert = require("chai").assert,
 const DIRECTORY_CONFIG_HIERARCHY = require("../fixtures/config-hierarchy/file-structure.json");
 
 const linter = new Linter();
-const hasOwn = ({}).hasOwnProperty;
 
 require("shelljs/global");
 
