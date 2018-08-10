@@ -121,7 +121,7 @@ function createStubModuleResolver(mapping) {
      */
     return class StubModuleResolver {
         resolve(name) { // eslint-disable-line class-methods-use-this
-            if (hasOwn.call(mapping, name)) {
+            if (Object.prototype.hasOwnProperty.call(mapping, name)) {
                 return mapping[name];
             }
 
@@ -142,7 +142,7 @@ function overrideNativeResolve(mapping) {
     beforeEach(() => {
         originalFindPath = Module._findPath; // eslint-disable-line no-underscore-dangle
         Module._findPath = function(request, paths, isMain) { // eslint-disable-line no-underscore-dangle
-            if (hasOwn.call(mapping, request)) {
+            if (Object.prototype.hasOwnProperty.call(mapping, request)) {
                 return mapping[request];
             }
             return originalFindPath.call(this, request, paths, isMain);
