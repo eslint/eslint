@@ -871,7 +871,7 @@ target.checkRuleFiles = function() {
          * @private
          */
         function isInConfig() {
-            return eslintRecommended.hasOwnProperty(basename);
+            return Object.prototype.hasOwnProperty.call(eslintRecommended, basename);
         }
 
         /**

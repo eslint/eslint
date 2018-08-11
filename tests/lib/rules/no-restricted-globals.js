@@ -170,6 +170,12 @@ ruleTester.run("no-restricted-globals", rule, {
             code: "foo.bar()",
             options: [{ name: "foo", message: "Use bar instead." }],
             errors: [{ message: "Unexpected use of 'foo'. Use bar instead.", type: "Identifier" }]
+        },
+        {
+            code: "var foo = obj => hasOwnProperty(obj, 'name');",
+            options: ["hasOwnProperty"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "Unexpected use of 'hasOwnProperty'.", type: "Identifier" }]
         }
     ]
 });

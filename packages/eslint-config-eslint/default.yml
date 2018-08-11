@@ -88,6 +88,7 @@ rules:
     no-path-concat: "error"
     no-process-exit: "error"
     no-proto: "error"
+    no-prototype-builtins: "error"
     no-redeclare: "error"
     no-restricted-properties: [
         "error",
