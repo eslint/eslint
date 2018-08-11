@@ -48,6 +48,14 @@ function checkMetaDocsUrl(context, exportsNode) {
     const metaDocs = metaProperty && getPropertyFromObject("docs", metaProperty.value);
     const metaDocsUrl = metaDocs && getPropertyFromObject("url", metaDocs.value);
 
+    if (!metaDocs) {
+        context.report({
+            node: metaProperty,
+            message: "Rule is missing a meta.docs property"
+        });
+        return;
+    }
+
     if (!metaDocsUrl) {
         context.report({
             node: metaDocs,
