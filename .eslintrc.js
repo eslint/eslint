@@ -31,7 +31,8 @@ module.exports = {
             files: ["lib/rules/*", "tools/internal-rules/*"],
             rules: {
                 "rulesdir/no-invalid-meta": "error",
-                "rulesdir/consistent-docs-description": "error"
+                "rulesdir/consistent-docs-description": "error",
+                "rulesdir/consistent-meta-messages": "error"
             }
         }, {
             files: ["lib/rules/*"],
