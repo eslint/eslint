@@ -8,7 +8,7 @@ Here's an example where the usage of `=>` could be confusing:
 // The intent is not clear
 var x = a => 1 ? 2 : 3;
 // Did the author mean this
-var x = function (a) { return 1 ? 2 : 3 };
+var x = function (a) { return 1 <= a ? 2 : 3 };
 // Or this
 var x = a <= 1 ? 2 : 3;
 ```
@@ -32,8 +32,8 @@ Examples of **correct** code for this rule:
 /*eslint no-confusing-arrow: "error"*/
 /*eslint-env es6*/
 
-var x = a => { return 1 ? 2 : 3; };
-var x = (a) => { return 1 ? 2 : 3; };
+var x = a => { return 1 <= a ? 2 : 3; };
+var x = (a) => { return 1 <= a ? 2 : 3; };
 ```
 
 ## Options
@@ -58,8 +58,8 @@ Examples of **correct** code for this rule with the `{"allowParens": true}` opti
 ```js
 /*eslint no-confusing-arrow: ["error", {"allowParens": true}]*/
 /*eslint-env es6*/
-var x = a => (1 ? 2 : 3);
-var x = (a) => (1 ? 2 : 3);
+var x = a => (1 <= a ? 2 : 3);
+var x = (a) => (1 <= a ? 2 : 3);
 ```
 
 ## Related Rules
