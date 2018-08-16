@@ -17,8 +17,8 @@ const RuleTester = require("../../../lib/testers/rule-tester");
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
-const expectedError = {messageId: "expected", data: {name: "getter 'bar'"}};
-const expectedAlwaysError = {messageId: "expectedAlways", data: {name: "getter 'bar'"}};
+const expectedError = { messageId: "expected", data: { name: "getter 'bar'" } };
+const expectedAlwaysError = { messageId: "expectedAlways", data: { name: "getter 'bar'" } };
 const options = [{ allowImplicit: true }];
 
 ruleTester.run("getter-return", rule, {
@@ -105,13 +105,13 @@ ruleTester.run("getter-return", rule, {
          * test object.defineProperty(s)
          * option: {allowImplicit: false}
          */
-        { code: "Object.defineProperty(foo, \"bar\", { get: function (){}});", errors: [{messageId: "expected", data: {name: "method 'get'"}}] },
-        { code: "Object.defineProperty(foo, \"bar\", { get: () => {}});", errors: [{messageId: "expected", data: {name: "arrow function 'get'"}}] },
-        { code: "Object.defineProperty(foo, \"bar\", { get: function (){if(bar) {return true;}}});", errors: [{ messageId: "expectedAlways"}] },
-        { code: "Object.defineProperty(foo, \"bar\", { get: function (){ ~function () { return true; }()}});", errors: [{messageId: "expected"}] },
-        { code: "Object.defineProperties(foo, { bar: { get: function () {}} });", options, errors: [{messageId: "expected"}] },
+        { code: "Object.defineProperty(foo, \"bar\", { get: function (){}});", errors: [{ messageId: "expected", data: { name: "method 'get'" } }] },
+        { code: "Object.defineProperty(foo, \"bar\", { get: () => {}});", errors: [{ messageId: "expected", data: { name: "arrow function 'get'" } }] },
+        { code: "Object.defineProperty(foo, \"bar\", { get: function (){if(bar) {return true;}}});", errors: [{ messageId: "expectedAlways" }] },
+        { code: "Object.defineProperty(foo, \"bar\", { get: function (){ ~function () { return true; }()}});", errors: [{ messageId: "expected" }] },
+        { code: "Object.defineProperties(foo, { bar: { get: function () {}} });", options, errors: [{ messageId: "expected" }] },
         { code: "Object.defineProperties(foo, { bar: { get: function (){if(bar) {return true;}}}});", options, errors: [{ messageId: "expectedAlways" }] },
-        { code: "Object.defineProperties(foo, { bar: { get: function () {~function () { return true; }()}} });", options, errors: [{messageId: "expected"}] },
+        { code: "Object.defineProperties(foo, { bar: { get: function () {~function () { return true; }()}} });", options, errors: [{ messageId: "expected" }] },
 
         // option: {allowImplicit: true}
         { code: "Object.defineProperty(foo, \"bar\", { get: function (){}});", options, errors: [{ messageId: "expected" }] }
