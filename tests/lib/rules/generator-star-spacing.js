@@ -18,10 +18,10 @@ const rule = require("../../../lib/rules/generator-star-spacing"),
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2018 } });
 
-const missingBeforeError = {messageId: "missing", data: {side: "before"}, type: "Punctuator"};
-const missingAfterError = {messageId: "missing", data: {side: "after"}, type: "Punctuator"};
-const unexpectedBeforeError = {messageId: "unexpected", data: {side: "before"}, type: "Punctuator"};
-const unexpectedAfterError = {messageId: "unexpected", data: {side: "after"}, type: "Punctuator"};
+const missingBeforeError = { messageId: "missingBefore", type: "Punctuator" };
+const missingAfterError = { messageId: "missingAfter", type: "Punctuator" };
+const unexpectedBeforeError = { messageId: "unexpectedBefore", type: "Punctuator" };
+const unexpectedAfterError = { messageId: "unexpectedAfter", type: "Punctuator" };
 
 ruleTester.run("generator-star-spacing", rule, {
 
