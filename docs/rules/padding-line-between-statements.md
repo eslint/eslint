@@ -221,16 +221,15 @@ foo();
 
 If you don't want to notify warnings about linebreaks, then it's safe to disable this rule.
 
-
 [lines-around-directive]: https://eslint.org/docs/rules/lines-around-directive
 [newline-after-var]: https://eslint.org/docs/rules/newline-after-var
 [newline-before-return]: https://eslint.org/docs/rules/newline-before-return
-[requirePaddingNewLineAfterVariableDeclaration]: http://jscs.info/rule/requirePaddingNewLineAfterVariableDeclaration
-[requirePaddingNewLinesAfterBlocks]: http://jscs.info/rule/requirePaddingNewLinesAfterBlocks
-[disallowPaddingNewLinesAfterBlocks]: http://jscs.info/rule/disallowPaddingNewLinesAfterBlocks
-[requirePaddingNewLinesAfterUseStrict]: http://jscs.info/rule/requirePaddingNewLinesAfterUseStrict
-[disallowPaddingNewLinesAfterUseStrict]: http://jscs.info/rule/disallowPaddingNewLinesAfterUseStrict
-[requirePaddingNewLinesBeforeExport]: http://jscs.info/rule/requirePaddingNewLinesBeforeExport
-[disallowPaddingNewLinesBeforeExport]: http://jscs.info/rule/disallowPaddingNewLinesBeforeExport
-[requirePaddingNewlinesBeforeKeywords]: http://jscs.info/rule/requirePaddingNewlinesBeforeKeywords
-[disallowPaddingNewlinesBeforeKeywords]: http://jscs.info/rule/disallowPaddingNewlinesBeforeKeywords
+[requirePaddingNewLineAfterVariableDeclaration]: https://jscs-dev.github.io/rule/requirePaddingNewLineAfterVariableDeclaration
+[requirePaddingNewLinesAfterBlocks]: https://jscs-dev.github.io/rule/requirePaddingNewLinesAfterBlocks
+[disallowPaddingNewLinesAfterBlocks]: https://jscs-dev.github.io/rule/disallowPaddingNewLinesAfterBlocks
+[requirePaddingNewLinesAfterUseStrict]: https://jscs-dev.github.io/rule/requirePaddingNewLinesAfterUseStrict
+[disallowPaddingNewLinesAfterUseStrict]: https://jscs-dev.github.io/rule/disallowPaddingNewLinesAfterUseStrict
+[requirePaddingNewLinesBeforeExport]: https://jscs-dev.github.io/rule/requirePaddingNewLinesBeforeExport
+[disallowPaddingNewLinesBeforeExport]: https://jscs-dev.github.io/rule/disallowPaddingNewLinesBeforeExport
+[requirePaddingNewlinesBeforeKeywords]: https://jscs-dev.github.io/rule/requirePaddingNewlinesBeforeKeywords
+[disallowPaddingNewlinesBeforeKeywords]: https://jscs-dev.github.io/rule/disallowPaddingNewlinesBeforeKeywords
