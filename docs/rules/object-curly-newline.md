@@ -511,8 +511,8 @@ export { foo as f, bar } from 'foo-bar';
 
 ## Compatibility
 
-* **JSCS**: `requirePaddingNewLinesInObjects`
-* **JSCS**: `disallowPaddingNewLinesInObjects`
+* **JSCS**: [requirePaddingNewLinesInObjects](https://jscs-dev.github.io/rule/requirePaddingNewLinesInObjects)
+* **JSCS**: [disallowPaddingNewLinesInObjects](https://jscs-dev.github.io/rule/disallowPaddingNewLinesInObjects)
 
 ## When Not To Use It
 
