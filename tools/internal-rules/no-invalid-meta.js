@@ -19,6 +19,11 @@
 function getPropertyFromObject(property, node) {
     const properties = node.properties;
 
+    if (!Array.isArray(properties)) {
+
+        return null;
+    }
+
     for (let i = 0; i < properties.length; i++) {
         if (properties[i].key.name === property) {
             return properties[i];
