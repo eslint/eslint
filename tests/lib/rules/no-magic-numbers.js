@@ -83,37 +83,35 @@ ruleTester.run("no-magic-numbers", rule, {
             options: [{
                 enforceConst: true
             }],
-            errors: [{
-                message: "Number constants declarations must use 'const'."
-            }],
+            errors: [{ messageId: "useConst" }],
             env: { es6: true }
         },
         {
             code: "var foo = 0 + 1;",
             errors: [
-                { message: "No magic number: 0." },
-                { message: "No magic number: 1." }
+                { messageId: "noMagic", data: { raw: "0" } },
+                { messageId: "noMagic", data: { raw: "1" } }
             ]
         },
         {
             code: "a = a + 5;",
             errors: [
-                { message: "No magic number: 5." }
+                { messageId: "noMagic", data: { raw: "5" } }
             ]
         },
         {
             code: "a += 5;",
             errors: [
-                { message: "No magic number: 5." }
+                { messageId: "noMagic", data: { raw: "5" } }
             ]
         },
         {
             code: "var foo = 0 + 1 + -2 + 2;",
             errors: [
-                { message: "No magic number: 0." },
-                { message: "No magic number: 1." },
-                { message: "No magic number: -2." },
-                { message: "No magic number: 2." }
+                { messageId: "noMagic", data: { raw: "0" } },
+                { messageId: "noMagic", data: { raw: "1" } },
+                { messageId: "noMagic", data: { raw: "-2" } },
+                { messageId: "noMagic", data: { raw: "2" } }
             ]
         },
         {
@@ -122,7 +120,7 @@ ruleTester.run("no-magic-numbers", rule, {
                 ignore: [0, 1]
             }],
             errors: [
-                { message: "No magic number: 2." }
+                { messageId: "noMagic", data: { raw: "2" } }
             ]
         },
         {
@@ -131,14 +129,14 @@ ruleTester.run("no-magic-numbers", rule, {
                 detectObjects: true
             }],
             errors: [
-                { message: "No magic number: 10." }
+                { messageId: "noMagic", data: { raw: "10" } }
             ]
         }, {
             code: "console.log(0x1A + 0x02); console.log(071);",
             errors: [
-                { message: "No magic number: 0x1A." },
-                { message: "No magic number: 0x02." },
-                { message: "No magic number: 071." }
+                { messageId: "noMagic", data: { raw: "0x1A" } },
+                { messageId: "noMagic", data: { raw: "0x02" } },
+                { messageId: "noMagic", data: { raw: "071" } }
             ]
         }, {
             code: "var stats = {avg: 42};",
@@ -146,13 +144,13 @@ ruleTester.run("no-magic-numbers", rule, {
                 detectObjects: true
             }],
             errors: [
-                { message: "No magic number: 42." }
+                { messageId: "noMagic", data: { raw: "42" } }
             ]
         }, {
             code: "var colors = {}; colors.RED = 2; colors.YELLOW = 3; colors.BLUE = 4 + 5;",
             errors: [
-                { message: "No magic number: 4." },
-                { message: "No magic number: 5." }
+                { messageId: "noMagic", data: { raw: "4" } },
+                { messageId: "noMagic", data: { raw: "5" } }
             ]
         },
         {
@@ -164,7 +162,7 @@ ruleTester.run("no-magic-numbers", rule, {
         {
             code: "function getNegativeSecondsInMinute() {return -60;}",
             errors: [
-                { message: "No magic number: -60." }
+                { messageId: "noMagic", data: { raw: "-60" } }
             ]
         },
         {
@@ -192,12 +190,12 @@ ruleTester.run("no-magic-numbers", rule, {
                   "setTimeout(func, 10);\n" +
                 "}\n",
             errors: [
-                { message: "No magic number: 10.", line: 7 },
-                { message: "No magic number: 10.", line: 7 },
-                { message: "No magic number: 24.", line: 11 },
-                { message: "No magic number: 1000.", line: 15 },
-                { message: "No magic number: 0.", line: 19 },
-                { message: "No magic number: 10.", line: 22 }
+                { messageId: "noMagic", data: { raw: "10" }, line: 7 },
+                { messageId: "noMagic", data: { raw: "10" }, line: 7 },
+                { messageId: "noMagic", data: { raw: "24" }, line: 11 },
+                { messageId: "noMagic", data: { raw: "1000" }, line: 15 },
+                { messageId: "noMagic", data: { raw: "0" }, line: 19 },
+                { messageId: "noMagic", data: { raw: "10" }, line: 22 }
             ],
             env: { es6: true }
         },
@@ -205,7 +203,7 @@ ruleTester.run("no-magic-numbers", rule, {
             code: "var data = ['foo', 'bar', 'baz']; var third = data[3];",
             options: [{}],
             errors: [{
-                message: "No magic number: 3.", line: 1
+                messageId: "noMagic", data: { raw: "3" }, line: 1
             }]
         },
         {
@@ -216,18 +214,18 @@ ruleTester.run("no-magic-numbers", rule, {
                 }
             },
             errors: [
-                { message: "No magic number: 1.", line: 1 },
-                { message: "No magic number: 2.", line: 1 },
-                { message: "No magic number: 3.", line: 1 }
+                { messageId: "noMagic", data: { raw: "1" }, line: 1 },
+                { messageId: "noMagic", data: { raw: "2" }, line: 1 },
+                { messageId: "noMagic", data: { raw: "3" }, line: 1 }
             ]
         },
         {
             code: "var min, max, mean; min = 1; max = 10; mean = 4;",
             options: [{}],
             errors: [
-                { message: "No magic number: 1.", line: 1 },
-                { message: "No magic number: 10.", line: 1 },
-                { message: "No magic number: 4.", line: 1 }
+                { messageId: "noMagic", data: { raw: "1" }, line: 1 },
+                { messageId: "noMagic", data: { raw: "10" }, line: 1 },
+                { messageId: "noMagic", data: { raw: "4" }, line: 1 }
             ]
         }
     ]

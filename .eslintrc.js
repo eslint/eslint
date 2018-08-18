@@ -32,6 +32,11 @@ module.exports = {
             rules: {
                 "rulesdir/no-invalid-meta": "error",
                 "rulesdir/consistent-docs-description": "error"
+
+                /*
+                 * TODO: enable it when all the rules using meta.messages
+                 * "rulesdir/consistent-meta-messages": "error"
+                 */
             }
         }, {
             files: ["lib/rules/*"],
