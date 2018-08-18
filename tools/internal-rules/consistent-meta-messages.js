@@ -66,21 +66,14 @@ module.exports = {
         },
         schema: [],
         messages: {
-            expectedMessages: "expected `meta.messages` property"
+            expectedMessages: "Expected `meta.messages` property"
         }
     },
 
     create(context) {
         return {
-            AssignmentExpression(node) {
-                if (node.left &&
-                    node.right &&
-                    node.left.type === "MemberExpression" &&
-                    node.left.object.name === "module" &&
-                    node.left.property.name === "exports") {
-
-                    checkMetaMessages(context, node.right);
-                }
+            "AssignmentExpression[left.object.name='module'][left.property.name='exports']"(node) {
+                checkMetaMessages(context, node.right);
             }
         };
     }
