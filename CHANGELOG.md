@@ -1,3 +1,14 @@
+v5.4.0 - August 17, 2018
+
+* a70909f Docs: Add jscs-dev.github.io links (#10771) (Gustavo Santana)
+* 034690f Fix: no-invalid-meta crashes for non Object values (fixes #10750) (#10753) (Sandeep Kumar Ranka)
+* 11a462d Docs: Broken jscs.info URLs (fixes #10732) (#10770) (Gustavo Santana)
+* 985567d Chore: rm unused dep string.prototype.matchall (#10756) (薛定谔的猫)
+* f3d8454 Update: Improve no-extra-parens error message (#10748) (Timo Tijhof)
+* 562a03f Fix: consistent-docs-url crashes if meta.docs is empty (fixes #10722) (#10749) (Sandeep Kumar Ranka)
+* 6492233 Chore: enable no-prototype-builtins in codebase (fixes #10660) (#10664) (薛定谔的猫)
+* 137140f Chore: use eslintrc overrides (#10677) (薛定谔的猫)
+
 v5.3.0 - August 3, 2018
 
 * dd6cb19 Docs: Updated no-return-await Rule Documentation (fixes #9695) (#10699) (Marla Foreman)
