@@ -83,4 +83,4 @@ If you aren't concerned about having different line endings within your code, th
 
 ## Compatibility
 
-* **JSCS**: `validateLineBreaks`
+* **JSCS**: [validateLineBreaks](https://jscs-dev.github.io/rule/validateLineBreaks)
