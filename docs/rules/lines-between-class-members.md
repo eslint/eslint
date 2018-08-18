@@ -106,5 +106,5 @@ If you don't want to enforce empty lines between class members, you can disable 
 
 ## Compatibility
 
-* **JSCS**: `requirePaddingNewLinesAfterBlocks`
-* **JSCS**: `disallowPaddingNewLinesAfterBlocks`
+* [requirePaddingNewLinesAfterBlocks](https://jscs-dev.github.io/rule/requirePaddingNewLinesAfterBlocks)
+* [disallowPaddingNewLinesAfterBlocks](https://jscs-dev.github.io/rule/disallowPaddingNewLinesAfterBlocks)

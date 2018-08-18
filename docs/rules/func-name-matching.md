@@ -137,4 +137,4 @@ Do not use this rule if you want to allow named functions to have different name
 
 ## Compatibility
 
-* **JSCS**: `requireMatchingFunctionName`
+* **JSCS**: [requireMatchingFunctionName](https://jscs-dev.github.io/rule/requireMatchingFunctionName)

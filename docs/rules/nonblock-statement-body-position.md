@@ -155,4 +155,4 @@ If you're not concerned about consistent locations of single-line statements, yo
 
 ## Further Reading
 
-* JSCS: `requireNewlineBeforeSingleStatementsInIf`
+* JSCS: [requireNewlineBeforeSingleStatementsInIf](https://jscs-dev.github.io/rule/requireNewlineBeforeSingleStatementsInIf)
