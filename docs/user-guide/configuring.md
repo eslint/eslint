@@ -114,6 +114,7 @@ An environment defines global variables that are predefined. The available envir
 * `embertest` - Ember test helper globals.
 * `webextensions` - WebExtensions globals.
 * `greasemonkey` - GreaseMonkey globals.
+* `yui` - YUI 2–3 globals.
 
 These environments are not mutually exclusive, so you can define more than one at a time.
 
