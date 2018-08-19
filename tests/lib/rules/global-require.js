@@ -33,7 +33,7 @@ const valid = [
     { code: "var someFunc = require('./someFunc'); someFunc(function(require) { return('bananas'); });" }
 ];
 
-const error = { messageId: "Unexpected", type: "CallExpression" };
+const error = { messageId: "unexpected", type: "CallExpression" };
 
 const invalid = [
 
