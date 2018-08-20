@@ -856,7 +856,7 @@ Globs are matched using [node-ignore](https://github.com/kaelzhang/node-ignore),
 * Lines preceded by `!` are negated patterns that re-include a pattern that was ignored by an earlier pattern.
 * Ignore patterns behave according to the `.gitignore` [specification](https://git-scm.com/docs/gitignore).
 
-Of particular note is that like `.gitignore` files all paths used as patterns for both `.eslintignore` and `--ignore-pattern` must use forward slashes as their path separators.
+Of particular note is that like `.gitignore` files, all paths used as patterns for both `.eslintignore` and `--ignore-pattern` must use forward slashes as their path separators.
 
 ```text
 # Valid
