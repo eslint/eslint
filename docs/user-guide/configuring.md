@@ -839,6 +839,8 @@ Currently the sole method for telling ESLint which file extensions to lint is by
 
 ## Ignoring Files and Directories
 
+### `.eslintignore`
+
 You can tell ESLint to ignore specific files and directories by creating an `.eslintignore` file in your project's root directory. The `.eslintignore` file is a plain text file where each line is a glob pattern indicating which paths should be omitted from linting. For example, the following will omit all JavaScript files:
 
 ```text
@@ -850,9 +852,21 @@ When ESLint is run, it looks in the current working directory to find an `.eslin
 Globs are matched using [node-ignore](https://github.com/kaelzhang/node-ignore), so a number of features are available:
 
 * Lines beginning with `#` are treated as comments and do not affect ignore patterns.
-* Paths are relative to `.eslintignore` location or the current working directory. This also influences paths passed via `--ignore-pattern`.
-* Ignore patterns behave according to the `.gitignore` [specification](https://git-scm.com/docs/gitignore)
+* Paths are relative to `.eslintignore` location or the current working directory. This is also true of paths passed in via the `--ignore-pattern` [command](./command-line-interface.md#--ignore-pattern).
 * Lines preceded by `!` are negated patterns that re-include a pattern that was ignored by an earlier pattern.
+* Ignore patterns behave according to the `.gitignore` [specification](https://git-scm.com/docs/gitignore).
+
+Of particular note is that like `.gitignore` files all paths used as patterns for both `.eslintignore` and `--ignore-pattern` must use forward slashes as their path separators.
+
+```text
+# Valid
+/root/src/*.js
+
+# Invalid
+\root\src\*.js
+```
+
+Please see `.gitignore`'s specification for further examples of valid syntax.
 
 In addition to any patterns in a `.eslintignore` file, ESLint always ignores files in `/node_modules/*` and `/bower_components/*`.
 
