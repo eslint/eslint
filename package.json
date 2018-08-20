@@ -51,7 +51,7 @@
     "functional-red-black-tree": "^1.0.1",
     "glob": "^7.1.2",
     "globals": "^11.7.0",
-    "ignore": "^5.0.2",
+    "ignore": "^4.0.6",
     "imurmurhash": "^0.1.4",
     "inquirer": "^6.1.0",
     "is-resolvable": "^1.1.0",
