@@ -99,14 +99,14 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
             code: `
             async foo => () => bar;
             `,
-            parserOptions: { ecmaVersion: 8 },
+            parserOptions: { ecmaVersion: 8 }
         },
         {
             code: `
             // comment
             async foo => 'string'        
             `,
-            parserOptions: { ecmaVersion: 8 },
+            parserOptions: { ecmaVersion: 8 }
         },
 
         // 'below' option
