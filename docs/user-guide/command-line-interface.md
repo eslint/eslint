@@ -254,12 +254,11 @@ Example:
 
 #### `--ignore-pattern`
 
-This option allows you to specify patterns of files to ignore (in addition to those in `.eslintignore`). You can repeat the option to provide multiple patterns. The supported syntax is the same as in the `.eslintignore` file. You should quote your patterns in order to avoid shell interpretation of glob patterns.
+This option allows you to specify patterns of files to ignore (in addition to those in `.eslintignore`). You can repeat the option to provide multiple patterns. The supported syntax is the same as for `.eslintignore` [files](./configuring.md#.eslintignore), which use the same patterns as the `.gitignore` [specification](https://git-scm.com/docs/gitignore). You should quote your patterns in order to avoid shell interpretation of glob patterns.
 
 Example:
 
     eslint --ignore-pattern '/lib/' --ignore-pattern '/src/vendor/*' .
-
 
 ### Using stdin
 
