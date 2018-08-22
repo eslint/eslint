@@ -37,9 +37,76 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
         `(foo) => (
             bar
         )`,
+        "(foo) => bar();",
+        `
+        //comment
+        foo => bar;
+        `,
+        `
+        foo => (
+            // comment
+            bar => (
+                // another comment
+                baz
+            )       
+        )
+        `,
+        `
+        foo => (
+            // comment
+            bar => baz
+        )
+        `,
+        `
+        /* text */
+        () => bar; 
+        `,
+        `
+        /* foo */
+        const bar = () => baz;
+        `,
+        `
+        (foo) => (
+                //comment
+                    bar
+                )
+        `,
+        `
+          [ // comment
+            foo => 'bar'
+          ]
+        `,
+        `
+         /*
+         One two three four
+         Five six seven nine.
+         */
+         (foo) => bar
+        `,
+        `
+        const foo = {
+          id: 'bar',
+          // comment
+          prop: (foo1) => 'returning this string', 
+        }
+        `,
+        `
+        // comment
+         "foo".split('').map((char) => char
+         )
+        `,
         {
-            code: "(foo) => bar();",
-            options: ["beside"]
+            code: `
+            async foo => () => bar;
+            `,
+            parserOptions: { ecmaVersion: 8 },
+        },
+        {
+            code: `
+            // comment
+            async foo => 'string'        
+            `,
+            parserOptions: { ecmaVersion: 8 },
         },
 
         // 'below' option
