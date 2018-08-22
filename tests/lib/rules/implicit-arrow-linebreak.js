@@ -375,6 +375,105 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
             errors: [UNEXPECTED_LINEBREAK]
         }, {
             code: `
+                new Promise((resolve, reject) =>
+                    // comment
+                    resolve()
+                )
+            `,
+            output: `
+                new Promise(// comment
+                            (resolve, reject) => resolve()
+                )
+            `,
+            errors: [UNEXPECTED_LINEBREAK]
+        }, {
+            code: `
+                () =>
+                /*
+                succinct
+                explanation
+                of code
+                */
+                bar
+            `,
+            output: `
+                /*
+                succinct
+                explanation
+                of code
+                */
+                () => bar
+            `,
+            errors: [UNEXPECTED_LINEBREAK]
+        }, {
+            code: `
+                stepOne =>
+                    /*
+                    here is
+                    what is
+                    happening
+                    */
+                    stepTwo =>
+                        // then this happens
+                        stepThree`,
+            output: `
+                stepOne => (
+                    /*
+                    here is
+                    what is
+                    happening
+                    */
+                    stepTwo => (
+                        // then this happens
+                        stepThree
+                    )
+                )`,
+            errors: [UNEXPECTED_LINEBREAK, UNEXPECTED_LINEBREAK]
+        }, {
+            code: `
+            () =>
+                /*
+                multi
+                line
+                */
+                bar =>
+                    /*
+                    many
+                    lines
+                    */
+                    baz
+            `,
+            output: `
+            () => (
+                /*
+                multi
+                line
+                */
+                bar => (
+                    /*
+                    many
+                    lines
+                    */
+                    baz
+                )
+            )
+            `,
+            errors: [UNEXPECTED_LINEBREAK, UNEXPECTED_LINEBREAK]
+        }, {
+            code: `
+               foo('', boo =>
+                  // comment
+                  bar
+               )
+            `,
+            output: `
+               // comment
+               foo('', boo => bar
+               )
+            `,
+            errors: [UNEXPECTED_LINEBREAK]
+        }, {
+            code: `
             async foo =>
                 // comment
                 'string'
@@ -410,32 +509,6 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
             async (foo) => 'string'
             `,
             parserOptions: { ecmaVersion: 8 },
-            errors: [UNEXPECTED_LINEBREAK]
-        }, {
-            code: `
-                new Promise((resolve, reject) =>
-                    // comment
-                    resolve()
-                )
-            `,
-            output: `
-                new Promise(// comment
-                            (resolve, reject) => resolve()
-                )
-            `,
-            errors: [UNEXPECTED_LINEBREAK]
-        }, {
-            code: `
-               foo('', boo =>
-                  // comment
-                  bar
-               )
-            `,
-            output: `
-               // comment
-               foo('', boo => bar
-               )
-            `,
             errors: [UNEXPECTED_LINEBREAK]
         },
 
