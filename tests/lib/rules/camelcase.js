@@ -353,6 +353,17 @@ ruleTester.run("camelcase", rule, {
             ]
         },
         {
+            code: "var { category_id: category_id } = query;",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "category_id" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
             code: "var { category_id = 1 } = query;",
             parserOptions: { ecmaVersion: 6 },
             errors: [
