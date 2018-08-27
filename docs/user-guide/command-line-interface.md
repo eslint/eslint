@@ -254,12 +254,11 @@ Example:
 
 #### `--ignore-pattern`
 
-This option allows you to specify patterns of files to ignore (in addition to those in `.eslintignore`). You can repeat the option to provide multiple patterns. The supported syntax is the same as in the `.eslintignore` file. You should quote your patterns in order to avoid shell interpretation of glob patterns.
+This option allows you to specify patterns of files to ignore (in addition to those in `.eslintignore`). You can repeat the option to provide multiple patterns. The supported syntax is the same as for `.eslintignore` [files](./configuring.md#.eslintignore), which use the same patterns as the `.gitignore` [specification](https://git-scm.com/docs/gitignore). You should quote your patterns in order to avoid shell interpretation of glob patterns.
 
 Example:
 
     eslint --ignore-pattern '/lib/' --ignore-pattern '/src/vendor/*' .
-
 
 ### Using stdin
 
@@ -401,6 +400,8 @@ Example:
 Store the info about processed files in order to only operate on the changed ones. The cache is stored in `.eslintcache` by default. Enabling this option can dramatically improve ESLint's running time by ensuring that only changed files are linted.
 
 **Note:** If you run ESLint with `--cache` and then run ESLint without `--cache`, the `.eslintcache` file will be deleted. This is necessary because the results of the lint might change and make `.eslintcache` invalid. If you want to control when the cache file is deleted, then use `--cache-location` to specify an alternate location for the cache file.
+
+**Note:**: As of now, only the results for successfully linted files are stored in the cache. Files which fail linting are not stored in the cache, so they will be linted every time.
 
 #### `--cache-file`
 

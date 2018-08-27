@@ -11,7 +11,7 @@
 
 const assert = require("chai").assert,
     autoconfig = require("../../../lib/config/autoconfig"),
-    sourceCodeUtil = require("../../../lib/util/source-code-util"),
+    sourceCodeUtils = require("../../../lib/util/source-code-utils"),
     baseDefaultOptions = require("../../../conf/default-cli-options");
 
 const defaultOptions = Object.assign({}, baseDefaultOptions, { cwd: process.cwd() });
@@ -174,7 +174,7 @@ describe("autoconfig", () => {
 
             beforeEach(() => {
                 const config = { ignore: false };
-                const sourceCode = sourceCodeUtil.getSourceCodeOfFiles(SOURCE_CODE_FIXTURE_FILENAME, config);
+                const sourceCode = sourceCodeUtils.getSourceCodeOfFiles(SOURCE_CODE_FIXTURE_FILENAME, config);
 
                 registry = new autoconfig.Registry(rulesConfig);
                 registry = registry.lintSourceCode(sourceCode, defaultOptions);
@@ -201,7 +201,7 @@ describe("autoconfig", () => {
 
             it("should respect inline eslint config comments (and not crash when they make linting errors)", () => {
                 const config = { ignore: false };
-                const sourceCode = sourceCodeUtil.getSourceCodeOfFiles(CONFIG_COMMENTS_FILENAME, config);
+                const sourceCode = sourceCodeUtils.getSourceCodeOfFiles(CONFIG_COMMENTS_FILENAME, config);
                 const expectedRegistry = [
                     { config: 2, specificity: 1, errorCount: 3 },
                     { config: [2, "always"], specificity: 2, errorCount: 3 },
@@ -220,7 +220,7 @@ describe("autoconfig", () => {
 
             beforeEach(() => {
                 const config = { ignore: false };
-                const sourceCode = sourceCodeUtil.getSourceCodeOfFiles(SOURCE_CODE_FIXTURE_FILENAME, config);
+                const sourceCode = sourceCodeUtils.getSourceCodeOfFiles(SOURCE_CODE_FIXTURE_FILENAME, config);
 
                 registry = new autoconfig.Registry(rulesConfig);
                 registry = registry.lintSourceCode(sourceCode, defaultOptions);
@@ -248,7 +248,7 @@ describe("autoconfig", () => {
 
             beforeEach(() => {
                 const config = { ignore: false };
-                const sourceCode = sourceCodeUtil.getSourceCodeOfFiles(SOURCE_CODE_FIXTURE_FILENAME, config);
+                const sourceCode = sourceCodeUtils.getSourceCodeOfFiles(SOURCE_CODE_FIXTURE_FILENAME, config);
                 let registry = new autoconfig.Registry(errorRulesConfig);
 
                 registry = registry.lintSourceCode(sourceCode, defaultOptions);
@@ -269,7 +269,7 @@ describe("autoconfig", () => {
 
             beforeEach(() => {
                 const config = { ignore: false };
-                const sourceCode = sourceCodeUtil.getSourceCodeOfFiles(SOURCE_CODE_FIXTURE_FILENAME, config);
+                const sourceCode = sourceCodeUtils.getSourceCodeOfFiles(SOURCE_CODE_FIXTURE_FILENAME, config);
                 let registry = new autoconfig.Registry(rulesConfig);
 
                 registry = registry.lintSourceCode(sourceCode, defaultOptions);
@@ -293,7 +293,7 @@ describe("autoconfig", () => {
 
             it("should not care how many errors the config has", () => {
                 const config = { ignore: false };
-                const sourceCode = sourceCodeUtil.getSourceCodeOfFiles(SOURCE_CODE_FIXTURE_FILENAME, config);
+                const sourceCode = sourceCodeUtils.getSourceCodeOfFiles(SOURCE_CODE_FIXTURE_FILENAME, config);
                 let registry = new autoconfig.Registry(errorRulesConfig);
 
                 registry = registry.lintSourceCode(sourceCode, defaultOptions);

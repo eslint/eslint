@@ -11,7 +11,7 @@
 const path = require("path"),
     assert = require("chai").assert,
     sinon = require("sinon"),
-    pathUtil = require("../../../lib/util/path-util");
+    pathUtils = require("../../../lib/util/path-utils");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -23,28 +23,28 @@ describe("pathUtil", () => {
 
         it("should remove a leading './'", () => {
             const input = "./relative/file/path.js";
-            const result = pathUtil.convertPathToPosix(input);
+            const result = pathUtils.convertPathToPosix(input);
 
             assert.strictEqual(result, "relative/file/path.js");
         });
 
         it("should remove interior '../'", () => {
             const input = "./relative/file/../path.js";
-            const result = pathUtil.convertPathToPosix(input);
+            const result = pathUtils.convertPathToPosix(input);
 
             assert.strictEqual(result, "relative/path.js");
         });
 
         it("should not remove a leading '../'", () => {
             const input = "../parent/file/path.js";
-            const result = pathUtil.convertPathToPosix(input);
+            const result = pathUtils.convertPathToPosix(input);
 
             assert.strictEqual(result, "../parent/file/path.js");
         });
 
         it("should convert windows path seperators into posix style path seperators", () => {
             const input = "windows\\style\\path.js";
-            const result = pathUtil.convertPathToPosix(input);
+            const result = pathUtils.convertPathToPosix(input);
 
             assert.strictEqual(result, "windows/style/path.js");
         });
@@ -56,7 +56,7 @@ describe("pathUtil", () => {
         it("should return a path relative to the provided base path", () => {
             const filePath = "/absolute/file/path.js";
             const basePath = "/absolute/";
-            const result = pathUtil.getRelativePath(filePath, basePath);
+            const result = pathUtils.getRelativePath(filePath, basePath);
 
             assert.strictEqual(result, path.normalize("file/path.js"));
         });
@@ -66,7 +66,7 @@ describe("pathUtil", () => {
             const basePath = "somewhere/";
 
             assert.throws(() => {
-                pathUtil.getRelativePath(filePath, basePath);
+                pathUtils.getRelativePath(filePath, basePath);
             });
         });
 
@@ -75,7 +75,7 @@ describe("pathUtil", () => {
             const basePath = "/absolute/file";
 
             sinon.stub(process, "cwd").returns("/absolute/");
-            const result = pathUtil.getRelativePath(filePath, basePath);
+            const result = pathUtils.getRelativePath(filePath, basePath);
 
             assert.strictEqual(result, "path.js");
 
@@ -84,7 +84,7 @@ describe("pathUtil", () => {
 
         it("should strip a leading '/' if no baseDir is provided", () => {
             const filePath = "/absolute/file/path.js";
-            const result = pathUtil.getRelativePath(filePath);
+            const result = pathUtils.getRelativePath(filePath);
 
             assert.strictEqual(result, "absolute/file/path.js");
         });

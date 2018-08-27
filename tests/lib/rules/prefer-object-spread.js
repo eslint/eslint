@@ -12,9 +12,6 @@ const RuleTester = require("../../../lib/testers/rule-tester");
 
 const parserOptions = {
     ecmaVersion: 2018,
-    ecmaFeatures: {
-        experimentalObjectRestSpread: true
-    },
     sourceType: "module"
 };
 
@@ -68,7 +65,7 @@ ruleTester.run("prefer-object-spread", rule, {
     invalid: [
         {
             code: "Object.assign({}, foo)",
-            output: "({...foo})",
+            output: "({ ...foo})",
             errors: [
                 {
                     messageId: "useSpreadMessage",
@@ -81,7 +78,7 @@ ruleTester.run("prefer-object-spread", rule, {
 
         {
             code: "Object.assign({}, { foo: 'bar' })",
-            output: "({foo: 'bar'})",
+            output: "({ foo: 'bar'})",
             errors: [
                 {
                     messageId: "useSpreadMessage",
@@ -93,7 +90,7 @@ ruleTester.run("prefer-object-spread", rule, {
         },
         {
             code: "Object.assign({}, baz, { foo: 'bar' })",
-            output: "({...baz, foo: 'bar'})",
+            output: "({ ...baz, foo: 'bar'})",
             errors: [
                 {
                     messageId: "useSpreadMessage",
@@ -105,7 +102,7 @@ ruleTester.run("prefer-object-spread", rule, {
         },
         {
             code: "Object.assign({}, { foo: 'bar', baz: 'foo' })",
-            output: "({foo: 'bar', baz: 'foo'})",
+            output: "({ foo: 'bar', baz: 'foo'})",
             errors: [
                 {
                     messageId: "useSpreadMessage",
@@ -204,7 +201,7 @@ ruleTester.run("prefer-object-spread", rule, {
         // Object shorthand
         {
             code: "Object.assign({}, { foo, bar, baz })",
-            output: "({foo, bar, baz})",
+            output: "({ foo, bar, baz})",
             errors: [
                 {
                     messageId: "useSpreadMessage",
@@ -218,7 +215,7 @@ ruleTester.run("prefer-object-spread", rule, {
         // Objects with computed properties
         {
             code: "Object.assign({}, { [bar]: 'foo' })",
-            output: "({[bar]: 'foo'})",
+            output: "({ [bar]: 'foo'})",
             errors: [
                 {
                     messageId: "useSpreadMessage",
@@ -250,11 +247,9 @@ ruleTester.run("prefer-object-spread", rule, {
                 foo: 'bar',
                 baz: "cats"
             })`,
-            output: `({...bar, 
-                // this is a bar
+            output: `({...bar, // this is a bar
                 foo: 'bar',
-                baz: "cats"
-})`,
+                baz: "cats"})`,
             errors: [
                 {
                     messageId: "useSpreadMessage",
@@ -275,15 +270,11 @@ ruleTester.run("prefer-object-spread", rule, {
                 foo: 'bar',
                 baz: "cats"
             })`,
-            output: `({
-                boo: "lol",
+            output: `({boo: "lol",
                 // I'm a comment
-                dog: "cat", 
-
-                // this is a bar
+                dog: "cat", // this is a bar
                 foo: 'bar',
-                baz: "cats"
-})`,
+                baz: "cats"})`,
             errors: [
                 {
                     messageId: "useSpreadMessage",
@@ -302,12 +293,11 @@ ruleTester.run("prefer-object-spread", rule, {
                 baz: "cats"
                 --> weird
             })`,
-            output: `const test = {...bar, 
-                <!-- html comment
+            output: `const test = {...bar, <!-- html comment
                 foo: 'bar',
                 baz: "cats"
                 --> weird
-}`,
+            }`,
             parserOptions: {
                 sourceType: "script"
             },
@@ -326,10 +316,8 @@ ruleTester.run("prefer-object-spread", rule, {
                 foo: 'bar', // inline comment
                 baz: "cats"
             })`,
-            output: `const test = {...bar, 
-                foo: 'bar', // inline comment
-                baz: "cats"
-}`,
+            output: `const test = {...bar, foo: 'bar', // inline comment
+                baz: "cats"}`,
             errors: [
                 {
                     messageId: "useSpreadMessage",
@@ -349,13 +337,11 @@ ruleTester.run("prefer-object-spread", rule, {
                 foo: 'bar',
                 baz: "cats"
             })`,
-            output: `const test = {...bar, 
-                /**
+            output: `const test = {...bar, /**
                  * foo
                  */
                 foo: 'bar',
-                baz: "cats"
-}`,
+                baz: "cats"}`,
             errors: [
                 {
                     messageId: "useSpreadMessage",
@@ -386,7 +372,7 @@ ruleTester.run("prefer-object-spread", rule, {
         },
         {
             code: "Object.assign({ foo: bar })",
-            output: "({ foo: bar })",
+            output: "({foo: bar})",
             errors: [
                 {
                     messageId: "useLiteralMessage",
@@ -404,7 +390,7 @@ ruleTester.run("prefer-object-spread", rule, {
             `,
             output: `
                 const foo = 'bar';
-                ({ foo: bar })
+                ({foo: bar})
             `,
             errors: [
                 {
@@ -423,7 +409,7 @@ ruleTester.run("prefer-object-spread", rule, {
             `,
             output: `
                 foo = 'bar';
-                ({ foo: bar })
+                ({foo: bar})
             `,
             errors: [
                 {
@@ -449,7 +435,7 @@ ruleTester.run("prefer-object-spread", rule, {
         },
         {
             code: "let a = Object.assign({}, a)",
-            output: "let a = {...a}",
+            output: "let a = { ...a}",
             errors: [
                 {
                     messageId: "useSpreadMessage",
@@ -473,7 +459,7 @@ ruleTester.run("prefer-object-spread", rule, {
         },
         {
             code: "Object.assign(  {},  a,      b,   )",
-            output: "({...a, ...b})",
+            output: "({    ...a,      ...b,   })",
             errors: [
                 {
                     messageId: "useSpreadMessage",
@@ -485,7 +471,7 @@ ruleTester.run("prefer-object-spread", rule, {
         },
         {
             code: "Object.assign({}, a ? b : {}, b => c, a = 2)",
-            output: "({...(a ? b : {}), ...(b => c), ...(a = 2)})",
+            output: "({ ...(a ? b : {}), ...(b => c), ...(a = 2)})",
             errors: [
                 {
                     messageId: "useSpreadMessage",
@@ -502,7 +488,7 @@ ruleTester.run("prefer-object-spread", rule, {
             `,
             output: `
                 const someVar = 'foo';
-                ({...(a ? b : {}), ...(b => c), ...(a = 2)})
+                ({ ...(a ? b : {}), ...(b => c), ...(a = 2)})
             `,
             errors: [
                 {
@@ -520,7 +506,7 @@ ruleTester.run("prefer-object-spread", rule, {
             `,
             output: `
                 someVar = 'foo';
-                ({...(a ? b : {}), ...(b => c), ...(a = 2)})
+                ({ ...(a ? b : {}), ...(b => c), ...(a = 2)})
             `,
             errors: [
                 {
@@ -535,7 +521,7 @@ ruleTester.run("prefer-object-spread", rule, {
         // Cases where you don't need parens around an object literal
         {
             code: "[1, 2, Object.assign({}, a)]",
-            output: "[1, 2, {...a}]",
+            output: "[1, 2, { ...a}]",
             errors: [
                 {
                     messageId: "useSpreadMessage",
@@ -547,7 +533,7 @@ ruleTester.run("prefer-object-spread", rule, {
         },
         {
             code: "const foo = Object.assign({}, a)",
-            output: "const foo = {...a}",
+            output: "const foo = { ...a}",
             errors: [
                 {
                     messageId: "useSpreadMessage",
@@ -559,7 +545,7 @@ ruleTester.run("prefer-object-spread", rule, {
         },
         {
             code: "function foo() { return Object.assign({}, a) }",
-            output: "function foo() { return {...a} }",
+            output: "function foo() { return { ...a} }",
             errors: [
                 {
                     messageId: "useSpreadMessage",
@@ -571,7 +557,7 @@ ruleTester.run("prefer-object-spread", rule, {
         },
         {
             code: "foo(Object.assign({}, a));",
-            output: "foo({...a});",
+            output: "foo({ ...a});",
             errors: [
                 {
                     messageId: "useSpreadMessage",
@@ -583,7 +569,7 @@ ruleTester.run("prefer-object-spread", rule, {
         },
         {
             code: "const x = { foo: 'bar', baz: Object.assign({}, a) }",
-            output: "const x = { foo: 'bar', baz: {...a} }",
+            output: "const x = { foo: 'bar', baz: { ...a} }",
             errors: [
                 {
                     messageId: "useSpreadMessage",
@@ -600,7 +586,7 @@ ruleTester.run("prefer-object-spread", rule, {
             `,
             output: `
                 import Foo from 'foo';
-                ({ foo: Foo });
+                ({foo: Foo});
             `,
             errors: [
                 {
@@ -618,7 +604,7 @@ ruleTester.run("prefer-object-spread", rule, {
             `,
             output: `
                 import Foo from 'foo';
-                ({...Foo});
+                ({ ...Foo});
             `,
             errors: [
                 {
@@ -636,7 +622,7 @@ ruleTester.run("prefer-object-spread", rule, {
             `,
             output: `
                 const Foo = require('foo');
-                ({ foo: Foo });
+                ({foo: Foo});
             `,
             errors: [
                 {
@@ -654,7 +640,7 @@ ruleTester.run("prefer-object-spread", rule, {
             `,
             output: `
                 import { Something as somethingelse } from 'foo';
-                ({...somethingelse});
+                ({ ...somethingelse});
             `,
             errors: [
                 {
@@ -672,7 +658,7 @@ ruleTester.run("prefer-object-spread", rule, {
             `,
             output: `
                 import { foo } from 'foo';
-                ({ foo: Foo });
+                ({foo: Foo});
             `,
             errors: [
                 {
@@ -690,7 +676,7 @@ ruleTester.run("prefer-object-spread", rule, {
             `,
             output: `
                 const Foo = require('foo');
-                ({...Foo});
+                ({ ...Foo});
             `,
             errors: [
                 {
@@ -698,6 +684,154 @@ ruleTester.run("prefer-object-spread", rule, {
                     type: "CallExpression",
                     line: 3,
                     column: 17
+                }
+            ]
+        },
+        {
+            code: `
+                const actions = Object.assign(
+                    {
+                        onChangeInput: this.handleChangeInput,
+                    },
+                    this.props.actions
+                );
+            `,
+            output: `
+                const actions = {
+                    onChangeInput: this.handleChangeInput,
+                    ...this.props.actions
+                };
+            `,
+            errors: [
+                {
+                    messageId: "useSpreadMessage",
+                    type: "CallExpression",
+                    line: 2,
+                    column: 33
+                }
+            ]
+        },
+        {
+            code: `
+                const actions = Object.assign(
+                    {
+                        onChangeInput: this.handleChangeInput, //
+                    },
+                    this.props.actions
+                );
+            `,
+            output: `
+                const actions = {
+                    onChangeInput: this.handleChangeInput, //
+                    
+                    ...this.props.actions
+                };
+            `,
+            errors: [
+                {
+                    messageId: "useSpreadMessage",
+                    type: "CallExpression",
+                    line: 2,
+                    column: 33
+                }
+            ]
+        },
+        {
+            code: `
+                const actions = Object.assign(
+                    {
+                        onChangeInput: this.handleChangeInput //
+                    },
+                    this.props.actions
+                );
+            `,
+            output: `
+                const actions = {
+                    onChangeInput: this.handleChangeInput //
+                    ,
+                    ...this.props.actions
+                };
+            `,
+            errors: [
+                {
+                    messageId: "useSpreadMessage",
+                    type: "CallExpression",
+                    line: 2,
+                    column: 33
+                }
+            ]
+        },
+        {
+            code: `
+                const actions = Object.assign(
+                    (
+                        {
+                            onChangeInput: this.handleChangeInput
+                        }
+                    ),
+                    (
+                        this.props.actions
+                    )
+                );
+            `,
+            output: `
+                const actions = {
+                    
+                            onChangeInput: this.handleChangeInput
+                        ,
+                    ...(
+                        this.props.actions
+                    )
+                };
+            `,
+            errors: [
+                {
+                    messageId: "useSpreadMessage",
+                    type: "CallExpression",
+                    line: 2,
+                    column: 33
+                }
+            ]
+        },
+        {
+            code: `
+                eventData = Object.assign({}, eventData, { outsideLocality: \`\${originLocality} - \${destinationLocality}\` })
+            `,
+            output: `
+                eventData = { ...eventData, outsideLocality: \`\${originLocality} - \${destinationLocality}\`}
+            `,
+            errors: [
+                {
+                    messageId: "useSpreadMessage",
+                    type: "CallExpression",
+                    line: 2,
+                    column: 29
+                }
+            ]
+        },
+
+        // https://github.com/eslint/eslint/issues/10646
+        {
+            code: "Object.assign({ });",
+            output: "({});",
+            errors: [
+                {
+                    messageId: "useLiteralMessage",
+                    type: "CallExpression",
+                    line: 1,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "Object.assign({\n});",
+            output: "({});",
+            errors: [
+                {
+                    messageId: "useLiteralMessage",
+                    type: "CallExpression",
+                    line: 1,
+                    column: 1
                 }
             ]
         }

@@ -34,10 +34,14 @@ You're finally ready to start working with rules. You may want to fix an existin
 
 You've developed library-specific rules for ESLint and you want to share it with the community. You can publish an ESLint plugin on npm.
 
-## Section 6: [Node.js API](nodejs-api.md)
+## Section 6: [Working with Parsers](working-with-parsers.md)
+
+If you aren't going to use the default parser of ESLint, this section explains about using custom parsers.
+
+## Section 7: [Node.js API](nodejs-api.md)
 
 If you're interested in writing a tool that uses ESLint, then you can use the Node.js API to get programmatic access to functionality.
 
-## Section 7: [Contributing](contributing/)
+## Section 8: [Contributing](contributing/)
 
 Once you've made changes that you want to share with the community, the next step is to submit those changes back via a pull request.

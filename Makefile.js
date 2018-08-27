@@ -68,7 +68,7 @@ const NODE = "node ", // intentional extra space
     BUILD_DIR = "./build/",
     DOCS_DIR = "../eslint.github.io/docs",
     SITE_DIR = "../eslint.github.io/",
-    PERF_TMP_DIR = path.join(os.tmpdir(), "eslint", "performance"),
+    PERF_TMP_DIR = path.join(TEMP_DIR, "eslint", "performance"),
 
     // Utilities - intentional extra space at the end of each string
     MOCHA = `${NODE_MODULES}mocha/bin/_mocha `,
@@ -177,7 +177,10 @@ function generateBlogPost(releaseInfo) {
          * instead of getting matched with the `no-undef` rule followed by the string "ined".
          */
         .sort((ruleA, ruleB) => ruleB.length - ruleA.length);
-    const output = ejs.render(cat("./templates/blogpost.md.ejs"), Object.assign({ ruleList }, releaseInfo)),
+
+    const renderContext = Object.assign({ prereleaseMajorVersion: null, ruleList }, releaseInfo);
+
+    const output = ejs.render(cat("./templates/blogpost.md.ejs"), renderContext),
         now = new Date(),
         month = now.getMonth() + 1,
         day = now.getDate(),
@@ -306,11 +309,29 @@ function release(ciRelease) {
 function prerelease(prereleaseId) {
 
     const releaseInfo = ReleaseOps.release(prereleaseId);
+    const nextMajor = semver.inc(releaseInfo.version, "major");
+
+    /*
+     * Premajor release should have identical "next major version".
+     * Preminor and prepatch release will not.
+     * 5.0.0-alpha.0 --> next major = 5, current major = 5
+     * 4.4.0-alpha.0 --> next major = 5, current major = 4
+     * 4.0.1-alpha.0 --> next major = 5, current major = 4
+     */
+    if (semver.major(releaseInfo.version) === semver.major(nextMajor)) {
+
+        /*
+         * This prerelease is for a major release (not preminor/prepatch).
+         * Blog post generation logic needs to be aware of this (as well as
+         * know what the next major version is actually supposed to be).
+         */
+        releaseInfo.prereleaseMajorVersion = nextMajor;
+    }
 
     echo("Generating site");
 
     // always write docs into the next major directory (so 2.0.0-alpha.0 writes to 2.0.0)
-    target.gensite(semver.inc(releaseInfo.version, "major"));
+    target.gensite(nextMajor);
     generateBlogPost(releaseInfo);
     publishSite(`v${releaseInfo.version}`);
     echo("Site has been published");
@@ -639,10 +660,10 @@ target.gensite = function(prereleaseVersion) {
 
         if (test("-f", fullPath)) {
 
-            rm("-r", fullPath);
+            rm("-rf", fullPath);
 
             if (filePath.indexOf(".md") >= 0 && test("-f", htmlFullPath)) {
-                rm("-r", htmlFullPath);
+                rm("-rf", htmlFullPath);
             }
         }
     });
@@ -663,7 +684,7 @@ target.gensite = function(prereleaseVersion) {
     const rules = require(".").linter.getRules();
 
     const RECOMMENDED_TEXT = "\n\n(recommended) The `\"extends\": \"eslint:recommended\"` property in a configuration file enables this rule.";
-    const FIXABLE_TEXT = "\n\n(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fix) can automatically fix some of the problems reported by this rule.";
+    const FIXABLE_TEXT = "\n\n(fixable) The `--fix` option on the [command line](../user-guide/command-line-interface#fixing-problems) can automatically fix some of the problems reported by this rule.";
 
     // 4. Loop through all files in temporary directory
     process.stdout.write("> Updating files (Steps 4-9): 0/... - ...\r");
@@ -724,7 +745,7 @@ target.gensite = function(prereleaseVersion) {
             ].join("\n");
 
             // 6. Remove .md extension for relative links and change README to empty string
-            text = text.replace(/\((?!https?:\/\/)([^)]*?)\.md.*?\)/g, "($1)").replace("README.html", "");
+            text = text.replace(/\((?!https?:\/\/)([^)]*?)\.md(.*?)\)/g, "($1$2)").replace("README.html", "");
 
             // 7. Check if there's a trailing white line at the end of the file, if there isn't one, add it
             if (!/\n$/.test(text)) {
@@ -780,7 +801,7 @@ target.gensite = function(prereleaseVersion) {
 
     // 12. Delete temporary directory
     echo("> Removing the temporary directory (Step 12)");
-    rm("-r", TEMP_DIR);
+    rm("-rf", TEMP_DIR);
 
     // 13. Update demos, but only for non-prereleases
     if (!prereleaseVersion) {
@@ -813,7 +834,7 @@ target.browserify = function() {
     cp("-r", "lib/*", TEMP_DIR);
 
     // 3. delete the load-rules.js file
-    rm(`${TEMP_DIR}load-rules.js`);
+    rm("-rf", `${TEMP_DIR}load-rules.js`);
 
     // 4. create new load-rule.js with hardcoded requires
     generateRulesIndex(TEMP_DIR);
@@ -828,7 +849,7 @@ target.browserify = function() {
     cat("./node_modules/babel-polyfill/dist/polyfill.js", `${TEMP_DIR}espree.js`, `${BUILD_DIR}eslint.js`).to(`${BUILD_DIR}eslint.js`);
 
     // 8. remove temp directory
-    rm("-r", TEMP_DIR);
+    rm("-rf", TEMP_DIR);
 };
 
 target.checkRuleFiles = function() {
@@ -850,7 +871,7 @@ target.checkRuleFiles = function() {
          * @private
          */
         function isInConfig() {
-            return eslintRecommended.hasOwnProperty(basename);
+            return Object.prototype.hasOwnProperty.call(eslintRecommended, basename);
         }
 
         /**

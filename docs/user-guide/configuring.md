@@ -272,6 +272,8 @@ ESLint comes with a large number of rules. You can modify which rules your proje
 * `"warn"` or `1` - turn the rule on as a warning (doesn't affect exit code)
 * `"error"` or `2` - turn the rule on as an error (exit code is 1 when triggered)
 
+### Using Configuration Comments
+
 To configure rules inside of a file using configuration comments, use a comment in the following format:
 
 ```js
@@ -293,6 +295,8 @@ If a rule has additional options, you can specify them using array literal synta
 ```
 
 This comment specifies the "double" option for the [`quotes`](../rules/quotes) rule. The first item in the array is always the rule severity (number or string).
+
+### Using Configuration Files
 
 To configure rules inside of a configuration file, use the `rules` key along with an error level and any options you want to use. For example:
 
@@ -447,6 +451,25 @@ foo(); /* eslint-disable-line example/rule-name */
 ```
 
 **Note:** Comments that disable warnings for a portion of a file tell ESLint not to report rule violations for the disabled code. ESLint still parses the entire file, however, so disabled code still needs to be syntactically valid JavaScript.
+
+
+### Disabling Rules Only for a Group of Files
+
+To disable rules inside of a configuration file for a group of files, use the `overrides` key along with a `files` key. For example:
+
+```json
+{
+  "rules": {...},
+  "overrides": [
+    {
+      "files": ["*-test.js","*.spec.js"],
+      "rules": {
+        "no-unused-expressions": "off"
+      }
+    }
+  ]
+}
+```
 
 ## Adding Shared Settings
 
@@ -816,6 +839,8 @@ Currently the sole method for telling ESLint which file extensions to lint is by
 
 ## Ignoring Files and Directories
 
+### `.eslintignore`
+
 You can tell ESLint to ignore specific files and directories by creating an `.eslintignore` file in your project's root directory. The `.eslintignore` file is a plain text file where each line is a glob pattern indicating which paths should be omitted from linting. For example, the following will omit all JavaScript files:
 
 ```text
@@ -827,9 +852,21 @@ When ESLint is run, it looks in the current working directory to find an `.eslin
 Globs are matched using [node-ignore](https://github.com/kaelzhang/node-ignore), so a number of features are available:
 
 * Lines beginning with `#` are treated as comments and do not affect ignore patterns.
-* Paths are relative to `.eslintignore` location or the current working directory. This also influences paths passed via `--ignore-pattern`.
-* Ignore patterns behave according to the `.gitignore` [specification](https://git-scm.com/docs/gitignore)
+* Paths are relative to `.eslintignore` location or the current working directory. This is also true of paths passed in via the `--ignore-pattern` [command](./command-line-interface.md#--ignore-pattern).
 * Lines preceded by `!` are negated patterns that re-include a pattern that was ignored by an earlier pattern.
+* Ignore patterns behave according to the `.gitignore` [specification](https://git-scm.com/docs/gitignore).
+
+Of particular note is that like `.gitignore` files, all paths used as patterns for both `.eslintignore` and `--ignore-pattern` must use forward slashes as their path separators.
+
+```text
+# Valid
+/root/src/*.js
+
+# Invalid
+\root\src\*.js
+```
+
+Please see `.gitignore`'s specification for further examples of valid syntax.
 
 In addition to any patterns in a `.eslintignore` file, ESLint always ignores files in `/node_modules/*` and `/bower_components/*`.
 

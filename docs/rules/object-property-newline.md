@@ -260,7 +260,7 @@ You can turn this rule off if you want to decide, case-by-case, whether to place
 
 ## Compatibility
 
-- **JSCS**: This rule provides partial compatibility with [requireObjectKeysOnNewLine](http://jscs.info/rule/requireObjectKeysOnNewLine).
+- **JSCS**: This rule provides partial compatibility with [requireObjectKeysOnNewLine](https://jscs-dev.github.io/rule/requireObjectKeysOnNewLine).
 
 ## Related Rules
 

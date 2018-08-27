@@ -47,6 +47,23 @@ ruleTester.run("consistent-docs-url", rule, {
             code: [
                 "module.exports = {",
                 "    meta: {",
+                "    },",
+
+                "    create: function(context) {",
+                "        return {};",
+                "    }",
+                "};"
+            ].join("\n"),
+            errors: [{
+                message: "Rule is missing a meta.docs property",
+                line: 2,
+                column: 5
+            }]
+        },
+        {
+            code: [
+                "module.exports = {",
+                "    meta: {",
                 "        docs: {}",
                 "    },",
 

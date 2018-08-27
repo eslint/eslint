@@ -1473,6 +1473,31 @@ describe("CLIEngine", () => {
                 });
             });
 
+            it("should run autofix even if files are cached without autofix results", () => {
+                const baseOptions = {
+                    cwd: path.join(fixtureDir, ".."),
+                    useEslintrc: false,
+                    rules: {
+                        semi: 2,
+                        quotes: [2, "double"],
+                        eqeqeq: 2,
+                        "no-undef": 2,
+                        "space-infix-ops": 2
+                    }
+                };
+
+                engine = new CLIEngine(Object.assign({}, baseOptions, { cache: true, fix: false }));
+
+                // Do initial lint run and populate the cache file
+                engine.executeOnFiles([path.resolve(fixtureDir, `${fixtureDir}/fixmode`)]);
+
+                engine = new CLIEngine(Object.assign({}, baseOptions, { cache: true, fix: true }));
+
+                const report = engine.executeOnFiles([path.resolve(fixtureDir, `${fixtureDir}/fixmode`)]);
+
+                assert.ok(report.results.some(result => result.output));
+            });
+
         });
 
         // These tests have to do with https://github.com/eslint/eslint/issues/963
@@ -2132,7 +2157,7 @@ describe("CLIEngine", () => {
                 assert.isFalse(shell.test("-f", cacheFile), "the cache for eslint was deleted since last run did not used the cache");
             });
 
-            it("should not store in the cache a file that failed the test", () => {
+            it("should store in the cache a file that failed the test", () => {
 
                 const cacheFile = getFixturePath(".eslintcache");
 
@@ -2163,7 +2188,7 @@ describe("CLIEngine", () => {
 
                 assert.isTrue(typeof cache[goodFile] === "object", "the entry for the good file is in the cache");
 
-                assert.isTrue(typeof cache[badFile] === "undefined", "the entry for the bad file is not in the cache");
+                assert.isTrue(typeof cache[badFile] === "object", "the entry for the bad file is in the cache");
 
                 const cachedResult = engine.executeOnFiles([badFile, goodFile]);
 
@@ -2378,7 +2403,7 @@ describe("CLIEngine", () => {
 
                     assert.isTrue(typeof cache[goodFile] === "object", "the entry for the good file is in the cache");
 
-                    assert.isTrue(typeof cache[badFile] === "undefined", "the entry for the bad file is not in the cache");
+                    assert.isTrue(typeof cache[badFile] === "object", "the entry for the bad file is in the cache");
 
                     const cachedResult = engine.executeOnFiles([badFile, goodFile]);
 

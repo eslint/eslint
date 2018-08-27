@@ -52,6 +52,9 @@ let obj = {a: 1, [c + d]: 3, b: 2};
 let obj = {a: 1, ["c" + "d"]: 3, b: 2};
 let obj = {a: 1, [`${c}`]: 3, b: 2};
 let obj = {a: 1, [tag`c`]: 3, b: 2};
+
+// This rule ignores objects that have a spread operator in them.
+let obj = {b: 1, ...c, a: 2};
 ```
 
 ## Options
@@ -175,4 +178,4 @@ If you don't want to notify about properties' order, then it's safe to disable t
 
 ## Compatibility
 
-* **JSCS:** [validateOrderInObjectKeys](http://jscs.info/rule/validateOrderInObjectKeys)
+* **JSCS:** [validateOrderInObjectKeys](https://jscs-dev.github.io/rule/validateOrderInObjectKeys)

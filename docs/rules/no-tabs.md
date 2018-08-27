@@ -38,4 +38,4 @@ If you have established a standard where having tabs is fine.
 
 ## Compatibility
 
-* **JSCS**: [disallowTabs](http://jscs.info/rule/disallowTabs)
+* **JSCS**: [disallowTabs](https://jscs-dev.github.io/rule/disallowTabs)
