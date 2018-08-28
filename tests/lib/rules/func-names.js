@@ -144,7 +144,17 @@ ruleTester.run("func-names", rule, {
             parserOptions: { ecmaVersion: 6 }
         },
         {
+            code: "var foo = function*() {};",
+            options: ["always", { generators: "as-needed" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
             code: "var foo = bar(function *baz() {});",
+            options: ["as-needed"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = function*() {};",
             options: ["as-needed"],
             parserOptions: { ecmaVersion: 6 }
         },
@@ -159,12 +169,22 @@ ruleTester.run("func-names", rule, {
             parserOptions: { ecmaVersion: 6 }
         },
         {
+            code: "var foo = function*() {};",
+            options: ["as-needed", { generators: "as-needed" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
             code: "var foo = bar(function *baz() {});",
             options: ["never", { generators: "always" }],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo = bar(function *baz() {});",
+            options: ["never", { generators: "as-needed" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = function*() {};",
             options: ["never", { generators: "as-needed" }],
             parserOptions: { ecmaVersion: 6 }
         },
@@ -175,7 +195,17 @@ ruleTester.run("func-names", rule, {
             parserOptions: { ecmaVersion: 6 }
         },
         {
+            code: "var foo = function*() {};",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
             code: "var foo = bar(function *() {});",
+            options: ["never", { generators: "never" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = function*() {};",
             options: ["never", { generators: "never" }],
             parserOptions: { ecmaVersion: 6 }
         },
@@ -185,7 +215,17 @@ ruleTester.run("func-names", rule, {
             parserOptions: { ecmaVersion: 6 }
         },
         {
+            code: "var foo = function*() {};",
+            options: ["always", { generators: "never" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
             code: "var foo = bar(function *() {});",
+            options: ["as-needed", { generators: "never" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = function*() {};",
             options: ["as-needed", { generators: "never" }],
             parserOptions: { ecmaVersion: 6 }
         }
@@ -272,7 +312,23 @@ ruleTester.run("func-names", rule, {
             }]
         },
         {
+            code: "var foo = function*() {};",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Unexpected unnamed generator function."
+            }]
+        },
+        {
             code: "var foo = bar(function *() {});",
+            options: ["always", { generators: "always" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Unexpected unnamed generator function."
+            }]
+        },
+        {
+            code: "var foo = function*() {};",
             options: ["always", { generators: "always" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
@@ -304,6 +360,14 @@ ruleTester.run("func-names", rule, {
             }]
         },
         {
+            code: "var foo = function*() {};",
+            options: ["as-needed", { generators: "always" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Unexpected unnamed generator function."
+            }]
+        },
+        {
             code: "var foo = bar(function *() {});",
             options: ["as-needed", { generators: "as-needed" }],
             parserOptions: { ecmaVersion: 6 },
@@ -313,6 +377,14 @@ ruleTester.run("func-names", rule, {
         },
         {
             code: "var foo = bar(function *() {});",
+            options: ["never", { generators: "always" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Unexpected unnamed generator function."
+            }]
+        },
+        {
+            code: "var foo = function*() {};",
             options: ["never", { generators: "always" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
