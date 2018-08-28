@@ -24,7 +24,7 @@ This rule has an object option:
 
 * `"generators": "always" | "as-needed" | "never"`
     * `"always"` require named generators
-    * `"as-needed"` require named generators if the name cannot be assigned automatically in an ES6 environment. In practice this is everywhere.
+    * `"as-needed"` require named generators if the name cannot be assigned automatically in an ES6 environment.
     * `"never"` disallow named generators where possible.
 
 When a value for `generators` is not provided the behavior for generator functions falls back to the base option.
@@ -110,6 +110,24 @@ Foo.prototype.bar = function() {};
 ```
 
 ### generators
+
+Examples of **incorrect** code for this rule with the `"always", { "generators": "as-needed" }` options:
+
+```js
+/*eslint func-names: ["error", "always", { "generators": "as-needed" }]*/
+
+(function*() {
+    // ...
+}())
+```
+
+Examples of **correct** code for this rule with the `"always", { "generators": "as-needed" }` options:
+
+```js
+/*eslint func-names: ["error", "always", { "generators": "as-needed" }]*/
+
+var foo = function*() {};
+```
 
 Examples of **incorrect** code for this rule with the `"always", { "generators": "never" }` options:
 
