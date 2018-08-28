@@ -28,6 +28,22 @@ module.exports = {
     },
     overrides: [
         {
+            files: ["lib/rules/*", "tools/internal-rules/*"],
+            rules: {
+                "rulesdir/no-invalid-meta": "error",
+                "rulesdir/consistent-docs-description": "error"
+
+                /*
+                 * TODO: enable it when all the rules using meta.messages
+                 * "rulesdir/consistent-meta-messages": "error"
+                 */
+            }
+        }, {
+            files: ["lib/rules/*"],
+            rules: {
+                "rulesdir/consistent-docs-url": "error"
+            }
+        }, {
             files: ["tests/**/*"],
             env: { mocha: true },
             rules: {

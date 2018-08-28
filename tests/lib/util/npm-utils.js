@@ -11,7 +11,7 @@
 const assert = require("chai").assert,
     spawn = require("cross-spawn"),
     sinon = require("sinon"),
-    npmUtil = require("../../../lib/util/npm-utils"),
+    npmUtils = require("../../../lib/util/npm-utils"),
     log = require("../../../lib/util/logging"),
     mockFs = require("mock-fs");
 
@@ -19,7 +19,7 @@ const assert = require("chai").assert,
 // Tests
 //------------------------------------------------------------------------------
 
-describe("npmUtil", () => {
+describe("npmUtils", () => {
 
     let sandbox;
 
@@ -36,7 +36,7 @@ describe("npmUtil", () => {
         let installStatus;
 
         before(() => {
-            installStatus = npmUtil.checkDevDeps(["debug", "mocha", "notarealpackage", "jshint"]);
+            installStatus = npmUtils.checkDevDeps(["debug", "mocha", "notarealpackage", "jshint"]);
         });
 
         it("should not find a direct dependency of the project", () => {
@@ -56,7 +56,7 @@ describe("npmUtil", () => {
         });
 
         it("should return false for a single, non-existent package", () => {
-            installStatus = npmUtil.checkDevDeps(["notarealpackage"]);
+            installStatus = npmUtils.checkDevDeps(["notarealpackage"]);
             assert.isFalse(installStatus.notarealpackage);
         });
 
@@ -66,7 +66,7 @@ describe("npmUtil", () => {
             });
 
             // Should not throw.
-            npmUtil.checkDevDeps(["some-package"]);
+            npmUtils.checkDevDeps(["some-package"]);
         });
 
         it("should throw with message when parsing invalid package.json", () => {
@@ -76,7 +76,7 @@ describe("npmUtil", () => {
 
             assert.throws(() => {
                 try {
-                    npmUtil.checkDevDeps(["some-package"]);
+                    npmUtils.checkDevDeps(["some-package"]);
                 } catch (error) {
                     assert.strictEqual(error.messageTemplate, "failed-to-read-json");
                     throw error;
@@ -89,7 +89,7 @@ describe("npmUtil", () => {
         let installStatus;
 
         before(() => {
-            installStatus = npmUtil.checkDeps(["debug", "mocha", "notarealpackage", "jshint"]);
+            installStatus = npmUtils.checkDeps(["debug", "mocha", "notarealpackage", "jshint"]);
         });
 
         afterEach(() => {
@@ -113,13 +113,13 @@ describe("npmUtil", () => {
         });
 
         it("should return false for a single, non-existent package", () => {
-            installStatus = npmUtil.checkDeps(["notarealpackage"]);
+            installStatus = npmUtils.checkDeps(["notarealpackage"]);
             assert.isFalse(installStatus.notarealpackage);
         });
 
         it("should throw if no package.json can be found", () => {
             assert.throws(() => {
-                installStatus = npmUtil.checkDeps(["notarealpackage"], "/fakepath");
+                installStatus = npmUtils.checkDeps(["notarealpackage"], "/fakepath");
             }, "Could not find a package.json file");
         });
 
@@ -129,7 +129,7 @@ describe("npmUtil", () => {
             });
 
             // Should not throw.
-            npmUtil.checkDeps(["some-package"]);
+            npmUtils.checkDeps(["some-package"]);
         });
 
         it("should throw with message when parsing invalid package.json", () => {
@@ -139,7 +139,7 @@ describe("npmUtil", () => {
 
             assert.throws(() => {
                 try {
-                    npmUtil.checkDeps(["some-package"]);
+                    npmUtils.checkDeps(["some-package"]);
                 } catch (error) {
                     assert.strictEqual(error.messageTemplate, "failed-to-read-json");
                     throw error;
@@ -158,12 +158,12 @@ describe("npmUtil", () => {
                 "package.json": "{ \"file\": \"contents\" }"
             });
 
-            assert.strictEqual(npmUtil.checkPackageJson(), true);
+            assert.strictEqual(npmUtils.checkPackageJson(), true);
         });
 
         it("should return false if package.json does not exist", () => {
             mockFs({});
-            assert.strictEqual(npmUtil.checkPackageJson(), false);
+            assert.strictEqual(npmUtils.checkPackageJson(), false);
         });
     });
 
@@ -171,7 +171,7 @@ describe("npmUtil", () => {
         it("should invoke npm to install a single desired package", () => {
             const stub = sandbox.stub(spawn, "sync").returns({ stdout: "" });
 
-            npmUtil.installSyncSaveDev("desired-package");
+            npmUtils.installSyncSaveDev("desired-package");
             assert(stub.calledOnce);
             assert.strictEqual(stub.firstCall.args[0], "npm");
             assert.deepStrictEqual(stub.firstCall.args[1], ["i", "--save-dev", "desired-package"]);
@@ -181,7 +181,7 @@ describe("npmUtil", () => {
         it("should accept an array of packages to install", () => {
             const stub = sandbox.stub(spawn, "sync").returns({ stdout: "" });
 
-            npmUtil.installSyncSaveDev(["first-package", "second-package"]);
+            npmUtils.installSyncSaveDev(["first-package", "second-package"]);
             assert(stub.calledOnce);
             assert.strictEqual(stub.firstCall.args[0], "npm");
             assert.deepStrictEqual(stub.firstCall.args[1], ["i", "--save-dev", "first-package", "second-package"]);
@@ -190,14 +190,14 @@ describe("npmUtil", () => {
 
         it("should log an error message if npm throws ENOENT error", () => {
             const logErrorStub = sandbox.stub(log, "error");
-            const npmUtilStub = sandbox.stub(spawn, "sync").returns({ error: { code: "ENOENT" } });
+            const npmUtilsStub = sandbox.stub(spawn, "sync").returns({ error: { code: "ENOENT" } });
 
-            npmUtil.installSyncSaveDev("some-package");
+            npmUtils.installSyncSaveDev("some-package");
 
             assert(logErrorStub.calledOnce);
 
             logErrorStub.restore();
-            npmUtilStub.restore();
+            npmUtilsStub.restore();
         });
     });
 
@@ -205,7 +205,7 @@ describe("npmUtil", () => {
         it("should execute 'npm show --json <packageName> peerDependencies' command", () => {
             const stub = sandbox.stub(spawn, "sync").returns({ stdout: "" });
 
-            npmUtil.fetchPeerDependencies("desired-package");
+            npmUtils.fetchPeerDependencies("desired-package");
             assert(stub.calledOnce);
             assert.strictEqual(stub.firstCall.args[0], "npm");
             assert.deepStrictEqual(stub.firstCall.args[1], ["show", "--json", "desired-package", "peerDependencies"]);
@@ -215,7 +215,7 @@ describe("npmUtil", () => {
         it("should return null if npm throws ENOENT error", () => {
             const stub = sandbox.stub(spawn, "sync").returns({ error: { code: "ENOENT" } });
 
-            const peerDependencies = npmUtil.fetchPeerDependencies("desired-package");
+            const peerDependencies = npmUtils.fetchPeerDependencies("desired-package");
 
             assert.isNull(peerDependencies);
 

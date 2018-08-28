@@ -244,6 +244,20 @@ describe("IgnoredPaths", () => {
             assert.strictEqual(ignoredPaths.ignoreFileDir, path.dirname(ignoreFilePath));
         });
 
+        it("should set the common ancestor directory of cwd and ignorePath to baseDir (in the case that 'ignoreFilePath' and 'cwd' are siblings)", () => {
+            const baseDir = path.dirname(ignoreFilePath);
+            const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: ignoreFilePath, cwd: path.resolve(baseDir, "testcwd") });
+
+            assert.strictEqual(ignoredPaths.getBaseDir(), baseDir);
+        });
+
+        it("should set the common ancestor directory of cwd and ignorePath to baseDir", () => {
+            const baseDir = path.resolve(ignoreFilePath, "../../..");
+            const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: ignoreFilePath, cwd: path.resolve(baseDir, "fix/testcwd") });
+
+            assert.strictEqual(ignoredPaths.getBaseDir(), baseDir);
+        });
+
     });
 
     describe("initialization with ignorePath file not named .eslintignore", () => {
@@ -434,6 +448,22 @@ describe("IgnoredPaths", () => {
             const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: getFixturePath(".eslintignoreForDifferentCwd"), cwd: getFixturePath("subdir") });
 
             assert.isTrue(ignoredPaths.contains("node_modules/blah.js"));
+        });
+
+        it("should handle .eslintignore which contains CRLF correctly.", () => {
+            const ignoreFileContent = fs.readFileSync(getFixturePath("crlf/.eslintignore"), "utf8");
+
+            assert.isTrue(ignoreFileContent.includes("\r"), "crlf/.eslintignore should contains CR.");
+
+            const ignoredPaths = new IgnoredPaths({
+                ignore: true,
+                ignorePath: getFixturePath("crlf/.eslintignore"),
+                cwd: getFixturePath()
+            });
+
+            assert.isTrue(ignoredPaths.contains(getFixturePath("crlf/hide1/a.js")));
+            assert.isTrue(ignoredPaths.contains(getFixturePath("crlf/hide2/a.js")));
+            assert.isFalse(ignoredPaths.contains(getFixturePath("crlf/hide3/a.js")));
         });
     });
 
@@ -644,6 +674,12 @@ describe("IgnoredPaths", () => {
             assert.isTrue(shouldIgnore(resolve("bower_components/a/b")));
             assert.isFalse(shouldIgnore(resolve(".hidden")));
             assert.isTrue(shouldIgnore(resolve(".hidden/a")));
+
+            assert.isFalse(shouldIgnore(resolve("..")));
+            assert.isFalse(shouldIgnore(resolve("../..")));
+            assert.isFalse(shouldIgnore(resolve("../foo")));
+            assert.isFalse(shouldIgnore(resolve("../../..")));
+            assert.isFalse(shouldIgnore(resolve("../../foo")));
         });
 
         it("should ignore default folders when there is an ignore file without unignored defaults", () => {

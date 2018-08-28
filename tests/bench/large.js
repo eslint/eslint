@@ -50435,7 +50435,7 @@ assert.ifError = function(err) { if (err) {throw err;}};
 var objectKeys = Object.keys || function (obj) {
   var keys = [];
   for (var key in obj) {
-    if (hasOwn.call(obj, key)) keys.push(key);
+    if (Object.prototype.hasOwnProperty.call(obj, key)) keys.push(key);
   }
   return keys;
 };

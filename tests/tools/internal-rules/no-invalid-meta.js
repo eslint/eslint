@@ -129,6 +129,24 @@ ruleTester.run("no-invalid-meta", rule, {
         {
             code: [
                 "module.exports = {",
+                "    meta: [],",
+
+                "    create: function(context) {",
+                "        return {",
+                "            Program: function(node) {}",
+                "        };",
+                "    }",
+                "};"
+            ].join("\n"),
+            errors: [{
+                message: "Rule is missing a meta.docs property.",
+                line: 2,
+                column: 5
+            }]
+        },
+        {
+            code: [
+                "module.exports = {",
                 "    meta: {",
                 "        schema: []",
                 "    },",
