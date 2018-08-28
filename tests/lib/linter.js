@@ -4608,6 +4608,33 @@ describe("Linter", () => {
                 });
             });
 
+            describe("if a parser provides 'CodePathAnalyzer'", () => {
+                let codePathStartFired = false;
+                let programFired = false;
+
+                beforeEach(() => {
+                    const parser = path.join(parserFixtures, "enhanced-parser-with-code-path-analyzer.js");
+
+                    linter.defineRule("save-code-path-start", () => ({
+                        onCodePathStart() {
+                            codePathStartFired = true;
+                        },
+                        Program() {
+                            programFired = true;
+                        }
+                    }));
+                    linter.verify("foo()", { parser, rules: { "save-code-path-start": 2 } });
+                });
+
+                it("should fire program event", () => {
+                    assert(programFired);
+                });
+
+                it("should not fire code path events", () => {
+                    assert(!codePathStartFired);
+                });
+            });
+
             it("should not pass any default parserOptions to the parser", () => {
                 const parser = path.join(parserFixtures, "throws-with-options.js");
 
