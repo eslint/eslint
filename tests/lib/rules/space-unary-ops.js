@@ -463,7 +463,7 @@ ruleTester.run("space-unary-ops", rule, {
             options: [{ nonwords: false }],
             errors: [{
                 messageId: "unexpectedAfter",
-                data: { word: "!" }
+                data: { operator: "!" }
             }]
         },
         {
@@ -482,7 +482,7 @@ ruleTester.run("space-unary-ops", rule, {
             options: [{ nonwords: false }],
             errors: [{
                 messageId: "unexpectedAfter",
-                data: { word: "!" },
+                data: { operator: "!" },
                 type: "UnaryExpression",
                 line: 1,
                 column: 2
@@ -507,7 +507,7 @@ ruleTester.run("space-unary-ops", rule, {
             options: [{ nonwords: false }],
             errors: [{
                 messageId: "unexpectedAfter",
-                data: { word: "-" },
+                data: { operator: "-" },
                 type: "UnaryExpression"
             }]
         },
@@ -546,7 +546,7 @@ ruleTester.run("space-unary-ops", rule, {
             options: [{ nonwords: false }],
             errors: [{
                 messageId: "unexpectedAfter",
-                data: { word: "++" }
+                data: { operator: "++" }
             }]
         },
         {
@@ -581,7 +581,7 @@ ruleTester.run("space-unary-ops", rule, {
             options: [{ nonwords: false }],
             errors: [{
                 messageId: "unexpectedAfter",
-                data: { word: "+" }
+                data: { operator: "+" }
             }]
         },
         {
@@ -590,7 +590,7 @@ ruleTester.run("space-unary-ops", rule, {
             options: [{ nonwords: false }],
             errors: [{
                 messageId: "unexpectedAfter",
-                data: { word: "+" }
+                data: { operator: "+" }
             }]
         },
         {
@@ -599,7 +599,7 @@ ruleTester.run("space-unary-ops", rule, {
             options: [{ nonwords: false }],
             errors: [{
                 messageId: "unexpectedAfter",
-                data: { word: "-" }
+                data: { operator: "-" }
             }]
         },
         {
@@ -608,7 +608,7 @@ ruleTester.run("space-unary-ops", rule, {
             options: [{ nonwords: false }],
             errors: [{
                 messageId: "unexpectedAfter",
-                data: { word: "-" }
+                data: { operator: "-" }
             }]
         },
         {
@@ -617,7 +617,7 @@ ruleTester.run("space-unary-ops", rule, {
             options: [{ nonwords: false }],
             errors: [{
                 messageId: "unexpectedAfter",
-                data: { word: "+" }
+                data: { operator: "+" }
             }]
         },
         {
