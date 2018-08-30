@@ -57,7 +57,7 @@ ruleTester.run("no-unused-labels", rule, {
         {
             code: "A: for (var i = 0; i < 10; ++i) { B: break A; }",
             output: "A: for (var i = 0; i < 10; ++i) { break A; }",
-            errors: [{ messageId: "unused", data: { name: "B:" } }]
+            errors: [{ messageId: "unused", data: { name: "B" } }]
         },
         {
             code: "A: { var A = 0; console.log(A); }",
