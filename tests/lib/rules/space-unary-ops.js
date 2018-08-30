@@ -279,7 +279,7 @@ ruleTester.run("space-unary-ops", rule, {
             output: "delete(foo.bar)",
             options: [{ words: false }],
             errors: [{
-                messageId: "unexpectedAfter",
+                messageId: "unexpectedAfterWord",
                 data: { word: "delete" },
                 type: "UnaryExpression"
             }]
@@ -299,7 +299,7 @@ ruleTester.run("space-unary-ops", rule, {
             output: "new(Foo)",
             options: [{ words: false }],
             errors: [{
-                messageId: "unexpectedAfter",
+                messageId: "unexpectedAfterWord",
                 data: { word: "new" },
                 type: "NewExpression"
             }]
@@ -319,7 +319,7 @@ ruleTester.run("space-unary-ops", rule, {
             output: "new[foo][0]",
             options: [{ words: false }],
             errors: [{
-                messageId: "unexpectedAfter",
+                messageId: "unexpectedAfterWord",
                 data: { word: "new" },
                 type: "NewExpression"
             }]
@@ -340,7 +340,7 @@ ruleTester.run("space-unary-ops", rule, {
             output: "typeof(foo)",
             options: [{ words: false }],
             errors: [{
-                messageId: "unexpectedAfter",
+                messageId: "unexpectedAfterWord",
                 data: { word: "typeof" },
                 type: "UnaryExpression"
             }]
@@ -360,7 +360,7 @@ ruleTester.run("space-unary-ops", rule, {
             output: "typeof[foo]",
             options: [{ words: false }],
             errors: [{
-                messageId: "unexpectedAfter",
+                messageId: "unexpectedAfterWord",
                 data: { word: "typeof" },
                 type: "UnaryExpression"
             }]
@@ -380,7 +380,7 @@ ruleTester.run("space-unary-ops", rule, {
             output: "typeof{foo:true}",
             options: [{ words: false }],
             errors: [{
-                messageId: "unexpectedAfter",
+                messageId: "unexpectedAfterWord",
                 data: { word: "typeof" },
                 type: "UnaryExpression"
             }]
@@ -441,7 +441,7 @@ ruleTester.run("space-unary-ops", rule, {
             output: "void(foo)",
             options: [{ words: false }],
             errors: [{
-                messageId: "unexpectedAfter",
+                messageId: "unexpectedAfterWord",
                 data: { word: "void" },
                 type: "UnaryExpression"
             }]
@@ -451,7 +451,7 @@ ruleTester.run("space-unary-ops", rule, {
             output: "void[foo]",
             options: [{ words: false }],
             errors: [{
-                messageId: "unexpectedAfter",
+                messageId: "unexpectedAfterWord",
                 data: { word: "void" },
                 type: "UnaryExpression"
             }]
@@ -623,7 +623,7 @@ ruleTester.run("space-unary-ops", rule, {
             options: [{ words: false }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                messageId: "unexpectedAfter",
+                messageId: "unexpectedAfterWord",
                 data: { word: "yield" },
                 type: "YieldExpression",
                 line: 1,
@@ -763,7 +763,7 @@ ruleTester.run("space-unary-ops", rule, {
             options: [{ words: false }],
             parserOptions: { ecmaVersion: 8 },
             errors: [{
-                messageId: "unexpectedAfter",
+                messageId: "unexpectedAfterWord",
                 data: { word: "await" },
                 type: "AwaitExpression",
                 line: 1,
@@ -776,7 +776,7 @@ ruleTester.run("space-unary-ops", rule, {
             options: [{ words: true, overrides: { await: false } }],
             parserOptions: { ecmaVersion: 8 },
             errors: [{
-                messageId: "unexpectedAfter",
+                messageId: "unexpectedAfterWord",
                 data: { word: "await" },
                 type: "AwaitExpression",
                 line: 1,
