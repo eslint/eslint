@@ -462,7 +462,8 @@ ruleTester.run("space-unary-ops", rule, {
             output: "!foo",
             options: [{ nonwords: false }],
             errors: [{
-                message: "Unexpected space after unary operator '!'."
+                messageId: "unexpectedAfter",
+                data: { word: "!" }
             }]
         },
         {
@@ -470,7 +471,8 @@ ruleTester.run("space-unary-ops", rule, {
             output: "! foo",
             options: [{ nonwords: true }],
             errors: [{
-                messageId: "operator", data: { operator: "!" }
+                messageId: "operator",
+                data: { operator: "!" }
             }]
         },
 
@@ -479,7 +481,8 @@ ruleTester.run("space-unary-ops", rule, {
             output: "!!foo",
             options: [{ nonwords: false }],
             errors: [{
-                message: "Unexpected space after unary operator '!'.",
+                messageId: "unexpectedAfter",
+                data: { word: "!" },
                 type: "UnaryExpression",
                 line: 1,
                 column: 2
@@ -503,7 +506,8 @@ ruleTester.run("space-unary-ops", rule, {
             output: "-1",
             options: [{ nonwords: false }],
             errors: [{
-                message: "Unexpected space after unary operator '-'.",
+                messageId: "unexpectedAfter",
+                data: { word: "-" },
                 type: "UnaryExpression"
             }]
         },
@@ -523,7 +527,8 @@ ruleTester.run("space-unary-ops", rule, {
             output: "foo ++",
             options: [{ nonwords: true }],
             errors: [{
-                messageId: "beforeUnaryExpressions", data: { token: "++" }
+                messageId: "beforeUnaryExpressions",
+                data: { token: "++" }
             }]
         },
         {
@@ -531,7 +536,8 @@ ruleTester.run("space-unary-ops", rule, {
             output: "foo++",
             options: [{ nonwords: false }],
             errors: [{
-                messageId: "unexpectedBefore", data: { operator: "++" }
+                messageId: "unexpectedBefore",
+                data: { operator: "++" }
             }]
         },
         {
@@ -539,7 +545,8 @@ ruleTester.run("space-unary-ops", rule, {
             output: "++foo",
             options: [{ nonwords: false }],
             errors: [{
-                message: "Unexpected space after unary operator '++'."
+                messageId: "unexpectedAfter",
+                data: { word: "++" }
             }]
         },
         {
@@ -547,7 +554,8 @@ ruleTester.run("space-unary-ops", rule, {
             output: "++ foo",
             options: [{ nonwords: true }],
             errors: [{
-                messageId: "operator", data: { operator: "++" }
+                messageId: "operator",
+                data: { operator: "++" }
             }]
         },
         {
@@ -555,14 +563,16 @@ ruleTester.run("space-unary-ops", rule, {
             output: "foo .bar ++",
             options: [{ nonwords: true }],
             errors: [{
-                messageId: "beforeUnaryExpressions", data: { token: "++" }
+                messageId: "beforeUnaryExpressions",
+                data: { token: "++" }
             }]
         },
         {
             code: "foo.bar --",
             output: "foo.bar--",
             errors: [{
-                messageId: "unexpectedBefore", data: { operator: "--" }
+                messageId: "unexpectedBefore",
+                data: { operator: "--" }
             }]
         },
         {
@@ -570,7 +580,8 @@ ruleTester.run("space-unary-ops", rule, {
             output: null,
             options: [{ nonwords: false }],
             errors: [{
-                message: "Unexpected space after unary operator '+'."
+                messageId: "unexpectedAfter",
+                data: { word: "+" }
             }]
         },
         {
@@ -578,7 +589,8 @@ ruleTester.run("space-unary-ops", rule, {
             output: null,
             options: [{ nonwords: false }],
             errors: [{
-                message: "Unexpected space after unary operator '+'."
+                messageId: "unexpectedAfter",
+                data: { word: "+" }
             }]
         },
         {
@@ -586,7 +598,8 @@ ruleTester.run("space-unary-ops", rule, {
             output: null,
             options: [{ nonwords: false }],
             errors: [{
-                message: "Unexpected space after unary operator '-'."
+                messageId: "unexpectedAfter",
+                data: { word: "-" }
             }]
         },
         {
@@ -594,7 +607,8 @@ ruleTester.run("space-unary-ops", rule, {
             output: null,
             options: [{ nonwords: false }],
             errors: [{
-                message: "Unexpected space after unary operator '-'."
+                messageId: "unexpectedAfter",
+                data: { word: "-" }
             }]
         },
         {
@@ -602,7 +616,8 @@ ruleTester.run("space-unary-ops", rule, {
             output: "+-foo",
             options: [{ nonwords: false }],
             errors: [{
-                message: "Unexpected space after unary operator '+'."
+                messageId: "unexpectedAfter",
+                data: { word: "+" }
             }]
         },
         {
@@ -647,7 +662,8 @@ ruleTester.run("space-unary-ops", rule, {
             output: "foo ++",
             options: [{ nonwords: true, overrides: { "++": true } }],
             errors: [{
-                messageId: "beforeUnaryExpressions", data: { token: "++" }
+                messageId: "beforeUnaryExpressions",
+                data: { token: "++" }
             }]
         },
         {
@@ -655,7 +671,8 @@ ruleTester.run("space-unary-ops", rule, {
             output: "foo ++",
             options: [{ nonwords: false, overrides: { "++": true } }],
             errors: [{
-                messageId: "beforeUnaryExpressions", data: { token: "++" }
+                messageId: "beforeUnaryExpressions",
+                data: { token: "++" }
             }]
         },
         {
@@ -663,7 +680,8 @@ ruleTester.run("space-unary-ops", rule, {
             output: "++ foo",
             options: [{ nonwords: true, overrides: { "++": true } }],
             errors: [{
-                messageId: "operator", data: { operator: "++" }
+                messageId: "operator",
+                data: { operator: "++" }
             }]
         },
         {
@@ -671,7 +689,8 @@ ruleTester.run("space-unary-ops", rule, {
             output: "++ foo",
             options: [{ nonwords: false, overrides: { "++": true } }],
             errors: [{
-                messageId: "operator", data: { operator: "++" }
+                messageId: "operator",
+                data: { operator: "++" }
             }]
         },
         {
@@ -679,7 +698,8 @@ ruleTester.run("space-unary-ops", rule, {
             output: "! foo",
             options: [{ nonwords: true, overrides: { "!": true } }],
             errors: [{
-                messageId: "operator", data: { operator: "!" }
+                messageId: "operator",
+                data: { operator: "!" }
             }]
         },
         {
@@ -687,7 +707,8 @@ ruleTester.run("space-unary-ops", rule, {
             output: "! foo",
             options: [{ nonwords: false, overrides: { "!": true } }],
             errors: [{
-                messageId: "operator", data: { operator: "!" }
+                messageId: "operator",
+                data: { operator: "!" }
             }]
         },
         {
@@ -695,7 +716,8 @@ ruleTester.run("space-unary-ops", rule, {
             output: "new (Foo)",
             options: [{ words: true, overrides: { new: true } }],
             errors: [{
-                messageId: "wordOperator", data: { word: "new" }
+                messageId: "wordOperator",
+                data: { word: "new" }
             }]
         },
         {
@@ -703,7 +725,8 @@ ruleTester.run("space-unary-ops", rule, {
             output: "new (Foo)",
             options: [{ words: false, overrides: { new: true } }],
             errors: [{
-                messageId: "wordOperator", data: { word: "new" }
+                messageId: "wordOperator",
+                data: { word: "new" }
             }]
         },
         {
