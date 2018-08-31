@@ -127,6 +127,8 @@ No binding votes on TSC agenda items can take place without a quorum of
 TSC members present in the meeting. Quorum is achieved when more than
 half of the TSC members are present.
 
+If an item is on the TSC agenda, but the TSC is unable to discuss it during a regularly-scheduled meeting (e.g. if the meeting time is taken up with discussion about other topics, or quorum is not achieved for the meeting), then a TSC member may request an offline vote on the item through another medium, such as reactions on GitHub. An offline vote is considered to be binding when a majority of TSC members have voted for a particular result, and no TSC members have expressed opposition to that result. If any TSC members have expressed opposition to a result before the vote is binding, then the offline vote is invalidated and the item should be discussed during a TSC meeting.
+
 The TSC may invite persons or representatives from certain projects to
 participate in a non-voting capacity.
 
