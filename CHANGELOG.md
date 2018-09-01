@@ -1,3 +1,14 @@
+v5.5.0 - August 31, 2018
+
+* 6e110e6 Fix: camelcase duplicate warning bug (fixes #10801) (#10802) (Julian Rosse)
+* 5103ee7 Docs: Add Brackets integration (#10813) (Jan Pilzer)
+* b61d2cd Update: max-params to only highlight function header (#10815) (Ian Obermiller)
+* 2b2f11d Upgrade: babel-code-frame to version 7 (#10808) (Rouven Weßling)
+* 2824d43 Docs: fix comment placement in a code example (#10799) (Vse Mozhet Byt)
+* 10690b7 Upgrade: devdeps and deps to latest (#10622) (薛定谔的猫)
+* 80c8598 Docs: gitignore syntax updates (fixes #8139) (#10776) (Gustavo Santana)
+* cb946af Chore: use meta.messages in some rules (1/4) (#10764) (薛定谔的猫)
+
 v5.4.0 - August 17, 2018
 
 * a70909f Docs: Add jscs-dev.github.io links (#10771) (Gustavo Santana)
