@@ -23,6 +23,7 @@ This rule has an object option:
 * `"allowArrayEnd": true` allows comments to appear at the end of array literals
 * `"allowClassStart": true` allows comments to appear at the start of classes
 * `"allowClassEnd": true` allows comments to appear at the end of classes
+* `"allowBeforeElse": true` allows comments to appear before else keywords
 * `"applyDefaultIgnorePatterns"` enables or disables the default comment patterns to be ignored by the rule
 * `"ignorePattern"` custom patterns to be ignored by the rule
 
@@ -432,6 +433,54 @@ const [
 
     /* what a great and wonderful day */
 ] = ["great", "not great"];
+```
+
+### allowBeforeStart
+
+Examples of **correct** code for this rule with the `{ "beforeLineComment": true, "allowBeforeElse": true }` option:
+
+```js
+/*eslint lines-around-comment: ["error", { "beforeLineComment": true, "allowBeforeElse": true }]*/
+
+let baz = true;
+
+// foo
+if(foo) {
+    call_foo();
+}
+// or bar
+else if(bar) {
+    // ...
+    call_bar();
+}
+// otherwise
+else {
+    // ...
+    call_other();
+}
+```
+
+Examples of **correct** code for this rule with the `{ "beforeBlockComment": true, "allowBeforeElse": true }` option:
+
+```js
+/*eslint lines-around-comment: ["error", { "beforeLineComment": true, "allowBeforeElse": true }]*/
+
+let baz = true;
+
+/* foo */
+if(foo) {
+    call_foo();
+}
+/* or bar */
+else if(bar) {
+    // ...
+    call_bar();
+}
+/* otherwise */
+else {
+    // ...
+    call_other();
+}
 ```
 
 
