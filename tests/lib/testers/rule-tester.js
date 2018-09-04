@@ -934,75 +934,100 @@ describe("RuleTester", () => {
             });
         }
 
-        it("should use the first argument as the name of the test suite", () => {
-            const assertion = assertEmitted(ruleTesterTestEmitter, "describe", "this-is-a-rule-name");
+        const myRuleTesterTestEmitter = new EventEmitter();
 
-            ruleTester.run("this-is-a-rule-name", require("../../fixtures/testers/rule-tester/no-var"), {
-                valid: [],
-                invalid: []
+        class MyRuleTester extends RuleTester {
+            it(testCase, method) {
+                myRuleTesterTestEmitter.emit("it", testCase.code, method);
+                return method.call(this);
+            }
+
+            describe(text, method) {
+                myRuleTesterTestEmitter.emit("describe", text, method);
+                return method.call(this);
+            }
+        }
+
+        const myRuleTester = new MyRuleTester();
+
+        const params = [
+            { type: "subclass", tester: () => myRuleTester, emitter: myRuleTesterTestEmitter },
+            { type: "assign", tester: () => ruleTester, emitter: ruleTesterTestEmitter }
+        ];
+
+        params.forEach(({ type, tester, emitter }) => {
+            describe(type, () => {
+                it("should use the first argument as the name of the test suite", () => {
+                    const assertion = assertEmitted(emitter, "describe", "this-is-a-rule-name");
+
+                    tester().run("this-is-a-rule-name", require("../../fixtures/testers/rule-tester/no-var"), {
+                        valid: [],
+                        invalid: []
+                    });
+
+                    return assertion;
+                });
+
+                it("should use the test code as the name of the tests for valid code (string form)", () => {
+                    const assertion = assertEmitted(emitter, "it", "valid(code);");
+
+                    tester().run("foo", require("../../fixtures/testers/rule-tester/no-var"), {
+                        valid: [
+                            "valid(code);"
+                        ],
+                        invalid: []
+                    });
+
+                    return assertion;
+                });
+
+                it("should use the test code as the name of the tests for valid code (object form)", () => {
+                    const assertion = assertEmitted(emitter, "it", "valid(code);");
+
+                    tester().run("foo", require("../../fixtures/testers/rule-tester/no-var"), {
+                        valid: [
+                            {
+                                code: "valid(code);"
+                            }
+                        ],
+                        invalid: []
+                    });
+
+                    return assertion;
+                });
+
+                it("should use the test code as the name of the tests for invalid code", () => {
+                    const assertion = assertEmitted(emitter, "it", "var x = invalid(code);");
+
+                    tester().run("foo", require("../../fixtures/testers/rule-tester/no-var"), {
+                        valid: [],
+                        invalid: [
+                            {
+                                code: "var x = invalid(code);",
+                                errors: 1
+                            }
+                        ]
+                    });
+
+                    return assertion;
+                });
+
+                // https://github.com/eslint/eslint/issues/8142
+                it("should use the empty string as the name of the test if the test case is an empty string", () => {
+                    const assertion = assertEmitted(emitter, "it", "");
+
+                    tester().run("foo", require("../../fixtures/testers/rule-tester/no-var"), {
+                        valid: [
+                            {
+                                code: ""
+                            }
+                        ],
+                        invalid: []
+                    });
+
+                    return assertion;
+                });
             });
-
-            return assertion;
-        });
-
-        it("should use the test code as the name of the tests for valid code (string form)", () => {
-            const assertion = assertEmitted(ruleTesterTestEmitter, "it", "valid(code);");
-
-            ruleTester.run("foo", require("../../fixtures/testers/rule-tester/no-var"), {
-                valid: [
-                    "valid(code);"
-                ],
-                invalid: []
-            });
-
-            return assertion;
-        });
-
-        it("should use the test code as the name of the tests for valid code (object form)", () => {
-            const assertion = assertEmitted(ruleTesterTestEmitter, "it", "valid(code);");
-
-            ruleTester.run("foo", require("../../fixtures/testers/rule-tester/no-var"), {
-                valid: [
-                    {
-                        code: "valid(code);"
-                    }
-                ],
-                invalid: []
-            });
-
-            return assertion;
-        });
-
-        it("should use the test code as the name of the tests for invalid code", () => {
-            const assertion = assertEmitted(ruleTesterTestEmitter, "it", "var x = invalid(code);");
-
-            ruleTester.run("foo", require("../../fixtures/testers/rule-tester/no-var"), {
-                valid: [],
-                invalid: [
-                    {
-                        code: "var x = invalid(code);",
-                        errors: 1
-                    }
-                ]
-            });
-
-            return assertion;
-        });
-
-        // https://github.com/eslint/eslint/issues/8142
-        it("should use the empty string as the name of the test if the test case is an empty string", () => {
-            const assertion = assertEmitted(ruleTesterTestEmitter, "it", "");
-
-            ruleTester.run("foo", require("../../fixtures/testers/rule-tester/no-var"), {
-                valid: [
-                    {
-                        code: ""
-                    }
-                ],
-                invalid: []
-            });
-
-            return assertion;
         });
     });
 });
