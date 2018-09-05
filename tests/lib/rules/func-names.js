@@ -126,6 +126,129 @@ ruleTester.run("func-names", rule, {
             code: "({ foo() {} });",
             options: ["never"],
             parserOptions: { ecmaVersion: 6 }
+        },
+
+        // generators
+        {
+            code: "var foo = bar(function *baz() {});",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = bar(function *baz() {});",
+            options: ["always", { generators: "always" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = bar(function *baz() {});",
+            options: ["always", { generators: "as-needed" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = function*() {};",
+            options: ["always", { generators: "as-needed" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = bar(function *baz() {});",
+            options: ["as-needed"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = function*() {};",
+            options: ["as-needed"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = bar(function *baz() {});",
+            options: ["as-needed", { generators: "always" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = bar(function *baz() {});",
+            options: ["as-needed", { generators: "as-needed" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = function*() {};",
+            options: ["as-needed", { generators: "as-needed" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = bar(function *baz() {});",
+            options: ["never", { generators: "always" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = bar(function *baz() {});",
+            options: ["never", { generators: "as-needed" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = function*() {};",
+            options: ["never", { generators: "as-needed" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+
+        {
+            code: "var foo = bar(function *() {});",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = function*() {};",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "(function*() {}())",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = bar(function *() {});",
+            options: ["never", { generators: "never" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = function*() {};",
+            options: ["never", { generators: "never" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "(function*() {}())",
+            options: ["never", { generators: "never" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = bar(function *() {});",
+            options: ["always", { generators: "never" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = function*() {};",
+            options: ["always", { generators: "never" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "(function*() {}())",
+            options: ["always", { generators: "never" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = bar(function *() {});",
+            options: ["as-needed", { generators: "never" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var foo = function*() {};",
+            options: ["as-needed", { generators: "never" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "(function*() {}())",
+            options: ["as-needed", { generators: "never" }],
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
     invalid: [
@@ -198,6 +321,155 @@ ruleTester.run("func-names", rule, {
             code: "({foo: function foo() {}})",
             options: ["never"],
             errors: [{ messageId: "named", data: { name: "method 'foo'" }, type: "FunctionExpression" }]
+        },
+
+        // generators
+        {
+            code: "var foo = bar(function *() {});",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [unnamedError]
+        },
+        {
+            code: "var foo = function*() {};",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [unnamedError]
+        },
+        {
+            code: "(function*() {}())",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [unnamedError]
+        },
+        {
+            code: "var foo = bar(function *() {});",
+            options: ["always", { generators: "always" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [unnamedError]
+        },
+        {
+            code: "var foo = function*() {};",
+            options: ["always", { generators: "always" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [unnamedError]
+        },
+        {
+            code: "(function*() {}())",
+            options: ["always", { generators: "always" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [unnamedError]
+        },
+        {
+            code: "var foo = bar(function *() {});",
+            options: ["always", { generators: "as-needed" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [unnamedError]
+        },
+        {
+            code: "(function*() {}())",
+            options: ["always", { generators: "as-needed" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [unnamedError]
+        },
+        {
+            code: "var foo = bar(function *() {});",
+            options: ["as-needed"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [unnamedError]
+        },
+        {
+            code: "(function*() {}())",
+            options: ["as-needed"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [unnamedError]
+        },
+        {
+            code: "var foo = bar(function *() {});",
+            options: ["as-needed", { generators: "always" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [unnamedError]
+        },
+        {
+            code: "var foo = function*() {};",
+            options: ["as-needed", { generators: "always" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [unnamedError]
+        },
+        {
+            code: "(function*() {}())",
+            options: ["as-needed", { generators: "always" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [unnamedError]
+        },
+        {
+            code: "var foo = bar(function *() {});",
+            options: ["as-needed", { generators: "as-needed" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [unnamedError]
+        },
+        {
+            code: "(function*() {}())",
+            options: ["as-needed", { generators: "as-needed" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [unnamedError]
+        },
+        {
+            code: "var foo = bar(function *() {});",
+            options: ["never", { generators: "always" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [unnamedError]
+        },
+        {
+            code: "var foo = function*() {};",
+            options: ["never", { generators: "always" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [unnamedError]
+        },
+        {
+            code: "(function*() {}())",
+            options: ["never", { generators: "always" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [unnamedError]
+        },
+        {
+            code: "var foo = bar(function *() {});",
+            options: ["never", { generators: "as-needed" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [unnamedError]
+        },
+        {
+            code: "(function*() {}())",
+            options: ["never", { generators: "as-needed" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [unnamedError]
+        },
+
+        {
+            code: "var foo = bar(function *baz() {});",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                message: "Unexpected named generator function 'baz'."
+            }]
+        },
+        {
+            code: "var foo = bar(function *baz() {});",
+            options: ["never", { generators: "never" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "named", data: { name: "generator function 'baz'" }, type: "FunctionExpression" }]
+        },
+        {
+            code: "var foo = bar(function *baz() {});",
+            options: ["always", { generators: "never" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "named", data: { name: "generator function 'baz'" }, type: "FunctionExpression" }]
+        },
+        {
+            code: "var foo = bar(function *baz() {});",
+            options: ["as-needed", { generators: "never" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "named", data: { name: "generator function 'baz'" }, type: "FunctionExpression" }]
         }
     ]
 });
