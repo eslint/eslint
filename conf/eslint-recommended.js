@@ -60,6 +60,7 @@ module.exports = {
         "jsx-quotes": "off",
         "key-spacing": "off",
         "keyword-spacing": "off",
+        "layout-thrashing": "off",
         "line-comment-position": "off",
         "linebreak-style": "off",
         "lines-around-comment": "off",
