@@ -153,6 +153,10 @@ ruleTester.run("no-constant-condition", rule, {
             errors: [{ messageId: "unexpected", type: "Literal" }]
         },
         {
+            code: "function foo() {while (true) {const bar = function*() {while (true) {yield;}}}}",
+            errors: [{ messageId: "unexpected", type: "Literal" }]
+        },
+        {
             code: "function* foo() { for (let foo = 1 + 2 + 3 + (yield); true; baz) {}}",
             errors: [{ messageId: "unexpected", type: "Literal" }]
         }
