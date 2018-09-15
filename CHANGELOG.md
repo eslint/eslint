@@ -1,3 +1,10 @@
+v5.6.0 - September 14, 2018
+
+* c5b688e Update: Added generators option to func-names (fixes #9511) (#10697) (Oscar Barrett)
+* 7da36d5 Fix: respect generator function expressions in no-constant-condition (#10827) (Julian Rosse)
+* 0a65844 Chore: quote enable avoidEscape option in eslint-config-eslint (#10626) (薛定谔的猫)
+* 32f41bd Chore: Add configuration wrapper markdown for the bug report template (#10669) (Iulian Onofrei)
+
 v5.5.0 - August 31, 2018
 
 * 6e110e6 Fix: camelcase duplicate warning bug (fixes #10801) (#10802) (Julian Rosse)
