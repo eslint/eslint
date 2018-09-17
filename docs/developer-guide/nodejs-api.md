@@ -117,7 +117,8 @@ var messages = linter.verify("var foo;", {
 
 // or using SourceCode
 
-var linter = require("eslint").linter,
+var Linter = require("eslint").Linter,
+    linter = new Linter(),
     SourceCode = require("eslint").SourceCode;
 
 var code = new SourceCode("var foo = bar;", ast);
