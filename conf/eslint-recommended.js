@@ -125,6 +125,7 @@ module.exports = {
         "no-floating-decimal": "off",
         "no-func-assign": "error",
         "no-global-assign": "error",
+        "no-hardcoded-values": "warn",
         "no-implicit-coercion": "off",
         "no-implicit-globals": "off",
         "no-implied-eval": "off",
