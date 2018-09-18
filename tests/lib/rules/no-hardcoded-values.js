@@ -21,14 +21,30 @@ const ruleTester = new RuleTester();
 ruleTester.run("no-hardcoded-values", rule, {
     valid: [
         {
-            code: "var a = 5;",
-            options: [{}]
+            code: "var endpoint = 'https://hardcode-url'",
+            options: [{
+                pattern: ""
+            }]
         }
     ],
     invalid: [
         {
-            code: "var a = 5;",
-            options: [{}]
+            code: "var endpoint = 'https://hardcode-url'",
+            options: [{
+                pattern: "hardcode-url"
+            }],
+            errors: [
+                { message: "Value of a string 'https://hardcode-url' matches pattern 'hardcode-url' and is considered a hardcode." }
+            ]
+        },
+        {
+            code: "someMethod('https://hardcode-url')",
+            options: [{
+                pattern: "hardcode-url"
+            }],
+            errors: [
+                { message: "Value of a string 'https://hardcode-url' matches pattern 'hardcode-url' and is considered a hardcode." }
+            ]
         }
     ]
 });
