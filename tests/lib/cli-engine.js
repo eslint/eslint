@@ -332,6 +332,55 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.results[0].output, expectedOutput);
         });
 
+        describe("Fix Types", () => {
+    
+            it("should not fix non-style rules when fixTypes has only 'style'", () => {
+                engine = new CLIEngine({
+                    cwd: path.join(fixtureDir, ".."),
+                    useEslintrc: false,
+                    fix: true,
+                    fixTypes: ["style"]
+                });
+                const inputPath = getFixturePath("fix-types/fix-only-semi.js");
+                const outputPath = getFixturePath("fix-types/fix-only-semi.expected.js");
+                const report = engine.executeOnFiles([inputPath]);
+                const expectedOutput = fs.readFileSync(outputPath, "utf8");
+
+                assert.strictEqual(report.results[0].output, expectedOutput);
+            });
+
+            it("should not fix style or problem rules when fixTypes has only 'suggestion'", () => {
+                engine = new CLIEngine({
+                    cwd: path.join(fixtureDir, ".."),
+                    useEslintrc: false,
+                    fix: true,
+                    fixTypes: ["suggestion"]
+                });
+                const inputPath = getFixturePath("fix-types/fix-only-prefer-arrow-callback.js");
+                const outputPath = getFixturePath("fix-types/fix-only-prefer-arrow-callback.expected.js");
+                const report = engine.executeOnFiles([inputPath]);
+                const expectedOutput = fs.readFileSync(outputPath, "utf8");
+
+                assert.strictEqual(report.results[0].output, expectedOutput);
+            });
+
+            it("should fix both style and problem rules when fixTypes has 'suggestion' and 'style'", () => {
+                engine = new CLIEngine({
+                    cwd: path.join(fixtureDir, ".."),
+                    useEslintrc: false,
+                    fix: true,
+                    fixTypes: ["suggestion", "style"]
+                });
+                const inputPath = getFixturePath("fix-types/fix-both-semi-and-prefer-arrow-callback.js");
+                const outputPath = getFixturePath("fix-types/fix-both-semi-and-prefer-arrow-callback.expected.js");
+                const report = engine.executeOnFiles([inputPath]);
+                const expectedOutput = fs.readFileSync(outputPath, "utf8");
+
+                assert.strictEqual(report.results[0].output, expectedOutput);
+            });
+
+        });
+
         it("should return a message and omit fixed text when in fix mode and fixes aren't done", () => {
 
             engine = new CLIEngine({

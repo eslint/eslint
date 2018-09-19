@@ -26,6 +26,8 @@ Here is the basic format of the source file for a rule:
 
 module.exports = {
     meta: {
+        type: "suggestion",
+
         docs: {
             description: "disallow unnecessary semicolons",
             category: "Possible Errors",
@@ -48,6 +50,8 @@ module.exports = {
 The source file for a rule exports an object with the following properties.
 
 `meta` (object) contains metadata for the rule:
+
+* `type` (string) indicates the type of rule, which is one of `"problem"`, `"suggestion"`, or `"style"`
 
 * `docs` (object) is required for core rules of ESLint:
 

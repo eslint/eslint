@@ -267,6 +267,17 @@ describe("cli", () => {
         });
     });
 
+    describe("when using --fix-type without --fix or --fix-dry-run", () => {
+        it("should exit with error", () => {
+            const filePath = getFixturePath("passing.js");
+            const code = `--fix-type suggestion ${filePath}`;
+
+            const exit = cli.execute(code);
+
+            assert.strictEqual(exit, 2);
+        });
+    });
+
     describe("when executing a file with a syntax error", () => {
         it("should exit with error", () => {
             const filePath = getFixturePath("syntax-error.js");
@@ -764,6 +775,36 @@ describe("cli", () => {
 
         });
 
+        it("should pass fixTypes to CLIEngine when --fix-type is passed", () => {
+
+            const expectedCLIEngineOptions = {
+                fix: true,
+                fixTypes: ["suggestion"]
+            };
+
+            // create a fake CLIEngine to test with
+            const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match(expectedCLIEngineOptions));
+
+            fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
+            sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns({
+                errorCount: 0,
+                warningCount: 0,
+                results: []
+            });
+            sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            fakeCLIEngine.outputFixes = sandbox.stub();
+
+            localCLI = proxyquire("../../lib/cli", {
+                "./cli-engine": fakeCLIEngine,
+                "./util/logging": log
+            });
+
+            const exitCode = localCLI.execute("--fix --fix-type suggestion .");
+
+            assert.strictEqual(exitCode, 0);
+
+        });
+
         it("should rewrite files when in fix mode", () => {
 
             const report = {
@@ -885,6 +926,35 @@ describe("cli", () => {
 
             assert.strictEqual(exitCode, 0);
 
+        });
+
+        it("should pass fixTypes to CLIEngine when --fix-type is passed", () => {
+
+            const expectedCLIEngineOptions = {
+                fix: true,
+                fixTypes: ["suggestion"]
+            };
+
+            // create a fake CLIEngine to test with
+            const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match(expectedCLIEngineOptions));
+
+            fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
+            sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns({
+                errorCount: 0,
+                warningCount: 0,
+                results: []
+            });
+            sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            fakeCLIEngine.outputFixes = sandbox.stub();
+
+            localCLI = proxyquire("../../lib/cli", {
+                "./cli-engine": fakeCLIEngine,
+                "./util/logging": log
+            });
+
+            const exitCode = localCLI.execute("--fix-dry-run --fix-type suggestion .");
+
+            assert.strictEqual(exitCode, 0);
         });
 
         it("should not rewrite files when in fix-dry-run mode", () => {
