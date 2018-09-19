@@ -41,6 +41,8 @@ Examples of **incorrect** code for this rule:
 var a = x === 2 ? true : false;
 
 var a = x ? true : false;
+
+var a = x ? x : 1;
 ```
 
 Examples of **correct** code for this rule:
@@ -55,8 +57,6 @@ var a = x !== false;
 var a = x ? "Yes" : "No";
 
 var a = x ? y : x;
-
-var a = x ? x : 1;
 ```
 
 ## Options
