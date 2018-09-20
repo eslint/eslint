@@ -23,10 +23,10 @@ Here is an example:
 
 ```js
 // Bad
-var foo = bar ? bar : 1;
+foo(bar ? bar : 1);
 
 // Good
-var foo = bar || 1;
+foo(bar || 1);
 ```
 
 ## Rule Details
@@ -42,7 +42,7 @@ var a = x === 2 ? true : false;
 
 var a = x ? true : false;
 
-var a = x ? x : 1;
+var a = foo(x ? x : 1);
 ```
 
 Examples of **correct** code for this rule:
@@ -57,6 +57,8 @@ var a = x !== false;
 var a = x ? "Yes" : "No";
 
 var a = x ? y : x;
+
+var a = x ? x : 1;  // Note that this is only allowed as it on the right hand side of an assignment; this type of ternary is disallowed everywhere else. See defaultAssignment option below for more details.
 ```
 
 ## Options
@@ -67,6 +69,8 @@ This rule has an object option:
 * `"defaultAssignment": false` disallows the conditional expression as a default assignment pattern
 
 ### defaultAssignment
+
+The defaultAssignment option allows expressions of the form `x ? x : expr` (where `x` is any identifier and `expr` is any expression) as the right hand side of assignments (but nowhere else).
 
 Examples of additional **incorrect** code for this rule with the `{ "defaultAssignment": false }` option:
 
