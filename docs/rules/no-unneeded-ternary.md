@@ -42,7 +42,7 @@ var a = x === 2 ? true : false;
 
 var a = x ? true : false;
 
-var a = foo(x ? x : 1);
+var a = f(x ? x : 1);
 ```
 
 Examples of **correct** code for this rule:
