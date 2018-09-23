@@ -28,6 +28,10 @@ Want to make a change to an existing rule? This section explains the process and
 
 If you'd like to request a change other than a bug fix or new rule, this section explains that process.
 
+## Reporting a security vulnerability
+
+To report a security vulnerability in ESLint, please use our [HackerOne program](https://hackerone.com/eslint).
+
 ## [Working on Issues](working-on-issues.md)
 
 Have some extra time and want to contribute? This section talks about the process of working on issues.
