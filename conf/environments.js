@@ -107,11 +107,6 @@ module.exports = {
         globals: globals.greasemonkey
     },
     yui: {
-        globals: {
-            YUI: false,
-            YUI_config: false,
-            YAHOO: false,
-            YAHOO_config: false
-        }
+        globals: globals.yui
     }
 };
