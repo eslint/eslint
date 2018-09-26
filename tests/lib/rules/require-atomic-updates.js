@@ -129,7 +129,7 @@ ruleTester.run("require-atomic-updates", rule, {
             errors: [VARIABLE_ERROR]
         },
         {
-            code: "let foo; async function x() { foo = foo + (barrr ? baz : await amount); }",
+            code: "let foo; async function x() { foo = foo + (bar ? baz : await amount); }",
             errors: [VARIABLE_ERROR]
         },
         {
