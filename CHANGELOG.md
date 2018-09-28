@@ -1,3 +1,17 @@
+v5.6.1 - September 28, 2018
+
+* 9b26bdb Fix: avoid exponential require-atomic-updates traversal (fixes #10893) (#10894) (Teddy Katz)
+* 9432b10 Fix: make separateRequires work in consecutive mode (fixes #10784) (#10886) (Pig Fang)
+* e51868d Upgrade: debug@4 (fixes #10854) (#10887) (薛定谔的猫)
+* d3f3994 Docs: add information about reporting security issues (#10889) (Teddy Katz)
+* cc458f4 Build: fix failing tests on master (#10890) (Teddy Katz)
+* a6ebfd3 Docs: clarify defaultAssignment option, fix no-unneeded-ternary examples (#10874) (CoffeeTableEspresso)
+* 9d52541 Fix: Remove duplicate error message on crash (fixes #8964) (#10865) (Nicholas C. Zakas)
+* 4eb9a49 Docs: Update quotes.md (#10862) (The Jared Wilcurt)
+* 9159e9b Docs: Update complexity.md (#10867) (Szymon Przybylski)
+* 14f4e46 Docs: Use Linter instead of linter in Nodejs API page (#10864) (Nicholas C. Zakas)
+* b3e3cb1 Chore: Update debug log name to match filename (#10863) (Nicholas C. Zakas)
+
 v5.6.0 - September 14, 2018
 
 * c5b688e Update: Added generators option to func-names (fixes #9511) (#10697) (Oscar Barrett)
