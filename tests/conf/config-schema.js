@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const ajv = require("../../lib/util/ajv"),
+const ajv = require("../../lib/util/ajv").ajv,
     configSchema = require("../../conf/config-schema.js"),
     assert = require("assert");
 
