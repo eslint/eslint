@@ -263,6 +263,13 @@ ruleTester.run("one-var", rule, {
             options: ["consecutive"],
             parserOptions: { ecmaVersion: 6 }
         },
+
+        // https://github.com/eslint/eslint/issues/10784
+        {
+            code: "const foo = require('foo'); const bar = 'bar';",
+            options: [{ const: "consecutive", separateRequires: true }],
+            parserOptions: { ecmaVersion: 6 }
+        },
         {
             code: "var a = 0, b = 1; var c, d;",
             options: [{ initialized: "consecutive", uninitialized: "always" }]
