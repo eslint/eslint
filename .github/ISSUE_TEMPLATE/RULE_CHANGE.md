@@ -1,5 +1,5 @@
 ---
-name: Rule change request
+name: "\U0001F4DD Rule change request"
 about: Request a change to an existing rule
 
 ---
@@ -33,4 +33,3 @@ about: Request a change to an existing rule
 **What does the rule currently do for this code?**
 
 **What will the rule do after it's changed?**
-
