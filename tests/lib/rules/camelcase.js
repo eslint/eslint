@@ -10,6 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/camelcase"),
+    fixtureParser = require("../../fixtures/fixture-parser"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
@@ -86,6 +87,11 @@ ruleTester.run("camelcase", rule, {
         {
             code: "var obj = {\n a_a: 1 \n};\n obj.a_b = 2;",
             options: [{ properties: "never" }]
+        },
+        {
+            code: "var foo = bar?.a_b;",
+            options: [{ properties: "never" }],
+            parser: fixtureParser("babel-eslint9/optional-chaining-assignment")
         },
         {
             code: "obj.foo_bar = function(){};",
