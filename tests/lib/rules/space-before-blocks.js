@@ -548,15 +548,15 @@ ruleTester.run("space-before-blocks", rule, {
             code: "class test { constructor(){} }",
             output: "class test{ constructor(){} }",
             options: classesNeverOthersOffArgs,
-            parserOptions: { ecmaNoVersion: 6 },
-            errors: [expectedSpacingError]
+            parserOptions: { ecmaVersion: 6 },
+            errors: [expectedNoSpacingError]
         },
         {
             code: "class test { constructor() {} }",
             output: "class test{ constructor() {} }",
             options: classesNeverOthersOffArgs,
-            parserOptions: { ecmaNoVersion: 6 },
-            errors: [expectedSpacingError]
+            parserOptions: { ecmaVersion: 6 },
+            errors: [expectedNoSpacingError]
         }
     ]
 });
