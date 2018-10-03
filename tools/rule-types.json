@@ -135,7 +135,7 @@
     "no-mixed-spaces-and-tabs": "style",
     "no-multi-assign": "style",
     "no-multi-spaces": "style",
-    "no-multi-str": "style",
+    "no-multi-str": "suggestion",
     "no-multiple-empty-lines": "style",
     "no-native-reassign": "suggestion",
     "no-negated-condition": "style",
