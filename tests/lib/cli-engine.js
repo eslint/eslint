@@ -333,7 +333,7 @@ describe("CLIEngine", () => {
         });
 
         describe("Fix Types", () => {
-    
+
             it("should throw an error when an invalid fix type is specified", () => {
                 assert.throws(() => {
                     engine = new CLIEngine({
@@ -384,6 +384,23 @@ describe("CLIEngine", () => {
                 });
                 const inputPath = getFixturePath("fix-types/fix-both-semi-and-prefer-arrow-callback.js");
                 const outputPath = getFixturePath("fix-types/fix-both-semi-and-prefer-arrow-callback.expected.js");
+                const report = engine.executeOnFiles([inputPath]);
+                const expectedOutput = fs.readFileSync(outputPath, "utf8");
+
+                assert.strictEqual(report.results[0].output, expectedOutput);
+            });
+
+            it("should not throw an error when a rule doesn't have a 'meta' property", () => {
+                engine = new CLIEngine({
+                    cwd: path.join(fixtureDir, ".."),
+                    useEslintrc: false,
+                    fix: true,
+                    fixTypes: ["style"],
+                    rulePaths: [getFixturePath("rules", "fix-types-test")]
+                });
+
+                const inputPath = getFixturePath("fix-types/ignore-missing-meta.js");
+                const outputPath = getFixturePath("fix-types/ignore-missing-meta.expected.js");
                 const report = engine.executeOnFiles([inputPath]);
                 const expectedOutput = fs.readFileSync(outputPath, "utf8");
 
