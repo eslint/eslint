@@ -1,9 +1,9 @@
 /**
  * JSCodeShift script to update meta.type in rules.
  * Run over the rules directory only. Use this command:
- * 
+ *
  *   jscodeshift -t tools/update-rule-types.js lib/rules/
- * 
+ *
  * @author Nicholas C. Zakas
  */
 "use strict";
@@ -17,12 +17,10 @@ module.exports = (fileInfo, api) => {
     const ruleName = path.basename(fileInfo.path, ".js");
 
     // get the object literal representing the rule
-    const nodes = j(source).find(j.ObjectExpression).filter((p) => {
-        return p.node.properties.some(node => node.key.name === "meta");
-    });
+    const nodes = j(source).find(j.ObjectExpression).filter(p => p.node.properties.some(node => node.key.name === "meta"));
 
     // updating logic
-    return nodes.replaceWith((p) => {
+    return nodes.replaceWith(p => {
 
         // gather important nodes from the rule
         const metaNode = p.node.properties.find(node => node.key.name === "meta");
@@ -30,7 +28,7 @@ module.exports = (fileInfo, api) => {
 
         const docsNode = metaNode.value.properties.find(node => node.key.name === "docs");
         const categoryNode = docsNode.value.properties.find(node => node.key.name === "category").value;
-        
+
         let ruleType;
 
         // the rule-types.json file takes highest priority
@@ -43,17 +41,18 @@ module.exports = (fileInfo, api) => {
                 case "Stylistic Issues":
                     ruleType = "style";
                     break;
-    
+
                 case "Possible Errors":
                     ruleType = "problem";
                     break;
-    
+
                 default:
                     ruleType = "suggestion";
             }
         }
 
         if (typeNode) {
+
             // update existing type node
             typeNode.value = j.literal(ruleType);
         } else {
@@ -64,6 +63,7 @@ module.exports = (fileInfo, api) => {
                 j.identifier("type"),
                 j.literal(ruleType)
             );
+
             p.node.properties[0].value.properties.unshift(newProp);
         }
 

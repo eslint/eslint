@@ -46,7 +46,7 @@ Specifying rules and plugins:
 Fixing problems:
   --fix                          Automatically fix problems
   --fix-dry-run                  Automatically fix problems without saving the changes to the file system
-  --fix-type Array               Specify the types of fixes to apply
+  --fix-type Array               Specify the types of fixes to apply (problem, suggestion, style)
 
 Ignoring files:
   --ignore-path path::String     Specify path of ignore file
