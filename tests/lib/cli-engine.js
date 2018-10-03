@@ -334,6 +334,17 @@ describe("CLIEngine", () => {
 
         describe("Fix Types", () => {
     
+            it("should throw an error when an invalid fix type is specified", () => {
+                assert.throws(() => {
+                    engine = new CLIEngine({
+                        cwd: path.join(fixtureDir, ".."),
+                        useEslintrc: false,
+                        fix: true,
+                        fixTypes: ["styl"]
+                    });
+                }, /invalid fix type/i);
+            });
+
             it("should not fix non-style rules when fixTypes has only 'style'", () => {
                 engine = new CLIEngine({
                     cwd: path.join(fixtureDir, ".."),
