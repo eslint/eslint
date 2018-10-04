@@ -708,6 +708,7 @@ target.gensite = function(prereleaseVersion) {
                 ruleName = path.basename(filename, ".md"),
                 filePath = path.join("docs", path.relative("tmp", filename));
             let text = cat(filename),
+                ruleType = "",
                 title;
 
             process.stdout.write(`> Updating files (Steps 4-9): ${i}/${length} - ${filePath + " ".repeat(30)}\r`);
@@ -726,8 +727,11 @@ target.gensite = function(prereleaseVersion) {
                 const ruleDocsContent = textSplit.slice(1).join("\n");
 
                 text = `${ruleHeading}${isRecommended ? RECOMMENDED_TEXT : ""}${isFixable ? FIXABLE_TEXT : ""}\n${ruleDocsContent}`;
-
                 title = `${ruleName} - Rules`;
+
+                if (rule && rule.meta) {
+                    ruleType = `ruleType: ${rule.meta.type}`;
+                }
             } else {
 
                 // extract the title from the file itself
@@ -744,6 +748,7 @@ target.gensite = function(prereleaseVersion) {
                 `title: ${title}`,
                 "layout: doc",
                 `edit_link: https://github.com/eslint/eslint/edit/master/${filePath}`,
+                ruleType,
                 "---",
                 "<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->",
                 "",
