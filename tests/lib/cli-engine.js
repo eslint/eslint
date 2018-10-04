@@ -407,6 +407,42 @@ describe("CLIEngine", () => {
                 assert.strictEqual(report.results[0].output, expectedOutput);
             });
 
+            it("should not throw an error when a rule is loaded after initialization with executeOnFiles()", () => {
+                engine = new CLIEngine({
+                    cwd: path.join(fixtureDir, ".."),
+                    useEslintrc: false,
+                    fix: true,
+                    fixTypes: ["style"]
+                });
+
+                engine.linter.defineRule("no-program", require(getFixturePath("rules", "fix-types-test", "no-program.js")));
+
+                const inputPath = getFixturePath("fix-types/ignore-missing-meta.js");
+                const outputPath = getFixturePath("fix-types/ignore-missing-meta.expected.js");
+                const report = engine.executeOnFiles([inputPath]);
+                const expectedOutput = fs.readFileSync(outputPath, "utf8");
+
+                assert.strictEqual(report.results[0].output, expectedOutput);
+            });
+
+            it("should not throw an error when a rule is loaded after initialization with executeOnText()", () => {
+                engine = new CLIEngine({
+                    cwd: path.join(fixtureDir, ".."),
+                    useEslintrc: false,
+                    fix: true,
+                    fixTypes: ["style"]
+                });
+
+                engine.linter.defineRule("no-program", require(getFixturePath("rules", "fix-types-test", "no-program.js")));
+
+                const inputPath = getFixturePath("fix-types/ignore-missing-meta.js");
+                const outputPath = getFixturePath("fix-types/ignore-missing-meta.expected.js");
+                const report = engine.executeOnText(fs.readFileSync(inputPath, { encoding: "utf8" }), inputPath);
+                const expectedOutput = fs.readFileSync(outputPath, "utf8");
+
+                assert.strictEqual(report.results[0].output, expectedOutput);
+            });
+
         });
 
         it("should return a message and omit fixed text when in fix mode and fixes aren't done", () => {
@@ -714,7 +750,6 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.results[0].messages[0].message, "Parsing error: Boom!");
 
         });
-
 
         it("should report zero messages when given a config file and a valid file", () => {
 
