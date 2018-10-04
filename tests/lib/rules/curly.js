@@ -211,6 +211,20 @@ ruleTester.run("curly", rule, {
             // https://github.com/feross/standard/issues/664
             code: "if (true) foo()\n;[1, 2, 3].bar()",
             options: ["multi-line"]
+        },
+        {
+
+            // https://github.com/eslint/eslint/issues/5975
+            code: "function foo() { if (bar) return quz;}",
+            options: [{
+                type: "all",
+                overrides: [
+                    {
+                        selector: "IfStatement > ReturnStatement.consequent",
+                        type: "multi"
+                    }
+                ]
+            }]
         }
     ],
     invalid: [
