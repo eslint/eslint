@@ -863,7 +863,7 @@ target.checkRuleFiles = function() {
     echo("Validating rules");
 
     const eslintRecommended = require("./conf/eslint-recommended").rules;
-
+    const ruleTypes = require("./tools/rule-types.json");
     const ruleFiles = find("lib/rules/").filter(fileType("js"));
     let errors = 0;
 
@@ -878,6 +878,15 @@ target.checkRuleFiles = function() {
          */
         function isInConfig() {
             return Object.prototype.hasOwnProperty.call(eslintRecommended, basename);
+        }
+
+        /**
+         * Check if basename is present in rule-types.json file.
+         * @returns {boolean} true if present
+         * @private
+         */
+        function isInRuleTypes() {
+            return Object.prototype.hasOwnProperty.call(ruleTypes, basename);
         }
 
         /**
@@ -915,6 +924,12 @@ target.checkRuleFiles = function() {
         // check for recommended configuration
         if (!isInConfig()) {
             console.error("Missing eslint:recommended setting for %s in conf/eslint-recommended.js", basename);
+            errors++;
+        }
+
+        // check for recommended configuration
+        if (!isInRuleTypes()) {
+            console.error("Missing setting for %s in tools/rule-types.json", basename);
             errors++;
         }
 
