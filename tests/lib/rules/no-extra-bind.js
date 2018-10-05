@@ -74,6 +74,23 @@ ruleTester.run("no-extra-bind", rule, {
             code: "var a = function() { (function(){ (function(){ this.d }.bind(c)) }) }.bind(b)",
             output: "var a = function() { (function(){ (function(){ this.d }.bind(c)) }) }",
             errors: [{ messageId: "unexpected", type: "CallExpression", column: 71 }]
+        },
+
+        // Should not autofix if bind expression args have side effects
+        {
+            code: "var a = function() {}.bind(b++)",
+            output: null,
+            errors
+        },
+        {
+            code: "var a = function() {}.bind(b())",
+            output: null,
+            errors
+        },
+        {
+            code: "var a = function() {}.bind(b.c)",
+            output: null,
+            errors
         }
     ]
 });
