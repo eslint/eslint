@@ -24,8 +24,13 @@ module.exports = (fileInfo, api) => {
 
         // gather important nodes from the rule
         const metaNode = p.node.properties.find(node => node.key.name === "meta");
-        const typeNode = metaNode.value.properties ? metaNode.value.properties.find(node => node.key.name === "type") : null;
 
+        // if there's no properties, just exit
+        if (!metaNode.value.properties) {
+            return; 
+        }
+
+        const typeNode = metaNode.value.properties.find(node => node.key.name === "type");
         const docsNode = metaNode.value.properties.find(node => node.key.name === "docs");
         const categoryNode = docsNode.value.properties.find(node => node.key.name === "category").value;
 

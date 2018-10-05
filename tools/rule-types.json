@@ -236,7 +236,7 @@
     "require-jsdoc": "style",
     "require-unicode-regexp": "suggestion",
     "require-yield": "suggestion",
-    "rest-spread-spacing": "suggestion",
+    "rest-spread-spacing": "style",
     "semi": "style",
     "semi-spacing": "style",
     "semi-style": "style",
@@ -261,6 +261,6 @@
     "vars-on-top": "suggestion",
     "wrap-iife": "suggestion",
     "wrap-regex": "style",
-    "yield-star-spacing": "suggestion",
+    "yield-star-spacing": "style",
     "yoda": "suggestion"
 }
