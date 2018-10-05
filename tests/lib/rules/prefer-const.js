@@ -117,6 +117,16 @@ ruleTester.run("prefer-const", rule, {
             parser: fixtureParser("babel-eslint5/destructuring-object-spread")
         },
 
+        // https://github.com/eslint/eslint/issues/8308
+        {
+            code: "let predicate; [typeNode.returnType, predicate] = foo();",
+            parserOptions: { ecmaVersion: 2018 }
+        },
+        {
+            code: "let a; const b = {}; ({ a, c: b.c } = func());",
+            parserOptions: { ecmaVersion: 2018 }
+        },
+
         // ignoreReadBeforeAssign
         {
             code: "let x; function foo() { bar(x); } x = 0;",
