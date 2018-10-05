@@ -71,6 +71,11 @@ ruleTester.run("no-extra-bind", rule, {
             errors
         },
         {
+            code: "var a = function() { return 1; }.bind(this)",
+            output: "var a = function() { return 1; }",
+            errors
+        },
+        {
             code: "var a = function() { (function(){ (function(){ this.d }.bind(c)) }) }.bind(b)",
             output: "var a = function() { (function(){ (function(){ this.d }.bind(c)) }) }",
             errors: [{ messageId: "unexpected", type: "CallExpression", column: 71 }]
