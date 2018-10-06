@@ -34,7 +34,7 @@ You're finally ready to start working with rules. You may want to fix an existin
 
 You've developed library-specific rules for ESLint and you want to share it with the community. You can publish an ESLint plugin on npm.
 
-## Section 6: [Working with Parsers](working-with-parsers.md)
+## Section 6: [Working with Custom Parsers](working-with-custom-parsers.md)
 
 If you aren't going to use the default parser of ESLint, this section explains about using custom parsers.
 
