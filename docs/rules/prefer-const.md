@@ -84,8 +84,8 @@ let predicate;
 [object.type, predicate] = foo();
 
 // `a` is only assigned once but cannot be separately declared as `const`
-let a; 
-const b = {}; 
+let a;
+const b = {};
 ({ a, c: b.c } = func());
 
 // suggest to use `no-var` rule.
