@@ -117,9 +117,37 @@ ruleTester.run("prefer-const", rule, {
             parser: fixtureParser("babel-eslint5/destructuring-object-spread")
         },
 
-        // https://github.com/eslint/eslint/issues/8308
+        // // https://github.com/eslint/eslint/issues/8308
         {
             code: "let predicate; [typeNode.returnType, predicate] = foo();",
+            parserOptions: { ecmaVersion: 2018 }
+        },
+        {
+            code: "let predicate; [typeNode.returnType,, predicate] = foo();",
+            parserOptions: { ecmaVersion: 2018 }
+        },
+        {
+            code: "let predicate; [typeNode.returnType=5, predicate] = foo();",
+            parserOptions: { ecmaVersion: 2018 }
+        },
+        {
+            code: "let predicate; [[typeNode.returnType=5], predicate] = foo();",
+            parserOptions: { ecmaVersion: 2018 }
+        },
+        {
+            code: "let predicate; [[typeNode.returnType, predicate]] = foo();",
+            parserOptions: { ecmaVersion: 2018 }
+        },
+        {
+            code: "let predicate; [typeNode.returnType, [predicate]] = foo();",
+            parserOptions: { ecmaVersion: 2018 }
+        },
+        {
+            code: "let predicate; [, [typeNode.returnType, predicate]] = foo();",
+            parserOptions: { ecmaVersion: 2018 }
+        },
+        {
+            code: "let predicate; [, {foo:typeNode.returnType, predicate}] = foo();",
             parserOptions: { ecmaVersion: 2018 }
         },
         {
@@ -127,7 +155,7 @@ ruleTester.run("prefer-const", rule, {
             parserOptions: { ecmaVersion: 2018 }
         },
 
-        // ignoreReadBeforeAssign
+        // // ignoreReadBeforeAssign
         {
             code: "let x; function foo() { bar(x); } x = 0;",
             options: [{ ignoreReadBeforeAssign: true }]
@@ -390,6 +418,17 @@ ruleTester.run("prefer-const", rule, {
                 { message: "'y' is never reassigned. Use 'const' instead.", type: "Identifier" },
                 { message: "'z' is never reassigned. Use 'const' instead.", type: "Identifier" }
             ]
+        },
+
+        // https://github.com/eslint/eslint/issues/8308
+        {
+            code: "let predicate; [, {foo:returnType, predicate}] = foo();",
+            output: null,
+            parserOptions: { ecmaVersion: 2018 },
+            errors: [
+                { message: "'predicate' is never reassigned. Use 'const' instead.", type: "Identifier" }
+            ]
         }
+
     ]
 });
