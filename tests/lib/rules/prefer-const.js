@@ -117,12 +117,13 @@ ruleTester.run("prefer-const", rule, {
             parser: fixtureParser("babel-eslint5/destructuring-object-spread")
         },
 
-        // // https://github.com/eslint/eslint/issues/8308
+        // https://github.com/eslint/eslint/issues/8308
         {
             code: "let predicate; [typeNode.returnType, predicate] = foo();",
             parserOptions: { ecmaVersion: 2018 }
         },
         {
+            // intentionally testing empty slot in destructuring assignment
             code: "let predicate; [typeNode.returnType,, predicate] = foo();",
             parserOptions: { ecmaVersion: 2018 }
         },
@@ -155,7 +156,7 @@ ruleTester.run("prefer-const", rule, {
             parserOptions: { ecmaVersion: 2018 }
         },
 
-        // // ignoreReadBeforeAssign
+        // ignoreReadBeforeAssign
         {
             code: "let x; function foo() { bar(x); } x = 0;",
             options: [{ ignoreReadBeforeAssign: true }]
