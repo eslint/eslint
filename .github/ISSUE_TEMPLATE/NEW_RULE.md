@@ -1,5 +1,5 @@
 ---
-name: New rule proposal
+/name: "\U0001F680 New rule proposal"
 about: Propose a new rule to be added to ESLint
 
 ---
@@ -34,4 +34,3 @@ about: Propose a new rule to be added to ESLint
 ```
 
 **Why should this rule be included in ESLint (instead of a plugin)?**
-

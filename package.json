@@ -1,6 +1,6 @@
 {
   "name": "eslint",
-  "version": "5.6.0",
+  "version": "5.6.1",
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "An AST-based pattern checker for JavaScript.",
   "bin": {
@@ -39,7 +39,7 @@
     "ajv": "^6.5.3",
     "chalk": "^2.1.0",
     "cross-spawn": "^6.0.5",
-    "debug": "^3.1.0",
+    "debug": "^4.0.1",
     "doctrine": "^2.1.0",
     "eslint-scope": "^4.0.0",
     "eslint-utils": "^1.3.1",
@@ -71,7 +71,7 @@
     "semver": "^5.5.1",
     "strip-ansi": "^4.0.0",
     "strip-json-comments": "^2.0.1",
-    "table": "^4.0.3",
+    "table": "^5.0.2",
     "text-table": "^0.2.0"
   },
   "devDependencies": {
@@ -100,14 +100,13 @@
     "karma-babel-preprocessor": "^7.0.0",
     "karma-mocha": "^1.3.0",
     "karma-mocha-reporter": "^2.2.3",
-    "karma-phantomjs-launcher": "^1.0.4",
+    "karma-chrome-launcher": "^2.2.0",
     "leche": "^2.2.3",
     "load-perf": "^0.2.0",
     "markdownlint": "^0.11.0",
     "mocha": "^5.0.5",
     "mock-fs": "^4.6.0",
     "npm-license": "^0.3.3",
-    "phantomjs-prebuilt": "^2.1.16",
     "proxyquire": "^2.0.1",
     "shelljs": "^0.8.2",
     "sinon": "^3.3.0",
