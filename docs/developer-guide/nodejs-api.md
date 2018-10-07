@@ -416,7 +416,8 @@ The return value is an object containing the results of the linting operation. H
     errorCount: 1,
     warningCount: 0,
     fixableErrorCount: 1,
-    fixableWarningCount: 0
+    fixableWarningCount: 0,
+    usedDeprecatedRules: []
 }
 ```
 
@@ -474,6 +475,7 @@ var report = cli.executeOnFiles(["myfile.js", "lib/"]);
     warningCount: 0,
     fixableErrorCount: 1,
     fixableWarningCount: 0,
+    usedDeprecatedRules: []
 }
 ```
 
@@ -505,6 +507,7 @@ If the operation ends with a parsing error, you will get a single message for th
     warningCount: 0,
     fixableErrorCount: 0,
     fixableWarningCount: 0,
+    usedDeprecatedRules: []
 }
 ```
 
@@ -516,7 +519,7 @@ The top-level report object has a `results` array containing all linting results
 * `source` - The source code for the given file. This property is omitted if this file has no errors/warnings or if the `output` property is present.
 * `output` - The source code for the given file with as many fixes applied as possible, so you can use that to rewrite the files if necessary. This property is omitted if no fix is available.
 
-The top-level report object also has `errorCount` and `warningCount` which give the exact number of errors and warnings respectively on all the files.
+The top-level report object also has `errorCount` and `warningCount` which give the exact number of errors and warnings respectively on all the files. Additionally, `usedDeprecatedRules` signals any deprecated rules used and their replacement (if available).
 
 Once you get a report object, it's up to you to determine how to output the results. Fixes will not be automatically applied to the files, even if you set `fix: true` when constructing the `CLIEngine` instance. To apply fixes to the files, call [`outputFixes`](#cliengineoutputfixes).
 

@@ -1375,6 +1375,33 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.results[0].messages.length, 0);
         });
 
+        it("should warn when deprecated rules are configured", () => {
+            engine = new CLIEngine({
+                cwd: originalDir,
+                configFile: ".eslintrc.js",
+                rules: { "indent-legacy": 1 }
+            });
+
+            const report = engine.executeOnFiles(["lib/cli*.js"]);
+
+            assert.deepStrictEqual(
+                report.usedDeprecatedRules,
+                [{ ruleId: "indent-legacy", replacedBy: ["indent"] }]
+            );
+        });
+
+        it("should not warn when deprecated rules are not configured", () => {
+            engine = new CLIEngine({
+                cwd: originalDir,
+                configFile: ".eslintrc.js",
+                rules: { indent: 1 }
+            });
+
+            const report = engine.executeOnFiles(["lib/cli*.js"]);
+
+            assert.deepStrictEqual(report.usedDeprecatedRules, []);
+        });
+
         describe("Fix Mode", () => {
 
             it("should return fixed text on multiple files when in fix mode", () => {
@@ -1407,70 +1434,68 @@ describe("CLIEngine", () => {
                 const report = engine.executeOnFiles([path.resolve(fixtureDir, `${fixtureDir}/fixmode`)]);
 
                 report.results.forEach(convertCRLF);
-                assert.deepStrictEqual(report, {
-                    results: [
-                        {
-                            filePath: fs.realpathSync(path.resolve(fixtureDir, "fixmode/multipass.js")),
-                            messages: [],
-                            errorCount: 0,
-                            warningCount: 0,
-                            fixableErrorCount: 0,
-                            fixableWarningCount: 0,
-                            output: "true ? \"yes\" : \"no\";\n"
-                        },
-                        {
-                            filePath: fs.realpathSync(path.resolve(fixtureDir, "fixmode/ok.js")),
-                            messages: [],
-                            errorCount: 0,
-                            warningCount: 0,
-                            fixableErrorCount: 0,
-                            fixableWarningCount: 0
-                        },
-                        {
-                            filePath: fs.realpathSync(path.resolve(fixtureDir, "fixmode/quotes-semi-eqeqeq.js")),
-                            messages: [
-                                {
-                                    column: 9,
-                                    line: 2,
-                                    message: "Expected '===' and instead saw '=='.",
-                                    messageId: "unexpected",
-                                    nodeType: "BinaryExpression",
-                                    ruleId: "eqeqeq",
-                                    severity: 2
-                                }
-                            ],
-                            errorCount: 1,
-                            warningCount: 0,
-                            fixableErrorCount: 0,
-                            fixableWarningCount: 0,
-                            output: "var msg = \"hi\";\nif (msg == \"hi\") {\n\n}\n"
-                        },
-                        {
-                            filePath: fs.realpathSync(path.resolve(fixtureDir, "fixmode/quotes.js")),
-                            messages: [
-                                {
-                                    column: 18,
-                                    line: 1,
-                                    endColumn: 21,
-                                    endLine: 1,
-                                    message: "'foo' is not defined.",
-                                    nodeType: "Identifier",
-                                    ruleId: "no-undef",
-                                    severity: 2
-                                }
-                            ],
-                            errorCount: 1,
-                            warningCount: 0,
-                            fixableErrorCount: 0,
-                            fixableWarningCount: 0,
-                            output: "var msg = \"hi\" + foo;\n"
-                        }
-                    ],
-                    errorCount: 2,
-                    warningCount: 0,
-                    fixableErrorCount: 0,
-                    fixableWarningCount: 0
-                });
+                assert.deepStrictEqual(report.results, [
+                    {
+                        filePath: fs.realpathSync(path.resolve(fixtureDir, "fixmode/multipass.js")),
+                        messages: [],
+                        errorCount: 0,
+                        warningCount: 0,
+                        fixableErrorCount: 0,
+                        fixableWarningCount: 0,
+                        output: "true ? \"yes\" : \"no\";\n"
+                    },
+                    {
+                        filePath: fs.realpathSync(path.resolve(fixtureDir, "fixmode/ok.js")),
+                        messages: [],
+                        errorCount: 0,
+                        warningCount: 0,
+                        fixableErrorCount: 0,
+                        fixableWarningCount: 0
+                    },
+                    {
+                        filePath: fs.realpathSync(path.resolve(fixtureDir, "fixmode/quotes-semi-eqeqeq.js")),
+                        messages: [
+                            {
+                                column: 9,
+                                line: 2,
+                                message: "Expected '===' and instead saw '=='.",
+                                messageId: "unexpected",
+                                nodeType: "BinaryExpression",
+                                ruleId: "eqeqeq",
+                                severity: 2
+                            }
+                        ],
+                        errorCount: 1,
+                        warningCount: 0,
+                        fixableErrorCount: 0,
+                        fixableWarningCount: 0,
+                        output: "var msg = \"hi\";\nif (msg == \"hi\") {\n\n}\n"
+                    },
+                    {
+                        filePath: fs.realpathSync(path.resolve(fixtureDir, "fixmode/quotes.js")),
+                        messages: [
+                            {
+                                column: 18,
+                                line: 1,
+                                endColumn: 21,
+                                endLine: 1,
+                                message: "'foo' is not defined.",
+                                nodeType: "Identifier",
+                                ruleId: "no-undef",
+                                severity: 2
+                            }
+                        ],
+                        errorCount: 1,
+                        warningCount: 0,
+                        fixableErrorCount: 0,
+                        fixableWarningCount: 0,
+                        output: "var msg = \"hi\" + foo;\n"
+                    }
+                ]);
+                assert.strictEqual(report.errorCount, 2);
+                assert.strictEqual(report.warningCount, 0);
+                assert.strictEqual(report.fixableErrorCount, 0);
+                assert.strictEqual(report.fixableWarningCount, 0);
             });
 
             it("should run autofix even if files are cached without autofix results", () => {
@@ -2117,7 +2142,7 @@ describe("CLIEngine", () => {
                 assert.deepStrictEqual(result, cachedResult, "the result is the same regardless of using cache or not");
 
                 // assert the file was not processed because the cache was used
-                assert.isFalse(spy.called, "the file was not loaded because it used the cache");
+                assert.isFalse(spy.calledWith(file), "the file was not loaded because it used the cache");
             });
 
             it("should remember the files from a previous run and do not operate on then if not changed", () => {
