@@ -123,6 +123,7 @@ ruleTester.run("prefer-const", rule, {
             parserOptions: { ecmaVersion: 2018 }
         },
         {
+
             // intentionally testing empty slot in destructuring assignment
             code: "let predicate; [typeNode.returnType,, predicate] = foo();",
             parserOptions: { ecmaVersion: 2018 }
