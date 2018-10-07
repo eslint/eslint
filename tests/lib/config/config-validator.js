@@ -219,6 +219,12 @@ describe("Validator", () => {
 
                 assert.throws(fn, "Property \"plugins\" is the wrong type (expected array but got `\"react\"`).");
             });
+
+            it("should throw with an array which doesn't contains only strings", () => {
+                const fn = validator.validate.bind(null, { plugins: ["react", { foo: "bar" }] }, null, ruleMapper, linter.environments);
+
+                assert.throws(fn, "ESLint configuration in null is invalid:\n\t- Property \"plugins[1]\" is the wrong type (expected string but got `{\"foo\":\"bar\"}`).\n");
+            });
         });
 
         describe("settings", () => {
