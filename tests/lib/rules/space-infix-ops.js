@@ -18,8 +18,14 @@ const ruleTester = new RuleTester();
 ruleTester.run("space-infix-ops", rule, {
     valid: [
         "a + b",
+        "a + ++b",
+        "a++ + b",
+        "a++ + ++b",
         "a     + b",
         "(a) + (b)",
+        "((a)) + ((b))",
+        "(((a))) + (((b)))",
+        "a + +b",
         "a + (b)",
         "a + +(b)",
         "a + (+(b))",
