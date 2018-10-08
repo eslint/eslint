@@ -401,8 +401,6 @@ Store the info about processed files in order to only operate on the changed one
 
 **Note:** If you run ESLint with `--cache` and then run ESLint without `--cache`, the `.eslintcache` file will be deleted. This is necessary because the results of the lint might change and make `.eslintcache` invalid. If you want to control when the cache file is deleted, then use `--cache-location` to specify an alternate location for the cache file.
 
-**Note:**: As of now, only the results for successfully linted files are stored in the cache. Files which fail linting are not stored in the cache, so they will be linted every time.
-
 #### `--cache-file`
 
 Path to the cache file. If none specified `.eslintcache` will be used. The file will be created in the directory where the `eslint` command is executed. **Deprecated**: Use `--cache-location` instead.
