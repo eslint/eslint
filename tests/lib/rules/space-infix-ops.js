@@ -44,7 +44,10 @@ ruleTester.run("space-infix-ops", rule, {
         { code: "function foo(a: number = 0) { }", parserOptions: { ecmaVersion: 6 }, parser: parser("type-annotations/function-parameter-type-annotation") },
         { code: "function foo(): Bar { }", parserOptions: { ecmaVersion: 6 }, parser: parser("type-annotations/function-return-type-annotation") },
         { code: "var foo: Bar = '';", parserOptions: { ecmaVersion: 6 }, parser: parser("type-annotations/variable-declaration-init-type-annotation") },
-        { code: "const foo = function(a: number = 0): Bar { };", parserOptions: { ecmaVersion: 6 }, parser: parser("type-annotations/function-expression-type-annotation") }
+        { code: "const foo = function(a: number = 0): Bar { };", parserOptions: { ecmaVersion: 6 }, parser: parser("type-annotations/function-expression-type-annotation") },
+
+        // TypeScript Type Aliases
+        { code: "type Foo<T> = T;", parserOptions: { ecmaVersion: 6 }, parser: parser("typescript-parsers/type-alias") }
     ],
     invalid: [
         {
