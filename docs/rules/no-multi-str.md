@@ -26,6 +26,6 @@ Examples of **correct** code for this rule:
 ```js
 /*eslint no-multi-str: "error"*/
 
-var x = "Line 1\n" +
-        "Line 2";
+var x = "Line 1\n"
+        + "Line 2";
 ```
