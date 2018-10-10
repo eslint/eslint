@@ -884,7 +884,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "const foo = 1,\n    bar = 2;",
-            output: "const foo = 1;\n\n    \nconst bar = 2;",
+            output: "const foo = 1;\n    const bar = 2;",
             options: [{ initialized: "never" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
@@ -896,7 +896,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "var foo = 1,\n    bar = 2;",
-            output: "var foo = 1;\n\n    \nvar bar = 2;",
+            output: "var foo = 1;\n    var bar = 2;",
             options: [{ initialized: "never" }],
             errors: [{
                 message: "Split initialized 'var' declarations into multiple statements.",
@@ -907,7 +907,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "var foo = 1, // comment\n    bar = 2;",
-            output: "var foo = 1;\n // comment\n    \nvar bar = 2;",
+            output: "var foo = 1; // comment\n    var bar = 2;",
             options: [{ initialized: "never" }],
             errors: [{
                 message: "Split initialized 'var' declarations into multiple statements.",
@@ -929,7 +929,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "var f,          /* test */ l;",
-            output: "var f;\n          /* test */ \nvar l;",
+            output: "var f;          /* test */ var l;",
             options: ["never"],
             errors: [{
                 message: "Split 'var' declarations into multiple statements.",
