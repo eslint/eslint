@@ -20,9 +20,9 @@ function foo() {
 
 ## Rule Details
 
-This rule does nothing if no configuration.
+This rule does nothing if no configurations are provided.
 
-A configuration is an object which has 3 properties; `blankLine`, `prev` and `next`. For example, `{ blankLine: "always", prev: "var", next: "return" }` means "it requires one or more blank lines between a variable declaration and a `return` statement."
+A configuration is an object which has 3 properties; `blankLine`, `prev` and `next`. For example, `{ blankLine: "always", prev: "var", next: "return" }` means "one or more blank lines are required between a variable declaration and a `return` statement."
 You can supply any number of configurations. If a statement pair matches multiple configurations, the last matched configuration will be used.
 
 ```json
@@ -46,11 +46,11 @@ You can supply any number of configurations. If a statement pair matches multipl
 - `STATEMENT_TYPE` is one of the following, or an array of the following.
     - `"*"` is wildcard. This matches any statements.
     - `"block"` is lonely blocks.
-    - `"block-like"` is block like statements. This matches statements that the last token is the closing brace of blocks; e.g. `{ }`, `if (a) { }`, and `while (a) { }`.
+    - `"block-like"` is block like statements. This matches statements that the last token is the closing brace of blocks; e.g. `{ }`, `if (a) { }`, and `while (a) { }`. Also matches immediately invoked function expression statements.
     - `"break"` is `break` statements.
     - `"case"` is `case` labels.
-    - `"cjs-export"` is `export` statements of CommonJS; e.g. `module.exports = 0`, `module.exports.foo = 1`, and `exports.foo = 2`. This is the special cases of assignment.
-    - `"cjs-import"` is `import` statements of CommonJS; e.g. `const foo = require("foo")`. This is the special cases of variable declarations.
+    - `"cjs-export"` is `export` statements of CommonJS; e.g. `module.exports = 0`, `module.exports.foo = 1`, and `exports.foo = 2`. This is a special case of assignment.
+    - `"cjs-import"` is `import` statements of CommonJS; e.g. `const foo = require("foo")`. This is a special case of variable declarations.
     - `"class"` is `class` declarations.
     - `"const"` is `const` variable declarations.
     - `"continue"` is `continue` statements.
@@ -64,6 +64,7 @@ You can supply any number of configurations. If a statement pair matches multipl
     - `"for"` is `for` loop families. This matches all statements that the first token is `for` keyword.
     - `"function"` is function declarations.
     - `"if"` is `if` statements.
+    - `"iife"` is immediately invoked function expression statements. This matches calls on a function expression, optionally prefixed with a unary operator.
     - `"import"` is `import` declarations.
     - `"let"` is `let` variable declarations.
     - `"multiline-block-like"` is block like statements. This is the same as `block-like` type, but only if the block is multiline.
