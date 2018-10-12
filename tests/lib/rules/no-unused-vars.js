@@ -271,7 +271,11 @@ ruleTester.run("no-unused-vars", rule, {
             code: "(({a, ...rest}) => rest)",
             options: [{ args: "all", ignoreRestSiblings: true }],
             parserOptions: { ecmaVersion: 2018 }
-        }
+        },
+
+        // https://github.com/eslint/eslint/issues/10952
+        "/*eslint use-every-a:1*/ !function(b, a) { return 1 }"
+
     ],
     invalid: [
         { code: "function foox() { return foox(); }", errors: [definedError("foox")] },
