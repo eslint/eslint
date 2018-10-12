@@ -950,6 +950,17 @@ ruleTester.run("one-var", rule, {
             }]
         },
         {
+            code: "var a = 1, b = 2",
+            output: "var a = 1; var b = 2",
+            options: ["never"],
+            errors: [{
+                message: "Split 'var' declarations into multiple statements.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 1
+            }]
+        },
+        {
             code: "var foo = require('foo'), bar;",
             output: null,
             options: [{ separateRequires: true, var: "always" }],
