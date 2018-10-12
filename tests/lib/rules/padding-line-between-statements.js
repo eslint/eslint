@@ -853,6 +853,35 @@ ruleTester.run("padding-line-between-statements", rule, {
         },
 
         //----------------------------------------------------------------------
+        // iife
+        //----------------------------------------------------------------------
+
+        {
+            code: "(function(){\n})()\n\nvar a = 2;",
+            options: [
+                { blankLine: "always", prev: "iife", next: "*" }
+            ]
+        },
+        {
+            code: "+(function(){\n})()\n\nvar a = 2;",
+            options: [
+                { blankLine: "always", prev: "iife", next: "*" }
+            ]
+        },
+        {
+            code: "(function(){\n})()\nvar a = 2;",
+            options: [
+                { blankLine: "never", prev: "iife", next: "*" }
+            ]
+        },
+        {
+            code: "+(function(){\n})()\nvar a = 2;",
+            options: [
+                { blankLine: "never", prev: "iife", next: "*" }
+            ]
+        },
+
+        //----------------------------------------------------------------------
         // import
         //----------------------------------------------------------------------
 
@@ -3372,6 +3401,43 @@ ruleTester.run("padding-line-between-statements", rule, {
         },
 
         //----------------------------------------------------------------------
+        // iife
+        //----------------------------------------------------------------------
+
+        {
+            code: "(function(){\n})()\n\nvar a = 2;",
+            output: "(function(){\n})()\nvar a = 2;",
+            options: [
+                { blankLine: "never", prev: "iife", next: "*" }
+            ],
+            errors: [MESSAGE_NEVER]
+        },
+        {
+            code: "+(function(){\n})()\n\nvar a = 2;",
+            output: "+(function(){\n})()\nvar a = 2;",
+            options: [
+                { blankLine: "never", prev: "iife", next: "*" }
+            ],
+            errors: [MESSAGE_NEVER]
+        },
+        {
+            code: "(function(){\n})()\nvar a = 2;",
+            output: "(function(){\n})()\n\nvar a = 2;",
+            options: [
+                { blankLine: "always", prev: "iife", next: "*" }
+            ],
+            errors: [MESSAGE_ALWAYS]
+        },
+        {
+            code: "+(function(){\n})()\nvar a = 2;",
+            output: "+(function(){\n})()\n\nvar a = 2;",
+            options: [
+                { blankLine: "always", prev: "iife", next: "*" }
+            ],
+            errors: [MESSAGE_ALWAYS]
+        },
+
+        //----------------------------------------------------------------------
         // import
         //----------------------------------------------------------------------
 
@@ -4242,6 +4308,14 @@ ruleTester.run("padding-line-between-statements", rule, {
         {
             code: "(function(){\n})()\n\nvar a = 2;",
             output: "(function(){\n})()\nvar a = 2;",
+            options: [
+                { blankLine: "never", prev: "block-like", next: "*" }
+            ],
+            errors: [MESSAGE_NEVER]
+        },
+        {
+            code: "+(function(){\n})()\n\nvar a = 2;",
+            output: "+(function(){\n})()\nvar a = 2;",
             options: [
                 { blankLine: "never", prev: "block-like", next: "*" }
             ],
