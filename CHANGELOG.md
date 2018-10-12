@@ -1,3 +1,21 @@
+v5.7.0 - October 12, 2018
+
+* 6cb63fd Update: Add iife to padding-line-between-statements (fixes #10853) (#10916) (Kevin Partington)
+* 5fd1bda Update: no-tabs allowIndentationTabs option (fixes #10256) (#10925) (Kevin Partington)
+* d12be69 Fix: no-extra-bind No autofix if arg may have side effect (fixes #10846) (#10918) (Kevin Partington)
+* 847372f Fix: no-unused-vars false pos. with markVariableAsUsed (fixes #10952) (#10954) (Roy Sutton)
+* 4132de7 Chore: Simplify space-infix-ops (#10935) (Bence Dányi)
+* 543edfa Fix: Fix error with one-var (fixes #10937) (#10938) (Justin Krup)
+* 95c4cb1 Docs: Fix typo for no-unsafe-finally (#10945) (Sergio Santoro)
+* 5fe0e1a Fix: no-invalid-regexp disallows \ at end of pattern (fixes #10861) (#10920) (Toru Nagashima)
+* f85547a Docs: Add 'When Not To Use' section to space-infix-ops (#10931) (Bence Dányi)
+* 3dccac4 Docs: Update working-with-parsers link (#10929) (Azeem Bande-Ali)
+* 557a8bb Docs: Remove old note about caching, add a new one (fixes #10739) (#10913) (Zac)
+* fe8111a Chore: Add more test cases to space-infix-ops (#10936) (Bence Dányi)
+* 066f7e0 Update: camelcase rule ignoreList added (#10783) (Julien Martin)
+* 70bde69 Upgrade: table to version 5 (#10903) (Rouven Weßling)
+* 2e52bca Chore: Update issue templates (#10900) (Nicholas C. Zakas)
+
 v5.6.1 - September 28, 2018
 
 * 9b26bdb Fix: avoid exponential require-atomic-updates traversal (fixes #10893) (#10894) (Teddy Katz)
