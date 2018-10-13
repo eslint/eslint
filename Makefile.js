@@ -23,23 +23,11 @@ const lodash = require("lodash"),
     os = require("os"),
     path = require("path"),
     semver = require("semver"),
-    shell = require("shelljs"),
     ejs = require("ejs"),
     loadPerf = require("load-perf"),
     yaml = require("js-yaml");
 
-const cat = shell.cat;
-const cd = shell.cd;
-const cp = shell.cp;
-const echo = shell.echo;
-const exec = shell.exec;
-const exit = shell.exit;
-const find = shell.find;
-const ls = shell.ls;
-const mkdir = shell.mkdir;
-const pwd = shell.pwd;
-const rm = shell.rm;
-const test = shell.test;
+const { cat, cd, cp, echo, exec, exit, find, ls, mkdir, pwd, rm, test } = require("shelljs");
 
 //------------------------------------------------------------------------------
 // Settings
