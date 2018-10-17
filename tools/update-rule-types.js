@@ -27,7 +27,7 @@ module.exports = (fileInfo, api) => {
 
         // if there's no properties, just exit
         if (!metaNode.value.properties) {
-            return; 
+            return null;
         }
 
         const typeNode = metaNode.value.properties.find(node => node.key.name === "type");
