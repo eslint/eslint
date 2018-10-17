@@ -172,14 +172,14 @@ ruleTester.run("require-jsdoc", rule, {
             "        this.a = xs;" +
             "    }\n" +
             "}",
-            parserOptions: { ecmaVersion: 6 },
             options: [{
                 exportedOnly: true,
                 require: {
                     MethodDefinition: false,
                     ClassDeclaration: true
                 }
-            }]
+            }],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "/**\n Function doing something\n*/\nvar myFunction = () => {}",
@@ -250,33 +250,33 @@ ruleTester.run("require-jsdoc", rule, {
             "        this.a = xs;" +
             "    }\n" +
             "}",
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             options: [{
                 exportedOnly: true,
                 require: {
                     ClassDeclaration: true
                 }
-            }]
+            }],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "function myFunction() {}",
             options: [{
                 exportedOnly: true,
                 require: {
-                    MethodDefinition: true,
+                    MethodDefinition: true
                 }
             }]
         },
         {
             code: "var myFunction = () => () => {}",
-            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             options: [{
                 exportedOnly: true,
                 require: {
                     ArrowFunctionExpression: true
                 }
-            }]
-        },
+            }],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+        }
     ],
 
     invalid: [
@@ -432,7 +432,7 @@ ruleTester.run("require-jsdoc", rule, {
             options: [{
                 require: {
                     FunctionExpression: true
-                },
+                }
             }],
             errors: [{
                 message: "Missing JSDoc comment.",
@@ -447,13 +447,13 @@ ruleTester.run("require-jsdoc", rule, {
             "        this.a = xs;" +
             "    }\n" +
             "}",
-            parserOptions: { sourceType: "module" },
             options: [{
                 require: {
                     MethodDefinition: true,
                     ClassDeclaration: true
                 }
             }],
+            parserOptions: { sourceType: "module" },
             errors: [{
                 message: "Missing JSDoc comment.",
                 type: "FunctionExpression"
