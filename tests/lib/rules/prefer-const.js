@@ -123,6 +123,10 @@ ruleTester.run("prefer-const", rule, {
             parserOptions: { ecmaVersion: 2018 }
         },
         {
+            code: "let predicate; [typeNode.returnType, ...predicate] = foo();",
+            parserOptions: { ecmaVersion: 2018 }
+        },
+        {
 
             // intentionally testing empty slot in destructuring assignment
             code: "let predicate; [typeNode.returnType,, predicate] = foo();",
@@ -150,6 +154,10 @@ ruleTester.run("prefer-const", rule, {
         },
         {
             code: "let predicate; [, {foo:typeNode.returnType, predicate}] = foo();",
+            parserOptions: { ecmaVersion: 2018 }
+        },
+        {
+            code: "let predicate; [, {foo:typeNode.returnType, ...predicate}] = foo();",
             parserOptions: { ecmaVersion: 2018 }
         },
         {
@@ -425,6 +433,22 @@ ruleTester.run("prefer-const", rule, {
         // https://github.com/eslint/eslint/issues/8308
         {
             code: "let predicate; [, {foo:returnType, predicate}] = foo();",
+            output: null,
+            parserOptions: { ecmaVersion: 2018 },
+            errors: [
+                { message: "'predicate' is never reassigned. Use 'const' instead.", type: "Identifier" }
+            ]
+        },
+        {
+            code: "let predicate; [, {foo:returnType, predicate}, ...bar ] = foo();",
+            output: null,
+            parserOptions: { ecmaVersion: 2018 },
+            errors: [
+                { message: "'predicate' is never reassigned. Use 'const' instead.", type: "Identifier" }
+            ]
+        },
+        {
+            code: "let predicate; [, {foo:returnType, ...predicate} ] = foo();",
             output: null,
             parserOptions: { ecmaVersion: 2018 },
             errors: [
