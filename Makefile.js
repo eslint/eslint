@@ -730,7 +730,7 @@ target.gensite = function(prereleaseVersion) {
                 title = `${ruleName} - Rules`;
 
                 if (rule && rule.meta) {
-                    ruleType = `ruleType: ${rule.meta.type}`;
+                    ruleType = `rule_type: ${rule.meta.type}`;
                 }
             } else {
 
