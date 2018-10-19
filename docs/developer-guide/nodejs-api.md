@@ -519,7 +519,10 @@ The top-level report object has a `results` array containing all linting results
 * `source` - The source code for the given file. This property is omitted if this file has no errors/warnings or if the `output` property is present.
 * `output` - The source code for the given file with as many fixes applied as possible, so you can use that to rewrite the files if necessary. This property is omitted if no fix is available.
 
-The top-level report object also has `errorCount` and `warningCount` which give the exact number of errors and warnings respectively on all the files. Additionally, `usedDeprecatedRules` signals any deprecated rules used and their replacement (if available).
+The top-level report object also has `errorCount` and `warningCount` which give the exact number of errors and warnings respectively on all the files. Additionally, `usedDeprecatedRules` signals any deprecated rules used and their replacement (if available). Specifically, it is array of objects with properties like so:
+
+* `ruleId` - The name of the rule (e.g. `indent-legacy`).
+* `replacedBy` - An array of rules that replace the deprecated rule (e.g. `["indent"]`).
 
 Once you get a report object, it's up to you to determine how to output the results. Fixes will not be automatically applied to the files, even if you set `fix: true` when constructing the `CLIEngine` instance. To apply fixes to the files, call [`outputFixes`](#cliengineoutputfixes).
 
