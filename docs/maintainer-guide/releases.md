@@ -16,6 +16,8 @@ A two-person release team is assigned to each scheduled release. This two-person
 
 The two-person team should seek input from the whole team on the Monday following a release to double-check if a patch release is necessary.
 
+At least one member of the release team needs to have access to [eslint's two-factor authentication for npm](./npm-2fa) in order to do a release.
+
 ## Release Communication
 
 Each scheduled release should be associated with a release issue ([example](https://github.com/eslint/eslint/issues/8138)). The release issue is the source of information for the team about the status of a release. Be sure the release issue has the "release" label so that it's easy to find.
@@ -30,7 +32,9 @@ On the day of a scheduled release, the release team should follow these steps:
     * Documentation changes.
     * Small bug fixes written by a team member.
 1. Log into Jenkins and schedule a build for the "ESLint Release" job.
-1. Wait for the "ESLint Release" job to complete.
+1. Watch the console output of the build on Jenkins. At some point, the build will pause and a link will be produced with an input field for a six-digit 2FA code.
+1. Enter the current six-digit 2FA code from your authenticator app. (Also see: [npm-2fa](./npm-2fa))
+1. Continue the build and wait for it to finish.
 1. Update the release blog post with a "Highlights" section, including new rules and anything else that's important.
 1. Make a release announcement in the public chatroom.
 1. Make a release announcement on Twitter.
