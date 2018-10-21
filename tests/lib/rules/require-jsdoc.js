@@ -276,6 +276,16 @@ ruleTester.run("require-jsdoc", rule, {
                 }
             }],
             parserOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "/** The default export */ export default function() { function thing() {}; thing(); }",
+            options: [{
+                exportedOnly: true,
+                require: {
+                    MethodDefinition: true
+                }
+            }],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         }
     ],
 
@@ -479,6 +489,48 @@ ruleTester.run("require-jsdoc", rule, {
                     FunctionExpression: true
                 }
             }],
+            errors: [{
+                message: "Missing JSDoc comment.",
+                type: "FunctionExpression"
+            }]
+        },
+        {
+            code: `
+            /** A class export */
+            export class Foo {
+                thing() {
+
+                };
+            }`,
+            options: [{
+                exportedOnly: true,
+                require: {
+                    MethodDefinition: true,
+                    FunctionDeclaration: true,
+                    FunctionExpression: true
+                }
+            }],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                message: "Missing JSDoc comment.",
+                type: "FunctionExpression"
+            }]
+        },
+        {
+            code: `
+            /** An object export */
+            export const foo = {
+                thing() {
+                }
+            }
+            `,
+            options: [{
+                exportedOnly: true,
+                require: {
+                    FunctionExpression: true
+                }
+            }],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 message: "Missing JSDoc comment.",
                 type: "FunctionExpression"
