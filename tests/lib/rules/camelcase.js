@@ -193,6 +193,10 @@ ruleTester.run("camelcase", rule, {
         {
             code: "user_id = 0;",
             options: [{ allow: ["_id$"] }]
+        },
+        {
+            code: "__option_foo__ = 0;",
+            options: [{ allow: ["__option_foo__"] }]
         }
     ],
     invalid: [
