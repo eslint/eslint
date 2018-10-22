@@ -2674,6 +2674,25 @@ describe("CLIEngine", () => {
         });
     });
 
+    describe("listTargetFiles()", () => {
+
+        let engine;
+
+        it("should list target files when given a config file and a valid file", () => {
+
+            engine = new CLIEngine({
+                cwd: originalDir,
+                configFile: ".eslintrc.js"
+            });
+
+            const files = engine.listTargetFiles(["lib/cli*.js"]);
+
+            assert.strictEqual(files.length, 2);
+            assert.strictEqual(files[0], path.join(originalDir, "lib", "cli-engine.js"));
+            assert.strictEqual(files[1], path.join(originalDir, "lib", "cli.js"));
+        });
+    });
+
     describe("getConfigForFile", () => {
 
         it("should return the info from Config#getConfig when called", () => {

@@ -328,6 +328,14 @@ describe("options", () => {
         });
     });
 
+    describe("--list-target-files", () => {
+        it("should return true for --list-target-files when passed", () => {
+            const currentOptions = options.parse("--list-target-files");
+
+            assert.isTrue(currentOptions.listTargetFiles);
+        });
+    });
+
     describe("--debug", () => {
         it("should return true for --debug when passed", () => {
             const currentOptions = options.parse("--debug");
