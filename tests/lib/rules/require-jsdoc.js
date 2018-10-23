@@ -233,7 +233,7 @@ ruleTester.run("require-jsdoc", rule, {
                     FunctionExpression: true
                 },
                 exceptMethods: ["exceptedFunction"]
-            }],
+            }]
         },
         {
             code:
@@ -253,7 +253,7 @@ ruleTester.run("require-jsdoc", rule, {
             code: "var exceptedArrowfunction = () => {}",
             options: [{
                 require: {
-                    ArrowFunctionExpression: true,
+                    ArrowFunctionExpression: true
                 },
                 exceptMethods: ["exceptedArrowfunction"]
             }],
@@ -445,7 +445,6 @@ ruleTester.run("require-jsdoc", rule, {
                 message: "Missing JSDoc comment.",
                 type: "FunctionExpression"
             }]
-        },
-        
+        }
     ]
 });
