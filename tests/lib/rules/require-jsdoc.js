@@ -225,6 +225,39 @@ ruleTester.run("require-jsdoc", rule, {
                 }
             }],
             parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var exceptedFunction = function() {};",
+            options: [{
+                require: {
+                    FunctionExpression: true
+                },
+                exceptMethods: ["exceptedFunction"]
+            }],
+        },
+        {
+            code:
+            "class ExceptedClass extends Component {\n" +
+            "    exceptedMethod(xs) {}\n" +
+            "}",
+            options: [{
+                require: {
+                    MethodDefinition: true,
+                    ClassDeclaration: true
+                },
+                exceptMethods: ["exceptedMethod", "ExceptedClass"]
+            }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var exceptedArrowfunction = () => {}",
+            options: [{
+                require: {
+                    ArrowFunctionExpression: true,
+                },
+                exceptMethods: ["exceptedArrowfunction"]
+            }],
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
 
@@ -412,6 +445,7 @@ ruleTester.run("require-jsdoc", rule, {
                 message: "Missing JSDoc comment.",
                 type: "FunctionExpression"
             }]
-        }
+        },
+        
     ]
 });
