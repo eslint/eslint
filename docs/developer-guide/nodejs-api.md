@@ -291,7 +291,7 @@ linter.defineParser("my-custom-parser", {
 const results = linter.verify("// some source text", { parser: "my-custom-parser" });
 ```
 
-### Linter#version
+### Linter#version/Linter.version
 
 Each instance of `Linter` has a `version` property containing the semantic version number of ESLint that the `Linter` instance is from.
 
@@ -300,6 +300,14 @@ const Linter = require("eslint").Linter;
 const linter = new Linter();
 
 linter.version; // => '4.5.0'
+```
+
+There is also a `Linter.version` property that you can read without instantiating `Linter`:
+
+```js
+const Linter = require("eslint").Linter;
+
+Linter.version; // => '4.5.0'
 ```
 
 ## linter
