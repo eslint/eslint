@@ -28,9 +28,10 @@ This rule requires JSDoc comments for specified nodes. Supported nodes:
 
 ## Options
 
-This rule has a single object option:
+This rule has the following options:
 
 * `"require"` requires JSDoc comments for the specified nodes
+* `"exceptMethods"` list any methods that should be excluded from the rule
 
 Default option settings are:
 
@@ -43,14 +44,18 @@ Default option settings are:
             "ClassDeclaration": false,
             "ArrowFunctionExpression": false,
             "FunctionExpression": false
-        }
+        },
+        "exceptMethods": []
     }]
 }
 ```
 
 ### require
 
-Examples of **incorrect** code for this rule with the `{ "require": { "FunctionDeclaration": true, "MethodDefinition": true, "ClassDeclaration": true, "ArrowFunctionExpression": true, "FunctionExpression": true } }` option:
+Examples of **incorrect** code for this rule with the `{ "require": {
+"FunctionDeclaration": true, "MethodDefinition": true, "ClassDeclaration": true,
+"ArrowFunctionExpression": true, "FunctionExpression": true }, "exceptMethods":
+[ "exceptedName" ] }` option:
 
 ```js
 /*eslint "require-jsdoc": ["error", {
@@ -92,7 +97,10 @@ var foo = {
 };
 ```
 
-Examples of **correct** code for this rule with the `{ "require": { "FunctionDeclaration": true, "MethodDefinition": true, "ClassDeclaration": true, "ArrowFunctionExpression": true, "FunctionExpression": true } }` option:
+Examples of **correct** code for this rule with the `{ "require": {
+"FunctionDeclaration": true, "MethodDefinition": true, "ClassDeclaration": true,
+"ArrowFunctionExpression": true, "FunctionExpression": true }, "exceptMethods":
+[ "exceptedName" ] }` option:
 
 ```js
 /*eslint "require-jsdoc": ["error", {
@@ -176,6 +184,19 @@ var foo = {
 };
 
 setTimeout(() => {}, 10); // since it's an anonymous arrow function
+
+var foo = function exceptedName() {};
+
+var exceptedName = () => {};
+
+class exceptedName {}
+
+/**
+ * App Class
+ **/
+class App {
+    exceptedName() {}
+}
 ```
 
 ## When Not To Use It
