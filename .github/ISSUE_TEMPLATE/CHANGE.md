@@ -19,6 +19,12 @@ about: Request a change that is not a bug fix, rule change, or new rule
 
 **The version of ESLint you are using.**
 
+
 **The problem you want to solve.**
 
+
 **Your take on the correct solution to problem.**
+
+
+**Will you submit a pull request to implement this change?**
+

@@ -51,4 +51,10 @@ about: Report an issue with ESLint or rules bundled with ESLint
 
 **What did you expect to happen?**
 
+
 **What actually happened? Please include the actual, raw output from ESLint.**
+
+
+**Will you submit a pull request to fix this bug?**
+
+
