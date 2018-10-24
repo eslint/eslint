@@ -34,4 +34,4 @@ about: Request a change to an existing rule
 
 **What will the rule do after it's changed?**
 
-**Will you submit a pull request to implement this change?**
+**Are you willing to submit a pull request to implement this change?**

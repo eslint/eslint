@@ -36,5 +36,5 @@ about: Propose a new rule to be added to ESLint
 **Why should this rule be included in ESLint (instead of a plugin)?**
 
 
-**Will you submit a pull request to implement this rule?**
+**Are you willing to submit a pull request to implement this rule?**
 

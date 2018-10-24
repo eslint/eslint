@@ -26,5 +26,5 @@ about: Request a change that is not a bug fix, rule change, or new rule
 **Your take on the correct solution to problem.**
 
 
-**Will you submit a pull request to implement this change?**
+**Are you willing to submit a pull request to implement this change?**
 
