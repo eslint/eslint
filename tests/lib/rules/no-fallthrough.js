@@ -55,6 +55,14 @@ ruleTester.run("no-fallthrough", rule, {
         "switch (foo) { case 0: try {} finally { break; } default: b(); }",
         "switch (foo) { case 0: try { throw 0; } catch (err) { break; } default: b(); }",
         "switch (foo) { case 0: do { throw 0; } while(a); default: b(); }",
+        "switch (foo) { case 0: {/* falls through */} default: { b(); } }",
+        "switch (foo) { case 0: {\n// falls through\n}\n\ndefault: b(); }",
+        "switch (foo) { case 0: { a();\n// falls through\n} default: b(); }",
+        "switch (foo) { case 0: { a(); break; } default: b(); }",
+        "switch (foo) { case 0: { try {throw 0;} catch (err) {break;} } default :b(); }",
+        "switch (foo) { case 0:\ncase 1: {\na();\n// falls through\n}\ndefault: b(); }",
+        "switch (foo) { case 0: { a(); } // falls through\n default: b(); }",
+        "switch (foo) { case 0: { a();\n// comment\n} // falls through\n default: b(); }",
         {
             code: "switch(foo) { case 0: a(); /* no break */ case 1: b(); }",
             options: [{
@@ -139,6 +147,41 @@ ruleTester.run("no-fallthrough", rule, {
         },
         {
             code: "switch(foo) { case 0: a(); /* falling through */ default: b() }",
+            errors: errorsDefault
+        },
+        {
+            code: "switch (foo) { case 0: {\n// falls through\na();\n} default: b(); }",
+            errors: errorsDefault
+        },
+        {
+            code: "switch (foo) { case 0: { a(); } default: b(); }",
+            errors: errorsDefault
+        },
+        {
+            code: "switch (foo) { case 0: {\na();\n} default: { b(); } }",
+            errors: errorsDefault
+        },
+        {
+            code: "switch (foo) { case 0: {\na();\n/* falls through */\n/*todo: fix readability */\n}\ndefault: b() }",
+            errors: [
+                {
+                    message: errorsDefault[0].message,
+                    type: errorsDefault[0].type,
+                    line: 6,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "switch (foo) { case 0: {} default: b(); }",
+            errors: errorsDefault
+        },
+        {
+            code: "switch (foo) { case 0: { a(); } // comment\n default: b(); }",
+            errors: errorsDefault
+        },
+        {
+            code: "switch (foo) { case 0: { a();\n// falls through\n} // comment\n default: b(); }",
             errors: errorsDefault
         },
         {
