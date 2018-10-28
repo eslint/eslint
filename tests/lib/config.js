@@ -152,6 +152,13 @@ describe("Config", () => {
 
     describe("new Config()", () => {
 
+        it("should allow loading baseConfig from file", () => {
+            const customBaseConfig = path.resolve(__dirname, "../fixtures/config-file/bom/.eslintrc.json"),
+                configHelper = new Config({ baseConfig: customBaseConfig }, linter);
+
+            assert.strictEqual(configHelper.baseConfig.filePath, customBaseConfig);
+        });
+
         // https://github.com/eslint/eslint/issues/2380
         it("should not modify baseConfig when format is specified", () => {
             const customBaseConfig = { foo: "bar" },
