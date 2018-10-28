@@ -1,3 +1,18 @@
+v5.8.0 - October 26, 2018
+
+* 9152417 Fix: deprecation warning in RuleTester using Node v11 (#11009) (Teddy Katz)
+* e349a03 Docs: Update issue templates to ask for PRs (#11012) (Nicholas C. Zakas)
+* 3d88b38 Chore: avoid using legacy report API in no-irregular-whitespace (#11013) (Teddy Katz)
+* 5a31a92 Build: compile espree's deps to ES5 when generating site (fixes #11014) (#11015) (Teddy Katz)
+* 3943635 Update: Create Linter.version API (fixes #9271) (#11010) (Nicholas C. Zakas)
+* a940cf4 Docs: Mention version for config glob patterns (fixes #8793) (Nicholas C. Zakas)
+* 6e1c530 Build: run tests on Node 11 (#11008) (Teddy Katz)
+* 58ff359 Docs: add instructions for npm 2FA (refs #10631) (#10992) (Teddy Katz)
+* 2f87bb3 Upgrade: eslint-release@1.0.0 (refs #10631) (#10991) (Teddy Katz)
+* 57ef0fd Fix: prefer-const when using destructuring assign (fixes #8308) (#10924) (Nicholas C. Zakas)
+* 577cbf1 Chore: Add typescript-specific edge case tests to space-infix-ops (#10986) (Bence Dányi)
+* d45b184 Chore: Using deconstruction assignment for shelljs (#10974) (ZYSzys)
+
 v5.7.0 - October 12, 2018
 
 * 6cb63fd Update: Add iife to padding-line-between-statements (fixes #10853) (#10916) (Kevin Partington)

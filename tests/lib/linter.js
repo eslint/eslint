@@ -76,6 +76,14 @@ describe("Linter", () => {
         sandbox.verifyAndRestore();
     });
 
+    describe("Static Members", () => {
+        describe("version", () => {
+            it("should return same version as instance property", () => {
+                assert.strictEqual(Linter.version, linter.version);
+            });
+        });
+    });
+
     describe("when using events", () => {
         const code = TEST_CODE;
 
