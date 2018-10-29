@@ -927,7 +927,7 @@ describe("cli", () => {
 
             assert.strictEqual(exitCode, 0);
         });
-        
+
         it("should not rewrite files when in fix-dry-run mode", () => {
 
             const report = {
