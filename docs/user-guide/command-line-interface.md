@@ -46,7 +46,7 @@ Specifying rules and plugins:
 Fixing problems:
   --fix                          Automatically fix problems
   --fix-dry-run                  Automatically fix problems without saving the changes to the file system
-  --fix-type Array               Specify the types of fixes to apply (problem, suggestion, style)
+  --fix-type Array               Specify the types of fixes to apply (problem, suggestion, layout)
 
 Ignoring files:
   --ignore-path path::String     Specify path of ignore file
@@ -240,17 +240,17 @@ This option allows you to specify the type of fixes to apply when using either `
 
 1. `problem` - fix potential errors in the code
 1. `suggestion` - apply fixes to the code that improve it
-1. `style` - apply fixes that do not mutate the program structure (AST)
+1. `layout` - apply fixes that do not change the program structure (AST)
 
 You can specify one or more fix type on the command line. Here are some examples:
 
 ```
 eslint --fix --fix-type suggestion .
 eslint --fix --fix-type suggestion --fix-type problem .
-eslint --fix --fix-type suggestion,style .
+eslint --fix --fix-type suggestion,layout .
 ```
 
-This option is helpful if you are using another program to style your code but you would still like ESLint to apply other types of fixes.
+This option is helpful if you are using another program to format your code but you would still like ESLint to apply other types of fixes.
 
 ### Ignoring files
 

@@ -51,7 +51,10 @@ The source file for a rule exports an object with the following properties.
 
 `meta` (object) contains metadata for the rule:
 
-* `type` (string) indicates the type of rule, which is one of `"problem"`, `"suggestion"`, or `"style"`
+* `type` (string) indicates the type of rule, which is one of `"problem"`, `"suggestion"`, or `"layout"`:
+    * `"problem"` means the rule is identifying code that either will cause an error or may cause a confusing behavior. Developers should consider this a high priority to resolve.
+    * `"suggestion"` means the rule is identifying something that could be done in a better way but no errors will occur if the code isn't changed.
+    * `"layout"` means the rule cares primarily about whitespace, semicolons, commas, and parentheses, all the parts of the program that determine how the code looks rather than how it executes. These rules work on parts of the code that aren't specified in the AST.
 
 * `docs` (object) is required for core rules of ESLint:
 

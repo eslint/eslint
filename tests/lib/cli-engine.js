@@ -340,17 +340,17 @@ describe("CLIEngine", () => {
                         cwd: path.join(fixtureDir, ".."),
                         useEslintrc: false,
                         fix: true,
-                        fixTypes: ["styl"]
+                        fixTypes: ["layou"]
                     });
                 }, /invalid fix type/i);
             });
 
-            it("should not fix non-style rules when fixTypes has only 'style'", () => {
+            it("should not fix non-style rules when fixTypes has only 'layout'", () => {
                 engine = new CLIEngine({
                     cwd: path.join(fixtureDir, ".."),
                     useEslintrc: false,
                     fix: true,
-                    fixTypes: ["style"]
+                    fixTypes: ["layout"]
                 });
                 const inputPath = getFixturePath("fix-types/fix-only-semi.js");
                 const outputPath = getFixturePath("fix-types/fix-only-semi.expected.js");
@@ -375,12 +375,12 @@ describe("CLIEngine", () => {
                 assert.strictEqual(report.results[0].output, expectedOutput);
             });
 
-            it("should fix both style and problem rules when fixTypes has 'suggestion' and 'style'", () => {
+            it("should fix both style and problem rules when fixTypes has 'suggestion' and 'layout'", () => {
                 engine = new CLIEngine({
                     cwd: path.join(fixtureDir, ".."),
                     useEslintrc: false,
                     fix: true,
-                    fixTypes: ["suggestion", "style"]
+                    fixTypes: ["suggestion", "layout"]
                 });
                 const inputPath = getFixturePath("fix-types/fix-both-semi-and-prefer-arrow-callback.js");
                 const outputPath = getFixturePath("fix-types/fix-both-semi-and-prefer-arrow-callback.expected.js");
@@ -395,7 +395,7 @@ describe("CLIEngine", () => {
                     cwd: path.join(fixtureDir, ".."),
                     useEslintrc: false,
                     fix: true,
-                    fixTypes: ["style"],
+                    fixTypes: ["layout"],
                     rulePaths: [getFixturePath("rules", "fix-types-test")]
                 });
 
@@ -412,7 +412,7 @@ describe("CLIEngine", () => {
                     cwd: path.join(fixtureDir, ".."),
                     useEslintrc: false,
                     fix: true,
-                    fixTypes: ["style"]
+                    fixTypes: ["layout"]
                 });
 
                 engine.linter.defineRule("no-program", require(getFixturePath("rules", "fix-types-test", "no-program.js")));
@@ -430,7 +430,7 @@ describe("CLIEngine", () => {
                     cwd: path.join(fixtureDir, ".."),
                     useEslintrc: false,
                     fix: true,
-                    fixTypes: ["style"]
+                    fixTypes: ["layout"]
                 });
 
                 engine.linter.defineRule("no-program", require(getFixturePath("rules", "fix-types-test", "no-program.js")));
