@@ -226,7 +226,7 @@ function generateRuleIndexPage(basedir) {
             if (rule.meta.deprecated) {
                 categoriesData.deprecated.rules.push({
                     name: basename,
-                    replacedBy: rule.meta.docs.replacedBy || []
+                    replacedBy: rule.meta.replacedBy || []
                 });
             } else {
                 const output = {
