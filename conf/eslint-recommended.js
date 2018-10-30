@@ -230,6 +230,7 @@ module.exports = {
         "padded-blocks": "off",
         "padding-line-between-statements": "off",
         "prefer-arrow-callback": "off",
+        "prefer-async-await": "off",
         "prefer-const": "off",
         "prefer-destructuring": "off",
         "prefer-numeric-literals": "off",
