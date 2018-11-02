@@ -345,6 +345,20 @@ describe("CLIEngine", () => {
                 }, /invalid fix type/i);
             });
 
+            it("should not fix any rules when fixTypes is used without fix", () => {
+                engine = new CLIEngine({
+                    cwd: path.join(fixtureDir, ".."),
+                    useEslintrc: false,
+                    fix: false,
+                    fixTypes: ["layout"]
+                });
+
+                const inputPath = getFixturePath("fix-types/fix-only-semi.js");
+                const report = engine.executeOnFiles([inputPath]);
+
+                assert.isUndefined(report.results[0].output);
+            });
+
             it("should not fix non-style rules when fixTypes has only 'layout'", () => {
                 engine = new CLIEngine({
                     cwd: path.join(fixtureDir, ".."),
