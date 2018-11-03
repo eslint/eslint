@@ -299,7 +299,8 @@ describe("CLIEngine", () => {
                 errorCount: 0,
                 warningCount: 0,
                 fixableErrorCount: 0,
-                fixableWarningCount: 0
+                fixableWarningCount: 0,
+                usedDeprecatedRules: []
             });
         });
 
@@ -371,7 +372,8 @@ describe("CLIEngine", () => {
                 errorCount: 1,
                 warningCount: 0,
                 fixableErrorCount: 0,
-                fixableWarningCount: 0
+                fixableWarningCount: 0,
+                usedDeprecatedRules: []
             });
         });
 
@@ -412,7 +414,8 @@ describe("CLIEngine", () => {
                 errorCount: 1,
                 warningCount: 0,
                 fixableErrorCount: 0,
-                fixableWarningCount: 0
+                fixableWarningCount: 0,
+                usedDeprecatedRules: []
             });
         });
 
@@ -453,7 +456,8 @@ describe("CLIEngine", () => {
                 errorCount: 1,
                 warningCount: 0,
                 fixableErrorCount: 0,
-                fixableWarningCount: 0
+                fixableWarningCount: 0,
+                usedDeprecatedRules: []
             });
         });
 
@@ -540,7 +544,8 @@ describe("CLIEngine", () => {
                 errorCount: 1,
                 warningCount: 0,
                 fixableErrorCount: 0,
-                fixableWarningCount: 0
+                fixableWarningCount: 0,
+                usedDeprecatedRules: []
             });
         });
 
@@ -597,6 +602,19 @@ describe("CLIEngine", () => {
                 assert.strictEqual(report.messages[0].ruleId, "@scope/rule");
                 assert.strictEqual(report.messages[0].message, "OK");
             });
+        });
+        it("should warn when deprecated rules are found in a config", () => {
+            engine = new CLIEngine({
+                cwd: originalDir,
+                configFile: "tests/fixtures/cli-engine/deprecated-rule-config/.eslintrc.yml"
+            });
+
+            const report = engine.executeOnText("foo");
+
+            assert.deepStrictEqual(
+                report.usedDeprecatedRules,
+                [{ ruleId: "indent-legacy", replacedBy: ["indent"] }]
+            );
         });
     });
 
@@ -1400,6 +1418,20 @@ describe("CLIEngine", () => {
             const report = engine.executeOnFiles(["lib/cli*.js"]);
 
             assert.deepStrictEqual(report.usedDeprecatedRules, []);
+        });
+
+        it("should warn when deprecated rules are found in a config", () => {
+            engine = new CLIEngine({
+                cwd: originalDir,
+                configFile: "tests/fixtures/cli-engine/deprecated-rule-config/.eslintrc.yml"
+            });
+
+            const report = engine.executeOnFiles(["lib/cli*.js"]);
+
+            assert.deepStrictEqual(
+                report.usedDeprecatedRules,
+                [{ ruleId: "indent-legacy", replacedBy: ["indent"] }]
+            );
         });
 
         describe("Fix Mode", () => {
@@ -3177,7 +3209,8 @@ describe("CLIEngine", () => {
                     errorCount: 1,
                     warningCount: 0,
                     fixableErrorCount: 0,
-                    fixableWarningCount: 0
+                    fixableWarningCount: 0,
+                    usedDeprecatedRules: []
                 }
             );
         });
