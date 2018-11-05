@@ -932,62 +932,62 @@ ruleTester.run("keyword-spacing", rule, {
         // super
         //----------------------------------------------------------------------
 
-        { code: "class A { a() { {} super[b](); } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() { {}super[b](); } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() { {} super[b](); } }", options: [override("super", BOTH)], parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() { {}super[b](); } }", options: [override("super", NEITHER)], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { a() { {} super[b](); } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { a() { {}super[b](); } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { a() { {} super[b](); } }", options: [override("super", BOTH)], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { a() { {}super[b](); } }", options: [override("super", NEITHER)], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `array-bracket-spacing`
-        { code: "class A { a() { [super()]; } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() { [ super() ]; } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { [super()]; } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { [ super() ]; } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `arrow-spacing`
-        { code: "class A { a() { () =>super(); } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() { () => super(); } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { () =>super(); } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { () => super(); } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `block-spacing`
-        { code: "class A { a() {super()} }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() { super() } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() {super()} }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { super() } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `comma-spacing`
-        { code: "class A { a() { (0,super()) } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() { (0, super()) } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { (0,super()) } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { (0, super()) } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `computed-property-spacing`
-        { code: "class A { a() { ({[super()]: 0}) } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() { ({[ super() ]: 0}) } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { ({[super()]: 0}) } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { ({[ super() ]: 0}) } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `key-spacing`
-        { code: "class A { a() { ({a:super() }) } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() { ({a: super() }) } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { ({a:super() }) } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { ({a: super() }) } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `func-call-spacing`
-        { code: "class A { constructor() { super(); } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { constructor() { super (); } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { super(); } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { super (); } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `semi-spacing`
-        { code: "class A { a() { ;super(); } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() { ; super() ; } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { ;super(); } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { ; super() ; } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `space-in-parens`
-        { code: "class A { a() { (super()) } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() { ( super() ) } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { (super()) } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { ( super() ) } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `space-infix-ops`
-        { code: "class A { a() { b =super() } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() { b = super() } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { b =super() } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { b = super() } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `space-unary-ops`
-        { code: "class A { a() { !super() } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() { ! super() } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { !super() } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { ! super() } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `template-curly-spacing`
-        { code: "class A { a() { `${super()}` } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() { `${ super() }` } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { `${super()}` } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { `${ super() }` } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `jsx-curly-spacing`
-        { code: "class A { a() { <Foo onClick={super()} /> } }", parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
-        { code: "class A { a() { <Foo onClick={ super() } /> } }", options: [NEITHER], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
+        { code: "class A extends B { constructor() { <Foo onClick={super()} /> } }", parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
+        { code: "class A extends B { constructor() { <Foo onClick={ super() } /> } }", options: [NEITHER], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
 
         //----------------------------------------------------------------------
         // switch
