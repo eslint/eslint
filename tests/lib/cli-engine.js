@@ -332,6 +332,133 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.results[0].output, expectedOutput);
         });
 
+        describe("Fix Types", () => {
+
+            it("should throw an error when an invalid fix type is specified", () => {
+                assert.throws(() => {
+                    engine = new CLIEngine({
+                        cwd: path.join(fixtureDir, ".."),
+                        useEslintrc: false,
+                        fix: true,
+                        fixTypes: ["layou"]
+                    });
+                }, /invalid fix type/i);
+            });
+
+            it("should not fix any rules when fixTypes is used without fix", () => {
+                engine = new CLIEngine({
+                    cwd: path.join(fixtureDir, ".."),
+                    useEslintrc: false,
+                    fix: false,
+                    fixTypes: ["layout"]
+                });
+
+                const inputPath = getFixturePath("fix-types/fix-only-semi.js");
+                const report = engine.executeOnFiles([inputPath]);
+
+                assert.isUndefined(report.results[0].output);
+            });
+
+            it("should not fix non-style rules when fixTypes has only 'layout'", () => {
+                engine = new CLIEngine({
+                    cwd: path.join(fixtureDir, ".."),
+                    useEslintrc: false,
+                    fix: true,
+                    fixTypes: ["layout"]
+                });
+                const inputPath = getFixturePath("fix-types/fix-only-semi.js");
+                const outputPath = getFixturePath("fix-types/fix-only-semi.expected.js");
+                const report = engine.executeOnFiles([inputPath]);
+                const expectedOutput = fs.readFileSync(outputPath, "utf8");
+
+                assert.strictEqual(report.results[0].output, expectedOutput);
+            });
+
+            it("should not fix style or problem rules when fixTypes has only 'suggestion'", () => {
+                engine = new CLIEngine({
+                    cwd: path.join(fixtureDir, ".."),
+                    useEslintrc: false,
+                    fix: true,
+                    fixTypes: ["suggestion"]
+                });
+                const inputPath = getFixturePath("fix-types/fix-only-prefer-arrow-callback.js");
+                const outputPath = getFixturePath("fix-types/fix-only-prefer-arrow-callback.expected.js");
+                const report = engine.executeOnFiles([inputPath]);
+                const expectedOutput = fs.readFileSync(outputPath, "utf8");
+
+                assert.strictEqual(report.results[0].output, expectedOutput);
+            });
+
+            it("should fix both style and problem rules when fixTypes has 'suggestion' and 'layout'", () => {
+                engine = new CLIEngine({
+                    cwd: path.join(fixtureDir, ".."),
+                    useEslintrc: false,
+                    fix: true,
+                    fixTypes: ["suggestion", "layout"]
+                });
+                const inputPath = getFixturePath("fix-types/fix-both-semi-and-prefer-arrow-callback.js");
+                const outputPath = getFixturePath("fix-types/fix-both-semi-and-prefer-arrow-callback.expected.js");
+                const report = engine.executeOnFiles([inputPath]);
+                const expectedOutput = fs.readFileSync(outputPath, "utf8");
+
+                assert.strictEqual(report.results[0].output, expectedOutput);
+            });
+
+            it("should not throw an error when a rule doesn't have a 'meta' property", () => {
+                engine = new CLIEngine({
+                    cwd: path.join(fixtureDir, ".."),
+                    useEslintrc: false,
+                    fix: true,
+                    fixTypes: ["layout"],
+                    rulePaths: [getFixturePath("rules", "fix-types-test")]
+                });
+
+                const inputPath = getFixturePath("fix-types/ignore-missing-meta.js");
+                const outputPath = getFixturePath("fix-types/ignore-missing-meta.expected.js");
+                const report = engine.executeOnFiles([inputPath]);
+                const expectedOutput = fs.readFileSync(outputPath, "utf8");
+
+                assert.strictEqual(report.results[0].output, expectedOutput);
+            });
+
+            it("should not throw an error when a rule is loaded after initialization with executeOnFiles()", () => {
+                engine = new CLIEngine({
+                    cwd: path.join(fixtureDir, ".."),
+                    useEslintrc: false,
+                    fix: true,
+                    fixTypes: ["layout"]
+                });
+
+                engine.linter.defineRule("no-program", require(getFixturePath("rules", "fix-types-test", "no-program.js")));
+
+                const inputPath = getFixturePath("fix-types/ignore-missing-meta.js");
+                const outputPath = getFixturePath("fix-types/ignore-missing-meta.expected.js");
+                const report = engine.executeOnFiles([inputPath]);
+                const expectedOutput = fs.readFileSync(outputPath, "utf8");
+
+                assert.strictEqual(report.results[0].output, expectedOutput);
+            });
+
+            it("should not throw an error when a rule is loaded after initialization with executeOnText()", () => {
+                engine = new CLIEngine({
+                    cwd: path.join(fixtureDir, ".."),
+                    useEslintrc: false,
+                    fix: true,
+                    fixTypes: ["layout"]
+                });
+
+                engine.linter.defineRule("no-program", require(getFixturePath("rules", "fix-types-test", "no-program.js")));
+
+                const inputPath = getFixturePath("fix-types/ignore-missing-meta.js");
+                const outputPath = getFixturePath("fix-types/ignore-missing-meta.expected.js");
+                const report = engine.executeOnText(fs.readFileSync(inputPath, { encoding: "utf8" }), inputPath);
+                const expectedOutput = fs.readFileSync(outputPath, "utf8");
+
+                assert.strictEqual(report.results[0].output, expectedOutput);
+            });
+
+        });
+
         it("should return a message and omit fixed text when in fix mode and fixes aren't done", () => {
 
             engine = new CLIEngine({
@@ -637,7 +764,6 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.results[0].messages[0].message, "Parsing error: Boom!");
 
         });
-
 
         it("should report zero messages when given a config file and a valid file", () => {
 
