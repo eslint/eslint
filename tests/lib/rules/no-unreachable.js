@@ -32,6 +32,13 @@ ruleTester.run("no-unreachable", rule, {
         "while (true) { if (true) break; var x = 1; }",
         "while (true) continue;",
         "switch (foo) { case 1: break; var x; }",
+        "switch (foo) { case 1: break; var x; default: throw true; };",
+        {
+            code: "const arrow_direction = arrow => {  switch (arrow) { default: throw new Error();  };}",
+            parserOptions: {
+                ecmaVersion: 6
+            }
+        },
         "var x = 1; y = 2; throw 'uh oh'; var y;",
         "function foo() { var x = 1; if (x) { return; } x = 2; }",
         "function foo() { var x = 1; if (x) { } else { return; } x = 2; }",
