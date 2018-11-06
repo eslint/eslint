@@ -46,10 +46,6 @@ ruleTester.run("constructor-super", rule, {
         "class A extends B { constructor() { super(); class C extends D { constructor() { super(); } } } }",
         "class A extends B { constructor() { super(); class C { constructor() { } } } }",
 
-        // ignores out of constructors.
-        "class A { b() { super(); } }",
-        "function a() { super(); }",
-
         // multi code path.
         "class A extends B { constructor() { a ? super() : super(); } }",
         "class A extends B { constructor() { if (a) super(); else super(); } }",
@@ -78,9 +74,6 @@ ruleTester.run("constructor-super", rule, {
             "}"
         ].join("\n"),
 
-        // https://github.com/eslint/eslint/issues/5894
-        "class A { constructor() { return; super(); } }",
-
         // https://github.com/eslint/eslint/issues/8848
         `
             class A extends B {
@@ -98,12 +91,6 @@ ruleTester.run("constructor-super", rule, {
         `
     ],
     invalid: [
-
-        // non derived classes.
-        {
-            code: "class A { constructor() { super(); } }",
-            errors: [{ messageId: "unexpected", type: "CallExpression" }]
-        },
 
         // inherit from non constructors.
         {
@@ -135,11 +122,11 @@ ruleTester.run("constructor-super", rule, {
 
         // nested execution scope.
         {
-            code: "class A extends B { constructor() { function c() { super(); } } }",
+            code: "class A extends B { constructor() { class C extends D { constructor() { super(); } } } }",
             errors: [{ messageId: "missingAll", type: "MethodDefinition" }]
         },
         {
-            code: "class A extends B { constructor() { var c = function() { super(); } } }",
+            code: "class A extends B { constructor() { var c = class extends D { constructor() { super(); } } } }",
             errors: [{ messageId: "missingAll", type: "MethodDefinition" }]
         },
         {

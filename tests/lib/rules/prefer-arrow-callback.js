@@ -38,8 +38,6 @@ ruleTester.run("prefer-arrow-callback", rule, {
         "foo(function bar() { bar; });",
         "foo(function bar() { arguments; });",
         "foo(function bar() { arguments; }.bind(this));",
-        "foo(function bar() { super.a; });",
-        "foo(function bar() { super.a; }.bind(this));",
         "foo(function bar() { new.target; });",
         "foo(function bar() { new.target; }.bind(this));",
         "foo(function bar() { this; }.bind(this, somethingElse));"
