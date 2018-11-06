@@ -23,7 +23,6 @@ ruleTester.run("no-useless-constructor", rule, {
     valid: [
         "class A { }",
         "class A { constructor(){ doSomething(); } }",
-        "class A { constructor(){ super('foo'); } }",
         "class A extends B { constructor(){} }",
         "class A extends B { constructor(){ super('foo'); } }",
         "class A extends B { constructor(foo, bar){ super(foo, bar, 1); } }",

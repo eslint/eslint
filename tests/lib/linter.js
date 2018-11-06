@@ -3396,7 +3396,7 @@ describe("Linter", () => {
                 "var u = /^.$/u.test('𠮷');",
                 "var y = /hello/y.test('hello');",
                 "function restParam(a, ...rest) {}",
-                "function superInFunc() { super.foo(); }",
+                "class B { superInFunc() { super.foo(); } }",
                 "var template = `hello, ${a}`;",
                 "var unicode = '\\u{20BB7}';"
             ].join("\n");
