@@ -708,6 +708,7 @@ target.gensite = function(prereleaseVersion) {
                 ruleName = path.basename(filename, ".md"),
                 filePath = path.join("docs", path.relative("tmp", filename));
             let text = cat(filename),
+                ruleType = "",
                 title;
 
             process.stdout.write(`> Updating files (Steps 4-9): ${i}/${length} - ${filePath + " ".repeat(30)}\r`);
@@ -726,8 +727,11 @@ target.gensite = function(prereleaseVersion) {
                 const ruleDocsContent = textSplit.slice(1).join("\n");
 
                 text = `${ruleHeading}${isRecommended ? RECOMMENDED_TEXT : ""}${isFixable ? FIXABLE_TEXT : ""}\n${ruleDocsContent}`;
-
                 title = `${ruleName} - Rules`;
+
+                if (rule && rule.meta) {
+                    ruleType = `rule_type: ${rule.meta.type}`;
+                }
             } else {
 
                 // extract the title from the file itself
@@ -744,6 +748,7 @@ target.gensite = function(prereleaseVersion) {
                 `title: ${title}`,
                 "layout: doc",
                 `edit_link: https://github.com/eslint/eslint/edit/master/${filePath}`,
+                ruleType,
                 "---",
                 "<!-- Note: No pull requests accepted for this file. See README.md in the root directory for details. -->",
                 "",
@@ -863,7 +868,7 @@ target.checkRuleFiles = function() {
     echo("Validating rules");
 
     const eslintRecommended = require("./conf/eslint-recommended").rules;
-
+    const ruleTypes = require("./tools/rule-types.json");
     const ruleFiles = find("lib/rules/").filter(fileType("js"));
     let errors = 0;
 
@@ -878,6 +883,15 @@ target.checkRuleFiles = function() {
          */
         function isInConfig() {
             return Object.prototype.hasOwnProperty.call(eslintRecommended, basename);
+        }
+
+        /**
+         * Check if basename is present in rule-types.json file.
+         * @returns {boolean} true if present
+         * @private
+         */
+        function isInRuleTypes() {
+            return Object.prototype.hasOwnProperty.call(ruleTypes, basename);
         }
 
         /**
@@ -915,6 +929,12 @@ target.checkRuleFiles = function() {
         // check for recommended configuration
         if (!isInConfig()) {
             console.error("Missing eslint:recommended setting for %s in conf/eslint-recommended.js", basename);
+            errors++;
+        }
+
+        // check for recommended configuration
+        if (!isInRuleTypes()) {
+            console.error("Missing setting for %s in tools/rule-types.json", basename);
             errors++;
         }
 
