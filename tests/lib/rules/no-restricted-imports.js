@@ -198,13 +198,19 @@ ruleTester.run("no-restricted-imports", rule, {
         options: ["fs"],
         errors: [{ message: "'fs' import is restricted from being used.", type: "ExportAllDeclaration" }]
     }, {
-        code: "export a from \"fs\";",
-        options: ["fs"],
-        errors: [{ message: "'fs' import is restricted from being used.", type: "ExportAllDeclaration" }]
-    }, {
         code: "export {a} from \"fs\";",
         options: ["fs"],
         errors: [{ message: "'fs' import is restricted from being used.", type: "ExportNamedDeclaration" }]
+    }, {
+        code: "export {foo as b} from \"fs\";",
+        options: [{
+            paths: [{
+                name: "fs",
+                importNames: ["foo"],
+                message: "Don't import 'foo'."
+            }]
+        }],
+        errors: [{ message: "'fs' import is restricted from being used. Don't import 'foo'.", type: "ExportNamedDeclaration" }]
     }, {
         code: "import withGitignores from \"foo\";",
         options: [{
