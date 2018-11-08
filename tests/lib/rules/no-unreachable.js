@@ -32,6 +32,13 @@ ruleTester.run("no-unreachable", rule, {
         "while (true) { if (true) break; var x = 1; }",
         "while (true) continue;",
         "switch (foo) { case 1: break; var x; }",
+        "switch (foo) { case 1: break; var x; default: throw true; };",
+        {
+            code: "const arrow_direction = arrow => {  switch (arrow) { default: throw new Error();  };}",
+            parserOptions: {
+                ecmaVersion: 6
+            }
+        },
         "var x = 1; y = 2; throw 'uh oh'; var y;",
         "function foo() { var x = 1; if (x) { return; } x = 2; }",
         "function foo() { var x = 1; if (x) { } else { return; } x = 2; }",
@@ -63,6 +70,20 @@ ruleTester.run("no-unreachable", rule, {
         { code: "function foo() { var x = 1; while (x) { if (x) break; else continue; x = 2; } }", errors: [{ message: "Unreachable code.", type: "ExpressionStatement" }] },
         { code: "function foo() { var x = 1; for (;;) { if (x) continue; } x = 2; }", errors: [{ message: "Unreachable code.", type: "ExpressionStatement" }] },
         { code: "function foo() { var x = 1; while (true) { } x = 2; }", errors: [{ message: "Unreachable code.", type: "ExpressionStatement" }] },
+        {
+            code: "const arrow_direction = arrow => {  switch (arrow) { default: throw new Error();  }; g() }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Unreachable code.",
+                    type: "ExpressionStatement",
+                    line: 1,
+                    column: 86,
+                    endLine: 1,
+                    endColumn: 89
+                }
+            ]
+        },
 
         // Merge the warnings of continuous unreachable nodes.
         {
