@@ -1,3 +1,21 @@
+v5.9.0 - November 9, 2018
+
+* 9436712 Fix: Unused recursive function expressions (fixes #10982) (#11032) (Sergei Startsev)
+* c832cd5 Update: add `ignoreDestructuring` option to `id-match` rule (#10554) (一名宅。)
+* 54687a8 Fix: prefer-const autofix multiline assignment (fixes #10582) (#10987) (Scott Stern)
+* ae2b61d Update: "off" options for "space-before-blocks" (refs #10906) (#10907) (Sophie Kirschner)
+* 57f357e Docs: Update require-await docs with exception (fixes #9540) (#11063) (Nicholas C. Zakas)
+* 79a2797 Update: no-restricted-imports to check re-export (fixes #9678) (#11064) (Nicholas C. Zakas)
+* 3dd7493 Docs: update ecmaVersion to include 2019/10 values (#11059) (Vse Mozhet Byt)
+* 607635d Upgrade: eslint-plugin-node & eslint-plugin (#11067) (薛定谔的猫)
+* dcc6233 Fix: Ignore empty statements in no-unreachable (fixes #9081) (#11058) (Nicholas C. Zakas)
+* 7ad86de New: Add --fix-type option to CLI (fixes #10855) (#10912) (Nicholas C. Zakas)
+* 0800b20 Chore: fix invalid super() calls in tests (#11054) (Teddy Katz)
+* 4fe3287 Docs: Cross-reference two rules (refs #11041) (#11042) (Paul Melnikow)
+* 5525eb6 Fix: rule deprecation warnings did not consider all rules (#11044) (Teddy Katz)
+* 44d37ca Docs: Update steps for adding new TSC member (#11038) (Nicholas C. Zakas)
+* 802e926 Update: Warn for deprecation in Node output (fixes #7443) (#10953) (Colin Chang)
+
 v5.8.0 - October 26, 2018
 
 * 9152417 Fix: deprecation warning in RuleTester using Node v11 (#11009) (Teddy Katz)
