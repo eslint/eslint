@@ -274,8 +274,19 @@ ruleTester.run("no-unused-vars", rule, {
         },
 
         // https://github.com/eslint/eslint/issues/10952
-        "/*eslint use-every-a:1*/ !function(b, a) { return 1 }"
+        "/*eslint use-every-a:1*/ !function(b, a) { return 1 }",
 
+        // https://github.com/eslint/eslint/issues/10982
+        "var a = function () { a(); }; a();",
+        "var a = function(){ return function () { a(); } }; a();",
+        {
+            code: "const a = () => { a(); }; a();",
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: "const a = () => () => { a(); }; a();",
+            parserOptions: { ecmaVersion: 2015 }
+        }
     ],
     invalid: [
         { code: "function foox() { return foox(); }", errors: [definedError("foox")] },
@@ -717,6 +728,28 @@ ruleTester.run("no-unused-vars", rule, {
             code: "(function(_a) {})();",
             options: [{ args: "all", caughtErrorsIgnorePattern: "^_" }],
             errors: [{ message: "'_a' is defined but never used." }]
+        },
+
+        // https://github.com/eslint/eslint/issues/10982
+        {
+            code: "var a = function() { a(); };",
+            errors: [{ message: "'a' is assigned a value but never used." }]
+        },
+        {
+            code: "var a = function(){ return function() { a(); } };",
+            errors: [
+                { message: "'a' is assigned a value but never used." }
+            ]
+        },
+        {
+            code: "const a = () => { a(); };",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{ message: "'a' is assigned a value but never used." }]
+        },
+        {
+            code: "const a = () => () => { a(); };",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{ message: "'a' is assigned a value but never used." }]
         }
     ]
 });
