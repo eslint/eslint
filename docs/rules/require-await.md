@@ -16,7 +16,7 @@ async function fetchData(processDataItem) {
 }
 ```
 
-Asynchronous function that don't use `await` might not need to be asynchronous functions and could be the unintentional result of refactoring.
+Asynchronous functions that don't use `await` might not need to be asynchronous functions and could be the unintentional result of refactoring.
 
 
 ## Rule Details
@@ -76,7 +76,7 @@ fail().catch(error => {
 });
 ```
 
-In this case, the `fail()` function throws an error that is intended to be caught the `catch()` handler assigned later. Converting the `fail()` function into an synchronous function would require the call to `fail()` to be refactored to use a `try-catch` statement instead of a promise.
+In this case, the `fail()` function throws an error that is intended to be caught by the `catch()` handler assigned later. Converting the `fail()` function into an synchronous function would require the call to `fail()` to be refactored to use a `try-catch` statement instead of a promise.
 
 If you are throwing an error inside of an asynchronous function for this purpose, then you may want to disable this rule.
 
