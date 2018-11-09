@@ -454,6 +454,60 @@ ruleTester.run("prefer-const", rule, {
             errors: [
                 { message: "'predicate' is never reassigned. Use 'const' instead.", type: "Identifier" }
             ]
+        },
+        {
+            code: "let x = 'x', y = 'y';",
+            output: "const x = 'x', y = 'y';",
+            errors: [
+                { message: "'x' is never reassigned. Use 'const' instead.", type: "Identifier" },
+                { message: "'y' is never reassigned. Use 'const' instead.", type: "Identifier" }
+            ]
+        },
+        {
+            code: "let x = 'x', y = 'y'; x = 1",
+            output: null,
+            errors: [
+                { message: "'y' is never reassigned. Use 'const' instead.", type: "Identifier" }
+            ]
+        },
+        {
+            code: "let x = 1, y = 'y'; let z = 1;",
+            output: "const x = 1, y = 'y'; const z = 1;",
+            errors: [
+                { message: "'x' is never reassigned. Use 'const' instead.", type: "Identifier" },
+                { message: "'y' is never reassigned. Use 'const' instead.", type: "Identifier" },
+                { message: "'z' is never reassigned. Use 'const' instead.", type: "Identifier" }
+            ]
+        },
+        {
+            code: "let { a, b, c} = obj; let { x, y, z} = anotherObj; x = 2;",
+            output: "const { a, b, c} = obj; let { x, y, z} = anotherObj; x = 2;",
+            errors: [
+                { message: "'a' is never reassigned. Use 'const' instead.", type: "Identifier" },
+                { message: "'b' is never reassigned. Use 'const' instead.", type: "Identifier" },
+                { message: "'c' is never reassigned. Use 'const' instead.", type: "Identifier" },
+                { message: "'y' is never reassigned. Use 'const' instead.", type: "Identifier" },
+                { message: "'z' is never reassigned. Use 'const' instead.", type: "Identifier" }
+            ]
+        },
+        {
+            code: "let x = 'x', y = 'y'; function someFunc() { let a = 1, b = 2; foo(a, b) }",
+            output: "const x = 'x', y = 'y'; function someFunc() { const a = 1, b = 2; foo(a, b) }",
+            errors: [
+                { message: "'x' is never reassigned. Use 'const' instead.", type: "Identifier" },
+                { message: "'y' is never reassigned. Use 'const' instead.", type: "Identifier" },
+                { message: "'a' is never reassigned. Use 'const' instead.", type: "Identifier" },
+                { message: "'b' is never reassigned. Use 'const' instead.", type: "Identifier" }
+            ]
+        },
+        {
+            code: "let someFunc = () => { let a = 1, b = 2; foo(a, b) }",
+            output: "const someFunc = () => { const a = 1, b = 2; foo(a, b) }",
+            errors: [
+                { message: "'someFunc' is never reassigned. Use 'const' instead.", type: "Identifier" },
+                { message: "'a' is never reassigned. Use 'const' instead.", type: "Identifier" },
+                { message: "'b' is never reassigned. Use 'const' instead.", type: "Identifier" }
+            ]
         }
 
     ]
