@@ -6,17 +6,6 @@ While ESLint is designed to be run on the command line, it's possible to use ESL
 
 ## Table of Contents
 
-* [SourceCode](#sourcecode)
-    * [splitLines()](#sourcecodesplitlines)
-* [Linter](#linter)
-    * [verify()](#linterverify)
-    * [verifyAndFix()](#linterverifyandfix)
-    * [defineRule()](#linterdefinerule)
-    * [defineRules()](#linterdefinerules)
-    * [getRules()](#lintergetrules)
-    * [defineParser()](#linterdefineparser)
-    * [version](#linterversion)
-* [linter (deprecated)](#linter-1)
 * [CLIEngine](#cliengine)
     * [executeOnFiles()](#cliengineexecuteonfiles)
     * [resolveFileGlobPatterns()](#cliengineresolvefileglobpatterns)
@@ -29,302 +18,20 @@ While ESLint is designed to be run on the command line, it's possible to use ESL
     * [outputFixes()](#cliengineoutputfixes)
     * [getRules()](#clienginegetrules)
     * [version](#cliengineversion)
+* [Linter](#linter)
+    * [verify()](#linterverify)
+    * [verifyAndFix()](#linterverifyandfix)
+    * [defineRule()](#linterdefinerule)
+    * [defineRules()](#linterdefinerules)
+    * [getRules()](#lintergetrules)
+    * [defineParser()](#linterdefineparser)
+    * [version](#linterversion)
+* [linter (deprecated)](#linter-1)
+* [SourceCode](#sourcecode)
+    * [splitLines()](#sourcecodesplitlines)
 * [RuleTester](#ruletester)
     * [Customizing RuleTester](#customizing-ruletester)
 * [Deprecated APIs](#deprecated-apis)
-
-## SourceCode
-
-The `SourceCode` type represents the parsed source code that ESLint executes on. It's used internally in ESLint and is also available so that already-parsed code can be used. You can create a new instance of `SourceCode` by passing in the text string representing the code and an abstract syntax tree (AST) in [ESTree](https://github.com/estree/estree) format (including location information, range information, comments, and tokens):
-
-```js
-var SourceCode = require("eslint").SourceCode;
-
-var code = new SourceCode("var foo = bar;", ast);
-```
-
-The `SourceCode` constructor throws an error if the AST is missing any of the required information.
-
-The `SourceCode` constructor strips Unicode BOM.
-Please note the AST also should be parsed from stripped text.
-
-```js
-var SourceCode = require("eslint").SourceCode;
-
-var code = new SourceCode("\uFEFFvar foo = bar;", ast);
-
-assert(code.hasBOM === true);
-assert(code.text === "var foo = bar;");
-```
-
-### SourceCode#splitLines()
-
-This is a static function on `SourceCode` that is used to split the source code text into an array of lines.
-
-```js
-var SourceCode = require("eslint").SourceCode;
-
-var code = "var a = 1;\nvar b = 2;"
-
-// split code into an array
-var codeLines = SourceCode.splitLines(code);
-
-/*
-    Value of codeLines will be
-    [
-        "var a = 1;",
-        "var b = 2;"
-    ]
- */
-```
-
-## Linter
-
-The `Linter` object does the actual evaluation of the JavaScript code. It doesn't do any filesystem operations, it simply parses and reports on the code. In particular, the `Linter` object does not process configuration objects or files. You can retrieve instances of `Linter` like this:
-
-```js
-var Linter = require("eslint").Linter;
-var linter = new Linter();
-```
-
-### Linter#verify
-
-The most important method on `Linter` is `verify()`, which initiates linting of the given text. This method accepts three arguments:
-
-* `code` - the source code to lint (a string or instance of `SourceCode`).
-* `config` - a configuration object that has been processed and normalized by CLIEngine using eslintrc files and/or other configuration arguments.
-    * **Note**: If you want to lint text and have your configuration be read and processed, use CLIEngine's [`executeOnFiles`](#cliengineexecuteonfiles) or [`executeOnText`](#cliengineexecuteontext) instead.
-* `options` - (optional) Additional options for this run.
-    * `filename` - (optional) the filename to associate with the source code.
-    * `preprocess` - (optional) A function that accepts a string containing source text, and returns an array of strings containing blocks of code to lint. Also see: [Processors in Plugins](/docs/developer-guide/working-with-plugins.md#processors-in-plugins)
-    * `postprocess` - (optional) A function that accepts an array of problem lists (one list of problems for each block of code from `preprocess`), and returns a one-dimensional array of problems containing problems for the original, unprocessed text. Also see: [Processors in Plugins](/docs/developer-guide/working-with-plugins.md#processors-in-plugins)
-    * `allowInlineConfig` - (optional) set to `false` to disable inline comments from changing ESLint rules.
-    * `reportUnusedDisableDirectives` - (optional) when set to `true`, adds reported errors for unused `eslint-disable` directives when no problems would be reported in the disabled area anyway.
-
-If the third argument is a string, it is interpreted as the `filename`.
-
-You can call `verify()` like this:
-
-```js
-var Linter = require("eslint").Linter;
-var linter = new Linter();
-
-var messages = linter.verify("var foo;", {
-    rules: {
-        semi: 2
-    }
-}, { filename: "foo.js" });
-
-// or using SourceCode
-
-var Linter = require("eslint").Linter,
-    linter = new Linter(),
-    SourceCode = require("eslint").SourceCode;
-
-var code = new SourceCode("var foo = bar;", ast);
-
-var messages = linter.verify(code, {
-    rules: {
-        semi: 2
-    }
-}, { filename: "foo.js" });
-```
-
-The `verify()` method returns an array of objects containing information about the linting warnings and errors. Here's an example:
-
-```js
-{
-    fatal: false,
-    ruleId: "semi",
-    severity: 2,
-    line: 1,
-    column: 23,
-    message: "Expected a semicolon.",
-    fix: {
-        range: [1, 15],
-        text: ";"
-    }
-}
-```
-
-The information available for each linting message is:
-
-* `column` - the column on which the error occurred.
-* `fatal` - usually omitted, but will be set to true if there's a parsing error (not related to a rule).
-* `line` - the line on which the error occurred.
-* `message` - the message that should be output.
-* `nodeType` - the node or token type that was reported with the problem.
-* `ruleId` - the ID of the rule that triggered the messages (or null if `fatal` is true).
-* `severity` - either 1 or 2, depending on your configuration.
-* `endColumn` - the end column of the range on which the error occurred (this property is omitted if it's not range).
-* `endLine` - the end line of the range on which the error occurred (this property is omitted if it's not range).
-* `fix` - an object describing the fix for the problem (this property is omitted if no fix is available).
-
-Linting message objects have a deprecated `source` property. This property **will be removed** from linting messages in an upcoming breaking release. If you depend on this property, you should now use the `SourceCode` instance provided by the linter.
-
-You can also get an instance of the `SourceCode` object used inside of `linter` by using the `getSourceCode()` method:
-
-```js
-var Linter = require("eslint").Linter;
-var linter = new Linter();
-
-var messages = linter.verify("var foo = bar;", {
-    rules: {
-        semi: 2
-    }
-}, { filename: "foo.js" });
-
-var code = linter.getSourceCode();
-
-console.log(code.text);     // "var foo = bar;"
-```
-
-In this way, you can retrieve the text and AST used for the last run of `linter.verify()`.
-
-### Linter#verifyAndFix()
-
-This method is similar to verify except that it also runs autofixing logic, similar to the `--fix` flag on the command line. The result object will contain the autofixed code, along with any remaining linting messages for the code that were not autofixed.
-
-```js
-var Linter = require("eslint").Linter;
-var linter = new Linter();
-
-var messages = linter.verifyAndFix("var foo", {
-    rules: {
-        semi: 2
-    }
-});
-```
-
-Output object from this method:
-
-```js
-{
-    fixed: true,
-    output: "var foo;",
-    messages: []
-}
-```
-
-The information available is:
-
-* `fixed` - True, if the code was fixed.
-* `output` - Fixed code text (might be the same as input if no fixes were applied).
-* `messages` - Collection of all messages for the given code (It has the same information as explained above under `verify` block).
-
-### Linter#defineRule
-
-Each `Linter` instance holds a map of rule names to loaded rule objects. By default, all ESLint core rules are loaded. If you want to use `Linter` with custom rules, you should use the `defineRule` method to register your rules by ID.
-
-```js
-const Linter = require("eslint").Linter;
-const linter = new Linter();
-
-linter.defineRule("my-custom-rule", {
-    // (an ESLint rule)
-
-    create(context) {
-        // ...
-    }
-});
-
-const results = linter.verify("// some source text", { rules: { "my-custom-rule": "error" } });
-```
-
-### Linter#defineRules
-
-This is a convenience method similar to `Linter#defineRule`, except that it allows you to define many rules at once using an object.
-
-```js
-const Linter = require("eslint").Linter;
-const linter = new Linter();
-
-linter.defineRules({
-    "my-custom-rule": { /* an ESLint rule */ create() {} },
-    "another-custom-rule": { /* an ESLint rule */ create() {} }
-});
-
-const results = linter.verify("// some source text", {
-    rules: {
-        "my-custom-rule": "error",
-        "another-custom-rule": "warn"
-    }
-});
-```
-
-### Linter#getRules
-
-This method returns a map of all loaded rules.
-
-```js
-const Linter = require("eslint").Linter;
-const linter = new Linter();
-
-linter.getRules();
-
-/*
-Map {
-  'accessor-pairs' => { meta: { docs: [Object], schema: [Array] }, create: [Function: create] },
-  'array-bracket-newline' => { meta: { docs: [Object], schema: [Array] }, create: [Function: create] },
-  ...
-}
-*/
-```
-
-### Linter#defineParser
-
-Each instance of `Linter` holds a map of custom parsers. If you want to define a parser programmatically you can add this function
-with the name of the parser as first argument and the [parser object](/docs/developer-guide/working-with-plugins.md#working-with-custom-parsers) as second argument.
-
-If during linting the parser is not found, it will fallback to `require(parserId)`.
-
-```js
-const Linter = require("eslint").Linter;
-const linter = new Linter();
-
-linter.defineParser("my-custom-parser", {
-    parse(code, options) {
-        // ...
-    }
-});
-
-const results = linter.verify("// some source text", { parser: "my-custom-parser" });
-```
-
-### Linter#version/Linter.version
-
-Each instance of `Linter` has a `version` property containing the semantic version number of ESLint that the `Linter` instance is from.
-
-```js
-const Linter = require("eslint").Linter;
-const linter = new Linter();
-
-linter.version; // => '4.5.0'
-```
-
-There is also a `Linter.version` property that you can read without instantiating `Linter`:
-
-```js
-const Linter = require("eslint").Linter;
-
-Linter.version; // => '4.5.0'
-```
-
-## linter
-
-The `eslint.linter` object (deprecated) is an instance of the `Linter` class as defined [above](#linter). `eslint.linter` exists for backwards compatibility, but we do not recommend using it because any mutations to it are shared among every module that uses `eslint`. Instead, please create your own instance of `eslint.Linter`.
-
-```js
-var linter = require("eslint").linter;
-
-var messages = linter.verify("var foo;", {
-    rules: {
-        semi: 2
-    }
-}, { filename: "foo.js" });
-```
-
-Note: This API is deprecated as of 4.0.0.
 
 ## CLIEngine
 
@@ -339,17 +46,17 @@ var CLIEngine = require("eslint").CLIEngine;
 The `CLIEngine` is a constructor, and you can create a new instance by passing in the options you want to use. The available options are:
 
 * `allowInlineConfig` - Set to `false` to disable the use of configuration comments (such as `/*eslint-disable*/`). Corresponds to `--no-inline-config`.
-* `baseConfig` - Can optionally be set to a config object that has the same schema as `.eslintrc.*`. This will used as a default config, and will be merged with any configuration defined in `.eslintrc.*` files, with the `.eslintrc.*` files having precedence.
+* `baseConfig` - Can optionally be set to a config object. This will used as a default config, and will be merged with any configuration defined in `.eslintrc.*` files, with the `.eslintrc.*` files having precedence.
 * `cache` - Operate only on changed files (default: `false`). Corresponds to `--cache`.
 * `cacheFile` - Name of the file where the cache will be stored (default: `.eslintcache`). Corresponds to `--cache-file`. Deprecated: use `cacheLocation` instead.
 * `cacheLocation` - Name of the file or directory where the cache will be stored (default: `.eslintcache`). Corresponds to `--cache-location`.
 * `configFile` - The configuration file to use (default: null). If `useEslintrc` is true or not specified, this configuration will be merged with any configuration defined in `.eslintrc.*` files, with options in this configuration having precedence. Corresponds to `-c`.
 * `cwd` - Path to a directory that should be considered as the current working directory.
-* `envs` - An array of environments to load (default: empty array). Corresponds to `--env`. Note: This differs from `.eslintrc.*` / `baseConfig`, where instead the option is called `env` and is an object.
-* `extensions` - An array of filename extensions that should be checked for code. The default is an array containing just `".js"`. Corresponds to `--ext`. It is only used in conjunction with directories, not with filenames, glob patterns or when using `executeOnText()`.
+* `envs` - An array of environments to load (default: empty array). Corresponds to `--env`.
+* `extensions` - An array of filename extensions that should be checked for code. The default is an array containing just `".js"`. Corresponds to `--ext`. It is only used in conjunction with directories, not with filenames or glob patterns.
 * `fix` - A boolean or a function (default: `false`). If a function, it will be passed each linting message and should return a boolean indicating whether the fix should be included with the output report (errors and warnings will not be listed if fixed). Files on disk are never changed regardless of the value of `fix`. To persist changes to disk, call [`outputFixes()`](#cliengineoutputfixes).
 * `fixTypes` - An array of rule types for which fixes should be applied (default: `null`). This array acts like a filter, only allowing rules of the given types to apply fixes. Possible array values are `"problem"`, `"suggestion"`, and `"layout"`.
-* `globals` - An array of global variables to declare (default: empty array). Corresponds to `--global`, and similarly supports passing `'name:true'` to denote a writeable global. Note: This differs from `.eslintrc.*` / `baseConfig`, where `globals` is an object.
+* `globals` - An array of global variables to declare (default: empty array). Corresponds to `--global`.
 * `ignore` - False disables use of `.eslintignore`, `ignorePath` and `ignorePattern` (default: true). Corresponds to `--no-ignore`.
 * `ignorePath` - The ignore file to use instead of `.eslintignore` (default: null). Corresponds to `--ignore-path`.
 * `ignorePattern` - Glob patterns for paths to ignore. String or array of strings.
@@ -362,8 +69,7 @@ The `CLIEngine` is a constructor, and you can create a new instance by passing i
 * `useEslintrc` - Set to false to disable use of `.eslintrc` files (default: true). Corresponds to `--no-eslintrc`.
 * `globInputPaths` - Set to false to skip glob resolution of input file paths to lint (default: true). If false, each input file paths is assumed to be a non-glob path to an existing file.
 
-To programmatically set `.eslintrc.*` options not supported above (such as `extends`,
-`overrides` and `settings`), define them in a config object passed to `baseConfig` instead.
+
 
 For example:
 
@@ -371,12 +77,6 @@ For example:
 var CLIEngine = require("eslint").CLIEngine;
 
 var cli = new CLIEngine({
-    baseConfig: {
-        extends: ["eslint-config-shared"],
-        settings: {
-            sharedData: "Hello"
-        }
-    },
     envs: ["browser", "mocha"],
     useEslintrc: false,
     rules: {
@@ -385,13 +85,7 @@ var cli = new CLIEngine({
 });
 ```
 
-In this example, a new `CLIEngine` instance is created that extends a configuration called
-`"eslint-config-shared"`, a setting named `"sharedData"` and two environments (`"browser"`
-and `"mocha"`) are defined, loading of `.eslintrc` and `package.json` files are disabled,
-and the `semi` rule enabled as an error. You can then call methods on `cli` and these options
-will be used to perform the correct action.
-
-Note: Currently `CLIEngine` does not validate options passed to it, but may start doing so in the future.
+In this code, a new `CLIEngine` instance is created that sets two environments, `"browser"` and `"mocha"`, disables loading of `.eslintrc` and `package.json` files, and enables the `semi` rule as an error. You can then call methods on `cli` and these options will be used to perform the correct action.
 
 ### CLIEngine#executeOnFiles()
 
@@ -684,6 +378,12 @@ or the full path to a JavaScript file containing a custom formatter. You can als
 var CLIEngine = require("eslint").CLIEngine;
 
 var cli = new CLIEngine({
+    baseConfig: {
+        extends: ["eslint-config-shared"],
+        settings: {
+            sharedData: "Hello"
+        }
+    },
     envs: ["browser", "mocha"],
     useEslintrc: false,
     rules: {
@@ -788,6 +488,299 @@ Map {
 ```js
 require("eslint").CLIEngine.version; // '4.5.0'
 ```
+
+## Linter
+
+The `Linter` object does the actual evaluation of the JavaScript code. It doesn't do any filesystem operations, it simply parses and reports on the code. In particular, the `Linter` object does not process configuration objects or files. You can retrieve instances of `Linter` like this:
+
+```js
+var Linter = require("eslint").Linter;
+var linter = new Linter();
+```
+
+### Linter#verify
+
+The most important method on `Linter` is `verify()`, which initiates linting of the given text. This method accepts three arguments:
+
+* `code` - the source code to lint (a string or instance of `SourceCode`).
+* `config` - a configuration object that has been processed and normalized by CLIEngine using eslintrc files and/or other configuration arguments.
+    * **Note**: If you want to lint text and have your configuration be read and processed, use CLIEngine's [`executeOnFiles`](#cliengineexecuteonfiles) or [`executeOnText`](#cliengineexecuteontext) instead.
+* `options` - (optional) Additional options for this run.
+    * `filename` - (optional) the filename to associate with the source code.
+    * `preprocess` - (optional) A function that accepts a string containing source text, and returns an array of strings containing blocks of code to lint. Also see: [Processors in Plugins](/docs/developer-guide/working-with-plugins.md#processors-in-plugins)
+    * `postprocess` - (optional) A function that accepts an array of problem lists (one list of problems for each block of code from `preprocess`), and returns a one-dimensional array of problems containing problems for the original, unprocessed text. Also see: [Processors in Plugins](/docs/developer-guide/working-with-plugins.md#processors-in-plugins)
+    * `allowInlineConfig` - (optional) set to `false` to disable inline comments from changing ESLint rules.
+    * `reportUnusedDisableDirectives` - (optional) when set to `true`, adds reported errors for unused `eslint-disable` directives when no problems would be reported in the disabled area anyway.
+
+If the third argument is a string, it is interpreted as the `filename`.
+
+You can call `verify()` like this:
+
+```js
+var Linter = require("eslint").Linter;
+var linter = new Linter();
+
+var messages = linter.verify("var foo;", {
+    rules: {
+        semi: 2
+    }
+}, { filename: "foo.js" });
+
+// or using SourceCode
+
+var Linter = require("eslint").Linter,
+    linter = new Linter(),
+    SourceCode = require("eslint").SourceCode;
+
+var code = new SourceCode("var foo = bar;", ast);
+
+var messages = linter.verify(code, {
+    rules: {
+        semi: 2
+    }
+}, { filename: "foo.js" });
+```
+
+The `verify()` method returns an array of objects containing information about the linting warnings and errors. Here's an example:
+
+```js
+{
+    fatal: false,
+    ruleId: "semi",
+    severity: 2,
+    line: 1,
+    column: 23,
+    message: "Expected a semicolon.",
+    fix: {
+        range: [1, 15],
+        text: ";"
+    }
+}
+```
+
+The information available for each linting message is:
+
+* `column` - the column on which the error occurred.
+* `fatal` - usually omitted, but will be set to true if there's a parsing error (not related to a rule).
+* `line` - the line on which the error occurred.
+* `message` - the message that should be output.
+* `nodeType` - the node or token type that was reported with the problem.
+* `ruleId` - the ID of the rule that triggered the messages (or null if `fatal` is true).
+* `severity` - either 1 or 2, depending on your configuration.
+* `endColumn` - the end column of the range on which the error occurred (this property is omitted if it's not range).
+* `endLine` - the end line of the range on which the error occurred (this property is omitted if it's not range).
+* `fix` - an object describing the fix for the problem (this property is omitted if no fix is available).
+
+Linting message objects have a deprecated `source` property. This property **will be removed** from linting messages in an upcoming breaking release. If you depend on this property, you should now use the `SourceCode` instance provided by the linter.
+
+You can also get an instance of the `SourceCode` object used inside of `linter` by using the `getSourceCode()` method:
+
+```js
+var Linter = require("eslint").Linter;
+var linter = new Linter();
+
+var messages = linter.verify("var foo = bar;", {
+    rules: {
+        semi: 2
+    }
+}, { filename: "foo.js" });
+
+var code = linter.getSourceCode();
+
+console.log(code.text);     // "var foo = bar;"
+```
+
+In this way, you can retrieve the text and AST used for the last run of `linter.verify()`.
+
+### Linter#verifyAndFix()
+
+This method is similar to verify except that it also runs autofixing logic, similar to the `--fix` flag on the command line. The result object will contain the autofixed code, along with any remaining linting messages for the code that were not autofixed.
+
+```js
+var Linter = require("eslint").Linter;
+var linter = new Linter();
+
+var messages = linter.verifyAndFix("var foo", {
+    rules: {
+        semi: 2
+    }
+});
+```
+
+Output object from this method:
+
+```js
+{
+    fixed: true,
+    output: "var foo;",
+    messages: []
+}
+```
+
+The information available is:
+
+* `fixed` - True, if the code was fixed.
+* `output` - Fixed code text (might be the same as input if no fixes were applied).
+* `messages` - Collection of all messages for the given code (It has the same information as explained above under `verify` block).
+
+### Linter#defineRule
+
+Each `Linter` instance holds a map of rule names to loaded rule objects. By default, all ESLint core rules are loaded. If you want to use `Linter` with custom rules, you should use the `defineRule` method to register your rules by ID.
+
+```js
+const Linter = require("eslint").Linter;
+const linter = new Linter();
+
+linter.defineRule("my-custom-rule", {
+    // (an ESLint rule)
+
+    create(context) {
+        // ...
+    }
+});
+
+const results = linter.verify("// some source text", { rules: { "my-custom-rule": "error" } });
+```
+
+### Linter#defineRules
+
+This is a convenience method similar to `Linter#defineRule`, except that it allows you to define many rules at once using an object.
+
+```js
+const Linter = require("eslint").Linter;
+const linter = new Linter();
+
+linter.defineRules({
+    "my-custom-rule": { /* an ESLint rule */ create() {} },
+    "another-custom-rule": { /* an ESLint rule */ create() {} }
+});
+
+const results = linter.verify("// some source text", {
+    rules: {
+        "my-custom-rule": "error",
+        "another-custom-rule": "warn"
+    }
+});
+```
+
+### Linter#getRules
+
+This method returns a map of all loaded rules.
+
+```js
+const Linter = require("eslint").Linter;
+const linter = new Linter();
+
+linter.getRules();
+
+/*
+Map {
+  'accessor-pairs' => { meta: { docs: [Object], schema: [Array] }, create: [Function: create] },
+  'array-bracket-newline' => { meta: { docs: [Object], schema: [Array] }, create: [Function: create] },
+  ...
+}
+*/
+```
+
+### Linter#defineParser
+
+Each instance of `Linter` holds a map of custom parsers. If you want to define a parser programmatically you can add this function
+with the name of the parser as first argument and the [parser object](/docs/developer-guide/working-with-plugins.md#working-with-custom-parsers) as second argument.
+
+If during linting the parser is not found, it will fallback to `require(parserId)`.
+
+```js
+const Linter = require("eslint").Linter;
+const linter = new Linter();
+
+linter.defineParser("my-custom-parser", {
+    parse(code, options) {
+        // ...
+    }
+});
+
+const results = linter.verify("// some source text", { parser: "my-custom-parser" });
+```
+
+### Linter#version/Linter.version
+
+Each instance of `Linter` has a `version` property containing the semantic version number of ESLint that the `Linter` instance is from.
+
+```js
+const Linter = require("eslint").Linter;
+const linter = new Linter();
+
+linter.version; // => '4.5.0'
+```
+
+There is also a `Linter.version` property that you can read without instantiating `Linter`:
+
+```js
+const Linter = require("eslint").Linter;
+
+Linter.version; // => '4.5.0'
+```
+
+## SourceCode
+
+The `SourceCode` type represents the parsed source code that ESLint executes on. It's used internally in ESLint and is also available so that already-parsed code can be used. You can create a new instance of `SourceCode` by passing in the text string representing the code and an abstract syntax tree (AST) in [ESTree](https://github.com/estree/estree) format (including location information, range information, comments, and tokens):
+
+```js
+var SourceCode = require("eslint").SourceCode;
+
+var code = new SourceCode("var foo = bar;", ast);
+```
+
+The `SourceCode` constructor throws an error if the AST is missing any of the required information.
+
+The `SourceCode` constructor strips Unicode BOM.
+Please note the AST also should be parsed from stripped text.
+
+```js
+var SourceCode = require("eslint").SourceCode;
+
+var code = new SourceCode("\uFEFFvar foo = bar;", ast);
+
+assert(code.hasBOM === true);
+assert(code.text === "var foo = bar;");
+```
+
+### SourceCode#splitLines()
+
+This is a static function on `SourceCode` that is used to split the source code text into an array of lines.
+
+```js
+var SourceCode = require("eslint").SourceCode;
+
+var code = "var a = 1;\nvar b = 2;"
+
+// split code into an array
+var codeLines = SourceCode.splitLines(code);
+
+/*
+    Value of codeLines will be
+    [
+        "var a = 1;",
+        "var b = 2;"
+    ]
+ */
+```
+
+## linter
+
+The `eslint.linter` object (deprecated) is an instance of the `Linter` class as defined [above](#linter). `eslint.linter` exists for backwards compatibility, but we do not recommend using it because any mutations to it are shared among every module that uses `eslint`. Instead, please create your own instance of `eslint.Linter`.
+
+```js
+var linter = require("eslint").linter;
+
+var messages = linter.verify("var foo;", {
+    rules: {
+        semi: 2
+    }
+}, { filename: "foo.js" });
+```
+
+Note: This API is deprecated as of 4.0.0.
 
 ## RuleTester
 
