@@ -23,7 +23,7 @@
     "js-yaml": "^3.5.1"
   },
   "peerDependencies": {
-    "eslint-plugin-node": "^6.0.1 || ^7.0.1"
+    "eslint-plugin-node": "^6.0.1 || ^7.0.1 || ^8.0.0"
   },
   "keywords": [
     "eslintconfig",
