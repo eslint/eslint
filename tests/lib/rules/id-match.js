@@ -112,8 +112,40 @@ ruleTester.run("id-match", rule, {
         {
             code: "var obj = {key: no_under}",
             options: ["^[^_]+$", {
-                properties: true
+                properties: true,
+                onlyDeclarations: true
             }]
+        },
+        {
+            code: "var {key_no_under: key} = {}",
+            options: ["^[^_]+$", {
+                properties: true
+            }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var { category_id } = query;",
+            options: ["^[^_]+$", {
+                properties: true,
+                ignoreDestructuring: true
+            }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var { category_id: category_id } = query;",
+            options: ["^[^_]+$", {
+                properties: true,
+                ignoreDestructuring: true
+            }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var { category_id = 1 } = query;",
+            options: ["^[^_]+$", {
+                properties: true,
+                ignoreDestructuring: true
+            }],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "var o = {key: 1}",
@@ -194,6 +226,18 @@ ruleTester.run("id-match", rule, {
             errors: [
                 {
                     message: "Identifier 'Last_Name' does not match the pattern '^[a-z]+(_[A-Z][a-z])*$'.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "var obj = {key: no_under}",
+            options: ["^[^_]+$", {
+                properties: true
+            }],
+            errors: [
+                {
+                    message: "Identifier 'no_under' does not match the pattern '^[^_]+$'.",
                     type: "Identifier"
                 }
             ]
@@ -312,6 +356,298 @@ ruleTester.run("id-match", rule, {
             errors: [
                 {
                     message: "Identifier 'no_under30' does not match the pattern '^[^_]+$'.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "var { category_id: category_alias } = query;",
+            options: ["^[^_]+$", {
+                properties: true
+            }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Identifier 'category_alias' does not match the pattern '^[^_]+$'.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "var { category_id: category_alias } = query;",
+            options: ["^[^_]+$", {
+                properties: true,
+                ignoreDestructuring: true
+            }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Identifier 'category_alias' does not match the pattern '^[^_]+$'.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "var { category_id: categoryId, ...other_props } = query;",
+            options: ["^[^_]+$", {
+                properties: true,
+                ignoreDestructuring: true
+            }],
+            parserOptions: { ecmaVersion: 2018 },
+            errors: [
+                {
+                    message: "Identifier 'other_props' does not match the pattern '^[^_]+$'.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "var { category_id } = query;",
+            options: ["^[^_]+$", {
+                properties: true
+            }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Identifier 'category_id' does not match the pattern '^[^_]+$'.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "var { category_id = 1 } = query;",
+            options: ["^[^_]+$", {
+                properties: true
+            }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Identifier 'category_id' does not match the pattern '^[^_]+$'.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "import no_camelcased from \"external-module\";",
+            options: ["^[^_]+$", {
+                properties: true
+            }],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [
+                {
+                    message: "Identifier 'no_camelcased' does not match the pattern '^[^_]+$'.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "import * as no_camelcased from \"external-module\";",
+            options: ["^[^_]+$", {
+                properties: true
+            }],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [
+                {
+                    message: "Identifier 'no_camelcased' does not match the pattern '^[^_]+$'.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "import { no_camelcased } from \"external-module\";",
+            options: ["^[^_]+$", {
+                properties: true
+            }],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [
+                {
+                    message: "Identifier 'no_camelcased' does not match the pattern '^[^_]+$'.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "import { no_camelcased as no_camel_cased } from \"external module\";",
+            options: ["^[^_]+$", {
+                properties: true
+            }],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [
+                {
+                    message: "Identifier 'no_camel_cased' does not match the pattern '^[^_]+$'.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "import { camelCased as no_camel_cased } from \"external module\";",
+            options: ["^[^_]+$", {
+                properties: true
+            }],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [
+                {
+                    message: "Identifier 'no_camel_cased' does not match the pattern '^[^_]+$'.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "import { camelCased, no_camelcased } from \"external-module\";",
+            options: ["^[^_]+$", {
+                properties: true
+            }],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [
+                {
+                    message: "Identifier 'no_camelcased' does not match the pattern '^[^_]+$'.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "import { no_camelcased as camelCased, another_no_camelcased } from \"external-module\";",
+            options: ["^[^_]+$", {
+                properties: true
+            }],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [
+                {
+                    message: "Identifier 'another_no_camelcased' does not match the pattern '^[^_]+$'.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "import camelCased, { no_camelcased } from \"external-module\";",
+            options: ["^[^_]+$", {
+                properties: true
+            }],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [
+                {
+                    message: "Identifier 'no_camelcased' does not match the pattern '^[^_]+$'.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "import no_camelcased, { another_no_camelcased as camelCased } from \"external-module\";",
+            options: ["^[^_]+$", {
+                properties: true
+            }],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [
+                {
+                    message: "Identifier 'no_camelcased' does not match the pattern '^[^_]+$'.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "function foo({ no_camelcased }) {};",
+            options: ["^[^_]+$", {
+                properties: true
+            }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Identifier 'no_camelcased' does not match the pattern '^[^_]+$'.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "function foo({ no_camelcased = 'default value' }) {};",
+            options: ["^[^_]+$", {
+                properties: true
+            }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Identifier 'no_camelcased' does not match the pattern '^[^_]+$'.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "const no_camelcased = 0; function foo({ camelcased_value = no_camelcased }) {}",
+            options: ["^[^_]+$", {
+                properties: true
+            }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Identifier 'no_camelcased' does not match the pattern '^[^_]+$'.",
+                    type: "Identifier"
+                },
+                {
+                    message: "Identifier 'camelcased_value' does not match the pattern '^[^_]+$'.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "const { bar: no_camelcased } = foo;",
+            options: ["^[^_]+$", {
+                properties: true
+            }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Identifier 'no_camelcased' does not match the pattern '^[^_]+$'.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "function foo({ value_1: my_default }) {}",
+            options: ["^[^_]+$", {
+                properties: true
+            }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Identifier 'my_default' does not match the pattern '^[^_]+$'.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "function foo({ isCamelcased: no_camelcased }) {};",
+            options: ["^[^_]+$", {
+                properties: true
+            }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Identifier 'no_camelcased' does not match the pattern '^[^_]+$'.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "var { foo: bar_baz = 1 } = quz;",
+            options: ["^[^_]+$", {
+                properties: true
+            }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Identifier 'bar_baz' does not match the pattern '^[^_]+$'.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "const { no_camelcased = false } = bar;",
+            options: ["^[^_]+$", {
+                properties: true
+            }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Identifier 'no_camelcased' does not match the pattern '^[^_]+$'.",
                     type: "Identifier"
                 }
             ]
