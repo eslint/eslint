@@ -90,7 +90,7 @@
     "eslint-plugin-eslint-plugin": "^1.4.1",
     "eslint-plugin-node": "^8.0.0",
     "eslint-plugin-rulesdir": "^0.1.0",
-    "eslint-release": "^1.0.0",
+    "eslint-release": "^1.2.0",
     "eslint-rule-composer": "^0.3.0",
     "eslump": "^1.6.2",
     "esprima": "^4.0.1",
