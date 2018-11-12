@@ -182,6 +182,18 @@ ruleTester.run("no-else-return", rule, {
             output: "function foo21() { var x = true; if (x) { return x; } if (x === false) { return false; } }",
             options: [{ allowElseIf: false }],
             errors: [{ messageId: "unexpected", type: "IfStatement" }]
+        },
+        {
+            code: "function foo() { if (true) { return bar; } else { const baz = 1;  return baz; } }",
+            output: null,
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unexpected", type: "BlockStatement" }]
+        },
+        {
+            code: "function foo() { if (true) { return bar; } else { let baz = 1;  return baz; } }",
+            output: null,
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         }
     ]
 });
