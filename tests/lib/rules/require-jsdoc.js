@@ -232,7 +232,7 @@ ruleTester.run("require-jsdoc", rule, {
                 require: {
                     FunctionExpression: true
                 },
-                exceptMethods: ["exceptedFunction"]
+                except: ["exceptedFunction"]
             }]
         },
         {
@@ -245,7 +245,7 @@ ruleTester.run("require-jsdoc", rule, {
                     MethodDefinition: true,
                     ClassDeclaration: true
                 },
-                exceptMethods: ["exceptedMethod", "ExceptedClass"]
+                except: ["exceptedMethod", "ExceptedClass"]
             }],
             parserOptions: { ecmaVersion: 6 }
         },
@@ -255,7 +255,7 @@ ruleTester.run("require-jsdoc", rule, {
                 require: {
                     ArrowFunctionExpression: true
                 },
-                exceptMethods: ["exceptedArrowfunction"]
+                except: ["exceptedArrowfunction"]
             }],
             parserOptions: { ecmaVersion: 6 }
         }

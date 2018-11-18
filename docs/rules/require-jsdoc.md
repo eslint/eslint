@@ -31,7 +31,7 @@ This rule requires JSDoc comments for specified nodes. Supported nodes:
 This rule has the following options:
 
 * `"require"` requires JSDoc comments for the specified nodes
-* `"exceptMethods"` list any methods that should be excluded from the rule
+* `"except"` list any methods that should be excluded from the rule
 
 Default option settings are:
 
@@ -45,7 +45,7 @@ Default option settings are:
             "ArrowFunctionExpression": false,
             "FunctionExpression": false
         },
-        "exceptMethods": []
+        "except": []
     }]
 }
 ```
@@ -54,7 +54,7 @@ Default option settings are:
 
 Examples of **incorrect** code for this rule with the `{ "require": {
 "FunctionDeclaration": true, "MethodDefinition": true, "ClassDeclaration": true,
-"ArrowFunctionExpression": true, "FunctionExpression": true }, "exceptMethods":
+"ArrowFunctionExpression": true, "FunctionExpression": true }, "except":
 [ "exceptedName" ] }` option:
 
 ```js
@@ -99,7 +99,7 @@ var foo = {
 
 Examples of **correct** code for this rule with the `{ "require": {
 "FunctionDeclaration": true, "MethodDefinition": true, "ClassDeclaration": true,
-"ArrowFunctionExpression": true, "FunctionExpression": true }, "exceptMethods":
+"ArrowFunctionExpression": true, "FunctionExpression": true }, "except":
 [ "exceptedName" ] }` option:
 
 ```js
