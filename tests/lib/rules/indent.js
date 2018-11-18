@@ -272,6 +272,17 @@ ruleTester.run("indent", rule, {
             options: [4]
         },
         {
+
+            // https://github.com/eslint/eslint/issues/11802
+            code: unIndent`
+                import foo from "foo"
+
+                ;(() => {})()
+            `,
+            options: [4],
+            parserOptions: { sourceType: "module" }
+        },
+        {
             code: unIndent`
                 function test() {
                     return client.signUp(email, PASSWORD, { preVerified: true })
