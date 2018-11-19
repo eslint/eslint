@@ -162,8 +162,7 @@ describe("npmUtils", () => {
         });
 
         it("should return false if package.json does not exist", () => {
-            mockFs({});
-            assert.strictEqual(npmUtils.checkPackageJson(), false);
+            assert.strictEqual(npmUtils.checkPackageJson("/"), false);
         });
     });
 
