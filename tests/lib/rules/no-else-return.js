@@ -200,6 +200,14 @@ ruleTester.run("no-else-return", rule, {
             output: null,
             parserOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
+        },
+        {
+            code: "function foo() { let bar = true; if (baz) { return; } else { { let bar = false; }  return; } }",
+            output: null,
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                { messageId: "unexpected", type: "BlockStatement" }
+            ]
         }
     ]
 });
