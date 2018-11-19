@@ -162,6 +162,7 @@ describe("npmUtils", () => {
         });
 
         it("should return false if package.json does not exist", () => {
+
             /*
              * Checking local file system directly, which does not
              * contains package.json. This is necessary because mock-fs
