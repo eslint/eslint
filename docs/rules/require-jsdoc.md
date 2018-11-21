@@ -32,6 +32,7 @@ This rule has the following options:
 
 * `"require"` requires JSDoc comments for the specified nodes
 * `"except"` list any methods that should be excluded from the rule
+* `"exceptPatterns"` an array of regex patterns which should be ignored
 
 Default option settings are:
 
@@ -45,7 +46,8 @@ Default option settings are:
             "ArrowFunctionExpression": false,
             "FunctionExpression": false
         },
-        "except": []
+        "except": [],
+        "exceptPatterns": [],
     }]
 }
 ```
@@ -55,7 +57,7 @@ Default option settings are:
 Examples of **incorrect** code for this rule with the `{ "require": {
 "FunctionDeclaration": true, "MethodDefinition": true, "ClassDeclaration": true,
 "ArrowFunctionExpression": true, "FunctionExpression": true }, "except":
-[ "exceptedName" ] }` option:
+[ "exceptedName" ], exceptPatterns: ["^_(.*)"] }` option:
 
 ```js
 /*eslint "require-jsdoc": ["error", {
@@ -100,7 +102,7 @@ var foo = {
 Examples of **correct** code for this rule with the `{ "require": {
 "FunctionDeclaration": true, "MethodDefinition": true, "ClassDeclaration": true,
 "ArrowFunctionExpression": true, "FunctionExpression": true }, "except":
-[ "exceptedName" ] }` option:
+[ "exceptedName" ], exceptPatterns: [ "^_(.*)" ] }` option:
 
 ```js
 /*eslint "require-jsdoc": ["error", {
@@ -197,6 +199,8 @@ class exceptedName {}
 class App {
     exceptedName() {}
 }
+
+function _internalFunction() {}
 ```
 
 ## When Not To Use It

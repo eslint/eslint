@@ -258,6 +258,16 @@ ruleTester.run("require-jsdoc", rule, {
                 except: ["exceptedArrowfunction"]
             }],
             parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var _exceptedArrowfunction = () => {}",
+            options: [{
+                require: {
+                    ArrowFunctionExpression: true
+                },
+                exceptPatterns: ["^_(.*)"]
+            }],
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
 
