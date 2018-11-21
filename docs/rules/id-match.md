@@ -23,20 +23,6 @@ For example, to enforce a camelcase naming convention:
 }
 ```
 
-Examples of **correct** code for this rule with the `"^[a-z]+([A-Z][a-z]+)*$"` option:
-
-```js
-/*eslint id-match: ["error", "^[a-z]+([A-Z][a-z]+)*$"]*/
-
-var myFavoriteColor   = "#112C85";
-var foo = bar.baz_boom;
-var foo = { qux: bar.baz_boom };
-do_something();
-var obj = {
-    my_pref: 1
-};
-```
-
 Examples of **incorrect** code for this rule with the `"^[a-z]+([A-Z][a-z]+)*$"` option:
 
 ```js
@@ -51,6 +37,20 @@ function do_something() {
 }
 obj.do_something = function() {
     // ...
+};
+```
+
+Examples of **correct** code for this rule with the `"^[a-z]+([A-Z][a-z]+)*$"` option:
+
+```js
+/*eslint id-match: ["error", "^[a-z]+([A-Z][a-z]+)*$"]*/
+
+var myFavoriteColor   = "#112C85";
+var foo = bar.baz_boom;
+var foo = { qux: bar.baz_boom };
+do_something();
+var obj = {
+    my_pref: 1
 };
 ```
 
