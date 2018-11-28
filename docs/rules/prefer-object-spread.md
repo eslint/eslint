@@ -14,6 +14,7 @@ Object.assign({}, foo)
 
 Object.assign({}, {foo: 'bar'})
 
+// Set a default value for "foo".
 Object.assign({ foo: 'bar'}, baz)
 
 Object.assign({ foo: 'bar' }, Object.assign({ bar: 'foo' }))
@@ -33,6 +34,9 @@ Examples of **correct** code for this rule:
 ```js
 
 Object.assign(...foo);
+
+// Set a default value for "foo".
+{ foo: 'bar', ...baz }
 
 // Any Object.assign call without an object literal as the first argument
 Object.assign(foo, { bar: baz });
