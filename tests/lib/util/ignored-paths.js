@@ -12,7 +12,7 @@
 const assert = require("chai").assert,
     path = require("path"),
     os = require("os"),
-    IgnoredPaths = require("../../lib/ignored-paths.js"),
+    IgnoredPaths = require("../../../lib/util/ignored-paths.js"),
     sinon = require("sinon"),
     fs = require("fs"),
     includes = require("lodash").includes;

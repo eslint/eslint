@@ -9,9 +9,9 @@
 //------------------------------------------------------------------------------
 
 const assert = require("chai").assert;
-const SourceCode = require("../../lib/util/source-code");
+const SourceCode = require("../../../lib/util/source-code");
 const espree = require("espree");
-const createReportTranslator = require("../../lib/report-translator");
+const createReportTranslator = require("../../../lib/util/report-translator");
 
 //------------------------------------------------------------------------------
 // Tests
