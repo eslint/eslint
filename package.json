@@ -54,7 +54,6 @@
     "ignore": "^4.0.6",
     "imurmurhash": "^0.1.4",
     "inquirer": "^6.1.0",
-    "is-resolvable": "^1.1.0",
     "js-yaml": "^3.12.0",
     "json-stable-stringify-without-jsonify": "^1.0.1",
     "levn": "^0.3.0",
