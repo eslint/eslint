@@ -733,6 +733,7 @@ describe("CLIEngine", () => {
         it("should warn when deprecated rules are found in a config", () => {
             engine = new CLIEngine({
                 cwd: originalDir,
+                useEslintrc: false,
                 configFile: "tests/fixtures/cli-engine/deprecated-rule-config/.eslintrc.yml"
             });
 
@@ -1530,7 +1531,11 @@ describe("CLIEngine", () => {
 
             assert.deepStrictEqual(
                 report.usedDeprecatedRules,
-                [{ ruleId: "indent-legacy", replacedBy: ["indent"] }]
+                [
+                    { ruleId: "indent-legacy", replacedBy: ["indent"] },
+                    { ruleId: "require-jsdoc", replacedBy: [] },
+                    { ruleId: "valid-jsdoc", replacedBy: [] }
+                ]
             );
         });
 
@@ -1538,7 +1543,7 @@ describe("CLIEngine", () => {
             engine = new CLIEngine({
                 cwd: originalDir,
                 configFile: ".eslintrc.js",
-                rules: { indent: 1 }
+                rules: { indent: 1, "valid-jsdoc": 0, "require-jsdoc": 0 }
             });
 
             const report = engine.executeOnFiles(["lib/cli*.js"]);
@@ -1549,7 +1554,8 @@ describe("CLIEngine", () => {
         it("should warn when deprecated rules are found in a config", () => {
             engine = new CLIEngine({
                 cwd: originalDir,
-                configFile: "tests/fixtures/cli-engine/deprecated-rule-config/.eslintrc.yml"
+                configFile: "tests/fixtures/cli-engine/deprecated-rule-config/.eslintrc.yml",
+                useEslintrc: false
             });
 
             const report = engine.executeOnFiles(["lib/cli*.js"]);
