@@ -350,7 +350,7 @@ function publishRelease() {
 /**
  * Splits a command result to separate lines.
  * @param {string} result The command result string.
- * @returns {array} The separated lines.
+ * @returns {Array} The separated lines.
  */
 function splitCommandResultToLines(result) {
     return result.trim().split("\n");
@@ -416,7 +416,7 @@ function getFirstVersionOfDeletion(filePath) {
 
 /**
  * Lints Markdown files.
- * @param {array} files Array of file names to lint.
+ * @param {Array} files Array of file names to lint.
  * @returns {Object} exec-style exit code object.
  * @private
  */
