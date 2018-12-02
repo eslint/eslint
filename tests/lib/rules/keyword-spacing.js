@@ -2024,6 +2024,12 @@ ruleTester.run("keyword-spacing", rule, {
             errors: expectedBefore("export")
         },
         {
+            code: "export default{a}",
+            output: "export default {a}",
+            parserOptions: { sourceType: "module" },
+            errors: expectedAfter("default")
+        },
+        {
             code: "{}export* from \"a\"",
             output: "{} export * from \"a\"",
             parserOptions: { sourceType: "module" },
