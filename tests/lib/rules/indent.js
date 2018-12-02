@@ -25,7 +25,7 @@ const parser = require("../../fixtures/fixture-parser");
 /**
  * Create error message object for failure cases with a single 'found' indentation type
  * @param {string} providedIndentType indent type of string or tab
- * @param {array} providedErrors error info
+ * @param {Array} providedErrors error info
  * @returns {Object} returns the error messages collection
  * @private
  */
