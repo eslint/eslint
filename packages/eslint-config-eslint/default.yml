@@ -181,6 +181,7 @@ rules:
             "String": "string",
             "Number": "number",
             "Boolean": "boolean",
+            "array": "Array",
             "object": "Object",
             "function": "Function"
         }
