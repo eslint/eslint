@@ -52,6 +52,14 @@ module.exports = {
                     message: "`assert.doesNotThrow()` should be replaced with a comment next to the code."
                 }]
             }
+        }, {
+            files: ["tools/*"],
+            rules: {
+                "node/no-unsupported-features/es-syntax": ["error", {
+                    "version": ">=7.6.0",
+                    "ignores": []
+                }]
+            }
         }
     ]
 };
