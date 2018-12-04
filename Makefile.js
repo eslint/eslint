@@ -251,16 +251,6 @@ function generateRuleIndexPage(basedir) {
 }
 
 /**
- * Generate a JSON file containing all team data from GitHub.
- * @returns {void}
- */
-function generateTeamData() {
-    const outputFile = "../eslint.github.io/_data/team.json";
-
-    exec(`node tools/fetch-team-data.js ${outputFile}`);
-}
-
-/**
  * Creates a git commit and tag in an adjacent `eslint.github.io` repository, without pushing it to
  * the remote. This assumes that the repository has already been modified somehow (e.g. by adding a blogpost).
  * @param {string} [tag] The string to tag the commit with
@@ -820,25 +810,21 @@ target.gensite = function(prereleaseVersion) {
     echo("> Generating the rule listing (Step 11)");
     generateRuleIndexPage(process.cwd());
 
-    // 12. Generate team page data
-    echo("> Generating the team data (Step 12)");
-    generateTeamData();
-
-    // 13. Delete temporary directory
-    echo("> Removing the temporary directory (Step 13)");
+    // 12. Delete temporary directory
+    echo("> Removing the temporary directory (Step 12)");
     rm("-rf", TEMP_DIR);
 
-    // 14. Update demos, but only for non-prereleases
+    // 13. Update demos, but only for non-prereleases
     if (!prereleaseVersion) {
-        echo("> Updating the demos (Step 14)");
+        echo("> Updating the demos (Step 13)");
         target.browserify();
         cp("-f", "build/eslint.js", `${SITE_DIR}js/app/eslint.js`);
     } else {
-        echo("> Skipped updating the demos (Step 14)");
+        echo("> Skipped updating the demos (Step 13)");
     }
 
-    // 15. Create Example Formatter Output Page
-    echo("> Creating the formatter examples (Step 15)");
+    // 14. Create Example Formatter Output Page
+    echo("> Creating the formatter examples (Step 14)");
     generateFormatterExamples(getFormatterResults(), prereleaseVersion);
 
     echo("Done generating eslint.org");
