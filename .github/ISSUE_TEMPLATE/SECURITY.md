@@ -1,6 +1,9 @@
 ---
 name: "⛔ Security issue"
 about: Please file security issues at https://hackerone.com/eslint
+title: ''
+labels: ''
+assignees: ''
 
 ---
 

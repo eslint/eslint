@@ -1,6 +1,9 @@
 ---
 name: "⛔ Question"
 about: Please go to https://gitter.im/eslint/eslint
+title: ''
+labels: ''
+assignees: ''
 
 ---
 
