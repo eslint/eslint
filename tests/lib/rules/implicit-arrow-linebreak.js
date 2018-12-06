@@ -255,23 +255,30 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
             errors: [UNEXPECTED_LINEBREAK]
 
         }, {
-            code: `(foo) =>
-                    // comment
-                    // another comment
-                        bar`,
-            output: "// comment\n// another comment\n(foo) => bar",
+            code: `
+            (foo) =>
+             // comment
+             // another comment
+                bar`,
+            output: `
+            // comment
+            // another comment
+            (foo) => bar`,
             errors: [UNEXPECTED_LINEBREAK]
         }, {
-            code: `(foo) =>
-                   // comment
-                   (
-                   // another comment
-                   bar
-                   )`,
-            output: `// comment\n(foo) => (
-                   // another comment
-                   bar
-                   )`,
+            code: `
+            (foo) =>
+            // comment
+            (
+            // another comment
+            bar
+            )`,
+            output: `
+            // comment
+            (foo) => (
+            // another comment
+            bar
+            )`,
             errors: [UNEXPECTED_LINEBREAK]
         },
         {
