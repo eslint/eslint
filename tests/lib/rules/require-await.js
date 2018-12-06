@@ -46,38 +46,47 @@ ruleTester.run("require-await", rule, {
     invalid: [
         {
             code: "async function foo() { doSomething() }",
+            output: "function foo() { doSomething() }",
             errors: ["Async function 'foo' has no 'await' expression."]
         },
         {
             code: "(async function() { doSomething() })",
+            output: "(function() { doSomething() })",
             errors: ["Async function has no 'await' expression."]
         },
         {
             code: "async () => { doSomething() }",
+            output: "() => { doSomething() }",
             errors: ["Async arrow function has no 'await' expression."]
         },
         {
             code: "async () => doSomething()",
+            output: "() => doSomething()",
             errors: ["Async arrow function has no 'await' expression."]
         },
         {
             code: "({ async foo() { doSomething() } })",
+            output: "({ foo() { doSomething() } })",
             errors: ["Async method 'foo' has no 'await' expression."]
         },
         {
             code: "class A { async foo() { doSomething() } }",
+            output: "class A { foo() { doSomething() } }",
             errors: ["Async method 'foo' has no 'await' expression."]
         },
         {
             code: "(class { async foo() { doSomething() } })",
+            output: "(class { foo() { doSomething() } })",
             errors: ["Async method 'foo' has no 'await' expression."]
         },
         {
             code: "async function foo() { async () => { await doSomething() } }",
+            output: "function foo() { async () => { await doSomething() } }",
             errors: ["Async function 'foo' has no 'await' expression."]
         },
         {
             code: "async function foo() { await async () => { doSomething() } }",
+            output: "async function foo() { await () => { doSomething() } }",
             errors: ["Async arrow function has no 'await' expression."]
         }
     ]
