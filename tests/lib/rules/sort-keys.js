@@ -33,14 +33,14 @@ ruleTester.run("sort-keys", rule, {
         // ignore non-simple computed properties.
         { code: "var obj = {a:1, b:3, [a + b]: -1, c:2}", options: [], parserOptions: { ecmaVersion: 6 } },
 
-        // ignore non-boundary spread properties.
+        // ignore properties separated by spread properties
         { code: "var obj = {a:1, ...z, b:1}", options: [], parserOptions: { ecmaVersion: 2018 } },
         { code: "var obj = {b:1, ...z, a:1}", options: [], parserOptions: { ecmaVersion: 2018 } },
         { code: "var obj = {...a, b:1, ...c, d:1}", options: [], parserOptions: { ecmaVersion: 2018 } },
         { code: "var obj = {...a, b:1, ...d, ...c, e:2, z:5}", options: [], parserOptions: { ecmaVersion: 2018 } },
         { code: "var obj = {b:1, ...c, ...d, e:2}", options: [], parserOptions: { ecmaVersion: 2018 } },
 
-        // boundary spread properties
+        // not ignore properties not separated by spread properties
         { code: "var obj = {...z, a:1, b:1}", options: [], parserOptions: { ecmaVersion: 2018 } },
         { code: "var obj = {...z, ...c, a:1, b:1}", options: [], parserOptions: { ecmaVersion: 2018 } },
         { code: "var obj = {a:1, b:1, ...z}", options: [], parserOptions: { ecmaVersion: 2018 } },
@@ -160,7 +160,7 @@ ruleTester.run("sort-keys", rule, {
             errors: ["Expected object keys to be in ascending order. 'Z' should be before 'À'."]
         },
 
-        // not ignore boundary spread properties
+        // not ignore properties not separated by spread properties
         {
             code: "var obj = {...z, c:1, b:1}",
             options: [],
