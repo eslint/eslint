@@ -339,17 +339,17 @@ var CLIEngine = require("eslint").CLIEngine;
 The `CLIEngine` is a constructor, and you can create a new instance by passing in the options you want to use. The available options are:
 
 * `allowInlineConfig` - Set to `false` to disable the use of configuration comments (such as `/*eslint-disable*/`). Corresponds to `--no-inline-config`.
-* `baseConfig` - Can optionally be set to a config object. This will used as a default config, and will be merged with any configuration defined in `.eslintrc.*` files, with the `.eslintrc.*` files having precedence.
+* `baseConfig` - Can optionally be set to a config object that has the same schema as `.eslintrc.*`. This will used as a default config, and will be merged with any configuration defined in `.eslintrc.*` files, with the `.eslintrc.*` files having precedence.
 * `cache` - Operate only on changed files (default: `false`). Corresponds to `--cache`.
 * `cacheFile` - Name of the file where the cache will be stored (default: `.eslintcache`). Corresponds to `--cache-file`. Deprecated: use `cacheLocation` instead.
 * `cacheLocation` - Name of the file or directory where the cache will be stored (default: `.eslintcache`). Corresponds to `--cache-location`.
 * `configFile` - The configuration file to use (default: null). If `useEslintrc` is true or not specified, this configuration will be merged with any configuration defined in `.eslintrc.*` files, with options in this configuration having precedence. Corresponds to `-c`.
 * `cwd` - Path to a directory that should be considered as the current working directory.
-* `envs` - An array of environments to load (default: empty array). Corresponds to `--env`.
-* `extensions` - An array of filename extensions that should be checked for code. The default is an array containing just `".js"`. Corresponds to `--ext`. It is only used in conjunction with directories, not with filenames or glob patterns.
+* `envs` - An array of environments to load (default: empty array). Corresponds to `--env`. Note: This differs from `.eslintrc.*` / `baseConfig`, where instead the option is called `env` and is an object.
+* `extensions` - An array of filename extensions that should be checked for code. The default is an array containing just `".js"`. Corresponds to `--ext`. It is only used in conjunction with directories, not with filenames, glob patterns or when using `executeOnText()`.
 * `fix` - A boolean or a function (default: `false`). If a function, it will be passed each linting message and should return a boolean indicating whether the fix should be included with the output report (errors and warnings will not be listed if fixed). Files on disk are never changed regardless of the value of `fix`. To persist changes to disk, call [`outputFixes()`](#cliengineoutputfixes).
 * `fixTypes` - An array of rule types for which fixes should be applied (default: `null`). This array acts like a filter, only allowing rules of the given types to apply fixes. Possible array values are `"problem"`, `"suggestion"`, and `"layout"`.
-* `globals` - An array of global variables to declare (default: empty array). Corresponds to `--global`.
+* `globals` - An array of global variables to declare (default: empty array). Corresponds to `--global`, and similarly supports passing `'name:true'` to denote a writeable global. Note: This differs from `.eslintrc.*` / `baseConfig`, where `globals` is an object.
 * `ignore` - False disables use of `.eslintignore`, `ignorePath` and `ignorePattern` (default: true). Corresponds to `--no-ignore`.
 * `ignorePath` - The ignore file to use instead of `.eslintignore` (default: null). Corresponds to `--ignore-path`.
 * `ignorePattern` - Glob patterns for paths to ignore. String or array of strings.
@@ -362,7 +362,8 @@ The `CLIEngine` is a constructor, and you can create a new instance by passing i
 * `useEslintrc` - Set to false to disable use of `.eslintrc` files (default: true). Corresponds to `--no-eslintrc`.
 * `globInputPaths` - Set to false to skip glob resolution of input file paths to lint (default: true). If false, each input file paths is assumed to be a non-glob path to an existing file.
 
-
+To programmatically set `.eslintrc.*` options not supported above (such as `extends`,
+`overrides` and `settings`), define them in a config object passed to `baseConfig` instead.
 
 For example:
 
@@ -370,6 +371,12 @@ For example:
 var CLIEngine = require("eslint").CLIEngine;
 
 var cli = new CLIEngine({
+    baseConfig: {
+        extends: ["eslint-config-shared"],
+        settings: {
+            sharedData: "Hello"
+        }
+    },
     envs: ["browser", "mocha"],
     useEslintrc: false,
     rules: {
@@ -378,7 +385,13 @@ var cli = new CLIEngine({
 });
 ```
 
-In this code, a new `CLIEngine` instance is created that sets two environments, `"browser"` and `"mocha"`, disables loading of `.eslintrc` and `package.json` files, and enables the `semi` rule as an error. You can then call methods on `cli` and these options will be used to perform the correct action.
+In this example, a new `CLIEngine` instance is created that extends a configuration called
+`"eslint-config-shared"`, a setting named `"sharedData"` and two environments (`"browser"`
+and `"mocha"`) are defined, loading of `.eslintrc` and `package.json` files are disabled,
+and the `semi` rule enabled as an error. You can then call methods on `cli` and these options
+will be used to perform the correct action.
+
+Note: Currently `CLIEngine` does not validate options passed to it, but may start doing so in the future.
 
 ### CLIEngine#executeOnFiles()
 
