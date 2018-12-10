@@ -2,7 +2,7 @@
 name: "\U0001F4DD Non-rule change request"
 about: Request a change that is not a bug fix, rule change, or new rule
 title: ''
-labels: core, enhancement, evaluating
+labels: enhancement, triage, core, evaluating
 assignees: ''
 
 ---
