@@ -2,7 +2,7 @@
 name: "\U0001F4DD Rule change request"
 about: Request a change to an existing rule
 title: ''
-labels: enhancement, triage, rule, evaluating
+labels: enhancement, triage, rule
 assignees: ''
 
 ---
