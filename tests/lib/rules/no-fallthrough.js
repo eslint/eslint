@@ -42,6 +42,7 @@ ruleTester.run("no-fallthrough", rule, {
         "switch(foo) { case 0: case 1: break; }",
         "switch(foo) { case 0:\n case 1: break; }",
         "switch(foo) { case 0: // comment\n case 1: break; }",
+        "switch(foo) { case 0: a();\n/* fall through */\n/* todo: fix readability */\ndefault: b() }",
         "function foo() { switch(foo) { case 0: case 1: return; } }",
         "function foo() { switch(foo) { case 0: {return;}\n case 1: {return;} } }",
         "switch(foo) { case 0: case 1: {break;} }",
@@ -158,7 +159,7 @@ ruleTester.run("no-fallthrough", rule, {
         {
             code: "switch(foo) { case 0: a();\n/* no break */\n/* todo: fix readability */\ndefault: b() }",
             options: [{
-                commentPattern: "no break"
+                commentPattern: "break omitted"
             }],
             errors: [
                 {

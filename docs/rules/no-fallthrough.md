@@ -121,6 +121,16 @@ switch(foo) {
         doSomething();
         // falls through
 
+    // foo
+    default:
+        doSomething();
+}
+
+switch(foo) {
+    case 1:
+        doSomething();
+        // falls through
+
     case 2:
         doSomething();
 }
