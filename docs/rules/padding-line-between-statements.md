@@ -67,6 +67,7 @@ You can supply any number of configurations. If a statement pair matches multipl
     - `"iife"` is immediately invoked function expression statements. This matches calls on a function expression, optionally prefixed with a unary operator.
     - `"import"` is `import` declarations.
     - `"let"` is `let` variable declarations, both single-line and multiline.
+    - `"multi-case"` is `case` labels without a body; e.g.  `switch (exitCode) { case 1: default: throw error; }`
     - `"multiline-block-like"` is block like statements. This is the same as `block-like` type, but only if the block is multiline.
     - `"multiline-const"` is multiline `const` variable declarations.
     - `"multiline-expression"` is expression statements. This is the same as `expression` type, but only if the statement is multiline.

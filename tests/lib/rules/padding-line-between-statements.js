@@ -616,6 +616,25 @@ ruleTester.run("padding-line-between-statements", rule, {
         },
 
         //----------------------------------------------------------------------
+        // multi-case
+        //----------------------------------------------------------------------
+
+        {
+            code: "switch(a){case 0:\n\ncase 1:\nfoo()}",
+            options: [
+                { blankLine: "never", prev: "*", next: "*" },
+                { blankLine: "always", prev: "multi-case", next: "*" }
+            ]
+        },
+        {
+            code: "switch(a){case 0:\n\ndefault:\nfoo()}",
+            options: [
+                { blankLine: "never", prev: "*", next: "*" },
+                { blankLine: "always", prev: "multi-case", next: "*" }
+            ]
+        },
+
+        //----------------------------------------------------------------------
         // class
         //----------------------------------------------------------------------
 
@@ -3289,6 +3308,27 @@ ruleTester.run("padding-line-between-statements", rule, {
             output: "switch(a){case 0:\nfoo()\n\ndefault:}",
             options: [
                 { blankLine: "always", prev: "case", next: "*" }
+            ],
+            errors: [MESSAGE_ALWAYS]
+        },
+
+        //----------------------------------------------------------------------
+        // multi-case
+        //----------------------------------------------------------------------
+
+        {
+            code: "switch(a){case 0:\n\ndefault:}",
+            output: "switch(a){case 0:\ndefault:}",
+            options: [
+                { blankLine: "never", prev: "multi-case", next: "*" }
+            ],
+            errors: [MESSAGE_NEVER]
+        },
+        {
+            code: "switch(a){case 0:\ndefault:}",
+            output: "switch(a){case 0:\n\ndefault:}",
+            options: [
+                { blankLine: "always", prev: "multi-case", next: "*" }
             ],
             errors: [MESSAGE_ALWAYS]
         },
