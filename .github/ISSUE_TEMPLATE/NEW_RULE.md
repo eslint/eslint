@@ -2,7 +2,7 @@
 name: "\U0001F680 New rule proposal"
 about: Propose a new rule to be added to ESLint
 title: ''
-labels: rule, feature, evaluating
+labels: triage, rule, feature
 assignees: ''
 
 ---
