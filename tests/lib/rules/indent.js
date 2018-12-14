@@ -616,6 +616,24 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                let foo = 'foo',
+                    bar = bar;
+                const a = 'a',
+                      b = 'b';
+            `,
+            options: [2, { VariableDeclarator: "first" }]
+        },
+        {
+            code: unIndent`
+                let foo = 'foo',
+                    bar = bar  // <-- no semicolon here
+                const a = 'a',
+                      b = 'b'  // <-- no semicolon here
+            `,
+            options: [2, { VariableDeclarator: "first" }]
+        },
+        {
+            code: unIndent`
                 var foo = 1,
                     bar = 2,
                     baz = 3
@@ -631,6 +649,20 @@ ruleTester.run("indent", rule, {
                     ;
             `,
             options: [2, { VariableDeclarator: { var: 2 } }]
+        },
+        {
+            code: unIndent`
+                var foo = 'foo',
+                    bar = bar;
+            `,
+            options: [2, { VariableDeclarator: { var: "first" } }]
+        },
+        {
+            code: unIndent`
+                var foo = 'foo',
+                    bar = 'bar'  // <-- no semicolon here
+            `,
+            options: [2, { VariableDeclarator: { var: "first" } }]
         },
         {
             code: unIndent`
@@ -5929,6 +5961,39 @@ ruleTester.run("indent", rule, {
                     rotate;
             `,
             options: [2, { VariableDeclarator: 2 }],
+            errors: expectedErrors([
+                [2, 4, 2, "Identifier"]
+            ])
+        },
+        {
+            code: unIndent`
+                let foo = 'foo',
+                  bar = bar;
+                const a = 'a',
+                  b = 'b';
+            `,
+            output: unIndent`
+                let foo = 'foo',
+                    bar = bar;
+                const a = 'a',
+                      b = 'b';
+            `,
+            options: [2, { VariableDeclarator: "first" }],
+            errors: expectedErrors([
+                [2, 4, 2, "Identifier"],
+                [4, 6, 2, "Identifier"]
+            ])
+        },
+        {
+            code: unIndent`
+                var foo = 'foo',
+                  bar = bar;
+            `,
+            output: unIndent`
+                var foo = 'foo',
+                    bar = bar;
+            `,
+            options: [2, { VariableDeclarator: { var: "first" } }],
             errors: expectedErrors([
                 [2, 4, 2, "Identifier"]
             ])
