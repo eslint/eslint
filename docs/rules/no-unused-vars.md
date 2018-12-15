@@ -4,7 +4,7 @@ Variables that are declared and not used anywhere in the code are most likely an
 
 ## Rule Details
 
-This rule is aimed at eliminating unused variables, functions, and parameters of functions.
+This rule is aimed at eliminating unused variables, functions, and function parameters.
 
 A variable `foo` is considered to be used if any of the following are true:
 
