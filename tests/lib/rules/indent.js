@@ -666,6 +666,29 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+            let foo = 1,
+                bar = 2,
+                baz
+            `,
+            options: [2, { VariableDeclarator: "first" }]
+        },
+        {
+            code: unIndent`
+            let
+                foo
+            `,
+            options: [4, { VariableDeclarator: "first" }]
+        },
+        {
+            code: unIndent`
+            let foo = 1,
+                bar =
+                2
+            `,
+            options: [2, { VariableDeclarator: "first" }]
+        },
+        {
+            code: unIndent`
                 var abc =
                     {
                       a: 1,
