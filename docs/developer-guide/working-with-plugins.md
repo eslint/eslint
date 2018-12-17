@@ -119,7 +119,7 @@ To support multiple extensions, add each one to the `processors` element and poi
 
 ### Configs in Plugins
 
-You can bundle multiple configurations inside a plugin by specifying configurations under the `configs` key. This can be useful when you want to provide not just code style, but also some custom rules to support it. Note that is not possible to specify a default configuration for a given plugin and that users must specify in their configuration file when they want to use one.
+You can bundle configurations inside a plugin by specifying them under the `configs` key. This can be useful when you want to provide not just code style, but also some custom rules to support it. Multiple configurations are supported per plugin. Note that is not possible to specify a default configuration for a given plugin and that users must specify in their configuration file when they want to use one.
 
 ```js
 // eslint-plugin-myPlugin
@@ -130,16 +130,24 @@ module.exports = {
             plugins: ["myPlugin"],
             env: ["browser"],
             rules: {
-                semi: 2,
-                "myPlugin/my-rule": 2,
-                "eslint-plugin-myPlugin/another-rule": 2
+                semi: "error",
+                "myPlugin/my-rule": "error",
+                "eslint-plugin-myPlugin/another-rule": "error"
+            }
+        },
+        myOtherConfig: {
+            plugins: ["myPlugin"],
+            rules: {
+                semi: "off",
+                "myPlugin/my-rule": "off",
+                "eslint-plugin-myPlugin/another-rule": "error"
             }
         }
     }
 };
 ```
 
-If the plugin were called `eslint-plugin-myPlugin`, the `myConfig` configuration would then be usable by adding the following to the user's configuration file: 
+If the plugin were called `eslint-plugin-myPlugin`, the `myConfig` and `myOtherConfig` configurations would then be usable by extending off of `"plugin:myPlugin/myConfig"` and `"plugin:myPlugin/myOtherConfig"`, respectively.
 
 ```json
 {
