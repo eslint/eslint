@@ -148,7 +148,7 @@ module.exports = {
 };
 ```
 
-If the plugin were called `eslint-plugin-myPlugin`, the `myConfig` and `myOtherConfig` configurations would then be usable by extending off of `"plugin:myPlugin/myConfig"` and `"plugin:myPlugin/myOtherConfig"`, respectively.
+If the example plugin above were called `eslint-plugin-myPlugin`, the `myConfig` and `myOtherConfig` configurations would then be usable by extending off of `"plugin:myPlugin/myConfig"` and `"plugin:myPlugin/myOtherConfig"`, respectively.
 
 ```json
 {
