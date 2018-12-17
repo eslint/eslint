@@ -119,7 +119,7 @@ To support multiple extensions, add each one to the `processors` element and poi
 
 ### Configs in Plugins
 
-You can bundle configurations inside a plugin. This can be useful when you want to provide not just code style, but also some custom rules to support it. You can specify configurations under `configs` key. Please note that when exposing configurations, you have to name each one, and there is no default. To use a configuration, users will have to specify the name of the configuration they want to use.
+You can bundle configurations inside a plugin. This can be useful when you want to provide not just code style, but also some custom rules to support it. You can specify configurations under `configs` key. Please note that configurations must be named and that it is not possible to sepcify a default. Users will have to specify the name of the configuration they want to use in their configuration file.
 
 ```js
 // eslint-plugin-myPlugin
