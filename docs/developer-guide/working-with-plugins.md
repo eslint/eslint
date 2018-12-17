@@ -52,31 +52,33 @@ Plugin environments can define the following objects:
 You can also create plugins that would tell ESLint how to process files other than JavaScript. In order to create a processor, the object that is exported from your module has to conform to the following interface:
 
 ```js
-processors: {
+module.exports = {
+    processors: {
 
-    // assign to the file extension you want (.js, .jsx, .html, etc.)
-    ".ext": {
-        // takes text of the file and filename
-        preprocess: function(text, filename) {
-            // here, you can strip out any non-JS content
-            // and split into multiple strings to lint
+        // assign to the file extension you want (.js, .jsx, .html, etc.)
+        ".ext": {
+            // takes text of the file and filename
+            preprocess: function(text, filename) {
+                // here, you can strip out any non-JS content
+                // and split into multiple strings to lint
 
-            return [string];  // return an array of strings to lint
-        },
+                return [string];  // return an array of strings to lint
+            },
 
-        // takes a Message[][] and filename
-        postprocess: function(messages, filename) {
-            // `messages` argument contains two-dimensional array of Message objects
-            // where each top-level array item contains array of lint messages related
-            // to the text that was returned in array from preprocess() method
+            // takes a Message[][] and filename
+            postprocess: function(messages, filename) {
+                // `messages` argument contains two-dimensional array of Message objects
+                // where each top-level array item contains array of lint messages related
+                // to the text that was returned in array from preprocess() method
 
-            // you need to return a one-dimensional array of the messages you want to keep
-            return [Message];
-        },
+                // you need to return a one-dimensional array of the messages you want to keep
+                return [Message];
+            },
 
-        supportsAutofix: true // (optional, defaults to false)
+            supportsAutofix: true // (optional, defaults to false)
+        }
     }
-}
+};
 ```
 
 The `preprocess` method takes the file contents and filename as arguments, and returns an array of strings to lint. The strings will be linted separately but still be registered to the filename. It's up to the plugin to decide if it needs to return just one part, or multiple pieces. For example in the case of processing `.html` files, you might want to return just one item in the array by combining all scripts, but for `.md` file where each JavaScript block might be independent, you can return multiple items.
@@ -117,19 +119,32 @@ To support multiple extensions, add each one to the `processors` element and poi
 
 ### Configs in Plugins
 
-You can bundle configurations inside a plugin. This can be useful when you want to provide not just code style, but also some custom rules to support it. You can specify configurations under `configs` key. Please note that when exposing configurations, you have to name each one, and there is no default. So your users will have to specify the name of the configuration they want to use.
+You can bundle configurations inside a plugin.W This can be useful when you want to provide not just code style, but also some custom rules to support it. You can specify configurations under `configs` key. Please note that when exposing configurations, you have to name each one, and there is no default. To use a configuration, users will have to specify the name of the configuration they want to use.
 
 ```js
-configs: {
-    myConfig: {
-        env: ["browser"],
-        rules: {
-            semi: 2,
-            "myPlugin/my-rule": 2,
-            "eslint-plugin-myPlugin/another-rule": 2
+// eslint-plugin-myPlugin
+
+module.exports = {
+    configs: {
+        myConfig: {
+            env: ["browser"],
+            rules: {
+                semi: 2,
+                "myPlugin/my-rule": 2,
+                "eslint-plugin-myPlugin/another-rule": 2
+            }
         }
     }
+};
+```
+
+If the plugin were called `eslint-plugin-myPlugin`, the `myConfig` configuration would then be usable by adding the following to the user's configuration file: 
+
+```json
+{
+    "extends": ["plugin:myPlugin/myConfig"]
 }
+
 ```
 
 **Note:** Please note that configuration will not automatically attach your rules and you have to specify your plugin name and any rules you want to enable that are part of the plugin. Any plugin rules must be prefixed with the short or long plugin name. See [Configuring Plugins](../user-guide/configuring.md#configuring-plugins)
