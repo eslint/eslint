@@ -119,7 +119,7 @@ To support multiple extensions, add each one to the `processors` element and poi
 
 ### Configs in Plugins
 
-You can bundle configurations inside a plugin by specifying them under the `configs` key. This can be useful when you want to provide not just code style, but also some custom rules to support it. Multiple configurations are supported per plugin. Note that is not possible to specify a default configuration for a given plugin and that users must specify in their configuration file when they want to use one.
+You can bundle configurations inside a plugin by specifying them under the `configs` key. This can be useful when you want to provide not just code style, but also some custom rules to support it. Multiple configurations are supported per plugin. Note that it is not possible to specify a default configuration for a given plugin and that users must specify in their configuration file when they want to use one.
 
 ```js
 // eslint-plugin-myPlugin
@@ -137,10 +137,11 @@ module.exports = {
         },
         myOtherConfig: {
             plugins: ["myPlugin"],
+            env: ["node"],
             rules: {
-                semi: "off",
                 "myPlugin/my-rule": "off",
-                "eslint-plugin-myPlugin/another-rule": "error"
+                "eslint-plugin-myPlugin/another-rule": "off"
+                "eslint-plugin-myPlugin/yet-another-rule": "error"
             }
         }
     }
