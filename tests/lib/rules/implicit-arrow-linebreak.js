@@ -517,6 +517,53 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
             `,
             parserOptions: { ecmaVersion: 8 },
             errors: [UNEXPECTED_LINEBREAK]
+        }, {
+            code: `
+              const foo = 1,
+                  bar = 2,
+                  baz = () => // comment
+                    qux
+            `,
+            output: `
+              const foo = 1,
+                  bar = 2,
+                  // comment
+                  baz = () => qux
+            `,
+            errors: [UNEXPECTED_LINEBREAK]
+        }, {
+            code: `
+              const foo = () =>
+                  //comment
+                  qux,
+                  bar = 2,
+                  baz = 3
+            `,
+            output: `
+              //comment
+              const foo = () => qux,
+                  bar = 2,
+                  baz = 3
+            `,
+            errors: [UNEXPECTED_LINEBREAK]
+        }, {
+            code: `
+            const foo = () =>
+                //two
+                1,
+                boo = () => 
+                //comment
+                2,
+                bop = "what"
+            `,
+            output: `
+            //two
+            const foo = () => 1,
+                //comment
+                boo = () => 2,
+                bop = "what"
+            `,
+            errors: [UNEXPECTED_LINEBREAK, UNEXPECTED_LINEBREAK]
         },
 
         // 'below' option
