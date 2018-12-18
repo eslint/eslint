@@ -72,7 +72,7 @@ module.exports = {
                 // to the text that was returned in array from preprocess() method
 
                 // you need to return a one-dimensional array of the messages you want to keep
-                return [Message];
+                return messages[0];
             },
 
             supportsAutofix: true // (optional, defaults to false)
