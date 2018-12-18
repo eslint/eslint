@@ -299,7 +299,8 @@ describe("CLIEngine", () => {
                 errorCount: 0,
                 warningCount: 0,
                 fixableErrorCount: 0,
-                fixableWarningCount: 0
+                fixableWarningCount: 0,
+                usedDeprecatedRules: []
             });
         });
 
@@ -329,6 +330,133 @@ describe("CLIEngine", () => {
             const expectedOutput = fs.readFileSync(outputPath, "utf8");
 
             assert.strictEqual(report.results[0].output, expectedOutput);
+        });
+
+        describe("Fix Types", () => {
+
+            it("should throw an error when an invalid fix type is specified", () => {
+                assert.throws(() => {
+                    engine = new CLIEngine({
+                        cwd: path.join(fixtureDir, ".."),
+                        useEslintrc: false,
+                        fix: true,
+                        fixTypes: ["layou"]
+                    });
+                }, /invalid fix type/i);
+            });
+
+            it("should not fix any rules when fixTypes is used without fix", () => {
+                engine = new CLIEngine({
+                    cwd: path.join(fixtureDir, ".."),
+                    useEslintrc: false,
+                    fix: false,
+                    fixTypes: ["layout"]
+                });
+
+                const inputPath = getFixturePath("fix-types/fix-only-semi.js");
+                const report = engine.executeOnFiles([inputPath]);
+
+                assert.isUndefined(report.results[0].output);
+            });
+
+            it("should not fix non-style rules when fixTypes has only 'layout'", () => {
+                engine = new CLIEngine({
+                    cwd: path.join(fixtureDir, ".."),
+                    useEslintrc: false,
+                    fix: true,
+                    fixTypes: ["layout"]
+                });
+                const inputPath = getFixturePath("fix-types/fix-only-semi.js");
+                const outputPath = getFixturePath("fix-types/fix-only-semi.expected.js");
+                const report = engine.executeOnFiles([inputPath]);
+                const expectedOutput = fs.readFileSync(outputPath, "utf8");
+
+                assert.strictEqual(report.results[0].output, expectedOutput);
+            });
+
+            it("should not fix style or problem rules when fixTypes has only 'suggestion'", () => {
+                engine = new CLIEngine({
+                    cwd: path.join(fixtureDir, ".."),
+                    useEslintrc: false,
+                    fix: true,
+                    fixTypes: ["suggestion"]
+                });
+                const inputPath = getFixturePath("fix-types/fix-only-prefer-arrow-callback.js");
+                const outputPath = getFixturePath("fix-types/fix-only-prefer-arrow-callback.expected.js");
+                const report = engine.executeOnFiles([inputPath]);
+                const expectedOutput = fs.readFileSync(outputPath, "utf8");
+
+                assert.strictEqual(report.results[0].output, expectedOutput);
+            });
+
+            it("should fix both style and problem rules when fixTypes has 'suggestion' and 'layout'", () => {
+                engine = new CLIEngine({
+                    cwd: path.join(fixtureDir, ".."),
+                    useEslintrc: false,
+                    fix: true,
+                    fixTypes: ["suggestion", "layout"]
+                });
+                const inputPath = getFixturePath("fix-types/fix-both-semi-and-prefer-arrow-callback.js");
+                const outputPath = getFixturePath("fix-types/fix-both-semi-and-prefer-arrow-callback.expected.js");
+                const report = engine.executeOnFiles([inputPath]);
+                const expectedOutput = fs.readFileSync(outputPath, "utf8");
+
+                assert.strictEqual(report.results[0].output, expectedOutput);
+            });
+
+            it("should not throw an error when a rule doesn't have a 'meta' property", () => {
+                engine = new CLIEngine({
+                    cwd: path.join(fixtureDir, ".."),
+                    useEslintrc: false,
+                    fix: true,
+                    fixTypes: ["layout"],
+                    rulePaths: [getFixturePath("rules", "fix-types-test")]
+                });
+
+                const inputPath = getFixturePath("fix-types/ignore-missing-meta.js");
+                const outputPath = getFixturePath("fix-types/ignore-missing-meta.expected.js");
+                const report = engine.executeOnFiles([inputPath]);
+                const expectedOutput = fs.readFileSync(outputPath, "utf8");
+
+                assert.strictEqual(report.results[0].output, expectedOutput);
+            });
+
+            it("should not throw an error when a rule is loaded after initialization with executeOnFiles()", () => {
+                engine = new CLIEngine({
+                    cwd: path.join(fixtureDir, ".."),
+                    useEslintrc: false,
+                    fix: true,
+                    fixTypes: ["layout"]
+                });
+
+                engine.linter.defineRule("no-program", require(getFixturePath("rules", "fix-types-test", "no-program.js")));
+
+                const inputPath = getFixturePath("fix-types/ignore-missing-meta.js");
+                const outputPath = getFixturePath("fix-types/ignore-missing-meta.expected.js");
+                const report = engine.executeOnFiles([inputPath]);
+                const expectedOutput = fs.readFileSync(outputPath, "utf8");
+
+                assert.strictEqual(report.results[0].output, expectedOutput);
+            });
+
+            it("should not throw an error when a rule is loaded after initialization with executeOnText()", () => {
+                engine = new CLIEngine({
+                    cwd: path.join(fixtureDir, ".."),
+                    useEslintrc: false,
+                    fix: true,
+                    fixTypes: ["layout"]
+                });
+
+                engine.linter.defineRule("no-program", require(getFixturePath("rules", "fix-types-test", "no-program.js")));
+
+                const inputPath = getFixturePath("fix-types/ignore-missing-meta.js");
+                const outputPath = getFixturePath("fix-types/ignore-missing-meta.expected.js");
+                const report = engine.executeOnText(fs.readFileSync(inputPath, { encoding: "utf8" }), inputPath);
+                const expectedOutput = fs.readFileSync(outputPath, "utf8");
+
+                assert.strictEqual(report.results[0].output, expectedOutput);
+            });
+
         });
 
         it("should return a message and omit fixed text when in fix mode and fixes aren't done", () => {
@@ -371,7 +499,8 @@ describe("CLIEngine", () => {
                 errorCount: 1,
                 warningCount: 0,
                 fixableErrorCount: 0,
-                fixableWarningCount: 0
+                fixableWarningCount: 0,
+                usedDeprecatedRules: []
             });
         });
 
@@ -412,7 +541,8 @@ describe("CLIEngine", () => {
                 errorCount: 1,
                 warningCount: 0,
                 fixableErrorCount: 0,
-                fixableWarningCount: 0
+                fixableWarningCount: 0,
+                usedDeprecatedRules: []
             });
         });
 
@@ -453,7 +583,8 @@ describe("CLIEngine", () => {
                 errorCount: 1,
                 warningCount: 0,
                 fixableErrorCount: 0,
-                fixableWarningCount: 0
+                fixableWarningCount: 0,
+                usedDeprecatedRules: []
             });
         });
 
@@ -540,7 +671,8 @@ describe("CLIEngine", () => {
                 errorCount: 1,
                 warningCount: 0,
                 fixableErrorCount: 0,
-                fixableWarningCount: 0
+                fixableWarningCount: 0,
+                usedDeprecatedRules: []
             });
         });
 
@@ -598,6 +730,20 @@ describe("CLIEngine", () => {
                 assert.strictEqual(report.messages[0].message, "OK");
             });
         });
+        it("should warn when deprecated rules are found in a config", () => {
+            engine = new CLIEngine({
+                cwd: originalDir,
+                useEslintrc: false,
+                configFile: "tests/fixtures/cli-engine/deprecated-rule-config/.eslintrc.yml"
+            });
+
+            const report = engine.executeOnText("foo");
+
+            assert.deepStrictEqual(
+                report.usedDeprecatedRules,
+                [{ ruleId: "indent-legacy", replacedBy: ["indent"] }]
+            );
+        });
     });
 
     describe("executeOnFiles()", () => {
@@ -619,7 +765,6 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.results[0].messages[0].message, "Parsing error: Boom!");
 
         });
-
 
         it("should report zero messages when given a config file and a valid file", () => {
 
@@ -1375,6 +1520,52 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.results[0].messages.length, 0);
         });
 
+        it("should warn when deprecated rules are configured", () => {
+            engine = new CLIEngine({
+                cwd: originalDir,
+                configFile: ".eslintrc.js",
+                rules: { "indent-legacy": 1 }
+            });
+
+            const report = engine.executeOnFiles(["lib/cli*.js"]);
+
+            assert.deepStrictEqual(
+                report.usedDeprecatedRules,
+                [
+                    { ruleId: "indent-legacy", replacedBy: ["indent"] },
+                    { ruleId: "require-jsdoc", replacedBy: [] },
+                    { ruleId: "valid-jsdoc", replacedBy: [] }
+                ]
+            );
+        });
+
+        it("should not warn when deprecated rules are not configured", () => {
+            engine = new CLIEngine({
+                cwd: originalDir,
+                configFile: ".eslintrc.js",
+                rules: { indent: 1, "valid-jsdoc": 0, "require-jsdoc": 0 }
+            });
+
+            const report = engine.executeOnFiles(["lib/cli*.js"]);
+
+            assert.deepStrictEqual(report.usedDeprecatedRules, []);
+        });
+
+        it("should warn when deprecated rules are found in a config", () => {
+            engine = new CLIEngine({
+                cwd: originalDir,
+                configFile: "tests/fixtures/cli-engine/deprecated-rule-config/.eslintrc.yml",
+                useEslintrc: false
+            });
+
+            const report = engine.executeOnFiles(["lib/cli*.js"]);
+
+            assert.deepStrictEqual(
+                report.usedDeprecatedRules,
+                [{ ruleId: "indent-legacy", replacedBy: ["indent"] }]
+            );
+        });
+
         describe("Fix Mode", () => {
 
             it("should return fixed text on multiple files when in fix mode", () => {
@@ -1407,70 +1598,68 @@ describe("CLIEngine", () => {
                 const report = engine.executeOnFiles([path.resolve(fixtureDir, `${fixtureDir}/fixmode`)]);
 
                 report.results.forEach(convertCRLF);
-                assert.deepStrictEqual(report, {
-                    results: [
-                        {
-                            filePath: fs.realpathSync(path.resolve(fixtureDir, "fixmode/multipass.js")),
-                            messages: [],
-                            errorCount: 0,
-                            warningCount: 0,
-                            fixableErrorCount: 0,
-                            fixableWarningCount: 0,
-                            output: "true ? \"yes\" : \"no\";\n"
-                        },
-                        {
-                            filePath: fs.realpathSync(path.resolve(fixtureDir, "fixmode/ok.js")),
-                            messages: [],
-                            errorCount: 0,
-                            warningCount: 0,
-                            fixableErrorCount: 0,
-                            fixableWarningCount: 0
-                        },
-                        {
-                            filePath: fs.realpathSync(path.resolve(fixtureDir, "fixmode/quotes-semi-eqeqeq.js")),
-                            messages: [
-                                {
-                                    column: 9,
-                                    line: 2,
-                                    message: "Expected '===' and instead saw '=='.",
-                                    messageId: "unexpected",
-                                    nodeType: "BinaryExpression",
-                                    ruleId: "eqeqeq",
-                                    severity: 2
-                                }
-                            ],
-                            errorCount: 1,
-                            warningCount: 0,
-                            fixableErrorCount: 0,
-                            fixableWarningCount: 0,
-                            output: "var msg = \"hi\";\nif (msg == \"hi\") {\n\n}\n"
-                        },
-                        {
-                            filePath: fs.realpathSync(path.resolve(fixtureDir, "fixmode/quotes.js")),
-                            messages: [
-                                {
-                                    column: 18,
-                                    line: 1,
-                                    endColumn: 21,
-                                    endLine: 1,
-                                    message: "'foo' is not defined.",
-                                    nodeType: "Identifier",
-                                    ruleId: "no-undef",
-                                    severity: 2
-                                }
-                            ],
-                            errorCount: 1,
-                            warningCount: 0,
-                            fixableErrorCount: 0,
-                            fixableWarningCount: 0,
-                            output: "var msg = \"hi\" + foo;\n"
-                        }
-                    ],
-                    errorCount: 2,
-                    warningCount: 0,
-                    fixableErrorCount: 0,
-                    fixableWarningCount: 0
-                });
+                assert.deepStrictEqual(report.results, [
+                    {
+                        filePath: fs.realpathSync(path.resolve(fixtureDir, "fixmode/multipass.js")),
+                        messages: [],
+                        errorCount: 0,
+                        warningCount: 0,
+                        fixableErrorCount: 0,
+                        fixableWarningCount: 0,
+                        output: "true ? \"yes\" : \"no\";\n"
+                    },
+                    {
+                        filePath: fs.realpathSync(path.resolve(fixtureDir, "fixmode/ok.js")),
+                        messages: [],
+                        errorCount: 0,
+                        warningCount: 0,
+                        fixableErrorCount: 0,
+                        fixableWarningCount: 0
+                    },
+                    {
+                        filePath: fs.realpathSync(path.resolve(fixtureDir, "fixmode/quotes-semi-eqeqeq.js")),
+                        messages: [
+                            {
+                                column: 9,
+                                line: 2,
+                                message: "Expected '===' and instead saw '=='.",
+                                messageId: "unexpected",
+                                nodeType: "BinaryExpression",
+                                ruleId: "eqeqeq",
+                                severity: 2
+                            }
+                        ],
+                        errorCount: 1,
+                        warningCount: 0,
+                        fixableErrorCount: 0,
+                        fixableWarningCount: 0,
+                        output: "var msg = \"hi\";\nif (msg == \"hi\") {\n\n}\n"
+                    },
+                    {
+                        filePath: fs.realpathSync(path.resolve(fixtureDir, "fixmode/quotes.js")),
+                        messages: [
+                            {
+                                column: 18,
+                                line: 1,
+                                endColumn: 21,
+                                endLine: 1,
+                                message: "'foo' is not defined.",
+                                nodeType: "Identifier",
+                                ruleId: "no-undef",
+                                severity: 2
+                            }
+                        ],
+                        errorCount: 1,
+                        warningCount: 0,
+                        fixableErrorCount: 0,
+                        fixableWarningCount: 0,
+                        output: "var msg = \"hi\" + foo;\n"
+                    }
+                ]);
+                assert.strictEqual(report.errorCount, 2);
+                assert.strictEqual(report.warningCount, 0);
+                assert.strictEqual(report.fixableErrorCount, 0);
+                assert.strictEqual(report.fixableWarningCount, 0);
             });
 
             it("should run autofix even if files are cached without autofix results", () => {
@@ -2117,7 +2306,7 @@ describe("CLIEngine", () => {
                 assert.deepStrictEqual(result, cachedResult, "the result is the same regardless of using cache or not");
 
                 // assert the file was not processed because the cache was used
-                assert.isFalse(spy.called, "the file was not loaded because it used the cache");
+                assert.isFalse(spy.calledWith(file), "the file was not loaded because it used the cache");
             });
 
             it("should remember the files from a previous run and do not operate on then if not changed", () => {
@@ -3152,7 +3341,8 @@ describe("CLIEngine", () => {
                     errorCount: 1,
                     warningCount: 0,
                     fixableErrorCount: 0,
-                    fixableWarningCount: 0
+                    fixableWarningCount: 0,
+                    usedDeprecatedRules: []
                 }
             );
         });

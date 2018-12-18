@@ -25,7 +25,7 @@ const parser = require("../../fixtures/fixture-parser");
 /**
  * Create error message object for failure cases with a single 'found' indentation type
  * @param {string} providedIndentType indent type of string or tab
- * @param {array} providedErrors error info
+ * @param {Array} providedErrors error info
  * @returns {Object} returns the error messages collection
  * @private
  */
@@ -270,6 +270,17 @@ ruleTester.run("indent", rule, {
                 }
             `,
             options: [4]
+        },
+        {
+
+            // https://github.com/eslint/eslint/issues/11802
+            code: unIndent`
+                import foo from "foo"
+
+                ;(() => {})()
+            `,
+            options: [4],
+            parserOptions: { sourceType: "module" }
         },
         {
             code: unIndent`

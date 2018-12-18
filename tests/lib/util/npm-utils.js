@@ -162,8 +162,15 @@ describe("npmUtils", () => {
         });
 
         it("should return false if package.json does not exist", () => {
-            mockFs({});
-            assert.strictEqual(npmUtils.checkPackageJson(), false);
+
+            /*
+             * Checking local file system directly, which does not
+             * contains package.json. This is necessary because mock-fs
+             * doesn't work in Node.js 11: it throws an error when
+             * a file is missing rather than returning false.
+             * TODO: Find a replacement for mock-fs that works in Node 11.
+             */
+            assert.strictEqual(npmUtils.checkPackageJson("/"), false);
         });
     });
 

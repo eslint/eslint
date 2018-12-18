@@ -21,6 +21,12 @@ const ruleTester = new RuleTester(),
     functionsOnlyArgs = [{ functions: "always", keywords: "never", classes: "never" }],
     keywordOnlyArgs = [{ functions: "never", keywords: "always", classes: "never" }],
     classesOnlyArgs = [{ functions: "never", keywords: "never", classes: "always" }],
+    functionsAlwaysOthersOffArgs = [{ functions: "always", keywords: "off", classes: "off" }],
+    keywordAlwaysOthersOffArgs = [{ functions: "off", keywords: "always", classes: "off" }],
+    classesAlwaysOthersOffArgs = [{ functions: "off", keywords: "off", classes: "always" }],
+    functionsNeverOthersOffArgs = [{ functions: "never", keywords: "off", classes: "off" }],
+    keywordNeverOthersOffArgs = [{ functions: "off", keywords: "never", classes: "off" }],
+    classesNeverOthersOffArgs = [{ functions: "off", keywords: "off", classes: "never" }],
     expectedSpacingErrorMessage = "Missing space before opening brace.",
     expectedSpacingError = { message: expectedSpacingErrorMessage },
     expectedNoSpacingErrorMessage = "Unexpected space before opening brace.",
@@ -129,6 +135,54 @@ ruleTester.run("space-before-blocks", rule, {
         },
         {
             code: "class test {}",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        { code: "function a(){if(b) {}}", options: keywordAlwaysOthersOffArgs },
+        { code: "function a() {if(b) {}}", options: keywordAlwaysOthersOffArgs },
+        { code: "function a() {if(b){}}", options: functionsAlwaysOthersOffArgs },
+        { code: "function a() {if(b) {}}", options: functionsAlwaysOthersOffArgs },
+        {
+            code: "class test { constructor(){if(a){}} }",
+            options: classesAlwaysOthersOffArgs,
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "class test { constructor() {if(a){}} }",
+            options: classesAlwaysOthersOffArgs,
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "class test { constructor(){if(a) {}} }",
+            options: classesAlwaysOthersOffArgs,
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "class test { constructor() {if(a) {}} }",
+            options: classesAlwaysOthersOffArgs,
+            parserOptions: { ecmaVersion: 6 }
+        },
+        { code: "function a(){if(b){}}", options: keywordNeverOthersOffArgs },
+        { code: "function a() {if(b){}}", options: keywordNeverOthersOffArgs },
+        { code: "function a(){if(b){}}", options: functionsNeverOthersOffArgs },
+        { code: "function a(){if(b) {}}", options: functionsNeverOthersOffArgs },
+        {
+            code: "class test{ constructor(){if(a){}} }",
+            options: classesNeverOthersOffArgs,
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "class test{ constructor() {if(a){}} }",
+            options: classesNeverOthersOffArgs,
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "class test{ constructor(){if(a) {}} }",
+            options: classesNeverOthersOffArgs,
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "class test{ constructor() {if(a) {}} }",
+            options: classesNeverOthersOffArgs,
             parserOptions: { ecmaVersion: 6 }
         },
 
@@ -425,6 +479,82 @@ ruleTester.run("space-before-blocks", rule, {
             code: "class test {}",
             output: "class test{}",
             options: neverArgs,
+            parserOptions: { ecmaVersion: 6 },
+            errors: [expectedNoSpacingError]
+        },
+        {
+            code: "if(a){ function a(){} }",
+            output: "if(a){ function a() {} }",
+            options: functionsAlwaysOthersOffArgs,
+            errors: [expectedSpacingError]
+        },
+        {
+            code: "if(a) { function a(){} }",
+            output: "if(a) { function a() {} }",
+            options: functionsAlwaysOthersOffArgs,
+            errors: [expectedSpacingError]
+        },
+        {
+            code: "if(a){ function a(){} }",
+            output: "if(a) { function a(){} }",
+            options: keywordAlwaysOthersOffArgs,
+            errors: [expectedSpacingError]
+        },
+        {
+            code: "if(a){ function a() {} }",
+            output: "if(a) { function a() {} }",
+            options: keywordAlwaysOthersOffArgs,
+            errors: [expectedSpacingError]
+        },
+        {
+            code: "class test{ constructor(){} }",
+            output: "class test { constructor(){} }",
+            options: classesAlwaysOthersOffArgs,
+            parserOptions: { ecmaVersion: 6 },
+            errors: [expectedSpacingError]
+        },
+        {
+            code: "class test{ constructor() {} }",
+            output: "class test { constructor() {} }",
+            options: classesAlwaysOthersOffArgs,
+            parserOptions: { ecmaVersion: 6 },
+            errors: [expectedSpacingError]
+        },
+        {
+            code: "if(a){ function a() {} }",
+            output: "if(a){ function a(){} }",
+            options: functionsNeverOthersOffArgs,
+            errors: [expectedNoSpacingError]
+        },
+        {
+            code: "if(a) { function a() {} }",
+            output: "if(a) { function a(){} }",
+            options: functionsNeverOthersOffArgs,
+            errors: [expectedNoSpacingError]
+        },
+        {
+            code: "if(a) { function a(){} }",
+            output: "if(a){ function a(){} }",
+            options: keywordNeverOthersOffArgs,
+            errors: [expectedNoSpacingError]
+        },
+        {
+            code: "if(a) { function a() {} }",
+            output: "if(a){ function a() {} }",
+            options: keywordNeverOthersOffArgs,
+            errors: [expectedNoSpacingError]
+        },
+        {
+            code: "class test { constructor(){} }",
+            output: "class test{ constructor(){} }",
+            options: classesNeverOthersOffArgs,
+            parserOptions: { ecmaVersion: 6 },
+            errors: [expectedNoSpacingError]
+        },
+        {
+            code: "class test { constructor() {} }",
+            output: "class test{ constructor() {} }",
+            options: classesNeverOthersOffArgs,
             parserOptions: { ecmaVersion: 6 },
             errors: [expectedNoSpacingError]
         }

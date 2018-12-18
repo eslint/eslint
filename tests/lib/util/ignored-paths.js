@@ -12,7 +12,7 @@
 const assert = require("chai").assert,
     path = require("path"),
     os = require("os"),
-    IgnoredPaths = require("../../lib/ignored-paths.js"),
+    IgnoredPaths = require("../../../lib/util/ignored-paths.js"),
     sinon = require("sinon"),
     fs = require("fs"),
     includes = require("lodash").includes;
@@ -29,7 +29,7 @@ let fixtureDir;
 
 /**
  * get raw rules from IgnorePaths instance
- * @param {IgnoredPaths} ignoredPaths, instance of IgnoredPaths
+ * @param {IgnoredPaths} ignoredPaths instance of IgnoredPaths
  * @returns {string[]} raw ignore rules
  */
 function getIgnoreRules(ignoredPaths) {
@@ -78,7 +78,7 @@ function getIgnorePatterns(ignoredPaths) {
 
 /**
  * count the number of default patterns applied to IgnoredPaths instance
- * @param {IgnoredPaths} ignoredPaths, instance of IgnoredPaths
+ * @param {IgnoredPaths} ignoredPaths instance of IgnoredPaths
  * @returns {integer} count of default patterns
  */
 function countDefaultPatterns(ignoredPaths) {

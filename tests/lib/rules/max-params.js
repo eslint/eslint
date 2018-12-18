@@ -86,6 +86,20 @@ ruleTester.run("max-params", rule, {
                 message: "Function 'test' has too many parameters (3). Maximum allowed is 2.",
                 type: "FunctionDeclaration"
             }]
+        },
+
+        // Error location should not cover the entire function; just the name.
+        {
+            code: `function test(a, b, c) {
+              // Just to make it longer
+            }`,
+            options: [{ max: 2 }],
+            errors: [{
+                line: 1,
+                column: 1,
+                endLine: 1,
+                endColumn: 14
+            }]
         }
     ]
 });

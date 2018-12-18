@@ -26,7 +26,7 @@ For ES6 syntax, use `{ "parserOptions": { "ecmaVersion": 6 } }`; for new ES6 glo
 { "es6": true } }` (this setting enables ES6 syntax automatically).
 Parser options are set in your `.eslintrc.*` file by using the `parserOptions` property. The available options are:
 
-* `ecmaVersion` - set to 3, 5 (default), 6, 7, 8, or 9 to specify the version of ECMAScript syntax you want to use. You can also set to 2015 (same as 6), 2016 (same as 7), 2017 (same as 8), or 2018 (same as 9) to use the year-based naming.
+* `ecmaVersion` - set to 3, 5 (default), 6, 7, 8, 9, or 10 to specify the version of ECMAScript syntax you want to use. You can also set to 2015 (same as 6), 2016 (same as 7), 2017 (same as 8), 2018 (same as 9), or 2019 (same as 10) to use the year-based naming.
 * `sourceType` - set to `"script"` (default) or `"module"` if your code is in ECMAScript modules.
 * `ecmaFeatures` - an object indicating which additional language features you'd like to use:
     * `globalReturn` - allow `return` statements in the global scope
@@ -763,7 +763,7 @@ module.exports = {
 
 ## Configuration Based on Glob Patterns
 
-Sometimes a more fine-controlled configuration is necessary, for example if the configuration for files within the same directory has to be different. Therefore you can provide configurations under the `overrides` key that will only apply to files that match specific glob patterns, using the same format you would pass on the command line (e.g., `app/**/*.test.js`).
+<b>v4.1.0+.</b> Sometimes a more fine-controlled configuration is necessary, for example if the configuration for files within the same directory has to be different. Therefore you can provide configurations under the `overrides` key that will only apply to files that match specific glob patterns, using the same format you would pass on the command line (e.g., `app/**/*.test.js`).
 
 ### How it works
 

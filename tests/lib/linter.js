@@ -76,6 +76,14 @@ describe("Linter", () => {
         sandbox.verifyAndRestore();
     });
 
+    describe("Static Members", () => {
+        describe("version", () => {
+            it("should return same version as instance property", () => {
+                assert.strictEqual(Linter.version, linter.version);
+            });
+        });
+    });
+
     describe("when using events", () => {
         const code = TEST_CODE;
 
@@ -3388,7 +3396,7 @@ describe("Linter", () => {
                 "var u = /^.$/u.test('𠮷');",
                 "var y = /hello/y.test('hello');",
                 "function restParam(a, ...rest) {}",
-                "function superInFunc() { super.foo(); }",
+                "class B { superInFunc() { super.foo(); } }",
                 "var template = `hello, ${a}`;",
                 "var unicode = '\\u{20BB7}';"
             ].join("\n");

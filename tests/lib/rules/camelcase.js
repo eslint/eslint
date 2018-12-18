@@ -181,6 +181,22 @@ ruleTester.run("camelcase", rule, {
         {
             code: "function foo({ trailing_ }) {}",
             parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "ignored_foo = 0;",
+            options: [{ allow: ["ignored_foo"] }]
+        },
+        {
+            code: "ignored_foo = 0; ignored_bar = 1;",
+            options: [{ allow: ["ignored_foo", "ignored_bar"] }]
+        },
+        {
+            code: "user_id = 0;",
+            options: [{ allow: ["_id$"] }]
+        },
+        {
+            code: "__option_foo__ = 0;",
+            options: [{ allow: ["__option_foo__"] }]
         }
     ],
     invalid: [
@@ -343,6 +359,17 @@ ruleTester.run("camelcase", rule, {
         },
         {
             code: "var { category_id } = query;",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "category_id" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "var { category_id: category_id } = query;",
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
@@ -541,6 +568,26 @@ ruleTester.run("camelcase", rule, {
             errors: [
                 {
                     message: "Identifier 'no_camelcased' is not in camel case.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "not_ignored_foo = 0;",
+            options: [{ allow: ["ignored_bar"] }],
+            errors: [
+                {
+                    message: "Identifier 'not_ignored_foo' is not in camel case.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "not_ignored_foo = 0;",
+            options: [{ allow: ["_id$"] }],
+            errors: [
+                {
+                    message: "Identifier 'not_ignored_foo' is not in camel case.",
                     type: "Identifier"
                 }
             ]
