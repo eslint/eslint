@@ -107,6 +107,11 @@ ruleTester.run("camelcase", rule, {
             parserOptions: { ecmaVersion: 6 }
         },
         {
+            code: "var { [{category_id} = query]: categoryId } = query;",
+            options: [{ ignoreDestructuring: true }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
             code: "var { category_id: category } = query;",
             parserOptions: { ecmaVersion: 6 }
         },
@@ -341,6 +346,29 @@ ruleTester.run("camelcase", rule, {
                 {
                     messageId: "notCamelCase",
                     data: { name: "category_alias" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "var { [category_id]: categoryId } = query;",
+            options: [{ ignoreDestructuring: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "category_id" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "var { [category_id]: categoryId } = query;",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "category_id" },
                     type: "Identifier"
                 }
             ]
