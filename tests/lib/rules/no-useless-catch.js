@@ -103,6 +103,16 @@ ruleTester.run("no-useless-catch", rule, {
                 }
             `,
             parserOptions: { ecmaVersion: 8 }
+        },
+        {
+            code: `
+                try {
+                    throw new Error('foo');
+                } catch {
+                    throw new Error('foo');
+                }
+            `,
+            parserOptions: { ecmaVersion: 2019 }
         }
 
     ],
