@@ -1,3 +1,18 @@
+v5.11.0 - December 22, 2018
+
+* [`b4395f6`](https://github.com/eslint/eslint/commit/b4395f671442a7e0be956382c24cce38025a6df6) New: add option `first` for VariableDeclarator in indent (fixes #8976) (#11193) (Pig Fang)
+* [`2b5a602`](https://github.com/eslint/eslint/commit/2b5a60284670a3ab1281b206941ed38faf2ea10c) New: no-useless-catch rule (fixes #11174) (#11198) (Alexander Grasley)
+* [`06b3b5b`](https://github.com/eslint/eslint/commit/06b3b5bfcf0429c5078d4f4af3c03bb777e4f022) Fix: Account for comments in implicit-arrow-linebreak (#10545) (Mark de Dios)
+* [`4242314`](https://github.com/eslint/eslint/commit/4242314215a6f35e432860433906f47af1a29724) Update: handle computed properties in camelcase (fixes #11084) (#11113) (Bence Dányi)
+* [`1009304`](https://github.com/eslint/eslint/commit/100930493d9ab802a94dac5c761515b12241ddd2) Docs: add a note for no-unused-expressions (fixes #11169) (#11192) (Pig Fang)
+* [`88f99d3`](https://github.com/eslint/eslint/commit/88f99d31b88a4cde4563bc4a6f4c41f0cc557885) Docs: clarify how to use configs in plugins (#11199) (Kai Cataldo)
+* [`bcf558b`](https://github.com/eslint/eslint/commit/bcf558b2f7036f487af2bdb2b2d34b6cdf7fc174) Docs: Clarify the no-unused-vars docs (#11195) (Jed Fox)
+* [`a470eb7`](https://github.com/eslint/eslint/commit/a470eb73d52fae0f0bc48de5a487e23cf78fcfa9) Docs: Fix no-irregular-whitespace description (#11196) (Jed Fox)
+* [`8abc8af`](https://github.com/eslint/eslint/commit/8abc8afe71691b747cbd1819a13d896e8aa5b92a) Docs: Remove a misleading example (#11204) (Bogdan Gradinariu)
+* [`733d936`](https://github.com/eslint/eslint/commit/733d93618a99758a05453ab94505a9f1330950e0) Docs: link to JSDoc EOL blogpost in valid-jsdoc and require-jsdoc (#11191) (Nathan Diddle)
+* [`d5eb108`](https://github.com/eslint/eslint/commit/d5eb108e17f676d0e4fcddeb1211b4bdfac760c1) Docs: Ensure `triage` label is added to new issues (#11182) (Teddy Katz)
+* [`617a287`](https://github.com/eslint/eslint/commit/617a2874ed085bca36ca289aac55e3b7f7ce937e) Docs: add missing deprecation notices for jsdoc rules (#11171) (Teddy Katz)
+
 v5.10.0 - December 8, 2018
 
 * [`4b0f517`](https://github.com/eslint/eslint/commit/4b0f517cd317e5f1b99a1e8a0392332bd8a2e231) Upgrade: single- and multiline const, let, var statements (fixes #10721) (#10919) (Tom Panier)
