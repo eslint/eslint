@@ -42,7 +42,7 @@ function expectedErrors(providedIndentType, providedErrors) {
     }
 
     return errors.map(err => ({
-        messageId: "expected",
+        messageId: "wrongIndentation",
         data: {
             expected: typeof err[1] === "string" && typeof err[2] === "string"
                 ? err[1]

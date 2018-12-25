@@ -17,8 +17,8 @@ const rule = require("../../../lib/rules/no-unsafe-negation"),
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester();
-const unexpectedInError = { messageId: "unexpectedIn" };
-const unexpectedInstanceofError = { messageId: "unexpectedInstanceof" };
+const unexpectedInError = { messageId: "unexpected", data: { operator: "in" } };
+const unexpectedInstanceofError = { messageId: "unexpected", data: { operator: "instanceof" } };
 
 ruleTester.run("no-unsafe-negation", rule, {
     valid: [
