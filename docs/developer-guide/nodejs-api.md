@@ -721,6 +721,22 @@ const Linter = require("eslint").Linter;
 Linter.version; // => '4.5.0'
 ```
 
+## linter
+
+The `eslint.linter` object (deprecated) is an instance of the `Linter` class as defined [above](#linter). `eslint.linter` exists for backwards compatibility, but we do not recommend using it because any mutations to it are shared among every module that uses `eslint`. Instead, please create your own instance of `eslint.Linter`.
+
+```js
+var linter = require("eslint").linter;
+
+var messages = linter.verify("var foo;", {
+    rules: {
+        semi: 2
+    }
+}, { filename: "foo.js" });
+```
+
+Note: This API is deprecated as of 4.0.0.
+
 ## SourceCode
 
 The `SourceCode` type represents the parsed source code that ESLint executes on. It's used internally in ESLint and is also available so that already-parsed code can be used. You can create a new instance of `SourceCode` by passing in the text string representing the code and an abstract syntax tree (AST) in [ESTree](https://github.com/estree/estree) format (including location information, range information, comments, and tokens):
@@ -765,22 +781,6 @@ var codeLines = SourceCode.splitLines(code);
     ]
  */
 ```
-
-## linter
-
-The `eslint.linter` object (deprecated) is an instance of the `Linter` class as defined [above](#linter). `eslint.linter` exists for backwards compatibility, but we do not recommend using it because any mutations to it are shared among every module that uses `eslint`. Instead, please create your own instance of `eslint.Linter`.
-
-```js
-var linter = require("eslint").linter;
-
-var messages = linter.verify("var foo;", {
-    rules: {
-        semi: 2
-    }
-}, { filename: "foo.js" });
-```
-
-Note: This API is deprecated as of 4.0.0.
 
 ## RuleTester
 
