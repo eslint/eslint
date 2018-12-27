@@ -202,8 +202,8 @@ ruleTester.run("no-else-return", rule, {
             errors: [{ messageId: "unexpected", type: "BlockStatement" }]
         },
         {
-            code: "function foo() { let bar = true; if (baz) { return; } else { { let bar = false; }  return; } }",
-            output: null,
+            code: "function foo() { let bar = true; if (baz) { return baz; } else { { let bar = false; }  return bar; } }",
+            output: "function foo() { let bar = true; if (baz) { return baz; }  { let bar = false; }  return bar;  }",
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 { messageId: "unexpected", type: "BlockStatement" }
