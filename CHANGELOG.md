@@ -1,3 +1,7 @@
+v5.11.1 - December 26, 2018
+
+* [`de79f10`](https://github.com/eslint/eslint/commit/de79f1026b7035f0296d7876f1db64f225cca1b8) Fix: handle optional catch bindings in no-useless-catch (#11205) (Colin Ihrig)
+
 v5.11.0 - December 22, 2018
 
 * [`b4395f6`](https://github.com/eslint/eslint/commit/b4395f671442a7e0be956382c24cce38025a6df6) New: add option `first` for VariableDeclarator in indent (fixes #8976) (#11193) (Pig Fang)
