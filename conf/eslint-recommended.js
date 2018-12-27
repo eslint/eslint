@@ -245,6 +245,7 @@ module.exports = {
         radix: "off",
         "require-atomic-updates": "off",
         "require-await": "off",
+        "require-await-function-call": "off",
         "require-jsdoc": "off",
         "require-unicode-regexp": "off",
         "require-yield": "error",

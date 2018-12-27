@@ -234,6 +234,7 @@
     "radix": "suggestion",
     "require-atomic-updates": "problem",
     "require-await": "suggestion",
+    "require-await-function-call": "problem",
     "require-jsdoc": "suggestion",
     "require-unicode-regexp": "suggestion",
     "require-yield": "suggestion",
