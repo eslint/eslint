@@ -88,6 +88,7 @@ describe("bin/eslint.js", () => {
                     messages: [],
                     errorCount: 0,
                     warningCount: 0,
+                    fixedCount: 1,
                     fixableErrorCount: 0,
                     fixableWarningCount: 0,
                     output: "var foo = bar;\n"

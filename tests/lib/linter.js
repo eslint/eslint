@@ -4269,6 +4269,7 @@ describe("Linter", () => {
                 assert.strictEqual(fixResult.fixed, true);
                 assert.strictEqual(fixResult.messages.length, 0);
                 assert.strictEqual(fixResult.output, "FOO BAR BAZ");
+                assert.strictEqual(fixResult.fixedCount, 3);
             });
         });
     });
@@ -4283,6 +4284,7 @@ describe("Linter", () => {
 
             assert.strictEqual(messages.output, "var a;", "Fixes were applied correctly");
             assert.isTrue(messages.fixed);
+            assert.strictEqual(messages.fixedCount, 1);
         });
 
         it("does not require a third argument", () => {
@@ -4294,6 +4296,7 @@ describe("Linter", () => {
 
             assert.deepStrictEqual(fixResult, {
                 fixed: true,
+                fixedCount: 1,
                 messages: [],
                 output: "var a;"
             });
@@ -4307,6 +4310,7 @@ describe("Linter", () => {
             }, { fix: false });
 
             assert.strictEqual(fixResult.fixed, false);
+            assert.strictEqual(fixResult.fixedCount, 0);
         });
 
         it("stops fixing after 10 passes", () => {
@@ -4325,6 +4329,7 @@ describe("Linter", () => {
             assert.strictEqual(fixResult.fixed, true);
             assert.strictEqual(fixResult.output, `${" ".repeat(10)}a`);
             assert.strictEqual(fixResult.messages.length, 1);
+            assert.strictEqual(fixResult.fixedCount, 10);
         });
 
         it("should throw an error if fix is passed but meta has no `fixable` property", () => {

@@ -291,6 +291,7 @@ describe("CLIEngine", () => {
                         messages: [],
                         errorCount: 0,
                         warningCount: 0,
+                        fixedCount: 1,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         output: "var bar = foo;"
@@ -298,6 +299,7 @@ describe("CLIEngine", () => {
                 ],
                 errorCount: 0,
                 warningCount: 0,
+                fixedCount: 1,
                 fixableErrorCount: 0,
                 fixableWarningCount: 0,
                 usedDeprecatedRules: []
@@ -491,6 +493,7 @@ describe("CLIEngine", () => {
                         ],
                         errorCount: 1,
                         warningCount: 0,
+                        fixedCount: 0,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         source: "var bar = foo"
@@ -498,6 +501,7 @@ describe("CLIEngine", () => {
                 ],
                 errorCount: 1,
                 warningCount: 0,
+                fixedCount: 0,
                 fixableErrorCount: 0,
                 fixableWarningCount: 0,
                 usedDeprecatedRules: []
@@ -533,6 +537,7 @@ describe("CLIEngine", () => {
                         ],
                         errorCount: 1,
                         warningCount: 0,
+                        fixedCount: 1,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         output: "var bar = foothis is a syntax error."
@@ -540,6 +545,7 @@ describe("CLIEngine", () => {
                 ],
                 errorCount: 1,
                 warningCount: 0,
+                fixedCount: 1,
                 fixableErrorCount: 0,
                 fixableWarningCount: 0,
                 usedDeprecatedRules: []
@@ -575,6 +581,7 @@ describe("CLIEngine", () => {
                         ],
                         errorCount: 1,
                         warningCount: 0,
+                        fixedCount: 0,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         source: "var bar ="
@@ -582,6 +589,7 @@ describe("CLIEngine", () => {
                 ],
                 errorCount: 1,
                 warningCount: 0,
+                fixedCount: 0,
                 fixableErrorCount: 0,
                 fixableWarningCount: 0,
                 usedDeprecatedRules: []
@@ -663,6 +671,7 @@ describe("CLIEngine", () => {
                         ],
                         errorCount: 1,
                         warningCount: 0,
+                        fixedCount: 0,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         source: "var bar = foothis is a syntax error.\n return bar;"
@@ -670,6 +679,7 @@ describe("CLIEngine", () => {
                 ],
                 errorCount: 1,
                 warningCount: 0,
+                fixedCount: 0,
                 fixableErrorCount: 0,
                 fixableWarningCount: 0,
                 usedDeprecatedRules: []
@@ -1604,6 +1614,7 @@ describe("CLIEngine", () => {
                         messages: [],
                         errorCount: 0,
                         warningCount: 0,
+                        fixedCount: 2,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         output: "true ? \"yes\" : \"no\";\n"
@@ -1613,6 +1624,7 @@ describe("CLIEngine", () => {
                         messages: [],
                         errorCount: 0,
                         warningCount: 0,
+                        fixedCount: 0,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0
                     },
@@ -1631,6 +1643,7 @@ describe("CLIEngine", () => {
                         ],
                         errorCount: 1,
                         warningCount: 0,
+                        fixedCount: 3,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         output: "var msg = \"hi\";\nif (msg == \"hi\") {\n\n}\n"
@@ -1651,6 +1664,7 @@ describe("CLIEngine", () => {
                         ],
                         errorCount: 1,
                         warningCount: 0,
+                        fixedCount: 1,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         output: "var msg = \"hi\" + foo;\n"
@@ -1658,6 +1672,7 @@ describe("CLIEngine", () => {
                 ]);
                 assert.strictEqual(report.errorCount, 2);
                 assert.strictEqual(report.warningCount, 0);
+                assert.strictEqual(report.fixedCount, 6);
                 assert.strictEqual(report.fixableErrorCount, 0);
                 assert.strictEqual(report.fixableWarningCount, 0);
             });
@@ -3333,6 +3348,7 @@ describe("CLIEngine", () => {
                             ],
                             errorCount: 1,
                             warningCount: 0,
+                            fixedCount: 0,
                             fixableErrorCount: 0,
                             fixableWarningCount: 0,
                             source: "/* eslint-disable */"
@@ -3340,6 +3356,7 @@ describe("CLIEngine", () => {
                     ],
                     errorCount: 1,
                     warningCount: 0,
+                    fixedCount: 0,
                     fixableErrorCount: 0,
                     fixableWarningCount: 0,
                     usedDeprecatedRules: []
