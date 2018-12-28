@@ -181,7 +181,7 @@ describe("ConfigFile", () => {
 
                 // Hacky: need to override isFile for each call for testing
                 "../util/module-resolver": createStubModuleResolver({ "eslint-config-foo": resolvedPath }),
-                "require-uncached"(filename) {
+                "import-fresh"(filename) {
                     return configDeps[filename];
                 }
             };
@@ -265,7 +265,7 @@ describe("ConfigFile", () => {
                 "../util/module-resolver": createStubModuleResolver({
                     "eslint-plugin-test": resolvedPath
                 }),
-                "require-uncached"(filename) {
+                "import-fresh"(filename) {
                     return configDeps[filename];
                 }
             };
@@ -296,7 +296,7 @@ describe("ConfigFile", () => {
                 "../util/module-resolver": createStubModuleResolver({
                     "eslint-plugin-test": resolvedPath
                 }),
-                "require-uncached"(filename) {
+                "import-fresh"(filename) {
                     return configDeps[filename];
                 }
             };
@@ -331,7 +331,7 @@ describe("ConfigFile", () => {
                     "eslint-config-foo": resolvedPaths[0],
                     "eslint-config-bar": resolvedPaths[1]
                 }),
-                "require-uncached"(filename) {
+                "import-fresh"(filename) {
                     return configDeps[filename];
                 }
             };
@@ -932,7 +932,7 @@ describe("ConfigFile", () => {
                 const resolvedPath = path.resolve(PROJECT_PATH, "./node_modules/eslint-plugin-test/index.js");
 
                 const configDeps = {
-                    "require-uncached"(filename) {
+                    "import-fresh"(filename) {
                         return configDeps[filename];
                     }
                 };
