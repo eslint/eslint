@@ -142,7 +142,7 @@ Default is `false`.
 
 Ignores the sorting of import declaration statements.
 
-Examples of **incorrect** code for this rule with the default `{ "ignoreMemberSort": false }` option:
+Examples of **incorrect** code for this rule with the default `{ "ignoreDeclarationSort": false }` option:
 
 ```js
 /*eslint sort-imports: ["error", { "ignoreDeclarationSort": false }]*/
@@ -150,7 +150,7 @@ import 'foo.js'
 import 'bar.js'
 ```
 
-Examples of **correct** code for this rule with the `{ "ignoreMemberSort": true }` option:
+Examples of **correct** code for this rule with the `{ "ignoreDeclarationSort": true }` option:
 
 ```js
 /*eslint sort-imports: ["error", { "ignoreDeclarationSort": true }]*/
