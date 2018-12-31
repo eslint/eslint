@@ -53,6 +53,7 @@ This rule has a string option:
 This rule has an object option for an exception:
 
 * `"allowSingleLine": true` (default `false`) allows the opening and closing braces for a block to be on the *same* line
+* `"allowSingleLineArrow": true` (default `false`) allows the opening and closing braces for arrow functions to be on the *same* line
 
 ### 1tbs
 
@@ -129,6 +130,16 @@ if (foo) { bar(); }
 if (foo) { bar(); } else { baz(); }
 
 try { somethingRisky(); } catch(e) { handleError(); }
+```
+
+Examples of **correct** code for this rule with the `"1tbs", { "allowSingleLineArrow": true }` options:
+
+```js
+/*eslint brace-style: ["error", "1tbs", { "allowSingleLineArrow": true }]*/
+
+let foo = () => { bar(); };
+
+baz(() => { foo(); };
 ```
 
 ### stroustrup
@@ -209,6 +220,16 @@ else { baz(); }
 
 try { somethingRisky(); }
 catch(e) { handleError(); }
+```
+
+Examples of **correct** code for this rule with the `"stroustrup", { "allowSingleLineArrow": true }` options:
+
+```js
+/*eslint brace-style: ["error", "stroustrup", { "allowSingleLineArrow": true }]*/
+
+let foo = () => { bar(); };
+
+baz(() => { foo(); };
 ```
 
 ### allman
@@ -293,6 +314,16 @@ else { baz(); }
 
 try { somethingRisky(); }
 catch(e) { handleError(); }
+```
+
+Examples of **correct** code for this rule with the `"allman", { "allowSingleLineArrow": true }` options:
+
+```js
+/*eslint brace-style: ["error", "allman", { "allowSingleLineArrow": true }]*/
+
+let foo = () => { bar(); };
+
+baz(() => { foo(); };
 ```
 
 ## When Not To Use It

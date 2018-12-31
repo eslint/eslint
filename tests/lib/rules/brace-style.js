@@ -82,6 +82,9 @@ ruleTester.run("brace-style", rule, {
         { code: "if (foo) {}\nelse {}", options: ["allman", { allowSingleLine: true }] },
         { code: "try {  bar(); }\ncatch (e) { baz();  }", options: ["allman", { allowSingleLine: true }] },
         { code: "var foo = () => { return; }", options: ["allman", { allowSingleLine: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = () => { return; }", options: ["allman", { allowSingleLineArrow: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = () => { return; }", options: ["1tbs", { allowSingleLineArrow: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "var foo = () => { return; }", options: ["stroustrup", { allowSingleLineArrow: true }], parserOptions: { ecmaVersion: 6 } },
         {
             code: "if (tag === 1) fontstack.name = pbf.readString(); \nelse if (tag === 2) fontstack.range = pbf.readString(); \nelse if (tag === 3) {\n var glyph = pbf.readMessage(readGlyph, {});\n fontstack.glyphs[glyph.id] = glyph; \n}",
             options: ["1tbs"]
