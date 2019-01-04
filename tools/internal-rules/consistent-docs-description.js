@@ -115,7 +115,7 @@ module.exports = {
             category: "Internal",
             recommended: false
         },
-
+        type: "suggestion",
         schema: []
     },
 
