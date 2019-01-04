@@ -1,3 +1,11 @@
+v5.12.0 - January 4, 2019
+
+* [`0d91e7d`](https://github.com/eslint/eslint/commit/0d91e7d28e5eba79a6032165cdef5d4549d26462) Update: Add sort-imports ignoreDeclarationSort (fixes #11019) (#11040) (Remco Haszing)
+* [`f92d6f0`](https://github.com/eslint/eslint/commit/f92d6f05c4dcd4a3a0616871e10b31edae9dfad5) Build: Add karma-chrome-launcher support (#11027) (薛定谔的猫)
+* [`166853d`](https://github.com/eslint/eslint/commit/166853d9c59db493f0b1bb68a67ad868662a4205) Upgrade: eslint-plugin-eslint-plugin@2.0.1 (#11220) (薛定谔的猫)
+* [`bfff77a`](https://github.com/eslint/eslint/commit/bfff77ad4eaa02e2e62481c986634df38d5db6e5) Fix: no-param-reassign parameter in ternary operator (fixes #11236) (#11239) (周昊宇)
+* [`258b654`](https://github.com/eslint/eslint/commit/258b6541f61dc3a9ae64e200680766a11c3dd316) Upgrade: require-uncached renamed to import-fresh (#11066) (薛定谔的猫)
+
 v5.11.1 - December 26, 2018
 
 * [`de79f10`](https://github.com/eslint/eslint/commit/de79f1026b7035f0296d7876f1db64f225cca1b8) Fix: handle optional catch bindings in no-useless-catch (#11205) (Colin Ihrig)
