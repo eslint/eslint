@@ -32,6 +32,8 @@ ruleTester.run("no-param-reassign", rule, {
         { code: "function foo(a) { bar(a.b).c = 0; }", options: [{ props: true }] },
         { code: "function foo(a) { data[a.b] = 0; }", options: [{ props: true }] },
         { code: "function foo(a) { +a.b; }", options: [{ props: true }] },
+        { code: "function foo(a) { (a ? [] : [])[0] = 1; }", options: [{ props: true }] },
+        { code: "function foo(a) { (a.b ? [] : [])[0] = 1; }", options: [{ props: true }] },
         { code: "function foo(a) { a.b = 0; }", options: [{ props: true, ignorePropertyModificationsFor: ["a"] }] },
         { code: "function foo(a) { ++a.b; }", options: [{ props: true, ignorePropertyModificationsFor: ["a"] }] },
         { code: "function foo(a) { delete a.b; }", options: [{ props: true, ignorePropertyModificationsFor: ["a"] }] },
@@ -84,6 +86,11 @@ ruleTester.run("no-param-reassign", rule, {
         },
         {
             code: "function foo(bar) { ++bar.a; }",
+            options: [{ props: true }],
+            errors: [{ message: "Assignment to property of function parameter 'bar'." }]
+        },
+        {
+            code: "function foo(bar) { (bar ? bar : [])[0] = 1; }",
             options: [{ props: true }],
             errors: [{ message: "Assignment to property of function parameter 'bar'." }]
         },
