@@ -146,22 +146,22 @@ Examples of **incorrect** code for this rule with the default `{ "ignoreDeclarat
 
 ```js
 /*eslint sort-imports: ["error", { "ignoreDeclarationSort": false }]*/
-import 'foo.js'
-import 'bar.js'
+import b from 'foo.js'
+import a from 'bar.js'
 ```
 
 Examples of **correct** code for this rule with the `{ "ignoreDeclarationSort": true }` option:
 
 ```js
 /*eslint sort-imports: ["error", { "ignoreDeclarationSort": true }]*/
-import 'foo.js'
-import 'bar.js'
+import a from 'foo.js'
+import b from 'bar.js'
 ```
 
 ```js
 /*eslint sort-imports: ["error", { "ignoreDeclarationSort": true }]*/
-import 'bar.js'
-import 'foo.js'
+import b from 'foo.js'
+import a from 'bar.js'
 ```
 
 Default is `false`.
