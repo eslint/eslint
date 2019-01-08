@@ -31,10 +31,12 @@ ruleTester.run("for-direction", rule, {
         // test if '+=', '-=',
         "for(var i = 0; i < 10; i+=1){}",
         "for(var i = 0; i <= 10; i+=1){}",
+        "for(var i = 0; i < 10; i-=-1){}",
+        "for(var i = 0; i <= 10; i-=-1){}",
         "for(var i = 10; i > 0; i-=1){}",
         "for(var i = 10; i >= 0; i-=1){}",
-        "for (var i = 0; i < MAX; i += STEP_SIZE);",
-        "for (var i = MAX; i > MIN; i -= STEP_SIZE);",
+        "for(var i = 10; i > 0; i+=-1){}",
+        "for(var i = 10; i >= 0; i+=-1){}",
 
         // test if no update.
         "for(var i = 10; i > 0;){}",
@@ -48,7 +50,10 @@ ruleTester.run("for-direction", rule, {
         "for(var i = 10; i >= 0; j += 2){}",
         "for(var i = 10; i >= 0; j -= 2){}",
         "for(var i = 10; i >= 0; i |= 2){}",
-        "for(var i = 10; i >= 0; i %= 2){}"
+        "for(var i = 10; i >= 0; i %= 2){}",
+        "for(var i = 0; i < MAX; i += STEP_SIZE);",
+        "for(var i = 0; i < MAX; i -= STEP_SIZE);",
+        "for(var i = 10; i > 0; i += STEP_SIZE);"
     ],
     invalid: [
 
@@ -63,7 +68,9 @@ ruleTester.run("for-direction", rule, {
         { code: "for(var i = 0; i <= 10; i-=1){}", errors: [incorrectDirection] },
         { code: "for(var i = 10; i > 10; i+=1){}", errors: [incorrectDirection] },
         { code: "for(var i = 10; i >= 0; i+=1){}", errors: [incorrectDirection] },
-        { code: "for (var i = 0; i < MAX; i -= STEP_SIZE);", errors: [incorrectDirection] },
-        { code: "for (var i = 0; i > MIN; i += STEP_SIZE);", errors: [incorrectDirection] }
+        { code: "for(var i = 0; i < 10; i+=-1){}", errors: [incorrectDirection] },
+        { code: "for(var i = 0; i <= 10; i+=-1){}", errors: [incorrectDirection] },
+        { code: "for(var i = 10; i > 10; i-=-1){}", errors: [incorrectDirection] },
+        { code: "for(var i = 10; i >= 0; i-=-1){}", errors: [incorrectDirection] }
     ]
 });
