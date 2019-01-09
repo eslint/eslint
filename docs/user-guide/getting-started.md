@@ -43,7 +43,7 @@ Instead of navigating to `./node_modules/.bin/` you may also use `npx` to run `e
 $ npx eslint
 ```
 
-**Note:** If wasn't manually installed (via `npm`), `npx` will install `eslint` to a temporary directory and execute it.
+**Note:** If ESLint wasn't manually installed (via `npm`), `npx` will install `eslint` to a temporary directory and execute it.
 
 Any plugins or shareable configs that you use must also be installed locally to work with a locally-installed ESLint.
 
