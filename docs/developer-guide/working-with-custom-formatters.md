@@ -17,7 +17,7 @@ To run ESLint with this formatter, you can use the `-f` (or `--formatter`) comma
 eslint -f ./my-awesome-formatter.js src/
 ```
 
-In order to use a local file as a custom formatter, you must begin the filename with a dot (such as `./my-awesome-formatter.js` or `../formatters/my-awesome-formatter.js`). 
+In order to use a local file as a custom formatter, you must begin the filename with a dot (such as `./my-awesome-formatter.js` or `../formatters/my-awesome-formatter.js`).
 
 ## Packaging the Custom Formatter
 
@@ -33,9 +33,9 @@ Tips for `package.json`:
 
 * The `main` entry should be the JavaScript file implementing your custom formatter.
 * Add these `keywords` to help users find your formatter:
-  * `"eslint"`
-  * `"eslint-formatter"`
-  * `"eslintformatter"`
+    * `"eslint"`
+    * `"eslint-formatter"`
+    * `"eslintformatter"`
 
 See all [formatters on npm](https://www.npmjs.com/search?q=eslint-formatter);
 
@@ -84,6 +84,9 @@ The `results` object passed into a formatter is an array of objects containing t
 ```
 
 ### The `result` Object
+
+<!-- This section is copied from the "Node.js API" page. Changes to this section should
+also be manually applied to that page. -->
 
 Each object in the `results` array is a `result` object. Each `result` object contains the path of the file that was linted and information about linting issues that were encountered. Here are the properties available on each `result` object:
 
