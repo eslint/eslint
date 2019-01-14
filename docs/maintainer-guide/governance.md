@@ -45,9 +45,8 @@ A Committer who shows an above-average level of contribution to the project, par
 
 #### Process for Adding Committers
 
-1. Send email congratulating the new committer and confirming that they would like to accept.
+1. Send email congratulating the new committer and confirming that they would like to accept. This should also outline the responsibilities of a committer with a link to the maintainer guide.
 1. Add the GitHub user to the "ESLint Team" team
-1. Send welcome email with link to maintainer guide
 1. Add committer email to the ESLint team mailing list
 1. Add committer to the README
 1. Invite to Gitter team chatroom
