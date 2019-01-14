@@ -133,7 +133,7 @@ If you are trying to run locally:
 * Make sure your plugins (and ESLint) are both in your project's `package.json` as devDependencies (or dependencies, if your project uses ESLint at runtime).
 * Make sure you have run `npm install` and all your dependencies are installed.
 
-In all cases, make sure your plugins' peerDependencies have been installed as well. You can use `npm view eslint-plugin-myplugin peerDepencies` to see what peer dependencies `eslint-plugin-myplugin` has.
+In all cases, make sure your plugins' peerDependencies have been installed as well. You can use `npm view eslint-plugin-myplugin peerDependencies` to see what peer dependencies `eslint-plugin-myplugin` has.
 
 ### Does ESLint support JSX?
 
