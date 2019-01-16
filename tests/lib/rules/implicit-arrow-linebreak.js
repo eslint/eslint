@@ -564,6 +564,30 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
                 bop = "what"
             `,
             errors: [UNEXPECTED_LINEBREAK, UNEXPECTED_LINEBREAK]
+        }, {
+        code: `
+            start()
+                .then(() => 
+                    /* If I put a comment here, eslint --fix breaks badly */
+                    process && typeof process.send === 'function' && process.send('ready')
+                )
+                .catch(err => {
+                    /* catch seems to be needed here */
+                    console.log('Error: ', err)
+                })    
+            `,
+            output: `
+            start()
+                .then(() => (
+                    /* If I put a comment here, eslint --fix breaks badly */
+                    process && typeof process.send === 'function' && process.send('ready')
+                )
+                .catch(err => {
+                    /* catch seems to be needed here */
+                    console.log('Error: ', err)
+                })
+            `,
+            errors: [UNEXPECTED_LINEBREAK]
         },
 
         // 'below' option
