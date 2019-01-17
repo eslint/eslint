@@ -938,6 +938,17 @@ target.checkRuleFiles = function() {
             errors++;
         }
 
+        // check parity between rules index file and rules directory
+        const builtInRulesIndexPath = "./lib/built-in-rules-index";
+        const ruleIdsInIndex = require(builtInRulesIndexPath);
+        const ruleEntryFromIndexIsMissing = !(basename in ruleIdsInIndex);
+
+        if (ruleEntryFromIndexIsMissing) {
+            console.error(`Missing rule from index (${builtInRulesIndexPath}.js): ${basename}. If you just added a ` +
+                "new rule then add an entry for it in the previously mentioned file.");
+            errors++;
+        }
+
         // check for tests
         if (!test("-f", `tests/lib/rules/${basename}.js`)) {
             console.error("Missing tests for rule %s", basename);
