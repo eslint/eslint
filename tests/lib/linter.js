@@ -2771,16 +2771,6 @@ describe("Linter", () => {
         });
     });
 
-    describe("skips loading of rules from file-system if flag is passed in to constructor config", () => {
-        it("should return no loaded rules", () => {
-            const config = { skipRulesLoadFromFs: true };
-            const emptyLinter = new Linter(config);
-            const rules = emptyLinter.getRules();
-
-            assert.strictEqual(rules.size, 0);
-        });
-    });
-
     describe("when calling getRules", () => {
         it("should return all loaded rules", () => {
             const rules = linter.getRules();

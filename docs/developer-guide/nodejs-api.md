@@ -9,7 +9,6 @@ While ESLint is designed to be run on the command line, it's possible to use ESL
 * [SourceCode](#sourcecode)
     * [splitLines()](#sourcecodesplitlines)
 * [Linter](#linter)
-    * [constructor()](#linterconstructor)
     * [verify()](#linterverify)
     * [verifyAndFix()](#linterverifyandfix)
     * [defineRule()](#linterdefinerule)
@@ -86,18 +85,6 @@ The `Linter` object does the actual evaluation of the JavaScript code. It doesn'
 ```js
 var Linter = require("eslint").Linter;
 var linter = new Linter();
-```
-
-### Linter#constructor
-
-* `config.skipRulesLoadFromFs` If you are using the ESLint NodeJS API in code that you are packaging with a module bundler such as WebPack, then you may experience crashes when instantiating the Linter class due to it's default behavior to attempt to read the rule files from the file-system from a directory that does not exist (because the ESLint code was moved out of context by the bundler software). In a scenario like the above one, you will need to configure your Linter instance to skip the loading of the rules which you can do so by setting the `config.skipRulesLoadFromFs` parameter to boolean `true`. This allows you to configure your Linter instance "manually" from code. Note that you can still configure your Linter instance this way if your execution environment does have the correct directories in place on the file-system.
-
-```js
-const Linter = require("eslint").Linter;
-const config = {
-    skipRulesLoadFromFs: true // causes the Linter to skip reading rules from the file-system.
-};
-const linter = new Linter(config);
 ```
 
 ### Linter#verify
