@@ -945,7 +945,7 @@ target.checkRuleFiles = function() {
 
         if (ruleEntryFromIndexIsMissing) {
             console.error(`Missing rule from index (${builtInRulesIndexPath}.js): ${basename}. If you just added a ` +
-                "new rule then add an entry for it in the previously mentioned file.");
+                "new rule then add an entry for it in this file.");
             errors++;
         }
 
