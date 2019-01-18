@@ -88,7 +88,7 @@ ruleTester.run("no-unexpected-multiline", rule, {
         {
             code: "var a = b\n(x || y).doSomething()",
             errors: [{
-                message: "Unexpected newline between function and ( of function call.",
+                messageId: "function",
                 line: 2,
                 column: 1
 
@@ -99,7 +99,7 @@ ruleTester.run("no-unexpected-multiline", rule, {
             errors: [{
                 line: 2,
                 column: 1,
-                message: "Unexpected newline between function and ( of function call."
+                messageId: "function"
             }]
         },
         {
@@ -107,7 +107,7 @@ ruleTester.run("no-unexpected-multiline", rule, {
             errors: [{
                 line: 2,
                 column: 1,
-                message: "Unexpected newline between function and ( of function call."
+                messageId: "function"
             }]
         },
         {
@@ -115,7 +115,7 @@ ruleTester.run("no-unexpected-multiline", rule, {
             errors: [{
                 line: 2,
                 column: 1,
-                message: "Unexpected newline between object and [ of property access."
+                messageId: "property"
             }]
         },
         {
@@ -123,7 +123,7 @@ ruleTester.run("no-unexpected-multiline", rule, {
             errors: [{
                 line: 2,
                 column: 5,
-                message: "Unexpected newline between function and ( of function call."
+                messageId: "function"
             }]
         },
         {
@@ -131,7 +131,7 @@ ruleTester.run("no-unexpected-multiline", rule, {
             errors: [{
                 line: 2,
                 column: 3,
-                message: "Unexpected newline between object and [ of property access."
+                messageId: "property"
             }]
         },
         {
@@ -140,7 +140,7 @@ ruleTester.run("no-unexpected-multiline", rule, {
             errors: [{
                 line: 1,
                 column: 9,
-                message: "Unexpected newline between template tag and template literal."
+                messageId: "taggedTemplate"
             }]
         },
         {
@@ -149,7 +149,7 @@ ruleTester.run("no-unexpected-multiline", rule, {
             errors: [{
                 line: 2,
                 column: 1,
-                message: "Unexpected newline between template tag and template literal."
+                messageId: "taggedTemplate"
             }]
         },
         {
@@ -158,7 +158,7 @@ ruleTester.run("no-unexpected-multiline", rule, {
             errors: [{
                 line: 3,
                 column: 1,
-                message: "Unexpected newline between template tag and template literal."
+                messageId: "taggedTemplate"
             }]
         },
         {
@@ -169,7 +169,7 @@ ruleTester.run("no-unexpected-multiline", rule, {
             errors: [{
                 line: 3,
                 column: 17,
-                message: "Unexpected newline between numerator and division operator."
+                messageId: "division"
             }]
         },
         {
@@ -180,7 +180,7 @@ ruleTester.run("no-unexpected-multiline", rule, {
             errors: [{
                 line: 3,
                 column: 17,
-                message: "Unexpected newline between numerator and division operator."
+                messageId: "division"
             }]
         },
         {
@@ -191,7 +191,7 @@ ruleTester.run("no-unexpected-multiline", rule, {
             errors: [{
                 line: 3,
                 column: 17,
-                message: "Unexpected newline between numerator and division operator."
+                messageId: "division"
             }]
         },
         {
@@ -202,7 +202,7 @@ ruleTester.run("no-unexpected-multiline", rule, {
             errors: [{
                 line: 3,
                 column: 17,
-                message: "Unexpected newline between numerator and division operator."
+                messageId: "division"
             }]
         },
         {
@@ -213,7 +213,7 @@ ruleTester.run("no-unexpected-multiline", rule, {
             errors: [{
                 line: 3,
                 column: 17,
-                message: "Unexpected newline between numerator and division operator."
+                messageId: "division"
             }]
         }
     ]

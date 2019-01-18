@@ -98,7 +98,8 @@ ruleTester.run("yoda", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: "Expected literal to be on the right side of ==.",
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: "==" },
                     type: "BinaryExpression"
                 }
             ]
@@ -109,7 +110,8 @@ ruleTester.run("yoda", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: "Expected literal to be on the right side of ===.",
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: "===" },
                     type: "BinaryExpression"
                 }
             ]
@@ -120,7 +122,8 @@ ruleTester.run("yoda", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: "Expected literal to be on the right side of !=.",
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: "!=" },
                     type: "BinaryExpression"
                 }
             ]
@@ -131,7 +134,8 @@ ruleTester.run("yoda", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: "Expected literal to be on the right side of !==.",
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: "!==" },
                     type: "BinaryExpression"
                 }
             ]
@@ -142,7 +146,8 @@ ruleTester.run("yoda", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: "Expected literal to be on the right side of <=.",
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: "<=" },
                     type: "BinaryExpression"
                 }
             ]
@@ -153,7 +158,8 @@ ruleTester.run("yoda", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: "Expected literal to be on the right side of >=.",
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: ">=" },
                     type: "BinaryExpression"
                 }
             ]
@@ -164,7 +170,8 @@ ruleTester.run("yoda", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: "Expected literal to be on the right side of <.",
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: "<" },
                     type: "BinaryExpression"
                 }
             ]
@@ -175,7 +182,8 @@ ruleTester.run("yoda", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: "Expected literal to be on the right side of >.",
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: ">" },
                     type: "BinaryExpression"
                 }
             ]
@@ -186,7 +194,8 @@ ruleTester.run("yoda", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: "Expected literal to be on the right side of <.",
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: "<" },
                     type: "BinaryExpression"
                 }
             ]
@@ -197,7 +206,8 @@ ruleTester.run("yoda", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: "Expected literal to be on the left side of ==.",
+                    messageId: "expected",
+                    data: { expectedSide: "left", operator: "==" },
                     type: "BinaryExpression"
                 }
             ]
@@ -208,7 +218,8 @@ ruleTester.run("yoda", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: "Expected literal to be on the left side of ===.",
+                    messageId: "expected",
+                    data: { expectedSide: "left", operator: "===" },
                     type: "BinaryExpression"
                 }
             ]
@@ -219,7 +230,8 @@ ruleTester.run("yoda", rule, {
             options: ["never", { exceptRange: true }],
             errors: [
                 {
-                    message: "Expected literal to be on the right side of <=.",
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: "<=" },
                     type: "BinaryExpression"
                 }
             ]
@@ -230,7 +242,8 @@ ruleTester.run("yoda", rule, {
             options: ["never", { exceptRange: true }],
             errors: [
                 {
-                    message: "Expected literal to be on the right side of <=.",
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: "<=" },
                     type: "BinaryExpression"
                 }
             ]
@@ -241,7 +254,8 @@ ruleTester.run("yoda", rule, {
             options: ["never", { exceptRange: true }],
             errors: [
                 {
-                    message: "Expected literal to be on the right side of <.",
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: "<" },
                     type: "BinaryExpression"
                 }
             ]
@@ -252,7 +266,8 @@ ruleTester.run("yoda", rule, {
             options: ["never", { exceptRange: true }],
             errors: [
                 {
-                    message: "Expected literal to be on the right side of <.",
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: "<" },
                     type: "BinaryExpression"
                 }
             ]
@@ -263,7 +278,8 @@ ruleTester.run("yoda", rule, {
             options: ["never", { exceptRange: true }],
             errors: [
                 {
-                    message: "Expected literal to be on the right side of <=.",
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: "<=" },
                     type: "BinaryExpression"
                 }
             ]
@@ -274,7 +290,8 @@ ruleTester.run("yoda", rule, {
             options: ["never", { exceptRange: true }],
             errors: [
                 {
-                    message: "Expected literal to be on the right side of <=.",
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: "<=" },
                     type: "BinaryExpression"
                 }
             ]
@@ -285,7 +302,8 @@ ruleTester.run("yoda", rule, {
             options: ["always", { exceptRange: true }],
             errors: [
                 {
-                    message: "Expected literal to be on the left side of <.",
+                    messageId: "expected",
+                    data: { expectedSide: "left", operator: "<" },
                     type: "BinaryExpression"
                 }
             ]
@@ -296,7 +314,8 @@ ruleTester.run("yoda", rule, {
             options: ["never", { exceptRange: true }],
             errors: [
                 {
-                    message: "Expected literal to be on the right side of <=.",
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: "<=" },
                     type: "BinaryExpression"
                 }
             ]
@@ -307,7 +326,8 @@ ruleTester.run("yoda", rule, {
             options: ["never", { exceptRange: true }],
             errors: [
                 {
-                    message: "Expected literal to be on the right side of <=.",
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: "<=" },
                     type: "BinaryExpression"
                 }
             ]
@@ -318,7 +338,8 @@ ruleTester.run("yoda", rule, {
             options: ["never", { exceptRange: true }],
             errors: [
                 {
-                    message: "Expected literal to be on the right side of <=.",
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: "<=" },
                     type: "BinaryExpression"
                 }
             ]
@@ -329,7 +350,8 @@ ruleTester.run("yoda", rule, {
             options: ["never", { onlyEquality: true }],
             errors: [
                 {
-                    message: "Expected literal to be on the right side of ==.",
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: "==" },
                     type: "BinaryExpression"
                 }
             ]
@@ -340,7 +362,8 @@ ruleTester.run("yoda", rule, {
             options: ["never", { onlyEquality: true }],
             errors: [
                 {
-                    message: "Expected literal to be on the right side of ===.",
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: "===" },
                     type: "BinaryExpression"
                 }
             ]
@@ -351,7 +374,8 @@ ruleTester.run("yoda", rule, {
             options: ["always", { onlyEquality: true }],
             errors: [
                 {
-                    message: "Expected literal to be on the left side of ===.",
+                    messageId: "expected",
+                    data: { expectedSide: "left", operator: "===" },
                     type: "BinaryExpression"
                 }
             ]
@@ -361,7 +385,8 @@ ruleTester.run("yoda", rule, {
             output: "if (x >= 0 && x < 1) {}",
             errors: [
                 {
-                    message: "Expected literal to be on the right side of <=.",
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: "<=" },
                     type: "BinaryExpression"
                 }
             ]
@@ -372,7 +397,8 @@ ruleTester.run("yoda", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: "Expected literal to be on the right side of <.",
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: "<" },
                     type: "BinaryExpression"
                 }
             ]
@@ -383,7 +409,8 @@ ruleTester.run("yoda", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: "Expected literal to be on the left side of >.",
+                    messageId: "expected",
+                    data: { expectedSide: "left", operator: ">" },
                     type: "BinaryExpression"
                 }
             ]
@@ -394,7 +421,8 @@ ruleTester.run("yoda", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: "Expected literal to be on the left side of ===.",
+                    messageId: "expected",
+                    data: { expectedSide: "left", operator: "===" },
                     type: "BinaryExpression"
                 }
             ]
@@ -405,7 +433,8 @@ ruleTester.run("yoda", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: "Expected literal to be on the left side of ===.",
+                    messageId: "expected",
+                    data: { expectedSide: "left", operator: "===" },
                     type: "BinaryExpression"
                 }
             ]
@@ -418,7 +447,8 @@ ruleTester.run("yoda", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: "Expected literal to be on the right side of ===.",
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: "===" },
                     type: "BinaryExpression"
                 }
             ]
@@ -429,7 +459,8 @@ ruleTester.run("yoda", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: "Expected literal to be on the right side of ===.",
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: "===" },
                     type: "BinaryExpression"
                 }
             ]
@@ -440,7 +471,8 @@ ruleTester.run("yoda", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: "Expected literal to be on the left side of ===.",
+                    messageId: "expected",
+                    data: { expectedSide: "left", operator: "===" },
                     type: "BinaryExpression"
                 }
             ]
@@ -451,7 +483,8 @@ ruleTester.run("yoda", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: "Expected literal to be on the left side of ===.",
+                    messageId: "expected",
+                    data: { expectedSide: "left", operator: "===" },
                     type: "BinaryExpression"
                 }
             ]
@@ -462,7 +495,8 @@ ruleTester.run("yoda", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: "Expected literal to be on the left side of ===.",
+                    messageId: "expected",
+                    data: { expectedSide: "left", operator: "===" },
                     type: "BinaryExpression"
                 }
             ]

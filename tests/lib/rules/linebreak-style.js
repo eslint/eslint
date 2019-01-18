@@ -11,9 +11,6 @@
 const rule = require("../../../lib/rules/linebreak-style"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
-const EXPECTED_LF_MSG = "Expected linebreaks to be 'LF' but found 'CRLF'.",
-    EXPECTED_CRLF_MSG = "Expected linebreaks to be 'CRLF' but found 'LF'.";
-
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
@@ -49,7 +46,7 @@ ruleTester.run("linebreak-style", rule, {
             errors: [{
                 line: 1,
                 column: 13,
-                message: EXPECTED_LF_MSG
+                messageId: "expectedLF"
             }]
         },
         {
@@ -59,7 +56,7 @@ ruleTester.run("linebreak-style", rule, {
             errors: [{
                 line: 1,
                 column: 13,
-                message: EXPECTED_LF_MSG
+                messageId: "expectedLF"
             }]
         },
         {
@@ -69,7 +66,7 @@ ruleTester.run("linebreak-style", rule, {
             errors: [{
                 line: 1,
                 column: 13,
-                message: EXPECTED_CRLF_MSG
+                messageId: "expectedCRLF"
             }]
         },
         {
@@ -78,12 +75,12 @@ ruleTester.run("linebreak-style", rule, {
             errors: [{
                 line: 4,
                 column: 24,
-                message: EXPECTED_LF_MSG
+                messageId: "expectedLF"
             },
             {
                 line: 6,
                 column: 3,
-                message: EXPECTED_LF_MSG
+                messageId: "expectedLF"
             }]
         },
         {
@@ -93,17 +90,17 @@ ruleTester.run("linebreak-style", rule, {
             errors: [{
                 line: 3,
                 column: 1,
-                message: EXPECTED_CRLF_MSG
+                messageId: "expectedCRLF"
             },
             {
                 line: 5,
                 column: 1,
-                message: EXPECTED_CRLF_MSG
+                messageId: "expectedCRLF"
             },
             {
                 line: 6,
                 column: 17,
-                message: EXPECTED_CRLF_MSG
+                messageId: "expectedCRLF"
             }]
         }
     ]

@@ -58,7 +58,7 @@ function override(keyword, value) {
  * @returns {string[]} An error message.
  */
 function expectedBefore(keyword) {
-    return [`Expected space(s) before "${keyword}".`];
+    return [{ messageId: "expectedBefore", data: { value: keyword } }];
 }
 
 /**
@@ -68,7 +68,7 @@ function expectedBefore(keyword) {
  * @returns {string[]} An error message.
  */
 function expectedAfter(keyword) {
-    return [`Expected space(s) after "${keyword}".`];
+    return [{ messageId: "expectedAfter", data: { value: keyword } }];
 }
 
 /**
@@ -80,8 +80,8 @@ function expectedAfter(keyword) {
  */
 function expectedBeforeAndAfter(keyword) {
     return [
-        `Expected space(s) before "${keyword}".`,
-        `Expected space(s) after "${keyword}".`
+        { messageId: "expectedBefore", data: { value: keyword } },
+        { messageId: "expectedAfter", data: { value: keyword } }
     ];
 }
 
@@ -92,7 +92,7 @@ function expectedBeforeAndAfter(keyword) {
  * @returns {string[]} An error message.
  */
 function unexpectedBefore(keyword) {
-    return [`Unexpected space(s) before "${keyword}".`];
+    return [{ messageId: "unexpectedBefore", data: { value: keyword } }];
 }
 
 /**
@@ -102,7 +102,7 @@ function unexpectedBefore(keyword) {
  * @returns {string[]} An error message.
  */
 function unexpectedAfter(keyword) {
-    return [`Unexpected space(s) after "${keyword}".`];
+    return [{ messageId: "unexpectedAfter", data: { value: keyword } }];
 }
 
 /**
@@ -114,8 +114,8 @@ function unexpectedAfter(keyword) {
  */
 function unexpectedBeforeAndAfter(keyword) {
     return [
-        `Unexpected space(s) before "${keyword}".`,
-        `Unexpected space(s) after "${keyword}".`
+        { messageId: "unexpectedBefore", data: { value: keyword } },
+        { messageId: "unexpectedAfter", data: { value: keyword } }
     ];
 }
 
