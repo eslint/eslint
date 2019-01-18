@@ -1,3 +1,16 @@
+v5.12.1 - January 18, 2019
+
+* [`eb5c401`](https://github.com/eslint/eslint/commit/eb5c4014f16be1c2003ed46ce9560d0d8a567d0f) Chore: use meta.messages in some rules (2/4) (refs #9870) (#10773) (薛定谔的猫)
+* [`aa56247`](https://github.com/eslint/eslint/commit/aa56247746a0095996a41dd03bdbbf659f0f93b6) Fix: avoid loading core rules dynamically from FS in Linter (#11278) (Peter Metz)
+* [`04450bb`](https://github.com/eslint/eslint/commit/04450bb7ed20f2412102538b238119d9764b4dc9) Docs: clarify process for adding committers (#11272) (Kai Cataldo)
+* [`3ffcf26`](https://github.com/eslint/eslint/commit/3ffcf26c1c83efe7d7cf2d87f1063695ae653709) Docs: add @g-plane as committer (#11277) (Kai Cataldo)
+* [`c403445`](https://github.com/eslint/eslint/commit/c40344566eff2e77a6ae2b2d2dbdbd4ad3e76b67) Fix: warn constant on RHS of || in no-constant-condition (fixes #11181) (#11253) (Merlin Mason)
+* [`9194f45`](https://github.com/eslint/eslint/commit/9194f45ac7d521119a53773bf02b81670bad526e) Fix: Manage severity of 1 with TAP reporter (fixes #11110) (#11221) (Gabriel Cousin)
+* [`000f495`](https://github.com/eslint/eslint/commit/000f4952ae6a4311fbbc3ed36c481235fcb0b64b) Docs: fix example for sort-imports ignoreDeclarationSort (#11242) (Remco Haszing)
+* [`7c0bf2c`](https://github.com/eslint/eslint/commit/7c0bf2ca92d83125a1fa000c9c4250bae6b4fc21) Docs: Add `npx` usage to Getting Started guide (#11249) (eyal0803)
+* [`da9174e`](https://github.com/eslint/eslint/commit/da9174e0798c1d785ddabb3ae405860fc5b89311) Docs: fixes typo peerDepencies (#11252) (Christian Kühl)
+* [`9c31625`](https://github.com/eslint/eslint/commit/9c31625f19176664ef76dcf088ce50703c41c324) Docs: Improve custom formatter docs (#11258) (Nicholas C. Zakas)
+
 v5.12.0 - January 4, 2019
 
 * [`0d91e7d`](https://github.com/eslint/eslint/commit/0d91e7d28e5eba79a6032165cdef5d4549d26462) Update: Add sort-imports ignoreDeclarationSort (fixes #11019) (#11040) (Remco Haszing)
