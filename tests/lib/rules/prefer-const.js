@@ -179,74 +179,74 @@ ruleTester.run("prefer-const", rule, {
         {
             code: "let x = 1; foo(x);",
             output: "const x = 1; foo(x);",
-            errors: [{ message: "'x' is never reassigned. Use 'const' instead.", type: "Identifier" }]
+            errors: [{ messageId: "useConst", data: { name: "x" }, type: "Identifier" }]
         },
         {
             code: "for (let i in [1,2,3]) { foo(i); }",
             output: "for (const i in [1,2,3]) { foo(i); }",
-            errors: [{ message: "'i' is never reassigned. Use 'const' instead.", type: "Identifier" }]
+            errors: [{ messageId: "useConst", data: { name: "i" }, type: "Identifier" }]
         },
         {
             code: "for (let x of [1,2,3]) { foo(x); }",
             output: "for (const x of [1,2,3]) { foo(x); }",
-            errors: [{ message: "'x' is never reassigned. Use 'const' instead.", type: "Identifier" }]
+            errors: [{ messageId: "useConst", data: { name: "x" }, type: "Identifier" }]
         },
         {
             code: "let [x = -1, y] = [1,2]; y = 0;",
             output: null,
-            errors: [{ message: "'x' is never reassigned. Use 'const' instead.", type: "Identifier" }]
+            errors: [{ messageId: "useConst", data: { name: "x" }, type: "Identifier" }]
         },
         {
             code: "let {a: x = -1, b: y} = {a:1,b:2}; y = 0;",
             output: null,
-            errors: [{ message: "'x' is never reassigned. Use 'const' instead.", type: "Identifier" }]
+            errors: [{ messageId: "useConst", data: { name: "x" }, type: "Identifier" }]
         },
         {
             code: "(function() { let x = 1; foo(x); })();",
             output: "(function() { const x = 1; foo(x); })();",
-            errors: [{ message: "'x' is never reassigned. Use 'const' instead.", type: "Identifier" }]
+            errors: [{ messageId: "useConst", data: { name: "x" }, type: "Identifier" }]
         },
         {
             code: "(function() { for (let i in [1,2,3]) { foo(i); } })();",
             output: "(function() { for (const i in [1,2,3]) { foo(i); } })();",
-            errors: [{ message: "'i' is never reassigned. Use 'const' instead.", type: "Identifier" }]
+            errors: [{ messageId: "useConst", data: { name: "i" }, type: "Identifier" }]
         },
         {
             code: "(function() { for (let x of [1,2,3]) { foo(x); } })();",
             output: "(function() { for (const x of [1,2,3]) { foo(x); } })();",
-            errors: [{ message: "'x' is never reassigned. Use 'const' instead.", type: "Identifier" }]
+            errors: [{ messageId: "useConst", data: { name: "x" }, type: "Identifier" }]
         },
         {
             code: "(function() { let [x = -1, y] = [1,2]; y = 0; })();",
             output: null,
-            errors: [{ message: "'x' is never reassigned. Use 'const' instead.", type: "Identifier" }]
+            errors: [{ messageId: "useConst", data: { name: "x" }, type: "Identifier" }]
         },
         {
             code: "let f = (function() { let g = x; })(); f = 1;",
             output: "let f = (function() { const g = x; })(); f = 1;",
-            errors: [{ message: "'g' is never reassigned. Use 'const' instead.", type: "Identifier" }]
+            errors: [{ messageId: "useConst", data: { name: "g" }, type: "Identifier" }]
         },
         {
             code: "(function() { let {a: x = -1, b: y} = {a:1,b:2}; y = 0; })();",
             output: null,
-            errors: [{ message: "'x' is never reassigned. Use 'const' instead.", type: "Identifier" }]
+            errors: [{ messageId: "useConst", data: { name: "x" }, type: "Identifier" }]
         },
         {
             code: "let x = 0; { let x = 1; foo(x); } x = 0;",
             output: "let x = 0; { const x = 1; foo(x); } x = 0;",
-            errors: [{ message: "'x' is never reassigned. Use 'const' instead.", type: "Identifier" }]
+            errors: [{ messageId: "useConst", data: { name: "x" }, type: "Identifier" }]
         },
         {
             code: "for (let i = 0; i < 10; ++i) { let x = 1; foo(x); }",
             output: "for (let i = 0; i < 10; ++i) { const x = 1; foo(x); }",
-            errors: [{ message: "'x' is never reassigned. Use 'const' instead.", type: "Identifier" }]
+            errors: [{ messageId: "useConst", data: { name: "x" }, type: "Identifier" }]
         },
         {
             code: "for (let i in [1,2,3]) { let x = 1; foo(x); }",
             output: "for (const i in [1,2,3]) { const x = 1; foo(x); }",
             errors: [
-                { message: "'i' is never reassigned. Use 'const' instead.", type: "Identifier" },
-                { message: "'x' is never reassigned. Use 'const' instead.", type: "Identifier" }
+                { messageId: "useConst", data: { name: "i" }, type: "Identifier" },
+                { messageId: "useConst", data: { name: "x" }, type: "Identifier" }
             ]
         },
         {
@@ -260,7 +260,7 @@ ruleTester.run("prefer-const", rule, {
             ].join("\n"),
             output: null,
             errors: [
-                { message: "'a' is never reassigned. Use 'const' instead.", type: "Identifier" }
+                { messageId: "useConst", data: { name: "a" }, type: "Identifier" }
             ]
         },
         {
@@ -274,60 +274,60 @@ ruleTester.run("prefer-const", rule, {
             ].join("\n"),
             output: null,
             errors: [
-                { message: "'a' is never reassigned. Use 'const' instead.", type: "Identifier" }
+                { messageId: "useConst", data: { name: "a" }, type: "Identifier" }
             ]
         },
 
         {
             code: "let x; x = 0;",
             output: null,
-            errors: [{ message: "'x' is never reassigned. Use 'const' instead.", type: "Identifier", column: 8 }]
+            errors: [{ messageId: "useConst", data: { name: "x" }, type: "Identifier", column: 8 }]
         },
         {
             code: "switch (a) { case 0: let x; x = 0; }",
             output: null,
-            errors: [{ message: "'x' is never reassigned. Use 'const' instead.", type: "Identifier", column: 29 }]
+            errors: [{ messageId: "useConst", data: { name: "x" }, type: "Identifier", column: 29 }]
         },
         {
             code: "(function() { let x; x = 1; })();",
             output: null,
-            errors: [{ message: "'x' is never reassigned. Use 'const' instead.", type: "Identifier", column: 22 }]
+            errors: [{ messageId: "useConst", data: { name: "x" }, type: "Identifier", column: 22 }]
         },
 
         {
             code: "let {a = 0, b} = obj; b = 0; foo(a, b);",
             output: null,
             options: [{ destructuring: "any" }],
-            errors: [{ message: "'a' is never reassigned. Use 'const' instead.", type: "Identifier" }]
+            errors: [{ messageId: "useConst", data: { name: "a" }, type: "Identifier" }]
         },
         {
             code: "let {a: {b, c}} = {a: {b: 1, c: 2}}; b = 3;",
             output: null,
             options: [{ destructuring: "any" }],
-            errors: [{ message: "'c' is never reassigned. Use 'const' instead.", type: "Identifier" }]
+            errors: [{ messageId: "useConst", data: { name: "c" }, type: "Identifier" }]
         },
         {
             code: "let {a: {b, c}} = {a: {b: 1, c: 2}}",
             output: "const {a: {b, c}} = {a: {b: 1, c: 2}}",
             options: [{ destructuring: "all" }],
             errors: [
-                { message: "'b' is never reassigned. Use 'const' instead.", type: "Identifier" },
-                { message: "'c' is never reassigned. Use 'const' instead.", type: "Identifier" }
+                { messageId: "useConst", data: { name: "b" }, type: "Identifier" },
+                { messageId: "useConst", data: { name: "c" }, type: "Identifier" }
             ]
         },
         {
             code: "let a, b; ({a = 0, b} = obj); b = 0; foo(a, b);",
             output: null,
             options: [{ destructuring: "any" }],
-            errors: [{ message: "'a' is never reassigned. Use 'const' instead.", type: "Identifier" }]
+            errors: [{ messageId: "useConst", data: { name: "a" }, type: "Identifier" }]
         },
         {
             code: "let {a = 0, b} = obj; foo(a, b);",
             output: "const {a = 0, b} = obj; foo(a, b);",
             options: [{ destructuring: "all" }],
             errors: [
-                { message: "'a' is never reassigned. Use 'const' instead.", type: "Identifier" },
-                { message: "'b' is never reassigned. Use 'const' instead.", type: "Identifier" }
+                { messageId: "useConst", data: { name: "a" }, type: "Identifier" },
+                { messageId: "useConst", data: { name: "b" }, type: "Identifier" }
             ]
         },
         {
@@ -335,7 +335,7 @@ ruleTester.run("prefer-const", rule, {
             output: "const [a] = [1]",
             options: [],
             errors: [
-                { message: "'a' is never reassigned. Use 'const' instead.", type: "Identifier" }
+                { messageId: "useConst", data: { name: "a" }, type: "Identifier" }
             ]
         },
         {
@@ -343,7 +343,7 @@ ruleTester.run("prefer-const", rule, {
             output: "const {a} = obj",
             options: [],
             errors: [
-                { message: "'a' is never reassigned. Use 'const' instead.", type: "Identifier" }
+                { messageId: "useConst", data: { name: "a" }, type: "Identifier" }
             ]
         },
         {
@@ -351,8 +351,8 @@ ruleTester.run("prefer-const", rule, {
             output: null,
             options: [{ destructuring: "all" }],
             errors: [
-                { message: "'a' is never reassigned. Use 'const' instead.", type: "Identifier" },
-                { message: "'b' is never reassigned. Use 'const' instead.", type: "Identifier" }
+                { messageId: "useConst", data: { name: "a" }, type: "Identifier" },
+                { messageId: "useConst", data: { name: "b" }, type: "Identifier" }
             ]
         },
         {
@@ -360,15 +360,15 @@ ruleTester.run("prefer-const", rule, {
             output: null,
             options: [{ destructuring: "any" }],
             errors: [
-                { message: "'a' is never reassigned. Use 'const' instead.", type: "Identifier" },
-                { message: "'c' is never reassigned. Use 'const' instead.", type: "Identifier" }
+                { messageId: "useConst", data: { name: "a" }, type: "Identifier" },
+                { messageId: "useConst", data: { name: "c" }, type: "Identifier" }
             ]
         },
         {
             code: "let {a = 0, b} = obj, c = a; b = a;",
             output: null,
             options: [{ destructuring: "all" }],
-            errors: [{ message: "'c' is never reassigned. Use 'const' instead.", type: "Identifier" }]
+            errors: [{ messageId: "useConst", data: { name: "c" }, type: "Identifier" }]
         },
 
         // https://github.com/eslint/eslint/issues/8187
@@ -377,13 +377,13 @@ ruleTester.run("prefer-const", rule, {
             output: null,
             options: [{ destructuring: "any" }],
             parserOptions: { ecmaVersion: 2018 },
-            errors: [{ message: "'name' is never reassigned. Use 'const' instead.", type: "Identifier", column: 7 }]
+            errors: [{ messageId: "useConst", data: { name: "name" }, type: "Identifier", column: 7 }]
         },
         {
             code: "let { name, ...otherStuff } = obj; otherStuff = {};",
             output: null,
             options: [{ destructuring: "any" }],
-            errors: [{ message: "'name' is never reassigned. Use 'const' instead.", type: "Identifier", column: 7 }],
+            errors: [{ messageId: "useConst", data: { name: "name" }, type: "Identifier", column: 7 }],
             parser: fixtureParser("babel-eslint5/destructuring-object-spread")
         },
 
@@ -391,7 +391,7 @@ ruleTester.run("prefer-const", rule, {
         {
             code: "let x; function foo() { bar(x); } x = 0;",
             output: null,
-            errors: [{ message: "'x' is never reassigned. Use 'const' instead.", type: "Identifier", column: 5 }]
+            errors: [{ messageId: "useConst", data: { name: "x" }, type: "Identifier", column: 5 }]
         },
 
         // https://github.com/eslint/eslint/issues/5837
@@ -399,19 +399,19 @@ ruleTester.run("prefer-const", rule, {
             code: "/*eslint use-x:error*/ let x = 1",
             output: "/*eslint use-x:error*/ const x = 1",
             parserOptions: { ecmaFeatures: { globalReturn: true } },
-            errors: [{ message: "'x' is never reassigned. Use 'const' instead.", type: "Identifier" }]
+            errors: [{ messageId: "useConst", data: { name: "x" }, type: "Identifier" }]
         },
         {
             code: "/*eslint use-x:error*/ { let x = 1 }",
             output: "/*eslint use-x:error*/ { const x = 1 }",
-            errors: [{ message: "'x' is never reassigned. Use 'const' instead.", type: "Identifier" }]
+            errors: [{ messageId: "useConst", data: { name: "x" }, type: "Identifier" }]
         },
         {
             code: "let { foo, bar } = baz;",
             output: "const { foo, bar } = baz;",
             errors: [
-                { message: "'foo' is never reassigned. Use 'const' instead.", type: "Identifier" },
-                { message: "'bar' is never reassigned. Use 'const' instead.", type: "Identifier" }
+                { messageId: "useConst", data: { name: "foo" }, type: "Identifier" },
+                { messageId: "useConst", data: { name: "bar" }, type: "Identifier" }
             ]
         },
 
@@ -419,14 +419,14 @@ ruleTester.run("prefer-const", rule, {
         {
             code: "const x = [1,2]; let [,y] = x;",
             output: "const x = [1,2]; const [,y] = x;",
-            errors: [{ message: "'y' is never reassigned. Use 'const' instead.", type: "Identifier" }]
+            errors: [{ messageId: "useConst", data: { name: "y" }, type: "Identifier" }]
         },
         {
             code: "const x = [1,2,3]; let [y,,z] = x;",
             output: "const x = [1,2,3]; const [y,,z] = x;",
             errors: [
-                { message: "'y' is never reassigned. Use 'const' instead.", type: "Identifier" },
-                { message: "'z' is never reassigned. Use 'const' instead.", type: "Identifier" }
+                { messageId: "useConst", data: { name: "y" }, type: "Identifier" },
+                { messageId: "useConst", data: { name: "z" }, type: "Identifier" }
             ]
         },
 

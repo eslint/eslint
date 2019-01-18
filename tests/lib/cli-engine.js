@@ -481,6 +481,7 @@ describe("CLIEngine", () => {
                             {
                                 ruleId: "no-undef",
                                 severity: 2,
+                                messageId: "undef",
                                 message: "'foo' is not defined.",
                                 line: 1,
                                 column: 11,
@@ -1643,6 +1644,7 @@ describe("CLIEngine", () => {
                                 line: 1,
                                 endColumn: 21,
                                 endLine: 1,
+                                messageId: "undef",
                                 message: "'foo' is not defined.",
                                 nodeType: "Identifier",
                                 ruleId: "no-undef",

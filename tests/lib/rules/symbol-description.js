@@ -33,14 +33,14 @@ ruleTester.run("symbol-description", rule, {
         {
             code: "Symbol();",
             errors: [{
-                message: "Expected Symbol to have a description.",
+                messageId: "expected",
                 type: "CallExpression"
             }]
         },
         {
             code: "Symbol(); Symbol = function () {};",
             errors: [{
-                message: "Expected Symbol to have a description.",
+                messageId: "expected",
                 type: "CallExpression"
             }]
         }
