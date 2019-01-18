@@ -54,6 +54,8 @@ ruleTester.run("padded-blocks", rule, {
         { code: "{\na();}", options: ["never"] },
         { code: "{a();\n}", options: ["never"] },
         { code: "{a();}", options: ["never"] },
+        { code: "{a();}", options: ["always", { allowSingleLineBlocks: true }] },
+        { code: "{\n\na();\n\n}", options: ["always", { allowSingleLineBlocks: true }] },
         { code: "{//comment\na();}", options: ["never"] },
         { code: "{\n//comment\na()\n}", options: ["never"] },
         { code: "{a();//comment\n}", options: ["never"] },
