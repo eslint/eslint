@@ -467,6 +467,26 @@ describe("ConfigFile", () => {
 
         });
 
+        it("should apply extension 'custom' when specified from cwd config", () => {
+            const cwd = getFixturePath("cwd");
+            const resolvedPath = path.resolve(cwd, "./node_modules/eslint-config-custom/index.js");
+
+            const config = ConfigFile.applyExtends({
+                extends: "custom"
+            }, configContext, "", null, cwd);
+
+            assert.deepStrictEqual(config, {
+                baseDirectory: path.dirname(resolvedPath),
+                filePath: resolvedPath,
+                extends: "custom",
+                parserOptions: {},
+                env: {},
+                globals: {},
+                rules: { eqeqeq: 2 }
+            });
+
+        });
+
     });
 
     describe("load()", () => {
@@ -1029,6 +1049,20 @@ describe("ConfigFile", () => {
             }
             assert.fail();
         });
+
+        it("should resolve when cwd is set", () => {
+            const cwd = getFixturePath("cwd");
+            const config = ConfigFile.load("custom", configContext, cwd);
+
+            assert.deepStrictEqual(config, {
+                baseDirectory: path.resolve(cwd, "node_modules/eslint-config-custom"),
+                filePath: path.resolve(cwd, "node_modules/eslint-config-custom/index.js"),
+                env: {},
+                globals: {},
+                parserOptions: {},
+                rules: { eqeqeq: 2 }
+            });
+        });
     });
 
     describe("resolve()", () => {
@@ -1192,6 +1226,12 @@ describe("ConfigFile", () => {
             const result = ConfigFile.getLookupPath(path.resolve("/tmp/foo"));
 
             assert.strictEqual(result, PROJECT_DEPS_PATH);
+        });
+
+        it("should return cwd path when cwd is set", () => {
+            const result = ConfigFile.getLookupPath(path.resolve("/tmp/foo"), "/tmp/foo");
+
+            assert.strictEqual(result, "/tmp/foo/node_modules");
         });
 
     });
