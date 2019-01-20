@@ -139,6 +139,7 @@ ruleTester.run("prefer-destructuring", rule, {
     invalid: [
         {
             code: "var foo = array[0];",
+            output: null,
             errors: [{
                 message: "Use array destructuring.",
                 type: "VariableDeclarator"
@@ -146,6 +147,7 @@ ruleTester.run("prefer-destructuring", rule, {
         },
         {
             code: "foo = array[0];",
+            output: null,
             errors: [{
                 message: "Use array destructuring.",
                 type: "AssignmentExpression"
@@ -153,6 +155,15 @@ ruleTester.run("prefer-destructuring", rule, {
         },
         {
             code: "var foo = object.foo;",
+            output: "var {foo} = object;",
+            errors: [{
+                message: "Use object destructuring.",
+                type: "VariableDeclarator"
+            }]
+        },
+        {
+            code: "var foo = object.bar.foo;",
+            output: "var {foo} = object.bar;",
             errors: [{
                 message: "Use object destructuring.",
                 type: "VariableDeclarator"
@@ -160,6 +171,7 @@ ruleTester.run("prefer-destructuring", rule, {
         },
         {
             code: "var foobar = object.bar;",
+            output: null,
             options: [{ VariableDeclarator: { object: true } }, { enforceForRenamedProperties: true }],
             errors: [{
                 message: "Use object destructuring.",
@@ -168,6 +180,7 @@ ruleTester.run("prefer-destructuring", rule, {
         },
         {
             code: "var foobar = object.bar;",
+            output: null,
             options: [{ object: true }, { enforceForRenamedProperties: true }],
             errors: [{
                 message: "Use object destructuring.",
@@ -176,6 +189,7 @@ ruleTester.run("prefer-destructuring", rule, {
         },
         {
             code: "var foo = object[bar];",
+            output: null,
             options: [{ VariableDeclarator: { object: true } }, { enforceForRenamedProperties: true }],
             errors: [{
                 message: "Use object destructuring.",
@@ -184,6 +198,7 @@ ruleTester.run("prefer-destructuring", rule, {
         },
         {
             code: "var foo = object[bar];",
+            output: null,
             options: [{ object: true }, { enforceForRenamedProperties: true }],
             errors: [{
                 message: "Use object destructuring.",
@@ -192,6 +207,7 @@ ruleTester.run("prefer-destructuring", rule, {
         },
         {
             code: "var foo = object['foo'];",
+            output: null,
             errors: [{
                 message: "Use object destructuring.",
                 type: "VariableDeclarator"
@@ -199,6 +215,7 @@ ruleTester.run("prefer-destructuring", rule, {
         },
         {
             code: "foo = object.foo;",
+            output: null,
             errors: [{
                 message: "Use object destructuring.",
                 type: "AssignmentExpression"
@@ -206,6 +223,7 @@ ruleTester.run("prefer-destructuring", rule, {
         },
         {
             code: "foo = object['foo'];",
+            output: null,
             errors: [{
                 message: "Use object destructuring.",
                 type: "AssignmentExpression"
@@ -213,6 +231,7 @@ ruleTester.run("prefer-destructuring", rule, {
         },
         {
             code: "var foo = array[0];",
+            output: null,
             options: [{ VariableDeclarator: { array: true } }, { enforceForRenamedProperties: true }],
             errors: [{
                 message: "Use array destructuring.",
@@ -221,6 +240,7 @@ ruleTester.run("prefer-destructuring", rule, {
         },
         {
             code: "foo = array[0];",
+            output: null,
             options: [{ AssignmentExpression: { array: true } }],
             errors: [{
                 message: "Use array destructuring.",
@@ -229,6 +249,7 @@ ruleTester.run("prefer-destructuring", rule, {
         },
         {
             code: "var foo = array[0];",
+            output: null,
             options: [
                 {
                     VariableDeclarator: { array: true },
@@ -243,6 +264,7 @@ ruleTester.run("prefer-destructuring", rule, {
         },
         {
             code: "var foo = array[0];",
+            output: null,
             options: [
                 {
                     VariableDeclarator: { array: true },
@@ -256,6 +278,7 @@ ruleTester.run("prefer-destructuring", rule, {
         },
         {
             code: "foo = array[0];",
+            output: null,
             options: [
                 {
                     VariableDeclarator: { array: false },
@@ -269,6 +292,7 @@ ruleTester.run("prefer-destructuring", rule, {
         },
         {
             code: "foo = object.foo;",
+            output: null,
             options: [
                 {
                     VariableDeclarator: { array: true, object: false },
@@ -282,6 +306,7 @@ ruleTester.run("prefer-destructuring", rule, {
         },
         {
             code: "class Foo extends Bar { static foo() {var bar = super.foo.bar} }",
+            output: "class Foo extends Bar { static foo() {var {bar} = super.foo} }",
             errors: [{
                 message: "Use object destructuring.",
                 type: "VariableDeclarator"
