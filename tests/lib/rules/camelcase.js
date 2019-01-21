@@ -202,6 +202,11 @@ ruleTester.run("camelcase", rule, {
         {
             code: "__option_foo__ = 0;",
             options: [{ allow: ["__option_foo__"] }]
+        },
+        {
+            code: "foo = { [computedBar]: 0 };",
+            options: [{ ignoreDestructuring: true }],
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
     invalid: [
@@ -287,6 +292,17 @@ ruleTester.run("camelcase", rule, {
         },
         {
             code: "var foo = { bar_baz: boom.bam_pow }",
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "bar_baz" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "var foo = { bar_baz: boom.bam_pow }",
+            options: [{ ignoreDestructuring: true }],
             errors: [
                 {
                     messageId: "notCamelCase",
@@ -601,6 +617,16 @@ ruleTester.run("camelcase", rule, {
             ]
         },
         {
+            code: "const { no_camelcased = foo_bar } = bar;",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Identifier 'no_camelcased' is not in camel case.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
             code: "not_ignored_foo = 0;",
             options: [{ allow: ["ignored_bar"] }],
             errors: [
@@ -616,6 +642,17 @@ ruleTester.run("camelcase", rule, {
             errors: [
                 {
                     message: "Identifier 'not_ignored_foo' is not in camel case.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "foo = { [computed_bar]: 0 };",
+            options: [{ ignoreDestructuring: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Identifier 'computed_bar' is not in camel case.",
                     type: "Identifier"
                 }
             ]
