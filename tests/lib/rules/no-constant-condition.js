@@ -61,6 +61,18 @@ ruleTester.run("no-constant-condition", rule, {
         "if(a && 'str'){}",
         "if('str' || abc==='str'){}",
 
+        // #11306
+        "if ((foo || 'bar') === 'baz') {}",
+        "if ((foo || 'bar') !== 'baz') {}",
+        "if ((foo || 'bar') == 'baz') {}",
+        "if ((foo || 'bar') != 'baz') {}",
+        "if ((foo || 233) > 666) {}",
+        "if ((foo || 233) < 666) {}",
+        "if ((foo || 233) >= 666) {}",
+        "if ((foo || 233) <= 666) {}",
+        "if ((key || 'k') in obj) {}",
+        "if ((foo || {}) instanceof obj) {}",
+
         // { checkLoops: false }
         { code: "while(true);", options: [{ checkLoops: false }] },
         { code: "for(;true;);", options: [{ checkLoops: false }] },
