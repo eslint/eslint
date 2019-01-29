@@ -13,7 +13,7 @@ This rule allows you to specify global variable names that you don't want to use
 
 ## Options
 
-This rule takes a list of strings.  The first string is the rule setting, such as "off", "warn", or "error".  The strings after the rule setting is a global to be restricted:
+This rule takes a list of strings.  The first string is the rule setting, such as "off", "warn", or "error".  The strings after the rule setting are the globals to be restricted:
 
 ```json
 {
