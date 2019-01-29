@@ -117,20 +117,17 @@ describe("configInitializer", () => {
 
             beforeEach(() => {
                 answers = {
+                    purpose: "style",
                     source: "prompt",
                     extendDefault: true,
                     indent: 2,
                     quotes: "single",
                     linebreak: "unix",
                     semi: true,
-                    ecmaVersion: 2015,
-                    modules: true,
+                    moduleType: "esm",
                     es6Globals: true,
                     env: ["browser"],
-                    jsx: false,
-                    react: false,
-                    format: "JSON",
-                    commonjs: false
+                    format: "JSON"
                 };
             });
 
@@ -142,7 +139,7 @@ describe("configInitializer", () => {
                 assert.deepStrictEqual(config.rules["linebreak-style"], ["error", "unix"]);
                 assert.deepStrictEqual(config.rules.semi, ["error", "always"]);
                 assert.strictEqual(config.env.es6, true);
-                assert.strictEqual(config.parserOptions.ecmaVersion, 2015);
+                assert.strictEqual(config.parserOptions.ecmaVersion, 2018);
                 assert.strictEqual(config.parserOptions.sourceType, "module");
                 assert.strictEqual(config.env.browser, true);
                 assert.strictEqual(config.extends, "eslint:recommended");
@@ -155,29 +152,13 @@ describe("configInitializer", () => {
                 assert.deepStrictEqual(config.rules.semi, ["error", "never"]);
             });
 
-            it("should enable jsx flag", () => {
-                answers.jsx = true;
-                const config = init.processAnswers(answers);
-
-                assert.strictEqual(config.parserOptions.ecmaFeatures.jsx, true);
-            });
-
             it("should enable react plugin", () => {
-                answers.jsx = true;
-                answers.react = true;
+                answers.framework = "react";
                 const config = init.processAnswers(answers);
 
                 assert.strictEqual(config.parserOptions.ecmaFeatures.jsx, true);
                 assert.strictEqual(config.parserOptions.ecmaVersion, 2018);
                 assert.deepStrictEqual(config.plugins, ["react"]);
-            });
-
-            it("should not enable es6", () => {
-                answers.ecmaVersion = 5;
-                const config = init.processAnswers(answers);
-
-                assert.strictEqual(config.parserOptions.ecmaVersion, 5);
-                assert.isUndefined(config.env.es6);
             });
 
             it("should extend eslint:recommended", () => {
@@ -193,7 +174,7 @@ describe("configInitializer", () => {
             });
 
             it("should use commonjs when set", () => {
-                answers.commonjs = true;
+                answers.moduleType = "commonjs";
                 const config = init.processAnswers(answers);
 
                 assert.isTrue(config.env.commonjs);
@@ -338,14 +319,11 @@ describe("configInitializer", () => {
                 ].join(" ");
 
                 answers = {
+                    purpose: "style",
                     source: "auto",
                     patterns,
-                    ecmaVersion: 5,
                     env: ["browser"],
-                    jsx: false,
-                    react: false,
-                    format: "JSON",
-                    commonjs: false
+                    format: "JSON"
                 };
 
                 sandbox = sinon.sandbox.create();
