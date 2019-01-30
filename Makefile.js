@@ -867,7 +867,6 @@ target.checkRuleFiles = function() {
 
     echo("Validating rules");
 
-    const eslintRecommended = require("./conf/eslint-recommended").rules;
     const ruleTypes = require("./tools/rule-types.json");
     const ruleFiles = find("lib/rules/").filter(fileType("js"));
     let errors = 0;
@@ -875,15 +874,6 @@ target.checkRuleFiles = function() {
     ruleFiles.forEach(filename => {
         const basename = path.basename(filename, ".js");
         const docFilename = `docs/rules/${basename}.md`;
-
-        /**
-         * Check if basename is present in eslint:recommended configuration.
-         * @returns {boolean} true if present
-         * @private
-         */
-        function isInConfig() {
-            return Object.prototype.hasOwnProperty.call(eslintRecommended, basename);
-        }
 
         /**
          * Check if basename is present in rule-types.json file.
