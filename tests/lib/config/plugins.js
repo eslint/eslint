@@ -10,7 +10,6 @@
 
 const assert = require("chai").assert,
     Plugins = require("../../../lib/config/plugins"),
-    Rules = require("../../../lib/rules"),
     Environments = require("../../../lib/config/environments");
 
 const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
@@ -24,7 +23,7 @@ describe("Plugins", () => {
     describe("get", () => {
 
         it("should return null when plugin doesn't exist", () => {
-            assert.isNull((new Plugins(new Environments(), new Rules())).get("foo"));
+            assert.isNull((new Plugins(new Environments(), () => {})).get("foo"));
         });
     });
 
@@ -39,8 +38,8 @@ describe("Plugins", () => {
         beforeEach(() => {
             plugin = {};
             scopedPlugin = {};
-            rules = new Rules();
             environments = new Environments();
+            rules = new Map();
             StubbedPlugins = new (proxyquire("../../../lib/config/plugins", {
                 "eslint-plugin-example": plugin,
                 "@scope/eslint-plugin-example": scopedPlugin,
@@ -49,7 +48,7 @@ describe("Plugins", () => {
                         throw new Error("error thrown while loading this module");
                     }
                 }
-            }))(environments, rules);
+            }))(environments, rules.set.bind(rules));
         });
 
         it("should load a plugin when referenced by short name", () => {
@@ -180,7 +179,7 @@ describe("Plugins", () => {
                 };
                 StubbedPlugins.load("@scope/eslint-plugin-example");
 
-                assert.isFalse(rules.getAllLoadedRules().has("example/foo"));
+                assert.isFalse(rules.has("example/foo"));
             });
         });
     });
@@ -189,17 +188,18 @@ describe("Plugins", () => {
 
         let StubbedPlugins,
             plugin1,
-            plugin2;
-        const rules = new Rules(),
-            environments = new Environments();
+            plugin2,
+            rules;
+        const environments = new Environments();
 
         beforeEach(() => {
             plugin1 = {};
             plugin2 = {};
+            rules = new Map();
             StubbedPlugins = new (proxyquire("../../../lib/config/plugins", {
                 "eslint-plugin-example1": plugin1,
                 "eslint-plugin-example2": plugin2
-            }))(environments, rules);
+            }))(environments, rules.set.bind(rules));
         });
 
         it("should load plugins when passed multiple plugins", () => {

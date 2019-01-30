@@ -24,25 +24,6 @@ describe("rules", () => {
         rules = new Rules();
     });
 
-    describe("when given an invalid rules directory", () => {
-        const code = "invaliddir";
-
-        it("should throw an error", () => {
-            assert.throws(() => {
-                rules.load(code);
-            });
-        });
-    });
-
-    describe("when given a valid rules directory", () => {
-        const code = "tests/fixtures/rules";
-
-        it("should load rules and not throw an error", () => {
-            rules.load(code, process.cwd());
-            assert.strictEqual(typeof rules.get("fixture-rule"), "object");
-        });
-    });
-
     describe("when a rule has been defined", () => {
         it("should be able to retrieve the rule", () => {
             const ruleId = "michaelficarra";
@@ -105,30 +86,6 @@ describe("rules", () => {
             assert.strictEqual(problems[0].column, 1);
             assert.typeOf(problems[0].endLine, "undefined");
             assert.typeOf(problems[0].endColumn, "undefined");
-        });
-    });
-
-    describe("when importing plugin rules", () => {
-        const customPlugin = {
-                rules: {
-                    "custom-rule"() { }
-                }
-            },
-            pluginName = "custom-plugin";
-
-        it("should define all plugin rules with a qualified rule id", () => {
-            rules.importPlugin(customPlugin, pluginName);
-
-            assert.isDefined(rules.get("custom-plugin/custom-rule"));
-            assert.strictEqual(rules.get("custom-plugin/custom-rule").create, customPlugin.rules["custom-rule"]);
-        });
-
-        it("should return custom rules as part of getAllLoadedRules", () => {
-            rules.importPlugin(customPlugin, pluginName);
-
-            const allRules = rules.getAllLoadedRules();
-
-            assert.strictEqual(allRules.get("custom-plugin/custom-rule").create, customPlugin.rules["custom-rule"]);
         });
     });
 

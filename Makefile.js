@@ -118,27 +118,6 @@ function fileType(extension) {
 }
 
 /**
- * Generates a static file that includes each rule by name rather than dynamically
- * looking up based on directory. This is used for the browser version of ESLint.
- * @param {string} basedir The directory in which to look for code.
- * @returns {void}
- */
-function generateRulesIndex(basedir) {
-    let output = "module.exports = function() {\n";
-
-    output += "    var rules = Object.create(null);\n";
-
-    find(`${basedir}rules/`).filter(fileType("js")).forEach(filename => {
-        const basename = path.basename(filename, ".js");
-
-        output += `    rules["${basename}"] = require("./rules/${basename}");\n`;
-    });
-
-    output += "\n    return rules;\n};";
-    output.to(`${basedir}load-rules.js`);
-}
-
-/**
  * Executes a command and returns the output instead of printing it to stdout.
  * @param {string} cmd The command string to execute.
  * @returns {string} The result of the executed command.
@@ -841,17 +820,8 @@ target.browserify = function() {
         mkdir(BUILD_DIR);
     }
 
-    // 2. copy files into temp directory
-    cp("-r", "lib/*", TEMP_DIR);
-
-    // 3. delete the load-rules.js file
-    rm("-rf", `${TEMP_DIR}load-rules.js`);
-
-    // 4. create new load-rule.js with hardcoded requires
-    generateRulesIndex(TEMP_DIR);
-
     // 5. browserify the temp directory
-    exec(`${getBinFile("browserify")} -x espree ${TEMP_DIR}linter.js -o ${BUILD_DIR}eslint.js -s eslint --global-transform [ babelify --presets [ es2015 ] ]`);
+    exec(`${getBinFile("browserify")} -x espree lib/linter.js -o ${BUILD_DIR}eslint.js -s eslint --global-transform [ babelify --presets [ es2015 ] ]`);
 
     // 6. Browserify espree
     exec(`${getBinFile("browserify")} -r espree -o ${TEMP_DIR}espree.js --global-transform [ babelify --presets [ es2015 ] ]`);
