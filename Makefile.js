@@ -820,16 +820,16 @@ target.browserify = function() {
         mkdir(BUILD_DIR);
     }
 
-    // 5. browserify the temp directory
+    // 2. browserify the temp directory
     exec(`${getBinFile("browserify")} -x espree lib/linter.js -o ${BUILD_DIR}eslint.js -s eslint --global-transform [ babelify --presets [ es2015 ] ]`);
 
-    // 6. Browserify espree
+    // 3. Browserify espree
     exec(`${getBinFile("browserify")} -r espree -o ${TEMP_DIR}espree.js --global-transform [ babelify --presets [ es2015 ] ]`);
 
-    // 7. Concatenate Babel polyfill, Espree, and ESLint files together
+    // 4. Concatenate Babel polyfill, Espree, and ESLint files together
     cat("./node_modules/babel-polyfill/dist/polyfill.js", `${TEMP_DIR}espree.js`, `${BUILD_DIR}eslint.js`).to(`${BUILD_DIR}eslint.js`);
 
-    // 8. remove temp directory
+    // 5. remove temp directory
     rm("-rf", TEMP_DIR);
 };
 
