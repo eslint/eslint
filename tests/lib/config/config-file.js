@@ -1262,6 +1262,28 @@ describe("ConfigFile", () => {
 
         });
 
+        it("should make sure js config files match linting rules", () => {
+            const fakeFS = leche.fake(fs);
+
+            const singleQuoteConfig = {
+                rules: {
+                    quotes: [2, "single"]
+                }
+            };
+
+            sandbox.mock(fakeFS).expects("writeFileSync").withExactArgs(
+                "test-config.js",
+                sinon.match(value => !value.includes("\"")),
+                "utf8"
+            );
+
+            const StubbedConfigFile = proxyquire("../../../lib/config/config-file", {
+                fs: fakeFS
+            });
+
+            StubbedConfigFile.write(singleQuoteConfig, "test-config.js");
+        });
+
         it("should throw error if file extension is not valid", () => {
             assert.throws(() => {
                 ConfigFile.write({}, getFixturePath("yaml/.eslintrc.class"));
