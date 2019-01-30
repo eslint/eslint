@@ -927,12 +927,6 @@ target.checkRuleFiles = function() {
         }
 
         // check for recommended configuration
-        if (!isInConfig()) {
-            console.error("Missing eslint:recommended setting for %s in conf/eslint-recommended.js", basename);
-            errors++;
-        }
-
-        // check for recommended configuration
         if (!isInRuleTypes()) {
             console.error("Missing setting for %s in tools/rule-types.json", basename);
             errors++;
