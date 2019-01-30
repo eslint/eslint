@@ -11,7 +11,7 @@
 
 const assert = require("chai").assert,
     ConfigRule = require("../../../lib/config/config-rule"),
-    loadRules = require("../../../lib/load-rules"),
+    builtInRules = require("../../../lib/built-in-rules-index"),
     schema = require("../../fixtures/config-rule/schemas");
 
 //------------------------------------------------------------------------------
@@ -294,7 +294,7 @@ describe("ConfigRule", () => {
         const rulesConfig = ConfigRule.createCoreRuleConfigs();
 
         it("should create a rulesConfig containing all core rules", () => {
-            const coreRules = loadRules(),
+            const coreRules = builtInRules,
                 expectedRules = Object.keys(coreRules),
                 actualRules = Object.keys(rulesConfig);
 
