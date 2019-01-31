@@ -837,22 +837,12 @@ target.checkRuleFiles = function() {
 
     echo("Validating rules");
 
-    const ruleTypes = require("./tools/rule-types.json");
     const ruleFiles = find("lib/rules/").filter(fileType("js"));
     let errors = 0;
 
     ruleFiles.forEach(filename => {
         const basename = path.basename(filename, ".js");
         const docFilename = `docs/rules/${basename}.md`;
-
-        /**
-         * Check if basename is present in rule-types.json file.
-         * @returns {boolean} true if present
-         * @private
-         */
-        function isInRuleTypes() {
-            return Object.prototype.hasOwnProperty.call(ruleTypes, basename);
-        }
 
         /**
          * Check if id is present in title
@@ -884,12 +874,6 @@ target.checkRuleFiles = function() {
                 console.error("Missing id in the doc page's title of rule %s", basename);
                 errors++;
             }
-        }
-
-        // check for recommended configuration
-        if (!isInRuleTypes()) {
-            console.error("Missing setting for %s in tools/rule-types.json", basename);
-            errors++;
         }
 
         // check parity between rules index file and rules directory
