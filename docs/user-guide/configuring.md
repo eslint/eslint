@@ -236,8 +236,6 @@ And in YAML:
 
 These examples allow `var1` to be overwritten in your code, but disallow it for `var2`.
 
-For historical reasons, the boolean values `false` and `true` can also be used to configure globals, and are equivalent to `"readable"` and `"writeable"`, respectively. However, this usage of booleans is deprecated.
-
 Globals can be disabled with the string `"off"`. For example, in an environment where most ES2015 globals are available but `Promise` is unavailable, you might use this config:
 
 ```json
@@ -250,6 +248,8 @@ Globals can be disabled with the string `"off"`. For example, in an environment 
     }
 }
 ```
+
+For historical reasons, the boolean values `false` and `true` can also be used to configure globals, and are equivalent to `"readable"` and `"writeable"`, respectively. However, this usage of booleans is deprecated.
 
 **Note:** Enable the [no-global-assign](../rules/no-global-assign.md) rule to disallow modifications to read-only global variables in your code.
 
