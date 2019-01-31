@@ -214,7 +214,7 @@ This defines two global variables, `var1` and `var2`. If you want to optionally 
 /* global var1:writeable, var2:writeable */
 ```
 
-To configure global variables inside of a configuration file, use the `globals` key and indicate the global variables you want to use. Set each global variable name equal to `writeable` to allow the variable to be overwritten or `readable` to disallow overwriting. For example:
+To configure global variables inside of a configuration file, set the `globals` configuration property to an object containing keys named for each of the global variables you want to use. For each global variable key, set the corresponding value equal to `"writeable"` to allow the variable to be overwritten or `"readable"` to disallow overwriting. For example:
 
 ```json
 {
