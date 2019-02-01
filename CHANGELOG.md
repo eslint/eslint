@@ -1,3 +1,17 @@
+v5.13.0 - February 1, 2019
+
+* [`91c8884`](https://github.com/eslint/eslint/commit/91c8884971f5e57f5f7490d8daf92c4a9a489836) Chore: use local function to append "s" instead of a package (#11293) (Timo Tijhof)
+* [`b5143bf`](https://github.com/eslint/eslint/commit/b5143bfc09e53d8da8f63421ade093b7593f4f51) Update: for-direction detection false positives/negatives (#11254) (Ruben Bridgewater)
+* [`9005e63`](https://github.com/eslint/eslint/commit/9005e632d13476880c55f7e3c8a6e450762a5171) Chore: increase camelcase test coverage (#11299) (Redmond Tran)
+* [`5b14ad1`](https://github.com/eslint/eslint/commit/5b14ad1003c7df9a37621dea55c6d6d0484adc05) Fix: false positive in no-constant-condition (fixes #11306) (#11308) (Pig Fang)
+* [`6567c4f`](https://github.com/eslint/eslint/commit/6567c4f6665df85c3347388b29d8193cc8208d63) Fix: only remove arrow before body in object-shorthand (fixes #11305) (#11307) (Pig Fang)
+* [`fa2f370`](https://github.com/eslint/eslint/commit/fa2f370affa4814dbdda278f9859d0172d4b7aa2) Docs: update rule configuration values in examples (#11323) (Kai Cataldo)
+* [`0a3c3ff`](https://github.com/eslint/eslint/commit/0a3c3ff1d91e8f39943efc4a7d2bf6927d68d37e) New: Allow globals to be disabled/configured with strings (fixes #9940) (#11338) (Teddy Katz)
+* [`dccee63`](https://github.com/eslint/eslint/commit/dccee63cf41234180c71bf0fe01b165c9078fc69) Chore: avoid hard-coding the list of core rules in eslint:recommended (#11336) (Teddy Katz)
+* [`c1fd6f5`](https://github.com/eslint/eslint/commit/c1fd6f54d92efe615bcae529006221e122dbe9e6) Chore: remove undocumented `Linter#rules` property (refs #9161) (#11335) (Teddy Katz)
+* [`36e3356`](https://github.com/eslint/eslint/commit/36e335681d61cbe3c83b653b7cc5f95730f1d86e) Chore: remove dead code for loading rules (#11334) (Teddy Katz)
+* [`c464e27`](https://github.com/eslint/eslint/commit/c464e2744ec76e7e9c6c5af0f6162c92187f1ece) Docs: Rename `result` -> `foo` (#11210) (Alexis Tyler)
+
 v5.12.1 - January 18, 2019
 
 * [`eb5c401`](https://github.com/eslint/eslint/commit/eb5c4014f16be1c2003ed46ce9560d0d8a567d0f) Chore: use meta.messages in some rules (2/4) (refs #9870) (#10773) (薛定谔的猫)
