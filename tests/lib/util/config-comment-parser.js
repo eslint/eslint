@@ -117,77 +117,77 @@ describe("ConfigCommentParser", () => {
 
     });
 
-    describe("parseBooleanConfig", () => {
+    describe("parseStringConfig", () => {
 
         const comment = {};
 
-        it("should parse Boolean config with one item", () => {
+        it("should parse String config with one item", () => {
             const code = "a: true";
-            const result = commentParser.parseBooleanConfig(code, comment);
+            const result = commentParser.parseStringConfig(code, comment);
 
             assert.deepStrictEqual(result, {
                 a: {
-                    value: true,
+                    value: "true",
                     comment
                 }
             });
         });
 
-        it("should parse Boolean config with one item and no value", () => {
+        it("should parse String config with one item and no value", () => {
             const code = "a";
-            const result = commentParser.parseBooleanConfig(code, comment);
+            const result = commentParser.parseStringConfig(code, comment);
 
             assert.deepStrictEqual(result, {
                 a: {
-                    value: false,
+                    value: null,
                     comment
                 }
             });
         });
 
-        it("should parse Boolean config with two items", () => {
-            const code = "a: true b:false";
-            const result = commentParser.parseBooleanConfig(code, comment);
+        it("should parse String config with two items", () => {
+            const code = "a: five b:three";
+            const result = commentParser.parseStringConfig(code, comment);
 
             assert.deepStrictEqual(result, {
                 a: {
-                    value: true,
+                    value: "five",
                     comment
                 },
                 b: {
-                    value: false,
+                    value: "three",
                     comment
                 }
             });
         });
 
-        it("should parse Boolean config with two comma-separated items", () => {
-            const code = "a: true, b:false";
-            const result = commentParser.parseBooleanConfig(code, comment);
+        it("should parse String config with two comma-separated items", () => {
+            const code = "a: seventy, b:ELEVENTEEN";
+            const result = commentParser.parseStringConfig(code, comment);
 
             assert.deepStrictEqual(result, {
                 a: {
-                    value: true,
+                    value: "seventy",
                     comment
                 },
                 b: {
-                    value: false,
+                    value: "ELEVENTEEN",
                     comment
                 }
             });
         });
 
-        it("should parse Boolean config with two comma-separated items and no values", () => {
+        it("should parse String config with two comma-separated items and no values", () => {
             const code = "a , b";
-            const result = commentParser.parseBooleanConfig(code, comment);
+            const result = commentParser.parseStringConfig(code, comment);
 
             assert.deepStrictEqual(result, {
                 a: {
-                    value: false,
+                    value: null,
                     comment
                 },
                 b: {
-                    value: false,
+                    value: null,
                     comment
                 }
             });
