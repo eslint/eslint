@@ -45,7 +45,7 @@ Here's an example `.eslintrc.json` file:
         }
     },
     "rules": {
-        "semi": 2
+        "semi": "error"
     }
 }
 ```
@@ -816,15 +816,15 @@ In your `.eslintrc.json`:
 ```json
 {
   "rules": {
-    "quotes": [ 2, "double" ]
+    "quotes": ["error", "double"]
   },
 
   "overrides": [
     {
-      "files": [ "bin/*.js", "lib/*.js" ],
+      "files": ["bin/*.js", "lib/*.js"],
       "excludedFiles": "*.test.js",
       "rules": {
-        "quotes": [ 2, "single" ]
+        "quotes": ["error", "single"]
       }
     }
   ]
