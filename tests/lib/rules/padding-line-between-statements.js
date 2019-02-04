@@ -736,7 +736,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             parserOptions: { sourceType: "module" }
         },
         {
-            code: "export {a}\n\nfoo()",
+            code: "var a = 0; export {a}\n\nfoo()",
             options: [
                 { blankLine: "never", prev: "*", next: "*" },
                 { blankLine: "always", prev: "export", next: "*" }
@@ -3442,8 +3442,8 @@ ruleTester.run("padding-line-between-statements", rule, {
             errors: [MESSAGE_NEVER]
         },
         {
-            code: "export {a}\n\nfoo()",
-            output: "export {a}\nfoo()",
+            code: "var a = 0;export {a}\n\nfoo()",
+            output: "var a = 0;export {a}\nfoo()",
             options: [
                 { blankLine: "never", prev: "export", next: "*" }
             ],
@@ -3469,8 +3469,8 @@ ruleTester.run("padding-line-between-statements", rule, {
             errors: [MESSAGE_ALWAYS]
         },
         {
-            code: "export {a}\nfoo()",
-            output: "export {a}\n\nfoo()",
+            code: "var a = 0;export {a}\nfoo()",
+            output: "var a = 0;export {a}\n\nfoo()",
             options: [
                 { blankLine: "always", prev: "export", next: "*" }
             ],

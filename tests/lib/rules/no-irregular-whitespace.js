@@ -181,10 +181,15 @@ ruleTester.run("no-irregular-whitespace", rule, {
             code: "var any \u00A0 = 'thing';",
             errors: expectedErrors
         },
-        {
-            code: "var any \u180E = 'thing';",
-            errors: expectedErrors
-        },
+
+        /*
+         * it was moved out of General_Category=Zs (separator, space) in Unicode 6.3.0, so should not be considered a whitespace character.
+         * https://codeblog.jonskeet.uk/2014/12/01/when-is-an-identifier-not-an-identifier-attack-of-the-mongolian-vowel-separator/
+         * {
+         *     code: "var any \u180E = 'thing';",
+         *     errors: expectedErrors
+         * },
+         */
         {
             code: "var any \ufeff = 'thing';",
             errors: expectedErrors

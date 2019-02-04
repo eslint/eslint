@@ -47,7 +47,11 @@ ruleTester.run("no-undefined", rule, {
         "class Foo { undefined() {} }",
         "(class { undefined() {} })",
         { code: "import { undefined as a } from 'foo'", parserOptions: ES6_MODULE },
-        { code: "export { undefined } from 'foo'", parserOptions: ES6_MODULE },
+
+        /*
+         * it will be warned "Parsing error: Export 'undefined' is not defined" (acorn@>=6.0.7)
+         * { code: "export { undefined } from 'foo'", parserOptions: ES6_MODULE },
+         */
         { code: "export { undefined as a } from 'foo'", parserOptions: ES6_MODULE },
         { code: "export { a as undefined } from 'foo'", parserOptions: ES6_MODULE }
     ],
@@ -111,11 +115,15 @@ ruleTester.run("no-undefined", rule, {
             parserOptions: ES6_MODULE,
             errors
         },
-        {
-            code: "export { undefined }",
-            parserOptions: ES6_MODULE,
-            errors
-        },
+
+        /*
+         * it will be warned "Parsing error: Export 'undefined' is not defined" (acorn@>=6.0.7)
+         * {
+         *     code: "export { undefined }",
+         *     parserOptions: ES6_MODULE,
+         *     errors
+         * },
+         */
         { code: "let a = [b, ...undefined]", errors },
         { code: "[a, ...undefined] = b", errors },
         { code: "[a = undefined] = b", errors }

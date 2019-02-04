@@ -561,16 +561,16 @@ ruleTester.run("keyword-spacing", rule, {
         // export
         //----------------------------------------------------------------------
 
-        { code: "{} export {a}", parserOptions: { sourceType: "module" } },
+        { code: "var a = 0; {} export {a}", parserOptions: { sourceType: "module" } },
         { code: "{} export default a", parserOptions: { sourceType: "module" } },
         { code: "{} export * from \"a\"", parserOptions: { sourceType: "module" } },
-        { code: "{}export{a}", options: [NEITHER], parserOptions: { sourceType: "module" } },
-        { code: "{} export {a}", options: [override("export", BOTH)], parserOptions: { sourceType: "module" } },
-        { code: "{}export{a}", options: [override("export", NEITHER)], parserOptions: { sourceType: "module" } },
+        { code: "var a = 0; {}export{a}", options: [NEITHER], parserOptions: { sourceType: "module" } },
+        { code: "var a = 0; {} export {a}", options: [override("export", BOTH)], parserOptions: { sourceType: "module" } },
+        { code: "var a = 0; {}export{a}", options: [override("export", NEITHER)], parserOptions: { sourceType: "module" } },
 
         // not conflict with `semi-spacing`
-        { code: ";export {a}", parserOptions: { sourceType: "module" } },
-        { code: "; export{a}", options: [NEITHER], parserOptions: { sourceType: "module" } },
+        { code: "var a = 0;\n;export {a}", parserOptions: { sourceType: "module" } },
+        { code: "var a = 0;\n; export{a}", options: [NEITHER], parserOptions: { sourceType: "module" } },
 
         //----------------------------------------------------------------------
         // extends
@@ -2012,20 +2012,20 @@ ruleTester.run("keyword-spacing", rule, {
         //----------------------------------------------------------------------
 
         {
-            code: "{}export{a}",
-            output: "{} export {a}",
+            code: "var a = 0; {}export{a}",
+            output: "var a = 0; {} export {a}",
             parserOptions: { sourceType: "module" },
             errors: expectedBeforeAndAfter("export")
         },
         {
-            code: "{}export default a",
-            output: "{} export default a",
+            code: "var a = 0; {}export default a",
+            output: "var a = 0; {} export default a",
             parserOptions: { sourceType: "module" },
             errors: expectedBefore("export")
         },
         {
-            code: "export default{a}",
-            output: "export default {a}",
+            code: "var a = 0; export default{a}",
+            output: "var a = 0; export default {a}",
             parserOptions: { sourceType: "module" },
             errors: expectedAfter("default")
         },
@@ -2036,22 +2036,22 @@ ruleTester.run("keyword-spacing", rule, {
             errors: expectedBeforeAndAfter("export")
         },
         {
-            code: "{} export {a}",
-            output: "{}export{a}",
+            code: "var a = 0; {} export {a}",
+            output: "var a = 0; {}export{a}",
             options: [NEITHER],
             parserOptions: { sourceType: "module" },
             errors: unexpectedBeforeAndAfter("export")
         },
         {
-            code: "{}export{a}",
-            output: "{} export {a}",
+            code: "var a = 0; {}export{a}",
+            output: "var a = 0; {} export {a}",
             options: [override("export", BOTH)],
             parserOptions: { sourceType: "module" },
             errors: expectedBeforeAndAfter("export")
         },
         {
-            code: "{} export {a}",
-            output: "{}export{a}",
+            code: "var a = 0; {} export {a}",
+            output: "var a = 0; {}export{a}",
             options: [override("export", NEITHER)],
             parserOptions: { sourceType: "module" },
             errors: unexpectedBeforeAndAfter("export")
