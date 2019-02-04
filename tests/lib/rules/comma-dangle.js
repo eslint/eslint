@@ -182,7 +182,7 @@ ruleTester.run("comma-dangle", rule, {
             parserOptions: { sourceType: "module" }
         },
         {
-            code: "export {foo} from 'foo';",
+            code: "var foo = 'foo'; export {foo} from 'foo';",
             options: ["never"],
             parserOptions: { sourceType: "module" }
         },
@@ -197,12 +197,12 @@ ruleTester.run("comma-dangle", rule, {
             parserOptions: { sourceType: "module" }
         },
         {
-            code: "export {foo} from 'foo';",
+            code: "var foo = 'foo'; export {foo} from 'foo';",
             options: ["always-multiline"],
             parserOptions: { sourceType: "module" }
         },
         {
-            code: "export {foo} from 'foo';",
+            code: "var foo = 'foo'; export {foo} from 'foo';",
             options: ["only-multiline"],
             parserOptions: { sourceType: "module" }
         },
@@ -994,7 +994,7 @@ ruleTester.run("comma-dangle", rule, {
             errors: [{ messageId: "missing", type: "ImportSpecifier" }]
         },
         {
-            code: "export {foo} from 'foo';",
+            code: "var foo = 'foo'; export {foo} from 'foo';",
             output: "export {foo,} from 'foo';",
             options: ["always"],
             parserOptions: { sourceType: "module" },
@@ -1030,14 +1030,14 @@ ruleTester.run("comma-dangle", rule, {
         },
         {
             code: "export {foo,} from 'foo';",
-            output: "export {foo} from 'foo';",
+            output: "var foo = 'foo'; export {foo} from 'foo';",
             options: ["never"],
             parserOptions: { sourceType: "module" },
             errors: [{ messageId: "unexpected", type: "ExportSpecifier" }]
         },
         {
             code: "export {foo,} from 'foo';",
-            output: "export {foo} from 'foo';",
+            output: "var foo = 'foo'; export {foo} from 'foo';",
             options: ["only-multiline"],
             parserOptions: { sourceType: "module" },
             errors: [{ messageId: "unexpected", type: "ExportSpecifier" }]
@@ -1051,7 +1051,7 @@ ruleTester.run("comma-dangle", rule, {
         },
         {
             code: "export {foo,} from 'foo';",
-            output: "export {foo} from 'foo';",
+            output: "var foo = 'foo'; export {foo} from 'foo';",
             options: ["always-multiline"],
             parserOptions: { sourceType: "module" },
             errors: [{ messageId: "unexpected", type: "ExportSpecifier" }]
