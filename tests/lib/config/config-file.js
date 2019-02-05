@@ -20,6 +20,7 @@ const Module = require("module"),
     espree = require("espree"),
     ConfigFile = require("../../../lib/config/config-file"),
     Linter = require("../../../lib/linter"),
+    CLIEngine = require("../../../lib/cli-engine"),
     Config = require("../../../lib/config");
 
 const userHome = os.homedir();
@@ -1282,6 +1283,29 @@ describe("ConfigFile", () => {
             });
 
             StubbedConfigFile.write(singleQuoteConfig, "test-config.js");
+        });
+
+        it("should still write a js config file even if linting fails", () => {
+            const fakeFS = leche.fake(fs);
+            const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({
+                baseConfig: config,
+                fix: true,
+                useEslintrc: false
+            }));
+
+            fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
+            sandbox.stub(fakeCLIEngine.prototype, "executeOnText").throws();
+
+            sandbox.mock(fakeFS).expects("writeFileSync").once();
+
+            const StubbedConfigFile = proxyquire("../../../lib/config/config-file", {
+                fs: fakeFS,
+                "../cli-engine": fakeCLIEngine
+            });
+
+            assert.throws(() => {
+                StubbedConfigFile.write(config, "test-config.js");
+            });
         });
 
         it("should throw error if file extension is not valid", () => {
