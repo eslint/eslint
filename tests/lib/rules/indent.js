@@ -1109,6 +1109,7 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                var foo = 0, bar = 0; baz = 0;
                 export {
                     foo,
                     bar,
@@ -3100,6 +3101,7 @@ ruleTester.run("indent", rule, {
         `,
         {
             code: unIndent`
+                var foo = 0, bar = 0, baz = 0;
                 export {
                     foo,
                     bar,
@@ -4813,6 +4815,7 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                var a = 0, b = 0, c = 0;
                 export default foo(
                     a,
                     b, {
@@ -7620,6 +7623,7 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                var foo = 0, bar = 0, baz = 0;
                 export {
                 foo,
                   bar,
@@ -7627,6 +7631,7 @@ ruleTester.run("indent", rule, {
                 };
             `,
             output: unIndent`
+                var foo = 0, bar = 0, baz = 0;
                 export {
                     foo,
                     bar,
@@ -7634,10 +7639,11 @@ ruleTester.run("indent", rule, {
                 };
             `,
             parserOptions: { sourceType: "module" },
-            errors: expectedErrors([[2, 4, 0, "Identifier"], [3, 4, 2, "Identifier"]])
+            errors: expectedErrors([[3, 4, 0, "Identifier"], [4, 4, 2, "Identifier"]])
         },
         {
             code: unIndent`
+                var foo = 0, bar = 0, baz = 0;
                 export {
                 foo,
                   bar,
@@ -7645,6 +7651,7 @@ ruleTester.run("indent", rule, {
                 } from 'qux';
             `,
             output: unIndent`
+                var foo = 0, bar = 0, baz = 0;
                 export {
                     foo,
                     bar,
@@ -7652,7 +7659,7 @@ ruleTester.run("indent", rule, {
                 } from 'qux';
             `,
             parserOptions: { sourceType: "module" },
-            errors: expectedErrors([[2, 4, 0, "Identifier"], [3, 4, 2, "Identifier"]])
+            errors: expectedErrors([[3, 4, 0, "Identifier"], [4, 4, 2, "Identifier"]])
         },
         {
 
@@ -8074,6 +8081,7 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                var foo = 0, bar = 0, baz = 0;
                 export {
                 foo,
                         bar,
@@ -8081,6 +8089,7 @@ ruleTester.run("indent", rule, {
                 }
             `,
             output: unIndent`
+                var foo = 0, bar = 0, baz = 0;
                 export {
                     foo,
                     bar,
@@ -8088,7 +8097,7 @@ ruleTester.run("indent", rule, {
                 }
             `,
             parserOptions: { sourceType: "module" },
-            errors: expectedErrors([[2, 4, 0, "Identifier"], [3, 4, 8, "Identifier"], [4, 4, 2, "Identifier"]])
+            errors: expectedErrors([[3, 4, 0, "Identifier"], [4, 4, 8, "Identifier"], [5, 4, 2, "Identifier"]])
         },
         {
             code: unIndent`
