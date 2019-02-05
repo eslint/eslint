@@ -161,6 +161,15 @@ describe("configInitializer", () => {
                 assert.deepStrictEqual(config.plugins, ["react"]);
             });
 
+            it("should enable vue plugin", () => {
+                answers.framework = "vue";
+                const config = init.processAnswers(answers);
+
+                assert.strictEqual(config.parserOptions.ecmaVersion, 2018);
+                assert.deepStrictEqual(config.plugins, ["vue"]);
+                assert.deepStrictEqual(config.extends, ["eslint:recommended", "plugin:vue/essential"]);
+            });
+
             it("should extend eslint:recommended", () => {
                 const config = init.processAnswers(answers);
 
