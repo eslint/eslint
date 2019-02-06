@@ -19,7 +19,7 @@ function NaN(){}
 
 !function(Infinity){};
 
-var undefined;
+var undefined = 5;
 
 try {} catch(eval){}
 ```
@@ -32,6 +32,9 @@ Examples of **correct** code for this rule:
 var Object;
 
 function f(a, b){}
+
+// Exception: `undefined` may be shadowed if the variable is never assigned a value.
+var undefined;
 ```
 
 ## Further Reading
