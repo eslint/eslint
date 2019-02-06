@@ -47,7 +47,7 @@
     "espree": "^5.0.0",
     "esquery": "^1.0.1",
     "esutils": "^2.0.2",
-    "file-entry-cache": "^2.0.0",
+    "file-entry-cache": "^5.0.1",
     "functional-red-black-tree": "^1.0.1",
     "glob": "^7.1.2",
     "globals": "^11.7.0",
