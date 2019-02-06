@@ -36,4 +36,4 @@ var barIsEnumerable = {}.propertyIsEnumerable.call(foo, "bar");
 
 ## When Not To Use It
 
-You may want to turn this rule off if your code never handles user input, and you will never use an object that shadows an `Object.prototype` method or which does not inherit from `Object.prototype`.
+You may want to turn this rule off if your code only touches objects with hardcoded keys, and you will never use an object that shadows an `Object.prototype` method or which does not inherit from `Object.prototype`.
