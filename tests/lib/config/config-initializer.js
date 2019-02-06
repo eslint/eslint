@@ -139,6 +139,8 @@ describe("configInitializer", () => {
                 assert.deepStrictEqual(config.rules["linebreak-style"], ["error", "unix"]);
                 assert.deepStrictEqual(config.rules.semi, ["error", "always"]);
                 assert.strictEqual(config.env.es6, true);
+                assert.strictEqual(config.globals.Atomics, false);
+                assert.strictEqual(config.globals.SharedArrayBuffer, false);
                 assert.strictEqual(config.parserOptions.ecmaVersion, 2018);
                 assert.strictEqual(config.parserOptions.sourceType, "module");
                 assert.strictEqual(config.env.browser, true);
