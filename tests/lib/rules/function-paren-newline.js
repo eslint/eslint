@@ -20,6 +20,7 @@ const LEFT_MISSING_ERROR = { messageId: "expectedAfter", type: "Punctuator" };
 const LEFT_UNEXPECTED_ERROR = { messageId: "unexpectedAfter", type: "Punctuator" };
 const RIGHT_MISSING_ERROR = { messageId: "expectedBefore", type: "Punctuator" };
 const RIGHT_UNEXPECTED_ERROR = { messageId: "unexpectedBefore", type: "Punctuator" };
+const EXPECTED_BETWEEN = { messageId: "expectedBetween", type: "Identifier" };
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 
@@ -82,12 +83,182 @@ ruleTester.run("function-paren-newline", rule, {
               return value;
             })
         `,
-
-        // always option
         {
             code: "function baz(foo, bar) {}",
             options: ["multiline"]
         },
+
+        // consistent-arguments
+        {
+            code: "function baz(foo, bar) {}",
+            options: ["consistent-arguments"]
+        },
+        {
+            code: "function baz(foo) {}",
+            options: ["consistent-arguments"]
+        },
+        {
+            code: "(function(foo, bar) {});",
+            options: ["consistent-arguments"]
+        },
+        {
+            code: "(function(foo) {});",
+            options: ["consistent-arguments"]
+        },
+        {
+            code: "(function baz(foo, bar) {});",
+            options: ["consistent-arguments"]
+        },
+        {
+            code: "(function baz(foo) {});",
+            options: ["consistent-arguments"]
+        },
+        {
+            code: "(foo, bar) => {};",
+            options: ["consistent-arguments"]
+        },
+        {
+            code: "foo => {};",
+            options: ["consistent-arguments"]
+        },
+        {
+            code: "baz(foo, bar);",
+            options: ["consistent-arguments"]
+        },
+        {
+            code: "baz(foo);",
+            options: ["consistent-arguments"]
+        },
+        {
+            code: "function baz() {}",
+            options: ["consistent-arguments"]
+        },
+        {
+            code: `
+                function baz(
+                    foo,
+                    bar
+                ) {}
+            `,
+            options: ["consistent-arguments"]
+        },
+        {
+            code: `
+                function baz(
+                    foo
+                ) {}
+            `,
+            options: ["consistent-arguments"]
+        },
+        {
+            code: `
+                (function(
+                    foo,
+                    bar
+                ) {});
+            `,
+            options: ["consistent-arguments"]
+        },
+        {
+            code: `
+                (function(
+                    foo
+                ) {});
+            `,
+            options: ["consistent-arguments"]
+        },
+        {
+            code: `
+                (function baz(
+                    foo,
+                    bar
+                ) {});
+            `,
+            options: ["consistent-arguments"]
+        },
+        {
+            code: `
+                (function baz(
+                    foo
+                ) {});
+            `,
+            options: ["consistent-arguments"]
+        },
+        {
+            code: `
+                (
+                    foo,
+                    bar
+                ) => {};
+            `,
+            options: ["consistent-arguments"]
+        },
+        {
+            code: `
+                (
+                    foo
+                ) => {};
+            `,
+            options: ["consistent-arguments"]
+        },
+        {
+            code: `
+                baz(
+                    foo,
+                    bar
+                );
+            `,
+            options: ["consistent-arguments"]
+        },
+        {
+            code: `
+                baz(
+                    foo
+                );
+            `,
+            options: ["consistent-arguments"]
+        },
+        {
+            code: `
+                baz(\`foo
+                    bar\`)
+            `,
+            options: ["consistent-arguments"]
+        },
+        {
+            code: "new Foo(bar, baz)",
+            options: ["consistent-arguments"]
+        },
+        {
+            code: "new Foo(bar)",
+            options: ["consistent-arguments"]
+        },
+        {
+            code: "new Foo",
+            options: ["consistent-arguments"]
+        },
+        {
+            code: "new (Foo)",
+            options: ["consistent-arguments"]
+        },
+
+        {
+            code: `
+                (foo)
+                (bar)
+            `,
+            options: ["consistent-arguments"]
+        },
+        {
+            code: `
+                foo.map(value => {
+                  return value;
+                })
+            `,
+            options: ["consistent-arguments"]
+        },
+
+        // always option
         {
             code: `
                 function baz(
@@ -341,6 +512,193 @@ ruleTester.run("function-paren-newline", rule, {
                 /* not fixed due to comment */) {}
             `,
             output: null,
+            errors: [RIGHT_UNEXPECTED_ERROR]
+        },
+
+        // consistent-arguments
+        {
+            code: `
+                function baz(foo,
+                    bar
+                ) {}
+            `,
+            output: `
+                function baz(\nfoo,
+                    bar
+                ) {}
+            `,
+            options: ["consistent-arguments"],
+            errors: [LEFT_MISSING_ERROR]
+        },
+        {
+            code: `
+                (function(
+                    foo,
+                    bar) {})
+            `,
+            output: `
+                (function(
+                    foo,
+                    bar\n) {})
+            `,
+            options: ["consistent-arguments"],
+            errors: [RIGHT_MISSING_ERROR]
+        },
+        {
+            code: `
+                (function baz(foo,
+                    bar) {})
+            `,
+            output: `
+                (function baz(\nfoo,
+                    bar\n) {})
+            `,
+            options: ["consistent-arguments"],
+            errors: [LEFT_MISSING_ERROR, RIGHT_MISSING_ERROR]
+        },
+        {
+            code: `
+                baz(
+                    foo, bar);
+            `,
+            output: `
+                baz(foo, bar);
+            `,
+            options: ["consistent-arguments"],
+            errors: [LEFT_UNEXPECTED_ERROR]
+        },
+        {
+            code: `
+                (foo, bar
+                ) => {};
+            `,
+            output: `
+                (foo, bar) => {};
+            `,
+            options: ["consistent-arguments"],
+            errors: [RIGHT_UNEXPECTED_ERROR]
+        },
+        {
+            code: `
+                function baz(
+                    foo, bar
+                ) {}
+            `,
+            output: `
+                function baz(foo, bar) {}
+            `,
+            options: ["consistent-arguments"],
+            errors: [LEFT_UNEXPECTED_ERROR, RIGHT_UNEXPECTED_ERROR]
+        },
+        {
+            code: `
+                function baz(
+                ) {}
+            `,
+            output: `
+                function baz() {}
+            `,
+            options: ["consistent-arguments"],
+            errors: [LEFT_UNEXPECTED_ERROR, RIGHT_UNEXPECTED_ERROR]
+        },
+        {
+            code: `
+                new Foo(bar,
+                    baz);
+            `,
+            output: `
+                new Foo(\nbar,
+                    baz\n);
+            `,
+            options: ["consistent-arguments"],
+            errors: [LEFT_MISSING_ERROR, RIGHT_MISSING_ERROR]
+        },
+        {
+            code: `
+                function baz(/* not fixed due to comment */
+                foo) {}
+            `,
+            output: `
+                function baz(/* not fixed due to comment */
+                foo\n) {}
+            `,
+            options: ["consistent-arguments"],
+            errors: [RIGHT_MISSING_ERROR]
+        },
+        {
+            code: `
+                function baz(foo
+                /* not fixed due to comment */) {}
+            `,
+            output: null,
+            options: ["consistent-arguments"],
+            errors: [RIGHT_UNEXPECTED_ERROR]
+        },
+        {
+            code: `
+                function baz(
+                    qwe,
+                    foo, bar
+                ) {}
+            `,
+            output: `
+                function baz(
+                    qwe,
+                    foo, \nbar
+                ) {}
+            `,
+            options: ["consistent-arguments"],
+            errors: [EXPECTED_BETWEEN]
+        },
+        {
+            code: `
+                function baz(
+                    qwe, foo,
+                    bar
+                ) {}
+            `,
+            output: `
+                function baz(
+                    qwe, \nfoo,
+                    bar
+                ) {}
+            `,
+            options: ["consistent-arguments"],
+            errors: [EXPECTED_BETWEEN]
+        },
+        {
+            code: `
+                function baz(qwe, foo,
+                    bar) {}
+            `,
+            output: `
+                function baz(\nqwe, \nfoo,
+                    bar\n) {}
+            `,
+            options: ["consistent-arguments"],
+            errors: [LEFT_MISSING_ERROR, EXPECTED_BETWEEN, RIGHT_MISSING_ERROR]
+        },
+        {
+            code: `
+                baz(
+                    foo);
+            `,
+            output: `
+                baz(
+                    foo\n);
+            `,
+            options: ["consistent-arguments"],
+            errors: [RIGHT_MISSING_ERROR]
+        },
+        {
+            code: `
+                baz(foo
+                    );
+            `,
+            output: `
+                baz(foo);
+            `,
+            options: ["consistent-arguments"],
             errors: [RIGHT_UNEXPECTED_ERROR]
         },
 
