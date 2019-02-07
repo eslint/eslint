@@ -29,16 +29,25 @@ ruleTester.run("function-paren-newline", rule, {
 
         // multiline option (default)
         "function baz(foo, bar) {}",
+        "function baz(foo) {}",
         "(function(foo, bar) {});",
+        "(function(foo) {});",
         "(function baz(foo, bar) {});",
+        "(function baz(foo) {});",
         "(foo, bar) => {};",
         "foo => {};",
         "baz(foo, bar);",
+        "baz(foo);",
         "function baz() {}",
         `
             function baz(
                 foo,
                 bar
+            ) {}
+        `,
+        `
+            function baz(
+                foo
             ) {}
         `,
         `
@@ -48,9 +57,19 @@ ruleTester.run("function-paren-newline", rule, {
             ) {});
         `,
         `
+            (function(
+                foo
+            ) {});
+        `,
+        `
             (function baz(
                 foo,
                 bar
+            ) {});
+        `,
+        `
+            (function baz(
+                foo
             ) {});
         `,
         `
@@ -60,9 +79,19 @@ ruleTester.run("function-paren-newline", rule, {
             ) => {};
         `,
         `
+            (
+                foo
+            ) => {};
+        `,
+        `
             baz(
                 foo,
                 bar
+            );
+        `,
+        `
+            baz(
+                foo
             );
         `,
         `
@@ -70,6 +99,7 @@ ruleTester.run("function-paren-newline", rule, {
                 bar\`)
         `,
         "new Foo(bar, baz)",
+        "new Foo(bar)",
         "new Foo",
         "new (Foo)",
 
@@ -296,19 +326,6 @@ ruleTester.run("function-paren-newline", rule, {
         {
             code: `
                 function baz(
-                    foo =
-                    1
-                ) {}
-            `,
-            output: `
-                function baz(foo =
-                    1) {}
-            `,
-            errors: [LEFT_UNEXPECTED_ERROR, RIGHT_UNEXPECTED_ERROR]
-        },
-        {
-            code: `
-                function baz(
                 ) {}
             `,
             output: `
@@ -332,8 +349,11 @@ ruleTester.run("function-paren-newline", rule, {
                 function baz(/* not fixed due to comment */
                 foo) {}
             `,
-            output: null,
-            errors: [LEFT_UNEXPECTED_ERROR]
+            output: `
+                function baz(/* not fixed due to comment */
+                foo\n) {}
+            `,
+            errors: [RIGHT_MISSING_ERROR]
         },
         {
             code: `
