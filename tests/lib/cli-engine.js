@@ -1530,7 +1530,7 @@ describe("CLIEngine", () => {
 
             const report = engine.executeOnFiles(["lib/cli*.js"]);
 
-            assert.deepStrictEqual(
+            assert.sameDeepMembers(
                 report.usedDeprecatedRules,
                 [
                     { ruleId: "indent-legacy", replacedBy: ["indent"] },
