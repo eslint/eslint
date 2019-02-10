@@ -74,8 +74,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
+    "@babel/polyfill": "^7.2.5",
     "@babel/preset-env": "^7.3.1",
-    "babel-polyfill": "^6.26.0",
     "babelify": "^10.0.0",
     "beefy": "^2.1.8",
     "brfs": "^2.0.0",
