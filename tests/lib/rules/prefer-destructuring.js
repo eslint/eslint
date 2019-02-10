@@ -133,7 +133,15 @@ ruleTester.run("prefer-destructuring", rule, {
         },
         "class Foo extends Bar { static foo() {var foo = super.foo} }",
         "foo = bar[foo];",
-        "var foo = bar[foo];"
+        "var foo = bar[foo];",
+        {
+            code: "var {foo: {bar}} = object;",
+            options: [{ object: true }]
+        },
+        {
+            code: "var {bar} = object.foo;",
+            options: [{ object: true }]
+        }
     ],
 
     invalid: [
