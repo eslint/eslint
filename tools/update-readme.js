@@ -15,6 +15,7 @@
 
 const path = require("path");
 const fs = require("fs");
+const { stripIndents } = require("common-tags");
 
 //-----------------------------------------------------------------------------
 // Data
@@ -36,6 +37,7 @@ const heights = {
 // remove backers from sponsors list - not shown on readme
 delete allSponsors.backers;
 
+
 //-----------------------------------------------------------------------------
 // Helpers
 //-----------------------------------------------------------------------------
@@ -47,15 +49,17 @@ delete allSponsors.backers;
  * @returns {string} The HTML for the members list.
  */
 function formatTeamMembers(members, label) {
-    return `<!--${label}start-->
+    /* eslint-disable indent*/
+    return stripIndents`<!--${label}start-->
         <table><tbody><tr>${
-    members.map((member, index) => `<td align="center" valign="top" width="11%">
-                        <a href="https://github.com/${member.username}">
-                            <img src="https://github.com/${member.username}.png?s=75" width="75" height="75"><br />
-                                ${member.name}</a>
-                </td>${(index + 1) % 9 ? "</tr><tr>" : ""}`).join("")
-}</tr></tbody></table>
-    <!--${label}end-->`;
+        members.map((member, index) => `<td align="center" valign="top" width="11%">
+            <a href="https://github.com/${member.username}">
+                <img src="https://github.com/${member.username}.png?s=75" width="75" height="75"><br />
+                ${member.name}
+            </a>
+            </td>${(index + 1) % 9 ? "</tr><tr>" : ""}`).join("")
+        }</tr></tbody></table><!--${label}end-->`;
+    /* eslint-enable indent*/
 }
 
 /**
@@ -64,14 +68,18 @@ function formatTeamMembers(members, label) {
  * @returns {string} The HTML for the readme.
  */
 function formatSponsors(sponsors) {
-    return `<!--sponsorsstart-->
+    const nonEmptySponsors = Object.keys(sponsors).filter(tier => sponsors[tier].length > 0);
+
+    /* eslint-disable indent*/
+    return stripIndents`<!--sponsorsstart-->
         ${
-    Object.keys(sponsors).filter(tier => sponsors[tier].length > 0).map(tier => `### ${tier[0].toUpperCase()}${tier.slice(1)} Sponsors
-                    <p>${
-    sponsors[tier].map(sponsor => `<a href="${sponsor.url}"><img src="${sponsor.image}" alt="${sponsor.name}" height="${heights[tier]}"></a>`).join(" ")
-}</p>`).join("")
-}
+            nonEmptySponsors.map(tier => `<h3>${tier[0].toUpperCase()}${tier.slice(1)} Sponsors</h3>
+            <p>${
+                sponsors[tier].map(sponsor => `<a href="${sponsor.url}"><img src="${sponsor.image}" alt="${sponsor.name}" height="${heights[tier]}"></a>`).join(" ")
+            }</p>`).join("")
+        }
     <!--sponsorsend-->`;
+    /* eslint-enable indent*/
 }
 
 //-----------------------------------------------------------------------------
