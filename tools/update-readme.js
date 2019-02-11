@@ -57,7 +57,7 @@ function formatTeamMembers(members, label) {
                 <img src="https://github.com/${member.username}.png?s=75" width="75" height="75"><br />
                 ${member.name}
             </a>
-            </td>${(index + 1) % 9 ? "</tr><tr>" : ""}`).join("")
+            </td>${(index + 1) % 9 === 0 ? "</tr><tr>" : ""}`).join("")
         }</tr></tbody></table><!--${label}end-->`;
     /* eslint-enable indent*/
 }
