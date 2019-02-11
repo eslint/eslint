@@ -69,7 +69,7 @@
     "semver": "^5.5.1",
     "strip-ansi": "^4.0.0",
     "strip-json-comments": "^2.0.1",
-    "table": "^5.0.2",
+    "table": "^5.2.3",
     "text-table": "^0.2.0"
   },
   "devDependencies": {
