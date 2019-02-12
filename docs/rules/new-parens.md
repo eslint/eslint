@@ -42,7 +42,7 @@ var person = new (Person)();
 Examples of **incorrect** code for this rule with the `"never"` option:
 
 ```js
-/*eslint new-parens: "error"*/
+/*eslint new-parens: ["error", "never"]*/
 
 var person = new Person();
 var person = new (Person)();
@@ -51,7 +51,7 @@ var person = new (Person)();
 Examples of **correct** code for this rule with the `"never"` option:
 
 ```js
-/*eslint new-parens: "error"*/
+/*eslint new-parens: ["error", "never"]*/
 
 var person = new Person;
 var person = (new Person);
