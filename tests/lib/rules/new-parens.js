@@ -17,6 +17,7 @@ const parser = require("../../fixtures/fixture-parser"),
 // Tests
 //------------------------------------------------------------------------------
 const error = { messageId: "missing", type: "NewExpression" };
+const neverError = { messageId: "using", type: "NewExpression" };
 
 const ruleTester = new RuleTester();
 
@@ -29,7 +30,16 @@ ruleTester.run("new-parens", rule, {
         "var a = (new Date());",
         "var a = new foo.Bar();",
         "var a = (new Foo()).bar;",
-        { code: "new Storage<RootState>('state');", parser: parser("typescript-parsers/new-parens") }
+        { code: "new Storage<RootState>('state');", parser: parser("typescript-parsers/new-parens") },
+
+        // Never
+        { code: "var a = new Date;", options: ["never"] },
+        { code: "var a = new Date(function() {});", options: ["never"] },
+        { code: "var a = new (Date);", options: ["never"] },
+        { code: "var a = new ((Date));", options: ["never"] },
+        { code: "var a = (new Date);", options: ["never"] },
+        { code: "var a = new foo.Bar;", options: ["never"] },
+        { code: "var a = (new Foo).bar;", options: ["never"] }
     ],
     invalid: [
         {
@@ -73,6 +83,56 @@ ruleTester.run("new-parens", rule, {
             code: "var a = (new Foo).bar;",
             output: "var a = (new Foo()).bar;",
             errors: [error]
+        },
+
+        // Never
+        {
+            code: "var a = new Date();",
+            output: "var a = (new Date);",
+            options: ["never"],
+            errors: [neverError]
+        },
+        {
+            code: "var a = new Date()",
+            output: "var a = (new Date)",
+            options: ["never"],
+            errors: [neverError]
+        },
+        {
+            code: "var a = new (Date)();",
+            output: "var a = (new (Date));",
+            options: ["never"],
+            errors: [neverError]
+        },
+        {
+            code: "var a = new (Date)()",
+            output: "var a = (new (Date))",
+            options: ["never"],
+            errors: [neverError]
+        },
+        {
+            code: "var a = (new Date())",
+            output: "var a = ((new Date))",
+            options: ["never"],
+            errors: [neverError]
+        },
+        {
+            code: "var a = (new Date())()",
+            output: "var a = ((new Date))()",
+            options: ["never"],
+            errors: [neverError]
+        },
+        {
+            code: "var a = new foo.Bar();",
+            output: "var a = (new foo.Bar);",
+            options: ["never"],
+            errors: [neverError]
+        },
+        {
+            code: "var a = (new Foo()).bar;",
+            output: "var a = ((new Foo)).bar;",
+            options: ["never"],
+            errors: [neverError]
         }
     ]
 });
