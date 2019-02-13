@@ -908,7 +908,9 @@ describe("ConfigOps", () => {
             ["false", "readable"],
             [null, "readable"],
             ["writeable", "writeable"],
+            ["writable", "writeable"],
             ["readable", "readable"],
+            ["readonly", "readable"],
             ["writable", "writeable"],
             ["something else", "writeable"]
         ].forEach(([input, output]) => {
