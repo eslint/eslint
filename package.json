@@ -54,11 +54,7 @@
     "ignore": "^4.0.6",
     "import-fresh": "^3.0.0",
     "imurmurhash": "^0.1.4",
-<<<<<<< HEAD
     "inquirer": "^6.2.2",
-=======
-    "inquirer": "^6.2.1",
->>>>>>> Update: Behavior of --init (fixes #11105)
     "js-yaml": "^3.12.0",
     "json-stable-stringify-without-jsonify": "^1.0.1",
     "levn": "^0.3.0",
