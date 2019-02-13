@@ -621,12 +621,12 @@ describe("RuleTester", () => {
             invalid: [
                 {
                     code: "eval(foo)",
-                    parser: "esprima",
+                    parser: require.resolve("esprima"),
                     errors: [{}]
                 }
             ]
         });
-        assert.strictEqual(spy.args[1][1].parser, "esprima");
+        assert.strictEqual(spy.args[1][1].parser, require.resolve("esprima"));
     });
 
     it("should prevent invalid options schemas", () => {

@@ -42,6 +42,8 @@ function analyzeScope(ast) {
 
     referencer.visit(ast);
 
+    scopeManager.isCustomScopeManager = true;
+
     return scopeManager;
 }
 
