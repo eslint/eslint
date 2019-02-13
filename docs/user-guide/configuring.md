@@ -208,19 +208,19 @@ To specify globals using a comment inside of your JavaScript file, use the follo
 /* global var1, var2 */
 ```
 
-This defines two global variables, `var1` and `var2`. If you want to optionally specify that these global variables can be written to (rather than only being read), then you can set each with a `writeable` flag:
+This defines two global variables, `var1` and `var2`. If you want to optionally specify that these global variables can be written to (rather than only being read), then you can set each with a `"writable"` flag:
 
 ```js
-/* global var1:writeable, var2:writeable */
+/* global var1:writable, var2:writable */
 ```
 
-To configure global variables inside of a configuration file, set the `globals` configuration property to an object containing keys named for each of the global variables you want to use. For each global variable key, set the corresponding value equal to `"writeable"` to allow the variable to be overwritten or `"readable"` to disallow overwriting. For example:
+To configure global variables inside of a configuration file, set the `globals` configuration property to an object containing keys named for each of the global variables you want to use. For each global variable key, set the corresponding value equal to `"writable"` to allow the variable to be overwritten or `"readonly"` to disallow overwriting. For example:
 
 ```json
 {
     "globals": {
-        "var1": "writeable",
-        "var2": "readable"
+        "var1": "writable",
+        "var2": "readonly"
     }
 }
 ```
@@ -230,8 +230,8 @@ And in YAML:
 ```yaml
 ---
   globals:
-    var1: writeable
-    var2: readable
+    var1: writable
+    var2: readonly
 ```
 
 These examples allow `var1` to be overwritten in your code, but disallow it for `var2`.
@@ -249,7 +249,7 @@ Globals can be disabled with the string `"off"`. For example, in an environment 
 }
 ```
 
-For historical reasons, the boolean values `false` and `true` can also be used to configure globals, and are equivalent to `"readable"` and `"writeable"`, respectively. However, this usage of booleans is deprecated.
+For historical reasons, the boolean value `false` and the string value `"readable"` are equivalent to `"readonly"`. Similarly, the boolean value `true` and the string value `"writeable"` are equivalent to `"writable"`. However, the use of older values is deprecated.
 
 **Note:** Enable the [no-global-assign](../rules/no-global-assign.md) rule to disallow modifications to read-only global variables in your code.
 
