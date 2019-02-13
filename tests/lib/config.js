@@ -332,8 +332,8 @@ describe("Config", () => {
         it("should load the config file when there are JS-style comments in the text", () => {
             const configPath = path.resolve(__dirname, "..", "fixtures", "configurations", "comments.json"),
                 configHelper = new Config({ configFile: configPath, cwd: process.cwd() }, linter),
-                semi = configHelper.specificConfig.rules.semi,
-                strict = configHelper.specificConfig.rules.strict;
+                semi = configHelper.specificConfigInfo.config.rules.semi,
+                strict = configHelper.specificConfigInfo.config.rules.strict;
 
             assert.strictEqual(semi, 1);
             assert.strictEqual(strict, 0);
@@ -343,8 +343,8 @@ describe("Config", () => {
         it("should load the config file when a YAML file is used", () => {
             const configPath = path.resolve(__dirname, "..", "fixtures", "configurations", "env-browser.yaml"),
                 configHelper = new Config({ configFile: configPath, cwd: process.cwd() }, linter),
-                noAlert = configHelper.specificConfig.rules["no-alert"],
-                noUndef = configHelper.specificConfig.rules["no-undef"];
+                noAlert = configHelper.specificConfigInfo.config.rules["no-alert"],
+                noUndef = configHelper.specificConfigInfo.config.rules["no-undef"];
 
             assert.strictEqual(noAlert, 0);
             assert.strictEqual(noUndef, 2);
@@ -417,8 +417,6 @@ describe("Config", () => {
         });
 
         it("should return a modified config when baseConfig is set to an object and no .eslintrc", () => {
-
-
             const configHelper = new Config({
                     baseConfig: {
                         env: {
@@ -562,8 +560,6 @@ describe("Config", () => {
                     }
                 },
                 actual = configHelper.getConfig(file);
-
-            expected.env.node = true;
 
             assertConfigsEqual(actual, expected);
         });

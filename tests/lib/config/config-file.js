@@ -92,16 +92,12 @@ describe("ConfigFile", () => {
 
     describe("applyExtends()", () => {
         it("should apply extension 'foo' when specified from root directory config", () => {
-            const resolvedPath = relativeModuleResolver("eslint-config-enable-browser-env", getFixturePath(".eslintrc"));
             const config = ConfigFile.applyExtends({
                 extends: "enable-browser-env",
                 rules: { eqeqeq: 2 }
             }, configContext, getFixturePath(".eslintrc"));
 
             assert.deepStrictEqual(config, {
-                baseDirectory: path.dirname(resolvedPath),
-                filePath: resolvedPath,
-                extends: "enable-browser-env",
                 parserOptions: {},
                 env: { browser: true },
                 globals: {},
@@ -159,16 +155,12 @@ describe("ConfigFile", () => {
         });
 
         it("should apply extensions recursively when specified from package", () => {
-            const resolvedPath = relativeModuleResolver("eslint-config-recursive-dependent", getFixturePath(".eslintrc"));
             const config = ConfigFile.applyExtends({
                 extends: "recursive-dependent",
                 rules: { eqeqeq: 2 }
             }, configContext, getFixturePath(".eslintrc.js"));
 
             assert.deepStrictEqual(config, {
-                baseDirectory: path.dirname(resolvedPath),
-                filePath: resolvedPath,
-                extends: "recursive-dependent",
                 parserOptions: {},
                 env: { browser: true },
                 globals: {},
@@ -191,9 +183,6 @@ describe("ConfigFile", () => {
             }, configContext, filePath);
 
             assert.deepStrictEqual(config, {
-                baseDirectory: path.dirname(filePath),
-                filePath: path.join(path.dirname(filePath), extendsFile),
-                extends: extendsFile,
                 parserOptions: {},
                 env: {},
                 globals: {},
@@ -216,9 +205,6 @@ describe("ConfigFile", () => {
             }, configContext, filePath);
 
             assert.deepStrictEqual(config, {
-                baseDirectory: path.dirname(filePath),
-                filePath: path.join(path.dirname(filePath), extendsFile),
-                extends: extendsFile,
                 parserOptions: {},
                 env: { browser: true },
                 globals: {},
@@ -240,9 +226,6 @@ describe("ConfigFile", () => {
             }, configContext, filePath);
 
             assert.deepStrictEqual(config, {
-                baseDirectory: path.dirname(filePath),
-                filePath: path.join(path.dirname(filePath), extendsFile),
-                extends: extendsFile,
                 parserOptions: {},
                 env: {},
                 globals: {},
@@ -265,9 +248,6 @@ describe("ConfigFile", () => {
             }, configContext, filePath);
 
             assert.deepStrictEqual(config, {
-                baseDirectory: path.dirname(path.resolve(path.dirname(filePath), extendsFile)),
-                filePath: path.resolve(path.dirname(filePath), extendsFile),
-                extends: extendsFile,
                 parserOptions: {},
                 env: { es6: true },
                 globals: {},
@@ -297,8 +277,6 @@ describe("ConfigFile", () => {
             const config = ConfigFile.load(configFilePath, configContext, getFixturePath("placeholder.js"));
 
             assert.deepStrictEqual(config, {
-                baseDirectory: path.dirname(configFilePath),
-                filePath: configFilePath,
                 parserOptions: {},
                 env: {},
                 globals: {},
@@ -313,8 +291,6 @@ describe("ConfigFile", () => {
             const config = ConfigFile.load(configFilePath, configContext, getFixturePath("placeholder.js"));
 
             assert.deepStrictEqual(config, {
-                baseDirectory: path.dirname(configFilePath),
-                filePath: configFilePath,
                 parserOptions: {},
                 env: {},
                 globals: {},
@@ -335,8 +311,6 @@ describe("ConfigFile", () => {
             const config = ConfigFile.load(configFilePath, configContext, getFixturePath("placeholder.js"));
 
             assert.deepStrictEqual(config, {
-                baseDirectory: path.dirname(configFilePath),
-                filePath: configFilePath,
                 parser: path.resolve(getFixturePath("js/node_modules/foo/index.js")),
                 parserOptions: {},
                 env: {},
@@ -352,8 +326,6 @@ describe("ConfigFile", () => {
             const config = ConfigFile.load(configFilePath, configContext, getFixturePath("placeholder.js"));
 
             assert.deepStrictEqual(config, {
-                baseDirectory: path.dirname(configFilePath),
-                filePath: configFilePath,
                 parser: path.resolve(getFixturePath("js/not-a-config.js")),
                 parserOptions: {},
                 env: {},
@@ -369,8 +341,6 @@ describe("ConfigFile", () => {
             const config = ConfigFile.load(configFilePath, configContext, getFixturePath("placeholder.js"));
 
             assert.deepStrictEqual(config, {
-                baseDirectory: path.dirname(configFilePath),
-                filePath: configFilePath,
                 parser: require.resolve("espree"),
                 parserOptions: {},
                 env: {},
@@ -386,8 +356,6 @@ describe("ConfigFile", () => {
             const config = ConfigFile.load(configFilePath, configContext, getFixturePath("placeholder.js"));
 
             assert.deepStrictEqual(config, {
-                baseDirectory: path.dirname(configFilePath),
-                filePath: configFilePath,
                 parserOptions: {},
                 env: {},
                 globals: {},
@@ -418,17 +386,11 @@ describe("ConfigFile", () => {
                 tmpFilePath = writeTempConfigFile(initialConfig, tmpFilename);
             let config = ConfigFile.load(tmpFilePath, configContext, getFixturePath("placeholder.js"));
 
-            assert.deepStrictEqual(config, Object.assign({}, initialConfig, {
-                baseDirectory: path.dirname(tmpFilePath),
-                filePath: tmpFilePath
-            }));
+            assert.deepStrictEqual(config, initialConfig);
             writeTempConfigFile(updatedConfig, tmpFilename, path.dirname(tmpFilePath));
             configContext = new Config({ cwd: getFixturePath(".") }, new Linter());
             config = ConfigFile.load(tmpFilePath, configContext, getFixturePath("placeholder.js"));
-            assert.deepStrictEqual(config, Object.assign({}, updatedConfig, {
-                baseDirectory: path.dirname(tmpFilePath),
-                filePath: tmpFilePath
-            }));
+            assert.deepStrictEqual(config, updatedConfig);
         });
 
         it("should load information from a package.json file", () => {
@@ -436,8 +398,6 @@ describe("ConfigFile", () => {
             const config = ConfigFile.load(configFilePath, configContext, getFixturePath("placeholder.js"));
 
             assert.deepStrictEqual(config, {
-                baseDirectory: path.dirname(configFilePath),
-                filePath: configFilePath,
                 parserOptions: {},
                 env: { es6: true },
                 globals: {},
@@ -481,17 +441,11 @@ describe("ConfigFile", () => {
                 tmpFilePath = writeTempConfigFile(initialConfig, tmpFilename);
             let config = ConfigFile.load(tmpFilePath, configContext, getFixturePath("placeholder.js"));
 
-            assert.deepStrictEqual(config, Object.assign({}, initialConfig.eslintConfig, {
-                baseDirectory: path.dirname(tmpFilePath),
-                filePath: tmpFilePath
-            }));
+            assert.deepStrictEqual(config, initialConfig.eslintConfig);
             writeTempConfigFile(updatedConfig, tmpFilename, path.dirname(tmpFilePath));
             configContext = new Config({ cwd: getFixturePath(".") }, new Linter());
             config = ConfigFile.load(tmpFilePath, configContext, getFixturePath("placeholder.js"));
-            assert.deepStrictEqual(config, Object.assign({}, updatedConfig.eslintConfig, {
-                baseDirectory: path.dirname(tmpFilePath),
-                filePath: tmpFilePath
-            }));
+            assert.deepStrictEqual(config, updatedConfig.eslintConfig);
         });
 
         it("should load fresh information from a .eslintrc.js file", () => {
@@ -515,17 +469,11 @@ describe("ConfigFile", () => {
                 tmpFilePath = writeTempJsConfigFile(initialConfig, tmpFilename);
             let config = ConfigFile.load(tmpFilePath, configContext, getFixturePath("placeholder.js"));
 
-            assert.deepStrictEqual(config, Object.assign({}, initialConfig, {
-                baseDirectory: path.dirname(tmpFilePath),
-                filePath: tmpFilePath
-            }));
+            assert.deepStrictEqual(config, initialConfig);
             writeTempJsConfigFile(updatedConfig, tmpFilename, path.dirname(tmpFilePath));
             configContext = new Config({ cwd: getFixturePath(".") }, new Linter());
             config = ConfigFile.load(tmpFilePath, configContext, getFixturePath("placeholder.js"));
-            assert.deepStrictEqual(config, Object.assign({}, updatedConfig, {
-                baseDirectory: path.dirname(tmpFilePath),
-                filePath: tmpFilePath
-            }));
+            assert.deepStrictEqual(config, updatedConfig);
         });
 
         it("should load information from a YAML file", () => {
@@ -533,8 +481,6 @@ describe("ConfigFile", () => {
             const config = ConfigFile.load(configFilePath, configContext, getFixturePath("placeholder.js"));
 
             assert.deepStrictEqual(config, {
-                baseDirectory: path.dirname(configFilePath),
-                filePath: configFilePath,
                 parserOptions: {},
                 env: { browser: true },
                 globals: {},
@@ -547,8 +493,6 @@ describe("ConfigFile", () => {
             const config = ConfigFile.load(configFilePath, configContext, getFixturePath("placeholder.js"));
 
             assert.deepStrictEqual(config, {
-                baseDirectory: path.dirname(configFilePath),
-                filePath: configFilePath,
                 parserOptions: {},
                 env: {},
                 globals: {},
@@ -561,8 +505,6 @@ describe("ConfigFile", () => {
             const config = ConfigFile.load(configFilePath, configContext, getFixturePath("placeholder.js"));
 
             assert.deepStrictEqual(config, {
-                baseDirectory: path.dirname(configFilePath),
-                filePath: configFilePath,
                 parserOptions: {},
                 env: { node: true },
                 globals: {},
@@ -575,10 +517,7 @@ describe("ConfigFile", () => {
             const config = ConfigFile.load(configFilePath, configContext, getFixturePath("placeholder.js"));
 
             assert.deepStrictEqual(config, {
-                baseDirectory: path.dirname(configFilePath),
-                filePath: configFilePath,
                 env: { es6: true },
-                extends: "../package-json/package.json",
                 globals: {},
                 parserOptions: {},
                 rules: { booya: 2 }
@@ -590,10 +529,7 @@ describe("ConfigFile", () => {
             const config = ConfigFile.load(configFilePath, configContext, getFixturePath("placeholder.js"));
 
             assert.deepStrictEqual(config, {
-                baseDirectory: path.dirname(configFilePath),
-                filePath: configFilePath,
                 env: {},
-                extends: "a",
                 globals: {},
                 parserOptions: {},
                 rules: {
@@ -609,10 +545,7 @@ describe("ConfigFile", () => {
             const config = ConfigFile.load(configFilePath, configContext, getFixturePath("placeholder.js"));
 
             assert.deepStrictEqual(config, {
-                baseDirectory: path.dirname(configFilePath),
-                filePath: configFilePath,
                 env: {},
-                extends: "a",
                 globals: {},
                 parserOptions: {},
                 rules: {
@@ -627,10 +560,7 @@ describe("ConfigFile", () => {
             const config = ConfigFile.load(configFilePath, configContext, getFixturePath("placeholder.js"));
 
             assert.deepStrictEqual(config, {
-                baseDirectory: path.dirname(configFilePath),
-                filePath: configFilePath,
                 env: {},
-                extends: "./node_modules/eslint-config-a/index.js",
                 globals: {},
                 parserOptions: {},
                 rules: {
@@ -646,8 +576,6 @@ describe("ConfigFile", () => {
             const parserPath = getFixturePath("extends-chain-2/parser.js");
 
             assert.deepStrictEqual(config, {
-                baseDirectory: path.dirname(configFilePath),
-                filePath: configFilePath,
                 env: {},
                 globals: {},
                 parser: parserPath,
@@ -676,10 +604,7 @@ describe("ConfigFile", () => {
                 const config = ConfigFile.load(configFilePath, configContext, getFixturePath("placeholder.js"));
 
                 assert.deepStrictEqual(config, {
-                    baseDirectory: path.dirname(configFilePath),
-                    filePath: configFilePath,
                     env: {},
-                    extends: "./node_modules/eslint-config-a/index.js",
                     globals: {},
                     parserOptions: {},
                     rules: {
@@ -695,8 +620,6 @@ describe("ConfigFile", () => {
                 const parserPath = fs.realpathSync(path.join(fixturePath, "parser.js"));
 
                 assert.deepStrictEqual(config, {
-                    baseDirectory: path.dirname(configFilePath),
-                    filePath: configFilePath,
                     env: {},
                     globals: {},
                     parser: parserPath,
@@ -712,8 +635,6 @@ describe("ConfigFile", () => {
                 const config = ConfigFile.load(configFilePath, configContext, getFixturePath("placeholder.js"));
 
                 assert.deepStrictEqual(config, {
-                    baseDirectory: path.dirname(configFilePath),
-                    filePath: configFilePath,
                     parserOptions: {},
                     env: { "with-environment/bar": true },
                     globals: {},
@@ -729,8 +650,6 @@ describe("ConfigFile", () => {
                 const config = ConfigFile.load(configFilePath, configContext, getFixturePath("placeholder.js"));
 
                 assert.deepStrictEqual(config, {
-                    baseDirectory: path.dirname(configFilePath),
-                    filePath: configFilePath,
                     parserOptions: {},
                     globals: {},
                     env: {},
@@ -738,11 +657,7 @@ describe("ConfigFile", () => {
                         semi: 2,
                         quotes: 2,
                         yoda: 2
-                    },
-                    extends: [
-                        "plugin:with-two-configs/foo",
-                        "plugin:with-two-configs/bar"
-                    ]
+                    }
                 });
             });
         });
@@ -753,8 +668,6 @@ describe("ConfigFile", () => {
                 const config = ConfigFile.load(configFilePath, configContext, getFixturePath("placeholder.js"));
 
                 assert.deepStrictEqual(config, {
-                    baseDirectory: path.dirname(configFilePath),
-                    filePath: configFilePath,
                     env: {},
                     globals: {},
                     parserOptions: {},
@@ -769,8 +682,6 @@ describe("ConfigFile", () => {
                 const config = ConfigFile.load(configFilePath, configContext, getFixturePath("placeholder.js"));
 
                 assert.deepStrictEqual(config, {
-                    baseDirectory: path.dirname(configFilePath),
-                    filePath: configFilePath,
                     env: {},
                     globals: {},
                     parserOptions: {},
@@ -785,8 +696,6 @@ describe("ConfigFile", () => {
                 const config = ConfigFile.load(configFilePath, configContext, getFixturePath("placeholder.js"));
 
                 assert.deepStrictEqual(config, {
-                    baseDirectory: path.dirname(configFilePath),
-                    filePath: configFilePath,
                     env: {},
                     globals: {},
                     parserOptions: {},
