@@ -144,6 +144,13 @@ describe("ConfigFile", () => {
             }, /Cannot find module 'nonexistent-parser'/);
         });
 
+        it("should fall back to default parser when a config called 'espree' is not found", () => {
+            assert.deepStrictEqual(
+                ConfigFile.loadObject({ parser: "espree" }, configContext, "/", "configName"),
+                { parser: require.resolve("espree") }
+            );
+        });
+
         it("should throw an error when a plugin config is not found", () => {
             assert.throws(() => {
                 ConfigFile.applyExtends({
