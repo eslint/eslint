@@ -143,7 +143,7 @@ describe(function(){
   // ...
 });
 
-class Foo {
+class Foo{
   constructor(){}
 }
 ```
