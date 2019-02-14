@@ -144,7 +144,7 @@ describe("ConfigFile", () => {
             }, /Failed to resolve parser 'nonexistent-parser' declared in '[\w-/.:\\]+'.\nReferenced from: \/whatever/);
         });
 
-        it("should fall back to default parser when a config called 'espree' is not found", () => {
+        it("should fall back to default parser when a parser called 'espree' is not found", () => {
             assert.deepStrictEqual(
                 ConfigFile.loadObject({ parser: "espree" }, configContext, "/", "configName"),
                 { parser: require.resolve("espree") }
