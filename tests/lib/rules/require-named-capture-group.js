@@ -36,21 +36,21 @@ ruleTester.run("require-named-capture-group", rule, {
     invalid: [
         {
             code: "/([0-9]{4})/",
-            errors: [{ messageId: "required", type: "Literal", data: { group: '([0-9]{4})' } }]
+            errors: [{ messageId: "required", type: "Literal", data: { group: "([0-9]{4})" } }]
         },
         {
             code: "new RegExp('([0-9]{4})')",
-            errors: [{ messageId: "required", type: "NewExpression", data: { group: '([0-9]{4})' } }]
+            errors: [{ messageId: "required", type: "NewExpression", data: { group: "([0-9]{4})" } }]
         },
         {
             code: "RegExp('([0-9]{4})')",
-            errors: [{ messageId: "required", type: "CallExpression", data: { group: '([0-9]{4})' } }]
+            errors: [{ messageId: "required", type: "CallExpression", data: { group: "([0-9]{4})" } }]
         },
         {
             code: "/([0-9]{4})-(\\w{5})/",
             errors: [
-                { messageId: "required", type: "Literal", data: { group: '([0-9]{4})' } },
-                { messageId: "required", type: "Literal", data: { group: '(\\w{5})' } },
+                { messageId: "required", type: "Literal", data: { group: "([0-9]{4})" } },
+                { messageId: "required", type: "Literal", data: { group: "(\\w{5})" } }
             ]
         }
     ]

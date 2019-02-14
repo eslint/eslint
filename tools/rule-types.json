@@ -235,6 +235,7 @@
     "require-atomic-updates": "problem",
     "require-await": "suggestion",
     "require-jsdoc": "suggestion",
+    "require-named-capture-group": "suggestion",
     "require-unicode-regexp": "suggestion",
     "require-yield": "suggestion",
     "rest-spread-spacing": "layout",
