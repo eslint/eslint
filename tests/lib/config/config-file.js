@@ -281,7 +281,7 @@ describe("ConfigFile", () => {
 
         it("should load information from a legacy file", () => {
             const configFilePath = getFixturePath("legacy/.eslintrc");
-            const config = ConfigFile.load(configFilePath, configContext, getFixturePath("placeholder.js"));
+            const config = ConfigFile.load(configFilePath, configContext, getFixturePath("__placeholder__.js"));
 
             assert.deepStrictEqual(config, {
                 parserOptions: {},
@@ -295,7 +295,7 @@ describe("ConfigFile", () => {
 
         it("should load information from a JavaScript file", () => {
             const configFilePath = getFixturePath("js/.eslintrc.js");
-            const config = ConfigFile.load(configFilePath, configContext, getFixturePath("placeholder.js"));
+            const config = ConfigFile.load(configFilePath, configContext, getFixturePath("__placeholder__.js"));
 
             assert.deepStrictEqual(config, {
                 parserOptions: {},
@@ -309,13 +309,13 @@ describe("ConfigFile", () => {
 
         it("should throw error when loading invalid JavaScript file", () => {
             assert.throws(() => {
-                ConfigFile.load(getFixturePath("js/.eslintrc.broken.js"), configContext, getFixturePath("placeholder.js"));
+                ConfigFile.load(getFixturePath("js/.eslintrc.broken.js"), configContext, getFixturePath("__placeholder__.js"));
             }, /Cannot read config file/);
         });
 
         it("should interpret parser module name when present in a JavaScript file", () => {
             const configFilePath = getFixturePath("js/.eslintrc.parser.js");
-            const config = ConfigFile.load(configFilePath, configContext, getFixturePath("placeholder.js"));
+            const config = ConfigFile.load(configFilePath, configContext, getFixturePath("__placeholder__.js"));
 
             assert.deepStrictEqual(config, {
                 parser: path.resolve(getFixturePath("js/node_modules/foo/index.js")),
@@ -330,7 +330,7 @@ describe("ConfigFile", () => {
 
         it("should interpret parser path when present in a JavaScript file", () => {
             const configFilePath = getFixturePath("js/.eslintrc.parser2.js");
-            const config = ConfigFile.load(configFilePath, configContext, getFixturePath("placeholder.js"));
+            const config = ConfigFile.load(configFilePath, configContext, getFixturePath("__placeholder__.js"));
 
             assert.deepStrictEqual(config, {
                 parser: path.resolve(getFixturePath("js/not-a-config.js")),
@@ -345,7 +345,7 @@ describe("ConfigFile", () => {
 
         it("should interpret parser module name or path when parser is set to default parser in a JavaScript file", () => {
             const configFilePath = getFixturePath("js/.eslintrc.parser3.js");
-            const config = ConfigFile.load(configFilePath, configContext, getFixturePath("placeholder.js"));
+            const config = ConfigFile.load(configFilePath, configContext, getFixturePath("__placeholder__.js"));
 
             assert.deepStrictEqual(config, {
                 parser: require.resolve("espree"),
@@ -360,7 +360,7 @@ describe("ConfigFile", () => {
 
         it("should load information from a JSON file", () => {
             const configFilePath = getFixturePath("json/.eslintrc.json");
-            const config = ConfigFile.load(configFilePath, configContext, getFixturePath("placeholder.js"));
+            const config = ConfigFile.load(configFilePath, configContext, getFixturePath("__placeholder__.js"));
 
             assert.deepStrictEqual(config, {
                 parserOptions: {},
@@ -391,18 +391,18 @@ describe("ConfigFile", () => {
                 },
                 tmpFilename = "fresh-test.json",
                 tmpFilePath = writeTempConfigFile(initialConfig, tmpFilename);
-            let config = ConfigFile.load(tmpFilePath, configContext, getFixturePath("placeholder.js"));
+            let config = ConfigFile.load(tmpFilePath, configContext, getFixturePath("__placeholder__.js"));
 
             assert.deepStrictEqual(config, initialConfig);
             writeTempConfigFile(updatedConfig, tmpFilename, path.dirname(tmpFilePath));
             configContext = new Config({ cwd: getFixturePath(".") }, new Linter());
-            config = ConfigFile.load(tmpFilePath, configContext, getFixturePath("placeholder.js"));
+            config = ConfigFile.load(tmpFilePath, configContext, getFixturePath("__placeholder__.js"));
             assert.deepStrictEqual(config, updatedConfig);
         });
 
         it("should load information from a package.json file", () => {
             const configFilePath = getFixturePath("package-json/package.json");
-            const config = ConfigFile.load(configFilePath, configContext, getFixturePath("placeholder.js"));
+            const config = ConfigFile.load(configFilePath, configContext, getFixturePath("__placeholder__.js"));
 
             assert.deepStrictEqual(config, {
                 parserOptions: {},
@@ -415,7 +415,7 @@ describe("ConfigFile", () => {
         it("should throw error when loading invalid package.json file", () => {
             assert.throws(() => {
                 try {
-                    ConfigFile.load(getFixturePath("broken-package-json/package.json"), configContext, getFixturePath("placeholder.js"));
+                    ConfigFile.load(getFixturePath("broken-package-json/package.json"), configContext, getFixturePath("__placeholder__.js"));
                 } catch (error) {
                     assert.strictEqual(error.messageTemplate, "failed-to-read-json");
                     throw error;
@@ -446,12 +446,12 @@ describe("ConfigFile", () => {
                 },
                 tmpFilename = "package.json",
                 tmpFilePath = writeTempConfigFile(initialConfig, tmpFilename);
-            let config = ConfigFile.load(tmpFilePath, configContext, getFixturePath("placeholder.js"));
+            let config = ConfigFile.load(tmpFilePath, configContext, getFixturePath("__placeholder__.js"));
 
             assert.deepStrictEqual(config, initialConfig.eslintConfig);
             writeTempConfigFile(updatedConfig, tmpFilename, path.dirname(tmpFilePath));
             configContext = new Config({ cwd: getFixturePath(".") }, new Linter());
-            config = ConfigFile.load(tmpFilePath, configContext, getFixturePath("placeholder.js"));
+            config = ConfigFile.load(tmpFilePath, configContext, getFixturePath("__placeholder__.js"));
             assert.deepStrictEqual(config, updatedConfig.eslintConfig);
         });
 
@@ -474,18 +474,18 @@ describe("ConfigFile", () => {
                 },
                 tmpFilename = ".eslintrc.js",
                 tmpFilePath = writeTempJsConfigFile(initialConfig, tmpFilename);
-            let config = ConfigFile.load(tmpFilePath, configContext, getFixturePath("placeholder.js"));
+            let config = ConfigFile.load(tmpFilePath, configContext, getFixturePath("__placeholder__.js"));
 
             assert.deepStrictEqual(config, initialConfig);
             writeTempJsConfigFile(updatedConfig, tmpFilename, path.dirname(tmpFilePath));
             configContext = new Config({ cwd: getFixturePath(".") }, new Linter());
-            config = ConfigFile.load(tmpFilePath, configContext, getFixturePath("placeholder.js"));
+            config = ConfigFile.load(tmpFilePath, configContext, getFixturePath("__placeholder__.js"));
             assert.deepStrictEqual(config, updatedConfig);
         });
 
         it("should load information from a YAML file", () => {
             const configFilePath = getFixturePath("yaml/.eslintrc.yaml");
-            const config = ConfigFile.load(configFilePath, configContext, getFixturePath("placeholder.js"));
+            const config = ConfigFile.load(configFilePath, configContext, getFixturePath("__placeholder__.js"));
 
             assert.deepStrictEqual(config, {
                 parserOptions: {},
@@ -497,7 +497,7 @@ describe("ConfigFile", () => {
 
         it("should load information from an empty YAML file", () => {
             const configFilePath = getFixturePath("yaml/.eslintrc.empty.yaml");
-            const config = ConfigFile.load(configFilePath, configContext, getFixturePath("placeholder.js"));
+            const config = ConfigFile.load(configFilePath, configContext, getFixturePath("__placeholder__.js"));
 
             assert.deepStrictEqual(config, {
                 parserOptions: {},
@@ -509,7 +509,7 @@ describe("ConfigFile", () => {
 
         it("should load information from a YML file", () => {
             const configFilePath = getFixturePath("yml/.eslintrc.yml");
-            const config = ConfigFile.load(configFilePath, configContext, getFixturePath("placeholder.js"));
+            const config = ConfigFile.load(configFilePath, configContext, getFixturePath("__placeholder__.js"));
 
             assert.deepStrictEqual(config, {
                 parserOptions: {},
@@ -521,7 +521,7 @@ describe("ConfigFile", () => {
 
         it("should load information from a YML file and apply extensions", () => {
             const configFilePath = getFixturePath("extends/.eslintrc.yml");
-            const config = ConfigFile.load(configFilePath, configContext, getFixturePath("placeholder.js"));
+            const config = ConfigFile.load(configFilePath, configContext, getFixturePath("__placeholder__.js"));
 
             assert.deepStrictEqual(config, {
                 env: { es6: true },
@@ -533,7 +533,7 @@ describe("ConfigFile", () => {
 
         it("should load information from `extends` chain.", () => {
             const configFilePath = getFixturePath("extends-chain/.eslintrc.json");
-            const config = ConfigFile.load(configFilePath, configContext, getFixturePath("placeholder.js"));
+            const config = ConfigFile.load(configFilePath, configContext, getFixturePath("__placeholder__.js"));
 
             assert.deepStrictEqual(config, {
                 env: {},
@@ -549,7 +549,7 @@ describe("ConfigFile", () => {
 
         it("should load information from `extends` chain with relative path.", () => {
             const configFilePath = getFixturePath("extends-chain-2/.eslintrc.json");
-            const config = ConfigFile.load(configFilePath, configContext, getFixturePath("placeholder.js"));
+            const config = ConfigFile.load(configFilePath, configContext, getFixturePath("__placeholder__.js"));
 
             assert.deepStrictEqual(config, {
                 env: {},
@@ -564,7 +564,7 @@ describe("ConfigFile", () => {
 
         it("should load information from `extends` chain in .eslintrc with relative path.", () => {
             const configFilePath = getFixturePath("extends-chain-2/relative.eslintrc.json");
-            const config = ConfigFile.load(configFilePath, configContext, getFixturePath("placeholder.js"));
+            const config = ConfigFile.load(configFilePath, configContext, getFixturePath("__placeholder__.js"));
 
             assert.deepStrictEqual(config, {
                 env: {},
@@ -579,7 +579,7 @@ describe("ConfigFile", () => {
 
         it("should load information from `parser` in .eslintrc with relative path.", () => {
             const configFilePath = getFixturePath("extends-chain-2/parser.eslintrc.json");
-            const config = ConfigFile.load(configFilePath, configContext, getFixturePath("placeholder.js"));
+            const config = ConfigFile.load(configFilePath, configContext, getFixturePath("__placeholder__.js"));
             const parserPath = getFixturePath("extends-chain-2/parser.js");
 
             assert.deepStrictEqual(config, {
@@ -608,7 +608,7 @@ describe("ConfigFile", () => {
 
             it("should load information from `extends` chain in .eslintrc with relative path.", () => {
                 const configFilePath = path.join(fixturePath, "relative.eslintrc.json");
-                const config = ConfigFile.load(configFilePath, configContext, getFixturePath("placeholder.js"));
+                const config = ConfigFile.load(configFilePath, configContext, getFixturePath("__placeholder__.js"));
 
                 assert.deepStrictEqual(config, {
                     env: {},
@@ -623,7 +623,7 @@ describe("ConfigFile", () => {
 
             it("should load information from `parser` in .eslintrc with relative path.", () => {
                 const configFilePath = path.join(fixturePath, "parser.eslintrc.json");
-                const config = ConfigFile.load(configFilePath, configContext, getFixturePath("placeholder.js"));
+                const config = ConfigFile.load(configFilePath, configContext, getFixturePath("__placeholder__.js"));
                 const parserPath = fs.realpathSync(path.join(fixturePath, "parser.js"));
 
                 assert.deepStrictEqual(config, {
@@ -639,7 +639,7 @@ describe("ConfigFile", () => {
         describe("Plugins", () => {
             it("should load information from a YML file and load plugins", () => {
                 const configFilePath = getFixturePath("plugins/.eslintrc.yml");
-                const config = ConfigFile.load(configFilePath, configContext, getFixturePath("placeholder.js"));
+                const config = ConfigFile.load(configFilePath, configContext, getFixturePath("__placeholder__.js"));
 
                 assert.deepStrictEqual(config, {
                     parserOptions: {},
@@ -654,7 +654,7 @@ describe("ConfigFile", () => {
 
             it("should load two separate configs from a plugin", () => {
                 const configFilePath = getFixturePath("plugins/.eslintrc2.yml");
-                const config = ConfigFile.load(configFilePath, configContext, getFixturePath("placeholder.js"));
+                const config = ConfigFile.load(configFilePath, configContext, getFixturePath("__placeholder__.js"));
 
                 assert.deepStrictEqual(config, {
                     parserOptions: {},
@@ -672,7 +672,7 @@ describe("ConfigFile", () => {
         describe("even if config files have Unicode BOM,", () => {
             it("should read the JSON config file correctly.", () => {
                 const configFilePath = getFixturePath("bom/.eslintrc.json");
-                const config = ConfigFile.load(configFilePath, configContext, getFixturePath("placeholder.js"));
+                const config = ConfigFile.load(configFilePath, configContext, getFixturePath("__placeholder__.js"));
 
                 assert.deepStrictEqual(config, {
                     env: {},
@@ -686,7 +686,7 @@ describe("ConfigFile", () => {
 
             it("should read the YAML config file correctly.", () => {
                 const configFilePath = getFixturePath("bom/.eslintrc.yaml");
-                const config = ConfigFile.load(configFilePath, configContext, getFixturePath("placeholder.js"));
+                const config = ConfigFile.load(configFilePath, configContext, getFixturePath("__placeholder__.js"));
 
                 assert.deepStrictEqual(config, {
                     env: {},
@@ -700,7 +700,7 @@ describe("ConfigFile", () => {
 
             it("should read the config in package.json correctly.", () => {
                 const configFilePath = getFixturePath("bom/package.json");
-                const config = ConfigFile.load(configFilePath, configContext, getFixturePath("placeholder.js"));
+                const config = ConfigFile.load(configFilePath, configContext, getFixturePath("__placeholder__.js"));
 
                 assert.deepStrictEqual(config, {
                     env: {},
@@ -717,7 +717,7 @@ describe("ConfigFile", () => {
             const configFilePath = getFixturePath("invalid/invalid-top-level-property.yml");
 
             try {
-                ConfigFile.load(configFilePath, configContext, getFixturePath("placeholder.js"));
+                ConfigFile.load(configFilePath, configContext, getFixturePath("__placeholder__.js"));
             } catch (err) {
                 assert.include(err.message, `ESLint configuration in ${configFilePath} is invalid`);
                 return;
@@ -729,15 +729,15 @@ describe("ConfigFile", () => {
     describe("resolve() relative to config file", () => {
         leche.withData([
             [".eslintrc", getFixturePath("subdir/.eslintrc")],
-            ["eslint-config-foo", relativeModuleResolver("eslint-config-foo", getFixturePath("subdir/placeholder.js"))],
-            ["foo", relativeModuleResolver("eslint-config-foo", getFixturePath("subdir/placeholder.js"))],
-            ["eslint-configfoo", relativeModuleResolver("eslint-config-eslint-configfoo", getFixturePath("subdir/placeholder.js"))],
-            ["@foo/eslint-config", relativeModuleResolver("@foo/eslint-config", getFixturePath("subdir/placeholder.js"))],
-            ["@foo/bar", relativeModuleResolver("@foo/eslint-config-bar", getFixturePath("subdir/placeholder.js"))],
-            ["plugin:foo/bar", relativeModuleResolver("eslint-plugin-foo", getFixturePath("placeholder.js"))]
+            ["eslint-config-foo", relativeModuleResolver("eslint-config-foo", getFixturePath("subdir/__placeholder__.js"))],
+            ["foo", relativeModuleResolver("eslint-config-foo", getFixturePath("subdir/__placeholder__.js"))],
+            ["eslint-configfoo", relativeModuleResolver("eslint-config-eslint-configfoo", getFixturePath("subdir/__placeholder__.js"))],
+            ["@foo/eslint-config", relativeModuleResolver("@foo/eslint-config", getFixturePath("subdir/__placeholder__.js"))],
+            ["@foo/bar", relativeModuleResolver("@foo/eslint-config-bar", getFixturePath("subdir/__placeholder__.js"))],
+            ["plugin:foo/bar", relativeModuleResolver("eslint-plugin-foo", getFixturePath("__placeholder__.js"))]
         ], (input, expected) => {
             it(`should return ${expected} when passed ${input}`, () => {
-                const result = ConfigFile.resolve(input, getFixturePath("subdir/placeholder.js"), getFixturePath("."));
+                const result = ConfigFile.resolve(input, getFixturePath("subdir/__placeholder__.js"), getFixturePath("."));
 
                 assert.strictEqual(result.filePath, expected);
             });
