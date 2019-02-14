@@ -1,0 +1,57 @@
+/**
+ * @fileoverview Tests for require-named-capture-group rule.
+ * @author Pig Fang <https://github.com/g-plane>
+ */
+
+"use strict";
+
+//------------------------------------------------------------------------------
+// Requirements
+//------------------------------------------------------------------------------
+
+const rule = require("../../../lib/rules/require-named-capture-group"),
+    RuleTester = require("../../../lib/testers/rule-tester");
+
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
+
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2018 } });
+
+ruleTester.run("require-named-capture-group", rule, {
+    valid: [
+        "/normal_regex/",
+        "/(?:[0-9]{4})/",
+        "/(?<year>[0-9]{4})/",
+        "new RegExp()",
+        "new RegExp(foo)",
+        "new RegExp('')",
+        "new RegExp('(?<year>[0-9]{4})')",
+        "RegExp()",
+        "RegExp(foo)",
+        "RegExp('')",
+        "RegExp('(?<year>[0-9]{4})')"
+    ],
+
+    invalid: [
+        {
+            code: "/([0-9]{4})/",
+            errors: [{ messageId: "required", type: "Literal", data: { group: '([0-9]{4})' } }]
+        },
+        {
+            code: "new RegExp('([0-9]{4})')",
+            errors: [{ messageId: "required", type: "NewExpression", data: { group: '([0-9]{4})' } }]
+        },
+        {
+            code: "RegExp('([0-9]{4})')",
+            errors: [{ messageId: "required", type: "CallExpression", data: { group: '([0-9]{4})' } }]
+        },
+        {
+            code: "/([0-9]{4})-(\\w{5})/",
+            errors: [
+                { messageId: "required", type: "Literal", data: { group: '([0-9]{4})' } },
+                { messageId: "required", type: "Literal", data: { group: '(\\w{5})' } },
+            ]
+        }
+    ]
+});
