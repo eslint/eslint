@@ -109,7 +109,6 @@
     "puppeteer": "^1.12.2",
     "shelljs": "^0.8.2",
     "sinon": "^3.3.0",
-    "string-replace-loader": "^2.1.1",
     "temp": "^0.9.0",
     "through": "^2.3.8",
     "webpack": "^4.29.3",

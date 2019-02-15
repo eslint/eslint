@@ -1,5 +1,3 @@
-const path = require("path");
-
 module.exports = {
     mode: "none",
     entry: ["@babel/polyfill", "./lib/linter.js"],
@@ -11,14 +9,6 @@ module.exports = {
     },
     module: {
         rules: [
-            {
-                test: path.resolve("./lib/linter.js"),
-                loader: "string-replace-loader",
-                options: {
-                    search: "require(parserName)",
-                    replace: "(parserName === \"espree\" ? require(\"espree\") : require(parserName))"
-                }
-            },
             {
                 test: /\.js$/,
                 loader: "babel-loader",
