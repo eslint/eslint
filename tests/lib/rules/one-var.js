@@ -210,6 +210,14 @@ ruleTester.run("one-var", rule, {
             parserOptions: { env: { node: true } }
         },
         {
+            code: "var bar = 'bar'; var foo = require('foo');",
+            options: [{ separateRequires: true, var: "always" }]
+        },
+        {
+            code: "var foo = require('foo'); var bar = 'bar';",
+            options: [{ separateRequires: true, var: "always" }]
+        },
+        {
             code: "var foo = require('foo'); var bar = 'bar';",
             options: [{ separateRequires: true, var: "always" }],
             parserOptions: { env: { node: true } }
@@ -1090,6 +1098,17 @@ ruleTester.run("one-var", rule, {
                 type: "VariableDeclaration",
                 line: 1,
                 column: 25
+            }]
+        },
+        {
+            code: "var a = true; var b = false;",
+            output: "var a = true,  b = false;",
+            options: [{ separateRequires: true, var: "always" }],
+            errors: [{
+                message: "Combine this with the previous 'var' statement.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 15
             }]
         },
         {
