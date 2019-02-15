@@ -822,42 +822,7 @@ target.browserify = function() {
     }
 
     // 2. run webpack
-    webpack({
-        mode: "none",
-        entry: ["@babel/polyfill", "./lib/linter.js"],
-        output: {
-            path: path.join(__dirname, BUILD_DIR),
-            filename: "eslint.js",
-            library: "eslint",
-            libraryTarget: "umd",
-            globalObject: "this"
-        },
-        module: {
-            rules: [
-                {
-                    test: path.resolve("./lib/linter.js"),
-                    loader: "string-replace-loader",
-                    options: {
-                        search: "require(parserName)",
-                        replace: "(parserName === \"espree\" ? require(\"espree\") : require(parserName))"
-                    }
-                },
-                {
-                    test: /\.js$/,
-                    loader: "babel-loader",
-                    options: {
-                        presets: ["@babel/preset-env"]
-                    },
-                    exclude: /node_modules/
-                }
-            ]
-        }
-    }, (err, stats) => {
-        if (err || stats.hasErrors()) {
-            console.error("webpack build failed.");
-            exit(1);
-        }
-    });
+    exec(`${getBinFile("webpack")} --output-path=${path.resolve(__dirname, BUILD_DIR)}`);
 };
 
 target.checkRuleFiles = function() {
