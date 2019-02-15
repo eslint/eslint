@@ -25,7 +25,6 @@ const lodash = require("lodash"),
     semver = require("semver"),
     ejs = require("ejs"),
     loadPerf = require("load-perf"),
-    webpack = require("webpack"),
     yaml = require("js-yaml");
 
 const { cat, cd, cp, echo, exec, exit, find, ls, mkdir, pwd, rm, test } = require("shelljs");
