@@ -32,12 +32,15 @@ module.exports = function(config) {
         // preprocess matching files before serving them to the browser
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
         preprocessors: {
-            "tests/lib/linter.js": ["babel"]
+            "tests/lib/linter.js": ["webpack"]
         },
-        babelPreprocessor: {
-            options: {
-                presets: ["@babel/preset-env"]
-            }
+        webpack: {
+            mode: "none",
+            stats: "errors-only"
+        },
+        webpackMiddleware: {
+            stats: "errors-only",
+            clientLogLevel: "error"
         },
 
 

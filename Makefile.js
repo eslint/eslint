@@ -25,6 +25,7 @@ const lodash = require("lodash"),
     semver = require("semver"),
     ejs = require("ejs"),
     loadPerf = require("load-perf"),
+    webpack = require("webpack"),
     yaml = require("js-yaml");
 
 const { cat, cd, cp, echo, exec, exit, find, ls, mkdir, pwd, rm, test } = require("shelljs");
@@ -820,17 +821,43 @@ target.browserify = function() {
         mkdir(BUILD_DIR);
     }
 
-    // 2. browserify the temp directory
-    exec(`${getBinFile("browserify")} -x espree lib/linter.js -o ${BUILD_DIR}eslint.js -s eslint --global-transform [ babelify --presets [ @babel/preset-env ] ]`);
-
-    // 3. Browserify espree
-    exec(`${getBinFile("browserify")} -r espree -o ${TEMP_DIR}espree.js --global-transform [ babelify --presets [ @babel/preset-env ] ]`);
-
-    // 4. Concatenate Babel polyfill, Espree, and ESLint files together
-    cat("./node_modules/@babel/polyfill/dist/polyfill.js", `${TEMP_DIR}espree.js`, `${BUILD_DIR}eslint.js`).to(`${BUILD_DIR}eslint.js`);
-
-    // 5. remove temp directory
-    rm("-rf", TEMP_DIR);
+    // 2. run webpack
+    webpack({
+        mode: "none",
+        entry: ["@babel/polyfill", "./lib/linter.js"],
+        output: {
+            path: path.join(__dirname, BUILD_DIR),
+            filename: "eslint.js",
+            library: "eslint",
+            libraryTarget: "umd",
+            globalObject: "this"
+        },
+        module: {
+            rules: [
+                {
+                    test: path.resolve("./lib/linter.js"),
+                    loader: "string-replace-loader",
+                    options: {
+                        search: "require(parserName)",
+                        replace: "(parserName === \"espree\" ? require(\"espree\") : require(parserName))"
+                    }
+                },
+                {
+                    test: /\.js$/,
+                    loader: "babel-loader",
+                    options: {
+                        presets: ["@babel/preset-env"]
+                    },
+                    exclude: /node_modules/
+                }
+            ]
+        }
+    }, (err, stats) => {
+        if (err || stats.hasErrors()) {
+            console.error("webpack build failed.");
+            exit(1);
+        }
+    });
 };
 
 target.checkRuleFiles = function() {
