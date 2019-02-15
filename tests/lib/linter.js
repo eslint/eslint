@@ -34,8 +34,9 @@ function compatRequire(name, windowName) {
 
 const assert = require("chai").assert,
     sinon = require("sinon"),
-    path = require("path"),
-    Linter = compatRequire("../../lib/linter", "eslint");
+    path = require("path");
+
+const Linter = compatRequire("../../lib/linter", "eslint");
 
 //------------------------------------------------------------------------------
 // Constants
