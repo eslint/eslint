@@ -16,7 +16,6 @@ module.exports = function(config) {
 
         // list of files / patterns to load in the browser
         files: [
-            "node_modules/mocha/mocha.js",
             "node_modules/chai/chai.js",
             "node_modules/sinon/pkg/sinon.js",
             "build/eslint.js",
@@ -39,8 +38,7 @@ module.exports = function(config) {
             stats: "errors-only"
         },
         webpackMiddleware: {
-            stats: "errors-only",
-            clientLogLevel: "error"
+            logLevel: "error"
         },
 
 
