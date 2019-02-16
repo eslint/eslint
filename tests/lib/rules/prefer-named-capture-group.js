@@ -39,21 +39,56 @@ ruleTester.run("prefer-named-capture-group", rule, {
     invalid: [
         {
             code: "/([0-9]{4})/",
-            errors: [{ messageId: "required", type: "Literal", data: { group: "([0-9]{4})" } }]
+            errors: [{
+                messageId: "required",
+                type: "Literal",
+                data: { group: "([0-9]{4})" },
+                line: 1,
+                column: 2,
+                endColumn: 12
+            }]
         },
         {
             code: "new RegExp('([0-9]{4})')",
-            errors: [{ messageId: "required", type: "NewExpression", data: { group: "([0-9]{4})" } }]
+            errors: [{
+                messageId: "required",
+                type: "NewExpression",
+                data: { group: "([0-9]{4})" },
+                line: 1,
+                column: 13,
+                endColumn: 23
+            }]
         },
         {
             code: "RegExp('([0-9]{4})')",
-            errors: [{ messageId: "required", type: "CallExpression", data: { group: "([0-9]{4})" } }]
+            errors: [{
+                messageId: "required",
+                type: "CallExpression",
+                data: { group: "([0-9]{4})" },
+                line: 1,
+                column: 9,
+                endColumn: 19
+            }]
         },
         {
             code: "/([0-9]{4})-(\\w{5})/",
             errors: [
-                { messageId: "required", type: "Literal", data: { group: "([0-9]{4})" } },
-                { messageId: "required", type: "Literal", data: { group: "(\\w{5})" } }
+                {
+                    messageId: "required",
+                    type: "Literal",
+                    data: { group: "([0-9]{4})" },
+                    line: 1,
+                    column: 2,
+                    endColumn: 12
+                },
+                {
+                    messageId: "required",
+                    type: "Literal",
+                    data: { group: "(\\w{5})" },
+                    line: 1,
+                    column: 13,
+                    endColumn: 20
+                }
             ]
         }
     ]
