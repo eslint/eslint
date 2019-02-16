@@ -30,7 +30,8 @@ ruleTester.run("prefer-named-capture-group", rule, {
         "RegExp()",
         "RegExp(foo)",
         "RegExp('')",
-        "RegExp('(?<year>[0-9]{4})')"
+        "RegExp('(?<year>[0-9]{4})')",
+        "RegExp('(')" // invalid regexp should be ignored
     ],
 
     invalid: [
