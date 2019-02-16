@@ -23,6 +23,7 @@ ruleTester.run("prefer-named-capture-group", rule, {
         "/normal_regex/",
         "/(?:[0-9]{4})/",
         "/(?<year>[0-9]{4})/",
+        "/\\u{1F680}/u",
         "new RegExp()",
         "new RegExp(foo)",
         "new RegExp('')",
@@ -31,7 +32,8 @@ ruleTester.run("prefer-named-capture-group", rule, {
         "RegExp(foo)",
         "RegExp('')",
         "RegExp('(?<year>[0-9]{4})')",
-        "RegExp('(')" // invalid regexp should be ignored
+        "RegExp('(')", // invalid regexp should be ignored
+        "RegExp('\\\\u{1F680}', 'u')"
     ],
 
     invalid: [
