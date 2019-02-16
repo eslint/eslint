@@ -540,12 +540,15 @@ target.lint = function() {
     }
 };
 
-target.fuzz = function() {
+target.fuzz = function({ amount = process.env.CI ? 1000 : 300, fuzzBrokenAutofixes = true } = {}) {
     const fuzzerRunner = require("./tools/fuzzer-runner");
-    const fuzzResults = fuzzerRunner.run({ amount: process.env.CI ? 1000 : 300 });
+    const fuzzResults = fuzzerRunner.run({ amount, fuzzBrokenAutofixes });
 
     if (fuzzResults.length) {
-        echo(`The fuzzer reported ${fuzzResults.length} error${fuzzResults.length === 1 ? "" : "s"}.`);
+
+        const uniqueStackTraceCount = new Set(fuzzResults.map(result => result.error)).size;
+
+        echo(`The fuzzer reported ${fuzzResults.length} error${fuzzResults.length === 1 ? "" : "s"} with a total of ${uniqueStackTraceCount} unique stack trace${uniqueStackTraceCount === 1 ? "" : "s"}.`);
 
         const formattedResults = JSON.stringify({ results: fuzzResults }, null, 4);
 
@@ -605,6 +608,8 @@ target.test = function() {
     if (errors) {
         exit(1);
     }
+
+    target.fuzz({ amount: 150, fuzzBrokenAutofixes: false });
 
     target.checkLicenses();
 };
