@@ -796,7 +796,7 @@ target.gensite = function(prereleaseVersion) {
     // 13. Update demos, but only for non-prereleases
     if (!prereleaseVersion) {
         echo("> Updating the demos (Step 13)");
-        target.browserify();
+        target.browserify("production");
         cp("-f", "build/eslint.js", `${SITE_DIR}js/app/eslint.js`);
     } else {
         echo("> Skipped updating the demos (Step 13)");
@@ -809,19 +809,8 @@ target.gensite = function(prereleaseVersion) {
     echo("Done generating eslint.org");
 };
 
-target.browserify = function() {
-
-    // 1. create temp and build directory
-    if (!test("-d", TEMP_DIR)) {
-        mkdir(TEMP_DIR);
-    }
-
-    if (!test("-d", BUILD_DIR)) {
-        mkdir(BUILD_DIR);
-    }
-
-    // 2. run webpack
-    exec(`${getBinFile("webpack")} --output-path=${path.resolve(__dirname, BUILD_DIR)}`);
+target.browserify = function(mode = "none") {
+    exec(`${getBinFile("webpack")} --mode=${mode} --output-path=${path.resolve(__dirname, BUILD_DIR)}`);
 };
 
 target.checkRuleFiles = function() {
