@@ -1,4 +1,4 @@
-# Suggest using named capture group in regular expression (require-named-capture-group)
+# Suggest using named capture group in regular expression (prefer-named-capture-group)
 
 With the landing of ECMAScript 2018, named capture group can be used in regular expression, which can improve the readability.
 
@@ -13,7 +13,7 @@ This rule is aimed at using named capture group instead of numbered capture grou
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint require-named-capture-group: "error"*/
+/*eslint prefer-named-capture-group: "error"*/
 
 const foo = /(ba[rz])/;
 const bar = new RegExp('(ba[rz])');
@@ -25,7 +25,7 @@ foo.exec('bar')[1]; // Retrieve the group result.
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint require-named-capture-group: "error"*/
+/*eslint prefer-named-capture-group: "error"*/
 
 const foo = /(?<id>ba[rz])/;
 const bar = new RegExp('(?<id>ba[rz])');

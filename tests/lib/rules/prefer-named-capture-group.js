@@ -1,5 +1,5 @@
 /**
- * @fileoverview Tests for require-named-capture-group rule.
+ * @fileoverview Tests for prefer-named-capture-group rule.
  * @author Pig Fang <https://github.com/g-plane>
  */
 
@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const rule = require("../../../lib/rules/require-named-capture-group"),
+const rule = require("../../../lib/rules/prefer-named-capture-group"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
@@ -18,7 +18,7 @@ const rule = require("../../../lib/rules/require-named-capture-group"),
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2018 } });
 
-ruleTester.run("require-named-capture-group", rule, {
+ruleTester.run("prefer-named-capture-group", rule, {
     valid: [
         "/normal_regex/",
         "/(?:[0-9]{4})/",
