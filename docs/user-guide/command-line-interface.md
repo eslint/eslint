@@ -52,6 +52,7 @@ Ignoring files:
   --ignore-path path::String     Specify path of ignore file
   --no-ignore                    Disable use of ignore files and patterns
   --ignore-pattern [String]      Pattern of files to ignore (in addition to those in .eslintignore)
+  --no-warn-ignored              Disable the warnings produced by ignored files being in list of files to be linted
 
 Using stdin:
   --stdin                        Lint code provided on <STDIN> - default: false

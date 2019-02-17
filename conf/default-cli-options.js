@@ -15,6 +15,7 @@ module.exports = {
     extensions: [".js"],
     ignore: true,
     ignorePath: null,
+    warnIgnored: true,
     cache: false,
 
     /*
