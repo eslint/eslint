@@ -20,6 +20,21 @@ const UNEXPECTED_LINEBREAK = { messageId: "unexpected" };
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 
+
+/**
+ * Prevents leading spaces in a multiline template literal from appearing in the resulting string
+ * @param {string[]} strings The strings in the template literal
+ * @returns {string} The template literal, with spaces removed from all lines
+ */
+function unIndent(strings) {
+    const templateValue = strings[0];
+    const lines = templateValue.replace(/^\n/, "").replace(/\n\s*$/, "").split("\n");
+    const lineIndents = lines.filter(line => line.trim()).map(line => line.match(/ */)[0].length);
+    const minLineIndent = Math.min(...lineIndents);
+
+    return lines.map(line => line.slice(minLineIndent)).join("\n");
+}
+
 ruleTester.run("implicit-arrow-linebreak", rule, {
 
     valid: [
@@ -200,25 +215,25 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
             `,
             errors: [UNEXPECTED_LINEBREAK]
         }, {
-            code: `
-(foo) =>
-  // test comment
-  bar
+            code: unIndent`
+                (foo) =>
+                  // test comment
+                  bar
             `,
-            output: `
-// test comment
-(foo) => bar
+            output: unIndent`
+                // test comment
+                (foo) => bar
             `,
             errors: [UNEXPECTED_LINEBREAK]
         }, {
-            code: `
-const foo = () =>
-// comment
-[]
+            code: unIndent`
+                const foo = () =>
+                // comment
+                []
             `,
-            output: `
-// comment
-const foo = () => []
+            output: unIndent`
+                // comment
+                const foo = () => []
             `,
             errors: [UNEXPECTED_LINEBREAK]
         }, {
@@ -255,30 +270,30 @@ const foo = () => []
             errors: [UNEXPECTED_LINEBREAK]
 
         }, {
-            code: `
-(foo) =>
- // comment
- // another comment
-    bar`,
-            output: `
-// comment
-// another comment
-(foo) => bar`,
+            code: unIndent`
+                (foo) =>
+                 // comment
+                 // another comment
+                    bar`,
+            output: unIndent`
+                // comment
+                // another comment
+                (foo) => bar`,
             errors: [UNEXPECTED_LINEBREAK]
         }, {
-            code: `
-(foo) =>
-// comment
-(
-// another comment
-bar
-)`,
-            output: `
-// comment
-(foo) => (
-// another comment
-bar
-)`,
+            code: unIndent`
+                (foo) =>
+                // comment
+                (
+                // another comment
+                bar
+                )`,
+            output: unIndent`
+                // comment
+                (foo) => (
+                // another comment
+                bar
+                )`,
             errors: [UNEXPECTED_LINEBREAK]
         },
         {
@@ -290,300 +305,298 @@ bar
             output: "//comment \n(foo) => bar",
             errors: [UNEXPECTED_LINEBREAK]
         }, {
-            code: `
-(foo) =>
-  /* test comment */
-  bar
+            code: unIndent`
+                (foo) =>
+                  /* test comment */
+                  bar
             `,
-            output: `
-/* test comment */
-(foo) => bar
+            output: unIndent`
+                /* test comment */
+                (foo) => bar
             `,
             errors: [UNEXPECTED_LINEBREAK]
         }, {
-            code: `
-(foo) =>
-  // hi
-     bar =>
-       // there
-         baz;`,
-            output: `
-(foo) => (
-  // hi
-     bar => (
-       // there
-         baz
-)
-);`,
+            code: unIndent`
+                (foo) =>
+                  // hi
+                     bar =>
+                       // there
+                         baz;`,
+            output: unIndent`
+                (foo) => (
+                  // hi
+                     bar => (
+                       // there
+                         baz
+                )
+                );`,
             errors: [UNEXPECTED_LINEBREAK, UNEXPECTED_LINEBREAK]
         }, {
-            code: `
-(foo) =>
-  // hi
-     bar => (
-       // there
-         baz
-     )
+            code: unIndent`
+                (foo) =>
+                  // hi
+                     bar => (
+                       // there
+                         baz
+                     )
             `,
-            output: `
-(foo) => (
-  // hi
-     bar => (
-       // there
-         baz
-     )
-)
-            `,
-            errors: [UNEXPECTED_LINEBREAK]
-        }, {
-            code: `
-const foo = {
-  id: 'bar',
-  prop: (foo1) =>
-    // comment
-    'returning this string', 
-}
-            `,
-            output: `
-const foo = {
-  id: 'bar',
-  // comment
-prop: (foo1) => 'returning this string', 
-}
+            output: unIndent`
+                (foo) => (
+                  // hi
+                     bar => (
+                       // there
+                         baz
+                     )
+                )
             `,
             errors: [UNEXPECTED_LINEBREAK]
         }, {
-            code: `
-[ foo => 
-  // comment
-  'bar'
-]
+            code: unIndent`
+                const foo = {
+                  id: 'bar',
+                  prop: (foo1) =>
+                    // comment
+                    'returning this string', 
+                }
             `,
-            output: `
-[ // comment
-foo => 'bar'
-]
-            `,
-            errors: [UNEXPECTED_LINEBREAK]
-        }, {
-            code: `
-"foo".split('').map((char) =>
-// comment
-char
-)
-            `,
-            output: `
-// comment
-"foo".split('').map((char) => char
-)
+            output: unIndent`
+                const foo = {
+                  id: 'bar',
+                  // comment
+                prop: (foo1) => 'returning this string', 
+                }
             `,
             errors: [UNEXPECTED_LINEBREAK]
         }, {
-            code: `
-new Promise((resolve, reject) =>
-    // comment
-    resolve()
-)
+            code: unIndent`
+                [ foo => 
+                  // comment
+                  'bar'
+                ]
             `,
-            output: `
-new Promise(// comment
-(resolve, reject) => resolve()
-)
-            `,
-            errors: [UNEXPECTED_LINEBREAK]
-        }, {
-            code: `
-() =>
-/*
-succinct
-explanation
-of code
-*/
-bar
-            `,
-            output: `
-/*
-succinct
-explanation
-of code
-*/
-() => bar
+            output: unIndent`
+                [ // comment
+                foo => 'bar'
+                ]
             `,
             errors: [UNEXPECTED_LINEBREAK]
         }, {
-            code: `
-stepOne =>
-    /*
-    here is
-    what is
-    happening
-    */
-    stepTwo =>
-        // then this happens
-        stepThree`,
-            output: `
-stepOne => (
-    /*
-    here is
-    what is
-    happening
-    */
-    stepTwo => (
-        // then this happens
-        stepThree
-)
-)`,
+            code: unIndent`
+                "foo".split('').map((char) =>
+                // comment
+                char
+                )
+            `,
+            output: unIndent`
+                // comment
+                "foo".split('').map((char) => char
+                )
+            `,
+            errors: [UNEXPECTED_LINEBREAK]
+        }, {
+            code: unIndent`
+                new Promise((resolve, reject) =>
+                    // comment
+                    resolve()
+                )
+            `,
+            output: unIndent`
+                new Promise(// comment
+                (resolve, reject) => resolve()
+                )
+            `,
+            errors: [UNEXPECTED_LINEBREAK]
+        }, {
+            code: unIndent`
+                () =>
+                /*
+                succinct
+                explanation
+                of code
+                */
+                bar
+            `,
+            output: unIndent`
+                /*
+                succinct
+                explanation
+                of code
+                */
+                () => bar
+            `,
+            errors: [UNEXPECTED_LINEBREAK]
+        }, {
+            code: unIndent`
+                stepOne =>
+                    /*
+                    here is
+                    what is
+                    happening
+                    */
+                    stepTwo =>
+                        // then this happens
+                        stepThree`,
+            output: unIndent`
+                stepOne => (
+                    /*
+                    here is
+                    what is
+                    happening
+                    */
+                    stepTwo => (
+                        // then this happens
+                        stepThree
+                )
+                )`,
             errors: [UNEXPECTED_LINEBREAK, UNEXPECTED_LINEBREAK]
         }, {
-            code: `
-() =>
-    /*
-    multi
-    line
-    */
-    bar =>
-        /*
-        many
-        lines
-        */
-        baz
+            code: unIndent`
+                () =>
+                    /*
+                    multi
+                    line
+                    */
+                    bar =>
+                        /*
+                        many
+                        lines
+                        */
+                        baz
             `,
-            output: `
-() => (
-    /*
-    multi
-    line
-    */
-    bar => (
-        /*
-        many
-        lines
-        */
-        baz
-)
-)
+            output: unIndent`
+                () => (
+                    /*
+                    multi
+                    line
+                    */
+                    bar => (
+                        /*
+                        many
+                        lines
+                        */
+                        baz
+                )
+                )
             `,
             errors: [UNEXPECTED_LINEBREAK, UNEXPECTED_LINEBREAK]
         }, {
-            code: `
-foo('', boo =>
-  // comment
-  bar
-)
+            code: unIndent`
+                foo('', boo =>
+                  // comment
+                  bar
+                )
             `,
-            output: `
-// comment
-foo('', boo => bar
-)
+            output: unIndent`
+                // comment
+                foo('', boo => bar
+                )
             `,
             errors: [UNEXPECTED_LINEBREAK]
         }, {
-            code: `
-async foo =>
-    // comment
-    'string'
+            code: unIndent`
+                async foo =>
+                    // comment
+                    'string'
             `,
-            output: `
-// comment
-async foo => 'string'
+            output: unIndent`
+                // comment
+                async foo => 'string'
             `,
             parserOptions: { ecmaVersion: 8 },
             errors: [UNEXPECTED_LINEBREAK]
         }, {
-            code: `
-async foo =>
-    // comment
-    // another
-    bar;
+            code: unIndent`
+                async foo =>
+                    // comment
+                    // another
+                    bar;
             `,
-            output: `
-// comment
-// another
-async foo => bar;
-            `,
-            parserOptions: { ecmaVersion: 8 },
-            errors: [UNEXPECTED_LINEBREAK]
-        }, {
-            code: `
-async (foo) =>
-    // comment
-    'string'
-            `,
-            output: `
-// comment
-async (foo) => 'string'
+            output: unIndent`
+                // comment
+                // another
+                async foo => bar;
             `,
             parserOptions: { ecmaVersion: 8 },
             errors: [UNEXPECTED_LINEBREAK]
         }, {
-            code: `
-const foo = 1,
-  bar = 2,
-  baz = () => // comment
-    qux
+            code: unIndent`
+                async (foo) =>
+                    // comment
+                    'string'
             `,
-            output: `
-const foo = 1,
-  bar = 2,
-  // comment
-baz = () => qux
+            output: unIndent`
+                // comment
+                async (foo) => 'string'
+            `,
+            parserOptions: { ecmaVersion: 8 },
+            errors: [UNEXPECTED_LINEBREAK]
+        }, {
+            code: unIndent`
+                const foo = 1,
+                  bar = 2,
+                  baz = () => // comment
+                    qux
+            `,
+            output: unIndent`
+                const foo = 1,
+                  bar = 2,
+                  // comment
+                baz = () => qux
             `,
             errors: [UNEXPECTED_LINEBREAK]
         }, {
-            code: `
-const foo = () =>
-  //comment
-  qux,
-  bar = 2,
-  baz = 3
+            code: unIndent`
+                const foo = () =>
+                  //comment
+                  qux,
+                  bar = 2,
+                  baz = 3
             `,
-            output: `
-//comment
-const foo = () => qux,
-  bar = 2,
-  baz = 3
+            output: unIndent`
+                //comment
+                const foo = () => qux,
+                  bar = 2,
+                  baz = 3
             `,
             errors: [UNEXPECTED_LINEBREAK]
         }, {
-            code: `
-const foo = () =>
-    //two
-    1,
-    boo = () => 
-    //comment
-    2,
-    bop = "what"
+            code: unIndent`
+                const foo = () =>
+                    //two
+                    1,
+                    boo = () => 
+                    //comment
+                    2,
+                    bop = "what"
             `,
-            output: `
-//two
-const foo = () => 1,
-    //comment
-boo = () => 2,
-    bop = "what"
+            output: unIndent`
+                //two
+                const foo = () => 1,
+                    //comment
+                boo = () => 2,
+                    bop = "what"
             `,
             errors: [UNEXPECTED_LINEBREAK, UNEXPECTED_LINEBREAK]
         }, {
-            code: `
-start()
-    .then(() =>
-        /* If I put a comment here, eslint --fix breaks badly */
-        process && typeof process.send === 'function' && process.send('ready')
-    )
-    .catch(err => {
-    /* catch seems to be needed here */
-    console.log('Error: ', err)
-    })`,
-            output: `
-start()
-    .then(() => (
-        /* If I put a comment here, eslint --fix breaks badly */
-        process && typeof process.send === 'function' && process.send('ready')
-)
-    )
-    .catch(err => {
-    /* catch seems to be needed here */
-    console.log('Error: ', err)
-    })`,
+            code: unIndent`
+                start()
+                    .then(() =>
+                        /* If I put a comment here, eslint --fix breaks badly */
+                        process && typeof process.send === 'function' && process.send('ready')
+                    )
+                    .catch(err => {
+                    /* catch seems to be needed here */
+                    console.log('Error: ', err)
+                    })`,
+            output: unIndent`
+                /* If I put a comment here, eslint --fix breaks badly */
+                start()
+                    .then(() => process && typeof process.send === 'function' && process.send('ready')
+                    )
+                    .catch(err => {
+                    /* catch seems to be needed here */
+                    console.log('Error: ', err)
+                    })`,
             errors: [UNEXPECTED_LINEBREAK]
         },
 
