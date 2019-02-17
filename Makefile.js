@@ -595,7 +595,7 @@ target.test = function() {
         errors++;
     }
 
-    target.browserify();
+    target.webpack();
 
     lastReturn = exec(`${getBinFile("karma")} start karma.conf.js`);
     if (lastReturn.code !== 0) {
@@ -796,7 +796,7 @@ target.gensite = function(prereleaseVersion) {
     // 13. Update demos, but only for non-prereleases
     if (!prereleaseVersion) {
         echo("> Updating the demos (Step 13)");
-        target.browserify("production");
+        target.webpack("production");
         cp("-f", "build/eslint.js", `${SITE_DIR}js/app/eslint.js`);
     } else {
         echo("> Skipped updating the demos (Step 13)");
@@ -809,7 +809,7 @@ target.gensite = function(prereleaseVersion) {
     echo("Done generating eslint.org");
 };
 
-target.browserify = function(mode = "none") {
+target.webpack = function(mode = "none") {
     exec(`${getBinFile("webpack")} --mode=${mode} --output-path=${path.resolve(__dirname, BUILD_DIR)}`);
 };
 
