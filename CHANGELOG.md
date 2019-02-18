@@ -1,3 +1,7 @@
+v5.14.1 - February 18, 2019
+
+* [`1d6e639`](https://github.com/eslint/eslint/commit/1d6e63930073e79e52890f552cc6e9a0646b7fb4) Fix: sort-keys throws Error at SpreadElement (fixes #11402) (#11403) (Krist Wongsuphasawat)
+
 v5.14.0 - February 15, 2019
 
 * [`85a04b3`](https://github.com/eslint/eslint/commit/85a04b319e6dfde1458174cd1d8c9e7d33da0871) Fix: adds conditional for separateRequires in one-var (fixes #10179) (#10980) (Scott Stern)
