@@ -595,7 +595,7 @@ target.test = function() {
         errors++;
     }
 
-    target.browserify();
+    target.webpack();
 
     lastReturn = exec(`${getBinFile("karma")} start karma.conf.js`);
     if (lastReturn.code !== 0) {
@@ -796,7 +796,7 @@ target.gensite = function(prereleaseVersion) {
     // 13. Update demos, but only for non-prereleases
     if (!prereleaseVersion) {
         echo("> Updating the demos (Step 13)");
-        target.browserify();
+        target.webpack("production");
         cp("-f", "build/eslint.js", `${SITE_DIR}js/app/eslint.js`);
     } else {
         echo("> Skipped updating the demos (Step 13)");
@@ -809,28 +809,8 @@ target.gensite = function(prereleaseVersion) {
     echo("Done generating eslint.org");
 };
 
-target.browserify = function() {
-
-    // 1. create temp and build directory
-    if (!test("-d", TEMP_DIR)) {
-        mkdir(TEMP_DIR);
-    }
-
-    if (!test("-d", BUILD_DIR)) {
-        mkdir(BUILD_DIR);
-    }
-
-    // 2. browserify the temp directory
-    exec(`${getBinFile("browserify")} -x espree lib/linter.js -o ${BUILD_DIR}eslint.js -s eslint --global-transform [ babelify --presets [ @babel/preset-env ] ]`);
-
-    // 3. Browserify espree
-    exec(`${getBinFile("browserify")} -r espree -o ${TEMP_DIR}espree.js --global-transform [ babelify --presets [ @babel/preset-env ] ]`);
-
-    // 4. Concatenate Babel polyfill, Espree, and ESLint files together
-    cat("./node_modules/@babel/polyfill/dist/polyfill.js", `${TEMP_DIR}espree.js`, `${BUILD_DIR}eslint.js`).to(`${BUILD_DIR}eslint.js`);
-
-    // 5. remove temp directory
-    rm("-rf", TEMP_DIR);
+target.webpack = function(mode = "none") {
+    exec(`${getBinFile("webpack")} --mode=${mode} --output-path=${path.resolve(__dirname, BUILD_DIR)}`);
 };
 
 target.checkRuleFiles = function() {

@@ -16,9 +16,6 @@ module.exports = function(config) {
 
         // list of files / patterns to load in the browser
         files: [
-            "node_modules/mocha/mocha.js",
-            "node_modules/chai/chai.js",
-            "node_modules/sinon/pkg/sinon.js",
             "build/eslint.js",
             "tests/lib/linter.js"
         ],
@@ -32,12 +29,14 @@ module.exports = function(config) {
         // preprocess matching files before serving them to the browser
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
         preprocessors: {
-            "tests/lib/linter.js": ["babel"]
+            "tests/lib/linter.js": ["webpack"]
         },
-        babelPreprocessor: {
-            options: {
-                presets: ["@babel/preset-env"]
-            }
+        webpack: {
+            mode: "none",
+            stats: "errors-only"
+        },
+        webpackMiddleware: {
+            logLevel: "error"
         },
 
 
