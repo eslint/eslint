@@ -46,6 +46,10 @@ ruleTester.run("sort-keys", rule, {
         { code: "var obj = {a:1, b:1, ...z}", options: [], parserOptions: { ecmaVersion: 2018 } },
         { code: "var obj = {...z, ...x, a:1, ...c, ...d, f:5, e:4}", options: ["desc"], parserOptions: { ecmaVersion: 2018 } },
 
+        // works when spread occurs somewhere other than an object literal
+        { code: "function fn(...args) { return [...args].length; }", options: [], parserOptions: { ecmaVersion: 2018 } },
+        { code: "function g() {}; function f(...args) { return g(...args); }", options: [], parserOptions: { ecmaVersion: 2018 } },
+
         // ignore destructuring patterns.
         { code: "let {a, b} = {}", options: [], parserOptions: { ecmaVersion: 6 } },
 
