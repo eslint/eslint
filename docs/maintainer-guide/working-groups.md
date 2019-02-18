@@ -11,7 +11,7 @@ Working groups are created by a standard TSC motion. Each working group:
 1. May have any number of Committers and Reviewers.
 1. Must have at least two members.
 
-Active working groups are listed on the [team page](https://eslint.org).
+Active working groups are listed on the [team page](https://eslint.org/team).
 
 ## How Working Groups Work
 

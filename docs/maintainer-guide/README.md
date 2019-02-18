@@ -20,4 +20,4 @@ Describes the governance policy for ESLint, including the rights and privileges 
 
 ## [Working Groups](working-groups.md)
 
-Describes the governance policy for ESLint, including the rights and privileges of individuals inside the project.
+Describes how working groups are created and how they function within the ESLint project.
