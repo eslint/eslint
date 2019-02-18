@@ -32,10 +32,11 @@ function compatRequire(name, windowName) {
 // Requirements
 //------------------------------------------------------------------------------
 
-const assert = compatRequire("chai").assert,
-    sinon = compatRequire("sinon"),
-    path = compatRequire("path"),
-    Linter = compatRequire("../../lib/linter", "eslint");
+const assert = require("chai").assert,
+    sinon = require("sinon"),
+    path = require("path");
+
+const Linter = compatRequire("../../lib/linter", "eslint");
 
 //------------------------------------------------------------------------------
 // Constants
