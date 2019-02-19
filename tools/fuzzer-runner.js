@@ -34,33 +34,32 @@ const CRASH_AUTOFIX_TEST_COUNT_RATIO = 3;
  * @param {number} [options.amount=300] A positive integer indicating how much testing to do. Larger values result in a higher
  * chance of finding bugs, but cause the testing to take longer (linear increase). With the default value, the fuzzer
  * takes about 15 seconds to run.
+ * @param {boolean} [options.fuzzBrokenAutofixes=true] true if the fuzzer should look for invalid autofixes in addition to rule crashes
  * @returns {Object[]} A list of objects, where each object represents a problem detected by the fuzzer. The objects have the same
  * schema as objects returned from eslint-fuzzer.
  */
-function run(options) {
-    const amount = options && options.amount || 300;
-
+function run({ amount = 300, fuzzBrokenAutofixes = true } = {}) {
     const crashTestCount = amount * CRASH_AUTOFIX_TEST_COUNT_RATIO;
-    const autofixTestCount = amount;
+    const autofixTestCount = fuzzBrokenAutofixes ? amount : 0;
 
     /*
      * To keep the progress bar moving at a roughly constant speed, apply a different weight for finishing
      * a crash-only fuzzer run versus an autofix fuzzer run.
      */
     const progressBar = new ProgressBar(
-        "Fuzzing rules [:bar] :percent, :elapseds elapsed, eta :etas",
+        "Fuzzing rules [:bar] :percent, :elapseds elapsed, eta :etas, errors so far: :elapsedErrors",
         { width: 30, total: crashTestCount + autofixTestCount * ESTIMATED_CRASH_AUTOFIX_PERFORMANCE_RATIO }
     );
 
     // Start displaying the progress bar.
-    progressBar.tick(0);
+    progressBar.tick(0, { elapsedErrors: 0 });
 
     const crashTestResults = fuzz({
         linter,
         count: crashTestCount,
         checkAutofixes: false,
-        progressCallback: () => {
-            progressBar.tick(1);
+        progressCallback: elapsedErrors => {
+            progressBar.tick(1, { elapsedErrors });
             progressBar.render();
         }
     });
@@ -69,8 +68,8 @@ function run(options) {
         linter,
         count: autofixTestCount,
         checkAutofixes: true,
-        progressCallback: () => {
-            progressBar.tick(ESTIMATED_CRASH_AUTOFIX_PERFORMANCE_RATIO);
+        progressCallback: elapsedErrors => {
+            progressBar.tick(ESTIMATED_CRASH_AUTOFIX_PERFORMANCE_RATIO, { elapsedErrors: crashTestResults.length + elapsedErrors });
             progressBar.render();
         }
     });
