@@ -1,7 +1,9 @@
 ESLint couldn't find the plugin "<%- pluginName %>".
 
+(The package "<%- pluginName %>" was not found when loaded as a Node module from the directory "<%- pluginRootPath %>".)
+
 It's likely that the plugin isn't installed correctly. Try reinstalling by running the following:
 
-    npm i <%- pluginName %>@latest --save-dev
+    npm install <%- pluginName %>@latest --save-dev
 
 If you still can't figure out the problem, please stop by https://gitter.im/eslint/eslint to chat with the team.
