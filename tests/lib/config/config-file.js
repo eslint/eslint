@@ -160,12 +160,34 @@ describe("ConfigFile", () => {
             }, /Failed to load config "plugin:enable-nonexistent-parser\/baz" to extend from./);
         });
 
-        it("should throw an error with a message template when a plugin is not found", () => {
+        it("should throw an error with a message template when a plugin referenced for a plugin config is not found", () => {
             try {
                 ConfigFile.applyExtends({
                     extends: "plugin:nonexistent-plugin/baz",
                     rules: { eqeqeq: 2 }
                 }, configContext, "/whatever");
+            } catch (err) {
+                assert.strictEqual(err.messageTemplate, "plugin-missing");
+                assert.deepStrictEqual(err.messageData, {
+                    pluginName: "eslint-plugin-nonexistent-plugin",
+                    pluginRootPath: getFixturePath("."),
+                    configStack: ["/whatever"]
+                });
+
+                return;
+            }
+            assert.fail("Expected to throw an error");
+        });
+
+        it("should throw an error with a message template when a plugin in the plugins list is not found", () => {
+            try {
+                ConfigFile.loadObject(configContext, {
+                    config: {
+                        plugins: ["nonexistent-plugin"]
+                    },
+                    filePath: "/whatever",
+                    configFullName: "configName"
+                });
             } catch (err) {
                 assert.strictEqual(err.messageTemplate, "plugin-missing");
                 assert.deepStrictEqual(err.messageData, {
