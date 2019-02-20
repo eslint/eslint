@@ -3545,15 +3545,6 @@ describe("Linter", () => {
             linter.verify("x", { rules: { "foo-bar-baz": "error" } });
             assert(spy.calledOnce);
         });
-
-        it("should parse ES2018 code for backward compatibility if 'parserOptions.ecmaFeatures.experimentalObjectRestSpread' is given.", () => {
-            const messages = linter.verify(
-                "async function* f() { let {a, ...rest} = { a, ...obj }; }",
-                { parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } } }
-            );
-
-            assert(messages.length === 0);
-        });
     });
 
     describe("context.getScope()", () => {
