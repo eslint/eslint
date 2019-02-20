@@ -146,7 +146,7 @@ describe("ConfigFile", () => {
 
         it("should fall back to default parser when a parser called 'espree' is not found", () => {
             assert.deepStrictEqual(
-                ConfigFile.loadObject({ parser: "espree" }, configContext, "/", "configName"),
+                ConfigFile.loadObject(configContext, { config: { parser: "espree" }, filePath: "/", configFullName: "configName" }),
                 { parser: require.resolve("espree") }
             );
         });
