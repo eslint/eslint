@@ -6,4 +6,6 @@ It's likely that the plugin isn't installed correctly. Try reinstalling by runni
 
     npm install <%- pluginName %>@latest --save-dev
 
+The plugin "<%- pluginName %>" was referenced from the config file in <%- configStack.join("\n\t...which was loaded by the config file in ") %>.
+
 If you still can't figure out the problem, please stop by https://gitter.im/eslint/eslint to chat with the team.
