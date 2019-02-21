@@ -41,7 +41,7 @@ function checkHeaderRow($, rowObject, args) {
     assert(row.hasClass(args.bgColor), "Check that background color is correct");
     assert.strictEqual(row.attr("data-group"), args.group, "Check that header group is correct");
     assert.strictEqual(row.find("th span").text(), args.problems, "Check if correct totals");
-    assert.strictEqual(row.find("th").html().trim().match(/ [^<]*/)[0].trim(), args.file, "Check if correctly displays filePath");
+    assert.strictEqual(row.find("th").html().trim().match(/ [^<]*/u)[0].trim(), args.file, "Check if correctly displays filePath");
 }
 
 /**

@@ -80,7 +80,7 @@ describe("SourceCode", () => {
 
             assert.throws(
                 () => new SourceCode("foo;", { comments: [], loc: {}, range: [] }),
-                /missing the tokens array/
+                /missing the tokens array/u
             );
 
         });
@@ -89,7 +89,7 @@ describe("SourceCode", () => {
 
             assert.throws(
                 () => new SourceCode("foo;", { tokens: [], loc: {}, range: [] }),
-                /missing the comments array/
+                /missing the comments array/u
             );
 
         });
@@ -98,7 +98,7 @@ describe("SourceCode", () => {
 
             assert.throws(
                 () => new SourceCode("foo;", { comments: [], tokens: [], range: [] }),
-                /missing location information/
+                /missing location information/u
             );
 
         });
@@ -107,7 +107,7 @@ describe("SourceCode", () => {
 
             assert.throws(
                 () => new SourceCode("foo;", { comments: [], tokens: [], loc: {} }),
-                /missing range information/
+                /missing range information/u
             );
         });
 
@@ -196,7 +196,7 @@ describe("SourceCode", () => {
             const text = fs.readFileSync(
                 UTF8_FILE,
                 "utf8"
-            ).replace(/\r\n/g, "\n"); // <-- For autocrlf of "git for Windows"
+            ).replace(/\r\n/gu, "\n"); // <-- For autocrlf of "git for Windows"
             let sourceCode;
 
             beforeEach(() => {
@@ -1884,7 +1884,7 @@ describe("SourceCode", () => {
         it("should throw if given a bad input", () => {
             assert.throws(
                 () => sourceCode.getLocFromIndex({ line: 1, column: 1 }),
-                /Expected `index` to be a number\./
+                /Expected `index` to be a number\./u
             );
         });
 
@@ -1895,7 +1895,7 @@ describe("SourceCode", () => {
         it("should throw if given an out-of-range input", () => {
             assert.throws(
                 () => sourceCode.getLocFromIndex(CODE.length + 1),
-                /Index out of range \(requested index 27, but source text has length 26\)\./
+                /Index out of range \(requested index 27, but source text has length 26\)\./u
             );
         });
 
@@ -1932,46 +1932,46 @@ describe("SourceCode", () => {
         it("should throw a useful error if given a malformed location", () => {
             assert.throws(
                 () => sourceCode.getIndexFromLoc(5),
-                /Expected `loc` to be an object with numeric `line` and `column` properties\./
+                /Expected `loc` to be an object with numeric `line` and `column` properties\./u
             );
 
             assert.throws(
                 () => sourceCode.getIndexFromLoc({ line: "three", column: "four" }),
-                /Expected `loc` to be an object with numeric `line` and `column` properties\./
+                /Expected `loc` to be an object with numeric `line` and `column` properties\./u
             );
         });
 
         it("should throw a useful error if `line` is out of range", () => {
             assert.throws(
                 () => sourceCode.getIndexFromLoc({ line: 9, column: 0 }),
-                /Line number out of range \(line 9 requested, but only 8 lines present\)\./
+                /Line number out of range \(line 9 requested, but only 8 lines present\)\./u
             );
 
             assert.throws(
                 () => sourceCode.getIndexFromLoc({ line: 50, column: 3 }),
-                /Line number out of range \(line 50 requested, but only 8 lines present\)\./
+                /Line number out of range \(line 50 requested, but only 8 lines present\)\./u
             );
 
             assert.throws(
                 () => sourceCode.getIndexFromLoc({ line: 0, column: 0 }),
-                /Line number out of range \(line 0 requested\)\. Line numbers should be 1-based\./
+                /Line number out of range \(line 0 requested\)\. Line numbers should be 1-based\./u
             );
         });
 
         it("should throw a useful error if `column` is out of range", () => {
             assert.throws(
                 () => sourceCode.getIndexFromLoc({ line: 3, column: 4 }),
-                /Column number out of range \(column 4 requested, but the length of line 3 is 4\)\./
+                /Column number out of range \(column 4 requested, but the length of line 3 is 4\)\./u
             );
 
             assert.throws(
                 () => sourceCode.getIndexFromLoc({ line: 3, column: 50 }),
-                /Column number out of range \(column 50 requested, but the length of line 3 is 4\)\./
+                /Column number out of range \(column 50 requested, but the length of line 3 is 4\)\./u
             );
 
             assert.throws(
                 () => sourceCode.getIndexFromLoc({ line: 8, column: 1 }),
-                /Column number out of range \(column 1 requested, but the length of line 8 is 0\)\./
+                /Column number out of range \(column 1 requested, but the length of line 8 is 0\)\./u
             );
         });
 

@@ -42,7 +42,7 @@ const { cat, cd, cp, echo, exec, exit, find, ls, mkdir, pwd, rm, test } = requir
 const PERF_MULTIPLIER = 13e6;
 
 const OPEN_SOURCE_LICENSES = [
-    /MIT/, /BSD/, /Apache/, /ISC/, /WTF/, /Public Domain/, /LGPL/
+    /MIT/u, /BSD/u, /Apache/u, /ISC/u, /WTF/u, /Public Domain/u, /LGPL/u
 ];
 
 //------------------------------------------------------------------------------
@@ -137,7 +137,7 @@ function generateBlogPost(releaseInfo, prereleaseMajorVersion) {
     const ruleList = ls("lib/rules")
 
         // Strip the .js extension
-        .map(ruleFileName => ruleFileName.replace(/\.js$/, ""))
+        .map(ruleFileName => ruleFileName.replace(/\.js$/u, ""))
 
         /*
          * Sort by length descending. This ensures that rule names which are substrings of other rule names are not
@@ -719,7 +719,7 @@ target.gensite = function(prereleaseVersion) {
             } else {
 
                 // extract the title from the file itself
-                title = text.match(/#([^#].+)\n/);
+                title = text.match(/#([^#].+)\n/u);
                 if (title) {
                     title = title[1].trim();
                 } else {
@@ -740,10 +740,10 @@ target.gensite = function(prereleaseVersion) {
             ].join("\n");
 
             // 6. Remove .md extension for relative links and change README to empty string
-            text = text.replace(/\((?!https?:\/\/)([^)]*?)\.md(.*?)\)/g, "($1$2)").replace("README.html", "");
+            text = text.replace(/\((?!https?:\/\/)([^)]*?)\.md(.*?)\)/gu, "($1$2)").replace("README.html", "");
 
             // 7. Check if there's a trailing white line at the end of the file, if there isn't one, add it
-            if (!/\n$/.test(text)) {
+            if (!/\n$/u.test(text)) {
                 text = `${text}\n`;
             }
 
@@ -847,8 +847,8 @@ target.checkRuleFiles = function() {
          */
         function hasIdInTitle(id) {
             const docText = cat(docFilename);
-            const idOldAtEndOfTitleRegExp = new RegExp(`^# (.*?) \\(${id}\\)`); // original format
-            const idNewAtBeginningOfTitleRegExp = new RegExp(`^# ${id}: `); // new format is same as rules index
+            const idOldAtEndOfTitleRegExp = new RegExp(`^# (.*?) \\(${id}\\)`, "u"); // original format
+            const idNewAtBeginningOfTitleRegExp = new RegExp(`^# ${id}: `, "u"); // new format is same as rules index
             /*
              * 1. Added support for new format.
              * 2. Will remove support for old format after all docs files have new format.

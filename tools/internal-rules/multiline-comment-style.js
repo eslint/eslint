@@ -20,6 +20,6 @@ module.exports = ruleComposer.filterReports(
         const problemIndex = metadata.sourceCode.getIndexFromLoc(problem.loc.start);
         const reportedToken = metadata.sourceCode.getTokenByRangeStart(problemIndex, { includeComments: true });
 
-        return !(reportedToken && reportedToken.type === "Line" && /^-{2,}$/.test(reportedToken.value));
+        return !(reportedToken && reportedToken.type === "Line" && /^-{2,}$/u.test(reportedToken.value));
     }
 );

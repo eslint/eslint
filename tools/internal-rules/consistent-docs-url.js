@@ -70,7 +70,7 @@ function checkMetaDocsUrl(context, exportsNode) {
         return;
     }
 
-    const ruleId = path.basename(context.getFilename().replace(/.js$/, ""));
+    const ruleId = path.basename(context.getFilename().replace(/.js$/u, ""));
     const expected = `https://eslint.org/docs/rules/${ruleId}`;
     const url = metaDocsUrl.value.value;
 

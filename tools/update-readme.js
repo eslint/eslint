@@ -87,10 +87,10 @@ function formatSponsors(sponsors) {
 //-----------------------------------------------------------------------------
 
 // replace all of the section
-let newReadme = readme.replace(/<!--tscstart-->[\w\W]*?<!--tscend-->/, formatTeamMembers(team.tsc, "tsc"));
+let newReadme = readme.replace(/<!--tscstart-->[\w\W]*?<!--tscend-->/u, formatTeamMembers(team.tsc, "tsc"));
 
-newReadme = newReadme.replace(/<!--committersstart-->[\w\W]*?<!--committersend-->/, formatTeamMembers(team.committers, "committers"));
-newReadme = newReadme.replace(/<!--sponsorsstart-->[\w\W]*?<!--sponsorsend-->/, formatSponsors(allSponsors));
+newReadme = newReadme.replace(/<!--committersstart-->[\w\W]*?<!--committersend-->/u, formatTeamMembers(team.committers, "committers"));
+newReadme = newReadme.replace(/<!--sponsorsstart-->[\w\W]*?<!--sponsorsend-->/u, formatSponsors(allSponsors));
 
 // output to the file
 fs.writeFileSync(README_FILE_PATH, newReadme, "utf8");
