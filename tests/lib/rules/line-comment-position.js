@@ -80,6 +80,10 @@ ruleTester.run("line-comment-position", rule, {
         {
             code: "// above\n1 + 1; // ignored",
             options: [{ ignorePattern: "ignored" }]
+        },
+        {
+            code: "foo; // eslint-disable-line no-alert",
+            options: [{ position: "above" }]
         }
     ],
 

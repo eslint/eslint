@@ -38,6 +38,9 @@ ruleTester.run("max-depth", rule, {
         { code: "function foo() { if (true) { if (false) { if (true) { if (false) { if (true) { } } } } } }", errors: [{ messageId: "tooDeeply", data: { depth: 5 }, type: "IfStatement" }] },
 
         // object property options
-        { code: "function foo() { if (true) { if (false) { if (true) { } } } }", options: [{ max: 2 }], errors: [{ messageId: "tooDeeply", data: { depth: 3 }, type: "IfStatement" }] }
+        { code: "function foo() { if (true) { if (false) { if (true) { } } } }", options: [{ max: 2 }], errors: [{ messageId: "tooDeeply", data: { depth: 3 }, type: "IfStatement" }] },
+
+        { code: "function foo() { if (a) { if (b) { if (c) { if (d) { if (e) {} } } } } }", options: [{}], errors: [{ messageId: "tooDeeply", data: { depth: 5 } }] },
+        { code: "function foo() { if (true) {} }", options: [{ max: 0 }], errors: [{ messageId: "tooDeeply", data: { depth: 1 } }] }
     ]
 });
