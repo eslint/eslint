@@ -502,14 +502,8 @@ target.lint = function() {
     let errors = 0,
         lastReturn;
 
-    echo("Validating Makefile.js");
-    lastReturn = exec(`${ESLINT} ${MAKEFILE}`);
-    if (lastReturn.code !== 0) {
-        errors++;
-    }
-
-    echo("Validating .eslintrc.js");
-    lastReturn = exec(`${ESLINT} .eslintrc.js`);
+    echo("Validating Makefile.js, .eslintrc.js, and karma.conf.js");
+    lastReturn = exec(`${ESLINT} ${MAKEFILE} .eslintrc.js karma.conf.js`);
     if (lastReturn.code !== 0) {
         errors++;
     }
