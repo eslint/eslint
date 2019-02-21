@@ -1,3 +1,5 @@
+"use strict";
+
 module.exports = {
     mode: "none",
     entry: ["@babel/polyfill", "./lib/linter.js"],
