@@ -1,6 +1,6 @@
 # Suggest using named capture group in regular expression (prefer-named-capture-group)
 
-With the landing of ECMAScript 2018, named capture group can be used in regular expression, which can improve the readability.
+With the landing of ECMAScript 2018, named capture groups can be used in regular expressions, which can improve their readability.
 
 ```js
 const regex = /(?<year>[0-9]{4})/;
@@ -8,7 +8,7 @@ const regex = /(?<year>[0-9]{4})/;
 
 ## Rule Details
 
-This rule is aimed at using named capture group instead of numbered capture group in regular expression.
+This rule is aimed at using named capture groups instead of numbered capture groups in regular expressions.
 
 Examples of **incorrect** code for this rule:
 
