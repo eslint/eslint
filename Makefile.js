@@ -63,8 +63,6 @@ const NODE = "node ", // intentional extra space
     ESLINT = `${NODE} bin/eslint.js --report-unused-disable-directives `,
 
     // Files
-    MAKEFILE = "./Makefile.js",
-    JS_FILES = "\"lib/**/*.js\" \"conf/**/*.js\" \"bin/**/*.js\" \"tools/**/*.js\"",
     JSON_FILES = find("conf/").filter(fileType("json")),
     MARKDOWN_FILES_ARRAY = find("docs/").concat(ls(".")).filter(fileType("md")),
     TEST_FILES = getTestFilePatterns(),
@@ -502,14 +500,8 @@ target.lint = function() {
     let errors = 0,
         lastReturn;
 
-    echo("Validating Makefile.js");
-    lastReturn = exec(`${ESLINT} ${MAKEFILE}`);
-    if (lastReturn.code !== 0) {
-        errors++;
-    }
-
-    echo("Validating .eslintrc.js");
-    lastReturn = exec(`${ESLINT} .eslintrc.js`);
+    echo("Validating JavaScript files");
+    lastReturn = exec(`${ESLINT} .`);
     if (lastReturn.code !== 0) {
         errors++;
     }
@@ -519,18 +511,6 @@ target.lint = function() {
 
     echo("Validating Markdown Files");
     lastReturn = lintMarkdown(MARKDOWN_FILES_ARRAY);
-    if (lastReturn.code !== 0) {
-        errors++;
-    }
-
-    echo("Validating JavaScript files");
-    lastReturn = exec(`${ESLINT} ${JS_FILES}`);
-    if (lastReturn.code !== 0) {
-        errors++;
-    }
-
-    echo("Validating JavaScript test files");
-    lastReturn = exec(`${ESLINT} "tests/**/*.js"`);
     if (lastReturn.code !== 0) {
         errors++;
     }

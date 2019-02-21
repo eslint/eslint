@@ -9,8 +9,10 @@ module.exports = function(config) {
         basePath: "",
 
 
-        // frameworks to use
-        // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
+        /*
+         * frameworks to use
+         * available frameworks: https://npmjs.org/browse/keyword/karma-adapter
+         */
         frameworks: ["mocha"],
 
 
@@ -26,8 +28,10 @@ module.exports = function(config) {
         ],
 
 
-        // preprocess matching files before serving them to the browser
-        // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
+        /*
+         * preprocess matching files before serving them to the browser
+         * available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
+         */
         preprocessors: {
             "tests/lib/linter.js": ["webpack"]
         },
@@ -40,9 +44,11 @@ module.exports = function(config) {
         },
 
 
-        // test results reporter to use
-        // possible values: "dots", "progress"
-        // available reporters: https://npmjs.org/browse/keyword/karma-reporter
+        /*
+         * test results reporter to use
+         * possible values: "dots", "progress"
+         * available reporters: https://npmjs.org/browse/keyword/karma-reporter
+         */
         reporters: ["mocha"],
 
         mochaReporter: {
@@ -57,8 +63,10 @@ module.exports = function(config) {
         colors: true,
 
 
-        // level of logging
-        // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
+        /*
+         * level of logging
+         * possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
+         */
         logLevel: config.LOG_INFO,
 
 
@@ -66,22 +74,28 @@ module.exports = function(config) {
         autoWatch: false,
 
 
-        // start these browsers
-        // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
+        /*
+         * start these browsers
+         * available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
+         */
         browsers: ["HeadlessChrome"],
         customLaunchers: {
-          HeadlessChrome: {
-            base: 'ChromeHeadless',
-            flags: [ '--no-sandbox', ],
-             },
-            },
+            HeadlessChrome: {
+                base: "ChromeHeadless",
+                flags: ["--no-sandbox"]
+            }
+        },
 
-        // Continuous Integration mode
-        // if true, Karma captures browsers, runs the tests and exits
+        /*
+         * Continuous Integration mode
+         * if true, Karma captures browsers, runs the tests and exits
+         */
         singleRun: true,
 
-        // Concurrency level
-        // how many browser should be started simultaneous
+        /*
+         * Concurrency level
+         * how many browser should be started simultaneous
+         */
         concurrency: Infinity
     });
 };
