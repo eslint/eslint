@@ -108,6 +108,8 @@ There is no specific set of requirements or qualifications for TSC members beyon
 
 A Reviewer is invited to become a TSC member by existing TSC members. A nomination will result in discussion and then a decision by the TSC.
 
+**Non-attending TSC Members:** TSC members who will be unavailable for meetings for any period of time may choose to be considered non-attending members. Non-attending members retain their TSC status but do not count as absent from meetings or votes. For instance, if the TSC has seven members with one non-attending member, the effective TSC size is six for meetings and votes. Non-attending members may still attending TSC meetings and participate in votes, in which case they are counted as an attending TSC member.
+
 #### Process for Adding TSC Members
 
 1. Add the GitHub user to the "ESLint TSC" GitHub team
@@ -119,6 +121,11 @@ A Reviewer is invited to become a TSC member by existing TSC members. A nominati
 1. Add the TSC member as an admin to ESLint Twitter Account on Tweetdeck
 1. Add the TSC member to the ESLint TSC mailing list as an "Owner"
 1. Tweet congratulations to the new TSC member from the ESLint Twitter account
+
+#### Process for Adding Non-attending TSC Members
+
+1. The TSC member informs the rest of the TSC about their non-attending status
+1. The TSC member is added to the "Non-attending TSC" GitHub team
 
 #### TSC Meetings
 
@@ -144,7 +151,7 @@ cannot veto or remove items.
 
 No binding votes on TSC agenda items can take place without a quorum of
 TSC members present in the meeting. Quorum is achieved when more than
-half of the TSC members are present.
+half of the TSC members (minus non-attending members) are present.
 
 The TSC may invite persons or representatives from certain projects to
 participate in a non-voting capacity.
