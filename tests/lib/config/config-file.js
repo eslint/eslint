@@ -141,7 +141,7 @@ describe("ConfigFile", () => {
                     extends: "plugin:enable-nonexistent-parser/bar",
                     rules: { eqeqeq: 2 }
                 }, configContext, "/whatever");
-            }, /Failed to resolve parser 'nonexistent-parser' declared in '[\w-/.:\\]+'.\nReferenced from: \/whatever/);
+            }, /Failed to resolve parser 'nonexistent-parser' declared in '[-\w/.:\\]+'.\nReferenced from: \/whatever/u);
         });
 
         it("should fall back to default parser when a parser called 'espree' is not found", () => {
@@ -157,7 +157,7 @@ describe("ConfigFile", () => {
                     extends: "plugin:enable-nonexistent-parser/baz",
                     rules: { eqeqeq: 2 }
                 }, configContext, "/whatever");
-            }, /Failed to load config "plugin:enable-nonexistent-parser\/baz" to extend from./);
+            }, /Failed to load config "plugin:enable-nonexistent-parser\/baz" to extend from./u);
         });
 
         it("should throw an error with a message template when a plugin referenced for a plugin config is not found", () => {
@@ -350,7 +350,7 @@ describe("ConfigFile", () => {
         it("should throw error when loading invalid JavaScript file", () => {
             assert.throws(() => {
                 ConfigFile.load(getFixturePath("js/.eslintrc.broken.js"), configContext, getFixturePath("__placeholder__.js"));
-            }, /Cannot read config file/);
+            }, /Cannot read config file/u);
         });
 
         it("should interpret parser module name when present in a JavaScript file", () => {

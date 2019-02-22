@@ -86,22 +86,22 @@ describe("Plugins", () => {
         it("should throw an error when a plugin has whitespace", () => {
             assert.throws(() => {
                 RelativeLoadedPlugins.load("whitespace ");
-            }, /Whitespace found in plugin name 'whitespace '/);
+            }, /Whitespace found in plugin name 'whitespace '/u);
             assert.throws(() => {
                 RelativeLoadedPlugins.load("whitespace\t");
-            }, /Whitespace found in plugin name/);
+            }, /Whitespace found in plugin name/u);
             assert.throws(() => {
                 RelativeLoadedPlugins.load("whitespace\n");
-            }, /Whitespace found in plugin name/);
+            }, /Whitespace found in plugin name/u);
             assert.throws(() => {
                 RelativeLoadedPlugins.load("whitespace\r");
-            }, /Whitespace found in plugin name/);
+            }, /Whitespace found in plugin name/u);
         });
 
         it("should throw an error when a plugin doesn't exist", () => {
             assert.throws(() => {
                 RelativeLoadedPlugins.load("nonexistentplugin");
-            }, /Failed to load plugin/);
+            }, /Failed to load plugin/u);
         });
 
         it("should rethrow an error that a plugin throws on load", () => {
