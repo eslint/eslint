@@ -794,7 +794,7 @@ describe("Config", () => {
                 const configHelper = new Config({ useEslintrc: false, configFile: configPath }, linter);
 
                 configHelper.getConfig(configPath);
-            }, /Referenced from:.*?error\.json/);
+            }, /Referenced from:.*?error\.json/u);
         });
 
         // Keep order with the last array element taking highest precedence
@@ -1163,7 +1163,7 @@ describe("Config", () => {
                     }
                 }, linter);
 
-                assert.throws(() => config.getConfig(targetPath), /Invalid override pattern/);
+                assert.throws(() => config.getConfig(targetPath), /Invalid override pattern/u);
             });
 
             it("should not merge override config when the pattern traverses up the directory tree", () => {
@@ -1183,7 +1183,7 @@ describe("Config", () => {
                     }
                 }, linter);
 
-                assert.throws(() => config.getConfig(targetPath), /Invalid override pattern/);
+                assert.throws(() => config.getConfig(targetPath), /Invalid override pattern/u);
             });
 
             it("should merge all local configs (override and non-override) before non-local configs", () => {

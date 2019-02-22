@@ -402,7 +402,7 @@ describe("cli", () => {
                 const exit = cli.execute(code);
 
                 assert.strictEqual(exit, 2);
-            }, /Error while loading rule 'custom-rule': Cannot read property/);
+            }, /Error while loading rule 'custom-rule': Cannot read property/u);
         });
 
         it("should return a warning when rule is matched", () => {

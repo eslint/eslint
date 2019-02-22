@@ -75,7 +75,7 @@ describe("globUtils", () => {
                 cwd: getFixturePath("glob-util")
             };
             const result = globUtils.resolveFileGlobPatterns(patterns, opts);
-            const expected = [`${getFixturePath("glob-util", "one-js-file").replace(/\\/g, "/")}/**/*.js`];
+            const expected = [`${getFixturePath("glob-util", "one-js-file").replace(/\\/gu, "/")}/**/*.js`];
 
             assert.deepStrictEqual(result, expected);
         });

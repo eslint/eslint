@@ -25,8 +25,8 @@ const assert = require("assert"),
 // Helpers
 //------------------------------------------------------------------------------
 
-const expectedPattern = /\/\*expected\s+((?:.|[\r\n])+?)\s*\*\//g;
-const lineEndingPattern = /\r?\n/g;
+const expectedPattern = /\/\*expected\s+((?:.|[\r\n])+?)\s*\*\//gu;
+const lineEndingPattern = /\r?\n/gu;
 const linter = new Linter();
 
 /**

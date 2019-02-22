@@ -238,7 +238,7 @@ describe("ConfigFile", () => {
                     extends: "foo",
                     rules: { eqeqeq: 2 }
                 }, configContext, "/whatever");
-            }, /Cannot find module 'eslint-config-foo'/);
+            }, /Cannot find module 'eslint-config-foo'/u);
 
         });
 
@@ -255,7 +255,7 @@ describe("ConfigFile", () => {
                     extends: "eslint:foo",
                     rules: { eqeqeq: 2 }
                 }, configContext, "/whatever");
-            }, /Failed to load config "eslint:foo" to extend from./);
+            }, /Failed to load config "eslint:foo" to extend from./u);
 
         });
 
@@ -286,7 +286,7 @@ describe("ConfigFile", () => {
                     extends: "plugin:test/bar",
                     rules: { eqeqeq: 2 }
                 }, configContext, "/whatever");
-            }, /Cannot find module 'babel-eslint'/);
+            }, /Cannot find module 'babel-eslint'/u);
 
         });
 
@@ -315,7 +315,7 @@ describe("ConfigFile", () => {
                     extends: "plugin:test/bar",
                     rules: { eqeqeq: 2 }
                 }, configContext, "/whatever");
-            }, /Failed to load config "plugin:test\/bar" to extend from./);
+            }, /Failed to load config "plugin:test\/bar" to extend from./u);
 
         });
 
@@ -517,7 +517,7 @@ describe("ConfigFile", () => {
         it("should throw error when loading invalid JavaScript file", () => {
             assert.throws(() => {
                 ConfigFile.load(getFixturePath("js/.eslintrc.broken.js"), configContext);
-            }, /Cannot read config file/);
+            }, /Cannot read config file/u);
         });
 
         it("should interpret parser module name when present in a JavaScript file", () => {
@@ -643,7 +643,7 @@ describe("ConfigFile", () => {
                     assert.strictEqual(error.messageTemplate, "failed-to-read-json");
                     throw error;
                 }
-            }, /Cannot read config file/);
+            }, /Cannot read config file/u);
         });
 
         it("should load fresh information from a package.json file", () => {
@@ -1311,7 +1311,7 @@ describe("ConfigFile", () => {
         it("should throw error if file extension is not valid", () => {
             assert.throws(() => {
                 ConfigFile.write({}, getFixturePath("yaml/.eslintrc.class"));
-            }, /write to unknown file type/);
+            }, /write to unknown file type/u);
         });
     });
 

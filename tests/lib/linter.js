@@ -2615,7 +2615,7 @@ describe("Linter", () => {
              * first part only as defined in the
              * parseJsonConfig function in lib/eslint.js
              */
-            assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":'1'':/);
+            assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":'1'':/u);
             assert.strictEqual(messages[0].line, 1);
             assert.strictEqual(messages[0].column, 1);
 
@@ -2640,7 +2640,7 @@ describe("Linter", () => {
              * first part only as defined in the
              * parseJsonConfig function in lib/eslint.js
              */
-            assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":abc':/);
+            assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":abc':/u);
             assert.strictEqual(messages[0].line, 1);
             assert.strictEqual(messages[0].column, 1);
 
@@ -2665,7 +2665,7 @@ describe("Linter", () => {
              * first part only as defined in the
              * parseJsonConfig function in lib/eslint.js
              */
-            assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":0 2':/);
+            assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":0 2':/u);
             assert.strictEqual(messages[0].line, 1);
             assert.strictEqual(messages[0].column, 1);
 
@@ -2729,7 +2729,7 @@ describe("Linter", () => {
             assert.strictEqual(messages[0].line, 1);
             assert.strictEqual(messages[0].column, 4);
             assert.isTrue(messages[0].fatal);
-            assert.match(messages[0].message, /^Parsing error:/);
+            assert.match(messages[0].message, /^Parsing error:/u);
         });
 
         it("should report source code where the issue is present", () => {
@@ -2744,7 +2744,7 @@ describe("Linter", () => {
             assert.strictEqual(messages.length, 1);
             assert.strictEqual(messages[0].severity, 2);
             assert.isTrue(messages[0].fatal);
-            assert.match(messages[0].message, /^Parsing error:/);
+            assert.match(messages[0].message, /^Parsing error:/u);
         });
     });
 
@@ -4381,7 +4381,7 @@ describe("Linter", () => {
 
             assert.throws(() => {
                 linter.verify("0", { rules: { "test-rule": "error" } });
-            }, /Fixable rules should export a `meta\.fixable` property.$/);
+            }, /Fixable rules should export a `meta\.fixable` property.$/u);
         });
 
         it("should not throw an error if fix is passed and there is no metadata", () => {
