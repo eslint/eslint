@@ -12,12 +12,12 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.js$/,
+                test: /\.js$/u,
                 loader: "babel-loader",
                 options: {
                     presets: ["@babel/preset-env"]
                 },
-                exclude: /node_modules/
+                exclude: /node_modules/u
             }
         ]
     },
