@@ -168,7 +168,7 @@ describe("SourceCodeUtil", () => {
 
             assert.throw(() => {
                 getSourceCodeOfFiles(filename, { cwd: fixtureDir });
-            }, /Parsing error: Unexpected token ;/);
+            }, /Parsing error: Unexpected token ;/u);
 
         });
 

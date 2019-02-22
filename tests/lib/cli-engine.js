@@ -344,7 +344,7 @@ describe("CLIEngine", () => {
                         fix: true,
                         fixTypes: ["layou"]
                     });
-                }, /invalid fix type/i);
+                }, /invalid fix type/iu);
             });
 
             it("should not fix any rules when fixTypes is used without fix", () => {
@@ -1371,7 +1371,7 @@ describe("CLIEngine", () => {
 
             assert.throws(() => {
                 engine.executeOnFiles([getFixturePath("rules", "test", "test-custom-rule.js")]);
-            }, /Error while loading rule 'custom-rule'/);
+            }, /Error while loading rule 'custom-rule'/u);
         });
 
         it("should return one message when a custom rule matches a file", () => {
@@ -1581,7 +1581,7 @@ describe("CLIEngine", () => {
                  */
                 function convertCRLF(result) {
                     if (result && result.output) {
-                        result.output = result.output.replace(/\r\n/g, "\n");
+                        result.output = result.output.replace(/\r\n/gu, "\n");
                     }
                 }
 
@@ -2746,7 +2746,7 @@ describe("CLIEngine", () => {
             describe("autofixing with processors", () => {
                 const HTML_PROCESSOR = Object.freeze({
                     preprocess(text) {
-                        return [text.replace(/^<script>/, "").replace(/<\/script>$/, "")];
+                        return [text.replace(/^<script>/u, "").replace(/<\/script>$/u, "")];
                     },
                     postprocess(problemLists) {
                         return problemLists[0].map(problem => {

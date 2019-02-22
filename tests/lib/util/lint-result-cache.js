@@ -78,11 +78,11 @@ describe("LintResultCache", () => {
 
     describe("constructor", () => {
         it("should throw an error if cache file path is not provided", () => {
-            assert.throws(() => new LintResultCache(), /Cache file location is required/);
+            assert.throws(() => new LintResultCache(), /Cache file location is required/u);
         });
 
         it("should throw an error if config helper is not provided", () => {
-            assert.throws(() => new LintResultCache(cacheFileLocation), /Config helper is required/);
+            assert.throws(() => new LintResultCache(cacheFileLocation), /Config helper is required/u);
         });
 
         it("should successfully create an instance if cache file location and config helper are provided", () => {
