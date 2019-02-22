@@ -4,7 +4,8 @@ module.exports = {
     root: true,
     plugins: [
         "eslint-plugin",
-        "internal-rules"
+        "internal-rules",
+        "node"
     ],
     extends: [
         "eslint",

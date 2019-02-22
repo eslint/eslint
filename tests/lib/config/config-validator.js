@@ -11,8 +11,8 @@
 
 const assert = require("chai").assert,
     Linter = require("../../../lib/linter"),
-    validator = require("../../../lib/config/config-validator"),
-    Rules = require("../../../lib/rules");
+    validator = require("../../../lib/config/config-validator");
+
 const linter = new Linter();
 
 //------------------------------------------------------------------------------
@@ -97,12 +97,13 @@ describe("Validator", () => {
      * @returns {{create: Function}} The loaded rule
      */
     function ruleMapper(ruleId) {
-        return linter.getRules().get(ruleId) || new Rules().get(ruleId);
+        return linter.getRules().get(ruleId);
     }
 
     beforeEach(() => {
         linter.defineRule("mock-rule", mockRule);
         linter.defineRule("mock-required-options-rule", mockRequiredOptionsRule);
+        linter.defineRule("plugin/mock-rule", mockRule);
     });
 
     describe("validate", () => {
@@ -436,16 +437,16 @@ describe("Validator", () => {
             assert.throws(fn, "tests:\n\tConfiguration for rule \"mock-rule\" is invalid:\n\tSeverity should be one of the following: 0 = off, 1 = warn, 2 = error (you passed '[ \"error\" ]').\n");
         });
 
-        it("should only check warning level for nonexistent rules", () => {
-            const fn = validator.validateRuleOptions.bind(null, ruleMapper("non-existent-rule"), "non-existent-rule", [3, "foobar"], "tests");
+        it("should report for nonexistent rules", () => {
+            const fn = validator.validateRuleOptions.bind(null, ruleMapper("non-existent-rule"), "non-existent-rule", [2, "foobar"], "tests");
 
-            assert.throws(fn, "tests:\n\tConfiguration for rule \"non-existent-rule\" is invalid:\n\tSeverity should be one of the following: 0 = off, 1 = warn, 2 = error (you passed '3').\n");
+            assert.throws(fn, "Definition for rule 'non-existent-rule' was not found.");
         });
 
         it("should only check warning level for plugin rules", () => {
-            const fn = validator.validateRuleOptions.bind(null, ruleMapper("plugin/rule"), "plugin/rule", 3, "tests");
+            const fn = validator.validateRuleOptions.bind(null, ruleMapper("plugin/mock-rule"), "plugin/mock-rule", 3, "tests");
 
-            assert.throws(fn, "tests:\n\tConfiguration for rule \"plugin/rule\" is invalid:\n\tSeverity should be one of the following: 0 = off, 1 = warn, 2 = error (you passed '3').\n");
+            assert.throws(fn, "tests:\n\tConfiguration for rule \"plugin/mock-rule\" is invalid:\n\tSeverity should be one of the following: 0 = off, 1 = warn, 2 = error (you passed '3').\n");
         });
 
         it("should throw for incorrect configuration values", () => {

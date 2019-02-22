@@ -865,6 +865,7 @@ describe("Config", () => {
 
                 mockPersonalConfigFileSystem();
                 mockCWDResponse(projectPath);
+                linter.defineRule("home-folder-rule", () => {});
 
                 const config = new StubbedConfig({ cwd: process.cwd() }, linter),
                     actual = config.getConfig(filePath),
@@ -894,6 +895,7 @@ describe("Config", () => {
 
                 mockPersonalConfigFileSystem();
                 mockCWDResponse(projectPath);
+                linter.defineRule("project-level-rule", () => {});
 
                 const config = new StubbedConfig({ cwd: process.cwd() }, linter),
                     actual = config.getConfig(filePath),
@@ -946,6 +948,8 @@ describe("Config", () => {
 
                 mockPersonalConfigFileSystem();
                 mockCWDResponse(projectPath);
+                linter.defineRule("project-level-rule", () => {});
+                linter.defineRule("subfolder-level-rule", () => {});
 
                 const config = new StubbedConfig({ cwd: process.cwd() }, linter),
                     actual = config.getConfig(filePath),

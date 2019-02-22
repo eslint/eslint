@@ -1342,22 +1342,14 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.results[0].messages.length, 0);
         });
 
-        it("should give a warning when loading a custom rule that doesn't exist", () => {
-
-            engine = new CLIEngine({
-                ignore: false,
-                rulesPaths: [getFixturePath("rules", "dir1")],
-                configFile: getFixturePath("rules", "missing-rule.json")
-            });
-            const report = engine.executeOnFiles([getFixturePath("rules", "test", "test-custom-rule.js")]);
-
-            assert.strictEqual(report.results.length, 1);
-            assert.strictEqual(report.results[0].messages.length, 1);
-            assert.strictEqual(report.results[0].messages[0].ruleId, "missing-rule");
-            assert.strictEqual(report.results[0].messages[0].severity, 1);
-            assert.strictEqual(report.results[0].messages[0].message, "Definition for rule 'missing-rule' was not found");
-
-
+        it("should throw an error when loading a custom rule that doesn't exist", () => {
+            assert.throws(() => {
+                engine = new CLIEngine({
+                    ignore: false,
+                    rulesPaths: [getFixturePath("rules", "dir1")],
+                    configFile: getFixturePath("rules", "missing-rule.json")
+                });
+            }, /Definition for rule 'missing-rule' was not found./u);
         });
 
         it("should throw an error when loading a bad custom rule", () => {

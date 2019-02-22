@@ -27,6 +27,7 @@ const userHome = os.homedir();
 const temp = require("temp").track();
 const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
 let configContext;
+let linter;
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -159,7 +160,8 @@ function overrideNativeResolve(mapping) {
 describe("ConfigFile", () => {
 
     beforeEach(() => {
-        configContext = new Config({}, new Linter());
+        linter = new Linter();
+        configContext = new Config({}, linter);
     });
 
     describe("CONFIG_FILES", () => {
@@ -320,6 +322,7 @@ describe("ConfigFile", () => {
         });
 
         it("should apply extensions recursively when specified from package", () => {
+            linter.defineRule("bar", () => {});
 
             const resolvedPaths = [
                 path.resolve(PROJECT_PATH, "./node_modules/eslint-config-foo/index.js"),
@@ -761,6 +764,8 @@ describe("ConfigFile", () => {
         });
 
         it("should load information from a YML file and apply extensions", () => {
+            linter.defineRule("booya", () => {});
+
             const configFilePath = getFixturePath("extends/.eslintrc.yml");
             const config = ConfigFile.load(configFilePath, configContext);
 
@@ -776,6 +781,10 @@ describe("ConfigFile", () => {
         });
 
         it("should load information from `extends` chain.", () => {
+            linter.defineRule("a", () => {});
+            linter.defineRule("b", () => {});
+            linter.defineRule("c", () => {});
+
             const configFilePath = getFixturePath("extends-chain/.eslintrc.json");
             const config = ConfigFile.load(configFilePath, configContext);
 
@@ -795,6 +804,9 @@ describe("ConfigFile", () => {
         });
 
         it("should load information from `extends` chain with relative path.", () => {
+            linter.defineRule("a", () => {});
+            linter.defineRule("relative", () => {});
+
             const configFilePath = getFixturePath("extends-chain-2/.eslintrc.json");
             const config = ConfigFile.load(configFilePath, configContext);
 
@@ -813,6 +825,9 @@ describe("ConfigFile", () => {
         });
 
         it("should load information from `extends` chain in .eslintrc with relative path.", () => {
+            linter.defineRule("a", () => {});
+            linter.defineRule("relative", () => {});
+
             const configFilePath = getFixturePath("extends-chain-2/relative.eslintrc.json");
             const config = ConfigFile.load(configFilePath, configContext);
 
@@ -862,6 +877,9 @@ describe("ConfigFile", () => {
             });
 
             it("should load information from `extends` chain in .eslintrc with relative path.", () => {
+                linter.defineRule("a", () => {});
+                linter.defineRule("relative", () => {});
+
                 const configFilePath = path.join(fixturePath, "relative.eslintrc.json");
                 const config = ConfigFile.load(configFilePath, configContext);
 
@@ -903,9 +921,10 @@ describe("ConfigFile", () => {
             });
 
             it("should load information from a YML file and load plugins", () => {
+                linter = new Linter();
+                const stubConfig = new Config({}, linter);
 
-                const stubConfig = new Config({}, new Linter());
-
+                linter.defineRule("test/foo", () => {});
                 stubConfig.plugins.define("eslint-plugin-test", {
                     environments: {
                         bar: { globals: { bar: true } }
