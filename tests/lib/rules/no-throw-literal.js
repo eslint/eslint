@@ -27,6 +27,7 @@ ruleTester.run("no-throw-literal", rule, {
         "try {throw new Error();} catch (e) {throw e;};",
         "throw a;", // Identifier
         "var undefined = new Error(); throw undefined;",
+        "undefined = new Error(); throw undefined;",
         "throw foo();", // CallExpression
         "throw new foo();", // NewExpression
         "throw foo.bar;", // MemberExpression
