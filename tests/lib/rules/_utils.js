@@ -1,5 +1,5 @@
 /**
- * @fileoverview uitls for eslint rules.
+ * @fileoverview uitls for rule tests.
  * @author 唯然<weiran.zsd@outlook.com>
  */
 
