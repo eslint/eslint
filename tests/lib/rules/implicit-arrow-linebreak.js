@@ -28,7 +28,7 @@ const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 function unIndent(strings) {
     const templateValue = strings[0];
     const lines = templateValue.replace(/^\n/u, "").replace(/\n\s*$/u, "").split("\n");
-    const lineIndents = lines.filter(line => line.trim()).map(line => line.match(/ */)[0].length);
+    const lineIndents = lines.filter(line => line.trim()).map(line => line.match(/ */u)[0].length);
     const minLineIndent = Math.min(...lineIndents);
 
     return lines.map(line => line.slice(minLineIndent)).join("\n");
