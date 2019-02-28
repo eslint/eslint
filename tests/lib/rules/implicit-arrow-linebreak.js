@@ -20,7 +20,6 @@ const UNEXPECTED_LINEBREAK = { messageId: "unexpected" };
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 
-
 /**
  * Prevents leading spaces in a multiline template literal from appearing in the resulting string
  * @param {string[]} strings The strings in the template literal
@@ -597,6 +596,15 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
                     /* catch seems to be needed here */
                     console.log('Error: ', err)
                     })`,
+            errors: [UNEXPECTED_LINEBREAK]
+        }, {
+            code: unIndent`
+            hello(response =>
+                // comment
+                response, param => param)`,
+            output: unIndent`
+            // comment
+            hello(response => response, param => param)`,
             errors: [UNEXPECTED_LINEBREAK]
         },
 
