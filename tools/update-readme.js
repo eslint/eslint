@@ -15,7 +15,7 @@
 
 const path = require("path");
 const fs = require("fs");
-const { stripIndents } = require("common-tags");
+const { unIndent } = require("../tests/lib/rules/_utils");
 
 //-----------------------------------------------------------------------------
 // Data
@@ -50,7 +50,7 @@ delete allSponsors.backers;
  */
 function formatTeamMembers(members, label) {
     /* eslint-disable indent*/
-    return stripIndents`<!--${label}start-->
+    return unIndent`<!--${label}start-->
         <table><tbody><tr>${
         members.map((member, index) => `<td align="center" valign="top" width="11%">
             <a href="https://github.com/${member.username}">
@@ -71,7 +71,7 @@ function formatSponsors(sponsors) {
     const nonEmptySponsors = Object.keys(sponsors).filter(tier => sponsors[tier].length > 0);
 
     /* eslint-disable indent*/
-    return stripIndents`<!--sponsorsstart-->
+    return unIndent`<!--sponsorsstart-->
         ${
             nonEmptySponsors.map(tier => `<h3>${tier[0].toUpperCase()}${tier.slice(1)} Sponsors</h3>
             <p>${
