@@ -81,7 +81,6 @@
     "brfs": "^2.0.0",
     "chai": "^4.0.1",
     "cheerio": "^0.22.0",
-    "common-tags": "^1.8.0",
     "coveralls": "^3.0.1",
     "dateformat": "^3.0.3",
     "ejs": "^2.6.1",
