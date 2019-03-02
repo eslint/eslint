@@ -53,7 +53,7 @@ const NODE = "node ", // intentional extra space
     NODE_MODULES = "./node_modules/",
     TEMP_DIR = "./tmp/",
     DEBUG_DIR = "./debug/",
-    BUILD_DIR = "./build/",
+    BUILD_DIR = "build",
     DOCS_DIR = "../eslint.github.io/docs",
     SITE_DIR = "../eslint.github.io/",
     PERF_TMP_DIR = path.join(TEMP_DIR, "eslint", "performance"),
@@ -795,7 +795,7 @@ target.gensite = function(prereleaseVersion) {
 };
 
 target.webpack = function(mode = "none") {
-    exec(`${getBinFile("webpack")} --mode=${mode} --output-path=${path.resolve(__dirname, BUILD_DIR)}`);
+    exec(`${getBinFile("webpack")} --mode=${mode} --output-path=${BUILD_DIR}`);
 };
 
 target.checkRuleFiles = function() {
