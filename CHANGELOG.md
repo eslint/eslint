@@ -1,3 +1,24 @@
+v5.15.0 - March 1, 2019
+
+* [`4088c6c`](https://github.com/eslint/eslint/commit/4088c6c9d4578cd581ce8ff4385d90b58a75b755) Build: Remove path.resolve in webpack build (#11462) (Kevin Partington)
+* [`ec59ec0`](https://github.com/eslint/eslint/commit/ec59ec09c8d001b8c04f9edc09994e2b0d0af0f9) New: add rule "prefer-named-capture-group" (fixes #11381) (#11392) (Pig Fang)
+* [`a44f750`](https://github.com/eslint/eslint/commit/a44f75073306e5ea4e6722654009a99884fbca4f) Upgrade: eslint-scope@4.0.2 (#11461) (Teddy Katz)
+* [`d3ce611`](https://github.com/eslint/eslint/commit/d3ce611e1c705440ccbcae357f2194134d026541) Sponsors: Sync README with website (ESLint Jenkins)
+* [`ee88475`](https://github.com/eslint/eslint/commit/ee884754e4111e11994ff0df3f0c29e43e1dc3f2) Chore: add utils for rule tests (#11453) (薛定谔的猫)
+* [`d4824e4`](https://github.com/eslint/eslint/commit/d4824e46d7a6ca1618454d3c6198403382108123) Sponsors: Sync README with website (ESLint Jenkins)
+* [`6489518`](https://github.com/eslint/eslint/commit/64895185bde5233223648bcaf46f8deb72c9fb55) Fix: no-extra-parens crash when code is "((let))" (#11444) (Teddy Katz)
+* [`9d20de2`](https://github.com/eslint/eslint/commit/9d20de2b0ac756bd62888119b8e08c7441d8a5aa) Sponsors: Sync README with website (ESLint Jenkins)
+* [`3f14de4`](https://github.com/eslint/eslint/commit/3f14de458ba120e9c013f5fc7c6fe3e9b40c1460) Sponsors: Sync README with website (ESLint Jenkins)
+* [`3d6c770`](https://github.com/eslint/eslint/commit/3d6c7709d47e047b25d91ca1a77d6dab92313061) Sponsors: Sync README with website (ESLint Jenkins)
+* [`de5cbc5`](https://github.com/eslint/eslint/commit/de5cbc526b30405e742b35d85d04361529d49ed4) Update: remove invalid defaults from core rules (fixes #11415) (#11427) (Teddy Katz)
+* [`eb0650b`](https://github.com/eslint/eslint/commit/eb0650ba20cf9f9ad78dbaccfeb7e0e7ab56e31d) Build: fix linting errors on master (#11428) (Teddy Katz)
+* [`5018378`](https://github.com/eslint/eslint/commit/5018378131fd5190bbccca902c0cf4276ee1581a) Chore: enable require-unicode-regexp on ESLint codebase (#11422) (Teddy Katz)
+* [`f6ba633`](https://github.com/eslint/eslint/commit/f6ba633f56eca6be20fc4b0d9496a78b9498d578) Chore: lint all files in the repo at the same time (#11425) (Teddy Katz)
+* [`8f3d717`](https://github.com/eslint/eslint/commit/8f3d71754932669332ad7623bcc4c1aef3897125) Docs: Add non-attending TSC member info (#11411) (Nicholas C. Zakas)
+* [`ce0777d`](https://github.com/eslint/eslint/commit/ce0777da5bc167fe0c529158fd8216d3eaf11565) Docs: use more common spelling (#11417) (薛定谔的猫)
+* [`b9aabe3`](https://github.com/eslint/eslint/commit/b9aabe34311f6189b87c9d8a1aa40f3513fed773) Chore: run fuzzer along with unit tests (#11404) (Teddy Katz)
+* [`db0c5e2`](https://github.com/eslint/eslint/commit/db0c5e2a7f894b7cda71007b0ba43d7814b3fb2e) Build: switch from browserify to webpack (fixes #11366) (#11398) (Pig Fang)
+
 v5.14.1 - February 18, 2019
 
 * [`1d6e639`](https://github.com/eslint/eslint/commit/1d6e63930073e79e52890f552cc6e9a0646b7fb4) Fix: sort-keys throws Error at SpreadElement (fixes #11402) (#11403) (Krist Wongsuphasawat)
