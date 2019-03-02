@@ -795,7 +795,7 @@ target.gensite = function(prereleaseVersion) {
 };
 
 target.webpack = function(mode = "none") {
-    exec(`${getBinFile("webpack")} --mode=${mode} --output-path=${path.resolve(__dirname, BUILD_DIR)}`);
+    exec(`${getBinFile("webpack")} --mode=${mode} --output-path=${path.join(__dirname, BUILD_DIR)}`);
 };
 
 target.checkRuleFiles = function() {
