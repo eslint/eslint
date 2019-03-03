@@ -4,7 +4,7 @@ module.exports = {
     mode: "none",
     entry: {
         eslint: ["@babel/polyfill", "./lib/linter.js"],
-        espree: "espree"
+        espree: ["@babel/polyfill", "espree"]
     },
     output: {
         filename: "[name].js",
