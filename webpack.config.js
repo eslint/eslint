@@ -2,10 +2,13 @@
 
 module.exports = {
     mode: "none",
-    entry: ["@babel/polyfill", "./lib/linter.js"],
+    entry: {
+        eslint: ["@babel/polyfill", "./lib/linter.js"],
+        espree: ["./node_modules/espree/espree.js"]
+    },
     output: {
-        filename: "eslint.js",
-        library: "eslint",
+        filename: "[name].js",
+        library: "[name]",
         libraryTarget: "umd",
         globalObject: "this"
     },
