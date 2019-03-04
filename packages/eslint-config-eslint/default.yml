@@ -150,6 +150,7 @@ rules:
     ]
     prefer-arrow-callback: "error"
     prefer-const: "error"
+    prefer-named-capture-group: "error"
     prefer-numeric-literals: "error"
     prefer-promise-reject-errors: "error"
     prefer-rest-params: "error"
