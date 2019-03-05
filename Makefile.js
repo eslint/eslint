@@ -783,6 +783,7 @@ target.gensite = function(prereleaseVersion) {
         echo("> Updating the demos (Step 13)");
         target.webpack("production");
         cp("-f", "build/eslint.js", `${SITE_DIR}js/app/eslint.js`);
+        cp("-f", "build/espree.js", `${SITE_DIR}js/app/espree.js`);
     } else {
         echo("> Skipped updating the demos (Step 13)");
     }
