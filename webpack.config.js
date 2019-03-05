@@ -2,10 +2,13 @@
 
 module.exports = {
     mode: "none",
-    entry: ["@babel/polyfill", "./lib/linter.js"],
+    entry: {
+        eslint: ["@babel/polyfill", "./lib/linter.js"],
+        espree: ["@babel/polyfill", "espree"]
+    },
     output: {
-        filename: "eslint.js",
-        library: "eslint",
+        filename: "[name].js",
+        library: "[name]",
         libraryTarget: "umd",
         globalObject: "this"
     },
