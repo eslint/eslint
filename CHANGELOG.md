@@ -1,3 +1,8 @@
+v5.15.1 - March 4, 2019
+
+* [`fe1a892`](https://github.com/eslint/eslint/commit/fe1a892f85b09c3d2fea05bef011530a678a6af5) Build: bundle espree (fixes eslint/eslint.github.io#546) (#11467) (薛定谔的猫)
+* [`458053b`](https://github.com/eslint/eslint/commit/458053b0b541f857bf233dacbde5ba80681820f8) Fix: avoid creating invalid regex in no-warning-comments (fixes #11471) (#11472) (Teddy Katz)
+
 v5.15.0 - March 1, 2019
 
 * [`4088c6c`](https://github.com/eslint/eslint/commit/4088c6c9d4578cd581ce8ff4385d90b58a75b755) Build: Remove path.resolve in webpack build (#11462) (Kevin Partington)
