@@ -69,6 +69,16 @@ describe("globUtils", () => {
             assert.deepStrictEqual(result, ["one-js-file"]);
         });
 
+        it("should not convert empty path string to a glob pattern", () => {
+            const patterns = [""];
+            const opts = {
+                cwd: getFixturePath("glob-util")
+            };
+            const result = globUtils.resolveFileGlobPatterns(patterns, opts);
+
+            assert.deepStrictEqual(result, []);
+        });
+
         it("should convert an absolute directory name with no provided extensions into a posix glob pattern", () => {
             const patterns = [getFixturePath("glob-util", "one-js-file")];
             const opts = {
