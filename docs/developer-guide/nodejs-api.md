@@ -677,6 +677,7 @@ Retrieves a formatter, which you can then use to format a report object. The arg
 * "[table](../user-guide/formatters#table)"
 * "[tap](../user-guide/formatters#tap)"
 * "[unix](../user-guide/formatters#unix)"
+* "[visualstudio](../user-guide/formatters#visualstudio)"
 
 or the full path to a JavaScript file containing a custom formatter. You can also omit the argument to retrieve the default formatter.
 
