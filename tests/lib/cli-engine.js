@@ -2692,7 +2692,7 @@ describe("CLIEngine", () => {
                     const cacheFile = getFixturePath(".eslintcache");
                     const badFile = getFixturePath("cache/src", "fail-file.js");
                     const goodFile = getFixturePath("cache/src", "test-file.js");
-                    const goodFileCopy = `${path.dirname(goodFile)}/test-file-copy.js`;
+                    const goodFileCopy = path.resolve(`${path.dirname(goodFile)}`, "test-file-copy.js");
 
                     shell.cp(goodFile, goodFileCopy);
 
