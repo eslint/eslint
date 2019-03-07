@@ -2608,6 +2608,127 @@ describe("CLIEngine", () => {
                     assert.deepStrictEqual(result, cachedResult, "result is the same with or without cache");
                 });
             });
+
+            describe("cacheStrategy", () => {
+                it("should detect changes using a file's modification time when set to 'stat'", () => {
+                    const cacheFile = getFixturePath(".eslintcache");
+                    const badFile = getFixturePath("cache/src", "fail-file.js");
+                    const goodFile = getFixturePath("cache/src", "test-file.js");
+
+                    doDelete(cacheFile);
+
+                    engine = new CLIEngine({
+                        cwd: path.join(fixtureDir, ".."),
+                        useEslintrc: false,
+
+                        // specifying cache true the cache will be created
+                        cache: true,
+                        cacheFile,
+                        cacheStrategy: "stat",
+                        rules: {
+                            "no-console": 0,
+                            "no-unused-vars": 2
+                        },
+                        extensions: ["js"]
+                    });
+
+                    engine.executeOnFiles([badFile, goodFile]);
+
+                    let fileCache = fCache.createFromFile(cacheFile, false);
+                    const entries = fileCache.normalizeEntries([badFile, goodFile]);
+
+                    entries.forEach(entry => {
+                        assert.isFalse(entry.changed, `the entry for ${entry.key} is initially unchanged`);
+                    });
+
+                    // this should result in a changed entry
+                    shell.touch(goodFile);
+                    fileCache = fCache.createFromFile(cacheFile, false);
+                    assert.isFalse(fileCache.getFileDescriptor(badFile).changed, `the entry for ${badFile} is unchanged`);
+                    assert.isTrue(fileCache.getFileDescriptor(goodFile).changed, `the entry for ${goodFile} is changed`);
+                });
+
+                it("should not detect changes using a file's modification time when set to 'md5'", () => {
+                    const cacheFile = getFixturePath(".eslintcache");
+                    const badFile = getFixturePath("cache/src", "fail-file.js");
+                    const goodFile = getFixturePath("cache/src", "test-file.js");
+
+                    doDelete(cacheFile);
+
+                    engine = new CLIEngine({
+                        cwd: path.join(fixtureDir, ".."),
+                        useEslintrc: false,
+
+                        // specifying cache true the cache will be created
+                        cache: true,
+                        cacheFile,
+                        cacheStrategy: "md5",
+                        rules: {
+                            "no-console": 0,
+                            "no-unused-vars": 2
+                        },
+                        extensions: ["js"]
+                    });
+
+                    engine.executeOnFiles([badFile, goodFile]);
+
+                    let fileCache = fCache.createFromFile(cacheFile, true);
+                    let entries = fileCache.normalizeEntries([badFile, goodFile]);
+
+                    entries.forEach(entry => {
+                        assert.isFalse(entry.changed, `the entry for ${entry.key} is initially unchanged`);
+                    });
+
+                    // this should NOT result in a changed entry
+                    shell.touch(goodFile);
+                    fileCache = fCache.createFromFile(cacheFile, true);
+                    entries = fileCache.normalizeEntries([badFile, goodFile]);
+                    entries.forEach(entry => {
+                        assert.isFalse(entry.changed, `the entry for ${entry.key} remains unchanged`);
+                    });
+                });
+
+                it("should detect changes using a file's contents when set to 'md5'", () => {
+                    const cacheFile = getFixturePath(".eslintcache");
+                    const badFile = getFixturePath("cache/src", "fail-file.js");
+                    const goodFile = getFixturePath("cache/src", "test-file.js");
+                    const goodFileCopy = `${path.dirname(goodFile)}/test-file-copy.js`;
+
+                    shell.cp(goodFile, goodFileCopy);
+
+                    doDelete(cacheFile);
+
+                    engine = new CLIEngine({
+                        cwd: path.join(fixtureDir, ".."),
+                        useEslintrc: false,
+
+                        // specifying cache true the cache will be created
+                        cache: true,
+                        cacheFile,
+                        cacheStrategy: "md5",
+                        rules: {
+                            "no-console": 0,
+                            "no-unused-vars": 2
+                        },
+                        extensions: ["js"]
+                    });
+
+                    engine.executeOnFiles([badFile, goodFileCopy]);
+
+                    let fileCache = fCache.createFromFile(cacheFile, true);
+                    const entries = fileCache.normalizeEntries([badFile, goodFileCopy]);
+
+                    entries.forEach(entry => {
+                        assert.isFalse(entry.changed, `the entry for ${entry.key} is initially unchanged`);
+                    });
+
+                    // this should result in a changed entry
+                    shell.sed("-i", "abc", "xzy", goodFileCopy);
+                    fileCache = fCache.createFromFile(cacheFile, true);
+                    assert.isFalse(fileCache.getFileDescriptor(badFile).changed, `the entry for ${badFile} is unchanged`);
+                    assert.isTrue(fileCache.getFileDescriptor(goodFileCopy).changed, `the entry for ${goodFileCopy} is changed`);
+                });
+            });
         });
 
         describe("processors", () => {

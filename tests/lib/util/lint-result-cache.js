@@ -35,7 +35,10 @@ describe("LintResultCache", () => {
         sandbox = sinon.sandbox.create();
 
         fakeConfigHelper = {
-            getConfig: sandbox.stub()
+            getConfig: sandbox.stub(),
+            options: {
+                cacheStrategy: "stat"
+            }
         };
 
         hashStub = sandbox.stub();
@@ -83,6 +86,12 @@ describe("LintResultCache", () => {
 
         it("should throw an error if config helper is not provided", () => {
             assert.throws(() => new LintResultCache(cacheFileLocation), /Config helper is required/u);
+        });
+
+        it("should throw an error if cacheStrategy is an invalid value", () => {
+            const invalidConfigHelper = Object.assign({}, fakeConfigHelper, { options: { cacheStrategy: "foo" } });
+
+            assert.throws(() => new LintResultCache(cacheFileLocation, invalidConfigHelper), /Cache strategy must be one of/u);
         });
 
         it("should successfully create an instance if cache file location and config helper are provided", () => {
