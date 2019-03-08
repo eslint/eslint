@@ -23,7 +23,7 @@ Please note that supporting JSX syntax is not the same as supporting React. Reac
 By the same token, supporting ES6 syntax is not the same as supporting new ES6 globals (e.g., new types such as
 `Set`).
 For ES6 syntax, use `{ "parserOptions": { "ecmaVersion": 6 } }`; for new ES6 global variables, use `{ "env":
-{ "es6": true } }`. `{ env: { es6: true } }` enables ES6 syntax automatically, but `{ parserOptions: { ecmaVersion: 6 } }` does not enable ES6 globals automatically.
+{ "es6": true } }`. `{ "env": { "es6": true } }` enables ES6 syntax automatically, but `{ "parserOptions": { "ecmaVersion": 6 } }` does not enable ES6 globals automatically.
 Parser options are set in your `.eslintrc.*` file by using the `parserOptions` property. The available options are:
 
 * `ecmaVersion` - set to 3, 5 (default), 6, 7, 8, 9, or 10 to specify the version of ECMAScript syntax you want to use. You can also set to 2015 (same as 6), 2016 (same as 7), 2017 (same as 8), 2018 (same as 9), or 2019 (same as 10) to use the year-based naming.
