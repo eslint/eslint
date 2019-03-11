@@ -606,6 +606,27 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
             // comment
             hello(response => response, param => param)`,
             errors: [UNEXPECTED_LINEBREAK]
+        }, {
+            code: unIndent`
+            start(
+                arr =>
+                    // cometh
+                    bod => {
+                        // soon
+                        yyyy
+                    }
+            )`,
+            output: unIndent`
+            start(
+                arr => (
+                    // cometh
+                    bod => {
+                        // soon
+                        yyyy
+                    }
+            )
+            )`,
+            errors: [UNEXPECTED_LINEBREAK]
         },
 
         // 'below' option
