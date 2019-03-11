@@ -18,6 +18,7 @@ This rule has a string option:
 
 * `"unix"` (default) enforces the usage of Unix line endings: `\n` for LF.
 * `"windows"` enforces the usage of Windows line endings: `\r\n` for CRLF.
+* `"native"` enforces OS-native linefeeds (`\r\n` for CRLF on Windows, `\n` for LF on Unix).
 
 
 ### unix
@@ -67,15 +68,53 @@ function foo(params) { // \r\n
 } // \r\n
 ```
 
+### native
+
+Examples of **incorrect** code for this rule with the `"native"` option:
+
+```js
+/*eslint linebreak-style: ["error", "unix"]*/
+/*eslint linebreak-style: ["error", "windows"]*/
+
+var a = 'a', // \n     // fails on Windows
+    b = 'b'; // \r\n   // fails on Unix
+```
+
+Examples of **correct** code for this rule with the "native" option:
+
+```
+// passes on Windows
+var a = 'a', // \r\n
+    b = 'b'; // \r\n
+```
+
+```
+// passes on Unix
+var a = 'a', // \n	
+    b = 'b'; // \n
+```
+
 ## Using this rule with version control systems
 
-Version control systems sometimes have special behavior for linebreaks. To make it easy for developers to contribute to your codebase from different platforms, you may want to configure your VCS to handle linebreaks appropriately.
+Version control systems sometimes have special behavior for linebreaks. For example, the default behavior of [git](https://git-scm.com/) on Windows systems is to convert LF linebreaks to CRLF when checking out files, but to store the linebreaks as LF when committing a change.
 
-For example, the default behavior of [git](https://git-scm.com/) on Windows systems is to convert LF linebreaks to CRLF when checking out files, but to store the linebreaks as LF when committing a change. This will cause the `linebreak-style` rule to report errors if configured with the `"unix"` setting, because the files that ESLint sees will have CRLF linebreaks. If you use git, you may want to add a line to your [`.gitattributes` file](https://git-scm.com/docs/gitattributes) to prevent git from converting linebreaks in `.js` files:
+To make it easy for developers to contribute to your codebase from different platforms, you should configure your VCS to handle linebreaks appropriately.
+
+If you use git, one option is to add a line to your [`.gitattributes` file](https://git-scm.com/docs/gitattributes) to prevent git from converting linebreaks in `.js` files:
 
 ```
 *.js text eol=lf
 ```
+
+That works with the default `"unix"` option for the `linebreak-style` rule.
+
+Another option is to explicitly ask git to use native linebreaks for all users, regardless of their personal settings, by adding the following line to your [`.gitattributes` file](https://git-scm.com/docs/gitattributes):
+
+```
+* text=auto
+```
+
+This will work with the `"native"` option for the `linebreak-style` rule. When doing this, exercise caution since the build output of your project will inherit the *local* linebreak style of the OS on which the build was made. Many developers consider this to be fine for development work - we leave that choice up to you - but it is not fine for release builds, and may even break the release for users on the wrong OS. If you are using modern [continuous integration](https://github.com/marketplace/category/continuous-integration) approach, this problem is moot since your release builds will always happen on a known image of a known OS.
 
 ## When Not To Use It
 
