@@ -73,8 +73,7 @@ function foo(params) { // \r\n
 Examples of **incorrect** code for this rule with the `"native"` option:
 
 ```js
-/*eslint linebreak-style: ["error", "unix"]*/
-/*eslint linebreak-style: ["error", "windows"]*/
+/*eslint linebreak-style: ["error", "native"]*/
 
 var a = 'a', // \n     // fails on Windows
     b = 'b'; // \r\n   // fails on Unix
@@ -82,13 +81,17 @@ var a = 'a', // \n     // fails on Windows
 
 Examples of **correct** code for this rule with the "native" option:
 
-```
+```js
+/*eslint linebreak-style: ["error", "native"]*/
+
 // passes on Windows
 var a = 'a', // \r\n
     b = 'b'; // \r\n
 ```
 
-```
+```js
+/*eslint linebreak-style: ["error", "native"]*/
+
 // passes on Unix
 var a = 'a', // \n
     b = 'b'; // \n
