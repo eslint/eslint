@@ -90,7 +90,7 @@ var a = 'a', // \r\n
 
 ```
 // passes on Unix
-var a = 'a', // \n	
+var a = 'a', // \n
     b = 'b'; // \n
 ```
 
