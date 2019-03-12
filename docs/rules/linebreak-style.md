@@ -117,7 +117,7 @@ Another option is to explicitly ask git to use native linebreaks for all users, 
 * text=auto
 ```
 
-This will work with the `"native"` option for the `linebreak-style` rule. When doing this, exercise caution since the build output of your project will inherit the *local* linebreak style of the OS on which the build was made. Many developers consider this to be fine for development work - we leave that choice up to you - but it is not fine for release builds, and may even break the release for users on the wrong OS. If you are using modern [continuous integration](https://github.com/marketplace/category/continuous-integration) approach, this problem is moot since your release builds will always happen on a known image of a known OS.
+This will work with the `"native"` option for the `linebreak-style` rule. When doing this, exercise caution since the build output of your project will inherit the local linebreak style of the OS on which the build was made. Many developers consider this to be fine for development work - we leave that choice up to you - but it is not fine for release builds, and may even break the release for users on the wrong OS. If you are using a modern [continuous integration](https://github.com/marketplace/category/continuous-integration) approach this problem will not arise as long as you configure things so that your release builds are always made automatically, on a known image of a known OS.
 
 ## When Not To Use It
 
