@@ -4,9 +4,9 @@ The ESLint TSC may form working groups to focus on a specific area of the projec
 
 ## Creating a Working Group
 
-Working groups are created by a standard TSC motion. Each working group:
+Working groups are created by sending an email to the team mailing list. Each working group:
 
-1. Must have a GitHub team under the "Working Groups" top-level GitHub team.
+1. Must have a GitHub team under the "ESLint Team" top-level GitHub team. (The GitHub team name should end with "WG" to distinguish it from other types of teams.)
 1. Must have at least one TSC member.
 1. May have any number of Committers and Reviewers.
 1. Must have at least two members.
