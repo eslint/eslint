@@ -5,7 +5,7 @@ node_js:
     - "9"
     - "10"
     - "11"
-cache: npm
+
 branches:
     only:
     - master
