@@ -25,7 +25,8 @@ const lodash = require("lodash"),
     semver = require("semver"),
     ejs = require("ejs"),
     loadPerf = require("load-perf"),
-    yaml = require("js-yaml");
+    yaml = require("js-yaml"),
+    CLIEngine = require("./lib/cli-engine");
 
 const { cat, cd, cp, echo, exec, exit, find, ls, mkdir, pwd, rm, test } = require("shelljs");
 
@@ -440,8 +441,7 @@ function lintMarkdown(files) {
  * @returns {Object} Output from each formatter
  */
 function getFormatterResults() {
-    const CLIEngine = require("./lib/cli-engine"),
-        stripAnsi = require("strip-ansi");
+    const stripAnsi = require("strip-ansi");
 
     const formatterFiles = fs.readdirSync("./lib/formatters/"),
         cli = new CLIEngine({
@@ -579,6 +579,19 @@ target.test = function() {
     }
 
     target.webpack();
+
+    const browserFileLintOutput = new CLIEngine({
+        useEslintrc: false,
+        ignore: false,
+        allowInlineConfig: false,
+        baseConfig: { parserOptions: { ecmaVersion: 5 } }
+    }).executeOnFiles([`${BUILD_DIR}/eslint.js`]);
+
+    if (browserFileLintOutput.errorCount > 0) {
+        echo(`error: Failed to lint ${BUILD_DIR}/eslint.js as ES5 code`);
+        echo(CLIEngine.getFormatter("stylish")(browserFileLintOutput.results));
+        errors++;
+    }
 
     lastReturn = exec(`${getBinFile("karma")} start karma.conf.js`);
     if (lastReturn.code !== 0) {
