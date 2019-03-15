@@ -768,13 +768,13 @@ ruleTester.run("object-curly-spacing", rule, {
             code: "function foo ({a, b }: Props) {\n}",
             output: "function foo ({a, b}: Props) {\n}",
             options: ["never"],
+            parser: resolvePath(__dirname, "../../fixtures/parsers/object-curly-spacing/flow-stub-parser-never-invalid"),
             errors: [
                 {
                     message: "There should be no space before '}'.",
                     type: "ObjectPattern"
                 }
-            ],
-            parser: resolvePath(__dirname, "../../fixtures/parsers/object-curly-spacing/flow-stub-parser-never-invalid")
+            ]
         }
     ]
 });
