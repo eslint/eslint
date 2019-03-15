@@ -119,6 +119,7 @@ let newReadme = readme.replace(/<!--teamstart-->[\w\W]*?<!--teamend-->/u, ejs.re
     team,
     formatTeamMembers
 }));
+
 newReadme = newReadme.replace(/<!--sponsorsstart-->[\w\W]*?<!--sponsorsend-->/u, formatSponsors(allSponsors));
 
 // output to the file
