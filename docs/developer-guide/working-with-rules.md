@@ -171,9 +171,9 @@ This method returns the scope which has the following types:
 
 The returned value is a `Scope` object that [`eslint-scope` package defined](scope-manager-interface.md). The `Variable` objects of global variables have some additional properties.
 
-* `variable.writeable` (`boolean`) ... If `true`, this global variable can be assigned arbitrary value. Otherwise, this global variable is read-only.
-* `variable.eslintExplicitGlobal` (`boolean`) ... If `true`, this global variable was defined by a `/* globals */` directive comment in the source code file.
-* `variable.eslintExplicitGlobalComments` (`Comment[]`) ... The array of `/* globals */` directive comments which defined this global variable in the source code file.
+* `variable.writeable` (`boolean | undefined`) ... If `true`, this global variable can be assigned arbitrary value. If `false`, this global variable is read-only.
+* `variable.eslintExplicitGlobal` (`boolean | undefined`) ... If `true`, this global variable was defined by a `/* globals */` directive comment in the source code file.
+* `variable.eslintExplicitGlobalComments` (`Comment[] | undefined`) ... The array of `/* globals */` directive comments which defined this global variable in the source code file. This property is `undefined` if there are no `/* globals */` directive comments.
 * `variable.eslintImplicitGlobalSetting` (`"readonly" | "writable" | undefined`) ... The configured value in config files. This can be different from `variable.writeable` if there are `/* globals */` directive comments.
 
 ### context.report()
