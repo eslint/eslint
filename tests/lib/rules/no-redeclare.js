@@ -30,11 +30,9 @@ ruleTester.run("no-redeclare", rule, {
                 ecmaVersion: 6
             }
         },
-        "var Object = 0;",
         { code: "var Object = 0;", options: [{ builtinGlobals: false }] },
         { code: "var Object = 0;", options: [{ builtinGlobals: true }], parserOptions: { sourceType: "module" } },
         { code: "var Object = 0;", options: [{ builtinGlobals: true }], parserOptions: { ecmaFeatures: { globalReturn: true } } },
-        { code: "var top = 0;", env: { browser: true } },
         { code: "var top = 0;", options: [{ builtinGlobals: true }] },
         { code: "var top = 0;", options: [{ builtinGlobals: true }], parserOptions: { ecmaFeatures: { globalReturn: true } }, env: { browser: true } },
         { code: "var top = 0;", options: [{ builtinGlobals: true }], parserOptions: { sourceType: "module" }, env: { browser: true } },
@@ -162,6 +160,20 @@ ruleTester.run("no-redeclare", rule, {
             code: "for (var a, a;;);",
             errors: [
                 { message: "'a' is already defined.", type: "Identifier" }
+            ]
+        },
+
+        {
+            code: "var Object = 0;",
+            errors: [
+                { message: "'Object' is already defined as a built-in global variable.", type: "Identifier" }
+            ]
+        },
+        {
+            code: "var top = 0;",
+            env: { browser: true },
+            errors: [
+                { message: "'top' is already defined as a built-in global variable.", type: "Identifier" }
             ]
         },
 
