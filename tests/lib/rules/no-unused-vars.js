@@ -477,10 +477,10 @@ ruleTester.run("no-unused-vars", rule, {
         // surrogate pair.
         {
             code: "/*global 𠮷𩸽, 𠮷*/\n\\u{20BB7}\\u{29E3D};",
+            env: { es6: true },
             errors: [
                 { line: 1, column: 16, message: "'𠮷' is defined but never used." }
-            ],
-            env: { es6: true }
+            ]
         },
 
         // https://github.com/eslint/eslint/issues/4047
