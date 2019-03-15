@@ -902,17 +902,17 @@ describe("ConfigOps", () => {
     describe("normalizeConfigGlobal", () => {
         [
             ["off", "off"],
-            [true, "writeable"],
-            ["true", "writeable"],
-            [false, "readable"],
-            ["false", "readable"],
-            [null, "readable"],
-            ["writeable", "writeable"],
-            ["writable", "writeable"],
-            ["readable", "readable"],
-            ["readonly", "readable"],
-            ["writable", "writeable"],
-            ["something else", "writeable"]
+            [true, "writable"],
+            ["true", "writable"],
+            [false, "readonly"],
+            ["false", "readonly"],
+            [null, "readonly"],
+            ["writeable", "writable"],
+            ["writable", "writable"],
+            ["readable", "readonly"],
+            ["readonly", "readonly"],
+            ["writable", "writable"],
+            ["something else", "writable"]
         ].forEach(([input, output]) => {
             it(util.inspect(input), () => {
                 assert.strictEqual(ConfigOps.normalizeConfigGlobal(input), output);
