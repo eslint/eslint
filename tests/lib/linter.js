@@ -99,7 +99,7 @@ describe("Linter", () => {
 
             assert.throws(() => {
                 linter.verify(code, config, filename);
-            }, "Intentional error.");
+            }, `Intentional error.\nOccurred while linting ${filename}:1`);
         });
 
         it("does not call rule listeners with a `this` value", () => {
@@ -4381,7 +4381,7 @@ describe("Linter", () => {
 
             assert.throws(() => {
                 linter.verify("0", { rules: { "test-rule": "error" } });
-            }, /Fixable rules should export a `meta\.fixable` property.$/u);
+            }, /Fixable rules should export a `meta\.fixable` property.\nOccurred while linting <input>:1$/u);
         });
 
         it("should not throw an error if fix is passed and there is no metadata", () => {
