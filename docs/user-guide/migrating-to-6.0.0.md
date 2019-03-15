@@ -6,12 +6,12 @@ The lists below are ordered roughly by the number of users each change is expect
 
 ### Breaking changes for users
 
-- [`no-redeclare` rule now checks the redeclarations by `/* globals */` directive comments](#no-redeclare-and-comments)
-- [`no-redeclare` rule now checks the redeclarations with built-in globals by default](#no-redeclare-and-builtins)
+* [`no-redeclare` rule now checks the redeclarations by `/* globals */` directive comments](#no-redeclare-and-comments)
+* [`no-redeclare` rule now checks the redeclarations with built-in globals by default](#no-redeclare-and-builtins)
 
 ### Breaking changes for plugin/custom rule developers
 
-- [`variable.eslintExplicitGlobalComment` property was removed](#remove-variable-explicit-global-comment)
+* [`variable.eslintExplicitGlobalComment` property was removed](#remove-variable-explicit-global-comment)
 
 ### Breaking changes for integration developers
 
@@ -23,8 +23,8 @@ The lists below are ordered roughly by the number of users each change is expect
 
 [no-redeclare] rule reports the following cases newly:
 
-- Your config file defined a global variable but there is `/* globals */` directive comment of the defined global variable in your source code.
-- There are multiple `/* globals */` directive comments for the same variable.
+* Your config file defined a global variable but there is `/* globals */` directive comment of the defined global variable in your source code.
+* There are multiple `/* globals */` directive comments for the same variable.
 
 **To address:** Please remove the redundant `/* globals */` directive comments.
 
