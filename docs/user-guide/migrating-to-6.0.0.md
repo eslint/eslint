@@ -86,7 +86,7 @@ In rare cases (if you were relying on the previous behavior where `eslint:recomm
 
 **Related issue(s):** [eslint/eslint#10768](https://github.com/eslint/eslint/issues/10768), [eslint/eslint#10873](https://github.com/eslint/eslint/issues/10873)
 
-## <a name="#package-loading-simplification"></a> Plugins and shareable configs are no longer affected by ESLint's location
+## <a name="package-loading-simplification"></a> Plugins and shareable configs are no longer affected by ESLint's location
 
 Previously, ESLint loaded plugins relative to the location of the ESLint package itself. As a result, we suggested that users with global ESLint installations should also install plugins globally, and users with local ESLint installations should install plugins locally. However, due to a design bug, this strategy caused ESLint to randomly fail to load plugins and shareable configs under certain circumstances, particularly when using package management tools like [`lerna`](https://github.com/lerna/lerna) and [Yarn Plug n' Play](https://yarnpkg.com/lang/en/docs/pnp/).
 
@@ -109,7 +109,7 @@ As a rule of thumb: With ESLint v6, plugins should always be installed locally, 
 
 **Related issue(s):** [eslint/eslint#9687](https://github.com/eslint/eslint/issues/9687), [eslint/espree#384](https://github.com/eslint/espree/issues/384)
 
-## <a name="no-redeclare-updates></a> The `no-redeclare` rule is now more strict by default
+## <a name="no-redeclare-updates"></a> The `no-redeclare` rule is now more strict by default
 
 The default options for the [`no-redeclare`](https://eslint.org/docs/rules/no-redeclare) rule have changed from `{ builtinGlobals: false }` to `{ builtinGlobals: true }`. Additionally, the `no-redeclare` rule will now report an error for globals enabled by comments like `/* global foo */` if those globals were already enabled through configuration anyway.
 
@@ -207,7 +207,7 @@ If you're not sure which config file needs to be updated, it may be useful to ru
 
 If you maintain a plugin and provide installation instructions, you should ensure that the installation instructions are up to date with the [user-facing changes to how plugins are loaded](#package-loading-simplification). In particular, if your plugin was generated with the [`generator-eslint`](https://github.com/eslint/generator-eslint) package, it likely contains outdated instructions for how to use the plugin with global ESLint installations.)
 
-## <a name="eslintExplicitGlobalComment"></a> The `eslintExplicitGlobalComment` scope analysis property has been removed.
+## <a name="eslintExplicitGlobalComment"></a> The `eslintExplicitGlobalComment` scope analysis property has been removed
 
 Previously, ESLint would add an `eslintExplicitGlobalComment` property to `Variable` objects in scope analysis to indicate that a variable was introduced as a result of a `/* global */` comment. This property was undocumented, and the ESLint team was unable to find any usage of the property outside of ESLint core. The property has been removed in ESLint v6, and replaced with the `eslintExplicitGlobalComments` property, which can contain a list of all `/* global */` comments if a variable was declared with more than one of them.
 
