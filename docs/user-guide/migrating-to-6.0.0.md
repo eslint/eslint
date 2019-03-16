@@ -127,6 +127,8 @@ To restore the previous options for the rule, you can configure it as follows:
 
 Additionally, if you see new errors for `global` comments in your code, you should remove those comments.
 
+**Related issue(s):** [eslint/eslint#11370](https://github.com/eslint/eslint/issues/11370), [eslint/eslint#11405](https://github.com/eslint/eslint/issues/11405)
+
 ## <a name="comma-dangle-updates"></a> [The `comma-dangle` rule is now more strict by default](#comma-dangle-updates)
 
 Previously, the [`comma-dangle`](https://eslint.org/docs/rules/comma-dangle) rule would ignore trailing function arguments and parameters, unless explicitly configured to check for function commas. In ESLint v6, function commas are treated the same way as other types of trailing commas.
@@ -165,6 +167,8 @@ The default options for the [`no-confusing-arrow`](https://eslint.org/docs/rules
 }
 ```
 
+**Related issue(s):** [eslint/eslint#11503](https://github.com/eslint/eslint/issues/11503)
+
 ## <a name="overrides-dotfiles"></a> Overrides in a config file can now match dotfiles
 
 Due to a bug, the glob patterns in a `files` list in an `overrides` section of a config file would never match dotfiles, making it impossible to have overrides apply to files starting with a dot. This bug has been fixed in ESLint v6.
@@ -201,17 +205,23 @@ Since ESLint v5, `ecmaFeatures: { experimentalObjectRestSpread: true }` has been
 
 If you're not sure which config file needs to be updated, it may be useful to run ESLint v5 and look at what config file is mentioned in the deprecation warning.
 
+**Related issue(s):** [eslint/eslint#9990](https://github.com/eslint/eslint/issues/9990)
+
 ---
 
 ## <a name="plugin-documentation"></a> Plugin authors may need to update installation instructions
 
 If you maintain a plugin and provide installation instructions, you should ensure that the installation instructions are up to date with the [user-facing changes to how plugins are loaded](#package-loading-simplification). In particular, if your plugin was generated with the [`generator-eslint`](https://github.com/eslint/generator-eslint) package, it likely contains outdated instructions for how to use the plugin with global ESLint installations.)
 
+**Related issue(s):** [eslint/rfcs#7](https://github.com/eslint/rfcs/pull/7)
+
 ## <a name="eslintExplicitGlobalComment"></a> The `eslintExplicitGlobalComment` scope analysis property has been removed
 
 Previously, ESLint would add an `eslintExplicitGlobalComment` property to `Variable` objects in scope analysis to indicate that a variable was introduced as a result of a `/* global */` comment. This property was undocumented, and the ESLint team was unable to find any usage of the property outside of ESLint core. The property has been removed in ESLint v6, and replaced with the `eslintExplicitGlobalComments` property, which can contain a list of all `/* global */` comments if a variable was declared with more than one of them.
 
 **To address:** If you maintain a rule that uses the `eslintExplicitGlobalComment` property, update it to use the `eslintExplicitGlobalComments` property as a list instead.
+
+**Related issue(s):**: [eslint/rfcs#17](https://github.com/eslint/rfcs/pull/17)
 
 ---
 
