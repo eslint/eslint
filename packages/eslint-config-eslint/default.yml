@@ -50,7 +50,6 @@ rules:
     new-parens: "error"
     no-alert: "error"
     no-array-constructor: "error"
-    no-async-promise-executor: "error"
     no-buffer-constructor: "error"
     no-caller: "error"
     no-confusing-arrow: "error"
@@ -87,7 +86,6 @@ rules:
     no-path-concat: "error"
     no-process-exit: "error"
     no-proto: "error"
-    no-prototype-builtins: "error"
     no-redeclare: "error"
     no-restricted-properties: [
         "error",
@@ -104,7 +102,6 @@ rules:
     no-self-compare: "error"
     no-sequences: "error"
     no-shadow: "error"
-    no-shadow-restricted-names: "error"
     no-tabs: "error"
     no-throw-literal: "error"
     no-trailing-spaces: "error"
@@ -118,7 +115,6 @@ rules:
     no-unused-vars: ["error", {vars: "all", args: "after-used"}]
     no-use-before-define: "error"
     no-useless-call: "error"
-    no-useless-catch: "error"
     no-useless-computed-key: "error"
     no-useless-concat: "error"
     no-useless-constructor: "error"
@@ -126,7 +122,6 @@ rules:
     no-useless-rename: "error"
     no-useless-return: "error"
     no-whitespace-before-property: "error"
-    no-with: "error"
     no-var: "error"
     object-curly-newline: ["error", { "consistent": true, "multiline": true }]
     object-curly-spacing: ["error", "always"]
@@ -158,7 +153,6 @@ rules:
     quotes: ["error", "double", {avoidEscape: true}]
     quote-props: ["error", "as-needed"]
     radix: "error"
-    require-atomic-updates: "error"
     require-jsdoc: "error"
     require-unicode-regexp: "error"
     rest-spread-spacing: "error"
