@@ -1,3 +1,8 @@
+v5.15.3 - March 18, 2019
+
+* [`71adc66`](https://github.com/eslint/eslint/commit/71adc665b9649b173adc76f80723b8de20664ae1) Fix: avoid moving comments in implicit-arrow-linebreak (fixes #11521) (#11522) (Teddy Katz)
+* [`1f715a2`](https://github.com/eslint/eslint/commit/1f715a20c145d8ccc38f3310afccd838495d09d4) Chore: make test-case-property-ordering reasonable (#11511) (Toru Nagashima)
+
 v5.15.2 - March 15, 2019
 
 * [`29dbca7`](https://github.com/eslint/eslint/commit/29dbca73d762a809adb2f457b527e144426d54a7) Fix: implicit-arrow-linebreak adds extra characters (fixes #11268) (#11407) (Mark de Dios)
