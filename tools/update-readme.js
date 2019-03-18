@@ -88,6 +88,7 @@ function formatSponsors(sponsors) {
 const HTML_TEMPLATE = stripIndents`
 
     <!--teamstart-->
+
     ### Technical Steering Committee (TSC)
 
     The people who manage releases, review feature requests, and meet regularly to ensure ESLint is properly maintained.
