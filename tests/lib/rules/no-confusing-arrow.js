@@ -23,27 +23,13 @@ ruleTester.run("no-confusing-arrow", rule, {
         "a => { return 1 ? 2 : 3; }",
         "var x = a => { return 1 ? 2 : 3; }",
         "var x = (a) => { return 1 ? 2 : 3; }",
-        { code: "var x = a => (1 ? 2 : 3)", options: [{ allowParens: true }] }
+        { code: "var x = a => (1 ? 2 : 3)", options: [{ allowParens: true }] },
+        "var x = a => (1 ? 2 : 3)"
     ],
     invalid: [
         {
             code: "a => 1 ? 2 : 3",
-            output: null,
-            errors: [{ messageId: "confusing" }]
-        },
-        {
-            code: "var x = a => 1 ? 2 : 3",
-            output: null,
-            errors: [{ messageId: "confusing" }]
-        },
-        {
-            code: "var x = (a) => 1 ? 2 : 3",
-            output: null,
-            errors: [{ messageId: "confusing" }]
-        },
-        {
-            code: "var x = a => (1 ? 2 : 3)",
-            output: null,
+            output: "a => (1 ? 2 : 3)",
             errors: [{ messageId: "confusing" }]
         },
         {
@@ -53,15 +39,31 @@ ruleTester.run("no-confusing-arrow", rule, {
             errors: [{ messageId: "confusing" }]
         },
         {
+            code: "a => 1 ? 2 : 3",
+            output: null,
+            options: [{ allowParens: false }],
+            errors: [{ messageId: "confusing" }]
+        },
+        {
+            code: "var x = a => 1 ? 2 : 3",
+            output: "var x = a => (1 ? 2 : 3)",
+            errors: [{ messageId: "confusing" }]
+        },
+        {
             code: "var x = a => 1 ? 2 : 3",
             output: "var x = a => (1 ? 2 : 3)",
             options: [{ allowParens: true }],
             errors: [{ messageId: "confusing" }]
         },
         {
+            code: "var x = a => 1 ? 2 : 3",
+            output: null,
+            options: [{ allowParens: false }],
+            errors: [{ messageId: "confusing" }]
+        },
+        {
             code: "var x = (a) => 1 ? 2 : 3",
             output: "var x = (a) => (1 ? 2 : 3)",
-            options: [{ allowParens: true }],
             errors: [{ messageId: "confusing" }]
         }
     ]
