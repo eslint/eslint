@@ -34,15 +34,23 @@ describe("configInitializer", () => {
         npmInstallStub,
         npmFetchPeerDependenciesStub,
         init,
-        originalGetESLintVersion,
-        mockedESLintVersion = null;
+        localESLintVersion = null;
 
     const log = {
         info: sinon.spy(),
         error: sinon.spy()
     };
     const requireStubs = {
-        "../util/logging": log
+        "../util/logging": log,
+        "../util/relative-module-resolver"() {
+            if (localESLintVersion) {
+                return `local-eslint-${localESLintVersion}`;
+            }
+            throw new Error("Cannot find module");
+        },
+        "local-eslint-3.18.0": { linter: { version: "3.18.0" }, "@noCallThru": true },
+        "local-eslint-3.19.0": { linter: { version: "3.19.0" }, "@noCallThru": true },
+        "local-eslint-4.0.0": { linter: { version: "4.0.0" }, "@noCallThru": true }
     };
 
     /**
@@ -83,9 +91,6 @@ describe("configInitializer", () => {
                 "eslint-plugin-react": "^7.0.1"
             });
         init = proxyquire("../../../lib/config/config-initializer", requireStubs);
-        originalGetESLintVersion = init.getESLintVersion;
-
-        init.getESLintVersion = () => mockedESLintVersion || originalGetESLintVersion();
     });
 
     afterEach(() => {
@@ -94,7 +99,6 @@ describe("configInitializer", () => {
         npmInstallStub.restore();
         npmCheckStub.restore();
         npmFetchPeerDependenciesStub.restore();
-        init.getESLintVersion = originalGetESLintVersion;
     });
 
     after(() => {
@@ -258,9 +262,9 @@ describe("configInitializer", () => {
             });
 
             describe("hasESLintVersionConflict (Note: peerDependencies always `eslint: \"^3.19.0\"` by stubs)", () => {
-                describe("if current ESLint is 3.19.0,", () => {
+                describe("if local ESLint is not found,", () => {
                     before(() => {
-                        mockedESLintVersion = "3.19.0";
+                        localESLintVersion = null;
                     });
 
                     it("should return false.", () => {
@@ -270,9 +274,21 @@ describe("configInitializer", () => {
                     });
                 });
 
-                describe("if current ESLint is 4.0.0,", () => {
+                describe("if local ESLint is 3.19.0,", () => {
                     before(() => {
-                        mockedESLintVersion = "4.0.0";
+                        localESLintVersion = "3.19.0";
+                    });
+
+                    it("should return false.", () => {
+                        const result = init.hasESLintVersionConflict({ styleguide: "airbnb" });
+
+                        assert.strictEqual(result, false);
+                    });
+                });
+
+                describe("if local ESLint is 4.0.0,", () => {
+                    before(() => {
+                        localESLintVersion = "4.0.0";
                     });
 
                     it("should return true.", () => {
@@ -282,9 +298,9 @@ describe("configInitializer", () => {
                     });
                 });
 
-                describe("if current ESLint is 3.18.0,", () => {
+                describe("if local ESLint is 3.18.0,", () => {
                     before(() => {
-                        mockedESLintVersion = "3.18.0";
+                        localESLintVersion = "3.18.0";
                     });
 
                     it("should return true.", () => {
