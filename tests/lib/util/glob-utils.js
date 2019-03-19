@@ -329,6 +329,13 @@ describe("globUtils", () => {
             }, `No files matching '${patterns[0]}' were found.`);
         });
 
+        it("should ignore empty patterns", () => {
+            const patterns = [""];
+            const result = globUtils.listFilesToProcess(patterns);
+
+            assert.deepStrictEqual(result, []);
+        });
+
         it("should return an ignored file, if ignore option is turned off", () => {
             const options = { ignore: false };
             const patterns = [getFixturePath("glob-util", "ignored", "**/*.js")];

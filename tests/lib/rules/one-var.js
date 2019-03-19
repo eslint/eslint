@@ -491,15 +491,11 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "var a; somethingElse(); var b;",
-            output: null,
-            options: [{ var: "never" }],
-            errors: null
+            options: [{ var: "never" }]
         },
         {
             code: "var foo = 1;\nlet bar = function() { var x; };\nvar baz = 2;",
-            output: null,
-            options: [{ var: "never" }],
-            errors: null
+            options: [{ var: "never" }]
         }
     ],
     invalid: [

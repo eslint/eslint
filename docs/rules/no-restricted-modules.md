@@ -35,10 +35,10 @@ It can also take an object with lists of `paths` and gitignore-style `patterns` 
 You may also specify a custom message for any paths you want to restrict as follows:
 
 ```json
-"no-restricted-modules": ["error", [{
+"no-restricted-modules": ["error", {
   "name": "foo-module",
   "message": "Please use bar-module instead."
-  }]
+  }
 ]
 ```
 

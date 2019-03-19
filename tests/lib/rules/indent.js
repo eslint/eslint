@@ -21,6 +21,8 @@ const path = require("path");
 const fixture = fs.readFileSync(path.join(__dirname, "../../fixtures/rules/indent/indent-invalid-fixture-1.js"), "utf8");
 const fixedFixture = fs.readFileSync(path.join(__dirname, "../../fixtures/rules/indent/indent-valid-fixture-1.js"), "utf8");
 const parser = require("../../fixtures/fixture-parser");
+const { unIndent } = require("./_utils");
+
 
 /**
  * Create error message object for failure cases with a single 'found' indentation type
@@ -52,20 +54,6 @@ function expectedErrors(providedIndentType, providedErrors) {
         type: err[3],
         line: err[0]
     }));
-}
-
-/**
- * Prevents leading spaces in a multiline template literal from appearing in the resulting string
- * @param {string[]} strings The strings in the template literal
- * @returns {string} The template literal, with spaces removed from all lines
- */
-function unIndent(strings) {
-    const templateValue = strings[0];
-    const lines = templateValue.replace(/^\n/u, "").replace(/\n\s*$/u, "").split("\n");
-    const lineIndents = lines.filter(line => line.trim()).map(line => line.match(/ */u)[0].length);
-    const minLineIndent = Math.min(...lineIndents);
-
-    return lines.map(line => line.slice(minLineIndent)).join("\n");
 }
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 8, ecmaFeatures: { jsx: true } } });
@@ -8698,8 +8686,8 @@ ruleTester.run("indent", rule, {
                     }
                 }
             `,
-            errors: expectedErrors([[3, 8, 4, "Identifier"], [6, 8, 4, "Keyword"]]),
-            parser: parser("unknown-nodes/namespace-invalid")
+            parser: parser("unknown-nodes/namespace-invalid"),
+            errors: expectedErrors([[3, 8, 4, "Identifier"], [6, 8, 4, "Keyword"]])
         },
         {
             code: unIndent`
@@ -8730,8 +8718,8 @@ ruleTester.run("indent", rule, {
                     }
                 }
             `,
-            errors: expectedErrors([[4, 12, 8, "Identifier"], [7, 12, 8, "Identifier"], [10, 8, 4, "Identifier"]]),
-            parser: parser("unknown-nodes/abstract-class-invalid")
+            parser: parser("unknown-nodes/abstract-class-invalid"),
+            errors: expectedErrors([[4, 12, 8, "Identifier"], [7, 12, 8, "Identifier"], [10, 8, 4, "Identifier"]])
         },
         {
             code: unIndent`
@@ -8760,14 +8748,14 @@ ruleTester.run("indent", rule, {
                     }
                 }
             `,
+            parser: parser("unknown-nodes/functions-with-abstract-class-invalid"),
             errors: expectedErrors([
                 [4, 12, 8, "Keyword"],
                 [5, 16, 8, "Keyword"],
                 [6, 20, 8, "Identifier"],
                 [7, 16, 8, "Punctuator"],
                 [8, 12, 8, "Punctuator"]
-            ]),
-            parser: parser("unknown-nodes/functions-with-abstract-class-invalid")
+            ])
         },
         {
             code: unIndent`
@@ -8800,11 +8788,11 @@ ruleTester.run("indent", rule, {
                     }
                 }
             `,
+            parser: parser("unknown-nodes/namespace-with-functions-with-abstract-class-invalid"),
             errors: expectedErrors([
                 [3, 8, 4, "Keyword"],
                 [7, 24, 20, "Identifier"]
-            ]),
-            parser: parser("unknown-nodes/namespace-with-functions-with-abstract-class-invalid")
+            ])
         },
 
         //----------------------------------------------------------------------
@@ -9381,8 +9369,8 @@ ruleTester.run("indent", rule, {
                     foo
                 }: bar) => baz
             `,
-            errors: expectedErrors([3, 0, 4, "Punctuator"]),
-            parser: require.resolve("../../fixtures/parsers/babel-eslint7/object-pattern-with-annotation")
+            parser: require.resolve("../../fixtures/parsers/babel-eslint7/object-pattern-with-annotation"),
+            errors: expectedErrors([3, 0, 4, "Punctuator"])
         },
         {
             code: unIndent`
@@ -9395,8 +9383,8 @@ ruleTester.run("indent", rule, {
                     foo
                 ]: bar) => baz
             `,
-            errors: expectedErrors([3, 0, 4, "Punctuator"]),
-            parser: require.resolve("../../fixtures/parsers/babel-eslint7/array-pattern-with-annotation")
+            parser: require.resolve("../../fixtures/parsers/babel-eslint7/array-pattern-with-annotation"),
+            errors: expectedErrors([3, 0, 4, "Punctuator"])
         },
         {
             code: unIndent`
@@ -9409,8 +9397,8 @@ ruleTester.run("indent", rule, {
                     foo
                 }: {}) => baz
             `,
-            errors: expectedErrors([3, 0, 4, "Punctuator"]),
-            parser: require.resolve("../../fixtures/parsers/babel-eslint7/object-pattern-with-object-annotation")
+            parser: require.resolve("../../fixtures/parsers/babel-eslint7/object-pattern-with-object-annotation"),
+            errors: expectedErrors([3, 0, 4, "Punctuator"])
         },
         {
             code: unIndent`

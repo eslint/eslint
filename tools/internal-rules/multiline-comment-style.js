@@ -13,7 +13,7 @@ const multilineCommentStyle = require("../../lib/rules/multiline-comment-style")
 //------------------------------------------------------------------------------
 
 // The `no-invalid-meta` internal rule has a false positive here.
-// eslint-disable-next-line rulesdir/no-invalid-meta
+// eslint-disable-next-line internal-rules/no-invalid-meta
 module.exports = ruleComposer.filterReports(
     multilineCommentStyle,
     (problem, metadata) => {

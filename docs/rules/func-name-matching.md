@@ -91,7 +91,7 @@ This rule takes an optional string of "always" or "never" (when omitted, it defa
 
 ### considerPropertyDescriptor
 
-A boolean value that defaults to `false`. If `considerPropertyDescriptor` is set to true, the check will take into account the use `Object.create`, `Object.defineProperty`, `Object.defineProperties`, and `Reflect.defineProperty`.
+A boolean value that defaults to `false`. If `considerPropertyDescriptor` is set to true, the check will take into account the use of `Object.create`, `Object.defineProperty`, `Object.defineProperties`, and `Reflect.defineProperty`.
 
 Examples of **correct** code for the `{ considerPropertyDescriptor: true }` option:
 
