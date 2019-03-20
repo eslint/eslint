@@ -1,3 +1,28 @@
+v5.15.3 - March 18, 2019
+
+* [`71adc66`](https://github.com/eslint/eslint/commit/71adc665b9649b173adc76f80723b8de20664ae1) Fix: avoid moving comments in implicit-arrow-linebreak (fixes #11521) (#11522) (Teddy Katz)
+* [`1f715a2`](https://github.com/eslint/eslint/commit/1f715a20c145d8ccc38f3310afccd838495d09d4) Chore: make test-case-property-ordering reasonable (#11511) (Toru Nagashima)
+
+v5.15.2 - March 15, 2019
+
+* [`29dbca7`](https://github.com/eslint/eslint/commit/29dbca73d762a809adb2f457b527e144426d54a7) Fix: implicit-arrow-linebreak adds extra characters (fixes #11268) (#11407) (Mark de Dios)
+* [`5d2083f`](https://github.com/eslint/eslint/commit/5d2083fa3e14c024197f6c386ff72237a145e258) Upgrade: eslint-scope@4.0.3 (#11513) (Teddy Katz)
+* [`a5dae7c`](https://github.com/eslint/eslint/commit/a5dae7c3d30231c2f5f075d98c2c8825899bab16) Fix: Empty glob pattern incorrectly expands to "/**" (#11476) (Ben Chauvette)
+* [`448e8da`](https://github.com/eslint/eslint/commit/448e8da94d09b397e98ffcb6f22b55a578ef79c1) Chore: improve crash reporting (fixes #11304) (#11463) (Alex Zherdev)
+* [`0f56dc6`](https://github.com/eslint/eslint/commit/0f56dc6d9eadad05dc3d5c9d1d9ddef94e10c5d3) Chore: make config validator params more consistent (#11435) (薛定谔的猫)
+* [`d6c1122`](https://github.com/eslint/eslint/commit/d6c112289f0f16ade070865c8786831b7940ca79) Docs: Add working groups to maintainer guide (#11400) (Nicholas C. Zakas)
+* [`5fdb4d3`](https://github.com/eslint/eslint/commit/5fdb4d3fb01b9d8a4c2dff71ed9cddb2f8feefb0) Build: compile deps to ES5 when generating browser file (fixes #11504) (#11505) (Teddy Katz)
+* [`06fa165`](https://github.com/eslint/eslint/commit/06fa1655c3da8394ed9144d727115fc434b0416f) Build: update CI testing configuration (#11500) (Reece Dunham)
+* [`956e883`](https://github.com/eslint/eslint/commit/956e883c21fd9f393bf6718d032a4e2e53b33f22) Docs: Fix example in no-restricted-modules docs (#11454) (Paul O’Shannessy)
+* [`2c7431d`](https://github.com/eslint/eslint/commit/2c7431d6b32063f74e3837ee727f26af215eada7) Docs: fix json schema example dead link (#11498) (kazuya kawaguchi)
+* [`e7266c2`](https://github.com/eslint/eslint/commit/e7266c2478aff5d66e7859313feb49e3a129f85e) Docs: Fix invalid JSON in "Specifying Parser Options" (#11492) (Mihira Jayasekera)
+* [`6693161`](https://github.com/eslint/eslint/commit/6693161978a83e0730d5ea0fecdb627c5a2acdfd) Sponsors: Sync README with website (ESLint Jenkins)
+* [`62fee4a`](https://github.com/eslint/eslint/commit/62fee4a976897d158c8c137339728cd280333286) Chore: eslint-config-eslint enable comma-dangle functions: "never" (#11434) (薛定谔的猫)
+* [`34a5382`](https://github.com/eslint/eslint/commit/34a53829e7a63ff2f6b371d77ce283bbdd373b91) Build: copy bundled espree to website directory (#11478) (Pig Fang)
+* [`f078f9a`](https://github.com/eslint/eslint/commit/f078f9a9e094ec00c61a6ef1c9550d017631e69a) Chore: use "file:" dependencies for internal rules/config (#11465) (Teddy Katz)
+* [`0756128`](https://github.com/eslint/eslint/commit/075612871f85aa04cef8137bd32247e128ad600b) Docs: Add `visualstudio` to formatter list (#11480) (Patrick Eriksson)
+* [`44de9d7`](https://github.com/eslint/eslint/commit/44de9d7e1aa2fcae475a97b8f597b7d8094566b2) Docs: Fix typo in func-name-matching rule docs (#11484) (Iulian Onofrei)
+
 v5.15.1 - March 4, 2019
 
 * [`fe1a892`](https://github.com/eslint/eslint/commit/fe1a892f85b09c3d2fea05bef011530a678a6af5) Build: bundle espree (fixes eslint/eslint.github.io#546) (#11467) (薛定谔的猫)
