@@ -84,12 +84,7 @@ const NODE = "node ", // intentional extra space
  * @private
  */
 function getTestFilePatterns() {
-    return ls("tests/lib/").filter(pathToCheck => test("-d", `tests/lib/${pathToCheck}`)).reduce((initialValue, currentValues) => {
-        if (currentValues !== "rules") {
-            initialValue.push(`"tests/lib/${currentValues}/**/*.js"`);
-        }
-        return initialValue;
-    }, ["\"tests/lib/rules/**/*.js\"", "\"tests/lib/*.js\"", "\"tests/bin/**/*.js\"", "\"tests/tools/**/*.js\""]).join(" ");
+    return ["\"tests/lib/**/*.js\"", "\"tests/bin/**/*.js\"", "\"tests/tools/**/*.js\""].join(" ");
 }
 
 /**
@@ -567,13 +562,12 @@ target.test = function() {
 
     echo("Running unit tests");
 
-    lastReturn = exec(`${getBinFile("istanbul")} cover ${MOCHA} -- -R progress -t ${MOCHA_TIMEOUT} -c ${TEST_FILES}`);
+    lastReturn = exec(`${getBinFile("nyc")} -- ${MOCHA} -R progress -t ${MOCHA_TIMEOUT} -c ${TEST_FILES}`);
     if (lastReturn.code !== 0) {
         errors++;
     }
 
-    lastReturn = exec(`${getBinFile("istanbul")} check-coverage --statement 99 --branch 98 --function 99 --lines 99`);
-
+    lastReturn = exec(`${getBinFile("nyc")} check-coverage --statement 99 --branch 98 --function 99 --lines 99`);
     if (lastReturn.code !== 0) {
         errors++;
     }

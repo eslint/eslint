@@ -16,3 +16,4 @@ versions.json
 /.vscode
 .sublimelinterrc
 .eslint-release-info.json
+.nyc_output
