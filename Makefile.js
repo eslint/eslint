@@ -66,7 +66,7 @@ const NODE = "node ", // intentional extra space
     // Files
     JSON_FILES = find("conf/").filter(fileType("json")),
     MARKDOWN_FILES_ARRAY = find("docs/").concat(ls(".")).filter(fileType("md")),
-    TEST_FILES = getTestFilePatterns(),
+    TEST_FILES = "\"tests/{bin,lib,tools}/**/*.js\"",
     PERF_ESLINTRC = path.join(PERF_TMP_DIR, "eslintrc.yml"),
     PERF_MULTIFILES_TARGET_DIR = path.join(PERF_TMP_DIR, "eslint"),
     PERF_MULTIFILES_TARGETS = `"${PERF_MULTIFILES_TARGET_DIR + path.sep}{lib,tests${path.sep}lib}${path.sep}**${path.sep}*.js"`,
@@ -77,15 +77,6 @@ const NODE = "node ", // intentional extra space
 //------------------------------------------------------------------------------
 // Helpers
 //------------------------------------------------------------------------------
-
-/**
- * Generates file patterns for test files
- * @returns {string} test file patterns
- * @private
- */
-function getTestFilePatterns() {
-    return ["\"tests/lib/**/*.js\"", "\"tests/bin/**/*.js\"", "\"tests/tools/**/*.js\""].join(" ");
-}
 
 /**
  * Simple JSON file validation that relies on ES JSON parser.
