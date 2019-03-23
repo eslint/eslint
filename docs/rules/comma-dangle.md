@@ -48,7 +48,7 @@ This rule has a string option or an object option:
         "objects": "never",
         "imports": "never",
         "exports": "never",
-        "functions": "ignore"
+        "functions": "never"
     }]
 }
 ```
@@ -57,8 +57,6 @@ This rule has a string option or an object option:
 * `"always"` requires trailing commas
 * `"always-multiline"` requires trailing commas when the last element or property is in a *different* line than the closing `]` or `}` and disallows trailing commas when the last element or property is on the *same* line as the closing `]` or `}`
 * `"only-multiline"` allows (but does not require) trailing commas when the last element or property is in a *different* line than the closing `]` or `}` and disallows trailing commas when the last element or property is on the *same* line as the closing `]` or `}`
-
-Trailing commas in function declarations and function calls are valid syntax since ECMAScript 2017; however, the string option does not check these situations for backwards compatibility.
 
 You can also use an object option to configure this rule for each type of syntax.
 Each of the following options can be set to `"never"`, `"always"`, `"always-multiline"`, `"only-multiline"`, or `"ignore"`.
