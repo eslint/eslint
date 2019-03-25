@@ -55,7 +55,7 @@
     "import-fresh": "^3.0.0",
     "imurmurhash": "^0.1.4",
     "inquirer": "^6.2.2",
-    "js-yaml": "^3.12.0",
+    "js-yaml": "^3.13.0",
     "json-stable-stringify-without-jsonify": "^1.0.1",
     "levn": "^0.3.0",
     "lodash": "^4.17.11",
