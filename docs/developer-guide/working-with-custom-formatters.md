@@ -19,6 +19,34 @@ eslint -f ./my-awesome-formatter.js src/
 
 In order to use a local file as a custom formatter, you must begin the filename with a dot (such as `./my-awesome-formatter.js` or `../formatters/my-awesome-formatter.js`).
 
+### The `data` Argument
+The exported function receives an optional second argument named `data`. The `data` object provides extended information related to the analysis results. Currently, the `data` object consists of a single property named `rulesMeta`. This property is a dictionary of `Rule` metadata, keyed with `ruleId`. The value for each entry is the `meta` property from the corresponding `Rule` object. The dictionary contains an entry for each `Rule` that was run during the analysis.
+
+Here's what the `data` object would look like if one rule, `no-extra-semi`, had been run:
+
+```js
+{
+    rulesMeta: {
+        "no-extra-semi": {
+            type: "suggestion",
+            docs: {
+                description: "disallow unnecessary semicolons",
+                category: "Possible Errors",
+                recommended: true,
+                url: "https://eslint.org/docs/rules/no-extra-semi"
+            },
+            fixable: "code",
+            schema: [],
+            messages: {
+                unexpected: "Unnecessary semicolon."
+            }
+        }
+    }
+}
+```
+
+The [Using Rule metadata](#using-rule-metadata) example shows how to use the `data` object in a custom formatter. See the [Working with Rules](https://eslint.org/docs/developer-guide/working-with-rules) page for more information about the `Rule` object.
+
 ## Packaging the Custom Formatter
 
 Custom formatters can also be distributed through npm packages. To do so, create an npm package with a name in the format of `eslint-formatter-*`, where `*` is the name of your formatter (such as `eslint-formatter-awesome`). Projects should then install the package and can use the custom formatter with the `-f` (or `--formatter`) flag like this:
@@ -233,6 +261,76 @@ warning no-shadow
   src/configs/bundler.js:65:32
 warning no-unused-vars
   src/configs/clean.js:3:6
+```
+
+### Using Rule metadata
+
+A formatter that summarizes the rules that were triggered might look like this:
+
+```javascript
+module.exports = function(results, data) {
+    var results = results || [];
+    var rulesMeta = data.rulesMeta;
+
+    var summary = results.reduce(
+        function(seq, current) {
+            current.messages.forEach(function(msg) {
+                if (!seq.contains(msg.ruleId)) {
+                    seq.push(msg.ruleId);
+                }
+            });
+        },
+        {
+            rules: []
+        }
+    );
+
+    if (summary.rules.length > 0) {
+        var lines = summary.rules.map(function (ruleId) {
+            var ruleMeta = rulesMeta[ruleId];
+            var text = ruleId;
+
+            if (ruleMeta) {
+                if (ruleMeta.type) {
+                    text += " (" + ruleMeta.type + ")";
+                }                
+                if (ruleMeta.docs) {
+                    if (ruleMeta.docs.description) {
+                        text += "\n  " + ruleMeta.docs.description;
+                    }                    
+                    if (ruleMeta.docs.url) {
+                        text += "\n  " + ruleMeta.docs.url;
+                    }
+                }
+            }
+
+            return text;
+        }
+        .join("\n\n");
+
+        return lines + "\n";
+    }
+}
+```
+
+The output will be
+
+```bash
+space-infix-ops (layout)
+  require spacing around infix operators
+  https://eslint.org/docs/rules/space-infix-ops
+
+semi (layout)
+  require or disallow semicolons instead of ASI
+  https://eslint.org/docs/rules/semi
+
+no-unused-vars (problem)
+  disallow unused variables
+  https://eslint.org/docs/rules/no-unused-vars
+
+no-shadow (suggestion)
+  disallow variable declarations from shadowing variables declared in the outer scope
+  https://eslint.org/docs/rules/no-shadow
 ```
 
 ## Passing Arguments to Formatters
