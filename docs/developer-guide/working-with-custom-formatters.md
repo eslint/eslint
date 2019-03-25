@@ -20,6 +20,7 @@ eslint -f ./my-awesome-formatter.js src/
 In order to use a local file as a custom formatter, you must begin the filename with a dot (such as `./my-awesome-formatter.js` or `../formatters/my-awesome-formatter.js`).
 
 ### The `data` Argument
+
 The exported function receives an optional second argument named `data`. The `data` object provides extended information related to the analysis results. Currently, the `data` object consists of a single property named `rulesMeta`. This property is a dictionary of `Rule` metadata, keyed with `ruleId`. The value for each entry is the `meta` property from the corresponding `Rule` object. The dictionary contains an entry for each `Rule` that was run during the analysis.
 
 Here's what the `data` object would look like if one rule, `no-extra-semi`, had been run:
@@ -293,11 +294,11 @@ module.exports = function(results, data) {
             if (ruleMeta) {
                 if (ruleMeta.type) {
                     text += " (" + ruleMeta.type + ")";
-                }                
+                }
                 if (ruleMeta.docs) {
                     if (ruleMeta.docs.description) {
                         text += "\n  " + ruleMeta.docs.description;
-                    }                    
+                    }
                     if (ruleMeta.docs.url) {
                         text += "\n  " + ruleMeta.docs.url;
                     }
