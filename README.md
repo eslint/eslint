@@ -26,7 +26,7 @@ ESLint is a tool for identifying and reporting on patterns found in ECMAScript/J
 
 ## Installation and Usage
 
-Prerequisites: [Node.js](https://nodejs.org/en/) (>=6.14), npm version 3+.
+Prerequisites: [Node.js](https://nodejs.org/) (>=8.10), npm version 3+.
 
 There are two ways to install ESLint: globally and locally.
 
