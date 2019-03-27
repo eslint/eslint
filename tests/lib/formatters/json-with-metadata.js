@@ -68,11 +68,13 @@ describe("formatter:json", () => {
                 ruleId: "bar"
             }]
         }],
-        rulesMeta
+        metadata: {
+            rulesMeta
+        }
     };
 
     it("should return passed results and data as a JSON string without any modification", () => {
-        const result = JSON.parse(formatter(code.results, { rulesMeta }));
+        const result = JSON.parse(formatter(code.results, code.metadata));
 
         assert.deepStrictEqual(result, code);
     });

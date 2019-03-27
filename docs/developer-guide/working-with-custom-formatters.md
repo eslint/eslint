@@ -21,7 +21,7 @@ In order to use a local file as a custom formatter, you must begin the filename 
 
 ### The `data` Argument
 
-The exported function receives an optional second argument named `data`. The `data` object provides extended information related to the analysis results. Currently, the `data` object consists of a single property named `rulesMeta`. This property is a dictionary of `Rule` metadata, keyed with `ruleId`. The value for each entry is the `meta` property from the corresponding `Rule` object. The dictionary contains an entry for each `Rule` that was run during the analysis.
+The exported function receives an optional second argument named `data`. The `data` object provides extended information related to the analysis results. Currently, the `data` object consists of a single property named `rulesMeta`. This property is a dictionary of rule metadata, keyed with `ruleId`. The value for each entry is the `meta` property from the corresponding rule object. The dictionary contains an entry for each rule that was run during the analysis.
 
 Here's what the `data` object would look like if one rule, `no-extra-semi`, had been run:
 
@@ -46,7 +46,7 @@ Here's what the `data` object would look like if one rule, `no-extra-semi`, had 
 }
 ```
 
-The [Using Rule metadata](#using-rule-metadata) example shows how to use the `data` object in a custom formatter. See the [Working with Rules](https://eslint.org/docs/developer-guide/working-with-rules) page for more information about the `Rule` object.
+The [Using Rule metadata](#using-rule-metadata) example shows how to use the `data` object in a custom formatter. See the [Working with Rules](https://eslint.org/docs/developer-guide/working-with-rules) page for more information about rules.
 
 ## Packaging the Custom Formatter
 
@@ -186,7 +186,7 @@ Errors: 2, Warnings: 4
 A more complex report will look something like this:
 
 ```javascript
-module.exports = function(results) {
+module.exports = function(results, data) {
     var results = results || [];
 
     var summary = results.reduce(
@@ -195,6 +195,7 @@ module.exports = function(results) {
                 var logMessage = {
                     filePath: current.filePath,
                     ruleId: msg.ruleId,
+                    ruleUrl: data.rulesMeta[msg.ruleId].url,
                     message: msg.message,
                     line: msg.line,
                     column: msg.column
@@ -225,7 +226,7 @@ module.exports = function(results) {
                     "\n" +
                     msg.type +
                     " " +
-                    msg.ruleId +
+                    msg.ruleId + (msg.ruleUrl ? " (" + msg.ruleUrl + ")" : ""
                     "\n  " +
                     msg.filePath +
                     ":" +
@@ -250,88 +251,18 @@ eslint -f ./my-awesome-formatter.js src/
 The output will be
 
 ```bash
-error space-infix-ops
+error space-infix-ops (https://eslint.org/docs/rules/space-infix-ops)
   src/configs/bundler.js:6:8
-error semi
+error semi (https://eslint.org/docs/rules/semi)
   src/configs/bundler.js:6:10
-warning no-unused-vars
+warning no-unused-vars (https://eslint.org/docs/rules/no-unused-vars)
   src/configs/bundler.js:5:6
-warning no-unused-vars
+warning no-unused-vars (https://eslint.org/docs/rules/no-unused-vars)
   src/configs/bundler.js:6:6
-warning no-shadow
+warning no-shadow (https://eslint.org/docs/rules/no-shadow)
   src/configs/bundler.js:65:32
-warning no-unused-vars
+warning no-unused-vars (https://eslint.org/docs/rules/no-unused-vars)
   src/configs/clean.js:3:6
-```
-
-### Using Rule metadata
-
-A formatter that summarizes the rules that were triggered might look like this:
-
-```javascript
-module.exports = function(results, data) {
-    var results = results || [];
-    var rulesMeta = data.rulesMeta;
-
-    var summary = results.reduce(
-        function(seq, current) {
-            current.messages.forEach(function(msg) {
-                if (!seq.contains(msg.ruleId)) {
-                    seq.push(msg.ruleId);
-                }
-            });
-        },
-        {
-            rules: []
-        }
-    );
-
-    if (summary.rules.length > 0) {
-        var lines = summary.rules.map(function (ruleId) {
-            var ruleMeta = rulesMeta[ruleId];
-            var text = ruleId;
-
-            if (ruleMeta) {
-                if (ruleMeta.type) {
-                    text += " (" + ruleMeta.type + ")";
-                }
-                if (ruleMeta.docs) {
-                    if (ruleMeta.docs.description) {
-                        text += "\n  " + ruleMeta.docs.description;
-                    }
-                    if (ruleMeta.docs.url) {
-                        text += "\n  " + ruleMeta.docs.url;
-                    }
-                }
-            }
-
-            return text;
-        }
-        .join("\n\n");
-
-        return lines + "\n";
-    }
-}
-```
-
-The output will be
-
-```bash
-space-infix-ops (layout)
-  require spacing around infix operators
-  https://eslint.org/docs/rules/space-infix-ops
-
-semi (layout)
-  require or disallow semicolons instead of ASI
-  https://eslint.org/docs/rules/semi
-
-no-unused-vars (problem)
-  disallow unused variables
-  https://eslint.org/docs/rules/no-unused-vars
-
-no-shadow (suggestion)
-  disallow variable declarations from shadowing variables declared in the outer scope
-  https://eslint.org/docs/rules/no-shadow
 ```
 
 ## Passing Arguments to Formatters
