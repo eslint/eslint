@@ -30,7 +30,8 @@
     "*.js": [
       "node ./bin/eslint.js --fix",
       "git add"
-    ]
+    ],
+    "*.md": "markdownlint"
   },
   "files": [
     "LICENSE",
@@ -111,7 +112,6 @@
     "lint-staged": "^8.1.5",
     "load-perf": "^0.2.0",
     "markdownlint": "^0.12.0",
-    "markdownlint-cli": "^0.14.1",
     "mocha": "^5.0.5",
     "mock-fs": "^4.8.0",
     "npm-license": "^0.3.3",
