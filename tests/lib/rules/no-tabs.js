@@ -32,6 +32,34 @@ ruleTester.run("no-tabs", rule, {
         {
             code: "\t// comment",
             options: [{ allowIndentationTabs: true }]
+        },
+        {
+            code:
+            "function test(){\n" +
+            "//\tignore everything after a comment \n" +
+            "}",
+            options: [{ ignoreTabsOnComments: true }]
+        },
+        {
+            code:
+            "function test(){\n" +
+            "\t\t//\tindent comment with tabs \n" +
+            "}",
+            options: [{ ignoreTabsOnComments: true }]
+        },
+        {
+            code:
+            "function test(){\n" +
+            "\t //\t indent with tabs and spaces \n" +
+            "}",
+            options: [{ ignoreTabsOnComments: true }]
+        },
+        {
+            code:
+            "function test(){\n" +
+            " \t/// \t multiple slashes \n" +
+            "}",
+            options: [{ ignoreTabsOnComments: true }]
         }
     ],
     invalid: [
