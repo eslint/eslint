@@ -37,6 +37,7 @@ var x = 1; // test
 This rule has an optional object option with the following properties:
 
 * `allowIndentationTabs` (default: false): If this is set to true, then the rule will not report tabs used for indentation.
+* `ignoreTabsOnComments` (default: false): If this is set to true, then the rule will not report tabs used for indentation in commented lines.
 
 #### allowIndentationTabs
 

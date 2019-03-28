@@ -43,23 +43,23 @@ ruleTester.run("no-tabs", rule, {
         {
             code:
             "function test(){\n" +
-            "\t\t//\tindent comment with tabs \n" +
+            "  //\tindent comment with tabs \n" +
             "}",
             options: [{ ignoreTabsOnComments: true }]
         },
         {
             code:
             "function test(){\n" +
-            "\t //\t indent with tabs and spaces \n" +
+            " /// \t multiple slashes \n" +
             "}",
             options: [{ ignoreTabsOnComments: true }]
         },
         {
             code:
             "function test(){\n" +
-            " \t/// \t multiple slashes \n" +
+            " \t/// \t multiple slashes and tabs \n" +
             "}",
-            options: [{ ignoreTabsOnComments: true }]
+            options: [{ ignoreTabsOnComments: true, allowIndentationTabs: true }]
         }
     ],
     invalid: [
@@ -69,6 +69,20 @@ ruleTester.run("no-tabs", rule, {
                 message: ERROR_MESSAGE,
                 line: 1,
                 column: 17
+            }]
+        },
+        {
+            code:
+            "\t //\t preceed comment with tabs \n",
+            errors: [{
+                message: ERROR_MESSAGE,
+                line: 1,
+                column: 1
+            },
+            {
+                message: ERROR_MESSAGE,
+                line: 1,
+                column: 5
             }]
         },
         {
