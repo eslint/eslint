@@ -32,10 +32,11 @@ function compatRequire(name, windowName) {
 // Requirements
 //------------------------------------------------------------------------------
 
-const assert = compatRequire("chai").assert,
-    sinon = compatRequire("sinon"),
-    path = compatRequire("path"),
-    Linter = compatRequire("../../lib/linter", "eslint");
+const assert = require("chai").assert,
+    sinon = require("sinon"),
+    path = require("path");
+
+const Linter = compatRequire("../../lib/linter", "eslint");
 
 //------------------------------------------------------------------------------
 // Constants
@@ -98,7 +99,7 @@ describe("Linter", () => {
 
             assert.throws(() => {
                 linter.verify(code, config, filename);
-            }, "Intentional error.");
+            }, `Intentional error.\nOccurred while linting ${filename}:1`);
         });
 
         it("does not call rule listeners with a `this` value", () => {
@@ -1124,10 +1125,15 @@ describe("Linter", () => {
     });
 
     describe("when evaluating code containing /*global */ and /*globals */ blocks", () => {
-        const code = "/*global a b:true c:false*/ function foo() {} /*globals d:true*/";
 
         it("variables should be available in global scope", () => {
-            const config = { rules: { checker: "error" } };
+            const config = { rules: { checker: "error" }, globals: { Array: "off", ConfigGlobal: "writeable" } };
+            const code = `
+                /*global a b:true c:false d:readable e:writeable Math:off */
+                function foo() {}
+                /*globals f:true*/
+                /* global ConfigGlobal : readable */
+            `;
             let spy;
 
             linter.defineRule("checker", context => {
@@ -1136,7 +1142,12 @@ describe("Linter", () => {
                     const a = getVariable(scope, "a"),
                         b = getVariable(scope, "b"),
                         c = getVariable(scope, "c"),
-                        d = getVariable(scope, "d");
+                        d = getVariable(scope, "d"),
+                        e = getVariable(scope, "e"),
+                        f = getVariable(scope, "f"),
+                        mathGlobal = getVariable(scope, "Math"),
+                        arrayGlobal = getVariable(scope, "Array"),
+                        configGlobal = getVariable(scope, "ConfigGlobal");
 
                     assert.strictEqual(a.name, "a");
                     assert.strictEqual(a.writeable, false);
@@ -1145,7 +1156,15 @@ describe("Linter", () => {
                     assert.strictEqual(c.name, "c");
                     assert.strictEqual(c.writeable, false);
                     assert.strictEqual(d.name, "d");
-                    assert.strictEqual(d.writeable, true);
+                    assert.strictEqual(d.writeable, false);
+                    assert.strictEqual(e.name, "e");
+                    assert.strictEqual(e.writeable, true);
+                    assert.strictEqual(f.name, "f");
+                    assert.strictEqual(f.writeable, true);
+                    assert.strictEqual(mathGlobal, null);
+                    assert.strictEqual(arrayGlobal, null);
+                    assert.strictEqual(configGlobal.name, "ConfigGlobal");
+                    assert.strictEqual(configGlobal.writeable, false);
                 });
 
                 return { Program: spy };
@@ -1446,6 +1465,26 @@ describe("Linter", () => {
                     assert.notStrictEqual(getVariable(scope, "Promise"), null);
                     assert.notStrictEqual(getVariable(scope, "Symbol"), null);
                     assert.notStrictEqual(getVariable(scope, "WeakMap"), null);
+                });
+
+                return { Program: spy };
+            });
+
+            linter.verify(code, config);
+            assert(spy && spy.calledOnce);
+        });
+
+        it("ES6 global variables can be disabled when the es6 environment is enabled", () => {
+            const config = { rules: { checker: "error" }, globals: { Promise: "off", Symbol: "off", WeakMap: "off" }, env: { es6: true } };
+            let spy;
+
+            linter.defineRule("checker", context => {
+                spy = sandbox.spy(() => {
+                    const scope = context.getScope();
+
+                    assert.strictEqual(getVariable(scope, "Promise"), null);
+                    assert.strictEqual(getVariable(scope, "Symbol"), null);
+                    assert.strictEqual(getVariable(scope, "WeakMap"), null);
                 });
 
                 return { Program: spy };
@@ -2576,7 +2615,7 @@ describe("Linter", () => {
              * first part only as defined in the
              * parseJsonConfig function in lib/eslint.js
              */
-            assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":'1'':/);
+            assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":'1'':/u);
             assert.strictEqual(messages[0].line, 1);
             assert.strictEqual(messages[0].column, 1);
 
@@ -2601,7 +2640,7 @@ describe("Linter", () => {
              * first part only as defined in the
              * parseJsonConfig function in lib/eslint.js
              */
-            assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":abc':/);
+            assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":abc':/u);
             assert.strictEqual(messages[0].line, 1);
             assert.strictEqual(messages[0].column, 1);
 
@@ -2626,7 +2665,7 @@ describe("Linter", () => {
              * first part only as defined in the
              * parseJsonConfig function in lib/eslint.js
              */
-            assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":0 2':/);
+            assert.match(messages[0].message, /^Failed to parse JSON from ' "no-alert":0 2':/u);
             assert.strictEqual(messages[0].line, 1);
             assert.strictEqual(messages[0].column, 1);
 
@@ -2690,7 +2729,7 @@ describe("Linter", () => {
             assert.strictEqual(messages[0].line, 1);
             assert.strictEqual(messages[0].column, 4);
             assert.isTrue(messages[0].fatal);
-            assert.match(messages[0].message, /^Parsing error:/);
+            assert.match(messages[0].message, /^Parsing error:/u);
         });
 
         it("should report source code where the issue is present", () => {
@@ -2705,7 +2744,7 @@ describe("Linter", () => {
             assert.strictEqual(messages.length, 1);
             assert.strictEqual(messages[0].severity, 2);
             assert.isTrue(messages[0].fatal);
-            assert.match(messages[0].message, /^Parsing error:/);
+            assert.match(messages[0].message, /^Parsing error:/u);
         });
     });
 
@@ -4342,7 +4381,7 @@ describe("Linter", () => {
 
             assert.throws(() => {
                 linter.verify("0", { rules: { "test-rule": "error" } });
-            }, /Fixable rules should export a `meta\.fixable` property.$/);
+            }, /Fixable rules should export a `meta\.fixable` property.\nOccurred while linting <input>:1$/u);
         });
 
         it("should not throw an error if fix is passed and there is no metadata", () => {

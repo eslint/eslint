@@ -17,6 +17,8 @@ const rule = require("../../../lib/rules/no-unsafe-negation"),
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester();
+const unexpectedInError = { messageId: "unexpected", data: { operator: "in" } };
+const unexpectedInstanceofError = { messageId: "unexpected", data: { operator: "instanceof" } };
 
 ruleTester.run("no-unsafe-negation", rule, {
     valid: [
@@ -33,32 +35,32 @@ ruleTester.run("no-unsafe-negation", rule, {
         {
             code: "!a in b",
             output: "!(a in b)",
-            errors: ["Unexpected negating the left operand of 'in' operator."]
+            errors: [unexpectedInError]
         },
         {
             code: "(!a in b)",
             output: "(!(a in b))",
-            errors: ["Unexpected negating the left operand of 'in' operator."]
+            errors: [unexpectedInError]
         },
         {
             code: "!(a) in b",
             output: "!((a) in b)",
-            errors: ["Unexpected negating the left operand of 'in' operator."]
+            errors: [unexpectedInError]
         },
         {
             code: "!a instanceof b",
             output: "!(a instanceof b)",
-            errors: ["Unexpected negating the left operand of 'instanceof' operator."]
+            errors: [unexpectedInstanceofError]
         },
         {
             code: "(!a instanceof b)",
             output: "(!(a instanceof b))",
-            errors: ["Unexpected negating the left operand of 'instanceof' operator."]
+            errors: [unexpectedInstanceofError]
         },
         {
             code: "!(a) instanceof b",
             output: "!((a) instanceof b)",
-            errors: ["Unexpected negating the left operand of 'instanceof' operator."]
+            errors: [unexpectedInstanceofError]
         }
     ]
 });

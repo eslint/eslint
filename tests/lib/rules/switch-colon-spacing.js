@@ -18,6 +18,11 @@ const rule = require("../../../lib/rules/switch-colon-spacing"),
 
 const ruleTester = new RuleTester();
 
+const expectedBeforeError = { messagesId: "expectedBefore" };
+const expectedAfterError = { messagesId: "expectedAfter" };
+const unexpectedBeforeError = { messagesId: "unexpectedBefore" };
+const unexpectedAfterError = { messagesId: "unexpectedAfter" };
+
 ruleTester.run("switch-colon-spacing", rule, {
     valid: [
         "switch(a){}",
@@ -59,16 +64,16 @@ ruleTester.run("switch-colon-spacing", rule, {
             code: "switch(a){case 0 :break;}",
             output: "switch(a){case 0: break;}",
             errors: [
-                "Unexpected space(s) before this colon.",
-                "Expected space(s) after this colon."
+                unexpectedBeforeError,
+                expectedAfterError
             ]
         },
         {
             code: "switch(a){default :break;}",
             output: "switch(a){default: break;}",
             errors: [
-                "Unexpected space(s) before this colon.",
-                "Expected space(s) after this colon."
+                unexpectedBeforeError,
+                expectedAfterError
             ]
         },
         {
@@ -76,8 +81,8 @@ ruleTester.run("switch-colon-spacing", rule, {
             output: "switch(a){case 0:break;}",
             options: [{ before: false, after: false }],
             errors: [
-                "Unexpected space(s) before this colon.",
-                "Unexpected space(s) after this colon."
+                unexpectedBeforeError,
+                unexpectedAfterError
             ]
         },
         {
@@ -85,8 +90,8 @@ ruleTester.run("switch-colon-spacing", rule, {
             output: "switch(a){default:break;}",
             options: [{ before: false, after: false }],
             errors: [
-                "Unexpected space(s) before this colon.",
-                "Unexpected space(s) after this colon."
+                unexpectedBeforeError,
+                unexpectedAfterError
             ]
         },
         {
@@ -94,8 +99,8 @@ ruleTester.run("switch-colon-spacing", rule, {
             output: "switch(a){case 0: break;}",
             options: [{ before: false, after: true }],
             errors: [
-                "Unexpected space(s) before this colon.",
-                "Expected space(s) after this colon."
+                unexpectedBeforeError,
+                expectedAfterError
             ]
         },
         {
@@ -103,8 +108,8 @@ ruleTester.run("switch-colon-spacing", rule, {
             output: "switch(a){default: break;}",
             options: [{ before: false, after: true }],
             errors: [
-                "Unexpected space(s) before this colon.",
-                "Expected space(s) after this colon."
+                unexpectedBeforeError,
+                expectedAfterError
             ]
         },
         {
@@ -112,8 +117,8 @@ ruleTester.run("switch-colon-spacing", rule, {
             output: "switch(a){case 0 :break;}",
             options: [{ before: true, after: false }],
             errors: [
-                "Expected space(s) before this colon.",
-                "Unexpected space(s) after this colon."
+                expectedBeforeError,
+                unexpectedAfterError
             ]
         },
         {
@@ -121,8 +126,8 @@ ruleTester.run("switch-colon-spacing", rule, {
             output: "switch(a){default :break;}",
             options: [{ before: true, after: false }],
             errors: [
-                "Expected space(s) before this colon.",
-                "Unexpected space(s) after this colon."
+                expectedBeforeError,
+                unexpectedAfterError
             ]
         },
         {
@@ -130,8 +135,8 @@ ruleTester.run("switch-colon-spacing", rule, {
             output: "switch(a){case 0 : break;}",
             options: [{ before: true, after: true }],
             errors: [
-                "Expected space(s) before this colon.",
-                "Expected space(s) after this colon."
+                expectedBeforeError,
+                expectedAfterError
             ]
         },
         {
@@ -139,32 +144,32 @@ ruleTester.run("switch-colon-spacing", rule, {
             output: "switch(a){default : break;}",
             options: [{ before: true, after: true }],
             errors: [
-                "Expected space(s) before this colon.",
-                "Expected space(s) after this colon."
+                expectedBeforeError,
+                expectedAfterError
             ]
         },
         {
             code: "switch(a){case 0 /**/ :break;}",
             output: "switch(a){case 0 /**/ : break;}",
             errors: [
-                "Unexpected space(s) before this colon.",
-                "Expected space(s) after this colon."
+                unexpectedBeforeError,
+                expectedAfterError
             ]
         },
         {
             code: "switch(a){case 0 :/**/break;}",
             output: "switch(a){case 0:/**/break;}",
             errors: [
-                "Unexpected space(s) before this colon.",
-                "Expected space(s) after this colon."
+                unexpectedBeforeError,
+                expectedAfterError
             ]
         },
         {
             code: "switch(a){case (0) :break;}",
             output: "switch(a){case (0): break;}",
             errors: [
-                "Unexpected space(s) before this colon.",
-                "Expected space(s) after this colon."
+                unexpectedBeforeError,
+                expectedAfterError
             ]
         }
     ]

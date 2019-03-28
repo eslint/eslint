@@ -25,7 +25,8 @@ const lodash = require("lodash"),
     semver = require("semver"),
     ejs = require("ejs"),
     loadPerf = require("load-perf"),
-    yaml = require("js-yaml");
+    yaml = require("js-yaml"),
+    CLIEngine = require("./lib/cli-engine");
 
 const { cat, cd, cp, echo, exec, exit, find, ls, mkdir, pwd, rm, test } = require("shelljs");
 
@@ -42,7 +43,7 @@ const { cat, cd, cp, echo, exec, exit, find, ls, mkdir, pwd, rm, test } = requir
 const PERF_MULTIPLIER = 13e6;
 
 const OPEN_SOURCE_LICENSES = [
-    /MIT/, /BSD/, /Apache/, /ISC/, /WTF/, /Public Domain/, /LGPL/
+    /MIT/u, /BSD/u, /Apache/u, /ISC/u, /WTF/u, /Public Domain/u, /LGPL/u
 ];
 
 //------------------------------------------------------------------------------
@@ -53,7 +54,7 @@ const NODE = "node ", // intentional extra space
     NODE_MODULES = "./node_modules/",
     TEMP_DIR = "./tmp/",
     DEBUG_DIR = "./debug/",
-    BUILD_DIR = "./build/",
+    BUILD_DIR = "build",
     DOCS_DIR = "../eslint.github.io/docs",
     SITE_DIR = "../eslint.github.io/",
     PERF_TMP_DIR = path.join(TEMP_DIR, "eslint", "performance"),
@@ -63,8 +64,6 @@ const NODE = "node ", // intentional extra space
     ESLINT = `${NODE} bin/eslint.js --report-unused-disable-directives `,
 
     // Files
-    MAKEFILE = "./Makefile.js",
-    JS_FILES = "\"lib/**/*.js\" \"conf/**/*.js\" \"bin/**/*.js\" \"tools/**/*.js\"",
     JSON_FILES = find("conf/").filter(fileType("json")),
     MARKDOWN_FILES_ARRAY = find("docs/").concat(ls(".")).filter(fileType("md")),
     TEST_FILES = getTestFilePatterns(),
@@ -118,27 +117,6 @@ function fileType(extension) {
 }
 
 /**
- * Generates a static file that includes each rule by name rather than dynamically
- * looking up based on directory. This is used for the browser version of ESLint.
- * @param {string} basedir The directory in which to look for code.
- * @returns {void}
- */
-function generateRulesIndex(basedir) {
-    let output = "module.exports = function() {\n";
-
-    output += "    var rules = Object.create(null);\n";
-
-    find(`${basedir}rules/`).filter(fileType("js")).forEach(filename => {
-        const basename = path.basename(filename, ".js");
-
-        output += `    rules["${basename}"] = require("./rules/${basename}");\n`;
-    });
-
-    output += "\n    return rules;\n};";
-    output.to(`${basedir}load-rules.js`);
-}
-
-/**
  * Executes a command and returns the output instead of printing it to stdout.
  * @param {string} cmd The command string to execute.
  * @returns {string} The result of the executed command.
@@ -158,7 +136,7 @@ function generateBlogPost(releaseInfo, prereleaseMajorVersion) {
     const ruleList = ls("lib/rules")
 
         // Strip the .js extension
-        .map(ruleFileName => ruleFileName.replace(/\.js$/, ""))
+        .map(ruleFileName => ruleFileName.replace(/\.js$/u, ""))
 
         /*
          * Sort by length descending. This ensures that rule names which are substrings of other rule names are not
@@ -463,8 +441,7 @@ function lintMarkdown(files) {
  * @returns {Object} Output from each formatter
  */
 function getFormatterResults() {
-    const CLIEngine = require("./lib/cli-engine"),
-        stripAnsi = require("strip-ansi");
+    const stripAnsi = require("strip-ansi");
 
     const formatterFiles = fs.readdirSync("./lib/formatters/"),
         cli = new CLIEngine({
@@ -523,14 +500,8 @@ target.lint = function() {
     let errors = 0,
         lastReturn;
 
-    echo("Validating Makefile.js");
-    lastReturn = exec(`${ESLINT} ${MAKEFILE}`);
-    if (lastReturn.code !== 0) {
-        errors++;
-    }
-
-    echo("Validating .eslintrc.js");
-    lastReturn = exec(`${ESLINT} .eslintrc.js`);
+    echo("Validating JavaScript files");
+    lastReturn = exec(`${ESLINT} .`);
     if (lastReturn.code !== 0) {
         errors++;
     }
@@ -544,29 +515,20 @@ target.lint = function() {
         errors++;
     }
 
-    echo("Validating JavaScript files");
-    lastReturn = exec(`${ESLINT} ${JS_FILES}`);
-    if (lastReturn.code !== 0) {
-        errors++;
-    }
-
-    echo("Validating JavaScript test files");
-    lastReturn = exec(`${ESLINT} "tests/**/*.js"`);
-    if (lastReturn.code !== 0) {
-        errors++;
-    }
-
     if (errors) {
         exit(1);
     }
 };
 
-target.fuzz = function() {
+target.fuzz = function({ amount = process.env.CI ? 1000 : 300, fuzzBrokenAutofixes = true } = {}) {
     const fuzzerRunner = require("./tools/fuzzer-runner");
-    const fuzzResults = fuzzerRunner.run({ amount: process.env.CI ? 1000 : 300 });
+    const fuzzResults = fuzzerRunner.run({ amount, fuzzBrokenAutofixes });
 
     if (fuzzResults.length) {
-        echo(`The fuzzer reported ${fuzzResults.length} error${fuzzResults.length === 1 ? "" : "s"}.`);
+
+        const uniqueStackTraceCount = new Set(fuzzResults.map(result => result.error)).size;
+
+        echo(`The fuzzer reported ${fuzzResults.length} error${fuzzResults.length === 1 ? "" : "s"} with a total of ${uniqueStackTraceCount} unique stack trace${uniqueStackTraceCount === 1 ? "" : "s"}.`);
 
         const formattedResults = JSON.stringify({ results: fuzzResults }, null, 4);
 
@@ -616,7 +578,20 @@ target.test = function() {
         errors++;
     }
 
-    target.browserify();
+    target.webpack();
+
+    const browserFileLintOutput = new CLIEngine({
+        useEslintrc: false,
+        ignore: false,
+        allowInlineConfig: false,
+        baseConfig: { parserOptions: { ecmaVersion: 5 } }
+    }).executeOnFiles([`${BUILD_DIR}/eslint.js`]);
+
+    if (browserFileLintOutput.errorCount > 0) {
+        echo(`error: Failed to lint ${BUILD_DIR}/eslint.js as ES5 code`);
+        echo(CLIEngine.getFormatter("stylish")(browserFileLintOutput.results));
+        errors++;
+    }
 
     lastReturn = exec(`${getBinFile("karma")} start karma.conf.js`);
     if (lastReturn.code !== 0) {
@@ -626,6 +601,8 @@ target.test = function() {
     if (errors) {
         exit(1);
     }
+
+    target.fuzz({ amount: 150, fuzzBrokenAutofixes: false });
 
     target.checkLicenses();
 };
@@ -735,7 +712,7 @@ target.gensite = function(prereleaseVersion) {
             } else {
 
                 // extract the title from the file itself
-                title = text.match(/#([^#].+)\n/);
+                title = text.match(/#([^#].+)\n/u);
                 if (title) {
                     title = title[1].trim();
                 } else {
@@ -756,10 +733,10 @@ target.gensite = function(prereleaseVersion) {
             ].join("\n");
 
             // 6. Remove .md extension for relative links and change README to empty string
-            text = text.replace(/\((?!https?:\/\/)([^)]*?)\.md(.*?)\)/g, "($1$2)").replace("README.html", "");
+            text = text.replace(/\((?!https?:\/\/)([^)]*?)\.md(.*?)\)/gu, "($1$2)").replace("README.html", "");
 
             // 7. Check if there's a trailing white line at the end of the file, if there isn't one, add it
-            if (!/\n$/.test(text)) {
+            if (!/\n$/u.test(text)) {
                 text = `${text}\n`;
             }
 
@@ -817,8 +794,9 @@ target.gensite = function(prereleaseVersion) {
     // 13. Update demos, but only for non-prereleases
     if (!prereleaseVersion) {
         echo("> Updating the demos (Step 13)");
-        target.browserify();
+        target.webpack("production");
         cp("-f", "build/eslint.js", `${SITE_DIR}js/app/eslint.js`);
+        cp("-f", "build/espree.js", `${SITE_DIR}js/app/espree.js`);
     } else {
         echo("> Skipped updating the demos (Step 13)");
     }
@@ -830,44 +808,14 @@ target.gensite = function(prereleaseVersion) {
     echo("Done generating eslint.org");
 };
 
-target.browserify = function() {
-
-    // 1. create temp and build directory
-    if (!test("-d", TEMP_DIR)) {
-        mkdir(TEMP_DIR);
-    }
-
-    if (!test("-d", BUILD_DIR)) {
-        mkdir(BUILD_DIR);
-    }
-
-    // 2. copy files into temp directory
-    cp("-r", "lib/*", TEMP_DIR);
-
-    // 3. delete the load-rules.js file
-    rm("-rf", `${TEMP_DIR}load-rules.js`);
-
-    // 4. create new load-rule.js with hardcoded requires
-    generateRulesIndex(TEMP_DIR);
-
-    // 5. browserify the temp directory
-    exec(`${getBinFile("browserify")} -x espree ${TEMP_DIR}linter.js -o ${BUILD_DIR}eslint.js -s eslint --global-transform [ babelify --presets [ es2015 ] ]`);
-
-    // 6. Browserify espree
-    exec(`${getBinFile("browserify")} -r espree -o ${TEMP_DIR}espree.js --global-transform [ babelify --presets [ es2015 ] ]`);
-
-    // 7. Concatenate Babel polyfill, Espree, and ESLint files together
-    cat("./node_modules/babel-polyfill/dist/polyfill.js", `${TEMP_DIR}espree.js`, `${BUILD_DIR}eslint.js`).to(`${BUILD_DIR}eslint.js`);
-
-    // 8. remove temp directory
-    rm("-rf", TEMP_DIR);
+target.webpack = function(mode = "none") {
+    exec(`${getBinFile("webpack")} --mode=${mode} --output-path=${BUILD_DIR}`);
 };
 
 target.checkRuleFiles = function() {
 
     echo("Validating rules");
 
-    const eslintRecommended = require("./conf/eslint-recommended").rules;
     const ruleTypes = require("./tools/rule-types.json");
     const ruleFiles = find("lib/rules/").filter(fileType("js"));
     let errors = 0;
@@ -875,15 +823,6 @@ target.checkRuleFiles = function() {
     ruleFiles.forEach(filename => {
         const basename = path.basename(filename, ".js");
         const docFilename = `docs/rules/${basename}.md`;
-
-        /**
-         * Check if basename is present in eslint:recommended configuration.
-         * @returns {boolean} true if present
-         * @private
-         */
-        function isInConfig() {
-            return Object.prototype.hasOwnProperty.call(eslintRecommended, basename);
-        }
 
         /**
          * Check if basename is present in rule-types.json file.
@@ -902,8 +841,8 @@ target.checkRuleFiles = function() {
          */
         function hasIdInTitle(id) {
             const docText = cat(docFilename);
-            const idOldAtEndOfTitleRegExp = new RegExp(`^# (.*?) \\(${id}\\)`); // original format
-            const idNewAtBeginningOfTitleRegExp = new RegExp(`^# ${id}: `); // new format is same as rules index
+            const idOldAtEndOfTitleRegExp = new RegExp(`^# (.*?) \\(${id}\\)`, "u"); // original format
+            const idNewAtBeginningOfTitleRegExp = new RegExp(`^# ${id}: `, "u"); // new format is same as rules index
             /*
              * 1. Added support for new format.
              * 2. Will remove support for old format after all docs files have new format.
@@ -927,14 +866,19 @@ target.checkRuleFiles = function() {
         }
 
         // check for recommended configuration
-        if (!isInConfig()) {
-            console.error("Missing eslint:recommended setting for %s in conf/eslint-recommended.js", basename);
+        if (!isInRuleTypes()) {
+            console.error("Missing setting for %s in tools/rule-types.json", basename);
             errors++;
         }
 
-        // check for recommended configuration
-        if (!isInRuleTypes()) {
-            console.error("Missing setting for %s in tools/rule-types.json", basename);
+        // check parity between rules index file and rules directory
+        const builtInRulesIndexPath = "./lib/built-in-rules-index";
+        const ruleIdsInIndex = require(builtInRulesIndexPath);
+        const ruleEntryFromIndexIsMissing = !(basename in ruleIdsInIndex);
+
+        if (ruleEntryFromIndexIsMissing) {
+            console.error(`Missing rule from index (${builtInRulesIndexPath}.js): ${basename}. If you just added a ` +
+                "new rule then add an entry for it in this file.");
             errors++;
         }
 

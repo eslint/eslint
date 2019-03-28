@@ -683,9 +683,20 @@ Map {
 ```
 
 ### Linter#defineParser
-
 Each instance of `Linter` holds a map of custom parsers. If you want to define a parser programmatically you can add this function
 with the name of the parser as first argument and the [parser object](/docs/developer-guide/working-with-plugins.md#working-with-custom-parsers) as second argument.
+* "[checkstyle](../user-guide/formatters#checkstyle)"
+* "[codeframe](../user-guide/formatters#codeframe)"
+* "[compact](../user-guide/formatters#compact)"
+* "[html](../user-guide/formatters#html)"
+* "[jslint-xml](../user-guide/formatters#jslint-xml)"
+* "[json](../user-guide/formatters#json)"
+* "[junit](../user-guide/formatters#junit)"
+* "[stylish](../user-guide/formatters#stylish)" (the default)
+* "[table](../user-guide/formatters#table)"
+* "[tap](../user-guide/formatters#tap)"
+* "[unix](../user-guide/formatters#unix)"
+* "[visualstudio](../user-guide/formatters#visualstudio)"
 
 If during linting the parser is not found, it will fallback to `require(parserId)`.
 

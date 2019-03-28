@@ -20,6 +20,7 @@ const Module = require("module"),
     espree = require("espree"),
     ConfigFile = require("../../../lib/config/config-file"),
     Linter = require("../../../lib/linter"),
+    CLIEngine = require("../../../lib/cli-engine"),
     Config = require("../../../lib/config");
 
 const userHome = os.homedir();
@@ -181,7 +182,7 @@ describe("ConfigFile", () => {
 
                 // Hacky: need to override isFile for each call for testing
                 "../util/module-resolver": createStubModuleResolver({ "eslint-config-foo": resolvedPath }),
-                "require-uncached"(filename) {
+                "import-fresh"(filename) {
                     return configDeps[filename];
                 }
             };
@@ -237,7 +238,7 @@ describe("ConfigFile", () => {
                     extends: "foo",
                     rules: { eqeqeq: 2 }
                 }, configContext, "/whatever");
-            }, /Cannot find module 'eslint-config-foo'/);
+            }, /Cannot find module 'eslint-config-foo'/u);
 
         });
 
@@ -254,7 +255,7 @@ describe("ConfigFile", () => {
                     extends: "eslint:foo",
                     rules: { eqeqeq: 2 }
                 }, configContext, "/whatever");
-            }, /Failed to load config "eslint:foo" to extend from./);
+            }, /Failed to load config "eslint:foo" to extend from./u);
 
         });
 
@@ -265,7 +266,7 @@ describe("ConfigFile", () => {
                 "../util/module-resolver": createStubModuleResolver({
                     "eslint-plugin-test": resolvedPath
                 }),
-                "require-uncached"(filename) {
+                "import-fresh"(filename) {
                     return configDeps[filename];
                 }
             };
@@ -285,7 +286,7 @@ describe("ConfigFile", () => {
                     extends: "plugin:test/bar",
                     rules: { eqeqeq: 2 }
                 }, configContext, "/whatever");
-            }, /Cannot find module 'babel-eslint'/);
+            }, /Cannot find module 'babel-eslint'/u);
 
         });
 
@@ -296,7 +297,7 @@ describe("ConfigFile", () => {
                 "../util/module-resolver": createStubModuleResolver({
                     "eslint-plugin-test": resolvedPath
                 }),
-                "require-uncached"(filename) {
+                "import-fresh"(filename) {
                     return configDeps[filename];
                 }
             };
@@ -314,7 +315,7 @@ describe("ConfigFile", () => {
                     extends: "plugin:test/bar",
                     rules: { eqeqeq: 2 }
                 }, configContext, "/whatever");
-            }, /Failed to load config "plugin:test\/bar" to extend from./);
+            }, /Failed to load config "plugin:test\/bar" to extend from./u);
 
         });
 
@@ -331,7 +332,7 @@ describe("ConfigFile", () => {
                     "eslint-config-foo": resolvedPaths[0],
                     "eslint-config-bar": resolvedPaths[1]
                 }),
-                "require-uncached"(filename) {
+                "import-fresh"(filename) {
                     return configDeps[filename];
                 }
             };
@@ -516,7 +517,7 @@ describe("ConfigFile", () => {
         it("should throw error when loading invalid JavaScript file", () => {
             assert.throws(() => {
                 ConfigFile.load(getFixturePath("js/.eslintrc.broken.js"), configContext);
-            }, /Cannot read config file/);
+            }, /Cannot read config file/u);
         });
 
         it("should interpret parser module name when present in a JavaScript file", () => {
@@ -642,7 +643,7 @@ describe("ConfigFile", () => {
                     assert.strictEqual(error.messageTemplate, "failed-to-read-json");
                     throw error;
                 }
-            }, /Cannot read config file/);
+            }, /Cannot read config file/u);
         });
 
         it("should load fresh information from a package.json file", () => {
@@ -932,7 +933,7 @@ describe("ConfigFile", () => {
                 const resolvedPath = path.resolve(PROJECT_PATH, "./node_modules/eslint-plugin-test/index.js");
 
                 const configDeps = {
-                    "require-uncached"(filename) {
+                    "import-fresh"(filename) {
                         return configDeps[filename];
                     }
                 };
@@ -1262,10 +1263,55 @@ describe("ConfigFile", () => {
 
         });
 
+        it("should make sure js config files match linting rules", () => {
+            const fakeFS = leche.fake(fs);
+
+            const singleQuoteConfig = {
+                rules: {
+                    quotes: [2, "single"]
+                }
+            };
+
+            sandbox.mock(fakeFS).expects("writeFileSync").withExactArgs(
+                "test-config.js",
+                sinon.match(value => !value.includes("\"")),
+                "utf8"
+            );
+
+            const StubbedConfigFile = proxyquire("../../../lib/config/config-file", {
+                fs: fakeFS
+            });
+
+            StubbedConfigFile.write(singleQuoteConfig, "test-config.js");
+        });
+
+        it("should still write a js config file even if linting fails", () => {
+            const fakeFS = leche.fake(fs);
+            const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({
+                baseConfig: config,
+                fix: true,
+                useEslintrc: false
+            }));
+
+            fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
+            sandbox.stub(fakeCLIEngine.prototype, "executeOnText").throws();
+
+            sandbox.mock(fakeFS).expects("writeFileSync").once();
+
+            const StubbedConfigFile = proxyquire("../../../lib/config/config-file", {
+                fs: fakeFS,
+                "../cli-engine": fakeCLIEngine
+            });
+
+            assert.throws(() => {
+                StubbedConfigFile.write(config, "test-config.js");
+            });
+        });
+
         it("should throw error if file extension is not valid", () => {
             assert.throws(() => {
                 ConfigFile.write({}, getFixturePath("yaml/.eslintrc.class"));
-            }, /write to unknown file type/);
+            }, /write to unknown file type/u);
         });
     });
 

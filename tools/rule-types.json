@@ -222,6 +222,7 @@
     "prefer-arrow-callback": "suggestion",
     "prefer-const": "suggestion",
     "prefer-destructuring": "suggestion",
+    "prefer-named-capture-group": "suggestion",
     "prefer-numeric-literals": "suggestion",
     "prefer-object-spread": "suggestion",
     "prefer-promise-reject-errors": "suggestion",

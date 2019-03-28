@@ -106,6 +106,11 @@ ruleTester.run("complexity", rule, {
             code: createComplexity(21),
             errors: [makeError("Function 'test'", 21)]
         },
+        {
+            code: createComplexity(21),
+            options: [{}],
+            errors: [makeError("Function 'test'", 21)]
+        },
 
         // object property options
         { code: "function a(x) {}", options: [{ max: 0 }], errors: [makeError("Function 'a'", 1)] }

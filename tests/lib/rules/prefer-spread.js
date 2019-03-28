@@ -44,50 +44,34 @@ ruleTester.run("prefer-spread", rule, {
     invalid: [
         {
             code: "foo.apply(undefined, args);",
-            output: "foo(...args);",
             errors
         },
         {
             code: "foo.apply(void 0, args);",
-            output: "foo(...args);",
             errors
         },
         {
             code: "foo.apply(null, args);",
-            output: "foo(...args);",
             errors
         },
         {
             code: "obj.foo.apply(obj, args);",
-            output: "obj.foo(...args);",
             errors
         },
         {
-
-            // Not fixed: a.b.c might activate getters
             code: "a.b.c.foo.apply(a.b.c, args);",
-            output: null,
             errors
         },
         {
-
-            // Not fixed: a.b(x, y).c might activate getters
             code: "a.b(x, y).c.foo.apply(a.b(x, y).c, args);",
-            output: null,
             errors
         },
         {
-
-            // Not fixed (not an identifier)
             code: "[].concat.apply([ ], args);",
-            output: null,
             errors
         },
         {
-
-            // Not fixed (not an identifier)
             code: "[].concat.apply([\n/*empty*/\n], args);",
-            output: null,
             errors
         }
     ]

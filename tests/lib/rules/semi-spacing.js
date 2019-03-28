@@ -183,12 +183,12 @@ ruleTester.run("semi-spacing", rule, {
             ]
         },
         {
-            code: "export {foo} ;",
-            output: "export {foo};",
+            code: "var foo = 0; export {foo} ;",
+            output: "var foo = 0; export {foo};",
             options: [{ before: false, after: true }],
             parserOptions: { sourceType: "module" },
             errors: [
-                { message: "Unexpected whitespace before semicolon.", type: "ExportNamedDeclaration", line: 1, column: 14 }
+                { message: "Unexpected whitespace before semicolon.", type: "ExportNamedDeclaration", line: 1, column: 27 }
             ]
         },
         {

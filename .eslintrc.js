@@ -1,18 +1,13 @@
 "use strict";
 
-const path = require("path");
-const rulesDirPlugin = require("eslint-plugin-rulesdir");
-
-rulesDirPlugin.RULES_DIR = path.join(__dirname, "tools/internal-rules");
-
 module.exports = {
     root: true,
     plugins: [
         "eslint-plugin",
-        "rulesdir"
+        "internal-rules"
     ],
     extends: [
-        "./packages/eslint-config-eslint/default.yml",
+        "eslint",
         "plugin:eslint-plugin/recommended"
     ],
     rules: {
@@ -21,26 +16,33 @@ module.exports = {
         "eslint-plugin/prefer-output-null": "error",
         "eslint-plugin/prefer-placeholders": "error",
         "eslint-plugin/report-message-format": ["error", "[^a-z].*\\.$"],
+        "eslint-plugin/require-meta-type": "error",
         "eslint-plugin/test-case-property-ordering": "error",
         "eslint-plugin/test-case-shorthand-strings": "error",
-        "rulesdir/multiline-comment-style": "error"
+        "internal-rules/multiline-comment-style": "error"
     },
     overrides: [
         {
             files: ["lib/rules/*", "tools/internal-rules/*"],
+            excludedFiles: ["tools/internal-rules/index.js"],
             rules: {
-                "rulesdir/no-invalid-meta": "error",
-                "rulesdir/consistent-docs-description": "error"
+                "internal-rules/no-invalid-meta": "error",
+                "internal-rules/consistent-docs-description": "error"
 
                 /*
                  * TODO: enable it when all the rules using meta.messages
-                 * "rulesdir/consistent-meta-messages": "error"
+                 * "internal-rules/consistent-meta-messages": "error"
                  */
+            }
+        }, {
+            files: ["tools/internal-rules/*"],
+            rules: {
+                "node/no-unpublished-require": "off"
             }
         }, {
             files: ["lib/rules/*"],
             rules: {
-                "rulesdir/consistent-docs-url": "error"
+                "internal-rules/consistent-docs-url": "error"
             }
         }, {
             files: ["tests/**/*"],
