@@ -310,7 +310,7 @@ ruleTester.run("no-redeclare", rule, {
         {
             code: "/*globals a */ /*globals a */",
             errors: [
-                { message: "'a' is already defined.", type: "Block" }
+                { message: "'a' is already defined.", type: "Block", column: 26 }
             ]
         },
         {
@@ -318,9 +318,9 @@ ruleTester.run("no-redeclare", rule, {
             options: [{ builtinGlobals: true }],
             globals: { a: "writable" },
             errors: [
-                { message: "'a' is already defined as a built-in global variable.", type: "Block" },
-                { message: "'a' is already defined as a built-in global variable.", type: "Block" },
-                { message: "'a' is already defined as a built-in global variable.", type: "Identifier" }
+                { message: "'a' is already defined as a built-in global variable.", type: "Block", column: 11 },
+                { message: "'a' is already defined as a built-in global variable.", type: "Block", column: 26 },
+                { message: "'a' is already defined as a built-in global variable.", type: "Identifier", column: 35 }
             ]
         }
     ]
