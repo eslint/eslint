@@ -726,6 +726,7 @@ describe("cli", () => {
                 results: []
             });
             sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            sandbox.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
             fakeCLIEngine.outputFixes = sandbox.stub();
 
             localCLI = proxyquire("../../lib/cli", {
@@ -762,6 +763,7 @@ describe("cli", () => {
                 results: []
             });
             sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            sandbox.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
             fakeCLIEngine.outputFixes = sandbox.mock().once();
 
             localCLI = proxyquire("../../lib/cli", {
@@ -799,6 +801,7 @@ describe("cli", () => {
             fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
             sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns(report);
             sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            sandbox.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
             fakeCLIEngine.outputFixes = sandbox.mock().withExactArgs(report);
 
             localCLI = proxyquire("../../lib/cli", {
@@ -835,6 +838,7 @@ describe("cli", () => {
             fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
             sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns(report);
             sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            sandbox.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
             fakeCLIEngine.getErrorResults = sandbox.stub().returns([]);
             fakeCLIEngine.outputFixes = sandbox.mock().withExactArgs(report);
 
@@ -886,6 +890,7 @@ describe("cli", () => {
                 results: []
             });
             sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            sandbox.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
             fakeCLIEngine.outputFixes = sandbox.mock().never();
 
             localCLI = proxyquire("../../lib/cli", {
@@ -916,6 +921,7 @@ describe("cli", () => {
                 results: []
             });
             sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            sandbox.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
             fakeCLIEngine.outputFixes = sandbox.stub();
 
             localCLI = proxyquire("../../lib/cli", {
@@ -951,6 +957,7 @@ describe("cli", () => {
             fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
             sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns(report);
             sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            sandbox.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
             fakeCLIEngine.outputFixes = sandbox.mock().never();
 
             localCLI = proxyquire("../../lib/cli", {
@@ -987,6 +994,7 @@ describe("cli", () => {
             fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
             sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns(report);
             sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            sandbox.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
             fakeCLIEngine.getErrorResults = sandbox.stub().returns([]);
             fakeCLIEngine.outputFixes = sandbox.mock().never();
 
@@ -1024,6 +1032,7 @@ describe("cli", () => {
             fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
             sandbox.stub(fakeCLIEngine.prototype, "executeOnText").returns(report);
             sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            sandbox.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
             fakeCLIEngine.outputFixes = sandbox.mock().never();
 
             localCLI = proxyquire("../../lib/cli", {
