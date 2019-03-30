@@ -115,6 +115,21 @@ describe("formatter:html", () => {
             checkHeaderRow($, $("tr")[0], { bgColor: "bg-2", group: "f-0", file: "foo.js", problems: "1 problem (1 error, 0 warnings)" });
             checkContentRow($, $("tr")[1], { group: "f-0", lineCol: "5:10", color: "clr-2", message: "Unexpected foo.", ruleId: "foo" });
         });
+
+        it("should not fail if metadata is not available", () => {
+            const result = formatter(code.results);
+
+            const $ = cheerio.load(result);
+
+            // Check overview
+            checkOverview($, { bgColor: "bg-2", problems: "1 problem (1 error, 0 warnings)" });
+
+            // Check rows
+            assert.strictEqual($("tr").length, 2, "Check that there are two (1 header, 1 content)");
+            assert.strictEqual($("tr[data-group|=\"f\"]").length, 1, "Check that is 1 header row (implying 1 content row)");
+            checkHeaderRow($, $("tr")[0], { bgColor: "bg-2", group: "f-0", file: "foo.js", problems: "1 problem (1 error, 0 warnings)" });
+            checkContentRow($, $("tr")[1], { group: "f-0", lineCol: "5:10", color: "clr-2", message: "Unexpected foo.", ruleId: "foo" });
+        });
     });
 
     describe("when passed a single warning message", () => {
