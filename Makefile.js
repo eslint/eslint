@@ -453,10 +453,11 @@ function getFormatterResults() {
         ].join("\n"),
         rawMessages = cli.executeOnText(codeString, "fullOfProblems.js", true),
         rulesMap = cli.getRules(),
-        rulesMeta = Object.keys(rules).reduce((obj, ruleId) => {
-            obj[ruleId] = rulesMap.get(ruleId).meta;
-            return obj;
-        }, {});
+        rulesMeta = {};
+
+    Object.keys(rules).forEach(ruleId => {
+        rulesMeta[ruleId] = rulesMap.get(ruleId).meta;
+    });
 
     return formatterFiles.reduce((data, filename) => {
         const fileExt = path.extname(filename),
