@@ -13,8 +13,8 @@ This rule has a single option, which can either be a string or an object.
 * `"always"` requires line breaks inside all function parentheses.
 * `"never"` disallows line breaks inside all function parentheses.
 * `"multiline"` (default) requires linebreaks inside function parentheses if any of the parameters/arguments have a line break between them. Otherwise, it disallows linebreaks.
+* `"multiline-arguments"` works like `multiline` but allows linebreaks inside function parentheses if there is only one parameter/argument.
 * `"consistent"` requires consistent usage of linebreaks for each pair of parentheses. It reports an error if one parenthesis in the pair has a linebreak inside it and the other parenthesis does not.
-* `"consistent-arguments"` requires consistent usage of linebreaks for each pair of parentheses and parameters/arguments. It allows linebreaks inside function parentheses if there is only one parameter/argument.
 * `{ "minItems": value }` requires linebreaks inside function parentheses if the number of parameters/arguments is at least `value`. Otherwise, it disallows linebreaks.
 
 Example configurations:
@@ -226,10 +226,10 @@ foo(
 );
 ```
 
-Examples of **incorrect** code for this rule with the `"consistent-arguments"` option:
+Examples of **incorrect** code for this rule with the `"multiline-arguments"` option:
 
 ```js
-/* eslint function-paren-newline: ["error", "consistent-arguments"] */
+/* eslint function-paren-newline: ["error", "multiline-arguments"] */
 
 function foo(bar,
   baz
@@ -253,10 +253,10 @@ foo(
 );
 ```
 
-Examples of **correct** code for this rule with the consistent `"consistent-arguments"` option:
+Examples of **correct** code for this rule with the consistent `"multiline-arguments"` option:
 
 ```js
-/* eslint function-paren-newline: ["error", "consistent-arguments"] */
+/* eslint function-paren-newline: ["error", "multiline-arguments"] */
 
 function foo(
   bar,

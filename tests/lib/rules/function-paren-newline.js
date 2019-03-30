@@ -88,50 +88,50 @@ ruleTester.run("function-paren-newline", rule, {
             options: ["multiline"]
         },
 
-        // consistent-arguments
+        // multiline-arguments
         {
             code: "function baz(foo, bar) {}",
-            options: ["consistent-arguments"]
+            options: ["multiline-arguments"]
         },
         {
             code: "function baz(foo) {}",
-            options: ["consistent-arguments"]
+            options: ["multiline-arguments"]
         },
         {
             code: "(function(foo, bar) {});",
-            options: ["consistent-arguments"]
+            options: ["multiline-arguments"]
         },
         {
             code: "(function(foo) {});",
-            options: ["consistent-arguments"]
+            options: ["multiline-arguments"]
         },
         {
             code: "(function baz(foo, bar) {});",
-            options: ["consistent-arguments"]
+            options: ["multiline-arguments"]
         },
         {
             code: "(function baz(foo) {});",
-            options: ["consistent-arguments"]
+            options: ["multiline-arguments"]
         },
         {
             code: "(foo, bar) => {};",
-            options: ["consistent-arguments"]
+            options: ["multiline-arguments"]
         },
         {
             code: "foo => {};",
-            options: ["consistent-arguments"]
+            options: ["multiline-arguments"]
         },
         {
             code: "baz(foo, bar);",
-            options: ["consistent-arguments"]
+            options: ["multiline-arguments"]
         },
         {
             code: "baz(foo);",
-            options: ["consistent-arguments"]
+            options: ["multiline-arguments"]
         },
         {
             code: "function baz() {}",
-            options: ["consistent-arguments"]
+            options: ["multiline-arguments"]
         },
         {
             code: `
@@ -140,7 +140,7 @@ ruleTester.run("function-paren-newline", rule, {
                     bar
                 ) {}
             `,
-            options: ["consistent-arguments"]
+            options: ["multiline-arguments"]
         },
         {
             code: `
@@ -148,7 +148,7 @@ ruleTester.run("function-paren-newline", rule, {
                     foo
                 ) {}
             `,
-            options: ["consistent-arguments"]
+            options: ["multiline-arguments"]
         },
         {
             code: `
@@ -157,7 +157,7 @@ ruleTester.run("function-paren-newline", rule, {
                     bar
                 ) {});
             `,
-            options: ["consistent-arguments"]
+            options: ["multiline-arguments"]
         },
         {
             code: `
@@ -165,7 +165,7 @@ ruleTester.run("function-paren-newline", rule, {
                     foo
                 ) {});
             `,
-            options: ["consistent-arguments"]
+            options: ["multiline-arguments"]
         },
         {
             code: `
@@ -174,7 +174,7 @@ ruleTester.run("function-paren-newline", rule, {
                     bar
                 ) {});
             `,
-            options: ["consistent-arguments"]
+            options: ["multiline-arguments"]
         },
         {
             code: `
@@ -182,7 +182,7 @@ ruleTester.run("function-paren-newline", rule, {
                     foo
                 ) {});
             `,
-            options: ["consistent-arguments"]
+            options: ["multiline-arguments"]
         },
         {
             code: `
@@ -191,7 +191,7 @@ ruleTester.run("function-paren-newline", rule, {
                     bar
                 ) => {};
             `,
-            options: ["consistent-arguments"]
+            options: ["multiline-arguments"]
         },
         {
             code: `
@@ -199,7 +199,7 @@ ruleTester.run("function-paren-newline", rule, {
                     foo
                 ) => {};
             `,
-            options: ["consistent-arguments"]
+            options: ["multiline-arguments"]
         },
         {
             code: `
@@ -208,7 +208,7 @@ ruleTester.run("function-paren-newline", rule, {
                     bar
                 );
             `,
-            options: ["consistent-arguments"]
+            options: ["multiline-arguments"]
         },
         {
             code: `
@@ -216,30 +216,30 @@ ruleTester.run("function-paren-newline", rule, {
                     foo
                 );
             `,
-            options: ["consistent-arguments"]
+            options: ["multiline-arguments"]
         },
         {
             code: `
                 baz(\`foo
                     bar\`)
             `,
-            options: ["consistent-arguments"]
+            options: ["multiline-arguments"]
         },
         {
             code: "new Foo(bar, baz)",
-            options: ["consistent-arguments"]
+            options: ["multiline-arguments"]
         },
         {
             code: "new Foo(bar)",
-            options: ["consistent-arguments"]
+            options: ["multiline-arguments"]
         },
         {
             code: "new Foo",
-            options: ["consistent-arguments"]
+            options: ["multiline-arguments"]
         },
         {
             code: "new (Foo)",
-            options: ["consistent-arguments"]
+            options: ["multiline-arguments"]
         },
 
         {
@@ -247,7 +247,7 @@ ruleTester.run("function-paren-newline", rule, {
                 (foo)
                 (bar)
             `,
-            options: ["consistent-arguments"]
+            options: ["multiline-arguments"]
         },
         {
             code: `
@@ -255,7 +255,7 @@ ruleTester.run("function-paren-newline", rule, {
                   return value;
                 })
             `,
-            options: ["consistent-arguments"]
+            options: ["multiline-arguments"]
         },
 
         // always option
@@ -515,7 +515,7 @@ ruleTester.run("function-paren-newline", rule, {
             errors: [RIGHT_UNEXPECTED_ERROR]
         },
 
-        // consistent-arguments
+        // multiline-arguments
         {
             code: `
                 function baz(foo,
@@ -527,7 +527,7 @@ ruleTester.run("function-paren-newline", rule, {
                     bar
                 ) {}
             `,
-            options: ["consistent-arguments"],
+            options: ["multiline-arguments"],
             errors: [LEFT_MISSING_ERROR]
         },
         {
@@ -541,7 +541,7 @@ ruleTester.run("function-paren-newline", rule, {
                     foo,
                     bar\n) {})
             `,
-            options: ["consistent-arguments"],
+            options: ["multiline-arguments"],
             errors: [RIGHT_MISSING_ERROR]
         },
         {
@@ -553,7 +553,7 @@ ruleTester.run("function-paren-newline", rule, {
                 (function baz(\nfoo,
                     bar\n) {})
             `,
-            options: ["consistent-arguments"],
+            options: ["multiline-arguments"],
             errors: [LEFT_MISSING_ERROR, RIGHT_MISSING_ERROR]
         },
         {
@@ -564,7 +564,7 @@ ruleTester.run("function-paren-newline", rule, {
             output: `
                 baz(foo, bar);
             `,
-            options: ["consistent-arguments"],
+            options: ["multiline-arguments"],
             errors: [LEFT_UNEXPECTED_ERROR]
         },
         {
@@ -575,7 +575,7 @@ ruleTester.run("function-paren-newline", rule, {
             output: `
                 (foo, bar) => {};
             `,
-            options: ["consistent-arguments"],
+            options: ["multiline-arguments"],
             errors: [RIGHT_UNEXPECTED_ERROR]
         },
         {
@@ -587,7 +587,7 @@ ruleTester.run("function-paren-newline", rule, {
             output: `
                 function baz(foo, bar) {}
             `,
-            options: ["consistent-arguments"],
+            options: ["multiline-arguments"],
             errors: [LEFT_UNEXPECTED_ERROR, RIGHT_UNEXPECTED_ERROR]
         },
         {
@@ -598,7 +598,7 @@ ruleTester.run("function-paren-newline", rule, {
             output: `
                 function baz() {}
             `,
-            options: ["consistent-arguments"],
+            options: ["multiline-arguments"],
             errors: [LEFT_UNEXPECTED_ERROR, RIGHT_UNEXPECTED_ERROR]
         },
         {
@@ -610,7 +610,7 @@ ruleTester.run("function-paren-newline", rule, {
                 new Foo(\nbar,
                     baz\n);
             `,
-            options: ["consistent-arguments"],
+            options: ["multiline-arguments"],
             errors: [LEFT_MISSING_ERROR, RIGHT_MISSING_ERROR]
         },
         {
@@ -622,7 +622,7 @@ ruleTester.run("function-paren-newline", rule, {
                 function baz(/* not fixed due to comment */
                 foo\n) {}
             `,
-            options: ["consistent-arguments"],
+            options: ["multiline-arguments"],
             errors: [RIGHT_MISSING_ERROR]
         },
         {
@@ -631,7 +631,7 @@ ruleTester.run("function-paren-newline", rule, {
                 /* not fixed due to comment */) {}
             `,
             output: null,
-            options: ["consistent-arguments"],
+            options: ["multiline-arguments"],
             errors: [RIGHT_UNEXPECTED_ERROR]
         },
         {
@@ -647,7 +647,7 @@ ruleTester.run("function-paren-newline", rule, {
                     foo, \nbar
                 ) {}
             `,
-            options: ["consistent-arguments"],
+            options: ["multiline-arguments"],
             errors: [EXPECTED_BETWEEN]
         },
         {
@@ -663,7 +663,7 @@ ruleTester.run("function-paren-newline", rule, {
                     bar
                 ) {}
             `,
-            options: ["consistent-arguments"],
+            options: ["multiline-arguments"],
             errors: [EXPECTED_BETWEEN]
         },
         {
@@ -675,7 +675,7 @@ ruleTester.run("function-paren-newline", rule, {
                 function baz(\nqwe, \nfoo,
                     bar\n) {}
             `,
-            options: ["consistent-arguments"],
+            options: ["multiline-arguments"],
             errors: [LEFT_MISSING_ERROR, EXPECTED_BETWEEN, RIGHT_MISSING_ERROR]
         },
         {
@@ -687,7 +687,7 @@ ruleTester.run("function-paren-newline", rule, {
                 baz(
                     foo\n);
             `,
-            options: ["consistent-arguments"],
+            options: ["multiline-arguments"],
             errors: [RIGHT_MISSING_ERROR]
         },
         {
@@ -698,7 +698,7 @@ ruleTester.run("function-paren-newline", rule, {
             output: `
                 baz(foo);
             `,
-            options: ["consistent-arguments"],
+            options: ["multiline-arguments"],
             errors: [RIGHT_UNEXPECTED_ERROR]
         },
 
