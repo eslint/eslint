@@ -67,23 +67,43 @@ function checkContentRow($, rowObject, args) {
 
 describe("formatter:html", () => {
     describe("when passed a single error message", () => {
+        const rulesMeta = {
+            foo: {
+                type: "problem",
 
-        const code = [{
-            filePath: "foo.js",
-            errorCount: 1,
-            warningCount: 0,
-            messages: [{
-                message: "Unexpected foo.",
-                severity: 2,
-                line: 5,
-                column: 10,
-                ruleId: "foo",
-                source: "foo"
-            }]
-        }];
+                docs: {
+                    description: "This is rule 'foo'",
+                    category: "error",
+                    recommended: true,
+                    url: "https://eslint.org/docs/rules/foo"
+                },
+
+                fixable: "code",
+
+                messages: {
+                    message1: "This is a message for rule 'foo'."
+                }
+            }
+        };
+        const code = {
+            results: [{
+                filePath: "foo.js",
+                errorCount: 1,
+                warningCount: 0,
+                messages: [{
+                    message: "Unexpected foo.",
+                    severity: 2,
+                    line: 5,
+                    column: 10,
+                    ruleId: "foo",
+                    source: "foo"
+                }]
+            }],
+            rulesMeta
+        };
 
         it("should return a string in HTML format with 1 issue in 1 file and styled accordingly", () => {
-            const result = formatter(code);
+            const result = formatter(code.results, { rulesMeta });
             const $ = cheerio.load(result);
 
             // Check overview
@@ -98,23 +118,43 @@ describe("formatter:html", () => {
     });
 
     describe("when passed a single warning message", () => {
+        const rulesMeta = {
+            foo: {
+                type: "problem",
 
-        const code = [{
-            filePath: "foo.js",
-            errorCount: 0,
-            warningCount: 1,
-            messages: [{
-                message: "Unexpected foo.",
-                severity: 1,
-                line: 5,
-                column: 10,
-                ruleId: "foo",
-                source: "foo"
-            }]
-        }];
+                docs: {
+                    description: "This is rule 'foo'",
+                    category: "error",
+                    recommended: true,
+                    url: "https://eslint.org/docs/rules/foo"
+                },
+
+                fixable: "code",
+
+                messages: {
+                    message1: "This is a message for rule 'foo'."
+                }
+            }
+        };
+        const code = {
+            results: [{
+                filePath: "foo.js",
+                errorCount: 0,
+                warningCount: 1,
+                messages: [{
+                    message: "Unexpected foo.",
+                    severity: 1,
+                    line: 5,
+                    column: 10,
+                    ruleId: "foo",
+                    source: "foo"
+                }]
+            }],
+            rulesMeta
+        };
 
         it("should return a string in HTML format with 1 issue in 1 file and styled accordingly", () => {
-            const result = formatter(code);
+            const result = formatter(code.results, { rulesMeta });
             const $ = cheerio.load(result);
 
             // Check overview
@@ -129,23 +169,43 @@ describe("formatter:html", () => {
     });
 
     describe("when passed a single error message", () => {
+        const rulesMeta = {
+            foo: {
+                type: "problem",
 
-        const code = [{
-            filePath: "foo.js",
-            errorCount: 1,
-            warningCount: 0,
-            messages: [{
-                message: "Unexpected foo.",
-                severity: 2,
-                line: 5,
-                column: 10,
-                ruleId: "foo",
-                source: "foo"
-            }]
-        }];
+                docs: {
+                    description: "This is rule 'foo'",
+                    category: "error",
+                    recommended: true,
+                    url: "https://eslint.org/docs/rules/foo"
+                },
+
+                fixable: "code",
+
+                messages: {
+                    message1: "This is a message for rule 'foo'."
+                }
+            }
+        };
+        const code = {
+            results: [{
+                filePath: "foo.js",
+                errorCount: 1,
+                warningCount: 0,
+                messages: [{
+                    message: "Unexpected foo.",
+                    severity: 2,
+                    line: 5,
+                    column: 10,
+                    ruleId: "foo",
+                    source: "foo"
+                }]
+            }],
+            rulesMeta
+        };
 
         it("should return a string in HTML format with 1 issue in 1 file and styled accordingly", () => {
-            const result = formatter(code);
+            const result = formatter(code.results, { rulesMeta });
             const $ = cheerio.load(result);
 
             // Check overview
@@ -160,16 +220,17 @@ describe("formatter:html", () => {
     });
 
     describe("when passed no error/warning messages", () => {
-
-        const code = [{
-            filePath: "foo.js",
-            errorCount: 0,
-            warningCount: 0,
-            messages: []
-        }];
+        const code = {
+            results: [{
+                filePath: "foo.js",
+                errorCount: 0,
+                warningCount: 0,
+                messages: []
+            }]
+        };
 
         it("should return a string in HTML format with 0 issues in 1 file and styled accordingly", () => {
-            const result = formatter(code);
+            const result = formatter(code.results, {});
             const $ = cheerio.load(result);
 
             // Check overview
@@ -182,29 +243,63 @@ describe("formatter:html", () => {
     });
 
     describe("when passed multiple messages", () => {
-        const code = [{
-            filePath: "foo.js",
-            errorCount: 1,
-            warningCount: 1,
-            messages: [{
-                message: "Unexpected foo.",
-                severity: 2,
-                line: 5,
-                column: 10,
-                ruleId: "foo",
-                source: "foo"
-            }, {
-                message: "Unexpected bar.",
-                severity: 1,
-                line: 6,
-                column: 11,
-                ruleId: "bar",
-                source: "bar"
-            }]
-        }];
+        const rulesMeta = {
+            foo: {
+                type: "problem",
+
+                docs: {
+                    description: "This is rule 'foo'",
+                    category: "error",
+                    recommended: true,
+                    url: "https://eslint.org/docs/rules/foo"
+                },
+
+                fixable: "code",
+
+                messages: {
+                    message1: "This is a message for rule 'foo'."
+                }
+            },
+            bar: {
+                type: "suggestion",
+
+                docs: {
+                    description: "This is rule 'bar'",
+                    category: "error",
+                    recommended: false
+                },
+
+                messages: {
+                    message1: "This is a message for rule 'bar'."
+                }
+            }
+        };
+        const code = {
+            results: [{
+                filePath: "foo.js",
+                errorCount: 1,
+                warningCount: 1,
+                messages: [{
+                    message: "Unexpected foo.",
+                    severity: 2,
+                    line: 5,
+                    column: 10,
+                    ruleId: "foo",
+                    source: "foo"
+                }, {
+                    message: "Unexpected bar.",
+                    severity: 1,
+                    line: 6,
+                    column: 11,
+                    ruleId: "bar",
+                    source: "bar"
+                }]
+            }],
+            rulesMeta
+        };
 
         it("should return a string in HTML format with 2 issues in 1 file and styled accordingly", () => {
-            const result = formatter(code);
+            const result = formatter(code.results, { rulesMeta });
             const $ = cheerio.load(result);
 
             // Check overview
@@ -220,34 +315,68 @@ describe("formatter:html", () => {
     });
 
     describe("when passed multiple files with 1 error & warning message respectively", () => {
-        const code = [{
-            filePath: "foo.js",
-            errorCount: 1,
-            warningCount: 0,
-            messages: [{
-                message: "Unexpected foo.",
-                severity: 2,
-                line: 5,
-                column: 10,
-                ruleId: "foo",
-                source: "foo"
-            }]
-        }, {
-            filePath: "bar.js",
-            errorCount: 0,
-            warningCount: 1,
-            messages: [{
-                message: "Unexpected bar.",
-                severity: 1,
-                line: 6,
-                column: 11,
-                ruleId: "bar",
-                source: "bar"
-            }]
-        }];
+        const rulesMeta = {
+            foo: {
+                type: "problem",
+
+                docs: {
+                    description: "This is rule 'foo'",
+                    category: "error",
+                    recommended: true,
+                    url: "https://eslint.org/docs/rules/foo"
+                },
+
+                fixable: "code",
+
+                messages: {
+                    message1: "This is a message for rule 'foo'."
+                }
+            },
+            bar: {
+                type: "suggestion",
+
+                docs: {
+                    description: "This is rule 'bar'",
+                    category: "error",
+                    recommended: false
+                },
+
+                messages: {
+                    message1: "This is a message for rule 'bar'."
+                }
+            }
+        };
+        const code = {
+            results: [{
+                filePath: "foo.js",
+                errorCount: 1,
+                warningCount: 0,
+                messages: [{
+                    message: "Unexpected foo.",
+                    severity: 2,
+                    line: 5,
+                    column: 10,
+                    ruleId: "foo",
+                    source: "foo"
+                }]
+            }, {
+                filePath: "bar.js",
+                errorCount: 0,
+                warningCount: 1,
+                messages: [{
+                    message: "Unexpected bar.",
+                    severity: 1,
+                    line: 6,
+                    column: 11,
+                    ruleId: "bar",
+                    source: "bar"
+                }]
+            }],
+            rulesMeta
+        };
 
         it("should return a string in HTML format with 2 issues in 2 files and styled accordingly", () => {
-            const result = formatter(code);
+            const result = formatter(code.results, { rulesMeta });
             const $ = cheerio.load(result);
 
             // Check overview
@@ -264,34 +393,68 @@ describe("formatter:html", () => {
     });
 
     describe("when passed multiple files with 1 warning message each", () => {
-        const code = [{
-            filePath: "foo.js",
-            errorCount: 0,
-            warningCount: 1,
-            messages: [{
-                message: "Unexpected foo.",
-                severity: 1,
-                line: 5,
-                column: 10,
-                ruleId: "foo",
-                source: "foo"
-            }]
-        }, {
-            filePath: "bar.js",
-            errorCount: 0,
-            warningCount: 1,
-            messages: [{
-                message: "Unexpected bar.",
-                severity: 1,
-                line: 6,
-                column: 11,
-                ruleId: "bar",
-                source: "bar"
-            }]
-        }];
+        const rulesMeta = {
+            foo: {
+                type: "problem",
+
+                docs: {
+                    description: "This is rule 'foo'",
+                    category: "error",
+                    recommended: true,
+                    url: "https://eslint.org/docs/rules/foo"
+                },
+
+                fixable: "code",
+
+                messages: {
+                    message1: "This is a message for rule 'foo'."
+                }
+            },
+            bar: {
+                type: "suggestion",
+
+                docs: {
+                    description: "This is rule 'bar'",
+                    category: "error",
+                    recommended: false
+                },
+
+                messages: {
+                    message1: "This is a message for rule 'bar'."
+                }
+            }
+        };
+        const code = {
+            results: [{
+                filePath: "foo.js",
+                errorCount: 0,
+                warningCount: 1,
+                messages: [{
+                    message: "Unexpected foo.",
+                    severity: 1,
+                    line: 5,
+                    column: 10,
+                    ruleId: "foo",
+                    source: "foo"
+                }]
+            }, {
+                filePath: "bar.js",
+                errorCount: 0,
+                warningCount: 1,
+                messages: [{
+                    message: "Unexpected bar.",
+                    severity: 1,
+                    line: 6,
+                    column: 11,
+                    ruleId: "bar",
+                    source: "bar"
+                }]
+            }],
+            rulesMeta
+        };
 
         it("should return a string in HTML format with 2 issues in 2 files and styled accordingly", () => {
-            const result = formatter(code);
+            const result = formatter(code.results, { rulesMeta });
             const $ = cheerio.load(result);
 
             // Check overview
@@ -308,23 +471,43 @@ describe("formatter:html", () => {
     });
 
     describe("when passing a single message with illegal characters", () => {
+        const rulesMeta = {
+            foo: {
+                type: "problem",
 
-        const code = [{
-            filePath: "foo.js",
-            errorCount: 1,
-            warningCount: 0,
-            messages: [{
-                message: "Unexpected <&\"'> foo.",
-                severity: 2,
-                line: 5,
-                column: 10,
-                ruleId: "foo",
-                source: "foo"
-            }]
-        }];
+                docs: {
+                    description: "This is rule 'foo'",
+                    category: "error",
+                    recommended: true,
+                    url: "https://eslint.org/docs/rules/foo"
+                },
+
+                fixable: "code",
+
+                messages: {
+                    message1: "This is a message for rule 'foo'."
+                }
+            }
+        };
+        const code = {
+            results: [{
+                filePath: "foo.js",
+                errorCount: 1,
+                warningCount: 0,
+                messages: [{
+                    message: "Unexpected <&\"'> foo.",
+                    severity: 2,
+                    line: 5,
+                    column: 10,
+                    ruleId: "foo",
+                    source: "foo"
+                }]
+            }],
+            rulesMeta
+        };
 
         it("should return a string in HTML format with 1 issue in 1 file", () => {
-            const result = formatter(code);
+            const result = formatter(code.results, { rulesMeta });
             const $ = cheerio.load(result);
 
             checkContentRow($, $("tr")[1], { group: "f-0", lineCol: "5:10", color: "clr-2", message: "Unexpected &lt;&amp;&quot;&apos;&gt; foo.", ruleId: "foo" });
@@ -344,7 +527,7 @@ describe("formatter:html", () => {
         }];
 
         it("should return a string in HTML format with 1 issue in 1 file", () => {
-            const result = formatter(code);
+            const result = formatter(code, {});
             const $ = cheerio.load(result);
 
             checkContentRow($, $("tr")[1], { group: "f-0", lineCol: "5:10", color: "clr-2", message: "", ruleId: "" });
@@ -352,21 +535,41 @@ describe("formatter:html", () => {
     });
 
     describe("when passed a single message with no line or column", () => {
+        const rulesMeta = {
+            foo: {
+                type: "problem",
 
-        const code = [{
-            filePath: "foo.js",
-            errorCount: 1,
-            warningCount: 0,
-            messages: [{
-                message: "Unexpected foo.",
-                severity: 2,
-                ruleId: "foo",
-                source: "foo"
-            }]
-        }];
+                docs: {
+                    description: "This is rule 'foo'",
+                    category: "error",
+                    recommended: true,
+                    url: "https://eslint.org/docs/rules/foo"
+                },
+
+                fixable: "code",
+
+                messages: {
+                    message1: "This is a message for rule 'foo'."
+                }
+            }
+        };
+        const code = {
+            results: [{
+                filePath: "foo.js",
+                errorCount: 1,
+                warningCount: 0,
+                messages: [{
+                    message: "Unexpected foo.",
+                    severity: 2,
+                    ruleId: "foo",
+                    source: "foo"
+                }]
+            }],
+            rulesMeta
+        };
 
         it("should return a string in HTML format with 1 issue in 1 file and styled accordingly", () => {
-            const result = formatter(code);
+            const result = formatter(code.results, { rulesMeta });
             const $ = cheerio.load(result);
 
             checkContentRow($, $("tr")[1], { group: "f-0", lineCol: "0:0", color: "clr-2", message: "Unexpected foo.", ruleId: "foo" });
