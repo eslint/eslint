@@ -430,16 +430,17 @@ function getFormatterResults() {
     const stripAnsi = require("strip-ansi");
 
     const formatterFiles = fs.readdirSync("./lib/formatters/"),
+        rules = {
+            "no-else-return": "warn",
+            indent: ["warn", 4],
+            "space-unary-ops": "error",
+            semi: ["warn", "always"],
+            "consistent-return": "error"
+        },
         cli = new CLIEngine({
             useEslintrc: false,
             baseConfig: { extends: "eslint:recommended" },
-            rules: {
-                "no-else-return": 1,
-                indent: [1, 4],
-                "space-unary-ops": 2,
-                semi: [1, "always"],
-                "consistent-return": 2
-            }
+            rules
         }),
         codeString = [
             "function addOne(i) {",
@@ -450,15 +451,26 @@ function getFormatterResults() {
             "    }",
             "};"
         ].join("\n"),
-        rawMessages = cli.executeOnText(codeString, "fullOfProblems.js", true);
+        rawMessages = cli.executeOnText(codeString, "fullOfProblems.js", true),
+        rulesMap = cli.getRules(),
+        rulesMeta = {};
+
+    Object.keys(rules).forEach(ruleId => {
+        rulesMeta[ruleId] = rulesMap.get(ruleId).meta;
+    });
 
     return formatterFiles.reduce((data, filename) => {
         const fileExt = path.extname(filename),
             name = path.basename(filename, fileExt);
 
         if (fileExt === ".js") {
+            const formattedOutput = cli.getFormatter(name)(
+                rawMessages.results,
+                { rulesMeta }
+            );
+
             data.formatterResults[name] = {
-                result: stripAnsi(cli.getFormatter(name)(rawMessages.results))
+                result: stripAnsi(formattedOutput)
             };
         }
         return data;
