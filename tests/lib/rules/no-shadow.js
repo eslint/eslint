@@ -299,8 +299,8 @@ ruleTester.run("no-shadow", rule, {
         {
             code: "function foo() { var top = 0; }",
             options: [{ builtinGlobals: true }],
-            errors: [{ message: "'top' is already declared in the upper scope.", type: "Identifier" }],
-            env: { browser: true }
+            env: { browser: true },
+            errors: [{ message: "'top' is already declared in the upper scope.", type: "Identifier" }]
         },
         {
             code: "var Object = 0;",
@@ -312,8 +312,8 @@ ruleTester.run("no-shadow", rule, {
             code: "var top = 0;",
             options: [{ builtinGlobals: true }],
             parserOptions: { sourceType: "module" },
-            errors: [{ message: "'top' is already declared in the upper scope.", type: "Identifier" }],
-            env: { browser: true }
+            env: { browser: true },
+            errors: [{ message: "'top' is already declared in the upper scope.", type: "Identifier" }]
         },
         {
             code: "var Object = 0;",
@@ -325,8 +325,8 @@ ruleTester.run("no-shadow", rule, {
             code: "var top = 0;",
             options: [{ builtinGlobals: true }],
             parserOptions: { ecmaFeatures: { globalReturn: true } },
-            errors: [{ message: "'top' is already declared in the upper scope.", type: "Identifier" }],
-            env: { browser: true }
+            env: { browser: true },
+            errors: [{ message: "'top' is already declared in the upper scope.", type: "Identifier" }]
         },
         {
             code: "function foo(cb) { (function (cb) { cb(42); })(cb); }",

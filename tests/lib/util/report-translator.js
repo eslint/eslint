@@ -28,7 +28,7 @@ describe("createReportTranslator", () => {
         return new SourceCode(
             text,
             espree.parse(
-                text.replace(/^\uFEFF/, ""),
+                text.replace(/^\uFEFF/u, ""),
                 {
                     loc: true,
                     range: true,
@@ -161,7 +161,7 @@ describe("createReportTranslator", () => {
             assert.throws(
                 () => translateReport(reportDescriptor),
                 TypeError,
-                /^context\.report\(\) called with a messageId of '[^']+' which is not present in the 'messages' config:/
+                /^context\.report\(\) called with a messageId of '[^']+' which is not present in the 'messages' config:/u
             );
         });
         it("should throw when no message is provided", () => {

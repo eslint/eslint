@@ -23,7 +23,7 @@ Please note that supporting JSX syntax is not the same as supporting React. Reac
 By the same token, supporting ES6 syntax is not the same as supporting new ES6 globals (e.g., new types such as
 `Set`).
 For ES6 syntax, use `{ "parserOptions": { "ecmaVersion": 6 } }`; for new ES6 global variables, use `{ "env":
-{ "es6": true } }` (this setting enables ES6 syntax automatically).
+{ "es6": true } }`. `{ "env": { "es6": true } }` enables ES6 syntax automatically, but `{ "parserOptions": { "ecmaVersion": 6 } }` does not enable ES6 globals automatically.
 Parser options are set in your `.eslintrc.*` file by using the `parserOptions` property. The available options are:
 
 * `ecmaVersion` - set to 3, 5 (default), 6, 7, 8, 9, or 10 to specify the version of ECMAScript syntax you want to use. You can also set to 2015 (same as 6), 2016 (same as 7), 2017 (same as 8), 2018 (same as 9), or 2019 (same as 10) to use the year-based naming.
@@ -81,7 +81,7 @@ The following parsers are compatible with ESLint:
 
 * [Esprima](https://www.npmjs.com/package/esprima)
 * [Babel-ESLint](https://www.npmjs.com/package/babel-eslint) - A wrapper around the [Babel](https://babeljs.io) parser that makes it compatible with ESLint.
-* [typescript-eslint-parser(Experimental)](https://www.npmjs.com/package/typescript-eslint-parser) - A parser that converts TypeScript into an ESTree-compatible form so it can be used in ESLint. The goal is to allow TypeScript files to be parsed by ESLint (though not necessarily pass all ESLint rules).
+* [@typescript-eslint/parser](https://www.npmjs.com/package/@typescript-eslint/parser) - A parser that converts TypeScript into an ESTree-compatible form so it can be used in ESLint.
 
 Note when using a custom parser, the `parserOptions` configuration property is still required for ESLint to work properly with features not in ECMAScript 5 by default. Parsers are all passed `parserOptions` and may or may not use them to determine which features to enable.
 
@@ -208,19 +208,19 @@ To specify globals using a comment inside of your JavaScript file, use the follo
 /* global var1, var2 */
 ```
 
-This defines two global variables, `var1` and `var2`. If you want to optionally specify that these global variables can be written to (rather than only being read), then you can set each with a `writeable` flag:
+This defines two global variables, `var1` and `var2`. If you want to optionally specify that these global variables can be written to (rather than only being read), then you can set each with a `"writable"` flag:
 
 ```js
-/* global var1:writeable, var2:writeable */
+/* global var1:writable, var2:writable */
 ```
 
-To configure global variables inside of a configuration file, set the `globals` configuration property to an object containing keys named for each of the global variables you want to use. For each global variable key, set the corresponding value equal to `"writeable"` to allow the variable to be overwritten or `"readable"` to disallow overwriting. For example:
+To configure global variables inside of a configuration file, set the `globals` configuration property to an object containing keys named for each of the global variables you want to use. For each global variable key, set the corresponding value equal to `"writable"` to allow the variable to be overwritten or `"readonly"` to disallow overwriting. For example:
 
 ```json
 {
     "globals": {
-        "var1": "writeable",
-        "var2": "readable"
+        "var1": "writable",
+        "var2": "readonly"
     }
 }
 ```
@@ -230,8 +230,8 @@ And in YAML:
 ```yaml
 ---
   globals:
-    var1: writeable
-    var2: readable
+    var1: writable
+    var2: readonly
 ```
 
 These examples allow `var1` to be overwritten in your code, but disallow it for `var2`.
@@ -249,7 +249,7 @@ Globals can be disabled with the string `"off"`. For example, in an environment 
 }
 ```
 
-For historical reasons, the boolean values `false` and `true` can also be used to configure globals, and are equivalent to `"readable"` and `"writeable"`, respectively. However, this usage of booleans is deprecated.
+For historical reasons, the boolean value `false` and the string value `"readable"` are equivalent to `"readonly"`. Similarly, the boolean value `true` and the string value `"writeable"` are equivalent to `"writable"`. However, the use of older values is deprecated.
 
 **Note:** Enable the [no-global-assign](../rules/no-global-assign.md) rule to disallow modifications to read-only global variables in your code.
 
@@ -617,7 +617,7 @@ The complete configuration hierarchy, from highest precedence to lowest preceden
 1. Project-level configuration:
     1. `.eslintrc.*` or `package.json` file in same directory as linted file
     1. Continue searching for `.eslintrc` and `package.json` files in ancestor directories (parent has highest precedence, then grandparent, etc.), up to and including the root directory or until a config with `"root": true` is found.
-1. In the absence of any configuration from (1) thru (3), fall back to a personal default configuration in  `~/.eslintrc`.
+1. In the absence of any configuration from (1) through (3), fall back to a personal default configuration in  `~/.eslintrc`.
 
 ## Extending Configuration Files
 

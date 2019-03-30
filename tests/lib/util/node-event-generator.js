@@ -315,7 +315,7 @@ describe("NodeEventGenerator", () => {
             emitter.on("Foo >", () => {});
             assert.throws(
                 () => new NodeEventGenerator(emitter),
-                /Syntax error in selector "Foo >" at position 5: Expected " ", "!", .*/
+                /Syntax error in selector "Foo >" at position 5: Expected " ", "!", .*/u
             );
         });
     });

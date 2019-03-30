@@ -1,3 +1,109 @@
+v5.16.0 - March 29, 2019
+
+* [`dfef227`](https://github.com/eslint/eslint/commit/dfef227091955a2f8f3fa8c76ad79de8a77e7955) Build: gensite passes rulesMeta to formatter rendering (#11567) (Kevin Partington)
+* [`c06d38c`](https://github.com/eslint/eslint/commit/c06d38c81bd9203c904587396a65d3c8cc7f2944) Fix: Allow HTML formatter to handle no meta data (#11566) (Ilya Volodin)
+* [`87a5c03`](https://github.com/eslint/eslint/commit/87a5c034977cf4538ff3539d2f8776a987c5942a) Docs: `func-style`: clarify when `allowArrowFunctions` is used (#11548) (Oliver Joseph Ash)
+* [`bc3e427`](https://github.com/eslint/eslint/commit/bc3e427ee8875c53eac6b6762884b50074f1adfc) Update: pass rule meta to formatters RFC 10 (#11551) (Chris Meyer)
+* [`b452f27`](https://github.com/eslint/eslint/commit/b452f270bc0b523d88d5d827c95be3096f82e99d) Chore: Update README to pull in reviewer data (#11506) (Nicholas C. Zakas)
+* [`afe3d25`](https://github.com/eslint/eslint/commit/afe3d25f8afb88caee43f7202d0eb96f33a92a6b) Upgrade: Bump js-yaml dependency to fix Denial of Service vulnerability (#11550) (Vernon de Goede)
+* [`4fe7eb7`](https://github.com/eslint/eslint/commit/4fe7eb7cecdc2395cf1eeaa20921bda8460b00c2) Chore: use nyc instead of istanbul (#11532) (Toru Nagashima)
+* [`f16af43`](https://github.com/eslint/eslint/commit/f16af439694aab473c647d8fae47c402bd489447) Chore: fix formatters/table test (#11534) (Toru Nagashima)
+* [`78358a8`](https://github.com/eslint/eslint/commit/78358a8f66e95c4fcc921f2497e8a5ec5f1537ec) Docs: fix duplicate punctuation in CLI docs (#11528) (Teddy Katz)
+
+v5.15.3 - March 18, 2019
+
+* [`71adc66`](https://github.com/eslint/eslint/commit/71adc665b9649b173adc76f80723b8de20664ae1) Fix: avoid moving comments in implicit-arrow-linebreak (fixes #11521) (#11522) (Teddy Katz)
+* [`1f715a2`](https://github.com/eslint/eslint/commit/1f715a20c145d8ccc38f3310afccd838495d09d4) Chore: make test-case-property-ordering reasonable (#11511) (Toru Nagashima)
+
+v5.15.2 - March 15, 2019
+
+* [`29dbca7`](https://github.com/eslint/eslint/commit/29dbca73d762a809adb2f457b527e144426d54a7) Fix: implicit-arrow-linebreak adds extra characters (fixes #11268) (#11407) (Mark de Dios)
+* [`5d2083f`](https://github.com/eslint/eslint/commit/5d2083fa3e14c024197f6c386ff72237a145e258) Upgrade: eslint-scope@4.0.3 (#11513) (Teddy Katz)
+* [`a5dae7c`](https://github.com/eslint/eslint/commit/a5dae7c3d30231c2f5f075d98c2c8825899bab16) Fix: Empty glob pattern incorrectly expands to "/**" (#11476) (Ben Chauvette)
+* [`448e8da`](https://github.com/eslint/eslint/commit/448e8da94d09b397e98ffcb6f22b55a578ef79c1) Chore: improve crash reporting (fixes #11304) (#11463) (Alex Zherdev)
+* [`0f56dc6`](https://github.com/eslint/eslint/commit/0f56dc6d9eadad05dc3d5c9d1d9ddef94e10c5d3) Chore: make config validator params more consistent (#11435) (薛定谔的猫)
+* [`d6c1122`](https://github.com/eslint/eslint/commit/d6c112289f0f16ade070865c8786831b7940ca79) Docs: Add working groups to maintainer guide (#11400) (Nicholas C. Zakas)
+* [`5fdb4d3`](https://github.com/eslint/eslint/commit/5fdb4d3fb01b9d8a4c2dff71ed9cddb2f8feefb0) Build: compile deps to ES5 when generating browser file (fixes #11504) (#11505) (Teddy Katz)
+* [`06fa165`](https://github.com/eslint/eslint/commit/06fa1655c3da8394ed9144d727115fc434b0416f) Build: update CI testing configuration (#11500) (Reece Dunham)
+* [`956e883`](https://github.com/eslint/eslint/commit/956e883c21fd9f393bf6718d032a4e2e53b33f22) Docs: Fix example in no-restricted-modules docs (#11454) (Paul O’Shannessy)
+* [`2c7431d`](https://github.com/eslint/eslint/commit/2c7431d6b32063f74e3837ee727f26af215eada7) Docs: fix json schema example dead link (#11498) (kazuya kawaguchi)
+* [`e7266c2`](https://github.com/eslint/eslint/commit/e7266c2478aff5d66e7859313feb49e3a129f85e) Docs: Fix invalid JSON in "Specifying Parser Options" (#11492) (Mihira Jayasekera)
+* [`6693161`](https://github.com/eslint/eslint/commit/6693161978a83e0730d5ea0fecdb627c5a2acdfd) Sponsors: Sync README with website (ESLint Jenkins)
+* [`62fee4a`](https://github.com/eslint/eslint/commit/62fee4a976897d158c8c137339728cd280333286) Chore: eslint-config-eslint enable comma-dangle functions: "never" (#11434) (薛定谔的猫)
+* [`34a5382`](https://github.com/eslint/eslint/commit/34a53829e7a63ff2f6b371d77ce283bbdd373b91) Build: copy bundled espree to website directory (#11478) (Pig Fang)
+* [`f078f9a`](https://github.com/eslint/eslint/commit/f078f9a9e094ec00c61a6ef1c9550d017631e69a) Chore: use "file:" dependencies for internal rules/config (#11465) (Teddy Katz)
+* [`0756128`](https://github.com/eslint/eslint/commit/075612871f85aa04cef8137bd32247e128ad600b) Docs: Add `visualstudio` to formatter list (#11480) (Patrick Eriksson)
+* [`44de9d7`](https://github.com/eslint/eslint/commit/44de9d7e1aa2fcae475a97b8f597b7d8094566b2) Docs: Fix typo in func-name-matching rule docs (#11484) (Iulian Onofrei)
+
+v5.15.1 - March 4, 2019
+
+* [`fe1a892`](https://github.com/eslint/eslint/commit/fe1a892f85b09c3d2fea05bef011530a678a6af5) Build: bundle espree (fixes eslint/eslint.github.io#546) (#11467) (薛定谔的猫)
+* [`458053b`](https://github.com/eslint/eslint/commit/458053b0b541f857bf233dacbde5ba80681820f8) Fix: avoid creating invalid regex in no-warning-comments (fixes #11471) (#11472) (Teddy Katz)
+
+v5.15.0 - March 1, 2019
+
+* [`4088c6c`](https://github.com/eslint/eslint/commit/4088c6c9d4578cd581ce8ff4385d90b58a75b755) Build: Remove path.resolve in webpack build (#11462) (Kevin Partington)
+* [`ec59ec0`](https://github.com/eslint/eslint/commit/ec59ec09c8d001b8c04f9edc09994e2b0d0af0f9) New: add rule "prefer-named-capture-group" (fixes #11381) (#11392) (Pig Fang)
+* [`a44f750`](https://github.com/eslint/eslint/commit/a44f75073306e5ea4e6722654009a99884fbca4f) Upgrade: eslint-scope@4.0.2 (#11461) (Teddy Katz)
+* [`d3ce611`](https://github.com/eslint/eslint/commit/d3ce611e1c705440ccbcae357f2194134d026541) Sponsors: Sync README with website (ESLint Jenkins)
+* [`ee88475`](https://github.com/eslint/eslint/commit/ee884754e4111e11994ff0df3f0c29e43e1dc3f2) Chore: add utils for rule tests (#11453) (薛定谔的猫)
+* [`d4824e4`](https://github.com/eslint/eslint/commit/d4824e46d7a6ca1618454d3c6198403382108123) Sponsors: Sync README with website (ESLint Jenkins)
+* [`6489518`](https://github.com/eslint/eslint/commit/64895185bde5233223648bcaf46f8deb72c9fb55) Fix: no-extra-parens crash when code is "((let))" (#11444) (Teddy Katz)
+* [`9d20de2`](https://github.com/eslint/eslint/commit/9d20de2b0ac756bd62888119b8e08c7441d8a5aa) Sponsors: Sync README with website (ESLint Jenkins)
+* [`3f14de4`](https://github.com/eslint/eslint/commit/3f14de458ba120e9c013f5fc7c6fe3e9b40c1460) Sponsors: Sync README with website (ESLint Jenkins)
+* [`3d6c770`](https://github.com/eslint/eslint/commit/3d6c7709d47e047b25d91ca1a77d6dab92313061) Sponsors: Sync README with website (ESLint Jenkins)
+* [`de5cbc5`](https://github.com/eslint/eslint/commit/de5cbc526b30405e742b35d85d04361529d49ed4) Update: remove invalid defaults from core rules (fixes #11415) (#11427) (Teddy Katz)
+* [`eb0650b`](https://github.com/eslint/eslint/commit/eb0650ba20cf9f9ad78dbaccfeb7e0e7ab56e31d) Build: fix linting errors on master (#11428) (Teddy Katz)
+* [`5018378`](https://github.com/eslint/eslint/commit/5018378131fd5190bbccca902c0cf4276ee1581a) Chore: enable require-unicode-regexp on ESLint codebase (#11422) (Teddy Katz)
+* [`f6ba633`](https://github.com/eslint/eslint/commit/f6ba633f56eca6be20fc4b0d9496a78b9498d578) Chore: lint all files in the repo at the same time (#11425) (Teddy Katz)
+* [`8f3d717`](https://github.com/eslint/eslint/commit/8f3d71754932669332ad7623bcc4c1aef3897125) Docs: Add non-attending TSC member info (#11411) (Nicholas C. Zakas)
+* [`ce0777d`](https://github.com/eslint/eslint/commit/ce0777da5bc167fe0c529158fd8216d3eaf11565) Docs: use more common spelling (#11417) (薛定谔的猫)
+* [`b9aabe3`](https://github.com/eslint/eslint/commit/b9aabe34311f6189b87c9d8a1aa40f3513fed773) Chore: run fuzzer along with unit tests (#11404) (Teddy Katz)
+* [`db0c5e2`](https://github.com/eslint/eslint/commit/db0c5e2a7f894b7cda71007b0ba43d7814b3fb2e) Build: switch from browserify to webpack (fixes #11366) (#11398) (Pig Fang)
+
+v5.14.1 - February 18, 2019
+
+* [`1d6e639`](https://github.com/eslint/eslint/commit/1d6e63930073e79e52890f552cc6e9a0646b7fb4) Fix: sort-keys throws Error at SpreadElement (fixes #11402) (#11403) (Krist Wongsuphasawat)
+
+v5.14.0 - February 15, 2019
+
+* [`85a04b3`](https://github.com/eslint/eslint/commit/85a04b319e6dfde1458174cd1d8c9e7d33da0871) Fix: adds conditional for separateRequires in one-var (fixes #10179) (#10980) (Scott Stern)
+* [`0c02932`](https://github.com/eslint/eslint/commit/0c02932f1b2e2a85809e84617efa1b8836c19cfb) Upgrade: espree@5.0.1 (#11401) (Ilya Volodin)
+* [`104ae88`](https://github.com/eslint/eslint/commit/104ae881d0b21e9c64e006b2a2c21535cef0ad28) Docs: Update governance doc with reviewers status (#11399) (Nicholas C. Zakas)
+* [`ab8ac6a`](https://github.com/eslint/eslint/commit/ab8ac6adaaf7a88e160899e7f438a4cfd655eb6e) Fix: Support boundary spread elements in sort-keys (#11158) (Jakub Rożek)
+* [`a23d197`](https://github.com/eslint/eslint/commit/a23d1975d48841eafdead1a1357e2af842f688bc) New: add allowSingleLineBlocks opt. to padded-blocks rule (fixes #7145) (#11243) (richie3366)
+* [`e25e7aa`](https://github.com/eslint/eslint/commit/e25e7aa3ea1e8c9b3cd3242acda6d4a5572c2c6a) Fix: comma-spacing ignore comma before closing paren (fixes #11295) (#11374) (Pig Fang)
+* [`a1f7c44`](https://github.com/eslint/eslint/commit/a1f7c44ea9efbd9393889c1cc91b74260e0a8e02) Docs: fix space-before-blocks correct code for "classes": "never" (#11391) (PoziWorld)
+* [`14f58a2`](https://github.com/eslint/eslint/commit/14f58a2bec4d6aade0de22771c378b86b1e51959) Docs: fix grammar in object-curly-spacing docs (#11389) (PoziWorld)
+* [`d3e9a27`](https://github.com/eslint/eslint/commit/d3e9a27bbba30008a610df59e82b7192f0ecc3a3) Docs: fix grammar in “those who says” (#11390) (PoziWorld)
+* [`ea8e804`](https://github.com/eslint/eslint/commit/ea8e8045ba0e6c1e1015104346af962f3e16fd81) Docs: Add note about support for object spread (fixes #11136) (#11395) (Steven Thomas)
+* [`95aa3fd`](https://github.com/eslint/eslint/commit/95aa3fdb392d265e6c3d813d54076458e88e7ad8) Docs: Update README team and sponsors (ESLint Jenkins)
+* [`51c4972`](https://github.com/eslint/eslint/commit/51c497298a15ad296a2b1f8fc397df687976b836) Update: Behavior of --init (fixes #11105) (#11332) (Nicholas C. Zakas)
+* [`ad7a380`](https://github.com/eslint/eslint/commit/ad7a38097c32a91e5a831ef1bc8933601532576c) Docs: Update README team and sponsors (ESLint Jenkins)
+* [`550de1e`](https://github.com/eslint/eslint/commit/550de1e611a1e9af873bcb18d74cf2056e8d2e1b) Update: use `default` keyword in JSON schema (fixes #9929) (#11288) (Pig Fang)
+* [`983c520`](https://github.com/eslint/eslint/commit/983c5201210d7a4ffab0b3d05ab9919c0754e5ca) Update: Use 'readonly' and 'writable' for globals (fixes #11359) (#11384) (Nicholas C. Zakas)
+* [`f1d3a7e`](https://github.com/eslint/eslint/commit/f1d3a7ee7c82365989e219b1dae379f08f6dd526) Upgrade: some deps (fixes #11372) (#11373) (薛定谔的猫)
+* [`3e0c417`](https://github.com/eslint/eslint/commit/3e0c4176eff085498b813f8ba1732d7ed6ee44f8) Docs: Fix grammar in “there’s nothing prevent you” (#11385) (PoziWorld)
+* [`de988bc`](https://github.com/eslint/eslint/commit/de988bc909b491366ad0cd9bc83f4d6de42d041a) Docs: Fix grammar: Spacing improve -> Spacing improves (#11386) (PoziWorld)
+* [`1309dfd`](https://github.com/eslint/eslint/commit/1309dfdebb5595460b79dcac20df6a1f109e7566) Revert "Build: fix test failure on Node 11 (#11100)" (#11375) (薛定谔的猫)
+* [`1e56897`](https://github.com/eslint/eslint/commit/1e56897db3e254e0aef6d2fe3274157fc379c79e) Docs: “the function actually use”: use -> uses (#11380) (PoziWorld)
+* [`5a71bc9`](https://github.com/eslint/eslint/commit/5a71bc95a7e961b1b1b77022645e0bd9cdd08dc0) Docs: Update README team and sponsors (ESLint Jenkins)
+* [`82a58ce`](https://github.com/eslint/eslint/commit/82a58ce26b282fd80335b3ac4fc88f21266c3ba1) Docs: Update README team and sponsors (ESLint Jenkins)
+* [`546d355`](https://github.com/eslint/eslint/commit/546d355ace65631e27de859baea3ffcc50e0ad2c) Docs: Update README with latest sponsors/team data (#11378) (Nicholas C. Zakas)
+* [`c0df9fe`](https://github.com/eslint/eslint/commit/c0df9febb7c7e045ababc10b88dbcbb3f28c724c) Docs: `...` is not an operator (#11232) (Felix Kling)
+* [`7ecfdef`](https://github.com/eslint/eslint/commit/7ecfdefaeadb772f8b96ffe37c4a2c97fde0da16) Docs: update typescript parser (refs #11368) (#11369) (薛定谔的猫)
+* [`3c90dd7`](https://github.com/eslint/eslint/commit/3c90dd7e25cf97833deddb11cfbc107a5663ac08) Update: remove prefer-spread autofix (fixes #11330) (#11365) (薛定谔的猫)
+* [`5eb3121`](https://github.com/eslint/eslint/commit/5eb3121b82c1837da0c3021b7d9384bb30832e36) Update: add fixer for `prefer-destructuring` (fixes #11151) (#11301) (golopot)
+* [`173eb38`](https://github.com/eslint/eslint/commit/173eb38cdb3e4673cba947521f27158828186d77) Docs: Clarify ecmaVersion doesn't imply globals (refs #9812) (#11364) (Keith Maxwell)
+* [`84ce72f`](https://github.com/eslint/eslint/commit/84ce72fdeba082b7b132e4ac6b714fb1a93831b7) Fix: Remove extraneous linefeeds in `one-var` fixer (fixes #10741) (#10955) (st-sloth)
+* [`389362a`](https://github.com/eslint/eslint/commit/389362a06ac6601512b872d3e843c7371f2a1bcc) Docs: clarify motivation for no-prototype-builtins (#11356) (Teddy Katz)
+* [`533d240`](https://github.com/eslint/eslint/commit/533d240b0811f663494cb213b06cc9e51e1ff2d0) Update: no-shadow-restricted-names lets unassigned vars shadow undefined (#11341) (Teddy Katz)
+* [`d0e823a`](https://github.com/eslint/eslint/commit/d0e823aef196a6564c87a78b72c1ef980ce67af9) Update: Make --init run js config files through linter (fixes #9947) (#11337) (Brian Kurek)
+* [`92fc2f4`](https://github.com/eslint/eslint/commit/92fc2f4f3faf8aeaae8a8e71db0de405404fb6c3) Fix: CircularJSON dependency warning (fixes #11052) (#11314) (Terry)
+* [`4dd19a3`](https://github.com/eslint/eslint/commit/4dd19a3c4c037adc860a65e96f2ba3eeccace1de) Docs: mention 'prefer-spread' in docs of 'no-useless-call' (#11348) (Klaus Meinhardt)
+* [`4fd83d5`](https://github.com/eslint/eslint/commit/4fd83d5ec47a6a7b81cd8801c3bd63d27ea1c7c4) Docs: fix a misleading example in one-var (#11350) (薛定谔的猫)
+* [`9441ce7`](https://github.com/eslint/eslint/commit/9441ce77b7228f2c4562e158a10905afe11f31f2) Chore: update incorrect tests to fix build failing (#11354) (薛定谔的猫)
+
 v5.13.0 - February 1, 2019
 
 * [`91c8884`](https://github.com/eslint/eslint/commit/91c8884971f5e57f5f7490d8daf92c4a9a489836) Chore: use local function to append "s" instead of a package (#11293) (Timo Tijhof)

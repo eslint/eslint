@@ -8,14 +8,26 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const assert = require("chai").assert,
-    formatter = require("../../../lib/formatters/table");
+const assert = require("chai").assert;
+const chalk = require("chalk");
+const formatter = require("../../../lib/formatters/table");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
 describe("formatter:table", () => {
+    let originalChalkEnabled;
+
+    before(() => {
+        originalChalkEnabled = chalk.enabled;
+        chalk.enabled = false;
+    });
+
+    after(() => {
+        chalk.enabled = originalChalkEnabled;
+    });
+
     describe("when passed no messages", () => {
         const code = [
             {

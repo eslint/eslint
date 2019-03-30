@@ -148,6 +148,16 @@ ruleTester.run("max-lines", rule, {
             ].join("\n"),
             options: [{ max: 2, skipBlankLines: true }],
             errors: [{ messageId: "exceed", data: { max: 2, actual: 6 } }]
+        },
+        {
+            code: "AAAAAAAA\n".repeat(301).trim(),
+            options: [{}],
+            errors: [{ messageId: "exceed", data: { max: 300, actual: 301 } }]
+        },
+        {
+            code: "A",
+            options: [{ max: 0 }],
+            errors: [{ messageId: "exceed", data: { max: 0, actual: 1 } }]
         }
     ]
 });

@@ -29,7 +29,7 @@ const ruleConfigs = require("../lib/config/config-rule").createCoreRuleConfigs()
  * might also be passed other keys.
  * @param {boolean} [options.checkAutofixes=true] `true` if the fuzzer should check for autofix bugs. The fuzzer runs
  * roughly 4 times slower with autofix checking enabled.
- * @param {function()} [options.progressCallback] A function that gets called once for each code sample
+ * @param {function(number)} [options.progressCallback] A function that gets called once for each code sample, with the total number of errors found so far
  * @returns {Object[]} A list of problems found. Each problem has the following properties:
  * type (string): The type of problem. This is either "crash" (a rule crashes) or "autofix" (an autofix produces a syntax error)
  * text (string): The text that ESLint should be run on to reproduce the problem
@@ -52,10 +52,11 @@ function fuzz(options) {
      * Tries to isolate the smallest config that reproduces a problem
      * @param {string} text The source text to lint
      * @param {Object} config A config object that causes a crash or autofix error
+     * @param {("crash"|"autofix")} problemType The type of problem that occurred
      * @returns {Object} A config object with only one rule enabled that produces the same crash or autofix error, if possible.
      * Otherwise, the same as `config`
      */
-    function isolateBadConfig(text, config) {
+    function isolateBadConfig(text, config, problemType) {
         for (const ruleId of Object.keys(config.rules)) {
             const reducedConfig = Object.assign({}, config, { rules: { [ruleId]: config.rules[ruleId] } });
             let fixResult;
@@ -66,7 +67,7 @@ function fuzz(options) {
                 return reducedConfig;
             }
 
-            if (fixResult.messages.length === 1 && fixResult.messages[0].fatal) {
+            if (fixResult.messages.length === 1 && fixResult.messages[0].fatal && problemType === "autofix") {
                 return reducedConfig;
             }
         }
@@ -105,7 +106,7 @@ function fuzz(options) {
 
     const problems = [];
 
-    for (let i = 0; i < options.count; progressCallback(), i++) {
+    for (let i = 0; i < options.count; progressCallback(problems.length), i++) {
         const sourceType = lodash.sample(["script", "module"]);
         const text = codeGenerator({ sourceType });
         const config = {
@@ -122,14 +123,14 @@ function fuzz(options) {
                 linter.verify(text, config);
             }
         } catch (err) {
-            problems.push({ type: "crash", text, config: isolateBadConfig(text, config), error: err.stack });
+            problems.push({ type: "crash", text, config: isolateBadConfig(text, config, "crash"), error: err.stack });
             continue;
         }
 
         if (checkAutofixes && autofixResult.fixed && autofixResult.messages.length === 1 && autofixResult.messages[0].fatal) {
             const lastGoodText = isolateBadAutofixPass(text, config);
 
-            problems.push({ type: "autofix", text: lastGoodText, config: isolateBadConfig(lastGoodText, config), error: autofixResult.messages[0] });
+            problems.push({ type: "autofix", text: lastGoodText, config: isolateBadConfig(lastGoodText, config, "autofix"), error: autofixResult.messages[0] });
         }
     }
 

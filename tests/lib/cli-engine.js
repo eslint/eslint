@@ -21,6 +21,8 @@ const assert = require("chai").assert,
 
 const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
 
+const fCache = require("file-entry-cache");
+
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
@@ -342,7 +344,7 @@ describe("CLIEngine", () => {
                         fix: true,
                         fixTypes: ["layou"]
                     });
-                }, /invalid fix type/i);
+                }, /invalid fix type/iu);
             });
 
             it("should not fix any rules when fixTypes is used without fix", () => {
@@ -1369,7 +1371,7 @@ describe("CLIEngine", () => {
 
             assert.throws(() => {
                 engine.executeOnFiles([getFixturePath("rules", "test", "test-custom-rule.js")]);
-            }, /Error while loading rule 'custom-rule'/);
+            }, /Error while loading rule 'custom-rule'/u);
         });
 
         it("should return one message when a custom rule matches a file", () => {
@@ -1579,7 +1581,7 @@ describe("CLIEngine", () => {
                  */
                 function convertCRLF(result) {
                     if (result && result.output) {
-                        result.output = result.output.replace(/\r\n/g, "\n");
+                        result.output = result.output.replace(/\r\n/gu, "\n");
                     }
                 }
 
@@ -2375,11 +2377,12 @@ describe("CLIEngine", () => {
 
                 assert.isTrue(shell.test("-f", cacheFile), "the cache for eslint was created");
 
-                const cache = JSON.parse(fs.readFileSync(cacheFile));
+                const fileCache = fCache.createFromFile(cacheFile);
+                const { cache } = fileCache;
 
-                assert.isTrue(typeof cache[goodFile] === "object", "the entry for the good file is in the cache");
+                assert.isTrue(typeof cache.getKey(goodFile) === "object", "the entry for the good file is in the cache");
 
-                assert.isTrue(typeof cache[badFile] === "object", "the entry for the bad file is in the cache");
+                assert.isTrue(typeof cache.getKey(badFile) === "object", "the entry for the bad file is in the cache");
 
                 const cachedResult = engine.executeOnFiles([badFile, goodFile]);
 
@@ -2412,9 +2415,10 @@ describe("CLIEngine", () => {
 
                 engine.executeOnFiles([badFile, goodFile, toBeDeletedFile]);
 
-                let cache = JSON.parse(fs.readFileSync(cacheFile));
+                const fileCache = fCache.createFromFile(cacheFile);
+                let { cache } = fileCache;
 
-                assert.isTrue(typeof cache[toBeDeletedFile] === "object", "the entry for the file to be deleted is in the cache");
+                assert.isTrue(typeof cache.getKey(toBeDeletedFile) === "object", "the entry for the file to be deleted is in the cache");
 
                 // delete the file from the file system
                 fs.unlinkSync(toBeDeletedFile);
@@ -2456,9 +2460,10 @@ describe("CLIEngine", () => {
 
                 engine.executeOnFiles([badFile, goodFile, testFile2]);
 
-                let cache = JSON.parse(fs.readFileSync(cacheFile));
+                let fileCache = fCache.createFromFile(cacheFile);
+                let { cache } = fileCache;
 
-                assert.isTrue(typeof cache[testFile2] === "object", "the entry for the test-file2 is in the cache");
+                assert.isTrue(typeof cache.getKey(testFile2) === "object", "the entry for the test-file2 is in the cache");
 
                 /*
                  * we pass a different set of files minus test-file2
@@ -2467,9 +2472,10 @@ describe("CLIEngine", () => {
                  */
                 engine.executeOnFiles([badFile, goodFile]);
 
-                cache = JSON.parse(fs.readFileSync(cacheFile));
+                fileCache = fCache.createFromFile(cacheFile);
+                cache = fileCache.cache;
 
-                assert.isTrue(typeof cache[testFile2] === "object", "the entry for the test-file2 is in the cache");
+                assert.isTrue(typeof cache.getKey(testFile2) === "object", "the entry for the test-file2 is in the cache");
             });
 
             it("should not delete cache when executing on text", () => {
@@ -2590,11 +2596,12 @@ describe("CLIEngine", () => {
 
                     assert.isTrue(shell.test("-f", customCacheFile), "the cache for eslint was created");
 
-                    const cache = JSON.parse(fs.readFileSync(customCacheFile));
+                    const fileCache = fCache.createFromFile(customCacheFile);
+                    const { cache } = fileCache;
 
-                    assert.isTrue(typeof cache[goodFile] === "object", "the entry for the good file is in the cache");
+                    assert.isTrue(typeof cache.getKey(goodFile) === "object", "the entry for the good file is in the cache");
 
-                    assert.isTrue(typeof cache[badFile] === "object", "the entry for the bad file is in the cache");
+                    assert.isTrue(typeof cache.getKey(badFile) === "object", "the entry for the bad file is in the cache");
 
                     const cachedResult = engine.executeOnFiles([badFile, goodFile]);
 
@@ -2739,7 +2746,7 @@ describe("CLIEngine", () => {
             describe("autofixing with processors", () => {
                 const HTML_PROCESSOR = Object.freeze({
                     preprocess(text) {
-                        return [text.replace(/^<script>/, "").replace(/<\/script>$/, "")];
+                        return [text.replace(/^<script>/u, "").replace(/<\/script>$/u, "")];
                     },
                     postprocess(problemLists) {
                         return problemLists[0].map(problem => {

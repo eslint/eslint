@@ -9,7 +9,7 @@ If you want to use your own parser and provide additional capabilities for your 
 * `visitorKeys` can be an object to customize AST traversal. The keys of the object are the type of AST nodes. Each value is an array of the property names which should be traversed. Default is [KEYS of `eslint-visitor-keys`](https://github.com/eslint/eslint-visitor-keys#evkkeys).
     * Support for `visitorKeys` was added in ESLint v4.14.0. ESLint versions which support `visitorKeys` will provide an `eslintVisitorKeys: true` property in `parserOptions`, which can be used for feature detection.
 
-You can find an ESLint parser project [here](https://github.com/eslint/typescript-eslint-parser).
+You can find an ESLint parser project [here](https://github.com/typescript-eslint/typescript-eslint).
 
 ```json
 {

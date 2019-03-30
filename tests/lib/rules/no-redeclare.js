@@ -62,8 +62,8 @@ ruleTester.run("no-redeclare", rule, {
         {
             code: "var top = 0;",
             options: [{ builtinGlobals: true }],
-            errors: [{ message: "'top' is already defined.", type: "Identifier" }],
-            env: { browser: true }
+            env: { browser: true },
+            errors: [{ message: "'top' is already defined.", type: "Identifier" }]
         },
         {
             code: "var a; var {a = 0, b: Object = 0} = {};",

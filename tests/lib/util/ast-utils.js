@@ -1131,7 +1131,7 @@ describe("ast-utils", () => {
     describe("createGlobalLinebreakMatcher", () => {
         it("returns a regular expression with the g flag", () => {
             assert.instanceOf(astUtils.createGlobalLinebreakMatcher(), RegExp);
-            assert(astUtils.createGlobalLinebreakMatcher().toString().endsWith("/g"));
+            assert(astUtils.createGlobalLinebreakMatcher().toString().endsWith("/gu"));
         });
         it("returns unique objects on each call", () => {
             const firstObject = astUtils.createGlobalLinebreakMatcher();

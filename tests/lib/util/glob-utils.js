@@ -75,7 +75,7 @@ describe("globUtils", () => {
                 cwd: getFixturePath("glob-util")
             };
             const result = globUtils.resolveFileGlobPatterns(patterns, opts);
-            const expected = [`${getFixturePath("glob-util", "one-js-file").replace(/\\/g, "/")}/**/*.js`];
+            const expected = [`${getFixturePath("glob-util", "one-js-file").replace(/\\/gu, "/")}/**/*.js`];
 
             assert.deepStrictEqual(result, expected);
         });
@@ -327,6 +327,13 @@ describe("globUtils", () => {
             assert.throws(() => {
                 globUtils.listFilesToProcess(patterns);
             }, `No files matching '${patterns[0]}' were found.`);
+        });
+
+        it("should ignore empty patterns", () => {
+            const patterns = [""];
+            const result = globUtils.listFilesToProcess(patterns);
+
+            assert.deepStrictEqual(result, []);
         });
 
         it("should return an ignored file, if ignore option is turned off", () => {

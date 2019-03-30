@@ -452,6 +452,7 @@ ruleTester.run("no-extra-parens", rule, {
         "({}) ? foo() : bar()",
         "({}) + foo",
         "(function(){}) + foo",
+        "(let)\nfoo",
         "(let[foo]) = 1", // setting the 'foo' property of the 'let' variable to 1
         {
             code: "((function(){}).foo.bar)();",
@@ -1092,6 +1093,18 @@ ruleTester.run("no-extra-parens", rule, {
             "Identifier",
             1
         ),
-        invalid("for (a in (b, c));", "for (a in b, c);", "SequenceExpression", null)
+        invalid("for (a in (b, c));", "for (a in b, c);", "SequenceExpression", null),
+        invalid(
+            "(let)",
+            "let",
+            "Identifier",
+            1
+        ),
+        invalid(
+            "((let))",
+            "(let)",
+            "Identifier",
+            1
+        )
     ]
 });
