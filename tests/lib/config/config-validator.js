@@ -329,7 +329,7 @@ describe("Validator", () => {
             it("should disallow globals set to invalid values", () => {
                 assert.throws(
                     () => validator.validate({ globals: { foo: "AAAAA" } }, () => {}, linter.environments, "tests"),
-                    "ESLint configuration in tests is invalid:\n'AAAAA' is not a valid configuration for a global (use 'readonly', 'writable', or 'off')"
+                    "ESLint configuration of global 'foo' in tests is invalid:\n'AAAAA' is not a valid configuration for a global (use 'readonly', 'writable', or 'off')"
                 );
             });
         });
