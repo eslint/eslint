@@ -10,7 +10,8 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/quotes"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    RuleTester = require("../../../lib/testers/rule-tester"),
+    parser = require("../../fixtures/fixture-parser");
 
 const ruleTester = new RuleTester();
 
@@ -74,7 +75,10 @@ ruleTester.run("quotes", rule, {
         // `backtick` should not warn property/method names (not computed).
         { code: "var obj = {\"key0\": 0, 'key1': 1};", options: ["backtick"], parserOptions: { ecmaVersion: 6 } },
         { code: "class Foo { 'bar'(){} }", options: ["backtick"], parserOptions: { ecmaVersion: 6 } },
-        { code: "class Foo { static ''(){} }", options: ["backtick"], parserOptions: { ecmaVersion: 6 } }
+        { code: "class Foo { static ''(){} }", options: ["backtick"], parserOptions: { ecmaVersion: 6 } },
+
+        // `backtick` should not warn about literals in type annotations.
+        { code: "type Foo = 'bar' | \"bar\"", options: ["backtick"], parser: parser("type-annotations/type-declaration-with-literals"), parserOptions: { ecmaVersion: 6 } }
     ],
     invalid: [
         {
