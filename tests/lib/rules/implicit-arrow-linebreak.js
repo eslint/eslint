@@ -62,7 +62,7 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
             bar => (
                 // another comment
                 baz
-            )       
+            )
         )
         `,
         `
@@ -73,7 +73,7 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
         `,
         `
         /* text */
-        () => bar; 
+        () => bar;
         `,
         `
         /* foo */
@@ -101,7 +101,7 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
         const foo = {
           id: 'bar',
           // comment
-          prop: (foo1) => 'returning this string', 
+          prop: (foo1) => 'returning this string',
         }
         `,
         `
@@ -118,7 +118,7 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
         {
             code: `
             // comment
-            async foo => 'string'        
+            async foo => 'string'
             `,
             parserOptions: { ecmaVersion: 8 }
         },
@@ -219,10 +219,7 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
                   // test comment
                   bar
             `,
-            output: unIndent`
-                // test comment
-                (foo) => bar
-            `,
+            output: null,
             errors: [UNEXPECTED_LINEBREAK]
         }, {
             code: unIndent`
@@ -230,10 +227,7 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
                 // comment
                 []
             `,
-            output: unIndent`
-                // comment
-                const foo = () => []
-            `,
+            output: null,
             errors: [UNEXPECTED_LINEBREAK]
         }, {
             code: `
@@ -257,14 +251,14 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
                         bar
                     //comment
                     )
-            
+
             `,
             output: `
                 (foo) => (
                         bar
                     //comment
                     )
-            
+
             `,
             errors: [UNEXPECTED_LINEBREAK]
 
@@ -274,10 +268,7 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
                  // comment
                  // another comment
                     bar`,
-            output: unIndent`
-                // comment
-                // another comment
-                (foo) => bar`,
+            output: null,
             errors: [UNEXPECTED_LINEBREAK]
         }, {
             code: unIndent`
@@ -287,21 +278,16 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
                 // another comment
                 bar
                 )`,
-            output: unIndent`
-                // comment
-                (foo) => (
-                // another comment
-                bar
-                )`,
+            output: null,
             errors: [UNEXPECTED_LINEBREAK]
         },
         {
             code: "() => // comment \n bar",
-            output: "// comment \n() => bar",
+            output: null,
             errors: [UNEXPECTED_LINEBREAK]
         }, {
             code: "(foo) => //comment \n bar",
-            output: "//comment \n(foo) => bar",
+            output: null,
             errors: [UNEXPECTED_LINEBREAK]
         }, {
             code: unIndent`
@@ -309,10 +295,7 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
                   /* test comment */
                   bar
             `,
-            output: unIndent`
-                /* test comment */
-                (foo) => bar
-            `,
+            output: null,
             errors: [UNEXPECTED_LINEBREAK]
         }, {
             code: unIndent`
@@ -321,14 +304,7 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
                      bar =>
                        // there
                          baz;`,
-            output: unIndent`
-                (foo) => (
-                  // hi
-                     bar => (
-                       // there
-                         baz
-                )
-                );`,
+            output: null,
             errors: [UNEXPECTED_LINEBREAK, UNEXPECTED_LINEBREAK]
         }, {
             code: unIndent`
@@ -339,15 +315,7 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
                          baz
                      )
             `,
-            output: unIndent`
-                (foo) => (
-                  // hi
-                     bar => (
-                       // there
-                         baz
-                     )
-                )
-            `,
+            output: null,
             errors: [UNEXPECTED_LINEBREAK]
         }, {
             code: unIndent`
@@ -355,29 +323,19 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
                   id: 'bar',
                   prop: (foo1) =>
                     // comment
-                    'returning this string', 
+                    'returning this string',
                 }
             `,
-            output: unIndent`
-                const foo = {
-                  id: 'bar',
-                  // comment
-                prop: (foo1) => 'returning this string', 
-                }
-            `,
+            output: null,
             errors: [UNEXPECTED_LINEBREAK]
         }, {
             code: unIndent`
-                [ foo => 
+                [ foo =>
                   // comment
                   'bar'
                 ]
             `,
-            output: unIndent`
-                [ // comment
-                foo => 'bar'
-                ]
-            `,
+            output: null,
             errors: [UNEXPECTED_LINEBREAK]
         }, {
             code: unIndent`
@@ -386,11 +344,7 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
                 char
                 )
             `,
-            output: unIndent`
-                // comment
-                "foo".split('').map((char) => char
-                )
-            `,
+            output: null,
             errors: [UNEXPECTED_LINEBREAK]
         }, {
             code: unIndent`
@@ -399,11 +353,7 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
                     resolve()
                 )
             `,
-            output: unIndent`
-                new Promise(// comment
-                (resolve, reject) => resolve()
-                )
-            `,
+            output: null,
             errors: [UNEXPECTED_LINEBREAK]
         }, {
             code: unIndent`
@@ -415,14 +365,7 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
                 */
                 bar
             `,
-            output: unIndent`
-                /*
-                succinct
-                explanation
-                of code
-                */
-                () => bar
-            `,
+            output: null,
             errors: [UNEXPECTED_LINEBREAK]
         }, {
             code: unIndent`
@@ -435,18 +378,7 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
                     stepTwo =>
                         // then this happens
                         stepThree`,
-            output: unIndent`
-                stepOne => (
-                    /*
-                    here is
-                    what is
-                    happening
-                    */
-                    stepTwo => (
-                        // then this happens
-                        stepThree
-                )
-                )`,
+            output: null,
             errors: [UNEXPECTED_LINEBREAK, UNEXPECTED_LINEBREAK]
         }, {
             code: unIndent`
@@ -462,21 +394,7 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
                         */
                         baz
             `,
-            output: unIndent`
-                () => (
-                    /*
-                    multi
-                    line
-                    */
-                    bar => (
-                        /*
-                        many
-                        lines
-                        */
-                        baz
-                )
-                )
-            `,
+            output: null,
             errors: [UNEXPECTED_LINEBREAK, UNEXPECTED_LINEBREAK]
         }, {
             code: unIndent`
@@ -485,11 +403,7 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
                   bar
                 )
             `,
-            output: unIndent`
-                // comment
-                foo('', boo => bar
-                )
-            `,
+            output: null,
             errors: [UNEXPECTED_LINEBREAK]
         }, {
             code: unIndent`
@@ -497,10 +411,7 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
                     // comment
                     'string'
             `,
-            output: unIndent`
-                // comment
-                async foo => 'string'
-            `,
+            output: null,
             parserOptions: { ecmaVersion: 8 },
             errors: [UNEXPECTED_LINEBREAK]
         }, {
@@ -510,11 +421,7 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
                     // another
                     bar;
             `,
-            output: unIndent`
-                // comment
-                // another
-                async foo => bar;
-            `,
+            output: null,
             parserOptions: { ecmaVersion: 8 },
             errors: [UNEXPECTED_LINEBREAK]
         }, {
@@ -523,10 +430,7 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
                     // comment
                     'string'
             `,
-            output: unIndent`
-                // comment
-                async (foo) => 'string'
-            `,
+            output: null,
             parserOptions: { ecmaVersion: 8 },
             errors: [UNEXPECTED_LINEBREAK]
         }, {
@@ -536,12 +440,7 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
                   baz = () => // comment
                     qux
             `,
-            output: unIndent`
-                const foo = 1,
-                  bar = 2,
-                  // comment
-                baz = () => qux
-            `,
+            output: null,
             errors: [UNEXPECTED_LINEBREAK]
         }, {
             code: unIndent`
@@ -551,30 +450,19 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
                   bar = 2,
                   baz = 3
             `,
-            output: unIndent`
-                //comment
-                const foo = () => qux,
-                  bar = 2,
-                  baz = 3
-            `,
+            output: null,
             errors: [UNEXPECTED_LINEBREAK]
         }, {
             code: unIndent`
                 const foo = () =>
                     //two
                     1,
-                    boo = () => 
+                    boo = () =>
                     //comment
                     2,
                     bop = "what"
             `,
-            output: unIndent`
-                //two
-                const foo = () => 1,
-                    //comment
-                boo = () => 2,
-                    bop = "what"
-            `,
+            output: null,
             errors: [UNEXPECTED_LINEBREAK, UNEXPECTED_LINEBREAK]
         }, {
             code: unIndent`
@@ -587,24 +475,14 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
                     /* catch seems to be needed here */
                     console.log('Error: ', err)
                     })`,
-            output: unIndent`
-                /* If I put a comment here, eslint --fix breaks badly */
-                start()
-                    .then(() => process && typeof process.send === 'function' && process.send('ready')
-                    )
-                    .catch(err => {
-                    /* catch seems to be needed here */
-                    console.log('Error: ', err)
-                    })`,
+            output: null,
             errors: [UNEXPECTED_LINEBREAK]
         }, {
             code: unIndent`
             hello(response =>
                 // comment
                 response, param => param)`,
-            output: unIndent`
-            // comment
-            hello(response => response, param => param)`,
+            output: null,
             errors: [UNEXPECTED_LINEBREAK]
         }, {
             code: unIndent`
@@ -616,16 +494,7 @@ ruleTester.run("implicit-arrow-linebreak", rule, {
                         yyyy
                     }
             )`,
-            output: unIndent`
-            start(
-                arr => (
-                    // cometh
-                    bod => {
-                        // soon
-                        yyyy
-                    }
-            )
-            )`,
+            output: null,
             errors: [UNEXPECTED_LINEBREAK]
         },
 
