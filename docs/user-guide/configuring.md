@@ -52,10 +52,6 @@ Here's an example `.eslintrc.json` file:
 
 Setting parser options helps ESLint determine what is a parsing error. All language options are `false` by default.
 
-### Deprecated
-
-* `ecmaFeatures.experimentalObjectRestSpread` - enable support for the experimental [object rest/spread properties](https://github.com/tc39/proposal-object-rest-spread). This syntax has been supported in `ecmaVersion: 2018`. This option will be removed in the future.
-
 ## Specifying Parser
 
 By default, ESLint uses [Espree](https://github.com/eslint/espree) as its parser. You can optionally specify that a different parser should be used in your configuration file so long as the parser meets the following requirements:
