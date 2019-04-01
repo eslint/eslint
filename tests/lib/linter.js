@@ -59,6 +59,16 @@ function getVariable(scope, name) {
     return scope.variables.find(v => v.name === name) || null;
 }
 
+/**
+ * `eslint-env` comments are processed by doing a full source text match before parsing.
+ * As a result, if this source file contains `eslint- env` followed by an environment in a string,
+ * it will actually enable the given envs for this source file. This helper function is used to avoid having a string
+ * like that appear in the code.
+ * @param {string} env An environment to enable, or a comma-separated list of environments.
+ * @returns {string} (`eslint-env` followed by the provided `env`)
+ */
+const ESLINT_ENV = "eslint-env";
+
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
@@ -1199,16 +1209,9 @@ describe("Linter", () => {
         });
     });
 
-    /*
-     * `eslint-env` comments are processed by doing a full source text match before parsing.
-     * As a result, if this source file contains `eslint- env` followed by an environment in a string,
-     * it will actually enable the given envs for this source file. String concatenation is used to avoid this,
-     * for the environments that aren't supposed to be enabled for this file.
-     */
-    /* eslint-disable no-useless-concat */
     describe("when evaluating code containing /*eslint-env */ block", () => {
         it("variables should be available in global scope", () => {
-            const code = "/*eslint-" + "env node*/ function f() {} /*eslint-" + "env browser, foo*/";
+            const code = `/*${ESLINT_ENV} node*/ function f() {} /*${ESLINT_ENV} browser, foo*/`;
             const config = { rules: { checker: "error" } };
             let spy;
 
@@ -1231,7 +1234,7 @@ describe("Linter", () => {
     });
 
     describe("when evaluating code containing /*eslint-env */ block with sloppy whitespace", () => {
-        const code = "/* eslint-" + "env ,, node  , no-browser ,,  */";
+        const code = `/* ${ESLINT_ENV} ,, node  , no-browser ,,  */`;
 
         it("variables should be available in global scope", () => {
             const config = { rules: { checker: "error" } };
@@ -2891,7 +2894,7 @@ describe("Linter", () => {
         });
 
         it("should not report a violation", () => {
-            const code = "/*eslint-" + "env mocha,node */ require();describe();";
+            const code = `/*${ESLINT_ENV} mocha,node */ require();describe();`;
 
             const config = { rules: { "no-undef": 1 } };
 
@@ -2911,7 +2914,7 @@ describe("Linter", () => {
         });
 
         it("should not report a violation", () => {
-            const code = "/*eslint-" + "env amd */ define();require();";
+            const code = `/*${ESLINT_ENV} amd */ define();require();`;
 
             const config = { rules: { "no-undef": 1 } };
 
@@ -2921,7 +2924,7 @@ describe("Linter", () => {
         });
 
         it("should not report a violation", () => {
-            const code = "/*eslint-" + "env jasmine */ expect();spyOn();";
+            const code = `/*${ESLINT_ENV} jasmine */ expect();spyOn();`;
 
             const config = { rules: { "no-undef": 1 } };
 
@@ -2931,7 +2934,7 @@ describe("Linter", () => {
         });
 
         it("should not report a violation", () => {
-            const code = "/*globals require: true */ /*eslint-" + "env node */ require = 1;";
+            const code = `/*globals require: true */ /*${ESLINT_ENV} node */ require = 1;`;
 
             const config = { rules: { "no-undef": 1 } };
 
@@ -2941,7 +2944,7 @@ describe("Linter", () => {
         });
 
         it("should not report a violation", () => {
-            const code = "/*eslint-" + "env node */ process.exit();";
+            const code = `/*${ESLINT_ENV} node */ process.exit();`;
 
             const config = { rules: {} };
 
@@ -2951,7 +2954,7 @@ describe("Linter", () => {
         });
 
         it("should not report a violation", () => {
-            const code = "/*eslint no-process-exit: 0 */ /*eslint-" + "env node */ process.exit();";
+            const code = `/*eslint no-process-exit: 0 */ /*${ESLINT_ENV} node */ process.exit();`;
 
             const config = { rules: { "no-undef": 1 } };
 
@@ -3076,7 +3079,7 @@ describe("Linter", () => {
 
         it("should report a violation for env changes", () => {
             const code = [
-                "/*eslint-" + "env browser*/"
+                `/*${ESLINT_ENV} browser*/`
             ].join("\n");
             const config = {
                 rules: {
@@ -3446,8 +3449,8 @@ describe("Linter", () => {
             assert.strictEqual(messages.length, 0);
         });
 
-        it("should be able to return in global if there is a comment which has \"eslint-" + "env node\"", () => {
-            const messages = linter.verify("/* eslint-" + "env node */ return;", null, "eslint-" + "env node");
+        it("should be able to return in global if there is a comment which enables the node environment with a comment", () => {
+            const messages = linter.verify(`/* ${ESLINT_ENV} node */ return;`, null, "node environment");
 
             assert.strictEqual(messages.length, 0);
         });
