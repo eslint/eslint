@@ -178,6 +178,12 @@ ruleTester.run("max-len", rule, {
         {
             code: "'🙂😀😆😎😊😜😉👍'",
             options: [10]
+        },
+
+        // Astral symbols in pattern (only matched by unicode regexes)
+        {
+            code: "var longNameLongName = '𝌆𝌆'",
+            options: [5, { ignorePattern: "𝌆{2}" }]
         }
     ],
 
