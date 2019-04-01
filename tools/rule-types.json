@@ -76,6 +76,7 @@
     "no-await-in-loop": "problem",
     "no-bitwise": "suggestion",
     "no-buffer-constructor": "problem",
+    "no-bugs": "problem",
     "no-caller": "suggestion",
     "no-case-declarations": "suggestion",
     "no-catch-shadow": "suggestion",
