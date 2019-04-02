@@ -66,7 +66,7 @@ const NODE = "node ", // intentional extra space
     // Files
     JSON_FILES = find("conf/").filter(fileType("json")),
     MARKDOWN_FILES_ARRAY = find("docs/").concat(ls(".")).filter(fileType("md")),
-    TEST_FILES = getTestFilePatterns(),
+    TEST_FILES = "\"tests/{bin,lib,tools}/**/*.js\"",
     PERF_ESLINTRC = path.join(PERF_TMP_DIR, "eslintrc.yml"),
     PERF_MULTIFILES_TARGET_DIR = path.join(PERF_TMP_DIR, "eslint"),
     PERF_MULTIFILES_TARGETS = `"${PERF_MULTIFILES_TARGET_DIR + path.sep}{lib,tests${path.sep}lib}${path.sep}**${path.sep}*.js"`,
@@ -77,20 +77,6 @@ const NODE = "node ", // intentional extra space
 //------------------------------------------------------------------------------
 // Helpers
 //------------------------------------------------------------------------------
-
-/**
- * Generates file patterns for test files
- * @returns {string} test file patterns
- * @private
- */
-function getTestFilePatterns() {
-    return ls("tests/lib/").filter(pathToCheck => test("-d", `tests/lib/${pathToCheck}`)).reduce((initialValue, currentValues) => {
-        if (currentValues !== "rules") {
-            initialValue.push(`"tests/lib/${currentValues}/**/*.js"`);
-        }
-        return initialValue;
-    }, ["\"tests/lib/rules/**/*.js\"", "\"tests/lib/*.js\"", "\"tests/bin/**/*.js\"", "\"tests/tools/**/*.js\""]).join(" ");
-}
 
 /**
  * Simple JSON file validation that relies on ES JSON parser.
@@ -444,16 +430,17 @@ function getFormatterResults() {
     const stripAnsi = require("strip-ansi");
 
     const formatterFiles = fs.readdirSync("./lib/formatters/"),
+        rules = {
+            "no-else-return": "warn",
+            indent: ["warn", 4],
+            "space-unary-ops": "error",
+            semi: ["warn", "always"],
+            "consistent-return": "error"
+        },
         cli = new CLIEngine({
             useEslintrc: false,
             baseConfig: { extends: "eslint:recommended" },
-            rules: {
-                "no-else-return": 1,
-                indent: [1, 4],
-                "space-unary-ops": 2,
-                semi: [1, "always"],
-                "consistent-return": 2
-            }
+            rules
         }),
         codeString = [
             "function addOne(i) {",
@@ -464,15 +451,26 @@ function getFormatterResults() {
             "    }",
             "};"
         ].join("\n"),
-        rawMessages = cli.executeOnText(codeString, "fullOfProblems.js", true);
+        rawMessages = cli.executeOnText(codeString, "fullOfProblems.js", true),
+        rulesMap = cli.getRules(),
+        rulesMeta = {};
+
+    Object.keys(rules).forEach(ruleId => {
+        rulesMeta[ruleId] = rulesMap.get(ruleId).meta;
+    });
 
     return formatterFiles.reduce((data, filename) => {
         const fileExt = path.extname(filename),
             name = path.basename(filename, fileExt);
 
         if (fileExt === ".js") {
+            const formattedOutput = cli.getFormatter(name)(
+                rawMessages.results,
+                { rulesMeta }
+            );
+
             data.formatterResults[name] = {
-                result: stripAnsi(cli.getFormatter(name)(rawMessages.results))
+                result: stripAnsi(formattedOutput)
             };
         }
         return data;
@@ -567,13 +565,12 @@ target.test = function() {
 
     echo("Running unit tests");
 
-    lastReturn = exec(`${getBinFile("istanbul")} cover ${MOCHA} -- -R progress -t ${MOCHA_TIMEOUT} -c ${TEST_FILES}`);
+    lastReturn = exec(`${getBinFile("nyc")} -- ${MOCHA} -R progress -t ${MOCHA_TIMEOUT} -c ${TEST_FILES}`);
     if (lastReturn.code !== 0) {
         errors++;
     }
 
-    lastReturn = exec(`${getBinFile("istanbul")} check-coverage --statement 99 --branch 98 --function 99 --lines 99`);
-
+    lastReturn = exec(`${getBinFile("nyc")} check-coverage --statement 99 --branch 98 --function 99 --lines 99`);
     if (lastReturn.code !== 0) {
         errors++;
     }

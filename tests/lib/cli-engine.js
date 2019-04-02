@@ -1532,7 +1532,7 @@ describe("CLIEngine", () => {
 
             const report = engine.executeOnFiles(["lib/cli*.js"]);
 
-            assert.deepStrictEqual(
+            assert.sameDeepMembers(
                 report.usedDeprecatedRules,
                 [
                     { ruleId: "indent-legacy", replacedBy: ["indent"] },
@@ -2868,6 +2868,23 @@ describe("CLIEngine", () => {
                 assert.throws(() => {
                     engine.executeOnFiles(["console.js", "non-exist.js"]);
                 }, "No files matching 'non-exist.js' were found.");
+            });
+        });
+
+        describe("overrides", () => {
+            beforeEach(() => {
+                engine = new CLIEngine({
+                    cwd: getFixturePath("cli-engine/overrides-with-dot"),
+                    ignore: false
+                });
+            });
+
+            it("should recognize dotfiles", () => {
+                const ret = engine.executeOnFiles([".test-target.js"]);
+
+                assert.strictEqual(ret.results.length, 1);
+                assert.strictEqual(ret.results[0].messages.length, 1);
+                assert.strictEqual(ret.results[0].messages[0].ruleId, "no-unused-vars");
             });
         });
     });

@@ -1,3 +1,15 @@
+v5.16.0 - March 29, 2019
+
+* [`dfef227`](https://github.com/eslint/eslint/commit/dfef227091955a2f8f3fa8c76ad79de8a77e7955) Build: gensite passes rulesMeta to formatter rendering (#11567) (Kevin Partington)
+* [`c06d38c`](https://github.com/eslint/eslint/commit/c06d38c81bd9203c904587396a65d3c8cc7f2944) Fix: Allow HTML formatter to handle no meta data (#11566) (Ilya Volodin)
+* [`87a5c03`](https://github.com/eslint/eslint/commit/87a5c034977cf4538ff3539d2f8776a987c5942a) Docs: `func-style`: clarify when `allowArrowFunctions` is used (#11548) (Oliver Joseph Ash)
+* [`bc3e427`](https://github.com/eslint/eslint/commit/bc3e427ee8875c53eac6b6762884b50074f1adfc) Update: pass rule meta to formatters RFC 10 (#11551) (Chris Meyer)
+* [`b452f27`](https://github.com/eslint/eslint/commit/b452f270bc0b523d88d5d827c95be3096f82e99d) Chore: Update README to pull in reviewer data (#11506) (Nicholas C. Zakas)
+* [`afe3d25`](https://github.com/eslint/eslint/commit/afe3d25f8afb88caee43f7202d0eb96f33a92a6b) Upgrade: Bump js-yaml dependency to fix Denial of Service vulnerability (#11550) (Vernon de Goede)
+* [`4fe7eb7`](https://github.com/eslint/eslint/commit/4fe7eb7cecdc2395cf1eeaa20921bda8460b00c2) Chore: use nyc instead of istanbul (#11532) (Toru Nagashima)
+* [`f16af43`](https://github.com/eslint/eslint/commit/f16af439694aab473c647d8fae47c402bd489447) Chore: fix formatters/table test (#11534) (Toru Nagashima)
+* [`78358a8`](https://github.com/eslint/eslint/commit/78358a8f66e95c4fcc921f2497e8a5ec5f1537ec) Docs: fix duplicate punctuation in CLI docs (#11528) (Teddy Katz)
+
 v5.15.3 - March 18, 2019
 
 * [`71adc66`](https://github.com/eslint/eslint/commit/71adc665b9649b173adc76f80723b8de20664ae1) Fix: avoid moving comments in implicit-arrow-linebreak (fixes #11521) (#11522) (Teddy Katz)

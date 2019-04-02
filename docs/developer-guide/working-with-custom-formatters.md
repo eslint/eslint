@@ -19,6 +19,35 @@ eslint -f ./my-awesome-formatter.js src/
 
 In order to use a local file as a custom formatter, you must begin the filename with a dot (such as `./my-awesome-formatter.js` or `../formatters/my-awesome-formatter.js`).
 
+### The `data` Argument
+
+The exported function receives an optional second argument named `data`. The `data` object provides extended information related to the analysis results. Currently, the `data` object consists of a single property named `rulesMeta`. This property is a dictionary of rule metadata, keyed with `ruleId`. The value for each entry is the `meta` property from the corresponding rule object. The dictionary contains an entry for each rule that was run during the analysis.
+
+Here's what the `data` object would look like if one rule, `no-extra-semi`, had been run:
+
+```js
+{
+    rulesMeta: {
+        "no-extra-semi": {
+            type: "suggestion",
+            docs: {
+                description: "disallow unnecessary semicolons",
+                category: "Possible Errors",
+                recommended: true,
+                url: "https://eslint.org/docs/rules/no-extra-semi"
+            },
+            fixable: "code",
+            schema: [],
+            messages: {
+                unexpected: "Unnecessary semicolon."
+            }
+        }
+    }
+}
+```
+
+The [Using Rule metadata](#using-rule-metadata) example shows how to use the `data` object in a custom formatter. See the [Working with Rules](https://eslint.org/docs/developer-guide/working-with-rules) page for more information about rules.
+
 ## Packaging the Custom Formatter
 
 Custom formatters can also be distributed through npm packages. To do so, create an npm package with a name in the format of `eslint-formatter-*`, where `*` is the name of your formatter (such as `eslint-formatter-awesome`). Projects should then install the package and can use the custom formatter with the `-f` (or `--formatter`) flag like this:
@@ -157,7 +186,7 @@ Errors: 2, Warnings: 4
 A more complex report will look something like this:
 
 ```javascript
-module.exports = function(results) {
+module.exports = function(results, data) {
     var results = results || [];
 
     var summary = results.reduce(
@@ -166,6 +195,7 @@ module.exports = function(results) {
                 var logMessage = {
                     filePath: current.filePath,
                     ruleId: msg.ruleId,
+                    ruleUrl: data.rulesMeta[msg.ruleId].url,
                     message: msg.message,
                     line: msg.line,
                     column: msg.column
@@ -196,7 +226,7 @@ module.exports = function(results) {
                     "\n" +
                     msg.type +
                     " " +
-                    msg.ruleId +
+                    msg.ruleId + (msg.ruleUrl ? " (" + msg.ruleUrl + ")" : ""
                     "\n  " +
                     msg.filePath +
                     ":" +
@@ -221,17 +251,17 @@ eslint -f ./my-awesome-formatter.js src/
 The output will be
 
 ```bash
-error space-infix-ops
+error space-infix-ops (https://eslint.org/docs/rules/space-infix-ops)
   src/configs/bundler.js:6:8
-error semi
+error semi (https://eslint.org/docs/rules/semi)
   src/configs/bundler.js:6:10
-warning no-unused-vars
+warning no-unused-vars (https://eslint.org/docs/rules/no-unused-vars)
   src/configs/bundler.js:5:6
-warning no-unused-vars
+warning no-unused-vars (https://eslint.org/docs/rules/no-unused-vars)
   src/configs/bundler.js:6:6
-warning no-shadow
+warning no-shadow (https://eslint.org/docs/rules/no-shadow)
   src/configs/bundler.js:65:32
-warning no-unused-vars
+warning no-unused-vars (https://eslint.org/docs/rules/no-unused-vars)
   src/configs/clean.js:3:6
 ```
 
