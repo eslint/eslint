@@ -64,8 +64,6 @@ function getVariable(scope, name) {
  * As a result, if this source file contains `eslint- env` followed by an environment in a string,
  * it will actually enable the given envs for this source file. This helper function is used to avoid having a string
  * like that appear in the code.
- * @param {string} env An environment to enable, or a comma-separated list of environments.
- * @returns {string} (`eslint-env` followed by the provided `env`)
  */
 const ESLINT_ENV = "eslint-env";
 
