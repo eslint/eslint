@@ -21,10 +21,16 @@ const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 ruleTester.run("no-confusing-arrow", rule, {
     valid: [
         "a => { return 1 ? 2 : 3; }",
+        { code: "a => { return 1 ? 2 : 3; }", options: [{ allowParens: false }] },
+
         "var x = a => { return 1 ? 2 : 3; }",
+        { code: "var x = a => { return 1 ? 2 : 3; }", options: [{ allowParens: false }] },
+
         "var x = (a) => { return 1 ? 2 : 3; }",
-        { code: "var x = a => (1 ? 2 : 3)", options: [{ allowParens: true }] },
-        "var x = a => (1 ? 2 : 3)"
+        { code: "var x = (a) => { return 1 ? 2 : 3; }", options: [{ allowParens: false }] },
+
+        "var x = a => (1 ? 2 : 3)",
+        { code: "var x = a => (1 ? 2 : 3)", options: [{ allowParens: true }] }
     ],
     invalid: [
         {
