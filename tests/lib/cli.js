@@ -589,11 +589,10 @@ describe("cli", () => {
     });
 
     describe("when given an parser name", () => {
-        it("should exit with error if parser is invalid", () => {
+        it("should exit with a fatal error if parser is invalid", () => {
             const filePath = getFixturePath("passing.js");
-            const exit = cli.execute(`--no-ignore --parser test111 ${filePath}`);
 
-            assert.strictEqual(exit, 1);
+            assert.throws(() => cli.execute(`--no-ignore --parser test111 ${filePath}`), "Cannot find module 'test111'");
         });
 
         it("should exit with no error if parser is valid", () => {
