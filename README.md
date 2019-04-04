@@ -28,11 +28,7 @@ ESLint is a tool for identifying and reporting on patterns found in ECMAScript/J
 
 Prerequisites: [Node.js](https://nodejs.org/) (`^8.10.0`, `^10.13.0`, or `>=11.10.1`), npm version 3+.
 
-There are two ways to install ESLint: globally and locally.
-
-### Local Installation and Usage
-
-If you want to include ESLint as part of your project's build system, we recommend installing it locally. You can do so using npm:
+You can install ESLint using npm:
 
 ```
 $ npm install eslint --save-dev
@@ -50,31 +46,7 @@ After that, you can run ESLint on any file or directory like this:
 $ ./node_modules/.bin/eslint yourfile.js
 ```
 
-Any plugins or shareable configs that you use must also be installed locally to work with a locally-installed ESLint.
-
-### Global Installation and Usage
-
-If you want to make ESLint available to tools that run across all of your projects, we recommend installing ESLint globally. You can do so using npm:
-
-```
-$ npm install -g eslint
-```
-
-You should then set up a configuration file:
-
-```
-$ eslint --init
-```
-
-After that, you can run ESLint on any file or directory like this:
-
-```
-$ eslint yourfile.js
-```
-
-Any plugins or shareable configs that you use must also be installed globally to work with a globally-installed ESLint.
-
-**Note:** `eslint --init` is intended for setting up and configuring ESLint on a per-project basis and will perform a local installation of ESLint and its plugins in the directory in which it is run. If you prefer using a global installation of ESLint, any plugins used in your configuration must also be installed globally.
+It is also possible to install ESLint globally rather than locally (using `npm install eslint --global`). However, any plugins or shareable configs that you use must be installed locally in either case.
 
 ## Configuration
 
@@ -124,16 +96,9 @@ No, ESLint does both traditional linting (looking for problematic patterns) and 
 
 ### Why can't ESLint find my plugins?
 
-ESLint can be [globally or locally installed](#installation-and-usage). If you install ESLint globally, your plugins must also be installed globally; if you install ESLint locally, your plugins must also be installed locally.
-
-If you are trying to run globally, make sure your plugins are installed globally (use `npm ls -g`).
-
-If you are trying to run locally:
-
 * Make sure your plugins (and ESLint) are both in your project's `package.json` as devDependencies (or dependencies, if your project uses ESLint at runtime).
 * Make sure you have run `npm install` and all your dependencies are installed.
-
-In all cases, make sure your plugins' peerDependencies have been installed as well. You can use `npm view eslint-plugin-myplugin peerDependencies` to see what peer dependencies `eslint-plugin-myplugin` has.
+* Make sure your plugins' peerDependencies have been installed as well. You can use `npm view eslint-plugin-myplugin peerDependencies` to see what peer dependencies `eslint-plugin-myplugin` has.
 
 ### Does ESLint support JSX?
 

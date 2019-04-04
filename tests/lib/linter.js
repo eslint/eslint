@@ -2,7 +2,6 @@
  * @fileoverview Tests for eslint object.
  * @author Nicholas C. Zakas
  */
-/* globals window */
 
 "use strict";
 
@@ -18,14 +17,13 @@
  * @private
  */
 function compatRequire(name, windowName) {
-    if (typeof window === "object") {
-        return window[windowName || name];
+    if (typeof window === "object") { // eslint-disable-line no-undef
+        return window[windowName || name]; // eslint-disable-line no-undef
     }
     if (typeof require === "function") {
         return require(name);
     }
     throw new Error(`Cannot find object '${name}'.`);
-
 }
 
 //------------------------------------------------------------------------------
@@ -34,7 +32,8 @@ function compatRequire(name, windowName) {
 
 const assert = require("chai").assert,
     sinon = require("sinon"),
-    path = require("path");
+    esprima = require("esprima"),
+    testParsers = require("../fixtures/parsers/linter-test-parsers");
 
 const Linter = compatRequire("../../lib/linter", "eslint");
 
@@ -59,6 +58,14 @@ const TEST_CODE = "var answer = 6 * 7;",
 function getVariable(scope, name) {
     return scope.variables.find(v => v.name === name) || null;
 }
+
+/**
+ * `eslint-env` comments are processed by doing a full source text match before parsing.
+ * As a result, if this source file contains `eslint- env` followed by an environment in a string,
+ * it will actually enable the given envs for this source file. This variable is used to avoid having a string
+ * like that appear in the code.
+ */
+const ESLINT_ENV = "eslint-env";
 
 //------------------------------------------------------------------------------
 // Tests
@@ -947,7 +954,7 @@ describe("Linter", () => {
             const parser = {
                 parseForESLint: function parse(code, options) {
                     return {
-                        ast: require("espree").parse(code, options),
+                        ast: esprima.parse(code, options),
                         services: {
                             test: {
                                 getMessage() {
@@ -970,74 +977,69 @@ describe("Linter", () => {
 
     describe("when config has parser", () => {
 
-        // custom parser unsupported in browser, only test in Node
-        if (typeof window === "undefined") {
-            it("should pass parser as parserPath to all rules when provided on config", () => {
+        it("should pass parser as parserPath to all rules when provided on config", () => {
 
-                const alternateParser = "esprima";
+            const alternateParser = "esprima";
 
-                linter.defineRule("test-rule", sandbox.mock().withArgs(
-                    sinon.match({ parserPath: alternateParser })
-                ).returns({}));
+            linter.defineParser("esprima", esprima);
+            linter.defineRule("test-rule", sandbox.mock().withArgs(
+                sinon.match({ parserPath: alternateParser })
+            ).returns({}));
 
-                const config = { rules: { "test-rule": 2 }, parser: alternateParser };
+            const config = { rules: { "test-rule": 2 }, parser: alternateParser };
 
-                linter.verify("0", config, filename);
-            });
+            linter.verify("0", config, filename);
+        });
 
-            it("should use parseForESLint() in custom parser when custom parser is specified", () => {
+        it("should use parseForESLint() in custom parser when custom parser is specified", () => {
+            const config = { rules: {}, parser: "enhanced-parser" };
 
-                const alternateParser = path.resolve(__dirname, "../fixtures/parsers/enhanced-parser.js");
-                const config = { rules: {}, parser: alternateParser };
-                const messages = linter.verify("0", config, filename);
+            linter.defineParser("enhanced-parser", testParsers.enhancedParser);
+            const messages = linter.verify("0", config, filename);
 
-                assert.strictEqual(messages.length, 0);
-            });
+            assert.strictEqual(messages.length, 0);
+        });
 
-            it("should expose parser services when using parseForESLint() and services are specified", () => {
+        it("should expose parser services when using parseForESLint() and services are specified", () => {
+            linter.defineParser("enhanced-parser", testParsers.enhancedParser);
+            linter.defineRule("test-service-rule", context => ({
+                Literal(node) {
+                    context.report({
+                        node,
+                        message: context.parserServices.test.getMessage()
+                    });
+                }
+            }));
 
-                const alternateParser = path.resolve(__dirname, "../fixtures/parsers/enhanced-parser.js");
+            const config = { rules: { "test-service-rule": 2 }, parser: "enhanced-parser" };
+            const messages = linter.verify("0", config, filename);
 
-                linter.defineRule("test-service-rule", context => ({
-                    Literal(node) {
-                        context.report({
-                            node,
-                            message: context.parserServices.test.getMessage()
-                        });
-                    }
-                }));
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].message, "Hi!");
+        });
 
-                const config = { rules: { "test-service-rule": 2 }, parser: alternateParser };
-                const messages = linter.verify("0", config, filename);
+        it("should use the same parserServices if source code object is reused", () => {
+            linter.defineParser("enhanced-parser", testParsers.enhancedParser);
+            linter.defineRule("test-service-rule", context => ({
+                Literal(node) {
+                    context.report({
+                        node,
+                        message: context.parserServices.test.getMessage()
+                    });
+                }
+            }));
 
-                assert.strictEqual(messages.length, 1);
-                assert.strictEqual(messages[0].message, "Hi!");
-            });
+            const config = { rules: { "test-service-rule": 2 }, parser: "enhanced-parser" };
+            const messages = linter.verify("0", config, filename);
 
-            it("should use the same parserServices if source code object is reused", () => {
-                const parser = path.resolve(__dirname, "../fixtures/parsers/enhanced-parser.js");
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].message, "Hi!");
 
-                linter.defineRule("test-service-rule", context => ({
-                    Literal(node) {
-                        context.report({
-                            node,
-                            message: context.parserServices.test.getMessage()
-                        });
-                    }
-                }));
+            const messages2 = linter.verify(linter.getSourceCode(), config, filename);
 
-                const config = { rules: { "test-service-rule": 2 }, parser };
-                const messages = linter.verify("0", config, filename);
-
-                assert.strictEqual(messages.length, 1);
-                assert.strictEqual(messages[0].message, "Hi!");
-
-                const messages2 = linter.verify(linter.getSourceCode(), config, filename);
-
-                assert.strictEqual(messages2.length, 1);
-                assert.strictEqual(messages2[0].message, "Hi!");
-            });
-        }
+            assert.strictEqual(messages2.length, 1);
+            assert.strictEqual(messages2[0].message, "Hi!");
+        });
 
         it("should pass parser as parserPath to all rules when default parser is used", () => {
             linter.defineRule("test-rule", sandbox.mock().withArgs(
@@ -1207,7 +1209,7 @@ describe("Linter", () => {
 
     describe("when evaluating code containing /*eslint-env */ block", () => {
         it("variables should be available in global scope", () => {
-            const code = "/*eslint-env node*/ function f() {} /*eslint-env browser, foo*/";
+            const code = `/*${ESLINT_ENV} node*/ function f() {} /*${ESLINT_ENV} browser, foo*/`;
             const config = { rules: { checker: "error" } };
             let spy;
 
@@ -1230,7 +1232,7 @@ describe("Linter", () => {
     });
 
     describe("when evaluating code containing /*eslint-env */ block with sloppy whitespace", () => {
-        const code = "/* eslint-env ,, node  , no-browser ,,  */";
+        const code = `/* ${ESLINT_ENV} ,, node  , no-browser ,,  */`;
 
         it("variables should be available in global scope", () => {
             const config = { rules: { checker: "error" } };
@@ -2890,7 +2892,7 @@ describe("Linter", () => {
         });
 
         it("should not report a violation", () => {
-            const code = "/*eslint-env mocha,node */ require();describe();";
+            const code = `/*${ESLINT_ENV} mocha,node */ require();describe();`;
 
             const config = { rules: { "no-undef": 1 } };
 
@@ -2910,7 +2912,7 @@ describe("Linter", () => {
         });
 
         it("should not report a violation", () => {
-            const code = "/*eslint-env amd */ define();require();";
+            const code = `/*${ESLINT_ENV} amd */ define();require();`;
 
             const config = { rules: { "no-undef": 1 } };
 
@@ -2920,7 +2922,7 @@ describe("Linter", () => {
         });
 
         it("should not report a violation", () => {
-            const code = "/*eslint-env jasmine */ expect();spyOn();";
+            const code = `/*${ESLINT_ENV} jasmine */ expect();spyOn();`;
 
             const config = { rules: { "no-undef": 1 } };
 
@@ -2930,7 +2932,7 @@ describe("Linter", () => {
         });
 
         it("should not report a violation", () => {
-            const code = "/*globals require: true */ /*eslint-env node */ require = 1;";
+            const code = `/*globals require: true */ /*${ESLINT_ENV} node */ require = 1;`;
 
             const config = { rules: { "no-undef": 1 } };
 
@@ -2940,7 +2942,7 @@ describe("Linter", () => {
         });
 
         it("should not report a violation", () => {
-            const code = "/*eslint-env node */ process.exit();";
+            const code = `/*${ESLINT_ENV} node */ process.exit();`;
 
             const config = { rules: {} };
 
@@ -2950,7 +2952,7 @@ describe("Linter", () => {
         });
 
         it("should not report a violation", () => {
-            const code = "/*eslint no-process-exit: 0 */ /*eslint-env node */ process.exit();";
+            const code = `/*eslint no-process-exit: 0 */ /*${ESLINT_ENV} node */ process.exit();`;
 
             const config = { rules: { "no-undef": 1 } };
 
@@ -3075,7 +3077,7 @@ describe("Linter", () => {
 
         it("should report a violation for env changes", () => {
             const code = [
-                "/*eslint-env browser*/"
+                `/*${ESLINT_ENV} browser*/`
             ].join("\n");
             const config = {
                 rules: {
@@ -3445,8 +3447,8 @@ describe("Linter", () => {
             assert.strictEqual(messages.length, 0);
         });
 
-        it("should be able to return in global if there is a comment which has \"eslint-env node\"", () => {
-            const messages = linter.verify("/* eslint-env node */ return;", null, "eslint-env node");
+        it("should be able to return in global if there is a comment which enables the node environment with a comment", () => {
+            const messages = linter.verify(`/* ${ESLINT_ENV} node */ return;`, null, "node environment");
 
             assert.strictEqual(messages.length, 0);
         });
@@ -4491,196 +4493,186 @@ describe("Linter", () => {
         });
     });
 
-    // only test in Node.js, not browser
-    if (typeof window === "undefined") {
-        const escope = require("eslint-scope");
-        const vk = require("eslint-visitor-keys");
+    describe("Custom parser", () => {
 
-        describe("Custom parser", () => {
+        const errorPrefix = "Parsing error: ";
 
-            const parserFixtures = path.join(__dirname, "../fixtures/parsers"),
-                errorPrefix = "Parsing error: ";
+        it("should have file path passed to it", () => {
+            const code = "/* this is code */";
+            const parseSpy = sinon.spy(testParsers.stubParser, "parse");
 
-            it("should have file path passed to it", () => {
-                const code = "/* this is code */";
-                const parser = path.join(parserFixtures, "stub-parser.js");
-                const parseSpy = sinon.spy(require(parser), "parse");
+            linter.defineParser("stub-parser", testParsers.stubParser);
+            linter.verify(code, { parser: "stub-parser" }, filename, true);
 
-                linter.verify(code, { parser }, filename, true);
+            sinon.assert.calledWithMatch(parseSpy, "", { filePath: filename });
+        });
 
-                sinon.assert.calledWithMatch(parseSpy, "", { filePath: filename });
-            });
+        it("should not report an error when JSX code contains a spread operator and JSX is enabled", () => {
+            const code = "var myDivElement = <div {...this.props} />;";
 
-            it("should not report an error when JSX code contains a spread operator and JSX is enabled", () => {
-                const code = "var myDivElement = <div {...this.props} />;";
-                const messages = linter.verify(code, { parser: "esprima", parserOptions: { jsx: true } }, "filename");
+            linter.defineParser("esprima", esprima);
+            const messages = linter.verify(code, { parser: "esprima", parserOptions: { jsx: true } }, "filename");
 
-                assert.strictEqual(messages.length, 0);
-            });
+            assert.strictEqual(messages.length, 0);
+        });
 
-            it("should return an error when the custom parser can't be found", () => {
-                const code = "var myDivElement = <div {...this.props} />;";
-                const messages = linter.verify(code, { parser: "esprima-xyz" }, "filename");
+        it("should return an error when the custom parser can't be found", () => {
+            const code = "var myDivElement = <div {...this.props} />;";
+            const messages = linter.verify(code, { parser: "esprima-xyz" }, "filename");
 
-                assert.strictEqual(messages.length, 1);
-                assert.strictEqual(messages[0].severity, 2);
-                assert.strictEqual(messages[0].message, "Cannot find module 'esprima-xyz'");
-            });
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].severity, 2);
+            assert.strictEqual(messages[0].message, "Configured parser 'esprima-xyz' was not found.");
+        });
 
-            it("should not throw or report errors when the custom parser returns unrecognized operators (https://github.com/eslint/eslint/issues/10475)", () => {
-                const code = "null %% 'foo'";
-                const parser = path.join(parserFixtures, "unknown-operators", "unknown-logical-operator.js");
+        it("should not throw or report errors when the custom parser returns unrecognized operators (https://github.com/eslint/eslint/issues/10475)", () => {
+            const code = "null %% 'foo'";
 
-                // This shouldn't throw
-                const messages = linter.verify(code, { parser }, filename, true);
+            linter.defineParser("unknown-logical-operator", testParsers.unknownLogicalOperator);
 
-                assert.strictEqual(messages.length, 0);
-            });
+            // This shouldn't throw
+            const messages = linter.verify(code, { parser: "unknown-logical-operator" }, filename, true);
 
-            it("should not throw or report errors when the custom parser returns nested unrecognized operators (https://github.com/eslint/eslint/issues/10560)", () => {
-                const code = "foo && bar %% baz";
-                const parser = path.join(parserFixtures, "unknown-operators", "unknown-logical-operator-nested.js");
+            assert.strictEqual(messages.length, 0);
+        });
 
-                // This shouldn't throw
-                const messages = linter.verify(code, { parser }, filename, true);
+        it("should not throw or report errors when the custom parser returns nested unrecognized operators (https://github.com/eslint/eslint/issues/10560)", () => {
+            const code = "foo && bar %% baz";
 
-                assert.strictEqual(messages.length, 0);
-            });
+            linter.defineParser("unknown-logical-operator-nested", testParsers.unknownLogicalOperatorNested);
 
-            it("should strip leading line: prefix from parser error", () => {
-                const parser = path.join(parserFixtures, "line-error.js");
-                const messages = linter.verify(";", { parser }, "filename");
+            // This shouldn't throw
+            const messages = linter.verify(code, { parser: "unknown-logical-operator-nested" }, filename, true);
 
-                assert.strictEqual(messages.length, 1);
-                assert.strictEqual(messages[0].severity, 2);
-                assert.strictEqual(messages[0].message, errorPrefix + require(parser).expectedError);
-            });
+            assert.strictEqual(messages.length, 0);
+        });
 
-            it("should not modify a parser error message without a leading line: prefix", () => {
-                const parser = path.join(parserFixtures, "no-line-error.js");
-                const messages = linter.verify(";", { parser }, "filename");
+        it("should strip leading line: prefix from parser error", () => {
+            linter.defineParser("line-error", testParsers.lineError);
+            const messages = linter.verify(";", { parser: "line-error" }, "filename");
 
-                assert.strictEqual(messages.length, 1);
-                assert.strictEqual(messages[0].severity, 2);
-                assert.strictEqual(messages[0].message, errorPrefix + require(parser).expectedError);
-            });
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].severity, 2);
+            assert.strictEqual(messages[0].message, errorPrefix + testParsers.lineError.expectedError);
+        });
 
-            describe("if a parser provides 'visitorKeys'", () => {
-                let types = [];
-                let scopeAnalyzeStub = null;
-                let sourceCode = null;
+        it("should not modify a parser error message without a leading line: prefix", () => {
+            linter.defineParser("no-line-error", testParsers.noLineError);
+            const messages = linter.verify(";", { parser: "no-line-error" }, "filename");
 
-                beforeEach(() => {
-                    scopeAnalyzeStub = sandbox.spy(escope, "analyze");
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].severity, 2);
+            assert.strictEqual(messages[0].message, errorPrefix + testParsers.noLineError.expectedError);
+        });
 
-                    const parser = path.join(parserFixtures, "enhanced-parser2.js");
+        describe("if a parser provides 'visitorKeys'", () => {
+            let types = [];
+            let sourceCode;
+            let scopeManager;
 
-                    types = [];
-                    linter.defineRule("collect-node-types", () => ({
-                        "*"(node) {
-                            types.push(node.type);
-                        }
-                    }));
-                    linter.verify("@foo class A {}", {
-                        parser,
-                        rules: {
-                            "collect-node-types": "error"
-                        }
-                    });
+            beforeEach(() => {
+                types = [];
+                linter.defineRule("collect-node-types", () => ({
+                    "*"(node) {
+                        types.push(node.type);
+                    }
+                }));
+                linter.defineRule("save-scope-manager", context => {
+                    scopeManager = context.getSourceCode().scopeManager;
 
-                    sourceCode = linter.getSourceCode();
+                    return {};
+                });
+                linter.defineParser("enhanced-parser2", testParsers.enhancedParser2);
+                linter.verify("@foo class A {}", {
+                    parser: "enhanced-parser2",
+                    rules: {
+                        "collect-node-types": "error",
+                        "save-scope-manager": "error"
+                    }
                 });
 
-                it("Traverser should use the visitorKeys (so 'types' includes 'Decorator')", () => {
-                    assert.deepStrictEqual(
-                        types,
-                        ["Program", "ClassDeclaration", "Decorator", "Identifier", "Identifier", "ClassBody"]
-                    );
-                });
-
-                it("eslint-scope should use the visitorKeys (so 'childVisitorKeys.ClassDeclaration' includes 'experimentalDecorators')", () => {
-                    assert(scopeAnalyzeStub.calledOnce);
-                    assert.deepStrictEqual(
-                        scopeAnalyzeStub.firstCall.args[1].childVisitorKeys.ClassDeclaration,
-                        vk.unionWith({ ClassDeclaration: ["experimentalDecorators"] }).ClassDeclaration
-                    );
-                });
-
-                it("should use the same visitorKeys if the source code object is reused", () => {
-                    const types2 = [];
-
-                    linter.defineRule("collect-node-types", () => ({
-                        "*"(node) {
-                            types2.push(node.type);
-                        }
-                    }));
-                    linter.verify(sourceCode, {
-                        rules: {
-                            "collect-node-types": "error"
-                        }
-                    });
-
-                    assert.deepStrictEqual(
-                        types2,
-                        ["Program", "ClassDeclaration", "Decorator", "Identifier", "Identifier", "ClassBody"]
-                    );
-                });
+                sourceCode = linter.getSourceCode();
             });
 
-            describe("if a parser provides 'scope'", () => {
-                let scopeAnalyzeStub = null;
-                let scope = null;
-                let sourceCode = null;
-
-                beforeEach(() => {
-                    scopeAnalyzeStub = sandbox.spy(escope, "analyze");
-
-                    const parser = path.join(parserFixtures, "enhanced-parser3.js");
-
-                    linter.defineRule("save-scope1", context => ({
-                        Program() {
-                            scope = context.getScope();
-                        }
-                    }));
-                    linter.verify("@foo class A {}", { parser, rules: { "save-scope1": 2 } });
-
-                    sourceCode = linter.getSourceCode();
-                });
-
-                it("should not use eslint-scope analyzer", () => {
-                    assert(scopeAnalyzeStub.notCalled);
-                });
-
-                it("should use the scope (so the global scope has the reference of '@foo')", () => {
-                    assert.strictEqual(scope.references.length, 1);
-                    assert.deepStrictEqual(
-                        scope.references[0].identifier.name,
-                        "foo"
-                    );
-                });
-
-                it("should use the same scope if the source code object is reused", () => {
-                    let scope2 = null;
-
-                    linter.defineRule("save-scope2", context => ({
-                        Program() {
-                            scope2 = context.getScope();
-                        }
-                    }));
-                    linter.verify(sourceCode, { rules: { "save-scope2": 2 } }, "test.js");
-
-                    assert(scope2 !== null);
-                    assert(scope2 === scope);
-                });
+            it("Traverser should use the visitorKeys (so 'types' includes 'Decorator')", () => {
+                assert.deepStrictEqual(
+                    types,
+                    ["Program", "ClassDeclaration", "Decorator", "Identifier", "Identifier", "ClassBody"]
+                );
             });
 
-            it("should not pass any default parserOptions to the parser", () => {
-                const parser = path.join(parserFixtures, "throws-with-options.js");
+            it("eslint-scope should use the visitorKeys (so 'childVisitorKeys.ClassDeclaration' includes 'experimentalDecorators')", () => {
+                assert.deepStrictEqual(
+                    scopeManager.__options.childVisitorKeys.ClassDeclaration, // eslint-disable-line no-underscore-dangle
+                    ["experimentalDecorators", "id", "superClass", "body"]
+                );
+            });
 
-                const messages = linter.verify(";", { parser }, "filename");
+            it("should use the same visitorKeys if the source code object is reused", () => {
+                const types2 = [];
 
-                assert.strictEqual(messages.length, 0);
+                linter.defineRule("collect-node-types", () => ({
+                    "*"(node) {
+                        types2.push(node.type);
+                    }
+                }));
+                linter.verify(sourceCode, {
+                    rules: {
+                        "collect-node-types": "error"
+                    }
+                });
+
+                assert.deepStrictEqual(
+                    types2,
+                    ["Program", "ClassDeclaration", "Decorator", "Identifier", "Identifier", "ClassBody"]
+                );
             });
         });
-    }
+
+        describe("if a parser provides 'scope'", () => {
+            let scope = null;
+            let sourceCode = null;
+
+            beforeEach(() => {
+                linter.defineParser("enhanced-parser3", testParsers.enhancedParser3);
+                linter.defineRule("save-scope1", context => ({
+                    Program() {
+                        scope = context.getScope();
+                    }
+                }));
+                linter.verify("@foo class A {}", { parser: "enhanced-parser3", rules: { "save-scope1": 2 } });
+
+                sourceCode = linter.getSourceCode();
+            });
+
+            it("should use the scope (so the global scope has the reference of '@foo')", () => {
+                assert.strictEqual(scope.references.length, 1);
+                assert.deepStrictEqual(
+                    scope.references[0].identifier.name,
+                    "foo"
+                );
+            });
+
+            it("should use the same scope if the source code object is reused", () => {
+                let scope2 = null;
+
+                linter.defineRule("save-scope2", context => ({
+                    Program() {
+                        scope2 = context.getScope();
+                    }
+                }));
+                linter.verify(sourceCode, { rules: { "save-scope2": 2 } }, "test.js");
+
+                assert(scope2 !== null);
+                assert(scope2 === scope);
+            });
+        });
+
+        it("should not pass any default parserOptions to the parser", () => {
+            linter.defineParser("throws-with-options", testParsers.throwsWithOptions);
+            const messages = linter.verify(";", { parser: "throws-with-options" }, "filename");
+
+            assert.strictEqual(messages.length, 0);
+        });
+    });
 });

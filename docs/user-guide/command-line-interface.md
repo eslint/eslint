@@ -111,14 +111,6 @@ Example:
 
 This example uses the configuration file at `~/my-eslint.json`.
 
-It also accepts a module ID of a [sharable config](../developer-guide/shareable-configs).
-
-Example:
-
-    eslint -c myconfig file.js
-
-This example directly uses the sharable config `eslint-config-myconfig`.
-
 If `.eslintrc.*` and/or `package.json` files are also used for configuration (i.e., `--no-eslintrc` was not specified), the configurations will be merged. Options from this configuration file have precedence over the options from `.eslintrc.*` and `package.json` files.
 
 #### `--env`

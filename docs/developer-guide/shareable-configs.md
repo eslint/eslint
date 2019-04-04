@@ -38,6 +38,8 @@ You should declare your dependency on ESLint in `package.json` using the [peerDe
 }
 ```
 
+If your shareable config depends on a plugin, you should also specify it as a `peerDependency` (plugins will be loaded relative to the end user's project, so the end user is required to install the plugins they need). However, if your shareable config depends on a third-party parser or another shareable config, you can specify these packages as `dependencies`.
+
 You can also test your shareable config on your computer before publishing by linking your module globally. Type:
 
 ```bash

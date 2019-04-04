@@ -56,9 +56,8 @@ Setting parser options helps ESLint determine what is a parsing error. All langu
 
 By default, ESLint uses [Espree](https://github.com/eslint/espree) as its parser. You can optionally specify that a different parser should be used in your configuration file so long as the parser meets the following requirements:
 
-1. It must be an npm module installed locally.
-1. It must have an Esprima-compatible interface (it must export a `parse()` method).
-1. It must produce Esprima-compatible AST and token objects.
+1. It must be a Node module loadable from the config file where it appears. Usually, this means you should install the parser package separately using npm.
+1. It must conform to the [parser interface](/docs/developer-guide/working-with-plugins.md#working-with-custom-parsers).
 
 Note that even with these compatibilities, there are no guarantees that an external parser will work correctly with ESLint and ESLint will not fix bugs related to incompatibilities with other parsers.
 
@@ -251,7 +250,7 @@ For historical reasons, the boolean value `false` and the string value `"readabl
 
 ## Configuring Plugins
 
-ESLint supports the use of third-party plugins. Before using the plugin you have to install it using npm.
+ESLint supports the use of third-party plugins. Before using the plugin, you have to install it using npm.
 
 To configure plugins inside of a configuration file, use the `plugins` key, which contains a list of plugin names. The `eslint-plugin-` prefix can be omitted from the plugin name.
 
@@ -273,7 +272,7 @@ And in YAML:
     - eslint-plugin-plugin2
 ```
 
-**Note:** Due to the behavior of Node's `require` function, a globally-installed instance of ESLint can only use globally-installed ESLint plugins, and locally-installed version can only use *locally-installed* plugins. Mixing local and global plugins is not supported.
+**Note:** Plugins are resolved relative to the current working directory of the ESLint process. In other words, ESLint will load the same plugin as a user would obtain by running `require('eslint-plugin-pluginname')` in a Node REPL from their project root.
 
 ## Configuring Rules
 
@@ -621,10 +620,10 @@ A configuration file can extend the set of enabled rules from base configuration
 
 The `extends` property value is either:
 
-* a string that specifies a configuration
+* a string that specifies a configuration (either a path to a config file, the name of a shareable config, `eslint:recommended`, or `eslint:all`)
 * an array of strings: each additional configuration extends the preceding configurations
 
-ESLint extends configurations recursively so a base configuration can also have an `extends` property.
+ESLint extends configurations recursively, so a base configuration can also have an `extends` property. Relative paths and shareable config names in an `extends` property are resolved from the location of the config file where they appear.
 
 The `rules` property can do any of the following to extend (or override) the set of rules:
 
@@ -719,9 +718,7 @@ Example of a configuration file in JSON format:
 
 ### Using a configuration file
 
-The `extends` property value can be an absolute or relative path to a base [configuration file](#using-configuration-files).
-
-ESLint resolves a relative path to a base configuration file relative to the configuration file that uses it **unless** that file is in your home directory or a directory that isn't an ancestor to the directory in which ESLint is installed (either locally or globally). In those cases, ESLint resolves the relative path to the base file relative to the linted **project** directory (typically the current working directory).
+The `extends` property value can be an absolute or relative path to a base [configuration file](#using-configuration-files). ESLint resolves a relative path to a base configuration file relative to the configuration file that uses it.
 
 Example of a configuration file in JSON format:
 
