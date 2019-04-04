@@ -48,7 +48,7 @@ This rule accepts a single options argument with the following defaults:
 }
 ```
 
-`allowParens` is a boolean setting that can be `true` or `false`:
+`allowParens` is a boolean setting that can be `true`(default) or `false`:
 
 1. `true` relaxes the rule and accepts parenthesis as a valid "confusion-preventing" syntax.
 2. `false` warns even if the expression is wrapped in parenthesis
