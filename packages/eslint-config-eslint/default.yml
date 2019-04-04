@@ -13,7 +13,7 @@ rules:
     camelcase: "error"
     callback-return: ["error", ["cb", "callback", "next"]]
     class-methods-use-this: "error"
-    comma-dangle: ["error", { functions: "never" }]
+    comma-dangle: "error"
     comma-spacing: "error"
     comma-style: ["error", "last"]
     computed-property-spacing: "error"
