@@ -824,18 +824,14 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.results[0].messages.length, 0);
         });
 
-        it("should report one fatal message when given a config file and a valid file and invalid parser", () => {
+        it("should throw an error when given a config file and a valid file and invalid parser", () => {
 
             engine = new CLIEngine({
                 parser: "test11",
                 useEslintrc: false
             });
 
-            const report = engine.executeOnFiles(["lib/cli.js"]);
-
-            assert.lengthOf(report.results, 1);
-            assert.lengthOf(report.results[0].messages, 1);
-            assert.isTrue(report.results[0].messages[0].fatal);
+            assert.throws(() => engine.executeOnFiles(["lib/cli.js"]), "Cannot find module 'test11'");
         });
 
         it("should report zero messages when given a directory with a .js2 file", () => {
@@ -3043,19 +3039,21 @@ describe("CLIEngine", () => {
 
         it("should return null when a customer formatter doesn't exist", () => {
             const engine = new CLIEngine(),
-                formatterPath = getFixturePath("formatters", "doesntexist.js");
+                formatterPath = getFixturePath("formatters", "doesntexist.js"),
+                fullFormatterPath = path.resolve(formatterPath);
 
             assert.throws(() => {
                 engine.getFormatter(formatterPath);
-            }, `There was a problem loading formatter: ${formatterPath}\nError: Cannot find module '${formatterPath}'`);
+            }, `There was a problem loading formatter: ${fullFormatterPath}\nError: Cannot find module '${fullFormatterPath}'`);
         });
 
         it("should return null when a built-in formatter doesn't exist", () => {
             const engine = new CLIEngine();
+            const fullFormatterPath = path.resolve(__dirname, "..", "..", "lib", "formatters", "special");
 
             assert.throws(() => {
                 engine.getFormatter("special");
-            }, "There was a problem loading formatter: ./formatters/special\nError: Cannot find module './formatters/special'");
+            }, `There was a problem loading formatter: ${fullFormatterPath}\nError: Cannot find module '${fullFormatterPath}'`);
         });
 
         it("should throw if the required formatter exists but has an error", () => {

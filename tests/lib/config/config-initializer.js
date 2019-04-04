@@ -42,17 +42,11 @@ describe("configInitializer", () => {
     };
     const requireStubs = {
         "../util/logging": log,
-        "../util/module-resolver": class ModuleResolver {
-
-            /**
-             * @returns {string} The path to local eslint to test.
-             */
-            resolve() { // eslint-disable-line class-methods-use-this
-                if (localESLintVersion) {
-                    return `local-eslint-${localESLintVersion}`;
-                }
-                throw new Error("Cannot find module");
+        "../util/relative-module-resolver"() {
+            if (localESLintVersion) {
+                return `local-eslint-${localESLintVersion}`;
             }
+            throw new Error("Cannot find module");
         },
         "local-eslint-3.18.0": { linter: { version: "3.18.0" }, "@noCallThru": true },
         "local-eslint-3.19.0": { linter: { version: "3.19.0" }, "@noCallThru": true },
