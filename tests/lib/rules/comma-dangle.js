@@ -1433,6 +1433,14 @@ let d = 0;export {d,};
             options: [{ functions: "never" }],
             parser: parser("return-type-2"),
             errors: [{ messageId: "unexpected" }]
+        },
+
+        // https://github.com/eslint/eslint/issues/11502
+        {
+            code: "foo(a,)",
+            output: "foo(a)",
+            parserOptions: { ecmaVersion: 8 },
+            errors: [{ messageId: "unexpected" }]
         }
     ]
 });

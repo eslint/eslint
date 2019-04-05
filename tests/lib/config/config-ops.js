@@ -911,12 +911,18 @@ describe("ConfigOps", () => {
             ["writable", "writable"],
             ["readable", "readonly"],
             ["readonly", "readonly"],
-            ["writable", "writable"],
-            ["something else", "writable"]
+            ["writable", "writable"]
         ].forEach(([input, output]) => {
             it(util.inspect(input), () => {
                 assert.strictEqual(ConfigOps.normalizeConfigGlobal(input), output);
             });
+        });
+
+        it("throws on other inputs", () => {
+            assert.throws(
+                () => ConfigOps.normalizeConfigGlobal("something else"),
+                /^'something else' is not a valid configuration for a global \(use 'readonly', 'writable', or 'off'\)$/u
+            );
         });
     });
 });
