@@ -659,6 +659,43 @@ describe("RuleTester", () => {
 
     });
 
+    it("should disallow invalid defaults in rules", () => {
+        const ruleWithInvalidDefaults = {
+            meta: {
+                schema: [
+                    {
+                        oneOf: [
+                            { enum: ["foo"] },
+                            {
+                                type: "object",
+                                properties: {
+                                    foo: {
+                                        enum: ["foo", "bar"],
+                                        default: "foo"
+                                    }
+                                },
+                                additionalProperties: false
+                            }
+                        ]
+                    }
+                ]
+            },
+            create: () => ({})
+        };
+
+        assert.throws(() => {
+            ruleTester.run("invalid-defaults", ruleWithInvalidDefaults, {
+                valid: [
+                    {
+                        code: "foo",
+                        options: [{}]
+                    }
+                ],
+                invalid: []
+            });
+        }, /Schema for rule invalid-defaults is invalid: default is ignored for: data1\.foo/u);
+    });
+
     it("throw an error when an unknown config option is included", () => {
         assert.throws(() => {
             ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
