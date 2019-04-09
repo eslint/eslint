@@ -26,7 +26,7 @@ const lodash = require("lodash"),
     ejs = require("ejs"),
     loadPerf = require("load-perf"),
     yaml = require("js-yaml"),
-    CLIEngine = require("./lib/cli-engine");
+    { CLIEngine } = require("./lib/cli-engine");
 
 const { cat, cd, cp, echo, exec, exit, find, ls, mkdir, pwd, rm, test } = require("shelljs");
 
@@ -871,7 +871,7 @@ target.checkRuleFiles = function() {
         // check parity between rules index file and rules directory
         const builtInRulesIndexPath = "./lib/built-in-rules-index";
         const ruleIdsInIndex = require(builtInRulesIndexPath);
-        const ruleEntryFromIndexIsMissing = !(basename in ruleIdsInIndex);
+        const ruleEntryFromIndexIsMissing = !ruleIdsInIndex.has(basename);
 
         if (ruleEntryFromIndexIsMissing) {
             console.error(`Missing rule from index (${builtInRulesIndexPath}.js): ${basename}. If you just added a ` +

@@ -14,7 +14,7 @@ const fs = require("fs"),
     espree = require("espree"),
     sinon = require("sinon"),
     leche = require("leche"),
-    Linter = require("../../../lib/linter"),
+    { Linter } = require("../../../lib/linter"),
     SourceCode = require("../../../lib/util/source-code"),
     astUtils = require("../../../lib/util/ast-utils");
 
