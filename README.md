@@ -86,9 +86,11 @@ Before filing an issue, please be sure to read the guidelines for what you're re
 
 ### I'm using JSCS, should I migrate to ESLint?
 
-Maybe, depending on how much you need it. [JSCS has reached end of life](https://eslint.org/blog/2016/07/jscs-end-of-life), but if it is working for you then there is no reason to move yet. There are still [a few issues](https://github.com/eslint/eslint/milestones/JSCS%20Compatibility) pending. We’ll announce when all of the changes necessary to support JSCS users in ESLint are complete and will start encouraging JSCS users to switch to ESLint at that time.
+Yes. [JSCS has reached end of life](https://eslint.org/blog/2016/07/jscs-end-of-life) and is no longer supported.
 
-If you are having issues with JSCS, you can try to move to ESLint. Have a look at our [migration guide](https://eslint.org/docs/user-guide/migrating-from-jscs).
+We have prepared a [migration guide](https://eslint.org/docs/user-guide/migrating-from-jscs) to help you convert your JSCS settings to an ESLint configuration.
+
+We are now at or near 100% compatibility with JSCS. If you try ESLint and believe we are not yet compatible with a JSCS rule/configuration, please create an issue (mentioning that it is a JSCS compatibility issue) and we will evaluate it as per our normal process.
 
 ### Does Prettier replace ESLint?
 
