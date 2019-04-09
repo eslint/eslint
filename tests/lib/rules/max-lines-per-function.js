@@ -205,6 +205,15 @@ if ( x === y ) {
             ]
         },
 
+        // Test that option defaults work as expected
+        {
+            code: `() => {${"foo\n".repeat(60)}}`,
+            options: [{}],
+            errors: [
+                { messageId: "exceed", data: { name: "arrow function", lineCount: 61, maxLines: 50 } }
+            ]
+        },
+
         // Test skipBlankLines: false
         {
             code: "function name() {\nvar x = 5;\n\t\n \n\nvar x = 2;\n}",

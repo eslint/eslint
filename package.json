@@ -36,7 +36,7 @@
   "bugs": "https://github.com/eslint/eslint/issues/",
   "dependencies": {
     "@babel/code-frame": "^7.0.0",
-    "ajv": "^6.9.1",
+    "ajv": "^6.10.0",
     "chalk": "^2.1.0",
     "cross-spawn": "^6.0.5",
     "debug": "^4.0.1",
