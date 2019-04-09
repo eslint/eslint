@@ -3111,6 +3111,20 @@ describe("CLIEngine", () => {
             assert.strictEqual(errorResults[0].messages[4].severity, 2);
         });
 
+        it("should not mutate passed report.results parameter", () => {
+            process.chdir(originalDir);
+            const engine = new CLIEngine({
+                rules: { quotes: [1, "double"] }
+            });
+
+            const report = engine.executeOnText("var foo = 'bar';");
+            const reportResultsLength = report.results[0].messages.length;
+
+            CLIEngine.getErrorResults(report.results);
+
+            assert.lengthOf(report.results[0].messages, reportResultsLength);
+        });
+
         it("should report a warningCount of 0 when looking for errors only", () => {
 
             process.chdir(originalDir);
