@@ -128,7 +128,7 @@ describe("FileEnumerator", () => {
                 });
             });
 
-            describe("if 'lib/*.js' snf 'test/*.js' were given,", () => {
+            describe("if 'lib/*.js' and 'test/*.js' were given,", () => {
 
                 /** @type {Array<{config:(typeof import('../../../lib/cli-engine'))["ConfigArray"], filePath:string, ignored:boolean}>} */
                 let list;
