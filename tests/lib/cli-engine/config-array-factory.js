@@ -760,7 +760,7 @@ describe("ConfigArrayFactory", () => {
                         assert.strictEqual(element.processor, "ext/.abc");
                     });
 
-                    it("should have 'criteria' property what matches '.abc'.", () => {
+                    it("should have 'criteria' property which matches '.abc'.", () => {
                         assert.strictEqual(element.criteria.test(path.join(tempDir, "1234.abc")), true);
                         assert.strictEqual(element.criteria.test(path.join(tempDir, "1234.xyz")), false);
                     });
