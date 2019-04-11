@@ -154,7 +154,7 @@ describe("ConfigArray", () => {
             assert.strictEqual(configArray.pluginProcessors.get("aaa/.xxx"), processors["aaa/.xxx"]);
         });
 
-        it("should return both 'bbb/.xxx' if it exists.", () => {
+        it("should return 'bbb/.xxx' if it exists.", () => {
             assert.strictEqual(configArray.pluginProcessors.get("bbb/.xxx"), processors["bbb/.xxx"]);
         });
 
