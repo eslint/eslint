@@ -766,7 +766,7 @@ describe("ConfigArrayFactory", () => {
                     });
                 });
 
-                describe("the secand element", () => {
+                describe("the second element", () => {
                     let element;
 
                     beforeEach(() => {
