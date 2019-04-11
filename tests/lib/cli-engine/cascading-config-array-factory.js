@@ -1190,7 +1190,7 @@ describe("CascadingConfigArrayFactory", () => {
                 assert.strictEqual(one, two);
             });
 
-            it("should not use cached instance if it call 'clearCache()' method between two getting.", () => {
+            it("should not use cached instance if 'clearCache()' method is called after first config is retrieved", () => {
                 const one = factory.getConfigArrayForFile();
 
                 factory.clearCache();
