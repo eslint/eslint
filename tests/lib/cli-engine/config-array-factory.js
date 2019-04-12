@@ -69,7 +69,13 @@ describe("ConfigArrayFactory", () => {
         const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
             cwd: () => tempDir
         });
-        const factory = new ConfigArrayFactory();
+
+        /** @type {ConfigArrayFactory} */
+        let factory;
+
+        beforeEach(() => {
+            factory = new ConfigArrayFactory();
+        });
 
         it("should return an empty config array if 'configData' is null.", () => {
             assert.strictEqual(factory.create(null).length, 0);
@@ -156,7 +162,13 @@ describe("ConfigArrayFactory", () => {
                 "package-json-no-config/package.json": "{ \"name\": \"foo\" }"
             }
         });
-        const factory = new ConfigArrayFactory();
+
+        /** @type {ConfigArrayFactory} */
+        let factory;
+
+        beforeEach(() => {
+            factory = new ConfigArrayFactory();
+        });
 
         it("should throw an error if 'filePath' is null.", () => {
             assert.throws(() => factory.loadFile(null));
@@ -181,7 +193,7 @@ describe("ConfigArrayFactory", () => {
         });
 
         for (const filePath of Object.keys(basicFiles)) {
-            it(`should load '${filePath}' then return a config array what contains that file content.`, () => {
+            it(`should load '${filePath}' then return a config array what contains that file content.`, () => { // eslint-disable-line no-loop-func
                 const configArray = factory.loadFile(filePath);
 
                 assert.strictEqual(configArray.length, 1);
@@ -267,7 +279,13 @@ describe("ConfigArrayFactory", () => {
                 "package-json-no-config/package.json": "{ \"name\": \"foo\" }"
             }
         });
-        const factory = new ConfigArrayFactory();
+
+        /** @type {ConfigArrayFactory} */
+        let factory;
+
+        beforeEach(() => {
+            factory = new ConfigArrayFactory();
+        });
 
         it("should throw an error if 'directoryPath' is null.", () => {
             assert.throws(() => factory.loadOnDirectory(null));
@@ -290,7 +308,7 @@ describe("ConfigArrayFactory", () => {
         for (const filePath of Object.keys(basicFiles)) {
             const directoryPath = filePath.split("/")[0];
 
-            it(`should load '${directoryPath}' then return a config array what contains the config file of that directory.`, () => {
+            it(`should load '${directoryPath}' then return a config array what contains the config file of that directory.`, () => { // eslint-disable-line no-loop-func
                 const configArray = factory.loadOnDirectory(directoryPath);
 
                 assert.strictEqual(configArray.length, 1);
