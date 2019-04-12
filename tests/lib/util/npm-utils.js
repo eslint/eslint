@@ -99,22 +99,22 @@ describe("npmUtils", () => {
         });
 
         it("should handle missing devDependencies key", () => {
-            const npmUtils = requireNpmUtilsWithInMemoryFileSystem({ // eslint-disable-line no-shadow
+            const stubbedNpmUtils = requireNpmUtilsWithInMemoryFileSystem({
                 "package.json": JSON.stringify({ private: true, dependencies: {} })
             });
 
             // Should not throw.
-            npmUtils.checkDevDeps(["some-package"]);
+            stubbedNpmUtils.checkDevDeps(["some-package"]);
         });
 
         it("should throw with message when parsing invalid package.json", () => {
-            const npmUtils = requireNpmUtilsWithInMemoryFileSystem({ // eslint-disable-line no-shadow
+            const stubbedNpmUtils = requireNpmUtilsWithInMemoryFileSystem({
                 "package.json": "{ \"not: \"valid json\" }"
             });
 
             assert.throws(() => {
                 try {
-                    npmUtils.checkDevDeps(["some-package"]);
+                    stubbedNpmUtils.checkDevDeps(["some-package"]);
                 } catch (error) {
                     assert.strictEqual(error.messageTemplate, "failed-to-read-json");
                     throw error;
@@ -158,22 +158,22 @@ describe("npmUtils", () => {
         });
 
         it("should handle missing dependencies key", () => {
-            const npmUtils = requireNpmUtilsWithInMemoryFileSystem({ // eslint-disable-line no-shadow
+            const stubbedNpmUtils = requireNpmUtilsWithInMemoryFileSystem({
                 "package.json": JSON.stringify({ private: true, devDependencies: {} })
             });
 
             // Should not throw.
-            npmUtils.checkDeps(["some-package"]);
+            stubbedNpmUtils.checkDeps(["some-package"]);
         });
 
         it("should throw with message when parsing invalid package.json", () => {
-            const npmUtils = requireNpmUtilsWithInMemoryFileSystem({ // eslint-disable-line no-shadow
+            const stubbedNpmUtils = requireNpmUtilsWithInMemoryFileSystem({
                 "package.json": "{ \"not: \"valid json\" }"
             });
 
             assert.throws(() => {
                 try {
-                    npmUtils.checkDeps(["some-package"]);
+                    stubbedNpmUtils.checkDeps(["some-package"]);
                 } catch (error) {
                     assert.strictEqual(error.messageTemplate, "failed-to-read-json");
                     throw error;
@@ -184,17 +184,17 @@ describe("npmUtils", () => {
 
     describe("checkPackageJson()", () => {
         it("should return true if package.json exists", () => {
-            const npmUtils = requireNpmUtilsWithInMemoryFileSystem({ // eslint-disable-line no-shadow
+            const stubbedNpmUtils = requireNpmUtilsWithInMemoryFileSystem({
                 "package.json": "{ \"file\": \"contents\" }"
             });
 
-            assert.strictEqual(npmUtils.checkPackageJson(), true);
+            assert.strictEqual(stubbedNpmUtils.checkPackageJson(), true);
         });
 
         it("should return false if package.json does not exist", () => {
-            const npmUtils = requireNpmUtilsWithInMemoryFileSystem({}); // eslint-disable-line no-shadow
+            const stubbedNpmUtils = requireNpmUtilsWithInMemoryFileSystem({});
 
-            assert.strictEqual(npmUtils.checkPackageJson(), false);
+            assert.strictEqual(stubbedNpmUtils.checkPackageJson(), false);
         });
     });
 

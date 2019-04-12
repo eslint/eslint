@@ -11,7 +11,6 @@ const { assert } = require("chai");
 const sh = require("shelljs");
 const { CascadingConfigArrayFactory } =
     require("../../../lib/cli-engine/cascading-config-array-factory");
-const { FileEnumerator } = require("../../../lib/cli-engine/file-enumerator");
 const { IgnoredPaths } = require("../../../lib/util/ignored-paths");
 const { defineFileEnumeratorWithInMemoryFileSystem } = require("./_utils");
 
@@ -45,7 +44,7 @@ describe("FileEnumerator", () => {
                 })
                 /* eslint-enable quote-props */
             };
-            const { FileEnumerator } = defineFileEnumeratorWithInMemoryFileSystem({ cwd: () => root, files }); // eslint-disable-line no-shadow
+            const { FileEnumerator } = defineFileEnumeratorWithInMemoryFileSystem({ cwd: () => root, files });
 
             /** @type {FileEnumerator} */
             let enumerator;
@@ -169,6 +168,7 @@ describe("FileEnumerator", () => {
 
         // This group moved from 'tests/lib/util/glob-utils.js' when refactoring to keep the cumulated test cases.
         describe("with 'tests/fixtures/glob-utils' files", () => {
+            const { FileEnumerator } = require("../../../lib/cli-engine/file-enumerator");
             let fixtureDir;
 
             /**
