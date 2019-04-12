@@ -17,35 +17,34 @@ const { defineCascadingConfigArrayFactoryWithInMemoryFileSystem } = require("./_
 
 describe("CascadingConfigArrayFactory", () => {
     describe("'getConfigArrayForFile(filePath)' method should retrieve the proper configuration.", () => {
-        const root = path.join(os.tmpdir(), "eslint/cli-engine/cascading-config-array-factory");
-        const files = {
-            /* eslint-disable quote-props */
-            "lib": {
-                "nested": {
+        describe("with three directories ('lib', 'lib/nested', 'test') that contains 'one.js' and 'two.js'", () => {
+            const root = path.join(os.tmpdir(), "eslint/cli-engine/cascading-config-array-factory");
+            const files = {
+                /* eslint-disable quote-props */
+                "lib": {
+                    "nested": {
+                        "one.js": "",
+                        "two.js": "",
+                        "parser.js": "",
+                        ".eslintrc.yml": "parser: './parser'"
+                    },
+                    "one.js": "",
+                    "two.js": ""
+                },
+                "test": {
                     "one.js": "",
                     "two.js": "",
-                    "parser.js": "",
-                    ".eslintrc.yml": "parser: './parser'"
+                    ".eslintrc.yml": "env: { mocha: true }"
                 },
-                "one.js": "",
-                "two.js": ""
-            },
-            "test": {
-                "one.js": "",
-                "two.js": "",
-                ".eslintrc.yml": "env: { mocha: true }"
-            },
-            ".eslintignore": "/lib/nested/parser.js",
-            ".eslintrc.json": JSON.stringify({
-                rules: {
-                    "no-undef": "error",
-                    "no-unused-vars": "error"
-                }
-            })
-            /* eslint-enable quote-props */
-        };
-
-        describe(`with the files ${JSON.stringify(files)}`, () => {
+                ".eslintignore": "/lib/nested/parser.js",
+                ".eslintrc.json": JSON.stringify({
+                    rules: {
+                        "no-undef": "error",
+                        "no-unused-vars": "error"
+                    }
+                })
+                /* eslint-enable quote-props */
+            };
             const { CascadingConfigArrayFactory } = defineCascadingConfigArrayFactoryWithInMemoryFileSystem({ cwd: () => root, files }); // eslint-disable-line no-shadow
 
             /** @type {CascadingConfigArrayFactory} */
@@ -1146,12 +1145,11 @@ describe("CascadingConfigArrayFactory", () => {
     });
 
     describe("'clearCache()' method should clear cache.", () => {
-        const root = path.join(os.tmpdir(), "eslint/cli-engine/cascading-config-array-factory");
-        const files = {
-            ".eslintrc.js": ""
-        };
-
-        describe(`with the files ${JSON.stringify(files)}`, () => {
+        describe("with a '.eslintrc.js' file", () => {
+            const root = path.join(os.tmpdir(), "eslint/cli-engine/cascading-config-array-factory");
+            const files = {
+                ".eslintrc.js": ""
+            };
             const {
                 CascadingConfigArrayFactory // eslint-disable-line no-shadow
             } = defineCascadingConfigArrayFactoryWithInMemoryFileSystem({ cwd: () => root, files });
