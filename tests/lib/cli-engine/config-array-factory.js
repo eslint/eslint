@@ -1213,973 +1213,974 @@ describe("ConfigArrayFactory", () => {
         });
     });
 
-    describe("Moved from tests/lib/config/config-file.js", () => {
-        describe("applyExtends()", () => {
-            const files = {
-                "node_modules/eslint-config-foo/index.js": "exports.env = { browser: true }",
-                "node_modules/eslint-config-one/index.js": "module.exports = { extends: 'two', env: { browser: true } }",
-                "node_modules/eslint-config-two/index.js": "module.exports = { env: { node: true } }",
-                "node_modules/eslint-plugin-invalid-parser/index.js": "exports.configs = { foo: { parser: 'nonexistent-parser' } }",
-                "node_modules/eslint-plugin-invalid-config/index.js": "exports.configs = { foo: {} }",
-                "js/.eslintrc.js": "module.exports = { rules: { semi: [2, 'always'] } };",
-                "json/.eslintrc.json": "{ \"rules\": { \"quotes\": [2, \"double\"] } }",
-                "package-json/package.json": "{ \"eslintConfig\": { \"env\": { \"es6\": true } } }",
-                "yaml/.eslintrc.yaml": "env:\n    browser: true"
-            };
-            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({ files });
-            const factory = new ConfigArrayFactory();
+    // This group moved from 'tests/lib/config/config-file.js' when refactoring to keep the cumulated test cases.
+    describe("'extends' property should handle the content of extended configs properly.", () => {
+        const files = {
+            "node_modules/eslint-config-foo/index.js": "exports.env = { browser: true }",
+            "node_modules/eslint-config-one/index.js": "module.exports = { extends: 'two', env: { browser: true } }",
+            "node_modules/eslint-config-two/index.js": "module.exports = { env: { node: true } }",
+            "node_modules/eslint-plugin-invalid-parser/index.js": "exports.configs = { foo: { parser: 'nonexistent-parser' } }",
+            "node_modules/eslint-plugin-invalid-config/index.js": "exports.configs = { foo: {} }",
+            "js/.eslintrc.js": "module.exports = { rules: { semi: [2, 'always'] } };",
+            "json/.eslintrc.json": "{ \"rules\": { \"quotes\": [2, \"double\"] } }",
+            "package-json/package.json": "{ \"eslintConfig\": { \"env\": { \"es6\": true } } }",
+            "yaml/.eslintrc.yaml": "env:\n    browser: true"
+        };
+        const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({ files });
+        const factory = new ConfigArrayFactory();
 
-            /**
-             * Apply `extends` property.
-             * @param {Object} configData The config that has `extends` property.
-             * @param {string} [filePath] The path to the config data.
-             * @returns {Object} The applied config data.
-             */
-            function applyExtends(configData, filePath = "whatever") {
-                return factory
-                    .create(configData, { filePath })
-                    .extractConfig(filePath)
-                    .toCompatibleObjectAsConfigFileContent();
-            }
+        /**
+         * Apply `extends` property.
+         * @param {Object} configData The config that has `extends` property.
+         * @param {string} [filePath] The path to the config data.
+         * @returns {Object} The applied config data.
+         */
+        function applyExtends(configData, filePath = "whatever") {
+            return factory
+                .create(configData, { filePath })
+                .extractConfig(filePath)
+                .toCompatibleObjectAsConfigFileContent();
+        }
 
-            it("should apply extension 'foo' when specified from root directory config", () => {
-                const config = applyExtends({
-                    extends: "foo",
-                    rules: { eqeqeq: 2 }
-                });
-
-                assertConfig(config, {
-                    env: { browser: true },
-                    rules: { eqeqeq: [2] }
-                });
+        it("should apply extension 'foo' when specified from root directory config", () => {
+            const config = applyExtends({
+                extends: "foo",
+                rules: { eqeqeq: 2 }
             });
 
-            it("should apply all rules when extends config includes 'eslint:all'", () => {
-                const config = applyExtends({
-                    extends: "eslint:all"
-                });
-
-                assert.strictEqual(config.rules.eqeqeq[0], "error");
-                assert.strictEqual(config.rules.curly[0], "error");
-            });
-
-            it("should throw an error when extends config module is not found", () => {
-                assert.throws(() => {
-                    applyExtends({
-                        extends: "not-exist",
-                        rules: { eqeqeq: 2 }
-                    });
-                }, /Failed to load config "not-exist" to extend from./u);
-            });
-
-            it("should throw an error when an eslint config is not found", () => {
-                assert.throws(() => {
-                    applyExtends({
-                        extends: "eslint:foo",
-                        rules: { eqeqeq: 2 }
-                    });
-                }, /Failed to load config "eslint:foo" to extend from./u);
-            });
-
-            it("should throw an error when a parser in a plugin config is not found", () => {
-                assert.throws(() => {
-                    applyExtends({
-                        extends: "plugin:invalid-parser/foo",
-                        rules: { eqeqeq: 2 }
-                    });
-                }, /Failed to load parser 'nonexistent-parser' declared in 'whatever » plugin:invalid-parser\/foo'/u);
-            });
-
-            it("should fall back to default parser when a parser called 'espree' is not found", () => {
-                const config = applyExtends({ parser: "espree" });
-
-                assertConfig(config, {
-                    parser: require.resolve("espree")
-                });
-            });
-
-            it("should throw an error when a plugin config is not found", () => {
-                assert.throws(() => {
-                    applyExtends({
-                        extends: "plugin:invalid-config/bar",
-                        rules: { eqeqeq: 2 }
-                    });
-                }, /Failed to load config "plugin:invalid-config\/bar" to extend from./u);
-            });
-
-            it("should throw an error with a message template when a plugin referenced for a plugin config is not found", () => {
-                try {
-                    applyExtends({
-                        extends: "plugin:nonexistent-plugin/baz",
-                        rules: { eqeqeq: 2 }
-                    });
-                } catch (err) {
-                    assert.strictEqual(err.messageTemplate, "plugin-missing");
-                    assert.deepStrictEqual(err.messageData, {
-                        pluginName: "eslint-plugin-nonexistent-plugin",
-                        pluginRootPath: process.cwd(),
-                        importerName: "whatever"
-                    });
-                    return;
-                }
-                assert.fail("Expected to throw an error");
-            });
-
-            it("should throw an error with a message template when a plugin in the plugins list is not found", () => {
-                try {
-                    applyExtends({
-                        plugins: ["nonexistent-plugin"]
-                    });
-                } catch (err) {
-                    assert.strictEqual(err.messageTemplate, "plugin-missing");
-                    assert.deepStrictEqual(err.messageData, {
-                        pluginName: "eslint-plugin-nonexistent-plugin",
-                        pluginRootPath: process.cwd(),
-                        importerName: "whatever"
-                    });
-                    return;
-                }
-                assert.fail("Expected to throw an error");
-            });
-
-            it("should apply extensions recursively when specified from package", () => {
-                const config = applyExtends({
-                    extends: "one",
-                    rules: { eqeqeq: 2 }
-                });
-
-                assertConfig(config, {
-                    env: { browser: true, node: true },
-                    rules: { eqeqeq: [2] }
-                });
-            });
-
-            it("should apply extensions when specified from a JavaScript file", () => {
-                const config = applyExtends({
-                    extends: ".eslintrc.js",
-                    rules: { eqeqeq: 2 }
-                }, "js/foo.js");
-
-                assertConfig(config, {
-                    rules: {
-                        semi: [2, "always"],
-                        eqeqeq: [2]
-                    }
-                });
-            });
-
-            it("should apply extensions when specified from a YAML file", () => {
-                const config = applyExtends({
-                    extends: ".eslintrc.yaml",
-                    rules: { eqeqeq: 2 }
-                }, "yaml/foo.js");
-
-                assertConfig(config, {
-                    env: { browser: true },
-                    rules: {
-                        eqeqeq: [2]
-                    }
-                });
-            });
-
-            it("should apply extensions when specified from a JSON file", () => {
-                const config = applyExtends({
-                    extends: ".eslintrc.json",
-                    rules: { eqeqeq: 2 }
-                }, "json/foo.js");
-
-                assertConfig(config, {
-                    rules: {
-                        eqeqeq: [2],
-                        quotes: [2, "double"]
-                    }
-                });
-            });
-
-            it("should apply extensions when specified from a package.json file in a sibling directory", () => {
-                const config = applyExtends({
-                    extends: "../package-json/package.json",
-                    rules: { eqeqeq: 2 }
-                }, "json/foo.js");
-
-                assertConfig(config, {
-                    env: { es6: true },
-                    rules: {
-                        eqeqeq: [2]
-                    }
-                });
+            assertConfig(config, {
+                env: { browser: true },
+                rules: { eqeqeq: [2] }
             });
         });
 
-        describe("load()", () => {
-
-            /**
-             * Load a given config file.
-             * @param {ConfigArrayFactory} factory The factory to load.
-             * @param {string} filePath The path to a config file.
-             * @returns {Object} The applied config data.
-             */
-            function load(factory, filePath) {
-                return factory
-                    .loadFile(filePath)
-                    .extractConfig(filePath)
-                    .toCompatibleObjectAsConfigFileContent();
-            }
-
-            it("should throw error if file doesnt exist", () => {
-                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem();
-                const factory = new ConfigArrayFactory();
-
-                assert.throws(() => {
-                    load(factory, "legacy/nofile.js");
-                });
-
-                assert.throws(() => {
-                    load(factory, "legacy/package.json");
-                });
+        it("should apply all rules when extends config includes 'eslint:all'", () => {
+            const config = applyExtends({
+                extends: "eslint:all"
             });
 
-            it("should load information from a legacy file", () => {
-                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
-                    files: {
-                        "legacy/.eslintrc": "{ rules: { eqeqeq: 2 } }"
-                    }
+            assert.strictEqual(config.rules.eqeqeq[0], "error");
+            assert.strictEqual(config.rules.curly[0], "error");
+        });
+
+        it("should throw an error when extends config module is not found", () => {
+            assert.throws(() => {
+                applyExtends({
+                    extends: "not-exist",
+                    rules: { eqeqeq: 2 }
                 });
-                const factory = new ConfigArrayFactory();
-                const config = load(factory, "legacy/.eslintrc");
+            }, /Failed to load config "not-exist" to extend from./u);
+        });
 
-                assertConfig(config, {
-                    rules: {
-                        eqeqeq: [2]
-                    }
+        it("should throw an error when an eslint config is not found", () => {
+            assert.throws(() => {
+                applyExtends({
+                    extends: "eslint:foo",
+                    rules: { eqeqeq: 2 }
                 });
-            });
+            }, /Failed to load config "eslint:foo" to extend from./u);
+        });
 
-            it("should load information from a JavaScript file", () => {
-                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
-                    files: {
-                        "js/.eslintrc.js": "module.exports = { rules: { semi: [2, 'always'] } };"
-                    }
+        it("should throw an error when a parser in a plugin config is not found", () => {
+            assert.throws(() => {
+                applyExtends({
+                    extends: "plugin:invalid-parser/foo",
+                    rules: { eqeqeq: 2 }
                 });
-                const factory = new ConfigArrayFactory();
-                const config = load(factory, "js/.eslintrc.js");
+            }, /Failed to load parser 'nonexistent-parser' declared in 'whatever » plugin:invalid-parser\/foo'/u);
+        });
 
-                assertConfig(config, {
-                    rules: {
-                        semi: [2, "always"]
-                    }
-                });
-            });
+        it("should fall back to default parser when a parser called 'espree' is not found", () => {
+            const config = applyExtends({ parser: "espree" });
 
-            it("should throw error when loading invalid JavaScript file", () => {
-                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
-                    files: {
-                        "js/.eslintrc.broken.js": "module.exports = { rules: { semi: [2, 'always'] }"
-                    }
-                });
-                const factory = new ConfigArrayFactory();
-
-                assert.throws(() => {
-                    load(factory, "js/.eslintrc.broken.js");
-                }, /Cannot read config file/u);
-            });
-
-            it("should interpret parser module name when present in a JavaScript file", () => {
-                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
-                    files: {
-                        "node_modules/foo/index.js": "",
-                        "js/node_modules/foo/index.js": "",
-                        "js/.eslintrc.parser.js": `module.exports = {
-                            parser: 'foo',
-                            rules: { semi: [2, 'always'] }
-                        };`
-                    }
-                });
-                const factory = new ConfigArrayFactory();
-                const config = load(factory, "js/.eslintrc.parser.js");
-
-                assertConfig(config, {
-                    parser: path.resolve("js/node_modules/foo/index.js"),
-                    rules: {
-                        semi: [2, "always"]
-                    }
-                });
-            });
-
-            it("should interpret parser path when present in a JavaScript file", () => {
-                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
-                    files: {
-                        "js/.eslintrc.parser2.js": `module.exports = {
-                            parser: './not-a-config.js',
-                            rules: { semi: [2, 'always'] }
-                        };`,
-                        "js/not-a-config.js": ""
-                    }
-                });
-                const factory = new ConfigArrayFactory();
-                const config = load(factory, "js/.eslintrc.parser2.js");
-
-                assertConfig(config, {
-                    parser: path.resolve("js/not-a-config.js"),
-                    rules: {
-                        semi: [2, "always"]
-                    }
-                });
-            });
-
-            it("should interpret parser module name or path when parser is set to default parser in a JavaScript file", () => {
-                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
-                    files: {
-                        "js/.eslintrc.parser3.js": `module.exports = {
-                            parser: 'espree',
-                            rules: { semi: [2, 'always'] }
-                        };`
-                    }
-                });
-                const factory = new ConfigArrayFactory();
-                const config = load(factory, "js/.eslintrc.parser3.js");
-
-                assertConfig(config, {
-                    parser: require.resolve("espree"),
-                    rules: {
-                        semi: [2, "always"]
-                    }
-                });
-            });
-
-            it("should load information from a JSON file", () => {
-                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
-                    files: {
-                        "json/.eslintrc.json": "{ \"rules\": { \"quotes\": [2, \"double\"] } }"
-                    }
-                });
-                const factory = new ConfigArrayFactory();
-                const config = load(factory, "json/.eslintrc.json");
-
-                assertConfig(config, {
-                    rules: {
-                        quotes: [2, "double"]
-                    }
-                });
-            });
-
-            it("should load fresh information from a JSON file", () => {
-                const { fs, ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem();
-                const factory = new ConfigArrayFactory();
-                const initialConfig = {
-                    rules: {
-                        quotes: [2, "double"]
-                    }
-                };
-                const updatedConfig = {
-                    rules: {
-                        quotes: [0]
-                    }
-                };
-                let config;
-
-                fs.writeFileSync("fresh-test.json", JSON.stringify(initialConfig));
-                config = load(factory, "fresh-test.json");
-                assertConfig(config, initialConfig);
-
-                fs.writeFileSync("fresh-test.json", JSON.stringify(updatedConfig));
-                config = load(factory, "fresh-test.json");
-                assertConfig(config, updatedConfig);
-            });
-
-            it("should load information from a package.json file", () => {
-                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
-                    files: {
-                        "package-json/package.json": "{ \"eslintConfig\": { \"env\": { \"es6\": true } } }"
-                    }
-                });
-                const factory = new ConfigArrayFactory();
-                const config = load(factory, "package-json/package.json");
-
-                assertConfig(config, {
-                    env: { es6: true }
-                });
-            });
-
-            it("should throw error when loading invalid package.json file", () => {
-                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
-                    files: {
-                        "broken-package-json/package.json": "{ \"eslintConfig\": { \"env\": { \"es6\": true } }"
-                    }
-                });
-                const factory = new ConfigArrayFactory();
-
-                assert.throws(() => {
-                    try {
-                        load(factory, "broken-package-json/package.json");
-                    } catch (error) {
-                        assert.strictEqual(error.messageTemplate, "failed-to-read-json");
-                        throw error;
-                    }
-                }, /Cannot read config file/u);
-            });
-
-            it("should load fresh information from a package.json file", () => {
-                const { fs, ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem();
-                const factory = new ConfigArrayFactory();
-                const initialConfig = {
-                    eslintConfig: {
-                        rules: {
-                            quotes: [2, "double"]
-                        }
-                    }
-                };
-                const updatedConfig = {
-                    eslintConfig: {
-                        rules: {
-                            quotes: [0]
-                        }
-                    }
-                };
-                let config;
-
-                fs.writeFileSync("package.json", JSON.stringify(initialConfig));
-                config = load(factory, "package.json");
-                assertConfig(config, initialConfig.eslintConfig);
-
-                fs.writeFileSync("package.json", JSON.stringify(updatedConfig));
-                config = load(factory, "package.json");
-                assertConfig(config, updatedConfig.eslintConfig);
-            });
-
-            it("should load fresh information from a .eslintrc.js file", () => {
-                const { fs, ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem();
-                const factory = new ConfigArrayFactory();
-                const initialConfig = {
-                    rules: {
-                        quotes: [2, "double"]
-                    }
-                };
-                const updatedConfig = {
-                    rules: {
-                        quotes: [0]
-                    }
-                };
-                let config;
-
-                fs.writeFileSync(".eslintrc.js", `module.exports = ${JSON.stringify(initialConfig)}`);
-                config = load(factory, ".eslintrc.js");
-                assertConfig(config, initialConfig);
-
-                fs.writeFileSync(".eslintrc.js", `module.exports = ${JSON.stringify(updatedConfig)}`);
-                config = load(factory, ".eslintrc.js");
-                assertConfig(config, updatedConfig);
-            });
-
-            it("should load information from a YAML file", () => {
-                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
-                    files: {
-                        "yaml/.eslintrc.yaml": "env:\n    browser: true"
-                    }
-                });
-                const factory = new ConfigArrayFactory();
-                const config = load(factory, "yaml/.eslintrc.yaml");
-
-                assertConfig(config, {
-                    env: { browser: true }
-                });
-            });
-
-            it("should load information from an empty YAML file", () => {
-                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
-                    files: {
-                        "yaml/.eslintrc.empty.yaml": "{}"
-                    }
-                });
-                const factory = new ConfigArrayFactory();
-                const config = load(factory, "yaml/.eslintrc.empty.yaml");
-
-                assertConfig(config, {});
-            });
-
-            it("should load information from a YML file", () => {
-                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
-                    files: {
-                        "yml/.eslintrc.yml": "env:\n    node: true"
-                    }
-                });
-                const factory = new ConfigArrayFactory();
-                const config = load(factory, "yml/.eslintrc.yml");
-
-                assertConfig(config, {
-                    env: { node: true }
-                });
-            });
-
-            it("should load information from a YML file and apply extensions", () => {
-                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
-                    files: {
-                        "extends/.eslintrc.yml": "extends: ../package-json/package.json\nrules:\n    booya: 2",
-                        "package-json/package.json": "{ \"eslintConfig\": { \"env\": { \"es6\": true } } }"
-                    }
-                });
-                const factory = new ConfigArrayFactory();
-                const config = load(factory, "extends/.eslintrc.yml");
-
-                assertConfig(config, {
-                    env: { es6: true },
-                    rules: { booya: [2] }
-                });
-            });
-
-            it("should load information from `extends` chain.", () => {
-                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
-                    files: {
-                        "extends-chain": {
-                            "node_modules/eslint-config-a": {
-                                "node_modules/eslint-config-b": {
-                                    "node_modules/eslint-config-c": {
-                                        "index.js": "module.exports = { rules: { c: 2 } };"
-                                    },
-                                    "index.js": "module.exports = { extends: 'c', rules: { b: 2 } };"
-                                },
-                                "index.js": "module.exports = { extends: 'b', rules: { a: 2 } };"
-                            },
-                            ".eslintrc.json": "{ \"extends\": \"a\" }"
-                        }
-                    }
-                });
-                const factory = new ConfigArrayFactory();
-                const config = load(factory, "extends-chain/.eslintrc.json");
-
-                assertConfig(config, {
-                    rules: {
-                        a: [2], // from node_modules/eslint-config-a
-                        b: [2], // from node_modules/eslint-config-a/node_modules/eslint-config-b
-                        c: [2] // from node_modules/eslint-config-a/node_modules/eslint-config-b/node_modules/eslint-config-c
-                    }
-                });
-            });
-
-            it("should load information from `extends` chain with relative path.", () => {
-                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
-                    files: {
-                        "extends-chain-2": {
-                            "node_modules/eslint-config-a/index.js": "module.exports = { extends: './relative.js', rules: { a: 2 } };",
-                            "node_modules/eslint-config-a/relative.js": "module.exports = { rules: { relative: 2 } };",
-                            ".eslintrc.json": "{ \"extends\": \"a\" }"
-                        }
-                    }
-                });
-                const factory = new ConfigArrayFactory();
-                const config = load(factory, "extends-chain-2/.eslintrc.json");
-
-                assertConfig(config, {
-                    rules: {
-                        a: [2], // from node_modules/eslint-config-a/index.js
-                        relative: [2] // from node_modules/eslint-config-a/relative.js
-                    }
-                });
-            });
-
-            it("should load information from `extends` chain in .eslintrc with relative path.", () => {
-                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
-                    files: {
-                        "extends-chain-2": {
-                            "node_modules/eslint-config-a/index.js": "module.exports = { extends: './relative.js', rules: { a: 2 } };",
-                            "node_modules/eslint-config-a/relative.js": "module.exports = { rules: { relative: 2 } };",
-                            "relative.eslintrc.json": "{ \"extends\": \"./node_modules/eslint-config-a/index.js\" }"
-                        }
-                    }
-                });
-                const factory = new ConfigArrayFactory();
-                const config = load(factory, "extends-chain-2/relative.eslintrc.json");
-
-                assertConfig(config, {
-                    rules: {
-                        a: [2], // from node_modules/eslint-config-a/index.js
-                        relative: [2] // from node_modules/eslint-config-a/relative.js
-                    }
-                });
-            });
-
-            it("should load information from `parser` in .eslintrc with relative path.", () => {
-                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
-                    files: {
-                        "extends-chain-2": {
-                            "parser.eslintrc.json": "{ \"parser\": \"./parser.js\" }",
-                            "parser.js": ""
-                        }
-                    }
-                });
-                const factory = new ConfigArrayFactory();
-                const config = load(factory, "extends-chain-2/parser.eslintrc.json");
-
-                assertConfig(config, {
-                    parser: path.resolve("extends-chain-2/parser.js")
-                });
-            });
-
-            describe("Plugins", () => {
-                it("should load information from a YML file and load plugins", () => {
-                    const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
-                        files: {
-                            "node_modules/eslint-plugin-test/index.js": `
-                                module.exports = {
-                                    environments: {
-                                        bar: { globals: { bar: true } }
-                                    }
-                                }
-                            `,
-                            "plugins/.eslintrc.yml": `
-                                plugins:
-                                  - test
-                                rules:
-                                    test/foo: 2
-                                env:
-                                    test/bar: true
-                            `
-                        }
-                    });
-                    const factory = new ConfigArrayFactory();
-                    const config = load(factory, "plugins/.eslintrc.yml");
-
-                    assertConfig(config, {
-                        env: { "test/bar": true },
-                        plugins: ["test"],
-                        rules: {
-                            "test/foo": [2]
-                        }
-                    });
-                });
-
-                it("should load two separate configs from a plugin", () => {
-                    const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
-                        files: {
-                            "node_modules/eslint-plugin-test/index.js": `
-                                module.exports = {
-                                    configs: {
-                                        foo: { rules: { semi: 2, quotes: 1 } },
-                                        bar: { rules: { quotes: 2, yoda: 2 } }
-                                    }
-                                }
-                            `,
-                            "plugins/.eslintrc.yml": `
-                                extends:
-                                    - plugin:test/foo
-                                    - plugin:test/bar
-                            `
-                        }
-                    });
-                    const factory = new ConfigArrayFactory();
-                    const config = load(factory, "plugins/.eslintrc.yml");
-
-                    assertConfig(config, {
-                        rules: {
-                            semi: [2],
-                            quotes: [2],
-                            yoda: [2]
-                        }
-                    });
-                });
-            });
-
-            describe("even if config files have Unicode BOM,", () => {
-                it("should read the JSON config file correctly.", () => {
-                    const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
-                        files: {
-                            "bom/.eslintrc.json": "\uFEFF{ \"rules\": { \"semi\": \"error\" } }"
-                        }
-                    });
-                    const factory = new ConfigArrayFactory();
-                    const config = load(factory, "bom/.eslintrc.json");
-
-                    assertConfig(config, {
-                        rules: {
-                            semi: ["error"]
-                        }
-                    });
-                });
-
-                it("should read the YAML config file correctly.", () => {
-                    const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
-                        files: {
-                            "bom/.eslintrc.yaml": "\uFEFFrules:\n  semi: error"
-                        }
-                    });
-                    const factory = new ConfigArrayFactory();
-                    const config = load(factory, "bom/.eslintrc.yaml");
-
-                    assertConfig(config, {
-                        rules: {
-                            semi: ["error"]
-                        }
-                    });
-                });
-
-                it("should read the config in package.json correctly.", () => {
-                    const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
-                        files: {
-                            "bom/package.json": "\uFEFF{ \"eslintConfig\": { \"rules\": { \"semi\": \"error\" } } }"
-                        }
-                    });
-                    const factory = new ConfigArrayFactory();
-                    const config = load(factory, "bom/package.json");
-
-                    assertConfig(config, {
-                        rules: {
-                            semi: ["error"]
-                        }
-                    });
-                });
-            });
-
-            it("throws an error including the config file name if the config file is invalid", () => {
-                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
-                    files: {
-                        "invalid/invalid-top-level-property.yml": "invalidProperty: 3"
-                    }
-                });
-                const factory = new ConfigArrayFactory();
-
-                try {
-                    load(factory, "invalid/invalid-top-level-property.yml");
-                } catch (err) {
-                    assert.include(err.message, `ESLint configuration in ${`invalid${path.sep}invalid-top-level-property.yml`} is invalid`);
-                    return;
-                }
-                assert.fail();
+            assertConfig(config, {
+                parser: require.resolve("espree")
             });
         });
 
-        describe("resolve()", () => {
-            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
-                cwd: () => tempDir,
-                files: {
-                    "node_modules/eslint-config-foo/index.js": "",
-                    "node_modules/eslint-config-foo/bar.js": "",
-                    "node_modules/eslint-config-eslint-configfoo/index.js": "",
-                    "node_modules/@foo/eslint-config/index.js": "",
-                    "node_modules/@foo/eslint-config-bar/index.js": "",
-                    "node_modules/eslint-plugin-foo/index.js": "exports.configs = { bar: {} }",
-                    "node_modules/@foo/eslint-plugin/index.js": "exports.configs = { bar: {} }",
-                    "node_modules/@foo/eslint-plugin-bar/index.js": "exports.configs = { baz: {} }",
-                    "foo/bar/.eslintrc": "",
-                    ".eslintrc": ""
-                }
-            });
-            const factory = new ConfigArrayFactory();
+        it("should throw an error when a plugin config is not found", () => {
+            assert.throws(() => {
+                applyExtends({
+                    extends: "plugin:invalid-config/bar",
+                    rules: { eqeqeq: 2 }
+                });
+            }, /Failed to load config "plugin:invalid-config\/bar" to extend from./u);
+        });
 
-            /**
-             * Resolve `extends` module.
-             * @param {string} request The module name to resolve.
-             * @param {string} [relativeTo] The importer path to resolve.
-             * @returns {string} The resolved path.
-             */
-            function resolve(request, relativeTo) {
-                return factory.create(
-                    { extends: request },
-                    { filePath: relativeTo }
-                )[0];
+        it("should throw an error with a message template when a plugin referenced for a plugin config is not found", () => {
+            try {
+                applyExtends({
+                    extends: "plugin:nonexistent-plugin/baz",
+                    rules: { eqeqeq: 2 }
+                });
+            } catch (err) {
+                assert.strictEqual(err.messageTemplate, "plugin-missing");
+                assert.deepStrictEqual(err.messageData, {
+                    pluginName: "eslint-plugin-nonexistent-plugin",
+                    pluginRootPath: process.cwd(),
+                    importerName: "whatever"
+                });
+                return;
             }
+            assert.fail("Expected to throw an error");
+        });
 
-            describe("Relative to CWD", () => {
-                for (const { input, expected } of [
-                    { input: ".eslintrc", expected: path.resolve(tempDir, ".eslintrc") },
-                    { input: "eslint-config-foo", expected: path.resolve(tempDir, "node_modules/eslint-config-foo/index.js") },
-                    { input: "eslint-config-foo/bar", expected: path.resolve(tempDir, "node_modules/eslint-config-foo/bar.js") },
-                    { input: "foo", expected: path.resolve(tempDir, "node_modules/eslint-config-foo/index.js") },
-                    { input: "foo/bar", expected: path.resolve(tempDir, "node_modules/eslint-config-foo/bar.js") },
-                    { input: "eslint-configfoo", expected: path.resolve(tempDir, "node_modules/eslint-config-eslint-configfoo/index.js") },
-                    { input: "@foo/eslint-config", expected: path.resolve(tempDir, "node_modules/@foo/eslint-config/index.js") },
-                    { input: "@foo", expected: path.resolve(tempDir, "node_modules/@foo/eslint-config/index.js") },
-                    { input: "@foo/bar", expected: path.resolve(tempDir, "node_modules/@foo/eslint-config-bar/index.js") },
-                    { input: "plugin:foo/bar", expected: path.resolve(tempDir, "node_modules/eslint-plugin-foo/index.js") },
-                    { input: "plugin:@foo/bar", expected: path.resolve(tempDir, "node_modules/@foo/eslint-plugin/index.js") },
-                    { input: "plugin:@foo/bar/baz", expected: path.resolve(tempDir, "node_modules/@foo/eslint-plugin-bar/index.js") }
-                ]) {
-                    it(`should return ${expected} when passed ${input}`, () => {
-                        const result = resolve(input);
+        it("should throw an error with a message template when a plugin in the plugins list is not found", () => {
+            try {
+                applyExtends({
+                    plugins: ["nonexistent-plugin"]
+                });
+            } catch (err) {
+                assert.strictEqual(err.messageTemplate, "plugin-missing");
+                assert.deepStrictEqual(err.messageData, {
+                    pluginName: "eslint-plugin-nonexistent-plugin",
+                    pluginRootPath: process.cwd(),
+                    importerName: "whatever"
+                });
+                return;
+            }
+            assert.fail("Expected to throw an error");
+        });
 
-                        assert.strictEqual(result.filePath, expected);
-                    });
-                }
+        it("should apply extensions recursively when specified from package", () => {
+            const config = applyExtends({
+                extends: "one",
+                rules: { eqeqeq: 2 }
             });
 
-            describe("Relative to config file", () => {
-                const relativePath = path.resolve(tempDir, "./foo/bar/.eslintrc");
+            assertConfig(config, {
+                env: { browser: true, node: true },
+                rules: { eqeqeq: [2] }
+            });
+        });
 
-                for (const { input, expected } of [
-                    { input: ".eslintrc", expected: path.join(path.dirname(relativePath), ".eslintrc") },
-                    { input: "eslint-config-foo", expected: path.resolve(tempDir, "node_modules/eslint-config-foo/index.js") },
-                    { input: "eslint-config-foo/bar", expected: path.resolve(tempDir, "node_modules/eslint-config-foo/bar.js") },
-                    { input: "foo", expected: path.resolve(tempDir, "node_modules/eslint-config-foo/index.js") },
-                    { input: "foo/bar", expected: path.resolve(tempDir, "node_modules/eslint-config-foo/bar.js") },
-                    { input: "eslint-configfoo", expected: path.resolve(tempDir, "node_modules/eslint-config-eslint-configfoo/index.js") },
-                    { input: "@foo/eslint-config", expected: path.resolve(tempDir, "node_modules/@foo/eslint-config/index.js") },
-                    { input: "@foo", expected: path.resolve(tempDir, "node_modules/@foo/eslint-config/index.js") },
-                    { input: "@foo/bar", expected: path.resolve(tempDir, "node_modules/@foo/eslint-config-bar/index.js") },
-                    { input: "plugin:foo/bar", expected: path.resolve(tempDir, "node_modules/eslint-plugin-foo/index.js") },
-                    { input: "plugin:@foo/bar", expected: path.resolve(tempDir, "node_modules/@foo/eslint-plugin/index.js") },
-                    { input: "plugin:@foo/bar/baz", expected: path.resolve(tempDir, "node_modules/@foo/eslint-plugin-bar/index.js") }
-                ]) {
-                    it(`should return ${expected} when passed ${input}`, () => {
-                        const result = resolve(input, relativePath);
+        it("should apply extensions when specified from a JavaScript file", () => {
+            const config = applyExtends({
+                extends: ".eslintrc.js",
+                rules: { eqeqeq: 2 }
+            }, "js/foo.js");
 
-                        assert.strictEqual(result.filePath, expected);
-                    });
+            assertConfig(config, {
+                rules: {
+                    semi: [2, "always"],
+                    eqeqeq: [2]
+                }
+            });
+        });
+
+        it("should apply extensions when specified from a YAML file", () => {
+            const config = applyExtends({
+                extends: ".eslintrc.yaml",
+                rules: { eqeqeq: 2 }
+            }, "yaml/foo.js");
+
+            assertConfig(config, {
+                env: { browser: true },
+                rules: {
+                    eqeqeq: [2]
+                }
+            });
+        });
+
+        it("should apply extensions when specified from a JSON file", () => {
+            const config = applyExtends({
+                extends: ".eslintrc.json",
+                rules: { eqeqeq: 2 }
+            }, "json/foo.js");
+
+            assertConfig(config, {
+                rules: {
+                    eqeqeq: [2],
+                    quotes: [2, "double"]
+                }
+            });
+        });
+
+        it("should apply extensions when specified from a package.json file in a sibling directory", () => {
+            const config = applyExtends({
+                extends: "../package-json/package.json",
+                rules: { eqeqeq: 2 }
+            }, "json/foo.js");
+
+            assertConfig(config, {
+                env: { es6: true },
+                rules: {
+                    eqeqeq: [2]
                 }
             });
         });
     });
 
-    describe("Moved from tests/lib/config/plugins.js", () => {
-        describe("load()", () => {
+    // This group moved from 'tests/lib/config/config-file.js' when refactoring to keep the cumulated test cases.
+    describe("loading config files should work properly.", () => {
+
+        /**
+         * Load a given config file.
+         * @param {ConfigArrayFactory} factory The factory to load.
+         * @param {string} filePath The path to a config file.
+         * @returns {Object} The applied config data.
+         */
+        function load(factory, filePath) {
+            return factory
+                .loadFile(filePath)
+                .extractConfig(filePath)
+                .toCompatibleObjectAsConfigFileContent();
+        }
+
+        it("should throw error if file doesnt exist", () => {
+            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem();
+            const factory = new ConfigArrayFactory();
+
+            assert.throws(() => {
+                load(factory, "legacy/nofile.js");
+            });
+
+            assert.throws(() => {
+                load(factory, "legacy/package.json");
+            });
+        });
+
+        it("should load information from a legacy file", () => {
             const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
-                cwd: () => tempDir,
                 files: {
-                    "node_modules/@scope/eslint-plugin-example/index.js": "exports.name = '@scope/eslint-plugin-example';",
-                    "node_modules/eslint-plugin-example/index.js": "exports.name = 'eslint-plugin-example';",
-                    "node_modules/eslint-plugin-throws-on-load/index.js": "throw new Error('error thrown while loading this module')"
+                    "legacy/.eslintrc": "{ rules: { eqeqeq: 2 } }"
+                }
+            });
+            const factory = new ConfigArrayFactory();
+            const config = load(factory, "legacy/.eslintrc");
+
+            assertConfig(config, {
+                rules: {
+                    eqeqeq: [2]
+                }
+            });
+        });
+
+        it("should load information from a JavaScript file", () => {
+            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+                files: {
+                    "js/.eslintrc.js": "module.exports = { rules: { semi: [2, 'always'] } };"
+                }
+            });
+            const factory = new ConfigArrayFactory();
+            const config = load(factory, "js/.eslintrc.js");
+
+            assertConfig(config, {
+                rules: {
+                    semi: [2, "always"]
+                }
+            });
+        });
+
+        it("should throw error when loading invalid JavaScript file", () => {
+            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+                files: {
+                    "js/.eslintrc.broken.js": "module.exports = { rules: { semi: [2, 'always'] }"
                 }
             });
             const factory = new ConfigArrayFactory();
 
-            /**
-             * Load a plugin.
-             * @param {string} request A request to load a plugin.
-             * @returns {Map<string,Object>} The loaded plugins.
-             */
-            function load(request) {
-                const config = factory.create({ plugins: [request] });
+            assert.throws(() => {
+                load(factory, "js/.eslintrc.broken.js");
+            }, /Cannot read config file/u);
+        });
 
-                return new Map(
-                    Object
-                        .entries(config[0].plugins)
-                        .map(([id, entry]) => {
-                            if (entry.error) {
-                                throw entry.error;
+        it("should interpret parser module name when present in a JavaScript file", () => {
+            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+                files: {
+                    "node_modules/foo/index.js": "",
+                    "js/node_modules/foo/index.js": "",
+                    "js/.eslintrc.parser.js": `module.exports = {
+                        parser: 'foo',
+                        rules: { semi: [2, 'always'] }
+                    };`
+                }
+            });
+            const factory = new ConfigArrayFactory();
+            const config = load(factory, "js/.eslintrc.parser.js");
+
+            assertConfig(config, {
+                parser: path.resolve("js/node_modules/foo/index.js"),
+                rules: {
+                    semi: [2, "always"]
+                }
+            });
+        });
+
+        it("should interpret parser path when present in a JavaScript file", () => {
+            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+                files: {
+                    "js/.eslintrc.parser2.js": `module.exports = {
+                        parser: './not-a-config.js',
+                        rules: { semi: [2, 'always'] }
+                    };`,
+                    "js/not-a-config.js": ""
+                }
+            });
+            const factory = new ConfigArrayFactory();
+            const config = load(factory, "js/.eslintrc.parser2.js");
+
+            assertConfig(config, {
+                parser: path.resolve("js/not-a-config.js"),
+                rules: {
+                    semi: [2, "always"]
+                }
+            });
+        });
+
+        it("should interpret parser module name or path when parser is set to default parser in a JavaScript file", () => {
+            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+                files: {
+                    "js/.eslintrc.parser3.js": `module.exports = {
+                        parser: 'espree',
+                        rules: { semi: [2, 'always'] }
+                    };`
+                }
+            });
+            const factory = new ConfigArrayFactory();
+            const config = load(factory, "js/.eslintrc.parser3.js");
+
+            assertConfig(config, {
+                parser: require.resolve("espree"),
+                rules: {
+                    semi: [2, "always"]
+                }
+            });
+        });
+
+        it("should load information from a JSON file", () => {
+            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+                files: {
+                    "json/.eslintrc.json": "{ \"rules\": { \"quotes\": [2, \"double\"] } }"
+                }
+            });
+            const factory = new ConfigArrayFactory();
+            const config = load(factory, "json/.eslintrc.json");
+
+            assertConfig(config, {
+                rules: {
+                    quotes: [2, "double"]
+                }
+            });
+        });
+
+        it("should load fresh information from a JSON file", () => {
+            const { fs, ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem();
+            const factory = new ConfigArrayFactory();
+            const initialConfig = {
+                rules: {
+                    quotes: [2, "double"]
+                }
+            };
+            const updatedConfig = {
+                rules: {
+                    quotes: [0]
+                }
+            };
+            let config;
+
+            fs.writeFileSync("fresh-test.json", JSON.stringify(initialConfig));
+            config = load(factory, "fresh-test.json");
+            assertConfig(config, initialConfig);
+
+            fs.writeFileSync("fresh-test.json", JSON.stringify(updatedConfig));
+            config = load(factory, "fresh-test.json");
+            assertConfig(config, updatedConfig);
+        });
+
+        it("should load information from a package.json file", () => {
+            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+                files: {
+                    "package-json/package.json": "{ \"eslintConfig\": { \"env\": { \"es6\": true } } }"
+                }
+            });
+            const factory = new ConfigArrayFactory();
+            const config = load(factory, "package-json/package.json");
+
+            assertConfig(config, {
+                env: { es6: true }
+            });
+        });
+
+        it("should throw error when loading invalid package.json file", () => {
+            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+                files: {
+                    "broken-package-json/package.json": "{ \"eslintConfig\": { \"env\": { \"es6\": true } }"
+                }
+            });
+            const factory = new ConfigArrayFactory();
+
+            assert.throws(() => {
+                try {
+                    load(factory, "broken-package-json/package.json");
+                } catch (error) {
+                    assert.strictEqual(error.messageTemplate, "failed-to-read-json");
+                    throw error;
+                }
+            }, /Cannot read config file/u);
+        });
+
+        it("should load fresh information from a package.json file", () => {
+            const { fs, ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem();
+            const factory = new ConfigArrayFactory();
+            const initialConfig = {
+                eslintConfig: {
+                    rules: {
+                        quotes: [2, "double"]
+                    }
+                }
+            };
+            const updatedConfig = {
+                eslintConfig: {
+                    rules: {
+                        quotes: [0]
+                    }
+                }
+            };
+            let config;
+
+            fs.writeFileSync("package.json", JSON.stringify(initialConfig));
+            config = load(factory, "package.json");
+            assertConfig(config, initialConfig.eslintConfig);
+
+            fs.writeFileSync("package.json", JSON.stringify(updatedConfig));
+            config = load(factory, "package.json");
+            assertConfig(config, updatedConfig.eslintConfig);
+        });
+
+        it("should load fresh information from a .eslintrc.js file", () => {
+            const { fs, ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem();
+            const factory = new ConfigArrayFactory();
+            const initialConfig = {
+                rules: {
+                    quotes: [2, "double"]
+                }
+            };
+            const updatedConfig = {
+                rules: {
+                    quotes: [0]
+                }
+            };
+            let config;
+
+            fs.writeFileSync(".eslintrc.js", `module.exports = ${JSON.stringify(initialConfig)}`);
+            config = load(factory, ".eslintrc.js");
+            assertConfig(config, initialConfig);
+
+            fs.writeFileSync(".eslintrc.js", `module.exports = ${JSON.stringify(updatedConfig)}`);
+            config = load(factory, ".eslintrc.js");
+            assertConfig(config, updatedConfig);
+        });
+
+        it("should load information from a YAML file", () => {
+            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+                files: {
+                    "yaml/.eslintrc.yaml": "env:\n    browser: true"
+                }
+            });
+            const factory = new ConfigArrayFactory();
+            const config = load(factory, "yaml/.eslintrc.yaml");
+
+            assertConfig(config, {
+                env: { browser: true }
+            });
+        });
+
+        it("should load information from an empty YAML file", () => {
+            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+                files: {
+                    "yaml/.eslintrc.empty.yaml": "{}"
+                }
+            });
+            const factory = new ConfigArrayFactory();
+            const config = load(factory, "yaml/.eslintrc.empty.yaml");
+
+            assertConfig(config, {});
+        });
+
+        it("should load information from a YML file", () => {
+            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+                files: {
+                    "yml/.eslintrc.yml": "env:\n    node: true"
+                }
+            });
+            const factory = new ConfigArrayFactory();
+            const config = load(factory, "yml/.eslintrc.yml");
+
+            assertConfig(config, {
+                env: { node: true }
+            });
+        });
+
+        it("should load information from a YML file and apply extensions", () => {
+            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+                files: {
+                    "extends/.eslintrc.yml": "extends: ../package-json/package.json\nrules:\n    booya: 2",
+                    "package-json/package.json": "{ \"eslintConfig\": { \"env\": { \"es6\": true } } }"
+                }
+            });
+            const factory = new ConfigArrayFactory();
+            const config = load(factory, "extends/.eslintrc.yml");
+
+            assertConfig(config, {
+                env: { es6: true },
+                rules: { booya: [2] }
+            });
+        });
+
+        it("should load information from `extends` chain.", () => {
+            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+                files: {
+                    "extends-chain": {
+                        "node_modules/eslint-config-a": {
+                            "node_modules/eslint-config-b": {
+                                "node_modules/eslint-config-c": {
+                                    "index.js": "module.exports = { rules: { c: 2 } };"
+                                },
+                                "index.js": "module.exports = { extends: 'c', rules: { b: 2 } };"
+                            },
+                            "index.js": "module.exports = { extends: 'b', rules: { a: 2 } };"
+                        },
+                        ".eslintrc.json": "{ \"extends\": \"a\" }"
+                    }
+                }
+            });
+            const factory = new ConfigArrayFactory();
+            const config = load(factory, "extends-chain/.eslintrc.json");
+
+            assertConfig(config, {
+                rules: {
+                    a: [2], // from node_modules/eslint-config-a
+                    b: [2], // from node_modules/eslint-config-a/node_modules/eslint-config-b
+                    c: [2] // from node_modules/eslint-config-a/node_modules/eslint-config-b/node_modules/eslint-config-c
+                }
+            });
+        });
+
+        it("should load information from `extends` chain with relative path.", () => {
+            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+                files: {
+                    "extends-chain-2": {
+                        "node_modules/eslint-config-a/index.js": "module.exports = { extends: './relative.js', rules: { a: 2 } };",
+                        "node_modules/eslint-config-a/relative.js": "module.exports = { rules: { relative: 2 } };",
+                        ".eslintrc.json": "{ \"extends\": \"a\" }"
+                    }
+                }
+            });
+            const factory = new ConfigArrayFactory();
+            const config = load(factory, "extends-chain-2/.eslintrc.json");
+
+            assertConfig(config, {
+                rules: {
+                    a: [2], // from node_modules/eslint-config-a/index.js
+                    relative: [2] // from node_modules/eslint-config-a/relative.js
+                }
+            });
+        });
+
+        it("should load information from `extends` chain in .eslintrc with relative path.", () => {
+            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+                files: {
+                    "extends-chain-2": {
+                        "node_modules/eslint-config-a/index.js": "module.exports = { extends: './relative.js', rules: { a: 2 } };",
+                        "node_modules/eslint-config-a/relative.js": "module.exports = { rules: { relative: 2 } };",
+                        "relative.eslintrc.json": "{ \"extends\": \"./node_modules/eslint-config-a/index.js\" }"
+                    }
+                }
+            });
+            const factory = new ConfigArrayFactory();
+            const config = load(factory, "extends-chain-2/relative.eslintrc.json");
+
+            assertConfig(config, {
+                rules: {
+                    a: [2], // from node_modules/eslint-config-a/index.js
+                    relative: [2] // from node_modules/eslint-config-a/relative.js
+                }
+            });
+        });
+
+        it("should load information from `parser` in .eslintrc with relative path.", () => {
+            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+                files: {
+                    "extends-chain-2": {
+                        "parser.eslintrc.json": "{ \"parser\": \"./parser.js\" }",
+                        "parser.js": ""
+                    }
+                }
+            });
+            const factory = new ConfigArrayFactory();
+            const config = load(factory, "extends-chain-2/parser.eslintrc.json");
+
+            assertConfig(config, {
+                parser: path.resolve("extends-chain-2/parser.js")
+            });
+        });
+
+        describe("Plugins", () => {
+            it("should load information from a YML file and load plugins", () => {
+                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+                    files: {
+                        "node_modules/eslint-plugin-test/index.js": `
+                            module.exports = {
+                                environments: {
+                                    bar: { globals: { bar: true } }
+                                }
                             }
-                            return [id, entry.definition];
-                        })
-                );
-            }
-
-            it("should load a plugin when referenced by short name", () => {
-                const loadedPlugins = load("example");
-
-                assert.deepStrictEqual(
-                    loadedPlugins.get("example"),
-                    { name: "eslint-plugin-example" }
-                );
-            });
-
-            it("should load a plugin when referenced by long name", () => {
-                const loadedPlugins = load("eslint-plugin-example");
-
-                assert.deepStrictEqual(
-                    loadedPlugins.get("example"),
-                    { name: "eslint-plugin-example" }
-                );
-            });
-
-            it("should throw an error when a plugin has whitespace", () => {
-                assert.throws(() => {
-                    load("whitespace ");
-                }, /Whitespace found in plugin name 'whitespace '/u);
-                assert.throws(() => {
-                    load("whitespace\t");
-                }, /Whitespace found in plugin name/u);
-                assert.throws(() => {
-                    load("whitespace\n");
-                }, /Whitespace found in plugin name/u);
-                assert.throws(() => {
-                    load("whitespace\r");
-                }, /Whitespace found in plugin name/u);
-            });
-
-            it("should throw an error when a plugin doesn't exist", () => {
-                assert.throws(() => {
-                    load("nonexistentplugin");
-                }, /Failed to load plugin/u);
-            });
-
-            it("should rethrow an error that a plugin throws on load", () => {
-                assert.throws(() => {
-                    load("throws-on-load");
-                }, /error thrown while loading this module/u);
-            });
-
-            it("should load a scoped plugin when referenced by short name", () => {
-                const loadedPlugins = load("@scope/example");
-
-                assert.deepStrictEqual(
-                    loadedPlugins.get("@scope/example"),
-                    { name: "@scope/eslint-plugin-example" }
-                );
-            });
-
-            it("should load a scoped plugin when referenced by long name", () => {
-                const loadedPlugins = load("@scope/eslint-plugin-example");
-
-                assert.deepStrictEqual(
-                    loadedPlugins.get("@scope/example"),
-                    { name: "@scope/eslint-plugin-example" }
-                );
-            });
-
-            describe("when referencing a scope plugin and omitting @scope/", () => {
-                it("should load a scoped plugin when referenced by short name, but should not get the plugin if '@scope/' is omitted", () => {
-                    const loadedPlugins = load("@scope/example");
-
-                    assert.strictEqual(loadedPlugins.get("example"), void 0);
+                        `,
+                        "plugins/.eslintrc.yml": `
+                            plugins:
+                                - test
+                            rules:
+                                test/foo: 2
+                            env:
+                                test/bar: true
+                        `
+                    }
                 });
+                const factory = new ConfigArrayFactory();
+                const config = load(factory, "plugins/.eslintrc.yml");
 
-                it("should load a scoped plugin when referenced by long name, but should not get the plugin if '@scope/' is omitted", () => {
-                    const loadedPlugins = load("@scope/eslint-plugin-example");
+                assertConfig(config, {
+                    env: { "test/bar": true },
+                    plugins: ["test"],
+                    rules: {
+                        "test/foo": [2]
+                    }
+                });
+            });
 
-                    assert.strictEqual(loadedPlugins.get("example"), void 0);
+            it("should load two separate configs from a plugin", () => {
+                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+                    files: {
+                        "node_modules/eslint-plugin-test/index.js": `
+                            module.exports = {
+                                configs: {
+                                    foo: { rules: { semi: 2, quotes: 1 } },
+                                    bar: { rules: { quotes: 2, yoda: 2 } }
+                                }
+                            }
+                        `,
+                        "plugins/.eslintrc.yml": `
+                            extends:
+                                - plugin:test/foo
+                                - plugin:test/bar
+                        `
+                    }
+                });
+                const factory = new ConfigArrayFactory();
+                const config = load(factory, "plugins/.eslintrc.yml");
+
+                assertConfig(config, {
+                    rules: {
+                        semi: [2],
+                        quotes: [2],
+                        yoda: [2]
+                    }
                 });
             });
         });
 
-        describe("loadAll()", () => {
+        describe("even if config files have Unicode BOM,", () => {
+            it("should read the JSON config file correctly.", () => {
+                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+                    files: {
+                        "bom/.eslintrc.json": "\uFEFF{ \"rules\": { \"semi\": \"error\" } }"
+                    }
+                });
+                const factory = new ConfigArrayFactory();
+                const config = load(factory, "bom/.eslintrc.json");
+
+                assertConfig(config, {
+                    rules: {
+                        semi: ["error"]
+                    }
+                });
+            });
+
+            it("should read the YAML config file correctly.", () => {
+                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+                    files: {
+                        "bom/.eslintrc.yaml": "\uFEFFrules:\n  semi: error"
+                    }
+                });
+                const factory = new ConfigArrayFactory();
+                const config = load(factory, "bom/.eslintrc.yaml");
+
+                assertConfig(config, {
+                    rules: {
+                        semi: ["error"]
+                    }
+                });
+            });
+
+            it("should read the config in package.json correctly.", () => {
+                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+                    files: {
+                        "bom/package.json": "\uFEFF{ \"eslintConfig\": { \"rules\": { \"semi\": \"error\" } } }"
+                    }
+                });
+                const factory = new ConfigArrayFactory();
+                const config = load(factory, "bom/package.json");
+
+                assertConfig(config, {
+                    rules: {
+                        semi: ["error"]
+                    }
+                });
+            });
+        });
+
+        it("throws an error including the config file name if the config file is invalid", () => {
             const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
-                cwd: () => tempDir,
                 files: {
-                    "node_modules/eslint-plugin-example1/index.js": "exports.name = 'eslint-plugin-example1';",
-                    "node_modules/eslint-plugin-example2/index.js": "exports.name = 'eslint-plugin-example2';"
+                    "invalid/invalid-top-level-property.yml": "invalidProperty: 3"
                 }
             });
             const factory = new ConfigArrayFactory();
 
-            /**
-             * Load a plugin.
-             * @param {string[]} request A request to load a plugin.
-             * @returns {Map<string,Object>} The loaded plugins.
-             */
-            function loadAll(request) {
-                const config = factory.create({ plugins: request });
-
-                return new Map(
-                    Object
-                        .entries(config[0].plugins)
-                        .map(([id, entry]) => {
-                            if (entry.error) {
-                                throw entry.error;
-                            }
-                            return [id, entry.definition];
-                        })
-                );
+            try {
+                load(factory, "invalid/invalid-top-level-property.yml");
+            } catch (err) {
+                assert.include(err.message, `ESLint configuration in ${`invalid${path.sep}invalid-top-level-property.yml`} is invalid`);
+                return;
             }
+            assert.fail();
+        });
+    });
 
-            it("should load plugins when passed multiple plugins", () => {
-                const loadedPlugins = loadAll(["example1", "example2"]);
+    // This group moved from 'tests/lib/config/config-file.js' when refactoring to keep the cumulated test cases.
+    describe("'extends' property should resolve the location of configs properly.", () => {
+        const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+            cwd: () => tempDir,
+            files: {
+                "node_modules/eslint-config-foo/index.js": "",
+                "node_modules/eslint-config-foo/bar.js": "",
+                "node_modules/eslint-config-eslint-configfoo/index.js": "",
+                "node_modules/@foo/eslint-config/index.js": "",
+                "node_modules/@foo/eslint-config-bar/index.js": "",
+                "node_modules/eslint-plugin-foo/index.js": "exports.configs = { bar: {} }",
+                "node_modules/@foo/eslint-plugin/index.js": "exports.configs = { bar: {} }",
+                "node_modules/@foo/eslint-plugin-bar/index.js": "exports.configs = { baz: {} }",
+                "foo/bar/.eslintrc": "",
+                ".eslintrc": ""
+            }
+        });
+        const factory = new ConfigArrayFactory();
 
-                assert.deepStrictEqual(
-                    loadedPlugins.get("example1"),
-                    { name: "eslint-plugin-example1" }
-                );
-                assert.deepStrictEqual(
-                    loadedPlugins.get("example2"),
-                    { name: "eslint-plugin-example2" }
-                );
+        /**
+         * Resolve `extends` module.
+         * @param {string} request The module name to resolve.
+         * @param {string} [relativeTo] The importer path to resolve.
+         * @returns {string} The resolved path.
+         */
+        function resolve(request, relativeTo) {
+            return factory.create(
+                { extends: request },
+                { filePath: relativeTo }
+            )[0];
+        }
+
+        describe("Relative to CWD", () => {
+            for (const { input, expected } of [
+                { input: ".eslintrc", expected: path.resolve(tempDir, ".eslintrc") },
+                { input: "eslint-config-foo", expected: path.resolve(tempDir, "node_modules/eslint-config-foo/index.js") },
+                { input: "eslint-config-foo/bar", expected: path.resolve(tempDir, "node_modules/eslint-config-foo/bar.js") },
+                { input: "foo", expected: path.resolve(tempDir, "node_modules/eslint-config-foo/index.js") },
+                { input: "foo/bar", expected: path.resolve(tempDir, "node_modules/eslint-config-foo/bar.js") },
+                { input: "eslint-configfoo", expected: path.resolve(tempDir, "node_modules/eslint-config-eslint-configfoo/index.js") },
+                { input: "@foo/eslint-config", expected: path.resolve(tempDir, "node_modules/@foo/eslint-config/index.js") },
+                { input: "@foo", expected: path.resolve(tempDir, "node_modules/@foo/eslint-config/index.js") },
+                { input: "@foo/bar", expected: path.resolve(tempDir, "node_modules/@foo/eslint-config-bar/index.js") },
+                { input: "plugin:foo/bar", expected: path.resolve(tempDir, "node_modules/eslint-plugin-foo/index.js") },
+                { input: "plugin:@foo/bar", expected: path.resolve(tempDir, "node_modules/@foo/eslint-plugin/index.js") },
+                { input: "plugin:@foo/bar/baz", expected: path.resolve(tempDir, "node_modules/@foo/eslint-plugin-bar/index.js") }
+            ]) {
+                it(`should return ${expected} when passed ${input}`, () => {
+                    const result = resolve(input);
+
+                    assert.strictEqual(result.filePath, expected);
+                });
+            }
+        });
+
+        describe("Relative to config file", () => {
+            const relativePath = path.resolve(tempDir, "./foo/bar/.eslintrc");
+
+            for (const { input, expected } of [
+                { input: ".eslintrc", expected: path.join(path.dirname(relativePath), ".eslintrc") },
+                { input: "eslint-config-foo", expected: path.resolve(tempDir, "node_modules/eslint-config-foo/index.js") },
+                { input: "eslint-config-foo/bar", expected: path.resolve(tempDir, "node_modules/eslint-config-foo/bar.js") },
+                { input: "foo", expected: path.resolve(tempDir, "node_modules/eslint-config-foo/index.js") },
+                { input: "foo/bar", expected: path.resolve(tempDir, "node_modules/eslint-config-foo/bar.js") },
+                { input: "eslint-configfoo", expected: path.resolve(tempDir, "node_modules/eslint-config-eslint-configfoo/index.js") },
+                { input: "@foo/eslint-config", expected: path.resolve(tempDir, "node_modules/@foo/eslint-config/index.js") },
+                { input: "@foo", expected: path.resolve(tempDir, "node_modules/@foo/eslint-config/index.js") },
+                { input: "@foo/bar", expected: path.resolve(tempDir, "node_modules/@foo/eslint-config-bar/index.js") },
+                { input: "plugin:foo/bar", expected: path.resolve(tempDir, "node_modules/eslint-plugin-foo/index.js") },
+                { input: "plugin:@foo/bar", expected: path.resolve(tempDir, "node_modules/@foo/eslint-plugin/index.js") },
+                { input: "plugin:@foo/bar/baz", expected: path.resolve(tempDir, "node_modules/@foo/eslint-plugin-bar/index.js") }
+            ]) {
+                it(`should return ${expected} when passed ${input}`, () => {
+                    const result = resolve(input, relativePath);
+
+                    assert.strictEqual(result.filePath, expected);
+                });
+            }
+        });
+    });
+
+    // This group moved from 'tests/lib/config/plugins.js' when refactoring to keep the cumulated test cases.
+    describe("'plugins' property should load a correct plugin.", () => {
+        const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+            cwd: () => tempDir,
+            files: {
+                "node_modules/@scope/eslint-plugin-example/index.js": "exports.name = '@scope/eslint-plugin-example';",
+                "node_modules/eslint-plugin-example/index.js": "exports.name = 'eslint-plugin-example';",
+                "node_modules/eslint-plugin-throws-on-load/index.js": "throw new Error('error thrown while loading this module')"
+            }
+        });
+        const factory = new ConfigArrayFactory();
+
+        /**
+         * Load a plugin.
+         * @param {string} request A request to load a plugin.
+         * @returns {Map<string,Object>} The loaded plugins.
+         */
+        function load(request) {
+            const config = factory.create({ plugins: [request] });
+
+            return new Map(
+                Object
+                    .entries(config[0].plugins)
+                    .map(([id, entry]) => {
+                        if (entry.error) {
+                            throw entry.error;
+                        }
+                        return [id, entry.definition];
+                    })
+            );
+        }
+
+        it("should load a plugin when referenced by short name", () => {
+            const loadedPlugins = load("example");
+
+            assert.deepStrictEqual(
+                loadedPlugins.get("example"),
+                { name: "eslint-plugin-example" }
+            );
+        });
+
+        it("should load a plugin when referenced by long name", () => {
+            const loadedPlugins = load("eslint-plugin-example");
+
+            assert.deepStrictEqual(
+                loadedPlugins.get("example"),
+                { name: "eslint-plugin-example" }
+            );
+        });
+
+        it("should throw an error when a plugin has whitespace", () => {
+            assert.throws(() => {
+                load("whitespace ");
+            }, /Whitespace found in plugin name 'whitespace '/u);
+            assert.throws(() => {
+                load("whitespace\t");
+            }, /Whitespace found in plugin name/u);
+            assert.throws(() => {
+                load("whitespace\n");
+            }, /Whitespace found in plugin name/u);
+            assert.throws(() => {
+                load("whitespace\r");
+            }, /Whitespace found in plugin name/u);
+        });
+
+        it("should throw an error when a plugin doesn't exist", () => {
+            assert.throws(() => {
+                load("nonexistentplugin");
+            }, /Failed to load plugin/u);
+        });
+
+        it("should rethrow an error that a plugin throws on load", () => {
+            assert.throws(() => {
+                load("throws-on-load");
+            }, /error thrown while loading this module/u);
+        });
+
+        it("should load a scoped plugin when referenced by short name", () => {
+            const loadedPlugins = load("@scope/example");
+
+            assert.deepStrictEqual(
+                loadedPlugins.get("@scope/example"),
+                { name: "@scope/eslint-plugin-example" }
+            );
+        });
+
+        it("should load a scoped plugin when referenced by long name", () => {
+            const loadedPlugins = load("@scope/eslint-plugin-example");
+
+            assert.deepStrictEqual(
+                loadedPlugins.get("@scope/example"),
+                { name: "@scope/eslint-plugin-example" }
+            );
+        });
+
+        describe("when referencing a scope plugin and omitting @scope/", () => {
+            it("should load a scoped plugin when referenced by short name, but should not get the plugin if '@scope/' is omitted", () => {
+                const loadedPlugins = load("@scope/example");
+
+                assert.strictEqual(loadedPlugins.get("example"), void 0);
             });
+
+            it("should load a scoped plugin when referenced by long name, but should not get the plugin if '@scope/' is omitted", () => {
+                const loadedPlugins = load("@scope/eslint-plugin-example");
+
+                assert.strictEqual(loadedPlugins.get("example"), void 0);
+            });
+        });
+    });
+
+    // This group moved from 'tests/lib/config/plugins.js' when refactoring to keep the cumulated test cases.
+    describe("'plugins' property should load some correct plugins.", () => {
+        const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+            cwd: () => tempDir,
+            files: {
+                "node_modules/eslint-plugin-example1/index.js": "exports.name = 'eslint-plugin-example1';",
+                "node_modules/eslint-plugin-example2/index.js": "exports.name = 'eslint-plugin-example2';"
+            }
+        });
+        const factory = new ConfigArrayFactory();
+
+        /**
+         * Load a plugin.
+         * @param {string[]} request A request to load a plugin.
+         * @returns {Map<string,Object>} The loaded plugins.
+         */
+        function loadAll(request) {
+            const config = factory.create({ plugins: request });
+
+            return new Map(
+                Object
+                    .entries(config[0].plugins)
+                    .map(([id, entry]) => {
+                        if (entry.error) {
+                            throw entry.error;
+                        }
+                        return [id, entry.definition];
+                    })
+            );
+        }
+
+        it("should load plugins when passed multiple plugins", () => {
+            const loadedPlugins = loadAll(["example1", "example2"]);
+
+            assert.deepStrictEqual(
+                loadedPlugins.get("example1"),
+                { name: "eslint-plugin-example1" }
+            );
+            assert.deepStrictEqual(
+                loadedPlugins.get("example2"),
+                { name: "eslint-plugin-example2" }
+            );
         });
     });
 });

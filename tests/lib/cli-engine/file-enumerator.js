@@ -168,7 +168,8 @@ describe("FileEnumerator", () => {
             });
         });
 
-        describe("Moved from tests/lib/util/glob-utils.js", () => {
+        // This group moved from 'tests/lib/util/glob-utils.js' when refactoring to keep the cumulated test cases.
+        describe("with 'tests/fixtures/glob-utils' files", () => {
             let fixtureDir;
 
             /**

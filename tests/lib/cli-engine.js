@@ -113,6 +113,15 @@ describe("CLIEngine", () => {
                 new CLIEngine({ ignorePath: fixtureDir });
             }, `Cannot read ignore file: ${fixtureDir}\nError: ${fixtureDir} is not a file`);
         });
+
+        // https://github.com/eslint/eslint/issues/2380
+        it("should not modify baseConfig when format is specified", () => {
+            const customBaseConfig = { root: true };
+
+            new CLIEngine({ baseConfig: customBaseConfig, format: "foo" }); // eslint-disable-line no-new
+
+            assert.deepStrictEqual(customBaseConfig, { root: true });
+        });
     });
 
     describe("executeOnText()", () => {
@@ -3409,110 +3418,108 @@ describe("CLIEngine", () => {
             });
         });
 
-        describe("Moved from tests/lib/util/glob-utils.js", () => {
-            it("should convert a directory name with no provided extensions into a glob pattern", () => {
-                const patterns = ["one-js-file"];
-                const opts = {
-                    cwd: getFixturePath("glob-util")
-                };
-                const result = new CLIEngine(opts).resolveFileGlobPatterns(patterns);
+        it("should convert a directory name with no provided extensions into a glob pattern", () => {
+            const patterns = ["one-js-file"];
+            const opts = {
+                cwd: getFixturePath("glob-util")
+            };
+            const result = new CLIEngine(opts).resolveFileGlobPatterns(patterns);
 
-                assert.deepStrictEqual(result, ["one-js-file/**/*.js"]);
-            });
+            assert.deepStrictEqual(result, ["one-js-file/**/*.js"]);
+        });
 
-            it("should not convert path with globInputPaths option false", () => {
-                const patterns = ["one-js-file"];
-                const opts = {
-                    cwd: getFixturePath("glob-util"),
-                    globInputPaths: false
-                };
-                const result = new CLIEngine(opts).resolveFileGlobPatterns(patterns);
+        it("should not convert path with globInputPaths option false", () => {
+            const patterns = ["one-js-file"];
+            const opts = {
+                cwd: getFixturePath("glob-util"),
+                globInputPaths: false
+            };
+            const result = new CLIEngine(opts).resolveFileGlobPatterns(patterns);
 
-                assert.deepStrictEqual(result, ["one-js-file"]);
-            });
+            assert.deepStrictEqual(result, ["one-js-file"]);
+        });
 
-            it("should convert an absolute directory name with no provided extensions into a posix glob pattern", () => {
-                const patterns = [getFixturePath("glob-util", "one-js-file")];
-                const opts = {
-                    cwd: getFixturePath("glob-util")
-                };
-                const result = new CLIEngine(opts).resolveFileGlobPatterns(patterns);
-                const expected = [`${getFixturePath("glob-util", "one-js-file").replace(/\\/gu, "/")}/**/*.js`];
+        it("should convert an absolute directory name with no provided extensions into a posix glob pattern", () => {
+            const patterns = [getFixturePath("glob-util", "one-js-file")];
+            const opts = {
+                cwd: getFixturePath("glob-util")
+            };
+            const result = new CLIEngine(opts).resolveFileGlobPatterns(patterns);
+            const expected = [`${getFixturePath("glob-util", "one-js-file").replace(/\\/gu, "/")}/**/*.js`];
 
-                assert.deepStrictEqual(result, expected);
-            });
+            assert.deepStrictEqual(result, expected);
+        });
 
-            it("should convert a directory name with a single provided extension into a glob pattern", () => {
-                const patterns = ["one-js-file"];
-                const opts = {
-                    cwd: getFixturePath("glob-util"),
-                    extensions: [".jsx"]
-                };
-                const result = new CLIEngine(opts).resolveFileGlobPatterns(patterns);
+        it("should convert a directory name with a single provided extension into a glob pattern", () => {
+            const patterns = ["one-js-file"];
+            const opts = {
+                cwd: getFixturePath("glob-util"),
+                extensions: [".jsx"]
+            };
+            const result = new CLIEngine(opts).resolveFileGlobPatterns(patterns);
 
-                assert.deepStrictEqual(result, ["one-js-file/**/*.jsx"]);
-            });
+            assert.deepStrictEqual(result, ["one-js-file/**/*.jsx"]);
+        });
 
-            it("should convert a directory name with multiple provided extensions into a glob pattern", () => {
-                const patterns = ["one-js-file"];
-                const opts = {
-                    cwd: getFixturePath("glob-util"),
-                    extensions: [".jsx", ".js"]
-                };
-                const result = new CLIEngine(opts).resolveFileGlobPatterns(patterns);
+        it("should convert a directory name with multiple provided extensions into a glob pattern", () => {
+            const patterns = ["one-js-file"];
+            const opts = {
+                cwd: getFixturePath("glob-util"),
+                extensions: [".jsx", ".js"]
+            };
+            const result = new CLIEngine(opts).resolveFileGlobPatterns(patterns);
 
-                assert.deepStrictEqual(result, ["one-js-file/**/*.{jsx,js}"]);
-            });
+            assert.deepStrictEqual(result, ["one-js-file/**/*.{jsx,js}"]);
+        });
 
-            it("should convert multiple directory names into glob patterns", () => {
-                const patterns = ["one-js-file", "two-js-files"];
-                const opts = {
-                    cwd: getFixturePath("glob-util")
-                };
-                const result = new CLIEngine(opts).resolveFileGlobPatterns(patterns);
+        it("should convert multiple directory names into glob patterns", () => {
+            const patterns = ["one-js-file", "two-js-files"];
+            const opts = {
+                cwd: getFixturePath("glob-util")
+            };
+            const result = new CLIEngine(opts).resolveFileGlobPatterns(patterns);
 
-                assert.deepStrictEqual(result, ["one-js-file/**/*.js", "two-js-files/**/*.js"]);
-            });
+            assert.deepStrictEqual(result, ["one-js-file/**/*.js", "two-js-files/**/*.js"]);
+        });
 
-            it("should remove leading './' from glob patterns", () => {
-                const patterns = ["./one-js-file"];
-                const opts = {
-                    cwd: getFixturePath("glob-util")
-                };
-                const result = new CLIEngine(opts).resolveFileGlobPatterns(patterns);
+        it("should remove leading './' from glob patterns", () => {
+            const patterns = ["./one-js-file"];
+            const opts = {
+                cwd: getFixturePath("glob-util")
+            };
+            const result = new CLIEngine(opts).resolveFileGlobPatterns(patterns);
 
-                assert.deepStrictEqual(result, ["one-js-file/**/*.js"]);
-            });
+            assert.deepStrictEqual(result, ["one-js-file/**/*.js"]);
+        });
 
-            it("should convert a directory name with a trailing '/' into a glob pattern", () => {
-                const patterns = ["one-js-file/"];
-                const opts = {
-                    cwd: getFixturePath("glob-util")
-                };
-                const result = new CLIEngine(opts).resolveFileGlobPatterns(patterns);
+        it("should convert a directory name with a trailing '/' into a glob pattern", () => {
+            const patterns = ["one-js-file/"];
+            const opts = {
+                cwd: getFixturePath("glob-util")
+            };
+            const result = new CLIEngine(opts).resolveFileGlobPatterns(patterns);
 
-                assert.deepStrictEqual(result, ["one-js-file/**/*.js"]);
-            });
+            assert.deepStrictEqual(result, ["one-js-file/**/*.js"]);
+        });
 
-            it("should return filenames as they are", () => {
-                const patterns = ["some-file.js"];
-                const opts = {
-                    cwd: getFixturePath("glob-util")
-                };
-                const result = new CLIEngine(opts).resolveFileGlobPatterns(patterns);
+        it("should return filenames as they are", () => {
+            const patterns = ["some-file.js"];
+            const opts = {
+                cwd: getFixturePath("glob-util")
+            };
+            const result = new CLIEngine(opts).resolveFileGlobPatterns(patterns);
 
-                assert.deepStrictEqual(result, ["some-file.js"]);
-            });
+            assert.deepStrictEqual(result, ["some-file.js"]);
+        });
 
-            it("should convert backslashes into forward slashes", () => {
-                const patterns = ["one-js-file\\example.js"];
-                const opts = {
-                    cwd: getFixturePath()
-                };
-                const result = new CLIEngine(opts).resolveFileGlobPatterns(patterns);
+        it("should convert backslashes into forward slashes", () => {
+            const patterns = ["one-js-file\\example.js"];
+            const opts = {
+                cwd: getFixturePath()
+            };
+            const result = new CLIEngine(opts).resolveFileGlobPatterns(patterns);
 
-                assert.deepStrictEqual(result, ["one-js-file/example.js"]);
-            });
+            assert.deepStrictEqual(result, ["one-js-file/example.js"]);
         });
     });
 
