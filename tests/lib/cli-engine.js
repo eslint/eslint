@@ -18,7 +18,7 @@ const assert = require("chai").assert,
     os = require("os"),
     hash = require("../../lib/util/hash"),
     { CascadingConfigArrayFactory } = require("../../lib/cli-engine/cascading-config-array-factory"),
-    { defineCLIEngineWithInmemoryFileSystem } = require("./cli-engine/_utils");
+    { defineCLIEngineWithInMemoryFileSystem } = require("./cli-engine/_utils");
 
 const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
 
@@ -2906,7 +2906,7 @@ describe("CLIEngine", () => {
 
         describe("a config file setting should have higher priority than a shareable config file's settings always; https://github.com/eslint/eslint/issues/11510", () => {
             beforeEach(() => {
-                ({ CLIEngine } = defineCLIEngineWithInmemoryFileSystem({
+                ({ CLIEngine } = defineCLIEngineWithInMemoryFileSystem({
                     cwd: () => path.join(os.tmpdir(), "cli-engine/11510"),
                     files: {
                         "no-console-error-in-overrides.json": JSON.stringify({
@@ -2935,7 +2935,7 @@ describe("CLIEngine", () => {
 
         describe("configs of plugin rules should be validated even if 'plugins' key doesn't exist; https://github.com/eslint/eslint/issues/11559", () => {
             beforeEach(() => {
-                ({ CLIEngine } = defineCLIEngineWithInmemoryFileSystem({
+                ({ CLIEngine } = defineCLIEngineWithInMemoryFileSystem({
                     cwd: () => path.join(os.tmpdir(), "cli-engine/11559"),
                     files: {
                         "node_modules/eslint-plugin-test/index.js": `
@@ -2972,7 +2972,7 @@ describe("CLIEngine", () => {
 
         describe("'--fix-type' should not crash even if plugin rules exist; https://github.com/eslint/eslint/issues/11586", () => {
             beforeEach(() => {
-                ({ CLIEngine } = defineCLIEngineWithInmemoryFileSystem({
+                ({ CLIEngine } = defineCLIEngineWithInMemoryFileSystem({
                     cwd: () => path.join(os.tmpdir(), "cli-engine/11586"),
                     files: {
                         "node_modules/eslint-plugin-test/index.js": `

@@ -13,7 +13,7 @@ const { CascadingConfigArrayFactory } =
     require("../../../lib/cli-engine/cascading-config-array-factory");
 const { FileEnumerator } = require("../../../lib/cli-engine/file-enumerator");
 const { IgnoredPaths } = require("../../../lib/util/ignored-paths");
-const { defineFileEnumeratorWithInmemoryFileSystem } = require("./_utils");
+const { defineFileEnumeratorWithInMemoryFileSystem } = require("./_utils");
 
 describe("FileEnumerator", () => {
     describe("'iterateFiles(patterns)' method should iterate files and configs.", () => {
@@ -46,7 +46,7 @@ describe("FileEnumerator", () => {
         };
 
         describe(`with the files ${JSON.stringify(files)}`, () => {
-            const { FileEnumerator } = defineFileEnumeratorWithInmemoryFileSystem({ cwd: () => root, files }); // eslint-disable-line no-shadow
+            const { FileEnumerator } = defineFileEnumeratorWithInMemoryFileSystem({ cwd: () => root, files }); // eslint-disable-line no-shadow
 
             /** @type {FileEnumerator} */
             let enumerator;

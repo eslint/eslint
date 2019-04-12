@@ -28,7 +28,7 @@ const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
  * @param {Object} files The file definitions.
  * @returns {Object} `npm-utils`.
  */
-function requireNpmUtilsWithInmemoryFileSystem(files) {
+function requireNpmUtilsWithInMemoryFileSystem(files) {
     const fs = new MemoryFs({
         cwd: process.cwd,
         platform: process.platform === "win32" ? "win32" : "posix"
@@ -99,7 +99,7 @@ describe("npmUtils", () => {
         });
 
         it("should handle missing devDependencies key", () => {
-            const npmUtils = requireNpmUtilsWithInmemoryFileSystem({ // eslint-disable-line no-shadow
+            const npmUtils = requireNpmUtilsWithInMemoryFileSystem({ // eslint-disable-line no-shadow
                 "package.json": JSON.stringify({ private: true, dependencies: {} })
             });
 
@@ -108,7 +108,7 @@ describe("npmUtils", () => {
         });
 
         it("should throw with message when parsing invalid package.json", () => {
-            const npmUtils = requireNpmUtilsWithInmemoryFileSystem({ // eslint-disable-line no-shadow
+            const npmUtils = requireNpmUtilsWithInMemoryFileSystem({ // eslint-disable-line no-shadow
                 "package.json": "{ \"not: \"valid json\" }"
             });
 
@@ -158,7 +158,7 @@ describe("npmUtils", () => {
         });
 
         it("should handle missing dependencies key", () => {
-            const npmUtils = requireNpmUtilsWithInmemoryFileSystem({ // eslint-disable-line no-shadow
+            const npmUtils = requireNpmUtilsWithInMemoryFileSystem({ // eslint-disable-line no-shadow
                 "package.json": JSON.stringify({ private: true, devDependencies: {} })
             });
 
@@ -167,7 +167,7 @@ describe("npmUtils", () => {
         });
 
         it("should throw with message when parsing invalid package.json", () => {
-            const npmUtils = requireNpmUtilsWithInmemoryFileSystem({ // eslint-disable-line no-shadow
+            const npmUtils = requireNpmUtilsWithInMemoryFileSystem({ // eslint-disable-line no-shadow
                 "package.json": "{ \"not: \"valid json\" }"
             });
 
@@ -184,7 +184,7 @@ describe("npmUtils", () => {
 
     describe("checkPackageJson()", () => {
         it("should return true if package.json exists", () => {
-            const npmUtils = requireNpmUtilsWithInmemoryFileSystem({ // eslint-disable-line no-shadow
+            const npmUtils = requireNpmUtilsWithInMemoryFileSystem({ // eslint-disable-line no-shadow
                 "package.json": "{ \"file\": \"contents\" }"
             });
 
@@ -192,7 +192,7 @@ describe("npmUtils", () => {
         });
 
         it("should return false if package.json does not exist", () => {
-            const npmUtils = requireNpmUtilsWithInmemoryFileSystem({}); // eslint-disable-line no-shadow
+            const npmUtils = requireNpmUtilsWithInMemoryFileSystem({}); // eslint-disable-line no-shadow
 
             assert.strictEqual(npmUtils.checkPackageJson(), false);
         });

@@ -10,12 +10,12 @@ const { assert } = require("chai");
 const { spy } = require("sinon");
 const { ConfigArray } = require("../../../lib/cli-engine/config-array");
 const { OverrideTester } = require("../../../lib/cli-engine/config-array");
-const { defineConfigArrayFactoryWithInmemoryFileSystem } = require("./_utils");
+const { defineConfigArrayFactoryWithInMemoryFileSystem } = require("./_utils");
 
 const tempDir = path.join(os.tmpdir(), "eslint/config-array-factory");
 
 // For VSCode intellisense.
-/** @typedef {InstanceType<ReturnType<defineConfigArrayFactoryWithInmemoryFileSystem>["ConfigArrayFactory"]>} ConfigArrayFactory */
+/** @typedef {InstanceType<ReturnType<defineConfigArrayFactoryWithInMemoryFileSystem>["ConfigArrayFactory"]>} ConfigArrayFactory */
 
 /**
  * Assert a config array element.
@@ -66,7 +66,7 @@ function assertConfig(actual, providedExpected) {
 
 describe("ConfigArrayFactory", () => {
     describe("'create(configData, options)' method should normalize the config data.", () => {
-        const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+        const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
             cwd: () => tempDir
         });
         const factory = new ConfigArrayFactory();
@@ -148,7 +148,7 @@ describe("ConfigArrayFactory", () => {
             "yml/.eslintrc.yml": "settings:\n  name: yml/.eslintrc.yml",
             "yaml/.eslintrc.yaml": "settings:\n  name: yaml/.eslintrc.yaml"
         };
-        const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+        const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
             cwd: () => tempDir,
             files: {
                 ...basicFiles,
@@ -259,7 +259,7 @@ describe("ConfigArrayFactory", () => {
             "yml/.eslintrc.yml": "settings:\n  name: yml/.eslintrc.yml",
             "yaml/.eslintrc.yaml": "settings:\n  name: yaml/.eslintrc.yaml"
         };
-        const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+        const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
             cwd: () => tempDir,
             files: {
                 ...basicFiles,
@@ -381,7 +381,7 @@ describe("ConfigArrayFactory", () => {
 
         describe("misc", () => {
             before(() => {
-                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
                     cwd: () => tempDir
                 });
 
@@ -543,7 +543,7 @@ describe("ConfigArrayFactory", () => {
 
         describe("'parser' details", () => {
             before(() => {
-                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
                     cwd: () => tempDir,
                     files: {
                         "node_modules/xxx-parser/index.js": "exports.name = 'xxx-parser';",
@@ -650,7 +650,7 @@ describe("ConfigArrayFactory", () => {
 
         describe("'plugins' details", () => {
             before(() => {
-                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
                     cwd: () => tempDir,
                     files: {
                         "node_modules/eslint-plugin-ext/index.js": "exports.processors = { '.abc': {}, '.xyz': {}, other: {} };",
@@ -811,7 +811,7 @@ describe("ConfigArrayFactory", () => {
 
         describe("'extends' details", () => {
             before(() => {
-                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
                     cwd: () => tempDir,
                     files: {
                         "node_modules/eslint-config-foo/index.js": "exports.env = { browser: true }",
@@ -1120,7 +1120,7 @@ describe("ConfigArrayFactory", () => {
 
         describe("'overrides' details", () => {
             before(() => {
-                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
                     cwd: () => tempDir,
                     files: {
                     }
@@ -1174,7 +1174,7 @@ describe("ConfigArrayFactory", () => {
             const plugin = {};
 
             beforeEach(() => {
-                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
                     cwd: () => tempDir
                 });
 
@@ -1226,7 +1226,7 @@ describe("ConfigArrayFactory", () => {
             "package-json/package.json": "{ \"eslintConfig\": { \"env\": { \"es6\": true } } }",
             "yaml/.eslintrc.yaml": "env:\n    browser: true"
         };
-        const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({ files });
+        const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({ files });
         const factory = new ConfigArrayFactory();
 
         /**
@@ -1428,7 +1428,7 @@ describe("ConfigArrayFactory", () => {
         }
 
         it("should throw error if file doesnt exist", () => {
-            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem();
+            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem();
             const factory = new ConfigArrayFactory();
 
             assert.throws(() => {
@@ -1441,7 +1441,7 @@ describe("ConfigArrayFactory", () => {
         });
 
         it("should load information from a legacy file", () => {
-            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
                 files: {
                     "legacy/.eslintrc": "{ rules: { eqeqeq: 2 } }"
                 }
@@ -1457,7 +1457,7 @@ describe("ConfigArrayFactory", () => {
         });
 
         it("should load information from a JavaScript file", () => {
-            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
                 files: {
                     "js/.eslintrc.js": "module.exports = { rules: { semi: [2, 'always'] } };"
                 }
@@ -1473,7 +1473,7 @@ describe("ConfigArrayFactory", () => {
         });
 
         it("should throw error when loading invalid JavaScript file", () => {
-            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
                 files: {
                     "js/.eslintrc.broken.js": "module.exports = { rules: { semi: [2, 'always'] }"
                 }
@@ -1486,7 +1486,7 @@ describe("ConfigArrayFactory", () => {
         });
 
         it("should interpret parser module name when present in a JavaScript file", () => {
-            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
                 files: {
                     "node_modules/foo/index.js": "",
                     "js/node_modules/foo/index.js": "",
@@ -1508,7 +1508,7 @@ describe("ConfigArrayFactory", () => {
         });
 
         it("should interpret parser path when present in a JavaScript file", () => {
-            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
                 files: {
                     "js/.eslintrc.parser2.js": `module.exports = {
                         parser: './not-a-config.js',
@@ -1529,7 +1529,7 @@ describe("ConfigArrayFactory", () => {
         });
 
         it("should interpret parser module name or path when parser is set to default parser in a JavaScript file", () => {
-            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
                 files: {
                     "js/.eslintrc.parser3.js": `module.exports = {
                         parser: 'espree',
@@ -1549,7 +1549,7 @@ describe("ConfigArrayFactory", () => {
         });
 
         it("should load information from a JSON file", () => {
-            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
                 files: {
                     "json/.eslintrc.json": "{ \"rules\": { \"quotes\": [2, \"double\"] } }"
                 }
@@ -1565,7 +1565,7 @@ describe("ConfigArrayFactory", () => {
         });
 
         it("should load fresh information from a JSON file", () => {
-            const { fs, ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem();
+            const { fs, ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem();
             const factory = new ConfigArrayFactory();
             const initialConfig = {
                 rules: {
@@ -1589,7 +1589,7 @@ describe("ConfigArrayFactory", () => {
         });
 
         it("should load information from a package.json file", () => {
-            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
                 files: {
                     "package-json/package.json": "{ \"eslintConfig\": { \"env\": { \"es6\": true } } }"
                 }
@@ -1603,7 +1603,7 @@ describe("ConfigArrayFactory", () => {
         });
 
         it("should throw error when loading invalid package.json file", () => {
-            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
                 files: {
                     "broken-package-json/package.json": "{ \"eslintConfig\": { \"env\": { \"es6\": true } }"
                 }
@@ -1621,7 +1621,7 @@ describe("ConfigArrayFactory", () => {
         });
 
         it("should load fresh information from a package.json file", () => {
-            const { fs, ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem();
+            const { fs, ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem();
             const factory = new ConfigArrayFactory();
             const initialConfig = {
                 eslintConfig: {
@@ -1649,7 +1649,7 @@ describe("ConfigArrayFactory", () => {
         });
 
         it("should load fresh information from a .eslintrc.js file", () => {
-            const { fs, ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem();
+            const { fs, ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem();
             const factory = new ConfigArrayFactory();
             const initialConfig = {
                 rules: {
@@ -1673,7 +1673,7 @@ describe("ConfigArrayFactory", () => {
         });
 
         it("should load information from a YAML file", () => {
-            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
                 files: {
                     "yaml/.eslintrc.yaml": "env:\n    browser: true"
                 }
@@ -1687,7 +1687,7 @@ describe("ConfigArrayFactory", () => {
         });
 
         it("should load information from an empty YAML file", () => {
-            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
                 files: {
                     "yaml/.eslintrc.empty.yaml": "{}"
                 }
@@ -1699,7 +1699,7 @@ describe("ConfigArrayFactory", () => {
         });
 
         it("should load information from a YML file", () => {
-            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
                 files: {
                     "yml/.eslintrc.yml": "env:\n    node: true"
                 }
@@ -1713,7 +1713,7 @@ describe("ConfigArrayFactory", () => {
         });
 
         it("should load information from a YML file and apply extensions", () => {
-            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
                 files: {
                     "extends/.eslintrc.yml": "extends: ../package-json/package.json\nrules:\n    booya: 2",
                     "package-json/package.json": "{ \"eslintConfig\": { \"env\": { \"es6\": true } } }"
@@ -1729,7 +1729,7 @@ describe("ConfigArrayFactory", () => {
         });
 
         it("should load information from `extends` chain.", () => {
-            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
                 files: {
                     "extends-chain": {
                         "node_modules/eslint-config-a": {
@@ -1758,7 +1758,7 @@ describe("ConfigArrayFactory", () => {
         });
 
         it("should load information from `extends` chain with relative path.", () => {
-            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
                 files: {
                     "extends-chain-2": {
                         "node_modules/eslint-config-a/index.js": "module.exports = { extends: './relative.js', rules: { a: 2 } };",
@@ -1779,7 +1779,7 @@ describe("ConfigArrayFactory", () => {
         });
 
         it("should load information from `extends` chain in .eslintrc with relative path.", () => {
-            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
                 files: {
                     "extends-chain-2": {
                         "node_modules/eslint-config-a/index.js": "module.exports = { extends: './relative.js', rules: { a: 2 } };",
@@ -1800,7 +1800,7 @@ describe("ConfigArrayFactory", () => {
         });
 
         it("should load information from `parser` in .eslintrc with relative path.", () => {
-            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
                 files: {
                     "extends-chain-2": {
                         "parser.eslintrc.json": "{ \"parser\": \"./parser.js\" }",
@@ -1818,7 +1818,7 @@ describe("ConfigArrayFactory", () => {
 
         describe("Plugins", () => {
             it("should load information from a YML file and load plugins", () => {
-                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
                     files: {
                         "node_modules/eslint-plugin-test/index.js": `
                             module.exports = {
@@ -1850,7 +1850,7 @@ describe("ConfigArrayFactory", () => {
             });
 
             it("should load two separate configs from a plugin", () => {
-                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
                     files: {
                         "node_modules/eslint-plugin-test/index.js": `
                             module.exports = {
@@ -1882,7 +1882,7 @@ describe("ConfigArrayFactory", () => {
 
         describe("even if config files have Unicode BOM,", () => {
             it("should read the JSON config file correctly.", () => {
-                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
                     files: {
                         "bom/.eslintrc.json": "\uFEFF{ \"rules\": { \"semi\": \"error\" } }"
                     }
@@ -1898,7 +1898,7 @@ describe("ConfigArrayFactory", () => {
             });
 
             it("should read the YAML config file correctly.", () => {
-                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
                     files: {
                         "bom/.eslintrc.yaml": "\uFEFFrules:\n  semi: error"
                     }
@@ -1914,7 +1914,7 @@ describe("ConfigArrayFactory", () => {
             });
 
             it("should read the config in package.json correctly.", () => {
-                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+                const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
                     files: {
                         "bom/package.json": "\uFEFF{ \"eslintConfig\": { \"rules\": { \"semi\": \"error\" } } }"
                     }
@@ -1931,7 +1931,7 @@ describe("ConfigArrayFactory", () => {
         });
 
         it("throws an error including the config file name if the config file is invalid", () => {
-            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
                 files: {
                     "invalid/invalid-top-level-property.yml": "invalidProperty: 3"
                 }
@@ -1950,7 +1950,7 @@ describe("ConfigArrayFactory", () => {
 
     // This group moved from 'tests/lib/config/config-file.js' when refactoring to keep the cumulated test cases.
     describe("'extends' property should resolve the location of configs properly.", () => {
-        const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+        const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
             cwd: () => tempDir,
             files: {
                 "node_modules/eslint-config-foo/index.js": "",
@@ -2031,7 +2031,7 @@ describe("ConfigArrayFactory", () => {
 
     // This group moved from 'tests/lib/config/plugins.js' when refactoring to keep the cumulated test cases.
     describe("'plugins' property should load a correct plugin.", () => {
-        const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+        const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
             cwd: () => tempDir,
             files: {
                 "node_modules/@scope/eslint-plugin-example/index.js": "exports.name = '@scope/eslint-plugin-example';",
@@ -2141,7 +2141,7 @@ describe("ConfigArrayFactory", () => {
 
     // This group moved from 'tests/lib/config/plugins.js' when refactoring to keep the cumulated test cases.
     describe("'plugins' property should load some correct plugins.", () => {
-        const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+        const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
             cwd: () => tempDir,
             files: {
                 "node_modules/eslint-plugin-example1/index.js": "exports.name = 'eslint-plugin-example1';",

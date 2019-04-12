@@ -1,14 +1,17 @@
 /**
  * @fileoverview Define classes what use the in-memory file system.
  *
- * This provides utilities to test `ConfigArrayFactory` and `FileEnumerator`.
+ * This provides utilities to test `ConfigArrayFactory`,
+ * `CascadingConfigArrayFactory`, `FileEnumerator`, and `CLIEngine`.
  *
- * - `defineConfigArrayFactoryWithInmemoryFileSystem({ cwd, files })`
- * - `defineFileEnumeratorWithInmemoryFileSystem({ cwd, files })`
+ * - `defineConfigArrayFactoryWithInMemoryFileSystem({ cwd, files })`
+ * - `defineCascadingConfigArrayFactoryWithInMemoryFileSystem({ cwd, files })`
+ * - `defineFileEnumeratorWithInMemoryFileSystem({ cwd, files })`
+ * - `defineCLIEngineWithInMemoryFileSystem({ cwd, files })`
  *
- * Both functions define the class `ConfigArrayFactory` or `FileEnumerator` with
- * the in-memory file system. Those search config files, parsers, and plugins in
- * the `files` option via the in-memory file system.
+ * Those functions define correspond classes with the in-memory file system.
+ * Those search config files, parsers, and plugins in the `files` option via the
+ * in-memory file system.
  *
  * For each test case, it makes more readable if we define minimal files the
  * test case requires.
@@ -16,7 +19,7 @@
  * For example:
  *
  * ```js
- * const { ConfigArrayFactory } = defineConfigArrayFactoryWithInmemoryFileSystem({
+ * const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
  *     files: {
  *         "node_modules/eslint-config-foo/index.js": `
  *             module.exports = {
@@ -276,7 +279,7 @@ function supportMkdirRecursiveOption(fs, cwd) {
  * @param {Object} [options.files] The initial files definition in the in-memory file system.
  * @returns {{ fs: import("fs"), RelativeModuleResolver: import("../../../lib/util/relative-module-resolver"), ConfigArrayFactory: import("../../../lib/cli-engine/config-array-factory")["ConfigArrayFactory"] }} The stubbed `ConfigArrayFactory` class.
  */
-function defineConfigArrayFactoryWithInmemoryFileSystem({
+function defineConfigArrayFactoryWithInMemoryFileSystem({
     cwd = process.cwd,
     files = {}
 } = {}) {
@@ -382,12 +385,12 @@ function defineConfigArrayFactoryWithInmemoryFileSystem({
  * @param {Object} [options.files] The initial files definition in the in-memory file system.
  * @returns {{ fs: import("fs"), RelativeModuleResolver: import("../../../lib/util/relative-module-resolver"), ConfigArrayFactory: import("../../../lib/cli-engine/config-array-factory")["ConfigArrayFactory"], CascadingConfigArrayFactory: import("../../../lib/cli-engine/cascading-config-array-factory")["CascadingConfigArrayFactory"] }} The stubbed `CascadingConfigArrayFactory` class.
  */
-function defineCascadingConfigArrayFactoryWithInmemoryFileSystem({
+function defineCascadingConfigArrayFactoryWithInMemoryFileSystem({
     cwd = process.cwd,
     files = {}
 } = {}) {
     const { fs, RelativeModuleResolver, ConfigArrayFactory } =
-           defineConfigArrayFactoryWithInmemoryFileSystem({ cwd, files });
+           defineConfigArrayFactoryWithInMemoryFileSystem({ cwd, files });
     const loadRules = proxyquire(LoadRulesPath, { fs });
     const { CascadingConfigArrayFactory } =
         proxyquire(CascadingConfigArrayFactoryPath, {
@@ -417,7 +420,7 @@ function defineCascadingConfigArrayFactoryWithInmemoryFileSystem({
  * @param {Object} [options.files] The initial files definition in the in-memory file system.
  * @returns {{ fs: import("fs"), RelativeModuleResolver: import("../../../lib/util/relative-module-resolver"), ConfigArrayFactory: import("../../../lib/cli-engine/config-array-factory")["ConfigArrayFactory"], CascadingConfigArrayFactory: import("../../../lib/cli-engine/cascading-config-array-factory")["CascadingConfigArrayFactory"], IgnoredPaths: import("../../../lib/cli-engine/ignored-paths")["IgnoredPaths"], FileEnumerator: import("../../../lib/cli-engine/file-enumerator")["FileEnumerator"] }} The stubbed `FileEnumerator` class.
  */
-function defineFileEnumeratorWithInmemoryFileSystem({
+function defineFileEnumeratorWithInMemoryFileSystem({
     cwd = process.cwd,
     files = {}
 } = {}) {
@@ -427,7 +430,7 @@ function defineFileEnumeratorWithInmemoryFileSystem({
         ConfigArrayFactory,
         CascadingConfigArrayFactory
     } =
-        defineCascadingConfigArrayFactoryWithInmemoryFileSystem({ cwd, files });
+        defineCascadingConfigArrayFactoryWithInMemoryFileSystem({ cwd, files });
     const { IgnoredPaths } = proxyquire(IgnoredPathsPath, { fs });
     const { FileEnumerator } = proxyquire(FileEnumeratorPath, {
         fs,
@@ -459,7 +462,7 @@ function defineFileEnumeratorWithInmemoryFileSystem({
  * @param {Object} [options.files] The initial files definition in the in-memory file system.
  * @returns {{ fs: import("fs"), RelativeModuleResolver: import("../../../lib/util/relative-module-resolver"), ConfigArrayFactory: import("../../../lib/cli-engine/config-array-factory")["ConfigArrayFactory"], CascadingConfigArrayFactory: import("../../../lib/cli-engine/cascading-config-array-factory")["CascadingConfigArrayFactory"], IgnoredPaths: import("../../../lib/cli-engine/ignored-paths")["IgnoredPaths"], FileEnumerator: import("../../../lib/cli-engine/file-enumerator")["FileEnumerator"], CLIEngine: import("../../../lib/cli-engine")["CLIEngine"], getCLIEngineInternalSlots: import("../../../lib/cli-engine")["getCLIEngineInternalSlots"] }} The stubbed `CLIEngine` class.
  */
-function defineCLIEngineWithInmemoryFileSystem({
+function defineCLIEngineWithInMemoryFileSystem({
     cwd = process.cwd,
     files = {}
 } = {}) {
@@ -471,7 +474,7 @@ function defineCLIEngineWithInmemoryFileSystem({
         IgnoredPaths,
         FileEnumerator
     } =
-        defineFileEnumeratorWithInmemoryFileSystem({ cwd, files });
+        defineFileEnumeratorWithInMemoryFileSystem({ cwd, files });
     const { CLIEngine, getCLIEngineInternalSlots } = proxyquire(CLIEnginePath, {
         fs,
         "./cli-engine/cascading-config-array-factory": { CascadingConfigArrayFactory },
@@ -500,8 +503,8 @@ function defineCLIEngineWithInmemoryFileSystem({
 }
 
 module.exports = {
-    defineConfigArrayFactoryWithInmemoryFileSystem,
-    defineCascadingConfigArrayFactoryWithInmemoryFileSystem,
-    defineFileEnumeratorWithInmemoryFileSystem,
-    defineCLIEngineWithInmemoryFileSystem
+    defineConfigArrayFactoryWithInMemoryFileSystem,
+    defineCascadingConfigArrayFactoryWithInMemoryFileSystem,
+    defineFileEnumeratorWithInMemoryFileSystem,
+    defineCLIEngineWithInMemoryFileSystem
 };

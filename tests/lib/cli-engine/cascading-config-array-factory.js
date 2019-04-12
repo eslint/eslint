@@ -13,7 +13,7 @@ const sinon = require("sinon");
 const { CascadingConfigArrayFactory } = require("../../../lib/cli-engine/cascading-config-array-factory");
 const { ConfigArrayFactory } = require("../../../lib/cli-engine/config-array-factory");
 const { ExtractedConfig } = require("../../../lib/cli-engine/config-array/extracted-config");
-const { defineCascadingConfigArrayFactoryWithInmemoryFileSystem } = require("./_utils");
+const { defineCascadingConfigArrayFactoryWithInMemoryFileSystem } = require("./_utils");
 
 describe("CascadingConfigArrayFactory", () => {
     describe("'getConfigArrayForFile(filePath)' method should retrieve the proper configuration.", () => {
@@ -46,7 +46,7 @@ describe("CascadingConfigArrayFactory", () => {
         };
 
         describe(`with the files ${JSON.stringify(files)}`, () => {
-            const { CascadingConfigArrayFactory } = defineCascadingConfigArrayFactoryWithInmemoryFileSystem({ cwd: () => root, files }); // eslint-disable-line no-shadow
+            const { CascadingConfigArrayFactory } = defineCascadingConfigArrayFactoryWithInMemoryFileSystem({ cwd: () => root, files }); // eslint-disable-line no-shadow
 
             /** @type {CascadingConfigArrayFactory} */
             let factory;
@@ -671,7 +671,7 @@ describe("CascadingConfigArrayFactory", () => {
             describe("personal config file within home directory", () => {
                 const {
                     CascadingConfigArrayFactory // eslint-disable-line no-shadow
-                } = defineCascadingConfigArrayFactoryWithInmemoryFileSystem({
+                } = defineCascadingConfigArrayFactoryWithInMemoryFileSystem({
                     files: {
                         "eslint/fixtures/config-hierarchy": DIRECTORY_CONFIG_HIERARCHY
                     }
@@ -766,7 +766,7 @@ describe("CascadingConfigArrayFactory", () => {
             describe("when no local or personal config is found", () => {
                 const {
                     CascadingConfigArrayFactory // eslint-disable-line no-shadow
-                } = defineCascadingConfigArrayFactoryWithInmemoryFileSystem({
+                } = defineCascadingConfigArrayFactoryWithInMemoryFileSystem({
                     files: {
                         "eslint/fixtures/config-hierarchy": DIRECTORY_CONFIG_HIERARCHY
                     }
@@ -849,7 +849,7 @@ describe("CascadingConfigArrayFactory", () => {
             describe("with overrides", () => {
                 const {
                     CascadingConfigArrayFactory // eslint-disable-line no-shadow
-                } = defineCascadingConfigArrayFactoryWithInmemoryFileSystem({
+                } = defineCascadingConfigArrayFactoryWithInMemoryFileSystem({
                     files: {
                         "eslint/fixtures/config-hierarchy": DIRECTORY_CONFIG_HIERARCHY
                     }
@@ -1154,7 +1154,7 @@ describe("CascadingConfigArrayFactory", () => {
         describe(`with the files ${JSON.stringify(files)}`, () => {
             const {
                 CascadingConfigArrayFactory // eslint-disable-line no-shadow
-            } = defineCascadingConfigArrayFactoryWithInmemoryFileSystem({ cwd: () => root, files });
+            } = defineCascadingConfigArrayFactoryWithInMemoryFileSystem({ cwd: () => root, files });
 
             /** @type {Map<string, Object>} */
             let additionalPluginPool;
