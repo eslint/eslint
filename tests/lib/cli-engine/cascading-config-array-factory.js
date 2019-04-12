@@ -1113,10 +1113,13 @@ describe("CascadingConfigArrayFactory", () => {
                 const cwd = path.resolve(__dirname, "../../fixtures/config-file/");
                 let warning = null;
 
-                function onWarning(w) { // eslint-disable-line require-jsdoc
-
-                    // Node.js 6.x does not have 'w.code' property.
-                    if (!Object.prototype.hasOwnProperty.call(w, "code") || typeof w.code === "string" && w.code.startsWith("ESLINT_")) {
+                /**
+                 * Store a reported warning object if that code starts with `ESLINT_`.
+                 * @param {{code:string, message:string}} w The warning object to store.
+                 * @returns {void}
+                 */
+                function onWarning(w) {
+                    if (w.code.startsWith("ESLINT_")) {
                         warning = w;
                     }
                 }
