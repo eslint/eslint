@@ -710,12 +710,11 @@ describe("ConfigArray", () => {
         }
 
         it("should not contain duplicate values.", () => {
-            const configs = [
-                configArray.extractConfig(__filename),
-                configArray.extractConfig(`${__filename}.ts`),
-                configArray.extractConfig(path.join(__dirname, "foo.js"))
-            ];
 
+            // Call some times, including with the same arguments.
+            configArray.extractConfig(__filename);
+            configArray.extractConfig(`${__filename}.ts`);
+            configArray.extractConfig(path.join(__dirname, "foo.js"));
             configArray.extractConfig(__filename);
             configArray.extractConfig(path.join(__dirname, "foo.js"));
             configArray.extractConfig(path.join(__dirname, "bar.js"));
@@ -723,9 +722,7 @@ describe("ConfigArray", () => {
 
             const usedConfigs = getUsedExtractedConfigs(configArray);
 
-            assert.deepStrictEqual(usedConfigs.filter(c => c === configs[0]).length, 1);
-            assert.deepStrictEqual(usedConfigs.filter(c => c === configs[1]).length, 1);
-            assert.deepStrictEqual(usedConfigs.filter(c => c === configs[2]).length, 1);
+            assert.strictEqual(new Set(usedConfigs).size, usedConfigs.length);
         });
     });
 });
