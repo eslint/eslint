@@ -4,8 +4,10 @@
  */
 "use strict";
 
-const path = require("path");
 const assert = require("assert");
+const { Console } = require("console");
+const path = require("path");
+const { Writable } = require("stream");
 const { OverrideTester } = require("../../../../lib/cli-engine/config-array/override-tester");
 
 describe("OverrideTester", () => {
@@ -235,14 +237,22 @@ describe("OverrideTester", () => {
                 OverrideTester.create(files2, excludedFiles2, basePath)
             );
 
-            assert.strictEqual(
-                JSON.stringify(tester),
-                `{"AND":[{"includes":["${files1}"],"excludes":["${excludedFiles1}"]},{"includes":["${files2}"],"excludes":["${excludedFiles2}"]}],"basePath":${JSON.stringify(basePath)}}`
+            assert.deepStrictEqual(
+                JSON.parse(JSON.stringify(tester)),
+                {
+                    AND: [
+                        { includes: [files1], excludes: [excludedFiles1] },
+                        { includes: [files2], excludes: [excludedFiles2] }
+                    ],
+                    basePath
+                }
             );
         });
     });
 
     describe("'console.log(...)' should print readable string; not include 'Minimatch' objects", () => {
+        const localConsole = new Console(new Writable());
+
         it("should use 'toJSON()' method.", () => {
             const tester = OverrideTester.create("*.js", "", process.cwd());
             let called = false;
@@ -252,7 +262,7 @@ describe("OverrideTester", () => {
                 return "";
             };
 
-            console.log(tester); // eslint-disable-line no-console
+            localConsole.log(tester);
 
             assert(called);
         });

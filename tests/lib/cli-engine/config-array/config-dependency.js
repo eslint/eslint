@@ -5,6 +5,8 @@
 "use strict";
 
 const assert = require("assert");
+const { Console } = require("console");
+const { Writable } = require("stream");
 const { ConfigDependency } = require("../../../../lib/cli-engine/config-array/config-dependency");
 
 describe("ConfigDependency", () => {
@@ -49,8 +51,8 @@ describe("ConfigDependency", () => {
         });
     });
 
-    describe("'JSON.stringify(...)' should return readable JSON; not include 'definition' objects", () => {
-        it("should return an object that has five properties.", () => {
+    describe("'JSON.stringify(...)' should return readable JSON; not include 'definition' property", () => {
+        it("should not print 'definition' property.", () => {
             const dep = new ConfigDependency({
                 definition: { name: "definition?" },
                 error: new Error("error?"),
@@ -60,33 +62,59 @@ describe("ConfigDependency", () => {
                 importerPath: "importerPath?"
             });
 
-            assert.strictEqual(
-                JSON.stringify(dep),
-                "{\"error\":{},\"filePath\":\"filePath?\",\"id\":\"id?\",\"importerName\":\"importerName?\",\"importerPath\":\"importerPath?\"}"
+            assert.deepStrictEqual(
+                JSON.parse(JSON.stringify(dep)),
+                {
+                    error: { message: "error?" },
+                    filePath: "filePath?",
+                    id: "id?",
+                    importerName: "importerName?",
+                    importerPath: "importerPath?"
+                }
             );
         });
     });
 
-    describe("'console.log(...)' should print readable string; not include 'Minimatch' objects", () => {
-        it("should use 'toJSON()' method.", () => {
+    describe("'console.log(...)' should print readable string; not include 'defininition' property", () => {
+
+        // Record the written strings to `output` variable.
+        let output = "";
+        const localConsole = new Console(
+            new class extends Writable {
+                write(chunk) { // eslint-disable-line class-methods-use-this
+                    output += chunk;
+                }
+            }()
+        );
+
+        it("should not print 'definition' property.", () => {
+            const error = new Error("error?"); // reuse error object to use the same stacktrace.
             const dep = new ConfigDependency({
                 definition: { name: "definition?" },
-                error: new Error("error?"),
+                error,
                 filePath: "filePath?",
                 id: "id?",
                 importerName: "importerName?",
                 importerPath: "importerPath?"
             });
-            let called = false;
 
-            dep.toJSON = () => {
-                called = true;
-                return "";
-            };
+            // Make actual output.
+            output = "";
+            localConsole.log(dep);
+            const actual = output;
 
-            console.log(dep); // eslint-disable-line no-console
+            // Make expected output; no `definition` property.
+            output = "";
+            localConsole.log({
+                error,
+                filePath: "filePath?",
+                id: "id?",
+                importerName: "importerName?",
+                importerPath: "importerPath?"
+            });
+            const expected = output;
 
-            assert(called);
+            assert.strictEqual(actual, expected);
         });
     });
 });
