@@ -2895,7 +2895,7 @@ describe("CLIEngine", () => {
             });
         });
 
-        describe("config in a config file should prior to shareable configs always; https://github.com/eslint/eslint/issues/11510", () => {
+        describe("a config file setting should have higher priority than a shareable config file's settings always; https://github.com/eslint/eslint/issues/11510", () => {
             beforeEach(() => {
                 ({ CLIEngine } = defineCLIEngineWithInmemoryFileSystem({
                     cwd: () => path.join(os.tmpdir(), "cli-engine/11510"),
