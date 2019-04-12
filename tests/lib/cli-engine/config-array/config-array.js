@@ -51,6 +51,7 @@ describe("ConfigArray", () => {
             { elements: [{ root: true }], expected: true },
             { elements: [{ root: true }, { root: false }], expected: false },
             { elements: [{ root: false }, { root: true }], expected: true },
+            { elements: [{ root: false }, { root: true }, { rules: {} }], expected: true }, // ignore undefined.
             { elements: [{ root: true }, { root: 1 }], expected: true } // ignore non-boolean value
         ];
 
