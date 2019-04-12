@@ -112,8 +112,13 @@ describe("CascadingConfigArrayFactory", () => {
             }
 
             /**
-             * Asserts that two configs are equal. This is necessary because assert.deepStrictEqual()
-             * gets confused when properties are in different orders.
+             * Assert that given two objects have the same properties with the
+             * same value for each.
+             *
+             * The `expected` object is merged with the default values of config
+             * data before comparing, so you can specify only the properties you
+             * focus on.
+             *
              * @param {Object} actual The config object to check.
              * @param {Object} expected What the config object should look like.
              * @returns {void}
