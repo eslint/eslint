@@ -298,6 +298,15 @@ ruleTester.run("no-var", rule, {
             output: "let foo = 1",
             parserOptions: { sourceType: "module" },
             errors: ["Unexpected var, use let or const instead."]
+        },
+
+        // https://github.com/eslint/eslint/issues/11594
+        {
+            code: "declare var foo = 2;",
+            output: "declare let foo = 2;",
+            parser: require.resolve("../../fixtures/parsers/typescript-parsers/declare-var"),
+            parserOptions: { sourceType: "module" },
+            errors: ["Unexpected var, use let or const instead."]
         }
     ]
 });
