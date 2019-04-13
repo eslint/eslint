@@ -132,11 +132,43 @@ ruleTester.run("object-shorthand", rule, {
             options: ["always", { ignoreConstructors: true }]
         },
         {
+            code: "var x = {_ConstructorFunction: function(){}, a: b}",
+            options: ["always", { ignoreConstructors: true }]
+        },
+        {
+            code: "var x = {$ConstructorFunction: function(){}, a: b}",
+            options: ["always", { ignoreConstructors: true }]
+        },
+        {
+            code: "var x = {__ConstructorFunction: function(){}, a: b}",
+            options: ["always", { ignoreConstructors: true }]
+        },
+        {
+            code: "var x = {_0ConstructorFunction: function(){}, a: b}",
+            options: ["always", { ignoreConstructors: true }]
+        },
+        {
             code: "var x = {notConstructorFunction(){}, b: c}",
             options: ["always", { ignoreConstructors: true }]
         },
         {
             code: "var x = {ConstructorFunction: function(){}, a: b}",
+            options: ["methods", { ignoreConstructors: true }]
+        },
+        {
+            code: "var x = {_ConstructorFunction: function(){}, a: b}",
+            options: ["methods", { ignoreConstructors: true }]
+        },
+        {
+            code: "var x = {$ConstructorFunction: function(){}, a: b}",
+            options: ["methods", { ignoreConstructors: true }]
+        },
+        {
+            code: "var x = {__ConstructorFunction: function(){}, a: b}",
+            options: ["methods", { ignoreConstructors: true }]
+        },
+        {
+            code: "var x = {_0ConstructorFunction: function(){}, a: b}",
             options: ["methods", { ignoreConstructors: true }]
         },
         {
@@ -706,6 +738,46 @@ ruleTester.run("object-shorthand", rule, {
             options: ["never"],
             parserOptions: { ecmaVersion: 2018 },
             errors: [LONGFORM_PROPERTY_ERROR]
+        },
+
+        // ignoreConstructors
+        {
+            code: "var x = {y: function() {}}",
+            output: "var x = {y() {}}",
+            options: ["methods", { ignoreConstructors: true }],
+            errors: [METHOD_ERROR]
+        },
+        {
+
+            // https://github.com/eslint/eslint/issues/11595
+            code: "var x = {_y: function() {}}",
+            output: "var x = {_y() {}}",
+            options: ["methods", { ignoreConstructors: true }],
+            errors: [METHOD_ERROR]
+        },
+        {
+
+            // https://github.com/eslint/eslint/issues/11595
+            code: "var x = {$y: function() {}}",
+            output: "var x = {$y() {}}",
+            options: ["methods", { ignoreConstructors: true }],
+            errors: [METHOD_ERROR]
+        },
+        {
+
+            // https://github.com/eslint/eslint/issues/11595
+            code: "var x = {__y: function() {}}",
+            output: "var x = {__y() {}}",
+            options: ["methods", { ignoreConstructors: true }],
+            errors: [METHOD_ERROR]
+        },
+        {
+
+            // https://github.com/eslint/eslint/issues/11595
+            code: "var x = {_0y: function() {}}",
+            output: "var x = {_0y() {}}",
+            options: ["methods", { ignoreConstructors: true }],
+            errors: [METHOD_ERROR]
         },
 
         // avoidQuotes
