@@ -128,7 +128,7 @@ describe("bin/eslint.js", () => {
                 if (
                     fs.readdirSync("/").some(
                         fileName =>
-                            /^\.eslintrc(?:\.(?:js|yaml|yml|json))?$/
+                            /^\.eslintrc(?:\.(?:js|yaml|yml|json))?$/u
                                 .test(fileName)
                     )
                 ) {
@@ -142,7 +142,7 @@ describe("bin/eslint.js", () => {
                 const stderrPromise = getOutput(child).then(output => {
                     assert.match(
                         output.stderr,
-                        /ESLint couldn't find a configuration file/
+                        /ESLint couldn't find a configuration file/u
                     );
                 });
 
@@ -287,7 +287,7 @@ describe("bin/eslint.js", () => {
                 assert.throws(
                     () => JSON.parse(fs.readFileSync(CACHE_PATH, "utf8")),
                     SyntaxError,
-                    /Unexpected token/,
+                    /Unexpected token/u,
                     "Cache file should not contain valid JSON at the start"
                 );
             });

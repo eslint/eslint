@@ -160,6 +160,7 @@ rules:
     radix: "error"
     require-atomic-updates: "error"
     require-jsdoc: "error"
+    require-unicode-regexp: "error"
     rest-spread-spacing: "error"
     semi: "error"
     semi-spacing: ["error", {before: false, after: true}]

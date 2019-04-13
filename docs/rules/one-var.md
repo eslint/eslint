@@ -324,7 +324,9 @@ Examples of **correct** code for this rule with the `{ separateRequires: true }`
 
 var foo = require("foo");
 var bar = "bar";
+```
 
+```js
 var foo = require("foo"),
     bar = require("bar");
 ```

@@ -59,7 +59,7 @@ ruleTester.run("semi", rule, {
         // exports, "always"
         { code: "export * from 'foo';", parserOptions: { sourceType: "module" } },
         { code: "export { foo } from 'foo';", parserOptions: { sourceType: "module" } },
-        { code: "export { foo };", parserOptions: { sourceType: "module" } },
+        { code: "var foo = 0;export { foo };", parserOptions: { sourceType: "module" } },
         { code: "export var foo;", parserOptions: { sourceType: "module" } },
         { code: "export function foo () { }", parserOptions: { sourceType: "module" } },
         { code: "export function* foo () { }", parserOptions: { sourceType: "module" } },
@@ -77,7 +77,7 @@ ruleTester.run("semi", rule, {
         // exports, "never"
         { code: "export * from 'foo'", options: ["never"], parserOptions: { sourceType: "module" } },
         { code: "export { foo } from 'foo'", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "export { foo }", options: ["never"], parserOptions: { sourceType: "module" } },
+        { code: "var foo = 0; export { foo }", options: ["never"], parserOptions: { sourceType: "module" } },
         { code: "export var foo", options: ["never"], parserOptions: { sourceType: "module" } },
         { code: "export function foo () { }", options: ["never"], parserOptions: { sourceType: "module" } },
         { code: "export function* foo () { }", options: ["never"], parserOptions: { sourceType: "module" } },
@@ -123,7 +123,7 @@ ruleTester.run("semi", rule, {
         },
         {
             code: `
-                export {a};
+                var a = 0; export {a};
                 [a] = b
             `,
             options: ["never", { beforeStatementContinuationChars: "always" }],
@@ -182,7 +182,7 @@ ruleTester.run("semi", rule, {
         },
         {
             code: `
-                export {a}
+                var a = 0; export {a}
                 [a] = b
             `,
             options: ["never", { beforeStatementContinuationChars: "never" }],
@@ -281,7 +281,7 @@ ruleTester.run("semi", rule, {
         // exports, "always"
         { code: "export * from 'foo'", output: "export * from 'foo';", parserOptions: { sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ExportAllDeclaration" }] },
         { code: "export { foo } from 'foo'", output: "export { foo } from 'foo';", parserOptions: { sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ExportNamedDeclaration" }] },
-        { code: "export { foo }", output: "export { foo };", parserOptions: { sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ExportNamedDeclaration" }] },
+        { code: "var foo = 0;export { foo }", output: "var foo = 0;export { foo };", parserOptions: { sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ExportNamedDeclaration" }] },
         { code: "export var foo", output: "export var foo;", parserOptions: { sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "VariableDeclaration" }] },
         { code: "export let foo", output: "export let foo;", parserOptions: { sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "VariableDeclaration" }] },
         { code: "export const FOO = 42", output: "export const FOO = 42;", parserOptions: { sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "VariableDeclaration" }] },
@@ -293,7 +293,7 @@ ruleTester.run("semi", rule, {
         // exports, "never"
         { code: "export * from 'foo';", output: "export * from 'foo'", options: ["never"], parserOptions: { sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "ExportAllDeclaration" }] },
         { code: "export { foo } from 'foo';", output: "export { foo } from 'foo'", options: ["never"], parserOptions: { sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "ExportNamedDeclaration" }] },
-        { code: "export { foo };", output: "export { foo }", options: ["never"], parserOptions: { sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "ExportNamedDeclaration" }] },
+        { code: "var foo = 0;export { foo };", output: "var foo = 0;export { foo }", options: ["never"], parserOptions: { sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "ExportNamedDeclaration" }] },
         { code: "export var foo;", output: "export var foo", options: ["never"], parserOptions: { sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "VariableDeclaration" }] },
         { code: "export let foo;", output: "export let foo", options: ["never"], parserOptions: { sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "VariableDeclaration" }] },
         { code: "export const FOO = 42;", output: "export const FOO = 42", options: ["never"], parserOptions: { sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "VariableDeclaration" }] },
@@ -338,11 +338,11 @@ ruleTester.run("semi", rule, {
         },
         {
             code: `
-                export {a}
+                var a = 0; export {a}
                 [a] = b
             `,
             output: `
-                export {a};
+                var a = 0; export {a};
                 [a] = b
             `,
             options: ["never", { beforeStatementContinuationChars: "always" }],
@@ -438,11 +438,11 @@ ruleTester.run("semi", rule, {
         },
         {
             code: `
-                export {a};
+                var a = 0; export {a};
                 [a] = b
             `,
             output: `
-                export {a}
+                var a = 0; export {a}
                 [a] = b
             `,
             options: ["never", { beforeStatementContinuationChars: "never" }],
@@ -538,11 +538,11 @@ ruleTester.run("semi", rule, {
         },
         {
             code: `
-                export {a}
+                var a = 0; export {a}
                 ;[1,2,3].forEach(doSomething)
             `,
             output: `
-                export {a}
+                var a = 0; export {a}
                 [1,2,3].forEach(doSomething)
             `,
             options: ["never", { beforeStatementContinuationChars: "never" }],

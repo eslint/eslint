@@ -16,13 +16,6 @@ const RuleTester = require("../../../lib/testers/rule-tester");
 // Tests
 //------------------------------------------------------------------------------
 
-const EXPECTED_BLOCK_ERROR = "Expected a block comment instead of consecutive line comments.";
-const START_NEWLINE_ERROR = "Expected a linebreak after '/*'.";
-const END_NEWLINE_ERROR = "Expected a linebreak before '*/'.";
-const MISSING_STAR_ERROR = "Expected a '*' at the start of this line.";
-const ALIGNMENT_ERROR = "Expected this line to be aligned with the start of the comment.";
-const EXPECTED_LINES_ERROR = "Expected multiple line comments instead of a block comment.";
-
 const ruleTester = new RuleTester();
 
 ruleTester.run("multiline-comment-style", rule, {
@@ -252,7 +245,7 @@ ruleTester.run("multiline-comment-style", rule, {
                  * line comments
                  */
             `,
-            errors: [{ message: EXPECTED_BLOCK_ERROR, line: 2 }]
+            errors: [{ messageId: "expectedBlock", line: 2 }]
         },
         {
             code: `
@@ -260,7 +253,7 @@ ruleTester.run("multiline-comment-style", rule, {
                 ///bar
             `,
             output: null,
-            errors: [{ message: EXPECTED_BLOCK_ERROR, line: 2 }]
+            errors: [{ messageId: "expectedBlock", line: 2 }]
         },
         {
             code: `
@@ -281,7 +274,7 @@ ruleTester.run("multiline-comment-style", rule, {
                  * qux
                  */
             `,
-            errors: [{ message: EXPECTED_BLOCK_ERROR, line: 2 }, { message: EXPECTED_BLOCK_ERROR, line: 5 }]
+            errors: [{ messageId: "expectedBlock", line: 2 }, { messageId: "expectedBlock", line: 5 }]
         },
         {
             code: `
@@ -295,7 +288,7 @@ ruleTester.run("multiline-comment-style", rule, {
                  * is missing a newline at the start
                  */
             `,
-            errors: [{ message: START_NEWLINE_ERROR, line: 2 }]
+            errors: [{ messageId: "startNewline", line: 2 }]
         },
         {
             code: `
@@ -309,7 +302,7 @@ ruleTester.run("multiline-comment-style", rule, {
                  * is missing a newline at the start
                  */
             `,
-            errors: [{ message: START_NEWLINE_ERROR, line: 2 }]
+            errors: [{ messageId: "startNewline", line: 2 }]
         },
         {
             code: `
@@ -323,7 +316,7 @@ ruleTester.run("multiline-comment-style", rule, {
                  * is missing a newline at the end
                  */
             `,
-            errors: [{ message: END_NEWLINE_ERROR, line: 4 }]
+            errors: [{ messageId: "endNewline", line: 4 }]
         },
         {
             code: `
@@ -338,7 +331,7 @@ ruleTester.run("multiline-comment-style", rule, {
                  * is missing a '*' at the start
                  */
             `,
-            errors: [{ message: MISSING_STAR_ERROR, line: 4 }]
+            errors: [{ messageId: "missingStar", line: 4 }]
         },
         {
             code: `
@@ -353,7 +346,7 @@ ruleTester.run("multiline-comment-style", rule, {
                  * has a '*' with the wrong offset at the start
                  */
             `,
-            errors: [{ message: ALIGNMENT_ERROR, line: 4 }]
+            errors: [{ messageId: "alignment", line: 4 }]
         },
         {
             code: `
@@ -368,7 +361,7 @@ ruleTester.run("multiline-comment-style", rule, {
                    * has a '*' with the wrong offset at the start
                    */
             `,
-            errors: [{ message: ALIGNMENT_ERROR, line: 4 }]
+            errors: [{ messageId: "alignment", line: 4 }]
         },
         {
             code: `
@@ -383,7 +376,7 @@ ruleTester.run("multiline-comment-style", rule, {
                  * is misaligned
                  */
             `,
-            errors: [{ message: ALIGNMENT_ERROR, line: 5 }]
+            errors: [{ messageId: "alignment", line: 5 }]
         },
         {
             code: `
@@ -400,7 +393,7 @@ ruleTester.run("multiline-comment-style", rule, {
                  * is blank
                  */
             `,
-            errors: [{ message: ALIGNMENT_ERROR, line: 4 }]
+            errors: [{ messageId: "alignment", line: 4 }]
         },
         {
             code: `
@@ -417,7 +410,7 @@ ruleTester.run("multiline-comment-style", rule, {
                  * is blank
                  */
             `,
-            errors: [{ message: ALIGNMENT_ERROR, line: 4 }]
+            errors: [{ messageId: "alignment", line: 4 }]
         },
         {
             code: `
@@ -432,7 +425,7 @@ ruleTester.run("multiline-comment-style", rule, {
                  * is misaligned
                  */ foo
             `,
-            errors: [{ message: ALIGNMENT_ERROR, line: 5 }]
+            errors: [{ messageId: "alignment", line: 5 }]
         },
         {
             code: `
@@ -446,7 +439,7 @@ ruleTester.run("multiline-comment-style", rule, {
                 // bar
             `,
             options: ["separate-lines"],
-            errors: [{ message: EXPECTED_LINES_ERROR, line: 2 }]
+            errors: [{ messageId: "expectedLines", line: 2 }]
         },
         {
             code: `
@@ -462,7 +455,7 @@ ruleTester.run("multiline-comment-style", rule, {
                 // qux
             `,
             options: ["separate-lines"],
-            errors: [{ message: EXPECTED_LINES_ERROR, line: 2 }]
+            errors: [{ messageId: "expectedLines", line: 2 }]
         },
         {
             code: `
@@ -474,7 +467,7 @@ ruleTester.run("multiline-comment-style", rule, {
                    bar */
             `,
             options: ["bare-block"],
-            errors: [{ message: EXPECTED_BLOCK_ERROR, line: 2 }]
+            errors: [{ messageId: "expectedBlock", line: 2 }]
         },
         {
             code: `
@@ -488,7 +481,7 @@ ruleTester.run("multiline-comment-style", rule, {
                    bar */
             `,
             options: ["bare-block"],
-            errors: [{ message: EXPECTED_BLOCK_ERROR, line: 2 }]
+            errors: [{ messageId: "expectedBlock", line: 2 }]
         }
     ]
 });

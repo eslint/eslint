@@ -21,6 +21,8 @@ const assert = require("chai").assert,
 
 const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
 
+const fCache = require("file-entry-cache");
+
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
@@ -342,7 +344,7 @@ describe("CLIEngine", () => {
                         fix: true,
                         fixTypes: ["layou"]
                     });
-                }, /invalid fix type/i);
+                }, /invalid fix type/iu);
             });
 
             it("should not fix any rules when fixTypes is used without fix", () => {
@@ -481,6 +483,7 @@ describe("CLIEngine", () => {
                             {
                                 ruleId: "no-undef",
                                 severity: 2,
+                                messageId: "undef",
                                 message: "'foo' is not defined.",
                                 line: 1,
                                 column: 11,
@@ -821,18 +824,14 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.results[0].messages.length, 0);
         });
 
-        it("should report one fatal message when given a config file and a valid file and invalid parser", () => {
+        it("should throw an error when given a config file and a valid file and invalid parser", () => {
 
             engine = new CLIEngine({
                 parser: "test11",
                 useEslintrc: false
             });
 
-            const report = engine.executeOnFiles(["lib/cli.js"]);
-
-            assert.lengthOf(report.results, 1);
-            assert.lengthOf(report.results[0].messages, 1);
-            assert.isTrue(report.results[0].messages[0].fatal);
+            assert.throws(() => engine.executeOnFiles(["lib/cli.js"]), "Cannot find module 'test11'");
         });
 
         it("should report zero messages when given a directory with a .js2 file", () => {
@@ -1368,7 +1367,7 @@ describe("CLIEngine", () => {
 
             assert.throws(() => {
                 engine.executeOnFiles([getFixturePath("rules", "test", "test-custom-rule.js")]);
-            }, /Error while loading rule 'custom-rule'/);
+            }, /Error while loading rule 'custom-rule'/u);
         });
 
         it("should return one message when a custom rule matches a file", () => {
@@ -1529,7 +1528,7 @@ describe("CLIEngine", () => {
 
             const report = engine.executeOnFiles(["lib/cli*.js"]);
 
-            assert.deepStrictEqual(
+            assert.sameDeepMembers(
                 report.usedDeprecatedRules,
                 [
                     { ruleId: "indent-legacy", replacedBy: ["indent"] },
@@ -1578,7 +1577,7 @@ describe("CLIEngine", () => {
                  */
                 function convertCRLF(result) {
                     if (result && result.output) {
-                        result.output = result.output.replace(/\r\n/g, "\n");
+                        result.output = result.output.replace(/\r\n/gu, "\n");
                     }
                 }
 
@@ -1643,6 +1642,7 @@ describe("CLIEngine", () => {
                                 line: 1,
                                 endColumn: 21,
                                 endLine: 1,
+                                messageId: "undef",
                                 message: "'foo' is not defined.",
                                 nodeType: "Identifier",
                                 ruleId: "no-undef",
@@ -2373,11 +2373,12 @@ describe("CLIEngine", () => {
 
                 assert.isTrue(shell.test("-f", cacheFile), "the cache for eslint was created");
 
-                const cache = JSON.parse(fs.readFileSync(cacheFile));
+                const fileCache = fCache.createFromFile(cacheFile);
+                const { cache } = fileCache;
 
-                assert.isTrue(typeof cache[goodFile] === "object", "the entry for the good file is in the cache");
+                assert.isTrue(typeof cache.getKey(goodFile) === "object", "the entry for the good file is in the cache");
 
-                assert.isTrue(typeof cache[badFile] === "object", "the entry for the bad file is in the cache");
+                assert.isTrue(typeof cache.getKey(badFile) === "object", "the entry for the bad file is in the cache");
 
                 const cachedResult = engine.executeOnFiles([badFile, goodFile]);
 
@@ -2410,9 +2411,10 @@ describe("CLIEngine", () => {
 
                 engine.executeOnFiles([badFile, goodFile, toBeDeletedFile]);
 
-                let cache = JSON.parse(fs.readFileSync(cacheFile));
+                const fileCache = fCache.createFromFile(cacheFile);
+                let { cache } = fileCache;
 
-                assert.isTrue(typeof cache[toBeDeletedFile] === "object", "the entry for the file to be deleted is in the cache");
+                assert.isTrue(typeof cache.getKey(toBeDeletedFile) === "object", "the entry for the file to be deleted is in the cache");
 
                 // delete the file from the file system
                 fs.unlinkSync(toBeDeletedFile);
@@ -2454,9 +2456,10 @@ describe("CLIEngine", () => {
 
                 engine.executeOnFiles([badFile, goodFile, testFile2]);
 
-                let cache = JSON.parse(fs.readFileSync(cacheFile));
+                let fileCache = fCache.createFromFile(cacheFile);
+                let { cache } = fileCache;
 
-                assert.isTrue(typeof cache[testFile2] === "object", "the entry for the test-file2 is in the cache");
+                assert.isTrue(typeof cache.getKey(testFile2) === "object", "the entry for the test-file2 is in the cache");
 
                 /*
                  * we pass a different set of files minus test-file2
@@ -2465,9 +2468,10 @@ describe("CLIEngine", () => {
                  */
                 engine.executeOnFiles([badFile, goodFile]);
 
-                cache = JSON.parse(fs.readFileSync(cacheFile));
+                fileCache = fCache.createFromFile(cacheFile);
+                cache = fileCache.cache;
 
-                assert.isTrue(typeof cache[testFile2] === "object", "the entry for the test-file2 is in the cache");
+                assert.isTrue(typeof cache.getKey(testFile2) === "object", "the entry for the test-file2 is in the cache");
             });
 
             it("should not delete cache when executing on text", () => {
@@ -2588,11 +2592,12 @@ describe("CLIEngine", () => {
 
                     assert.isTrue(shell.test("-f", customCacheFile), "the cache for eslint was created");
 
-                    const cache = JSON.parse(fs.readFileSync(customCacheFile));
+                    const fileCache = fCache.createFromFile(customCacheFile);
+                    const { cache } = fileCache;
 
-                    assert.isTrue(typeof cache[goodFile] === "object", "the entry for the good file is in the cache");
+                    assert.isTrue(typeof cache.getKey(goodFile) === "object", "the entry for the good file is in the cache");
 
-                    assert.isTrue(typeof cache[badFile] === "object", "the entry for the bad file is in the cache");
+                    assert.isTrue(typeof cache.getKey(badFile) === "object", "the entry for the bad file is in the cache");
 
                     const cachedResult = engine.executeOnFiles([badFile, goodFile]);
 
@@ -2737,7 +2742,7 @@ describe("CLIEngine", () => {
             describe("autofixing with processors", () => {
                 const HTML_PROCESSOR = Object.freeze({
                     preprocess(text) {
-                        return [text.replace(/^<script>/, "").replace(/<\/script>$/, "")];
+                        return [text.replace(/^<script>/u, "").replace(/<\/script>$/u, "")];
                     },
                     postprocess(problemLists) {
                         return problemLists[0].map(problem => {
@@ -2859,6 +2864,23 @@ describe("CLIEngine", () => {
                 assert.throws(() => {
                     engine.executeOnFiles(["console.js", "non-exist.js"]);
                 }, "No files matching 'non-exist.js' were found.");
+            });
+        });
+
+        describe("overrides", () => {
+            beforeEach(() => {
+                engine = new CLIEngine({
+                    cwd: getFixturePath("cli-engine/overrides-with-dot"),
+                    ignore: false
+                });
+            });
+
+            it("should recognize dotfiles", () => {
+                const ret = engine.executeOnFiles([".test-target.js"]);
+
+                assert.strictEqual(ret.results.length, 1);
+                assert.strictEqual(ret.results[0].messages.length, 1);
+                assert.strictEqual(ret.results[0].messages[0].ruleId, "no-unused-vars");
             });
         });
     });
@@ -3017,19 +3039,21 @@ describe("CLIEngine", () => {
 
         it("should return null when a customer formatter doesn't exist", () => {
             const engine = new CLIEngine(),
-                formatterPath = getFixturePath("formatters", "doesntexist.js");
+                formatterPath = getFixturePath("formatters", "doesntexist.js"),
+                fullFormatterPath = path.resolve(formatterPath);
 
             assert.throws(() => {
                 engine.getFormatter(formatterPath);
-            }, `There was a problem loading formatter: ${formatterPath}\nError: Cannot find module '${formatterPath}'`);
+            }, `There was a problem loading formatter: ${fullFormatterPath}\nError: Cannot find module '${fullFormatterPath}'`);
         });
 
         it("should return null when a built-in formatter doesn't exist", () => {
             const engine = new CLIEngine();
+            const fullFormatterPath = path.resolve(__dirname, "..", "..", "lib", "formatters", "special");
 
             assert.throws(() => {
                 engine.getFormatter("special");
-            }, "There was a problem loading formatter: ./formatters/special\nError: Cannot find module './formatters/special'");
+            }, `There was a problem loading formatter: ${fullFormatterPath}\nError: Cannot find module '${fullFormatterPath}'`);
         });
 
         it("should throw if the required formatter exists but has an error", () => {
@@ -3085,6 +3109,20 @@ describe("CLIEngine", () => {
             assert.strictEqual(errorResults[0].messages[3].severity, 2);
             assert.strictEqual(errorResults[0].messages[4].ruleId, "eol-last");
             assert.strictEqual(errorResults[0].messages[4].severity, 2);
+        });
+
+        it("should not mutate passed report.results parameter", () => {
+            process.chdir(originalDir);
+            const engine = new CLIEngine({
+                rules: { quotes: [1, "double"] }
+            });
+
+            const report = engine.executeOnText("var foo = 'bar';");
+            const reportResultsLength = report.results[0].messages.length;
+
+            CLIEngine.getErrorResults(report.results);
+
+            assert.lengthOf(report.results[0].messages, reportResultsLength);
         });
 
         it("should report a warningCount of 0 when looking for errors only", () => {

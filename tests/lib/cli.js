@@ -402,7 +402,7 @@ describe("cli", () => {
                 const exit = cli.execute(code);
 
                 assert.strictEqual(exit, 2);
-            }, /Error while loading rule 'custom-rule': Cannot read property/);
+            }, /Error while loading rule 'custom-rule': Cannot read property/u);
         });
 
         it("should return a warning when rule is matched", () => {
@@ -589,11 +589,10 @@ describe("cli", () => {
     });
 
     describe("when given an parser name", () => {
-        it("should exit with error if parser is invalid", () => {
+        it("should exit with a fatal error if parser is invalid", () => {
             const filePath = getFixturePath("passing.js");
-            const exit = cli.execute(`--no-ignore --parser test111 ${filePath}`);
 
-            assert.strictEqual(exit, 1);
+            assert.throws(() => cli.execute(`--no-ignore --parser test111 ${filePath}`), "Cannot find module 'test111'");
         });
 
         it("should exit with no error if parser is valid", () => {
@@ -726,6 +725,7 @@ describe("cli", () => {
                 results: []
             });
             sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            sandbox.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
             fakeCLIEngine.outputFixes = sandbox.stub();
 
             localCLI = proxyquire("../../lib/cli", {
@@ -762,6 +762,7 @@ describe("cli", () => {
                 results: []
             });
             sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            sandbox.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
             fakeCLIEngine.outputFixes = sandbox.mock().once();
 
             localCLI = proxyquire("../../lib/cli", {
@@ -799,6 +800,7 @@ describe("cli", () => {
             fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
             sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns(report);
             sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            sandbox.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
             fakeCLIEngine.outputFixes = sandbox.mock().withExactArgs(report);
 
             localCLI = proxyquire("../../lib/cli", {
@@ -835,6 +837,7 @@ describe("cli", () => {
             fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
             sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns(report);
             sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            sandbox.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
             fakeCLIEngine.getErrorResults = sandbox.stub().returns([]);
             fakeCLIEngine.outputFixes = sandbox.mock().withExactArgs(report);
 
@@ -886,6 +889,7 @@ describe("cli", () => {
                 results: []
             });
             sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            sandbox.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
             fakeCLIEngine.outputFixes = sandbox.mock().never();
 
             localCLI = proxyquire("../../lib/cli", {
@@ -916,6 +920,7 @@ describe("cli", () => {
                 results: []
             });
             sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            sandbox.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
             fakeCLIEngine.outputFixes = sandbox.stub();
 
             localCLI = proxyquire("../../lib/cli", {
@@ -951,6 +956,7 @@ describe("cli", () => {
             fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
             sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns(report);
             sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            sandbox.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
             fakeCLIEngine.outputFixes = sandbox.mock().never();
 
             localCLI = proxyquire("../../lib/cli", {
@@ -987,6 +993,7 @@ describe("cli", () => {
             fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
             sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns(report);
             sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            sandbox.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
             fakeCLIEngine.getErrorResults = sandbox.stub().returns([]);
             fakeCLIEngine.outputFixes = sandbox.mock().never();
 
@@ -1024,6 +1031,7 @@ describe("cli", () => {
             fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
             sandbox.stub(fakeCLIEngine.prototype, "executeOnText").returns(report);
             sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            sandbox.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
             fakeCLIEngine.outputFixes = sandbox.mock().never();
 
             localCLI = proxyquire("../../lib/cli", {

@@ -111,14 +111,6 @@ Example:
 
 This example uses the configuration file at `~/my-eslint.json`.
 
-It also accepts a module ID of a [sharable config](../developer-guide/shareable-configs).
-
-Example:
-
-    eslint -c myconfig file.js
-
-This example directly uses the sharable config `eslint-config-myconfig`.
-
 If `.eslintrc.*` and/or `package.json` files are also used for configuration (i.e., `--no-eslintrc` was not specified), the configurations will be merged. Options from this configuration file have precedence over the options from `.eslintrc.*` and `package.json` files.
 
 #### `--env`
@@ -420,7 +412,7 @@ Store the info about processed files in order to only operate on the changed one
 
 **Note:** If you run ESLint with `--cache` and then run ESLint without `--cache`, the `.eslintcache` file will be deleted. This is necessary because the results of the lint might change and make `.eslintcache` invalid. If you want to control when the cache file is deleted, then use `--cache-location` to specify an alternate location for the cache file.
 
-**Note:**: Autofixed files are not placed in the cache. Subsequent linting that does not trigger an autofix will place it in the cache.
+**Note:** Autofixed files are not placed in the cache. Subsequent linting that does not trigger an autofix will place it in the cache.
 
 #### `--cache-file`
 

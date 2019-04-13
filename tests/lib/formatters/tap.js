@@ -72,7 +72,7 @@ describe("formatter:tap", () => {
             }]
         }];
 
-        it("should return a an error string", () => {
+        it("should return an error string", () => {
             const result = formatter(code);
 
             assert.include(result, "not ok");
@@ -80,7 +80,70 @@ describe("formatter:tap", () => {
         });
     });
 
-    describe("when passed multiple messages", () => {
+    describe("when passed a message with a severity of 1", () => {
+        const code = [{
+            filePath: "foo.js",
+            messages: [{
+                message: "Unexpected foo.",
+                severity: 1,
+                line: 5,
+                column: 10,
+                ruleId: "foo"
+            }]
+        }];
+
+        it("should return a warning string", () => {
+            const result = formatter(code);
+
+            assert.include(result, "ok");
+            assert.notInclude(result, "not ok");
+            assert.include(result, "warning");
+        });
+    });
+
+    describe("when passed multiple messages with a severity of 1", () => {
+        const code = [{
+            filePath: "foo.js",
+            messages: [{
+                message: "Foo.",
+                severity: 1,
+                line: 5,
+                column: 10,
+                ruleId: "foo"
+            }, {
+                message: "Bar.",
+                severity: 1,
+                line: 6,
+                column: 11,
+                ruleId: "bar"
+            }, {
+                message: "Baz.",
+                severity: 1,
+                line: 7,
+                column: 12,
+                ruleId: "baz"
+            }]
+        }];
+
+        it("should return a string with multiple entries", () => {
+            const result = formatter(code);
+
+            assert.include(result, "ok");
+            assert.notInclude(result, "not ok");
+            assert.include(result, "messages");
+            assert.include(result, "Foo.");
+            assert.include(result, "line: 5");
+            assert.include(result, "column: 10");
+            assert.include(result, "Bar.");
+            assert.include(result, "line: 6");
+            assert.include(result, "column: 11");
+            assert.include(result, "Baz.");
+            assert.include(result, "line: 7");
+            assert.include(result, "column: 12");
+        });
+    });
+
+    describe("when passed multiple messages with different error severity", () => {
         const code = [{
             filePath: "foo.js",
             messages: [{
@@ -146,7 +209,8 @@ describe("formatter:tap", () => {
             const result = formatter(code);
 
             assert.include(result, "not ok 1");
-            assert.include(result, "not ok 2");
+            assert.include(result, "ok 2");
+            assert.notInclude(result, "not ok 2");
         });
     });
 

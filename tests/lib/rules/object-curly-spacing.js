@@ -48,7 +48,7 @@ ruleTester.run("object-curly-spacing", rule, {
         { code: "import { house, mouse } from 'caravan'", options: ["always"], parserOptions: { sourceType: "module" } },
         { code: "import house, { mouse } from 'caravan'", options: ["always"], parserOptions: { sourceType: "module" } },
         { code: "import door, { house, mouse } from 'caravan'", options: ["always"], parserOptions: { sourceType: "module" } },
-        { code: "export { door }", options: ["always"], parserOptions: { sourceType: "module" } },
+        { code: "var door = 0;export { door }", options: ["always"], parserOptions: { sourceType: "module" } },
         { code: "import 'room'", options: ["always"], parserOptions: { sourceType: "module" } },
         { code: "import { bar as x } from 'foo';", options: ["always"], parserOptions: { sourceType: "module" } },
         { code: "import { x, } from 'foo';", options: ["always"], parserOptions: { sourceType: "module" } },
@@ -107,7 +107,7 @@ ruleTester.run("object-curly-spacing", rule, {
         { code: "export {\ndoor\n} from 'room'", options: ["never"], parserOptions: { sourceType: "module" } },
         { code: "import {house,mouse} from 'caravan'", options: ["never"], parserOptions: { sourceType: "module" } },
         { code: "import {house, mouse} from 'caravan'", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "export {door}", options: ["never"], parserOptions: { sourceType: "module" } },
+        { code: "var door = 0;export {door}", options: ["never"], parserOptions: { sourceType: "module" } },
         { code: "import 'room'", options: ["never"], parserOptions: { sourceType: "module" } },
         { code: "import x, {bar} from 'foo';", options: ["never"], parserOptions: { sourceType: "module" } },
         { code: "import x, {bar, baz} from 'foo';", options: ["never"], parserOptions: { sourceType: "module" } },
@@ -333,21 +333,21 @@ ruleTester.run("object-curly-spacing", rule, {
             ]
         },
         {
-            code: "export {bar};",
-            output: "export { bar };",
+            code: "var bar = 0;\nexport {bar};",
+            output: "var bar = 0;\nexport { bar };",
             options: ["always"],
             parserOptions: { sourceType: "module" },
             errors: [
                 {
                     message: "A space is required after '{'.",
                     type: "ExportNamedDeclaration",
-                    line: 1,
+                    line: 2,
                     column: 8
                 },
                 {
                     message: "A space is required before '}'.",
                     type: "ExportNamedDeclaration",
-                    line: 1,
+                    line: 2,
                     column: 12
                 }
             ]
@@ -768,13 +768,13 @@ ruleTester.run("object-curly-spacing", rule, {
             code: "function foo ({a, b }: Props) {\n}",
             output: "function foo ({a, b}: Props) {\n}",
             options: ["never"],
+            parser: resolvePath(__dirname, "../../fixtures/parsers/object-curly-spacing/flow-stub-parser-never-invalid"),
             errors: [
                 {
                     message: "There should be no space before '}'.",
                     type: "ObjectPattern"
                 }
-            ],
-            parser: resolvePath(__dirname, "../../fixtures/parsers/object-curly-spacing/flow-stub-parser-never-invalid")
+            ]
         }
     ]
 });

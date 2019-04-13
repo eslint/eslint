@@ -17,6 +17,8 @@ const rule = require("../../../lib/rules/template-tag-spacing"),
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
+const unexpectedError = { messageId: "unexpected" };
+const missingError = { messageId: "missing" };
 
 ruleTester.run("template-tag-spacing", rule, {
     valid: [
@@ -53,225 +55,167 @@ ruleTester.run("template-tag-spacing", rule, {
         {
             code: "tag `name`",
             output: "tag`name`",
-            errors: [
-                { message: "Unexpected space between template tag and template literal." }
-            ]
+            errors: [unexpectedError]
         },
         {
             code: "tag `name`",
             output: "tag`name`",
             options: ["never"],
-            errors: [
-                { message: "Unexpected space between template tag and template literal." }
-            ]
+            errors: [unexpectedError]
         },
         {
             code: "tag`name`",
             output: "tag `name`",
             options: ["always"],
-            errors: [
-                { message: "Missing space between template tag and template literal." }
-            ]
+            errors: [missingError]
         },
         {
             code: "tag /*here's a comment*/`Hello world`",
             output: "tag/*here's a comment*/`Hello world`",
             options: ["never"],
-            errors: [
-                { message: "Unexpected space between template tag and template literal." }
-            ]
+            errors: [unexpectedError]
         },
         {
             code: "tag/*here's a comment*/ `Hello world`",
             output: "tag/*here's a comment*/`Hello world`",
             options: ["never"],
-            errors: [
-                { message: "Unexpected space between template tag and template literal." }
-            ]
+            errors: [unexpectedError]
         },
         {
             code: "tag/*here's a comment*/`Hello world`",
             output: "tag /*here's a comment*/`Hello world`",
             options: ["always"],
-            errors: [
-                { message: "Missing space between template tag and template literal." }
-            ]
+            errors: [missingError]
         },
         {
             code: "tag // here's a comment \n`bar`",
             output: null,
-            errors: [
-                { message: "Unexpected space between template tag and template literal." }
-            ]
+            errors: [unexpectedError]
         },
         {
             code: "tag // here's a comment \n`bar`",
             output: null,
             options: ["never"],
-            errors: [
-                { message: "Unexpected space between template tag and template literal." }
-            ]
+            errors: [unexpectedError]
         },
         {
             code: "tag `hello ${name}`",
             output: "tag`hello ${name}`",
-            errors: [
-                { message: "Unexpected space between template tag and template literal." }
-            ]
+            errors: [unexpectedError]
         },
         {
             code: "tag `hello ${name}`",
             output: "tag`hello ${name}`",
             options: ["never"],
-            errors: [
-                { message: "Unexpected space between template tag and template literal." }
-            ]
+            errors: [unexpectedError]
         },
         {
             code: "tag`hello ${name}`",
             output: "tag `hello ${name}`",
             options: ["always"],
-            errors: [
-                { message: "Missing space between template tag and template literal." }
-            ]
+            errors: [missingError]
         },
         {
             code: "new tag `name`",
             output: "new tag`name`",
-            errors: [
-                { message: "Unexpected space between template tag and template literal." }
-            ]
+            errors: [unexpectedError]
         },
         {
             code: "new tag `name`",
             output: "new tag`name`",
             options: ["never"],
-            errors: [
-                { message: "Unexpected space between template tag and template literal." }
-            ]
+            errors: [unexpectedError]
         },
         {
             code: "new tag`name`",
             output: "new tag `name`",
             options: ["always"],
-            errors: [
-                { message: "Missing space between template tag and template literal." }
-            ]
+            errors: [missingError]
         },
         {
             code: "new tag `hello ${name}`",
             output: "new tag`hello ${name}`",
-            errors: [
-                { message: "Unexpected space between template tag and template literal." }
-            ]
+            errors: [unexpectedError]
         },
         {
             code: "new tag `hello ${name}`",
             output: "new tag`hello ${name}`",
             options: ["never"],
-            errors: [
-                { message: "Unexpected space between template tag and template literal." }
-            ]
+            errors: [unexpectedError]
         },
         {
             code: "new tag`hello ${name}`",
             output: "new tag `hello ${name}`",
             options: ["always"],
-            errors: [
-                { message: "Missing space between template tag and template literal." }
-            ]
+            errors: [missingError]
         },
         {
             code: "(tag) `name`",
             output: "(tag)`name`",
-            errors: [
-                { message: "Unexpected space between template tag and template literal." }
-            ]
+            errors: [unexpectedError]
         },
         {
             code: "(tag) `name`",
             output: "(tag)`name`",
             options: ["never"],
-            errors: [
-                { message: "Unexpected space between template tag and template literal." }
-            ]
+            errors: [unexpectedError]
         },
         {
             code: "(tag)`name`",
             output: "(tag) `name`",
             options: ["always"],
-            errors: [
-                { message: "Missing space between template tag and template literal." }
-            ]
+            errors: [missingError]
         },
         {
             code: "(tag) `hello ${name}`",
             output: "(tag)`hello ${name}`",
-            errors: [
-                { message: "Unexpected space between template tag and template literal." }
-            ]
+            errors: [unexpectedError]
         },
         {
             code: "(tag) `hello ${name}`",
             output: "(tag)`hello ${name}`",
             options: ["never"],
-            errors: [
-                { message: "Unexpected space between template tag and template literal." }
-            ]
+            errors: [unexpectedError]
         },
         {
             code: "(tag)`hello ${name}`",
             output: "(tag) `hello ${name}`",
             options: ["always"],
-            errors: [
-                { message: "Missing space between template tag and template literal." }
-            ]
+            errors: [missingError]
         },
         {
             code: "new (tag) `name`",
             output: "new (tag)`name`",
-            errors: [
-                { message: "Unexpected space between template tag and template literal." }
-            ]
+            errors: [unexpectedError]
         },
         {
             code: "new (tag) `name`",
             output: "new (tag)`name`",
             options: ["never"],
-            errors: [
-                { message: "Unexpected space between template tag and template literal." }
-            ]
+            errors: [unexpectedError]
         },
         {
             code: "new (tag)`name`",
             output: "new (tag) `name`",
             options: ["always"],
-            errors: [
-                { message: "Missing space between template tag and template literal." }
-            ]
+            errors: [missingError]
         },
         {
             code: "new (tag) `hello ${name}`",
             output: "new (tag)`hello ${name}`",
-            errors: [
-                { message: "Unexpected space between template tag and template literal." }
-            ]
+            errors: [unexpectedError]
         },
         {
             code: "new (tag) `hello ${name}`",
             output: "new (tag)`hello ${name}`",
             options: ["never"],
-            errors: [
-                { message: "Unexpected space between template tag and template literal." }
-            ]
+            errors: [unexpectedError]
         },
         {
             code: "new (tag)`hello ${name}`",
             output: "new (tag) `hello ${name}`",
             options: ["always"],
-            errors: [
-                { message: "Missing space between template tag and template literal." }
-            ]
+            errors: [missingError]
         }
     ]
 });

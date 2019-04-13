@@ -65,8 +65,9 @@ module.exports = {
             recommended: false
         },
         schema: [],
+        type: "suggestion",
         messages: {
-            expectedMessages: "Expected `meta.messages` property"
+            expectedMessages: "Expected `meta.messages` property."
         }
     },
 

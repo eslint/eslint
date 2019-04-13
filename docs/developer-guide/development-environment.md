@@ -83,7 +83,7 @@ Be sure to run this after making changes and before sending a pull request with 
 
 Runs just the JavaScript and JSON linting on the repository
 
-#### npm run browserify
+#### npm run webpack
 
 Generates `build/eslint.js`, a version of ESLint for use in the browser
 

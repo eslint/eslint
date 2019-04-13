@@ -1290,12 +1290,12 @@ ruleTester.run("comma-dangle", rule, {
             code: `let {a,} = {a: 1,};
 let [b,] = [1,];
 import {c,} from "foo";
-export {d,};
+let d = 0;export {d,};
 (function foo(e,) {})(f,);`,
             output: `let {a} = {a: 1};
 let [b,] = [1,];
 import {c,} from "foo";
-export {d,};
+let d = 0;export {d,};
 (function foo(e,) {})(f,);`,
             options: [{
                 objects: "never",
@@ -1314,12 +1314,12 @@ export {d,};
             code: `let {a,} = {a: 1,};
 let [b,] = [1,];
 import {c,} from "foo";
-export {d,};
+let d = 0;export {d,};
 (function foo(e,) {})(f,);`,
             output: `let {a,} = {a: 1,};
 let [b] = [1];
 import {c,} from "foo";
-export {d,};
+let d = 0;export {d,};
 (function foo(e,) {})(f,);`,
             options: [{
                 objects: "ignore",
@@ -1338,12 +1338,12 @@ export {d,};
             code: `let {a,} = {a: 1,};
 let [b,] = [1,];
 import {c,} from "foo";
-export {d,};
+let d = 0;export {d,};
 (function foo(e,) {})(f,);`,
             output: `let {a,} = {a: 1,};
 let [b,] = [1,];
 import {c} from "foo";
-export {d,};
+let d = 0;export {d,};
 (function foo(e,) {})(f,);`,
             options: [{
                 objects: "ignore",
@@ -1361,12 +1361,12 @@ export {d,};
             code: `let {a,} = {a: 1,};
 let [b,] = [1,];
 import {c,} from "foo";
-export {d,};
+let d = 0;export {d,};
 (function foo(e,) {})(f,);`,
             output: `let {a,} = {a: 1,};
 let [b,] = [1,];
 import {c,} from "foo";
-export {d};
+let d = 0;export {d};
 (function foo(e,) {})(f,);`,
             options: [{
                 objects: "ignore",
@@ -1384,12 +1384,12 @@ export {d};
             code: `let {a,} = {a: 1,};
 let [b,] = [1,];
 import {c,} from "foo";
-export {d,};
+let d = 0;export {d,};
 (function foo(e,) {})(f,);`,
             output: `let {a,} = {a: 1,};
 let [b,] = [1,];
 import {c,} from "foo";
-export {d,};
+let d = 0;export {d,};
 (function foo(e) {})(f);`,
             options: [{
                 objects: "ignore",
@@ -1410,29 +1410,37 @@ export {d,};
             code: "function foo({a}: {a: string,}) {}",
             output: "function foo({a,}: {a: string,}) {}",
             options: ["always"],
-            errors: [{ messageId: "missing" }],
-            parser: parser("object-pattern-1")
+            parser: parser("object-pattern-1"),
+            errors: [{ messageId: "missing" }]
         },
         {
             code: "function foo({a,}: {a: string}) {}",
             output: "function foo({a}: {a: string}) {}",
             options: ["never"],
-            errors: [{ messageId: "unexpected" }],
-            parser: parser("object-pattern-2")
+            parser: parser("object-pattern-2"),
+            errors: [{ messageId: "unexpected" }]
         },
         {
             code: "function foo(a): {b: boolean,} {}",
             output: "function foo(a,): {b: boolean,} {}",
             options: [{ functions: "always" }],
-            errors: [{ messageId: "missing" }],
-            parser: parser("return-type-1")
+            parser: parser("return-type-1"),
+            errors: [{ messageId: "missing" }]
         },
         {
             code: "function foo(a,): {b: boolean} {}",
             output: "function foo(a): {b: boolean} {}",
             options: [{ functions: "never" }],
-            errors: [{ messageId: "unexpected" }],
-            parser: parser("return-type-2")
+            parser: parser("return-type-2"),
+            errors: [{ messageId: "unexpected" }]
+        },
+
+        // https://github.com/eslint/eslint/issues/11502
+        {
+            code: "foo(a,)",
+            output: "foo(a)",
+            parserOptions: { ecmaVersion: 8 },
+            errors: [{ messageId: "unexpected" }]
         }
     ]
 });

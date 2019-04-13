@@ -210,6 +210,14 @@ ruleTester.run("one-var", rule, {
             parserOptions: { env: { node: true } }
         },
         {
+            code: "var bar = 'bar'; var foo = require('foo');",
+            options: [{ separateRequires: true, var: "always" }]
+        },
+        {
+            code: "var foo = require('foo'); var bar = 'bar';",
+            options: [{ separateRequires: true, var: "always" }]
+        },
+        {
             code: "var foo = require('foo'); var bar = 'bar';",
             options: [{ separateRequires: true, var: "always" }],
             parserOptions: { env: { node: true } }
@@ -483,15 +491,11 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "var a; somethingElse(); var b;",
-            output: null,
-            options: [{ var: "never" }],
-            errors: null
+            options: [{ var: "never" }]
         },
         {
             code: "var foo = 1;\nlet bar = function() { var x; };\nvar baz = 2;",
-            output: null,
-            options: [{ var: "never" }],
-            errors: null
+            options: [{ var: "never" }]
         }
     ],
     invalid: [
@@ -884,7 +888,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "const foo = 1,\n    bar = 2;",
-            output: "const foo = 1;\n\n    \nconst bar = 2;",
+            output: "const foo = 1;\n    const bar = 2;",
             options: [{ initialized: "never" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
@@ -896,7 +900,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "var foo = 1,\n    bar = 2;",
-            output: "var foo = 1;\n\n    \nvar bar = 2;",
+            output: "var foo = 1;\n    var bar = 2;",
             options: [{ initialized: "never" }],
             errors: [{
                 message: "Split initialized 'var' declarations into multiple statements.",
@@ -907,7 +911,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "var foo = 1, // comment\n    bar = 2;",
-            output: "var foo = 1;\n // comment\n    \nvar bar = 2;",
+            output: "var foo = 1; // comment\n    var bar = 2;",
             options: [{ initialized: "never" }],
             errors: [{
                 message: "Split initialized 'var' declarations into multiple statements.",
@@ -929,7 +933,7 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "var f,          /* test */ l;",
-            output: "var f;\n          /* test */ \nvar l;",
+            output: "var f;          /* test */ var l;",
             options: ["never"],
             errors: [{
                 message: "Split 'var' declarations into multiple statements.",
@@ -1090,6 +1094,17 @@ ruleTester.run("one-var", rule, {
                 type: "VariableDeclaration",
                 line: 1,
                 column: 25
+            }]
+        },
+        {
+            code: "var a = true; var b = false;",
+            output: "var a = true,  b = false;",
+            options: [{ separateRequires: true, var: "always" }],
+            errors: [{
+                message: "Combine this with the previous 'var' statement.",
+                type: "VariableDeclaration",
+                line: 1,
+                column: 15
             }]
         },
         {

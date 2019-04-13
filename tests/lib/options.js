@@ -308,7 +308,7 @@ describe("options", () => {
         it("should throw an error when supplied with a non-integer", () => {
             assert.throws(() => {
                 options.parse("--max-warnings 10.2");
-            }, /Invalid value for option 'max-warnings' - expected type Int/);
+            }, /Invalid value for option 'max-warnings' - expected type Int/u);
         });
     });
 

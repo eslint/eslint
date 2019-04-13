@@ -898,4 +898,31 @@ describe("ConfigOps", () => {
         error("foo.js", ["/foo.js"], "Invalid override pattern (expected relative path not containing '..'): /foo.js");
         error("foo.js", ["../**"], "Invalid override pattern (expected relative path not containing '..'): ../**");
     });
+
+    describe("normalizeConfigGlobal", () => {
+        [
+            ["off", "off"],
+            [true, "writeable"],
+            ["true", "writeable"],
+            [false, "readable"],
+            ["false", "readable"],
+            [null, "readable"],
+            ["writeable", "writeable"],
+            ["writable", "writeable"],
+            ["readable", "readable"],
+            ["readonly", "readable"],
+            ["writable", "writeable"]
+        ].forEach(([input, output]) => {
+            it(util.inspect(input), () => {
+                assert.strictEqual(ConfigOps.normalizeConfigGlobal(input), output);
+            });
+        });
+
+        it("throws on other inputs", () => {
+            assert.throws(
+                () => ConfigOps.normalizeConfigGlobal("something else"),
+                /^'something else' is not a valid configuration for a global \(use 'readonly', 'writable', or 'off'\)$/u
+            );
+        });
+    });
 });

@@ -42,17 +42,11 @@ describe("configInitializer", () => {
     };
     const requireStubs = {
         "../util/logging": log,
-        "../util/module-resolver": class ModuleResolver {
-
-            /**
-             * @returns {string} The path to local eslint to test.
-             */
-            resolve() { // eslint-disable-line class-methods-use-this
-                if (localESLintVersion) {
-                    return `local-eslint-${localESLintVersion}`;
-                }
-                throw new Error("Cannot find module");
+        "../util/relative-module-resolver"() {
+            if (localESLintVersion) {
+                return `local-eslint-${localESLintVersion}`;
             }
+            throw new Error("Cannot find module");
         },
         "local-eslint-3.18.0": { linter: { version: "3.18.0" }, "@noCallThru": true },
         "local-eslint-3.19.0": { linter: { version: "3.19.0" }, "@noCallThru": true },
@@ -117,20 +111,17 @@ describe("configInitializer", () => {
 
             beforeEach(() => {
                 answers = {
+                    purpose: "style",
                     source: "prompt",
                     extendDefault: true,
                     indent: 2,
                     quotes: "single",
                     linebreak: "unix",
                     semi: true,
-                    ecmaVersion: 2015,
-                    modules: true,
+                    moduleType: "esm",
                     es6Globals: true,
                     env: ["browser"],
-                    jsx: false,
-                    react: false,
-                    format: "JSON",
-                    commonjs: false
+                    format: "JSON"
                 };
             });
 
@@ -142,7 +133,9 @@ describe("configInitializer", () => {
                 assert.deepStrictEqual(config.rules["linebreak-style"], ["error", "unix"]);
                 assert.deepStrictEqual(config.rules.semi, ["error", "always"]);
                 assert.strictEqual(config.env.es6, true);
-                assert.strictEqual(config.parserOptions.ecmaVersion, 2015);
+                assert.strictEqual(config.globals.Atomics, "readonly");
+                assert.strictEqual(config.globals.SharedArrayBuffer, "readonly");
+                assert.strictEqual(config.parserOptions.ecmaVersion, 2018);
                 assert.strictEqual(config.parserOptions.sourceType, "module");
                 assert.strictEqual(config.env.browser, true);
                 assert.strictEqual(config.extends, "eslint:recommended");
@@ -155,16 +148,8 @@ describe("configInitializer", () => {
                 assert.deepStrictEqual(config.rules.semi, ["error", "never"]);
             });
 
-            it("should enable jsx flag", () => {
-                answers.jsx = true;
-                const config = init.processAnswers(answers);
-
-                assert.strictEqual(config.parserOptions.ecmaFeatures.jsx, true);
-            });
-
             it("should enable react plugin", () => {
-                answers.jsx = true;
-                answers.react = true;
+                answers.framework = "react";
                 const config = init.processAnswers(answers);
 
                 assert.strictEqual(config.parserOptions.ecmaFeatures.jsx, true);
@@ -172,12 +157,13 @@ describe("configInitializer", () => {
                 assert.deepStrictEqual(config.plugins, ["react"]);
             });
 
-            it("should not enable es6", () => {
-                answers.ecmaVersion = 5;
+            it("should enable vue plugin", () => {
+                answers.framework = "vue";
                 const config = init.processAnswers(answers);
 
-                assert.strictEqual(config.parserOptions.ecmaVersion, 5);
-                assert.isUndefined(config.env.es6);
+                assert.strictEqual(config.parserOptions.ecmaVersion, 2018);
+                assert.deepStrictEqual(config.plugins, ["vue"]);
+                assert.deepStrictEqual(config.extends, ["eslint:recommended", "plugin:vue/essential"]);
             });
 
             it("should extend eslint:recommended", () => {
@@ -193,7 +179,7 @@ describe("configInitializer", () => {
             });
 
             it("should use commonjs when set", () => {
-                answers.commonjs = true;
+                answers.moduleType = "commonjs";
                 const config = init.processAnswers(answers);
 
                 assert.isTrue(config.env.commonjs);
@@ -338,14 +324,11 @@ describe("configInitializer", () => {
                 ].join(" ");
 
                 answers = {
+                    purpose: "style",
                     source: "auto",
                     patterns,
-                    ecmaVersion: 5,
                     env: ["browser"],
-                    jsx: false,
-                    react: false,
-                    format: "JSON",
-                    commonjs: false
+                    format: "JSON"
                 };
 
                 sandbox = sinon.sandbox.create();

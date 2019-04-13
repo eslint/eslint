@@ -273,10 +273,8 @@ Map {
 
 ### Linter#defineParser
 
-Each instance of `Linter` holds a map of custom parsers. If you want to define a parser programmatically you can add this function
-with the name of the parser as first argument and the [parser object](/docs/developer-guide/working-with-plugins.md#working-with-custom-parsers) as second argument.
-
-If during linting the parser is not found, it will fallback to `require(parserId)`.
+Each instance of `Linter` holds a map of custom parsers. If you want to define a parser programmatically, you can add this function
+with the name of the parser as first argument and the [parser object](/docs/developer-guide/working-with-plugins.md#working-with-custom-parsers) as second argument. The default `"espree"` parser will already be loaded for every `Linter` instance.
 
 ```js
 const Linter = require("eslint").Linter;
@@ -677,6 +675,7 @@ Retrieves a formatter, which you can then use to format a report object. The arg
 * "[table](../user-guide/formatters#table)"
 * "[tap](../user-guide/formatters#tap)"
 * "[unix](../user-guide/formatters#unix)"
+* "[visualstudio](../user-guide/formatters#visualstudio)"
 
 or the full path to a JavaScript file containing a custom formatter. You can also omit the argument to retrieve the default formatter.
 
