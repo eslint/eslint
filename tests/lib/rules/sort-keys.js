@@ -65,6 +65,9 @@ ruleTester.run("sort-keys", rule, {
         { code: "var obj = {1:1, '11':2, 2:4, A:3}", options: ["asc"] },
         { code: "var obj = {'#':1, 'Z':2, À:3, è:4}", options: ["asc"] },
 
+        // asc, minKeys should ignore unsorted keys when number of keys is less than minKeys
+        { code: "var obj = {a:1, c:2, b:3}", options: ["asc", { minKeys: 4 }] },
+
         // asc, insensitive
         { code: "var obj = {_:2, a:1, b:3} // asc, insensitive", options: ["asc", { caseSensitive: false }] },
         { code: "var obj = {a:1, b:3, c:2}", options: ["asc", { caseSensitive: false }] },
@@ -75,6 +78,9 @@ ruleTester.run("sort-keys", rule, {
         { code: "var obj = {1:1, '11':2, 2:4, A:3}", options: ["asc", { caseSensitive: false }] },
         { code: "var obj = {'#':1, 'Z':2, À:3, è:4}", options: ["asc", { caseSensitive: false }] },
 
+        // asc, insensitive, minKeys should ignore unsorted keys when number of keys is less than minKeys
+        { code: "var obj = {$:1, A:3, _:2, a:4}", options: ["asc", { caseSensitive: false, minKeys: 5 }] },
+
         // asc, natural
         { code: "var obj = {_:2, a:1, b:3} // asc, natural", options: ["asc", { natural: true }] },
         { code: "var obj = {a:1, b:3, c:2}", options: ["asc", { natural: true }] },
@@ -83,6 +89,9 @@ ruleTester.run("sort-keys", rule, {
         { code: "var obj = {$:1, _:2, A:3, a:4}", options: ["asc", { natural: true }] },
         { code: "var obj = {1:1, 2:4, '11':2, A:3}", options: ["asc", { natural: true }] },
         { code: "var obj = {'#':1, 'Z':2, À:3, è:4}", options: ["asc", { natural: true }] },
+
+        // asc, natural, minKeys should ignore unsorted keys when number of keys is less than minKeys
+        { code: "var obj = {b_:1, a:2, b:3}", options: ["asc", { natural: true, minKeys: 4 }] },
 
         // asc, natural, insensitive
         { code: "var obj = {_:2, a:1, b:3} // asc, natural, insensitive", options: ["asc", { natural: true, caseSensitive: false }] },
@@ -94,6 +103,9 @@ ruleTester.run("sort-keys", rule, {
         { code: "var obj = {1:1, 2:4, '11':2, A:3}", options: ["asc", { natural: true, caseSensitive: false }] },
         { code: "var obj = {'#':1, 'Z':2, À:3, è:4}", options: ["asc", { natural: true, caseSensitive: false }] },
 
+        // asc, natural, insensitive, minKeys should ignore unsorted keys when number of keys is less than minKeys
+        { code: "var obj = {a:1, _:2, b:3}", options: ["asc", { natural: true, caseSensitive: false, minKeys: 4 }] },
+
         // desc
         { code: "var obj = {b:3, a:1, _:2} // desc", options: ["desc"] },
         { code: "var obj = {c:2, b:3, a:1}", options: ["desc"] },
@@ -102,6 +114,9 @@ ruleTester.run("sort-keys", rule, {
         { code: "var obj = {a:4, _:2, A:3, $:1}", options: ["desc"] },
         { code: "var obj = {A:3, 2:4, '11':2, 1:1}", options: ["desc"] },
         { code: "var obj = {è:4, À:3, 'Z':2, '#':1}", options: ["desc"] },
+
+        // desc, minKeys should ignore unsorted keys when number of keys is less than minKeys
+        { code: "var obj = {a:1, c:2, b:3}", options: ["desc", { minKeys: 4 }] },
 
         // desc, insensitive
         { code: "var obj = {b:3, a:1, _:2} // desc, insensitive", options: ["desc", { caseSensitive: false }] },
@@ -113,6 +128,9 @@ ruleTester.run("sort-keys", rule, {
         { code: "var obj = {A:3, 2:4, '11':2, 1:1}", options: ["desc", { caseSensitive: false }] },
         { code: "var obj = {è:4, À:3, 'Z':2, '#':1}", options: ["desc", { caseSensitive: false }] },
 
+        // desc, insensitive, minKeys should ignore unsorted keys when number of keys is less than minKeys
+        { code: "var obj = {$:1, _:2, A:3, a:4}", options: ["desc", { caseSensitive: false, minKeys: 5 }] },
+
         // desc, natural
         { code: "var obj = {b:3, a:1, _:2} // desc, natural", options: ["desc", { natural: true }] },
         { code: "var obj = {c:2, b:3, a:1}", options: ["desc", { natural: true }] },
@@ -122,6 +140,9 @@ ruleTester.run("sort-keys", rule, {
         { code: "var obj = {A:3, '11':2, 2:4, 1:1}", options: ["desc", { natural: true }] },
         { code: "var obj = {è:4, À:3, 'Z':2, '#':1}", options: ["desc", { natural: true }] },
 
+        // desc, natural, minKeys should ignore unsorted keys when number of keys is less than minKeys
+        { code: "var obj = {b_:1, a:2, b:3}", options: ["desc", { natural: true, minKeys: 4 }] },
+
         // desc, natural, insensitive
         { code: "var obj = {b:3, a:1, _:2} // desc, natural, insensitive", options: ["desc", { natural: true, caseSensitive: false }] },
         { code: "var obj = {c:2, b:3, a:1}", options: ["desc", { natural: true, caseSensitive: false }] },
@@ -130,7 +151,10 @@ ruleTester.run("sort-keys", rule, {
         { code: "var obj = {C:2, c:3, b_:1}", options: ["desc", { natural: true, caseSensitive: false }] },
         { code: "var obj = {a:4, A:3, _:2, $:1}", options: ["desc", { natural: true, caseSensitive: false }] },
         { code: "var obj = {A:3, '11':2, 2:4, 1:1}", options: ["desc", { natural: true, caseSensitive: false }] },
-        { code: "var obj = {è:4, À:3, 'Z':2, '#':1}", options: ["desc", { natural: true, caseSensitive: false }] }
+        { code: "var obj = {è:4, À:3, 'Z':2, '#':1}", options: ["desc", { natural: true, caseSensitive: false }] },
+
+        // desc, natural, insensitive, minKeys should ignore unsorted keys when number of keys is less than minKeys
+        { code: "var obj = {a:1, _:2, b:3}", options: ["desc", { natural: true, caseSensitive: false, minKeys: 4 }] }
     ],
     invalid: [
 
@@ -278,6 +302,15 @@ ruleTester.run("sort-keys", rule, {
             ]
         },
 
+        // asc, minKeys should error when number of keys is greater than or equal to minKeys
+        {
+            code: "var obj = {a:1, _:2, b:3}",
+            options: ["asc", { minKeys: 3 }],
+            errors: [
+                "Expected object keys to be in ascending order. '_' should be before 'a'."
+            ]
+        },
+
         // asc, insensitive
         {
             code: "var obj = {a:1, _:2, b:3} // asc, insensitive",
@@ -319,6 +352,15 @@ ruleTester.run("sort-keys", rule, {
             options: ["asc", { caseSensitive: false }],
             errors: [
                 "Expected object keys to be in insensitive ascending order. 'Z' should be before 'À'."
+            ]
+        },
+
+        // asc, insensitive, minKeys should error when number of keys is greater than or equal to minKeys
+        {
+            code: "var obj = {a:1, _:2, b:3}",
+            options: ["asc", { caseSensitive: false, minKeys: 3 }],
+            errors: [
+                "Expected object keys to be in insensitive ascending order. '_' should be before 'a'."
             ]
         },
 
@@ -373,6 +415,15 @@ ruleTester.run("sort-keys", rule, {
             ]
         },
 
+        // asc, natural, minKeys should error when number of keys is greater than or equal to minKeys
+        {
+            code: "var obj = {a:1, _:2, b:3}",
+            options: ["asc", { natural: true, minKeys: 2 }],
+            errors: [
+                "Expected object keys to be in natural ascending order. '_' should be before 'a'."
+            ]
+        },
+
         // asc, natural, insensitive
         {
             code: "var obj = {a:1, _:2, b:3} // asc, natural, insensitive",
@@ -414,6 +465,15 @@ ruleTester.run("sort-keys", rule, {
             options: ["asc", { natural: true, caseSensitive: false }],
             errors: [
                 "Expected object keys to be in natural insensitive ascending order. 'Z' should be before 'À'."
+            ]
+        },
+
+        // asc, natural, insensitive, minKeys should error when number of keys is greater than or equal to minKeys
+        {
+            code: "var obj = {a:1, _:2, b:3}",
+            options: ["asc", { natural: true, caseSensitive: false, minKeys: 3 }],
+            errors: [
+                "Expected object keys to be in natural insensitive ascending order. '_' should be before 'a'."
             ]
         },
 
@@ -471,6 +531,15 @@ ruleTester.run("sort-keys", rule, {
             ]
         },
 
+        // desc, minKeys should error when number of keys is greater than or equal to minKeys
+        {
+            code: "var obj = {a:1, _:2, b:3}",
+            options: ["desc", { minKeys: 3 }],
+            errors: [
+                "Expected object keys to be in descending order. 'b' should be before '_'."
+            ]
+        },
+
         // desc, insensitive
         {
             code: "var obj = {a:1, _:2, b:3} // desc, insensitive",
@@ -522,6 +591,15 @@ ruleTester.run("sort-keys", rule, {
             errors: [
                 "Expected object keys to be in insensitive descending order. 'À' should be before '#'.",
                 "Expected object keys to be in insensitive descending order. 'è' should be before 'Z'."
+            ]
+        },
+
+        // desc, insensitive should error when number of keys is greater than or equal to minKeys
+        {
+            code: "var obj = {a:1, _:2, b:3}",
+            options: ["desc", { caseSensitive: false, minKeys: 2 }],
+            errors: [
+                "Expected object keys to be in insensitive descending order. 'b' should be before '_'."
             ]
         },
 
@@ -580,6 +658,15 @@ ruleTester.run("sort-keys", rule, {
             ]
         },
 
+        // desc, natural should error when number of keys is greater than or equal to minKeys
+        {
+            code: "var obj = {a:1, _:2, b:3}",
+            options: ["desc", { natural: true, minKeys: 3 }],
+            errors: [
+                "Expected object keys to be in natural descending order. 'b' should be before '_'."
+            ]
+        },
+
         // desc, natural, insensitive
         {
             code: "var obj = {a:1, _:2, b:3} // desc, natural, insensitive",
@@ -632,6 +719,15 @@ ruleTester.run("sort-keys", rule, {
             errors: [
                 "Expected object keys to be in natural insensitive descending order. 'À' should be before '#'.",
                 "Expected object keys to be in natural insensitive descending order. 'è' should be before 'Z'."
+            ]
+        },
+
+        // desc, natural, insensitive should error when number of keys is greater than or equal to minKeys
+        {
+            code: "var obj = {a:1, _:2, b:3}",
+            options: ["desc", { natural: true, caseSensitive: false, minKeys: 2 }],
+            errors: [
+                "Expected object keys to be in natural insensitive descending order. 'b' should be before '_'."
             ]
         }
     ]
