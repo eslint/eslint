@@ -268,7 +268,7 @@ If you're not sure which config file needs to be updated, it may be useful to ru
 
 ## <a name="unicode-regexes"></a> User-provided regular expressions in rule options are parsed with the unicode flag
 
-Rules like [`max-len`](/docs/rules/max-len), accept a string option which is interpreted as a regular expression. In ESLint v6.0.0, these regular expressions are interpreted with the [unicode flag](https://mathiasbynens.be/notes/es6-unicode-regex), which should exhibit more reasonable behavior when matching characters like astral symbols. Unicode regexes also validate escape sequences more strictly than non-unicode regexes.
+Rules like [`max-len`](/docs/rules/max-len) accept a string option which is interpreted as a regular expression. In ESLint v6.0.0, these regular expressions are interpreted with the [unicode flag](https://mathiasbynens.be/notes/es6-unicode-regex), which should exhibit more reasonable behavior when matching characters like astral symbols. Unicode regexes also validate escape sequences more strictly than non-unicode regexes.
 
 **To address:** If you get rule option validation errors after upgrading, ensure that any regular expressions in your rule options have no invalid escape sequences.
 
