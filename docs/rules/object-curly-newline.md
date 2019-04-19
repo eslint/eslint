@@ -347,9 +347,7 @@ let {i, j
 } = obj;
 let {
     k, l} = obj;
-let {m,
-    n} = obj;
-let {o = function() {
+let {m = function() {
     dosomething();
 }} = obj;
 ```
@@ -385,13 +383,15 @@ let {i, j} = obj;
 let {
     k, l
 } = obj;
+let {m,
+    n} = obj;
 let {
-    m,
-    n
+    o,
+    p
 } = obj;
-let {o = function() {dosomething();}} = obj;
+let {q = function() {dosomething();}} = obj;
 let {
-    p = function() {
+    r = function() {
         dosomething();
     }
 } = obj;
