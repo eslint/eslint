@@ -23,6 +23,16 @@
     "profile": "beefy tests/bench/bench.js --open -- -t brfs -t ./tests/bench/xform-rules.js -r espree",
     "coveralls": "cat ./coverage/lcov.info | coveralls"
   },
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.js": [
+      "node ./bin/eslint.js --fix",
+      "git add"
+    ],
+    "*.md": "markdownlint"
+  },
   "files": [
     "LICENSE",
     "README.md",
@@ -98,6 +108,7 @@
     "karma-mocha-reporter": "^2.2.3",
     "karma-webpack": "^4.0.0-rc.6",
     "leche": "^2.2.3",
+    "lint-staged": "^8.1.5",
     "load-perf": "^0.2.0",
     "markdownlint": "^0.13.0",
     "mocha": "^6.1.2",
@@ -111,7 +122,8 @@
     "temp": "^0.9.0",
     "through": "^2.3.8",
     "webpack": "^4.29.6",
-    "webpack-cli": "^3.3.0"
+    "webpack-cli": "^3.3.0",
+    "yorkie": "^2.0.0"
   },
   "keywords": [
     "ast",
