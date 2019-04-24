@@ -824,18 +824,14 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.results[0].messages.length, 0);
         });
 
-        it("should report one fatal message when given a config file and a valid file and invalid parser", () => {
+        it("should throw an error when given a config file and a valid file and invalid parser", () => {
 
             engine = new CLIEngine({
                 parser: "test11",
                 useEslintrc: false
             });
 
-            const report = engine.executeOnFiles(["lib/cli.js"]);
-
-            assert.lengthOf(report.results, 1);
-            assert.lengthOf(report.results[0].messages, 1);
-            assert.isTrue(report.results[0].messages[0].fatal);
+            assert.throws(() => engine.executeOnFiles(["lib/cli.js"]), "Cannot find module 'test11'");
         });
 
         it("should report zero messages when given a directory with a .js2 file", () => {
@@ -1532,7 +1528,7 @@ describe("CLIEngine", () => {
 
             const report = engine.executeOnFiles(["lib/cli*.js"]);
 
-            assert.deepStrictEqual(
+            assert.sameDeepMembers(
                 report.usedDeprecatedRules,
                 [
                     { ruleId: "indent-legacy", replacedBy: ["indent"] },
@@ -2870,6 +2866,23 @@ describe("CLIEngine", () => {
                 }, "No files matching 'non-exist.js' were found.");
             });
         });
+
+        describe("overrides", () => {
+            beforeEach(() => {
+                engine = new CLIEngine({
+                    cwd: getFixturePath("cli-engine/overrides-with-dot"),
+                    ignore: false
+                });
+            });
+
+            it("should recognize dotfiles", () => {
+                const ret = engine.executeOnFiles([".test-target.js"]);
+
+                assert.strictEqual(ret.results.length, 1);
+                assert.strictEqual(ret.results[0].messages.length, 1);
+                assert.strictEqual(ret.results[0].messages[0].ruleId, "no-unused-vars");
+            });
+        });
     });
 
     describe("getConfigForFile", () => {
@@ -3026,19 +3039,21 @@ describe("CLIEngine", () => {
 
         it("should return null when a customer formatter doesn't exist", () => {
             const engine = new CLIEngine(),
-                formatterPath = getFixturePath("formatters", "doesntexist.js");
+                formatterPath = getFixturePath("formatters", "doesntexist.js"),
+                fullFormatterPath = path.resolve(formatterPath);
 
             assert.throws(() => {
                 engine.getFormatter(formatterPath);
-            }, `There was a problem loading formatter: ${formatterPath}\nError: Cannot find module '${formatterPath}'`);
+            }, `There was a problem loading formatter: ${fullFormatterPath}\nError: Cannot find module '${fullFormatterPath}'`);
         });
 
         it("should return null when a built-in formatter doesn't exist", () => {
             const engine = new CLIEngine();
+            const fullFormatterPath = path.resolve(__dirname, "..", "..", "lib", "formatters", "special");
 
             assert.throws(() => {
                 engine.getFormatter("special");
-            }, "There was a problem loading formatter: ./formatters/special\nError: Cannot find module './formatters/special'");
+            }, `There was a problem loading formatter: ${fullFormatterPath}\nError: Cannot find module '${fullFormatterPath}'`);
         });
 
         it("should throw if the required formatter exists but has an error", () => {
@@ -3094,6 +3109,20 @@ describe("CLIEngine", () => {
             assert.strictEqual(errorResults[0].messages[3].severity, 2);
             assert.strictEqual(errorResults[0].messages[4].ruleId, "eol-last");
             assert.strictEqual(errorResults[0].messages[4].severity, 2);
+        });
+
+        it("should not mutate passed report.results parameter", () => {
+            process.chdir(originalDir);
+            const engine = new CLIEngine({
+                rules: { quotes: [1, "double"] }
+            });
+
+            const report = engine.executeOnText("var foo = 'bar';");
+            const reportResultsLength = report.results[0].messages.length;
+
+            CLIEngine.getErrorResults(report.results);
+
+            assert.lengthOf(report.results[0].messages, reportResultsLength);
         });
 
         it("should report a warningCount of 0 when looking for errors only", () => {

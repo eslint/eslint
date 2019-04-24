@@ -178,6 +178,17 @@ ruleTester.run("max-len", rule, {
         {
             code: "'🙂😀😆😎😊😜😉👍'",
             options: [10]
+        },
+
+        // Astral symbols in pattern (only matched by unicode regexes)
+        {
+            code: "var longNameLongName = '𝌆𝌆'",
+            options: [5, { ignorePattern: "𝌆{2}" }]
+        },
+
+        {
+            code: "\tfoo",
+            options: [4, { tabWidth: 0 }]
         }
     ],
 
@@ -614,6 +625,20 @@ ruleTester.run("max-len", rule, {
                 {
                     messageId: "max",
                     data: { lineNumber: 1, maxLength: 10 },
+                    type: "Program",
+                    line: 1,
+                    column: 1
+                }
+            ]
+        },
+
+        {
+            code: "a",
+            options: [0],
+            errors: [
+                {
+                    messageId: "max",
+                    data: { lineNumber: 1, maxLength: 0 },
                     type: "Program",
                     line: 1,
                     column: 1

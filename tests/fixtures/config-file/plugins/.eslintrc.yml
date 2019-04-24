@@ -1,8 +1,8 @@
 plugins:
-    - test
+    - with-environment
 
 rules:
-    test/foo: 2
+    with-environment/foo: 2
 
 env:
-    test/bar: true
+    with-environment/bar: true

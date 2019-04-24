@@ -621,12 +621,12 @@ describe("RuleTester", () => {
             invalid: [
                 {
                     code: "eval(foo)",
-                    parser: "esprima",
+                    parser: require.resolve("esprima"),
                     errors: [{}]
                 }
             ]
         });
-        assert.strictEqual(spy.args[1][1].parser, "esprima");
+        assert.strictEqual(spy.args[1][1].parser, require.resolve("esprima"));
     });
 
     it("should prevent invalid options schemas", () => {
@@ -657,6 +657,43 @@ describe("RuleTester", () => {
             });
         }, /Value "bar" should be equal to one of the allowed values./u);
 
+    });
+
+    it("should disallow invalid defaults in rules", () => {
+        const ruleWithInvalidDefaults = {
+            meta: {
+                schema: [
+                    {
+                        oneOf: [
+                            { enum: ["foo"] },
+                            {
+                                type: "object",
+                                properties: {
+                                    foo: {
+                                        enum: ["foo", "bar"],
+                                        default: "foo"
+                                    }
+                                },
+                                additionalProperties: false
+                            }
+                        ]
+                    }
+                ]
+            },
+            create: () => ({})
+        };
+
+        assert.throws(() => {
+            ruleTester.run("invalid-defaults", ruleWithInvalidDefaults, {
+                valid: [
+                    {
+                        code: "foo",
+                        options: [{}]
+                    }
+                ],
+                invalid: []
+            });
+        }, /Schema for rule invalid-defaults is invalid: default is ignored for: data1\.foo/u);
     });
 
     it("throw an error when an unknown config option is included", () => {
