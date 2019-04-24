@@ -141,7 +141,7 @@ describe("ConfigFile", () => {
                     extends: "plugin:enable-nonexistent-parser/bar",
                     rules: { eqeqeq: 2 }
                 }, configContext, "/whatever");
-            }, /Failed to resolve parser 'nonexistent-parser' declared in '[-\w/.:\\]+'.\nReferenced from: \/whatever/u);
+            }, /Failed to resolve parser 'nonexistent-parser' declared in '.+'.\nReferenced from: \/whatever/u);
         });
 
         it("should fall back to default parser when a parser called 'espree' is not found", () => {
