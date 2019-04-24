@@ -70,6 +70,13 @@ ruleTester.run("no-throw-literal", rule, {
             }]
         },
         {
+            code: "throw {};",
+            errors: [{
+                messageId: "object",
+                type: "ThrowStatement"
+            }]
+        },
+        {
             code: "throw undefined;",
             errors: [{
                 messageId: "undef",
