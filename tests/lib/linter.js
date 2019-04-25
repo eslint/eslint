@@ -3469,18 +3469,18 @@ describe("Linter", () => {
 
                             const foo = getVariable(scope, "foo");
 
-                            assert.strictEqual(true, foo.eslintExplicitGlobal);
-                            assert.strictEqual(comments[0], foo.eslintExplicitGlobalComment);
+                            assert.strictEqual(foo.eslintExplicitGlobal, true);
+                            assert.strictEqual(foo.eslintExplicitGlobalComments[0], comments[0]);
 
                             const bar = getVariable(scope, "bar");
 
-                            assert.strictEqual(true, bar.eslintExplicitGlobal);
-                            assert.strictEqual(comments[1], bar.eslintExplicitGlobalComment);
+                            assert.strictEqual(bar.eslintExplicitGlobal, true);
+                            assert.strictEqual(bar.eslintExplicitGlobalComments[0], comments[1]);
 
                             const baz = getVariable(scope, "baz");
 
-                            assert.strictEqual(true, baz.eslintExplicitGlobal);
-                            assert.strictEqual(comments[1], baz.eslintExplicitGlobalComment);
+                            assert.strictEqual(baz.eslintExplicitGlobal, true);
+                            assert.strictEqual(baz.eslintExplicitGlobalComments[0], comments[1]);
 
                             ok = true;
                         }
