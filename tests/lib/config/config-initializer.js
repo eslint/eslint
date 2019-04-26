@@ -360,7 +360,7 @@ describe("configInitializer", () => {
 
             it("should extend and not disable recommended rules", () => {
                 assert.strictEqual(config.extends, "eslint:recommended");
-                assert.notProperty(config.rules, "no-console");
+                assert.notProperty(config.rules, "no-debugger");
             });
 
             it("should support new ES features if using later ES version", () => {
