@@ -14,11 +14,15 @@ The lists below are ordered roughly by the number of users each change is expect
 1. [The `comma-dangle` rule is now more strict by default](#comma-dangle-updates)
 1. [The `no-confusing-arrow` rule is now more lenient by default](#no-confusing-arrow-updates)
 1. [Overrides in a config file can now match dotfiles](#overrides-dotfiles)
+1. [Overrides in an extended config file can now be overridden by a parent config file](#overrides-precedence)
+1. [Configuration values for globals are now validated](#globals-validation)
 1. [The deprecated `experimentalObjectRestSpread` option has been removed](#experimental-object-rest-spread)
+1. [User-provided regular expressions in rule options are parsed with the unicode flag](#unicode-regexes)
 
 ### Breaking changes for plugin/custom rule developers
 
 1. [Plugin authors may need to update installation instructions](#plugin-documentation)
+1. [`RuleTester` now validates against invalid `default` keywords in rule schemas](#rule-tester-defaults)
 1. [The `eslintExplicitGlobalComment` scope analysis property has been removed](#eslintExplicitGlobalComment)
 
 ### Breaking changes for integration developers
@@ -103,7 +107,7 @@ As a rule of thumb: With ESLint v6, plugins should always be installed locally, 
 
 * The `ecmaVersion` parser option is set to something other than a number, such as the string `"2015"`. (Previously, a non-number option would simply be ignored.)
 * The `sourceType: "module"` parser option is set while `ecmaVersion` is set to `5` or left unspecified. (Previously, setting `sourceType: "module"` would implicitly cause `ecmaVersion` to be set to a minimum of 2015, which could be surprising.)
-* Setting `sourceType` to anything other than `"script"` or `"module"` now causes an error to be thrown.
+* The `sourceType` is set to anything other than `"script"` or `"module"`.
 
 **To address:** If your config sets `ecmaVersion` to something other than a number, you can restore the previous behavior by removing `ecmaVersion`. (However, you may want to double-check that your config is actually working as expected.) If your config sets `parserOptions: { sourceType: "module" }` without also setting `parserOptions.ecmaVersion`, you should add `parserOptions: { ecmaVersion: 2015 }` to restore the previous behavior.
 
@@ -179,6 +183,59 @@ Due to a bug, the glob patterns in a `files` list in an `overrides` section of a
 
 **Related issue(s):** [eslint/eslint#11201](https://github.com/eslint/eslint/issues/11201)
 
+## <a name="overrides-precedence"></a> Overrides in an extended config file can now be overridden by a parent config file
+
+**Note:** This update is planned, but has not been implemented in the latest alpha release yet.
+
+Due to a bug, it was previously the case that an `overrides` block in a shareable config had precedence over the top level of a parent config. For example, with the following config setup, the `semi` rule would end up enabled even though it was explicitly disabled in the end user's config:
+
+```js
+// .eslintrc.js
+module.exports = {
+  extends: ["foo"],
+  rules: {
+    semi: "off"
+  }
+};
+```
+
+```js
+// eslint-config-foo/index.js
+module.exports = {
+  overrides: {
+    files: ["*.js"],
+    rules: {
+      semi: "error"
+    }
+  }
+};
+```
+
+In ESLint v6.0.0, a parent config always has precedence over extended configs, even with `overrides` blocks.
+
+**To address:** We expect the impact of this issue to be very low because most shareable configs don't use `overrides` blocks. However, if you use a shareable config with `overrides` blocks, you might encounter a change in behavior due to something that is explicitly specified in your config but was inactive until now. If you would rather inherit the behavior from the shareable config, simply remove the corresponding entry from your own config. (In the example above, the previous behavior could be restored by removing `semi: "off"` from `.eslintrc.js`.)
+
+**Related issue(s):** [eslint/eslint#11510](https://github.com/eslint/eslint/issues/11510)
+
+## <a name="globals-validation"></a> Configuration values for globals are now validated
+
+Previously, when configuring a set of global variables with an object, it was possible to use anything as the values of the object. An unknown value would be treated the same as `"writable"`.
+
+```js
+// .eslintrc.js
+module.exports = {
+  globals: {
+    foo: "readonly",
+    bar: "writable",
+    baz: "hello!" // ???
+  }
+};
+```
+
+With this change, any unknown values in a `globals` object result in a config validation error.
+
+**To address:** If you see config validation errors related to globals after updating, ensure that all values configured for globals are either `readonly`, `writable`, or `off`. (ESLint also accepts some alternate spellings and variants for compatibility.)
+
 ## <a name="experimental-object-rest-spread"></a> The depreacted `experimentalObjectRestSpread` option has been removed
 
 Previously, when using the default parser, a config could use the `experimentalObjectRestSpread` option to enable parsing support for object rest/spread properties:
@@ -209,13 +266,29 @@ If you're not sure which config file needs to be updated, it may be useful to ru
 
 **Related issue(s):** [eslint/eslint#9990](https://github.com/eslint/eslint/issues/9990)
 
+## <a name="unicode-regexes"></a> User-provided regular expressions in rule options are parsed with the unicode flag
+
+Rules like [`max-len`](/docs/rules/max-len) accept a string option which is interpreted as a regular expression. In ESLint v6.0.0, these regular expressions are interpreted with the [unicode flag](https://mathiasbynens.be/notes/es6-unicode-regex), which should exhibit more reasonable behavior when matching characters like astral symbols. Unicode regexes also validate escape sequences more strictly than non-unicode regexes.
+
+**To address:** If you get rule option validation errors after upgrading, ensure that any regular expressions in your rule options have no invalid escape sequences.
+
+**Related issue(s):** [eslint/eslint#11423](https://github.com/eslint/eslint/issues/11423)
+
 ---
 
 ## <a name="plugin-documentation"></a> Plugin authors may need to update installation instructions
 
-If you maintain a plugin and provide installation instructions, you should ensure that the installation instructions are up to date with the [user-facing changes to how plugins are loaded](#package-loading-simplification). In particular, if your plugin was generated with the [`generator-eslint`](https://github.com/eslint/generator-eslint) package, it likely contains outdated instructions for how to use the plugin with global ESLint installations.)
+If you maintain a plugin and provide installation instructions, you should ensure that the installation instructions are up to date with the [user-facing changes to how plugins are loaded](#package-loading-simplification). In particular, if your plugin was generated with the [`generator-eslint`](https://github.com/eslint/generator-eslint) package, it likely contains outdated instructions for how to use the plugin with global ESLint installations.
 
 **Related issue(s):** [eslint/rfcs#7](https://github.com/eslint/rfcs/pull/7)
+
+## <a name="rule-tester-defaults"></a> `RuleTester` now validates against invalid `default` keywords in rule schemas
+
+In some cases, rule schemas can use the `default` keyword to automatically specify default values for rule options. However, the `default` keyword is only effective in certain schema locations, and is ignored elsewhere, which creates a risk of bugs if a rule incorrectly expects a default value to be provided as a rule option. In ESLint v6.0.0, `RuleTester` will raise an error if a rule has an invalid `default` keyword in its schema.
+
+**To address:** If `RuleTester` starts reporting an error about an invalid default, you can remove the `default` property at the indicated location in your rule schema, and the rule will behave the same way. (If this happens, you might also want to verify that the rule behaves correctly when no option value is provided in that location.)
+
+**Related issue(s):** [eslint/eslint#11473](https://github.com/eslint/eslint/issues/11473)
 
 ## <a name="eslintExplicitGlobalComment"></a> The `eslintExplicitGlobalComment` scope analysis property has been removed
 
@@ -225,7 +298,7 @@ Previously, ESLint would add an `eslintExplicitGlobalComment` property to `Varia
 
 **To address:** If you maintain a rule that uses the `eslintExplicitGlobalComment` property, update it to use the `eslintExplicitGlobalComments` property as a list instead.
 
-**Related issue(s):**: [eslint/rfcs#17](https://github.com/eslint/rfcs/pull/17)
+**Related issue(s):** [eslint/rfcs#17](https://github.com/eslint/rfcs/pull/17)
 
 ---
 
