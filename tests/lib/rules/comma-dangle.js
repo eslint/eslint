@@ -11,7 +11,7 @@
 
 const path = require("path"),
     rule = require("../../../lib/rules/comma-dangle"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Helpers

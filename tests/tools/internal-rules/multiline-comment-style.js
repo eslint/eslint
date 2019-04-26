@@ -1,7 +1,7 @@
 "use strict";
 
 const rule = require("../../../tools/internal-rules/multiline-comment-style");
-const RuleTester = require("../../../lib/testers/rule-tester");
+const { RuleTester } = require("../../../lib/rule-tester");
 const ruleTester = new RuleTester();
 
 ruleTester.run("internal-rules/multiline-comment-style", rule, {

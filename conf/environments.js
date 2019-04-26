@@ -14,7 +14,7 @@ const globals = require("globals");
 // Public Interface
 //------------------------------------------------------------------------------
 
-/** @type {Map<string, import("../lib/util/types").Environment>} */
+/** @type {Map<string, import("../lib/shared/types").Environment>} */
 module.exports = new Map(Object.entries({
     builtin: {
         globals: globals.es5

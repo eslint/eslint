@@ -4,7 +4,7 @@
 "use strict";
 
 const espree = require("espree");
-const Traverser = require("../../lib/util/traverser");
+const Traverser = require("../../lib/shared/traverser");
 
 /**
  * Define `start`/`end` properties as throwing error.

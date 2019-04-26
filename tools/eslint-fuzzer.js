@@ -12,8 +12,8 @@
 const assert = require("assert");
 const lodash = require("lodash");
 const eslump = require("eslump");
-const SourceCodeFixer = require("../lib/util/source-code-fixer");
-const ruleConfigs = require("../lib/config/config-rule").createCoreRuleConfigs();
+const SourceCodeFixer = require("../lib/linter/source-code-fixer");
+const ruleConfigs = require("../lib/init/config-rule").createCoreRuleConfigs();
 
 //------------------------------------------------------------------------------
 // Public API

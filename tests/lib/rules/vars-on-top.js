@@ -10,13 +10,13 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/vars-on-top"),
-    EslintTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new EslintTester();
+const ruleTester = new RuleTester();
 const error = { messageId: "top", type: "VariableDeclaration" };
 
 ruleTester.run("vars-on-top", rule, {

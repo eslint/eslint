@@ -11,7 +11,7 @@ const { assert } = require("chai");
 const sh = require("shelljs");
 const { CascadingConfigArrayFactory } =
     require("../../../lib/cli-engine/cascading-config-array-factory");
-const { IgnoredPaths } = require("../../../lib/util/ignored-paths");
+const { IgnoredPaths } = require("../../../lib/cli-engine/ignored-paths");
 const { defineFileEnumeratorWithInMemoryFileSystem } = require("./_utils");
 
 describe("FileEnumerator", () => {

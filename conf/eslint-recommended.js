@@ -6,7 +6,7 @@
 
 "use strict";
 
-const builtInRules = require("../lib/built-in-rules-index");
+const builtInRules = require("../lib/rules");
 const recommendedRules = {};
 
 for (const [ruleId, rule] of builtInRules) {
@@ -15,5 +15,5 @@ for (const [ruleId, rule] of builtInRules) {
     }
 }
 
-/** @type {import("../lib/util/types").ConfigData} */
+/** @type {import("../lib/shared/types").ConfigData} */
 module.exports = { rules: recommendedRules };

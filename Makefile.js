@@ -64,6 +64,7 @@ const NODE = "node ", // intentional extra space
     ESLINT = `${NODE} bin/eslint.js --report-unused-disable-directives `,
 
     // Files
+    RULE_FILES = glob.sync("lib/rules/*.js").filter(filePath => path.basename(filePath) !== "index.js"),
     JSON_FILES = find("conf/").filter(fileType("json")),
     MARKDOWN_FILES_ARRAY = find("docs/").concat(ls(".")).filter(fileType("md")),
     TEST_FILES = "\"tests/{bin,lib,tools}/**/*.js\"",
@@ -119,10 +120,10 @@ function execSilent(cmd) {
  * @private
  */
 function generateBlogPost(releaseInfo, prereleaseMajorVersion) {
-    const ruleList = ls("lib/rules")
+    const ruleList = RULE_FILES
 
         // Strip the .js extension
-        .map(ruleFileName => ruleFileName.replace(/\.js$/u, ""))
+        .map(ruleFileName => path.basename(ruleFileName, ".js"))
 
         /*
          * Sort by length descending. This ensures that rule names which are substrings of other rule names are not
@@ -171,15 +172,14 @@ function generateFormatterExamples(formatterInfo, prereleaseVersion) {
 
 /**
  * Generate a doc page that lists all of the rules and links to them
- * @param {string} basedir The directory in which to look for code.
  * @returns {void}
  */
-function generateRuleIndexPage(basedir) {
+function generateRuleIndexPage() {
     const outputFile = "../eslint.github.io/_data/rules.yml",
         categoryList = "conf/category-list.json",
         categoriesData = JSON.parse(cat(path.resolve(categoryList)));
 
-    find(path.join(basedir, "/lib/rules/")).filter(fileType("js"))
+    RULE_FILES
         .map(filename => [filename, path.basename(filename, ".js")])
         .sort((a, b) => a[1].localeCompare(b[1]))
         .forEach(pair => {
@@ -792,10 +792,9 @@ target.checkRuleFiles = function() {
     echo("Validating rules");
 
     const ruleTypes = require("./tools/rule-types.json");
-    const ruleFiles = find("lib/rules/").filter(fileType("js"));
     let errors = 0;
 
-    ruleFiles.forEach(filename => {
+    RULE_FILES.forEach(filename => {
         const basename = path.basename(filename, ".js");
         const docFilename = `docs/rules/${basename}.md`;
 
@@ -847,12 +846,12 @@ target.checkRuleFiles = function() {
         }
 
         // check parity between rules index file and rules directory
-        const builtInRulesIndexPath = "./lib/built-in-rules-index";
+        const builtInRulesIndexPath = "./lib/rules/index.js";
         const ruleIdsInIndex = require(builtInRulesIndexPath);
         const ruleEntryFromIndexIsMissing = !ruleIdsInIndex.has(basename);
 
         if (ruleEntryFromIndexIsMissing) {
-            console.error(`Missing rule from index (${builtInRulesIndexPath}.js): ${basename}. If you just added a ` +
+            console.error(`Missing rule from index (${builtInRulesIndexPath}): ${basename}. If you just added a ` +
                 "new rule then add an entry for it in this file.");
             errors++;
         }
