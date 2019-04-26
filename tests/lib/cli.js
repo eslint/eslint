@@ -467,7 +467,7 @@ describe("cli", () => {
 
             cli.execute(`--no-eslintrc --config ./conf/eslint-recommended.js --no-ignore ${files.join(" ")}`);
 
-            assert.strictEqual(log.info.args[0][0].split("\n").length, 11);
+            assert.strictEqual(log.info.args[0][0].split("\n").length, 10);
         });
     });
 
