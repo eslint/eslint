@@ -46,14 +46,11 @@ As of April 2018, Node.js 6 will be at EOL and will no longer be receiving secur
 
 ## <a name="eslint-recommended-changes"/> `eslint:recommended` has been updated
 
-**Note:** This update is planned, but has not been implemented in the latest alpha release yet.
-
 The following rules have been added to the [`eslint:recommended`](https://eslint.org/docs/user-guide/configuring#using-eslintrecommended) config:
-
-<!-- FIXME: this list is not final yet, see https://github.com/eslint/eslint/issues/10768 -->
 
 * [`no-async-promise-executor`](https://eslint.org/docs/rules/no-async-promise-executor) disallows using an `async` function as the argument to the `Promise` constructor, which is usually a bug.
 * [`no-misleading-character-class`](https://eslint.org/docs/rules/no-misleading-character-class) reports character classes in regular expressions that might not behave as expected.
+* [`no-prototype-builtins`](https://eslint.org/docs/rules/no-prototype-builtins) reports method calls like `foo.hasOwnProperty("bar")` (which are a frequent source of bugs), and suggests that they be replaced with `Object.prototype.hasOwnProperty.call(foo, "bar")` instead.
 * [`no-shadow-restricted-names`](https://eslint.org/docs/rules/no-shadow-restricted-names) disallows shadowing variables like `undefined` (e.g. with code like `let undefined = 5;`), since is likely to confuse readers.
 * [`no-useless-catch`](https://eslint.org/docs/rules/no-useless-catch) reports `catch` clauses that are redundant and can be removed from the code without changing its behavior.
 * [`no-with`](https://eslint.org/docs/rules/no-with) disallows use of the [`with` statement](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/with), which can make code difficult to understand and cause compatibility problems.
@@ -114,8 +111,6 @@ As a rule of thumb: With ESLint v6, plugins should always be installed locally, 
 **Related issue(s):** [eslint/eslint#9687](https://github.com/eslint/eslint/issues/9687), [eslint/espree#384](https://github.com/eslint/espree/issues/384)
 
 ## <a name="no-redeclare-updates"></a> The `no-redeclare` rule is now more strict by default
-
-**Note:** This update is planned, but has not been implemented in the latest alpha release yet.
 
 The default options for the [`no-redeclare`](https://eslint.org/docs/rules/no-redeclare) rule have changed from `{ builtinGlobals: false }` to `{ builtinGlobals: true }`. Additionally, the `no-redeclare` rule will now report an error for globals enabled by comments like `/* global foo */` if those globals were already enabled through configuration anyway.
 
@@ -291,8 +286,6 @@ In some cases, rule schemas can use the `default` keyword to automatically speci
 **Related issue(s):** [eslint/eslint#11473](https://github.com/eslint/eslint/issues/11473)
 
 ## <a name="eslintExplicitGlobalComment"></a> The `eslintExplicitGlobalComment` scope analysis property has been removed
-
-**Note:** This update is planned, but has not been implemented in the latest alpha release yet.
 
 Previously, ESLint would add an `eslintExplicitGlobalComment` property to `Variable` objects in scope analysis to indicate that a variable was introduced as a result of a `/* global */` comment. This property was undocumented, and the ESLint team was unable to find any usage of the property outside of ESLint core. The property has been removed in ESLint v6, and replaced with the `eslintExplicitGlobalComments` property, which can contain a list of all `/* global */` comments if a variable was declared with more than one of them.
 
