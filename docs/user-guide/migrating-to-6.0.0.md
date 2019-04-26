@@ -287,8 +287,6 @@ In some cases, rule schemas can use the `default` keyword to automatically speci
 
 ## <a name="eslintExplicitGlobalComment"></a> The `eslintExplicitGlobalComment` scope analysis property has been removed
 
-**Note:** This update is planned, but has not been implemented in the latest alpha release yet.
-
 Previously, ESLint would add an `eslintExplicitGlobalComment` property to `Variable` objects in scope analysis to indicate that a variable was introduced as a result of a `/* global */` comment. This property was undocumented, and the ESLint team was unable to find any usage of the property outside of ESLint core. The property has been removed in ESLint v6, and replaced with the `eslintExplicitGlobalComments` property, which can contain a list of all `/* global */` comments if a variable was declared with more than one of them.
 
 **To address:** If you maintain a rule that uses the `eslintExplicitGlobalComment` property, update it to use the `eslintExplicitGlobalComments` property as a list instead.
