@@ -4433,15 +4433,15 @@ describe("Linter", () => {
             let messages = linter.verify("", { parserOptions: { ecmaVersion: 222 } });
 
             assert.deepStrictEqual(messages.length, 1);
-            assert.ok(/Invalid ecmaVersion/u.test(messages[0].message));
+            assert.ok(messages[0].message.includes("Invalid ecmaVersion"));
 
             messages = linter.verify("", { parserOptions: { sourceType: "foo" } });
             assert.deepStrictEqual(messages.length, 1);
-            assert.ok(/Invalid sourceType/u.test(messages[0].message));
+            assert.ok(messages[0].message.includes("Invalid sourceType"));
 
             messages = linter.verify("", { parserOptions: { ecmaVersion: 5, sourceType: "module" } });
             assert.deepStrictEqual(messages.length, 1);
-            assert.ok(/sourceType 'module' is not supported when ecmaVersion < 2015/u.test(messages[0].message));
+            assert.ok(messages[0].message.includes("sourceType 'module' is not supported when ecmaVersion < 2015"));
         });
 
         it("should not crash when invalid parentheses syntax is encountered", () => {
