@@ -112,6 +112,7 @@
     "lint-staged": "^8.1.5",
     "load-perf": "^0.2.0",
     "markdownlint": "^0.13.0",
+    "markdownlint-cli": "^0.15.0",
     "mocha": "^6.1.2",
     "mock-fs": "^4.8.0",
     "npm-license": "^0.3.3",
