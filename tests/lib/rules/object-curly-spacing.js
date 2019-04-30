@@ -84,6 +84,8 @@ ruleTester.run("object-curly-spacing", rule, {
         { code: "var obj = {foo: {\nbar: quxx}, baz: qux\n};", options: ["never"] },
         { code: "var obj = {foo: {\nbar: quxx\n}, baz: qux};", options: ["never"] },
         { code: "var obj = {\nfoo: bar,\nbaz: qux\n};", options: ["never"] },
+        { code: "var obj = {foo: bar, baz: qux /* */};", options: ["never"] },
+        { code: "var obj = {/* */ foo: bar, baz: qux};", options: ["never"] },
 
         // never - destructuring
         { code: "var {x} = y", options: ["never"], parserOptions: { ecmaVersion: 6 } },
@@ -97,12 +99,18 @@ ruleTester.run("object-curly-spacing", rule, {
         { code: "var {\ny,\n} = x", options: ["never"], parserOptions: { ecmaVersion: 6 } },
         { code: "var {y,} = x", options: ["never"], parserOptions: { ecmaVersion: 6 } },
         { code: "var {y:x} = x", options: ["never"], parserOptions: { ecmaVersion: 6 } },
+        { code: "var {/* */ y} = x", options: ["never"], parserOptions: { ecmaVersion: 6 } },
+        { code: "var {y /* */} = x", options: ["never"], parserOptions: { ecmaVersion: 6 } },
 
         // never - import / export
         { code: "import door from 'room'", options: ["never"], parserOptions: { sourceType: "module" } },
         { code: "import * as door from 'room'", options: ["never"], parserOptions: { sourceType: "module" } },
         { code: "import {door} from 'room'", options: ["never"], parserOptions: { sourceType: "module" } },
         { code: "export {door} from 'room'", options: ["never"], parserOptions: { sourceType: "module" } },
+        { code: "import {/* */ door} from 'room'", options: ["never"], parserOptions: { sourceType: "module" } },
+        { code: "export {/* */ door} from 'room'", options: ["never"], parserOptions: { sourceType: "module" } },
+        { code: "import {door /* */} from 'room'", options: ["never"], parserOptions: { sourceType: "module" } },
+        { code: "export {door /* */} from 'room'", options: ["never"], parserOptions: { sourceType: "module" } },
         { code: "import {\ndoor} from 'room'", options: ["never"], parserOptions: { sourceType: "module" } },
         { code: "export {\ndoor\n} from 'room'", options: ["never"], parserOptions: { sourceType: "module" } },
         { code: "import {house,mouse} from 'caravan'", options: ["never"], parserOptions: { sourceType: "module" } },
@@ -236,6 +244,34 @@ ruleTester.run("object-curly-spacing", rule, {
             ]
         },
         {
+            code: "import x, { bar/* */} from 'foo';",
+            output: "import x, { bar/* */ } from 'foo';",
+            options: ["always"],
+            parserOptions: { sourceType: "module" },
+            errors: [
+                {
+                    message: "A space is required before '}'.",
+                    type: "ImportDeclaration",
+                    line: 1,
+                    column: 21
+                }
+            ]
+        },
+        {
+            code: "import x, {/* */bar } from 'foo';",
+            output: "import x, { /* */bar } from 'foo';",
+            options: ["always"],
+            parserOptions: { sourceType: "module" },
+            errors: [
+                {
+                    message: "A space is required after '{'.",
+                    type: "ImportDeclaration",
+                    line: 1,
+                    column: 11
+                }
+            ]
+        },
+        {
             code: "import x, { bar, baz} from 'foo';",
             output: "import x, { bar, baz } from 'foo';",
             options: ["always"],
@@ -333,6 +369,26 @@ ruleTester.run("object-curly-spacing", rule, {
             ]
         },
         {
+            code: "import { /* */ bar, /* */ } from 'foo';",
+            output: "import {/* */ bar, /* */} from 'foo';",
+            options: ["never"],
+            parserOptions: { sourceType: "module" },
+            errors: [
+                {
+                    message: "There should be no space after '{'.",
+                    type: "ImportDeclaration",
+                    line: 1,
+                    column: 8
+                },
+                {
+                    message: "There should be no space before '}'.",
+                    type: "ImportDeclaration",
+                    line: 1,
+                    column: 27
+                }
+            ]
+        },
+        {
             code: "var bar = 0;\nexport {bar};",
             output: "var bar = 0;\nexport { bar };",
             options: ["always"],
@@ -349,6 +405,26 @@ ruleTester.run("object-curly-spacing", rule, {
                     type: "ExportNamedDeclaration",
                     line: 2,
                     column: 12
+                }
+            ]
+        },
+        {
+            code: "var bar = 0;\nexport { /* */ bar /* */ };",
+            output: "var bar = 0;\nexport {/* */ bar /* */};",
+            options: ["never"],
+            parserOptions: { sourceType: "module" },
+            errors: [
+                {
+                    message: "There should be no space after '{'.",
+                    type: "ExportNamedDeclaration",
+                    line: 2,
+                    column: 8
+                },
+                {
+                    message: "There should be no space before '}'.",
+                    type: "ExportNamedDeclaration",
+                    line: 2,
+                    column: 26
                 }
             ]
         },
@@ -531,6 +607,19 @@ ruleTester.run("object-curly-spacing", rule, {
             ]
         },
         {
+            code: "var obj = {/* */foo: bar, baz: qux };",
+            output: "var obj = { /* */foo: bar, baz: qux };",
+            options: ["always"],
+            errors: [
+                {
+                    message: "A space is required after '{'.",
+                    type: "ObjectExpression",
+                    line: 1,
+                    column: 11
+                }
+            ]
+        },
+        {
             code: "var obj = { foo: bar, baz: qux};",
             output: "var obj = { foo: bar, baz: qux };",
             options: ["always"],
@@ -540,6 +629,19 @@ ruleTester.run("object-curly-spacing", rule, {
                     type: "ObjectExpression",
                     line: 1,
                     column: 31
+                }
+            ]
+        },
+        {
+            code: "var obj = { foo: bar, baz: qux/* */};",
+            output: "var obj = { foo: bar, baz: qux/* */ };",
+            options: ["always"],
+            errors: [
+                {
+                    message: "A space is required before '}'.",
+                    type: "ObjectExpression",
+                    line: 1,
+                    column: 36
                 }
             ]
         },
@@ -576,8 +678,34 @@ ruleTester.run("object-curly-spacing", rule, {
             ]
         },
         {
+            code: "var obj = {foo: bar, baz: qux /* */ };",
+            output: "var obj = {foo: bar, baz: qux /* */};",
+            options: ["never"],
+            errors: [
+                {
+                    message: "There should be no space before '}'.",
+                    type: "ObjectExpression",
+                    line: 1,
+                    column: 37
+                }
+            ]
+        },
+        {
             code: "var obj = { foo: bar, baz: qux};",
             output: "var obj = {foo: bar, baz: qux};",
+            options: ["never"],
+            errors: [
+                {
+                    message: "There should be no space after '{'.",
+                    type: "ObjectExpression",
+                    line: 1,
+                    column: 11
+                }
+            ]
+        },
+        {
+            code: "var obj = { /* */ foo: bar, baz: qux};",
+            output: "var obj = {/* */ foo: bar, baz: qux};",
             options: ["never"],
             errors: [
                 {
@@ -677,6 +805,34 @@ ruleTester.run("object-curly-spacing", rule, {
             ]
         },
         {
+            code: "var { x, y/* */} = y",
+            output: "var { x, y/* */ } = y",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "A space is required before '}'.",
+                    type: "ObjectPattern",
+                    line: 1,
+                    column: 16
+                }
+            ]
+        },
+        {
+            code: "var {/* */x, y } = y",
+            output: "var { /* */x, y } = y",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "A space is required after '{'.",
+                    type: "ObjectPattern",
+                    line: 1,
+                    column: 5
+                }
+            ]
+        },
+        {
             code: "var { x, y } = y",
             output: "var {x, y} = y",
             options: ["never"],
@@ -707,6 +863,34 @@ ruleTester.run("object-curly-spacing", rule, {
                     type: "ObjectPattern",
                     line: 1,
                     column: 11
+                }
+            ]
+        },
+        {
+            code: "var {x, y/* */ } = y",
+            output: "var {x, y/* */} = y",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "There should be no space before '}'.",
+                    type: "ObjectPattern",
+                    line: 1,
+                    column: 16
+                }
+            ]
+        },
+        {
+            code: "var { /* */x, y} = y",
+            output: "var {/* */x, y} = y",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "There should be no space after '{'.",
+                    type: "ObjectPattern",
+                    line: 1,
+                    column: 5
                 }
             ]
         },
