@@ -28,7 +28,7 @@
   },
   "lint-staged": {
     "*.js": [
-      "node ./bin/eslint.js --fix",
+      "eslint --fix",
       "git add"
     ],
     "*.md": "markdownlint"
