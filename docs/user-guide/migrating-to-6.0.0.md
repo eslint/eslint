@@ -34,7 +34,7 @@ The lists below are ordered roughly by the number of users each change is expect
 
 ## <a name="drop-node-6"></a> Node.js 6 is no longer supported
 
-As of April 2018, Node.js 6 will be at EOL and will no longer be receiving security updates. As a result, we have decided to drop support for it in ESLint v6. We now support the following versions of Node.js:
+As of April 2019, Node.js 6 will be at EOL and will no longer be receiving security updates. As a result, we have decided to drop support for it in ESLint v6. We now support the following versions of Node.js:
 
 * Node.js 8 (8.10.0 and above)
 * Node.js 10 (10.13.0 and above)
