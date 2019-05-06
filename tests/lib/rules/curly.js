@@ -617,6 +617,18 @@ ruleTester.run("curly", rule, {
             ]
         },
         {
+            code: "if (foo) { \n var bar = 'baz'; \n }",
+            output: "if (foo)  \n var bar = 'baz'; \n ",
+            options: ["multi-or-nest"],
+            errors: [
+                {
+                    messageId: "unexpectedCurlyAfterCondition",
+                    data: { name: "if" },
+                    type: "IfStatement"
+                }
+            ]
+        },
+        {
             code: "while (true) { \n doSomething(); \n }",
             output: "while (true)  \n doSomething(); \n ",
             options: ["multi-or-nest"],
