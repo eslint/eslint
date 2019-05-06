@@ -575,7 +575,7 @@ import {
 } from 'qux';
 ```
 
-Examples of **incorrect** code for this rule with the `4, { ImportDeclaration: "first" }` option:
+Examples of **incorrect** code for this rule with the `4, { "ImportDeclaration": "first" }` option:
 
 ```js
 /*eslint indent: ["error", 4, { ImportDeclaration: "first" }]*/
@@ -586,7 +586,7 @@ import { foo,
 } from 'qux';
 ```
 
-Examples of **correct** code for this rule with the `4, { ImportDeclaration: "first" }` option:
+Examples of **correct** code for this rule with the `4, { "ImportDeclaration": "first" }` option:
 
 ```js
 /*eslint indent: ["error", 4, { ImportDeclaration: "first" }]*/
