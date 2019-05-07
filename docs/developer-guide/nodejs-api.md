@@ -38,9 +38,9 @@ While ESLint is designed to be run on the command line, it's possible to use ESL
 The `SourceCode` type represents the parsed source code that ESLint executes on. It's used internally in ESLint and is also available so that already-parsed code can be used. You can create a new instance of `SourceCode` by passing in the text string representing the code and an abstract syntax tree (AST) in [ESTree](https://github.com/estree/estree) format (including location information, range information, comments, and tokens):
 
 ```js
-var SourceCode = require("eslint").SourceCode;
+const SourceCode = require("eslint").SourceCode;
 
-var code = new SourceCode("var foo = bar;", ast);
+const code = new SourceCode("var foo = bar;", ast);
 ```
 
 The `SourceCode` constructor throws an error if the AST is missing any of the required information.
@@ -49,9 +49,9 @@ The `SourceCode` constructor strips Unicode BOM.
 Please note the AST also should be parsed from stripped text.
 
 ```js
-var SourceCode = require("eslint").SourceCode;
+const SourceCode = require("eslint").SourceCode;
 
-var code = new SourceCode("\uFEFFvar foo = bar;", ast);
+const code = new SourceCode("\uFEFFvar foo = bar;", ast);
 
 assert(code.hasBOM === true);
 assert(code.text === "var foo = bar;");
@@ -62,12 +62,12 @@ assert(code.text === "var foo = bar;");
 This is a static function on `SourceCode` that is used to split the source code text into an array of lines.
 
 ```js
-var SourceCode = require("eslint").SourceCode;
+const SourceCode = require("eslint").SourceCode;
 
-var code = "var a = 1;\nvar b = 2;"
+const code = "var a = 1;\nvar b = 2;"
 
 // split code into an array
-var codeLines = SourceCode.splitLines(code);
+const codeLines = SourceCode.splitLines(code);
 
 /*
     Value of codeLines will be
@@ -83,8 +83,8 @@ var codeLines = SourceCode.splitLines(code);
 The `Linter` object does the actual evaluation of the JavaScript code. It doesn't do any filesystem operations, it simply parses and reports on the code. In particular, the `Linter` object does not process configuration objects or files. You can retrieve instances of `Linter` like this:
 
 ```js
-var Linter = require("eslint").Linter;
-var linter = new Linter();
+const Linter = require("eslint").Linter;
+const linter = new Linter();
 ```
 
 ### Linter#verify
@@ -106,10 +106,10 @@ If the third argument is a string, it is interpreted as the `filename`.
 You can call `verify()` like this:
 
 ```js
-var Linter = require("eslint").Linter;
-var linter = new Linter();
+const Linter = require("eslint").Linter;
+const linter = new Linter();
 
-var messages = linter.verify("var foo;", {
+const messages = linter.verify("var foo;", {
     rules: {
         semi: 2
     }
@@ -117,13 +117,13 @@ var messages = linter.verify("var foo;", {
 
 // or using SourceCode
 
-var Linter = require("eslint").Linter,
+const Linter = require("eslint").Linter,
     linter = new Linter(),
     SourceCode = require("eslint").SourceCode;
 
-var code = new SourceCode("var foo = bar;", ast);
+const code = new SourceCode("var foo = bar;", ast);
 
-var messages = linter.verify(code, {
+const messages = linter.verify(code, {
     rules: {
         semi: 2
     }
@@ -165,16 +165,16 @@ Linting message objects have a deprecated `source` property. This property **wil
 You can also get an instance of the `SourceCode` object used inside of `linter` by using the `getSourceCode()` method:
 
 ```js
-var Linter = require("eslint").Linter;
-var linter = new Linter();
+const Linter = require("eslint").Linter;
+const linter = new Linter();
 
-var messages = linter.verify("var foo = bar;", {
+const messages = linter.verify("var foo = bar;", {
     rules: {
         semi: 2
     }
 }, { filename: "foo.js" });
 
-var code = linter.getSourceCode();
+const code = linter.getSourceCode();
 
 console.log(code.text);     // "var foo = bar;"
 ```
@@ -186,10 +186,10 @@ In this way, you can retrieve the text and AST used for the last run of `linter.
 This method is similar to verify except that it also runs autofixing logic, similar to the `--fix` flag on the command line. The result object will contain the autofixed code, along with any remaining linting messages for the code that were not autofixed.
 
 ```js
-var Linter = require("eslint").Linter;
-var linter = new Linter();
+const Linter = require("eslint").Linter;
+const linter = new Linter();
 
-var messages = linter.verifyAndFix("var foo", {
+const messages = linter.verifyAndFix("var foo", {
     rules: {
         semi: 2
     }
@@ -313,9 +313,9 @@ Linter.version; // => '4.5.0'
 The `eslint.linter` object (deprecated) is an instance of the `Linter` class as defined [above](#linter). `eslint.linter` exists for backwards compatibility, but we do not recommend using it because any mutations to it are shared among every module that uses `eslint`. Instead, please create your own instance of `eslint.Linter`.
 
 ```js
-var linter = require("eslint").linter;
+const linter = require("eslint").linter;
 
-var messages = linter.verify("var foo;", {
+const messages = linter.verify("var foo;", {
     rules: {
         semi: 2
     }
@@ -331,7 +331,7 @@ The primary Node.js API is `CLIEngine`, which is the underlying utility that run
 You can get a reference to the `CLIEngine` by doing the following:
 
 ```js
-var CLIEngine = require("eslint").CLIEngine;
+const CLIEngine = require("eslint").CLIEngine;
 ```
 
 The `CLIEngine` is a constructor, and you can create a new instance by passing in the options you want to use. The available options are:
@@ -366,9 +366,9 @@ To programmatically set `.eslintrc.*` options not supported above (such as `exte
 For example:
 
 ```js
-var CLIEngine = require("eslint").CLIEngine;
+const CLIEngine = require("eslint").CLIEngine;
 
-var cli = new CLIEngine({
+const cli = new CLIEngine({
     baseConfig: {
         extends: ["eslint-config-shared"],
         settings: {
@@ -396,9 +396,9 @@ Note: Currently `CLIEngine` does not validate options passed to it, but may star
 If you want to lint one or more files, use the `executeOnFiles()` method. This method accepts a single argument, which is an array of files and/or directories to traverse for files. You can pass the same values as you would using the ESLint command line interface, such as `"."` to search all JavaScript files in the current directory. Here's an example:
 
 ```js
-var CLIEngine = require("eslint").CLIEngine;
+const CLIEngine = require("eslint").CLIEngine;
 
-var cli = new CLIEngine({
+const cli = new CLIEngine({
     envs: ["browser", "mocha"],
     useEslintrc: false,
     rules: {
@@ -407,7 +407,7 @@ var cli = new CLIEngine({
 });
 
 // lint myfile.js and all files in lib/
-var report = cli.executeOnFiles(["myfile.js", "lib/"]);
+const report = cli.executeOnFiles(["myfile.js", "lib/"]);
 ```
 
 The return value is an object containing the results of the linting operation. Here's an example of a report object:
@@ -444,9 +444,9 @@ The return value is an object containing the results of the linting operation. H
 You can also pass `fix: true` when instantiating the `CLIEngine` in order to have it figure out what fixes can be applied.
 
 ```js
-var CLIEngine = require("eslint").CLIEngine;
+const CLIEngine = require("eslint").CLIEngine;
 
-var cli = new CLIEngine({
+const cli = new CLIEngine({
     envs: ["browser", "mocha"],
     fix: true, // difference from last example
     useEslintrc: false,
@@ -457,7 +457,7 @@ var cli = new CLIEngine({
 });
 
 // lint myfile.js and all files in lib/
-var report = cli.executeOnFiles(["myfile.js", "lib/"]);
+const report = cli.executeOnFiles(["myfile.js", "lib/"]);
 ```
 
 ```js
@@ -551,13 +551,13 @@ Once you get a report object, it's up to you to determine how to output the resu
 You can pass filesystem-style or glob patterns to ESLint and have it function properly. In order to achieve this, ESLint must resolve non-glob patterns into glob patterns before determining which files to execute on. The `resolveFileGlobPatterns()` methods uses the current settings from `CLIEngine` to resolve non-glob patterns into glob patterns. Pass an array of patterns that might be passed to the ESLint CLI and it will return an array of glob patterns that mean the same thing. Here's an example:
 
 ```js
-var CLIEngine = require("eslint").CLIEngine;
+const CLIEngine = require("eslint").CLIEngine;
 
-var cli = new CLIEngine({
+const cli = new CLIEngine({
 });
 
 // pass an array of patterns
-var globPatterns = cli.resolveFileGlobPatterns(["."]);
+const globPatterns = cli.resolveFileGlobPatterns(["."]);
 console.log(globPatterns[i]);       // ["**/*.js"]
 ```
 
@@ -566,9 +566,9 @@ console.log(globPatterns[i]);       // ["**/*.js"]
 If you want to retrieve a configuration object for a given file, use the `getConfigForFile()` method. This method accepts one argument, a file path, and returns an object represented the calculated configuration of the file. Here's an example:
 
 ```js
-var CLIEngine = require("eslint").CLIEngine;
+const CLIEngine = require("eslint").CLIEngine;
 
-var cli = new CLIEngine({
+const cli = new CLIEngine({
     envs: ["browser", "mocha"],
     useEslintrc: false,
     rules: {
@@ -576,16 +576,16 @@ var cli = new CLIEngine({
     }
 });
 
-var config = cli.getConfigForFile("myfile.js");
+const config = cli.getConfigForFile("myfile.js");
 ```
 
 Once you have the configuration information, you can pass it into the `linter` object:
 
 ```js
-var CLIEngine = require("eslint").CLIEngine,
+const CLIEngine = require("eslint").CLIEngine,
     linter = require("eslint").linter;
 
-var cli = new CLIEngine({
+const cli = new CLIEngine({
     envs: ["browser", "mocha"],
     useEslintrc: false,
     rules: {
@@ -593,9 +593,9 @@ var cli = new CLIEngine({
     }
 });
 
-var config = cli.getConfigForFile("myfile.js");
+const config = cli.getConfigForFile("myfile.js");
 
-var messages = linter.verify('var foo;', config);
+const messages = linter.verify('var foo;', config);
 ```
 
 ### CLIEngine#executeOnText()
@@ -603,9 +603,9 @@ var messages = linter.verify('var foo;', config);
 If you already have some text to lint, then you can use the `executeOnText()` method to lint that text. The linter will assume that the text is a file in the current working directory, and so will still obey any `.eslintrc` and `.eslintignore` files that may be present. Here's an example:
 
 ```js
-var CLIEngine = require("eslint").CLIEngine;
+const CLIEngine = require("eslint").CLIEngine;
 
-var cli = new CLIEngine({
+const cli = new CLIEngine({
     envs: ["browser", "mocha"],
     useEslintrc: false,
     rules: {
@@ -615,7 +615,7 @@ var cli = new CLIEngine({
 
 // lint the supplied text and optionally set
 // a filename that is displayed in the report
-var report = cli.executeOnText("var foo = 'bar';", "foo.js");
+const report = cli.executeOnText("var foo = 'bar';", "foo.js");
 ```
 
 The `report` returned from `executeOnText()` is in the same format as from `executeOnFiles()`, but there is only ever one result in `report.results`.
@@ -627,8 +627,8 @@ If a filename in the optional second parameter matches a file that is configured
 Loads a plugin from configuration object with specified name. Name can include plugin prefix ("eslint-plugin-")
 
 ```js
-var CLIEngine = require("eslint").CLIEngine;
-var cli = new CLIEngine({
+const CLIEngine = require("eslint").CLIEngine;
+const cli = new CLIEngine({
     ignore: true
 });
 cli.addPlugin("eslint-plugin-processor", {
@@ -650,14 +650,14 @@ cli.addPlugin("eslint-plugin-processor", {
 Checks if a given path is ignored by ESLint.
 
 ```js
-var CLIEngine = require("eslint").CLIEngine;
+const CLIEngine = require("eslint").CLIEngine;
 
-var cli = new CLIEngine({
+const cli = new CLIEngine({
     ignore: true,
     ignorePath: ".customIgnoreFile"
 });
 
-var isIgnored = cli.isPathIgnored("foo/bar.js");
+const isIgnored = cli.isPathIgnored("foo/bar.js");
 ```
 
 ### CLIEngine#getFormatter()
@@ -680,9 +680,9 @@ Retrieves a formatter, which you can then use to format a report object. The arg
 or the full path to a JavaScript file containing a custom formatter. You can also omit the argument to retrieve the default formatter.
 
 ```js
-var CLIEngine = require("eslint").CLIEngine;
+const CLIEngine = require("eslint").CLIEngine;
 
-var cli = new CLIEngine({
+const cli = new CLIEngine({
     envs: ["browser", "mocha"],
     useEslintrc: false,
     rules: {
@@ -691,14 +691,14 @@ var cli = new CLIEngine({
 });
 
 // lint myfile.js and all files in lib/
-var report = cli.executeOnFiles(["myfile.js", "lib/"]);
+const report = cli.executeOnFiles(["myfile.js", "lib/"]);
 
 // get the default formatter
-var formatter = cli.getFormatter();
+const formatter = cli.getFormatter();
 
 // Also could do...
-// var formatter = cli.getFormatter("compact");
-// var formatter = cli.getFormatter("./my/formatter.js");
+// const formatter = cli.getFormatter("compact");
+// const formatter = cli.getFormatter("./my/formatter.js");
 
 // output to console
 console.log(formatter(report.results));
@@ -708,7 +708,7 @@ console.log(formatter(report.results));
 
 ```js
 // get the default formatter by calling the static function
-var formatter = CLIEngine.getFormatter();
+const formatter = CLIEngine.getFormatter();
 ```
 
 **Important:** You must pass in the `results` property of the report. Passing in `report` directly will result in an error.
@@ -718,9 +718,9 @@ var formatter = CLIEngine.getFormatter();
 This is a static function on `CLIEngine`. It can be used to filter out all the non error messages from the report object.
 
 ```js
-var CLIEngine = require("eslint").CLIEngine;
+const CLIEngine = require("eslint").CLIEngine;
 
-var cli = new CLIEngine({
+const cli = new CLIEngine({
     envs: ["browser", "mocha"],
     useEslintrc: false,
     rules: {
@@ -729,10 +729,10 @@ var cli = new CLIEngine({
 });
 
 // lint myfile.js and all files in lib/
-var report = cli.executeOnFiles(["myfile.js", "lib/"]);
+const report = cli.executeOnFiles(["myfile.js", "lib/"]);
 
 // only get the error messages
-var errorReport = CLIEngine.getErrorResults(report.results)
+const errorReport = CLIEngine.getErrorResults(report.results)
 ```
 
 **Important:** You must pass in the `results` property of the report. Passing in `report` directly will result in an error.
@@ -742,9 +742,9 @@ var errorReport = CLIEngine.getErrorResults(report.results)
 This is a static function on `CLIEngine` that is used to output fixes from `report` to disk. It does by looking for files that have an `output` property in their results. Here's an example:
 
 ```js
-var CLIEngine = require("eslint").CLIEngine;
+const CLIEngine = require("eslint").CLIEngine;
 
-var cli = new CLIEngine({
+const cli = new CLIEngine({
     envs: ["browser", "mocha"],
     fix: true,
     useEslintrc: false,
@@ -754,7 +754,7 @@ var cli = new CLIEngine({
 });
 
 // lint myfile.js and all files in lib/
-var report = cli.executeOnFiles(["myfile.js", "lib/"]);
+const report = cli.executeOnFiles(["myfile.js", "lib/"]);
 
 // output fixes to disk
 CLIEngine.outputFixes(report);
