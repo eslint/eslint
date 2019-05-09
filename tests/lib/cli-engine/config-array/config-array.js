@@ -42,7 +42,7 @@ describe("ConfigArray", () => {
         }
     });
 
-    describe("'root' property should be the value of the last element which has 'root' property.", () => {
+    describe("'isRoot()' method should be the value of the last element which has 'root' property.", () => {
         const patterns = [
             { elements: [], expected: false },
             { elements: [{}], expected: false },
@@ -57,7 +57,7 @@ describe("ConfigArray", () => {
 
         for (const { elements, expected } of patterns) {
             it(`should be ${expected} if the elements are ${JSON.stringify(elements)}.`, () => {
-                assert.strictEqual(new ConfigArray(...elements).root, expected);
+                assert.strictEqual(new ConfigArray(...elements).isRoot(), expected);
             });
         }
     });
