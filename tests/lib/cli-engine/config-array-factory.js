@@ -261,7 +261,7 @@ describe("ConfigArrayFactory", () => {
         });
     });
 
-    describe("'loadOnDirectory(directoryPath, options)' method should load the config file of a directory.", () => {
+    describe("'loadInDirectory(directoryPath, options)' method should load the config file of a directory.", () => {
         const basicFiles = {
             "js/.eslintrc.js": "exports.settings = { name: 'js/.eslintrc.js' }",
             "json/.eslintrc.json": "{ \"settings\": { \"name\": \"json/.eslintrc.json\" } }",
@@ -288,20 +288,20 @@ describe("ConfigArrayFactory", () => {
         });
 
         it("should throw an error if 'directoryPath' is null.", () => {
-            assert.throws(() => factory.loadOnDirectory(null));
+            assert.throws(() => factory.loadInDirectory(null));
         });
 
         it("should return an empty config array if the config file of 'directoryPath' doesn't exist.", () => {
-            assert.strictEqual(factory.loadOnDirectory("non-exist").length, 0);
+            assert.strictEqual(factory.loadInDirectory("non-exist").length, 0);
         });
 
         it("should return an empty config array if the config file of 'directoryPath' was package.json and it didn't have 'eslintConfig' field.", () => {
-            assert.strictEqual(factory.loadOnDirectory("package-json-no-config").length, 0);
+            assert.strictEqual(factory.loadInDirectory("package-json-no-config").length, 0);
         });
 
         it("should throw an error if the config data had invalid properties,", () => {
             assert.throws(() => {
-                factory.loadOnDirectory("invalid-property");
+                factory.loadInDirectory("invalid-property");
             }, /Unexpected top-level property "files"/u);
         });
 
@@ -309,7 +309,7 @@ describe("ConfigArrayFactory", () => {
             const directoryPath = filePath.split("/")[0];
 
             it(`should load '${directoryPath}' then return a config array what contains the config file of that directory.`, () => { // eslint-disable-line no-loop-func
-                const configArray = factory.loadOnDirectory(directoryPath);
+                const configArray = factory.loadInDirectory(directoryPath);
 
                 assert.strictEqual(configArray.length, 1);
                 assertConfigArrayElement(configArray[0], {
@@ -326,7 +326,7 @@ describe("ConfigArrayFactory", () => {
             const parent = new ConfigArray();
             const normalizeConfigData = spy(factory, "_normalizeConfigData");
 
-            factory.loadOnDirectory(directoryPath, { name, parent });
+            factory.loadInDirectory(directoryPath, { name, parent });
 
             assert.strictEqual(normalizeConfigData.callCount, 1);
             assert.strictEqual(normalizeConfigData.args[0].length, 3);
@@ -340,7 +340,7 @@ describe("ConfigArrayFactory", () => {
 
             factory._normalizeConfigData = () => elements; // eslint-disable-line no-underscore-dangle
 
-            const configArray = factory.loadOnDirectory("js");
+            const configArray = factory.loadInDirectory("js");
 
             assert.strictEqual(configArray.length, 2);
             assert.strictEqual(configArray[0], elements[0]);
@@ -353,7 +353,7 @@ describe("ConfigArrayFactory", () => {
 
             factory._normalizeConfigData = () => elements; // eslint-disable-line no-underscore-dangle
 
-            const configArray = factory.loadOnDirectory("js", { parent });
+            const configArray = factory.loadInDirectory("js", { parent });
 
             assert.strictEqual(configArray.length, 4);
             assert.strictEqual(configArray[0], parent[0]);
@@ -368,7 +368,7 @@ describe("ConfigArrayFactory", () => {
 
             factory._normalizeConfigData = () => elements; // eslint-disable-line no-underscore-dangle
 
-            const configArray = factory.loadOnDirectory("js", { parent });
+            const configArray = factory.loadInDirectory("js", { parent });
 
             assert.strictEqual(configArray.length, 2);
             assert.strictEqual(configArray[0], elements[0]);
@@ -377,7 +377,7 @@ describe("ConfigArrayFactory", () => {
     });
 
     /*
-     * All of `create`, `loadFile`, and `loadOnDirectory` call this method.
+     * All of `create`, `loadFile`, and `loadInDirectory` call this method.
      * So this section tests the common part of the three.
      */
     describe("'_normalizeConfigData(configData, options)' method should normalize the config data.", () => {

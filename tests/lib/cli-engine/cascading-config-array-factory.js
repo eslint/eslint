@@ -234,15 +234,15 @@ describe("CascadingConfigArrayFactory", () => {
                 const configArrayFactory = new ConfigArrayFactory();
                 const factory = new CascadingConfigArrayFactory({ configArrayFactory });
 
-                sandbox.spy(configArrayFactory, "loadOnDirectory");
+                sandbox.spy(configArrayFactory, "loadInDirectory");
 
                 // If cached this should be called only once
                 getConfig(factory, configPath);
-                const callcount = configArrayFactory.loadOnDirectory.callcount;
+                const callcount = configArrayFactory.loadInDirectory.callcount;
 
                 getConfig(factory, configPath);
 
-                assert.strictEqual(configArrayFactory.loadOnDirectory.callcount, callcount);
+                assert.strictEqual(configArrayFactory.loadInDirectory.callcount, callcount);
             });
 
             // make sure JS-style comments don't throw an error
