@@ -429,7 +429,12 @@ ruleTester.run("no-useless-return", rule, {
         },
         {
             code: "function foo() { return; return; }",
-            output: "function foo() {  return; }"
+            output: "function foo() {  return; }",
+            errors: [{
+                message: "Unnecessary return statement.",
+                type: "ReturnStatement",
+                column: 18
+            }]
         }
     ].map(invalidCase => Object.assign({ errors: [{ message: "Unnecessary return statement.", type: "ReturnStatement" }] }, invalidCase))
 });
