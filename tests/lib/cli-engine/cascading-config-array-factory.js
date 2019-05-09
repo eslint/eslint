@@ -53,13 +53,6 @@ describe("CascadingConfigArrayFactory", () => {
                 factory = new CascadingConfigArrayFactory();
             });
 
-            it("should retrieve the config '.eslintrc.json' if the file path was not given.", () => {
-                const config = factory.getConfigArrayForFile();
-
-                assert.strictEqual(config.length, 1);
-                assert.strictEqual(config[0].filePath, path.join(root, ".eslintrc.json"));
-            });
-
             it("should retrieve the config '.eslintrc.json' if 'lib/one.js' was given.", () => {
                 const config = factory.getConfigArrayForFile("lib/one.js");
 
@@ -1177,29 +1170,29 @@ describe("CascadingConfigArrayFactory", () => {
             });
 
             it("should use cached instance.", () => {
-                const one = factory.getConfigArrayForFile();
-                const two = factory.getConfigArrayForFile();
+                const one = factory.getConfigArrayForFile("a.js");
+                const two = factory.getConfigArrayForFile("a.js");
 
                 assert.strictEqual(one, two);
             });
 
             it("should not use cached instance if 'clearCache()' method is called after first config is retrieved", () => {
-                const one = factory.getConfigArrayForFile();
+                const one = factory.getConfigArrayForFile("a.js");
 
                 factory.clearCache();
-                const two = factory.getConfigArrayForFile();
+                const two = factory.getConfigArrayForFile("a.js");
 
                 assert.notStrictEqual(one, two);
             });
 
             it("should have a loading error in CLI config.", () => {
-                const config = factory.getConfigArrayForFile();
+                const config = factory.getConfigArrayForFile("a.js");
 
                 assert.strictEqual(config[1].plugins.test.definition, null);
             });
 
             it("should not have a loading error in CLI config after adding 'test' plugin to the additional plugin pool then calling 'clearCache()'.", () => {
-                factory.getConfigArrayForFile();
+                factory.getConfigArrayForFile("a.js");
 
                 // Add plugin.
                 const plugin = {};
@@ -1208,7 +1201,7 @@ describe("CascadingConfigArrayFactory", () => {
                 factory.clearCache();
 
                 // Check.
-                const config = factory.getConfigArrayForFile();
+                const config = factory.getConfigArrayForFile("a.js");
 
                 assert.strictEqual(config[1].plugins.test.definition, plugin);
             });
