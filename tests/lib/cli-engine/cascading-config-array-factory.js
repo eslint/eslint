@@ -1194,16 +1194,21 @@ describe("CascadingConfigArrayFactory", () => {
             it("should not have a loading error in CLI config after adding 'test' plugin to the additional plugin pool then calling 'clearCache()'.", () => {
                 factory.getConfigArrayForFile("a.js");
 
-                // Add plugin.
-                const plugin = {};
-
-                additionalPluginPool.set("test", plugin);
+                additionalPluginPool.set("test", { configs: { name: "test" } });
                 factory.clearCache();
 
                 // Check.
                 const config = factory.getConfigArrayForFile("a.js");
 
-                assert.strictEqual(config[1].plugins.test.definition, plugin);
+                assert.deepStrictEqual(
+                    config[1].plugins.test.definition,
+                    {
+                        configs: { name: "test" },
+                        environments: {},
+                        processors: {},
+                        rules: {}
+                    }
+                );
             });
         });
     });

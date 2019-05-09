@@ -64,6 +64,24 @@ function assertConfig(actual, providedExpected) {
     assert.deepStrictEqual(actual, expected);
 }
 
+/**
+ * Assert a plugin definition.
+ * @param {Object} actual The actual value.
+ * @param {Object} providedExpected The expected value.
+ * @returns {void}
+ */
+function assertPluginDefinition(actual, providedExpected) {
+    const expected = {
+        configs: {},
+        environments: {},
+        processors: {},
+        rules: {},
+        ...providedExpected
+    };
+
+    assert.deepStrictEqual(actual, expected);
+}
+
 describe("ConfigArrayFactory", () => {
     describe("'create(configData, options)' method should normalize the config data.", () => {
         const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
@@ -673,7 +691,7 @@ describe("ConfigArrayFactory", () => {
                     files: {
                         "node_modules/eslint-plugin-ext/index.js": "exports.processors = { '.abc': {}, '.xyz': {}, other: {} };",
                         "node_modules/eslint-plugin-subdir/index.js": "",
-                        "node_modules/eslint-plugin-xxx/index.js": "exports.name = 'eslint-plugin-xxx';",
+                        "node_modules/eslint-plugin-xxx/index.js": "exports.configs = { name: 'eslint-plugin-xxx' };",
                         "subdir/node_modules/eslint-plugin-subdir/index.js": "",
                         "parser.js": ""
                     }
@@ -704,7 +722,10 @@ describe("ConfigArrayFactory", () => {
                 });
 
                 it("should have the package object at 'plugins[id].definition' property.", () => {
-                    assert.deepStrictEqual(element.plugins.xxx.definition, { name: "eslint-plugin-xxx" });
+                    assertPluginDefinition(
+                        element.plugins.xxx.definition,
+                        { configs: { name: "eslint-plugin-xxx" } }
+                    );
                 });
 
                 it("should have the path to the package at 'plugins[id].filePath' property.", () => {
@@ -1189,15 +1210,16 @@ describe("ConfigArrayFactory", () => {
         });
 
         describe("additional plugin pool", () => {
-            const plugin = {};
-
             beforeEach(() => {
                 const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
                     cwd: () => tempDir
                 });
 
                 factory = new ConfigArrayFactory({
-                    additionalPluginPool: new Map([["abc", plugin], ["eslint-plugin-def", plugin]])
+                    additionalPluginPool: new Map([
+                        ["abc", { configs: { name: "abc" } }],
+                        ["eslint-plugin-def", { configs: { name: "def" } }]
+                    ])
                 });
             });
 
@@ -1205,28 +1227,40 @@ describe("ConfigArrayFactory", () => {
                 const configArray = create({ plugins: ["abc"] });
 
                 assert.strictEqual(configArray[0].plugins.abc.id, "abc");
-                assert.strictEqual(configArray[0].plugins.abc.definition, plugin);
+                assertPluginDefinition(
+                    configArray[0].plugins.abc.definition,
+                    { configs: { name: "abc" } }
+                );
             });
 
             it("should use the matched plugin in the additional plugin pool; long to short", () => {
                 const configArray = create({ plugins: ["eslint-plugin-abc"] });
 
                 assert.strictEqual(configArray[0].plugins.abc.id, "abc");
-                assert.strictEqual(configArray[0].plugins.abc.definition, plugin);
+                assertPluginDefinition(
+                    configArray[0].plugins.abc.definition,
+                    { configs: { name: "abc" } }
+                );
             });
 
             it("should use the matched plugin in the additional plugin pool; short to long", () => {
                 const configArray = create({ plugins: ["def"] });
 
                 assert.strictEqual(configArray[0].plugins.def.id, "def");
-                assert.strictEqual(configArray[0].plugins.def.definition, plugin);
+                assertPluginDefinition(
+                    configArray[0].plugins.def.definition,
+                    { configs: { name: "def" } }
+                );
             });
 
             it("should use the matched plugin in the additional plugin pool; long to long", () => {
                 const configArray = create({ plugins: ["eslint-plugin-def"] });
 
                 assert.strictEqual(configArray[0].plugins.def.id, "def");
-                assert.strictEqual(configArray[0].plugins.def.definition, plugin);
+                assertPluginDefinition(
+                    configArray[0].plugins.def.definition,
+                    { configs: { name: "def" } }
+                );
             });
         });
     });
@@ -2052,8 +2086,8 @@ describe("ConfigArrayFactory", () => {
         const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
             cwd: () => tempDir,
             files: {
-                "node_modules/@scope/eslint-plugin-example/index.js": "exports.name = '@scope/eslint-plugin-example';",
-                "node_modules/eslint-plugin-example/index.js": "exports.name = 'eslint-plugin-example';",
+                "node_modules/@scope/eslint-plugin-example/index.js": "exports.configs = { name: '@scope/eslint-plugin-example' };",
+                "node_modules/eslint-plugin-example/index.js": "exports.configs = { name: 'eslint-plugin-example' };",
                 "node_modules/eslint-plugin-throws-on-load/index.js": "throw new Error('error thrown while loading this module')"
             }
         });
@@ -2082,18 +2116,18 @@ describe("ConfigArrayFactory", () => {
         it("should load a plugin when referenced by short name", () => {
             const loadedPlugins = load("example");
 
-            assert.deepStrictEqual(
+            assertPluginDefinition(
                 loadedPlugins.get("example"),
-                { name: "eslint-plugin-example" }
+                { configs: { name: "eslint-plugin-example" } }
             );
         });
 
         it("should load a plugin when referenced by long name", () => {
             const loadedPlugins = load("eslint-plugin-example");
 
-            assert.deepStrictEqual(
+            assertPluginDefinition(
                 loadedPlugins.get("example"),
-                { name: "eslint-plugin-example" }
+                { configs: { name: "eslint-plugin-example" } }
             );
         });
 
@@ -2127,18 +2161,18 @@ describe("ConfigArrayFactory", () => {
         it("should load a scoped plugin when referenced by short name", () => {
             const loadedPlugins = load("@scope/example");
 
-            assert.deepStrictEqual(
+            assertPluginDefinition(
                 loadedPlugins.get("@scope/example"),
-                { name: "@scope/eslint-plugin-example" }
+                { configs: { name: "@scope/eslint-plugin-example" } }
             );
         });
 
         it("should load a scoped plugin when referenced by long name", () => {
             const loadedPlugins = load("@scope/eslint-plugin-example");
 
-            assert.deepStrictEqual(
+            assertPluginDefinition(
                 loadedPlugins.get("@scope/example"),
-                { name: "@scope/eslint-plugin-example" }
+                { configs: { name: "@scope/eslint-plugin-example" } }
             );
         });
 
@@ -2162,8 +2196,8 @@ describe("ConfigArrayFactory", () => {
         const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
             cwd: () => tempDir,
             files: {
-                "node_modules/eslint-plugin-example1/index.js": "exports.name = 'eslint-plugin-example1';",
-                "node_modules/eslint-plugin-example2/index.js": "exports.name = 'eslint-plugin-example2';"
+                "node_modules/eslint-plugin-example1/index.js": "exports.configs = { name: 'eslint-plugin-example1' };",
+                "node_modules/eslint-plugin-example2/index.js": "exports.configs = { name: 'eslint-plugin-example2' };"
             }
         });
         const factory = new ConfigArrayFactory();
@@ -2191,13 +2225,13 @@ describe("ConfigArrayFactory", () => {
         it("should load plugins when passed multiple plugins", () => {
             const loadedPlugins = loadAll(["example1", "example2"]);
 
-            assert.deepStrictEqual(
+            assertPluginDefinition(
                 loadedPlugins.get("example1"),
-                { name: "eslint-plugin-example1" }
+                { configs: { name: "eslint-plugin-example1" } }
             );
-            assert.deepStrictEqual(
+            assertPluginDefinition(
                 loadedPlugins.get("example2"),
-                { name: "eslint-plugin-example2" }
+                { configs: { name: "eslint-plugin-example2" } }
             );
         });
     });
