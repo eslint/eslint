@@ -3402,9 +3402,9 @@ describe("CLIEngine", () => {
     describe("resolveFileGlobPatterns", () => {
 
         leche.withData([
-            [".", ["**/*.js"]],
-            ["./", ["**/*.js"]],
-            ["../", ["../**/*.js"]],
+            [".", ["**/*.{js}"]],
+            ["./", ["**/*.{js}"]],
+            ["../", ["../**/*.{js}"]],
             ["", []]
         ], (input, expected) => {
 
@@ -3425,7 +3425,7 @@ describe("CLIEngine", () => {
             };
             const result = new CLIEngine(opts).resolveFileGlobPatterns(patterns);
 
-            assert.deepStrictEqual(result, ["one-js-file/**/*.js"]);
+            assert.deepStrictEqual(result, ["one-js-file/**/*.{js}"]);
         });
 
         it("should not convert path with globInputPaths option false", () => {
@@ -3445,7 +3445,7 @@ describe("CLIEngine", () => {
                 cwd: getFixturePath("glob-util")
             };
             const result = new CLIEngine(opts).resolveFileGlobPatterns(patterns);
-            const expected = [`${getFixturePath("glob-util", "one-js-file").replace(/\\/gu, "/")}/**/*.js`];
+            const expected = [`${getFixturePath("glob-util", "one-js-file").replace(/\\/gu, "/")}/**/*.{js}`];
 
             assert.deepStrictEqual(result, expected);
         });
@@ -3458,7 +3458,7 @@ describe("CLIEngine", () => {
             };
             const result = new CLIEngine(opts).resolveFileGlobPatterns(patterns);
 
-            assert.deepStrictEqual(result, ["one-js-file/**/*.jsx"]);
+            assert.deepStrictEqual(result, ["one-js-file/**/*.{jsx}"]);
         });
 
         it("should convert a directory name with multiple provided extensions into a glob pattern", () => {
@@ -3479,7 +3479,7 @@ describe("CLIEngine", () => {
             };
             const result = new CLIEngine(opts).resolveFileGlobPatterns(patterns);
 
-            assert.deepStrictEqual(result, ["one-js-file/**/*.js", "two-js-files/**/*.js"]);
+            assert.deepStrictEqual(result, ["one-js-file/**/*.{js}", "two-js-files/**/*.{js}"]);
         });
 
         it("should remove leading './' from glob patterns", () => {
@@ -3489,7 +3489,7 @@ describe("CLIEngine", () => {
             };
             const result = new CLIEngine(opts).resolveFileGlobPatterns(patterns);
 
-            assert.deepStrictEqual(result, ["one-js-file/**/*.js"]);
+            assert.deepStrictEqual(result, ["one-js-file/**/*.{js}"]);
         });
 
         it("should convert a directory name with a trailing '/' into a glob pattern", () => {
@@ -3499,7 +3499,7 @@ describe("CLIEngine", () => {
             };
             const result = new CLIEngine(opts).resolveFileGlobPatterns(patterns);
 
-            assert.deepStrictEqual(result, ["one-js-file/**/*.js"]);
+            assert.deepStrictEqual(result, ["one-js-file/**/*.{js}"]);
         });
 
         it("should return filenames as they are", () => {
