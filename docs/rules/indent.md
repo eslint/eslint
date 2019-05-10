@@ -561,7 +561,7 @@ var foo = { bar: 1,
 Examples of **correct** code for this rule with the `4, { "ImportDeclaration": 1 }` option (the default):
 
 ```js
-/*eslint indent: ["error", 4, { ImportDeclaration: 1 }]*/
+/*eslint indent: ["error", 4, { "ImportDeclaration": 1 }]*/
 
 import { foo,
     bar,
@@ -575,10 +575,10 @@ import {
 } from 'qux';
 ```
 
-Examples of **incorrect** code for this rule with the `4, { ImportDeclaration: "first" }` option:
+Examples of **incorrect** code for this rule with the `4, { "ImportDeclaration": "first" }` option:
 
 ```js
-/*eslint indent: ["error", 4, { ImportDeclaration: "first" }]*/
+/*eslint indent: ["error", 4, { "ImportDeclaration": "first" }]*/
 
 import { foo,
     bar,
@@ -586,10 +586,10 @@ import { foo,
 } from 'qux';
 ```
 
-Examples of **correct** code for this rule with the `4, { ImportDeclaration: "first" }` option:
+Examples of **correct** code for this rule with the `4, { "ImportDeclaration": "first" }` option:
 
 ```js
-/*eslint indent: ["error", 4, { ImportDeclaration: "first" }]*/
+/*eslint indent: ["error", 4, { "ImportDeclaration": "first" }]*/
 
 import { foo,
          bar,
