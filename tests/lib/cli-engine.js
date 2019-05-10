@@ -40,7 +40,7 @@ describe("CLIEngine", () => {
         },
         examplePreprocessorName = "eslint-plugin-processor",
         originalDir = process.cwd(),
-        fixtureDir = path.resolve(os.tmpdir(), "eslint/fixtures");
+        fixtureDir = path.resolve(fs.realpathSync(os.tmpdir()), "eslint/fixtures");
 
     /** @type {import("../../lib/cli-engine")["CLIEngine"]} */
     let CLIEngine;
