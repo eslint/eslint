@@ -11,7 +11,7 @@
 
 const assert = require("chai").assert,
     Rules = require("../../lib/rules"),
-    Linter = require("../../lib/linter");
+    { Linter } = require("../../lib/linter");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -90,11 +90,10 @@ describe("rules", () => {
     });
 
     describe("when loading all rules", () => {
-        it("should return a map", () => {
-            const allRules = rules.getAllLoadedRules();
+        it("should iterate all rules", () => {
+            const allRules = new Map(rules);
 
             assert.isAbove(allRules.size, 230);
-            assert.instanceOf(allRules, Map);
             assert.isObject(allRules.get("no-alert"));
         });
     });
