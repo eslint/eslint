@@ -244,7 +244,7 @@ describe("Validator", () => {
             it("should throw with an object", () => {
                 const fn = validator.validate.bind(null, { extends: {} }, null, ruleMapper);
 
-                assert.throws(fn, "Property \"extends\" is the wrong type (expected string/array but got `{}`).");
+                assert.throws(fn, "ESLint configuration in null is invalid:\n\t- Property \"extends\" is the wrong type (expected string but got `{}`).\n\t- Property \"extends\" is the wrong type (expected array but got `{}`).\n\t- \"extends\" should match exactly one schema in oneOf. Value: {}.");
             });
         });
 
@@ -353,16 +353,12 @@ describe("Validator", () => {
                 assert.throws(fn, "ESLint configuration in tests is invalid:\n\t- Property \"overrides[0].files\" is the wrong type (expected string but got `[]`).\n\t- \"overrides[0].files\" should NOT have fewer than 1 items. Value: [].\n\t- \"overrides[0].files\" should match exactly one schema in oneOf. Value: [].\n");
             });
 
-            it("should throw if override has nested overrides", () => {
-                const fn = validator.validate.bind(null, { overrides: [{ files: "*", overrides: [{ files: "*", rules: {} }] }] }, "tests", ruleMapper);
-
-                assert.throws(fn, "ESLint configuration in tests is invalid:\n\t- Unexpected top-level property \"overrides[0].overrides\".\n");
+            it("should not throw if override has nested overrides", () => {
+                validator.validate({ overrides: [{ files: "*", overrides: [{ files: "*", rules: {} }] }] }, "tests", ruleMapper);
             });
 
-            it("should throw if override extends", () => {
-                const fn = validator.validate.bind(null, { overrides: [{ files: "*", extends: "eslint-recommended" }] }, "tests", ruleMapper);
-
-                assert.throws(fn, "ESLint configuration in tests is invalid:\n\t- Unexpected top-level property \"overrides[0].extends\".\n");
+            it("should not throw if override extends", () => {
+                validator.validate({ overrides: [{ files: "*", extends: "eslint-recommended" }] }, "tests", ruleMapper);
             });
 
             it("should throw if override tries to set root", () => {
