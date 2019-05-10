@@ -1,18 +1,38 @@
+os:
+  - linux
+  - osx
+  - windows
+
 language: node_js
 node_js:
-    - "8"
-    - "10"
-    - "11"
-    - "12"
+  - "8"
+  - "10"
+  - "11"
+  - "12"
+
+matrix:
+  exclude:
+    # Reduce build jobs.
+    - os: osx
+      node_js: "8"
+    - os: osx
+      node_js: "10"
+    - os: osx
+      node_js: "11"
+    - os: windows
+      node_js: "8"
+    - os: windows
+      node_js: "10"
+    - os: windows
+      node_js: "11"
+
 branches:
-    only:
+  only:
     - master
 
-# Run npm test always
-script:
-    - "npm test"
 after_success:
-    - 'if [ "$node_js" = "8" ]; then npm run coveralls; fi'
+  - npm run coveralls
+
 addons:
-    code_climate:
-        repo_token: 1945f7420d920a59f1ff8bf8d1a7b60ccd9e2838a692f73a5a74accd8df30146
+  code_climate:
+    repo_token: 1945f7420d920a59f1ff8bf8d1a7b60ccd9e2838a692f73a5a74accd8df30146
