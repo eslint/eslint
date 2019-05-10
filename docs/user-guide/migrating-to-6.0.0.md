@@ -180,8 +180,6 @@ Due to a bug, the glob patterns in a `files` list in an `overrides` section of a
 
 ## <a name="overrides-precedence"></a> Overrides in an extended config file can now be overridden by a parent config file
 
-**Note:** This update is planned, but has not been implemented in the latest alpha release yet.
-
 Due to a bug, it was previously the case that an `overrides` block in a shareable config had precedence over the top level of a parent config. For example, with the following config setup, the `semi` rule would end up enabled even though it was explicitly disabled in the end user's config:
 
 ```js

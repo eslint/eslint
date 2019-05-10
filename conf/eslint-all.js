@@ -15,15 +15,17 @@ const builtInRules = require("../lib/built-in-rules-index");
 // Helpers
 //------------------------------------------------------------------------------
 
-const enabledRules = Object.keys(builtInRules).reduce((result, ruleId) => {
-    if (!builtInRules[ruleId].meta.deprecated) {
-        result[ruleId] = "error";
+const allRules = {};
+
+for (const [ruleId, rule] of builtInRules) {
+    if (!rule.meta.deprecated) {
+        allRules[ruleId] = "error";
     }
-    return result;
-}, {});
+}
 
 //------------------------------------------------------------------------------
 // Public Interface
 //------------------------------------------------------------------------------
 
-module.exports = { rules: enabledRules };
+/** @type {import("../lib/util/types").ConfigData} */
+module.exports = { rules: allRules };

@@ -8,12 +8,51 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const assert = require("chai").assert,
+const
+    path = require("path"),
+    assert = require("chai").assert,
     spawn = require("cross-spawn"),
+    MemoryFs = require("metro-memory-fs"),
     sinon = require("sinon"),
     npmUtils = require("../../../lib/util/npm-utils"),
-    log = require("../../../lib/util/logging"),
-    mockFs = require("mock-fs");
+    log = require("../../../lib/util/logging");
+
+const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
+
+//------------------------------------------------------------------------------
+// Helpers
+//------------------------------------------------------------------------------
+
+/**
+ * Import `npm-utils` with the in-memory file system.
+ * @param {Object} files The file definitions.
+ * @returns {Object} `npm-utils`.
+ */
+function requireNpmUtilsWithInMemoryFileSystem(files) {
+    const fs = new MemoryFs({
+        cwd: process.cwd,
+        platform: process.platform === "win32" ? "win32" : "posix"
+    });
+
+    // Make cwd.
+    (function mkdir(dirPath) {
+        const parentPath = path.dirname(dirPath);
+
+        if (parentPath && parentPath !== dirPath && !fs.existsSync(parentPath)) {
+            mkdir(parentPath);
+        }
+        fs.mkdirSync(dirPath);
+
+    }(process.cwd()));
+
+    // Write files.
+    for (const [filename, content] of Object.entries(files)) {
+        fs.writeFileSync(filename, content);
+    }
+
+    // Stub.
+    return proxyquire("../../../lib/util/npm-utils", { fs });
+}
 
 //------------------------------------------------------------------------------
 // Tests
@@ -29,7 +68,6 @@ describe("npmUtils", () => {
 
     afterEach(() => {
         sandbox.verifyAndRestore();
-        mockFs.restore();
     });
 
     describe("checkDevDeps()", () => {
@@ -61,22 +99,22 @@ describe("npmUtils", () => {
         });
 
         it("should handle missing devDependencies key", () => {
-            mockFs({
+            const stubbedNpmUtils = requireNpmUtilsWithInMemoryFileSystem({
                 "package.json": JSON.stringify({ private: true, dependencies: {} })
             });
 
             // Should not throw.
-            npmUtils.checkDevDeps(["some-package"]);
+            stubbedNpmUtils.checkDevDeps(["some-package"]);
         });
 
         it("should throw with message when parsing invalid package.json", () => {
-            mockFs({
+            const stubbedNpmUtils = requireNpmUtilsWithInMemoryFileSystem({
                 "package.json": "{ \"not: \"valid json\" }"
             });
 
             assert.throws(() => {
                 try {
-                    npmUtils.checkDevDeps(["some-package"]);
+                    stubbedNpmUtils.checkDevDeps(["some-package"]);
                 } catch (error) {
                     assert.strictEqual(error.messageTemplate, "failed-to-read-json");
                     throw error;
@@ -90,10 +128,6 @@ describe("npmUtils", () => {
 
         before(() => {
             installStatus = npmUtils.checkDeps(["debug", "mocha", "notarealpackage", "jshint"]);
-        });
-
-        afterEach(() => {
-            mockFs.restore();
         });
 
         it("should find a direct dependency of the project", () => {
@@ -124,22 +158,22 @@ describe("npmUtils", () => {
         });
 
         it("should handle missing dependencies key", () => {
-            mockFs({
+            const stubbedNpmUtils = requireNpmUtilsWithInMemoryFileSystem({
                 "package.json": JSON.stringify({ private: true, devDependencies: {} })
             });
 
             // Should not throw.
-            npmUtils.checkDeps(["some-package"]);
+            stubbedNpmUtils.checkDeps(["some-package"]);
         });
 
         it("should throw with message when parsing invalid package.json", () => {
-            mockFs({
+            const stubbedNpmUtils = requireNpmUtilsWithInMemoryFileSystem({
                 "package.json": "{ \"not: \"valid json\" }"
             });
 
             assert.throws(() => {
                 try {
-                    npmUtils.checkDeps(["some-package"]);
+                    stubbedNpmUtils.checkDeps(["some-package"]);
                 } catch (error) {
                     assert.strictEqual(error.messageTemplate, "failed-to-read-json");
                     throw error;
@@ -149,21 +183,18 @@ describe("npmUtils", () => {
     });
 
     describe("checkPackageJson()", () => {
-        after(() => {
-            mockFs.restore();
-        });
-
         it("should return true if package.json exists", () => {
-            mockFs({
+            const stubbedNpmUtils = requireNpmUtilsWithInMemoryFileSystem({
                 "package.json": "{ \"file\": \"contents\" }"
             });
 
-            assert.strictEqual(npmUtils.checkPackageJson(), true);
+            assert.strictEqual(stubbedNpmUtils.checkPackageJson(), true);
         });
 
         it("should return false if package.json does not exist", () => {
-            mockFs({});
-            assert.strictEqual(npmUtils.checkPackageJson(), false);
+            const stubbedNpmUtils = requireNpmUtilsWithInMemoryFileSystem({});
+
+            assert.strictEqual(stubbedNpmUtils.checkPackageJson(), false);
         });
     });
 

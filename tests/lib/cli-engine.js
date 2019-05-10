@@ -14,10 +14,11 @@ const assert = require("chai").assert,
     sinon = require("sinon"),
     leche = require("leche"),
     shell = require("shelljs"),
-    Config = require("../../lib/config"),
     fs = require("fs"),
     os = require("os"),
-    hash = require("../../lib/util/hash");
+    hash = require("../../lib/util/hash"),
+    { CascadingConfigArrayFactory } = require("../../lib/cli-engine/cascading-config-array-factory"),
+    { defineCLIEngineWithInMemoryFileSystem } = require("./cli-engine/_utils");
 
 const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
 
@@ -31,7 +32,6 @@ describe("CLIEngine", () => {
 
     const examplePluginName = "eslint-plugin-example",
         examplePluginNameWithNamespace = "@eslint/eslint-plugin-example",
-        requireStubs = {},
         examplePlugin = {
             rules: {
                 "example-rule": require("../fixtures/rules/custom-rule"),
@@ -39,9 +39,14 @@ describe("CLIEngine", () => {
             }
         },
         examplePreprocessorName = "eslint-plugin-processor",
-        originalDir = process.cwd();
-    let CLIEngine,
-        fixtureDir;
+        originalDir = process.cwd(),
+        fixtureDir = path.resolve(os.tmpdir(), "eslint/fixtures");
+
+    /** @type {import("../../lib/cli-engine")["CLIEngine"]} */
+    let CLIEngine;
+
+    /** @type {import("../../lib/cli-engine")["getCLIEngineInternalSlots"]} */
+    let getCLIEngineInternalSlots;
 
     /**
      * Returns the path inside of the fixture directory.
@@ -65,29 +70,24 @@ describe("CLIEngine", () => {
      * @private
      */
     function cliEngineWithPlugins(options) {
-        const engine = new CLIEngine(Object.assign({}, options, { configFile: null }));
+        const engine = new CLIEngine(options);
 
         // load the mocked plugins
-        engine.config.plugins.define(examplePluginName, examplePlugin);
-        engine.config.plugins.define(examplePluginNameWithNamespace, examplePlugin);
-        engine.config.plugins.define(examplePreprocessorName, require("../fixtures/processors/custom-processor"));
-
-        // load the real file now so that it can consume the loaded plugins
-        engine.config.loadSpecificConfig(options.configFile);
+        engine.addPlugin(examplePluginName, examplePlugin);
+        engine.addPlugin(examplePluginNameWithNamespace, examplePlugin);
+        engine.addPlugin(examplePreprocessorName, require("../fixtures/processors/custom-processor"));
 
         return engine;
     }
 
     // copy into clean area so as not to get "infected" by this project's .eslintrc files
     before(() => {
-        fixtureDir = path.join(os.tmpdir(), "/eslint/fixtures");
         shell.mkdir("-p", fixtureDir);
         shell.cp("-r", "./tests/fixtures/.", fixtureDir);
-        fixtureDir = fs.realpathSync(fixtureDir);
     });
 
     beforeEach(() => {
-        CLIEngine = proxyquire("../../lib/cli-engine", requireStubs);
+        ({ CLIEngine, getCLIEngineInternalSlots } = require("../../lib/cli-engine"));
     });
 
     after(() => {
@@ -99,8 +99,9 @@ describe("CLIEngine", () => {
             process.chdir(__dirname);
             try {
                 const engine = new CLIEngine();
+                const internalSlots = getCLIEngineInternalSlots(engine);
 
-                assert.strictEqual(engine.options.cwd, __dirname);
+                assert.strictEqual(internalSlots.options.cwd, __dirname);
             } finally {
                 process.chdir(originalDir);
             }
@@ -110,7 +111,16 @@ describe("CLIEngine", () => {
             assert.throws(() => {
                 // eslint-disable-next-line no-new
                 new CLIEngine({ ignorePath: fixtureDir });
-            }, `Error: Could not load file ${fixtureDir}\nError: ${fixtureDir} is not a file`);
+            }, `Cannot read ignore file: ${fixtureDir}\nError: ${fixtureDir} is not a file`);
+        });
+
+        // https://github.com/eslint/eslint/issues/2380
+        it("should not modify baseConfig when format is specified", () => {
+            const customBaseConfig = { root: true };
+
+            new CLIEngine({ baseConfig: customBaseConfig, format: "foo" }); // eslint-disable-line no-new
+
+            assert.deepStrictEqual(customBaseConfig, { root: true });
         });
     });
 
@@ -430,8 +440,12 @@ describe("CLIEngine", () => {
                     fix: true,
                     fixTypes: ["layout"]
                 });
+                const internalSlots = getCLIEngineInternalSlots(engine);
 
-                engine.linter.defineRule("no-program", require(getFixturePath("rules", "fix-types-test", "no-program.js")));
+                internalSlots.linter.defineRule(
+                    "no-program",
+                    require(getFixturePath("rules", "fix-types-test", "no-program.js"))
+                );
 
                 const inputPath = getFixturePath("fix-types/ignore-missing-meta.js");
                 const outputPath = getFixturePath("fix-types/ignore-missing-meta.expected.js");
@@ -448,8 +462,12 @@ describe("CLIEngine", () => {
                     fix: true,
                     fixTypes: ["layout"]
                 });
+                const internalSlots = getCLIEngineInternalSlots(engine);
 
-                engine.linter.defineRule("no-program", require(getFixturePath("rules", "fix-types-test", "no-program.js")));
+                internalSlots.linter.defineRule(
+                    "no-program",
+                    require(getFixturePath("rules", "fix-types-test", "no-program.js"))
+                );
 
                 const inputPath = getFixturePath("fix-types/ignore-missing-meta.js");
                 const outputPath = getFixturePath("fix-types/ignore-missing-meta.expected.js");
@@ -511,6 +529,7 @@ describe("CLIEngine", () => {
             engine = cliEngineWithPlugins({
                 useEslintrc: false,
                 fix: true,
+                plugins: ["example"],
                 rules: {
                     "example/make-syntax-error": "error"
                 },
@@ -751,6 +770,7 @@ describe("CLIEngine", () => {
 
     describe("executeOnFiles()", () => {
 
+        /** @type {InstanceType<import("../../lib/cli-engine")["CLIEngine"]>} */
         let engine;
 
         it("should use correct parser when custom parser is specified", () => {
@@ -901,7 +921,7 @@ describe("CLIEngine", () => {
 
             assert.throws(() => {
                 engine.executeOnFiles(["fixtures/files/*"]);
-            }, `ENOENT: no such file or directory, open '${getFixturePath("..", "fixtures", "files", "*")}`);
+            }, "No files matching 'fixtures/files/*' were found (glob was disabled).");
         });
 
         it("should report on all files passed explicitly, even if ignored by default", () => {
@@ -1214,15 +1234,15 @@ describe("CLIEngine", () => {
             });
 
             assert.throws(() => {
-                engine.executeOnFiles([getFixturePath("./")]);
-            }, `All files matched by '${getFixturePath("./")}' are ignored.`);
+                engine.executeOnFiles([getFixturePath("./cli-engine/")]);
+            }, `All files matched by '${getFixturePath("./cli-engine/")}' are ignored.`);
         });
 
         it("should throw an error when all given files are ignored", () => {
 
             assert.throws(() => {
-                engine.executeOnFiles(["tests/fixtures/"]);
-            }, "All files matched by 'tests/fixtures/' are ignored.");
+                engine.executeOnFiles(["tests/fixtures/cli-engine/"]);
+            }, "All files matched by 'tests/fixtures/cli-engine/' are ignored.");
         });
 
         it("should throw an error when all given files are ignored even with a `./` prefix", () => {
@@ -1231,8 +1251,8 @@ describe("CLIEngine", () => {
             });
 
             assert.throws(() => {
-                engine.executeOnFiles(["./tests/fixtures/"]);
-            }, "All files matched by './tests/fixtures/' are ignored.");
+                engine.executeOnFiles(["./tests/fixtures/cli-engine/"]);
+            }, "All files matched by './tests/fixtures/cli-engine/' are ignored.");
         });
 
         // https://github.com/eslint/eslint/issues/3788
@@ -1997,7 +2017,7 @@ describe("CLIEngine", () => {
 
                 assert.strictEqual(report.results.length, 1);
                 assert.strictEqual(report.results[0].messages.length, 2);
-                assert.strictEqual(report.results[0].messages[0].ruleId, "example/example-rule");
+                assert.strictEqual(report.results[0].messages[0].ruleId, "@eslint/example/example-rule");
             });
 
             it("should return two messages when executing with config file that specifies a plugin without prefix", () => {
@@ -2025,7 +2045,7 @@ describe("CLIEngine", () => {
 
                 assert.strictEqual(report.results.length, 1);
                 assert.strictEqual(report.results[0].messages.length, 2);
-                assert.strictEqual(report.results[0].messages[0].ruleId, "example/example-rule");
+                assert.strictEqual(report.results[0].messages[0].ruleId, "@eslint/example/example-rule");
             });
 
             it("should return two messages when executing with cli option that specifies a plugin", () => {
@@ -2883,44 +2903,151 @@ describe("CLIEngine", () => {
                 assert.strictEqual(ret.results[0].messages[0].ruleId, "no-unused-vars");
             });
         });
+
+        describe("a config file setting should have higher priority than a shareable config file's settings always; https://github.com/eslint/eslint/issues/11510", () => {
+            beforeEach(() => {
+                ({ CLIEngine } = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => path.join(os.tmpdir(), "cli-engine/11510"),
+                    files: {
+                        "no-console-error-in-overrides.json": JSON.stringify({
+                            overrides: [{
+                                files: ["*.js"],
+                                rules: { "no-console": "error" }
+                            }]
+                        }),
+                        ".eslintrc.json": JSON.stringify({
+                            extends: "./no-console-error-in-overrides.json",
+                            rules: { "no-console": "off" }
+                        }),
+                        "a.js": "console.log();"
+                    }
+                }));
+                engine = new CLIEngine();
+            });
+
+            it("should not report 'no-console' error.", () => {
+                const { results } = engine.executeOnFiles("a.js");
+
+                assert.strictEqual(results.length, 1);
+                assert.deepStrictEqual(results[0].messages, []);
+            });
+        });
+
+        describe("configs of plugin rules should be validated even if 'plugins' key doesn't exist; https://github.com/eslint/eslint/issues/11559", () => {
+            beforeEach(() => {
+                ({ CLIEngine } = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => path.join(os.tmpdir(), "cli-engine/11559"),
+                    files: {
+                        "node_modules/eslint-plugin-test/index.js": `
+                            exports.configs = {
+                                recommended: { plugins: ["test"] }
+                            };
+                            exports.rules = {
+                                foo: {
+                                    meta: { schema: [{ type: "number" }] },
+                                    create() { return {}; }
+                                }
+                            };
+                        `,
+                        ".eslintrc.json": JSON.stringify({
+
+                            // Import via the recommended config.
+                            extends: "plugin:test/recommended",
+
+                            // Has invalid option.
+                            rules: { "test/foo": ["error", "invalid-option"] }
+                        }),
+                        "a.js": "console.log();"
+                    }
+                }));
+                engine = new CLIEngine();
+            });
+
+            it("should throw fatal error.", () => {
+                assert.throws(() => {
+                    engine.executeOnFiles("a.js");
+                }, /invalid-option/u);
+            });
+        });
+
+        describe("'--fix-type' should not crash even if plugin rules exist; https://github.com/eslint/eslint/issues/11586", () => {
+            beforeEach(() => {
+                ({ CLIEngine } = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => path.join(os.tmpdir(), "cli-engine/11586"),
+                    files: {
+                        "node_modules/eslint-plugin-test/index.js": `
+                            exports.rules = {
+                                "no-example": {
+                                    meta: { type: "problem", fixable: "code" },
+                                    create(context) {
+                                        return {
+                                            Identifier(node) {
+                                                if (node.name === "example") {
+                                                    context.report({
+                                                        node,
+                                                        message: "fix",
+                                                        fix: fixer => fixer.replaceText(node, "fixed")
+                                                    })
+                                                }
+                                            }
+                                        };
+                                    }
+                                }
+                            };
+                        `,
+                        ".eslintrc.json": JSON.stringify({
+                            plugins: ["test"],
+                            rules: { "test/no-example": "error" }
+                        }),
+                        "a.js": "example;"
+                    }
+                }));
+                engine = new CLIEngine({ fix: true, fixTypes: ["problem"] });
+            });
+
+            it("should not crash.", () => {
+                const { results } = engine.executeOnFiles("a.js");
+
+                assert.strictEqual(results.length, 1);
+                assert.deepStrictEqual(results[0].messages, []);
+                assert.deepStrictEqual(results[0].output, "fixed;");
+            });
+        });
     });
 
     describe("getConfigForFile", () => {
 
         it("should return the info from Config#getConfig when called", () => {
-
-            const engine = new CLIEngine({
+            const options = {
                 configFile: getFixturePath("configurations", "quotes-error.json")
-            });
-
-            const configHelper = new Config(engine.options, engine.linter);
-
+            };
+            const engine = new CLIEngine(options);
             const filePath = getFixturePath("single-quoted.js");
 
-            assert.deepStrictEqual(
-                engine.getConfigForFile(filePath),
-                configHelper.getConfig(filePath)
-            );
+            const actualConfig = engine.getConfigForFile(filePath);
+            const expectedConfig = new CascadingConfigArrayFactory({ specificConfigPath: options.configFile })
+                .getConfigArrayForFile(filePath)
+                .extractConfig(filePath)
+                .toCompatibleObjectAsConfigFileContent();
 
+            assert.deepStrictEqual(actualConfig, expectedConfig);
         });
 
 
         it("should return the config when run from within a subdir", () => {
-
-            const engine = new CLIEngine({
+            const options = {
                 cwd: getFixturePath("config-hierarchy", "root-true", "parent", "root", "subdir")
-            });
-
-            const configHelper = new Config(engine.options, engine.linter);
-
+            };
+            const engine = new CLIEngine(options);
             const filePath = getFixturePath("config-hierarchy", "root-true", "parent", "root", ".eslintrc");
-            const config = engine.getConfigForFile("./.eslintrc");
 
-            assert.deepStrictEqual(
-                config,
-                configHelper.getConfig(filePath)
-            );
+            const actualConfig = engine.getConfigForFile("./.eslintrc");
+            const expectedConfig = new CascadingConfigArrayFactory(options)
+                .getConfigArrayForFile(filePath)
+                .extractConfig(filePath)
+                .toCompatibleObjectAsConfigFileContent();
 
+            assert.deepStrictEqual(actualConfig, expectedConfig);
         });
 
     });
@@ -3049,7 +3176,7 @@ describe("CLIEngine", () => {
 
         it("should return null when a built-in formatter doesn't exist", () => {
             const engine = new CLIEngine();
-            const fullFormatterPath = path.resolve(__dirname, "..", "..", "lib", "formatters", "special");
+            const fullFormatterPath = path.resolve(__dirname, "../../lib/formatters/special");
 
             assert.throws(() => {
                 engine.getFormatter("special");
@@ -3204,7 +3331,7 @@ describe("CLIEngine", () => {
             const fakeFS = leche.fake(fs),
                 localCLIEngine = proxyquire("../../lib/cli-engine", {
                     fs: fakeFS
-                }),
+                }).CLIEngine,
                 report = {
                     results: [
                         {
@@ -3233,7 +3360,7 @@ describe("CLIEngine", () => {
             const fakeFS = leche.fake(fs),
                 localCLIEngine = proxyquire("../../lib/cli-engine", {
                     fs: fakeFS
-                }),
+                }).CLIEngine,
                 report = {
                     results: [
                         {
@@ -3275,9 +3402,9 @@ describe("CLIEngine", () => {
     describe("resolveFileGlobPatterns", () => {
 
         leche.withData([
-            [".", ["**/*.js"]],
-            ["./", ["**/*.js"]],
-            ["../", ["../**/*.js"]],
+            [".", ["**/*.{js}"]],
+            ["./", ["**/*.{js}"]],
+            ["../", ["../**/*.{js}"]],
             ["", []]
         ], (input, expected) => {
 
@@ -3291,6 +3418,109 @@ describe("CLIEngine", () => {
             });
         });
 
+        it("should convert a directory name with no provided extensions into a glob pattern", () => {
+            const patterns = ["one-js-file"];
+            const opts = {
+                cwd: getFixturePath("glob-util")
+            };
+            const result = new CLIEngine(opts).resolveFileGlobPatterns(patterns);
+
+            assert.deepStrictEqual(result, ["one-js-file/**/*.{js}"]);
+        });
+
+        it("should not convert path with globInputPaths option false", () => {
+            const patterns = ["one-js-file"];
+            const opts = {
+                cwd: getFixturePath("glob-util"),
+                globInputPaths: false
+            };
+            const result = new CLIEngine(opts).resolveFileGlobPatterns(patterns);
+
+            assert.deepStrictEqual(result, ["one-js-file"]);
+        });
+
+        it("should convert an absolute directory name with no provided extensions into a posix glob pattern", () => {
+            const patterns = [getFixturePath("glob-util", "one-js-file")];
+            const opts = {
+                cwd: getFixturePath("glob-util")
+            };
+            const result = new CLIEngine(opts).resolveFileGlobPatterns(patterns);
+            const expected = [`${getFixturePath("glob-util", "one-js-file").replace(/\\/gu, "/")}/**/*.{js}`];
+
+            assert.deepStrictEqual(result, expected);
+        });
+
+        it("should convert a directory name with a single provided extension into a glob pattern", () => {
+            const patterns = ["one-js-file"];
+            const opts = {
+                cwd: getFixturePath("glob-util"),
+                extensions: [".jsx"]
+            };
+            const result = new CLIEngine(opts).resolveFileGlobPatterns(patterns);
+
+            assert.deepStrictEqual(result, ["one-js-file/**/*.{jsx}"]);
+        });
+
+        it("should convert a directory name with multiple provided extensions into a glob pattern", () => {
+            const patterns = ["one-js-file"];
+            const opts = {
+                cwd: getFixturePath("glob-util"),
+                extensions: [".jsx", ".js"]
+            };
+            const result = new CLIEngine(opts).resolveFileGlobPatterns(patterns);
+
+            assert.deepStrictEqual(result, ["one-js-file/**/*.{jsx,js}"]);
+        });
+
+        it("should convert multiple directory names into glob patterns", () => {
+            const patterns = ["one-js-file", "two-js-files"];
+            const opts = {
+                cwd: getFixturePath("glob-util")
+            };
+            const result = new CLIEngine(opts).resolveFileGlobPatterns(patterns);
+
+            assert.deepStrictEqual(result, ["one-js-file/**/*.{js}", "two-js-files/**/*.{js}"]);
+        });
+
+        it("should remove leading './' from glob patterns", () => {
+            const patterns = ["./one-js-file"];
+            const opts = {
+                cwd: getFixturePath("glob-util")
+            };
+            const result = new CLIEngine(opts).resolveFileGlobPatterns(patterns);
+
+            assert.deepStrictEqual(result, ["one-js-file/**/*.{js}"]);
+        });
+
+        it("should convert a directory name with a trailing '/' into a glob pattern", () => {
+            const patterns = ["one-js-file/"];
+            const opts = {
+                cwd: getFixturePath("glob-util")
+            };
+            const result = new CLIEngine(opts).resolveFileGlobPatterns(patterns);
+
+            assert.deepStrictEqual(result, ["one-js-file/**/*.{js}"]);
+        });
+
+        it("should return filenames as they are", () => {
+            const patterns = ["some-file.js"];
+            const opts = {
+                cwd: getFixturePath("glob-util")
+            };
+            const result = new CLIEngine(opts).resolveFileGlobPatterns(patterns);
+
+            assert.deepStrictEqual(result, ["some-file.js"]);
+        });
+
+        it("should convert backslashes into forward slashes", () => {
+            const patterns = ["one-js-file\\example.js"];
+            const opts = {
+                cwd: getFixturePath()
+            };
+            const result = new CLIEngine(opts).resolveFileGlobPatterns(patterns);
+
+            assert.deepStrictEqual(result, ["one-js-file/example.js"]);
+        });
     });
 
     describe("when evaluating code with comments to change config when allowInlineConfig is disabled", () => {
@@ -3388,7 +3618,7 @@ describe("CLIEngine", () => {
 
     describe("when retreiving version number", () => {
         it("should return current version number", () => {
-            const eslintCLI = require("../../lib/cli-engine");
+            const eslintCLI = require("../../lib/cli-engine").CLIEngine;
             const version = eslintCLI.version;
 
             assert.isString(version);
@@ -3414,8 +3644,8 @@ describe("CLIEngine", () => {
                 const fileConfig2 = engine2.getConfigForFile(filePath);
 
                 // plugin
-                assert.strictEqual(fileConfig1.plugins[0], "example", "Plugin is present for engine 1");
-                assert.isUndefined(fileConfig2.plugins, "Plugin is not present for engine 2");
+                assert.deepStrictEqual(fileConfig1.plugins, ["example"], "Plugin is present for engine 1");
+                assert.deepStrictEqual(fileConfig2.plugins, [], "Plugin is not present for engine 2");
             });
         });
 
@@ -3435,7 +3665,7 @@ describe("CLIEngine", () => {
                 const fileConfig2 = engine2.getConfigForFile(filePath);
 
                 // plugin
-                assert.strictEqual(fileConfig1.rules["example/example-rule"], 1, "example is present for engine 1");
+                assert.deepStrictEqual(fileConfig1.rules["example/example-rule"], [1], "example is present for engine 1");
                 assert.isUndefined(fileConfig2.rules["example/example-rule"], "example is not present for engine 2");
             });
         });

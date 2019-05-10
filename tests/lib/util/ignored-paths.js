@@ -12,7 +12,7 @@
 const assert = require("chai").assert,
     path = require("path"),
     os = require("os"),
-    IgnoredPaths = require("../../../lib/util/ignored-paths.js"),
+    { IgnoredPaths } = require("../../../lib/util/ignored-paths.js"),
     sinon = require("sinon"),
     fs = require("fs"),
     includes = require("lodash").includes;
@@ -386,14 +386,21 @@ describe("IgnoredPaths", () => {
                 .withArgs(".eslintignore")
                 .returns("subdir\r\n");
             sinon.stub(fs, "statSync")
-                .withArgs("subdir")
-                .returns();
-            const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: ".eslintignore", cwd: getFixturePath() });
+                .withArgs(".eslintignore")
+                .returns({
+                    isFile() {
+                        return true;
+                    }
+                });
 
-            assert.isTrue(ignoredPaths.contains(getFixturePath("subdir/undef.js")));
+            try {
+                const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: ".eslintignore", cwd: getFixturePath() });
 
-            fs.readFileSync.restore();
-            fs.statSync.restore();
+                assert.isTrue(ignoredPaths.contains(getFixturePath("subdir/undef.js")));
+            } finally {
+                fs.readFileSync.restore();
+                fs.statSync.restore();
+            }
         });
 
         it("should return false for file not matching any ignore pattern", () => {
@@ -646,131 +653,6 @@ describe("IgnoredPaths", () => {
             assert.isFalse(ignoredPaths.contains(getFixturePath("foo/.bar/baz")));
         });
 
-    });
-
-    describe("getIgnoredFoldersGlobChecker", () => {
-
-        /**
-         * Creates a function to resolve the given relative path according to the `cwd`
-         * @param {path} cwd The cwd of `ignorePaths`
-         * @returns {function()} the function described above.
-         */
-        function createResolve(cwd) {
-            return function(relative) {
-                return path.join(cwd, relative);
-            };
-        }
-
-        it("should ignore default folders when there is no eslintignore file", () => {
-            const cwd = getFixturePath("no-ignore-file");
-            const ignoredPaths = new IgnoredPaths({ ignore: true, cwd });
-
-            const shouldIgnore = ignoredPaths.getIgnoredFoldersGlobChecker();
-            const resolve = createResolve(cwd);
-
-            assert.isTrue(shouldIgnore(resolve("node_modules/a")));
-            assert.isTrue(shouldIgnore(resolve("node_modules/a/b")));
-            assert.isTrue(shouldIgnore(resolve("bower_components/a")));
-            assert.isTrue(shouldIgnore(resolve("bower_components/a/b")));
-            assert.isFalse(shouldIgnore(resolve(".hidden")));
-            assert.isTrue(shouldIgnore(resolve(".hidden/a")));
-
-            assert.isFalse(shouldIgnore(resolve("..")));
-            assert.isFalse(shouldIgnore(resolve("../..")));
-            assert.isFalse(shouldIgnore(resolve("../foo")));
-            assert.isFalse(shouldIgnore(resolve("../../..")));
-            assert.isFalse(shouldIgnore(resolve("../../foo")));
-        });
-
-        it("should ignore default folders when there is an ignore file without unignored defaults", () => {
-            const cwd = getFixturePath();
-            const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: getFixturePath(".eslintignore"), cwd });
-
-            const shouldIgnore = ignoredPaths.getIgnoredFoldersGlobChecker();
-            const resolve = createResolve(cwd);
-
-            assert.isTrue(shouldIgnore(resolve("node_modules/a")));
-            assert.isTrue(shouldIgnore(resolve("node_modules/a/b")));
-            assert.isTrue(shouldIgnore(resolve("bower_components/a")));
-            assert.isTrue(shouldIgnore(resolve("bower_components/a/b")));
-            assert.isFalse(shouldIgnore(resolve(".hidden")));
-            assert.isTrue(shouldIgnore(resolve(".hidden/a")));
-        });
-
-        it("should not ignore things which are re-included in ignore file", () => {
-            const cwd = getFixturePath();
-            const ignoredPaths = new IgnoredPaths({ ignore: true, ignorePath: getFixturePath(".eslintignoreWithUnignoredDefaults"), cwd });
-
-            const shouldIgnore = ignoredPaths.getIgnoredFoldersGlobChecker();
-            const resolve = createResolve(cwd);
-
-            assert.isTrue(shouldIgnore(resolve("node_modules/a")));
-            assert.isTrue(shouldIgnore(resolve("node_modules/a/b")));
-            assert.isTrue(shouldIgnore(resolve("bower_components/a")));
-            assert.isTrue(shouldIgnore(resolve("bower_components/a/b")));
-            assert.isFalse(shouldIgnore(resolve(".hidden")));
-            assert.isTrue(shouldIgnore(resolve(".hidden/a")));
-            assert.isFalse(shouldIgnore(resolve("node_modules/package")));
-            assert.isFalse(shouldIgnore(resolve("bower_components/package")));
-            assert.isFalse(shouldIgnore(resolve(".hidden/package")));
-        });
-
-        it("should ignore files which we try to re-include in ignore file when ignore option is disabled", () => {
-            const cwd = getFixturePath();
-            const ignoredPaths = new IgnoredPaths({ ignore: false, ignorePath: getFixturePath(".eslintignoreWithUnignoredDefaults"), cwd });
-
-            const shouldIgnore = ignoredPaths.getIgnoredFoldersGlobChecker();
-            const resolve = createResolve(cwd);
-
-            assert.isTrue(shouldIgnore(resolve("node_modules/a")));
-            assert.isTrue(shouldIgnore(resolve("node_modules/a/b")));
-            assert.isTrue(shouldIgnore(resolve("bower_components/a")));
-            assert.isTrue(shouldIgnore(resolve("bower_components/a/b")));
-            assert.isFalse(shouldIgnore(resolve(".hidden")));
-            assert.isTrue(shouldIgnore(resolve(".hidden/a")));
-            assert.isTrue(shouldIgnore(resolve("node_modules/package")));
-            assert.isTrue(shouldIgnore(resolve("bower_components/package")));
-            assert.isTrue(shouldIgnore(resolve(".hidden/package")));
-        });
-
-        it("should not ignore dirs which are re-included by ignorePattern", () => {
-            const cwd = getFixturePath("no-ignore-file");
-            const ignoredPaths = new IgnoredPaths({ ignore: true, cwd, ignorePattern: "!/node_modules/package" });
-
-            const shouldIgnore = ignoredPaths.getIgnoredFoldersGlobChecker();
-            const resolve = createResolve(cwd);
-
-            assert.isTrue(shouldIgnore(resolve("node_modules/a")));
-            assert.isTrue(shouldIgnore(resolve("node_modules/a/b")));
-            assert.isTrue(shouldIgnore(resolve("bower_components/a")));
-            assert.isTrue(shouldIgnore(resolve("bower_components/a/b")));
-            assert.isFalse(shouldIgnore(resolve(".hidden")));
-            assert.isTrue(shouldIgnore(resolve(".hidden/a")));
-            assert.isFalse(shouldIgnore(resolve("node_modules/package")));
-            assert.isTrue(shouldIgnore(resolve("bower_components/package")));
-        });
-
-        it("should not ignore hidden dirs when dotfiles is enabled", () => {
-            const cwd = getFixturePath("no-ignore-file");
-            const ignoredPaths = new IgnoredPaths({ ignore: true, cwd, dotfiles: true });
-
-            const shouldIgnore = ignoredPaths.getIgnoredFoldersGlobChecker();
-            const resolve = createResolve(cwd);
-
-            assert.isFalse(shouldIgnore(resolve(".hidden")));
-            assert.isFalse(shouldIgnore(resolve(".hidden/a")));
-        });
-
-        it("should use the ignorePath's directory as the base to resolve relative paths, not cwd", () => {
-            const cwd = getFixturePath("subdir");
-            const ignoredPaths = new IgnoredPaths({ ignore: true, cwd, ignorePath: getFixturePath(".eslintignoreForDifferentCwd") });
-
-            const shouldIgnore = ignoredPaths.getIgnoredFoldersGlobChecker();
-            const resolve = createResolve(cwd);
-
-            assert.isFalse(shouldIgnore(resolve("undef.js")));
-            assert.isTrue(shouldIgnore(resolve("../undef.js")));
-        });
     });
 
 });

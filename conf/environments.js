@@ -14,7 +14,8 @@ const globals = require("globals");
 // Public Interface
 //------------------------------------------------------------------------------
 
-module.exports = {
+/** @type {Map<string, import("../lib/util/types").Environment>} */
+module.exports = new Map(Object.entries({
     builtin: {
         globals: globals.es5
     },
@@ -106,4 +107,4 @@ module.exports = {
     greasemonkey: {
         globals: globals.greasemonkey
     }
-};
+}));

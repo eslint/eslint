@@ -12,7 +12,7 @@
 const assert = require("assert"),
     fs = require("fs"),
     path = require("path"),
-    Linter = require("../../../lib/linter"),
+    { Linter } = require("../../../lib/linter"),
     EventGeneratorTester = require("../../../tools/internal-testers/event-generator-tester"),
     createEmitter = require("../../../lib/util/safe-emitter"),
     debug = require("../../../lib/code-path-analysis/debug-helpers"),

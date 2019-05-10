@@ -35,7 +35,7 @@ const assert = require("chai").assert,
     esprima = require("esprima"),
     testParsers = require("../fixtures/parsers/linter-test-parsers");
 
-const Linter = compatRequire("../../lib/linter", "eslint");
+const { Linter } = compatRequire("../../lib/linter", "eslint");
 
 //------------------------------------------------------------------------------
 // Constants
@@ -4186,19 +4186,6 @@ describe("Linter", () => {
 
                 assert.isTrue(linter1.getRules().has("mock-rule"), "mock rule is present");
                 assert.isFalse(linter2.getRules().has("mock-rule"), "mock rule is not present");
-            });
-        });
-
-        describe("environments", () => {
-            it("with no changes same env are loaded", () => {
-                assert.sameDeepMembers([linter1.environments.getAll()], [linter2.environments.getAll()]);
-            });
-
-            it("defining env in one doesnt change the other", () => {
-                linter1.environments.define("mock-env", true);
-
-                assert.isTrue(linter1.environments.get("mock-env"), "mock env is present");
-                assert.isNull(linter2.environments.get("mock-env"), "mock env is not present");
             });
         });
     });

@@ -294,8 +294,8 @@ describe("ConfigRule", () => {
         const rulesConfig = ConfigRule.createCoreRuleConfigs();
 
         it("should create a rulesConfig containing all core rules", () => {
-            const coreRules = builtInRules,
-                expectedRules = Object.keys(coreRules),
+            const
+                expectedRules = Array.from(builtInRules.keys()),
                 actualRules = Object.keys(rulesConfig);
 
             assert.sameMembers(actualRules, expectedRules);
