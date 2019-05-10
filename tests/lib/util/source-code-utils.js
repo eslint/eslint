@@ -15,7 +15,6 @@ const path = require("path"),
     assert = require("chai").assert,
     sinon = require("sinon"),
     sh = require("shelljs"),
-    globUtils = require("../../../lib/util/glob-utils"),
     SourceCode = require("../../../lib/util/source-code");
 
 const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
@@ -122,7 +121,7 @@ describe("SourceCodeUtil", () => {
             const spy = sinon.spy();
 
             process.chdir(fixtureDir);
-            getSourceCodeOfFiles(filename, spy);
+            getSourceCodeOfFiles(filename, {}, spy);
             process.chdir(originalDir);
             assert(spy.calledOnce);
         });
@@ -132,18 +131,9 @@ describe("SourceCodeUtil", () => {
             const spy = sinon.spy();
 
             process.chdir(fixtureDir);
-            getSourceCodeOfFiles(filename, spy);
+            getSourceCodeOfFiles(filename, {}, spy);
             process.chdir(originalDir);
             assert.strictEqual(spy.firstCall.args[0], 1);
-        });
-
-        it("should use default options if none are provided", () => {
-            const filename = getFixturePath("foo.js");
-            const spy = sinon.spy(globUtils, "resolveFileGlobPatterns");
-
-            getSourceCodeOfFiles(filename);
-            assert(spy.called);
-            assert.deepStrictEqual(spy.firstCall.args[1].extensions, [".js"]);
         });
 
         it("should create an object with located filenames as keys", () => {

@@ -7,12 +7,13 @@
 "use strict";
 
 const builtInRules = require("../lib/built-in-rules-index");
+const recommendedRules = {};
 
-module.exports = {
-    rules: Object.assign(
-        {},
-        ...Object.keys(builtInRules)
-            .filter(ruleId => builtInRules[ruleId].meta.docs.recommended)
-            .map(ruleId => ({ [ruleId]: "error" }))
-    )
-};
+for (const [ruleId, rule] of builtInRules) {
+    if (rule.meta.docs.recommended) {
+        recommendedRules[ruleId] = "error";
+    }
+}
+
+/** @type {import("../lib/util/types").ConfigData} */
+module.exports = { rules: recommendedRules };
