@@ -82,7 +82,35 @@ ruleTester.run("no-unexpected-multiline", rule, {
         `
             5 / (5
             / 5)
-        `
+        `,
+
+        // https://github.com/eslint/eslint/issues/11650
+        {
+            code: `
+                tag<generic>\`
+                    multiline
+                \`;
+            `,
+            parser: require.resolve("../../fixtures/parsers/typescript-parsers/tagged-template-with-generic/tagged-template-with-generic-1")
+        },
+        {
+            code: `
+                tag<
+                  generic
+                >\`
+                    multiline
+                \`;
+            `,
+            parser: require.resolve("../../fixtures/parsers/typescript-parsers/tagged-template-with-generic/tagged-template-with-generic-2")
+        },
+        {
+            code: `
+                tag<
+                  generic
+                >\`multiline\`;
+            `,
+            parser: require.resolve("../../fixtures/parsers/typescript-parsers/tagged-template-with-generic/tagged-template-with-generic-3")
+        }
     ],
     invalid: [
         {
@@ -215,6 +243,25 @@ ruleTester.run("no-unexpected-multiline", rule, {
                 column: 17,
                 messageId: "division"
             }]
+        },
+
+        // https://github.com/eslint/eslint/issues/11650
+        {
+            code: `
+                const x = aaaa<
+                    test
+                >/*
+                test
+                */\`foo\`
+            `,
+            parser: require.resolve("../../fixtures/parsers/typescript-parsers/tagged-template-with-generic/tagged-template-with-generic-and-comment"),
+            errors: [
+                {
+                    line: 1,
+                    column: 11,
+                    messageId: "taggedTemplate"
+                }
+            ]
         }
     ]
 });
