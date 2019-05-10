@@ -82,7 +82,7 @@ function reduceBadExampleSize({
         return predicate(updatedSourceText);
     }
 
-    assert(reproducesBadCase(sourceText), "Original source text fails to reproduce issue");
+    assert(reproducesBadCase(sourceText), "Original source text should reproduce issue");
     const parseResult = recast.parse(sourceText, { parser });
 
     /**
@@ -196,10 +196,10 @@ function reduceBadExampleSize({
     pruneIrrelevantSubtrees(parseResult.program);
     const relevantChild = recast.print(extractRelevantChild(parseResult.program)).code;
 
-    assert(reproducesBadCase(relevantChild), "Relevant source text fails to reproduce issue");
+    assert(reproducesBadCase(relevantChild), "Extracted relevant source text should reproduce issue");
     const result = removeIrrelevantComments(relevantChild);
 
-    assert(reproducesBadCase(result), "Extracting child caused reproduction to fail");
+    assert(reproducesBadCase(result), "Source text with irrelevant comments removed should reproduce issue");
     return result;
 }
 
