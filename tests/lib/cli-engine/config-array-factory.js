@@ -2127,9 +2127,7 @@ describe("ConfigArrayFactory", () => {
             const { ConfigArrayFactory: FactoryWithPluginsInSubdir } = defineConfigArrayFactoryWithInMemoryFileSystem({
                 cwd: () => tempDir,
                 files: {
-                    "subdir/node_modules/@scope/eslint-plugin-example/index.js": "exports.configs = { name: '@scope/eslint-plugin-example' };",
-                    "subdir/node_modules/eslint-plugin-example/index.js": "exports.configs = { name: 'eslint-plugin-example' };",
-                    "subdir/node_modules/eslint-plugin-throws-on-load/index.js": "throw new Error('error thrown while loading this module')"
+                    "subdir/node_modules/eslint-plugin-example/index.js": "exports.configs = { name: 'eslint-plugin-example' };"
                 }
             });
 
