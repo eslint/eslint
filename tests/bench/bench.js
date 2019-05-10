@@ -1,4 +1,4 @@
-var Linter = require("../../lib/linter"),
+var Linter = require("../../lib/linter").Linter,
     fs = require("fs");
 
 var config = require("../../conf/eslint-recommended");
