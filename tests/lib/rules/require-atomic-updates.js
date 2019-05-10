@@ -108,6 +108,27 @@ ruleTester.run("require-atomic-updates", rule, {
                     20 ? a : b
                 ];
             }
+        `,
+
+        // https://github.com/eslint/eslint/issues/11194
+        `
+            async function f() {
+                let records
+                records = await a.records
+                g(() => { records })
+            }
+        `,
+
+        // https://github.com/eslint/eslint/issues/11687
+        `
+            async function f() {
+                try {
+                    this.foo = doSomething();
+                } catch (e) {
+                    this.foo = null;
+                    await doElse();
+                }
+            }
         `
     ],
 
