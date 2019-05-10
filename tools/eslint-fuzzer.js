@@ -12,8 +12,10 @@
 const assert = require("assert");
 const lodash = require("lodash");
 const eslump = require("eslump");
+const espree = require("espree");
 const SourceCodeFixer = require("../lib/util/source-code-fixer");
 const ruleConfigs = require("../lib/config/config-rule").createCoreRuleConfigs();
+const sampleMinimizer = require("./code-sample-minimizer");
 
 //------------------------------------------------------------------------------
 // Public API
@@ -81,7 +83,7 @@ function fuzz(options) {
      * @returns {string} A possibly-modified version of originalText that results in the same syntax error or crash after only one pass
      */
     function isolateBadAutofixPass(originalText, config) {
-        let lastGoodText = originalText;
+        let previousText = originalText;
         let currentText = originalText;
 
         do {
@@ -90,21 +92,37 @@ function fuzz(options) {
             try {
                 messages = linter.verify(currentText, config);
             } catch (err) {
-                return lastGoodText;
+                return currentText;
             }
 
             if (messages.length === 1 && messages[0].fatal) {
-                return lastGoodText;
+                return previousText;
             }
 
-            lastGoodText = currentText;
+            previousText = currentText;
             currentText = SourceCodeFixer.applyFixes(currentText, messages).output;
-        } while (lastGoodText !== currentText);
+        } while (previousText !== currentText);
 
-        return lastGoodText;
+        return currentText;
     }
 
     const problems = [];
+
+    /**
+     * Creates a version of espree that always runs with the specified options
+     * @param {ConfigData} config The config used
+     * @returns {Parser} a parser
+     */
+    function getParser({ parserOptions }) {
+        return sourceText => espree.parse(sourceText, {
+            ...parserOptions,
+            loc: true,
+            range: true,
+            raw: true,
+            tokens: true,
+            comment: true
+        });
+    }
 
     for (let i = 0; i < options.count; progressCallback(problems.length), i++) {
         const sourceType = lodash.sample(["script", "module"]);
@@ -123,14 +141,49 @@ function fuzz(options) {
                 linter.verify(text, config);
             }
         } catch (err) {
-            problems.push({ type: "crash", text, config: isolateBadConfig(text, config, "crash"), error: err.stack });
+            const lastGoodText = checkAutofixes ? isolateBadAutofixPass(text, config) : text;
+            const smallConfig = isolateBadConfig(lastGoodText, config, "crash");
+            const smallText = sampleMinimizer({
+                sourceText: lastGoodText,
+                parser: { parse: getParser(smallConfig) },
+                predicate(reducedText) {
+                    try {
+                        linter.verify(reducedText, smallConfig);
+                        return false;
+                    } catch (_) {
+                        return true;
+                    }
+                }
+            });
+
+            problems.push({ type: "crash", text: smallText, config: smallConfig, error: err.stack });
+
             continue;
         }
 
         if (checkAutofixes && autofixResult.fixed && autofixResult.messages.length === 1 && autofixResult.messages[0].fatal) {
             const lastGoodText = isolateBadAutofixPass(text, config);
+            const smallConfig = isolateBadConfig(lastGoodText, config, "autofix");
+            const smallText = sampleMinimizer({
+                sourceText: lastGoodText,
+                parser: { parse: getParser(smallConfig) },
+                predicate(reducedText) {
+                    try {
+                        const smallFixResult = linter.verifyAndFix(reducedText, smallConfig);
 
-            problems.push({ type: "autofix", text: lastGoodText, config: isolateBadConfig(lastGoodText, config, "autofix"), error: autofixResult.messages[0] });
+                        return smallFixResult.fixed && smallFixResult.messages.length === 1 && smallFixResult.messages[0].fatal;
+                    } catch (_) {
+                        return false;
+                    }
+                }
+            });
+
+            problems.push({
+                type: "autofix",
+                text: smallText,
+                config: smallConfig,
+                error: autofixResult.messages[0]
+            });
         }
     }
 
