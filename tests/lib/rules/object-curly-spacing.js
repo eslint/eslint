@@ -103,27 +103,27 @@ ruleTester.run("object-curly-spacing", rule, {
         { code: "var {y /* */} = x", options: ["never"], parserOptions: { ecmaVersion: 6 } },
 
         // never - import / export
-        { code: "import door from 'room'", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "import * as door from 'room'", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "import {door} from 'room'", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "export {door} from 'room'", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "import {/* */ door} from 'room'", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "export {/* */ door} from 'room'", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "import {door /* */} from 'room'", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "export {door /* */} from 'room'", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "import {\ndoor} from 'room'", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "export {\ndoor\n} from 'room'", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "import {house,mouse} from 'caravan'", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "import {house, mouse} from 'caravan'", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "var door = 0;export {door}", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "import 'room'", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "import x, {bar} from 'foo';", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "import x, {bar, baz} from 'foo';", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "import {bar as y} from 'foo';", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "import {x,} from 'foo';", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "import {\nx,\n} from 'foo';", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "export {x,} from 'foo';", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "export {\nx,\n} from 'foo';", options: ["never"], parserOptions: { sourceType: "module" } },
+        { code: "import door from 'room'", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import * as door from 'room'", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import {door} from 'room'", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export {door} from 'room'", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import {/* */ door} from 'room'", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export {/* */ door} from 'room'", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import {door /* */} from 'room'", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export {door /* */} from 'room'", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import {\ndoor} from 'room'", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export {\ndoor\n} from 'room'", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import {house,mouse} from 'caravan'", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import {house, mouse} from 'caravan'", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "var door = 0;export {door}", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import 'room'", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import x, {bar} from 'foo';", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import x, {bar, baz} from 'foo';", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import {bar as y} from 'foo';", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import {x,} from 'foo';", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import {\nx,\n} from 'foo';", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export {x,} from 'foo';", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export {\nx,\n} from 'foo';", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
 
 
         // never - empty object
@@ -247,7 +247,7 @@ ruleTester.run("object-curly-spacing", rule, {
             code: "import x, { bar/* */} from 'foo';",
             output: "import x, { bar/* */ } from 'foo';",
             options: ["always"],
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     message: "A space is required before '}'.",
@@ -261,7 +261,7 @@ ruleTester.run("object-curly-spacing", rule, {
             code: "import x, {/* */bar } from 'foo';",
             output: "import x, { /* */bar } from 'foo';",
             options: ["always"],
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     message: "A space is required after '{'.",
@@ -372,7 +372,7 @@ ruleTester.run("object-curly-spacing", rule, {
             code: "import { /* */ bar, /* */ } from 'foo';",
             output: "import {/* */ bar, /* */} from 'foo';",
             options: ["never"],
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     message: "There should be no space after '{'.",
@@ -412,7 +412,7 @@ ruleTester.run("object-curly-spacing", rule, {
             code: "var bar = 0;\nexport { /* */ bar /* */ };",
             output: "var bar = 0;\nexport {/* */ bar /* */};",
             options: ["never"],
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
                     message: "There should be no space after '{'.",
