@@ -139,102 +139,102 @@ ruleTester.run("comma-dangle", rule, {
         {
             code: "import {foo,} from 'foo';",
             options: ["always"],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "import foo from 'foo';",
             options: ["always"],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "import foo, {abc,} from 'foo';",
             options: ["always"],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "import * as foo from 'foo';",
             options: ["always"],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export {foo,} from 'foo';",
             options: ["always"],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "import {foo} from 'foo';",
             options: ["never"],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "import foo from 'foo';",
             options: ["never"],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "import foo, {abc} from 'foo';",
             options: ["never"],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "import * as foo from 'foo';",
             options: ["never"],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export {foo} from 'foo';",
             options: ["never"],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "import {foo} from 'foo';",
             options: ["always-multiline"],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "import {foo} from 'foo';",
             options: ["only-multiline"],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export {foo} from 'foo';",
             options: ["always-multiline"],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export {foo} from 'foo';",
             options: ["only-multiline"],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "import {\n  foo,\n} from 'foo';",
             options: ["always-multiline"],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "import {\n  foo,\n} from 'foo';",
             options: ["only-multiline"],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export {\n  foo,\n} from 'foo';",
             options: ["always-multiline"],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export {\n  foo,\n} from 'foo';",
             options: ["only-multiline"],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "import {foo} from \n'foo';",
             options: ["always-multiline"],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "import {foo} from \n'foo';",
             options: ["only-multiline"],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
 
 
@@ -983,91 +983,91 @@ ruleTester.run("comma-dangle", rule, {
             code: "import {foo} from 'foo';",
             output: "import {foo,} from 'foo';",
             options: ["always"],
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{ messageId: "missing", type: "ImportSpecifier" }]
         },
         {
             code: "import foo, {abc} from 'foo';",
             output: "import foo, {abc,} from 'foo';",
             options: ["always"],
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{ messageId: "missing", type: "ImportSpecifier" }]
         },
         {
             code: "export {foo} from 'foo';",
             output: "export {foo,} from 'foo';",
             options: ["always"],
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{ messageId: "missing", type: "ExportSpecifier" }]
         },
         {
             code: "import {foo,} from 'foo';",
             output: "import {foo} from 'foo';",
             options: ["never"],
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{ messageId: "unexpected", type: "ImportSpecifier" }]
         },
         {
             code: "import {foo,} from 'foo';",
             output: "import {foo} from 'foo';",
             options: ["only-multiline"],
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{ messageId: "unexpected", type: "ImportSpecifier" }]
         },
         {
             code: "import foo, {abc,} from 'foo';",
             output: "import foo, {abc} from 'foo';",
             options: ["never"],
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{ messageId: "unexpected", type: "ImportSpecifier" }]
         },
         {
             code: "import foo, {abc,} from 'foo';",
             output: "import foo, {abc} from 'foo';",
             options: ["only-multiline"],
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{ messageId: "unexpected", type: "ImportSpecifier" }]
         },
         {
             code: "export {foo,} from 'foo';",
             output: "export {foo} from 'foo';",
             options: ["never"],
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{ messageId: "unexpected", type: "ExportSpecifier" }]
         },
         {
             code: "export {foo,} from 'foo';",
             output: "export {foo} from 'foo';",
             options: ["only-multiline"],
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{ messageId: "unexpected", type: "ExportSpecifier" }]
         },
         {
             code: "import {foo,} from 'foo';",
             output: "import {foo} from 'foo';",
             options: ["always-multiline"],
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{ messageId: "unexpected", type: "ImportSpecifier" }]
         },
         {
             code: "export {foo,} from 'foo';",
             output: "export {foo} from 'foo';",
             options: ["always-multiline"],
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{ messageId: "unexpected", type: "ExportSpecifier" }]
         },
         {
             code: "import {\n  foo\n} from 'foo';",
             output: "import {\n  foo,\n} from 'foo';",
             options: ["always-multiline"],
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{ messageId: "missing", type: "ImportSpecifier" }]
         },
         {
             code: "export {\n  foo\n} from 'foo';",
             output: "export {\n  foo,\n} from 'foo';",
             options: ["always-multiline"],
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{ messageId: "missing", type: "ExportSpecifier" }]
         },
 

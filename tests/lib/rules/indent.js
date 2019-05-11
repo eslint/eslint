@@ -267,7 +267,7 @@ ruleTester.run("indent", rule, {
                 ;(() => {})()
             `,
             options: [4],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: unIndent`
@@ -1083,7 +1083,7 @@ ruleTester.run("indent", rule, {
                 import React from 'react'
             `,
             options: [2],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: unIndent`
@@ -1093,7 +1093,7 @@ ruleTester.run("indent", rule, {
                     baz
                 } from 'qux';
             `,
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: unIndent`
@@ -1104,7 +1104,7 @@ ruleTester.run("indent", rule, {
                     baz
                 } from 'qux';
             `,
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: unIndent`
@@ -1262,7 +1262,7 @@ ruleTester.run("indent", rule, {
                 };
             `,
             options: [2, { FunctionDeclaration: { parameters: "first" } }],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: unIndent`
@@ -1274,7 +1274,7 @@ ruleTester.run("indent", rule, {
                 }
             `,
             options: [2, { FunctionDeclaration: { parameters: "first" } }],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: unIndent`
@@ -3096,7 +3096,7 @@ ruleTester.run("indent", rule, {
                     baz
                 }
             `,
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: unIndent`
@@ -3420,11 +3420,11 @@ ruleTester.run("indent", rule, {
                 import {foo}
                     from 'bar';
             `,
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "import 'foo'",
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: unIndent`
@@ -3434,7 +3434,7 @@ ruleTester.run("indent", rule, {
                 } from 'qux';
             `,
             options: [4, { ImportDeclaration: 1 }],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: unIndent`
@@ -3445,7 +3445,7 @@ ruleTester.run("indent", rule, {
                 } from 'qux';
             `,
             options: [4, { ImportDeclaration: 1 }],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: unIndent`
@@ -3454,7 +3454,7 @@ ruleTester.run("indent", rule, {
                 import { cat } from 'animals';
             `,
             options: [4, { ImportDeclaration: "first" }],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: unIndent`
@@ -3464,7 +3464,7 @@ ruleTester.run("indent", rule, {
                               turned } from 'off';
             `,
             options: [4, { ImportDeclaration: "off" }],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
 
         // https://github.com/eslint/eslint/issues/8455
@@ -4812,7 +4812,7 @@ ruleTester.run("indent", rule, {
                 )
             `,
             options: [4, { ignoredNodes: ["ExportDefaultDeclaration > CallExpression > ObjectExpression"] }],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: unIndent`
@@ -7572,7 +7572,7 @@ ruleTester.run("indent", rule, {
                     baz
                 } from 'qux';
             `,
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: expectedErrors([[2, 4, 0, "Identifier"], [3, 4, 2, "Identifier"]])
         },
         {
@@ -7589,7 +7589,7 @@ ruleTester.run("indent", rule, {
                 } from 'qux';
             `,
             options: [4, { ImportDeclaration: "first" }],
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: expectedErrors([[3, 9, 10, "Identifier"]])
         },
         {
@@ -7606,7 +7606,7 @@ ruleTester.run("indent", rule, {
                 } from 'qux';
             `,
             options: [2, { ImportDeclaration: 2 }],
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: expectedErrors([[3, 4, 5, "Identifier"]])
         },
         {
@@ -7626,7 +7626,7 @@ ruleTester.run("indent", rule, {
                     baz
                 };
             `,
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: expectedErrors([[3, 4, 0, "Identifier"], [4, 4, 2, "Identifier"]])
         },
         {
@@ -7646,7 +7646,7 @@ ruleTester.run("indent", rule, {
                     baz
                 } from 'qux';
             `,
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: expectedErrors([[3, 4, 0, "Identifier"], [4, 4, 2, "Identifier"]])
         },
         {
@@ -8084,7 +8084,7 @@ ruleTester.run("indent", rule, {
                     baz
                 }
             `,
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: expectedErrors([[3, 4, 0, "Identifier"], [4, 4, 8, "Identifier"], [5, 4, 2, "Identifier"]])
         },
         {
@@ -8456,7 +8456,7 @@ ruleTester.run("indent", rule, {
                 import {foo}
                     from 'bar';
             `,
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: expectedErrors([2, 4, 0, "Identifier"])
         },
         {
@@ -8468,7 +8468,7 @@ ruleTester.run("indent", rule, {
                 export {foo}
                     from 'bar';
             `,
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: expectedErrors([2, 4, 0, "Identifier"])
         },
         {

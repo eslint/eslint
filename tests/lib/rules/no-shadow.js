@@ -305,13 +305,13 @@ ruleTester.run("no-shadow", rule, {
         {
             code: "var Object = 0;",
             options: [{ builtinGlobals: true }],
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{ message: "'Object' is already declared in the upper scope.", type: "Identifier" }]
         },
         {
             code: "var top = 0;",
             options: [{ builtinGlobals: true }],
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             env: { browser: true },
             errors: [{ message: "'top' is already declared in the upper scope.", type: "Identifier" }]
         },

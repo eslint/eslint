@@ -793,7 +793,7 @@ ruleTester.run("indent-legacy", rule, {
         {
             code: "import {addons} from 'react/addons'\nimport React from 'react'",
             options: [2],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code:
@@ -928,7 +928,7 @@ ruleTester.run("indent-legacy", rule, {
                 "  });\n" +
                 "};",
             options: [2],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code:
@@ -939,7 +939,7 @@ ruleTester.run("indent-legacy", rule, {
                 "  // ... function body, indented two spaces\n" +
                 "}\n",
             options: [2],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code:

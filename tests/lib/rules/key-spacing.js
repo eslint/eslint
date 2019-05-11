@@ -209,7 +209,7 @@ ruleTester.run("key-spacing", rule, {
             "};"
         ].join("\n"),
         options: [{ align: "value" }],
-        parserOptions: { sourceType: "module" }
+        parserOptions: { ecmaVersion: 6, sourceType: "module" }
     }, {
         code: [
             "var test = {",

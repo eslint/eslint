@@ -67,9 +67,9 @@ ruleTester.run("quotes", rule, {
         { code: "(() => { \"use strict\"; \"use strong\"; \"use asm\"; var foo = `backtick`; })();", options: ["backtick"], parserOptions: { ecmaVersion: 6 } },
 
         // `backtick` should not warn import/export sources.
-        { code: "import \"a\"; import 'b';", options: ["backtick"], parserOptions: { sourceType: "module" } },
-        { code: "import a from \"a\"; import b from 'b';", options: ["backtick"], parserOptions: { sourceType: "module" } },
-        { code: "export * from \"a\"; export * from 'b';", options: ["backtick"], parserOptions: { sourceType: "module" } },
+        { code: "import \"a\"; import 'b';", options: ["backtick"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import a from \"a\"; import b from 'b';", options: ["backtick"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export * from \"a\"; export * from 'b';", options: ["backtick"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
 
         // `backtick` should not warn property/method names (not computed).
         { code: "var obj = {\"key0\": 0, 'key1': 1};", options: ["backtick"], parserOptions: { ecmaVersion: 6 } },

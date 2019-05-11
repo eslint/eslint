@@ -442,11 +442,11 @@ ruleTester.run("no-extra-parens", rule, {
         "() => ({ foo: 1 }.foo().bar + baz)",
         {
             code: "export default (function(){}).foo",
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export default (class{}).foo",
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         "({}).hasOwnProperty.call(foo, bar)",
         "({}) ? foo() : bar()",
