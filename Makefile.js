@@ -847,14 +847,29 @@ target.checkRuleFiles = function() {
         }
 
         // check parity between rules index file and rules directory
-        const builtInRulesIndexPath = "./lib/built-in-rules-index";
-        const ruleIdsInIndex = require(builtInRulesIndexPath);
-        const ruleEntryFromIndexIsMissing = !ruleIdsInIndex.has(basename);
+        const ruleIdsInIndex = require("./lib/built-in-rules-index");
+        const ruleDef = ruleIdsInIndex.get(basename);
 
-        if (ruleEntryFromIndexIsMissing) {
-            console.error(`Missing rule from index (${builtInRulesIndexPath}.js): ${basename}. If you just added a ` +
-                "new rule then add an entry for it in this file.");
+        if (!ruleDef) {
+            console.error(`Missing rule from index (./lib/built-in-rules-index.js): ${basename}. If you just added a new rule then add an entry for it in this file.`);
             errors++;
+        }
+
+        // check eslint:recommended
+        const recommended = require("./conf/eslint-recommended");
+
+        if (ruleDef) {
+            if (ruleDef.meta.docs.recommended) {
+                if (recommended.rules[basename] !== "error") {
+                    console.error(`Missing rule from eslint:recommended (./conf/eslint-recommended.js): ${basename}. If you just made a rule recommended then add an entry for it in this file.`);
+                    errors++;
+                }
+            } else {
+                if (basename in recommended.rules) {
+                    console.error(`Extra rule in eslint:recommended (./conf/eslint-recommended.js): ${basename}. If you just added a rule then don't add an entry for it in this file.`);
+                    errors++;
+                }
+            }
         }
 
         // check for tests
