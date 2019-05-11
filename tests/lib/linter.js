@@ -667,7 +667,7 @@ describe("Linter", () => {
         });
 
         it("should retrieve module scope correctly from an ES6 module", () => {
-            const config = { rules: { checker: "error" }, parserOptions: { sourceType: "module" } };
+            const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6, sourceType: "module" } };
             let spy;
 
             linter.defineRule("checker", context => {
@@ -685,7 +685,7 @@ describe("Linter", () => {
         });
 
         it("should retrieve function scope correctly when globalReturn is true", () => {
-            const config = { rules: { checker: "error" }, parserOptions: { ecmaFeatures: { globalReturn: true } } };
+            const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6, ecmaFeatures: { globalReturn: true } } };
             let spy;
 
             linter.defineRule("checker", context => {
@@ -807,7 +807,7 @@ describe("Linter", () => {
                 return { "Program:exit": spy };
             });
 
-            linter.verify(code, { rules: { checker: "error" }, parserOptions: { sourceType: "module" } }, filename, true);
+            linter.verify(code, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6, sourceType: "module" } }, filename, true);
             assert(spy && spy.calledOnce);
         });
 
@@ -1327,7 +1327,7 @@ describe("Linter", () => {
 
         it("variables should not be exported in the es6 module environment", () => {
             const code = "/* exported horse */\nvar horse = 'circus'";
-            const config = { rules: { checker: "error" }, parserOptions: { sourceType: "module" } };
+            const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6, sourceType: "module" } };
             let spy;
 
             linter.defineRule("checker", context => {
@@ -4409,23 +4409,39 @@ describe("Linter", () => {
 
         it("should properly parse import statements when sourceType is module", () => {
             const code = "import foo from 'foo';";
-            const messages = linter.verify(code, { parserOptions: { sourceType: "module" } });
+            const messages = linter.verify(code, { parserOptions: { ecmaVersion: 6, sourceType: "module" } });
 
             assert.strictEqual(messages.length, 0);
         });
 
         it("should properly parse import all statements when sourceType is module", () => {
             const code = "import * as foo from 'foo';";
-            const messages = linter.verify(code, { parserOptions: { sourceType: "module" } });
+            const messages = linter.verify(code, { parserOptions: { ecmaVersion: 6, sourceType: "module" } });
 
             assert.strictEqual(messages.length, 0);
         });
 
         it("should properly parse default export statements when sourceType is module", () => {
             const code = "export default function initialize() {}";
-            const messages = linter.verify(code, { parserOptions: { sourceType: "module" } });
+            const messages = linter.verify(code, { parserOptions: { ecmaVersion: 6, sourceType: "module" } });
 
             assert.strictEqual(messages.length, 0);
+        });
+
+        // https://github.com/eslint/eslint/issues/9687
+        it("should report an error when invalid parserOptions found", () => {
+            let messages = linter.verify("", { parserOptions: { ecmaVersion: 222 } });
+
+            assert.deepStrictEqual(messages.length, 1);
+            assert.ok(messages[0].message.includes("Invalid ecmaVersion"));
+
+            messages = linter.verify("", { parserOptions: { sourceType: "foo" } });
+            assert.deepStrictEqual(messages.length, 1);
+            assert.ok(messages[0].message.includes("Invalid sourceType"));
+
+            messages = linter.verify("", { parserOptions: { ecmaVersion: 5, sourceType: "module" } });
+            assert.deepStrictEqual(messages.length, 1);
+            assert.ok(messages[0].message.includes("sourceType 'module' is not supported when ecmaVersion < 2015"));
         });
 
         it("should not crash when invalid parentheses syntax is encountered", () => {
@@ -4456,7 +4472,7 @@ describe("Linter", () => {
             linter.defineRule("test", () => ({}));
             linter.verify("var a = 0;", {
                 env: { node: true },
-                parserOptions: { sourceType: "module" },
+                parserOptions: { ecmaVersion: 6, sourceType: "module" },
                 rules: { test: 2 }
             });
 

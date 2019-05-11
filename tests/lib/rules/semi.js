@@ -53,44 +53,44 @@ ruleTester.run("semi", rule, {
         { code: "class A { a() {} b() {} }", parserOptions: { ecmaVersion: 6 } },
         { code: "var A = class { a() {} b() {} };", parserOptions: { ecmaVersion: 6 } },
 
-        { code: "import theDefault, { named1, named2 } from 'src/mylib';", parserOptions: { sourceType: "module" } },
-        { code: "import theDefault, { named1, named2 } from 'src/mylib'", options: ["never"], parserOptions: { sourceType: "module" } },
+        { code: "import theDefault, { named1, named2 } from 'src/mylib';", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "import theDefault, { named1, named2 } from 'src/mylib'", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
 
         // exports, "always"
-        { code: "export * from 'foo';", parserOptions: { sourceType: "module" } },
-        { code: "export { foo } from 'foo';", parserOptions: { sourceType: "module" } },
-        { code: "var foo = 0;export { foo };", parserOptions: { sourceType: "module" } },
-        { code: "export var foo;", parserOptions: { sourceType: "module" } },
-        { code: "export function foo () { }", parserOptions: { sourceType: "module" } },
-        { code: "export function* foo () { }", parserOptions: { sourceType: "module" } },
-        { code: "export class Foo { }", parserOptions: { sourceType: "module" } },
-        { code: "export let foo;", parserOptions: { sourceType: "module" } },
-        { code: "export const FOO = 42;", parserOptions: { sourceType: "module" } },
-        { code: "export default function() { }", parserOptions: { sourceType: "module" } },
-        { code: "export default function* () { }", parserOptions: { sourceType: "module" } },
-        { code: "export default class { }", parserOptions: { sourceType: "module" } },
-        { code: "export default foo || bar;", parserOptions: { sourceType: "module" } },
-        { code: "export default (foo) => foo.bar();", parserOptions: { sourceType: "module" } },
-        { code: "export default foo = 42;", parserOptions: { sourceType: "module" } },
-        { code: "export default foo += 42;", parserOptions: { sourceType: "module" } },
+        { code: "export * from 'foo';", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export { foo } from 'foo';", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "var foo = 0;export { foo };", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export var foo;", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export function foo () { }", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export function* foo () { }", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export class Foo { }", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export let foo;", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export const FOO = 42;", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default function() { }", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default function* () { }", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default class { }", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default foo || bar;", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default (foo) => foo.bar();", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default foo = 42;", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default foo += 42;", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
 
         // exports, "never"
-        { code: "export * from 'foo'", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "export { foo } from 'foo'", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "var foo = 0; export { foo }", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "export var foo", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "export function foo () { }", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "export function* foo () { }", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "export class Foo { }", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "export let foo", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "export const FOO = 42", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "export default function() { }", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "export default function* () { }", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "export default class { }", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "export default foo || bar", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "export default (foo) => foo.bar()", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "export default foo = 42", options: ["never"], parserOptions: { sourceType: "module" } },
-        { code: "export default foo += 42", options: ["never"], parserOptions: { sourceType: "module" } },
+        { code: "export * from 'foo'", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export { foo } from 'foo'", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "var foo = 0; export { foo }", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export var foo", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export function foo () { }", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export function* foo () { }", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export class Foo { }", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export let foo", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export const FOO = 42", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default function() { }", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default function* () { }", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default class { }", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default foo || bar", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default (foo) => foo.bar()", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default foo = 42", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default foo += 42", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "++\nfoo;", options: ["always"] },
         { code: "var a = b;\n+ c", options: ["never"] },
 
@@ -119,7 +119,7 @@ ruleTester.run("semi", rule, {
                 [1,2,3].forEach(doSomething)
             `,
             options: ["never", { beforeStatementContinuationChars: "always" }],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: `
@@ -127,7 +127,7 @@ ruleTester.run("semi", rule, {
                 [a] = b
             `,
             options: ["never", { beforeStatementContinuationChars: "always" }],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: `
@@ -178,7 +178,7 @@ ruleTester.run("semi", rule, {
                 [1,2,3].forEach(doSomething)
             `,
             options: ["never", { beforeStatementContinuationChars: "never" }],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: `
@@ -186,7 +186,7 @@ ruleTester.run("semi", rule, {
                 [a] = b
             `,
             options: ["never", { beforeStatementContinuationChars: "never" }],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: `
@@ -233,11 +233,11 @@ ruleTester.run("semi", rule, {
         }
     ],
     invalid: [
-        { code: "import * as utils from './utils'", output: "import * as utils from './utils';", parserOptions: { sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ImportDeclaration", column: 33 }] },
-        { code: "import { square, diag } from 'lib'", output: "import { square, diag } from 'lib';", parserOptions: { sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ImportDeclaration" }] },
-        { code: "import { default as foo } from 'lib'", output: "import { default as foo } from 'lib';", parserOptions: { sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ImportDeclaration" }] },
-        { code: "import 'src/mylib'", output: "import 'src/mylib';", parserOptions: { sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ImportDeclaration" }] },
-        { code: "import theDefault, { named1, named2 } from 'src/mylib'", output: "import theDefault, { named1, named2 } from 'src/mylib';", parserOptions: { sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ImportDeclaration" }] },
+        { code: "import * as utils from './utils'", output: "import * as utils from './utils';", parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ImportDeclaration", column: 33 }] },
+        { code: "import { square, diag } from 'lib'", output: "import { square, diag } from 'lib';", parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ImportDeclaration" }] },
+        { code: "import { default as foo } from 'lib'", output: "import { default as foo } from 'lib';", parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ImportDeclaration" }] },
+        { code: "import 'src/mylib'", output: "import 'src/mylib';", parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ImportDeclaration" }] },
+        { code: "import theDefault, { named1, named2 } from 'src/mylib'", output: "import theDefault, { named1, named2 } from 'src/mylib';", parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ImportDeclaration" }] },
         { code: "function foo() { return [] }", output: "function foo() { return []; }", errors: [{ message: "Missing semicolon.", type: "ReturnStatement" }] },
         { code: "while(true) { break }", output: "while(true) { break; }", errors: [{ message: "Missing semicolon.", type: "BreakStatement" }] },
         { code: "while(true) { continue }", output: "while(true) { continue; }", errors: [{ message: "Missing semicolon.", type: "ContinueStatement" }] },
@@ -269,7 +269,7 @@ ruleTester.run("semi", rule, {
         { code: "for (;;) var i; ", output: "for (;;) var i ", options: ["never"], errors: [{ message: "Extra semicolon.", type: "VariableDeclaration" }] },
         { code: "for (var j;;) {var i;}", output: "for (var j;;) {var i}", options: ["never"], errors: [{ message: "Extra semicolon.", type: "VariableDeclaration" }] },
         { code: "var foo = {\n bar: baz\n};", output: "var foo = {\n bar: baz\n}", options: ["never"], errors: [{ message: "Extra semicolon.", type: "VariableDeclaration", line: 3 }] },
-        { code: "import theDefault, { named1, named2 } from 'src/mylib';", output: "import theDefault, { named1, named2 } from 'src/mylib'", options: ["never"], parserOptions: { sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "ImportDeclaration" }] },
+        { code: "import theDefault, { named1, named2 } from 'src/mylib';", output: "import theDefault, { named1, named2 } from 'src/mylib'", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "ImportDeclaration" }] },
         { code: "do{}while(true);", output: "do{}while(true)", options: ["never"], errors: [{ message: "Extra semicolon.", type: "DoWhileStatement", line: 1 }] },
 
         { code: "if (foo) { bar()\n }", output: "if (foo) { bar();\n }", options: ["always", { omitLastInOneLineBlock: true }], errors: [{ message: "Missing semicolon." }] },
@@ -279,28 +279,28 @@ ruleTester.run("semi", rule, {
 
 
         // exports, "always"
-        { code: "export * from 'foo'", output: "export * from 'foo';", parserOptions: { sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ExportAllDeclaration" }] },
-        { code: "export { foo } from 'foo'", output: "export { foo } from 'foo';", parserOptions: { sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ExportNamedDeclaration" }] },
-        { code: "var foo = 0;export { foo }", output: "var foo = 0;export { foo };", parserOptions: { sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ExportNamedDeclaration" }] },
-        { code: "export var foo", output: "export var foo;", parserOptions: { sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "VariableDeclaration" }] },
-        { code: "export let foo", output: "export let foo;", parserOptions: { sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "VariableDeclaration" }] },
-        { code: "export const FOO = 42", output: "export const FOO = 42;", parserOptions: { sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "VariableDeclaration" }] },
-        { code: "export default foo || bar", output: "export default foo || bar;", parserOptions: { sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ExportDefaultDeclaration" }] },
-        { code: "export default (foo) => foo.bar()", output: "export default (foo) => foo.bar();", parserOptions: { sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ExportDefaultDeclaration" }] },
-        { code: "export default foo = 42", output: "export default foo = 42;", parserOptions: { sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ExportDefaultDeclaration" }] },
-        { code: "export default foo += 42", output: "export default foo += 42;", parserOptions: { sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ExportDefaultDeclaration" }] },
+        { code: "export * from 'foo'", output: "export * from 'foo';", parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ExportAllDeclaration" }] },
+        { code: "export { foo } from 'foo'", output: "export { foo } from 'foo';", parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ExportNamedDeclaration" }] },
+        { code: "var foo = 0;export { foo }", output: "var foo = 0;export { foo };", parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ExportNamedDeclaration" }] },
+        { code: "export var foo", output: "export var foo;", parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "VariableDeclaration" }] },
+        { code: "export let foo", output: "export let foo;", parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "VariableDeclaration" }] },
+        { code: "export const FOO = 42", output: "export const FOO = 42;", parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "VariableDeclaration" }] },
+        { code: "export default foo || bar", output: "export default foo || bar;", parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ExportDefaultDeclaration" }] },
+        { code: "export default (foo) => foo.bar()", output: "export default (foo) => foo.bar();", parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ExportDefaultDeclaration" }] },
+        { code: "export default foo = 42", output: "export default foo = 42;", parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ExportDefaultDeclaration" }] },
+        { code: "export default foo += 42", output: "export default foo += 42;", parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ExportDefaultDeclaration" }] },
 
         // exports, "never"
-        { code: "export * from 'foo';", output: "export * from 'foo'", options: ["never"], parserOptions: { sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "ExportAllDeclaration" }] },
-        { code: "export { foo } from 'foo';", output: "export { foo } from 'foo'", options: ["never"], parserOptions: { sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "ExportNamedDeclaration" }] },
-        { code: "var foo = 0;export { foo };", output: "var foo = 0;export { foo }", options: ["never"], parserOptions: { sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "ExportNamedDeclaration" }] },
-        { code: "export var foo;", output: "export var foo", options: ["never"], parserOptions: { sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "VariableDeclaration" }] },
-        { code: "export let foo;", output: "export let foo", options: ["never"], parserOptions: { sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "VariableDeclaration" }] },
-        { code: "export const FOO = 42;", output: "export const FOO = 42", options: ["never"], parserOptions: { sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "VariableDeclaration" }] },
-        { code: "export default foo || bar;", output: "export default foo || bar", options: ["never"], parserOptions: { sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "ExportDefaultDeclaration" }] },
-        { code: "export default (foo) => foo.bar();", output: "export default (foo) => foo.bar()", options: ["never"], parserOptions: { sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "ExportDefaultDeclaration" }] },
-        { code: "export default foo = 42;", output: "export default foo = 42", options: ["never"], parserOptions: { sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "ExportDefaultDeclaration" }] },
-        { code: "export default foo += 42;", output: "export default foo += 42", options: ["never"], parserOptions: { sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "ExportDefaultDeclaration" }] },
+        { code: "export * from 'foo';", output: "export * from 'foo'", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "ExportAllDeclaration" }] },
+        { code: "export { foo } from 'foo';", output: "export { foo } from 'foo'", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "ExportNamedDeclaration" }] },
+        { code: "var foo = 0;export { foo };", output: "var foo = 0;export { foo }", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "ExportNamedDeclaration" }] },
+        { code: "export var foo;", output: "export var foo", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "VariableDeclaration" }] },
+        { code: "export let foo;", output: "export let foo", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "VariableDeclaration" }] },
+        { code: "export const FOO = 42;", output: "export const FOO = 42", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "VariableDeclaration" }] },
+        { code: "export default foo || bar;", output: "export default foo || bar", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "ExportDefaultDeclaration" }] },
+        { code: "export default (foo) => foo.bar();", output: "export default (foo) => foo.bar()", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "ExportDefaultDeclaration" }] },
+        { code: "export default foo = 42;", output: "export default foo = 42", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "ExportDefaultDeclaration" }] },
+        { code: "export default foo += 42;", output: "export default foo += 42", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "ExportDefaultDeclaration" }] },
         { code: "a;\n++b", output: "a\n++b", options: ["never"], errors: [{ message: "Extra semicolon." }] },
 
         // https://github.com/eslint/eslint/issues/7928
@@ -333,7 +333,7 @@ ruleTester.run("semi", rule, {
                 [1,2,3].forEach(doSomething)
             `,
             options: ["never", { beforeStatementContinuationChars: "always" }],
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: ["Missing semicolon."]
         },
         {
@@ -346,7 +346,7 @@ ruleTester.run("semi", rule, {
                 [a] = b
             `,
             options: ["never", { beforeStatementContinuationChars: "always" }],
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: ["Missing semicolon."]
         },
         {
@@ -433,7 +433,7 @@ ruleTester.run("semi", rule, {
                 [1,2,3].forEach(doSomething)
             `,
             options: ["never", { beforeStatementContinuationChars: "never" }],
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: ["Extra semicolon."]
         },
         {
@@ -446,7 +446,7 @@ ruleTester.run("semi", rule, {
                 [a] = b
             `,
             options: ["never", { beforeStatementContinuationChars: "never" }],
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: ["Extra semicolon."]
         },
         {
@@ -533,7 +533,7 @@ ruleTester.run("semi", rule, {
                 [1,2,3].forEach(doSomething)
             `,
             options: ["never", { beforeStatementContinuationChars: "never" }],
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: ["Extra semicolon."]
         },
         {
@@ -546,7 +546,7 @@ ruleTester.run("semi", rule, {
                 [1,2,3].forEach(doSomething)
             `,
             options: ["never", { beforeStatementContinuationChars: "never" }],
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: ["Extra semicolon."]
         },
         {
