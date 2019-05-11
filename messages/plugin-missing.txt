@@ -1,6 +1,6 @@
 ESLint couldn't find the plugin "<%- pluginName %>".
 
-(The package "<%- pluginName %>" was not found when loaded as a Node module from the directory "<%- pluginRootPath %>".)
+(The package "<%- pluginName %>" was not found when loaded as a Node module from the directory "<%- resolvePluginsRelativeTo %>".)
 
 It's likely that the plugin isn't installed correctly. Try reinstalling by running the following:
 

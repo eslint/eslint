@@ -1369,7 +1369,7 @@ describe("ConfigArrayFactory", () => {
                 assert.strictEqual(err.messageTemplate, "plugin-missing");
                 assert.deepStrictEqual(err.messageData, {
                     pluginName: "eslint-plugin-nonexistent-plugin",
-                    pluginRootPath: process.cwd(),
+                    resolvePluginsRelativeTo: process.cwd(),
                     importerName: "whatever"
                 });
                 return;
@@ -1386,7 +1386,7 @@ describe("ConfigArrayFactory", () => {
                 assert.strictEqual(err.messageTemplate, "plugin-missing");
                 assert.deepStrictEqual(err.messageData, {
                     pluginName: "eslint-plugin-nonexistent-plugin",
-                    pluginRootPath: process.cwd(),
+                    resolvePluginsRelativeTo: process.cwd(),
                     importerName: "whatever"
                 });
                 return;
@@ -2096,10 +2096,11 @@ describe("ConfigArrayFactory", () => {
         /**
          * Load a plugin.
          * @param {string} request A request to load a plugin.
+         * @param {ConfigArrayFactory} [configArrayFactory] The factory to use
          * @returns {Map<string,Object>} The loaded plugins.
          */
-        function load(request) {
-            const config = factory.create({ plugins: [request] });
+        function load(request, configArrayFactory = factory) {
+            const config = configArrayFactory.create({ plugins: [request] });
 
             return new Map(
                 Object
@@ -2115,6 +2116,24 @@ describe("ConfigArrayFactory", () => {
 
         it("should load a plugin when referenced by short name", () => {
             const loadedPlugins = load("example");
+
+            assertPluginDefinition(
+                loadedPlugins.get("example"),
+                { configs: { name: "eslint-plugin-example" } }
+            );
+        });
+
+        it("should load a plugin when referenced by short name, even when using a custom loadPluginsRelativeTo value", () => {
+            const { ConfigArrayFactory: FactoryWithPluginsInSubdir } = defineConfigArrayFactoryWithInMemoryFileSystem({
+                cwd: () => tempDir,
+                files: {
+                    "subdir/node_modules/eslint-plugin-example/index.js": "exports.configs = { name: 'eslint-plugin-example' };"
+                }
+            });
+
+            const factoryWithCustomPluginPath = new FactoryWithPluginsInSubdir({ resolvePluginsRelativeTo: "subdir" });
+
+            const loadedPlugins = load("example", factoryWithCustomPluginPath);
 
             assertPluginDefinition(
                 loadedPlugins.get("example"),

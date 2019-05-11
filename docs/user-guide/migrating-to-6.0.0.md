@@ -90,11 +90,11 @@ In rare cases (if you were relying on the previous behavior where `eslint:recomm
 
 Previously, ESLint loaded plugins relative to the location of the ESLint package itself. As a result, we suggested that users with global ESLint installations should also install plugins globally, and users with local ESLint installations should install plugins locally. However, due to a design bug, this strategy caused ESLint to randomly fail to load plugins and shareable configs under certain circumstances, particularly when using package management tools like [`lerna`](https://github.com/lerna/lerna) and [Yarn Plug n' Play](https://yarnpkg.com/lang/en/docs/pnp/).
 
-As a rule of thumb: With ESLint v6, plugins should always be installed locally, even if ESLint was installed globally. More precisely, ESLint v6 always resolves plugins relative to the end user's project, and always resolves shareable configs and parsers relative to the location of the config file that imports them.
-
-<!-- FIXME: Update this section with workarounds for global eslint/global config file setups if https://github.com/eslint/rfcs/pull/18 is accepted -->
+As a rule of thumb: With ESLint v6, plugins should always be installed locally, even if ESLint was installed globally. More precisely, ESLint v6 resolves plugins relative to the end user's project by default, and always resolves shareable configs and parsers relative to the location of the config file that imports them.
 
 **To address:** If you use a global installation of ESLint (e.g. installed with `npm install eslint --global`) along with plugins, you should install those plugins locally in the projects where you run ESLint. If your config file extends shareable configs and/or parsers, you should ensure that those packages are installed as dependencies of the project containing the config file.
+
+If you use a config file located outside of a local project (with the `--config` flag), consider installing the plugins as dependencies of that config file, and setting the [`--resolve-plugins-relative-to`](./command-line-interface#--resolve-plugins-relative-to) flag to the location of the config file.
 
 **Related issue(s):** [eslint/eslint#10125](https://github.com/eslint/eslint/issues/10125), [eslint/rfcs#7](https://github.com/eslint/rfcs/pull/7)
 
