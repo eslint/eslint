@@ -312,6 +312,9 @@ describe("ConfigRule", () => {
                 actualRules = Object.keys(ConfigRule.createCoreRuleConfigs(true));
 
             assert.sameMembers(actualRules, expectedRules);
+
+            // Make sure it doesn't contain deprecated rules.
+            assert.notInclude(actualRules, "newline-after-var");
         });
 
         it("should create arrays of configs for rules", () => {
