@@ -13,7 +13,7 @@ const assert = require("assert");
 const lodash = require("lodash");
 const eslump = require("eslump");
 const SourceCodeFixer = require("../lib/util/source-code-fixer");
-const ruleConfigs = require("../lib/config/config-rule").createCoreRuleConfigs();
+const ruleConfigs = require("../lib/config/config-rule").createCoreRuleConfigs(true);
 
 //------------------------------------------------------------------------------
 // Public API

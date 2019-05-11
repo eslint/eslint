@@ -301,6 +301,19 @@ describe("ConfigRule", () => {
             assert.sameMembers(actualRules, expectedRules);
         });
 
+        it("should allow to ignore deprecated rules", () => {
+            const expectedRules = Array.from(builtInRules.entries())
+                    .filter(([, rule]) => {
+                        const ruleSchema = (typeof rule === "function") ? rule.schema : rule.meta.schema;
+
+                        return !ruleSchema.deprecated;
+                    })
+                    .map(([id]) => id),
+                actualRules = Object.keys(ConfigRule.createCoreRuleConfigs(true));
+
+            assert.sameMembers(actualRules, expectedRules);
+        });
+
         it("should create arrays of configs for rules", () => {
             assert.isArray(rulesConfig.quotes);
             assert.include(rulesConfig.quotes, 2);
