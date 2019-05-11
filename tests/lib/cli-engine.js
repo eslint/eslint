@@ -2079,6 +2079,24 @@ describe("CLIEngine", () => {
                 assert.strictEqual(report.results[0].messages.length, 2);
                 assert.strictEqual(report.results[0].messages[0].ruleId, "test/example-rule");
             });
+
+            it("should load plugins from the `loadPluginsRelativeTo` directory, if specified", () => {
+                engine = new CLIEngine({
+                    resolvePluginsRelativeTo: getFixturePath("plugins"),
+                    baseConfig: {
+                        plugins: ["with-rules"],
+                        rules: { "with-rules/rule1": "error" }
+                    },
+                    useEslintrc: false
+                });
+
+                const report = engine.executeOnText("foo");
+
+                assert.strictEqual(report.results.length, 1);
+                assert.strictEqual(report.results[0].messages.length, 1);
+                assert.strictEqual(report.results[0].messages[0].ruleId, "with-rules/rule1");
+                assert.strictEqual(report.results[0].messages[0].message, "Rule report from plugin");
+            });
         });
 
         describe("cache", () => {

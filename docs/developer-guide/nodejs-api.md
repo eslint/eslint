@@ -355,6 +355,7 @@ The `CLIEngine` is a constructor, and you can create a new instance by passing i
 * `parserOptions` - An object containing parser options (default: empty object). Corresponds to `--parser-options`.
 * `plugins` - An array of plugins to load (default: empty array). Corresponds to `--plugin`.
 * `reportUnusedDisableDirectives` - When set to `true`, adds reported errors for unused `eslint-disable` directives when no problems would be reported in the disabled area anyway (default: false). Corresponds to `--report-unused-disable-directives`.
+* `resolvePluginsRelativeTo` - Determines the folder where plugins should be resolved from. Should be used when an integration installs plugins and uses those plugins to lint code on behalf of the end user. Corresponds to `--resolve-plugins-relative-to`.
 * `rulePaths` - An array of directories to load custom rules from (default: empty array). Corresponds to `--rulesdir`.
 * `rules` - An object of rules to use (default: null). Corresponds to `--rule`.
 * `useEslintrc` - Set to false to disable use of `.eslintrc` files (default: true). Corresponds to `--no-eslintrc`.
