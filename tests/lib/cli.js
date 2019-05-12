@@ -588,6 +588,16 @@ describe("cli", () => {
 
     });
 
+    describe("when supplied with a plugin-loading path", () => {
+        it("should pass the option to CLIEngine", () => {
+            const examplePluginDirPath = "foo/bar";
+
+            verifyCLIEngineOpts(`--resolve-plugins-relative-to ${examplePluginDirPath} foo.js`, {
+                resolvePluginsRelativeTo: examplePluginDirPath
+            });
+        });
+    });
+
     describe("when given an parser name", () => {
         it("should exit with a fatal error if parser is invalid", () => {
             const filePath = getFixturePath("passing.js");

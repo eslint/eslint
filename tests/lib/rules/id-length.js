@@ -52,8 +52,8 @@ ruleTester.run("id-length", rule, {
         { code: "var { prop } = {};", parserOptions: { ecmaVersion: 6 } },
         { code: "var { prop: a } = {};", parserOptions: { ecmaVersion: 6 } },
         { code: "var { prop: [x] } = {};", parserOptions: { ecmaVersion: 6 } },
-        { code: "import something from 'y';", parserOptions: { sourceType: "module" } },
-        { code: "export var num = 0;", parserOptions: { sourceType: "module" } },
+        { code: "import something from 'y';", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export var num = 0;", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "({ prop: obj.x.y.something } = {});", parserOptions: { ecmaVersion: 6 } },
         { code: "({ prop: obj.longName } = {});", parserOptions: { ecmaVersion: 6 } },
         { code: "var obj = { a: 1, bc: 2 };", options: [{ properties: "never" }] },
@@ -149,14 +149,14 @@ ruleTester.run("id-length", rule, {
         },
         {
             code: "import x from 'y';",
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 tooShortError
             ]
         },
         {
             code: "export var x = 0;",
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 tooShortError
             ]

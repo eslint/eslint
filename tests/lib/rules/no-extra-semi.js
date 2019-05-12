@@ -40,8 +40,8 @@ ruleTester.run("no-extra-semi", rule, {
         { code: "class A { } a;", parserOptions: { ecmaVersion: 6 } },
 
         // modules
-        { code: "export const x = 42;", parserOptions: { sourceType: "module" } },
-        { code: "export default 42;", parserOptions: { sourceType: "module" } }
+        { code: "export const x = 42;", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default 42;", parserOptions: { ecmaVersion: 6, sourceType: "module" } }
     ],
     invalid: [
         {

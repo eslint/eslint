@@ -296,7 +296,7 @@ ruleTester.run("no-var", rule, {
         {
             code: "var foo = 1",
             output: "let foo = 1",
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: ["Unexpected var, use let or const instead."]
         },
 
@@ -305,7 +305,7 @@ ruleTester.run("no-var", rule, {
             code: "declare var foo = 2;",
             output: "declare let foo = 2;",
             parser: require.resolve("../../fixtures/parsers/typescript-parsers/declare-var"),
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: ["Unexpected var, use let or const instead."]
         }
     ]

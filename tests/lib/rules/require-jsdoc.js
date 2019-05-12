@@ -321,7 +321,7 @@ ruleTester.run("require-jsdoc", rule, {
                     ClassDeclaration: true
                 }
             }],
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 message: "Missing JSDoc comment.",
                 type: "ClassDeclaration"
@@ -344,7 +344,7 @@ ruleTester.run("require-jsdoc", rule, {
                     ClassDeclaration: true
                 }
             }],
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
                 message: "Missing JSDoc comment.",
                 type: "ClassDeclaration"

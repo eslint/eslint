@@ -164,6 +164,26 @@ ruleTester.run("curly", rule, {
             options: ["multi-or-nest"],
             parserOptions: { ecmaVersion: 6 }
         },
+        {
+            code: "if (foo) { \n const bar = 'baz'; \n }",
+            options: ["multi-or-nest"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "if (foo) { \n let bar = 'baz'; \n }",
+            options: ["multi-or-nest"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "if (foo) { \n function bar() {} \n }",
+            options: ["multi-or-nest"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "if (foo) { \n class bar {} \n }",
+            options: ["multi-or-nest"],
+            parserOptions: { ecmaVersion: 6 }
+        },
 
         // https://github.com/eslint/eslint/issues/3856
         {
@@ -587,6 +607,18 @@ ruleTester.run("curly", rule, {
         {
             code: "if (foo) { \n quz = true; \n }",
             output: "if (foo)  \n quz = true; \n ",
+            options: ["multi-or-nest"],
+            errors: [
+                {
+                    messageId: "unexpectedCurlyAfterCondition",
+                    data: { name: "if" },
+                    type: "IfStatement"
+                }
+            ]
+        },
+        {
+            code: "if (foo) { \n var bar = 'baz'; \n }",
+            output: "if (foo)  \n var bar = 'baz'; \n ",
             options: ["multi-or-nest"],
             errors: [
                 {
