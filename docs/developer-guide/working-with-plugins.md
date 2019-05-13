@@ -54,15 +54,16 @@ You can also create plugins that would tell ESLint how to process files other th
 ```js
 module.exports = {
     processors: {
-
-        // assign to the file extension you want (.js, .jsx, .html, etc.)
-        ".ext": {
+        "processor-name": {
             // takes text of the file and filename
             preprocess: function(text, filename) {
                 // here, you can strip out any non-JS content
                 // and split into multiple strings to lint
 
-                return [string];  // return an array of strings to lint
+                return [ // return an array of code blocks to lint
+                    { text: code1, filename: "0.js" },
+                    { text: code2, filename: "1.js" },
+                ];
             },
 
             // takes a Message[][] and filename
@@ -72,7 +73,7 @@ module.exports = {
                 // to the text that was returned in array from preprocess() method
 
                 // you need to return a one-dimensional array of the messages you want to keep
-                return messages[0];
+                return [].concat(...messages);
             },
 
             supportsAutofix: true // (optional, defaults to false)
@@ -81,9 +82,13 @@ module.exports = {
 };
 ```
 
-The `preprocess` method takes the file contents and filename as arguments, and returns an array of strings to lint. The strings will be linted separately but still be registered to the filename. It's up to the plugin to decide if it needs to return just one part, or multiple pieces. For example in the case of processing `.html` files, you might want to return just one item in the array by combining all scripts, but for `.md` file where each JavaScript block might be independent, you can return multiple items.
+**The `preprocess` method** takes the file contents and filename as arguments, and returns an array of code blocks to lint. The code blocks will be linted separately but still be registered to the filename.
 
-The `postprocess` method takes a two-dimensional array of arrays of lint messages and the filename. Each item in the input array corresponds to the part that was returned from the `preprocess` method. The `postprocess` method must adjust the locations of all errors to correspond to locations in the original, unprocessed code, and aggregate them into a single flat array and return it.
+A code block has two properties `text` and `filename`; the `text` property is the content of the block and the `filename` property is the name of the block. ESLint checks the file extension of the `filename` property to know the kind of the code block. If the file extension was included in [`--ext` CLI option](../user-guide/command-line-interface.md#--ext), ESLint resolves `overrides` configs by the `filename` property then lint the code block. Otherwise, ESLint just ignores the code block.
+
+It's up to the plugin to decide if it needs to return just one part, or multiple pieces. For example in the case of processing `.html` files, you might want to return just one item in the array by combining all scripts, but for `.md` file where each JavaScript block might be independent, you can return multiple items.
+
+**The `postprocess` method** takes a two-dimensional array of arrays of lint messages and the filename. Each item in the input array corresponds to the part that was returned from the `preprocess` method. The `postprocess` method must adjust the locations of all errors to correspond to locations in the original, unprocessed code, and aggregate them into a single flat array and return it.
 
 Reported problems have the following location information:
 
@@ -116,6 +121,41 @@ By default, ESLint will not perform autofixes when a processor is used, even whe
 
 You can have both rules and processors in a single plugin. You can also have multiple processors in one plugin.
 To support multiple extensions, add each one to the `processors` element and point them to the same object.
+
+#### Specifying Processor in Config Files
+
+People use processors by the `processor` key with a processor ID in config files. The processor ID is the concatenated string of a plugin name and a processor name by a slash. And people can use the `overrides` property to tie a file type and a processor.
+
+For example:
+
+```yml
+plugins:
+  - a-plugin
+overrides:
+  - files: "*.md"
+    processor: a-plugin/markdown
+```
+
+See [Specifying Processor](../user-guide/configuring.md#specifying-processor) for details.
+
+#### File Extension-named Processor
+
+If a processor name starts with `.`, ESLint handles the processor as a **file extension-named processor** especially and applies the processor to the kind of files automatically. People don't need to specify the file extension-named processors in their config files.
+
+For example:
+
+```js
+module.exports = {
+    processors: {
+        // This processor will be applied to `*.md` files automatically.
+        // Also, people can use this processor as "plugin-id/.md" explicitly.
+        ".md": {
+            preprocess(text, filename) { /* ... */ },
+            postprocess(messageLists, filename) { /* ... */ }
+        }
+    }
+}
+```
 
 ### Configs in Plugins
 

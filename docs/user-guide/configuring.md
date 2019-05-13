@@ -80,6 +80,55 @@ The following parsers are compatible with ESLint:
 
 Note when using a custom parser, the `parserOptions` configuration property is still required for ESLint to work properly with features not in ECMAScript 5 by default. Parsers are all passed `parserOptions` and may or may not use them to determine which features to enable.
 
+## Specifying Processor
+
+Plugins may provide processors. Processors can extract JavaScript code from another kind of files, then lets ESLint lint the JavaScript code. Or processors can convert JavaScript code in preprocessing for some purpose.
+
+To specify processors in a configuration file, use the `processor` key with the concatenated string of a plugin name and a processor name by a slash. For example, the following enables the processor `a-processor` that the plugin `a-plugin` provided:
+
+```json
+{
+    "plugins": ["a-plugin"],
+    "processor": "a-plugin/a-processor"
+}
+```
+
+To specify processors for a specific kind of files, use the combination of the `overrides` key and the `processor` key. For example, the following uses the processor `a-plugin/markdown` for `*.md` files.
+
+```json
+{
+    "plugins": ["a-plugin"],
+    "overrides": [
+        {
+            "files": ["*.md"],
+            "processor": "a-plugin/markdown"
+        }
+    ]
+}
+```
+
+Processors may make named code blocks such as `0.js` and `1.js`. ESLint handles such a named code block as like a child file of the original file. You can specify additional configurations for named code blocks by the `overrides` key. For example, the following disables `strict` rule for the named code blocks which end with `.js` in markdown files.
+
+```json
+{
+    "plugins": ["a-plugin"],
+    "overrides": [
+        {
+            "files": ["*.md"],
+            "processor": "a-plugin/markdown"
+        },
+        {
+            "files": ["**/*.md/*.js"],
+            "rules": {
+                "strict": "off"
+            }
+        }
+    ]
+}
+```
+
+ESLint checks the file extension of named code blocks then ignores those if [`--ext` CLI option](../user-guide/command-line-interface.md#--ext) didn't include the file extension. Be sure to specify the `--ext` option if you wanted to lint named code blocks other than `*.js`.
+
 ## Specifying Environments
 
 An environment defines global variables that are predefined. The available environments are:
