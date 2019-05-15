@@ -364,7 +364,6 @@ describe("bin/eslint.js", () => {
         });
     });
 
-
     describe("emitting a warning for ecmaFeatures", () => {
         it("does not emit a warning when it does not find an ecmaFeatures option", () => {
             const child = runESLint(["Makefile.js"]);
@@ -385,6 +384,8 @@ describe("bin/eslint.js", () => {
             return Promise.all([exitCodePromise, outputPromise]);
         });
     });
+
+    describe("has exit code 0 if a linting error is reported while --force flag is set", () => assertExitCode(runESLint(["bin/eslint.js", "--force", "--env", "es6", "--no-eslintrc", "--rule", "semi: [2, never]"]), 0));
 
     afterEach(() => {
 
