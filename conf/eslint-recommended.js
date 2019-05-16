@@ -65,6 +65,7 @@ module.exports = {
         "require-atomic-updates": "error",
         "require-yield": "error",
         "use-isnan": "error",
-        "valid-typeof": "error"
+        "valid-typeof": "error",
+        "prefer-const": "error",
     }
 };
