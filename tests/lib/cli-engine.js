@@ -803,6 +803,24 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.results[1].messages.length, 0);
         });
 
+        it("file verify events is available on 'useEvents' flag", () => {
+
+            const results = [];
+
+            engine = new CLIEngine({
+                cwd: originalDir,
+                configFile: ".eslintrc.js",
+                useEvents: true
+            });
+            engine.events.on("fileVerify", result => results.push(result));
+
+            engine.executeOnFiles(["lib/cli*.js"]);
+
+            assert.strictEqual(results.length, 2);
+            assert.strictEqual(results[0].messages.length, 0);
+            assert.strictEqual(results[1].messages.length, 0);
+        });
+
         it("should handle multiple patterns with overlapping files", () => {
 
             engine = new CLIEngine({

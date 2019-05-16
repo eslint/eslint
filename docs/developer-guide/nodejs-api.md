@@ -29,6 +29,8 @@ While ESLint is designed to be run on the command line, it's possible to use ESL
     * [outputFixes()](#cliengineoutputfixes)
     * [getRules()](#clienginegetrules)
     * [version](#cliengineversion)
+* [CLIEngine Events](#cliengine-events)
+    * [Event: 'fileVerify'](#event-fileverify)
 * [RuleTester](#ruletester)
     * [Customizing RuleTester](#customizing-ruletester)
 * [Deprecated APIs](#deprecated-apis)
@@ -360,6 +362,7 @@ The `CLIEngine` is a constructor, and you can create a new instance by passing i
 * `rules` - An object of rules to use (default: null). Corresponds to `--rule`.
 * `useEslintrc` - Set to false to disable use of `.eslintrc` files (default: true). Corresponds to `--no-eslintrc`.
 * `globInputPaths` - Set to false to skip glob resolution of input file paths to lint (default: true). If false, each input file paths is assumed to be a non-glob path to an existing file.
+* `useEvents` - Allows to use the event model to interact with the `CLIEngine` (default: `false`).
 
 To programmatically set `.eslintrc.*` options not supported above (such as `extends`,
 `overrides` and `settings`), define them in a config object passed to `baseConfig` instead.
@@ -787,6 +790,32 @@ Map {
 
 ```js
 require("eslint").CLIEngine.version; // '4.5.0'
+```
+
+## CLIEngine Events
+
+Events are available when using the option `useEvents: true`
+
+### Event: 'fileVerify'
+
+The 'fileVerify' event is triggered when a one file verified.
+
+* `result` - The results of the linting operation for a one file.
+
+```js
+const CLIEngine = require("eslint").CLIEngine;
+
+const cli = new CLIEngine({
+    useEvents: false
+});
+
+cli.events.on("fileVerify", result => {
+    // Processing the results of all files in turn.
+    // For example as asynchronous sending of reports to the database.
+});
+
+// lint myfile.js and all files in lib/
+cli.executeOnFiles(["lib/cli*.js"]);
 ```
 
 ## RuleTester
