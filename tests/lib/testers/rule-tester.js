@@ -609,7 +609,27 @@ describe("RuleTester", () => {
         }, /options must be an array/u);
     });
 
-    it("should pass-through the parser to the rule", () => {
+    it("should pass-through the parser to the rule (package)", () => {
+        const spy = sinon.spy(ruleTester.linter, "verify");
+
+        ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
+            valid: [
+                {
+                    code: "Eval(foo)"
+                }
+            ],
+            invalid: [
+                {
+                    code: "eval(foo)",
+                    parser: "esprima",
+                    errors: [{}]
+                }
+            ]
+        });
+        assert.strictEqual(spy.args[1][1].parser, "esprima");
+    });
+
+    it("should pass-through the parser to the rule (absolute path)", () => {
         const spy = sinon.spy(ruleTester.linter, "verify");
 
         ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
@@ -627,6 +647,25 @@ describe("RuleTester", () => {
             ]
         });
         assert.strictEqual(spy.args[1][1].parser, require.resolve("esprima"));
+    });
+
+    it("should fail the parser was not found.", () => {
+        assert.throws(() => {
+            ruleTester.run("no-eval", require("../../fixtures/testers/rule-tester/no-eval"), {
+                valid: [
+                    {
+                        code: "Eval(foo)"
+                    }
+                ],
+                invalid: [
+                    {
+                        code: "eval(foo)",
+                        parser: "xxxx-invalid-parser",
+                        errors: [{}]
+                    }
+                ]
+            });
+        }, /Cannot find module 'xxxx-invalid-parser'/u);
     });
 
     it("should prevent invalid options schemas", () => {
