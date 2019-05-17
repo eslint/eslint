@@ -235,6 +235,18 @@ describe("RuleTester", () => {
         });
     });
 
+    it("should throw an error when there is no ouput property and the rule is fixable", () => {
+
+        assert.throws(() => {
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/fixable-rule-with-meta"), {
+                valid: [],
+                invalid: [
+                    { code: "var foo = bar;", errors: [{ message: "No programs allowed.", type: "Program" }] }
+                ]
+            });
+        }, /'output' property missing/);
+    });
+
     it("should throw an error when the expected output doesn't match", () => {
         assert.throws(() => {
             ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
