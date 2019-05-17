@@ -26,6 +26,7 @@ Note: The location of the operators is not enforced by this rule. Please see the
 This rule has a string option:
 
 * `"always"` (default) enforces newlines between the operands of a ternary expression.
+* `"always-multiline"` enforces newlines between the operands of a ternary expression if the expression spans multiple lines.
 * `"never"` disallows newlines between the operands of a ternary expression (enforcing that the entire ternary expression is on one line).
 
 ### always
@@ -60,6 +61,50 @@ foo > bar ?
         value1 :
         value2) :
     value3;
+```
+
+### always-multiline
+
+Examples of **incorrect** code for this rule with the `"always-multiline"` option:
+
+```js
+/*eslint multiline-ternary: ["error", "always-multiline"]*/
+
+foo > bar ? value1 :
+    value2;
+
+foo > bar ?
+    value1 : value2;
+
+foo > bar &&
+    bar > baz ? value1 : value2;
+```
+
+Examples of **correct** code for this rule with the `"always-multiline"` option:
+
+```js
+/*eslint multiline-ternary: ["error", "always-multiline"]*/
+
+foo > bar ? value1 : value2;
+
+foo > bar ?
+    value1 :
+    value2;
+
+foo > bar ?
+    (baz > qux ? value1 : value2) :
+    value3;
+
+foo > bar ?
+    (baz > qux ?
+        value1 :
+        value2) :
+    value3;
+
+foo > bar &&
+    bar > baz ?
+        value1 :
+        value2;
 ```
 
 ### never
@@ -101,4 +146,4 @@ You can safely disable this rule if you do not have any strict conventions about
 
 ## Compatibility
 
-* **JSCS**: [requireMultiLineTernary](http://jscs.info/rule/requireMultiLineTernary)
+* **JSCS**: [requireMultiLineTernary](https://jscs-dev.github.io/rule/requireMultiLineTernary)

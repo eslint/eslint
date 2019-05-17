@@ -22,50 +22,50 @@ ruleTester.run("prefer-reflect", rule, {
     valid: [
 
         // Reflect.apply
-        { code: "Reflect.apply(function(){}, null, 1, 2);" },
+        "Reflect.apply(function(){}, null, 1, 2);",
         { code: "Reflect.apply(function(){}, null, 1, 2);", options: [{ exceptions: ["apply"] }] },
         { code: "(function(){}).apply(null, [1, 2]);", options: [{ exceptions: ["apply"] }] },
         { code: "(function(){}).call(null, 1, 2);", options: [{ exceptions: ["call"] }] },
 
         // Reflect.defineProperty
-        { code: "Reflect.defineProperty({}, 'foo', {value: 1})" },
+        "Reflect.defineProperty({}, 'foo', {value: 1})",
         { code: "Reflect.defineProperty({}, 'foo', {value: 1})", options: [{ exceptions: ["defineProperty"] }] },
         { code: "Object.defineProperty({}, 'foo', {value: 1})", options: [{ exceptions: ["defineProperty"] }] },
 
         // Reflect.getOwnPropertyDescriptor
-        { code: "Reflect.getOwnPropertyDescriptor({}, 'foo');" },
+        "Reflect.getOwnPropertyDescriptor({}, 'foo');",
         { code: "Reflect.getOwnPropertyDescriptor({}, 'foo');", options: [{ exceptions: ["getOwnPropertyDescriptor"] }] },
         { code: "Object.getOwnPropertyDescriptor({}, 'foo');", options: [{ exceptions: ["getOwnPropertyDescriptor"] }] },
 
         // Reflect.getPrototypeOf
-        { code: "Reflect.getPrototypeOf({});" },
+        "Reflect.getPrototypeOf({});",
         { code: "Reflect.getPrototypeOf({});", options: [{ exceptions: ["getPrototypeOf"] }] },
         { code: "Object.getPrototypeOf({});", options: [{ exceptions: ["getPrototypeOf"] }] },
 
         // Reflect.setPrototypeOf
-        { code: "Reflect.setPrototypeOf({}, Object.prototype);" },
+        "Reflect.setPrototypeOf({}, Object.prototype);",
         { code: "Reflect.setPrototypeOf({}, Object.prototype);", options: [{ exceptions: ["setPrototypeOf"] }] },
         { code: "Object.setPrototypeOf({}, Object.prototype);", options: [{ exceptions: ["setPrototypeOf"] }] },
 
         // Reflect.isExtensible
-        { code: "Reflect.isExtensible({});" },
+        "Reflect.isExtensible({});",
         { code: "Reflect.isExtensible({});", options: [{ exceptions: ["isExtensible"] }] },
         { code: "Object.isExtensible({});", options: [{ exceptions: ["isExtensible"] }] },
 
         // Reflect.getOwnPropertyNames
-        { code: "Reflect.getOwnPropertyNames({});" },
+        "Reflect.getOwnPropertyNames({});",
         { code: "Reflect.getOwnPropertyNames({});", options: [{ exceptions: ["getOwnPropertyNames"] }] },
         { code: "Object.getOwnPropertyNames({});", options: [{ exceptions: ["getOwnPropertyNames"] }] },
 
         // Reflect.getOwnPropertyNames
-        { code: "Reflect.preventExtensions({});" },
+        "Reflect.preventExtensions({});",
         { code: "Reflect.preventExtensions({});", options: [{ exceptions: ["preventExtensions"] }] },
         { code: "Object.preventExtensions({});", options: [{ exceptions: ["preventExtensions"] }] },
 
         // Reflect.getOwnPropertyNames
-        { code: "Reflect.deleteProperty({}, 'foo');" },
+        "Reflect.deleteProperty({}, 'foo');",
         { code: "Reflect.deleteProperty({}, 'foo');", options: [{ exceptions: ["delete"] }] },
-        { code: "delete foo;" },
+        "delete foo;",
         { code: "delete ({}).foo", options: [{ exceptions: ["delete"] }] }
     ],
     invalid: [

@@ -18,9 +18,8 @@ const rule = require("../../../lib/rules/handle-callback-err"),
 
 const ruleTester = new RuleTester();
 
-const expectedErrorMessage = "Expected error to be handled.";
-const expectedFunctionDeclarationError = { message: expectedErrorMessage, type: "FunctionDeclaration" };
-const expectedFunctionExpressionError = { message: expectedErrorMessage, type: "FunctionExpression" };
+const expectedFunctionDeclarationError = { messageId: "expected", type: "FunctionDeclaration" };
+const expectedFunctionExpressionError = { messageId: "expected", type: "FunctionExpression" };
 
 ruleTester.run("handle-callback-err", rule, {
     valid: [
@@ -58,7 +57,7 @@ ruleTester.run("handle-callback-err", rule, {
         { code: "function test(err) {errorLookingWord();}", errors: [expectedFunctionDeclarationError] },
         { code: "function test(err) {try{} catch(err) {}}", errors: [expectedFunctionDeclarationError] },
         { code: "function test(err, callback) { foo(function(err, callback) {}); }", errors: [expectedFunctionDeclarationError, expectedFunctionExpressionError] },
-        { code: "var test = (err) => {};", parserOptions: { ecmaVersion: 6 }, errors: [{ message: expectedErrorMessage, type: "ArrowFunctionExpression" }] },
+        { code: "var test = (err) => {};", parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "expected" }] },
         { code: "var test = function(err) {};", errors: [expectedFunctionExpressionError] },
         { code: "var test = function test(err, data) {};", errors: [expectedFunctionExpressionError] },
         { code: "var test = function test(err) {/* if(err){} */};", errors: [expectedFunctionExpressionError] },

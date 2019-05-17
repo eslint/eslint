@@ -9,6 +9,21 @@ var foo = (a && b) || c || d;  /*GOOD*/
 var foo = a && (b || c || d);  /*GOOD*/
 ```
 
+**Note:**
+It is expected for this rule to emit one error for each mixed operator in a pair. As a result, for each two consecutive mixed operators used, a distinct error will be displayed, pointing to where the specific operator that breaks the rule is used:
+
+```js
+var foo = a && b || c || d;
+```
+
+will generate
+
+```sh
+1:13  Unexpected mix of '&&' and '||'. (no-mixed-operators)
+1:18  Unexpected mix of '&&' and '||'. (no-mixed-operators)
+```
+
+
 ## Rule Details
 
 This rule checks `BinaryExpression` and `LogicalExpression`.
@@ -60,11 +75,8 @@ var foo = (a + b) * c;
 
 This rule has 2 options.
 
-* `groups` (`string[][]`) - specifies groups to compare operators.
-  When this rule compares two operators, if both operators are included in a same group, this rule checks it. Otherwise, this rule ignores it.
-  This value is a list of groups. The group is a list of binary operators.
-  Default is the groups for each kind of operators.
-* `allowSamePrecedence` (`boolean`) - specifies to allow mix of 2 operators if those have the same precedence. Default is `true`.
+* `groups` (`string[][]`) - specifies operator groups to be checked. The `groups` option is a list of groups, and a group is a list of binary operators. Default operator groups are defined as arithmetic, bitwise, comparison, logical, and relational operators.
+* `allowSamePrecedence` (`boolean`) - specifies whether to allow mixed operators if they are of equal precedence. Default is `true`.
 
 ### groups
 
@@ -76,11 +88,10 @@ The following operators can be used in `groups` option:
 * Logical Operators: `"&&"`, `"||"`
 * Relational Operators: `"in"`, `"instanceof"`
 
-Now, considers about `{"groups": [["&", "|", "^", "~", "<<", ">>", ">>>"], ["&&", "||"]]}` configure.
-This configure has 2 groups: bitwise operators and logical operators.
-This rule checks only if both operators are included in a same group.
-So, in this case, this rule comes to check between bitwise operators and between logical operators.
-This rule ignores other operators.
+Now, consider the following group configuration: `{"groups": [["&", "|", "^", "~", "<<", ">>", ">>>"], ["&&", "||"]]}`.
+There are 2 groups specified in this configuration: bitwise operators and logical operators.
+This rule checks if the operators belong to the same group only.
+In this case, this rule checks if bitwise operators and logical operators are mixed, but ignores all other operators.
 
 Examples of **incorrect** code for this rule with `{"groups": [["&", "|", "^", "~", "<<", ">>", ">>>"], ["&&", "||"]]}` option:
 
@@ -125,6 +136,15 @@ Examples of **incorrect** code for this rule with `{"allowSamePrecedence": false
 
 // + and - have the same precedence.
 var foo = a + b - c;
+```
+
+Examples of **correct** code for this rule with `{"allowSamePrecedence": false}` option:
+
+```js
+/*eslint no-mixed-operators: ["error", {"allowSamePrecedence": false}]*/
+
+// + and - have the same precedence.
+var foo = (a + b) - c;
 ```
 
 ## When Not To Use It

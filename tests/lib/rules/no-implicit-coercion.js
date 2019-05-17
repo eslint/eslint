@@ -20,50 +20,50 @@ const ruleTester = new RuleTester();
 
 ruleTester.run("no-implicit-coercion", rule, {
     valid: [
-        { code: "Boolean(foo)" },
-        { code: "foo.indexOf(1) !== -1" },
-        { code: "Number(foo)" },
-        { code: "parseInt(foo)" },
-        { code: "parseFloat(foo)" },
-        { code: "String(foo)" },
-        { code: "!foo" },
-        { code: "~foo" },
-        { code: "-foo" },
-        { code: "+1234" },
-        { code: "-1234" },
-        { code: "+Number(lol)" },
-        { code: "-parseFloat(lol)" },
-        { code: "2 * foo" },
-        { code: "1 * 1234" },
-        { code: "1 * Number(foo)" },
-        { code: "1 * parseInt(foo)" },
-        { code: "1 * parseFloat(foo)" },
-        { code: "Number(foo) * 1" },
-        { code: "parseInt(foo) * 1" },
-        { code: "parseFloat(foo) * 1" },
-        { code: "1 * 1234 * 678 * Number(foo)" },
-        { code: "1 * 1234 * 678 * parseInt(foo)" },
-        { code: "1234 * 1 * 678 * Number(foo)" },
-        { code: "1234 * 1 * Number(foo) * Number(bar)" },
-        { code: "1234 * 1 * Number(foo) * parseInt(bar)" },
-        { code: "1234 * 1 * Number(foo) * parseFloat(bar)" },
-        { code: "1234 * 1 * parseInt(foo) * parseFloat(bar)" },
-        { code: "1234 * 1 * parseInt(foo) * Number(bar)" },
-        { code: "1234 * 1 * parseFloat(foo) * Number(bar)" },
-        { code: "1234 * Number(foo) * 1 * Number(bar)" },
-        { code: "1234 * parseInt(foo) * 1 * Number(bar)" },
-        { code: "1234 * parseFloat(foo) * 1 * parseInt(bar)" },
-        { code: "1234 * parseFloat(foo) * 1 * Number(bar)" },
-        { code: "1234*foo*1" },
-        { code: "1234*1*foo" },
-        { code: "1234*bar*1*foo" },
-        { code: "1234*1*foo*bar" },
-        { code: "1234*1*foo*Number(bar)" },
-        { code: "1234*1*Number(foo)*bar" },
-        { code: "1234*1*parseInt(foo)*bar" },
-        { code: "0 + foo" },
-        { code: "~foo.bar()" },
-        { code: "foo + 'bar'" },
+        "Boolean(foo)",
+        "foo.indexOf(1) !== -1",
+        "Number(foo)",
+        "parseInt(foo)",
+        "parseFloat(foo)",
+        "String(foo)",
+        "!foo",
+        "~foo",
+        "-foo",
+        "+1234",
+        "-1234",
+        "+Number(lol)",
+        "-parseFloat(lol)",
+        "2 * foo",
+        "1 * 1234",
+        "1 * Number(foo)",
+        "1 * parseInt(foo)",
+        "1 * parseFloat(foo)",
+        "Number(foo) * 1",
+        "parseInt(foo) * 1",
+        "parseFloat(foo) * 1",
+        "1 * 1234 * 678 * Number(foo)",
+        "1 * 1234 * 678 * parseInt(foo)",
+        "1234 * 1 * 678 * Number(foo)",
+        "1234 * 1 * Number(foo) * Number(bar)",
+        "1234 * 1 * Number(foo) * parseInt(bar)",
+        "1234 * 1 * Number(foo) * parseFloat(bar)",
+        "1234 * 1 * parseInt(foo) * parseFloat(bar)",
+        "1234 * 1 * parseInt(foo) * Number(bar)",
+        "1234 * 1 * parseFloat(foo) * Number(bar)",
+        "1234 * Number(foo) * 1 * Number(bar)",
+        "1234 * parseInt(foo) * 1 * Number(bar)",
+        "1234 * parseFloat(foo) * 1 * parseInt(bar)",
+        "1234 * parseFloat(foo) * 1 * Number(bar)",
+        "1234*foo*1",
+        "1234*1*foo",
+        "1234*bar*1*foo",
+        "1234*1*foo*bar",
+        "1234*1*foo*Number(bar)",
+        "1234*1*Number(foo)*bar",
+        "1234*1*parseInt(foo)*bar",
+        "0 + foo",
+        "~foo.bar()",
+        "foo + 'bar'",
         { code: "foo + `${bar}`", parserOptions: { ecmaVersion: 6 } },
 
         { code: "!!foo", options: [{ boolean: false }] },
@@ -80,147 +80,153 @@ ruleTester.run("no-implicit-coercion", rule, {
         { code: "var a = \"\" + foo", options: [{ boolean: true, string: true, allow: ["+"] }] },
 
         // https://github.com/eslint/eslint/issues/7057
-        { code: "'' + 'foo'" },
+        "'' + 'foo'",
         { code: "`` + 'foo'", parserOptions: { ecmaVersion: 6 } },
         { code: "'' + `${foo}`", parserOptions: { ecmaVersion: 6 } },
-        { code: "'foo' + ''" },
+        "'foo' + ''",
         { code: "'foo' + ``", parserOptions: { ecmaVersion: 6 } },
         { code: "`${foo}` + ''", parserOptions: { ecmaVersion: 6 } },
-        { code: "foo += 'bar'" },
+        "foo += 'bar'",
         { code: "foo += `${bar}`", parserOptions: { ecmaVersion: 6 } },
-        { code: "+42" }
+        "+42"
     ],
     invalid: [
         {
             code: "!!foo",
-            errors: [{ message: "use `Boolean(foo)` instead.", type: "UnaryExpression" }],
-            output: "Boolean(foo)"
+            output: "Boolean(foo)",
+            errors: [{ message: "use `Boolean(foo)` instead.", type: "UnaryExpression" }]
         },
         {
             code: "!!(foo + bar)",
-            errors: [{ message: "use `Boolean(foo + bar)` instead.", type: "UnaryExpression" }],
-            output: "Boolean(foo + bar)"
+            output: "Boolean(foo + bar)",
+            errors: [{ message: "use `Boolean(foo + bar)` instead.", type: "UnaryExpression" }]
         },
         {
             code: "~foo.indexOf(1)",
-            errors: [{ message: "use `foo.indexOf(1) !== -1` instead.", type: "UnaryExpression" }],
-            output: null
+            output: null,
+            errors: [{ message: "use `foo.indexOf(1) !== -1` instead.", type: "UnaryExpression" }]
         },
         {
             code: "~foo.bar.indexOf(2)",
-            errors: [{ message: "use `foo.bar.indexOf(2) !== -1` instead.", type: "UnaryExpression" }],
-            output: null
+            output: null,
+            errors: [{ message: "use `foo.bar.indexOf(2) !== -1` instead.", type: "UnaryExpression" }]
         },
         {
             code: "+foo",
-            errors: [{ message: "use `Number(foo)` instead.", type: "UnaryExpression" }],
-            output: "Number(foo)"
+            output: "Number(foo)",
+            errors: [{ message: "use `Number(foo)` instead.", type: "UnaryExpression" }]
         },
         {
             code: "+foo.bar",
-            errors: [{ message: "use `Number(foo.bar)` instead.", type: "UnaryExpression" }],
-            output: "Number(foo.bar)"
+            output: "Number(foo.bar)",
+            errors: [{ message: "use `Number(foo.bar)` instead.", type: "UnaryExpression" }]
         },
         {
             code: "1*foo",
-            errors: [{ message: "use `Number(foo)` instead.", type: "BinaryExpression" }],
-            output: "Number(foo)"
+            output: "Number(foo)",
+            errors: [{ message: "use `Number(foo)` instead.", type: "BinaryExpression" }]
         },
         {
             code: "foo*1",
-            errors: [{ message: "use `Number(foo)` instead.", type: "BinaryExpression" }],
-            output: "Number(foo)"
+            output: "Number(foo)",
+            errors: [{ message: "use `Number(foo)` instead.", type: "BinaryExpression" }]
         },
         {
             code: "1*foo.bar",
-            errors: [{ message: "use `Number(foo.bar)` instead.", type: "BinaryExpression" }],
-            output: "Number(foo.bar)"
+            output: "Number(foo.bar)",
+            errors: [{ message: "use `Number(foo.bar)` instead.", type: "BinaryExpression" }]
         },
         {
             code: "\"\"+foo",
-            errors: [{ message: "use `String(foo)` instead.", type: "BinaryExpression" }],
-            output: "String(foo)"
+            output: "String(foo)",
+            errors: [{ message: "use `String(foo)` instead.", type: "BinaryExpression" }]
         },
         {
             code: "``+foo",
+            output: "String(foo)",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "use `String(foo)` instead.", type: "BinaryExpression" }],
-            output: "String(foo)"
+            errors: [{ message: "use `String(foo)` instead.", type: "BinaryExpression" }]
         },
         {
             code: "foo+\"\"",
-            errors: [{ message: "use `String(foo)` instead.", type: "BinaryExpression" }],
-            output: "String(foo)"
+            output: "String(foo)",
+            errors: [{ message: "use `String(foo)` instead.", type: "BinaryExpression" }]
         },
         {
             code: "foo+``",
+            output: "String(foo)",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "use `String(foo)` instead.", type: "BinaryExpression" }],
-            output: "String(foo)"
+            errors: [{ message: "use `String(foo)` instead.", type: "BinaryExpression" }]
         },
         {
             code: "\"\"+foo.bar",
-            errors: [{ message: "use `String(foo.bar)` instead.", type: "BinaryExpression" }],
-            output: "String(foo.bar)"
+            output: "String(foo.bar)",
+            errors: [{ message: "use `String(foo.bar)` instead.", type: "BinaryExpression" }]
         },
         {
             code: "``+foo.bar",
+            output: "String(foo.bar)",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "use `String(foo.bar)` instead.", type: "BinaryExpression" }],
-            output: "String(foo.bar)"
+            errors: [{ message: "use `String(foo.bar)` instead.", type: "BinaryExpression" }]
         },
         {
             code: "foo.bar+\"\"",
-            errors: [{ message: "use `String(foo.bar)` instead.", type: "BinaryExpression" }],
-            output: "String(foo.bar)"
+            output: "String(foo.bar)",
+            errors: [{ message: "use `String(foo.bar)` instead.", type: "BinaryExpression" }]
         },
         {
             code: "foo.bar+``",
+            output: "String(foo.bar)",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "use `String(foo.bar)` instead.", type: "BinaryExpression" }],
-            output: "String(foo.bar)"
+            errors: [{ message: "use `String(foo.bar)` instead.", type: "BinaryExpression" }]
         },
         {
             code: "foo += \"\"",
-            errors: [{ message: "use `foo = String(foo)` instead.", type: "AssignmentExpression" }],
-            output: "foo = String(foo)"
+            output: "foo = String(foo)",
+            errors: [{ message: "use `foo = String(foo)` instead.", type: "AssignmentExpression" }]
         },
         {
             code: "foo += ``",
+            output: "foo = String(foo)",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "use `foo = String(foo)` instead.", type: "AssignmentExpression" }],
-            output: "foo = String(foo)"
+            errors: [{ message: "use `foo = String(foo)` instead.", type: "AssignmentExpression" }]
         },
         {
-            code: "var a = !!foo", options: [{ boolean: true, allow: ["~"] }],
-            errors: [{ message: "use `Boolean(foo)` instead.", type: "UnaryExpression" }],
-            output: "var a = Boolean(foo)"
+            code: "var a = !!foo",
+            output: "var a = Boolean(foo)",
+            options: [{ boolean: true, allow: ["~"] }],
+            errors: [{ message: "use `Boolean(foo)` instead.", type: "UnaryExpression" }]
         },
         {
-            code: "var a = ~foo.indexOf(1)", options: [{ boolean: true, allow: ["!!"] }],
-            errors: [{ message: "use `foo.indexOf(1) !== -1` instead.", type: "UnaryExpression" }],
-            output: null
+            code: "var a = ~foo.indexOf(1)",
+            output: null,
+            options: [{ boolean: true, allow: ["!!"] }],
+            errors: [{ message: "use `foo.indexOf(1) !== -1` instead.", type: "UnaryExpression" }]
         },
         {
-            code: "var a = 1 * foo", options: [{ boolean: true, allow: ["+"] }],
-            errors: [{ message: "use `Number(foo)` instead.", type: "BinaryExpression" }],
-            output: "var a = Number(foo)"
+            code: "var a = 1 * foo",
+            output: "var a = Number(foo)",
+            options: [{ boolean: true, allow: ["+"] }],
+            errors: [{ message: "use `Number(foo)` instead.", type: "BinaryExpression" }]
         },
         {
-            code: "var a = +foo", options: [{ boolean: true, allow: ["*"] }],
-            errors: [{ message: "use `Number(foo)` instead.", type: "UnaryExpression" }],
-            output: "var a = Number(foo)"
+            code: "var a = +foo",
+            output: "var a = Number(foo)",
+            options: [{ boolean: true, allow: ["*"] }],
+            errors: [{ message: "use `Number(foo)` instead.", type: "UnaryExpression" }]
         },
         {
-            code: "var a = \"\" + foo", options: [{ boolean: true, allow: ["*"] }],
-            errors: [{ message: "use `String(foo)` instead.", type: "BinaryExpression" }],
-            output: "var a = String(foo)"
+            code: "var a = \"\" + foo",
+            output: "var a = String(foo)",
+            options: [{ boolean: true, allow: ["*"] }],
+            errors: [{ message: "use `String(foo)` instead.", type: "BinaryExpression" }]
         },
         {
-            code: "var a = `` + foo", options: [{ boolean: true, allow: ["*"] }],
+            code: "var a = `` + foo",
+            output: "var a = String(foo)",
+            options: [{ boolean: true, allow: ["*"] }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "use `String(foo)` instead.", type: "BinaryExpression" }],
-            output: "var a = String(foo)"
+            errors: [{ message: "use `String(foo)` instead.", type: "BinaryExpression" }]
         },
         {
             code: "typeof+foo",

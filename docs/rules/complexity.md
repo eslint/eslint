@@ -70,13 +70,18 @@ If you can't determine an appropriate complexity limit for your code, then it's 
 
 ## Further Reading
 
-* [About Complexity](http://jscomplexity.org/complexity)
-* [Complexity Analysis of JavaScript Code](http://ariya.ofilabs.com/2012/12/complexity-analysis-of-javascript-code.html)
+* [Cyclomatic Complexity](https://en.wikipedia.org/wiki/Cyclomatic_complexity)
+* [Complexity Analysis of JavaScript Code](https://ariya.io/2012/12/complexity-analysis-of-javascript-code)
+* [More about Complexity in JavaScript](https://craftsmanshipforsoftware.com/2015/05/25/complexity-for-javascript/)
+* [About Complexity](https://web.archive.org/web/20160808115119/http://jscomplexity.org/complexity)
+* [Discussion about Complexity in ESLint and more links](https://github.com/eslint/eslint/issues/4808#issuecomment-167795140)
 
 ## Related Rules
 
 * [max-depth](max-depth.md)
 * [max-len](max-len.md)
+* [max-lines](max-lines.md)
+* [max-lines-per-function](max-lines-per-function.md)
 * [max-nested-callbacks](max-nested-callbacks.md)
 * [max-params](max-params.md)
 * [max-statements](max-statements.md)

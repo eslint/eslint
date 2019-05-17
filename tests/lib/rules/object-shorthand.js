@@ -24,7 +24,7 @@ const LONGFORM_METHOD_STRING_LITERAL_ERROR = { message: "Expected longform metho
 const ALL_SHORTHAND_ERROR = { message: "Expected shorthand for all properties.", type: "ObjectExpression" };
 const MIXED_SHORTHAND_ERROR = { message: "Unexpected mix of shorthand and non-shorthand properties.", type: "ObjectExpression" };
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2018 } });
 
 ruleTester.run("object-shorthand", rule, {
     valid: [
@@ -173,8 +173,8 @@ ruleTester.run("object-shorthand", rule, {
         },
         {
             code: "var x = {foo: foo, bar: bar, ...baz}",
-            parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } },
-            options: ["never"]
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2018 }
         },
 
         // consistent
@@ -196,23 +196,23 @@ ruleTester.run("object-shorthand", rule, {
         },
         {
             code: "var x = {...bar}",
-            parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } },
-            options: ["consistent-as-needed"]
+            options: ["consistent-as-needed"],
+            parserOptions: { ecmaVersion: 2018 }
         },
         {
             code: "var x = {foo, bar, ...baz}",
-            parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } },
-            options: ["consistent"]
+            options: ["consistent"],
+            parserOptions: { ecmaVersion: 2018 }
         },
         {
             code: "var x = {bar: baz, ...qux}",
-            parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } },
-            options: ["consistent"]
+            options: ["consistent"],
+            parserOptions: { ecmaVersion: 2018 }
         },
         {
             code: "var x = {...foo, bar: bar, baz: baz}",
-            parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } },
-            options: ["consistent"]
+            options: ["consistent"],
+            parserOptions: { ecmaVersion: 2018 }
         },
 
         // consistent-as-needed
@@ -249,24 +249,19 @@ ruleTester.run("object-shorthand", rule, {
             options: ["consistent-as-needed"]
         },
         {
-            code: "var x = {...bar}",
-            parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } },
-            options: ["consistent-as-needed"]
-        },
-        {
             code: "var x = {bar, ...baz}",
-            parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } },
-            options: ["consistent-as-needed"]
+            options: ["consistent-as-needed"],
+            parserOptions: { ecmaVersion: 2018 }
         },
         {
             code: "var x = {bar: baz, ...qux}",
-            parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } },
-            options: ["consistent-as-needed"]
+            options: ["consistent-as-needed"],
+            parserOptions: { ecmaVersion: 2018 }
         },
         {
             code: "var x = {...foo, bar, baz}",
-            parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } },
-            options: ["consistent-as-needed"]
+            options: ["consistent-as-needed"],
+            parserOptions: { ecmaVersion: 2018 }
         },
 
         // avoidExplicitReturnArrows
@@ -300,10 +295,6 @@ ruleTester.run("object-shorthand", rule, {
         },
         {
             code: "({ x: () => { this; } })",
-            options: ["always", { avoidExplicitReturnArrows: true }]
-        },
-        {
-            code: "function foo() { ({ x: () => { arguments; } }) }",
             options: ["always", { avoidExplicitReturnArrows: true }]
         },
         {
@@ -374,6 +365,10 @@ ruleTester.run("object-shorthand", rule, {
                 }
             `,
             options: ["always", { avoidExplicitReturnArrows: true }]
+        },
+        {
+            code: "({ [foo.bar]: () => {} })",
+            options: ["always", { ignoreConstructors: true }]
         }
     ],
     invalid: [
@@ -430,6 +425,16 @@ ruleTester.run("object-shorthand", rule, {
         {
             code: "var x = {\n  f: function*() {\n    /* comment */\n    a(b);\n    }\n  }",
             output: "var x = {\n  *f() {\n    /* comment */\n    a(b);\n    }\n  }",
+            errors: [METHOD_ERROR]
+        },
+        {
+            code: "var x = {\n  f: /* comment */ function() {\n  }\n  }",
+            output: null,
+            errors: [METHOD_ERROR]
+        },
+        {
+            code: "var x = {\n f /* comment */: function() {\n  }\n  }",
+            output: null,
             errors: [METHOD_ERROR]
         },
         {
@@ -691,15 +696,15 @@ ruleTester.run("object-shorthand", rule, {
         {
             code: "var x = {foo: foo, bar: baz, ...qux}",
             output: "var x = {foo, bar: baz, ...qux}",
-            parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } },
             options: ["always"],
+            parserOptions: { ecmaVersion: 2018 },
             errors: [PROPERTY_ERROR]
         },
         {
             code: "var x = {foo, bar: baz, ...qux}",
             output: "var x = {foo: foo, bar: baz, ...qux}",
-            parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } },
             options: ["never"],
+            parserOptions: { ecmaVersion: 2018 },
             errors: [LONGFORM_PROPERTY_ERROR]
         },
 
@@ -751,8 +756,8 @@ ruleTester.run("object-shorthand", rule, {
         {
             code: "var x = {foo, bar: baz, ...qux}",
             output: null,
-            parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } },
             options: ["consistent"],
+            parserOptions: { ecmaVersion: 2018 },
             errors: [MIXED_SHORTHAND_ERROR]
         },
 
@@ -779,15 +784,15 @@ ruleTester.run("object-shorthand", rule, {
         {
             code: "var x = {a: a, b: b, ...baz}",
             output: null,
-            parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } },
             options: ["consistent-as-needed"],
+            parserOptions: { ecmaVersion: 2018 },
             errors: [ALL_SHORTHAND_ERROR]
         },
         {
             code: "var x = {foo, bar: bar, ...qux}",
             output: null,
-            parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } },
             options: ["consistent-as-needed"],
+            parserOptions: { ecmaVersion: 2018 },
             errors: [MIXED_SHORTHAND_ERROR]
         },
 
@@ -984,6 +989,20 @@ ruleTester.run("object-shorthand", rule, {
             output: "({ a() { return foo; } })",
             options: ["always", { avoidExplicitReturnArrows: true }],
             errors: [METHOD_ERROR]
+        },
+
+        // async generators
+        {
+            code: "({ a: async function*() {} })",
+            output: "({ async *a() {} })",
+            options: ["always"],
+            errors: [METHOD_ERROR]
+        },
+        {
+            code: "({ async* a() {} })",
+            output: "({ a: async function*() {} })",
+            options: ["never"],
+            errors: [LONGFORM_METHOD_ERROR]
         }
     ]
 });

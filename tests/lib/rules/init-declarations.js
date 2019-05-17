@@ -27,68 +27,68 @@ ruleTester.run("init-declarations", rule, {
         { code: "for (var foo of []) {}", parserOptions: { ecmaVersion: 6 } },
         {
             code: "let a = true;",
-            parserOptions: { ecmaVersion: 6 },
-            options: ["always"]
+            options: ["always"],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "const a = {};",
-            parserOptions: { ecmaVersion: 6 },
-            options: ["always"]
+            options: ["always"],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "function foo() { let a = 1, b = false; if (a) { let c = 3, d = null; } }",
-            parserOptions: { ecmaVersion: 6 },
-            options: ["always"]
+            options: ["always"],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "function foo() { const a = 1, b = true; if (a) { const c = 3, d = null; } }",
-            parserOptions: { ecmaVersion: 6 },
-            options: ["always"]
+            options: ["always"],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "function foo() { let a = 1; const b = false; var c = true; }",
-            parserOptions: { ecmaVersion: 6 },
-            options: ["always"]
+            options: ["always"],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo;",
-            parserOptions: { ecmaVersion: 6 },
-            options: ["never"]
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "var foo, bar, baz;",
-            parserOptions: { ecmaVersion: 6 },
-            options: ["never"]
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "function foo() { var foo; var bar; }",
-            parserOptions: { ecmaVersion: 6 },
-            options: ["never"]
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "let a;",
-            parserOptions: { ecmaVersion: 6 },
-            options: ["never"]
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "const a = 1;",
-            parserOptions: { ecmaVersion: 6 },
-            options: ["never"]
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "function foo() { let a, b; if (a) { let c, d; } }",
-            parserOptions: { ecmaVersion: 6 },
-            options: ["never"]
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "function foo() { const a = 1, b = true; if (a) { const c = 3, d = null; } }",
-            parserOptions: { ecmaVersion: 6 },
-            options: ["never"]
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "function foo() { let a; const b = false; var c; }",
-            parserOptions: { ecmaVersion: 6 },
-            options: ["never"]
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "for(var i = 0; i < 1; i++){}",
@@ -100,8 +100,8 @@ ruleTester.run("init-declarations", rule, {
         },
         {
             code: "for (var foo of []) {}",
-            parserOptions: { ecmaVersion: 6 },
-            options: ["never", { ignoreForLoopInit: true }]
+            options: ["never", { ignoreForLoopInit: true }],
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
     invalid: [
@@ -110,7 +110,8 @@ ruleTester.run("init-declarations", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: "Variable 'foo' should be initialized on declaration.",
+                    messageId: "initialized",
+                    data: { idName: "foo" },
                     type: "VariableDeclarator"
                 }
             ]
@@ -120,162 +121,180 @@ ruleTester.run("init-declarations", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: "Variable 'foo' should be initialized on declaration.",
+                    messageId: "initialized",
+                    data: { idName: "foo" },
                     type: "VariableDeclarator"
                 }
             ]
         },
         {
             code: "var foo, bar = false, baz;",
-            parserOptions: { ecmaVersion: 6 },
             options: ["always"],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Variable 'foo' should be initialized on declaration.",
+                    messageId: "initialized",
+                    data: { idName: "foo" },
                     type: "VariableDeclarator"
                 },
                 {
-                    message: "Variable 'baz' should be initialized on declaration.",
+                    messageId: "initialized",
+                    data: { idName: "baz" },
                     type: "VariableDeclarator"
                 }
             ]
         },
         {
             code: "function foo() { var foo = 0; var bar; }",
-            parserOptions: { ecmaVersion: 6 },
             options: ["always"],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Variable 'bar' should be initialized on declaration.",
+                    messageId: "initialized",
+                    data: { idName: "bar" },
                     type: "VariableDeclarator"
                 }
             ]
         },
         {
             code: "function foo() { var foo; var bar = foo; }",
-            parserOptions: { ecmaVersion: 6 },
             options: ["always"],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Variable 'foo' should be initialized on declaration.",
+                    messageId: "initialized",
+                    data: { idName: "foo" },
                     type: "VariableDeclarator"
                 }
             ]
         },
         {
             code: "let a;",
-            parserOptions: { ecmaVersion: 6 },
             options: ["always"],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Variable 'a' should be initialized on declaration.",
+                    messageId: "initialized",
+                    data: { idName: "a" },
                     type: "VariableDeclarator"
                 }
             ]
         },
         {
             code: "function foo() { let a = 1, b; if (a) { let c = 3, d = null; } }",
-            parserOptions: { ecmaVersion: 6 },
             options: ["always"],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Variable 'b' should be initialized on declaration.",
+                    messageId: "initialized",
+                    data: { idName: "b" },
                     type: "VariableDeclarator"
                 }
             ]
         },
         {
             code: "function foo() { let a; const b = false; var c; }",
-            parserOptions: { ecmaVersion: 6 },
             options: ["always"],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Variable 'a' should be initialized on declaration.",
+                    messageId: "initialized",
+                    data: { idName: "a" },
                     type: "VariableDeclarator"
                 },
                 {
-                    message: "Variable 'c' should be initialized on declaration.",
+                    messageId: "initialized",
+                    data: { idName: "c" },
                     type: "VariableDeclarator"
                 }
             ]
         },
         {
             code: "var foo = bar = 2;",
-            parserOptions: { ecmaVersion: 6 },
             options: ["never"],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Variable 'foo' should not be initialized on declaration.",
+                    messageId: "notInitialized",
+                    data: { idName: "foo" },
                     type: "VariableDeclarator"
                 }
             ]
         },
         {
             code: "var foo = true;",
-            parserOptions: { ecmaVersion: 6 },
             options: ["never"],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Variable 'foo' should not be initialized on declaration.",
+                    messageId: "notInitialized",
+                    data: { idName: "foo" },
                     type: "VariableDeclarator"
                 }
             ]
         },
         {
             code: "var foo, bar = 5, baz = 3;",
-            parserOptions: { ecmaVersion: 6 },
             options: ["never"],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Variable 'bar' should not be initialized on declaration.",
+                    messageId: "notInitialized",
+                    data: { idName: "bar" },
                     type: "VariableDeclarator"
                 },
                 {
-                    message: "Variable 'baz' should not be initialized on declaration.",
+                    messageId: "notInitialized",
+                    data: { idName: "baz" },
                     type: "VariableDeclarator"
                 }
             ]
         },
         {
             code: "function foo() { var foo; var bar = foo; }",
-            parserOptions: { ecmaVersion: 6 },
             options: ["never"],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Variable 'bar' should not be initialized on declaration.",
+                    messageId: "notInitialized",
+                    data: { idName: "bar" },
+
                     type: "VariableDeclarator"
                 }
             ]
         },
         {
             code: "let a = 1;",
-            parserOptions: { ecmaVersion: 6 },
             options: ["never"],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Variable 'a' should not be initialized on declaration.",
+                    messageId: "notInitialized",
+                    data: { idName: "a" },
                     type: "VariableDeclarator"
                 }
             ]
         },
         {
             code: "function foo() { let a = 'foo', b; if (a) { let c, d; } }",
-            parserOptions: { ecmaVersion: 6 },
             options: ["never"],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Variable 'a' should not be initialized on declaration.",
+                    messageId: "notInitialized",
+                    data: { idName: "a" },
                     type: "VariableDeclarator"
                 }
             ]
         },
         {
             code: "function foo() { let a; const b = false; var c = 1; }",
-            parserOptions: { ecmaVersion: 6 },
             options: ["never"],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Variable 'c' should not be initialized on declaration.",
+                    messageId: "notInitialized",
+                    data: { idName: "c" },
                     type: "VariableDeclarator"
                 }
             ]
@@ -285,7 +304,8 @@ ruleTester.run("init-declarations", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: "Variable 'i' should not be initialized on declaration.",
+                    messageId: "notInitialized",
+                    data: { idName: "i" },
                     type: "VariableDeclarator"
                 }
             ]
@@ -295,18 +315,20 @@ ruleTester.run("init-declarations", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: "Variable 'foo' should not be initialized on declaration.",
+                    messageId: "notInitialized",
+                    data: { idName: "foo" },
                     type: "VariableDeclarator"
                 }
             ]
         },
         {
             code: "for (var foo of []) {}",
-            parserOptions: { ecmaVersion: 6 },
             options: ["never"],
+            parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Variable 'foo' should not be initialized on declaration.",
+                    messageId: "notInitialized",
+                    data: { idName: "foo" },
                     type: "VariableDeclarator"
                 }
             ]

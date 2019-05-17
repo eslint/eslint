@@ -21,6 +21,8 @@ This rule has an object option:
 * `"allowObjectEnd": true` allows comments to appear at the end of object literals
 * `"allowArrayStart": true` allows comments to appear at the start of array literals
 * `"allowArrayEnd": true` allows comments to appear at the end of array literals
+* `"allowClassStart": true` allows comments to appear at the start of classes
+* `"allowClassEnd": true` allows comments to appear at the end of classes
 * `"applyDefaultIgnorePatterns"` enables or disables the default comment patterns to be ignored by the rule
 * `"ignorePattern"` custom patterns to be ignored by the rule
 
@@ -170,6 +172,101 @@ function foo(){
 
     /* what a great and wonderful day */
 }
+```
+
+### allowClassStart
+
+Examples of **incorrect** code for this rule with the `{ "beforeLineComment": true, "allowClassStart": false }` option:
+
+```js
+/*eslint lines-around-comment: ["error", { "beforeLineComment": true, "allowClassStart": false }]*/
+
+class foo {
+    // what a great and wonderful day
+    day() {}
+};
+```
+
+Examples of **correct** code for this rule with the `{ "beforeLineComment": true, "allowClassStart": false }` option:
+
+```js
+/*eslint lines-around-comment: ["error", { "beforeLineComment": true, "allowClassStart": false }]*/
+
+class foo {
+
+    // what a great and wonderful day
+    day() {}
+};
+```
+
+Examples of **correct** code for this rule with the `{ "beforeLineComment": true, "allowClassStart": true }` option:
+
+```js
+/*eslint lines-around-comment: ["error", { "beforeLineComment": true, "allowClassStart": true }]*/
+
+class foo {
+    // what a great and wonderful day
+    day() {}
+};
+```
+
+Examples of **incorrect** code for this rule with the `{ "beforeBlockComment": true, "allowClassStart": false }` option:
+
+```js
+/*eslint lines-around-comment: ["error", { "beforeBlockComment": true, "allowClassStart": false }]*/
+
+class foo {
+    /* what a great and wonderful day */
+    day() {}
+};
+```
+
+Examples of **correct** code for this rule with the `{ "beforeBlockComment": true, "allowClassStart": false }` option:
+
+```js
+/*eslint lines-around-comment: ["error", { "beforeBlockComment": true, "allowClassStart": false }]*/
+
+class foo {
+
+    /* what a great and wonderful day */
+    day() {}
+};
+```
+
+Examples of **correct** code for this rule with the `{ "beforeBlockComment": true, "allowClassStart": true }` option:
+
+```js
+/*eslint lines-around-comment: ["error", { "beforeBlockComment": true, "allowClassStart": true }]*/
+
+class foo {
+    /* what a great and wonderful day */
+    day() {}
+};
+```
+
+### allowClassEnd
+
+Examples of **correct** code for this rule with the `{ "afterLineComment": true, "allowClassEnd": true }` option:
+
+```js
+/*eslint lines-around-comment: ["error", { "afterLineComment": true, "allowClassEnd": true }]*/
+
+class foo {
+    day() {}
+    // what a great and wonderful day
+};
+```
+
+Examples of **correct** code for this rule with the `{ "afterBlockComment": true, "allowClassEnd": true }` option:
+
+```js
+/*eslint lines-around-comment: ["error", { "afterBlockComment": true, "allowClassEnd": true }]*/
+
+class foo {
+    day() {}
+
+    /* what a great and wonderful day */
+};
 ```
 
 ### allowObjectStart

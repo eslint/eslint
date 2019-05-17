@@ -1,6 +1,6 @@
-# Require Camelcase (camelcase)
+# Require CamelCase (camelcase)
 
-When it comes to naming variables, style guides generally fall into one of two camps: camelcase (`variableName`) and underscores (`variable_name`). This rule focuses on using the camelcase approach. If your style guide calls for camelcasing your variable names, then this rule is for you!
+When it comes to naming variables, style guides generally fall into one of two camps: camelcase (`variableName`) and underscores (`variable_name`). This rule focuses on using the camelcase approach. If your style guide calls for camelCasing your variable names, then this rule is for you!
 
 ## Rule Details
 
@@ -12,8 +12,11 @@ This rule has an object option:
 
 * `"properties": "always"` (default) enforces camelcase style for property names
 * `"properties": "never"` does not check property names
+* `"ignoreDestructuring": false` (default) enforces camelcase style for destructured identifiers
+* `"ignoreDestructuring": true` does not check destructured identifiers
+* `allow` (`string[]`) list of properties to accept. Accept regex.
 
-### always
+### properties: "always"
 
 Examples of **incorrect** code for this rule with the default `{ "properties": "always" }` option:
 
@@ -32,9 +35,27 @@ obj.do_something = function() {
     // ...
 };
 
+function foo({ no_camelcased }) {
+    // ...
+};
+
+function foo({ isCamelcased: no_camelcased }) {
+    // ...
+}
+
+function foo({ no_camelcased = 'default value' }) {
+    // ...
+};
+
 var obj = {
     my_pref: 1
 };
+
+var { category_id = 1 } = query;
+
+var { foo: no_camelcased } = bar;
+
+var { foo: bar_baz = 1 } = quz;
 ```
 
 Examples of **correct** code for this rule with the default `{ "properties": "always" }` option:
@@ -56,9 +77,28 @@ do_something();
 new do_something();
 
 var { category_id: category } = query;
+
+function foo({ isCamelCased }) {
+    // ...
+};
+
+function foo({ isCamelCased: isAlsoCamelCased }) {
+    // ...
+}
+
+function foo({ isCamelCased = 'default value' }) {
+    // ...
+};
+
+var { categoryId = 1 } = query;
+
+var { foo: isCamelCased } = bar;
+
+var { foo: isCamelCased = 1 } = quz;
+
 ```
 
-### never
+### properties: "never"
 
 Examples of **correct** code for this rule with the `{ "properties": "never" }` option:
 
@@ -68,6 +108,72 @@ Examples of **correct** code for this rule with the `{ "properties": "never" }` 
 var obj = {
     my_pref: 1
 };
+```
+
+### ignoreDestructuring: false
+
+Examples of **incorrect** code for this rule with the default `{ "ignoreDestructuring": false }` option:
+
+```js
+/*eslint camelcase: "error"*/
+
+var { category_id } = query;
+
+var { category_id = 1 } = query;
+
+var { category_id: category_id } = query;
+
+var { category_id: category_alias } = query;
+
+var { category_id: categoryId, ...other_props } = query;
+```
+
+### ignoreDestructuring: true
+
+Examples of **incorrect** code for this rule with the `{ "ignoreDestructuring": true }` option:
+
+```js
+/*eslint camelcase: ["error", {ignoreDestructuring: true}]*/
+
+var { category_id: category_alias } = query;
+
+var { category_id, ...other_props } = query;
+```
+
+Examples of **correct** code for this rule with the `{ "ignoreDestructuring": true }` option:
+
+```js
+/*eslint camelcase: ["error", {ignoreDestructuring: true}]*/
+
+var { category_id } = query;
+
+var { category_id = 1 } = query;
+
+var { category_id: category_id } = query;
+```
+
+## allow
+
+Examples of **correct** code for this rule with the `allow` option:
+
+```js
+/*eslint camelcase: ["error", {allow: ["UNSAFE_componentWillMount"]}]*/
+
+function UNSAFE_componentWillMount() {
+    // ...
+}
+```
+
+```js
+/*eslint camelcase: ["error", {allow: ["^UNSAFE_"]}]*/
+
+function UNSAFE_componentWillMount() {
+    // ...
+}
+
+function UNSAFE_componentWillMount() {
+    // ...
+}
 ```
 
 ## When Not To Use It

@@ -35,18 +35,18 @@ ruleTester.run("rest-spread-spacing", rule, {
         { code: "let [a, b, ... arr] = [1, 2, 3, 4, 5];", options: ["always"] },
         { code: "let [a, b, ...\tarr] = [1, 2, 3, 4, 5];", options: ["always"] },
         { code: "let [a, b, ...\narr] = [1, 2, 3, 4, 5];", options: ["always"] },
-        { code: "let n = { x, y, ...z };", parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } } },
-        { code: "let n = { x, y, ...(z) };", parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } } },
-        { code: "let n = { x, y, ...( z ) };", parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } } },
-        { code: "let n = { x, y, ...z };", options: ["never"], parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } } },
-        { code: "let n = { x, y, ... z };", options: ["always"], parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } } },
-        { code: "let n = { x, y, ...\tz };", options: ["always"], parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } } },
-        { code: "let n = { x, y, ...\nz };", options: ["always"], parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } } },
-        { code: "let { x, y, ...z } = { x: 1, y: 2, a: 3, b: 4 };", parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } } },
-        { code: "let { x, y, ...z } = { x: 1, y: 2, a: 3, b: 4 };", options: ["never"], parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } } },
-        { code: "let { x, y, ... z } = { x: 1, y: 2, a: 3, b: 4 };", options: ["always"], parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } } },
-        { code: "let { x, y, ...\tz } = { x: 1, y: 2, a: 3, b: 4 };", options: ["always"], parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } } },
-        { code: "let { x, y, ...\nz } = { x: 1, y: 2, a: 3, b: 4 };", options: ["always"], parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } } }
+        { code: "let n = { x, y, ...z };", parserOptions: { ecmaVersion: 2018 } },
+        { code: "let n = { x, y, ...(z) };", parserOptions: { ecmaVersion: 2018 } },
+        { code: "let n = { x, y, ...( z ) };", parserOptions: { ecmaVersion: 2018 } },
+        { code: "let n = { x, y, ...z };", options: ["never"], parserOptions: { ecmaVersion: 2018 } },
+        { code: "let n = { x, y, ... z };", options: ["always"], parserOptions: { ecmaVersion: 2018 } },
+        { code: "let n = { x, y, ...\tz };", options: ["always"], parserOptions: { ecmaVersion: 2018 } },
+        { code: "let n = { x, y, ...\nz };", options: ["always"], parserOptions: { ecmaVersion: 2018 } },
+        { code: "let { x, y, ...z } = { x: 1, y: 2, a: 3, b: 4 };", parserOptions: { ecmaVersion: 2018 } },
+        { code: "let { x, y, ...z } = { x: 1, y: 2, a: 3, b: 4 };", options: ["never"], parserOptions: { ecmaVersion: 2018 } },
+        { code: "let { x, y, ... z } = { x: 1, y: 2, a: 3, b: 4 };", options: ["always"], parserOptions: { ecmaVersion: 2018 } },
+        { code: "let { x, y, ...\tz } = { x: 1, y: 2, a: 3, b: 4 };", options: ["always"], parserOptions: { ecmaVersion: 2018 } },
+        { code: "let { x, y, ...\nz } = { x: 1, y: 2, a: 3, b: 4 };", options: ["always"], parserOptions: { ecmaVersion: 2018 } }
     ],
 
     invalid: [
@@ -359,211 +359,211 @@ ruleTester.run("rest-spread-spacing", rule, {
         {
             code: "let n = { x, y, ... z };",
             output: "let n = { x, y, ...z };",
-            parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } },
+            parserOptions: { ecmaVersion: 2018 },
             errors: [{
                 line: 1,
                 column: 20,
                 message: "Unexpected whitespace after spread property operator.",
-                type: "ExperimentalSpreadProperty"
+                type: "SpreadElement"
             }]
         },
         {
             code: "let n = { x, y, ...\tz };",
             output: "let n = { x, y, ...z };",
-            parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } },
+            parserOptions: { ecmaVersion: 2018 },
             errors: [{
                 line: 1,
                 column: 20,
                 message: "Unexpected whitespace after spread property operator.",
-                type: "ExperimentalSpreadProperty"
+                type: "SpreadElement"
             }]
         },
         {
             code: "let n = { x, y, ...\nz };",
             output: "let n = { x, y, ...z };",
-            parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } },
+            parserOptions: { ecmaVersion: 2018 },
             errors: [{
                 line: 1,
                 column: 20,
                 message: "Unexpected whitespace after spread property operator.",
-                type: "ExperimentalSpreadProperty"
+                type: "SpreadElement"
             }]
         },
         {
             code: "let n = { x, y, ... z };",
             output: "let n = { x, y, ...z };",
             options: ["never"],
-            parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } },
+            parserOptions: { ecmaVersion: 2018 },
             errors: [{
                 line: 1,
                 column: 20,
                 message: "Unexpected whitespace after spread property operator.",
-                type: "ExperimentalSpreadProperty"
+                type: "SpreadElement"
             }]
         },
         {
             code: "let n = { x, y, ...\tz };",
             output: "let n = { x, y, ...z };",
             options: ["never"],
-            parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } },
+            parserOptions: { ecmaVersion: 2018 },
             errors: [{
                 line: 1,
                 column: 20,
                 message: "Unexpected whitespace after spread property operator.",
-                type: "ExperimentalSpreadProperty"
+                type: "SpreadElement"
             }]
         },
         {
             code: "let n = { x, y, ...\nz };",
             output: "let n = { x, y, ...z };",
             options: ["never"],
-            parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } },
+            parserOptions: { ecmaVersion: 2018 },
             errors: [{
                 line: 1,
                 column: 20,
                 message: "Unexpected whitespace after spread property operator.",
-                type: "ExperimentalSpreadProperty"
+                type: "SpreadElement"
             }]
         },
         {
             code: "let n = { x, y, ...z };",
             output: "let n = { x, y, ... z };",
             options: ["always"],
-            parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } },
+            parserOptions: { ecmaVersion: 2018 },
             errors: [{
                 line: 1,
                 column: 20,
                 message: "Expected whitespace after spread property operator.",
-                type: "ExperimentalSpreadProperty"
+                type: "SpreadElement"
             }]
         },
         {
             code: "let n = { x, y, ... (z) };",
             output: "let n = { x, y, ...(z) };",
             options: ["never"],
-            parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } },
+            parserOptions: { ecmaVersion: 2018 },
             errors: [{
                 line: 1,
                 column: 20,
                 message: "Unexpected whitespace after spread property operator.",
-                type: "ExperimentalSpreadProperty"
+                type: "SpreadElement"
             }]
         },
         {
             code: "let n = { x, y, ... ( z ) };",
             output: "let n = { x, y, ...( z ) };",
             options: ["never"],
-            parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } },
+            parserOptions: { ecmaVersion: 2018 },
             errors: [{
                 line: 1,
                 column: 20,
                 message: "Unexpected whitespace after spread property operator.",
-                type: "ExperimentalSpreadProperty"
+                type: "SpreadElement"
             }]
         },
         {
             code: "let n = { x, y, ...(z) };",
             output: "let n = { x, y, ... (z) };",
             options: ["always"],
-            parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } },
+            parserOptions: { ecmaVersion: 2018 },
             errors: [{
                 line: 1,
                 column: 20,
                 message: "Expected whitespace after spread property operator.",
-                type: "ExperimentalSpreadProperty"
+                type: "SpreadElement"
             }]
         },
         {
             code: "let n = { x, y, ...( z ) };",
             output: "let n = { x, y, ... ( z ) };",
             options: ["always"],
-            parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } },
+            parserOptions: { ecmaVersion: 2018 },
             errors: [{
                 line: 1,
                 column: 20,
                 message: "Expected whitespace after spread property operator.",
-                type: "ExperimentalSpreadProperty"
+                type: "SpreadElement"
             }]
         },
         {
             code: "let { x, y, ... z } = { x: 1, y: 2, a: 3, b: 4 };",
             output: "let { x, y, ...z } = { x: 1, y: 2, a: 3, b: 4 };",
-            parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } },
+            parserOptions: { ecmaVersion: 2018 },
             errors: [{
                 line: 1,
                 column: 16,
                 message: "Unexpected whitespace after rest property operator.",
-                type: "ExperimentalRestProperty"
+                type: "RestElement"
             }]
         },
         {
             code: "let { x, y, ...\tz } = { x: 1, y: 2, a: 3, b: 4 };",
             output: "let { x, y, ...z } = { x: 1, y: 2, a: 3, b: 4 };",
-            parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } },
+            parserOptions: { ecmaVersion: 2018 },
             errors: [{
                 line: 1,
                 column: 16,
                 message: "Unexpected whitespace after rest property operator.",
-                type: "ExperimentalRestProperty"
+                type: "RestElement"
             }]
         },
         {
             code: "let { x, y, ...\nz } = { x: 1, y: 2, a: 3, b: 4 };",
             output: "let { x, y, ...z } = { x: 1, y: 2, a: 3, b: 4 };",
-            parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } },
+            parserOptions: { ecmaVersion: 2018 },
             errors: [{
                 line: 1,
                 column: 16,
                 message: "Unexpected whitespace after rest property operator.",
-                type: "ExperimentalRestProperty"
+                type: "RestElement"
             }]
         },
         {
             code: "let { x, y, ... z } = { x: 1, y: 2, a: 3, b: 4 };",
             output: "let { x, y, ...z } = { x: 1, y: 2, a: 3, b: 4 };",
             options: ["never"],
-            parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } },
+            parserOptions: { ecmaVersion: 2018 },
             errors: [{
                 line: 1,
                 column: 16,
                 message: "Unexpected whitespace after rest property operator.",
-                type: "ExperimentalRestProperty"
+                type: "RestElement"
             }]
         },
         {
             code: "let { x, y, ...\tz } = { x: 1, y: 2, a: 3, b: 4 };",
             output: "let { x, y, ...z } = { x: 1, y: 2, a: 3, b: 4 };",
             options: ["never"],
-            parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } },
+            parserOptions: { ecmaVersion: 2018 },
             errors: [{
                 line: 1,
                 column: 16,
                 message: "Unexpected whitespace after rest property operator.",
-                type: "ExperimentalRestProperty"
+                type: "RestElement"
             }]
         },
         {
             code: "let { x, y, ...\nz } = { x: 1, y: 2, a: 3, b: 4 };",
             output: "let { x, y, ...z } = { x: 1, y: 2, a: 3, b: 4 };",
             options: ["never"],
-            parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } },
+            parserOptions: { ecmaVersion: 2018 },
             errors: [{
                 line: 1,
                 column: 16,
                 message: "Unexpected whitespace after rest property operator.",
-                type: "ExperimentalRestProperty"
+                type: "RestElement"
             }]
         },
         {
             code: "let { x, y, ...z } = { x: 1, y: 2, a: 3, b: 4 };",
             output: "let { x, y, ... z } = { x: 1, y: 2, a: 3, b: 4 };",
             options: ["always"],
-            parserOptions: { ecmaFeatures: { experimentalObjectRestSpread: true } },
+            parserOptions: { ecmaVersion: 2018 },
             errors: [{
                 line: 1,
                 column: 16,
                 message: "Expected whitespace after rest property operator.",
-                type: "ExperimentalRestProperty"
+                type: "RestElement"
             }]
         }
     ]

@@ -67,7 +67,7 @@ ruleTester.run("block-scoped-var", rule, {
         "a:;",
         "foo: while (true) { bar: for (var i = 0; i < 13; ++i) {if (i === 7) break foo; } }",
         "foo: while (true) { bar: for (var i = 0; i < 13; ++i) {if (i === 7) continue foo; } }",
-        { code: "const React = require(\"react/addons\");const cx = React.addons.classSet;", globals: { require: false }, parserOptions: { sourceType: "module" } },
+        { code: "const React = require(\"react/addons\");const cx = React.addons.classSet;", parserOptions: { sourceType: "module" }, globals: { require: false } },
         { code: "var v = 1;  function x() { return v; };", parserOptions: { parserOptions: { ecmaVersion: 6 } } },
         { code: "import * as y from \"./other.js\"; y();", parserOptions: { sourceType: "module" } },
         { code: "import y from \"./other.js\"; y();", parserOptions: { sourceType: "module" } },
@@ -83,22 +83,22 @@ ruleTester.run("block-scoped-var", rule, {
         { code: "function foo({x: y}) { return y; }", parserOptions: { ecmaVersion: 6 } },
 
         // those are the same as `no-undef`.
-        { code: "!function f(){}; f" },
-        { code: "var f = function foo() { }; foo(); var exports = { f: foo };" },
+        "!function f(){}; f",
+        "var f = function foo() { }; foo(); var exports = { f: foo };",
         { code: "var f = () => { x; }", parserOptions: { ecmaVersion: 6 } },
-        { code: "function f(){ x; }" },
-        { code: "var eslint = require('eslint');" },
-        { code: "function f(a) { return a[b]; }" },
-        { code: "function f() { return b.a; }" },
-        { code: "var a = { foo: bar };" },
-        { code: "var a = { foo: foo };" },
-        { code: "var a = { bar: 7, foo: bar };" },
-        { code: "var a = arguments;" },
-        { code: "function x(){}; var a = arguments;" },
-        { code: "function z(b){}; var a = b;" },
-        { code: "function z(){var b;}; var a = b;" },
-        { code: "function f(){ try{}catch(e){} e }" },
-        { code: "a:b;" },
+        "function f(){ x; }",
+        "var eslint = require('eslint');",
+        "function f(a) { return a[b]; }",
+        "function f() { return b.a; }",
+        "var a = { foo: bar };",
+        "var a = { foo: foo };",
+        "var a = { bar: 7, foo: bar };",
+        "var a = arguments;",
+        "function x(){}; var a = arguments;",
+        "function z(b){}; var a = b;",
+        "function z(){var b;}; var a = b;",
+        "function f(){ try{}catch(e){} e }",
+        "a:b;",
 
         // https://github.com/eslint/eslint/issues/2253
         { code: "/*global React*/ let {PropTypes, addons: {PureRenderMixin}} = React; let Test = React.createClass({mixins: [PureRenderMixin]});", parserOptions: { ecmaVersion: 6 } },
@@ -106,64 +106,64 @@ ruleTester.run("block-scoped-var", rule, {
         { code: "const { dummy: { data, isLoading }, auth: { isLoggedIn } } = this.props;", parserOptions: { ecmaVersion: 6 } },
 
         // https://github.com/eslint/eslint/issues/2747
-        { code: "function a(n) { return n > 0 ? b(n - 1) : \"a\"; } function b(n) { return n > 0 ? a(n - 1) : \"b\"; }" },
+        "function a(n) { return n > 0 ? b(n - 1) : \"a\"; } function b(n) { return n > 0 ? a(n - 1) : \"b\"; }",
 
         // https://github.com/eslint/eslint/issues/2967
-        { code: "(function () { foo(); })(); function foo() {}" },
+        "(function () { foo(); })(); function foo() {}",
         { code: "(function () { foo(); })(); function foo() {}", parserOptions: { sourceType: "module" } }
     ],
     invalid: [
-        { code: "function f(){ x; { var x; } }", errors: [{ message: "'x' used outside of binding context.", type: "Identifier" }] },
-        { code: "function f(){ { var x; } x; }", errors: [{ message: "'x' used outside of binding context.", type: "Identifier" }] },
-        { code: "function f() { var a; { var b = 0; } a = b; }", errors: [{ message: "'b' used outside of binding context.", type: "Identifier" }] },
-        { code: "function f() { try { var a = 0; } catch (e) { var b = a; } }", errors: [{ message: "'a' used outside of binding context.", type: "Identifier" }] },
+        { code: "function f(){ x; { var x; } }", errors: [{ messageId: "outOfScope", data: { name: "x" }, type: "Identifier" }] },
+        { code: "function f(){ { var x; } x; }", errors: [{ messageId: "outOfScope", data: { name: "x" }, type: "Identifier" }] },
+        { code: "function f() { var a; { var b = 0; } a = b; }", errors: [{ messageId: "outOfScope", data: { name: "b" }, type: "Identifier" }] },
+        { code: "function f() { try { var a = 0; } catch (e) { var b = a; } }", errors: [{ messageId: "outOfScope", data: { name: "a" }, type: "Identifier" }] },
         {
             code: "function a() { for(var b in {}) { var c = b; } c; }",
-            errors: [{ message: "'c' used outside of binding context.", type: "Identifier" }]
+            errors: [{ messageId: "outOfScope", data: { name: "c" }, type: "Identifier" }]
         },
         {
             code: "function a() { for(var b of {}) { var c = b; } c; }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'c' used outside of binding context.", type: "Identifier" }]
+            errors: [{ messageId: "outOfScope", data: { name: "c" }, type: "Identifier" }]
         },
         {
             code: "function f(){ switch(2) { case 1: var b = 2; b; break; default: b; break;} b; }",
-            errors: [{ message: "'b' used outside of binding context.", type: "Identifier" }]
+            errors: [{ messageId: "outOfScope", data: { name: "b" }, type: "Identifier" }]
         },
         {
             code: "for (var a = 0;;) {} a;",
-            errors: [{ message: "'a' used outside of binding context.", type: "Identifier" }]
+            errors: [{ messageId: "outOfScope", data: { name: "a" }, type: "Identifier" }]
         },
         {
             code: "for (var a in []) {} a;",
-            errors: [{ message: "'a' used outside of binding context.", type: "Identifier" }]
+            errors: [{ messageId: "outOfScope", data: { name: "a" }, type: "Identifier" }]
         },
         {
             code: "for (var a of []) {} a;",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'a' used outside of binding context.", type: "Identifier" }]
+            errors: [{ messageId: "outOfScope", data: { name: "a" }, type: "Identifier" }]
         },
         {
             code: "{ var a = 0; } a;",
             parserOptions: { sourceType: "module" },
-            errors: [{ message: "'a' used outside of binding context.", type: "Identifier" }]
+            errors: [{ messageId: "outOfScope", data: { name: "a" }, type: "Identifier" }]
         },
         {
             code: "if (true) { var a; } a;",
-            errors: [{ message: "'a' used outside of binding context.", type: "Identifier" }]
+            errors: [{ messageId: "outOfScope", data: { name: "a" }, type: "Identifier" }]
         },
         {
             code: "if (true) { var a = 1; } else { var a = 2; }",
             errors: [
-                { message: "'a' used outside of binding context.", type: "Identifier" },
-                { message: "'a' used outside of binding context.", type: "Identifier" }
+                { messageId: "outOfScope", data: { name: "a" }, type: "Identifier" },
+                { messageId: "outOfScope", data: { name: "a" }, type: "Identifier" }
             ]
         },
         {
             code: "for (var i = 0;;) {} for(var i = 0;;) {}",
             errors: [
-                { message: "'i' used outside of binding context.", type: "Identifier" },
-                { message: "'i' used outside of binding context.", type: "Identifier" }
+                { messageId: "outOfScope", data: { name: "i" }, type: "Identifier" },
+                { messageId: "outOfScope", data: { name: "i" }, type: "Identifier" }
             ]
         }
     ]

@@ -22,118 +22,129 @@ const ruleTester = new RuleTester();
 ruleTester.run("no-compare-neg-zero", rule, {
 
     valid: [
-        { code: "x === 0" },
-        { code: "0 === x" },
-        { code: "x == 0" },
-        { code: "0 == x" },
-        { code: "x === '0'" },
-        { code: "'0' === x" },
-        { code: "x == '0'" },
-        { code: "'0' == x" },
-        { code: "x === '-0'" },
-        { code: "'-0' === x" },
-        { code: "x == '-0'" },
-        { code: "'-0' == x" },
-        { code: "x === -1" },
-        { code: "-1 === x" },
-        { code: "x < 0" },
-        { code: "0 < x" },
-        { code: "x <= 0" },
-        { code: "x <= 0" },
-        { code: "0 <= x" },
-        { code: "x > 0" },
-        { code: "0 > x" },
-        { code: "x >= 0" },
-        { code: "0 >= x" },
-        { code: "x != 0" },
-        { code: "0 != x" },
-        { code: "x !== 0" },
-        { code: "0 !== x" },
-        { code: "Object.is(x, -0)" }
+        "x === 0",
+        "0 === x",
+        "x == 0",
+        "0 == x",
+        "x === '0'",
+        "'0' === x",
+        "x == '0'",
+        "'0' == x",
+        "x === '-0'",
+        "'-0' === x",
+        "x == '-0'",
+        "'-0' == x",
+        "x === -1",
+        "-1 === x",
+        "x < 0",
+        "0 < x",
+        "x <= 0",
+        "0 <= x",
+        "x > 0",
+        "0 > x",
+        "x >= 0",
+        "0 >= x",
+        "x != 0",
+        "0 != x",
+        "x !== 0",
+        "0 !== x",
+        "Object.is(x, -0)"
     ],
 
     invalid: [
         {
             code: "x === -0",
             errors: [{
-                message: "Do not use the '===' operator to compare against -0.",
+                messageId: "unexpected",
+                data: { operator: "===" },
                 type: "BinaryExpression"
             }]
         },
         {
             code: "-0 === x",
             errors: [{
-                message: "Do not use the '===' operator to compare against -0.",
+                messageId: "unexpected",
+                data: { operator: "===" },
                 type: "BinaryExpression"
             }]
         },
         {
             code: "x == -0",
             errors: [{
-                message: "Do not use the '==' operator to compare against -0.",
+                messageId: "unexpected",
+                data: { operator: "==" },
                 type: "BinaryExpression"
             }]
         },
         {
             code: "-0 == x",
             errors: [{
-                message: "Do not use the '==' operator to compare against -0.",
+                messageId: "unexpected",
+                data: { operator: "==" },
                 type: "BinaryExpression"
             }]
         },
         {
             code: "x > -0",
             errors: [{
-                message: "Do not use the '>' operator to compare against -0.",
+                messageId: "unexpected",
+                data: { operator: ">" },
                 type: "BinaryExpression"
             }]
         },
         {
             code: "-0 > x",
             errors: [{
-                message: "Do not use the '>' operator to compare against -0.",
+                messageId: "unexpected",
+                data: { operator: ">" },
                 type: "BinaryExpression"
             }]
         },
         {
             code: "x >= -0",
             errors: [{
-                message: "Do not use the '>=' operator to compare against -0.",
+                messageId: "unexpected",
+                data: { operator: ">=" },
                 type: "BinaryExpression"
             }]
         },
         {
             code: "-0 >= x",
             errors: [{
-                message: "Do not use the '>=' operator to compare against -0.",
+                messageId: "unexpected",
+                data: { operator: ">=" },
                 type: "BinaryExpression"
             }]
         },
         {
             code: "x < -0",
             errors: [{
-                message: "Do not use the '<' operator to compare against -0.",
+                messageId: "unexpected",
+                data: { operator: "<" },
                 type: "BinaryExpression"
             }]
         },
         {
             code: "-0 < x",
             errors: [{
-                message: "Do not use the '<' operator to compare against -0.",
+                messageId: "unexpected",
+                data: { operator: "<" },
                 type: "BinaryExpression"
             }]
         },
         {
             code: "x <= -0",
             errors: [{
-                message: "Do not use the '<=' operator to compare against -0.",
+                messageId: "unexpected",
+                data: { operator: "<=" },
                 type: "BinaryExpression"
             }]
         },
         {
             code: "-0 <= x",
             errors: [{
-                message: "Do not use the '<=' operator to compare against -0.",
+                messageId: "unexpected",
+                data: { operator: "<=" },
                 type: "BinaryExpression"
             }]
         }

@@ -41,20 +41,17 @@ As with other operators, whitespace is allowed between the rest or spread operat
 
 ## Rule Details
 
-This rule aims to enforce consistent spacing between rest and spread operators and their expressions. The rule also supports the currently experimental object rest and spread properties when enabled:
+This rule aims to enforce consistent spacing between rest and spread operators and their expressions. The rule also supports object rest and spread properties in ES2018:
 
 ```json
 {
     "parserOptions": {
-        "ecmaVersion": 6,
-        "ecmaFeatures": {
-            "experimentalObjectRestSpread": true
-        }
+        "ecmaVersion": 2018
     }
 }
 ```
 
-Please read the user guide's section on [configuring parser options](http://eslint.org/docs/user-guide/configuring#specifying-parser-options) to learn more.
+Please read the user guide's section on [configuring parser options](/docs/user-guide/configuring#specifying-parser-options) to learn more.
 
 ## Options
 
@@ -140,4 +137,4 @@ You can safely disable this rule if you do not care about enforcing consistent s
 
 ## Further Reading
 
-* [Object Rest/Spread Properties for ECMAScript](https://github.com/sebmarkbage/ecmascript-rest-spread)
+* [Object Rest/Spread Properties for ECMAScript](https://github.com/tc39/proposal-object-rest-spread)

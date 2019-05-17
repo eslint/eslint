@@ -15,7 +15,9 @@ const globals = require("globals");
 //------------------------------------------------------------------------------
 
 module.exports = {
-    builtin: globals.es5,
+    builtin: {
+        globals: globals.es5
+    },
     browser: {
         globals: globals.browser
     },
@@ -96,7 +98,7 @@ module.exports = {
         globals: globals.webextensions
     },
     es6: {
-        globals: globals.es6,
+        globals: globals.es2015,
         parserOptions: {
             ecmaVersion: 6
         }

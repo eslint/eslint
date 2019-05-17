@@ -1,5 +1,7 @@
 # enforce valid JSDoc comments (valid-jsdoc)
 
+This rule was [**deprecated**](https://eslint.org/blog/2018/11/jsdoc-end-of-life) in ESLint v5.10.0.
+
 [JSDoc](http://usejsdoc.org) generates application programming interface (API) documentation from specially-formatted comments in JavaScript code. For example, this is a JSDoc comment for a function:
 
 ```js
@@ -158,11 +160,12 @@ This rule has an object option:
 * `"preferType"` enforces consistent type strings specified by an object whose properties mean instead of key use value (for example, `"object": "Object"` means instead of `object` use `Object`)
 * `"requireReturn"` requires a return tag:
     * `true` (default) **even if** the function or method does not have a `return` statement (this option value does not apply to constructors)
-    * `false` **if and only if** the function or method has a `return` statement (this option value does apply to constructors)
+    * `false` **if and only if** the function or method has a `return` statement or returns a value e.g. `async` function (this option value does apply to constructors)
 * `"requireReturnType": false` allows missing type in return tags
 * `"matchDescription"` specifies (as a string) a regular expression to match the description in each JSDoc comment (for example, `".+"` requires a description; this option does not apply to descriptions in parameter or return tags)
 * `"requireParamDescription": false` allows missing description in parameter tags
 * `"requireReturnDescription": false` allows missing description in return tags
+* `"requireParamType": false` allows missing type in parameter tags
 
 ### prefer
 
@@ -300,6 +303,24 @@ Example of additional **correct** code for this rule with the `"requireReturnTyp
  * @param {number} num1 The first number.
  * @param {number} num2 The second number.
  * @returns The sum of the two numbers.
+ */
+function add(num1, num2) {
+    return num1 + num2;
+}
+```
+
+### requireParamType
+
+Example of additional **correct** code for this rule with the `"requireParamType": false` option:
+
+```js
+/*eslint valid-jsdoc: ["error", { "requireParamType": false }]*/
+
+/**
+ * Add two numbers.
+ * @param num1 The first number.
+ * @param num2 The second number.
+ * @returns {number} The sum of the two numbers.
  */
 function add(num1, num2) {
     return num1 + num2;

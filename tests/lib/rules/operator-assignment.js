@@ -18,8 +18,8 @@ const rule = require("../../../lib/rules/operator-assignment"),
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 7 } });
 
-const EXPECTED_OPERATOR_ASSIGNMENT = [{ message: "Assignment can be replaced with operator assignment.", type: "AssignmentExpression" }];
-const UNEXPECTED_OPERATOR_ASSIGNMENT = [{ message: "Unexpected operator assignment shorthand.", type: "AssignmentExpression" }];
+const EXPECTED_OPERATOR_ASSIGNMENT = [{ messageId: "replaced", type: "AssignmentExpression" }];
+const UNEXPECTED_OPERATOR_ASSIGNMENT = [{ messageId: "unexpected", type: "AssignmentExpression" }];
 
 ruleTester.run("operator-assignment", rule, {
 
@@ -72,16 +72,7 @@ ruleTester.run("operator-assignment", rule, {
             options: ["never"]
         },
         "x = y ** x",
-        "x = x < y",
-        "x = x > y",
-        "x = x <= y",
-        "x = x >= y",
-        "x = x == y",
-        "x = x != y",
-        "x = x === y",
-        "x = x !== y",
-        "x = x && y",
-        "x = x || y"
+        "x = x * y + z"
     ],
 
     invalid: [{
@@ -212,6 +203,31 @@ ruleTester.run("operator-assignment", rule, {
     }, {
         code: "foo **= bar",
         output: "foo = foo ** bar",
+        options: ["never"],
+        errors: UNEXPECTED_OPERATOR_ASSIGNMENT
+    }, {
+        code: "foo *= bar + 1",
+        output: "foo = foo * (bar + 1)",
+        options: ["never"],
+        errors: UNEXPECTED_OPERATOR_ASSIGNMENT
+    }, {
+        code: "foo -= bar - baz",
+        output: "foo = foo - (bar - baz)",
+        options: ["never"],
+        errors: UNEXPECTED_OPERATOR_ASSIGNMENT
+    }, {
+        code: "foo += bar + baz",
+        output: "foo = foo + (bar + baz)", // addition is not associative in JS, e.g. (1 + 2) + '3' !== 1 + (2 + '3')
+        options: ["never"],
+        errors: UNEXPECTED_OPERATOR_ASSIGNMENT
+    }, {
+        code: "foo += bar = 1",
+        output: "foo = foo + (bar = 1)",
+        options: ["never"],
+        errors: UNEXPECTED_OPERATOR_ASSIGNMENT
+    }, {
+        code: "foo *= (bar + 1)",
+        output: "foo = foo * (bar + 1)",
         options: ["never"],
         errors: UNEXPECTED_OPERATOR_ASSIGNMENT
     }]

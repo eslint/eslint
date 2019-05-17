@@ -26,14 +26,14 @@ ruleTester.run("no-use-before-define", rule, {
         "function a() { alert(arguments);}",
         { code: "a(); function a() { alert(arguments); }", options: ["nofunc"] },
         { code: "(() => { var a = 42; alert(a); })();", parserOptions: { ecmaVersion: 6 } },
-        { code: "a(); try { throw new Error() } catch (a) {}" },
+        "a(); try { throw new Error() } catch (a) {}",
         { code: "class A {} new A();", parserOptions: { ecmaVersion: 6 } },
         "var a = 0, b = a;",
         { code: "var {a = 0, b = a} = {};", parserOptions: { ecmaVersion: 6 } },
         { code: "var [a = 0, b = a] = {};", parserOptions: { ecmaVersion: 6 } },
         "function foo() { foo(); }",
         "var foo = function() { foo(); };",
-        { code: "var a; for (a in a) {}" },
+        "var a; for (a in a) {}",
         { code: "var a; for (a of a) {}", parserOptions: { ecmaVersion: 6 } },
 
         // Block-level bindings
@@ -54,8 +54,8 @@ ruleTester.run("no-use-before-define", rule, {
         },
         {
             code: "var foo = () => bar; var bar;",
-            parserOptions: { ecmaVersion: 6 },
-            options: [{ variables: false }]
+            options: [{ variables: false }],
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
     invalid: [
@@ -81,7 +81,6 @@ ruleTester.run("no-use-before-define", rule, {
         { code: "\"use strict\"; { a(); function a() {} }", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
         { code: "{a; let a = 1}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
         { code: "switch (foo) { case 1: a();\n default: \n let a;}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
-        { code: "var f = () => a; var a;", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
         { code: "if (true) { function foo() { a; } let a;}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
 
         // object style options
@@ -114,6 +113,55 @@ ruleTester.run("no-use-before-define", rule, {
             code: "foo; var foo;",
             options: [{ variables: false }],
             errors: [{ message: "'foo' was used before it was defined.", type: "Identifier" }]
+        },
+
+        // https://github.com/eslint/eslint/issues/10227
+        {
+            code: "for (let x = x;;); let x = 0",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: ["'x' was used before it was defined."]
+        },
+        {
+            code: "for (let x in xs); let xs = []",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: ["'xs' was used before it was defined."]
+        },
+        {
+            code: "for (let x of xs); let xs = []",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: ["'xs' was used before it was defined."]
+        },
+        {
+            code: "try {} catch ({message = x}) {} let x = ''",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: ["'x' was used before it was defined."]
+        },
+        {
+            code: "with (obj) x; let x = {}",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: ["'x' was used before it was defined."]
+        },
+
+        // WithStatements.
+        {
+            code: "with (x); let x = {}",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: ["'x' was used before it was defined."]
+        },
+        {
+            code: "with (obj) { x } let x = {}",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: ["'x' was used before it was defined."]
+        },
+        {
+            code: "with (obj) { if (a) { x } } let x = {}",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: ["'x' was used before it was defined."]
+        },
+        {
+            code: "with (obj) { (() => { if (a) { x } })() } let x = {}",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: ["'x' was used before it was defined."]
         }
     ]
 });

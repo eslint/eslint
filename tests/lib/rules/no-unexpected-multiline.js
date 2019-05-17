@@ -42,13 +42,53 @@ ruleTester.run("no-unexpected-multiline", rule, {
         {
             code: "x\n.y\nz `Valid Test Case`",
             parserOptions: { ecmaVersion: 6 }
-        }
+        },
+        `
+            foo
+            / bar /2
+        `,
+        `
+            foo
+            / bar / mgy
+        `,
+        `
+            foo
+            / bar /
+            gym
+        `,
+        `
+            foo
+            / bar
+            / ygm
+        `,
+        `
+            foo
+            / bar /GYM
+        `,
+        `
+            foo
+            / bar / baz
+        `,
+        "foo /bar/g",
+        `
+            foo
+            /denominator/
+            2
+        `,
+        `
+            foo
+            / /abc/
+        `,
+        `
+            5 / (5
+            / 5)
+        `
     ],
     invalid: [
         {
             code: "var a = b\n(x || y).doSomething()",
             errors: [{
-                message: "Unexpected newline between function and ( of function call.",
+                messageId: "function",
                 line: 2,
                 column: 1
 
@@ -59,7 +99,7 @@ ruleTester.run("no-unexpected-multiline", rule, {
             errors: [{
                 line: 2,
                 column: 1,
-                message: "Unexpected newline between function and ( of function call."
+                messageId: "function"
             }]
         },
         {
@@ -67,7 +107,7 @@ ruleTester.run("no-unexpected-multiline", rule, {
             errors: [{
                 line: 2,
                 column: 1,
-                message: "Unexpected newline between function and ( of function call."
+                messageId: "function"
             }]
         },
         {
@@ -75,7 +115,7 @@ ruleTester.run("no-unexpected-multiline", rule, {
             errors: [{
                 line: 2,
                 column: 1,
-                message: "Unexpected newline between object and [ of property access."
+                messageId: "property"
             }]
         },
         {
@@ -83,7 +123,7 @@ ruleTester.run("no-unexpected-multiline", rule, {
             errors: [{
                 line: 2,
                 column: 5,
-                message: "Unexpected newline between function and ( of function call."
+                messageId: "function"
             }]
         },
         {
@@ -91,7 +131,7 @@ ruleTester.run("no-unexpected-multiline", rule, {
             errors: [{
                 line: 2,
                 column: 3,
-                message: "Unexpected newline between object and [ of property access."
+                messageId: "property"
             }]
         },
         {
@@ -100,7 +140,7 @@ ruleTester.run("no-unexpected-multiline", rule, {
             errors: [{
                 line: 1,
                 column: 9,
-                message: "Unexpected newline between template tag and template literal."
+                messageId: "taggedTemplate"
             }]
         },
         {
@@ -109,7 +149,7 @@ ruleTester.run("no-unexpected-multiline", rule, {
             errors: [{
                 line: 2,
                 column: 1,
-                message: "Unexpected newline between template tag and template literal."
+                messageId: "taggedTemplate"
             }]
         },
         {
@@ -118,7 +158,62 @@ ruleTester.run("no-unexpected-multiline", rule, {
             errors: [{
                 line: 3,
                 column: 1,
-                message: "Unexpected newline between template tag and template literal."
+                messageId: "taggedTemplate"
+            }]
+        },
+        {
+            code: `
+                foo
+                / bar /gym
+            `,
+            errors: [{
+                line: 3,
+                column: 17,
+                messageId: "division"
+            }]
+        },
+        {
+            code: `
+                foo
+                / bar /g
+            `,
+            errors: [{
+                line: 3,
+                column: 17,
+                messageId: "division"
+            }]
+        },
+        {
+            code: `
+                foo
+                / bar /g.test(baz)
+            `,
+            errors: [{
+                line: 3,
+                column: 17,
+                messageId: "division"
+            }]
+        },
+        {
+            code: `
+                foo
+                /bar/gimuygimuygimuy.test(baz)
+            `,
+            errors: [{
+                line: 3,
+                column: 17,
+                messageId: "division"
+            }]
+        },
+        {
+            code: `
+                foo
+                /bar/s.test(baz)
+            `,
+            errors: [{
+                line: 3,
+                column: 17,
+                messageId: "division"
             }]
         }
     ]

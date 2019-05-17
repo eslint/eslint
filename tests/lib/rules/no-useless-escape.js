@@ -50,6 +50,8 @@ ruleTester.run("no-useless-escape", rule, {
         { code: "<div> Testing: \\ </div>", parserOptions: { ecmaFeatures: { jsx: true } } },
         { code: "<div> Testing: &#x5C </div>", parserOptions: { ecmaFeatures: { jsx: true } } },
         { code: "<foo attr='\\d'></foo>", parserOptions: { ecmaFeatures: { jsx: true } } },
+        { code: "<> Testing: \\ </>", parserOptions: { ecmaFeatures: { jsx: true } } },
+        { code: "<> Testing: &#x5C </>", parserOptions: { ecmaFeatures: { jsx: true } } },
         { code: "var foo = `\\x123`", parserOptions: { ecmaVersion: 6 } },
         { code: "var foo = `\\u00a9`", parserOptions: { ecmaVersion: 6 } },
         { code: "var foo = `xs\\u2111`", parserOptions: { ecmaVersion: 6 } },
@@ -113,7 +115,15 @@ ruleTester.run("no-useless-escape", rule, {
         { code: String.raw`/\]/u`, parserOptions: { ecmaVersion: 6 } },
         String.raw`var foo = /foo\]/`,
         String.raw`var foo = /[[]\]/`, // A character class containing '[', followed by a ']' character
-        String.raw`var foo = /\[foo\.bar\]/`
+        String.raw`var foo = /\[foo\.bar\]/`,
+
+        // ES2018
+        { code: String.raw`var foo = /(?<a>)\k<a>/`, parserOptions: { ecmaVersion: 2018 } },
+        { code: String.raw`var foo = /(\\?<a>)/`, parserOptions: { ecmaVersion: 2018 } },
+        { code: String.raw`var foo = /\p{ASCII}/u`, parserOptions: { ecmaVersion: 2018 } },
+        { code: String.raw`var foo = /\P{ASCII}/u`, parserOptions: { ecmaVersion: 2018 } },
+        { code: String.raw`var foo = /[\p{ASCII}]/u`, parserOptions: { ecmaVersion: 2018 } },
+        { code: String.raw`var foo = /[\P{ASCII}]/u`, parserOptions: { ecmaVersion: 2018 } }
     ],
 
     invalid: [

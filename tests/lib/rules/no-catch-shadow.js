@@ -34,13 +34,22 @@ ruleTester.run("no-catch-shadow", rule, {
                 "}",
                 "",
                 "module.exports = broken;"
-            ].join("\n"), parserOptions: { ecmaVersion: 6 }
+            ].join("\n"),
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "try {} catch (error) {}",
+            env: { shelljs: false }
+        },
+        {
+            code: "try {} catch {}",
+            parserOptions: { ecmaVersion: 2019 }
         }
     ],
     invalid: [
-        { code: "var foo = 1; try { bar(); } catch(foo) { }", errors: [{ message: "Value of 'foo' may be overwritten in IE 8 and earlier.", type: "CatchClause" }] },
-        { code: "function foo(){} try { bar(); } catch(foo) { }", errors: [{ message: "Value of 'foo' may be overwritten in IE 8 and earlier.", type: "CatchClause" }] },
-        { code: "function foo(){ try { bar(); } catch(foo) { } }", errors: [{ message: "Value of 'foo' may be overwritten in IE 8 and earlier.", type: "CatchClause" }] },
-        { code: "var foo = function(){ try { bar(); } catch(foo) { } };", errors: [{ message: "Value of 'foo' may be overwritten in IE 8 and earlier.", type: "CatchClause" }] }
+        { code: "var foo = 1; try { bar(); } catch(foo) { }", errors: [{ messageId: "mutable", data: { name: "foo" }, type: "CatchClause" }] },
+        { code: "function foo(){} try { bar(); } catch(foo) { }", errors: [{ messageId: "mutable", data: { name: "foo" }, type: "CatchClause" }] },
+        { code: "function foo(){ try { bar(); } catch(foo) { } }", errors: [{ messageId: "mutable", data: { name: "foo" }, type: "CatchClause" }] },
+        { code: "var foo = function(){ try { bar(); } catch(foo) { } };", errors: [{ messageId: "mutable", data: { name: "foo" }, type: "CatchClause" }] }
     ]
 });

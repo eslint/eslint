@@ -211,7 +211,7 @@ ruleTester.run("no-useless-return", rule, {
                 }
                 return;
               }
-            `,  // Other case is fixed in the second pass.
+            `, // Other case is fixed in the second pass.
             errors: [
                 { message: "Unnecessary return statement.", type: "ReturnStatement" },
                 { message: "Unnecessary return statement.", type: "ReturnStatement" }
@@ -368,8 +368,10 @@ ruleTester.run("no-useless-return", rule, {
             `
         },
 
-        // FIXME: Re-add this case (removed due to https://github.com/eslint/eslint/issues/7481):
-        // https://github.com/eslint/eslint/blob/261d7287820253408ec87c344beccdba2fe829a4/tests/lib/rules/no-useless-return.js#L308-L329
+        /*
+         * FIXME: Re-add this case (removed due to https://github.com/eslint/eslint/issues/7481):
+         * https://github.com/eslint/eslint/blob/261d7287820253408ec87c344beccdba2fe829a4/tests/lib/rules/no-useless-return.js#L308-L329
+         */
 
         {
             code: `
@@ -416,7 +418,7 @@ ruleTester.run("no-useless-return", rule, {
         },
         {
             code: "function foo() { return; return; }",
-            output: "function foo() {  return; }",  // Other case is fixed in the second pass.
+            output: "function foo() {  return; }", // Other case is fixed in the second pass.
             errors: [
                 { message: "Unnecessary return statement.", type: "ReturnStatement" },
                 { message: "Unnecessary return statement.", type: "ReturnStatement" }

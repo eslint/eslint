@@ -1,7 +1,5 @@
-var defaultOptions = require("../../../../conf/eslint-recommended");
-
 module.exports = {
-    parser: defaultOptions.parser,
+    parser: "espree",
     rules: {
         semi: [2, "always"]
     }

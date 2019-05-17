@@ -180,8 +180,9 @@ Examples of additional **correct** code for this rule with the `{ "overrides": {
 ```js
 /*eslint operator-linebreak: ["error", "after", { "overrides": { "+=": "before" } }]*/
 
-var thing
-  += 'thing';
+var thing = 'thing';
+thing
+  += 's';
 ```
 
 Examples of additional **correct** code for this rule with the `{ "overrides": { "?": "ignore", ":": "ignore" } }` option:

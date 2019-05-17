@@ -2,7 +2,7 @@
 
 It is considered good practice to use the type-safe equality operators `===` and `!==` instead of their regular counterparts `==` and `!=`.
 
-The reason for this is that `==` and `!=` do type coercion which follows the rather obscure [Abstract Equality Comparison Algorithm](http://www.ecma-international.org/ecma-262/5.1/#sec-11.9.3).
+The reason for this is that `==` and `!=` do type coercion which follows the rather obscure [Abstract Equality Comparison Algorithm](https://www.ecma-international.org/ecma-262/5.1/#sec-11.9.3).
 For instance, the following statements are all considered `true`:
 
 * `[] == false`
@@ -114,7 +114,7 @@ foo == null
 
 ### allow-null
 
-**Deprecated:** Instead of using this option use "always" and pass a "null" option property with value "ignore". This will tell eslint to always enforce strict equality except when comparing with the `null` literal.
+**Deprecated:** Instead of using this option use "always" and pass a "null" option property with value "ignore". This will tell ESLint to always enforce strict equality except when comparing with the `null` literal.
 
 ```js
 ["error", "always", {"null": "ignore"}]

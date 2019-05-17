@@ -86,20 +86,19 @@ ruleTester.run("array-bracket-spacing", rule, {
         { code: "this.db.mappings.insert([\n { alias: 'a', url: 'http://www.amazon.de' },\n { alias: 'g', url: 'http://www.google.de' }\n], function() {});", options: ["always", { singleValue: false, objectsInArrays: true, arraysInArrays: true }] },
 
         // always - destructuring assignment
-        { code: "var [ x, y ] = z", parserOptions: { ecmaVersion: 6 }, options: ["always"] },
-        { code: "var [ x,y ] = z", parserOptions: { ecmaVersion: 6 }, options: ["always"] },
-        { code: "var [ x, y\n] = z", parserOptions: { ecmaVersion: 6 }, options: ["always"] },
-        { code: "var [\nx, y ] = z", parserOptions: { ecmaVersion: 6 }, options: ["always"] },
-        { code: "var [\nx, y\n] = z", parserOptions: { ecmaVersion: 6 }, options: ["always"] },
-        { code: "var [\nx, y\n] = z", parserOptions: { ecmaVersion: 6 }, options: ["always"] },
-        { code: "var [\nx,,,\n] = z", parserOptions: { ecmaVersion: 6 }, options: ["always"] },
-        { code: "var [ ,x, ] = z", parserOptions: { ecmaVersion: 6 }, options: ["always"] },
-        { code: "var [\nx, ...y\n] = z", parserOptions: { ecmaVersion: 6 }, options: ["always"] },
-        { code: "var [\nx, ...y ] = z", parserOptions: { ecmaVersion: 6 }, options: ["always"] },
-        { code: "var [[ x, y ], z ] = arr;", parserOptions: { ecmaVersion: 6 }, options: ["always", { arraysInArrays: false }] },
-        { code: "var [ x, [ y, z ]] = arr;", parserOptions: { ecmaVersion: 6 }, options: ["always", { arraysInArrays: false }] },
-        { code: "[{ x, y }, z ] = arr;", parserOptions: { ecmaVersion: 6 }, options: ["always", { objectsInArrays: false }] },
-        { code: "[ x, { y, z }] = arr;", parserOptions: { ecmaVersion: 6 }, options: ["always", { objectsInArrays: false }] },
+        { code: "var [ x, y ] = z", options: ["always"], parserOptions: { ecmaVersion: 6 } },
+        { code: "var [ x,y ] = z", options: ["always"], parserOptions: { ecmaVersion: 6 } },
+        { code: "var [ x, y\n] = z", options: ["always"], parserOptions: { ecmaVersion: 6 } },
+        { code: "var [\nx, y ] = z", options: ["always"], parserOptions: { ecmaVersion: 6 } },
+        { code: "var [\nx, y\n] = z", options: ["always"], parserOptions: { ecmaVersion: 6 } },
+        { code: "var [\nx,,,\n] = z", options: ["always"], parserOptions: { ecmaVersion: 6 } },
+        { code: "var [ ,x, ] = z", options: ["always"], parserOptions: { ecmaVersion: 6 } },
+        { code: "var [\nx, ...y\n] = z", options: ["always"], parserOptions: { ecmaVersion: 6 } },
+        { code: "var [\nx, ...y ] = z", options: ["always"], parserOptions: { ecmaVersion: 6 } },
+        { code: "var [[ x, y ], z ] = arr;", options: ["always", { arraysInArrays: false }], parserOptions: { ecmaVersion: 6 } },
+        { code: "var [ x, [ y, z ]] = arr;", options: ["always", { arraysInArrays: false }], parserOptions: { ecmaVersion: 6 } },
+        { code: "[{ x, y }, z ] = arr;", options: ["always", { objectsInArrays: false }], parserOptions: { ecmaVersion: 6 } },
+        { code: "[ x, { y, z }] = arr;", options: ["always", { objectsInArrays: false }], parserOptions: { ecmaVersion: 6 } },
 
         // never
         { code: "obj[foo]", options: ["never"] },
@@ -110,7 +109,6 @@ ruleTester.run("array-bracket-spacing", rule, {
         { code: "obj.map(function(item) { return [\n1,\n2,\n3,\n4\n]; })", options: ["never"] },
         { code: "obj['map'](function(item) { return [\n1,\n2,\n3,\n4\n]; })", options: ["never"] },
         { code: "obj['for' + 'Each'](function(item) { return [\n1,\n2,\n3,\n4\n]; })", options: ["never"] },
-        { code: "obj['for' + 'Each'](function(item) { return [\n1,\n2,\n3,\n4\n]; })", options: ["never"] },
         { code: "var arr = [1, 2, 3, 4];", options: ["never"] },
         { code: "var arr = [[1, 2], 2, 3, 4];", options: ["never"] },
         { code: "var arr = [\n1, 2, 3, 4\n];", options: ["never"] },
@@ -120,20 +118,19 @@ ruleTester.run("array-bracket-spacing", rule, {
         { code: "var arr = [\n1,\n2,\n3,\n4];", options: ["never"] },
 
         // never - destructuring assignment
-        { code: "var [x, y] = z", parserOptions: { ecmaVersion: 6 }, options: ["never"] },
-        { code: "var [x,y] = z", parserOptions: { ecmaVersion: 6 }, options: ["never"] },
-        { code: "var [x, y\n] = z", parserOptions: { ecmaVersion: 6 }, options: ["never"] },
-        { code: "var [\nx, y] = z", parserOptions: { ecmaVersion: 6 }, options: ["never"] },
-        { code: "var [\nx, y\n] = z", parserOptions: { ecmaVersion: 6 }, options: ["never"] },
-        { code: "var [\nx, y\n] = z", parserOptions: { ecmaVersion: 6 }, options: ["never"] },
-        { code: "var [\nx,,,\n] = z", parserOptions: { ecmaVersion: 6 }, options: ["never"] },
-        { code: "var [,x,] = z", parserOptions: { ecmaVersion: 6 }, options: ["never"] },
-        { code: "var [\nx, ...y\n] = z", parserOptions: { ecmaVersion: 6 }, options: ["never"] },
-        { code: "var [\nx, ...y] = z", parserOptions: { ecmaVersion: 6 }, options: ["never"] },
-        { code: "var [ [x, y], z] = arr;", parserOptions: { ecmaVersion: 6 }, options: ["never", { arraysInArrays: true }] },
-        { code: "var [x, [y, z] ] = arr;", parserOptions: { ecmaVersion: 6 }, options: ["never", { arraysInArrays: true }] },
-        { code: "[ { x, y }, z] = arr;", parserOptions: { ecmaVersion: 6 }, options: ["never", { objectsInArrays: true }] },
-        { code: "[x, { y, z } ] = arr;", parserOptions: { ecmaVersion: 6 }, options: ["never", { objectsInArrays: true }] },
+        { code: "var [x, y] = z", options: ["never"], parserOptions: { ecmaVersion: 6 } },
+        { code: "var [x,y] = z", options: ["never"], parserOptions: { ecmaVersion: 6 } },
+        { code: "var [x, y\n] = z", options: ["never"], parserOptions: { ecmaVersion: 6 } },
+        { code: "var [\nx, y] = z", options: ["never"], parserOptions: { ecmaVersion: 6 } },
+        { code: "var [\nx, y\n] = z", options: ["never"], parserOptions: { ecmaVersion: 6 } },
+        { code: "var [\nx,,,\n] = z", options: ["never"], parserOptions: { ecmaVersion: 6 } },
+        { code: "var [,x,] = z", options: ["never"], parserOptions: { ecmaVersion: 6 } },
+        { code: "var [\nx, ...y\n] = z", options: ["never"], parserOptions: { ecmaVersion: 6 } },
+        { code: "var [\nx, ...y] = z", options: ["never"], parserOptions: { ecmaVersion: 6 } },
+        { code: "var [ [x, y], z] = arr;", options: ["never", { arraysInArrays: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "var [x, [y, z] ] = arr;", options: ["never", { arraysInArrays: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "[ { x, y }, z] = arr;", options: ["never", { objectsInArrays: true }], parserOptions: { ecmaVersion: 6 } },
+        { code: "[x, { y, z } ] = arr;", options: ["never", { objectsInArrays: true }], parserOptions: { ecmaVersion: 6 } },
 
         // never - singleValue
         { code: "var foo = [ 'foo' ]", options: ["never", { singleValue: true }] },
@@ -188,7 +185,10 @@ ruleTester.run("array-bracket-spacing", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: "There should be no space after '['.",
+                    messageId: "unexpectedSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
@@ -203,13 +203,19 @@ ruleTester.run("array-bracket-spacing", rule, {
             options: ["always", { objectsInArrays: false }],
             errors: [
                 {
-                    message: "There should be no space after '['.",
+                    messageId: "unexpectedSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: "A space is required before ']'.",
+                    messageId: "missingSpaceBefore",
+                    data: {
+                        tokenValue: "]"
+                    },
                     type: "ArrayExpression",
                     line: 1,
                     column: 36
@@ -222,13 +228,19 @@ ruleTester.run("array-bracket-spacing", rule, {
             options: ["always", { objectsInArrays: false }],
             errors: [
                 {
-                    message: "A space is required after '['.",
+                    messageId: "missingSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: "There should be no space before ']'.",
+                    messageId: "unexpectedSpaceBefore",
+                    data: {
+                        tokenValue: "]"
+                    },
                     type: "ArrayExpression",
                     line: 1,
                     column: 35
@@ -241,13 +253,19 @@ ruleTester.run("array-bracket-spacing", rule, {
             options: ["always", { objectsInArrays: false }],
             errors: [
                 {
-                    message: "There should be no space after '['.",
+                    messageId: "unexpectedSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: "There should be no space before ']'.",
+                    messageId: "unexpectedSpaceBefore",
+                    data: {
+                        tokenValue: "]"
+                    },
                     type: "ArrayExpression",
                     line: 1,
                     column: 50
@@ -262,13 +280,19 @@ ruleTester.run("array-bracket-spacing", rule, {
             options: ["always", { singleValue: false }],
             errors: [
                 {
-                    message: "There should be no space after '['.",
+                    messageId: "unexpectedSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: "There should be no space before ']'.",
+                    messageId: "unexpectedSpaceBefore",
+                    data: {
+                        tokenValue: "]"
+                    },
                     type: "ArrayExpression",
                     line: 1,
                     column: 19
@@ -281,7 +305,10 @@ ruleTester.run("array-bracket-spacing", rule, {
             options: ["always", { singleValue: false }],
             errors: [
                 {
-                    message: "There should be no space before ']'.",
+                    messageId: "unexpectedSpaceBefore",
+                    data: {
+                        tokenValue: "]"
+                    },
                     type: "ArrayExpression",
                     line: 1,
                     column: 18
@@ -294,13 +321,19 @@ ruleTester.run("array-bracket-spacing", rule, {
             options: ["never", { singleValue: true }],
             errors: [
                 {
-                    message: "A space is required after '['.",
+                    messageId: "missingSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: "A space is required before ']'.",
+                    messageId: "missingSpaceBefore",
+                    data: {
+                        tokenValue: "]"
+                    },
                     type: "ArrayExpression",
                     line: 1,
                     column: 17
@@ -315,7 +348,10 @@ ruleTester.run("array-bracket-spacing", rule, {
             options: ["always", { arraysInArrays: false }],
             errors: [
                 {
-                    message: "There should be no space after '['.",
+                    messageId: "unexpectedSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
@@ -328,7 +364,10 @@ ruleTester.run("array-bracket-spacing", rule, {
             options: ["always", { arraysInArrays: false }],
             errors: [
                 {
-                    message: "There should be no space before ']'.",
+                    messageId: "unexpectedSpaceBefore",
+                    data: {
+                        tokenValue: "]"
+                    },
                     type: "ArrayExpression",
                     line: 1,
                     column: 31
@@ -341,7 +380,10 @@ ruleTester.run("array-bracket-spacing", rule, {
             options: ["always", { arraysInArrays: false }],
             errors: [
                 {
-                    message: "There should be no space before ']'.",
+                    messageId: "unexpectedSpaceBefore",
+                    data: {
+                        tokenValue: "]"
+                    },
                     type: "ArrayExpression",
                     line: 1,
                     column: 34
@@ -354,7 +396,10 @@ ruleTester.run("array-bracket-spacing", rule, {
             options: ["always", { arraysInArrays: false }],
             errors: [
                 {
-                    message: "There should be no space after '['.",
+                    messageId: "unexpectedSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
@@ -367,13 +412,19 @@ ruleTester.run("array-bracket-spacing", rule, {
             options: ["always", { arraysInArrays: false }],
             errors: [
                 {
-                    message: "There should be no space after '['.",
+                    messageId: "unexpectedSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: "There should be no space before ']'.",
+                    messageId: "unexpectedSpaceBefore",
+                    data: {
+                        tokenValue: "]"
+                    },
                     type: "ArrayExpression",
                     line: 1,
                     column: 35
@@ -388,13 +439,19 @@ ruleTester.run("array-bracket-spacing", rule, {
             options: ["always"],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "A space is required after '['.",
+                messageId: "missingSpaceAfter",
+                data: {
+                    tokenValue: "["
+                },
                 type: "ArrayPattern",
                 line: 1,
                 column: 5
             },
             {
-                message: "A space is required before ']'.",
+                messageId: "missingSpaceBefore",
+                data: {
+                    tokenValue: "]"
+                },
                 type: "ArrayPattern",
                 line: 1,
                 column: 9
@@ -406,7 +463,10 @@ ruleTester.run("array-bracket-spacing", rule, {
             options: ["always"],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "A space is required after '['.",
+                messageId: "missingSpaceAfter",
+                data: {
+                    tokenValue: "["
+                },
                 type: "ArrayPattern",
                 line: 1,
                 column: 5
@@ -418,13 +478,19 @@ ruleTester.run("array-bracket-spacing", rule, {
             options: ["always"],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "A space is required after '['.",
+                messageId: "missingSpaceAfter",
+                data: {
+                    tokenValue: "["
+                },
                 type: "ArrayPattern",
                 line: 1,
                 column: 5
             },
             {
-                message: "A space is required before ']'.",
+                messageId: "missingSpaceBefore",
+                data: {
+                    tokenValue: "]"
+                },
                 type: "ArrayPattern",
                 line: 1,
                 column: 12
@@ -436,7 +502,10 @@ ruleTester.run("array-bracket-spacing", rule, {
             options: ["always"],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "A space is required before ']'.",
+                messageId: "missingSpaceBefore",
+                data: {
+                    tokenValue: "]"
+                },
                 type: "ArrayPattern",
                 line: 1,
                 column: 13
@@ -448,13 +517,19 @@ ruleTester.run("array-bracket-spacing", rule, {
             options: ["always"],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "A space is required after '['.",
+                messageId: "missingSpaceAfter",
+                data: {
+                    tokenValue: "["
+                },
                 type: "ArrayPattern",
                 line: 1,
                 column: 5
             },
             {
-                message: "A space is required before ']'.",
+                messageId: "missingSpaceBefore",
+                data: {
+                    tokenValue: "]"
+                },
                 type: "ArrayPattern",
                 line: 1,
                 column: 14
@@ -466,7 +541,10 @@ ruleTester.run("array-bracket-spacing", rule, {
             options: ["always"],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "A space is required after '['.",
+                messageId: "missingSpaceAfter",
+                data: {
+                    tokenValue: "["
+                },
                 type: "ArrayPattern",
                 line: 1,
                 column: 5
@@ -478,7 +556,10 @@ ruleTester.run("array-bracket-spacing", rule, {
             options: ["always", { arraysInArrays: false }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "There should be no space after '['.",
+                messageId: "unexpectedSpaceAfter",
+                data: {
+                    tokenValue: "["
+                },
                 type: "ArrayPattern",
                 line: 1,
                 column: 5
@@ -490,7 +571,10 @@ ruleTester.run("array-bracket-spacing", rule, {
             options: ["always", { objectsInArrays: false }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "There should be no space after '['.",
+                messageId: "unexpectedSpaceAfter",
+                data: {
+                    tokenValue: "["
+                },
                 type: "ArrayPattern",
                 line: 1,
                 column: 1
@@ -502,7 +586,10 @@ ruleTester.run("array-bracket-spacing", rule, {
             options: ["always", { objectsInArrays: false }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "There should be no space before ']'.",
+                messageId: "unexpectedSpaceBefore",
+                data: {
+                    tokenValue: "]"
+                },
                 type: "ArrayPattern",
                 line: 1,
                 column: 15
@@ -516,13 +603,19 @@ ruleTester.run("array-bracket-spacing", rule, {
             options: ["never", { arraysInArrays: true }],
             errors: [
                 {
-                    message: "A space is required after '['.",
+                    messageId: "missingSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: "A space is required before ']'.",
+                    messageId: "missingSpaceBefore",
+                    data: {
+                        tokenValue: "]"
+                    },
                     type: "ArrayExpression",
                     line: 1,
                     column: 29
@@ -535,7 +628,10 @@ ruleTester.run("array-bracket-spacing", rule, {
             options: ["never", { arraysInArrays: true }],
             errors: [
                 {
-                    message: "There should be no space after '['.",
+                    messageId: "unexpectedSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
@@ -550,7 +646,10 @@ ruleTester.run("array-bracket-spacing", rule, {
             options: ["never", { objectsInArrays: true }],
             errors: [
                 {
-                    message: "There should be no space after '['.",
+                    messageId: "unexpectedSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
@@ -565,13 +664,19 @@ ruleTester.run("array-bracket-spacing", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: "A space is required after '['.",
+                    messageId: "missingSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: "A space is required before ']'.",
+                    messageId: "missingSpaceBefore",
+                    data: {
+                        tokenValue: "]"
+                    },
                     type: "ArrayExpression",
                     line: 1,
                     column: 22
@@ -584,7 +689,10 @@ ruleTester.run("array-bracket-spacing", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: "A space is required after '['.",
+                    messageId: "missingSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
@@ -597,7 +705,10 @@ ruleTester.run("array-bracket-spacing", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: "A space is required before ']'.",
+                    messageId: "missingSpaceBefore",
+                    data: {
+                        tokenValue: "]"
+                    },
                     type: "ArrayExpression",
                     line: 1,
                     column: 23
@@ -612,13 +723,19 @@ ruleTester.run("array-bracket-spacing", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: "There should be no space after '['.",
+                    messageId: "unexpectedSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: "There should be no space before ']'.",
+                    messageId: "unexpectedSpaceBefore",
+                    data: {
+                        tokenValue: "]"
+                    },
                     type: "ArrayExpression",
                     line: 1,
                     column: 24
@@ -631,7 +748,10 @@ ruleTester.run("array-bracket-spacing", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: "There should be no space before ']'.",
+                    messageId: "unexpectedSpaceBefore",
+                    data: {
+                        tokenValue: "]"
+                    },
                     type: "ArrayExpression",
                     line: 1,
                     column: 23
@@ -644,7 +764,10 @@ ruleTester.run("array-bracket-spacing", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: "There should be no space after '['.",
+                    messageId: "unexpectedSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
@@ -657,13 +780,19 @@ ruleTester.run("array-bracket-spacing", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: "There should be no space after '['.",
+                    messageId: "unexpectedSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
                     type: "ArrayExpression",
                     line: 1,
                     column: 11
                 },
                 {
-                    message: "There should be no space after '['.",
+                    messageId: "unexpectedSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
                     type: "ArrayExpression",
                     line: 1,
                     column: 13
@@ -676,13 +805,19 @@ ruleTester.run("array-bracket-spacing", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: "There should be no space before ']'.",
+                    messageId: "unexpectedSpaceBefore",
+                    data: {
+                        tokenValue: "]"
+                    },
                     type: "ArrayExpression",
                     line: 1,
                     column: 15
                 },
                 {
-                    message: "There should be no space before ']'.",
+                    messageId: "unexpectedSpaceBefore",
+                    data: {
+                        tokenValue: "]"
+                    },
                     type: "ArrayExpression",
                     line: 1,
                     column: 26
@@ -700,13 +835,19 @@ ruleTester.run("array-bracket-spacing", rule, {
             },
             errors: [
                 {
-                    message: "There should be no space after '['.",
+                    messageId: "unexpectedSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
                     type: "ArrayPattern",
                     line: 1,
                     column: 2
                 },
                 {
-                    message: "There should be no space before ']'.",
+                    messageId: "unexpectedSpaceBefore",
+                    data: {
+                        tokenValue: "]"
+                    },
                     type: "ArrayPattern",
                     line: 1,
                     column: 9
@@ -723,13 +864,19 @@ ruleTester.run("array-bracket-spacing", rule, {
             },
             errors: [
                 {
-                    message: "A space is required after '['.",
+                    messageId: "missingSpaceAfter",
+                    data: {
+                        tokenValue: "["
+                    },
                     type: "ArrayPattern",
                     line: 1,
                     column: 2
                 },
                 {
-                    message: "A space is required before ']'.",
+                    messageId: "missingSpaceBefore",
+                    data: {
+                        tokenValue: "]"
+                    },
                     type: "ArrayPattern",
                     line: 1,
                     column: 7

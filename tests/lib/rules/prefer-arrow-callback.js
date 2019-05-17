@@ -38,8 +38,6 @@ ruleTester.run("prefer-arrow-callback", rule, {
         "foo(function bar() { bar; });",
         "foo(function bar() { arguments; });",
         "foo(function bar() { arguments; }.bind(this));",
-        "foo(function bar() { super.a; });",
-        "foo(function bar() { super.a; }.bind(this));",
         "foo(function bar() { new.target; });",
         "foo(function bar() { new.target; }.bind(this));",
         "foo(function bar() { this; }.bind(this, somethingElse));"
@@ -47,112 +45,122 @@ ruleTester.run("prefer-arrow-callback", rule, {
     invalid: [
         {
             code: "foo(function bar() {});",
-            errors,
-            output: "foo(() => {});"
+            output: "foo(() => {});",
+            errors
         },
         {
             code: "foo(function() {});",
+            output: "foo(() => {});",
             options: [{ allowNamedFunctions: true }],
-            errors,
-            output: "foo(() => {});"
+            errors
         },
         {
             code: "foo(function bar() {});",
+            output: "foo(() => {});",
             options: [{ allowNamedFunctions: false }],
-            errors,
-            output: "foo(() => {});"
+            errors
         },
         {
             code: "foo(function() {});",
-            errors,
-            output: "foo(() => {});"
+            output: "foo(() => {});",
+            errors
         },
         {
             code: "foo(nativeCb || function() {});",
-            errors,
-            output: "foo(nativeCb || () => {});"
+            output: "foo(nativeCb || (() => {}));",
+            errors
         },
         {
             code: "foo(bar ? function() {} : function() {});",
-            errors: [errors[0], errors[0]],
-            output: "foo(bar ? () => {} : () => {});"
+            output: "foo(bar ? () => {} : () => {});",
+            errors: [errors[0], errors[0]]
         },
         {
             code: "foo(function() { (function() { this; }); });",
-            errors,
-            output: "foo(() => { (function() { this; }); });"
+            output: "foo(() => { (function() { this; }); });",
+            errors
         },
         {
             code: "foo(function() { this; }.bind(this));",
-            errors,
-            output: "foo(() => { this; });"
+            output: "foo(() => { this; });",
+            errors
+        },
+        {
+            code: "foo(bar || function() { this; }.bind(this));",
+            output: "foo(bar || (() => { this; }));",
+            errors
         },
         {
             code: "foo(function() { (() => this); }.bind(this));",
-            errors,
-            output: "foo(() => { (() => this); });"
+            output: "foo(() => { (() => this); });",
+            errors
         },
         {
             code: "foo(function bar(a) { a; });",
-            errors,
-            output: "foo((a) => { a; });"
+            output: "foo((a) => { a; });",
+            errors
         },
         {
             code: "foo(function(a) { a; });",
-            errors,
-            output: "foo((a) => { a; });"
+            output: "foo((a) => { a; });",
+            errors
         },
         {
             code: "foo(function(arguments) { arguments; });",
-            errors,
-            output: "foo((arguments) => { arguments; });"
+            output: "foo((arguments) => { arguments; });",
+            errors
         },
         {
             code: "foo(function() { this; });",
+            output: null, // No fix applied
             options: [{ allowUnboundThis: false }],
-            errors,
-            output: null // No fix applied
+            errors
         },
         {
             code: "foo(function() { (() => this); });",
+            output: null, // No fix applied
             options: [{ allowUnboundThis: false }],
-            errors,
-            output: null // No fix applied
+            errors
         },
         {
             code: "qux(function(foo, bar, baz) { return foo * 2; })",
-            errors,
-            output: "qux((foo, bar, baz) => { return foo * 2; })"
+            output: "qux((foo, bar, baz) => { return foo * 2; })",
+            errors
         },
         {
             code: "qux(function(foo, bar, baz) { return foo * bar; }.bind(this))",
-            errors,
-            output: "qux((foo, bar, baz) => { return foo * bar; })"
+            output: "qux((foo, bar, baz) => { return foo * bar; })",
+            errors
         },
         {
             code: "qux(function(foo, bar, baz) { return foo * this.qux; }.bind(this))",
-            errors,
-            output: "qux((foo, bar, baz) => { return foo * this.qux; })"
+            output: "qux((foo, bar, baz) => { return foo * this.qux; })",
+            errors
+        },
+        {
+            code: "foo(function() {}.bind(this, somethingElse))",
+            output: "foo((() => {}).bind(this, somethingElse))",
+            errors
         },
         {
             code: "qux(function(foo = 1, [bar = 2] = [], {qux: baz = 3} = {foo: 'bar'}) { return foo + bar; });",
-            errors,
-            output: "qux((foo = 1, [bar = 2] = [], {qux: baz = 3} = {foo: 'bar'}) => { return foo + bar; });"
+            output: "qux((foo = 1, [bar = 2] = [], {qux: baz = 3} = {foo: 'bar'}) => { return foo + bar; });",
+            errors
         },
         {
             code: "qux(function(baz, baz) { })",
-            errors,
-            output: null // Duplicate parameter names are a SyntaxError in arrow functions
+            output: null, // Duplicate parameter names are a SyntaxError in arrow functions
+            errors
         },
         {
             code: "qux(function( /* no params */ ) { })",
-            errors,
-            output: "qux(( /* no params */ ) => { })"
+            output: "qux(( /* no params */ ) => { })",
+            errors
         },
         {
             code: "qux(function( /* a */ foo /* b */ , /* c */ bar /* d */ , /* e */ baz /* f */ ) { return foo; })",
-            errors,
-            output: "qux(( /* a */ foo /* b */ , /* c */ bar /* d */ , /* e */ baz /* f */ ) => { return foo; })"
+            output: "qux(( /* a */ foo /* b */ , /* c */ bar /* d */ , /* e */ baz /* f */ ) => { return foo; })",
+            errors
         },
         {
             code: "qux(async function (foo = 1, bar = 2, baz = 3) { return baz; })",

@@ -16,7 +16,7 @@ const rule = require("../../../lib/rules/no-constant-condition"),
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 
 ruleTester.run("no-constant-condition", rule, {
     valid: [
@@ -43,7 +43,7 @@ ruleTester.run("no-constant-condition", rule, {
         "if (void a || a);",
         "if (a || void a);",
 
-         // #5693
+        // #5693
         "if(xyz === 'str1' && abc==='str2'){}",
         "if(xyz === 'str1' || abc==='str2'){}",
         "if(xyz === 'str1' || abc==='str2' && pqr === 5){}",
@@ -55,54 +55,122 @@ ruleTester.run("no-constant-condition", rule, {
         "if(true && abc==='str' || def ==='str'){}",
         "if(true && typeof abc==='string'){}",
 
+        // #11181, string literals
+        "if('str' || a){}",
+        "if('str1' && a){}",
+        "if(a && 'str'){}",
+        "if('str' || abc==='str'){}",
+
         // { checkLoops: false }
         { code: "while(true);", options: [{ checkLoops: false }] },
         { code: "for(;true;);", options: [{ checkLoops: false }] },
-        { code: "do{}while(true)", options: [{ checkLoops: false }] }
+        { code: "do{}while(true)", options: [{ checkLoops: false }] },
+
+        "function* foo(){while(true){yield 'foo';}}",
+        "function* foo(){for(;true;){yield 'foo';}}",
+        "function* foo(){do{yield 'foo';}while(true)}",
+        "function* foo(){while (true) { while(true) {yield;}}}",
+        "function* foo() {for (; yield; ) {}}",
+        "function* foo() {for (; ; yield) {}}",
+        "function* foo() {while (true) {function* foo() {yield;}yield;}}",
+        "function* foo() { for (let x = yield; x < 10; x++) {yield;}yield;}",
+        "function* foo() { for (let x = yield; ; x++) { yield; }}"
     ],
     invalid: [
-        { code: "for(;true;);", errors: [{ message: "Unexpected constant condition.", type: "ForStatement" }] },
-        { code: "do{}while(true)", errors: [{ message: "Unexpected constant condition.", type: "DoWhileStatement" }] },
-        { code: "do{}while(t = -2)", errors: [{ message: "Unexpected constant condition.", type: "DoWhileStatement" }] },
-        { code: "true ? 1 : 2;", errors: [{ message: "Unexpected constant condition.", type: "ConditionalExpression" }] },
-        { code: "q = 0 ? 1 : 2;", errors: [{ message: "Unexpected constant condition.", type: "ConditionalExpression" }] },
-        { code: "(q = 0) ? 1 : 2;", errors: [{ message: "Unexpected constant condition.", type: "ConditionalExpression" }] },
-        { code: "if(-2);", errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }] },
-        { code: "if(true);", errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }] },
-        { code: "if({});", errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }] },
-        { code: "if(0 < 1);", errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }] },
-        { code: "if(0 || 1);", errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }] },
-        { code: "if(a, 1);", errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }] },
+        { code: "for(;true;);", errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "do{}while(true)", errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "do{}while(t = -2)", errors: [{ messageId: "unexpected", type: "AssignmentExpression" }] },
+        { code: "true ? 1 : 2;", errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "q = 0 ? 1 : 2;", errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "(q = 0) ? 1 : 2;", errors: [{ messageId: "unexpected", type: "AssignmentExpression" }] },
+        { code: "if(-2);", errors: [{ messageId: "unexpected", type: "UnaryExpression" }] },
+        { code: "if(true);", errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "if({});", errors: [{ messageId: "unexpected", type: "ObjectExpression" }] },
+        { code: "if(0 < 1);", errors: [{ messageId: "unexpected", type: "BinaryExpression" }] },
+        { code: "if(0 || 1);", errors: [{ messageId: "unexpected", type: "LogicalExpression" }] },
+        { code: "if(a, 1);", errors: [{ messageId: "unexpected", type: "SequenceExpression" }] },
 
-        { code: "while([]);", errors: [{ message: "Unexpected constant condition.", type: "WhileStatement" }] },
-        { code: "while(~!0);", errors: [{ message: "Unexpected constant condition.", type: "WhileStatement" }] },
-        { code: "while(x = 1);", errors: [{ message: "Unexpected constant condition.", type: "WhileStatement" }] },
-        { code: "while(function(){});", errors: [{ message: "Unexpected constant condition.", type: "WhileStatement" }] },
-        { code: "while(() => {});", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Unexpected constant condition.", type: "WhileStatement" }] },
+        { code: "while([]);", errors: [{ messageId: "unexpected", type: "ArrayExpression" }] },
+        { code: "while(~!0);", errors: [{ messageId: "unexpected", type: "UnaryExpression" }] },
+        { code: "while(x = 1);", errors: [{ messageId: "unexpected", type: "AssignmentExpression" }] },
+        { code: "while(function(){});", errors: [{ messageId: "unexpected", type: "FunctionExpression" }] },
+        { code: "while(true);", errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "while(() => {});", errors: [{ messageId: "unexpected", type: "ArrowFunctionExpression" }] },
 
         // #5228 , typeof conditions
-        { code: "if(typeof x){}", errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }] },
-        { code: "if(typeof 'abc' === 'string'){}", errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }] },
-        { code: "if(a = typeof b){}", errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }] },
-        { code: "if(a, typeof b){}", errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }] },
-        { code: "if(typeof 'a' == 'string' || typeof 'b' == 'string'){}", errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }] },
-        { code: "while(typeof x){}", errors: [{ message: "Unexpected constant condition.", type: "WhileStatement" }] },
+        { code: "if(typeof x){}", errors: [{ messageId: "unexpected", type: "UnaryExpression" }] },
+        { code: "if(typeof 'abc' === 'string'){}", errors: [{ messageId: "unexpected", type: "BinaryExpression" }] },
+        { code: "if(a = typeof b){}", errors: [{ messageId: "unexpected", type: "AssignmentExpression" }] },
+        { code: "if(a, typeof b){}", errors: [{ messageId: "unexpected", type: "SequenceExpression" }] },
+        { code: "if(typeof 'a' == 'string' || typeof 'b' == 'string'){}", errors: [{ messageId: "unexpected", type: "LogicalExpression" }] },
+        { code: "while(typeof x){}", errors: [{ messageId: "unexpected", type: "UnaryExpression" }] },
 
         // #5726, void conditions
-        { code: "if(1 || void x);", errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }] },
-        { code: "if(void x);", errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }] },
-        { code: "if(y = void x);", errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }] },
-        { code: "if(x, void x);", errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }] },
-        { code: "if(void x === void y);", errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }] },
-        { code: "if(void x && a);", errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }] },
-        { code: "if(a && void x);", errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }] },
+        { code: "if(1 || void x);", errors: [{ messageId: "unexpected", type: "LogicalExpression" }] },
+        { code: "if(void x);", errors: [{ messageId: "unexpected", type: "UnaryExpression" }] },
+        { code: "if(y = void x);", errors: [{ messageId: "unexpected", type: "AssignmentExpression" }] },
+        { code: "if(x, void x);", errors: [{ messageId: "unexpected", type: "SequenceExpression" }] },
+        { code: "if(void x === void y);", errors: [{ messageId: "unexpected", type: "BinaryExpression" }] },
+        { code: "if(void x && a);", errors: [{ messageId: "unexpected", type: "LogicalExpression" }] },
+        { code: "if(a && void x);", errors: [{ messageId: "unexpected", type: "LogicalExpression" }] },
 
         // #5693
-         { code: "if(false && abc==='str'){}", errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }] },
-         { code: "if(true || abc==='str'){}", errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }] },
-         { code: "if(abc==='str' || true){}", errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }] },
-         { code: "if(abc==='str' || true || def ==='str'){}", errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }] },
-         { code: "if(false || true){}", errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }] },
-         { code: "if(typeof abc==='str' || true){}", errors: [{ message: "Unexpected constant condition.", type: "IfStatement" }] }
+        { code: "if(false && abc==='str'){}", errors: [{ messageId: "unexpected", type: "LogicalExpression" }] },
+        { code: "if(true || abc==='str'){}", errors: [{ messageId: "unexpected", type: "LogicalExpression" }] },
+        { code: "if(abc==='str' || true){}", errors: [{ messageId: "unexpected", type: "LogicalExpression" }] },
+        { code: "if(abc==='str' || true || def ==='str'){}", errors: [{ messageId: "unexpected", type: "LogicalExpression" }] },
+        { code: "if(false || true){}", errors: [{ messageId: "unexpected", type: "LogicalExpression" }] },
+        { code: "if(typeof abc==='str' || true){}", errors: [{ messageId: "unexpected", type: "LogicalExpression" }] },
+
+        // #11181, string literals
+        { code: "if('str1' || 'str2'){}", errors: [{ messageId: "unexpected", type: "LogicalExpression" }] },
+        { code: "if('str1' && 'str2'){}", errors: [{ messageId: "unexpected", type: "LogicalExpression" }] },
+        { code: "if(abc==='str' || 'str'){}", errors: [{ messageId: "unexpected", type: "LogicalExpression" }] },
+        { code: "if(a || 'str'){}", errors: [{ messageId: "unexpected", type: "LogicalExpression" }] },
+
+        {
+            code: "function* foo(){while(true){} yield 'foo';}",
+            errors: [{ messageId: "unexpected", type: "Literal" }]
+        },
+        {
+            code: "function* foo(){while(true){if (true) {yield 'foo';}}}",
+            errors: [{ messageId: "unexpected", type: "Literal" }]
+        },
+        {
+            code: "function* foo(){while(true){yield 'foo';} while(true) {}}",
+            errors: [{ messageId: "unexpected", type: "Literal" }]
+        },
+        {
+            code: "var a = function* foo(){while(true){} yield 'foo';}",
+            errors: [{ messageId: "unexpected", type: "Literal" }]
+        },
+        {
+            code: "while (true) { function* foo() {yield;}}",
+            errors: [{ messageId: "unexpected", type: "Literal" }]
+        },
+        {
+            code: "function* foo(){if (true) {yield 'foo';}}",
+            errors: [{ messageId: "unexpected", type: "Literal" }]
+        },
+        {
+            code: "function* foo() {for (let foo = yield; true;) {}}",
+            errors: [{ messageId: "unexpected", type: "Literal" }]
+        },
+        {
+            code: "function* foo() {for (foo = yield; true;) {}}",
+            errors: [{ messageId: "unexpected", type: "Literal" }]
+        },
+        {
+            code: "function foo() {while (true) {function* bar() {while (true) {yield;}}}}",
+            errors: [{ messageId: "unexpected", type: "Literal" }]
+        },
+        {
+            code: "function foo() {while (true) {const bar = function*() {while (true) {yield;}}}}",
+            errors: [{ messageId: "unexpected", type: "Literal" }]
+        },
+        {
+            code: "function* foo() { for (let foo = 1 + 2 + 3 + (yield); true; baz) {}}",
+            errors: [{ messageId: "unexpected", type: "Literal" }]
+        }
     ]
 });

@@ -34,7 +34,7 @@ function foo(...x) { }
 var { x } = {};
 var { x: a} = {};
 var { a: [x]} = {};
-({ prop: obj.x }) = {};
+({ prop: obj.x } = {});
 ```
 
 Examples of **correct** code for this rule with the default options:
@@ -62,7 +62,7 @@ function foo(...args) { }
 var { prop } = {};
 var { prop: a } = {};
 var { prop: [x] } = {};
-({ prop: obj.longName }) = {};
+({ prop: obj.longName } = {});
 var data = { "x": 1 };  // excused because of quotes
 data["y"] = 3;  // excused because of calculated property access
 ```
@@ -72,12 +72,12 @@ This rule has a shorthand integer option for the `"min"` object property.
 Examples of **incorrect** code for this rule with a minimum of 4:
 
 ```js
-/*eslint id-length: ["error", 4]*/
+/*eslint id-length: ["error", { "min": 4 }]*/
 /*eslint-env es6*/
 
 var val = 5;
 obj.e = document.body;
-function (e) { };
+function foo (e) { };
 try {
     dangerousStuff();
 } catch (e) {
@@ -91,13 +91,13 @@ function foo(...x) { }
 var { x } = {};
 var { x: a} = {};
 var { a: [x]} = {};
-({ prop: obj.x }) = {};
+({ prop: obj.x } = {});
 ```
 
 Examples of **correct** code for this rule with a minimum of 4:
 
 ```js
-/*eslint id-length: ["error", 4]*/
+/*eslint id-length: ["error", { "min": 4 }]*/
 /*eslint-env es6*/
 
 var value = 5;
@@ -118,7 +118,7 @@ function foobar(...args) { }
 var { prop } = {};
 var { prop: a } = {};
 var { prop: [x] } = {};
-({ prop: obj.name }) = {};
+({ prop: obj.name } = {});
 var data = { "x": 1 };  // excused because of quotes
 data["y"] = 3;  // excused because of calculated property access
 ```
@@ -141,7 +141,7 @@ Examples of **incorrect** code for this rule with the `{ "min": 4 }` option:
 
 var val = 5;
 obj.e = document.body;
-function (e) { };
+function foo (e) { };
 try {
     dangerousStuff();
 } catch (e) {
@@ -155,7 +155,7 @@ function foo(...x) { }
 var { x } = {};
 var { x: a} = {};
 var { a: [x]} = {};
-({ prop: obj.x }) = {};
+({ prop: obj.x } = {});
 ```
 
 Examples of **correct** code for this rule with the `{ "min": 4 }` option:
@@ -182,7 +182,7 @@ function foobar(...args) { }
 var { prop } = {};
 var { prop: a } = {};
 var { prop: [x] } = {};
-({ prop: obj.name }) = {};
+({ prop: obj.name } = {});
 var data = { "x": 1 };  // excused because of quotes
 data["y"] = 3;  // excused because of calculated property access
 ```
@@ -192,7 +192,7 @@ data["y"] = 3;  // excused because of calculated property access
 Examples of **incorrect** code for this rule with the `{ "max": 10 }` option:
 
 ```js
-/*eslint id-length: ["error", { "max": "10" }]*/
+/*eslint id-length: ["error", { "max": 10 }]*/
 /*eslint-env es6*/
 
 var reallyLongVarName = 5;
@@ -210,7 +210,7 @@ try {
 Examples of **correct** code for this rule with the `{ "max": 10 }` option:
 
 ```js
-/*eslint id-length: ["error", { "max": "10" }]*/
+/*eslint id-length: ["error", { "max": 10 }]*/
 /*eslint-env es6*/
 
 var varName = 5;
@@ -234,8 +234,8 @@ Examples of **correct** code for this rule with the `{ "properties": "never" }` 
 /*eslint-env es6*/
 
 var myObj = { a: 1 };
-({ a: obj.x.y.z }) = {};
-({ prop: obj.i }) = {};
+({ a: obj.x.y.z } = {});
+({ prop: obj.i } = {});
 ```
 
 ### exceptions

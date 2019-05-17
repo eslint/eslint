@@ -1,5 +1,7 @@
 "use strict";
 
+process.env.CHROME_BIN = require("puppeteer").executablePath();
+
 module.exports = function(config) {
     config.set({
 
@@ -18,7 +20,7 @@ module.exports = function(config) {
             "node_modules/chai/chai.js",
             "node_modules/sinon/pkg/sinon.js",
             "build/eslint.js",
-            "tests/lib/eslint.js"
+            "tests/lib/linter.js"
         ],
 
 
@@ -30,7 +32,7 @@ module.exports = function(config) {
         // preprocess matching files before serving them to the browser
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
         preprocessors: {
-            "tests/lib/eslint.js": ["babel"]
+            "tests/lib/linter.js": ["babel"]
         },
         babelPreprocessor: {
             options: {
@@ -67,8 +69,13 @@ module.exports = function(config) {
 
         // start these browsers
         // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-        browsers: ["PhantomJS"],
-
+        browsers: ["HeadlessChrome"],
+        customLaunchers: {
+          HeadlessChrome: {
+            base: 'ChromeHeadless',
+            flags: [ '--no-sandbox', ],
+             },
+            },
 
         // Continuous Integration mode
         // if true, Karma captures browsers, runs the tests and exits

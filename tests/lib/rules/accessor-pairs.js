@@ -18,6 +18,9 @@ const rule = require("../../../lib/rules/accessor-pairs"),
 
 const ruleTester = new RuleTester();
 
+const getterError = { messageId: "getter" };
+const setterError = { messageId: "setter" };
+
 ruleTester.run("accessor-pairs", rule, {
     valid: [
         "var o = { a: 1 };",
@@ -36,9 +39,9 @@ ruleTester.run("accessor-pairs", rule, {
         },
 
         // https://github.com/eslint/eslint/issues/3262
-        { code: "var o = {set: function() {}}" },
-        { code: "Object.defineProperties(obj, {set: {value: function() {}}});" },
-        { code: "Object.create(null, {set: {value: function() {}}});" },
+        "var o = {set: function() {}}",
+        "Object.defineProperties(obj, {set: {value: function() {}}});",
+        "Object.create(null, {set: {value: function() {}}});",
         { code: "var o = {get: function() {}}", options: [{ getWithoutSet: true }] },
         { code: "var o = {[set]: function() {}}", parserOptions: { ecmaVersion: 6 } },
         { code: "var set = 'value'; Object.defineProperty(obj, 'foo', {[set]: function(value) {}});", parserOptions: { ecmaVersion: 6 } }
@@ -46,49 +49,35 @@ ruleTester.run("accessor-pairs", rule, {
     invalid: [
         {
             code: "var o = {\n set a(value) {\n val = value; \n} \n};",
-            errors: [{
-                message: "Getter is not present."
-            }]
+            errors: [getterError]
         },
         {
             code: "var o = {\n get a() {\n return val; \n} \n};",
             options: [{
                 getWithoutSet: true
             }],
-            errors: [{
-                message: "Setter is not present."
-            }]
+            errors: [setterError]
         },
         {
             code: "var o = {d: 1};\n Object.defineProperty(o, 'c', \n{set: function(value) {\n val = value; \n} \n});",
-            errors: [{
-                message: "Getter is not present."
-            }]
+            errors: [getterError]
         },
         {
             code: "Reflect.defineProperty(obj, 'foo', {set: function(value) {}});",
-            errors: [{
-                message: "Getter is not present."
-            }]
+            errors: [getterError]
         },
         {
             code: "Object.defineProperties(obj, {foo: {set: function(value) {}}});",
-            errors: [{
-                message: "Getter is not present."
-            }]
+            errors: [getterError]
         },
         {
             code: "Object.create(null, {foo: {set: function(value) {}}});",
-            errors: [{
-                message: "Getter is not present."
-            }]
+            errors: [getterError]
         },
         {
             code: "var expr = 'foo';  var o = { set [expr](value) { val = value; } };",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{
-                message: "Getter is not present."
-            }]
+            errors: [getterError]
         }
     ]
 });

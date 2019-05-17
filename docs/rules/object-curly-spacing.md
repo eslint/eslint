@@ -126,7 +126,6 @@ var obj = { "foo": [ 1, 2 ]};
 var obj = { "foo": [ "baz", "bar" ]};
 ```
 
-
 #### objectsInObjects
 
 Examples of additional **correct** code for this rule with the `"never", { "objectsInObjects": true }` options:
@@ -151,5 +150,7 @@ You can turn this rule off if you are not concerned with the consistency of spac
 
 ## Related Rules
 
+* [array-bracket-spacing](array-bracket-spacing.md)
 * [comma-spacing](comma-spacing.md)
+* [computed-property-spacing](computed-property-spacing.md)
 * [space-in-parens](space-in-parens.md)

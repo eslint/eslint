@@ -71,10 +71,6 @@ const valid = [
     { code: "(a): T => a", options: ["as-needed", { requireForBlockBody: true }], parser: parser("return-type") }
 ];
 
-const message = "Expected parentheses around arrow function argument.";
-const asNeededMessage = "Unexpected parentheses around single function argument.";
-const requireForBlockBodyMessage = "Unexpected parentheses around single function argument having a body with no curly braces";
-const requireForBlockBodyNoParensMessage = "Expected parentheses around arrow function argument having a body with curly braces.";
 const type = "ArrowFunctionExpression";
 
 const invalid = [
@@ -86,7 +82,7 @@ const invalid = [
         errors: [{
             line: 1,
             column: 1,
-            message,
+            messageId: "expectedParens",
             type
         }]
     },
@@ -96,7 +92,7 @@ const invalid = [
         errors: [{
             line: 1,
             column: 1,
-            message,
+            messageId: "expectedParens",
             type
         }]
     },
@@ -106,7 +102,7 @@ const invalid = [
         errors: [{
             line: 1,
             column: 1,
-            message,
+            messageId: "expectedParens",
             type
         }]
     },
@@ -116,7 +112,7 @@ const invalid = [
         errors: [{
             line: 1,
             column: 8,
-            message,
+            messageId: "expectedParens",
             type
         }]
     },
@@ -126,7 +122,7 @@ const invalid = [
         errors: [{
             line: 1,
             column: 8,
-            message,
+            messageId: "expectedParens",
             type
         }]
     },
@@ -136,7 +132,7 @@ const invalid = [
         errors: [{
             line: 1,
             column: 3,
-            message,
+            messageId: "expectedParens",
             type
         }]
     },
@@ -147,7 +143,7 @@ const invalid = [
         errors: [{
             line: 1,
             column: 3,
-            message,
+            messageId: "expectedParens",
             type
         }]
     },
@@ -160,7 +156,19 @@ const invalid = [
         errors: [{
             line: 1,
             column: 1,
-            message: asNeededMessage,
+            messageId: "unexpectedParens",
+            type
+        }]
+    },
+    {
+        code: "(a,) => a",
+        output: "a => a",
+        options: ["as-needed"],
+        parserOptions: { ecmaVersion: 8 },
+        errors: [{
+            line: 1,
+            column: 1,
+            messageId: "unexpectedParens",
             type
         }]
     },
@@ -172,7 +180,19 @@ const invalid = [
         errors: [{
             line: 1,
             column: 1,
-            message: asNeededMessage,
+            messageId: "unexpectedParens",
+            type
+        }]
+    },
+    {
+        code: "async(a) => a",
+        output: "async a => a",
+        options: ["as-needed"],
+        parserOptions: { ecmaVersion: 8 },
+        errors: [{
+            line: 1,
+            column: 1,
+            messageId: "unexpectedParens",
             type
         }]
     },
@@ -185,7 +205,7 @@ const invalid = [
         errors: [{
             line: 1,
             column: 1,
-            message: requireForBlockBodyNoParensMessage,
+            messageId: "expectedParensBlock",
             type
         }]
     },
@@ -196,7 +216,7 @@ const invalid = [
         errors: [{
             line: 1,
             column: 1,
-            message: requireForBlockBodyMessage,
+            messageId: "unexpectedParensInline",
             type
         }]
     },
@@ -208,7 +228,7 @@ const invalid = [
         errors: [{
             line: 1,
             column: 1,
-            message: requireForBlockBodyNoParensMessage,
+            messageId: "expectedParensBlock",
             type
         }]
     },
@@ -220,7 +240,19 @@ const invalid = [
         errors: [{
             line: 1,
             column: 1,
-            message: requireForBlockBodyMessage,
+            messageId: "unexpectedParensInline",
+            type
+        }]
+    },
+    {
+        code: "async(a) => a",
+        output: "async a => a",
+        options: ["as-needed", { requireForBlockBody: true }],
+        parserOptions: { ecmaVersion: 8 },
+        errors: [{
+            line: 1,
+            column: 1,
+            messageId: "unexpectedParensInline",
             type
         }]
     }

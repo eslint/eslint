@@ -37,8 +37,9 @@ This rule also accepts an additional `exceptions` object:
     * `"ObjectExpression": true` ignores comma style in object literals
     * `"ObjectPattern": true` ignores comma style in object patterns of destructuring
     * `"VariableDeclaration": true` ignores comma style in variable declarations
+    * `"NewExpression": true` ignores comma style in the parameters of constructor expressions
 
-A way to determine the node types as defined by [ESTree](https://github.com/estree/estree) is to use the [online demo](http://eslint.org/parser).
+A way to determine the node types as defined by [ESTree](https://github.com/estree/estree) is to use the [online demo](https://eslint.org/parser).
 
 ### last
 

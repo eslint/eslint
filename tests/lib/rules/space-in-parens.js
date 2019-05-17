@@ -57,7 +57,7 @@ ruleTester.run("space-in-parens", rule, {
         { code: "foo( baz /* bar */ )", options: ["always"] },
         { code: "foo(/* bar */)", options: ["never"] },
         { code: "foo(/* bar */ baz)", options: ["never"] },
-        { code: "foo( //some comment\nbar\n)\n" },
+        "foo( //some comment\nbar\n)\n",
         { code: "foo(//some comment\nbar\n)\n", options: ["never"] },
         { code: "foo( //some comment\nbar\n)\n", options: ["never"] },
 
@@ -110,7 +110,8 @@ ruleTester.run("space-in-parens", rule, {
         { code: "foo( ); bar( {bar:'baz'} ); baz( [1,2] )", options: ["never", { exceptions: ["{}", "[]", "empty"] }] },
 
         // faulty exceptions option
-        { code: "foo( { bar: 'baz' } )", options: ["always", { exceptions: [] }] }
+        { code: "foo( { bar: 'baz' } )", options: ["always", { exceptions: [] }] },
+        { code: "foo( { bar: 'baz' } )", options: ["always", {}] }
     ],
 
     invalid: [
@@ -338,12 +339,6 @@ ruleTester.run("space-in-parens", rule, {
             ]
         },
         {
-            code: "(( 1 + 2 ))",
-            output: "( ( 1 + 2 ) )",
-            options: ["always", { exceptions: ["[]"] }],
-            errors: [MISSING_SPACE_ERROR, MISSING_SPACE_ERROR]
-        },
-        {
             code: "( ( 1 + 2 ) )",
             output: "((1 + 2))",
             options: ["never"],
@@ -400,12 +395,6 @@ ruleTester.run("space-in-parens", rule, {
             code: "var result = ( 1 / ( 1 + 2)) + 3",
             output: "var result = ( 1 / ( 1 + 2 )) + 3",
             options: ["always", { exceptions: ["()"] }],
-            errors: [MISSING_SPACE_ERROR]
-        },
-        {
-            code: "var result = (1 / (1 + 2)) + 3",
-            output: "var result = (1 / (1 + 2) ) + 3",
-            options: ["never", { exceptions: ["()"] }],
             errors: [MISSING_SPACE_ERROR]
         },
         {

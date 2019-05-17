@@ -5,6 +5,7 @@ build/
 npm-debug.log
 .DS_Store
 tmp/
+debug/
 .idea
 jsdoc/
 versions.json
@@ -14,3 +15,4 @@ versions.json
 /packages/**/node_modules
 /.vscode
 .sublimelinterrc
+.eslint-release-info.json

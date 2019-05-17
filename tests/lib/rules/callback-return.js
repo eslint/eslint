@@ -12,9 +12,8 @@ const rule = require("../../../lib/rules/callback-return"),
     RuleTester = require("../../../lib/testers/rule-tester");
 
 //------------------------------------------------------------------------------
-// Helpers
+// Tests
 //------------------------------------------------------------------------------
-
 
 const ruleTester = new RuleTester();
 
@@ -157,7 +156,7 @@ ruleTester.run("callback-return", rule, {
         {
             code: "function a(err) { if (err) { callback (err); } }",
             errors: [{
-                message: "Expected return with your callback function.",
+                messageId: "missingReturn",
                 line: 1,
                 column: 30,
                 nodeType: "CallExpression"
@@ -166,7 +165,7 @@ ruleTester.run("callback-return", rule, {
         {
             code: "function a(callback) { if (typeof callback !== 'undefined') { callback(); } }",
             errors: [{
-                message: "Expected return with your callback function.",
+                messageId: "missingReturn",
                 line: 1,
                 column: 63,
                 nodeType: "CallExpression"
@@ -175,7 +174,7 @@ ruleTester.run("callback-return", rule, {
         {
             code: "function a(callback) { if (typeof callback !== 'undefined') callback();  }",
             errors: [{
-                message: "Expected return with your callback function.",
+                messageId: "missingReturn",
                 line: 1,
                 column: 61,
                 nodeType: "CallExpression"
@@ -184,7 +183,7 @@ ruleTester.run("callback-return", rule, {
         {
             code: "function a(callback) { if (err) { callback(); horse && horse(); } }",
             errors: [{
-                message: "Expected return with your callback function.",
+                messageId: "missingReturn",
                 line: 1,
                 column: 35,
                 nodeType: "CallExpression"
@@ -194,7 +193,7 @@ ruleTester.run("callback-return", rule, {
             code: "var x = (err) => { if (err) { callback (err); } }",
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Expected return with your callback function.",
+                messageId: "missingReturn",
                 line: 1,
                 column: 31,
                 nodeType: "CallExpression"
@@ -204,7 +203,7 @@ ruleTester.run("callback-return", rule, {
             code: "var x = { x(err) { if (err) { callback (err); } } }",
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Expected return with your callback function.",
+                messageId: "missingReturn",
                 line: 1,
                 column: 31,
                 nodeType: "CallExpression"
@@ -213,7 +212,7 @@ ruleTester.run("callback-return", rule, {
         {
             code: "function x(err) { if (err) {\n log();\n callback(err); } }",
             errors: [{
-                message: "Expected return with your callback function.",
+                messageId: "missingReturn",
                 line: 3,
                 column: 2,
                 nodeType: "CallExpression"
@@ -223,7 +222,7 @@ ruleTester.run("callback-return", rule, {
             code: "var x = { x(err) { if (err) { callback && callback (err); } } }",
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Expected return with your callback function.",
+                messageId: "missingReturn",
                 line: 1,
                 column: 43,
                 nodeType: "CallExpression"
@@ -232,7 +231,7 @@ ruleTester.run("callback-return", rule, {
         {
             code: "function a(err) { callback (err); callback(); }",
             errors: [{
-                message: "Expected return with your callback function.",
+                messageId: "missingReturn",
                 line: 1,
                 column: 19,
                 nodeType: "CallExpression"
@@ -241,7 +240,7 @@ ruleTester.run("callback-return", rule, {
         {
             code: "function a(err) { callback (err); horse(); }",
             errors: [{
-                message: "Expected return with your callback function.",
+                messageId: "missingReturn",
                 line: 1,
                 column: 19,
                 nodeType: "CallExpression"
@@ -250,7 +249,7 @@ ruleTester.run("callback-return", rule, {
         {
             code: "function a(err) { if (err) { callback (err); horse(); return; } }",
             errors: [{
-                message: "Expected return with your callback function.",
+                messageId: "missingReturn",
                 line: 1,
                 column: 30,
                 nodeType: "CallExpression"
@@ -260,7 +259,7 @@ ruleTester.run("callback-return", rule, {
             code: "var a = (err) => { callback (err); callback(); }",
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Expected return with your callback function.",
+                messageId: "missingReturn",
                 line: 1,
                 column: 20,
                 nodeType: "CallExpression"
@@ -269,7 +268,7 @@ ruleTester.run("callback-return", rule, {
         {
             code: "function a(err) { if (err) { callback (err); } else if (x) { callback(err); return; } }",
             errors: [{
-                message: "Expected return with your callback function.",
+                messageId: "missingReturn",
                 line: 1,
                 column: 30,
                 nodeType: "CallExpression"
@@ -278,7 +277,7 @@ ruleTester.run("callback-return", rule, {
         {
             code: "function x(err) { if (err) { return callback(); }\nelse if (abc) {\ncallback(); }\nelse {\nreturn callback(); } }",
             errors: [{
-                message: "Expected return with your callback function.",
+                messageId: "missingReturn",
                 line: 3,
                 column: 1,
                 nodeType: "CallExpression"
@@ -289,7 +288,7 @@ ruleTester.run("callback-return", rule, {
             code: "class x { horse() { if (err) { callback(); } callback(); } } ",
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Expected return with your callback function.",
+                messageId: "missingReturn",
                 line: 1,
                 column: 32,
                 nodeType: "CallExpression"
@@ -301,12 +300,12 @@ ruleTester.run("callback-return", rule, {
         {
             code: "function x(err) { if (err) { callback() } else { callback() } }",
             errors: [{
-                message: "Expected return with your callback function.",
+                messageId: "missingReturn",
                 line: 1,
                 column: 30,
                 nodeType: "CallExpression"
             }, {
-                message: "Expected return with your callback function.",
+                messageId: "missingReturn",
                 line: 1,
                 column: 50,
                 nodeType: "CallExpression"
@@ -316,7 +315,7 @@ ruleTester.run("callback-return", rule, {
             code: "function x(err) { if (err) return callback(); else callback(); }",
             errors: [
                 {
-                    message: "Expected return with your callback function.",
+                    messageId: "missingReturn",
                     line: 1,
                     column: 52,
                     nodeType: "CallExpression"
@@ -328,7 +327,7 @@ ruleTester.run("callback-return", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Expected return with your callback function.",
+                    messageId: "missingReturn",
                     line: 1,
                     column: 18,
                     nodeType: "CallExpression"
@@ -339,7 +338,7 @@ ruleTester.run("callback-return", rule, {
             code: "function b() { switch(x) { case 'horse': callback(); } }",
             errors: [
                 {
-                    message: "Expected return with your callback function.",
+                    messageId: "missingReturn",
                     line: 1,
                     column: 42,
                     nodeType: "CallExpression"
@@ -351,7 +350,7 @@ ruleTester.run("callback-return", rule, {
             options: [["move"]],
             errors: [
                 {
-                    message: "Expected return with your callback function.",
+                    messageId: "missingReturn",
                     line: 1,
                     column: 42,
                     nodeType: "CallExpression"
@@ -365,7 +364,7 @@ ruleTester.run("callback-return", rule, {
             options: [["move"]],
             errors: [
                 {
-                    message: "Expected return with your callback function.",
+                    messageId: "missingReturn",
                     line: 1,
                     column: 33,
                     nodeType: "CallExpression"
@@ -377,7 +376,7 @@ ruleTester.run("callback-return", rule, {
             options: [["move"]],
             errors: [
                 {
-                    message: "Expected return with your callback function.",
+                    messageId: "missingReturn",
                     line: 1,
                     column: 47,
                     nodeType: "CallExpression"
@@ -389,7 +388,7 @@ ruleTester.run("callback-return", rule, {
             options: [["move"]],
             errors: [
                 {
-                    message: "Expected return with your callback function.",
+                    messageId: "missingReturn",
                     line: 1,
                     column: 51,
                     nodeType: "CallExpression"
@@ -401,7 +400,7 @@ ruleTester.run("callback-return", rule, {
             options: [["obj.method"]],
             errors: [
                 {
-                    message: "Expected return with your callback function.",
+                    messageId: "missingReturn",
                     line: 1,
                     column: 30,
                     nodeType: "CallExpression"
@@ -413,7 +412,7 @@ ruleTester.run("callback-return", rule, {
             options: [["obj.prop.method"]],
             errors: [
                 {
-                    message: "Expected return with your callback function.",
+                    messageId: "missingReturn",
                     line: 1,
                     column: 30,
                     nodeType: "CallExpression"
@@ -425,7 +424,7 @@ ruleTester.run("callback-return", rule, {
             options: [["obj.prop.method", "otherObj.prop.method"]],
             errors: [
                 {
-                    message: "Expected return with your callback function.",
+                    messageId: "missingReturn",
                     line: 1,
                     column: 30,
                     nodeType: "CallExpression"
@@ -437,7 +436,7 @@ ruleTester.run("callback-return", rule, {
             options: [["obj.method"]],
             errors: [
                 {
-                    message: "Expected return with your callback function.",
+                    messageId: "missingReturn",
                     line: 1,
                     column: 41,
                     nodeType: "CallExpression"
@@ -449,7 +448,7 @@ ruleTester.run("callback-return", rule, {
             options: [["obj.method"]],
             errors: [
                 {
-                    message: "Expected return with your callback function.",
+                    messageId: "missingReturn",
                     line: 2,
                     column: 1,
                     nodeType: "CallExpression"
@@ -461,7 +460,7 @@ ruleTester.run("callback-return", rule, {
             options: [["obj.method"]],
             errors: [
                 {
-                    message: "Expected return with your callback function.",
+                    messageId: "missingReturn",
                     line: 1,
                     column: 30,
                     nodeType: "CallExpression"
@@ -473,7 +472,7 @@ ruleTester.run("callback-return", rule, {
             options: [["obj.method"]],
             errors: [
                 {
-                    message: "Expected return with your callback function.",
+                    messageId: "missingReturn",
                     line: 1,
                     column: 30,
                     nodeType: "CallExpression"

@@ -170,6 +170,10 @@ ruleTester.run("valid-jsdoc", rule, {
             options: [{ requireReturnType: false }]
         },
         {
+            code: "/**\n* Description\n* @param p bar\n* @returns {void}*/\nFoo.bar = function(p){var t = function(){function name(){}; return name;}};",
+            options: [{ requireParamType: false }]
+        },
+        {
             code:
                 "/**\n" +
                 " * A thing interface. \n" +
@@ -265,6 +269,43 @@ ruleTester.run("valid-jsdoc", rule, {
                 " */\n" +
                 "function foo() {}",
             options: [{ requireReturn: false }]
+        },
+
+        // async function
+        {
+            code:
+              "/**\n" +
+              " * An async function. Options requires return.\n" +
+              " * @returns {Promise} that is empty\n" +
+              " */\n" +
+              "async function a() {}",
+            options: [{ requireReturn: true }],
+            parserOptions: {
+                ecmaVersion: 2017
+            }
+        },
+        {
+            code:
+              "/**\n" +
+              " * An async function. Options do not require return.\n" +
+              " * @returns {Promise} that is empty\n" +
+              " */\n" +
+              "async function a() {}",
+            options: [{ requireReturn: false }],
+            parserOptions: {
+                ecmaVersion: 2017
+            }
+        },
+        {
+            code:
+              "/**\n" +
+              " * An async function. Options do not require return.\n" +
+              " */\n" +
+              "async function a() {}",
+            options: [{ requireReturn: false }],
+            parserOptions: {
+                ecmaVersion: 2017
+            }
         },
 
         // type validations
@@ -499,6 +540,434 @@ ruleTester.run("valid-jsdoc", rule, {
             "function foo(){ throw new Error('Not Implemented'); }",
             options: [{ requireReturn: false }]
         },
+
+        // https://github.com/eslint/eslint/issues/9412 - different orders for jsodc tags
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @return {Number} desc\n" +
+            "* @constructor \n" +
+            "* @override\n" +
+            "* @abstract\n" +
+            "* @interface\n" +
+            "* @param {string} hi - desc\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @returns {Number} desc\n" +
+            "* @class \n" +
+            "* @inheritdoc\n" +
+            "* @virtual\n" +
+            "* @interface\n" +
+            "* @param {string} hi - desc\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @return {Number} desc\n" +
+            "* @constructor \n" +
+            "* @override\n" +
+            "* @abstract\n" +
+            "* @interface\n" +
+            "* @arg {string} hi - desc\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @returns {Number} desc\n" +
+            "* @class \n" +
+            "* @inheritdoc\n" +
+            "* @virtual\n" +
+            "* @interface\n" +
+            "* @arg {string} hi - desc\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @return {Number} desc\n" +
+            "* @constructor \n" +
+            "* @override\n" +
+            "* @abstract\n" +
+            "* @interface\n" +
+            "* @argument {string} hi - desc\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @returns {Number} desc\n" +
+            "* @class \n" +
+            "* @inheritdoc\n" +
+            "* @virtual\n" +
+            "* @interface\n" +
+            "* @argument {string} hi - desc\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @constructor \n" +
+            "* @override\n" +
+            "* @abstract\n" +
+            "* @interface\n" +
+            "* @param {string} hi - desc\n" +
+            "* @return {Number} desc\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @class \n" +
+            "* @inheritdoc\n" +
+            "* @virtual\n" +
+            "* @interface\n" +
+            "* @arg {string} hi - desc\n" +
+            "* @return {Number} desc\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @argument {string} hi - desc\n" +
+            "* @return {Number} desc\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @constructor \n" +
+            "* @override\n" +
+            "* @abstract\n" +
+            "* @interface\n" +
+            "* @param {string} hi - desc\n" +
+            "* @returns {Number} desc\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @class \n" +
+            "* @inheritdoc\n" +
+            "* @virtual\n" +
+            "* @interface\n" +
+            "* @arg {string} hi - desc\n" +
+            "* @returns {Number} desc\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @argument {string} hi - desc\n" +
+            "* @returns {Number} desc\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @override\n" +
+            "* @abstract\n" +
+            "* @interface\n" +
+            "* @param {string} hi - desc\n" +
+            "* @return {Number} desc\n" +
+            "* @constructor\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @inheritdoc\n" +
+            "* @virtual\n" +
+            "* @interface\n" +
+            "* @arg {string} hi - desc\n" +
+            "* @returns {Number} desc\n" +
+            "* @constructor\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @argument {string} hi - desc\n" +
+            "* @constructor\n" +
+            "*/\n" +
+            "function foo(hi){}",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @override\n" +
+            "* @abstract\n" +
+            "* @interface\n" +
+            "* @param {string} hi - desc\n" +
+            "* @return {Number} desc\n" +
+            "* @class\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @inheritdoc\n" +
+            "* @virtual\n" +
+            "* @interface\n" +
+            "* @arg {string} hi - desc\n" +
+            "* @returns {Number} desc\n" +
+            "* @class\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @argument {string} hi - desc\n" +
+            "* @class \n" +
+            "*/\n" +
+            "function foo(hi){}",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @abstract\n" +
+            "* @interface\n" +
+            "* @param {string} hi - desc\n" +
+            "* @return {Number} desc\n" +
+            "* @constructor\n" +
+            "* @override\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @virtual\n" +
+            "* @interface\n" +
+            "* @arg {string} hi - desc\n" +
+            "* @returns {Number} desc\n" +
+            "* @class\n" +
+            "* @override\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @argument {string} hi - desc\n" +
+            "* @override\n" +
+            "*/\n" +
+            "function foo(hi){}",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @abstract\n" +
+            "* @interface\n" +
+            "* @param {string} hi - desc\n" +
+            "* @return {Number} desc\n" +
+            "* @constructor\n" +
+            "* @inheritdoc\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @virtual\n" +
+            "* @interface\n" +
+            "* @arg {string} hi - desc\n" +
+            "* @returns {Number} desc\n" +
+            "* @class\n" +
+            "* @inheritdoc\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @argument {string} hi - desc\n" +
+            "* @inheritdoc\n" +
+            "*/\n" +
+            "function foo(hi){}",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @interface\n" +
+            "* @param {string} hi - desc\n" +
+            "* @return {Number} desc\n" +
+            "* @constructor\n" +
+            "* @override\n" +
+            "* @abstract\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @interface\n" +
+            "* @arg {string} hi - desc\n" +
+            "* @returns {Number} desc\n" +
+            "* @class\n" +
+            "* @override\n" +
+            "* @abstract\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @argument {string} hi - desc\n" +
+            "* @abstract\n" +
+            "*/\n" +
+            "function foo(hi){}",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @interface\n" +
+            "* @param {string} hi - desc\n" +
+            "* @return {Number} desc\n" +
+            "* @constructor\n" +
+            "* @override\n" +
+            "* @virtual\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @interface\n" +
+            "* @arg {string} hi - desc\n" +
+            "* @returns {Number} desc\n" +
+            "* @class\n" +
+            "* @override\n" +
+            "* @virtual\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @argument {string} hi - desc\n" +
+            "* @virtual\n" +
+            "*/\n" +
+            "function foo(hi){}",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @param {string} hi - desc\n" +
+            "* @return {Number} desc\n" +
+            "* @constructor \n" +
+            "* @override\n" +
+            "* @abstract\n" +
+            "* @interface\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @arg {string} hi - desc\n" +
+            "* @returns {Number} desc\n" +
+            "* @class\n" +
+            "* @override\n" +
+            "* @virtual\n" +
+            "* @interface\n" +
+            "*/\n" +
+            "function foo(hi){ return 1; }",
+            options: [{ requireReturn: false }]
+        },
+        {
+            code:
+            "/**\n" +
+            "* Description\n" +
+            "* @argument {string} hi - desc\n" +
+            "* @interface\n" +
+            "*/\n" +
+            "function foo(hi){}",
+            options: [{ requireReturn: false }]
+        },
         {
             code:
             "/**\n" +
@@ -559,24 +1028,18 @@ ruleTester.run("valid-jsdoc", rule, {
         },
 
         // https://github.com/eslint/eslint/issues/7184
-        {
-            code:
-            "/**\n" +
+        "/**\n" +
             "* Foo\n" +
             "* @param {{foo}} hi - desc\n" +
             "* @returns {ASTNode} returns a node\n" +
             "*/\n" +
-            "function foo(hi){}"
-        },
-        {
-            code:
-            "/**\n" +
+            "function foo(hi){}",
+        "/**\n" +
             "* Foo\n" +
             "* @param {{foo:String, bar, baz:Array}} hi - desc\n" +
             "* @returns {ASTNode} returns a node\n" +
             "*/\n" +
-            "function foo(hi){}"
-        },
+            "function foo(hi){}",
         {
             code:
             "/**\n" +
@@ -622,16 +1085,23 @@ ruleTester.run("valid-jsdoc", rule, {
                 "    return 'the return';\n" +
                 "  }\n" +
                 ");\n",
+            output: null,
             options: [{ requireReturn: false }],
             errors: [{
-                message: "Expected JSDoc for 'argName' but found 'bogusName'.",
-                type: "Block"
+                messageId: "expected",
+                data: { name: "argName", jsdocName: "bogusName" },
+                type: "Block",
+                line: 4,
+                column: 6,
+                endLine: 4,
+                endColumn: 62
             }]
         },
         {
             code: "/** @@foo */\nfunction foo(){}",
+            output: null,
             errors: [{
-                message: "JSDoc syntax error.",
+                messageId: "syntaxError",
                 type: "Block"
             }]
         },
@@ -648,121 +1118,177 @@ ruleTester.run("valid-jsdoc", rule, {
                 "    return 'bar';\n" +
                 "  }\n" +
                 "});\n",
+            output: null,
             options: [{ requireReturn: false }],
             errors: [{
-                message: "Missing JSDoc @returns for function.",
+                messageId: "missingReturn",
+                data: { returns: "returns" },
                 type: "Block"
             }]
         },
         {
             code: "/** @@returns {void} Foo */\nfunction foo(){}",
+            output: null,
             errors: [{
-                message: "JSDoc syntax error.",
+                messageId: "syntaxError",
                 type: "Block"
             }]
         },
         {
             code: "/** Foo \n@returns {void Foo\n */\nfunction foo(){}",
+            output: null,
             errors: [{
-                message: "JSDoc type missing brace.",
+                messageId: "missingBrace",
                 type: "Block"
             }]
         },
         {
             code: "/** Foo \n@return {void} Foo\n */\nfunction foo(){}",
+            output: "/** Foo \n@returns {void} Foo\n */\nfunction foo(){}",
             options: [{ prefer: { return: "returns" } }],
             errors: [{
-                message: "Use @returns instead.",
-                type: "Block"
+                messageId: "use",
+                data: { name: "returns" },
+                type: "Block",
+                line: 2,
+                column: 1,
+                endLine: 2,
+                endColumn: 8
             }]
         },
         {
             code: "/** Foo \n@argument {int} bar baz\n */\nfunction foo(bar){}",
+            output: "/** Foo \n@arg {int} bar baz\n */\nfunction foo(bar){}",
             options: [{ prefer: { argument: "arg" } }],
             errors: [{
-                message: "Use @arg instead.",
+                messageId: "missingReturn",
+                data: { returns: "returns" },
                 type: "Block"
             }, {
-                message: "Missing JSDoc @returns for function.",
-                type: "Block"
+                messageId: "use",
+                data: { name: "arg" },
+                type: "Block",
+                line: 2,
+                column: 1,
+                endLine: 2,
+                endColumn: 10
             }]
         },
         {
             code: "/** Foo \n */\nfunction foo(){}",
+            output: null,
             options: [{ prefer: { returns: "return" } }],
             errors: [{
-                message: "Missing JSDoc @return for function.",
+                messageId: "missingReturn",
+                data: { returns: "return" },
                 type: "Block"
             }]
         },
         {
             code: "/** Foo \n@return {void} Foo\n */\nfoo.bar = () => {}",
+            output: "/** Foo \n@returns {void} Foo\n */\nfoo.bar = () => {}",
             options: [{ prefer: { return: "returns" } }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Use @returns instead.",
-                type: "Block"
+                messageId: "use",
+                data: { name: "returns" },
+                type: "Block",
+                line: 2,
+                column: 1,
+                endLine: 2,
+                endColumn: 8
             }]
         },
         {
             code: "/** Foo \n@param {void Foo\n */\nfunction foo(){}",
+            output: null,
             errors: [{
-                message: "JSDoc type missing brace.",
+                messageId: "missingBrace",
                 type: "Block"
             }]
         },
         {
             code: "/** Foo \n@param {} p Bar\n */\nfunction foo(){}",
+            output: null,
             errors: [{
-                message: "JSDoc syntax error.",
+                messageId: "syntaxError",
                 type: "Block"
             }]
         },
         {
             code: "/** Foo \n@param {void Foo */\nfunction foo(){}",
+            output: null,
             errors: [{
-                message: "JSDoc type missing brace.",
+                messageId: "missingBrace",
                 type: "Block"
             }]
         },
         {
             code: "/** Foo\n* @param p Desc \n*/\nfunction foo(){}",
+            output: null,
             errors: [{
-                message: "Missing JSDoc parameter type for 'p'.",
+                messageId: "missingReturn",
+                data: { returns: "returns" },
                 type: "Block"
             }, {
-                message: "Missing JSDoc @returns for function.",
-                type: "Block"
+                messageId: "missingParamType",
+                data: { name: "p" },
+                type: "Block",
+                line: 2,
+                column: 3,
+                endLine: 2,
+                endColumn: 16
             }]
         },
         {
             code: "/**\n* Foo\n* @param {string} p \n*/\nfunction foo(){}",
+            output: null,
             errors: [{
-                message: "Missing JSDoc parameter description for 'p'.",
+                messageId: "missingReturn",
+                data: { returns: "returns" },
                 type: "Block"
             }, {
-                message: "Missing JSDoc @returns for function.",
-                type: "Block"
+                messageId: "missingParamDesc",
+                data: { name: "p" },
+                type: "Block",
+                line: 3,
+                column: 3,
+                endLine: 3,
+                endColumn: 20
             }]
         },
         {
             code: "/**\n* Foo\n* @param {string} p \n*/\nvar foo = function(){}",
+            output: null,
             errors: [{
-                message: "Missing JSDoc parameter description for 'p'.",
+                messageId: "missingReturn",
+                data: { returns: "returns" },
                 type: "Block"
             }, {
-                message: "Missing JSDoc @returns for function.",
-                type: "Block"
+                messageId: "missingParamDesc",
+                data: { name: "p" },
+                type: "Block",
+                line: 3,
+                column: 3,
+                endLine: 3,
+                endColumn: 20
             }]
         },
         {
             code: "/**\n* Foo\n* @param {string} p \n*/\nvar foo = \nfunction(){}",
+            output: null,
             errors: [{
-                message: "Missing JSDoc parameter description for 'p'.",
+                messageId: "missingReturn",
+                data: { returns: "returns" },
                 type: "Block"
             }, {
-                message: "Missing JSDoc @returns for function.",
-                type: "Block"
+                messageId: "missingParamDesc",
+                data: { name: "p" },
+                type: "Block",
+                line: 3,
+                column: 3,
+                endLine: 3,
+                endColumn: 20
             }]
         },
         {
@@ -780,198 +1306,288 @@ ruleTester.run("valid-jsdoc", rule, {
             "        this.a = xs;" +
             "    }\n" +
             "};",
+            output: null,
             options: [{
                 requireReturn: true,
                 matchDescription: "^[A-Z][A-Za-z0-9\\s]*[.]$"
             }],
-            errors: [
-                {
-                    message: "JSDoc description does not satisfy the regex pattern.",
-                    type: "Block"
-                },
-                {
-                    message: "Missing JSDoc @returns for function.",
-                    type: "Block"
-                }
-            ],
             parserOptions: {
                 ecmaVersion: 6
-            }
-        },
-        {
-            code: "/**\n* Foo\n* @returns {string} \n*/\nfunction foo(){}",
-            errors: [{
-                message: "Missing JSDoc return description.",
-                type: "Block"
-            }]
-        },
-        {
-            code: "/**\n* Foo\n* @returns {string} something \n*/\nfunction foo(p){}",
-            errors: [{
-                message: "Missing JSDoc for parameter 'p'.",
-                type: "Block"
-            }]
-        },
-        {
-            code: "/**\n* Foo\n* @returns {string} something \n*/\nvar foo = \nfunction foo(a = 1){}",
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{
-                message: "Missing JSDoc for parameter 'a'.",
-                type: "Block"
-            }]
-        },
-        {
-            code: "/**\n* Foo\n* @param {string} a Description \n* @param {string} b Description \n* @returns {string} something \n*/\nvar foo = \nfunction foo(b, a = 1){}",
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{
-                message: "Expected JSDoc for 'b' but found 'a'.",
-                type: "Block"
             },
-            {
-                message: "Expected JSDoc for 'a' but found 'b'.",
-                type: "Block"
-            }]
-        },
-        {
-            code: "/**\n* Foo\n* @param {string} p desc\n* @param {string} p desc \n*/\nfunction foo(){}",
-            errors: [{
-                message: "Duplicate JSDoc parameter 'p'.",
-                type: "Block"
-            }, {
-                message: "Missing JSDoc @returns for function.",
-                type: "Block"
-            }]
-        },
-        {
-            code: "/**\n* Foo\n* @param {string} a desc\n@returns {void}*/\nfunction foo(b){}",
-            errors: [{
-                message: "Expected JSDoc for 'b' but found 'a'.",
-                type: "Block"
-            }]
-        },
-        {
-            code: "/**\n* Foo\n* @override\n* @param {string} a desc\n */\nfunction foo(b){}",
-            errors: [{
-                message: "Expected JSDoc for 'b' but found 'a'.",
-                type: "Block"
-            }]
-        },
-        {
-            code: "/**\n* Foo\n* @inheritdoc\n* @param {string} a desc\n */\nfunction foo(b){}",
-            errors: [{
-                message: "Expected JSDoc for 'b' but found 'a'.",
-                type: "Block"
-            }]
-        },
-        {
-            code: "/**\n* Foo\n* @param {string} a desc\n*/\nfunction foo(a){var t = false; if(t) {return t;}}",
-            options: [{ requireReturn: false }],
-            errors: [{
-                message: "Missing JSDoc @returns for function.",
-                type: "Block"
-            }]
-        },
-        {
-            code: "/**\n* Foo\n* @param {string} a desc\n*/\nfunction foo(a){var t = false; if(t) {return null;}}",
-            options: [{ requireReturn: false }],
-            errors: [{
-                message: "Missing JSDoc @returns for function.",
-                type: "Block"
-            }]
-        },
-        {
-            code: "/**\n* Foo\n* @param {string} a desc\n@returns {MyClass}*/\nfunction foo(a){var t = false; if(t) {process(t);}}",
-            options: [{ requireReturn: false }],
-            errors: [{
-                message: "Unexpected @returns tag; function has no return statement.",
-                type: "Block"
-            }]
-        },
-        {
-            code: "/**\n * Does something. \n* @param {string} a - this is a \n* @return {Array<number>} The result of doing it \n*/\n export function doSomething(a) { }",
-            options: [{ prefer: { return: "returns" } }],
-            parserOptions: { sourceType: "module" },
-            errors: [{
-                message: "Use @returns instead.",
-                type: "Block"
-            }]
-        },
-        {
-            code: "/**\n * Does something. \n* @param {string} a - this is a \n* @return {Array<number>} The result of doing it \n*/\n export default function doSomething(a) { }",
-            options: [{ prefer: { return: "returns" } }],
-            parserOptions: { sourceType: "module" },
-            errors: [{
-                message: "Use @returns instead.",
-                type: "Block"
-            }]
-        },
-        {
-            code: "/** foo */ var foo = () => bar();",
-            options: [{ requireReturn: false }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{
-                message: "Missing JSDoc @returns for function.",
-                type: "Block"
-            }]
-        },
-        {
-            code: "/** foo */ var foo = () => { return bar(); };",
-            options: [{ requireReturn: false }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{
-                message: "Missing JSDoc @returns for function.",
-                type: "Block"
-            }]
-        },
-        {
-            code: "/** @returns {object} foo */ var foo = () => { bar(); };",
-            options: [{ requireReturn: false }],
-            parserOptions: { ecmaVersion: 6 },
-            errors: [{
-                message: "Unexpected @returns tag; function has no return statement.",
-                type: "Block"
-            }]
-        },
-        {
-            code: "/**\n* @param fields [Array]\n */\n function foo(){}",
             errors: [
                 {
-                    message: "Missing JSDoc parameter type for 'fields'.",
+                    messageId: "unsatisfiedDesc",
                     type: "Block"
                 },
                 {
-                    message: "Missing JSDoc @returns for function.",
+                    messageId: "missingReturn",
+                    data: { returns: "returns" },
                     type: "Block"
                 }
             ]
         },
         {
+            code: "/**\n* Foo\n* @returns {string} \n*/\nfunction foo(){}",
+            output: null,
+            errors: [{
+                messageId: "missingReturnDesc",
+                type: "Block"
+            }]
+        },
+        {
+            code: "/**\n* Foo\n* @returns {string} something \n*/\nfunction foo(p){}",
+            output: null,
+            errors: [{
+                messageId: "missingParam",
+                data: { name: "p" },
+                type: "Block"
+            }]
+        },
+        {
+            code: "/**\n* Foo\n* @returns {string} something \n*/\nvar foo = \nfunction foo(a = 1){}",
+            output: null,
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "missingParam",
+                data: { name: "a" },
+                type: "Block"
+            }]
+        },
+        {
+            code: "/**\n* Foo\n* @param {string} a Description \n* @param {string} b Description \n* @returns {string} something \n*/\nvar foo = \nfunction foo(b, a = 1){}",
+            output: null,
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "expected",
+                data: { name: "b", jsdocName: "a" },
+                type: "Block",
+                line: 3,
+                column: 3,
+                endLine: 3,
+                endColumn: 32
+            },
+            {
+                messageId: "expected",
+                data: { name: "a", jsdocName: "b" },
+                type: "Block",
+                line: 4,
+                column: 3,
+                endLine: 4,
+                endColumn: 32
+            }]
+        },
+        {
+            code: "/**\n* Foo\n* @param {string} p desc\n* @param {string} p desc \n*/\nfunction foo(){}",
+            output: null,
+            errors: [{
+                messageId: "missingReturn",
+                data: { returns: "returns" },
+                type: "Block"
+            }, {
+                messageId: "duplicateParam",
+                data: { name: "p" },
+                type: "Block",
+                line: 4,
+                column: 3,
+                endLine: 4,
+                endColumn: 25
+            }]
+        },
+        {
+            code: "/**\n* Foo\n* @param {string} a desc\n@returns {void}*/\nfunction foo(b){}",
+            output: null,
+            errors: [{
+                messageId: "expected",
+                data: { name: "b", jsdocName: "a" },
+                type: "Block",
+                line: 3,
+                column: 3,
+                endLine: 3,
+                endColumn: 25
+            }]
+        },
+        {
+            code: "/**\n* Foo\n* @override\n* @param {string} a desc\n */\nfunction foo(b){}",
+            output: null,
+            errors: [{
+                messageId: "expected",
+                data: { name: "b", jsdocName: "a" },
+                type: "Block",
+                line: 4,
+                column: 3,
+                endLine: 4,
+                endColumn: 25
+            }]
+        },
+        {
+            code: "/**\n* Foo\n* @inheritdoc\n* @param {string} a desc\n */\nfunction foo(b){}",
+            output: null,
+            errors: [{
+                messageId: "expected",
+                data: { name: "b", jsdocName: "a" },
+                type: "Block",
+                line: 4,
+                column: 3,
+                endLine: 4,
+                endColumn: 25
+            }]
+        },
+        {
+            code: "/**\n* Foo\n* @param {string} a desc\n*/\nfunction foo(a){var t = false; if(t) {return t;}}",
+            output: null,
+            options: [{ requireReturn: false }],
+            errors: [{
+                messageId: "missingReturn",
+                data: { returns: "returns" },
+                type: "Block"
+            }]
+        },
+        {
+            code: "/**\n* Foo\n* @param {string} a desc\n*/\nfunction foo(a){var t = false; if(t) {return null;}}",
+            output: null,
+            options: [{ requireReturn: false }],
+            errors: [{
+                messageId: "missingReturn",
+                data: { returns: "returns" },
+                type: "Block"
+            }]
+        },
+        {
+            code: "/**\n* Foo\n* @param {string} a desc\n@returns {MyClass}*/\nfunction foo(a){var t = false; if(t) {process(t);}}",
+            output: null,
+            options: [{ requireReturn: false }],
+            errors: [{
+                messageId: "unexpectedTag",
+                data: { title: "returns" },
+                type: "Block",
+                line: 4,
+                column: 1,
+                endLine: 4,
+                endColumn: 19
+            }]
+        },
+        {
+            code: "/**\n * Does something. \n* @param {string} a - this is a \n* @return {Array<number>} The result of doing it \n*/\n export function doSomething(a) { }",
+            output: "/**\n * Does something. \n* @param {string} a - this is a \n* @returns {Array<number>} The result of doing it \n*/\n export function doSomething(a) { }",
+            options: [{ prefer: { return: "returns" } }],
+            parserOptions: { sourceType: "module" },
+            errors: [{
+                messageId: "use",
+                data: { name: "returns" },
+                type: "Block",
+                line: 4,
+                column: 3,
+                endLine: 4,
+                endColumn: 10
+            }]
+        },
+        {
+            code: "/**\n * Does something. \n* @param {string} a - this is a \n* @return {Array<number>} The result of doing it \n*/\n export default function doSomething(a) { }",
+            output: "/**\n * Does something. \n* @param {string} a - this is a \n* @returns {Array<number>} The result of doing it \n*/\n export default function doSomething(a) { }",
+            options: [{ prefer: { return: "returns" } }],
+            parserOptions: { sourceType: "module" },
+            errors: [{
+                messageId: "use",
+                data: { name: "returns" },
+                type: "Block",
+                line: 4,
+                column: 3,
+                endLine: 4,
+                endColumn: 10
+            }]
+        },
+        {
+            code: "/** foo */ var foo = () => bar();",
+            output: null,
+            options: [{ requireReturn: false }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "missingReturn",
+                data: { returns: "returns" },
+                type: "Block"
+            }]
+        },
+        {
+            code: "/** foo */ var foo = () => { return bar(); };",
+            output: null,
+            options: [{ requireReturn: false }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "missingReturn",
+                data: { returns: "returns" },
+                type: "Block"
+            }]
+        },
+        {
+            code: "/** @returns {object} foo */ var foo = () => { bar(); };",
+            output: null,
+            options: [{ requireReturn: false }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "unexpectedTag",
+                data: { title: "returns" },
+                type: "Block",
+                line: 1,
+                column: 5,
+                endLine: 1,
+                endColumn: 26
+            }]
+        },
+        {
+            code: "/**\n* @param fields [Array]\n */\n function foo(){}",
+            output: null,
+            errors: [
+                {
+                    messageId: "missingReturn",
+                    data: { returns: "returns" },
+                    type: "Block"
+                },
+                {
+                    messageId: "missingParamType",
+                    data: { name: "fields" },
+                    type: "Block",
+                    line: 2,
+                    column: 3,
+                    endLine: 2,
+                    endColumn: 24
+                }
+            ]
+        },
+        {
             code: "/**\n* Start with caps and end with period\n* @return {void} */\nfunction foo(){}",
+            output: null,
             options: [{
                 matchDescription: "^[A-Z][A-Za-z0-9\\s]*[.]$"
             }],
             errors: [{
-                message: "JSDoc description does not satisfy the regex pattern.",
+                messageId: "unsatisfiedDesc",
                 type: "Block"
             }]
         },
         {
             code: "/** Foo \n@return Foo\n */\nfunction foo(){}",
+            output: null,
             options: [{ prefer: { return: "return" } }],
             errors: [{
-                message: "Missing JSDoc return type.",
+                messageId: "missingReturnType",
                 type: "Block"
             }]
         },
         {
             code: "/** Foo \n@return sdf\n */\nfunction foo(){}",
+            output: null,
             options: [{
                 prefer: { return: "return" },
                 requireReturn: false
             }],
             errors: [{
-                message: "Unexpected @return tag; function has no return statement.",
-                type: "Block"
+                messageId: "unexpectedTag",
+                data: { title: "return" },
+                type: "Block",
+                line: 2,
+                column: 1,
+                endLine: 2,
+                endColumn: 12
             }]
         },
 
@@ -990,23 +1606,24 @@ ruleTester.run("valid-jsdoc", rule, {
                 "        this.a = xs;" +
                 "    }\n" +
                 "}",
+            output: null,
             options: [{
                 requireReturn: false,
                 matchDescription: "^[A-Z][A-Za-z0-9\\s]*[.]$"
             }],
+            parserOptions: {
+                ecmaVersion: 6
+            },
             errors: [
                 {
-                    message: "JSDoc description does not satisfy the regex pattern.",
+                    messageId: "unsatisfiedDesc",
                     type: "Block"
                 },
                 {
-                    message: "JSDoc description does not satisfy the regex pattern.",
+                    messageId: "unsatisfiedDesc",
                     type: "Block"
                 }
-            ],
-            parserOptions: {
-                ecmaVersion: 6
-            }
+            ]
         },
         {
             code:
@@ -1022,23 +1639,25 @@ ruleTester.run("valid-jsdoc", rule, {
                 "        this.a = xs;" +
                 "    }\n" +
                 "};",
+            output: null,
             options: [{
                 requireReturn: true,
                 matchDescription: "^[A-Z][A-Za-z0-9\\s]*[.]$"
             }],
+            parserOptions: {
+                ecmaVersion: 6
+            },
             errors: [
                 {
-                    message: "JSDoc description does not satisfy the regex pattern.",
+                    messageId: "unsatisfiedDesc",
                     type: "Block"
                 },
                 {
-                    message: "Missing JSDoc @returns for function.",
+                    messageId: "missingReturn",
+                    data: { returns: "returns" },
                     type: "Block"
                 }
-            ],
-            parserOptions: {
-                ecmaVersion: 6
-            }
+            ]
         },
         {
             code:
@@ -1061,20 +1680,23 @@ ruleTester.run("valid-jsdoc", rule, {
                 "        this.a = xs;" +
                 "    }\n" +
                 "}",
+            output: null,
             options: [],
+            parserOptions: {
+                ecmaVersion: 6
+            },
             errors: [
                 {
-                    message: "Missing JSDoc @returns for function.",
+                    messageId: "missingReturn",
+                    data: { returns: "returns" },
                     type: "Block"
                 },
                 {
-                    message: "Missing JSDoc for parameter 'xs'.",
+                    messageId: "missingParam",
+                    data: { name: "xs" },
                     type: "Block"
                 }
-            ],
-            parserOptions: {
-                ecmaVersion: 6
-            }
+            ]
         },
         {
             code:
@@ -1083,9 +1705,10 @@ ruleTester.run("valid-jsdoc", rule, {
                 " * @this {not.a.valid.type.expression\n" +
                 " */\n" +
                 "function foo() {}",
+            output: null,
             options: [{ requireReturn: false }],
             errors: [{
-                message: "JSDoc type missing brace.",
+                messageId: "missingBrace",
                 type: "Block"
             }]
         },
@@ -1096,9 +1719,29 @@ ruleTester.run("valid-jsdoc", rule, {
                 " * @this {Array<string>}\n" +
                 " */\n" +
                 "function foo() {}",
+            output: null,
             options: [{ requireReturn: false }],
             errors: [{
-                message: "JSDoc syntax error.",
+                messageId: "syntaxError",
+                type: "Block"
+            }]
+        },
+
+        // async function
+        {
+            code:
+              "/**\n" +
+              " * An async function. Options requires return.\n" +
+              " */\n" +
+              "async function a() {}",
+            output: null,
+            options: [{ requireReturn: true }],
+            parserOptions: {
+                ecmaVersion: 2017
+            },
+            errors: [{
+                messageId: "missingReturn",
+                data: { returns: "returns" },
                 type: "Block"
             }]
         },
@@ -1112,6 +1755,13 @@ ruleTester.run("valid-jsdoc", rule, {
             "* @returns {Astnode} returns a node\n" +
             "*/\n" +
             "function foo(hi){}",
+            output:
+            "/**\n" +
+            "* Foo\n" +
+            "* @param {string} hi - desc\n" +
+            "* @returns {ASTNode} returns a node\n" +
+            "*/\n" +
+            "function foo(hi){}",
             options: [{
                 preferType: {
                     String: "string",
@@ -1120,12 +1770,22 @@ ruleTester.run("valid-jsdoc", rule, {
             }],
             errors: [
                 {
-                    message: "Use 'string' instead of 'String'.",
-                    type: "Block"
+                    messageId: "useType",
+                    data: { expectedTypeName: "string", currentTypeName: "String" },
+                    type: "Block",
+                    line: 3,
+                    column: 11,
+                    endLine: 3,
+                    endColumn: 17
                 },
                 {
-                    message: "Use 'ASTNode' instead of 'Astnode'.",
-                    type: "Block"
+                    messageId: "useType",
+                    data: { expectedTypeName: "ASTNode", currentTypeName: "Astnode" },
+                    type: "Block",
+                    line: 4,
+                    column: 13,
+                    endLine: 4,
+                    endColumn: 20
                 }
             ]
         },
@@ -1137,6 +1797,13 @@ ruleTester.run("valid-jsdoc", rule, {
             "* @returns {Astnode} returns a node\n" +
             "*/\n" +
             "function foo(hi){}",
+            output:
+            "/**\n" +
+            "* Foo\n" +
+            "* @param {{20:string}} hi - desc\n" +
+            "* @returns {ASTNode} returns a node\n" +
+            "*/\n" +
+            "function foo(hi){}",
             options: [{
                 preferType: {
                     String: "string",
@@ -1145,12 +1812,22 @@ ruleTester.run("valid-jsdoc", rule, {
             }],
             errors: [
                 {
-                    message: "Use 'string' instead of 'String'.",
-                    type: "Block"
+                    messageId: "useType",
+                    data: { expectedTypeName: "string", currentTypeName: "String" },
+                    type: "Block",
+                    line: 3,
+                    column: 15,
+                    endLine: 3,
+                    endColumn: 21
                 },
                 {
-                    message: "Use 'ASTNode' instead of 'Astnode'.",
-                    type: "Block"
+                    messageId: "useType",
+                    data: { expectedTypeName: "ASTNode", currentTypeName: "Astnode" },
+                    type: "Block",
+                    line: 4,
+                    column: 13,
+                    endLine: 4,
+                    endColumn: 20
                 }
             ]
         },
@@ -1162,6 +1839,13 @@ ruleTester.run("valid-jsdoc", rule, {
             "* @returns {Astnode} returns a node\n" +
             "*/\n" +
             "function foo(hi){}",
+            output:
+            "/**\n" +
+            "* Foo\n" +
+            "* @param {String|number|Test} hi - desc\n" +
+            "* @returns {Astnode} returns a node\n" +
+            "*/\n" +
+            "function foo(hi){}",
             options: [{
                 preferType: {
                     test: "Test"
@@ -1169,8 +1853,13 @@ ruleTester.run("valid-jsdoc", rule, {
             }],
             errors: [
                 {
-                    message: "Use 'Test' instead of 'test'.",
-                    type: "Block"
+                    messageId: "useType",
+                    data: { expectedTypeName: "Test", currentTypeName: "test" },
+                    type: "Block",
+                    line: 3,
+                    column: 25,
+                    endLine: 3,
+                    endColumn: 29
                 }
             ]
         },
@@ -1182,6 +1871,13 @@ ruleTester.run("valid-jsdoc", rule, {
             "* @returns {Astnode} returns a node\n" +
             "*/\n" +
             "function foo(hi){}",
+            output:
+            "/**\n" +
+            "* Foo\n" +
+            "* @param {Array.<string>} hi - desc\n" +
+            "* @returns {Astnode} returns a node\n" +
+            "*/\n" +
+            "function foo(hi){}",
             options: [{
                 preferType: {
                     String: "string",
@@ -1190,8 +1886,13 @@ ruleTester.run("valid-jsdoc", rule, {
             }],
             errors: [
                 {
-                    message: "Use 'string' instead of 'String'.",
-                    type: "Block"
+                    messageId: "useType",
+                    data: { expectedTypeName: "string", currentTypeName: "String" },
+                    type: "Block",
+                    line: 3,
+                    column: 18,
+                    endLine: 3,
+                    endColumn: 24
                 }
             ]
         },
@@ -1203,6 +1904,13 @@ ruleTester.run("valid-jsdoc", rule, {
             "* @returns {Array.<{summary: String}>} desc\n" +
             "*/\n" +
             "function foo(hi){}",
+            output:
+            "/**\n" +
+            "* Foo\n" +
+            "* @param {Array.<{id: number, votes: number}>} hi - desc\n" +
+            "* @returns {Array.<{summary: string}>} desc\n" +
+            "*/\n" +
+            "function foo(hi){}",
             options: [{
                 preferType: {
                     Number: "number",
@@ -1211,16 +1919,31 @@ ruleTester.run("valid-jsdoc", rule, {
             }],
             errors: [
                 {
-                    message: "Use 'number' instead of 'Number'.",
-                    type: "Block"
+                    messageId: "useType",
+                    data: { expectedTypeName: "number", currentTypeName: "Number" },
+                    type: "Block",
+                    line: 3,
+                    column: 23,
+                    endLine: 3,
+                    endColumn: 29
                 },
                 {
-                    message: "Use 'number' instead of 'Number'.",
-                    type: "Block"
+                    messageId: "useType",
+                    data: { expectedTypeName: "number", currentTypeName: "Number" },
+                    type: "Block",
+                    line: 3,
+                    column: 38,
+                    endLine: 3,
+                    endColumn: 44
                 },
                 {
-                    message: "Use 'string' instead of 'String'.",
-                    type: "Block"
+                    messageId: "useType",
+                    data: { expectedTypeName: "string", currentTypeName: "String" },
+                    type: "Block",
+                    line: 4,
+                    column: 30,
+                    endLine: 4,
+                    endColumn: 36
                 }
             ]
         },
@@ -1232,6 +1955,13 @@ ruleTester.run("valid-jsdoc", rule, {
             "* @returns {Array.<[String, String]>} desc\n" +
             "*/\n" +
             "function foo(hi){}",
+            output:
+            "/**\n" +
+            "* Foo\n" +
+            "* @param {Array.<[string, number]>} hi - desc\n" +
+            "* @returns {Array.<[string, string]>} desc\n" +
+            "*/\n" +
+            "function foo(hi){}",
             options: [{
                 preferType: {
                     Number: "number",
@@ -1240,20 +1970,40 @@ ruleTester.run("valid-jsdoc", rule, {
             }],
             errors: [
                 {
-                    message: "Use 'string' instead of 'String'.",
-                    type: "Block"
+                    messageId: "useType",
+                    data: { expectedTypeName: "string", currentTypeName: "String" },
+                    type: "Block",
+                    line: 3,
+                    column: 19,
+                    endLine: 3,
+                    endColumn: 25
                 },
                 {
-                    message: "Use 'number' instead of 'Number'.",
-                    type: "Block"
+                    messageId: "useType",
+                    data: { expectedTypeName: "number", currentTypeName: "Number" },
+                    type: "Block",
+                    line: 3,
+                    column: 27,
+                    endLine: 3,
+                    endColumn: 33
                 },
                 {
-                    message: "Use 'string' instead of 'String'.",
-                    type: "Block"
+                    messageId: "useType",
+                    data: { expectedTypeName: "string", currentTypeName: "String" },
+                    type: "Block",
+                    line: 4,
+                    column: 21,
+                    endLine: 4,
+                    endColumn: 27
                 },
                 {
-                    message: "Use 'string' instead of 'String'.",
-                    type: "Block"
+                    messageId: "useType",
+                    data: { expectedTypeName: "string", currentTypeName: "String" },
+                    type: "Block",
+                    line: 4,
+                    column: 29,
+                    endLine: 4,
+                    endColumn: 35
                 }
             ]
         },
@@ -1262,6 +2012,13 @@ ruleTester.run("valid-jsdoc", rule, {
             "/**\n" +
             "* Foo\n" +
             "* @param {object<String,object<String, Number>>} hi - because why not\n" +
+            "* @returns {Boolean} desc\n" +
+            "*/\n" +
+            "function foo(hi){}",
+            output:
+            "/**\n" +
+            "* Foo\n" +
+            "* @param {Object<string,Object<string, number>>} hi - because why not\n" +
             "* @returns {Boolean} desc\n" +
             "*/\n" +
             "function foo(hi){}",
@@ -1274,24 +2031,49 @@ ruleTester.run("valid-jsdoc", rule, {
             }],
             errors: [
                 {
-                    message: "Use 'string' instead of 'String'.",
-                    type: "Block"
+                    messageId: "useType",
+                    data: { expectedTypeName: "Object", currentTypeName: "object" },
+                    type: "Block",
+                    line: 3,
+                    column: 11,
+                    endLine: 3,
+                    endColumn: 17
                 },
                 {
-                    message: "Use 'string' instead of 'String'.",
-                    type: "Block"
+                    messageId: "useType",
+                    data: { expectedTypeName: "string", currentTypeName: "String" },
+                    type: "Block",
+                    line: 3,
+                    column: 18,
+                    endLine: 3,
+                    endColumn: 24
                 },
                 {
-                    message: "Use 'number' instead of 'Number'.",
-                    type: "Block"
+                    messageId: "useType",
+                    data: { expectedTypeName: "Object", currentTypeName: "object" },
+                    type: "Block",
+                    line: 3,
+                    column: 25,
+                    endLine: 3,
+                    endColumn: 31
                 },
                 {
-                    message: "Use 'Object' instead of 'object'.",
-                    type: "Block"
+                    messageId: "useType",
+                    data: { expectedTypeName: "string", currentTypeName: "String" },
+                    type: "Block",
+                    line: 3,
+                    column: 32,
+                    endLine: 3,
+                    endColumn: 38
                 },
                 {
-                    message: "Use 'Object' instead of 'object'.",
-                    type: "Block"
+                    messageId: "useType",
+                    data: { expectedTypeName: "number", currentTypeName: "Number" },
+                    type: "Block",
+                    line: 3,
+                    column: 40,
+                    endLine: 3,
+                    endColumn: 46
                 }
             ]
         },
@@ -1305,6 +2087,13 @@ ruleTester.run("valid-jsdoc", rule, {
             "* @returns {ASTnode} returns a node\n" +
             "*/\n" +
             "function foo(hi){}",
+            output:
+            "/**\n" +
+            "* Foo\n" +
+            "* @param {{foo:string, astnode:Object, bar}} hi - desc\n" +
+            "* @returns {ASTnode} returns a node\n" +
+            "*/\n" +
+            "function foo(hi){}",
             options: [{
                 preferType: {
                     String: "string",
@@ -1313,8 +2102,13 @@ ruleTester.run("valid-jsdoc", rule, {
             }],
             errors: [
                 {
-                    message: "Use 'string' instead of 'String'.",
-                    type: "Block"
+                    messageId: "useType",
+                    data: { expectedTypeName: "string", currentTypeName: "String" },
+                    type: "Block",
+                    line: 3,
+                    column: 16,
+                    endLine: 3,
+                    endColumn: 22
                 }
             ]
         }

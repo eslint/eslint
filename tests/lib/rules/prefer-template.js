@@ -26,6 +26,7 @@ const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 ruleTester.run("prefer-template", rule, {
     valid: [
         "'use strict';",
+        "var foo = 'foo' + '\\0';",
         "var foo = 'bar';",
         "var foo = 'bar' + 'baz';",
         "var foo = foo + +'100';",
@@ -33,8 +34,8 @@ ruleTester.run("prefer-template", rule, {
         "var foo = `hello, ${name}!`;",
 
         // https://github.com/eslint/eslint/issues/3507
-        { code: "var foo = `foo` + `bar` + \"hoge\";" },
-        { code: "var foo = `foo` +\n    `bar` +\n    \"hoge\";" }
+        "var foo = `foo` + `bar` + \"hoge\";",
+        "var foo = `foo` +\n    `bar` +\n    \"hoge\";"
     ],
     invalid: [
         {
@@ -186,6 +187,26 @@ ruleTester.run("prefer-template", rule, {
         {
             code: "foo + 'handles unicode escapes correctly: \\x27'", // "\x27" === "'"
             output: "`${foo  }handles unicode escapes correctly: \\x27`",
+            errors
+        },
+        {
+            code: "foo + 'does not autofix octal escape sequence' + '\\033'",
+            output: null,
+            errors
+        },
+        {
+            code: "foo + '\\n other text \\033'",
+            output: null,
+            errors
+        },
+        {
+            code: "foo + '\\\\033'",
+            output: "`${foo  }\\\\033`",
+            errors
+        },
+        {
+            code: "foo + '\\0'",
+            output: "`${foo  }\\0`",
             errors
         }
     ]

@@ -4,7 +4,7 @@ Each plugin is an npm module with a name in the format of `eslint-plugin-<plugin
 
 ## Create a Plugin
 
-The easiest way to start creating a plugin is to use the [Yeoman generator](https://npmjs.com/package/generator-eslint). The generator will guide you through setting up the skeleton of a plugin.
+The easiest way to start creating a plugin is to use the [Yeoman generator](https://www.npmjs.com/package/generator-eslint). The generator will guide you through setting up the skeleton of a plugin.
 
 ### Rules in Plugins
 
@@ -49,60 +49,115 @@ Plugin environments can define the following objects:
 
 ### Processors in Plugins
 
-You can also create plugins that would tell ESLint how to process files other than JavaScript. In order to create a processor, object that is exported from your module has to conform to the following interface:
+You can also create plugins that would tell ESLint how to process files other than JavaScript. In order to create a processor, the object that is exported from your module has to conform to the following interface:
 
 ```js
-processors: {
+module.exports = {
+    processors: {
 
-    // assign to the file extension you want (.js, .jsx, .html, etc.)
-    ".ext": {
-        // takes text of the file and filename
-        preprocess: function(text, filename) {
-            // here, you can strip out any non-JS content
-            // and split into multiple strings to lint
+        // assign to the file extension you want (.js, .jsx, .html, etc.)
+        ".ext": {
+            // takes text of the file and filename
+            preprocess: function(text, filename) {
+                // here, you can strip out any non-JS content
+                // and split into multiple strings to lint
 
-            return [string];  // return an array of strings to lint
-        },
+                return [string];  // return an array of strings to lint
+            },
 
-        // takes a Message[][] and filename
-        postprocess: function(messages, filename) {
-            // `messages` argument contains two-dimensional array of Message objects
-            // where each top-level array item contains array of lint messages related
-            // to the text that was returned in array from preprocess() method
+            // takes a Message[][] and filename
+            postprocess: function(messages, filename) {
+                // `messages` argument contains two-dimensional array of Message objects
+                // where each top-level array item contains array of lint messages related
+                // to the text that was returned in array from preprocess() method
 
-            // you need to return a one-dimensional array of the messages you want to keep
-            return [Message];
+                // you need to return a one-dimensional array of the messages you want to keep
+                return messages[0];
+            },
+
+            supportsAutofix: true // (optional, defaults to false)
         }
     }
-}
+};
 ```
 
 The `preprocess` method takes the file contents and filename as arguments, and returns an array of strings to lint. The strings will be linted separately but still be registered to the filename. It's up to the plugin to decide if it needs to return just one part, or multiple pieces. For example in the case of processing `.html` files, you might want to return just one item in the array by combining all scripts, but for `.md` file where each JavaScript block might be independent, you can return multiple items.
 
-The `postprocess` method takes a two-dimensional array of arrays of lint messages and the filename. Each item in the input
-array corresponds to the part that was returned from the `preprocess` method. The `postprocess` method must adjust the location of all errors and aggregate them into a single flat array and return it.
+The `postprocess` method takes a two-dimensional array of arrays of lint messages and the filename. Each item in the input array corresponds to the part that was returned from the `preprocess` method. The `postprocess` method must adjust the locations of all errors to correspond to locations in the original, unprocessed code, and aggregate them into a single flat array and return it.
+
+Reported problems have the following location information:
+
+```typescript
+{
+    line: number,
+    column: number,
+
+    endLine?: number,
+    endColumn?: number
+}
+```
+
+By default, ESLint will not perform autofixes when a processor is used, even when the `--fix` flag is enabled on the command line. To allow ESLint to autofix code when using your processor, you should take the following additional steps:
+
+1. Update the `postprocess` method to additionally transform the `fix` property of reported problems. All autofixable problems will have a `fix` property, which is an object with the following schema:
+
+    ```js
+    {
+        range: [number, number],
+        text: string
+    }
+    ```
+
+    The `range` property contains two indexes in the code, referring to the start and end location of a contiguous section of text that will be replaced. The `text` property refers to the text that will replace the given range.
+
+    In the initial list of problems, the `fix` property will refer to a fix in the processed JavaScript. The `postprocess` method should transform the object to refer to a fix in the original, unprocessed file.
+
+2. Add a `supportsAutofix: true` property to the processor.
 
 You can have both rules and processors in a single plugin. You can also have multiple processors in one plugin.
 To support multiple extensions, add each one to the `processors` element and point them to the same object.
 
 ### Configs in Plugins
 
-You can bundle configurations inside a plugin. This can be useful when you want to provide not just code style, but also some custom rules to support it. You can specify configurations under `configs` key. Please note that when exposing configurations, you have to name each one, and there is no default. So your users will have to specify the name of the configuration they want to use.
+You can bundle configurations inside a plugin by specifying them under the `configs` key. This can be useful when you want to provide not just code style, but also some custom rules to support it. Multiple configurations are supported per plugin. Note that it is not possible to specify a default configuration for a given plugin and that users must specify in their configuration file when they want to use one.
 
 ```js
-configs: {
-    myConfig: {
-        env: ["browser"],
-        rules: {
-            semi: 2,
-            "myPlugin/my-rule": 2,
-            "eslint-plugin-myPlugin/another-rule": 2
+// eslint-plugin-myPlugin
+
+module.exports = {
+    configs: {
+        myConfig: {
+            plugins: ["myPlugin"],
+            env: ["browser"],
+            rules: {
+                semi: "error",
+                "myPlugin/my-rule": "error",
+                "eslint-plugin-myPlugin/another-rule": "error"
+            }
+        },
+        myOtherConfig: {
+            plugins: ["myPlugin"],
+            env: ["node"],
+            rules: {
+                "myPlugin/my-rule": "off",
+                "eslint-plugin-myPlugin/another-rule": "off"
+                "eslint-plugin-myPlugin/yet-another-rule": "error"
+            }
         }
     }
-}
+};
 ```
 
-**Note:** Please note that configuration will not automatically attach your rules and you have to specify your plugin name and any rules you want to enable that are part of the plugin. Any plugin rules must be prefixed with the short or long plugin name. See [Configuring Plugins](../user-guide/configuring#configuring-plugins)
+If the example plugin above were called `eslint-plugin-myPlugin`, the `myConfig` and `myOtherConfig` configurations would then be usable by extending off of `"plugin:myPlugin/myConfig"` and `"plugin:myPlugin/myOtherConfig"`, respectively.
+
+```json
+{
+    "extends": ["plugin:myPlugin/myConfig"]
+}
+
+```
+
+**Note:** Please note that configuration will not enable any of the plugin's rules by default, and instead should be treated as a standalone config. This means that you must specify your plugin name in the `plugins` array as well as any rules you want to enable that are part of the plugin. Any plugin rules must be prefixed with the short or long plugin name. See [Configuring Plugins](../user-guide/configuring.md#configuring-plugins) for more information.
 
 ### Peer Dependency
 
@@ -119,90 +174,7 @@ The plugin support was introduced in ESLint version `0.8.0`. Ensure the `peerDep
 
 ### Testing
 
-You can test the rules of your plugin [the same way as bundled ESLint rules](working-with-rules.md#rule-unit-tests) using RuleTester.
-
-Example:
-
-```js
-"use strict";
-
-var rule = require("../../../lib/rules/custom-plugin-rule"),
-    RuleTester = require("eslint").RuleTester;
-
-var ruleTester = new RuleTester();
-ruleTester.run("custom-plugin-rule", rule, {
-    valid: [
-        "var validVariable = true",
-    ],
-
-    invalid: [
-        {
-            code: "var invalidVariable = true",
-            errors: [ { message: "Unexpected invalid variable." } ]
-        },
-        {
-            code: "var invalidVariable = true",
-            errors: [ { message: /^Unexpected.+variable/ } ]
-        }
-    ]
-});
-```
-
-The `RuleTester` constructor accepts an optional object argument, which can be used to specify defaults for your test cases. For example, if all of your test cases use ES2015, you can set it as a default:
-
-```js
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2015 } });
-```
-
-The `RuleTester#run()` method is used to run the tests. It should be passed the following arguments:
-
-* The name of the rule (string)
-* The rule object itself (see ["working with rules"](./working-with-rules))
-* An object containing `valid` and `invalid` properties, each of which is an array containing test cases.
-
-A test case is an object with the following properties:
-
-* `code` (string, required): The source code that the rule should be run on
-* `options` (array, optional): The options passed to the rule. The rule severity should not be included in this list.
-* `filename` (string, optional): The filename for the given case (useful for rules that make assertions about filenames)
-
-In addition to the properties above, invalid test cases can also have the following properties:
-
-* `errors` (number or array, required): Asserts some properties of the errors that the rule is expected to produce when run on this code. If this is a number, asserts the number of errors produced. Otherwise, this should be a list of objects, each containing information about a single reported error. The following properties can be used for an error (all are optional):
-    * `message` (string/regexp): The message for the error
-    * `type` (string): The type of the reported AST node
-    * `line` (number): The 1-based line number of the reported location
-    * `column` (number): The 0-based column number of the reported location
-    * `endLine` (number): The 1-based line number of the end of the reported location
-    * `endColumn` (number): The 0-based column number of the end of the reported location
-* `output` (string, optional): Asserts the output that will be produced when using this rule for a single pass of autofixing (e.g. with the `--fix` command line flag). If this is `null`, asserts that none of the reported problems suggest autofixes.
-
-Any additional properties of a test case will be passed directly to the linter as config options. For example, a test case can have a `parserOptions` property to configure parser behavior.
-
-#### Customizing RuleTester
-
-To create tests for each valid and invalid case, `RuleTester` internally uses `describe` and `it` methods from the Mocha test framework when it is available. If you use another test framework, you can override `RuleTester.describe` and `RuleTester.it` to make `RuleTester` compatible with it and have proper individual tests and feedback.
-
-Example:
-
-```js
-"use strict";
-
-var RuleTester = require("eslint").RuleTester;
-var test = require("my-test-runner");
-
-RuleTester.describe = function(text, method) {
-    RuleTester.it.title = text;
-    return method.apply(this);
-};
-
-RuleTester.it = function(text, method) {
-    test(RuleTester.it.title + ": " + text, method);
-};
-
-// then use RuleTester as documented
-```
-
+ESLint provides the [`RuleTester`](/docs/developer-guide/nodejs-api.md#ruletester) utility to make it easy to test the rules of your plugin.
 
 ## Share Plugins
 

@@ -52,6 +52,9 @@ let obj = {a: 1, [c + d]: 3, b: 2};
 let obj = {a: 1, ["c" + "d"]: 3, b: 2};
 let obj = {a: 1, [`${c}`]: 3, b: 2};
 let obj = {a: 1, [tag`c`]: 3, b: 2};
+
+// This rule ignores objects that have a spread operator in them.
+let obj = {b: 1, ...c, a: 2};
 ```
 
 ## Options
@@ -70,7 +73,23 @@ The 1st option is `"asc"` or `"desc"`.
 The 2nd option is an object which has 2 properties.
 
 * `caseSensitive` - if `true`, enforce properties to be in case-sensitive order. Default is `true`.
-* `natural` - if `true`, enforce properties to be in natural order. Default is `false`.
+* `natural` - if `true`, enforce properties to be in natural order. Default is `false`. Natural Order compares strings containing combination of letters and numbers in the way a human being would sort. It basically sorts numerically, instead of sorting alphabetically. So the number 10 comes after the number 3 in Natural Sorting.
+
+Example for a list:
+
+With `natural` as true, the ordering would be
+1
+3
+6
+8
+10
+
+With `natural` as false, the ordering would be
+1
+10
+3
+6
+8
 
 ### desc
 
@@ -154,9 +173,9 @@ If you don't want to notify about properties' order, then it's safe to disable t
 
 ## Related Rules
 
-* [sort-imports](http://eslint.org/docs/rules/sort-imports)
-* [sort-vars](http://eslint.org/docs/rules/sort-vars)
+* [sort-imports](sort-imports.md)
+* [sort-vars](sort-vars.md)
 
 ## Compatibility
 
-* **JSCS:** [validateOrderInObjectKeys](http://jscs.info/rule/validateOrderInObjectKeys)
+* **JSCS:** [validateOrderInObjectKeys](https://jscs-dev.github.io/rule/validateOrderInObjectKeys)

@@ -69,19 +69,23 @@ if (a) {
 This rule has an object option:
 
 * `"SwitchCase"` (default: 0) enforces indentation level for `case` clauses in `switch` statements
-* `"VariableDeclarator"` (default: 1) enforces indentation level for `var` declarators; can also take an object to define separate rules for `var`, `let` and `const` declarations.
+* `"VariableDeclarator"` (default: 1) enforces indentation level for `var` declarators; can also take an object to define separate rules for `var`, `let` and `const` declarations. It can also be `"first"`, indicating all the declarators should be aligned with the first declarator.
 * `"outerIIFEBody"` (default: 1) enforces indentation level for file-level IIFEs.
-* `"MemberExpression"` (off by default) enforces indentation level for multi-line property chains (except in variable declarations and assignments)
+* `"MemberExpression"` (default: 1) enforces indentation level for multi-line property chains. This can also be set to `"off"` to disable checking for MemberExpression indentation.
 * `"FunctionDeclaration"` takes an object to define rules for function declarations.
-    * `parameters` (off by default) enforces indentation level for parameters in a function declaration. This can either be a number indicating indentation level, or the string `"first"` indicating that all parameters of the declaration must be aligned with the first parameter.
+    * `parameters` (default: 1) enforces indentation level for parameters in a function declaration. This can either be a number indicating indentation level, or the string `"first"` indicating that all parameters of the declaration must be aligned with the first parameter. This can also be set to `"off"` to disable checking for FunctionDeclaration parameters.
     * `body` (default: 1) enforces indentation level for the body of a function declaration.
 * `"FunctionExpression"` takes an object to define rules for function expressions.
-    * `parameters` (off by default) enforces indentation level for parameters in a function expression. This can either be a number indicating indentation level, or the string `"first"` indicating that all parameters of the expression must be aligned with the first parameter.
+    * `parameters` (default: 1) enforces indentation level for parameters in a function expression. This can either be a number indicating indentation level, or the string `"first"` indicating that all parameters of the expression must be aligned with the first parameter. This can also be set to `"off"` to disable checking for FunctionExpression parameters.
     * `body` (default: 1) enforces indentation level for the body of a function expression.
 * `"CallExpression"` takes an object to define rules for function call expressions.
-    * `arguments` (off by default) enforces indentation level for arguments in a call expression. This can either be a number indicating indentation level, or the string `"first"` indicating that all arguments of the expression must be aligned with the first argument.
-* `"ArrayExpression"` (default: 1) enforces indentation level for elements in arrays. It can also be set to the string `"first"`, indicating that all the elements in the array should be aligned with the first element.
-* `"ObjectExpression"` (default: 1) enforces indentation level for properties in objects. It can be set to the string `"first"`, indicating that all properties in the object should be aligned with the first property.
+    * `arguments` (default: 1) enforces indentation level for arguments in a call expression. This can either be a number indicating indentation level, or the string `"first"` indicating that all arguments of the expression must be aligned with the first argument. This can also be set to `"off"` to disable checking for CallExpression arguments.
+* `"ArrayExpression"` (default: 1) enforces indentation level for elements in arrays. It can also be set to the string `"first"`, indicating that all the elements in the array should be aligned with the first element. This can also be set to `"off"` to disable checking for array elements.
+* `"ObjectExpression"` (default: 1) enforces indentation level for properties in objects. It can be set to the string `"first"`, indicating that all properties in the object should be aligned with the first property. This can also be set to `"off"` to disable checking for object properties.
+* `"ImportDeclaration"` (default: 1) enforces indentation level for import statements. It can be set to the string `"first"`, indicating that all imported members from a module should be aligned with the first member in the list. This can also be set to `"off"` to disable checking for imported module members.
+* `"flatTernaryExpressions": true` (`false` by default) requires no indentation for ternary expressions which are nested in other ternary expressions.
+* `"ignoredNodes"` accepts an array of [selectors](/docs/developer-guide/selectors.md). If an AST node is matched by any of the selectors, the indentation of tokens which are direct children of that node will be ignored. This can be used as an escape hatch to relax the rule if you disagree with the indentation that it enforces for a particular syntactic pattern.
+* `"ignoreComments"` (default: false) can be used when comments do not need to be aligned with nodes on the previous or next line.
 
 Level of indentation denotes the multiple of the indent specified. Example:
 
@@ -209,6 +213,40 @@ const a = 1,
     c = 3;
 ```
 
+Examples of **incorrect** code for this rule with the `2, { "VariableDeclarator": "first" }` options:
+
+```js
+/*eslint indent: ["error", 2, { "VariableDeclarator": "first" }]*/
+/*eslint-env es6*/
+
+var a,
+  b,
+  c;
+let a,
+  b,
+  c;
+const a = 1,
+  b = 2,
+  c = 3;
+```
+
+Examples of **correct** code for this rule with the `2, { "VariableDeclarator": "first" }` options:
+
+```js
+/*eslint indent: ["error", 2, { "VariableDeclarator": "first" }]*/
+/*eslint-env es6*/
+
+var a,
+    b,
+    c;
+let a,
+    b,
+    c;
+const a = 1,
+      b = 2,
+      c = 3;
+```
+
 Examples of **correct** code for this rule with the `2, { "VariableDeclarator": { "var": 2, "let": 2, "const": 3 } }` options:
 
 ```js
@@ -286,10 +324,6 @@ Examples of **correct** code for this rule with the `2, { "MemberExpression": 1 
 foo
   .bar
   .baz();
-
-// Any indentation is permitted in variable declarations and assignments.
-var bip = aardvark.badger
-                  .coyote;
 ```
 
 ### FunctionDeclaration
@@ -522,8 +556,143 @@ var foo = { bar: 1,
             baz: 2 };
 ```
 
+### ImportDeclaration
+
+Examples of **correct** code for this rule with the `4, { "ImportDeclaration": 1 }` option (the default):
+
+```js
+/*eslint indent: ["error", 4, { ImportDeclaration: 1 }]*/
+
+import { foo,
+    bar,
+    baz,
+} from 'qux';
+
+import {
+    foo,
+    bar,
+    baz,
+} from 'qux';
+```
+
+Examples of **incorrect** code for this rule with the `4, { ImportDeclaration: "first" }` option:
+
+```js
+/*eslint indent: ["error", 4, { ImportDeclaration: "first" }]*/
+
+import { foo,
+    bar,
+    baz,
+} from 'qux';
+```
+
+Examples of **correct** code for this rule with the `4, { ImportDeclaration: "first" }` option:
+
+```js
+/*eslint indent: ["error", 4, { ImportDeclaration: "first" }]*/
+
+import { foo,
+         bar,
+         baz,
+} from 'qux';
+```
+
+### flatTernaryExpressions
+
+Examples of **incorrect** code for this rule with the default `4, { "flatTernaryExpressions": false }` option:
+
+```js
+/*eslint indent: ["error", 4, { "flatTernaryExpressions": false }]*/
+
+var a =
+    foo ? bar :
+    baz ? qux :
+    boop;
+```
+
+Examples of **correct** code for this rule with the default `4, { "flatTernaryExpressions": false }` option:
+
+```js
+/*eslint indent: ["error", 4, { "flatTernaryExpressions": false }]*/
+
+var a =
+    foo ? bar :
+        baz ? qux :
+            boop;
+```
+
+Examples of **incorrect** code for this rule with the `4, { "flatTernaryExpressions": true }` option:
+
+```js
+/*eslint indent: ["error", 4, { "flatTernaryExpressions": true }]*/
+
+var a =
+    foo ? bar :
+        baz ? qux :
+            boop;
+```
+
+Examples of **correct** code for this rule with the `4, { "flatTernaryExpressions": true }` option:
+
+```js
+/*eslint indent: ["error", 4, { "flatTernaryExpressions": true }]*/
+
+var a =
+    foo ? bar :
+    baz ? qux :
+    boop;
+```
+
+### ignoredNodes
+
+The following configuration ignores the indentation of `ConditionalExpression` ("ternary expression") nodes:
+
+Examples of **correct** code for this rule with the `4, { "ignoredNodes": ["ConditionalExpression"] }` option:
+
+```js
+/*eslint indent: ["error", 4, { "ignoredNodes": ["ConditionalExpression"] }]*/
+
+var a = foo
+      ? bar
+      : baz;
+
+var a = foo
+                ? bar
+: baz;
+```
+
+The following configuration ignores indentation in the body of IIFEs.
+
+Examples of **correct** code for this rule with the `4, { "ignoredNodes": ["CallExpression > FunctionExpression.callee > BlockStatement.body"] }` option:
+
+```js
+/*eslint indent: ["error", 4, { "ignoredNodes": ["CallExpression > FunctionExpression.callee > BlockStatement.body"] }]*/
+
+(function() {
+
+foo();
+bar();
+
+})
+```
+
+### ignoreComments
+
+Examples of additional **correct** code for this rule with the `4, { "ignoreComments": true }` option:
+
+```js
+/*eslint indent: ["error", 4, { "ignoreComments": true }] */
+
+if (foo) {
+    doSomething();
+
+// comment intentionally de-indented
+    doSomethingElse();
+}
+```
+
 
 ## Compatibility
 
 * **JSHint**: `indent`
-* **JSCS**: [validateIndentation](http://jscs.info/rule/validateIndentation)
+* **JSCS**: [validateIndentation](https://jscs-dev.github.io/rule/validateIndentation)

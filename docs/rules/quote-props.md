@@ -42,7 +42,7 @@ String option:
 
 * `"always"` (default) requires quotes around all object literal property names
 * `"as-needed"` disallows quotes around object literal property names that are not strictly required
-* `"consistent"` enforces a consistent quote style requires quotes around object literal property names
+* `"consistent"` enforces a consistent quote style; in a given object, either all of the properties should be quoted, or none of the properties should be quoted
 * `"consistent-as-needed"` requires quotes around all object literal property names if any name strictly requires quotes, otherwise disallows quotes around object property names
 
 Object option:
@@ -265,5 +265,5 @@ If you don't care if property names are consistently wrapped in quotes or not, a
 
 ## Further Reading
 
-* [Reserved words as property names](http://kangax.github.io/compat-table/es5/#Reserved_words_as_property_names)
+* [Reserved words as property names](https://kangax.github.io/compat-table/es5/#Reserved_words_as_property_names)
 * [Unquoted property names / object keys in JavaScript](https://mathiasbynens.be/notes/javascript-properties)

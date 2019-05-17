@@ -5,8 +5,10 @@
 
 "use strict";
 
-// NOTE: If you are adding new tests for cli.js, use verifyCLIEngineOpts(). The
-// test only needs to verify that CLIEngine receives the correct opts.
+/*
+ * NOTE: If you are adding new tests for cli.js, use verifyCLIEngineOpts(). The
+ * test only needs to verify that CLIEngine receives the correct opts.
+ */
 
 //------------------------------------------------------------------------------
 // Requirements
@@ -19,8 +21,7 @@ const assert = require("chai").assert,
     leche = require("leche"),
     fs = require("fs"),
     os = require("os"),
-    sh = require("shelljs"),
-    rules = require("../../lib/rules");
+    sh = require("shelljs");
 
 const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
 
@@ -36,7 +37,7 @@ describe("cli", () => {
         error: sinon.spy()
     };
     const cli = proxyquire("../../lib/cli", {
-        "./logging": log
+        "./util/logging": log
     });
 
     /**
@@ -57,7 +58,7 @@ describe("cli", () => {
 
         const localCLI = proxyquire("../../lib/cli", {
             "./cli-engine": fakeCLIEngine,
-            "./logging": log
+            "./util/logging": log
         });
 
         localCLI.execute(cmd);
@@ -71,11 +72,8 @@ describe("cli", () => {
      * @returns {string} The path inside the fixture directory.
      * @private
      */
-    function getFixturePath() {
-        const args = Array.prototype.slice.call(arguments);
-
-        args.unshift(fixtureDir);
-        return path.join.apply(path, args);
+    function getFixturePath(...args) {
+        return path.join(fixtureDir, ...args);
     }
 
     // copy into clean area so as not to get "infected" by this project's .eslintrc files
@@ -92,7 +90,6 @@ describe("cli", () => {
 
     after(() => {
         sh.rm("-r", fixtureDir);
-        rules.testReset();
     });
 
     describe("execute()", () => {
@@ -100,21 +97,28 @@ describe("cli", () => {
             const configFile = getFixturePath("configurations", "quotes-error.json");
             const result = cli.execute(`-c ${configFile}`, "var foo = 'bar';");
 
-            assert.equal(result, 1);
+            assert.strictEqual(result, 1);
+        });
+
+        it("should not print debug info when passed the empty string as text", () => {
+            const result = cli.execute(["--stdin", "--no-eslintrc"], "");
+
+            assert.strictEqual(result, 0);
+            assert.isTrue(log.info.notCalled);
         });
 
         it("should return no error when --ext .js2 is specified", () => {
             const filePath = getFixturePath("files");
             const result = cli.execute(`--ext .js2 ${filePath}`);
 
-            assert.equal(result, 0);
+            assert.strictEqual(result, 0);
         });
 
         it("should exit with console error when passed unsupported arguments", () => {
             const filePath = getFixturePath("files");
             const result = cli.execute(`--blah --another ${filePath}`);
 
-            assert.equal(result, 1);
+            assert.strictEqual(result, 2);
         });
 
     });
@@ -124,9 +128,7 @@ describe("cli", () => {
             const configPath = getFixturePath(".eslintrc");
             const filePath = getFixturePath("passing.js");
 
-            assert.doesNotThrow(() => {
-                cli.execute(`--config ${configPath} ${filePath}`);
-            });
+            cli.execute(`--config ${configPath} ${filePath}`);
         });
     });
 
@@ -137,10 +139,6 @@ describe("cli", () => {
 
             // Mock CWD
             process.eslintCwd = getFixturePath("configurations", "single-quotes");
-
-            assert.doesNotThrow(() => {
-                cli.execute(code);
-            });
 
             cli.execute(code);
 
@@ -156,7 +154,7 @@ describe("cli", () => {
 
             const exitStatus = cli.execute(code);
 
-            assert.equal(exitStatus, 1);
+            assert.strictEqual(exitStatus, 1);
         });
     });
 
@@ -166,13 +164,9 @@ describe("cli", () => {
             const filePath = getFixturePath("formatters");
             const code = `--config ${configPath} ${filePath}`;
 
-            let exitStatus;
+            const exitStatus = cli.execute(code);
 
-            assert.doesNotThrow(() => {
-                exitStatus = cli.execute(code);
-            });
-
-            assert.equal(exitStatus, 0);
+            assert.strictEqual(exitStatus, 0);
         });
     });
 
@@ -184,7 +178,7 @@ describe("cli", () => {
 
             const exit = cli.execute(code);
 
-            assert.equal(exit, 0);
+            assert.strictEqual(exit, 0);
         });
     });
 
@@ -196,7 +190,7 @@ describe("cli", () => {
 
             const exit = cli.execute(code);
 
-            assert.equal(exit, 0);
+            assert.strictEqual(exit, 0);
         });
     });
 
@@ -208,7 +202,7 @@ describe("cli", () => {
 
             const exit = cli.execute(code);
 
-            assert.equal(exit, 0);
+            assert.strictEqual(exit, 0);
         });
     });
 
@@ -220,7 +214,7 @@ describe("cli", () => {
 
             const exit = cli.execute(code);
 
-            assert.equal(exit, 0);
+            assert.strictEqual(exit, 0);
         });
     });
 
@@ -229,7 +223,7 @@ describe("cli", () => {
             const filePath = getFixturePath("passing.js");
             const exit = cli.execute(`-f checkstyle ${filePath}`);
 
-            assert.equal(exit, 0);
+            assert.strictEqual(exit, 0);
         });
     });
 
@@ -238,7 +232,7 @@ describe("cli", () => {
             const filePath = getFixturePath("passing.js");
             const exit = cli.execute(`-f fakeformatter ${filePath}`);
 
-            assert.equal(exit, 1);
+            assert.strictEqual(exit, 2);
         });
     });
 
@@ -248,7 +242,7 @@ describe("cli", () => {
             const filePath = getFixturePath("passing.js");
             const exit = cli.execute(`-f ${formatterPath} ${filePath}`);
 
-            assert.equal(exit, 0);
+            assert.strictEqual(exit, 0);
         });
     });
 
@@ -258,18 +252,29 @@ describe("cli", () => {
             const filePath = getFixturePath("passing.js");
             const exit = cli.execute(`-f ${formatterPath} ${filePath}`);
 
-            assert.equal(exit, 1);
+            assert.strictEqual(exit, 2);
         });
     });
 
     describe("when executing a file with a lint error", () => {
         it("should exit with error", () => {
             const filePath = getFixturePath("undef.js");
-            const code = `--no-ignore --config --rule no-undef:2 ${filePath}`;
+            const code = `--no-ignore --rule no-undef:2 ${filePath}`;
 
             const exit = cli.execute(code);
 
-            assert.equal(exit, 1);
+            assert.strictEqual(exit, 1);
+        });
+    });
+
+    describe("when using --fix-type without --fix or --fix-dry-run", () => {
+        it("should exit with error", () => {
+            const filePath = getFixturePath("passing.js");
+            const code = `--fix-type suggestion ${filePath}`;
+
+            const exit = cli.execute(code);
+
+            assert.strictEqual(exit, 2);
         });
     });
 
@@ -278,7 +283,7 @@ describe("cli", () => {
             const filePath = getFixturePath("syntax-error.js");
             const exit = cli.execute(`--no-ignore ${filePath}`);
 
-            assert.equal(exit, 1);
+            assert.strictEqual(exit, 1);
         });
     });
 
@@ -301,28 +306,28 @@ describe("cli", () => {
 
     describe("when executing with version flag", () => {
         it("should print out current version", () => {
-            cli.execute("-v");
+            assert.strictEqual(cli.execute("-v"), 0);
 
-            assert.equal(log.info.callCount, 1);
+            assert.strictEqual(log.info.callCount, 1);
         });
     });
 
     describe("when executing with help flag", () => {
         it("should print out help", () => {
-            cli.execute("-h");
+            assert.strictEqual(cli.execute("-h"), 0);
 
-            assert.equal(log.info.callCount, 1);
+            assert.strictEqual(log.info.callCount, 1);
         });
     });
 
     describe("when given a directory with eslint excluded files in the directory", () => {
-        it("should not process any files", () => {
+        it("should throw an error and not process any files", () => {
             const ignorePath = getFixturePath(".eslintignore");
             const filePath = getFixturePath(".");
-            const exit = cli.execute(`--ignore-path ${ignorePath} ${filePath}`);
 
-            assert.isTrue(log.info.notCalled);
-            assert.equal(exit, 0);
+            assert.throws(() => {
+                cli.execute(`--ignore-path ${ignorePath} ${filePath}`);
+            }, `All files matched by '${filePath}' are ignored.`);
         });
     });
 
@@ -335,7 +340,7 @@ describe("cli", () => {
 
             // a warning about the ignored file
             assert.isTrue(log.info.called);
-            assert.equal(exit, 0);
+            assert.strictEqual(exit, 0);
         });
 
         it("should process the file when forced", () => {
@@ -345,7 +350,7 @@ describe("cli", () => {
 
             // no warnings
             assert.isFalse(log.info.called);
-            assert.equal(exit, 0);
+            assert.strictEqual(exit, 0);
         });
     });
 
@@ -357,7 +362,7 @@ describe("cli", () => {
 
             // warnings about the ignored files
             assert.isTrue(log.info.called);
-            assert.equal(exit, 0);
+            assert.strictEqual(exit, 0);
         });
     });
 
@@ -381,7 +386,7 @@ describe("cli", () => {
             const filePath = getFixturePath("shebang.js");
             const exit = cli.execute(`--no-ignore ${filePath}`);
 
-            assert.equal(exit, 0);
+            assert.strictEqual(exit, 0);
         });
     });
 
@@ -396,7 +401,7 @@ describe("cli", () => {
             assert.throws(() => {
                 const exit = cli.execute(code);
 
-                assert.equal(exit, 1);
+                assert.strictEqual(exit, 2);
             }, /Error while loading rule 'custom-rule': Cannot read property/);
         });
 
@@ -427,7 +432,7 @@ describe("cli", () => {
             assert.isTrue(call.args[0].indexOf("Literal!") > -1);
             assert.isTrue(call.args[0].indexOf("2 problems") > -1);
             assert.isTrue(log.info.neverCalledWith(""));
-            assert.equal(exit, 1);
+            assert.strictEqual(exit, 1);
         });
 
 
@@ -439,7 +444,7 @@ describe("cli", () => {
             const exit = cli.execute(`--no-eslintrc --no-ignore ${filePath}`);
 
             assert.isTrue(log.info.notCalled);
-            assert.equal(exit, 0);
+            assert.strictEqual(exit, 0);
         });
     });
 
@@ -449,7 +454,7 @@ describe("cli", () => {
             const exit = cli.execute(`--no-ignore ${filePath}`);
 
             assert.isTrue(log.info.calledOnce);
-            assert.equal(exit, 1);
+            assert.strictEqual(exit, 1);
         });
     });
 
@@ -462,7 +467,7 @@ describe("cli", () => {
 
             cli.execute(`--no-eslintrc --config ./conf/eslint-recommended.js --no-ignore ${files.join(" ")}`);
 
-            assert.equal(log.info.args[0][0].split("\n").length, 11);
+            assert.strictEqual(log.info.args[0][0].split("\n").length, 11);
         });
     });
 
@@ -472,7 +477,7 @@ describe("cli", () => {
             const exit = cli.execute(`--global baz,bat --no-ignore --rule no-global-assign:2 ${filePath}`);
 
             assert.isTrue(log.info.calledOnce);
-            assert.equal(exit, 1);
+            assert.strictEqual(exit, 1);
         });
 
         it("should allow defining writable global variables", () => {
@@ -480,7 +485,7 @@ describe("cli", () => {
             const exit = cli.execute(`--global baz:false,bat:true --no-ignore ${filePath}`);
 
             assert.isTrue(log.info.notCalled);
-            assert.equal(exit, 0);
+            assert.strictEqual(exit, 0);
         });
 
         it("should allow defining variables with multiple flags", () => {
@@ -488,7 +493,7 @@ describe("cli", () => {
             const exit = cli.execute(`--global baz --global bat:true --no-ignore ${filePath}`);
 
             assert.isTrue(log.info.notCalled);
-            assert.equal(exit, 0);
+            assert.strictEqual(exit, 0);
         });
     });
 
@@ -498,7 +503,7 @@ describe("cli", () => {
             const code = `--no-ignore --rule 'quotes: [2, double]' ${filePath}`;
             const exitStatus = cli.execute(code);
 
-            assert.equal(exitStatus, 1);
+            assert.strictEqual(exitStatus, 1);
         });
     });
 
@@ -552,7 +557,7 @@ describe("cli", () => {
 
             const exit = cli.execute(code);
 
-            assert.equal(exit, 1);
+            assert.strictEqual(exit, 2);
             assert.isTrue(log.info.notCalled);
             assert.isTrue(log.error.calledOnce);
         });
@@ -565,7 +570,7 @@ describe("cli", () => {
 
             const exit = cli.execute(code);
 
-            assert.equal(exit, 1);
+            assert.strictEqual(exit, 2);
             assert.isTrue(log.info.notCalled);
             assert.isTrue(log.error.calledOnce);
         });
@@ -588,14 +593,14 @@ describe("cli", () => {
             const filePath = getFixturePath("passing.js");
             const exit = cli.execute(`--no-ignore --parser test111 ${filePath}`);
 
-            assert.equal(exit, 1);
+            assert.strictEqual(exit, 1);
         });
 
         it("should exit with no error if parser is valid", () => {
             const filePath = getFixturePath("passing.js");
             const exit = cli.execute(`--no-ignore --parser espree ${filePath}`);
 
-            assert.equal(exit, 0);
+            assert.strictEqual(exit, 0);
         });
     });
 
@@ -604,28 +609,28 @@ describe("cli", () => {
             const filePath = getFixturePath("passing.js");
             const exit = cli.execute(`--no-ignore --parser-options test111 ${filePath}`);
 
-            assert.equal(exit, 1);
+            assert.strictEqual(exit, 2);
         });
 
         it("should exit with no error if parser is valid", () => {
             const filePath = getFixturePath("passing.js");
             const exit = cli.execute(`--no-ignore --parser-options=ecmaVersion:6 ${filePath}`);
 
-            assert.equal(exit, 0);
+            assert.strictEqual(exit, 0);
         });
 
         it("should exit with an error on ecmaVersion 7 feature in ecmaVersion 6", () => {
             const filePath = getFixturePath("passing-es7.js");
             const exit = cli.execute(`--no-ignore --parser-options=ecmaVersion:6 ${filePath}`);
 
-            assert.equal(exit, 1);
+            assert.strictEqual(exit, 1);
         });
 
         it("should exit with no error on ecmaVersion 7 feature in ecmaVersion 7", () => {
             const filePath = getFixturePath("passing-es7.js");
             const exit = cli.execute(`--no-ignore --parser-options=ecmaVersion:7 ${filePath}`);
 
-            assert.equal(exit, 0);
+            assert.strictEqual(exit, 0);
         });
 
         it("should exit with no error on ecmaVersion 7 feature with config ecmaVersion 6 and command line ecmaVersion 7", () => {
@@ -633,7 +638,7 @@ describe("cli", () => {
             const filePath = getFixturePath("passing-es7.js");
             const exit = cli.execute(`--no-ignore --config ${configPath} --parser-options=ecmaVersion:7 ${filePath}`);
 
-            assert.equal(exit, 0);
+            assert.strictEqual(exit, 0);
         });
     });
 
@@ -642,14 +647,14 @@ describe("cli", () => {
             const filePath = getFixturePath("max-warnings");
             const exitCode = cli.execute(`--no-ignore --max-warnings 10 ${filePath}`);
 
-            assert.equal(exitCode, 0);
+            assert.strictEqual(exitCode, 0);
         });
 
         it("should exit with exit code 1 if warning count exceeds threshold", () => {
             const filePath = getFixturePath("max-warnings");
             const exitCode = cli.execute(`--no-ignore --max-warnings 5 ${filePath}`);
 
-            assert.equal(exitCode, 1);
+            assert.strictEqual(exitCode, 1);
             assert.ok(log.error.calledOnce);
             assert.include(log.error.getCall(0).args[0], "ESLint found too many warnings");
         });
@@ -658,14 +663,14 @@ describe("cli", () => {
             const filePath = getFixturePath("max-warnings");
             const exitCode = cli.execute(`--no-ignore --max-warnings 6 ${filePath}`);
 
-            assert.equal(exitCode, 0);
+            assert.strictEqual(exitCode, 0);
         });
 
         it("should not change exit code if flag is not specified and there are warnings", () => {
             const filePath = getFixturePath("max-warnings");
             const exitCode = cli.execute(filePath);
 
-            assert.equal(exitCode, 0);
+            assert.strictEqual(exitCode, 0);
         });
     });
 
@@ -703,7 +708,7 @@ describe("cli", () => {
 
             localCLI = proxyquire("../../lib/cli", {
                 "./cli-engine": fakeCLIEngine,
-                "./logging": log
+                "./util/logging": log
             });
 
             localCLI.execute("--no-inline-config .");
@@ -725,12 +730,12 @@ describe("cli", () => {
 
             localCLI = proxyquire("../../lib/cli", {
                 "./cli-engine": fakeCLIEngine,
-                "./logging": log
+                "./util/logging": log
             });
 
             const exitCode = localCLI.execute(".");
 
-            assert.equal(exitCode, 0);
+            assert.strictEqual(exitCode, 0);
 
         });
 
@@ -757,18 +762,19 @@ describe("cli", () => {
                 results: []
             });
             sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
-            fakeCLIEngine.outputFixes = sandbox.stub();
+            fakeCLIEngine.outputFixes = sandbox.mock().once();
 
             localCLI = proxyquire("../../lib/cli", {
                 "./cli-engine": fakeCLIEngine,
-                "./logging": log
+                "./util/logging": log
             });
 
             const exitCode = localCLI.execute("--fix .");
 
-            assert.equal(exitCode, 0);
+            assert.strictEqual(exitCode, 0);
 
         });
+
 
         it("should rewrite files when in fix mode", () => {
 
@@ -797,16 +803,16 @@ describe("cli", () => {
 
             localCLI = proxyquire("../../lib/cli", {
                 "./cli-engine": fakeCLIEngine,
-                "./logging": log
+                "./util/logging": log
             });
 
             const exitCode = localCLI.execute("--fix .");
 
-            assert.equal(exitCode, 1);
+            assert.strictEqual(exitCode, 1);
 
         });
 
-        it("should rewrite files when in fix mode and quiet mode", () => {
+        it("should provide fix predicate and rewrite files when in fix mode and quiet mode", () => {
 
             const report = {
                 errorCount: 0,
@@ -824,7 +830,7 @@ describe("cli", () => {
             };
 
             // create a fake CLIEngine to test with
-            const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ fix: true }));
+            const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ fix: sinon.match.func }));
 
             fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
             sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns(report);
@@ -834,12 +840,12 @@ describe("cli", () => {
 
             localCLI = proxyquire("../../lib/cli", {
                 "./cli-engine": fakeCLIEngine,
-                "./logging": log
+                "./util/logging": log
             });
 
             const exitCode = localCLI.execute("--fix --quiet .");
 
-            assert.equal(exitCode, 0);
+            assert.strictEqual(exitCode, 0);
 
         });
 
@@ -850,14 +856,200 @@ describe("cli", () => {
 
             localCLI = proxyquire("../../lib/cli", {
                 "./cli-engine": fakeCLIEngine,
-                "./logging": log
+                "./util/logging": log
             });
 
             const exitCode = localCLI.execute("--fix .", "foo = bar;");
 
-            assert.equal(exitCode, 1);
+            assert.strictEqual(exitCode, 2);
         });
 
+    });
+
+    describe("when passed --fix-dry-run", () => {
+        const sandbox = sinon.sandbox.create();
+        let localCLI;
+
+        afterEach(() => {
+            sandbox.verifyAndRestore();
+        });
+
+        it("should pass fix:true to CLIEngine when executing on files", () => {
+
+            // create a fake CLIEngine to test with
+            const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ fix: true }));
+
+            fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
+            sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns({
+                errorCount: 0,
+                warningCount: 0,
+                results: []
+            });
+            sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            fakeCLIEngine.outputFixes = sandbox.mock().never();
+
+            localCLI = proxyquire("../../lib/cli", {
+                "./cli-engine": fakeCLIEngine,
+                "./util/logging": log
+            });
+
+            const exitCode = localCLI.execute("--fix-dry-run .");
+
+            assert.strictEqual(exitCode, 0);
+
+        });
+
+        it("should pass fixTypes to CLIEngine when --fix-type is passed", () => {
+
+            const expectedCLIEngineOptions = {
+                fix: true,
+                fixTypes: ["suggestion"]
+            };
+
+            // create a fake CLIEngine to test with
+            const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match(expectedCLIEngineOptions));
+
+            fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
+            sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns({
+                errorCount: 0,
+                warningCount: 0,
+                results: []
+            });
+            sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            fakeCLIEngine.outputFixes = sandbox.stub();
+
+            localCLI = proxyquire("../../lib/cli", {
+                "./cli-engine": fakeCLIEngine,
+                "./util/logging": log
+            });
+
+            const exitCode = localCLI.execute("--fix-dry-run --fix-type suggestion .");
+
+            assert.strictEqual(exitCode, 0);
+        });
+
+        it("should not rewrite files when in fix-dry-run mode", () => {
+
+            const report = {
+                errorCount: 1,
+                warningCount: 0,
+                results: [{
+                    filePath: "./foo.js",
+                    output: "bar",
+                    messages: [
+                        {
+                            severity: 2,
+                            message: "Fake message"
+                        }
+                    ]
+                }]
+            };
+
+            // create a fake CLIEngine to test with
+            const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ fix: true }));
+
+            fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
+            sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns(report);
+            sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            fakeCLIEngine.outputFixes = sandbox.mock().never();
+
+            localCLI = proxyquire("../../lib/cli", {
+                "./cli-engine": fakeCLIEngine,
+                "./util/logging": log
+            });
+
+            const exitCode = localCLI.execute("--fix-dry-run .");
+
+            assert.strictEqual(exitCode, 1);
+
+        });
+
+        it("should provide fix predicate when in fix-dry-run mode and quiet mode", () => {
+
+            const report = {
+                errorCount: 0,
+                warningCount: 1,
+                results: [{
+                    filePath: "./foo.js",
+                    output: "bar",
+                    messages: [
+                        {
+                            severity: 1,
+                            message: "Fake message"
+                        }
+                    ]
+                }]
+            };
+
+            // create a fake CLIEngine to test with
+            const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ fix: sinon.match.func }));
+
+            fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
+            sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns(report);
+            sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            fakeCLIEngine.getErrorResults = sandbox.stub().returns([]);
+            fakeCLIEngine.outputFixes = sandbox.mock().never();
+
+            localCLI = proxyquire("../../lib/cli", {
+                "./cli-engine": fakeCLIEngine,
+                "./util/logging": log
+            });
+
+            const exitCode = localCLI.execute("--fix-dry-run --quiet .");
+
+            assert.strictEqual(exitCode, 0);
+
+        });
+
+        it("should allow executing on text", () => {
+
+            const report = {
+                errorCount: 1,
+                warningCount: 0,
+                results: [{
+                    filePath: "./foo.js",
+                    output: "bar",
+                    messages: [
+                        {
+                            severity: 2,
+                            message: "Fake message"
+                        }
+                    ]
+                }]
+            };
+
+            // create a fake CLIEngine to test with
+            const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ fix: true }));
+
+            fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
+            sandbox.stub(fakeCLIEngine.prototype, "executeOnText").returns(report);
+            sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            fakeCLIEngine.outputFixes = sandbox.mock().never();
+
+            localCLI = proxyquire("../../lib/cli", {
+                "./cli-engine": fakeCLIEngine,
+                "./util/logging": log
+            });
+
+            const exitCode = localCLI.execute("--fix-dry-run .", "foo = bar;");
+
+            assert.strictEqual(exitCode, 1);
+        });
+
+        it("should not call CLIEngine and return 1 when used with --fix", () => {
+
+            // create a fake CLIEngine to test with
+            const fakeCLIEngine = sandbox.mock().never();
+
+            localCLI = proxyquire("../../lib/cli", {
+                "./cli-engine": fakeCLIEngine,
+                "./util/logging": log
+            });
+
+            const exitCode = localCLI.execute("--fix --fix-dry-run .", "foo = bar;");
+
+            assert.strictEqual(exitCode, 2);
+        });
     });
 
     describe("when passing --print-config", () => {
@@ -867,7 +1059,7 @@ describe("cli", () => {
             const exitCode = cli.execute(`--print-config ${filePath}`);
 
             assert.isTrue(log.info.calledOnce);
-            assert.equal(exitCode, 0);
+            assert.strictEqual(exitCode, 0);
         });
 
         it("should error if any positional file arguments are passed", () => {
@@ -878,15 +1070,15 @@ describe("cli", () => {
 
             assert.isTrue(log.info.notCalled);
             assert.isTrue(log.error.calledOnce);
-            assert.equal(exitCode, 1);
+            assert.strictEqual(exitCode, 2);
         });
 
         it("should error out when executing on text", () => {
-            const exitCode = cli.execute("--print-config", "foo = bar;");
+            const exitCode = cli.execute("--print-config=myFile.js", "foo = bar;");
 
             assert.isTrue(log.info.notCalled);
             assert.isTrue(log.error.calledOnce);
-            assert.equal(exitCode, 1);
+            assert.strictEqual(exitCode, 2);
         });
     });
 

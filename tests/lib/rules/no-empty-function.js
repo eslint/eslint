@@ -31,9 +31,9 @@ const ALLOW_OPTIONS = Object.freeze([
  * Folds test items to `{valid: [], invalid: []}`.
  * One item would be converted to 4 valid patterns and 8 invalid patterns.
  *
- * @param {{valid: object[], invalid: object[]}} patterns - The result.
+ * @param {{valid: Object[], invalid: Object[]}} patterns - The result.
  * @param {{code: string, message: string, allow: string}} item - A test item.
- * @returns {{valid: object[], invalid: object[]}} The result.
+ * @returns {{valid: Object[], invalid: Object[]}} The result.
  */
 function toValidInvalid(patterns, item) {
 
@@ -58,10 +58,12 @@ function toValidInvalid(patterns, item) {
         }
     );
 
+    const error = item.message || { messageId: item.messageId, data: item.data };
+
     // Invalid Patterns.
     patterns.invalid.push({
         code: item.code,
-        errors: [item.message],
+        errors: [error],
         parserOptions: { ecmaVersion: 6 }
     });
     ALLOW_OPTIONS
@@ -71,7 +73,7 @@ function toValidInvalid(patterns, item) {
             // non related "allow" option has no effect.
             patterns.invalid.push({
                 code: `${item.code} // allow: ${allow}`,
-                errors: [item.message],
+                errors: [error],
                 options: [{ allow: [allow] }],
                 parserOptions: { ecmaVersion: 6 }
             });
@@ -89,147 +91,176 @@ const ruleTester = new RuleTester();
 ruleTester.run("no-empty-function", rule, [
     {
         code: "function foo() {}",
-        message: "Unexpected empty function 'foo'.",
+        messageId: "unexpected",
+        data: { name: "function 'foo'" },
         allow: "functions"
     },
     {
         code: "var foo = function() {};",
-        message: "Unexpected empty function.",
+        messageId: "unexpected",
+        data: { name: "function" },
         allow: "functions"
     },
     {
         code: "var obj = {foo: function() {}};",
-        message: "Unexpected empty method 'foo'.",
+        messageId: "unexpected",
+        data: { name: "method 'foo'" },
         allow: "functions"
     },
     {
         code: "var foo = () => {};",
-        message: "Unexpected empty arrow function.",
+        messageId: "unexpected",
+        data: { name: "arrow function" },
         allow: "arrowFunctions"
     },
     {
         code: "function* foo() {}",
-        message: "Unexpected empty generator function 'foo'.",
+        messageId: "unexpected",
+        data: { name: "generator function 'foo'" },
         allow: "generatorFunctions"
     },
     {
         code: "var foo = function*() {};",
-        message: "Unexpected empty generator function.",
+        messageId: "unexpected",
+        data: { name: "generator function" },
         allow: "generatorFunctions"
     },
     {
         code: "var obj = {foo: function*() {}};",
-        message: "Unexpected empty generator method 'foo'.",
+        messageId: "unexpected",
+        data: { name: "generator method 'foo'" },
         allow: "generatorFunctions"
     },
     {
         code: "var obj = {foo() {}};",
-        message: "Unexpected empty method 'foo'.",
+        messageId: "unexpected",
+        data: { name: "method 'foo'" },
         allow: "methods"
     },
     {
         code: "class A {foo() {}}",
-        message: "Unexpected empty method 'foo'.",
+        messageId: "unexpected",
+        data: { name: "method 'foo'" },
         allow: "methods"
     },
     {
         code: "class A {static foo() {}}",
-        message: "Unexpected empty static method 'foo'.",
+        messageId: "unexpected",
+        data: { name: "static method 'foo'" },
         allow: "methods"
     },
     {
         code: "var A = class {foo() {}};",
-        message: "Unexpected empty method 'foo'.",
+        messageId: "unexpected",
+        data: { name: "method 'foo'" },
         allow: "methods"
     },
     {
         code: "var A = class {static foo() {}};",
-        message: "Unexpected empty static method 'foo'.",
+        messageId: "unexpected",
+        data: { name: "static method 'foo'" },
         allow: "methods"
     },
     {
         code: "var obj = {*foo() {}};",
-        message: "Unexpected empty generator method 'foo'.",
+        messageId: "unexpected",
+        data: { name: "generator method 'foo'" },
         allow: "generatorMethods"
     },
     {
         code: "class A {*foo() {}}",
-        message: "Unexpected empty generator method 'foo'.",
+        messageId: "unexpected",
+        data: { name: "generator method 'foo'" },
         allow: "generatorMethods"
     },
     {
         code: "class A {static *foo() {}}",
-        message: "Unexpected empty static generator method 'foo'.",
+        messageId: "unexpected",
+        data: { name: "static generator method 'foo'" },
         allow: "generatorMethods"
     },
     {
         code: "var A = class {*foo() {}};",
-        message: "Unexpected empty generator method 'foo'.",
+        messageId: "unexpected",
+        data: { name: "generator method 'foo'" },
         allow: "generatorMethods"
     },
     {
         code: "var A = class {static *foo() {}};",
-        message: "Unexpected empty static generator method 'foo'.",
+        messageId: "unexpected",
+        data: { name: "static generator method 'foo'" },
         allow: "generatorMethods"
     },
     {
         code: "var obj = {get foo() {}};",
-        message: "Unexpected empty getter 'foo'.",
+        messageId: "unexpected",
+        data: { name: "getter 'foo'" },
         allow: "getters"
     },
     {
         code: "class A {get foo() {}}",
-        message: "Unexpected empty getter 'foo'.",
+        messageId: "unexpected",
+        data: { name: "getter 'foo'" },
         allow: "getters"
     },
     {
         code: "class A {static get foo() {}}",
-        message: "Unexpected empty static getter 'foo'.",
+        messageId: "unexpected",
+        data: { name: "static getter 'foo'" },
         allow: "getters"
     },
     {
         code: "var A = class {get foo() {}};",
-        message: "Unexpected empty getter 'foo'.",
+        messageId: "unexpected",
+        data: { name: "getter 'foo'" },
         allow: "getters"
     },
     {
         code: "var A = class {static get foo() {}};",
-        message: "Unexpected empty static getter 'foo'.",
+        messageId: "unexpected",
+        data: { name: "static getter 'foo'" },
         allow: "getters"
     },
     {
         code: "var obj = {set foo(value) {}};",
-        message: "Unexpected empty setter 'foo'.",
+        messageId: "unexpected",
+        data: { name: "setter 'foo'" },
         allow: "setters"
     },
     {
         code: "class A {set foo(value) {}}",
-        message: "Unexpected empty setter 'foo'.",
+        messageId: "unexpected",
+        data: { name: "setter 'foo'" },
         allow: "setters"
     },
     {
         code: "class A {static set foo(value) {}}",
-        message: "Unexpected empty static setter 'foo'.",
+        messageId: "unexpected",
+        data: { name: "static setter 'foo'" },
         allow: "setters"
     },
     {
         code: "var A = class {set foo(value) {}};",
-        message: "Unexpected empty setter 'foo'.",
+        messageId: "unexpected",
+        data: { name: "setter 'foo'" },
         allow: "setters"
     },
     {
         code: "var A = class {static set foo(value) {}};",
-        message: "Unexpected empty static setter 'foo'.",
+        messageId: "unexpected",
+        data: { name: "static setter 'foo'" },
         allow: "setters"
     },
     {
         code: "class A {constructor() {}}",
-        message: "Unexpected empty constructor.",
+        messageId: "unexpected",
+        data: { name: "constructor" },
         allow: "constructors"
     },
     {
         code: "var A = class {constructor() {}};",
-        message: "Unexpected empty constructor.",
+        messageId: "unexpected",
+        data: { name: "constructor" },
         allow: "constructors"
     }
 ].reduce(toValidInvalid, {

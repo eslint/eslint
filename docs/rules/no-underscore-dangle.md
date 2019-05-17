@@ -42,6 +42,7 @@ This rule has an object option:
 * `"allow"` allows specified identifiers to have dangling underscores
 * `"allowAfterThis": false` (default) disallows dangling underscores in members of the `this` object
 * `"allowAfterSuper": false` (default) disallows dangling underscores in members of the `super` object
+* `"enforceInMethodNames": false` (default) allows dangling underscores in method names
 
 ### allow
 
@@ -74,6 +75,30 @@ Examples of **correct** code for this rule with the `{ "allowAfterSuper": true }
 
 var a = super.foo_;
 super._bar();
+```
+
+### enforceInMethodNames
+
+Examples of incorrect code for this rule with the `{ "enforceInMethodNames": true }` option:
+
+```js
+/*eslint no-underscore-dangle: ["error", { "enforceInMethodNames": true }]*/
+
+class Foo {
+  _bar() {}
+}
+
+class Foo {
+  bar_() {}
+}
+
+const o = {
+  _bar() {}
+};
+
+const o = {
+  bar_() = {}
+};
 ```
 
 ## When Not To Use It

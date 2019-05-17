@@ -11,14 +11,15 @@ Anyone, both team members and the public, may leave comments on pull requests.
 When a pull request is opened, the bot will check the following:
 
 1. Has the submitter signed a CLA?
-1. Is the commit message summary in the correct format? Double-check that the tag ("Fix:", "New:", etc.) is correct based on the issue. Documentation-only pull requests do not require an issue.
-1. Does the commit summary reference an issue?
+1. Is the commit message summary in the correct format?
 1. Is the commit summary too long?
 
 The bot will add a comment specifying the problems that it finds. You do not need to look at the pull request any further until those problems have been addressed (there's no need to comment on the pull request to ask the submitter to do what the bot asked - that's why we have the bot!).
 
 Once the bot checks have been satisfied, you check the following:
 
+1. Double-check that the commit message tag ("Fix:", "New:", etc.) is correct based on the issue (or, if no issue is referenced, based on the stated problem).
+1. If the pull request makes a change to core, ensure that an issue exists and the pull request references the issue in the commit message.
 1. Does the code follow our conventions (including header comments, JSDoc comments, etc.)? If not, please leave that feedback and reference the conventions document.
 1. For code changes:
     * Are there tests that verify the change? If not, please ask for them.
@@ -37,7 +38,8 @@ Committers may merge a pull request if it is a non-breaking change and is:
 1. A documentation change
 1. A bug fix (for either rules or core)
 1. A dependency upgrade
-1. Related to the build system
+1. Related to the build tool
+1. A chore
 
 In addition, committers may merge any non-breaking pull request if it has been approved by at least one TSC member.
 
@@ -57,7 +59,7 @@ Team members may merge a pull request immediately if it:
 
 1. Makes a small documentation change
 1. Is a chore
-1. Fixes a block of other work on the repo (build-related, test-related, dependency-related, etc.)
+1. Fixes a block of other work on the repository (build-related, test-related, dependency-related, etc.)
 1. Is an important fix to get into a patch release
 
 Otherwise, team members should observe a waiting period before merging a pull request:
@@ -66,6 +68,8 @@ Otherwise, team members should observe a waiting period before merging a pull re
 * Wait **3 days** if the pull request was opened on Saturday or Sunday.
 
 The waiting period ensures that other team members have a chance to review the pull request before it is merged.
+
+If the pull request was created from a branch on the `eslint/eslint` repository (as opposed to a fork), delete the branch after merging the pull request. (GitHub will display a "Delete branch" button after the pull request is merged.)
 
 **Note:** You should not merge your own pull request unless you're received feedback from at least one other team member.
 

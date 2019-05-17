@@ -22,7 +22,7 @@ ruleTester.run("no-restricted-modules", rule, {
     valid: [
         { code: "require(\"fs\")", options: ["crypto"] },
         { code: "require(\"path\")", options: ["crypto", "stream", "os"] },
-        { code: "require(\"fs \")", args: 0 },
+        "require(\"fs \")",
         { code: "require(2)", options: ["crypto"] },
         { code: "require(foo)", options: ["crypto"] },
         { code: "var foo = bar('crypto');", options: ["crypto"] },
@@ -60,5 +60,41 @@ ruleTester.run("no-restricted-modules", rule, {
         code: "var withGitignores = require(\"foo/bar\");",
         options: [{ patterns: ["foo/*", "!foo/baz"], paths: ["foo"] }],
         errors: [{ message: "'foo/bar' module is restricted from being used by a pattern.", type: "CallExpression" }]
+    }, {
+        code: "var withGitignores = require(\"foo\");",
+        options: [{
+            name: "foo",
+            message: "Please use 'bar' module instead."
+        }],
+        errors: [{
+            message: "'foo' module is restricted from being used. Please use 'bar' module instead.",
+            type: "CallExpression"
+        }]
+    }, {
+        code: "var withGitignores = require(\"bar\");",
+        options: [
+            "foo",
+            {
+                name: "bar",
+                message: "Please use 'baz' module instead."
+            },
+            "baz"
+        ],
+        errors: [{
+            message: "'bar' module is restricted from being used. Please use 'baz' module instead.",
+            type: "CallExpression"
+        }]
+    }, {
+        code: "var withGitignores = require(\"foo\");",
+        options: [{
+            paths: [{
+                name: "foo",
+                message: "Please use 'bar' module instead."
+            }]
+        }],
+        errors: [{
+            message: "'foo' module is restricted from being used. Please use 'bar' module instead.",
+            type: "CallExpression"
+        }]
     }]
 });

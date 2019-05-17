@@ -175,7 +175,7 @@ If the `ignoreConsecutiveComments` option is set to `true`, then comments which 
 Examples of **correct** code with `ignoreConsecutiveComments` set to `true`:
 
 ```js
-/* eslint capitalize-comments: ["error", "always", { "ignoreConsecutiveComments": true }] */
+/* eslint capitalized-comments: ["error", "always", { "ignoreConsecutiveComments": true }] */
 
 // This comment is valid since it has the correct capitalization.
 // this comment is ignored since it follows another comment,
@@ -191,7 +191,7 @@ Examples of **correct** code with `ignoreConsecutiveComments` set to `true`:
 Examples of **incorrect** code with `ignoreConsecutiveComments` set to `true`:
 
 ```js
-/* eslint capitalize-comments: ["error", "always", { "ignoreConsecutiveComments": true }] */
+/* eslint capitalized-comments: ["error", "always", { "ignoreConsecutiveComments": true }] */
 
 // this comment is invalid, but only on this line.
 // this comment does NOT get reported, since it is a consecutive comment.
@@ -245,4 +245,5 @@ This rule can be disabled if you do not care about the grammatical style of comm
 
 ## Compatibility
 
-* **JSCS**: [requireCapitalizedComments](http://jscs.info/rule/requireCapitalizedComments) and [disallowCapitalizedComments](http://jscs.info/rule/disallowCapitalizedComments)
+* **JSCS**: [requireCapitalizedComments](https://jscs-dev.github.io/rule/requireCapitalizedComments)
+* **JSCS**: [disallowCapitalizedComments](https://jscs-dev.github.io/rule/disallowCapitalizedComments)

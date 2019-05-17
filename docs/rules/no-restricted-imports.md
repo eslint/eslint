@@ -1,6 +1,6 @@
 # Disallow specific imports (no-restricted-imports)
 
-Imports are an ES6/ES2015 standard for making the functionality of other modules available in your current module. In CommonJS this is implemented through the require() call which makes this ESLint rule roughly equivalent to its CommonJS counterpart `no-restricted-modules`.
+Imports are an ES6/ES2015 standard for making the functionality of other modules available in your current module. In CommonJS this is implemented through the `require()` call which makes this ESLint rule roughly equivalent to its CommonJS counterpart `no-restricted-modules`.
 
 Why would you want to restrict imports?
 
@@ -35,6 +35,40 @@ When using the object form, you can also specify an array of gitignore-style pat
 }]
 ```
 
+You may also specify a custom message for any paths you want to restrict as follows:
+
+```json
+"no-restricted-imports": ["error", [{
+  "name": "import-foo",
+  "message": "Please use import-bar instead."
+}]]
+```
+
+or like this:
+
+```json
+"no-restricted-imports": ["error", {
+  "paths": [{
+    "name": "import-foo",
+    "message": "Please use import-bar instead."
+  }]
+}]
+```
+
+or like this if you need to restrict only certain imports from a module:
+
+```json
+"no-restricted-imports": ["error", {
+  "paths": [{
+    "name": "import-foo",
+    "importNames": ["Bar"],
+    "message": "Please use Bar from /import-bar/baz/ instead."
+  }]
+}]
+```
+
+The custom message will be appended to the default error message. Please note that you may not specify custom error messages for restricted patterns as a particular import may match more than one pattern.
+
 To restrict the use of all Node.js core imports (via https://github.com/nodejs/node/tree/master/lib):
 
 ```json
@@ -54,6 +88,18 @@ import fs from 'fs';
 ```
 
 ```js
+/*eslint no-restricted-imports: ["error", "fs"]*/
+
+export { fs } from 'fs';
+```
+
+```js
+/*eslint no-restricted-imports: ["error", "fs"]*/
+
+export * from 'fs';
+```
+
+```js
 /*eslint no-restricted-imports: ["error", { "paths": ["cluster"] }]*/
 
 import cluster from 'cluster';
@@ -65,12 +111,43 @@ import cluster from 'cluster';
 import pick from 'lodash/pick';
 ```
 
+```js
+/*eslint no-restricted-imports: ["error", { paths: [{
+    name: "foo",
+    importNames: ["default"],
+    message: "Please use the default import from '/bar/baz/' instead."
+}]}]*/
+
+import DisallowedObject from "foo";
+```
+
+```js
+/*eslint no-restricted-imports: ["error", { paths: [{
+    name: "foo",
+    importNames: ["DisallowedObject"],
+    message: "Please import 'DisallowedObject' from '/bar/baz/' instead."
+}]}]*/
+
+import { DisallowedObject as AllowedObject } from "foo";
+```
+
+```js
+/*eslint no-restricted-imports: ["error", { paths: [{
+    name: "foo",
+    importNames: ["DisallowedObject"],
+    message: "Please import 'DisallowedObject' from '/bar/baz/' instead."
+}]}]*/
+
+import * as Foo from "foo";
+```
+
 Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-restricted-imports: ["error", "fs"]*/
 
 import crypto from 'crypto';
+export { foo } from "bar";
 ```
 
 ```js
@@ -78,6 +155,23 @@ import crypto from 'crypto';
 
 import crypto from 'crypto';
 import eslint from 'eslint';
+export * from "path";
+```
+
+```js
+/*eslint no-restricted-imports: ["error", { paths: [{ name: "foo", importNames: ["DisallowedObject"] }] }]*/
+
+import DisallowedObject from "foo"
+```
+
+```js
+/*eslint no-restricted-imports: ["error", { paths: [{
+    name: "foo",
+    importNames: ["DisallowedObject"],
+    message: "Please import 'DisallowedObject' from '/bar/baz/' instead."
+}]}]*/
+
+import { AllowedObject as DisallowedObject } from "foo";
 ```
 
 ## When Not To Use It

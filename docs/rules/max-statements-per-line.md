@@ -3,7 +3,7 @@
 A line of code containing too many statements can be difficult to read. Code is generally read from the top down, especially when scanning, so limiting the number of statements allowed on a single line can be very beneficial for readability and maintainability.
 
 ```js
-function () { var bar; if (condition) { bar = 1; } else { bar = 2; } return true; } // too many statements
+function foo () { var bar; if (condition) { bar = 1; } else { bar = 2; } return true; } // too many statements
 ```
 
 ## Rule Details
@@ -80,6 +80,8 @@ You can turn this rule off if you are not concerned with the number of statement
 
 * [max-depth](max-depth.md)
 * [max-len](max-len.md)
+* [max-lines](max-lines.md)
+* [max-lines-per-function](max-lines-per-function.md)
 * [max-nested-callbacks](max-nested-callbacks.md)
 * [max-params](max-params.md)
 * [max-statements](max-statements.md)

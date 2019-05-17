@@ -19,16 +19,31 @@ const ruleTester = new RuleTester();
 
 ruleTester.run("no-restricted-syntax", rule, {
     valid: [
-        { code: "doSomething();" },
+
+        // string format
+        "doSomething();",
         { code: "var foo = 42;", options: ["ConditionalExpression"] },
         { code: "foo += 42;", options: ["VariableDeclaration", "FunctionExpression"] },
         { code: "foo;", options: ["Identifier[name=\"bar\"]"] },
         { code: "() => 5", options: ["ArrowFunctionExpression > BlockStatement"], parserOptions: { ecmaVersion: 6 } },
         { code: "({ foo: 1, bar: 2 })", options: ["Property > Literal.key"] },
         { code: "A: for (;;) break;", options: ["BreakStatement[label]"] },
-        { code: "function foo(bar, baz) {}", options: ["FunctionDeclaration[params.length>2]"] }
+        { code: "function foo(bar, baz) {}", options: ["FunctionDeclaration[params.length>2]"] },
+
+        //  object format
+        { code: "var foo = 42;", options: [{ selector: "ConditionalExpression" }] },
+        { code: "({ foo: 1, bar: 2 })", options: [{ selector: "Property > Literal.key" }] },
+        {
+            code: "({ foo: 1, bar: 2 })",
+            options: [{ selector: "FunctionDeclaration[params.length>2]", message: "custom error message." }]
+        },
+
+        // https://github.com/eslint/eslint/issues/8733
+        { code: "console.log(/a/);", options: ["Literal[regex.flags=/./]"] }
     ],
     invalid: [
+
+        // string format
         {
             code: "var foo = 41;",
             options: ["VariableDeclaration"],
@@ -64,8 +79,8 @@ ruleTester.run("no-restricted-syntax", rule, {
         },
         {
             code: "() => {}",
-            parserOptions: { ecmaVersion: 6 },
             options: ["ArrowFunctionExpression > BlockStatement"],
+            parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Using 'ArrowFunctionExpression > BlockStatement' is not allowed.", type: "BlockStatement" }]
         },
         {
@@ -82,6 +97,37 @@ ruleTester.run("no-restricted-syntax", rule, {
             code: "function foo(bar, baz, qux) {}",
             options: ["FunctionDeclaration[params.length>2]"],
             errors: [{ message: "Using 'FunctionDeclaration[params.length>2]' is not allowed.", type: "FunctionDeclaration" }]
+        },
+
+        // object format
+        {
+            code: "var foo = 41;",
+            options: [{ selector: "VariableDeclaration" }],
+            errors: [{ message: "Using 'VariableDeclaration' is not allowed.", type: "VariableDeclaration" }]
+        },
+        {
+            code: "function foo(bar, baz, qux) {}",
+            options: [{ selector: "FunctionDeclaration[params.length>2]" }],
+            errors: [{ message: "Using 'FunctionDeclaration[params.length>2]' is not allowed.", type: "FunctionDeclaration" }]
+        },
+        {
+            code: "function foo(bar, baz, qux) {}",
+            options: [{ selector: "FunctionDeclaration[params.length>2]", message: "custom error message." }],
+            errors: [{ message: "custom error message.", type: "FunctionDeclaration" }]
+        },
+
+        // with object format, the custom message may contain the string '{{selector}}'
+        {
+            code: "function foo(bar, baz, qux) {}",
+            options: [{ selector: "FunctionDeclaration[params.length>2]", message: "custom message with {{selector}}" }],
+            errors: [{ message: "custom message with {{selector}}", type: "FunctionDeclaration" }]
+        },
+
+        // https://github.com/eslint/eslint/issues/8733
+        {
+            code: "console.log(/a/i);",
+            options: ["Literal[regex.flags=/./]"],
+            errors: [{ message: "Using 'Literal[regex.flags=/./]' is not allowed.", type: "Literal" }]
         }
     ]
 });

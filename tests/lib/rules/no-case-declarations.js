@@ -40,43 +40,43 @@ ruleTester.run("no-case-declarations", rule, {
     invalid: [
         {
             code: "switch (a) { case 1: let x = 1; break; }",
-            errors: [{ message: "Unexpected lexical declaration in case block." }],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unexpected", type: "VariableDeclaration" }]
         },
         {
             code: "switch (a) { default: let x = 2; break; }",
-            errors: [{ message: "Unexpected lexical declaration in case block." }],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unexpected", type: "VariableDeclaration" }]
         },
         {
             code: "switch (a) { case 1: const x = 1; break; }",
-            errors: [{ message: "Unexpected lexical declaration in case block." }],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unexpected", type: "VariableDeclaration" }]
         },
         {
             code: "switch (a) { default: const x = 2; break; }",
-            errors: [{ message: "Unexpected lexical declaration in case block." }],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unexpected", type: "VariableDeclaration" }]
         },
         {
             code: "switch (a) { case 1: function f() {} break; }",
-            errors: [{ message: "Unexpected lexical declaration in case block." }],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unexpected", type: "FunctionDeclaration" }]
         },
         {
             code: "switch (a) { default: function f() {} break; }",
-            errors: [{ message: "Unexpected lexical declaration in case block." }],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unexpected", type: "FunctionDeclaration" }]
         },
         {
             code: "switch (a) { case 1: class C {} break; }",
-            errors: [{ message: "Unexpected lexical declaration in case block." }],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unexpected", type: "ClassDeclaration" }]
         },
         {
             code: "switch (a) { default: class C {} break; }",
-            errors: [{ message: "Unexpected lexical declaration in case block." }],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unexpected", type: "ClassDeclaration" }]
         }
     ]
 });

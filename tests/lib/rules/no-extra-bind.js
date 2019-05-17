@@ -16,7 +16,7 @@ const rule = require("../../../lib/rules/no-extra-bind"),
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester();
-const errors = [{ message: "The function binding is unnecessary.", type: "CallExpression" }];
+const errors = [{ messageId: "unexpected", type: "CallExpression" }];
 
 ruleTester.run("no-extra-bind", rule, {
     valid: [
@@ -71,8 +71,31 @@ ruleTester.run("no-extra-bind", rule, {
             errors
         },
         {
+            code: "var a = function() { return 1; }.bind(this)",
+            output: "var a = function() { return 1; }",
+            errors
+        },
+        {
             code: "var a = function() { (function(){ (function(){ this.d }.bind(c)) }) }.bind(b)",
             output: "var a = function() { (function(){ (function(){ this.d }.bind(c)) }) }",
-            errors: [{ message: "The function binding is unnecessary.", type: "CallExpression", column: 71 }] }
+            errors: [{ messageId: "unexpected", type: "CallExpression", column: 71 }]
+        },
+
+        // Should not autofix if bind expression args have side effects
+        {
+            code: "var a = function() {}.bind(b++)",
+            output: null,
+            errors
+        },
+        {
+            code: "var a = function() {}.bind(b())",
+            output: null,
+            errors
+        },
+        {
+            code: "var a = function() {}.bind(b.c)",
+            output: null,
+            errors
+        }
     ]
 });

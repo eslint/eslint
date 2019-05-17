@@ -16,8 +16,9 @@ const rule = require("../../../lib/rules/use-isnan"),
 // Tests
 //------------------------------------------------------------------------------
 
-
 const ruleTester = new RuleTester();
+
+const error = { messageId: "useIsNaN", type: "BinaryExpression" };
 
 ruleTester.run("use-isnan", rule, {
     valid: [
@@ -37,37 +38,69 @@ ruleTester.run("use-isnan", rule, {
         "var x; if (x = NaN) { }"
     ],
     invalid: [
-        { code: "123 == NaN;",
-            errors: [{ message: "Use the isNaN function to compare with NaN.", type: "BinaryExpression" }] },
-        { code: "123 === NaN;",
-            errors: [{ message: "Use the isNaN function to compare with NaN.", type: "BinaryExpression" }] },
-        { code: "NaN === \"abc\";",
-            errors: [{ message: "Use the isNaN function to compare with NaN.", type: "BinaryExpression" }] },
-        { code: "NaN == \"abc\";",
-            errors: [{ message: "Use the isNaN function to compare with NaN.", type: "BinaryExpression" }] },
-        { code: "123 != NaN;",
-            errors: [{ message: "Use the isNaN function to compare with NaN.", type: "BinaryExpression" }] },
-        { code: "123 !== NaN;",
-            errors: [{ message: "Use the isNaN function to compare with NaN.", type: "BinaryExpression" }] },
-        { code: "NaN !== \"abc\";",
-            errors: [{ message: "Use the isNaN function to compare with NaN.", type: "BinaryExpression" }] },
-        { code: "NaN != \"abc\";",
-            errors: [{ message: "Use the isNaN function to compare with NaN.", type: "BinaryExpression" }] },
-        { code: "NaN < \"abc\";",
-            errors: [{ message: "Use the isNaN function to compare with NaN.", type: "BinaryExpression" }] },
-        { code: "\"abc\" < NaN;",
-            errors: [{ message: "Use the isNaN function to compare with NaN.", type: "BinaryExpression" }] },
-        { code: "NaN > \"abc\";",
-            errors: [{ message: "Use the isNaN function to compare with NaN.", type: "BinaryExpression" }] },
-        { code: "\"abc\" > NaN;",
-            errors: [{ message: "Use the isNaN function to compare with NaN.", type: "BinaryExpression" }] },
-        { code: "NaN <= \"abc\";",
-            errors: [{ message: "Use the isNaN function to compare with NaN.", type: "BinaryExpression" }] },
-        { code: "\"abc\" <= NaN;",
-            errors: [{ message: "Use the isNaN function to compare with NaN.", type: "BinaryExpression" }] },
-        { code: "NaN >= \"abc\";",
-            errors: [{ message: "Use the isNaN function to compare with NaN.", type: "BinaryExpression" }] },
-        { code: "\"abc\" >= NaN;",
-            errors: [{ message: "Use the isNaN function to compare with NaN.", type: "BinaryExpression" }] }
+        {
+            code: "123 == NaN;",
+            errors: [error]
+        },
+        {
+            code: "123 === NaN;",
+            errors: [error]
+        },
+        {
+            code: "NaN === \"abc\";",
+            errors: [error]
+        },
+        {
+            code: "NaN == \"abc\";",
+            errors: [error]
+        },
+        {
+            code: "123 != NaN;",
+            errors: [error]
+        },
+        {
+            code: "123 !== NaN;",
+            errors: [error]
+        },
+        {
+            code: "NaN !== \"abc\";",
+            errors: [error]
+        },
+        {
+            code: "NaN != \"abc\";",
+            errors: [error]
+        },
+        {
+            code: "NaN < \"abc\";",
+            errors: [error]
+        },
+        {
+            code: "\"abc\" < NaN;",
+            errors: [error]
+        },
+        {
+            code: "NaN > \"abc\";",
+            errors: [error]
+        },
+        {
+            code: "\"abc\" > NaN;",
+            errors: [error]
+        },
+        {
+            code: "NaN <= \"abc\";",
+            errors: [error]
+        },
+        {
+            code: "\"abc\" <= NaN;",
+            errors: [error]
+        },
+        {
+            code: "NaN >= \"abc\";",
+            errors: [error]
+        },
+        {
+            code: "\"abc\" >= NaN;",
+            errors: [error]
+        }
     ]
 });

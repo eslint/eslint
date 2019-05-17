@@ -17,7 +17,7 @@ const rule = require("../../../lib/rules/no-fallthrough"),
 //------------------------------------------------------------------------------
 
 const errorsDefault = [{
-    message: "Expected a 'break' statement before 'default'.",
+    messageId: "default",
     type: "SwitchCase"
 }];
 
@@ -28,7 +28,6 @@ ruleTester.run("no-fallthrough", rule, {
         "switch(foo) { case 0: a(); /* falls through */ case 1: b(); }",
         "switch(foo) { case 0: a()\n /* falls through */ case 1: b(); }",
         "switch(foo) { case 0: a(); /* fall through */ case 1: b(); }",
-        "switch(foo) { case 0: a(); /* falls through */ case 1: b(); }",
         "switch(foo) { case 0: a(); /* fallthrough */ case 1: b(); }",
         "switch(foo) { case 0: a(); /* FALLS THROUGH */ case 1: b(); }",
         "function foo() { switch(foo) { case 0: a(); return; case 1: b(); }; }",
@@ -92,7 +91,7 @@ ruleTester.run("no-fallthrough", rule, {
             code: "switch(foo) { case 0: a();\ncase 1: b() }",
             errors: [
                 {
-                    message: "Expected a 'break' statement before 'case'.",
+                    messageId: "case",
                     type: "SwitchCase",
                     line: 2,
                     column: 1
@@ -103,7 +102,7 @@ ruleTester.run("no-fallthrough", rule, {
             code: "switch(foo) { case 0: a();\ndefault: b() }",
             errors: [
                 {
-                    message: "Expected a 'break' statement before 'default'.",
+                    messageId: "default",
                     type: "SwitchCase",
                     line: 2,
                     column: 1
@@ -149,7 +148,7 @@ ruleTester.run("no-fallthrough", rule, {
             }],
             errors: [
                 {
-                    message: "Expected a 'break' statement before 'case'.",
+                    messageId: "case",
                     type: "SwitchCase",
                     line: 3,
                     column: 1
@@ -163,8 +162,8 @@ ruleTester.run("no-fallthrough", rule, {
             }],
             errors: [
                 {
-                    message: errorsDefault.message,
-                    type: errorsDefault.type,
+                    messageId: "default",
+                    type: "SwitchCase",
                     line: 4,
                     column: 1
                 }

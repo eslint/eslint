@@ -58,7 +58,7 @@ function override(keyword, value) {
  * @returns {string[]} An error message.
  */
 function expectedBefore(keyword) {
-    return [`Expected space(s) before "${keyword}".`];
+    return [{ messageId: "expectedBefore", data: { value: keyword } }];
 }
 
 /**
@@ -68,7 +68,7 @@ function expectedBefore(keyword) {
  * @returns {string[]} An error message.
  */
 function expectedAfter(keyword) {
-    return [`Expected space(s) after "${keyword}".`];
+    return [{ messageId: "expectedAfter", data: { value: keyword } }];
 }
 
 /**
@@ -80,8 +80,8 @@ function expectedAfter(keyword) {
  */
 function expectedBeforeAndAfter(keyword) {
     return [
-        `Expected space(s) before "${keyword}".`,
-        `Expected space(s) after "${keyword}".`
+        { messageId: "expectedBefore", data: { value: keyword } },
+        { messageId: "expectedAfter", data: { value: keyword } }
     ];
 }
 
@@ -92,7 +92,7 @@ function expectedBeforeAndAfter(keyword) {
  * @returns {string[]} An error message.
  */
 function unexpectedBefore(keyword) {
-    return [`Unexpected space(s) before "${keyword}".`];
+    return [{ messageId: "unexpectedBefore", data: { value: keyword } }];
 }
 
 /**
@@ -102,7 +102,7 @@ function unexpectedBefore(keyword) {
  * @returns {string[]} An error message.
  */
 function unexpectedAfter(keyword) {
-    return [`Unexpected space(s) after "${keyword}".`];
+    return [{ messageId: "unexpectedAfter", data: { value: keyword } }];
 }
 
 /**
@@ -114,8 +114,8 @@ function unexpectedAfter(keyword) {
  */
 function unexpectedBeforeAndAfter(keyword) {
     return [
-        `Unexpected space(s) before "${keyword}".`,
-        `Unexpected space(s) after "${keyword}".`
+        { messageId: "unexpectedBefore", data: { value: keyword } },
+        { messageId: "unexpectedAfter", data: { value: keyword } }
     ];
 }
 
@@ -179,6 +179,10 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "({[async function foo() {}]: 0})", parserOptions: { ecmaVersion: 8 } },
         { code: "a[ async function foo() {}]", options: [NEITHER], parserOptions: { ecmaVersion: 8 } },
         { code: "({[ async function foo() {}]: 0})", options: [NEITHER], parserOptions: { ecmaVersion: 8 } },
+
+        // not conflict with `generator-star-spacing`
+        { code: "({ async* foo() {} })", parserOptions: { ecmaVersion: 2018 } },
+        { code: "({ async *foo() {} })", options: [NEITHER], parserOptions: { ecmaVersion: 2018 } },
 
         // not conflict with `key-spacing`
         { code: "({a:async function foo() {} })", parserOptions: { ecmaVersion: 8 } },
@@ -275,47 +279,47 @@ ruleTester.run("keyword-spacing", rule, {
         // break
         //----------------------------------------------------------------------
 
-        { code: "A: for (;;) { {} break A; }" },
+        "A: for (;;) { {} break A; }",
         { code: "A: for(;;) { {}break A; }", options: [NEITHER] },
         { code: "A: for(;;) { {} break A; }", options: [override("break", BOTH)] },
         { code: "A: for (;;) { {}break A; }", options: [override("break", NEITHER)] },
 
         // not conflict with `block-spacing`
-        { code: "for (;;) {break}" },
+        "for (;;) {break}",
         { code: "for(;;) { break }", options: [NEITHER] },
 
         // not conflict with `semi-spacing`
-        { code: "for (;;) { ;break; }" },
+        "for (;;) { ;break; }",
         { code: "for(;;) { ; break ; }", options: [NEITHER] },
 
         //----------------------------------------------------------------------
         // case
         //----------------------------------------------------------------------
 
-        { code: "switch (a) { case 0: {} case +1: }" },
-        { code: "switch (a) { case 0: {} case (1): }" },
+        "switch (a) { case 0: {} case +1: }",
+        "switch (a) { case 0: {} case (1): }",
         { code: "switch(a) { case 0: {}case+1: }", options: [NEITHER] },
         { code: "switch(a) { case 0: {}case(1): }", options: [NEITHER] },
         { code: "switch(a) { case 0: {} case +1: }", options: [override("case", BOTH)] },
         { code: "switch (a) { case 0: {}case+1: }", options: [override("case", NEITHER)] },
 
         // not conflict with `block-spacing`
-        { code: "switch (a) {case 0: }" },
+        "switch (a) {case 0: }",
         { code: "switch(a) { case 0: }", options: [NEITHER] },
 
         // not conflict with `semi-spacing`
-        { code: "switch (a) { case 0: ;case 1: }" },
+        "switch (a) { case 0: ;case 1: }",
         { code: "switch(a) { case 0: ; case 1: }", options: [NEITHER] },
 
         //----------------------------------------------------------------------
         // catch
         //----------------------------------------------------------------------
 
-        { code: "try {} catch (e) {}" },
+        "try {} catch (e) {}",
         { code: "try{}catch(e) {}", options: [NEITHER] },
         { code: "try{} catch (e) {}", options: [override("catch", BOTH)] },
         { code: "try {}catch(e) {}", options: [override("catch", NEITHER)] },
-        { code: "try {}\ncatch (e) {}" },
+        "try {}\ncatch (e) {}",
         { code: "try{}\ncatch(e) {}", options: [NEITHER] },
 
         //----------------------------------------------------------------------
@@ -360,7 +364,6 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "; class Bar {} ;", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `space-in-parens`
-        { code: "(class {})", parserOptions: { ecmaVersion: 6 } },
         { code: "( class{})", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `space-infix-ops`
@@ -404,64 +407,64 @@ ruleTester.run("keyword-spacing", rule, {
         // continue
         //----------------------------------------------------------------------
 
-        { code: "A: for (;;) { {} continue A; }" },
+        "A: for (;;) { {} continue A; }",
         { code: "A: for(;;) { {}continue A; }", options: [NEITHER] },
         { code: "A: for(;;) { {} continue A; }", options: [override("continue", BOTH)] },
         { code: "A: for (;;) { {}continue A; }", options: [override("continue", NEITHER)] },
 
         // not conflict with `block-spacing`
-        { code: "for (;;) {continue}" },
+        "for (;;) {continue}",
         { code: "for(;;) { continue }", options: [NEITHER] },
 
         // not conflict with `semi-spacing`
-        { code: "for (;;) { ;continue; }" },
+        "for (;;) { ;continue; }",
         { code: "for(;;) { ; continue ; }", options: [NEITHER] },
 
         //----------------------------------------------------------------------
         // debugger
         //----------------------------------------------------------------------
 
-        { code: "{} debugger" },
+        "{} debugger",
         { code: "{}debugger", options: [NEITHER] },
         { code: "{} debugger", options: [override("debugger", BOTH)] },
         { code: "{}debugger", options: [override("debugger", NEITHER)] },
 
         // not conflict with `block-spacing`
-        { code: "{debugger}" },
+        "{debugger}",
         { code: "{ debugger }", options: [NEITHER] },
 
         // not conflict with `semi-spacing`
-        { code: ";debugger;" },
+        ";debugger;",
         { code: "; debugger ;", options: [NEITHER] },
 
         //----------------------------------------------------------------------
         // default
         //----------------------------------------------------------------------
 
-        { code: "switch (a) { case 0: {} default: }" },
+        "switch (a) { case 0: {} default: }",
         { code: "switch(a) { case 0: {}default: }", options: [NEITHER] },
         { code: "switch(a) { case 0: {} default: }", options: [override("default", BOTH)] },
         { code: "switch (a) { case 0: {}default: }", options: [override("default", NEITHER)] },
 
         // not conflict with `block-spacing`
-        { code: "switch (a) {default:}" },
+        "switch (a) {default:}",
         { code: "switch(a) { default: }", options: [NEITHER] },
 
         // not conflict with `semi-spacing`
-        { code: "switch (a) { case 0: ;default: }" },
+        "switch (a) { case 0: ;default: }",
         { code: "switch(a) { case 0: ; default: }", options: [NEITHER] },
 
         //----------------------------------------------------------------------
         // delete
         //----------------------------------------------------------------------
 
-        { code: "{} delete foo.a" },
+        "{} delete foo.a",
         { code: "{}delete foo.a", options: [NEITHER] },
         { code: "{} delete foo.a", options: [override("delete", BOTH)] },
         { code: "{}delete foo.a", options: [override("delete", NEITHER)] },
 
         // not conflict with `array-bracket-spacing`
-        { code: "[delete foo.a]" },
+        "[delete foo.a]",
         { code: "[ delete foo.a]", options: [NEITHER] },
 
         // not conflict with `arrow-spacing`
@@ -469,37 +472,37 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "(() => delete foo.a)", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `block-spacing`
-        { code: "{delete foo.a }" },
+        "{delete foo.a }",
         { code: "{ delete foo.a }", options: [NEITHER] },
 
         // not conflict with `comma-spacing`
-        { code: "(0,delete foo.a)" },
+        "(0,delete foo.a)",
         { code: "(0, delete foo.a)", options: [NEITHER] },
 
         // not conflict with `computed-property-spacing`
-        { code: "a[delete foo.a]" },
+        "a[delete foo.a]",
         { code: "({[delete foo.a]: 0})", parserOptions: { ecmaVersion: 6 } },
         { code: "a[ delete foo.a]", options: [NEITHER] },
         { code: "({[ delete foo.a]: 0})", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `key-spacing`
-        { code: "({a:delete foo.a })" },
+        "({a:delete foo.a })",
         { code: "({a: delete foo.a })", options: [NEITHER] },
 
         // not conflict with `semi-spacing`
-        { code: ";delete foo.a" },
+        ";delete foo.a",
         { code: "; delete foo.a", options: [NEITHER] },
 
         // not conflict with `space-in-parens`
-        { code: "(delete foo.a)" },
+        "(delete foo.a)",
         { code: "( delete foo.a)", options: [NEITHER] },
 
         // not conflict with `space-infix-ops`
-        { code: "a =delete foo.a" },
+        "a =delete foo.a",
         { code: "a = delete foo.a", options: [NEITHER] },
 
         // not conflict with `space-unary-ops`
-        { code: "!delete(foo.a)" },
+        "!delete(foo.a)",
         { code: "! delete (foo.a)", options: [NEITHER] },
 
         // not conflict with `template-curly-spacing`
@@ -514,31 +517,31 @@ ruleTester.run("keyword-spacing", rule, {
         // do
         //----------------------------------------------------------------------
 
-        { code: "{} do {} while (true)" },
+        "{} do {} while (true)",
         { code: "{}do{}while(true)", options: [NEITHER] },
         { code: "{} do {}while(true)", options: [override("do", BOTH)] },
         { code: "{}do{} while (true)", options: [override("do", NEITHER)] },
-        { code: "{}\ndo\n{} while (true)" },
+        "{}\ndo\n{} while (true)",
         { code: "{}\ndo\n{}while(true)", options: [NEITHER] },
 
         // not conflict with `block-spacing`
-        { code: "{do {} while (true)}" },
+        "{do {} while (true)}",
         { code: "{ do{}while(true) }", options: [NEITHER] },
 
         // not conflict with `semi-spacing`
-        { code: ";do; while (true)" },
+        ";do; while (true)",
         { code: "; do ;while(true)", options: [NEITHER] },
 
         //----------------------------------------------------------------------
         // else
         //----------------------------------------------------------------------
 
-        { code: "if (a) {} else {}" },
-        { code: "if (a) {} else if (b) {}" },
-        { code: "if (a) {} else (0)" },
-        { code: "if (a) {} else []" },
-        { code: "if (a) {} else +1" },
-        { code: "if (a) {} else \"a\"" },
+        "if (a) {} else {}",
+        "if (a) {} else if (b) {}",
+        "if (a) {} else (0)",
+        "if (a) {} else []",
+        "if (a) {} else +1",
+        "if (a) {} else \"a\"",
         { code: "if(a){}else{}", options: [NEITHER] },
         { code: "if(a){}else if(b) {}", options: [NEITHER] },
         { code: "if(a) {}else(0)", options: [NEITHER] },
@@ -547,11 +550,11 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "if(a) {}else\"a\"", options: [NEITHER] },
         { code: "if(a) {} else {}", options: [override("else", BOTH)] },
         { code: "if (a) {}else{}", options: [override("else", NEITHER)] },
-        { code: "if (a) {}\nelse\n{}" },
+        "if (a) {}\nelse\n{}",
         { code: "if(a) {}\nelse\n{}", options: [NEITHER] },
 
         // not conflict with `semi-spacing`
-        { code: "if (a);else;" },
+        "if (a);else;",
         { code: "if(a); else ;", options: [NEITHER] },
 
         //----------------------------------------------------------------------
@@ -582,19 +585,19 @@ ruleTester.run("keyword-spacing", rule, {
         // finally
         //----------------------------------------------------------------------
 
-        { code: "try {} finally {}" },
+        "try {} finally {}",
         { code: "try{}finally{}", options: [NEITHER] },
         { code: "try{} finally {}", options: [override("finally", BOTH)] },
         { code: "try {}finally{}", options: [override("finally", NEITHER)] },
-        { code: "try {}\nfinally\n{}" },
+        "try {}\nfinally\n{}",
         { code: "try{}\nfinally\n{}", options: [NEITHER] },
 
         //----------------------------------------------------------------------
         // for
         //----------------------------------------------------------------------
 
-        { code: "{} for (;;) {}" },
-        { code: "{} for (var foo in obj) {}" },
+        "{} for (;;) {}",
+        "{} for (var foo in obj) {}",
         { code: "{} for (var foo of list) {}", parserOptions: { ecmaVersion: 6 } },
         { code: "{}for(;;) {}", options: [NEITHER] },
         { code: "{}for(var foo in obj) {}", options: [NEITHER] },
@@ -607,16 +610,16 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "{}for(var foo of list) {}", options: [override("for", NEITHER)], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `block-spacing`
-        { code: "{for (;;) {} }" },
-        { code: "{for (var foo in obj) {} }" },
+        "{for (;;) {} }",
+        "{for (var foo in obj) {} }",
         { code: "{for (var foo of list) {} }", parserOptions: { ecmaVersion: 6 } },
         { code: "{ for(;;) {} }", options: [NEITHER] },
         { code: "{ for(var foo in obj) {} }", options: [NEITHER] },
         { code: "{ for(var foo of list) {} }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `semi-spacing`
-        { code: ";for (;;) {}" },
-        { code: ";for (var foo in obj) {}" },
+        ";for (;;) {}",
+        ";for (var foo in obj) {}",
         { code: ";for (var foo of list) {}", parserOptions: { ecmaVersion: 6 } },
         { code: "; for(;;) {}", options: [NEITHER] },
         { code: "; for(var foo in obj) {}", options: [NEITHER] },
@@ -643,13 +646,13 @@ ruleTester.run("keyword-spacing", rule, {
         // function
         //----------------------------------------------------------------------
 
-        { code: "{} function foo() {}" },
+        "{} function foo() {}",
         { code: "{}function foo() {}", options: [NEITHER] },
         { code: "{} function foo() {}", options: [override("function", BOTH)] },
         { code: "{}function foo() {}", options: [override("function", NEITHER)] },
 
         // not conflict with `array-bracket-spacing`
-        { code: "[function() {}]" },
+        "[function() {}]",
         { code: "[ function() {}]", options: [NEITHER] },
 
         // not conflict with `arrow-spacing`
@@ -657,15 +660,15 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "(() => function() {})", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `block-spacing`
-        { code: "{function foo() {} }" },
+        "{function foo() {} }",
         { code: "{ function foo() {} }", options: [NEITHER] },
 
         // not conflict with `comma-spacing`
-        { code: "(0,function() {})" },
+        "(0,function() {})",
         { code: "(0, function() {})", options: [NEITHER] },
 
         // not conflict with `computed-property-spacing`
-        { code: "a[function() {}]" },
+        "a[function() {}]",
         { code: "({[function() {}]: 0})", parserOptions: { ecmaVersion: 6 } },
         { code: "a[ function() {}]", options: [NEITHER] },
         { code: "({[ function(){}]: 0})", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
@@ -675,24 +678,26 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "function *foo() {}", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `key-spacing`
-        { code: "({a:function() {} })" },
+        "({a:function() {} })",
         { code: "({a: function() {} })", options: [NEITHER] },
 
         // not conflict with `semi-spacing`
-        { code: ";function foo() {};" },
+        ";function foo() {};",
         { code: "; function foo() {} ;", options: [NEITHER] },
 
-        // not conflict with `space-before-function-paren`
-        // not conflict with `space-in-parens`
-        { code: "(function() {})" },
+        /*
+         * not conflict with `space-before-function-paren`
+         * not conflict with `space-in-parens`
+         */
+        "(function() {})",
         { code: "( function () {})", options: [NEITHER] },
 
         // not conflict with `space-infix-ops`
-        { code: "a =function() {}" },
+        "a =function() {}",
         { code: "a = function() {}", options: [NEITHER] },
 
         // not conflict with `space-unary-ops`
-        { code: "!function() {}" },
+        "!function() {}",
         { code: "! function() {}", options: [NEITHER] },
 
         // not conflict with `template-curly-spacing`
@@ -726,8 +731,8 @@ ruleTester.run("keyword-spacing", rule, {
         // if
         //----------------------------------------------------------------------
 
-        { code: "{} if (a) {}" },
-        { code: "if (a) {} else if (a) {}" },
+        "{} if (a) {}",
+        "if (a) {} else if (a) {}",
         { code: "{}if(a) {}", options: [NEITHER] },
         { code: "if(a) {}else if(a) {}", options: [NEITHER] },
         { code: "{} if (a) {}", options: [override("if", BOTH)] },
@@ -736,11 +741,11 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "if(a) {} else if(a) {}", options: [override("if", NEITHER)] },
 
         // not conflict with `block-spacing`
-        { code: "{if (a) {} }" },
+        "{if (a) {} }",
         { code: "{ if(a) {} }", options: [NEITHER] },
 
         // not conflict with `semi-spacing`
-        { code: ";if (a) {}" },
+        ";if (a) {}",
         { code: "; if(a) {}", options: [NEITHER] },
 
         //----------------------------------------------------------------------
@@ -772,7 +777,7 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "for ([foo] in ({foo: 0})) {}", parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `space-infix-ops`
-        { code: "if (\"foo\"in{foo: 0}) {}" },
+        "if (\"foo\"in{foo: 0}) {}",
         { code: "if(\"foo\" in {foo: 0}) {}", options: [NEITHER] },
 
         //----------------------------------------------------------------------
@@ -780,7 +785,7 @@ ruleTester.run("keyword-spacing", rule, {
         //----------------------------------------------------------------------
 
         // not conflict with `space-infix-ops`
-        { code: "if (\"foo\"instanceof{foo: 0}) {}" },
+        "if (\"foo\"instanceof{foo: 0}) {}",
         { code: "if(\"foo\" instanceof {foo: 0}) {}", options: [NEITHER] },
 
         //----------------------------------------------------------------------
@@ -804,13 +809,13 @@ ruleTester.run("keyword-spacing", rule, {
         // new
         //----------------------------------------------------------------------
 
-        { code: "{} new foo()" },
+        "{} new foo()",
         { code: "{}new foo()", options: [NEITHER] },
         { code: "{} new foo()", options: [override("new", BOTH)] },
         { code: "{}new foo()", options: [override("new", NEITHER)] },
 
         // not conflict with `array-bracket-spacing`
-        { code: "[new foo()]" },
+        "[new foo()]",
         { code: "[ new foo()]", options: [NEITHER] },
 
         // not conflict with `arrow-spacing`
@@ -818,37 +823,37 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "(() => new foo())", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `block-spacing`
-        { code: "{new foo() }" },
+        "{new foo() }",
         { code: "{ new foo() }", options: [NEITHER] },
 
         // not conflict with `comma-spacing`
-        { code: "(0,new foo())" },
+        "(0,new foo())",
         { code: "(0, new foo())", options: [NEITHER] },
 
         // not conflict with `computed-property-spacing`
-        { code: "a[new foo()]" },
+        "a[new foo()]",
         { code: "({[new foo()]: 0})", parserOptions: { ecmaVersion: 6 } },
         { code: "a[ new foo()]", options: [NEITHER] },
         { code: "({[ new foo()]: 0})", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `key-spacing`
-        { code: "({a:new foo() })" },
+        "({a:new foo() })",
         { code: "({a: new foo() })", options: [NEITHER] },
 
         // not conflict with `semi-spacing`
-        { code: ";new foo()" },
+        ";new foo()",
         { code: "; new foo()", options: [NEITHER] },
 
         // not conflict with `space-in-parens`
-        { code: "(new foo())" },
+        "(new foo())",
         { code: "( new foo())", options: [NEITHER] },
 
         // not conflict with `space-infix-ops`
-        { code: "a =new foo()" },
+        "a =new foo()",
         { code: "a = new foo()", options: [NEITHER] },
 
         // not conflict with `space-unary-ops`
-        { code: "!new(foo)()" },
+        "!new(foo)()",
         { code: "! new (foo)()", options: [NEITHER] },
 
         // not conflict with `template-curly-spacing`
@@ -873,19 +878,19 @@ ruleTester.run("keyword-spacing", rule, {
         // return
         //----------------------------------------------------------------------
 
-        { code: "function foo() { {} return +a }" },
+        "function foo() { {} return +a }",
         { code: "function foo() { {}return+a }", options: [NEITHER] },
         { code: "function foo() { {} return +a }", options: [override("return", BOTH)] },
         { code: "function foo() { {}return+a }", options: [override("return", NEITHER)] },
-        { code: "function foo() {\nreturn\n}" },
+        "function foo() {\nreturn\n}",
         { code: "function foo() {\nreturn\n}", options: [NEITHER] },
 
         // not conflict with `block-spacing`
-        { code: "function foo() {return}" },
+        "function foo() {return}",
         { code: "function foo() { return }", options: [NEITHER] },
 
         // not conflict with `semi-spacing`
-        { code: "function foo() { ;return; }" },
+        "function foo() { ;return; }",
         { code: "function foo() { ; return ; }", options: [NEITHER] },
 
         //----------------------------------------------------------------------
@@ -927,91 +932,91 @@ ruleTester.run("keyword-spacing", rule, {
         // super
         //----------------------------------------------------------------------
 
-        { code: "class A { a() { {} super[b]; } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() { {}super[b]; } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() { {} super[b]; } }", options: [override("super", BOTH)], parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() { {}super[b]; } }", options: [override("super", NEITHER)], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { a() { {} super[b](); } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { a() { {}super[b](); } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { a() { {} super[b](); } }", options: [override("super", BOTH)], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { a() { {}super[b](); } }", options: [override("super", NEITHER)], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `array-bracket-spacing`
-        { code: "class A { a() { [super]; } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() { [ super ]; } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { [super()]; } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { [ super() ]; } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `arrow-spacing`
-        { code: "class A { a() { () =>super; } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() { () => super; } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { () =>super(); } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { () => super(); } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `block-spacing`
-        { code: "class A { a() {super} }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() { super } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() {super()} }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { super() } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `comma-spacing`
-        { code: "class A { a() { (0,super) } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() { (0, super) } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { (0,super()) } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { (0, super()) } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `computed-property-spacing`
-        { code: "class A { a() { ({[super]: 0}) } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() { ({[ super ]: 0}) } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { ({[super()]: 0}) } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { ({[ super() ]: 0}) } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `key-spacing`
-        { code: "class A { a() { ({a:super }) } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() { ({a: super }) } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { ({a:super() }) } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { ({a: super() }) } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `func-call-spacing`
-        { code: "class A { constructor() { super(); } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { constructor() { super (); } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { super(); } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { super (); } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `semi-spacing`
-        { code: "class A { a() { ;super; } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() { ; super ; } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { ;super(); } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { ; super() ; } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `space-in-parens`
-        { code: "class A { a() { (super) } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() { ( super ) } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { (super()) } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { ( super() ) } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `space-infix-ops`
-        { code: "class A { a() { b =super } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() { b = super } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { b =super() } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { b = super() } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `space-unary-ops`
-        { code: "class A { a() { !super } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() { ! super } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { !super() } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { ! super() } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `template-curly-spacing`
-        { code: "class A { a() { `${super}` } }", parserOptions: { ecmaVersion: 6 } },
-        { code: "class A { a() { `${ super }` } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { `${super()}` } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "class A extends B { constructor() { `${ super() }` } }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `jsx-curly-spacing`
-        { code: "class A { a() { <Foo onClick={super} /> } }", parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
-        { code: "class A { a() { <Foo onClick={ super } /> } }", options: [NEITHER], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
+        { code: "class A extends B { constructor() { <Foo onClick={super()} /> } }", parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
+        { code: "class A extends B { constructor() { <Foo onClick={ super() } /> } }", options: [NEITHER], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
 
         //----------------------------------------------------------------------
         // switch
         //----------------------------------------------------------------------
 
-        { code: "{} switch (a) {}" },
+        "{} switch (a) {}",
         { code: "{}switch(a) {}", options: [NEITHER] },
         { code: "{} switch (a) {}", options: [override("switch", BOTH)] },
         { code: "{}switch(a) {}", options: [override("switch", NEITHER)] },
 
         // not conflict with `block-spacing`
-        { code: "{switch (a) {} }" },
+        "{switch (a) {} }",
         { code: "{ switch(a) {} }", options: [NEITHER] },
 
         // not conflict with `semi-spacing`
-        { code: ";switch (a) {}" },
+        ";switch (a) {}",
         { code: "; switch(a) {}", options: [NEITHER] },
 
         //----------------------------------------------------------------------
         // this
         //----------------------------------------------------------------------
 
-        { code: "{} this[a]" },
+        "{} this[a]",
         { code: "{}this[a]", options: [NEITHER] },
         { code: "{} this[a]", options: [override("this", BOTH)] },
         { code: "{}this[a]", options: [override("this", NEITHER)] },
 
         // not conflict with `array-bracket-spacing`
-        { code: "[this]" },
+        "[this]",
         { code: "[ this ]", options: [NEITHER] },
 
         // not conflict with `arrow-spacing`
@@ -1019,37 +1024,37 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "(() => this)", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `block-spacing`
-        { code: "{this}" },
+        "{this}",
         { code: "{ this }", options: [NEITHER] },
 
         // not conflict with `comma-spacing`
-        { code: "(0,this)" },
+        "(0,this)",
         { code: "(0, this)", options: [NEITHER] },
 
         // not conflict with `computed-property-spacing`
-        { code: "a[this]" },
+        "a[this]",
         { code: "({[this]: 0})", parserOptions: { ecmaVersion: 6 } },
         { code: "a[ this ]", options: [NEITHER] },
         { code: "({[ this ]: 0})", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `key-spacing`
-        { code: "({a:this })" },
+        "({a:this })",
         { code: "({a: this })", options: [NEITHER] },
 
         // not conflict with `semi-spacing`
-        { code: ";this" },
+        ";this",
         { code: "; this", options: [NEITHER] },
 
         // not conflict with `space-in-parens`
-        { code: "(this)" },
+        "(this)",
         { code: "( this )", options: [NEITHER] },
 
         // not conflict with `space-infix-ops`
-        { code: "a =this" },
+        "a =this",
         { code: "a = this", options: [NEITHER] },
 
         // not conflict with `space-unary-ops`
-        { code: "!this" },
+        "!this",
         { code: "! this", options: [NEITHER] },
 
         // not conflict with `template-curly-spacing`
@@ -1064,49 +1069,49 @@ ruleTester.run("keyword-spacing", rule, {
         // throw
         //----------------------------------------------------------------------
 
-        { code: "function foo() { {} throw +a }" },
+        "function foo() { {} throw +a }",
         { code: "function foo() { {}throw+a }", options: [NEITHER] },
         { code: "function foo() { {} throw +a }", options: [override("throw", BOTH)] },
         { code: "function foo() { {}throw+a }", options: [override("throw", NEITHER)] },
-        { code: "function foo() {\nthrow a\n}" },
+        "function foo() {\nthrow a\n}",
         { code: "function foo() {\nthrow a\n}", options: [NEITHER] },
 
         // not conflict with `block-spacing`
-        { code: "function foo() {throw a }" },
+        "function foo() {throw a }",
         { code: "function foo() { throw a }", options: [NEITHER] },
 
         // not conflict with `semi-spacing`
-        { code: "function foo() { ;throw a }" },
+        "function foo() { ;throw a }",
         { code: "function foo() { ; throw a }", options: [NEITHER] },
 
         //----------------------------------------------------------------------
         // try
         //----------------------------------------------------------------------
 
-        { code: "{} try {} finally {}" },
+        "{} try {} finally {}",
         { code: "{}try{}finally{}", options: [NEITHER] },
         { code: "{} try {}finally{}", options: [override("try", BOTH)] },
         { code: "{}try{} finally {}", options: [override("try", NEITHER)] },
 
         // not conflict with `block-spacing`
-        { code: "{try {} finally {}}" },
+        "{try {} finally {}}",
         { code: "{ try{}finally{}}", options: [NEITHER] },
 
         // not conflict with `semi-spacing`
-        { code: ";try {} finally {}" },
+        ";try {} finally {}",
         { code: "; try{}finally{}", options: [NEITHER] },
 
         //----------------------------------------------------------------------
         // typeof
         //----------------------------------------------------------------------
 
-        { code: "{} typeof foo" },
+        "{} typeof foo",
         { code: "{}typeof foo", options: [NEITHER] },
         { code: "{} typeof foo", options: [override("typeof", BOTH)] },
         { code: "{}typeof foo", options: [override("typeof", NEITHER)] },
 
         // not conflict with `array-bracket-spacing`
-        { code: "[typeof foo]" },
+        "[typeof foo]",
         { code: "[ typeof foo]", options: [NEITHER] },
 
         // not conflict with `arrow-spacing`
@@ -1114,37 +1119,37 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "(() => typeof foo)", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `block-spacing`
-        { code: "{typeof foo }" },
+        "{typeof foo }",
         { code: "{ typeof foo }", options: [NEITHER] },
 
         // not conflict with `comma-spacing`
-        { code: "(0,typeof foo)" },
+        "(0,typeof foo)",
         { code: "(0, typeof foo)", options: [NEITHER] },
 
         // not conflict with `computed-property-spacing`
-        { code: "a[typeof foo]" },
+        "a[typeof foo]",
         { code: "({[typeof foo]: 0})", parserOptions: { ecmaVersion: 6 } },
         { code: "a[ typeof foo]", options: [NEITHER] },
         { code: "({[ typeof foo]: 0})", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `key-spacing`
-        { code: "({a:typeof foo })" },
+        "({a:typeof foo })",
         { code: "({a: typeof foo })", options: [NEITHER] },
 
         // not conflict with `semi-spacing`
-        { code: ";typeof foo" },
+        ";typeof foo",
         { code: "; typeof foo", options: [NEITHER] },
 
         // not conflict with `space-in-parens`
-        { code: "(typeof foo)" },
+        "(typeof foo)",
         { code: "( typeof foo)", options: [NEITHER] },
 
         // not conflict with `space-infix-ops`
-        { code: "a =typeof foo" },
+        "a =typeof foo",
         { code: "a = typeof foo", options: [NEITHER] },
 
         // not conflict with `space-unary-ops`
-        { code: "!typeof+foo" },
+        "!typeof+foo",
         { code: "! typeof +foo", options: [NEITHER] },
 
         // not conflict with `template-curly-spacing`
@@ -1163,27 +1168,27 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "{}var[a] = b", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
         { code: "{} var [a] = b", options: [override("var", BOTH)], parserOptions: { ecmaVersion: 6 } },
         { code: "{}var[a] = b", options: [override("var", NEITHER)], parserOptions: { ecmaVersion: 6 } },
-        { code: "for (var foo in [1, 2, 3]) {}" },
+        "for (var foo in [1, 2, 3]) {}",
 
         // not conflict with `block-spacing`
-        { code: "{var a = b }" },
+        "{var a = b }",
         { code: "{ var a = b }", options: [NEITHER] },
 
         // not conflict with `semi-spacing`
-        { code: ";var a = b" },
+        ";var a = b",
         { code: "; var a = b", options: [NEITHER] },
 
         //----------------------------------------------------------------------
         // void
         //----------------------------------------------------------------------
 
-        { code: "{} void foo" },
+        "{} void foo",
         { code: "{}void foo", options: [NEITHER] },
         { code: "{} void foo", options: [override("void", BOTH)] },
         { code: "{}void foo", options: [override("void", NEITHER)] },
 
         // not conflict with `array-bracket-spacing`
-        { code: "[void foo]" },
+        "[void foo]",
         { code: "[ void foo]", options: [NEITHER] },
 
         // not conflict with `arrow-spacing`
@@ -1191,37 +1196,37 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "(() => void foo)", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `block-spacing`
-        { code: "{void foo }" },
+        "{void foo }",
         { code: "{ void foo }", options: [NEITHER] },
 
         // not conflict with `comma-spacing`
-        { code: "(0,void foo)" },
+        "(0,void foo)",
         { code: "(0, void foo)", options: [NEITHER] },
 
         // not conflict with `computed-property-spacing`
-        { code: "a[void foo]" },
+        "a[void foo]",
         { code: "({[void foo]: 0})", parserOptions: { ecmaVersion: 6 } },
         { code: "a[ void foo]", options: [NEITHER] },
         { code: "({[ void foo]: 0})", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
         // not conflict with `key-spacing`
-        { code: "({a:void foo })" },
+        "({a:void foo })",
         { code: "({a: void foo })", options: [NEITHER] },
 
         // not conflict with `semi-spacing`
-        { code: ";void foo" },
+        ";void foo",
         { code: "; void foo", options: [NEITHER] },
 
         // not conflict with `space-in-parens`
-        { code: "(void foo)" },
+        "(void foo)",
         { code: "( void foo)", options: [NEITHER] },
 
         // not conflict with `space-infix-ops`
-        { code: "a =void foo" },
+        "a =void foo",
         { code: "a = void foo", options: [NEITHER] },
 
         // not conflict with `space-unary-ops`
-        { code: "!void+foo" },
+        "!void+foo",
         { code: "! void +foo", options: [NEITHER] },
 
         // not conflict with `template-curly-spacing`
@@ -1236,24 +1241,24 @@ ruleTester.run("keyword-spacing", rule, {
         // while
         //----------------------------------------------------------------------
 
-        { code: "{} while (a) {}" },
-        { code: "do {} while (a)" },
+        "{} while (a) {}",
+        "do {} while (a)",
         { code: "{}while(a) {}", options: [NEITHER] },
         { code: "do{}while(a)", options: [NEITHER] },
         { code: "{} while (a) {}", options: [override("while", BOTH)] },
         { code: "do{} while (a)", options: [override("while", BOTH)] },
         { code: "{}while(a) {}", options: [override("while", NEITHER)] },
         { code: "do {}while(a)", options: [override("while", NEITHER)] },
-        { code: "do {}\nwhile (a)" },
+        "do {}\nwhile (a)",
         { code: "do{}\nwhile(a)", options: [NEITHER] },
 
         // not conflict with `block-spacing`
-        { code: "{while (a) {}}" },
+        "{while (a) {}}",
         { code: "{ while(a) {}}", options: [NEITHER] },
 
         // not conflict with `semi-spacing`
-        { code: ";while (a);" },
-        { code: "do;while (a);" },
+        ";while (a);",
+        "do;while (a);",
         { code: "; while(a) ;", options: [NEITHER] },
         { code: "do ; while(a) ;", options: [NEITHER] },
 
@@ -1261,17 +1266,17 @@ ruleTester.run("keyword-spacing", rule, {
         // with
         //----------------------------------------------------------------------
 
-        { code: "{} with (obj) {}" },
+        "{} with (obj) {}",
         { code: "{}with(obj) {}", options: [NEITHER] },
         { code: "{} with (obj) {}", options: [override("with", BOTH)] },
         { code: "{}with(obj) {}", options: [override("with", NEITHER)] },
 
         // not conflict with `block-spacing`
-        { code: "{with (obj) {}}" },
+        "{with (obj) {}}",
         { code: "{ with(obj) {}}", options: [NEITHER] },
 
         // not conflict with `semi-spacing`
-        { code: ";with (obj) {}" },
+        ";with (obj) {}",
         { code: "; with(obj) {}", options: [NEITHER] },
 
         //----------------------------------------------------------------------
@@ -1287,12 +1292,13 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "function* foo() { [yield] }", parserOptions: { ecmaVersion: 6 } },
         { code: "function* foo() { [ yield ] }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
-        // This is invalid syntax: https://github.com/eslint/eslint/issues/5405
-        // not conflict with `arrow-spacing`
-        // {code: "function* foo() { (() =>yield foo) }", parserOptions: {ecmaVersion: 6}},
-        // {code: "function* foo() { (() => yield foo) }", options: [NEITHER], parserOptions: {ecmaVersion: 6}},
-
-        // not conflict with `block-spacing`
+        /*
+         * This is invalid syntax: https://github.com/eslint/eslint/issues/5405
+         * not conflict with `arrow-spacing`
+         * {code: "function* foo() { (() =>yield foo) }", parserOptions: {ecmaVersion: 6}},
+         * {code: "function* foo() { (() => yield foo) }", options: [NEITHER], parserOptions: {ecmaVersion: 6}},
+         * not conflict with `block-spacing`
+         */
         { code: "function* foo() {yield}", parserOptions: { ecmaVersion: 6 } },
         { code: "function* foo() { yield }", options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
@@ -1358,29 +1364,29 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "import *as a from \"foo\"",
             output: "import * as a from \"foo\"",
-            errors: expectedBefore("as"),
-            parserOptions: { sourceType: "module" }
+            parserOptions: { sourceType: "module" },
+            errors: expectedBefore("as")
         },
         {
             code: "import* as a from\"foo\"",
             output: "import*as a from\"foo\"",
-            errors: unexpectedBefore("as"),
             options: [NEITHER],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { sourceType: "module" },
+            errors: unexpectedBefore("as")
         },
         {
             code: "import*as a from\"foo\"",
             output: "import* as a from\"foo\"",
-            errors: expectedBefore("as"),
             options: [override("as", BOTH)],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { sourceType: "module" },
+            errors: expectedBefore("as")
         },
         {
             code: "import * as a from \"foo\"",
             output: "import *as a from \"foo\"",
-            errors: unexpectedBefore("as"),
             options: [override("as", NEITHER)],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { sourceType: "module" },
+            errors: unexpectedBefore("as")
         },
 
         //----------------------------------------------------------------------
@@ -1390,110 +1396,110 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "{}async function foo() {}",
             output: "{} async function foo() {}",
-            errors: expectedBefore("async"),
-            parserOptions: { ecmaVersion: 8 }
+            parserOptions: { ecmaVersion: 8 },
+            errors: expectedBefore("async")
         },
         {
             code: "{} async function foo() {}",
             output: "{}async function foo() {}",
-            errors: unexpectedBefore("async"),
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 8 }
+            parserOptions: { ecmaVersion: 8 },
+            errors: unexpectedBefore("async")
         },
         {
             code: "{}async function foo() {}",
             output: "{} async function foo() {}",
-            errors: expectedBefore("async"),
             options: [override("async", BOTH)],
-            parserOptions: { ecmaVersion: 8 }
+            parserOptions: { ecmaVersion: 8 },
+            errors: expectedBefore("async")
         },
         {
             code: "{} async function foo() {}",
             output: "{}async function foo() {}",
-            errors: unexpectedBefore("async"),
             options: [override("async", NEITHER)],
-            parserOptions: { ecmaVersion: 8 }
+            parserOptions: { ecmaVersion: 8 },
+            errors: unexpectedBefore("async")
         },
         {
             code: "{}async () => {}",
             output: "{} async () => {}",
-            errors: expectedBefore("async"),
-            parserOptions: { ecmaVersion: 8 }
+            parserOptions: { ecmaVersion: 8 },
+            errors: expectedBefore("async")
         },
         {
             code: "{} async () => {}",
             output: "{}async () => {}",
-            errors: unexpectedBefore("async"),
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 8 }
+            parserOptions: { ecmaVersion: 8 },
+            errors: unexpectedBefore("async")
         },
         {
             code: "{}async () => {}",
             output: "{} async () => {}",
-            errors: expectedBefore("async"),
             options: [override("async", BOTH)],
-            parserOptions: { ecmaVersion: 8 }
+            parserOptions: { ecmaVersion: 8 },
+            errors: expectedBefore("async")
         },
         {
             code: "{} async () => {}",
             output: "{}async () => {}",
-            errors: unexpectedBefore("async"),
             options: [override("async", NEITHER)],
-            parserOptions: { ecmaVersion: 8 }
+            parserOptions: { ecmaVersion: 8 },
+            errors: unexpectedBefore("async")
         },
         {
             code: "({async[b]() {}})",
             output: "({async [b]() {}})",
-            errors: expectedAfter("async"),
-            parserOptions: { ecmaVersion: 8 }
+            parserOptions: { ecmaVersion: 8 },
+            errors: expectedAfter("async")
         },
         {
             code: "({async [b]() {}})",
             output: "({async[b]() {}})",
-            errors: unexpectedAfter("async"),
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 8 }
+            parserOptions: { ecmaVersion: 8 },
+            errors: unexpectedAfter("async")
         },
         {
             code: "({async[b]() {}})",
             output: "({async [b]() {}})",
-            errors: expectedAfter("async"),
             options: [override("async", BOTH)],
-            parserOptions: { ecmaVersion: 8 }
+            parserOptions: { ecmaVersion: 8 },
+            errors: expectedAfter("async")
         },
         {
             code: "({async [b]() {}})",
             output: "({async[b]() {}})",
-            errors: unexpectedAfter("async"),
             options: [override("async", NEITHER)],
-            parserOptions: { ecmaVersion: 8 }
+            parserOptions: { ecmaVersion: 8 },
+            errors: unexpectedAfter("async")
         },
         {
             code: "class A {a(){}async[b]() {}}",
             output: "class A {a(){} async [b]() {}}",
-            errors: expectedBeforeAndAfter("async"),
-            parserOptions: { ecmaVersion: 8 }
+            parserOptions: { ecmaVersion: 8 },
+            errors: expectedBeforeAndAfter("async")
         },
         {
             code: "class A {a(){} async [b]() {}}",
             output: "class A {a(){}async[b]() {}}",
-            errors: unexpectedBeforeAndAfter("async"),
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 8 }
+            parserOptions: { ecmaVersion: 8 },
+            errors: unexpectedBeforeAndAfter("async")
         },
         {
             code: "class A {a(){}async[b]() {}}",
             output: "class A {a(){} async [b]() {}}",
-            errors: expectedBeforeAndAfter("async"),
             options: [override("async", BOTH)],
-            parserOptions: { ecmaVersion: 8 }
+            parserOptions: { ecmaVersion: 8 },
+            errors: expectedBeforeAndAfter("async")
         },
         {
             code: "class A {a(){} async [b]() {}}",
             output: "class A {a(){}async[b]() {}}",
-            errors: unexpectedBeforeAndAfter("async"),
             options: [override("async", NEITHER)],
-            parserOptions: { ecmaVersion: 8 }
+            parserOptions: { ecmaVersion: 8 },
+            errors: unexpectedBeforeAndAfter("async")
         },
 
         //----------------------------------------------------------------------
@@ -1503,29 +1509,57 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "async function wrap() { {}await a }",
             output: "async function wrap() { {} await a }",
-            errors: expectedBefore("await"),
-            parserOptions: { ecmaVersion: 8 }
+            parserOptions: { ecmaVersion: 8 },
+            errors: expectedBefore("await")
         },
         {
             code: "async function wrap() { {} await a }",
             output: "async function wrap() { {}await a }",
-            errors: unexpectedBefore("await"),
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 8 }
+            parserOptions: { ecmaVersion: 8 },
+            errors: unexpectedBefore("await")
         },
         {
             code: "async function wrap() { {}await a }",
             output: "async function wrap() { {} await a }",
-            errors: expectedBefore("await"),
             options: [override("await", BOTH)],
-            parserOptions: { ecmaVersion: 8 }
+            parserOptions: { ecmaVersion: 8 },
+            errors: expectedBefore("await")
         },
         {
             code: "async function wrap() { {} await a }",
             output: "async function wrap() { {}await a }",
-            errors: unexpectedBefore("await"),
             options: [override("await", NEITHER)],
-            parserOptions: { ecmaVersion: 8 }
+            parserOptions: { ecmaVersion: 8 },
+            errors: unexpectedBefore("await")
+        },
+
+        {
+            code: "async function wrap() { for await(x of xs); }",
+            output: "async function wrap() { for await (x of xs); }",
+            parserOptions: { ecmaVersion: 2018 },
+            errors: expectedAfter("await")
+        },
+        {
+            code: "async function wrap() { for await (x of xs); }",
+            output: "async function wrap() { for await(x of xs); }",
+            options: [NEITHER],
+            parserOptions: { ecmaVersion: 2018 },
+            errors: unexpectedAfter("await")
+        },
+        {
+            code: "async function wrap() { for await(x of xs); }",
+            output: "async function wrap() { for await (x of xs); }",
+            options: [override("await", BOTH)],
+            parserOptions: { ecmaVersion: 2018 },
+            errors: expectedAfter("await")
+        },
+        {
+            code: "async function wrap() { for await (x of xs); }",
+            output: "async function wrap() { for await(x of xs); }",
+            options: [override("await", NEITHER)],
+            parserOptions: { ecmaVersion: 2018 },
+            errors: unexpectedAfter("await")
         },
 
         //----------------------------------------------------------------------
@@ -1540,20 +1574,20 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "A: for(;;) { {} break A; }",
             output: "A: for(;;) { {}break A; }",
-            errors: unexpectedBefore("break"),
-            options: [NEITHER]
+            options: [NEITHER],
+            errors: unexpectedBefore("break")
         },
         {
             code: "A: for(;;) { {}break A; }",
             output: "A: for(;;) { {} break A; }",
-            errors: expectedBefore("break"),
-            options: [override("break", BOTH)]
+            options: [override("break", BOTH)],
+            errors: expectedBefore("break")
         },
         {
             code: "A: for (;;) { {} break A; }",
             output: "A: for (;;) { {}break A; }",
-            errors: unexpectedBefore("break"),
-            options: [override("break", NEITHER)]
+            options: [override("break", NEITHER)],
+            errors: unexpectedBefore("break")
         },
 
         //----------------------------------------------------------------------
@@ -1573,26 +1607,26 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "switch(a) { case 0: {} case +1: }",
             output: "switch(a) { case 0: {}case+1: }",
-            errors: unexpectedBeforeAndAfter("case"),
-            options: [NEITHER]
+            options: [NEITHER],
+            errors: unexpectedBeforeAndAfter("case")
         },
         {
             code: "switch(a) { case 0: {} case (1): }",
             output: "switch(a) { case 0: {}case(1): }",
-            errors: unexpectedBeforeAndAfter("case"),
-            options: [NEITHER]
+            options: [NEITHER],
+            errors: unexpectedBeforeAndAfter("case")
         },
         {
             code: "switch(a) { case 0: {}case+1: }",
             output: "switch(a) { case 0: {} case +1: }",
-            errors: expectedBeforeAndAfter("case"),
-            options: [override("case", BOTH)]
+            options: [override("case", BOTH)],
+            errors: expectedBeforeAndAfter("case")
         },
         {
             code: "switch (a) { case 0: {} case +1: }",
             output: "switch (a) { case 0: {}case+1: }",
-            errors: unexpectedBeforeAndAfter("case"),
-            options: [override("case", NEITHER)]
+            options: [override("case", NEITHER)],
+            errors: unexpectedBeforeAndAfter("case")
         },
 
         //----------------------------------------------------------------------
@@ -1607,20 +1641,20 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "try{} catch (e) {}",
             output: "try{}catch(e) {}",
-            errors: unexpectedBeforeAndAfter("catch"),
-            options: [NEITHER]
+            options: [NEITHER],
+            errors: unexpectedBeforeAndAfter("catch")
         },
         {
             code: "try{}catch(e) {}",
             output: "try{} catch (e) {}",
-            errors: expectedBeforeAndAfter("catch"),
-            options: [override("catch", BOTH)]
+            options: [override("catch", BOTH)],
+            errors: expectedBeforeAndAfter("catch")
         },
         {
             code: "try {} catch (e) {}",
             output: "try {}catch(e) {}",
-            errors: unexpectedBeforeAndAfter("catch"),
-            options: [override("catch", NEITHER)]
+            options: [override("catch", NEITHER)],
+            errors: unexpectedBeforeAndAfter("catch")
         },
 
         //----------------------------------------------------------------------
@@ -1630,42 +1664,42 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "{}class Bar {}",
             output: "{} class Bar {}",
-            errors: expectedBefore("class"),
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedBefore("class")
         },
         {
             code: "(class{})",
             output: "(class {})",
-            errors: expectedAfter("class"),
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedAfter("class")
         },
         {
             code: "{} class Bar {}",
             output: "{}class Bar {}",
-            errors: unexpectedBefore("class"),
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: unexpectedBefore("class")
         },
         {
             code: "(class {})",
             output: "(class{})",
-            errors: unexpectedAfter("class"),
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: unexpectedAfter("class")
         },
         {
             code: "{}class Bar {}",
             output: "{} class Bar {}",
-            errors: expectedBefore("class"),
             options: [override("class", BOTH)],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedBefore("class")
         },
         {
             code: "{} class Bar {}",
             output: "{}class Bar {}",
-            errors: unexpectedBefore("class"),
             options: [override("class", NEITHER)],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: unexpectedBefore("class")
         },
 
         //----------------------------------------------------------------------
@@ -1675,56 +1709,56 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "{}const[a] = b",
             output: "{} const [a] = b",
-            errors: expectedBeforeAndAfter("const"),
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedBeforeAndAfter("const")
         },
         {
             code: "{}const{a} = b",
             output: "{} const {a} = b",
-            errors: expectedBeforeAndAfter("const"),
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedBeforeAndAfter("const")
         },
         {
             code: "{} const [a] = b",
             output: "{}const[a] = b",
-            errors: unexpectedBeforeAndAfter("const"),
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: unexpectedBeforeAndAfter("const")
         },
         {
             code: "{} const {a} = b",
             output: "{}const{a} = b",
-            errors: unexpectedBeforeAndAfter("const"),
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: unexpectedBeforeAndAfter("const")
         },
         {
             code: "{}const[a] = b",
             output: "{} const [a] = b",
-            errors: expectedBeforeAndAfter("const"),
             options: [override("const", BOTH)],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedBeforeAndAfter("const")
         },
         {
             code: "{}const{a} = b",
             output: "{} const {a} = b",
-            errors: expectedBeforeAndAfter("const"),
             options: [override("const", BOTH)],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedBeforeAndAfter("const")
         },
         {
             code: "{} const [a] = b",
             output: "{}const[a] = b",
-            errors: unexpectedBeforeAndAfter("const"),
             options: [override("const", NEITHER)],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: unexpectedBeforeAndAfter("const")
         },
         {
             code: "{} const {a} = b",
             output: "{}const{a} = b",
-            errors: unexpectedBeforeAndAfter("const"),
             options: [override("const", NEITHER)],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: unexpectedBeforeAndAfter("const")
         },
 
         //----------------------------------------------------------------------
@@ -1739,20 +1773,20 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "A: for(;;) { {} continue A; }",
             output: "A: for(;;) { {}continue A; }",
-            errors: unexpectedBefore("continue"),
-            options: [NEITHER]
+            options: [NEITHER],
+            errors: unexpectedBefore("continue")
         },
         {
             code: "A: for(;;) { {}continue A; }",
             output: "A: for(;;) { {} continue A; }",
-            errors: expectedBefore("continue"),
-            options: [override("continue", BOTH)]
+            options: [override("continue", BOTH)],
+            errors: expectedBefore("continue")
         },
         {
             code: "A: for (;;) { {} continue A; }",
             output: "A: for (;;) { {}continue A; }",
-            errors: unexpectedBefore("continue"),
-            options: [override("continue", NEITHER)]
+            options: [override("continue", NEITHER)],
+            errors: unexpectedBefore("continue")
         },
 
         //----------------------------------------------------------------------
@@ -1767,20 +1801,20 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "{} debugger",
             output: "{}debugger",
-            errors: unexpectedBefore("debugger"),
-            options: [NEITHER]
+            options: [NEITHER],
+            errors: unexpectedBefore("debugger")
         },
         {
             code: "{}debugger",
             output: "{} debugger",
-            errors: expectedBefore("debugger"),
-            options: [override("debugger", BOTH)]
+            options: [override("debugger", BOTH)],
+            errors: expectedBefore("debugger")
         },
         {
             code: "{} debugger",
             output: "{}debugger",
-            errors: unexpectedBefore("debugger"),
-            options: [override("debugger", NEITHER)]
+            options: [override("debugger", NEITHER)],
+            errors: unexpectedBefore("debugger")
         },
 
         //----------------------------------------------------------------------
@@ -1795,20 +1829,20 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "switch(a) { case 0: {} default: }",
             output: "switch(a) { case 0: {}default: }",
-            errors: unexpectedBefore("default"),
-            options: [NEITHER]
+            options: [NEITHER],
+            errors: unexpectedBefore("default")
         },
         {
             code: "switch(a) { case 0: {}default: }",
             output: "switch(a) { case 0: {} default: }",
-            errors: expectedBefore("default"),
-            options: [override("default", BOTH)]
+            options: [override("default", BOTH)],
+            errors: expectedBefore("default")
         },
         {
             code: "switch (a) { case 0: {} default: }",
             output: "switch (a) { case 0: {}default: }",
-            errors: unexpectedBefore("default"),
-            options: [override("default", NEITHER)]
+            options: [override("default", NEITHER)],
+            errors: unexpectedBefore("default")
         },
 
         //----------------------------------------------------------------------
@@ -1823,20 +1857,20 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "{} delete foo.a",
             output: "{}delete foo.a",
-            errors: unexpectedBefore("delete"),
-            options: [NEITHER]
+            options: [NEITHER],
+            errors: unexpectedBefore("delete")
         },
         {
             code: "{}delete foo.a",
             output: "{} delete foo.a",
-            errors: expectedBefore("delete"),
-            options: [override("delete", BOTH)]
+            options: [override("delete", BOTH)],
+            errors: expectedBefore("delete")
         },
         {
             code: "{} delete foo.a",
             output: "{}delete foo.a",
-            errors: unexpectedBefore("delete"),
-            options: [override("delete", NEITHER)]
+            options: [override("delete", NEITHER)],
+            errors: unexpectedBefore("delete")
         },
 
         //----------------------------------------------------------------------
@@ -1851,20 +1885,20 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "{} do {}while(true)",
             output: "{}do{}while(true)",
-            errors: unexpectedBeforeAndAfter("do"),
-            options: [NEITHER]
+            options: [NEITHER],
+            errors: unexpectedBeforeAndAfter("do")
         },
         {
             code: "{}do{}while(true)",
             output: "{} do {}while(true)",
-            errors: expectedBeforeAndAfter("do"),
-            options: [override("do", BOTH)]
+            options: [override("do", BOTH)],
+            errors: expectedBeforeAndAfter("do")
         },
         {
             code: "{} do {} while (true)",
             output: "{}do{} while (true)",
-            errors: unexpectedBeforeAndAfter("do"),
-            options: [override("do", NEITHER)]
+            options: [override("do", NEITHER)],
+            errors: unexpectedBeforeAndAfter("do")
         },
 
         //----------------------------------------------------------------------
@@ -1904,50 +1938,50 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "if(a){} else {}",
             output: "if(a){}else{}",
-            errors: unexpectedBeforeAndAfter("else"),
-            options: [NEITHER]
+            options: [NEITHER],
+            errors: unexpectedBeforeAndAfter("else")
         },
         {
             code: "if(a){} else if(b) {}",
             output: "if(a){}else if(b) {}",
-            errors: unexpectedBefore("else"),
-            options: [NEITHER]
+            options: [NEITHER],
+            errors: unexpectedBefore("else")
         },
         {
             code: "if(a) {} else (0)",
             output: "if(a) {}else(0)",
-            errors: unexpectedBeforeAndAfter("else"),
-            options: [NEITHER]
+            options: [NEITHER],
+            errors: unexpectedBeforeAndAfter("else")
         },
         {
             code: "if(a) {} else []",
             output: "if(a) {}else[]",
-            errors: unexpectedBeforeAndAfter("else"),
-            options: [NEITHER]
+            options: [NEITHER],
+            errors: unexpectedBeforeAndAfter("else")
         },
         {
             code: "if(a) {} else +1",
             output: "if(a) {}else+1",
-            errors: unexpectedBeforeAndAfter("else"),
-            options: [NEITHER]
+            options: [NEITHER],
+            errors: unexpectedBeforeAndAfter("else")
         },
         {
             code: "if(a) {} else \"a\"",
             output: "if(a) {}else\"a\"",
-            errors: unexpectedBeforeAndAfter("else"),
-            options: [NEITHER]
+            options: [NEITHER],
+            errors: unexpectedBeforeAndAfter("else")
         },
         {
             code: "if(a) {}else{}",
             output: "if(a) {} else {}",
-            errors: expectedBeforeAndAfter("else"),
-            options: [override("else", BOTH)]
+            options: [override("else", BOTH)],
+            errors: expectedBeforeAndAfter("else")
         },
         {
             code: "if (a) {} else {}",
             output: "if (a) {}else{}",
-            errors: unexpectedBeforeAndAfter("else"),
-            options: [override("else", NEITHER)]
+            options: [override("else", NEITHER)],
+            errors: unexpectedBeforeAndAfter("else")
         },
 
         {
@@ -1963,14 +1997,14 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "if(a) {} else{}",
             output: "if(a) {}else{}",
-            errors: unexpectedBefore("else"),
-            options: [NEITHER]
+            options: [NEITHER],
+            errors: unexpectedBefore("else")
         },
         {
             code: "if(a) {}else {}",
             output: "if(a) {}else{}",
-            errors: unexpectedAfter("else"),
-            options: [NEITHER]
+            options: [NEITHER],
+            errors: unexpectedAfter("else")
         },
 
         //----------------------------------------------------------------------
@@ -1980,41 +2014,47 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "{}export{a}",
             output: "{} export {a}",
-            errors: expectedBeforeAndAfter("export"),
-            parserOptions: { sourceType: "module" }
+            parserOptions: { sourceType: "module" },
+            errors: expectedBeforeAndAfter("export")
         },
         {
             code: "{}export default a",
             output: "{} export default a",
-            errors: expectedBefore("export"),
-            parserOptions: { sourceType: "module" }
+            parserOptions: { sourceType: "module" },
+            errors: expectedBefore("export")
+        },
+        {
+            code: "export default{a}",
+            output: "export default {a}",
+            parserOptions: { sourceType: "module" },
+            errors: expectedAfter("default")
         },
         {
             code: "{}export* from \"a\"",
             output: "{} export * from \"a\"",
-            errors: expectedBeforeAndAfter("export"),
-            parserOptions: { sourceType: "module" }
+            parserOptions: { sourceType: "module" },
+            errors: expectedBeforeAndAfter("export")
         },
         {
             code: "{} export {a}",
             output: "{}export{a}",
-            errors: unexpectedBeforeAndAfter("export"),
             options: [NEITHER],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { sourceType: "module" },
+            errors: unexpectedBeforeAndAfter("export")
         },
         {
             code: "{}export{a}",
             output: "{} export {a}",
-            errors: expectedBeforeAndAfter("export"),
             options: [override("export", BOTH)],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { sourceType: "module" },
+            errors: expectedBeforeAndAfter("export")
         },
         {
             code: "{} export {a}",
             output: "{}export{a}",
-            errors: unexpectedBeforeAndAfter("export"),
             options: [override("export", NEITHER)],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { sourceType: "module" },
+            errors: unexpectedBeforeAndAfter("export")
         },
 
         //----------------------------------------------------------------------
@@ -2024,48 +2064,48 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "class Bar extends[] {}",
             output: "class Bar extends [] {}",
-            errors: expectedAfter("extends"),
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedAfter("extends")
         },
         {
             code: "(class extends[] {})",
             output: "(class extends [] {})",
-            errors: expectedAfter("extends"),
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedAfter("extends")
         },
         {
             code: "class Bar extends [] {}",
             output: "class Bar extends[] {}",
-            errors: unexpectedAfter("extends"),
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: unexpectedAfter("extends")
         },
         {
             code: "(class extends [] {})",
             output: "(class extends[] {})",
-            errors: unexpectedAfter("extends"),
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: unexpectedAfter("extends")
         },
         {
             code: "class Bar extends[] {}",
             output: "class Bar extends [] {}",
-            errors: expectedAfter("extends"),
             options: [override("extends", BOTH)],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedAfter("extends")
         },
         {
             code: "class Bar extends [] {}",
             output: "class Bar extends[] {}",
-            errors: unexpectedAfter("extends"),
             options: [override("extends", NEITHER)],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: unexpectedAfter("extends")
         },
         {
             code: "class Bar extends`}` {}",
             output: "class Bar extends `}` {}",
-            errors: expectedAfter("extends"),
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedAfter("extends")
         },
 
         //----------------------------------------------------------------------
@@ -2080,20 +2120,20 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "try{} finally {}",
             output: "try{}finally{}",
-            errors: unexpectedBeforeAndAfter("finally"),
-            options: [NEITHER]
+            options: [NEITHER],
+            errors: unexpectedBeforeAndAfter("finally")
         },
         {
             code: "try{}finally{}",
             output: "try{} finally {}",
-            errors: expectedBeforeAndAfter("finally"),
-            options: [override("finally", BOTH)]
+            options: [override("finally", BOTH)],
+            errors: expectedBeforeAndAfter("finally")
         },
         {
             code: "try {} finally {}",
             output: "try {}finally{}",
-            errors: unexpectedBeforeAndAfter("finally"),
-            options: [override("finally", NEITHER)]
+            options: [override("finally", NEITHER)],
+            errors: unexpectedBeforeAndAfter("finally")
         },
 
         //----------------------------------------------------------------------
@@ -2113,65 +2153,65 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "{}for(var foo of list) {}",
             output: "{} for (var foo of list) {}",
-            errors: expectedBeforeAndAfter("for"),
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedBeforeAndAfter("for")
         },
         {
             code: "{} for (;;) {}",
             output: "{}for(;;) {}",
-            errors: unexpectedBeforeAndAfter("for"),
-            options: [NEITHER]
+            options: [NEITHER],
+            errors: unexpectedBeforeAndAfter("for")
         },
         {
             code: "{} for (var foo in obj) {}",
             output: "{}for(var foo in obj) {}",
-            errors: unexpectedBeforeAndAfter("for"),
-            options: [NEITHER]
+            options: [NEITHER],
+            errors: unexpectedBeforeAndAfter("for")
         },
         {
             code: "{} for (var foo of list) {}",
             output: "{}for(var foo of list) {}",
-            errors: unexpectedBeforeAndAfter("for"),
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: unexpectedBeforeAndAfter("for")
         },
         {
             code: "{}for(;;) {}",
             output: "{} for (;;) {}",
-            errors: expectedBeforeAndAfter("for"),
-            options: [override("for", BOTH)]
+            options: [override("for", BOTH)],
+            errors: expectedBeforeAndAfter("for")
         },
         {
             code: "{}for(var foo in obj) {}",
             output: "{} for (var foo in obj) {}",
-            errors: expectedBeforeAndAfter("for"),
-            options: [override("for", BOTH)]
+            options: [override("for", BOTH)],
+            errors: expectedBeforeAndAfter("for")
         },
         {
             code: "{}for(var foo of list) {}",
             output: "{} for (var foo of list) {}",
-            errors: expectedBeforeAndAfter("for"),
             options: [override("for", BOTH)],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedBeforeAndAfter("for")
         },
         {
             code: "{} for (;;) {}",
             output: "{}for(;;) {}",
-            errors: unexpectedBeforeAndAfter("for"),
-            options: [override("for", NEITHER)]
+            options: [override("for", NEITHER)],
+            errors: unexpectedBeforeAndAfter("for")
         },
         {
             code: "{} for (var foo in obj) {}",
             output: "{}for(var foo in obj) {}",
-            errors: unexpectedBeforeAndAfter("for"),
-            options: [override("for", NEITHER)]
+            options: [override("for", NEITHER)],
+            errors: unexpectedBeforeAndAfter("for")
         },
         {
             code: "{} for (var foo of list) {}",
             output: "{}for(var foo of list) {}",
-            errors: unexpectedBeforeAndAfter("for"),
             options: [override("for", NEITHER)],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: unexpectedBeforeAndAfter("for")
         },
 
         //----------------------------------------------------------------------
@@ -2181,83 +2221,83 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "import {foo}from\"foo\"",
             output: "import {foo} from \"foo\"",
-            errors: expectedBeforeAndAfter("from"),
-            parserOptions: { sourceType: "module" }
+            parserOptions: { sourceType: "module" },
+            errors: expectedBeforeAndAfter("from")
         },
         {
             code: "export {foo}from\"foo\"",
             output: "export {foo} from \"foo\"",
-            errors: expectedBeforeAndAfter("from"),
-            parserOptions: { sourceType: "module" }
+            parserOptions: { sourceType: "module" },
+            errors: expectedBeforeAndAfter("from")
         },
         {
             code: "export *from\"foo\"",
             output: "export * from \"foo\"",
-            errors: expectedBeforeAndAfter("from"),
-            parserOptions: { sourceType: "module" }
+            parserOptions: { sourceType: "module" },
+            errors: expectedBeforeAndAfter("from")
         },
         {
             code: "import{foo} from \"foo\"",
             output: "import{foo}from\"foo\"",
-            errors: unexpectedBeforeAndAfter("from"),
             options: [NEITHER],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { sourceType: "module" },
+            errors: unexpectedBeforeAndAfter("from")
         },
         {
             code: "export{foo} from \"foo\"",
             output: "export{foo}from\"foo\"",
-            errors: unexpectedBeforeAndAfter("from"),
             options: [NEITHER],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { sourceType: "module" },
+            errors: unexpectedBeforeAndAfter("from")
         },
         {
             code: "export* from \"foo\"",
             output: "export*from\"foo\"",
-            errors: unexpectedBeforeAndAfter("from"),
             options: [NEITHER],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { sourceType: "module" },
+            errors: unexpectedBeforeAndAfter("from")
         },
         {
             code: "import{foo}from\"foo\"",
             output: "import{foo} from \"foo\"",
-            errors: expectedBeforeAndAfter("from"),
             options: [override("from", BOTH)],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { sourceType: "module" },
+            errors: expectedBeforeAndAfter("from")
         },
         {
             code: "export{foo}from\"foo\"",
             output: "export{foo} from \"foo\"",
-            errors: expectedBeforeAndAfter("from"),
             options: [override("from", BOTH)],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { sourceType: "module" },
+            errors: expectedBeforeAndAfter("from")
         },
         {
             code: "export*from\"foo\"",
             output: "export* from \"foo\"",
-            errors: expectedBeforeAndAfter("from"),
             options: [override("from", BOTH)],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { sourceType: "module" },
+            errors: expectedBeforeAndAfter("from")
         },
         {
             code: "import {foo} from \"foo\"",
             output: "import {foo}from\"foo\"",
-            errors: unexpectedBeforeAndAfter("from"),
             options: [override("from", NEITHER)],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { sourceType: "module" },
+            errors: unexpectedBeforeAndAfter("from")
         },
         {
             code: "export {foo} from \"foo\"",
             output: "export {foo}from\"foo\"",
-            errors: unexpectedBeforeAndAfter("from"),
             options: [override("from", NEITHER)],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { sourceType: "module" },
+            errors: unexpectedBeforeAndAfter("from")
         },
         {
             code: "export * from \"foo\"",
             output: "export *from\"foo\"",
-            errors: unexpectedBeforeAndAfter("from"),
             options: [override("from", NEITHER)],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { sourceType: "module" },
+            errors: unexpectedBeforeAndAfter("from")
         },
 
         //----------------------------------------------------------------------
@@ -2272,20 +2312,20 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "{} function foo() {}",
             output: "{}function foo() {}",
-            errors: unexpectedBefore("function"),
-            options: [NEITHER]
+            options: [NEITHER],
+            errors: unexpectedBefore("function")
         },
         {
             code: "{}function foo() {}",
             output: "{} function foo() {}",
-            errors: expectedBefore("function"),
-            options: [override("function", BOTH)]
+            options: [override("function", BOTH)],
+            errors: expectedBefore("function")
         },
         {
             code: "{} function foo() {}",
             output: "{}function foo() {}",
-            errors: unexpectedBefore("function"),
-            options: [override("function", NEITHER)]
+            options: [override("function", NEITHER)],
+            errors: unexpectedBefore("function")
         },
 
         //----------------------------------------------------------------------
@@ -2295,69 +2335,69 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "({ get[b]() {} })",
             output: "({ get [b]() {} })",
-            errors: expectedAfter("get"),
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedAfter("get")
         },
         {
             code: "class A { a() {}get[b]() {} }",
             output: "class A { a() {} get [b]() {} }",
-            errors: expectedBeforeAndAfter("get"),
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedBeforeAndAfter("get")
         },
         {
             code: "class A { a() {} static get[b]() {} }",
             output: "class A { a() {} static get [b]() {} }",
-            errors: expectedAfter("get"),
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedAfter("get")
         },
         {
             code: "({ get [b]() {} })",
             output: "({ get[b]() {} })",
-            errors: unexpectedAfter("get"),
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: unexpectedAfter("get")
         },
         {
             code: "class A { a() {} get [b]() {} }",
             output: "class A { a() {}get[b]() {} }",
-            errors: unexpectedBeforeAndAfter("get"),
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: unexpectedBeforeAndAfter("get")
         },
         {
             code: "class A { a() {}static get [b]() {} }",
             output: "class A { a() {}static get[b]() {} }",
-            errors: unexpectedAfter("get"),
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: unexpectedAfter("get")
         },
         {
             code: "({ get[b]() {} })",
             output: "({ get [b]() {} })",
-            errors: expectedAfter("get"),
             options: [override("get", BOTH)],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedAfter("get")
         },
         {
             code: "class A { a() {}get[b]() {} }",
             output: "class A { a() {} get [b]() {} }",
-            errors: expectedBeforeAndAfter("get"),
             options: [override("get", BOTH)],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedBeforeAndAfter("get")
         },
         {
             code: "({ get [b]() {} })",
             output: "({ get[b]() {} })",
-            errors: unexpectedAfter("get"),
             options: [override("get", NEITHER)],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: unexpectedAfter("get")
         },
         {
             code: "class A { a() {} get [b]() {} }",
             output: "class A { a() {}get[b]() {} }",
-            errors: unexpectedBeforeAndAfter("get"),
             options: [override("get", NEITHER)],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: unexpectedBeforeAndAfter("get")
         },
 
         //----------------------------------------------------------------------
@@ -2377,38 +2417,38 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "{} if (a) {}",
             output: "{}if(a) {}",
-            errors: unexpectedBeforeAndAfter("if"),
-            options: [NEITHER]
+            options: [NEITHER],
+            errors: unexpectedBeforeAndAfter("if")
         },
         {
             code: "if(a) {}else if (b) {}",
             output: "if(a) {}else if(b) {}",
-            errors: unexpectedAfter("if"),
-            options: [NEITHER]
+            options: [NEITHER],
+            errors: unexpectedAfter("if")
         },
         {
             code: "{}if(a) {}",
             output: "{} if (a) {}",
-            errors: expectedBeforeAndAfter("if"),
-            options: [override("if", BOTH)]
+            options: [override("if", BOTH)],
+            errors: expectedBeforeAndAfter("if")
         },
         {
             code: "if (a) {}else if(b) {}",
             output: "if (a) {}else if (b) {}",
-            errors: expectedAfter("if"),
-            options: [override("if", BOTH)]
+            options: [override("if", BOTH)],
+            errors: expectedAfter("if")
         },
         {
             code: "{} if (a) {}",
             output: "{}if(a) {}",
-            errors: unexpectedBeforeAndAfter("if"),
-            options: [override("if", NEITHER)]
+            options: [override("if", NEITHER)],
+            errors: unexpectedBeforeAndAfter("if")
         },
         {
             code: "if(a) {} else if (b) {}",
             output: "if(a) {} else if(b) {}",
-            errors: unexpectedAfter("if"),
-            options: [override("if", NEITHER)]
+            options: [override("if", NEITHER)],
+            errors: unexpectedAfter("if")
         },
 
         //----------------------------------------------------------------------
@@ -2418,62 +2458,62 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "{}import{a} from \"foo\"",
             output: "{} import {a} from \"foo\"",
-            errors: expectedBeforeAndAfter("import"),
-            parserOptions: { sourceType: "module" }
+            parserOptions: { sourceType: "module" },
+            errors: expectedBeforeAndAfter("import")
         },
         {
             code: "{}import a from \"foo\"",
             output: "{} import a from \"foo\"",
-            errors: expectedBefore("import"),
-            parserOptions: { sourceType: "module" }
+            parserOptions: { sourceType: "module" },
+            errors: expectedBefore("import")
         },
         {
             code: "{}import* as a from \"a\"",
             output: "{} import * as a from \"a\"",
-            errors: expectedBeforeAndAfter("import"),
-            parserOptions: { sourceType: "module" }
+            parserOptions: { sourceType: "module" },
+            errors: expectedBeforeAndAfter("import")
         },
         {
             code: "{} import {a}from\"foo\"",
             output: "{}import{a}from\"foo\"",
-            errors: unexpectedBeforeAndAfter("import"),
             options: [NEITHER],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { sourceType: "module" },
+            errors: unexpectedBeforeAndAfter("import")
         },
         {
             code: "{} import *as a from\"foo\"",
             output: "{}import*as a from\"foo\"",
-            errors: unexpectedBeforeAndAfter("import"),
             options: [NEITHER],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { sourceType: "module" },
+            errors: unexpectedBeforeAndAfter("import")
         },
         {
             code: "{}import{a}from\"foo\"",
             output: "{} import {a}from\"foo\"",
-            errors: expectedBeforeAndAfter("import"),
             options: [override("import", BOTH)],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { sourceType: "module" },
+            errors: expectedBeforeAndAfter("import")
         },
         {
             code: "{}import*as a from\"foo\"",
             output: "{} import *as a from\"foo\"",
-            errors: expectedBeforeAndAfter("import"),
             options: [override("import", BOTH)],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { sourceType: "module" },
+            errors: expectedBeforeAndAfter("import")
         },
         {
             code: "{} import {a} from \"foo\"",
             output: "{}import{a} from \"foo\"",
-            errors: unexpectedBeforeAndAfter("import"),
             options: [override("import", NEITHER)],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { sourceType: "module" },
+            errors: unexpectedBeforeAndAfter("import")
         },
         {
             code: "{} import * as a from \"foo\"",
             output: "{}import* as a from \"foo\"",
-            errors: unexpectedBeforeAndAfter("import"),
             options: [override("import", NEITHER)],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { sourceType: "module" },
+            errors: unexpectedBeforeAndAfter("import")
         },
 
         //----------------------------------------------------------------------
@@ -2483,29 +2523,29 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "for ([foo]in{foo: 0}) {}",
             output: "for ([foo] in {foo: 0}) {}",
-            errors: expectedBeforeAndAfter("in"),
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedBeforeAndAfter("in")
         },
         {
             code: "for([foo] in {foo: 0}) {}",
             output: "for([foo]in{foo: 0}) {}",
-            errors: unexpectedBeforeAndAfter("in"),
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: unexpectedBeforeAndAfter("in")
         },
         {
             code: "for([foo]in{foo: 0}) {}",
             output: "for([foo] in {foo: 0}) {}",
-            errors: expectedBeforeAndAfter("in"),
             options: [override("in", BOTH)],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedBeforeAndAfter("in")
         },
         {
             code: "for ([foo] in {foo: 0}) {}",
             output: "for ([foo]in{foo: 0}) {}",
-            errors: unexpectedBeforeAndAfter("in"),
             options: [override("in", NEITHER)],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: unexpectedBeforeAndAfter("in")
         },
 
         //----------------------------------------------------------------------
@@ -2521,29 +2561,29 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "{}let[a] = b",
             output: "{} let [a] = b",
-            errors: expectedBeforeAndAfter("let"),
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedBeforeAndAfter("let")
         },
         {
             code: "{} let [a] = b",
             output: "{}let[a] = b",
-            errors: unexpectedBeforeAndAfter("let"),
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: unexpectedBeforeAndAfter("let")
         },
         {
             code: "{}let[a] = b",
             output: "{} let [a] = b",
-            errors: expectedBeforeAndAfter("let"),
             options: [override("let", BOTH)],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedBeforeAndAfter("let")
         },
         {
             code: "{} let [a] = b",
             output: "{}let[a] = b",
-            errors: unexpectedBeforeAndAfter("let"),
             options: [override("let", NEITHER)],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: unexpectedBeforeAndAfter("let")
         },
 
         //----------------------------------------------------------------------
@@ -2558,20 +2598,20 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "{} new foo()",
             output: "{}new foo()",
-            errors: unexpectedBefore("new"),
-            options: [NEITHER]
+            options: [NEITHER],
+            errors: unexpectedBefore("new")
         },
         {
             code: "{}new foo()",
             output: "{} new foo()",
-            errors: expectedBefore("new"),
-            options: [override("new", BOTH)]
+            options: [override("new", BOTH)],
+            errors: expectedBefore("new")
         },
         {
             code: "{} new foo()",
             output: "{}new foo()",
-            errors: unexpectedBefore("new"),
-            options: [override("new", NEITHER)]
+            options: [override("new", NEITHER)],
+            errors: unexpectedBefore("new")
         },
 
         //----------------------------------------------------------------------
@@ -2581,29 +2621,29 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "for ([foo]of{foo: 0}) {}",
             output: "for ([foo] of {foo: 0}) {}",
-            errors: expectedBeforeAndAfter("of"),
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedBeforeAndAfter("of")
         },
         {
             code: "for([foo] of {foo: 0}) {}",
             output: "for([foo]of{foo: 0}) {}",
-            errors: unexpectedBeforeAndAfter("of"),
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: unexpectedBeforeAndAfter("of")
         },
         {
             code: "for([foo]of{foo: 0}) {}",
             output: "for([foo] of {foo: 0}) {}",
-            errors: expectedBeforeAndAfter("of"),
             options: [override("of", BOTH)],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedBeforeAndAfter("of")
         },
         {
             code: "for ([foo] of {foo: 0}) {}",
             output: "for ([foo]of{foo: 0}) {}",
-            errors: unexpectedBeforeAndAfter("of"),
             options: [override("of", NEITHER)],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: unexpectedBeforeAndAfter("of")
         },
 
         //----------------------------------------------------------------------
@@ -2618,20 +2658,20 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "function foo() { {} return +a }",
             output: "function foo() { {}return+a }",
-            errors: unexpectedBeforeAndAfter("return"),
-            options: [NEITHER]
+            options: [NEITHER],
+            errors: unexpectedBeforeAndAfter("return")
         },
         {
             code: "function foo() { {}return+a }",
             output: "function foo() { {} return +a }",
-            errors: expectedBeforeAndAfter("return"),
-            options: [override("return", BOTH)]
+            options: [override("return", BOTH)],
+            errors: expectedBeforeAndAfter("return")
         },
         {
             code: "function foo() { {} return +a }",
             output: "function foo() { {}return+a }",
-            errors: unexpectedBeforeAndAfter("return"),
-            options: [override("return", NEITHER)]
+            options: [override("return", NEITHER)],
+            errors: unexpectedBeforeAndAfter("return")
         },
 
         //----------------------------------------------------------------------
@@ -2641,62 +2681,62 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "({ set[b](value) {} })",
             output: "({ set [b](value) {} })",
-            errors: expectedAfter("set"),
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedAfter("set")
         },
         {
             code: "class A { a() {}set[b](value) {} }",
             output: "class A { a() {} set [b](value) {} }",
-            errors: expectedBeforeAndAfter("set"),
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedBeforeAndAfter("set")
         },
         {
             code: "class A { a() {} static set[b](value) {} }",
             output: "class A { a() {} static set [b](value) {} }",
-            errors: expectedAfter("set"),
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedAfter("set")
         },
         {
             code: "({ set [b](value) {} })",
             output: "({ set[b](value) {} })",
-            errors: unexpectedAfter("set"),
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: unexpectedAfter("set")
         },
         {
             code: "class A { a() {} set [b](value) {} }",
             output: "class A { a() {}set[b](value) {} }",
-            errors: unexpectedBeforeAndAfter("set"),
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: unexpectedBeforeAndAfter("set")
         },
         {
             code: "({ set[b](value) {} })",
             output: "({ set [b](value) {} })",
-            errors: expectedAfter("set"),
             options: [override("set", BOTH)],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedAfter("set")
         },
         {
             code: "class A { a() {}set[b](value) {} }",
             output: "class A { a() {} set [b](value) {} }",
-            errors: expectedBeforeAndAfter("set"),
             options: [override("set", BOTH)],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedBeforeAndAfter("set")
         },
         {
             code: "({ set [b](value) {} })",
             output: "({ set[b](value) {} })",
-            errors: unexpectedAfter("set"),
             options: [override("set", NEITHER)],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: unexpectedAfter("set")
         },
         {
             code: "class A { a() {} set [b](value) {} }",
             output: "class A { a() {}set[b](value) {} }",
-            errors: unexpectedBeforeAndAfter("set"),
             options: [override("set", NEITHER)],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: unexpectedBeforeAndAfter("set")
         },
 
         //----------------------------------------------------------------------
@@ -2706,42 +2746,42 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "class A { a() {}static[b]() {} }",
             output: "class A { a() {} static [b]() {} }",
-            errors: expectedBeforeAndAfter("static"),
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedBeforeAndAfter("static")
         },
         {
             code: "class A { a() {}static get [b]() {} }",
             output: "class A { a() {} static get [b]() {} }",
-            errors: expectedBefore("static"),
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedBefore("static")
         },
         {
             code: "class A { a() {} static [b]() {} }",
             output: "class A { a() {}static[b]() {} }",
-            errors: unexpectedBeforeAndAfter("static"),
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: unexpectedBeforeAndAfter("static")
         },
         {
             code: "class A { a() {} static get[b]() {} }",
             output: "class A { a() {}static get[b]() {} }",
-            errors: unexpectedBefore("static"),
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: unexpectedBefore("static")
         },
         {
             code: "class A { a() {}static[b]() {} }",
             output: "class A { a() {} static [b]() {} }",
-            errors: expectedBeforeAndAfter("static"),
             options: [override("static", BOTH)],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedBeforeAndAfter("static")
         },
         {
             code: "class A { a() {} static [b]() {} }",
             output: "class A { a() {}static[b]() {} }",
-            errors: unexpectedBeforeAndAfter("static"),
             options: [override("static", NEITHER)],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: unexpectedBeforeAndAfter("static")
         },
 
         //----------------------------------------------------------------------
@@ -2751,29 +2791,29 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "class A { a() { {}super[b]; } }",
             output: "class A { a() { {} super[b]; } }",
-            errors: expectedBefore("super"),
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedBefore("super")
         },
         {
             code: "class A { a() { {} super[b]; } }",
             output: "class A { a() { {}super[b]; } }",
-            errors: unexpectedBefore("super"),
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: unexpectedBefore("super")
         },
         {
             code: "class A { a() { {}super[b]; } }",
             output: "class A { a() { {} super[b]; } }",
-            errors: expectedBefore("super"),
             options: [override("super", BOTH)],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedBefore("super")
         },
         {
             code: "class A { a() { {} super[b]; } }",
             output: "class A { a() { {}super[b]; } }",
-            errors: unexpectedBefore("super"),
             options: [override("super", NEITHER)],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: unexpectedBefore("super")
         },
 
         //----------------------------------------------------------------------
@@ -2788,20 +2828,20 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "{} switch (a) {}",
             output: "{}switch(a) {}",
-            errors: unexpectedBeforeAndAfter("switch"),
-            options: [NEITHER]
+            options: [NEITHER],
+            errors: unexpectedBeforeAndAfter("switch")
         },
         {
             code: "{}switch(a) {}",
             output: "{} switch (a) {}",
-            errors: expectedBeforeAndAfter("switch"),
-            options: [override("switch", BOTH)]
+            options: [override("switch", BOTH)],
+            errors: expectedBeforeAndAfter("switch")
         },
         {
             code: "{} switch (a) {}",
             output: "{}switch(a) {}",
-            errors: unexpectedBeforeAndAfter("switch"),
-            options: [override("switch", NEITHER)]
+            options: [override("switch", NEITHER)],
+            errors: unexpectedBeforeAndAfter("switch")
         },
 
         //----------------------------------------------------------------------
@@ -2816,20 +2856,20 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "{} this[a]",
             output: "{}this[a]",
-            errors: unexpectedBefore("this"),
-            options: [NEITHER]
+            options: [NEITHER],
+            errors: unexpectedBefore("this")
         },
         {
             code: "{}this[a]",
             output: "{} this[a]",
-            errors: expectedBefore("this"),
-            options: [override("this", BOTH)]
+            options: [override("this", BOTH)],
+            errors: expectedBefore("this")
         },
         {
             code: "{} this[a]",
             output: "{}this[a]",
-            errors: unexpectedBefore("this"),
-            options: [override("this", NEITHER)]
+            options: [override("this", NEITHER)],
+            errors: unexpectedBefore("this")
         },
 
         //----------------------------------------------------------------------
@@ -2844,20 +2884,20 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "function foo() { {} throw +a }",
             output: "function foo() { {}throw+a }",
-            errors: unexpectedBeforeAndAfter("throw"),
-            options: [NEITHER]
+            options: [NEITHER],
+            errors: unexpectedBeforeAndAfter("throw")
         },
         {
             code: "function foo() { {}throw+a }",
             output: "function foo() { {} throw +a }",
-            errors: expectedBeforeAndAfter("throw"),
-            options: [override("throw", BOTH)]
+            options: [override("throw", BOTH)],
+            errors: expectedBeforeAndAfter("throw")
         },
         {
             code: "function foo() { {} throw +a }",
             output: "function foo() { {}throw+a }",
-            errors: unexpectedBeforeAndAfter("throw"),
-            options: [override("throw", NEITHER)]
+            options: [override("throw", NEITHER)],
+            errors: unexpectedBeforeAndAfter("throw")
         },
 
         //----------------------------------------------------------------------
@@ -2872,20 +2912,20 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "{} try {}finally{}",
             output: "{}try{}finally{}",
-            errors: unexpectedBeforeAndAfter("try"),
-            options: [NEITHER]
+            options: [NEITHER],
+            errors: unexpectedBeforeAndAfter("try")
         },
         {
             code: "{}try{}finally{}",
             output: "{} try {}finally{}",
-            errors: expectedBeforeAndAfter("try"),
-            options: [override("try", BOTH)]
+            options: [override("try", BOTH)],
+            errors: expectedBeforeAndAfter("try")
         },
         {
             code: "{} try {} finally {}",
             output: "{}try{} finally {}",
-            errors: unexpectedBeforeAndAfter("try"),
-            options: [override("try", NEITHER)]
+            options: [override("try", NEITHER)],
+            errors: unexpectedBeforeAndAfter("try")
         },
 
         //----------------------------------------------------------------------
@@ -2900,20 +2940,20 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "{} typeof foo",
             output: "{}typeof foo",
-            errors: unexpectedBefore("typeof"),
-            options: [NEITHER]
+            options: [NEITHER],
+            errors: unexpectedBefore("typeof")
         },
         {
             code: "{}typeof foo",
             output: "{} typeof foo",
-            errors: expectedBefore("typeof"),
-            options: [override("typeof", BOTH)]
+            options: [override("typeof", BOTH)],
+            errors: expectedBefore("typeof")
         },
         {
             code: "{} typeof foo",
             output: "{}typeof foo",
-            errors: unexpectedBefore("typeof"),
-            options: [override("typeof", NEITHER)]
+            options: [override("typeof", NEITHER)],
+            errors: unexpectedBefore("typeof")
         },
 
         //----------------------------------------------------------------------
@@ -2923,29 +2963,29 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "{}var[a] = b",
             output: "{} var [a] = b",
-            errors: expectedBeforeAndAfter("var"),
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedBeforeAndAfter("var")
         },
         {
             code: "{} var [a] = b",
             output: "{}var[a] = b",
-            errors: unexpectedBeforeAndAfter("var"),
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: unexpectedBeforeAndAfter("var")
         },
         {
             code: "{}var[a] = b",
             output: "{} var [a] = b",
-            errors: expectedBeforeAndAfter("var"),
             options: [override("var", BOTH)],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedBeforeAndAfter("var")
         },
         {
             code: "{} var [a] = b",
             output: "{}var[a] = b",
-            errors: unexpectedBeforeAndAfter("var"),
             options: [override("var", NEITHER)],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: unexpectedBeforeAndAfter("var")
         },
 
         //----------------------------------------------------------------------
@@ -2960,20 +3000,20 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "{} void foo",
             output: "{}void foo",
-            errors: unexpectedBefore("void"),
-            options: [NEITHER]
+            options: [NEITHER],
+            errors: unexpectedBefore("void")
         },
         {
             code: "{}void foo",
             output: "{} void foo",
-            errors: expectedBefore("void"),
-            options: [override("void", BOTH)]
+            options: [override("void", BOTH)],
+            errors: expectedBefore("void")
         },
         {
             code: "{} void foo",
             output: "{}void foo",
-            errors: unexpectedBefore("void"),
-            options: [override("void", NEITHER)]
+            options: [override("void", NEITHER)],
+            errors: unexpectedBefore("void")
         },
 
         //----------------------------------------------------------------------
@@ -2993,38 +3033,38 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "{} while (a) {}",
             output: "{}while(a) {}",
-            errors: unexpectedBeforeAndAfter("while"),
-            options: [NEITHER]
+            options: [NEITHER],
+            errors: unexpectedBeforeAndAfter("while")
         },
         {
             code: "do{} while (a)",
             output: "do{}while(a)",
-            errors: unexpectedBeforeAndAfter("while"),
-            options: [NEITHER]
+            options: [NEITHER],
+            errors: unexpectedBeforeAndAfter("while")
         },
         {
             code: "{}while(a) {}",
             output: "{} while (a) {}",
-            errors: expectedBeforeAndAfter("while"),
-            options: [override("while", BOTH)]
+            options: [override("while", BOTH)],
+            errors: expectedBeforeAndAfter("while")
         },
         {
             code: "do{}while(a)",
             output: "do{} while (a)",
-            errors: expectedBeforeAndAfter("while"),
-            options: [override("while", BOTH)]
+            options: [override("while", BOTH)],
+            errors: expectedBeforeAndAfter("while")
         },
         {
             code: "{} while (a) {}",
             output: "{}while(a) {}",
-            errors: unexpectedBeforeAndAfter("while"),
-            options: [override("while", NEITHER)]
+            options: [override("while", NEITHER)],
+            errors: unexpectedBeforeAndAfter("while")
         },
         {
             code: "do {} while (a)",
             output: "do {}while(a)",
-            errors: unexpectedBeforeAndAfter("while"),
-            options: [override("while", NEITHER)]
+            options: [override("while", NEITHER)],
+            errors: unexpectedBeforeAndAfter("while")
         },
 
         //----------------------------------------------------------------------
@@ -3039,20 +3079,20 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "{} with (obj) {}",
             output: "{}with(obj) {}",
-            errors: unexpectedBeforeAndAfter("with"),
-            options: [NEITHER]
+            options: [NEITHER],
+            errors: unexpectedBeforeAndAfter("with")
         },
         {
             code: "{}with(obj) {}",
             output: "{} with (obj) {}",
-            errors: expectedBeforeAndAfter("with"),
-            options: [override("with", BOTH)]
+            options: [override("with", BOTH)],
+            errors: expectedBeforeAndAfter("with")
         },
         {
             code: "{} with (obj) {}",
             output: "{}with(obj) {}",
-            errors: unexpectedBeforeAndAfter("with"),
-            options: [override("with", NEITHER)]
+            options: [override("with", NEITHER)],
+            errors: unexpectedBeforeAndAfter("with")
         },
 
         //----------------------------------------------------------------------
@@ -3062,29 +3102,29 @@ ruleTester.run("keyword-spacing", rule, {
         {
             code: "function* foo() { {}yield foo }",
             output: "function* foo() { {} yield foo }",
-            errors: expectedBefore("yield"),
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedBefore("yield")
         },
         {
             code: "function* foo() { {} yield foo }",
             output: "function* foo() { {}yield foo }",
-            errors: unexpectedBefore("yield"),
             options: [NEITHER],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: unexpectedBefore("yield")
         },
         {
             code: "function* foo() { {}yield foo }",
             output: "function* foo() { {} yield foo }",
-            errors: expectedBefore("yield"),
             options: [override("yield", BOTH)],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: expectedBefore("yield")
         },
         {
             code: "function* foo() { {} yield foo }",
             output: "function* foo() { {}yield foo }",
-            errors: unexpectedBefore("yield"),
             options: [override("yield", NEITHER)],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 6 },
+            errors: unexpectedBefore("yield")
         },
 
         //----------------------------------------------------------------------

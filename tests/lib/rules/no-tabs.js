@@ -23,7 +23,16 @@ ruleTester.run("no-tabs", rule, {
         "function test(){\n}",
         "function test(){\n" +
         "  //   sdfdsf \n" +
-        "}"
+        "}",
+
+        {
+            code: "\tdoSomething();",
+            options: [{ allowIndentationTabs: true }]
+        },
+        {
+            code: "\t// comment",
+            options: [{ allowIndentationTabs: true }]
+        }
     ],
     invalid: [
         {
@@ -31,7 +40,7 @@ ruleTester.run("no-tabs", rule, {
             errors: [{
                 message: ERROR_MESSAGE,
                 line: 1,
-                column: 18
+                column: 17
             }]
         },
         {
@@ -39,7 +48,7 @@ ruleTester.run("no-tabs", rule, {
             errors: [{
                 message: ERROR_MESSAGE,
                 line: 1,
-                column: 6
+                column: 5
             }]
         },
         {
@@ -50,7 +59,7 @@ ruleTester.run("no-tabs", rule, {
             errors: [{
                 message: ERROR_MESSAGE,
                 line: 2,
-                column: 6
+                column: 5
             }]
         },
         {
@@ -61,7 +70,7 @@ ruleTester.run("no-tabs", rule, {
             errors: [{
                 message: ERROR_MESSAGE,
                 line: 1,
-                column: 10
+                column: 9
             }]
         },
         {
@@ -73,14 +82,23 @@ ruleTester.run("no-tabs", rule, {
                 {
                     message: ERROR_MESSAGE,
                     line: 2,
-                    column: 6
+                    column: 5
                 },
                 {
                     message: ERROR_MESSAGE,
                     line: 3,
-                    column: 2
+                    column: 1
                 }
             ]
+        },
+        {
+            code: "\t// Comment with leading tab \t and inline tab",
+            options: [{ allowIndentationTabs: true }],
+            errors: [{
+                message: ERROR_MESSAGE,
+                line: 1,
+                column: 30
+            }]
         }
     ]
 });

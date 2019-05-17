@@ -8,8 +8,8 @@ The primary reason ESLint was created was to allow developers to create their ow
 
 ESLint is written using Node.js to provide a fast runtime environment and easy installation via [npm][].
 
-[linting]: http://en.wikipedia.org/wiki/Lint_(software)
-[npm]: http://npmjs.org/
+[linting]: https://en.wikipedia.org/wiki/Lint_(software)
+[npm]: https://npmjs.org/
 
 ## Philosophy
 
@@ -23,8 +23,8 @@ Everything is pluggable:
 Every rule:
 
 * Is standalone
-* Can be able to be turned off or on (nothing can be deemed "too important to turn off")
-* Can be set to be a warning or error individually
+* Can be turned off or on (nothing can be deemed "too important to turn off")
+* Can be set to a warning or error individually
 
 Additionally:
 

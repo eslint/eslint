@@ -44,6 +44,7 @@ Examples of **incorrect** code for this rule with the default `"double"` option:
 
 var single = 'single';
 var unescaped = 'a string containing "double" quotes';
+var backtick = `back\ntick`; // you can use \n in single or double quoted strings
 ```
 
 Examples of **correct** code for this rule with the default `"double"` option:
@@ -53,7 +54,8 @@ Examples of **correct** code for this rule with the default `"double"` option:
 /*eslint-env es6*/
 
 var double = "double";
-var backtick = `back\ntick`;  // backticks are allowed due to newline
+var backtick = `back
+tick`;  // backticks are allowed due to newline
 var backtick = tag`backtick`; // backticks are allowed due to tag
 ```
 
@@ -144,6 +146,8 @@ Examples of additional **correct** code for this rule with the `"single", { "all
 var single = 'single';
 var single = `single`;
 ```
+
+`{ "allowTemplateLiterals": false }` will not disallow the usage of all template literals. If you want to forbid any instance of template literals, use [no-restricted-syntax](https://eslint.org/docs/rules/no-restricted-syntax) and target the `TemplateLiteral` selector.
 
 ## When Not To Use It
 

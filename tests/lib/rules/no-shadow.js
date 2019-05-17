@@ -53,7 +53,7 @@ ruleTester.run("no-shadow", rule, {
         { code: "function foo() { var a; } var a;", parserOptions: { ecmaVersion: 6 } },
         { code: "function foo(a) { } let a;", parserOptions: { ecmaVersion: 6 } },
         { code: "function foo(a) { } var a;", parserOptions: { ecmaVersion: 6 } },
-        { code: "function foo() { var Object = 0; }" },
+        "function foo() { var Object = 0; }",
         { code: "function foo() { var top = 0; }", env: { browser: true } },
         { code: "var Object = 0;", options: [{ builtinGlobals: true }] },
         { code: "var top = 0;", options: [{ builtinGlobals: true }], env: { browser: true } },
@@ -299,8 +299,8 @@ ruleTester.run("no-shadow", rule, {
         {
             code: "function foo() { var top = 0; }",
             options: [{ builtinGlobals: true }],
-            env: { browser: true },
-            errors: [{ message: "'top' is already declared in the upper scope.", type: "Identifier" }]
+            errors: [{ message: "'top' is already declared in the upper scope.", type: "Identifier" }],
+            env: { browser: true }
         },
         {
             code: "var Object = 0;",
@@ -311,9 +311,9 @@ ruleTester.run("no-shadow", rule, {
         {
             code: "var top = 0;",
             options: [{ builtinGlobals: true }],
-            env: { browser: true },
             parserOptions: { sourceType: "module" },
-            errors: [{ message: "'top' is already declared in the upper scope.", type: "Identifier" }]
+            errors: [{ message: "'top' is already declared in the upper scope.", type: "Identifier" }],
+            env: { browser: true }
         },
         {
             code: "var Object = 0;",
@@ -324,9 +324,9 @@ ruleTester.run("no-shadow", rule, {
         {
             code: "var top = 0;",
             options: [{ builtinGlobals: true }],
-            env: { browser: true },
             parserOptions: { ecmaFeatures: { globalReturn: true } },
-            errors: [{ message: "'top' is already declared in the upper scope.", type: "Identifier" }]
+            errors: [{ message: "'top' is already declared in the upper scope.", type: "Identifier" }],
+            env: { browser: true }
         },
         {
             code: "function foo(cb) { (function (cb) { cb(42); })(cb); }",
