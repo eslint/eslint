@@ -31,7 +31,7 @@ Examples of **incorrect** code for the default `"all"` option:
 
 if (foo) foo++;
 
-while (bar)
+while (bar) 
     baz();
 
 if (foo) {
