@@ -814,11 +814,9 @@ describe("CLIEngine", () => {
             });
             engine.events.on("fileVerify", result => results.push(result));
 
-            engine.executeOnFiles(["lib/cli*.js"]);
+            const report = engine.executeOnFiles(["lib/cli*.js"]);
 
-            assert.strictEqual(results.length, 2);
-            assert.strictEqual(results[0].messages.length, 0);
-            assert.strictEqual(results[1].messages.length, 0);
+            assert.deepStrictEqual(results, report.results);
         });
 
         it("should handle multiple patterns with overlapping files", () => {
