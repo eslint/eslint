@@ -3031,6 +3031,103 @@ describe("CLIEngine", () => {
                 assert.deepStrictEqual(results[0].output, "fixed;");
             });
         });
+
+        describe("MODULE_NOT_FOUND error handling", () => {
+            const cwd = getFixturePath("module-not-found");
+
+            beforeEach(() => {
+                engine = new CLIEngine({ cwd });
+            });
+
+            it("should throw an error with a message template when 'extends' property has a non-existence JavaScript config.", () => {
+                try {
+                    engine.executeOnText("test", "extends-js/test.js");
+                } catch (err) {
+                    assert.strictEqual(err.messageTemplate, "extend-config-missing");
+                    assert.deepStrictEqual(err.messageData, {
+                        configName: "nonexistent-config"
+                    });
+                    return;
+                }
+                assert.fail("Expected to throw an error");
+            });
+
+            it("should throw an error with a message template when 'extends' property has a non-existence plugin config.", () => {
+                try {
+                    engine.executeOnText("test", "extends-plugin/test.js");
+                } catch (err) {
+                    assert.strictEqual(err.code, "MODULE_NOT_FOUND");
+                    assert.strictEqual(err.messageTemplate, "plugin-missing");
+                    assert.deepStrictEqual(err.messageData, {
+                        importerName: `extends-plugin${path.sep}.eslintrc.yml`,
+                        pluginName: "eslint-plugin-nonexistent-plugin",
+                        resolvePluginsRelativeTo: cwd
+                    });
+                    return;
+                }
+                assert.fail("Expected to throw an error");
+            });
+
+            it("should throw an error with a message template when 'plugins' property has a non-existence plugin.", () => {
+                try {
+                    engine.executeOnText("test", "plugins/test.js");
+                } catch (err) {
+                    assert.strictEqual(err.code, "MODULE_NOT_FOUND");
+                    assert.strictEqual(err.messageTemplate, "plugin-missing");
+                    assert.deepStrictEqual(err.messageData, {
+                        importerName: `plugins${path.sep}.eslintrc.yml`,
+                        pluginName: "eslint-plugin-nonexistent-plugin",
+                        resolvePluginsRelativeTo: cwd
+                    });
+                    return;
+                }
+                assert.fail("Expected to throw an error");
+            });
+
+            it("should throw an error with no message template when a JavaScript config threw a 'MODULE_NOT_FOUND' error.", () => {
+                try {
+                    engine.executeOnText("test", "throw-in-config-itself/test.js");
+                } catch (err) {
+                    assert.strictEqual(err.code, "MODULE_NOT_FOUND");
+                    assert.strictEqual(err.messageTemplate, void 0);
+                    return;
+                }
+                assert.fail("Expected to throw an error");
+            });
+
+            it("should throw an error with no message template when 'extends' property has a JavaScript config that throws a 'MODULE_NOT_FOUND' error.", () => {
+                try {
+                    engine.executeOnText("test", "throw-in-extends-js/test.js");
+                } catch (err) {
+                    assert.strictEqual(err.code, "MODULE_NOT_FOUND");
+                    assert.strictEqual(err.messageTemplate, void 0);
+                    return;
+                }
+                assert.fail("Expected to throw an error");
+            });
+
+            it("should throw an error with no message template when 'extends' property has a plugin config that throws a 'MODULE_NOT_FOUND' error.", () => {
+                try {
+                    engine.executeOnText("test", "throw-in-extends-plugin/test.js");
+                } catch (err) {
+                    assert.strictEqual(err.code, "MODULE_NOT_FOUND");
+                    assert.strictEqual(err.messageTemplate, void 0);
+                    return;
+                }
+                assert.fail("Expected to throw an error");
+            });
+
+            it("should throw an error with no message template when 'plugins' property has a plugin config that throws a 'MODULE_NOT_FOUND' error.", () => {
+                try {
+                    engine.executeOnText("test", "throw-in-plugins/test.js");
+                } catch (err) {
+                    assert.strictEqual(err.code, "MODULE_NOT_FOUND");
+                    assert.strictEqual(err.messageTemplate, void 0);
+                    return;
+                }
+                assert.fail("Expected to throw an error");
+            });
+        });
     });
 
     describe("getConfigForFile", () => {
