@@ -4209,7 +4209,7 @@ describe("Linter", () => {
         });
 
         describe("preprocessors", () => {
-            it("should be received text and filename.", () => {
+            it("should receive text and filename.", () => {
                 const code = "foo bar baz";
                 const preprocess = sinon.spy(text => text.split(" "));
 
@@ -4262,10 +4262,36 @@ describe("Linter", () => {
                 assert(/^filename\.js[/\\]1_block\.js/u.test(receivedFilenames[1]));
                 assert(/^filename\.js[/\\]2_block\.js/u.test(receivedFilenames[2]));
             });
+
+            it("should receive text even if a SourceCode object was given.", () => {
+                const code = "foo";
+                const preprocess = sinon.spy(text => text.split(" "));
+
+                linter.verify(code, {});
+                const sourceCode = linter.getSourceCode();
+
+                linter.verify(sourceCode, {}, { filename, preprocess });
+
+                assert.strictEqual(preprocess.calledOnce, true);
+                assert.deepStrictEqual(preprocess.args[0], [code, filename]);
+            });
+
+            it("should receive text even if a SourceCode object was given (with BOM).", () => {
+                const code = "\uFEFFfoo";
+                const preprocess = sinon.spy(text => text.split(" "));
+
+                linter.verify(code, {});
+                const sourceCode = linter.getSourceCode();
+
+                linter.verify(sourceCode, {}, { filename, preprocess });
+
+                assert.strictEqual(preprocess.calledOnce, true);
+                assert.deepStrictEqual(preprocess.args[0], [code, filename]);
+            });
         });
 
         describe("postprocessors", () => {
-            it("should be received result and filename.", () => {
+            it("should receive result and filename.", () => {
                 const code = "foo bar baz";
                 const preprocess = sinon.spy(text => text.split(" "));
                 const postprocess = sinon.spy(text => [text]);
