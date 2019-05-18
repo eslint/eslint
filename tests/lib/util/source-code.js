@@ -405,7 +405,7 @@ describe("SourceCode", () => {
             const spy = sandbox.spy(assertJSDoc);
 
             linter.defineRule("checker", () => ({ FunctionDeclaration: spy }));
-            linter.verify(code, { rules: { checker: "error" }, parserOptions: { sourceType: "module" } });
+            linter.verify(code, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6, sourceType: "module" } });
             assert.isTrue(spy.calledOnce, "Event handler should be called.");
 
         });
@@ -911,7 +911,7 @@ describe("SourceCode", () => {
     });
 
     describe("getComments()", () => {
-        const config = { rules: { checker: "error" }, parserOptions: { sourceType: "module" } };
+        const config = { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6, sourceType: "module" } };
         let unusedAssertionFuncs;
 
 

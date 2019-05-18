@@ -333,23 +333,19 @@ let c = {foo: 1, bar: 2
 };
 let d = {
     foo: 1, bar: 2};
-let e = {foo: 1,
-    bar: 2};
-let f = {foo: function() {
+let e = {foo: function() {
     dosomething();
 }};
 
-let {g
+let {f
 } = obj;
 let {
-    h} = obj;
-let {i, j
+    g} = obj;
+let {h, i
 } = obj;
 let {
-    k, l} = obj;
-let {m,
-    n} = obj;
-let {o = function() {
+    j, k} = obj;
+let {l = function() {
     dosomething();
 }} = obj;
 ```
@@ -385,13 +381,15 @@ let {i, j} = obj;
 let {
     k, l
 } = obj;
+let {m,
+    n} = obj;
 let {
-    m,
-    n
+    o,
+    p
 } = obj;
-let {o = function() {dosomething();}} = obj;
+let {q = function() {dosomething();}} = obj;
 let {
-    p = function() {
+    r = function() {
         dosomething();
     }
 } = obj;

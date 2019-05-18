@@ -91,10 +91,10 @@ ruleTester.run("no-unused-vars", rule, {
         "(function z() { z(); })();",
         { code: " ", globals: { a: true } },
         { code: "var who = \"Paul\";\nmodule.exports = `Hello ${who}!`;", parserOptions: { ecmaVersion: 6 } },
-        { code: "export var foo = 123;", parserOptions: { sourceType: "module" } },
-        { code: "export function foo () {}", parserOptions: { sourceType: "module" } },
-        { code: "let toUpper = (partial) => partial.toUpperCase; export {toUpper}", parserOptions: { sourceType: "module" } },
-        { code: "export class foo {}", parserOptions: { sourceType: "module" } },
+        { code: "export var foo = 123;", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export function foo () {}", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "let toUpper = (partial) => partial.toUpperCase; export {toUpper}", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export class foo {}", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "class Foo{}; var x = new Foo(); x.foo()", parserOptions: { ecmaVersion: 6 } },
         { code: "const foo = \"hello!\";function bar(foobar = foo) {  foobar.replace(/!$/, \" world!\");}\nbar();", parserOptions: { ecmaVersion: 6 } },
         "function Foo(){}; var x = new Foo(); x.foo()",
@@ -318,9 +318,9 @@ ruleTester.run("no-unused-vars", rule, {
         { code: "(function z(foo) { var bar = 33; })();", options: [{ vars: "all", args: "all" }], errors: [definedError("foo"), assignedError("bar")] },
         { code: "(function z(foo) { z(); })();", options: [{}], errors: [definedError("foo")] },
         { code: "function f() { var a = 1; return function(){ f(a = 2); }; }", options: [{}], errors: [definedError("f"), { message: "'a' is assigned a value but never used." }] },
-        { code: "import x from \"y\";", parserOptions: { sourceType: "module" }, errors: [definedError("x")] },
-        { code: "export function fn2({ x, y }) {\n console.log(x); \n};", parserOptions: { sourceType: "module" }, errors: [definedError("y")] },
-        { code: "export function fn2( x, y ) {\n console.log(x); \n};", parserOptions: { sourceType: "module" }, errors: [definedError("y")] },
+        { code: "import x from \"y\";", parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [definedError("x")] },
+        { code: "export function fn2({ x, y }) {\n console.log(x); \n};", parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [definedError("y")] },
+        { code: "export function fn2( x, y ) {\n console.log(x); \n};", parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [definedError("y")] },
 
         // exported
         { code: "/*exported max*/ var max = 1, min = {min: 1}", errors: [assignedError("min")] },
@@ -486,32 +486,32 @@ ruleTester.run("no-unused-vars", rule, {
         // https://github.com/eslint/eslint/issues/4047
         {
             code: "export default function(a) {}",
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{ message: "'a' is defined but never used." }]
         },
         {
             code: "export default function(a, b) { console.log(a); }",
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{ message: "'b' is defined but never used." }]
         },
         {
             code: "export default (function(a) {});",
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{ message: "'a' is defined but never used." }]
         },
         {
             code: "export default (function(a, b) { console.log(a); });",
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{ message: "'b' is defined but never used." }]
         },
         {
             code: "export default (a) => {};",
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{ message: "'a' is defined but never used." }]
         },
         {
             code: "export default (a, b) => { console.log(a); };",
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{ message: "'b' is defined but never used." }]
         },
 
