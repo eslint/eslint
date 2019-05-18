@@ -448,6 +448,30 @@ describe("FileEnumerator", () => {
 
                     assert.includeDeepMembers(result, [{ filename: unignoredFilename, ignored: false }]);
                 });
+
+                it("should return unignored files from folders unignored in .eslintignore", () => {
+                    const options = { cwd: getFixturePath("glob-util", "unignored"), ignore: true };
+                    const glob = getFixturePath("glob-util", "unignored", "**/*.js");
+                    const patterns = [glob];
+                    const result = listFiles(patterns, options);
+
+                    const filename = getFixturePath("glob-util", "unignored", "dir", "foo.js");
+
+                    assert.strictEqual(result.length, 1);
+                    assert.deepStrictEqual(result, [{ filename, ignored: false }]);
+                });
+
+                it("should return unignored files from folders unignored in .eslintignore for explicitly specified folder", () => {
+                    const options = { cwd: getFixturePath("glob-util", "unignored"), ignore: true };
+                    const dir = getFixturePath("glob-util", "unignored", "dir");
+                    const patterns = [dir];
+                    const result = listFiles(patterns, options);
+
+                    const filename = getFixturePath("glob-util", "unignored", "dir", "foo.js");
+
+                    assert.strictEqual(result.length, 1);
+                    assert.deepStrictEqual(result, [{ filename, ignored: false }]);
+                });
             });
         });
     });
