@@ -227,6 +227,25 @@ describe("cli", () => {
         });
     });
 
+    describe("when given a valid built-in formatter name that uses rules meta.", () => {
+        it("should execute without any errors", () => {
+            const filePath = getFixturePath("passing.js");
+            const exit = cli.execute(`-f json-with-metadata ${filePath} --no-eslintrc`);
+
+            assert.strictEqual(exit, 0);
+
+            // Check metadata.
+            const { metadata } = JSON.parse(log.info.args[0][0]);
+            const rules = new CLIEngine({ useEslintrc: false }).getRules();
+            const expectedMetadata = Array.from(rules).reduce((obj, [ruleId, rule]) => {
+                obj.rulesMeta[ruleId] = rule.meta;
+                return obj;
+            }, { rulesMeta: {} });
+
+            assert.deepStrictEqual(metadata, expectedMetadata);
+        });
+    });
+
     describe("when given an invalid built-in formatter name", () => {
         it("should execute with error", () => {
             const filePath = getFixturePath("passing.js");
