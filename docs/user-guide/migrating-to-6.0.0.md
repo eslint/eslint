@@ -44,7 +44,7 @@ As of April 2019, Node.js 6 will be at EOL and will no longer be receiving secur
 
 **Related issue(s):** [eslint/eslint#11546](https://github.com/eslint/eslint/issues/11456)
 
-## <a name="eslint-recommended-changes"/> `eslint:recommended` has been updated
+## <a name="eslint-recommended-changes"></a> `eslint:recommended` has been updated
 
 The following rules have been added to the [`eslint:recommended`](https://eslint.org/docs/user-guide/configuring#using-eslintrecommended) config:
 
