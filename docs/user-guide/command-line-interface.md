@@ -37,6 +37,7 @@ Basic configuration:
   --global [String]              Define global variables
   --parser String                Specify the parser to be used
   --parser-options Object        Specify parser options
+  --resolve-plugins-relative-to path::String  A folder where plugins should be resolved from, CWD by default
 
 Specifying rules and plugins:
   --rulesdir [path::String]      Use additional rules from this directory
@@ -163,6 +164,13 @@ Examples:
 
     echo '3 ** 4' | eslint --stdin --parser-options=ecmaVersion:6 # will fail with a parsing error
     echo '3 ** 4' | eslint --stdin --parser-options=ecmaVersion:7 # succeeds, yay!
+
+#### `--resolve-plugins-relative-to`
+
+Changes the folder where plugins are resolved from. By default, plugins are resolved from the current working directory. This option should be used when plugins were installed by someone other than the end user. It should be set to the project directory of the project that has a dependency on the necessary plugins. For example:
+
+* When using a config file that is located outside of the current project (with the `--config` flag), if the config uses plugins which are installed locally to itself, `--resolve-plugins-relative-to` should be set to the directory containing the config file.
+* If an integration has dependencies on ESLint and a set of plugins, and the tool invokes ESLint on behalf of the user with a preset configuration, the tool should set `--resolve-plugins-relative-to` to the top-level directory of the tool.
 
 ### Specifying rules and plugins
 

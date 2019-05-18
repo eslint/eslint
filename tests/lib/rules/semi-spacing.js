@@ -168,7 +168,7 @@ ruleTester.run("semi-spacing", rule, {
             code: "import Foo from 'bar' ;",
             output: "import Foo from 'bar';",
             options: [{ before: false, after: true }],
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 { message: "Unexpected whitespace before semicolon.", type: "ImportDeclaration", line: 1, column: 23 }
             ]
@@ -177,7 +177,7 @@ ruleTester.run("semi-spacing", rule, {
             code: "import * as foo from 'bar' ;",
             output: "import * as foo from 'bar';",
             options: [{ before: false, after: true }],
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 { message: "Unexpected whitespace before semicolon.", type: "ImportDeclaration", line: 1, column: 28 }
             ]
@@ -186,7 +186,7 @@ ruleTester.run("semi-spacing", rule, {
             code: "var foo = 0; export {foo} ;",
             output: "var foo = 0; export {foo};",
             options: [{ before: false, after: true }],
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 { message: "Unexpected whitespace before semicolon.", type: "ExportNamedDeclaration", line: 1, column: 27 }
             ]
@@ -195,7 +195,7 @@ ruleTester.run("semi-spacing", rule, {
             code: "export * from 'foo' ;",
             output: "export * from 'foo';",
             options: [{ before: false, after: true }],
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 { message: "Unexpected whitespace before semicolon.", type: "ExportAllDeclaration", line: 1, column: 21 }
             ]
@@ -204,7 +204,7 @@ ruleTester.run("semi-spacing", rule, {
             code: "export default foo ;",
             output: "export default foo;",
             options: [{ before: false, after: true }],
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 { message: "Unexpected whitespace before semicolon.", type: "ExportDefaultDeclaration", line: 1, column: 20 }
             ]
