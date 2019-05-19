@@ -1370,8 +1370,8 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.results.length, 1);
             assert.strictEqual(report.results[0].messages.length, 1);
             assert.strictEqual(report.results[0].messages[0].ruleId, "missing-rule");
-            assert.strictEqual(report.results[0].messages[0].severity, 1);
-            assert.strictEqual(report.results[0].messages[0].message, "Definition for rule 'missing-rule' was not found");
+            assert.strictEqual(report.results[0].messages[0].severity, 2);
+            assert.strictEqual(report.results[0].messages[0].message, "Definition for rule 'missing-rule' was not found.");
 
 
         });
