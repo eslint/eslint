@@ -64,15 +64,15 @@ const Proxyquire = require("proxyquire/lib/proxyquire");
 const CascadingConfigArrayFactoryPath =
     require.resolve("../../../lib/cli-engine/cascading-config-array-factory");
 const CLIEnginePath =
-    require.resolve("../../../lib/cli-engine");
+    require.resolve("../../../lib/cli-engine/cli-engine");
 const ConfigArrayFactoryPath =
     require.resolve("../../../lib/cli-engine/config-array-factory");
 const FileEnumeratorPath =
     require.resolve("../../../lib/cli-engine/file-enumerator");
 const IgnoredPathsPath =
-    require.resolve("../../../lib/util/ignored-paths");
+    require.resolve("../../../lib/cli-engine/ignored-paths");
 const LoadRulesPath =
-    require.resolve("../../../lib/load-rules");
+    require.resolve("../../../lib/cli-engine/load-rules");
 const ESLintAllPath =
     require.resolve("../../../conf/eslint-all");
 const ESLintRecommendedPath =
@@ -277,7 +277,7 @@ function supportMkdirRecursiveOption(fs, cwd) {
  * @param {Object} options The options.
  * @param {() => string} [options.cwd] The current working directory.
  * @param {Object} [options.files] The initial files definition in the in-memory file system.
- * @returns {{ fs: import("fs"), RelativeModuleResolver: import("../../../lib/util/relative-module-resolver"), ConfigArrayFactory: import("../../../lib/cli-engine/config-array-factory")["ConfigArrayFactory"] }} The stubbed `ConfigArrayFactory` class.
+ * @returns {{ fs: import("fs"), RelativeModuleResolver: import("../../../lib/shared/relative-module-resolver"), ConfigArrayFactory: import("../../../lib/cli-engine/config-array-factory")["ConfigArrayFactory"] }} The stubbed `ConfigArrayFactory` class.
  */
 function defineConfigArrayFactoryWithInMemoryFileSystem({
     cwd = process.cwd,
@@ -306,7 +306,7 @@ function defineConfigArrayFactoryWithInMemoryFileSystem({
 
     stubs.fs = fs;
     stubs["import-fresh"] = fsImportFresh.bind(null, fs, stubs);
-    stubs["../util/relative-module-resolver"] = RelativeModuleResolver;
+    stubs["../shared/relative-module-resolver"] = RelativeModuleResolver;
 
     /*
      * Write all files to the in-memory file system and compile all JavaScript
@@ -383,7 +383,7 @@ function defineConfigArrayFactoryWithInMemoryFileSystem({
  * @param {Object} options The options.
  * @param {() => string} [options.cwd] The current working directory.
  * @param {Object} [options.files] The initial files definition in the in-memory file system.
- * @returns {{ fs: import("fs"), RelativeModuleResolver: import("../../../lib/util/relative-module-resolver"), ConfigArrayFactory: import("../../../lib/cli-engine/config-array-factory")["ConfigArrayFactory"], CascadingConfigArrayFactory: import("../../../lib/cli-engine/cascading-config-array-factory")["CascadingConfigArrayFactory"] }} The stubbed `CascadingConfigArrayFactory` class.
+ * @returns {{ fs: import("fs"), RelativeModuleResolver: import("../../../lib/shared/relative-module-resolver"), ConfigArrayFactory: import("../../../lib/cli-engine/config-array-factory")["ConfigArrayFactory"], CascadingConfigArrayFactory: import("../../../lib/cli-engine/cascading-config-array-factory")["CascadingConfigArrayFactory"] }} The stubbed `CascadingConfigArrayFactory` class.
  */
 function defineCascadingConfigArrayFactoryWithInMemoryFileSystem({
     cwd = process.cwd,
@@ -395,7 +395,7 @@ function defineCascadingConfigArrayFactoryWithInMemoryFileSystem({
     const { CascadingConfigArrayFactory } =
         proxyquire(CascadingConfigArrayFactoryPath, {
             "./config-array-factory": { ConfigArrayFactory },
-            "../load-rules": loadRules
+            "./load-rules": loadRules
         });
 
     // Override the default cwd.
@@ -418,7 +418,7 @@ function defineCascadingConfigArrayFactoryWithInMemoryFileSystem({
  * @param {Object} options The options.
  * @param {() => string} [options.cwd] The current working directory.
  * @param {Object} [options.files] The initial files definition in the in-memory file system.
- * @returns {{ fs: import("fs"), RelativeModuleResolver: import("../../../lib/util/relative-module-resolver"), ConfigArrayFactory: import("../../../lib/cli-engine/config-array-factory")["ConfigArrayFactory"], CascadingConfigArrayFactory: import("../../../lib/cli-engine/cascading-config-array-factory")["CascadingConfigArrayFactory"], IgnoredPaths: import("../../../lib/cli-engine/ignored-paths")["IgnoredPaths"], FileEnumerator: import("../../../lib/cli-engine/file-enumerator")["FileEnumerator"] }} The stubbed `FileEnumerator` class.
+ * @returns {{ fs: import("fs"), RelativeModuleResolver: import("../../../lib/shared/relative-module-resolver"), ConfigArrayFactory: import("../../../lib/cli-engine/config-array-factory")["ConfigArrayFactory"], CascadingConfigArrayFactory: import("../../../lib/cli-engine/cascading-config-array-factory")["CascadingConfigArrayFactory"], IgnoredPaths: import("../../../lib/cli-engine/ignored-paths")["IgnoredPaths"], FileEnumerator: import("../../../lib/cli-engine/file-enumerator")["FileEnumerator"] }} The stubbed `FileEnumerator` class.
  */
 function defineFileEnumeratorWithInMemoryFileSystem({
     cwd = process.cwd,
@@ -435,7 +435,7 @@ function defineFileEnumeratorWithInMemoryFileSystem({
     const { FileEnumerator } = proxyquire(FileEnumeratorPath, {
         fs,
         "./cascading-config-array-factory": { CascadingConfigArrayFactory },
-        "../util/ignored-paths": { IgnoredPaths }
+        "./ignored-paths": { IgnoredPaths }
     });
 
     // Override the default cwd.
@@ -460,7 +460,7 @@ function defineFileEnumeratorWithInMemoryFileSystem({
  * @param {Object} options The options.
  * @param {() => string} [options.cwd] The current working directory.
  * @param {Object} [options.files] The initial files definition in the in-memory file system.
- * @returns {{ fs: import("fs"), RelativeModuleResolver: import("../../../lib/util/relative-module-resolver"), ConfigArrayFactory: import("../../../lib/cli-engine/config-array-factory")["ConfigArrayFactory"], CascadingConfigArrayFactory: import("../../../lib/cli-engine/cascading-config-array-factory")["CascadingConfigArrayFactory"], IgnoredPaths: import("../../../lib/cli-engine/ignored-paths")["IgnoredPaths"], FileEnumerator: import("../../../lib/cli-engine/file-enumerator")["FileEnumerator"], CLIEngine: import("../../../lib/cli-engine")["CLIEngine"], getCLIEngineInternalSlots: import("../../../lib/cli-engine")["getCLIEngineInternalSlots"] }} The stubbed `CLIEngine` class.
+ * @returns {{ fs: import("fs"), RelativeModuleResolver: import("../../../lib/shared/relative-module-resolver"), ConfigArrayFactory: import("../../../lib/cli-engine/config-array-factory")["ConfigArrayFactory"], CascadingConfigArrayFactory: import("../../../lib/cli-engine/cascading-config-array-factory")["CascadingConfigArrayFactory"], IgnoredPaths: import("../../../lib/cli-engine/ignored-paths")["IgnoredPaths"], FileEnumerator: import("../../../lib/cli-engine/file-enumerator")["FileEnumerator"], CLIEngine: import("../../../lib/cli-engine/cli-engine")["CLIEngine"], getCLIEngineInternalSlots: import("../../../lib/cli-engine/cli-engine")["getCLIEngineInternalSlots"] }} The stubbed `CLIEngine` class.
  */
 function defineCLIEngineWithInMemoryFileSystem({
     cwd = process.cwd,
@@ -477,10 +477,10 @@ function defineCLIEngineWithInMemoryFileSystem({
         defineFileEnumeratorWithInMemoryFileSystem({ cwd, files });
     const { CLIEngine, getCLIEngineInternalSlots } = proxyquire(CLIEnginePath, {
         fs,
-        "./cli-engine/cascading-config-array-factory": { CascadingConfigArrayFactory },
-        "./cli-engine/file-enumerator": { FileEnumerator },
-        "./util/ignored-paths": { IgnoredPaths },
-        "./util/relative-module-resolver": RelativeModuleResolver
+        "./cascading-config-array-factory": { CascadingConfigArrayFactory },
+        "./file-enumerator": { FileEnumerator },
+        "./ignored-paths": { IgnoredPaths },
+        "../shared/relative-module-resolver": RelativeModuleResolver
     });
 
     // Override the default cwd.

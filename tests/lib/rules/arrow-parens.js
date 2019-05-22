@@ -11,7 +11,7 @@
 
 const baseParser = require("../../fixtures/fixture-parser"),
     rule = require("../../../lib/rules/arrow-parens"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 const parser = baseParser.bind(null, "arrow-parens");
 

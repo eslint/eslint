@@ -10,7 +10,7 @@
 
 const path = require("path"),
     rule = require("../../../lib/rules/array-bracket-spacing"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Helpers

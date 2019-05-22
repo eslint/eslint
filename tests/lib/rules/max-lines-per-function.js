@@ -8,7 +8,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 const rule = require("../../../lib/rules/max-lines-per-function");
-const RuleTester = require("../../../lib/testers/rule-tester");
+const { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests

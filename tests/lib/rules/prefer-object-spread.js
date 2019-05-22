@@ -8,7 +8,7 @@
 
 const rule = require("../../../lib/rules/prefer-object-spread");
 
-const RuleTester = require("../../../lib/testers/rule-tester");
+const { RuleTester } = require("../../../lib/rule-tester");
 
 const parserOptions = {
     ecmaVersion: 2018,

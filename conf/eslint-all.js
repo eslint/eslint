@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const builtInRules = require("../lib/built-in-rules-index");
+const builtInRules = require("../lib/rules");
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -27,5 +27,5 @@ for (const [ruleId, rule] of builtInRules) {
 // Public Interface
 //------------------------------------------------------------------------------
 
-/** @type {import("../lib/util/types").ConfigData} */
+/** @type {import("../lib/shared/types").ConfigData} */
 module.exports = { rules: allRules };

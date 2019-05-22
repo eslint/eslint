@@ -6,7 +6,7 @@
 "use strict";
 
 const rule = require("../../../lib/rules/no-await-in-loop"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 const error = { messageId: "unexpectedAwait", type: "AwaitExpression" };
 

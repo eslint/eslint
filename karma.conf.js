@@ -19,7 +19,7 @@ module.exports = function(config) {
         // list of files / patterns to load in the browser
         files: [
             "build/eslint.js",
-            "tests/lib/linter.js"
+            "tests/lib/linter/linter.js"
         ],
 
 
@@ -33,7 +33,7 @@ module.exports = function(config) {
          * available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
          */
         preprocessors: {
-            "tests/lib/linter.js": ["webpack"]
+            "tests/lib/linter/linter.js": ["webpack"]
         },
         webpack: {
             mode: "none",

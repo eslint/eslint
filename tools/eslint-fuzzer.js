@@ -13,8 +13,8 @@ const assert = require("assert");
 const lodash = require("lodash");
 const eslump = require("eslump");
 const espree = require("espree");
-const SourceCodeFixer = require("../lib/util/source-code-fixer");
-const ruleConfigs = require("../lib/config/config-rule").createCoreRuleConfigs(true);
+const SourceCodeFixer = require("../lib/linter/source-code-fixer");
+const ruleConfigs = require("../lib/init/config-rule").createCoreRuleConfigs(true);
 const sampleMinimizer = require("./code-sample-minimizer");
 
 //------------------------------------------------------------------------------

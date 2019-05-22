@@ -4,7 +4,7 @@ const assert = require("chai").assert;
 const eslint = require("../..");
 const espree = require("espree");
 const sinon = require("sinon");
-const configRule = require("../../lib/config/config-rule");
+const configRule = require("../../lib/init/config-rule");
 
 describe("eslint-fuzzer", function() {
     let fakeRule, fuzz;

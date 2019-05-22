@@ -11,7 +11,7 @@
 
 const parser = require("../../fixtures/fixture-parser"),
     rule = require("../../../lib/rules/new-parens"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests

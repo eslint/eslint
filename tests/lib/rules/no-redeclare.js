@@ -11,7 +11,7 @@
 
 const path = require("path");
 const rule = require("../../../lib/rules/no-redeclare");
-const RuleTester = require("../../../lib/testers/rule-tester");
+const { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests

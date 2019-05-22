@@ -8,7 +8,7 @@
 
 /* eslint sort-keys: ["error", "asc"] */
 
-/** @type {import("../lib/util/types").ConfigData} */
+/** @type {import("../lib/shared/types").ConfigData} */
 module.exports = {
     rules: {
         "constructor-super": "error",

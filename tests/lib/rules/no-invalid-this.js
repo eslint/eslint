@@ -11,7 +11,7 @@
 
 const lodash = require("lodash");
 const rule = require("../../../lib/rules/no-invalid-this");
-const RuleTester = require("../../../lib/testers/rule-tester");
+const { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Helpers

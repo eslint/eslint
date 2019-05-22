@@ -7,7 +7,7 @@ const fs = require("fs");
 const path = require("path");
 
 /**
- * Render the content of `lib/util/unicode/is-combining-character.js`.
+ * Render the content of `lib/rules/utils/unicode/is-combining-character.js`.
  * @param {number[]} chars The character code list to render.
  * @returns {void}
  */
@@ -42,6 +42,6 @@ const combiningChars = Array.from(function *() {
 }());
 
 fs.writeFileSync(
-    path.resolve(__dirname, "../lib/util/unicode/is-combining-character.js"),
+    path.resolve(__dirname, "../lib/rules/utils/unicode/is-combining-character.js"),
     renderIsCombiningCharacter(combiningChars)
 );
