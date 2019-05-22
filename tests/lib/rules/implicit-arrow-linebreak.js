@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/implicit-arrow-linebreak");
-const RuleTester = require("../../../lib/testers/rule-tester");
+const { RuleTester } = require("../../../lib/rule-tester");
 
 const EXPECTED_LINEBREAK = { messageId: "expected" };
 const UNEXPECTED_LINEBREAK = { messageId: "unexpected" };
