@@ -13,7 +13,7 @@
 "use strict";
 
 const path = require("path");
-const RuleTester = require("../../../lib/testers/rule-tester");
+const { RuleTester } = require("../../../lib/rule-tester");
 
 RuleTester.setDefaultConfig({
     parser: path.resolve(__dirname, "../../../tools/internal-testers/test-parser")

@@ -5,7 +5,7 @@
 "use strict";
 
 const rule = require("../../../lib/rules/spaced-comment"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 const ruleTester = new RuleTester(),
     validShebangProgram = "#!/path/to/node\nvar a = 3;",
