@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-mixed-spaces-and-tabs"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests

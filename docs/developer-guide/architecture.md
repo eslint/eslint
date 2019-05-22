@@ -1,13 +1,18 @@
 # Architecture
 
+<center><img alt="dependency graph" src="./architecture/dependency.svg"></center>
+
 At a high level, there are a few key parts to ESLint:
 
 * `bin/eslint.js` - this is the file that actually gets executed with the command line utility. It's a dumb wrapper that does nothing more than bootstrap ESLint, passing the command line arguments to `cli`. This is intentionally small so as not to require heavy testing.
+* `lib/api.js` - this is the entry point of `require("eslint")`. This file exposes an object that contains public classes `Linter`, `CLIEngine`, `RuleTester`, and `SourceCode`.
 * `lib/cli.js` - this is the heart of the ESLint CLI. It takes an array of arguments and then uses `eslint` to execute the commands. By keeping this as a separate utility, it allows others to effectively call ESLint from within another Node.js program as if it were done on the command line. The main call is `cli.execute()`. This is also the part that does all the file reading, directory traversing, input, and output.
-* `lib/linter.js` - this is the core Linter class that does code verifying based on configuration options. This file does no file I/O and does not interact with the `console` at all. For other Node.js programs that have JavaScript text to verify, they would be able to use this interface directly.
-* `lib/api.js` - this exposes an object that contains Linter, CLIEngine, RuleTester, and SourceCode.
-* `lib/testers/rule-tester.js` - this is a wrapper around Mocha, so that rules can be unit tested. This class lets us write consistently formatted tests for each rule that is implemented and be confident that each of the rules work. The RuleTester interface was modeled after Mocha and works with Mocha's global testing methods. RuleTester can also be modified to work with other testing frameworks.
-* `lib/util/source-code.js` - this contains a SourceCode class that is used to represent the parsed source code. It takes in source code and the Program node of the AST representing the code.
+* `lib/init/` - this module contains `--init` functionality that set up a configuration file for end users.
+* `lib/cli-engine/` - this module is `CLIEngine` class that finds source code files and configuration files then does code verifying with the `Linter` class. This includes the loading logic of configuration files, parsers, plugins, and formatters.
+* `lib/linter/` - this module is the core `Linter` class that does code verifying based on configuration options. This file does no file I/O and does not interact with the `console` at all. For other Node.js programs that have JavaScript text to verify, they would be able to use this interface directly.
+* `lib/rule-tester/` - this module is `RuleTester` class that is a wrapper around Mocha so that rules can be unit tested. This class lets us write consistently formatted tests for each rule that is implemented and be confident that each of the rules work. The RuleTester interface was modeled after Mocha and works with Mocha's global testing methods. RuleTester can also be modified to work with other testing frameworks.
+* `lib/source-code/` - this module is `SourceCode` class that is used to represent the parsed source code. It takes in source code and the Program node of the AST representing the code.
+* `lib/rules/` - this contains built-in rules that verify source code.
 
 ## The `cli` object
 
@@ -31,15 +36,14 @@ This object may not:
 
 ## The `CLIEngine` object
 
-The `CLIEngine` type represents the core functionality of the CLI except that it reads nothing from the command line and doesn't output anything by default. Instead, it accepts many (but not all) of the arguments that are passed into the CLI. It reads both configuration and source files as well as managing the environment that is passed into the `eslint` object.
+The `CLIEngine` type represents the core functionality of the CLI except that it reads nothing from the command line and doesn't output anything by default. Instead, it accepts many (but not all) of the arguments that are passed into the CLI. It reads both configuration and source files as well as managing the environment that is passed into the `Linter` object.
 
 The main method of the `CLIEngine` is `executeOnFiles()`, which accepts an array of file and directory names to run the linter on.
 
 This object's responsibilities include:
 
-* Managing the execution environment for `eslint`
+* Managing the execution environment for `Linter`
 * Reading from the file system
-* Loading rule definitions
 * Reading configuration information from config files (including `.eslintrc` and `package.json`)
 
 This object may not:
@@ -49,11 +53,11 @@ This object may not:
 * Output to the console
 * Use formatters
 
-## The `eslint` object
+## The `Linter` object
 
-The main method of the `eslint` object is `verify()` and accepts two arguments: the source text to verify and a configuration object (the baked configuration of the given configuration file plus command line options). The method first parses the given text with `espree` (or whatever the configured parser is) and retrieves the AST. The AST is produced with both line/column and range locations which are useful for reporting location of issues and retrieving the source text related to an AST node, respectively.
+The main method of the `Linter` object is `verify()` and accepts two arguments: the source text to verify and a configuration object (the baked configuration of the given configuration file plus command line options). The method first parses the given text with `espree` (or whatever the configured parser is) and retrieves the AST. The AST is produced with both line/column and range locations which are useful for reporting location of issues and retrieving the source text related to an AST node, respectively.
 
-Once the AST is available, `estraverse` is used to traverse the AST from top to bottom. At each node, the `eslint` object emits an event that has the same name as the node type (i.e., "Identifier", "WithStatement", etc.). On the way back up the subtree, an event is emitted with the AST type name and suffixed with ":exit", such as "Identifier:exit" - this allows rules to take action both on the way down and on the way up in the traversal. Each event is emitted with the appropriate AST node available.
+Once the AST is available, `estraverse` is used to traverse the AST from top to bottom. At each node, the `Linter` object emits an event that has the same name as the node type (i.e., "Identifier", "WithStatement", etc.). On the way back up the subtree, an event is emitted with the AST type name and suffixed with ":exit", such as "Identifier:exit" - this allows rules to take action both on the way down and on the way up in the traversal. Each event is emitted with the appropriate AST node available.
 
 This object's responsibilities include:
 

@@ -15,7 +15,7 @@
 //------------------------------------------------------------------------------
 
 const assert = require("chai").assert,
-    CLIEngine = require("../../lib/cli-engine").CLIEngine,
+    CLIEngine = require("../../lib/cli-engine/index").CLIEngine,
     path = require("path"),
     sinon = require("sinon"),
     leche = require("leche"),
@@ -37,7 +37,7 @@ describe("cli", () => {
         error: sinon.spy()
     };
     const cli = proxyquire("../../lib/cli", {
-        "./util/logging": log
+        "./shared/logging": log
     });
 
     /**
@@ -57,8 +57,8 @@ describe("cli", () => {
         sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(sinon.spy());
 
         const localCLI = proxyquire("../../lib/cli", {
-            "./cli-engine": { CLIEngine: fakeCLIEngine },
-            "./util/logging": log
+            "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+            "./shared/logging": log
         });
 
         localCLI.execute(cmd);
@@ -735,8 +735,8 @@ describe("cli", () => {
             fakeCLIEngine.outputFixes = sandbox.stub();
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine": { CLIEngine: fakeCLIEngine },
-                "./util/logging": log
+                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./shared/logging": log
             });
 
             localCLI.execute("--no-inline-config .");
@@ -758,8 +758,8 @@ describe("cli", () => {
             fakeCLIEngine.outputFixes = sandbox.stub();
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine": { CLIEngine: fakeCLIEngine },
-                "./util/logging": log
+                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./shared/logging": log
             });
 
             const exitCode = localCLI.execute(".");
@@ -795,8 +795,8 @@ describe("cli", () => {
             fakeCLIEngine.outputFixes = sandbox.mock().once();
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine": { CLIEngine: fakeCLIEngine },
-                "./util/logging": log
+                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./shared/logging": log
             });
 
             const exitCode = localCLI.execute("--fix .");
@@ -833,8 +833,8 @@ describe("cli", () => {
             fakeCLIEngine.outputFixes = sandbox.mock().withExactArgs(report);
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine": { CLIEngine: fakeCLIEngine },
-                "./util/logging": log
+                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./shared/logging": log
             });
 
             const exitCode = localCLI.execute("--fix .");
@@ -871,8 +871,8 @@ describe("cli", () => {
             fakeCLIEngine.outputFixes = sandbox.mock().withExactArgs(report);
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine": { CLIEngine: fakeCLIEngine },
-                "./util/logging": log
+                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./shared/logging": log
             });
 
             const exitCode = localCLI.execute("--fix --quiet .");
@@ -887,8 +887,8 @@ describe("cli", () => {
             const fakeCLIEngine = sandbox.mock().never();
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine": { CLIEngine: fakeCLIEngine },
-                "./util/logging": log
+                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./shared/logging": log
             });
 
             const exitCode = localCLI.execute("--fix .", "foo = bar;");
@@ -922,8 +922,8 @@ describe("cli", () => {
             fakeCLIEngine.outputFixes = sandbox.mock().never();
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine": { CLIEngine: fakeCLIEngine },
-                "./util/logging": log
+                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./shared/logging": log
             });
 
             const exitCode = localCLI.execute("--fix-dry-run .");
@@ -953,8 +953,8 @@ describe("cli", () => {
             fakeCLIEngine.outputFixes = sandbox.stub();
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine": { CLIEngine: fakeCLIEngine },
-                "./util/logging": log
+                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./shared/logging": log
             });
 
             const exitCode = localCLI.execute("--fix-dry-run --fix-type suggestion .");
@@ -989,8 +989,8 @@ describe("cli", () => {
             fakeCLIEngine.outputFixes = sandbox.mock().never();
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine": { CLIEngine: fakeCLIEngine },
-                "./util/logging": log
+                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./shared/logging": log
             });
 
             const exitCode = localCLI.execute("--fix-dry-run .");
@@ -1027,8 +1027,8 @@ describe("cli", () => {
             fakeCLIEngine.outputFixes = sandbox.mock().never();
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine": { CLIEngine: fakeCLIEngine },
-                "./util/logging": log
+                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./shared/logging": log
             });
 
             const exitCode = localCLI.execute("--fix-dry-run --quiet .");
@@ -1064,8 +1064,8 @@ describe("cli", () => {
             fakeCLIEngine.outputFixes = sandbox.mock().never();
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine": { CLIEngine: fakeCLIEngine },
-                "./util/logging": log
+                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./shared/logging": log
             });
 
             const exitCode = localCLI.execute("--fix-dry-run .", "foo = bar;");
@@ -1079,8 +1079,8 @@ describe("cli", () => {
             const fakeCLIEngine = sandbox.mock().never();
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine": { CLIEngine: fakeCLIEngine },
-                "./util/logging": log
+                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./shared/logging": log
             });
 
             const exitCode = localCLI.execute("--fix --fix-dry-run .", "foo = bar;");

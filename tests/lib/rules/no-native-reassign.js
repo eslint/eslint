@@ -11,7 +11,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-native-reassign"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests

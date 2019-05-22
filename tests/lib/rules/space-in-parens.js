@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/space-in-parens"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 const MISSING_SPACE_ERROR = "There must be a space inside this paren.",
     REJECTED_SPACE_ERROR = "There should be no spaces inside this paren.";

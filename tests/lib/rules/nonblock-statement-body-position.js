@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/nonblock-statement-body-position");
-const RuleTester = require("../../../lib/testers/rule-tester");
+const { RuleTester } = require("../../../lib/rule-tester");
 
 const EXPECTED_LINEBREAK = { message: "Expected a linebreak before this statement." };
 const UNEXPECTED_LINEBREAK = { message: "Expected no linebreak before this statement." };
