@@ -3,7 +3,7 @@
 module.exports = {
     mode: "none",
     entry: {
-        eslint: ["@babel/polyfill", "./lib/linter.js"],
+        eslint: ["@babel/polyfill", "./lib/linter/linter.js"],
         espree: ["@babel/polyfill", "espree"]
     },
     output: {
