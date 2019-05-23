@@ -20,7 +20,7 @@
   "homepage": "https://eslint.org",
   "bugs": "https://github.com/eslint/eslint/issues/",
   "peerDependencies": {
-    "eslint-plugin-node": "^6.0.1 || ^7.0.1 || ^8.0.0"
+    "eslint-plugin-node": "^9.0.0"
   },
   "keywords": [
     "eslintconfig",
@@ -29,6 +29,6 @@
   ],
   "license": "MIT",
   "engines": {
-    "node": ">=0.10"
+    "node": "^8.10.0 || ^10.13.0 || >=11.10.1"
   }
 }
