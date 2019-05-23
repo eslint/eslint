@@ -198,7 +198,7 @@ ruleTester.run("max-len", rule, {
             errors: [
                 {
                     messageId: "max",
-                    data: { lineNumber: 1, maxLength: 80 },
+                    data: { lineLength: 86, maxLength: 80 },
                     type: "Program",
                     line: 1,
                     column: 1
@@ -211,7 +211,7 @@ ruleTester.run("max-len", rule, {
             errors: [
                 {
                     messageId: "max",
-                    data: { lineNumber: 1, maxLength: 10 },
+                    data: { lineLength: 24, maxLength: 10 },
                     type: "Program",
                     line: 1,
                     column: 1
@@ -224,7 +224,7 @@ ruleTester.run("max-len", rule, {
             errors: [
                 {
                     messageId: "max",
-                    data: { lineNumber: 1, maxLength: 15 },
+                    data: { lineLength: 22, maxLength: 15 },
                     type: "Program",
                     line: 1,
                     column: 1
@@ -237,14 +237,14 @@ ruleTester.run("max-len", rule, {
             errors: [
                 {
                     messageId: "max",
-                    data: { lineNumber: 1, maxLength: 15 },
+                    data: { lineLength: 22, maxLength: 15 },
                     type: "Program",
                     line: 1,
                     column: 1
                 },
                 {
                     messageId: "max",
-                    data: { lineNumber: 2, maxLength: 15 },
+                    data: { lineLength: 22, maxLength: 15 },
                     type: "Program",
                     line: 2,
                     column: 1
@@ -257,7 +257,7 @@ ruleTester.run("max-len", rule, {
             errors: [
                 {
                     messageId: "max",
-                    data: { lineNumber: 1, maxLength: 20 },
+                    data: { lineLength: 56, maxLength: 20 },
                     type: "Program",
                     line: 1,
                     column: 1
@@ -272,7 +272,7 @@ ruleTester.run("max-len", rule, {
             errors: [
                 {
                     messageId: "max",
-                    data: { lineNumber: 1, maxLength: 20 },
+                    data: { lineLength: 54, maxLength: 20 },
                     type: "Program",
                     line: 1,
                     column: 1
@@ -285,7 +285,7 @@ ruleTester.run("max-len", rule, {
             errors: [
                 {
                     messageId: "max",
-                    data: { lineNumber: 1, maxLength: 10 },
+                    data: { lineLength: 30, maxLength: 10 },
                     type: "Program",
                     line: 1,
                     column: 1
@@ -298,7 +298,7 @@ ruleTester.run("max-len", rule, {
             errors: [
                 {
                     messageId: "max",
-                    data: { lineNumber: 1, maxLength: 40 },
+                    data: { lineLength: 62, maxLength: 40 },
                     type: "Program",
                     line: 1,
                     column: 1
@@ -311,7 +311,7 @@ ruleTester.run("max-len", rule, {
             errors: [
                 {
                     messageId: "max",
-                    data: { lineNumber: 1, maxLength: 40 },
+                    data: { lineLength: 57, maxLength: 40 },
                     type: "Program",
                     line: 1,
                     column: 1
@@ -323,7 +323,7 @@ ruleTester.run("max-len", rule, {
             errors: [
                 {
                     messageId: "max",
-                    data: { lineNumber: 1, maxLength: 40 },
+                    data: { lineLength: 53, maxLength: 40 },
                     type: "Program",
                     line: 1,
                     column: 1
@@ -335,7 +335,7 @@ ruleTester.run("max-len", rule, {
             errors: [
                 {
                     messageId: "maxComment",
-                    data: { lineNumber: 1, maxCommentLength: 20 },
+                    data: { lineLength: 49, maxCommentLength: 20 },
                     type: "Program",
                     line: 1,
                     column: 1
@@ -347,7 +347,7 @@ ruleTester.run("max-len", rule, {
             errors: [
                 {
                     messageId: "maxComment",
-                    data: { lineNumber: 1, maxCommentLength: 80 },
+                    data: { lineLength: 119, maxCommentLength: 80 },
                     type: "Program",
                     line: 1,
                     column: 1
@@ -359,7 +359,7 @@ ruleTester.run("max-len", rule, {
             errors: [
                 {
                     messageId: "max",
-                    data: { lineNumber: 1, maxLength: 20 },
+                    data: { lineLength: 49, maxLength: 20 },
                     type: "Program",
                     line: 1,
                     column: 1
@@ -371,7 +371,7 @@ ruleTester.run("max-len", rule, {
             errors: [
                 {
                     messageId: "max",
-                    data: { lineNumber: 1, maxLength: 40 },
+                    data: { lineLength: 73, maxLength: 40 },
                     type: "Program",
                     line: 1,
                     column: 1
@@ -388,7 +388,7 @@ ruleTester.run("max-len", rule, {
             errors: [
                 {
                     messageId: "maxComment",
-                    data: { lineNumber: 2, maxCommentLength: 28 },
+                    data: { lineLength: 29, maxCommentLength: 28 },
                     type: "Program",
                     line: 2,
                     column: 1
@@ -402,7 +402,7 @@ ruleTester.run("max-len", rule, {
             errors: [
                 {
                     messageId: "maxComment",
-                    data: { lineNumber: 2, maxCommentLength: 32 },
+                    data: { lineLength: 33, maxCommentLength: 32 },
                     type: "Program",
                     line: 2,
                     column: 1
@@ -417,14 +417,14 @@ ruleTester.run("max-len", rule, {
             errors: [
                 {
                     messageId: "maxComment",
-                    data: { lineNumber: 2, maxCommentLength: 28 },
+                    data: { lineLength: 29, maxCommentLength: 28 },
                     type: "Program",
                     line: 2,
                     column: 1
                 },
                 {
                     messageId: "maxComment",
-                    data: { lineNumber: 3, maxCommentLength: 28 },
+                    data: { lineLength: 32, maxCommentLength: 28 },
                     type: "Program",
                     line: 3,
                     column: 1
@@ -439,14 +439,14 @@ ruleTester.run("max-len", rule, {
             errors: [
                 {
                     messageId: "maxComment",
-                    data: { lineNumber: 2, maxCommentLength: 32 },
+                    data: { lineLength: 33, maxCommentLength: 32 },
                     type: "Program",
                     line: 2,
                     column: 1
                 },
                 {
                     messageId: "maxComment",
-                    data: { lineNumber: 3, maxCommentLength: 32 },
+                    data: { lineLength: 36, maxCommentLength: 32 },
                     type: "Program",
                     line: 3,
                     column: 1
@@ -461,14 +461,14 @@ ruleTester.run("max-len", rule, {
             errors: [
                 {
                     messageId: "max",
-                    data: { lineNumber: 2, maxLength: 39 },
+                    data: { lineLength: 40, maxLength: 39 },
                     type: "Program",
                     line: 2,
                     column: 1
                 },
                 {
                     messageId: "maxComment",
-                    data: { lineNumber: 3, maxCommentLength: 35 },
+                    data: { lineLength: 36, maxCommentLength: 35 },
                     type: "Program",
                     line: 3,
                     column: 1
@@ -483,14 +483,14 @@ ruleTester.run("max-len", rule, {
             errors: [
                 {
                     messageId: "maxComment",
-                    data: { lineNumber: 2, maxCommentLength: 32 },
+                    data: { lineLength: 33, maxCommentLength: 32 },
                     type: "Program",
                     line: 2,
                     column: 1
                 },
                 {
                     messageId: "max",
-                    data: { lineNumber: 3, maxLength: 42 },
+                    data: { lineLength: 43, maxLength: 42 },
                     type: "Program",
                     line: 3,
                     column: 1
@@ -506,7 +506,7 @@ ruleTester.run("max-len", rule, {
             errors: [
                 {
                     messageId: "max",
-                    data: { lineNumber: 2, maxLength: 20 },
+                    data: { lineLength: 51, maxLength: 20 },
                     type: "Program",
                     line: 2,
                     column: 1
@@ -521,7 +521,7 @@ ruleTester.run("max-len", rule, {
             errors: [
                 {
                     messageId: "max",
-                    data: { lineNumber: 2, maxLength: 29 },
+                    data: { lineLength: 39, maxLength: 29 },
                     type: "Program",
                     line: 2,
                     column: 1
@@ -534,7 +534,7 @@ ruleTester.run("max-len", rule, {
             errors: [
                 {
                     messageId: "max",
-                    data: { lineNumber: 2, maxLength: 29 },
+                    data: { lineLength: 45, maxLength: 29 },
                     type: "Program",
                     line: 2,
                     column: 1
@@ -547,7 +547,7 @@ ruleTester.run("max-len", rule, {
             errors: [
                 {
                     messageId: "max",
-                    data: { lineNumber: 2, maxLength: 29 },
+                    data: { lineLength: 57, maxLength: 29 },
                     type: "Program",
                     line: 2,
                     column: 1
@@ -560,7 +560,7 @@ ruleTester.run("max-len", rule, {
             errors: [
                 {
                     messageId: "max",
-                    data: { lineNumber: 2, maxLength: 29 },
+                    data: { lineLength: 39, maxLength: 29 },
                     type: "Program",
                     line: 2,
                     column: 1
@@ -574,7 +574,7 @@ ruleTester.run("max-len", rule, {
             errors: [
                 {
                     messageId: "max",
-                    data: { lineNumber: 2, maxLength: 29 },
+                    data: { lineLength: 39, maxLength: 29 },
                     type: "Program",
                     line: 2,
                     column: 1
@@ -588,14 +588,14 @@ ruleTester.run("max-len", rule, {
             errors: [
                 {
                     messageId: "max",
-                    data: { lineNumber: 2, maxLength: 29 },
+                    data: { lineLength: 37, maxLength: 29 },
                     type: "Program",
                     line: 2,
                     column: 1
                 },
                 {
                     messageId: "max",
-                    data: { lineNumber: 3, maxLength: 29 },
+                    data: { lineLength: 44, maxLength: 29 },
                     type: "Program",
                     line: 3,
                     column: 1
@@ -609,7 +609,7 @@ ruleTester.run("max-len", rule, {
             errors: [
                 {
                     messageId: "max",
-                    data: { lineNumber: 1, maxLength: 29 },
+                    data: { lineLength: 58, maxLength: 29 },
                     type: "Program",
                     line: 1,
                     column: 1
@@ -624,7 +624,7 @@ ruleTester.run("max-len", rule, {
             errors: [
                 {
                     messageId: "max",
-                    data: { lineNumber: 1, maxLength: 10 },
+                    data: { lineLength: 12, maxLength: 10 },
                     type: "Program",
                     line: 1,
                     column: 1
@@ -638,7 +638,7 @@ ruleTester.run("max-len", rule, {
             errors: [
                 {
                     messageId: "max",
-                    data: { lineNumber: 1, maxLength: 0 },
+                    data: { lineLength: 1, maxLength: 0 },
                     type: "Program",
                     line: 1,
                     column: 1
