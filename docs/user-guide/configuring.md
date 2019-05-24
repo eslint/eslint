@@ -107,7 +107,7 @@ To specify processors for a specific kind of files, use the combination of the `
 }
 ```
 
-Processors may make named code blocks such as `0.js` and `1.js`. ESLint handles such a named code block as like a child file of the original file. You can specify additional configurations for named code blocks by the `overrides` key. For example, the following disables `strict` rule for the named code blocks which end with `.js` in markdown files.
+Processors may make named code blocks such as `0.js` and `1.js`. ESLint handles such a named code block as a child file of the original file. You can specify additional configurations for named code blocks in the `overrides` section of the config. For example, the following disables `strict` rule for the named code blocks which end with `.js` in markdown files.
 
 ```json
 {
