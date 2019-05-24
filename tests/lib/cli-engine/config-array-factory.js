@@ -1162,6 +1162,28 @@ describe("ConfigArrayFactory", () => {
                 const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
                     cwd: () => tempDir,
                     files: {
+                        "node_modules/eslint-config-foo/index.js": `
+                            module.exports = {
+                                rules: { eqeqeq: "error" }
+                            }
+                        `,
+                        "node_modules/eslint-config-has-overrides/index.js": `
+                            module.exports = {
+                                rules: { eqeqeq: "error" },
+                                overrides: [
+                                    {
+                                        files: ["**/foo/**/*.js"],
+                                        rules: { eqeqeq: "off" }
+                                    }
+                                ]
+                            }
+                        `,
+                        "node_modules/eslint-config-root/index.js": `
+                            module.exports = {
+                                root: true,
+                                rules: { eqeqeq: "error" }
+                            }
+                        `
                     }
                 });
 
@@ -1204,6 +1226,201 @@ describe("ConfigArrayFactory", () => {
                         name: "#overrides[1]",
                         criteria: OverrideTester.create(["*.yyy"], [], tempDir),
                         rules: { override: 2 }
+                    });
+                });
+            });
+
+            describe("if a config in 'overrides' property had 'extends' property, the returned value", () => {
+                let configArray;
+
+                beforeEach(() => {
+                    configArray = create({
+                        rules: { regular: 1 },
+                        overrides: [
+                            {
+                                files: "*.xxx",
+                                extends: "foo",
+                                rules: { override: 1 }
+                            }
+                        ]
+                    });
+                });
+
+                it("should have three elements.", () => {
+                    assert.strictEqual(configArray.length, 3);
+                });
+
+                it("should have the given config data at the first element.", () => {
+                    assertConfigArrayElement(configArray[0], {
+                        rules: { regular: 1 }
+                    });
+                });
+
+                it("should have the config data of 'overrides[0] » eslint-config-foo' at the second element.", () => {
+                    assertConfigArrayElement(configArray[1], {
+                        name: "#overrides[0] » eslint-config-foo",
+                        filePath: path.join(tempDir, "node_modules/eslint-config-foo/index.js"),
+                        criteria: OverrideTester.create(["*.xxx"], [], tempDir),
+                        rules: { eqeqeq: "error" }
+                    });
+                });
+
+                it("should have the config data of 'overrides[0]' at the third element.", () => {
+                    assertConfigArrayElement(configArray[2], {
+                        name: "#overrides[0]",
+                        criteria: OverrideTester.create(["*.xxx"], [], tempDir),
+                        rules: { override: 1 }
+                    });
+                });
+            });
+
+            describe("if a config in 'overrides' property had 'extends' property and the shareable config has 'overrides' property, the returned value", () => {
+                let configArray;
+
+                beforeEach(() => {
+                    configArray = create({
+                        rules: { regular: 1 },
+                        overrides: [
+                            {
+                                files: "*.xxx",
+                                extends: "has-overrides",
+                                rules: { override: 1 }
+                            }
+                        ]
+                    });
+                });
+
+                it("should have four elements.", () => {
+                    assert.strictEqual(configArray.length, 4);
+                });
+
+                it("should have the given config data at the first element.", () => {
+                    assertConfigArrayElement(configArray[0], {
+                        rules: { regular: 1 }
+                    });
+                });
+
+                it("should have the config data of 'overrides[0] » eslint-config-has-overrides' at the second element.", () => {
+                    assertConfigArrayElement(configArray[1], {
+                        name: "#overrides[0] » eslint-config-has-overrides",
+                        filePath: path.join(tempDir, "node_modules/eslint-config-has-overrides/index.js"),
+                        criteria: OverrideTester.create(["*.xxx"], [], tempDir),
+                        rules: { eqeqeq: "error" }
+                    });
+                });
+
+                it("should have the config data of 'overrides[0] » eslint-config-has-overrides#overrides[0]' at the third element.", () => {
+                    assertConfigArrayElement(configArray[2], {
+                        name: "#overrides[0] » eslint-config-has-overrides#overrides[0]",
+                        filePath: path.join(tempDir, "node_modules/eslint-config-has-overrides/index.js"),
+                        criteria: OverrideTester.and(
+                            OverrideTester.create(["*.xxx"], [], tempDir),
+                            OverrideTester.create(["**/foo/**/*.js"], [], tempDir)
+                        ),
+                        rules: { eqeqeq: "off" }
+                    });
+                });
+
+                it("should have the config data of 'overrides[0]' at the fourth element.", () => {
+                    assertConfigArrayElement(configArray[3], {
+                        name: "#overrides[0]",
+                        criteria: OverrideTester.create(["*.xxx"], [], tempDir),
+                        rules: { override: 1 }
+                    });
+                });
+            });
+
+            describe("if a config in 'overrides' property had 'overrides' property, the returned value", () => {
+                let configArray;
+
+                beforeEach(() => {
+                    configArray = create({
+                        rules: { regular: 1 },
+                        overrides: [
+                            {
+                                files: "*.xxx",
+                                rules: { override: 1 },
+                                overrides: [
+                                    {
+                                        files: "*.yyy",
+                                        rules: { override: 2 }
+                                    }
+                                ]
+                            }
+                        ]
+                    });
+                });
+
+                it("should have three elements.", () => {
+                    assert.strictEqual(configArray.length, 3);
+                });
+
+                it("should have the given config data at the first element.", () => {
+                    assertConfigArrayElement(configArray[0], {
+                        rules: { regular: 1 }
+                    });
+                });
+
+                it("should have the config data of 'overrides[0]' at the second element.", () => {
+                    assertConfigArrayElement(configArray[1], {
+                        name: "#overrides[0]",
+                        criteria: OverrideTester.create(["*.xxx"], [], tempDir),
+                        rules: { override: 1 }
+                    });
+                });
+
+                it("should have the config data of 'overrides[0].overrides[0]' at the third element.", () => {
+                    assertConfigArrayElement(configArray[2], {
+                        name: "#overrides[0]#overrides[0]",
+                        criteria: OverrideTester.and(
+                            OverrideTester.create(["*.xxx"], [], tempDir),
+                            OverrideTester.create(["*.yyy"], [], tempDir)
+                        ),
+                        rules: { override: 2 }
+                    });
+                });
+            });
+
+            describe("if a config in 'overrides' property had 'root' property, the returned value", () => {
+                let configArray;
+
+                beforeEach(() => {
+                    configArray = create({
+                        rules: { regular: 1 },
+                        overrides: [
+                            {
+                                files: "*.xxx",
+                                extends: "root",
+                                rules: { override: 1 }
+                            }
+                        ]
+                    });
+                });
+
+                it("should have three elements.", () => {
+                    assert.strictEqual(configArray.length, 3);
+                });
+
+                it("should have the given config data at the first element.", () => {
+                    assertConfigArrayElement(configArray[0], {
+                        rules: { regular: 1 }
+                    });
+                });
+
+                it("should have the config data of 'overrides[0] » eslint-config-root' at the second element; it doesn't have 'root' property.", () => {
+                    assertConfigArrayElement(configArray[1], {
+                        name: "#overrides[0] » eslint-config-root",
+                        filePath: path.join(tempDir, "node_modules/eslint-config-root/index.js"),
+                        criteria: OverrideTester.create(["*.xxx"], [], tempDir),
+                        rules: { eqeqeq: "error" }
+                    });
+                });
+
+                it("should have the config data of 'overrides[0]' at the third element.", () => {
+                    assertConfigArrayElement(configArray[2], {
+                        name: "#overrides[0]",
+                        criteria: OverrideTester.create(["*.xxx"], [], tempDir),
+                        rules: { override: 1 }
                     });
                 });
             });

@@ -72,7 +72,7 @@ describe("OverrideTester", () => {
 
         it("should return another one what includes both patterns if both are testers.", () => {
             const tester1 = OverrideTester.create("*.js");
-            const tester2 = OverrideTester.create("*.js");
+            const tester2 = OverrideTester.create("*.ts");
             const tester3 = OverrideTester.and(tester1, tester2);
 
             assert.strictEqual(tester3.patterns.length, 2);
@@ -84,20 +84,31 @@ describe("OverrideTester", () => {
     describe("'test(filePath)' method", () => {
         it("should throw an error if no arguments were given.", () => {
             assert.throws(() => {
-                OverrideTester.create("*.js").test();
+                OverrideTester.create(["*.js"], [], process.cwd()).test();
             }, /'filePath' should be an absolute path, but got undefined/u);
         });
 
         it("should throw an error if a non-string value was given.", () => {
             assert.throws(() => {
-                OverrideTester.create("*.js").test(100);
+                OverrideTester.create(["*.js"], [], process.cwd()).test(100);
             }, /'filePath' should be an absolute path, but got 100/u);
         });
 
         it("should throw an error if a relative path was given.", () => {
             assert.throws(() => {
-                OverrideTester.create("*.js").test("foo/bar.js");
+                OverrideTester.create(["*.js"], [], process.cwd()).test("foo/bar.js");
             }, /'filePath' should be an absolute path, but got foo\/bar\.js/u);
+        });
+
+        it("should return true only when both conditions are matched if the tester was created by 'and' factory function.", () => {
+            const tester = OverrideTester.and(
+                OverrideTester.create(["*.js"], [], process.cwd()),
+                OverrideTester.create(["test/**"], [], process.cwd())
+            );
+
+            assert.strictEqual(tester.test(path.resolve("test/a.js")), true);
+            assert.strictEqual(tester.test(path.resolve("lib/a.js")), false);
+            assert.strictEqual(tester.test(path.resolve("test/a.ts")), false);
         });
 
         /**
