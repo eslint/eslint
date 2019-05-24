@@ -124,7 +124,7 @@ To support multiple extensions, add each one to the `processors` element and poi
 
 #### Specifying Processor in Config Files
 
-People use processors by the `processor` key with a processor ID in config files. The processor ID is the concatenated string of a plugin name and a processor name by a slash. And people can use the `overrides` property to tie a file type and a processor.
+To use a processor, add its ID to a `processor` section in the config file. Processor ID is a concatenated string of plugin name and processor name with a slash as a separator. This can also be added to a `overrides` section of the config, to specify which processors should handle which files.
 
 For example:
 
