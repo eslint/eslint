@@ -96,7 +96,7 @@ The most important method on `Linter` is `verify()`, which initiates linting of 
     * **Note**: If you want to lint text and have your configuration be read and processed, use CLIEngine's [`executeOnFiles`](#cliengineexecuteonfiles) or [`executeOnText`](#cliengineexecuteontext) instead.
 * `options` - (optional) Additional options for this run.
     * `filename` - (optional) the filename to associate with the source code.
-    * `preprocess` - (optional) A function that [Processors in Plugins](/docs/developer-guide/working-with-plugins.md#processors-in-plugins) describes as the `preprocess` method.
+    * `preprocess` - (optional) A function that [Processors in Plugins](/docs/developer-guide/working-with-plugins.md#processors-in-plugins) documentation describes as the `preprocess` method.
     * `postprocess` - (optional) A function that [Processors in Plugins](/docs/developer-guide/working-with-plugins.md#processors-in-plugins) describes as the `postprocess` method.
     * `filterCodeBlock` - (optional) A function that decides which code blocks the linter should adopt. The function receives two arguments. The first argument is the virtual filename of a code block. The second argument is the text of the code block. If the function returned `true` then the linter adopts the code block. If the function was omitted, the linter adopts only `*.js` code blocks.
     * `disableFixes` - (optional) when set to `true`, the linter doesn't make the `fix` property of the lint result.
