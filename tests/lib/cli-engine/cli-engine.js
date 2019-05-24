@@ -18,6 +18,7 @@ const assert = require("chai").assert,
     os = require("os"),
     hash = require("../../../lib/cli-engine/hash"),
     { CascadingConfigArrayFactory } = require("../../../lib/cli-engine/cascading-config-array-factory"),
+    { unIndent } = require("../_utils"),
     { defineCLIEngineWithInMemoryFileSystem } = require("./_utils");
 
 const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
@@ -3032,25 +3033,6 @@ describe("CLIEngine", () => {
         });
 
         describe("multiple processors", () => {
-
-            /**
-             * Unindent template strings.
-             * @param {string[]} strings Strings.
-             * @param  {...any} values Values.
-             * @returns {string} Unindented string.
-             */
-            function unindent(strings, ...values) {
-                const text = strings
-                    .map((s, i) => (i === 0 ? s : values[i - 1] + s))
-                    .join("");
-                const lines = text.split("\n").filter(Boolean);
-                const indentLen = /[^ ]/u.exec(lines[0]).index;
-
-                return lines
-                    .map(line => line.slice(indentLen))
-                    .join("\n");
-            }
-
             const root = path.join(os.tmpdir(), "eslint/cli-engine/multiple-processors");
             const commonFiles = {
                 "node_modules/pattern-processor/index.js": fs.readFileSync(
@@ -3075,7 +3057,7 @@ describe("CLIEngine", () => {
                         "legacy": legacyProcessor
                     };
                 `,
-                "test.md": unindent`
+                "test.md": unIndent`
                     \`\`\`js
                     console.log("hello")
                     \`\`\`
@@ -3129,7 +3111,7 @@ describe("CLIEngine", () => {
 
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 0);
-                assert.strictEqual(results[0].output, unindent`
+                assert.strictEqual(results[0].output, unIndent`
                     \`\`\`js
                     console.log("hello");${/* ← fixed */""}
                     \`\`\`
@@ -3185,7 +3167,7 @@ describe("CLIEngine", () => {
 
                 assert.strictEqual(results.length, 1);
                 assert.strictEqual(results[0].messages.length, 0);
-                assert.strictEqual(results[0].output, unindent`
+                assert.strictEqual(results[0].output, unIndent`
                     \`\`\`js
                     console.log("hello");${/* ← fixed */""}
                     \`\`\`
@@ -3227,7 +3209,7 @@ describe("CLIEngine", () => {
                 assert.strictEqual(results[0].messages[0].ruleId, "semi"); // JS Block in HTML Block
                 assert.strictEqual(results[0].messages[0].line, 7);
                 assert.strictEqual(results[0].messages[0].fix, void 0);
-                assert.strictEqual(results[0].output, unindent`
+                assert.strictEqual(results[0].output, unIndent`
                     \`\`\`js
                     console.log("hello");${/* ← fixed */""}
                     \`\`\`
