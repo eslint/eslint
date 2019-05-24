@@ -23,6 +23,7 @@ The lists below are ordered roughly by the number of users each change is expect
 
 1. [Plugin authors may need to update installation instructions](#plugin-documentation)
 1. [`RuleTester` now validates against invalid `default` keywords in rule schemas](#rule-tester-defaults)
+1. [`RuleTester` now requires an absolute path on `parser` option](#rule-tester-parser)
 1. [The `eslintExplicitGlobalComment` scope analysis property has been removed](#eslintExplicitGlobalComment)
 
 ### Breaking changes for integration developers
@@ -282,6 +283,14 @@ In some cases, rule schemas can use the `default` keyword to automatically speci
 **To address:** If `RuleTester` starts reporting an error about an invalid default, you can remove the `default` property at the indicated location in your rule schema, and the rule will behave the same way. (If this happens, you might also want to verify that the rule behaves correctly when no option value is provided in that location.)
 
 **Related issue(s):** [eslint/eslint#11473](https://github.com/eslint/eslint/issues/11473)
+
+## <a name="rule-tester-parser"></a> `RuleTester` now requires an absolute path on `parser` option
+
+To use custom parsers in tests, we could use `parser` property with a package name or file path. However, if a package name was given, it's unclear where the tester should load the parser package from because the tester doesn't know which files are running the tester. In ESLint v6.0.0, `RuleTester` disallows `parser` property with a package name.
+
+**To address:** If you use `parser` property with package names in test cases, update it with `require.resolve()` function to resolve the package name to the absolute path to the package.
+
+**Related issue(s):** [eslint/eslint#11728](https://github.com/eslint/eslint/issues/11728), [eslint/eslint#10125](https://github.com/eslint/eslint/issues/10125), [eslint/rfcs#7](https://github.com/eslint/rfcs/pull/7)
 
 ## <a name="eslintExplicitGlobalComment"></a> The `eslintExplicitGlobalComment` scope analysis property has been removed
 
