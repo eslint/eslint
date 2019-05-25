@@ -26,7 +26,8 @@ const lodash = require("lodash"),
     ejs = require("ejs"),
     loadPerf = require("load-perf"),
     yaml = require("js-yaml"),
-    { CLIEngine } = require("./lib/cli-engine");
+    { CLIEngine } = require("./lib/cli-engine"),
+    builtinRules = require("./lib/rules/index");
 
 const { cat, cd, cp, echo, exec, exit, find, ls, mkdir, pwd, rm, test } = require("shelljs");
 
@@ -959,7 +960,9 @@ function createConfigForPerformanceTest() {
         "rules:"
     ];
 
-    content.push(...ls("lib/rules").map(fileName => `    ${path.basename(fileName, ".js")}: 1`));
+    for (const [ruleId] of builtinRules) {
+        content.push(`    ${ruleId}: 1`);
+    }
 
     content.join("\n").to(PERF_ESLINTRC);
 }
