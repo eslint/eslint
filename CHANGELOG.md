@@ -1,3 +1,29 @@
+v6.0.0-alpha.2 - May 25, 2019
+
+* [`9b87fee`](https://github.com/eslint/eslint/commit/9b87fee9dc7b1d99a50b924cb6b81255ebb5c4a2) Chore: Fix formatter documentation generation (#11767) (Ilya Volodin)
+* [`f116208`](https://github.com/eslint/eslint/commit/f11620848733a3a6f58811d9bb2c3e748d6135ac) Chore: Fix site generation script for releases (#11766) (Ilya Volodin)
+* [`cf9cce8`](https://github.com/eslint/eslint/commit/cf9cce81aa68e9bc23840530cb33f4c3f551fb1e) Update: Add never option for new-parens (refs #10034) (#11379) (pfgithub)
+* [`b5fa149`](https://github.com/eslint/eslint/commit/b5fa1491d2371a721e4b5029e797ae98fd30fed2) New: multiple processors support (fixes #11035, fixes #11725) (#11552) (Toru Nagashima)
+* [`2d32a9e`](https://github.com/eslint/eslint/commit/2d32a9e8dd10a5927576bd50d184876c775da4af) Breaking: stricter rule config validating (fixes #9505) (#11742) (薛定谔的猫)
+* [`71716eb`](https://github.com/eslint/eslint/commit/71716eba3155266d777b994a38af524952e97696) Update: add fixer for no-div-regex rule (fixes #11355) (#11744) (joe-re)
+* [`53f7f4c`](https://github.com/eslint/eslint/commit/53f7f4cf8d8b66a1911db56e4f72764388a21cc4) Update: Uniform messages for the rules in "complexity" section (#11759) (Igor Novozhilov)
+* [`0a801d7`](https://github.com/eslint/eslint/commit/0a801d702dc41dae7eac0c802b822493ddc3ac41) Chore: improve perf test (#11756) (薛定谔的猫)
+* [`45bd336`](https://github.com/eslint/eslint/commit/45bd336e647a6fa8a502488e5cbd27ba02712083) Docs: add about RuleTester's parser to migration guide (fixes #11728) (#11761) (Toru Nagashima)
+* [`1374be4`](https://github.com/eslint/eslint/commit/1374be44f7ec4b8c913c52cc84debc4012c4f3ea) Docs: add table of contents in readme (#11765) (薛定谔的猫)
+* [`54e6eda`](https://github.com/eslint/eslint/commit/54e6edaa2f881aab530fa14e63d92e5e0e2ca55c) New: extends in glob-based config (fixes #8813) (#11554) (Toru Nagashima)
+* [`ec105b2`](https://github.com/eslint/eslint/commit/ec105b24f7e036ecdc4267f018529ac3765e29d5) Chore: typo in JSDoc on timing.display's return value (#11755) (Dimitri Mitropoulos)
+* [`e45cc3f`](https://github.com/eslint/eslint/commit/e45cc3f3dc44f3a5b6b713a1bf5ce6e46d87ca49) Docs: updated no-proto rule (fixes #11743) (#11746) (Francesco Trotta)
+* [`15c6c63`](https://github.com/eslint/eslint/commit/15c6c6374c0425d5402142d012a541fa208bc9da) Chore: eslint-config-eslint require node >= 8 (#11718) (薛定谔的猫)
+* [`f9790ca`](https://github.com/eslint/eslint/commit/f9790ca1baec1275f3c946586766a5713258ac32) Fix: typo: missing word in docs (#11750) (Dimitri Mitropoulos)
+* [`219aecb`](https://github.com/eslint/eslint/commit/219aecb78bc646d44bad27dc775a9b3d3dc58232) Chore: restructure files (#11555) (Toru Nagashima)
+* [`5dad0b1`](https://github.com/eslint/eslint/commit/5dad0b1d80c9cf380c49f46266c35d461d3cecad) Fix: Unignoring directories in .eslintignore (fixes #11684) (#11685) (Mykola Bilochub)
+* [`4625090`](https://github.com/eslint/eslint/commit/462509058e46770cf70307cf8dba279f0e73b967) Docs: small fix about the migration guide (#11729) (Toru Nagashima)
+* [`0e89c73`](https://github.com/eslint/eslint/commit/0e89c73177398eaf978a50d5b0f79ff8e43512f2) Sponsors: Sync README with website (ESLint Jenkins)
+* [`5a296fa`](https://github.com/eslint/eslint/commit/5a296fa0c9345ad1a55e2b257e5f6c9f05fff362) Sponsors: Sync README with website (ESLint Jenkins)
+* [`7c8e86b`](https://github.com/eslint/eslint/commit/7c8e86bf2c900cec7cd1dfd529a8c77cc81ef34c) Fix: wrong 'plugin-missing' error on Node.js 12 (fixes #11720) (#11722) (Toru Nagashima)
+* [`67c671f`](https://github.com/eslint/eslint/commit/67c671fdc1c8b08cb8d263a9bb2151e3108c88b4) Chore: ignore deprecated rules in fuzz tests (#11710) (Pig Fang)
+* [`af81cb3`](https://github.com/eslint/eslint/commit/af81cb3ecc5e6bf43a6a2d8f326103350513a1b8) Chore: make fuzzer produce minimal reproducible examples of bugs (#11700) (Teddy Katz)
+
 v6.0.0-alpha.1 - May 10, 2019
 
 * [`e84b6f8`](https://github.com/eslint/eslint/commit/e84b6f8b171ba4266164688f76d5ee45d278e5c2) Docs: fix example in object-curly-newline docs (#11633) (golopot)
