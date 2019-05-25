@@ -24,7 +24,21 @@ ESLint is a tool for identifying and reporting on patterns found in ECMAScript/J
 * ESLint uses an AST to evaluate patterns in code.
 * ESLint is completely pluggable, every single rule is a plugin and you can add more at runtime.
 
-## Installation and Usage
+## Table of Contents
+
+1. [Installation and Usage](#installation-and-usage)
+2. [Configuration](#configuration)
+3. [Code of Conduct](#code-of-conduct)
+4. [Filing Issues](#filing-issues)
+5. [Frequently Asked Questions](#faq)
+6. [Releases](#releases)
+7. [Semantic Versioning Policy](#semantic-versioning-policy)
+8. [License](#license)
+9. [Team](#team)
+10. [Sponsors](#sponsors)
+11. [Technology Sponsors](#technology-sponsors)
+
+## <a name="installation-and-usage"></a>Installation and Usage
 
 Prerequisites: [Node.js](https://nodejs.org/) (`^8.10.0`, `^10.13.0`, or `>=11.10.1`), npm version 3+.
 
@@ -48,7 +62,7 @@ $ ./node_modules/.bin/eslint yourfile.js
 
 It is also possible to install ESLint globally rather than locally (using `npm install eslint --global`). However, any plugins or shareable configs that you use must be installed locally in either case.
 
-## Configuration
+## <a name="configuration"></a>Configuration
 
 After running `eslint --init`, you'll have a `.eslintrc` file in your directory. In it, you'll see some rules configured like this:
 
@@ -69,11 +83,11 @@ The names `"semi"` and `"quotes"` are the names of [rules](https://eslint.org/do
 
 The three error levels allow you fine-grained control over how ESLint applies rules (for more configuration options and details, see the [configuration docs](https://eslint.org/docs/user-guide/configuring)).
 
-## Code of Conduct
+## <a name="code-of-conduct"></a>Code of Conduct
 
 ESLint adheres to the [JS Foundation Code of Conduct](https://js.foundation/community/code-of-conduct).
 
-## Filing Issues
+## <a name="filing-issues"></a>Filing Issues
 
 Before filing an issue, please be sure to read the guidelines for what you're reporting:
 
@@ -82,7 +96,7 @@ Before filing an issue, please be sure to read the guidelines for what you're re
 * [Proposing a Rule Change](https://eslint.org/docs/developer-guide/contributing/rule-changes)
 * [Request a Change](https://eslint.org/docs/developer-guide/contributing/changes)
 
-## Frequently Asked Questions
+## <a name="faq"></a>Frequently Asked Questions
 
 ### I'm using JSCS, should I migrate to ESLint?
 
@@ -122,11 +136,11 @@ Once a language feature has been adopted into the ECMAScript standard (stage 4 a
 
 Join our [Mailing List](https://groups.google.com/group/eslint) or [Chatroom](https://gitter.im/eslint/eslint).
 
-## Releases
+## <a name="releases"></a>Releases
 
 We have scheduled releases every two weeks on Friday or Saturday. You can follow a [release issue](https://github.com/eslint/eslint/issues?q=is%3Aopen+is%3Aissue+label%3Arelease) for updates about the scheduling of any particular release.
 
-## Semantic Versioning Policy
+## <a name="semantic-versioning-policy"></a>Semantic Versioning Policy
 
 ESLint follows [semantic versioning](https://semver.org). However, due to the nature of ESLint as a code quality tool, it's not always clear when a minor or major version bump occurs. To help clarify this for everyone, we've defined the following semantic versioning policy for ESLint:
 
@@ -152,11 +166,11 @@ ESLint follows [semantic versioning](https://semver.org). However, due to the na
 
 According to our policy, any minor update may report more errors than the previous release (ex: from a bug fix). As such, we recommend using the tilde (`~`) in `package.json` e.g. `"eslint": "~3.1.0"` to guarantee the results of your builds.
 
-## License
+## <a name="license"></a>License
 
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Feslint%2Feslint.svg?type=large)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Feslint%2Feslint?ref=badge_large)
 
-## Team
+## <a name="team"></a>Team
 
 These folks keep the project moving and are resources for help.
 
@@ -238,7 +252,7 @@ Pig Fang
 
 <!--teamend-->
 
-## Sponsors
+## <a name="sponsors"></a>Sponsors
 
 The following companies, organizations, and individuals support ESLint's ongoing maintenance and development. [Become a Sponsor](https://opencollective.com/eslint) to get your logo on our README and website.
 
@@ -250,7 +264,7 @@ The following companies, organizations, and individuals support ESLint's ongoing
 <p><a href="https://usave.co.uk/utilities/broadband/"><img src="https://images.opencollective.com/usave/logo.png" alt="Usave" height="32"></a> <a href="https://tekhattan.com"><img src="https://images.opencollective.com/tekhattan/logo.png" alt="TekHattan" height="32"></a> <a href="https://faithlife.com/ref/about"><img src="https://images.opencollective.com/faithlife/logo.png" alt="Faithlife" height="32"></a> <a href="https://themeisle.com"><img src="https://images.opencollective.com/themeisle/logo.png" alt="ThemeIsle" height="32"></a> <a href="https://www.marfeel.com/"><img src="https://images.opencollective.com/marfeel/logo.png" alt="Marfeel" height="32"></a> <a href="https://clay.global"><img src="https://images.opencollective.com/clayglobal/logo.png" alt="clay" height="32"></a> <a href="https://discordapp.com"><img src="https://images.opencollective.com/discordapp/logo.png" alt="Discord" height="32"></a> <a href="https://jsheroes.io/"><img src="https://images.opencollective.com/jsheroes1/logo.png" alt="JSHeroes " height="32"></a> <a href="http://www.firesticktricks.com"><img src="https://images.opencollective.com/fire-stick-tricks/logo.png" alt="Fire Stick Tricks" height="32"></a></p>
 <!--sponsorsend-->
 
-## Technology Sponsors
+## <a name="technology-sponsors"></a>Technology Sponsors
 
 * Site search ([eslint.org](https://eslint.org)) is sponsored by [Algolia](https://www.algolia.com)
 
