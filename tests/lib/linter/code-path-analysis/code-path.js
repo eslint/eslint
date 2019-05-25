@@ -303,6 +303,6 @@ describe("CodePathAnalyzer", () => {
             */
         });
 
-        /* eslint-enable rulesdir/multiline-comment-style */
+        /* eslint-enable internal-rules/multiline-comment-style */
     });
 });

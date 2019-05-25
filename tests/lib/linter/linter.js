@@ -1699,6 +1699,50 @@ describe("Linter", () => {
         });
     });
 
+    describe("when evaluating code with comments to disable rules", () => {
+        let code, messages;
+
+        it("should report an error when disabling a non-existent rule in inline comment", () => {
+            code = "/*eslint foo:0*/ ;";
+            messages = linter.verify(code, {}, filename);
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].message, "Definition for rule 'foo' was not found.");
+
+            code = "/*eslint-disable foo*/ ;";
+            messages = linter.verify(code, {}, filename);
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].message, "Definition for rule 'foo' was not found.");
+
+            code = "/*eslint-disable-line foo*/ ;";
+            messages = linter.verify(code, {}, filename);
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].message, "Definition for rule 'foo' was not found.");
+
+            code = "/*eslint-disable-next-line foo*/ ;";
+            messages = linter.verify(code, {}, filename);
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].message, "Definition for rule 'foo' was not found.");
+        });
+
+        it("should not report an error, when disabling a non-existent rule in config", () => {
+            messages = linter.verify("", { rules: { foo: 0 } }, filename);
+
+            assert.strictEqual(messages.length, 0);
+        });
+
+        it("should report an error, when config a non-existent rule in config", () => {
+            messages = linter.verify("", { rules: { foo: 1 } }, filename);
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].severity, 2);
+            assert.strictEqual(messages[0].message, "Definition for rule 'foo' was not found.");
+
+            messages = linter.verify("", { rules: { foo: 2 } }, filename);
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].severity, 2);
+            assert.strictEqual(messages[0].message, "Definition for rule 'foo' was not found.");
+        });
+    });
+
     describe("when evaluating code with comments to enable multiple rules", () => {
         const code = "/*eslint no-alert:1 no-console:1*/ alert('test'); console.log('test');";
 
@@ -2761,7 +2805,7 @@ describe("Linter", () => {
         const objectOptionResults = linter.verify(code, { rules: { foobar: [1, { bar: false }] } });
         const resultsMultiple = linter.verify(code, { rules: { foobar: 2, barfoo: 1 } });
 
-        it("should add a stub rule", () => {
+        it("should report a problem", () => {
             assert.isNotNull(result);
             assert.isArray(results);
             assert.isObject(result);
@@ -2771,13 +2815,13 @@ describe("Linter", () => {
 
         it("should report that the rule does not exist", () => {
             assert.property(result, "message");
-            assert.strictEqual(result.message, "Definition for rule 'foobar' was not found");
+            assert.strictEqual(result.message, "Definition for rule 'foobar' was not found.");
         });
 
         it("should report at the correct severity", () => {
             assert.property(result, "severity");
             assert.strictEqual(result.severity, 2);
-            assert.strictEqual(warningResult.severity, 1);
+            assert.strictEqual(warningResult.severity, 2); // this is 2, since the rulename is very likely to be wrong
         });
 
         it("should accept any valid rule configuration", () => {
@@ -2792,10 +2836,12 @@ describe("Linter", () => {
                 resultsMultiple[1],
                 {
                     ruleId: "barfoo",
-                    message: "Definition for rule 'barfoo' was not found",
+                    message: "Definition for rule 'barfoo' was not found.",
                     line: 1,
                     column: 1,
-                    severity: 1,
+                    endLine: 1,
+                    endColumn: 2,
+                    severity: 2,
                     nodeType: null
                 }
             );

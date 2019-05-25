@@ -52,30 +52,26 @@ describe("rules", () => {
         });
     });
 
-    describe("when a rule is not found", () => {
-        it("should return a stub rule that reports an error if the rule is unknown", () => {
-            const stubRule = rules.get("not-defined");
-            const linter = new Linter();
 
-            linter.defineRule("test-rule", stubRule);
+    describe("when a rule is not found", () => {
+        it("should report a linting error if the rule is unknown", () => {
+
+            const linter = new Linter();
 
             const problems = linter.verify("foo", { rules: { "test-rule": "error" } });
 
             assert.lengthOf(problems, 1);
-            assert.strictEqual(problems[0].message, "Definition for rule 'not-defined' was not found");
+            assert.strictEqual(problems[0].message, "Definition for rule 'test-rule' was not found.");
             assert.strictEqual(problems[0].line, 1);
             assert.strictEqual(problems[0].column, 1);
-            assert.typeOf(problems[0].endLine, "undefined");
-            assert.typeOf(problems[0].endColumn, "undefined");
+            assert.strictEqual(problems[0].endLine, 1);
+            assert.strictEqual(problems[0].endColumn, 2);
         });
 
-        it("should return a stub rule that lists replacements if a rule is known to have been replaced", () => {
-            const stubRule = rules.get("no-arrow-condition");
+
+        it("should report a linting error that lists replacements if a rule is known to have been replaced", () => {
             const linter = new Linter();
-
-            linter.defineRule("test-rule", stubRule);
-
-            const problems = linter.verify("foo", { rules: { "test-rule": "error" } });
+            const problems = linter.verify("foo", { rules: { "no-arrow-condition": "error" } });
 
             assert.lengthOf(problems, 1);
             assert.strictEqual(
@@ -84,10 +80,11 @@ describe("rules", () => {
             );
             assert.strictEqual(problems[0].line, 1);
             assert.strictEqual(problems[0].column, 1);
-            assert.typeOf(problems[0].endLine, "undefined");
-            assert.typeOf(problems[0].endColumn, "undefined");
+            assert.strictEqual(problems[0].endLine, 1);
+            assert.strictEqual(problems[0].endColumn, 2);
         });
     });
+
 
     describe("when loading all rules", () => {
         it("should iterate all rules", () => {
