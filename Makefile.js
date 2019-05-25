@@ -186,7 +186,7 @@ function generateRuleIndexPage() {
         .forEach(pair => {
             const filename = pair[0];
             const basename = pair[1];
-            const rule = require(filename);
+            const rule = require(path.resolve(filename));
 
             if (rule.meta.deprecated) {
                 categoriesData.deprecated.rules.push({
