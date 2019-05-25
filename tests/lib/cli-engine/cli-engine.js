@@ -18,10 +18,10 @@ const assert = require("chai").assert,
     os = require("os"),
     hash = require("../../../lib/cli-engine/hash"),
     { CascadingConfigArrayFactory } = require("../../../lib/cli-engine/cascading-config-array-factory"),
+    { unIndent } = require("../_utils"),
     { defineCLIEngineWithInMemoryFileSystem } = require("./_utils");
 
 const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
-
 const fCache = require("file-entry-cache");
 
 //------------------------------------------------------------------------------
@@ -3029,6 +3029,301 @@ describe("CLIEngine", () => {
                 assert.strictEqual(results.length, 1);
                 assert.deepStrictEqual(results[0].messages, []);
                 assert.deepStrictEqual(results[0].output, "fixed;");
+            });
+        });
+
+        describe("multiple processors", () => {
+            const root = path.join(os.tmpdir(), "eslint/cli-engine/multiple-processors");
+            const commonFiles = {
+                "node_modules/pattern-processor/index.js": fs.readFileSync(
+                    require.resolve("../../fixtures/processors/pattern-processor"),
+                    "utf8"
+                ),
+                "node_modules/eslint-plugin-markdown/index.js": `
+                    const { defineProcessor } = require("pattern-processor");
+                    const processor = defineProcessor(${/```(\w+)\n([\s\S]+?)\n```/gu});
+                    exports.processors = {
+                        ".md": { ...processor, supportsAutofix: true },
+                        "non-fixable": processor
+                    };
+                `,
+                "node_modules/eslint-plugin-html/index.js": `
+                    const { defineProcessor } = require("pattern-processor");
+                    const processor = defineProcessor(${/<script lang="(\w*)">\n([\s\S]+?)\n<\/script>/gu});
+                    const legacyProcessor = defineProcessor(${/<script lang="(\w*)">\n([\s\S]+?)\n<\/script>/gu}, true);
+                    exports.processors = {
+                        ".html": { ...processor, supportsAutofix: true },
+                        "non-fixable": processor,
+                        "legacy": legacyProcessor
+                    };
+                `,
+                "test.md": unIndent`
+                    \`\`\`js
+                    console.log("hello")
+                    \`\`\`
+                    \`\`\`html
+                    <div>Hello</div>
+                    <script lang="js">
+                        console.log("hello")
+                    </script>
+                    <script lang="ts">
+                        console.log("hello")
+                    </script>
+                    \`\`\`
+                `
+            };
+
+            it("should lint only JavaScript blocks if '--ext' was not given.", () => {
+                CLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        ...commonFiles,
+                        ".eslintrc.json": JSON.stringify({
+                            plugins: ["markdown", "html"],
+                            rules: { semi: "error" }
+                        })
+                    }
+                }).CLIEngine;
+                engine = new CLIEngine({ cwd: root });
+
+                const { results } = engine.executeOnFiles(["test.md"]);
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].ruleId, "semi");
+                assert.strictEqual(results[0].messages[0].line, 2);
+            });
+
+            it("should fix only JavaScript blocks if '--ext' was not given.", () => {
+                CLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        ...commonFiles,
+                        ".eslintrc.json": JSON.stringify({
+                            plugins: ["markdown", "html"],
+                            rules: { semi: "error" }
+                        })
+                    }
+                }).CLIEngine;
+                engine = new CLIEngine({ cwd: root, fix: true });
+
+                const { results } = engine.executeOnFiles(["test.md"]);
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 0);
+                assert.strictEqual(results[0].output, unIndent`
+                    \`\`\`js
+                    console.log("hello");${/* ← fixed */""}
+                    \`\`\`
+                    \`\`\`html
+                    <div>Hello</div>
+                    <script lang="js">
+                        console.log("hello")${/* ← ignored */""}
+                    </script>
+                    <script lang="ts">
+                        console.log("hello")${/* ← ignored */""}
+                    </script>
+                    \`\`\`
+                `);
+            });
+
+            it("should lint HTML blocks as well with multiple processors if '--ext' option was given.", () => {
+                CLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        ...commonFiles,
+                        ".eslintrc.json": JSON.stringify({
+                            plugins: ["markdown", "html"],
+                            rules: { semi: "error" }
+                        })
+                    }
+                }).CLIEngine;
+                engine = new CLIEngine({ cwd: root, extensions: ["js", "html"] });
+
+                const { results } = engine.executeOnFiles(["test.md"]);
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "semi"); // JS block
+                assert.strictEqual(results[0].messages[0].line, 2);
+                assert.strictEqual(results[0].messages[1].ruleId, "semi"); // JS block in HTML block
+                assert.strictEqual(results[0].messages[1].line, 7);
+            });
+
+            it("should fix HTML blocks as well with multiple processors if '--ext' option was given.", () => {
+                CLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        ...commonFiles,
+                        ".eslintrc.json": JSON.stringify({
+                            plugins: ["markdown", "html"],
+                            rules: { semi: "error" }
+                        })
+                    }
+                }).CLIEngine;
+                engine = new CLIEngine({ cwd: root, extensions: ["js", "html"], fix: true });
+
+                const { results } = engine.executeOnFiles(["test.md"]);
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 0);
+                assert.strictEqual(results[0].output, unIndent`
+                    \`\`\`js
+                    console.log("hello");${/* ← fixed */""}
+                    \`\`\`
+                    \`\`\`html
+                    <div>Hello</div>
+                    <script lang="js">
+                        console.log("hello");${/* ← fixed */""}
+                    </script>
+                    <script lang="ts">
+                        console.log("hello")${/* ← ignored */""}
+                    </script>
+                    \`\`\`
+                `);
+            });
+
+            it("should use overriden processor; should report HTML blocks but not fix HTML blocks if the processor for '*.html' didn't support autofix.", () => {
+                CLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        ...commonFiles,
+                        ".eslintrc.json": JSON.stringify({
+                            plugins: ["markdown", "html"],
+                            rules: { semi: "error" },
+                            overrides: [
+                                {
+                                    files: "*.html",
+                                    processor: "html/non-fixable" // supportsAutofix: false
+                                }
+                            ]
+                        })
+                    }
+                }).CLIEngine;
+                engine = new CLIEngine({ cwd: root, extensions: ["js", "html"], fix: true });
+
+                const { results } = engine.executeOnFiles(["test.md"]);
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 1);
+                assert.strictEqual(results[0].messages[0].ruleId, "semi"); // JS Block in HTML Block
+                assert.strictEqual(results[0].messages[0].line, 7);
+                assert.strictEqual(results[0].messages[0].fix, void 0);
+                assert.strictEqual(results[0].output, unIndent`
+                    \`\`\`js
+                    console.log("hello");${/* ← fixed */""}
+                    \`\`\`
+                    \`\`\`html
+                    <div>Hello</div>
+                    <script lang="js">
+                        console.log("hello")${/* ← reported but not fixed */""}
+                    </script>
+                    <script lang="ts">
+                        console.log("hello")
+                    </script>
+                    \`\`\`
+                `);
+            });
+
+            it("should use the config '**/*.html/*.js' to lint JavaScript blocks in HTML.", () => {
+                CLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        ...commonFiles,
+                        ".eslintrc.json": JSON.stringify({
+                            plugins: ["markdown", "html"],
+                            rules: { semi: "error" },
+                            overrides: [
+                                {
+                                    files: "*.html",
+
+                                    // this rules are not used because ESLint re-resolve configs if a code block had a different file extension.
+                                    rules: {
+                                        semi: "error",
+                                        "no-console": "off"
+                                    }
+                                },
+                                {
+                                    files: "**/*.html/*.js",
+                                    rules: {
+                                        semi: "off",
+                                        "no-console": "error"
+                                    }
+                                }
+                            ]
+                        })
+                    }
+                }).CLIEngine;
+                engine = new CLIEngine({ cwd: root, extensions: ["js", "html"] });
+
+                const { results } = engine.executeOnFiles(["test.md"]);
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "semi");
+                assert.strictEqual(results[0].messages[0].line, 2);
+                assert.strictEqual(results[0].messages[1].ruleId, "no-console");
+                assert.strictEqual(results[0].messages[1].line, 7);
+            });
+
+            it("should use the same config as one which has 'processor' property in order to lint blocks in HTML if the processor was legacy style.", () => {
+                CLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        ...commonFiles,
+                        ".eslintrc.json": JSON.stringify({
+                            plugins: ["markdown", "html"],
+                            rules: { semi: "error" },
+                            overrides: [
+                                {
+                                    files: "*.html",
+                                    processor: "html/legacy", // this processor returns strings rather than `{text, filename}`
+                                    rules: {
+                                        semi: "off",
+                                        "no-console": "error"
+                                    }
+                                },
+                                {
+                                    files: "**/*.html/*.js",
+                                    rules: {
+                                        semi: "error",
+                                        "no-console": "off"
+                                    }
+                                }
+                            ]
+                        })
+                    }
+                }).CLIEngine;
+                engine = new CLIEngine({ cwd: root, extensions: ["js", "html"] });
+
+                const { results } = engine.executeOnFiles(["test.md"]);
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 3);
+                assert.strictEqual(results[0].messages[0].ruleId, "semi");
+                assert.strictEqual(results[0].messages[0].line, 2);
+                assert.strictEqual(results[0].messages[1].ruleId, "no-console");
+                assert.strictEqual(results[0].messages[1].line, 7);
+                assert.strictEqual(results[0].messages[2].ruleId, "no-console");
+                assert.strictEqual(results[0].messages[2].line, 10);
+            });
+
+            it("should throw an error if invalid processor was specified.", () => {
+                CLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        ...commonFiles,
+                        ".eslintrc.json": JSON.stringify({
+                            plugins: ["markdown", "html"],
+                            processor: "markdown/unknown"
+                        })
+                    }
+                }).CLIEngine;
+                engine = new CLIEngine({ cwd: root });
+
+                assert.throws(() => {
+                    engine.executeOnFiles(["test.md"]);
+                }, /ESLint configuration of processor in '\.eslintrc\.json' is invalid: 'markdown\/unknown' was not found\./u);
             });
         });
 

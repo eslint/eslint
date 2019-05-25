@@ -21,7 +21,7 @@ const path = require("path");
 const fixture = fs.readFileSync(path.join(__dirname, "../../fixtures/rules/indent/indent-invalid-fixture-1.js"), "utf8");
 const fixedFixture = fs.readFileSync(path.join(__dirname, "../../fixtures/rules/indent/indent-valid-fixture-1.js"), "utf8");
 const parser = require("../../fixtures/fixture-parser");
-const { unIndent } = require("./_utils");
+const { unIndent } = require("../_utils");
 
 
 /**

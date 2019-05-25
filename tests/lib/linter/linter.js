@@ -73,7 +73,10 @@ const ESLINT_ENV = "eslint-env";
 
 describe("Linter", () => {
     const filename = "filename.js";
-    let sandbox, linter;
+    let sandbox;
+
+    /** @type {InstanceType<import("../../lib/linter.js")["Linter"]>} */
+    let linter;
 
     beforeEach(() => {
         linter = new Linter();
@@ -4237,17 +4240,31 @@ describe("Linter", () => {
     });
 
     describe("processors", () => {
+        let receivedFilenames = [];
+
         beforeEach(() => {
+            receivedFilenames = [];
 
             // A rule that always reports the AST with a message equal to the source text
             linter.defineRule("report-original-text", context => ({
                 Program(ast) {
+                    receivedFilenames.push(context.getFilename());
                     context.report({ node: ast, message: context.getSourceCode().text });
                 }
             }));
         });
 
         describe("preprocessors", () => {
+            it("should receive text and filename.", () => {
+                const code = "foo bar baz";
+                const preprocess = sinon.spy(text => text.split(" "));
+
+                linter.verify(code, {}, { filename, preprocess });
+
+                assert.strictEqual(preprocess.calledOnce, true);
+                assert.deepStrictEqual(preprocess.args[0], [code, filename]);
+            });
+
             it("should apply a preprocessor to the code, and lint each code sample separately", () => {
                 const code = "foo bar baz";
                 const problems = linter.verify(
@@ -4257,8 +4274,6 @@ describe("Linter", () => {
 
                         // Apply a preprocessor that splits the source text into spaces and lints each word individually
                         preprocess(input) {
-                            assert.strictEqual(input, code);
-                            assert.strictEqual(arguments.length, 1);
                             return input.split(" ");
                         }
                     }
@@ -4267,9 +4282,72 @@ describe("Linter", () => {
                 assert.strictEqual(problems.length, 3);
                 assert.deepStrictEqual(problems.map(problem => problem.message), ["foo", "bar", "baz"]);
             });
+
+            it("should apply a preprocessor to the code even if the preprocessor returned code block objects.", () => {
+                const code = "foo bar baz";
+                const problems = linter.verify(
+                    code,
+                    { rules: { "report-original-text": "error" } },
+                    {
+                        filename,
+
+                        // Apply a preprocessor that splits the source text into spaces and lints each word individually
+                        preprocess(input) {
+                            return input.split(" ").map(text => ({
+                                filename: "block.js",
+                                text
+                            }));
+                        }
+                    }
+                );
+
+                assert.strictEqual(problems.length, 3);
+                assert.deepStrictEqual(problems.map(problem => problem.message), ["foo", "bar", "baz"]);
+                assert.strictEqual(receivedFilenames.length, 3);
+                assert(/^filename\.js[/\\]0_block\.js/u.test(receivedFilenames[0]));
+                assert(/^filename\.js[/\\]1_block\.js/u.test(receivedFilenames[1]));
+                assert(/^filename\.js[/\\]2_block\.js/u.test(receivedFilenames[2]));
+            });
+
+            it("should receive text even if a SourceCode object was given.", () => {
+                const code = "foo";
+                const preprocess = sinon.spy(text => text.split(" "));
+
+                linter.verify(code, {});
+                const sourceCode = linter.getSourceCode();
+
+                linter.verify(sourceCode, {}, { filename, preprocess });
+
+                assert.strictEqual(preprocess.calledOnce, true);
+                assert.deepStrictEqual(preprocess.args[0], [code, filename]);
+            });
+
+            it("should receive text even if a SourceCode object was given (with BOM).", () => {
+                const code = "\uFEFFfoo";
+                const preprocess = sinon.spy(text => text.split(" "));
+
+                linter.verify(code, {});
+                const sourceCode = linter.getSourceCode();
+
+                linter.verify(sourceCode, {}, { filename, preprocess });
+
+                assert.strictEqual(preprocess.calledOnce, true);
+                assert.deepStrictEqual(preprocess.args[0], [code, filename]);
+            });
         });
 
         describe("postprocessors", () => {
+            it("should receive result and filename.", () => {
+                const code = "foo bar baz";
+                const preprocess = sinon.spy(text => text.split(" "));
+                const postprocess = sinon.spy(text => [text]);
+
+                linter.verify(code, {}, { filename, postprocess, preprocess });
+
+                assert.strictEqual(postprocess.calledOnce, true);
+                assert.deepStrictEqual(postprocess.args[0], [[[], [], []], filename]);
+            });
+
             it("should apply a postprocessor to the reported messages", () => {
                 const code = "foo bar baz";
 
@@ -4284,9 +4362,6 @@ describe("Linter", () => {
                          * to make sure they correspond to the locations in the original text.
                          */
                         postprocess(problemLists) {
-                            assert.strictEqual(problemLists.length, 3);
-                            assert.strictEqual(arguments.length, 1);
-
                             problemLists.forEach(problemList => assert.strictEqual(problemList.length, 1));
                             return problemLists.reduce(
                                 (combinedList, problemList, index) =>
