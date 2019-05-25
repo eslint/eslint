@@ -1730,7 +1730,7 @@ describe("Linter", () => {
             assert.strictEqual(messages.length, 0);
         });
 
-        it("should report an error, when disabling a non-existent rule in config", () => {
+        it("should report an error, when config a non-existent rule in config", () => {
             messages = linter.verify("", { rules: { foo: 1 } }, filename);
             assert.strictEqual(messages.length, 1);
             assert.strictEqual(messages[0].severity, 2);
