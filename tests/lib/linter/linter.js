@@ -2685,7 +2685,7 @@ describe("Linter", () => {
 
             assert.strictEqual(messages.length, 1);
             assert.strictEqual(messages[0].ruleId, "max-len");
-            assert.strictEqual(messages[0].message, "Line 1 exceeds the maximum line length of 100.");
+            assert.strictEqual(messages[0].message, "This line has a length of 122. Maximum allowed is 100.");
             assert.include(messages[0].nodeType, "Program");
         });
     });
