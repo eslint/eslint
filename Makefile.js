@@ -408,7 +408,7 @@ function lintMarkdown(files) {
 function getFormatterResults() {
     const stripAnsi = require("strip-ansi");
 
-    const formatterFiles = fs.readdirSync("./lib/formatters/"),
+    const formatterFiles = fs.readdirSync("./lib/cli-engine/formatters/"),
         rules = {
             "no-else-return": "warn",
             indent: ["warn", 4],
