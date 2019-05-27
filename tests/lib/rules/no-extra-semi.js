@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-extra-semi"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -40,8 +40,8 @@ ruleTester.run("no-extra-semi", rule, {
         { code: "class A { } a;", parserOptions: { ecmaVersion: 6 } },
 
         // modules
-        { code: "export const x = 42;", parserOptions: { sourceType: "module" } },
-        { code: "export default 42;", parserOptions: { sourceType: "module" } }
+        { code: "export const x = 42;", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export default 42;", parserOptions: { ecmaVersion: 6, sourceType: "module" } }
     ],
     invalid: [
         {

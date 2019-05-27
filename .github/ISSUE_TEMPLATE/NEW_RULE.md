@@ -1,6 +1,9 @@
 ---
-/name: "\U0001F680 New rule proposal"
+name: "\U0001F680 New rule proposal"
 about: Propose a new rule to be added to ESLint
+title: ''
+labels: triage, rule, feature
+assignees: ''
 
 ---
 
@@ -37,4 +40,3 @@ about: Propose a new rule to be added to ESLint
 
 
 **Are you willing to submit a pull request to implement this rule?**
-

@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-use-before-define"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -59,7 +59,7 @@ ruleTester.run("no-use-before-define", rule, {
         }
     ],
     invalid: [
-        { code: "a++; var a=19;", parserOptions: { sourceType: "module" }, errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
+        { code: "a++; var a=19;", parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
         { code: "a++; var a=19;", parserOptions: { parserOptions: { ecmaVersion: 6 } }, errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
         { code: "a++; var a=19;", errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
         { code: "a(); var a=function() {};", errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },

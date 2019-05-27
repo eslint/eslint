@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-multi-assign"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Fixtures
@@ -50,8 +50,8 @@ ruleTester.run("no-mutli-assign", rule, {
         "for(var a = 0, b = 0;;){}",
         { code: "for(let a = 0, b = 0;;){}", parserOptions: { ecmaVersion: 6 } },
         { code: "for(const a = 0, b = 0;;){}", parserOptions: { ecmaVersion: 6 } },
-        { code: "export let a, b;", parserOptions: { sourceType: "module" } },
-        { code: "export let a,\n b = 0;", parserOptions: { sourceType: "module" } }
+        { code: "export let a, b;", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export let a,\n b = 0;", parserOptions: { ecmaVersion: 6, sourceType: "module" } }
     ],
 
     invalid: [

@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-magic-numbers"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -83,8 +83,8 @@ ruleTester.run("no-magic-numbers", rule, {
             options: [{
                 enforceConst: true
             }],
-            errors: [{ messageId: "useConst" }],
-            env: { es6: true }
+            env: { es6: true },
+            errors: [{ messageId: "useConst" }]
         },
         {
             code: "var foo = 0 + 1;",
@@ -189,6 +189,7 @@ ruleTester.run("no-magic-numbers", rule, {
                 "function invokeInTen(func) {\n" +
                   "setTimeout(func, 10);\n" +
                 "}\n",
+            env: { es6: true },
             errors: [
                 { messageId: "noMagic", data: { raw: "10" }, line: 7 },
                 { messageId: "noMagic", data: { raw: "10" }, line: 7 },
@@ -196,8 +197,7 @@ ruleTester.run("no-magic-numbers", rule, {
                 { messageId: "noMagic", data: { raw: "1000" }, line: 15 },
                 { messageId: "noMagic", data: { raw: "0" }, line: 19 },
                 { messageId: "noMagic", data: { raw: "10" }, line: 22 }
-            ],
-            env: { es6: true }
+            ]
         },
         {
             code: "var data = ['foo', 'bar', 'baz']; var third = data[3];",

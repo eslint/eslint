@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/one-var-declaration-per-line"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Fixtures
@@ -63,8 +63,8 @@ ruleTester.run("one-var-declaration-per-line", rule, {
         { code: "for(let a of arr){}", options: ["always"], parserOptions: { ecmaVersion: 6 } },
         { code: "for(const a of arr){}", options: ["always"], parserOptions: { ecmaVersion: 6 } },
 
-        { code: "export let a, b;", options: ["initializations"], parserOptions: { sourceType: "module" } },
-        { code: "export let a,\n b = 0;", options: ["initializations"], parserOptions: { sourceType: "module" } }
+        { code: "export let a, b;", options: ["initializations"], parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export let a,\n b = 0;", options: ["initializations"], parserOptions: { ecmaVersion: 6, sourceType: "module" } }
     ],
 
     invalid: [
@@ -83,7 +83,7 @@ ruleTester.run("one-var-declaration-per-line", rule, {
         { code: "var a = {\n foo: bar\n}, b;", output: "var a = {\n foo: bar\n}, \nb;", options: ["initializations"], errors: [errorAt(3, 4)] },
 
         { code: "for(var a = 0, b = 0;;){\nvar c,d;}", output: "for(var a = 0, b = 0;;){\nvar c,\nd;}", options: ["always"], errors: [errorAt(2, 7)] },
-        { code: "export let a, b;", output: "export let a, \nb;", options: ["always"], parserOptions: { sourceType: "module" }, errors: [errorAt(1, 15)] },
-        { code: "export let a, b = 0;", output: "export let a, \nb = 0;", options: ["initializations"], parserOptions: { sourceType: "module" }, errors: [errorAt(1, 15)] }
+        { code: "export let a, b;", output: "export let a, \nb;", options: ["always"], parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [errorAt(1, 15)] },
+        { code: "export let a, b = 0;", output: "export let a, \nb = 0;", options: ["initializations"], parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [errorAt(1, 15)] }
     ]
 });

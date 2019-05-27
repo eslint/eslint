@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/require-unicode-regexp");
-const RuleTester = require("../../../lib/testers/rule-tester");
+const { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -78,13 +78,13 @@ ruleTester.run("require-unicode-regexp", rule, {
         },
         {
             code: "new window.RegExp('foo')",
-            errors: [{ messageId: "requireUFlag" }],
-            env: { browser: true }
+            env: { browser: true },
+            errors: [{ messageId: "requireUFlag" }]
         },
         {
             code: "new global.RegExp('foo')",
-            errors: [{ messageId: "requireUFlag" }],
-            env: { node: true }
+            env: { node: true },
+            errors: [{ messageId: "requireUFlag" }]
         }
     ]
 });

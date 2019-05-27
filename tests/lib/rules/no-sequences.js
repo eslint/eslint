@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-sequences"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -61,6 +61,6 @@ ruleTester.run("no-sequences", rule, {
         { code: "switch (doSomething(), val) {}", errors: errors(22) },
         { code: "while (doSomething(), !!test);", errors: errors(21) },
         { code: "with (doSomething(), val) {}", errors: errors(20) },
-        { code: "a => (doSomething(), a)", errors: errors(20), env: { es6: true } }
+        { code: "a => (doSomething(), a)", env: { es6: true }, errors: errors(20) }
     ]
 });

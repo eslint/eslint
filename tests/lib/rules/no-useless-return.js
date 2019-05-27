@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-useless-return"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 
 //------------------------------------------------------------------------------
@@ -165,6 +165,17 @@ ruleTester.run("no-useless-return", rule, {
             throw new Error('foo');
             while (false);
           } catch (err) {}
+        `,
+
+        // https://github.com/eslint/eslint/issues/11647
+        `
+          function foo(arg) {
+            throw new Error("Debugging...");
+            if (!arg) {
+              return;
+            }
+            console.log(arg);
+          }
         `
     ],
 
@@ -418,11 +429,12 @@ ruleTester.run("no-useless-return", rule, {
         },
         {
             code: "function foo() { return; return; }",
-            output: "function foo() {  return; }", // Other case is fixed in the second pass.
-            errors: [
-                { message: "Unnecessary return statement.", type: "ReturnStatement" },
-                { message: "Unnecessary return statement.", type: "ReturnStatement" }
-            ]
+            output: "function foo() {  return; }",
+            errors: [{
+                message: "Unnecessary return statement.",
+                type: "ReturnStatement",
+                column: 18
+            }]
         }
     ].map(invalidCase => Object.assign({ errors: [{ message: "Unnecessary return statement.", type: "ReturnStatement" }] }, invalidCase))
 });

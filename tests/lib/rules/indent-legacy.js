@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/indent-legacy"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 const fs = require("fs");
 const path = require("path");
 
@@ -24,7 +24,7 @@ const fixedFixture = fs.readFileSync(path.join(__dirname, "../../fixtures/rules/
 /**
  * Create error message object for failure cases with a single 'found' indentation type
  * @param {string} providedIndentType indent type of string or tab
- * @param {array} providedErrors error info
+ * @param {Array} providedErrors error info
  * @returns {Object} returns the error messages collection
  * @private
  */
@@ -40,18 +40,17 @@ function expectedErrors(providedIndentType, providedErrors) {
         indentType = providedIndentType;
     }
 
-    return errors.map(err => {
-        let message;
-
-        if (typeof err[1] === "string" && typeof err[2] === "string") {
-            message = `Expected indentation of ${err[1]} but found ${err[2]}.`;
-        } else {
-            const chars = indentType + (err[1] === 1 ? "" : "s");
-
-            message = `Expected indentation of ${err[1]} ${chars} but found ${err[2]}.`;
-        }
-        return { message, type: err[3], line: err[0] };
-    });
+    return errors.map(err => ({
+        messageId: "expected",
+        data: {
+            expected: typeof err[1] === "string" && typeof err[2] === "string"
+                ? err[1]
+                : `${err[1]} ${indentType}${err[1] === 1 ? "" : "s"}`,
+            actual: err[2]
+        },
+        type: err[3],
+        line: err[0]
+    }));
 }
 
 const ruleTester = new RuleTester();
@@ -794,7 +793,7 @@ ruleTester.run("indent-legacy", rule, {
         {
             code: "import {addons} from 'react/addons'\nimport React from 'react'",
             options: [2],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code:
@@ -929,7 +928,7 @@ ruleTester.run("indent-legacy", rule, {
                 "  });\n" +
                 "};",
             options: [2],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code:
@@ -940,7 +939,7 @@ ruleTester.run("indent-legacy", rule, {
                 "  // ... function body, indented two spaces\n" +
                 "}\n",
             options: [2],
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code:

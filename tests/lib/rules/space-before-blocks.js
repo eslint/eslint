@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/space-before-blocks"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -54,25 +54,25 @@ ruleTester.run("space-before-blocks", rule, {
         {
             code: "export default class{}",
             options: functionsOnlyArgs,
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export default class {}",
             options: classesOnlyArgs,
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export default function a() {}",
             options: functionsOnlyArgs,
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export default function a(){}",
             options: keywordOnlyArgs,
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
-        { code: "export function a(){}", options: keywordOnlyArgs, parserOptions: { sourceType: "module" } },
-        { code: "export function a() {}", options: functionsOnlyArgs, parserOptions: { sourceType: "module" } },
+        { code: "export function a(){}", options: keywordOnlyArgs, parserOptions: { ecmaVersion: 6, sourceType: "module" } },
+        { code: "export function a() {}", options: functionsOnlyArgs, parserOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "function a(){}", options: keywordOnlyArgs },
         { code: "function a() {}", options: functionsOnlyArgs },
         { code: "function a(){ if(b) {} }", options: keywordOnlyArgs },
@@ -194,7 +194,7 @@ ruleTester.run("space-before-blocks", rule, {
         "if(a) {}else{}",
         { code: "if(a){}else {}", options: neverArgs },
         { code: "try {}catch(a){}", options: functionsOnlyArgs },
-        { code: "export default class{}", options: classesOnlyArgs, parserOptions: { sourceType: "module" } }
+        { code: "export default class{}", options: classesOnlyArgs, parserOptions: { ecmaVersion: 6, sourceType: "module" } }
     ],
     invalid: [
         {
@@ -410,35 +410,35 @@ ruleTester.run("space-before-blocks", rule, {
             code: "export function a() { if(b) {} }",
             output: "export function a() { if(b){} }",
             options: functionsOnlyArgs,
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [expectedNoSpacingError]
         },
         {
             code: "export function a(){ if(b){} }",
             output: "export function a(){ if(b) {} }",
             options: keywordOnlyArgs,
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [expectedSpacingError]
         },
         {
             code: "export function a(){}",
             output: "export function a() {}",
             options: functionsOnlyArgs,
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [expectedSpacingError]
         },
         {
             code: "export default function (a) {}",
             output: "export default function (a){}",
             options: keywordOnlyArgs,
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [expectedNoSpacingError]
         },
         {
             code: "export function a() {}",
             output: "export function a(){}",
             options: keywordOnlyArgs,
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [expectedNoSpacingError]
         },
         {

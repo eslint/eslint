@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-global-assign"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -42,18 +42,18 @@ ruleTester.run("no-global-assign", rule, {
         },
         {
             code: "top = 0;",
-            errors: [{ message: "Read-only global 'top' should not be modified.", type: "Identifier" }],
-            env: { browser: true }
+            env: { browser: true },
+            errors: [{ message: "Read-only global 'top' should not be modified.", type: "Identifier" }]
         },
         {
             code: "require = 0;",
-            errors: [{ message: "Read-only global 'require' should not be modified.", type: "Identifier" }],
-            env: { node: true }
+            env: { node: true },
+            errors: [{ message: "Read-only global 'require' should not be modified.", type: "Identifier" }]
         },
 
         // Notifications of readonly are moved from no-undef: https://github.com/eslint/eslint/issues/4504
         { code: "/*global b:false*/ function f() { b = 1; }", errors: [{ message: "Read-only global 'b' should not be modified.", type: "Identifier" }] },
-        { code: "function f() { b = 1; }", errors: [{ message: "Read-only global 'b' should not be modified.", type: "Identifier" }], globals: { b: false } },
+        { code: "function f() { b = 1; }", globals: { b: false }, errors: [{ message: "Read-only global 'b' should not be modified.", type: "Identifier" }] },
         { code: "/*global b:false*/ function f() { b++; }", errors: [{ message: "Read-only global 'b' should not be modified.", type: "Identifier" }] },
         { code: "/*global b*/ b = 1;", errors: [{ message: "Read-only global 'b' should not be modified.", type: "Identifier" }] },
         { code: "Array = 1;", errors: [{ message: "Read-only global 'Array' should not be modified.", type: "Identifier" }] }

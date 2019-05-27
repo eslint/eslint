@@ -10,13 +10,14 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/id-match"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester();
+const error = { messageId: "notMatch", type: "Identifier" };
 
 ruleTester.run("id-match", rule, {
     valid: [
@@ -193,41 +194,24 @@ ruleTester.run("id-match", rule, {
                     onlyDeclarations: true
                 }
             ],
-            errors: [
-                {
-                    message: "Identifier '__foo' does not match the pattern '^[a-z]+$'.",
-                    type: "Identifier"
-                }
-            ]
+            errors: [error]
         },
         {
             code: "first_name = \"Matthieu\"",
             options: ["^[a-z]+$"],
-            errors: [
-                {
-                    message: "Identifier 'first_name' does not match the pattern '^[a-z]+$'.",
-                    type: "Identifier"
-                }
-            ]
+            errors: [error]
         },
         {
             code: "first_name = \"Matthieu\"",
             options: ["^z"],
             errors: [
-                {
-                    message: "Identifier 'first_name' does not match the pattern '^z'.",
-                    type: "Identifier"
-                }
+                error
             ]
         },
         {
             code: "Last_Name = \"Larcher\"",
             options: ["^[a-z]+(_[A-Z][a-z])*$"],
-            errors: [
-                {
-                    message: "Identifier 'Last_Name' does not match the pattern '^[a-z]+(_[A-Z][a-z])*$'.",
-                    type: "Identifier"
-                }
+            errors: [error
             ]
         },
         {
@@ -245,11 +229,7 @@ ruleTester.run("id-match", rule, {
         {
             code: "function no_under21(){}",
             options: ["^[^_]+$"],
-            errors: [
-                {
-                    message: "Identifier 'no_under21' does not match the pattern '^[^_]+$'.",
-                    type: "Identifier"
-                }
+            errors: [error
             ]
         },
         {
@@ -257,11 +237,7 @@ ruleTester.run("id-match", rule, {
             options: ["^[^_]+$", {
                 properties: true
             }],
-            errors: [
-                {
-                    message: "Identifier 'no_under22' does not match the pattern '^[^_]+$'.",
-                    type: "Identifier"
-                }
+            errors: [error
             ]
         },
         {
@@ -269,11 +245,7 @@ ruleTester.run("id-match", rule, {
             options: ["^[^_]+$", {
                 properties: true
             }],
-            errors: [
-                {
-                    message: "Identifier 'no_under23' does not match the pattern '^[^_]+$'.",
-                    type: "Identifier"
-                }
+            errors: [error
             ]
         },
         {
@@ -281,11 +253,7 @@ ruleTester.run("id-match", rule, {
             options: ["^[^_]+$", {
                 properties: true
             }],
-            errors: [
-                {
-                    message: "Identifier 'no_under24' does not match the pattern '^[^_]+$'.",
-                    type: "Identifier"
-                }
+            errors: [error
             ]
         },
         {
@@ -293,11 +261,7 @@ ruleTester.run("id-match", rule, {
             options: ["^[^_]+$", {
                 properties: true
             }],
-            errors: [
-                {
-                    message: "Identifier 'no_under25' does not match the pattern '^[^_]+$'.",
-                    type: "Identifier"
-                }
+            errors: [error
             ]
         },
         {
@@ -305,11 +269,7 @@ ruleTester.run("id-match", rule, {
             options: ["^[^_]+$", {
                 properties: true
             }],
-            errors: [
-                {
-                    message: "Identifier 'no_under26' does not match the pattern '^[^_]+$'.",
-                    type: "Identifier"
-                }
+            errors: [error
             ]
         },
         {
@@ -317,11 +277,7 @@ ruleTester.run("id-match", rule, {
             options: ["^[^_]+$", {
                 properties: true
             }],
-            errors: [
-                {
-                    message: "Identifier 'no_under27' does not match the pattern '^[^_]+$'.",
-                    type: "Identifier"
-                }
+            errors: [error
             ]
         },
         {
@@ -329,11 +285,7 @@ ruleTester.run("id-match", rule, {
             options: ["^[^_]+$", {
                 properties: true
             }],
-            errors: [
-                {
-                    message: "Identifier 'no_under28' does not match the pattern '^[^_]+$'.",
-                    type: "Identifier"
-                }
+            errors: [error
             ]
         },
         {
@@ -341,11 +293,7 @@ ruleTester.run("id-match", rule, {
             options: ["^[^_]+$", {
                 properties: true
             }],
-            errors: [
-                {
-                    message: "Identifier 'no_under29' does not match the pattern '^[^_]+$'.",
-                    type: "Identifier"
-                }
+            errors: [error
             ]
         },
         {
@@ -355,8 +303,8 @@ ruleTester.run("id-match", rule, {
             }],
             errors: [
                 {
-                    message: "Identifier 'no_under30' does not match the pattern '^[^_]+$'.",
-                    type: "Identifier"
+                    messageId: "notMatch",
+                    data: { name: "no_under30", pattern: "^[^_]+$" }
                 }
             ]
         },

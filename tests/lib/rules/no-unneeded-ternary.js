@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-unneeded-ternary"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -229,6 +229,90 @@ ruleTester.run("no-unneeded-ternary", rule, {
                 type: "ConditionalExpression",
                 line: 1,
                 column: 24
+            }]
+        },
+        {
+            code: "var a = b ? b : c => c;",
+            output: "var a = b || (c => c);",
+            options: [{ defaultAssignment: false }],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{
+                message: "Unnecessary use of conditional expression for default assignment.",
+                type: "ConditionalExpression",
+                line: 1,
+                column: 13
+            }]
+        },
+        {
+            code: "var a = b ? b : c = 0;",
+            output: "var a = b || (c = 0);",
+            options: [{ defaultAssignment: false }],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{
+                message: "Unnecessary use of conditional expression for default assignment.",
+                type: "ConditionalExpression",
+                line: 1,
+                column: 13
+            }]
+        },
+        {
+            code: "var a = b ? b : (c => c);",
+            output: "var a = b || (c => c);",
+            options: [{ defaultAssignment: false }],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{
+                message: "Unnecessary use of conditional expression for default assignment.",
+                type: "ConditionalExpression",
+                line: 1,
+                column: 13
+            }]
+        },
+        {
+            code: "var a = b ? b : (c = 0);",
+            output: "var a = b || (c = 0);",
+            options: [{ defaultAssignment: false }],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{
+                message: "Unnecessary use of conditional expression for default assignment.",
+                type: "ConditionalExpression",
+                line: 1,
+                column: 13
+            }]
+        },
+        {
+            code: "var a = b ? b : (c) => (c);",
+            output: "var a = b || ((c) => (c));",
+            options: [{ defaultAssignment: false }],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{
+                message: "Unnecessary use of conditional expression for default assignment.",
+                type: "ConditionalExpression",
+                line: 1,
+                column: 13
+            }]
+        },
+        {
+            code: "var a = b ? b : c, d; // this is ((b ? b : c), (d))",
+            output: "var a = b || c, d; // this is ((b ? b : c), (d))",
+            options: [{ defaultAssignment: false }],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{
+                message: "Unnecessary use of conditional expression for default assignment.",
+                type: "ConditionalExpression",
+                line: 1,
+                column: 13
+            }]
+        },
+        {
+            code: "var a = b ? b : (c, d);",
+            output: "var a = b || (c, d);",
+            options: [{ defaultAssignment: false }],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{
+                message: "Unnecessary use of conditional expression for default assignment.",
+                type: "ConditionalExpression",
+                line: 1,
+                column: 13
             }]
         }
     ]

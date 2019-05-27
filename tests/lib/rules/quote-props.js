@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/quote-props"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 const ruleTester = new RuleTester();
 
@@ -148,18 +148,18 @@ ruleTester.run("quote-props", rule, {
         code: "({ 'a': 0, [x]: 0 })",
         output: "({ a: 0, [x]: 0 })",
         options: ["consistent-as-needed"],
+        env: { es6: true },
         errors: [
             { message: "Properties shouldn't be quoted as all quotes are redundant.", type: "Property" }
-        ],
-        env: { es6: true }
+        ]
     }, {
         code: "({ 'a': 0, x })",
         output: "({ a: 0, x })",
         options: ["consistent-as-needed"],
+        env: { es6: true },
         errors: [{
             message: "Properties shouldn't be quoted as all quotes are redundant.", type: "Property"
-        }],
-        env: { es6: true }
+        }]
     }, {
         code: "({ 'true': 0, 'null': 0 })",
         output: "({ true: 0, null: 0 })",

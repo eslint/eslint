@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-var"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -296,7 +296,16 @@ ruleTester.run("no-var", rule, {
         {
             code: "var foo = 1",
             output: "let foo = 1",
-            parserOptions: { sourceType: "module" },
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: ["Unexpected var, use let or const instead."]
+        },
+
+        // https://github.com/eslint/eslint/issues/11594
+        {
+            code: "declare var foo = 2;",
+            output: "declare let foo = 2;",
+            parser: require.resolve("../../fixtures/parsers/typescript-parsers/declare-var"),
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: ["Unexpected var, use let or const instead."]
         }
     ]

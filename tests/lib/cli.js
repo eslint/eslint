@@ -15,7 +15,7 @@
 //------------------------------------------------------------------------------
 
 const assert = require("chai").assert,
-    CLIEngine = require("../../lib/cli-engine"),
+    CLIEngine = require("../../lib/cli-engine/index").CLIEngine,
     path = require("path"),
     sinon = require("sinon"),
     leche = require("leche"),
@@ -37,7 +37,7 @@ describe("cli", () => {
         error: sinon.spy()
     };
     const cli = proxyquire("../../lib/cli", {
-        "./util/logging": log
+        "./shared/logging": log
     });
 
     /**
@@ -57,8 +57,8 @@ describe("cli", () => {
         sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(sinon.spy());
 
         const localCLI = proxyquire("../../lib/cli", {
-            "./cli-engine": fakeCLIEngine,
-            "./util/logging": log
+            "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+            "./shared/logging": log
         });
 
         localCLI.execute(cmd);
@@ -227,6 +227,25 @@ describe("cli", () => {
         });
     });
 
+    describe("when given a valid built-in formatter name that uses rules meta.", () => {
+        it("should execute without any errors", () => {
+            const filePath = getFixturePath("passing.js");
+            const exit = cli.execute(`-f json-with-metadata ${filePath} --no-eslintrc`);
+
+            assert.strictEqual(exit, 0);
+
+            // Check metadata.
+            const { metadata } = JSON.parse(log.info.args[0][0]);
+            const rules = new CLIEngine({ useEslintrc: false }).getRules();
+            const expectedMetadata = Array.from(rules).reduce((obj, [ruleId, rule]) => {
+                obj.rulesMeta[ruleId] = rule.meta;
+                return obj;
+            }, { rulesMeta: {} });
+
+            assert.deepStrictEqual(metadata, expectedMetadata);
+        });
+    });
+
     describe("when given an invalid built-in formatter name", () => {
         it("should execute with error", () => {
             const filePath = getFixturePath("passing.js");
@@ -323,7 +342,7 @@ describe("cli", () => {
     describe("when given a directory with eslint excluded files in the directory", () => {
         it("should throw an error and not process any files", () => {
             const ignorePath = getFixturePath(".eslintignore");
-            const filePath = getFixturePath(".");
+            const filePath = getFixturePath("cli");
 
             assert.throws(() => {
                 cli.execute(`--ignore-path ${ignorePath} ${filePath}`);
@@ -402,7 +421,7 @@ describe("cli", () => {
                 const exit = cli.execute(code);
 
                 assert.strictEqual(exit, 2);
-            }, /Error while loading rule 'custom-rule': Cannot read property/);
+            }, /Error while loading rule 'custom-rule': Cannot read property/u);
         });
 
         it("should return a warning when rule is matched", () => {
@@ -467,7 +486,7 @@ describe("cli", () => {
 
             cli.execute(`--no-eslintrc --config ./conf/eslint-recommended.js --no-ignore ${files.join(" ")}`);
 
-            assert.strictEqual(log.info.args[0][0].split("\n").length, 11);
+            assert.strictEqual(log.info.args[0][0].split("\n").length, 10);
         });
     });
 
@@ -588,12 +607,21 @@ describe("cli", () => {
 
     });
 
-    describe("when given an parser name", () => {
-        it("should exit with error if parser is invalid", () => {
-            const filePath = getFixturePath("passing.js");
-            const exit = cli.execute(`--no-ignore --parser test111 ${filePath}`);
+    describe("when supplied with a plugin-loading path", () => {
+        it("should pass the option to CLIEngine", () => {
+            const examplePluginDirPath = "foo/bar";
 
-            assert.strictEqual(exit, 1);
+            verifyCLIEngineOpts(`--resolve-plugins-relative-to ${examplePluginDirPath} foo.js`, {
+                resolvePluginsRelativeTo: examplePluginDirPath
+            });
+        });
+    });
+
+    describe("when given an parser name", () => {
+        it("should exit with a fatal error if parser is invalid", () => {
+            const filePath = getFixturePath("passing.js");
+
+            assert.throws(() => cli.execute(`--no-ignore --parser test111 ${filePath}`), "Cannot find module 'test111'");
         });
 
         it("should exit with no error if parser is valid", () => {
@@ -707,8 +735,8 @@ describe("cli", () => {
             fakeCLIEngine.outputFixes = sandbox.stub();
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine": fakeCLIEngine,
-                "./util/logging": log
+                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./shared/logging": log
             });
 
             localCLI.execute("--no-inline-config .");
@@ -726,11 +754,12 @@ describe("cli", () => {
                 results: []
             });
             sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            sandbox.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
             fakeCLIEngine.outputFixes = sandbox.stub();
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine": fakeCLIEngine,
-                "./util/logging": log
+                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./shared/logging": log
             });
 
             const exitCode = localCLI.execute(".");
@@ -762,11 +791,12 @@ describe("cli", () => {
                 results: []
             });
             sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            sandbox.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
             fakeCLIEngine.outputFixes = sandbox.mock().once();
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine": fakeCLIEngine,
-                "./util/logging": log
+                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./shared/logging": log
             });
 
             const exitCode = localCLI.execute("--fix .");
@@ -799,11 +829,12 @@ describe("cli", () => {
             fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
             sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns(report);
             sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            sandbox.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
             fakeCLIEngine.outputFixes = sandbox.mock().withExactArgs(report);
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine": fakeCLIEngine,
-                "./util/logging": log
+                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./shared/logging": log
             });
 
             const exitCode = localCLI.execute("--fix .");
@@ -835,12 +866,13 @@ describe("cli", () => {
             fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
             sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns(report);
             sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            sandbox.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
             fakeCLIEngine.getErrorResults = sandbox.stub().returns([]);
             fakeCLIEngine.outputFixes = sandbox.mock().withExactArgs(report);
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine": fakeCLIEngine,
-                "./util/logging": log
+                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./shared/logging": log
             });
 
             const exitCode = localCLI.execute("--fix --quiet .");
@@ -855,8 +887,8 @@ describe("cli", () => {
             const fakeCLIEngine = sandbox.mock().never();
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine": fakeCLIEngine,
-                "./util/logging": log
+                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./shared/logging": log
             });
 
             const exitCode = localCLI.execute("--fix .", "foo = bar;");
@@ -886,11 +918,12 @@ describe("cli", () => {
                 results: []
             });
             sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            sandbox.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
             fakeCLIEngine.outputFixes = sandbox.mock().never();
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine": fakeCLIEngine,
-                "./util/logging": log
+                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./shared/logging": log
             });
 
             const exitCode = localCLI.execute("--fix-dry-run .");
@@ -916,11 +949,12 @@ describe("cli", () => {
                 results: []
             });
             sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            sandbox.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
             fakeCLIEngine.outputFixes = sandbox.stub();
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine": fakeCLIEngine,
-                "./util/logging": log
+                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./shared/logging": log
             });
 
             const exitCode = localCLI.execute("--fix-dry-run --fix-type suggestion .");
@@ -951,11 +985,12 @@ describe("cli", () => {
             fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
             sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns(report);
             sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            sandbox.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
             fakeCLIEngine.outputFixes = sandbox.mock().never();
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine": fakeCLIEngine,
-                "./util/logging": log
+                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./shared/logging": log
             });
 
             const exitCode = localCLI.execute("--fix-dry-run .");
@@ -987,12 +1022,13 @@ describe("cli", () => {
             fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
             sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns(report);
             sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            sandbox.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
             fakeCLIEngine.getErrorResults = sandbox.stub().returns([]);
             fakeCLIEngine.outputFixes = sandbox.mock().never();
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine": fakeCLIEngine,
-                "./util/logging": log
+                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./shared/logging": log
             });
 
             const exitCode = localCLI.execute("--fix-dry-run --quiet .");
@@ -1024,11 +1060,12 @@ describe("cli", () => {
             fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
             sandbox.stub(fakeCLIEngine.prototype, "executeOnText").returns(report);
             sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            sandbox.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
             fakeCLIEngine.outputFixes = sandbox.mock().never();
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine": fakeCLIEngine,
-                "./util/logging": log
+                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./shared/logging": log
             });
 
             const exitCode = localCLI.execute("--fix-dry-run .", "foo = bar;");
@@ -1042,8 +1079,8 @@ describe("cli", () => {
             const fakeCLIEngine = sandbox.mock().never();
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine": fakeCLIEngine,
-                "./util/logging": log
+                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./shared/logging": log
             });
 
             const exitCode = localCLI.execute("--fix --fix-dry-run .", "foo = bar;");

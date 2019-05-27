@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-shadow-restricted-names"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 const ruleTester = new RuleTester();
 
@@ -20,10 +20,17 @@ ruleTester.run("no-shadow-restricted-names", rule, {
         "!function foo(bar){ var baz; }",
         "!function(bar){ var baz; }",
         "try {} catch(e) {}",
-        { code: "export default function() {}", parserOptions: { sourceType: "module" } },
+        { code: "export default function() {}", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
         {
             code: "try {} catch {}",
             parserOptions: { ecmaVersion: 2019 }
+        },
+        "var undefined;",
+        "var undefined; doSomething(undefined);",
+        "var undefined; var undefined;",
+        {
+            code: "let undefined",
+            parserOptions: { ecmaVersion: 2015 }
         }
     ],
     invalid: [
@@ -39,9 +46,8 @@ ruleTester.run("no-shadow-restricted-names", rule, {
             ]
         },
         {
-            code: "function undefined(undefined) { var undefined; !function undefined(undefined) { try {} catch(undefined) {} }; }",
+            code: "function undefined(undefined) { !function undefined(undefined) { try {} catch(undefined) {} }; }",
             errors: [
-                { message: "Shadowing of global property 'undefined'.", type: "Identifier" },
                 { message: "Shadowing of global property 'undefined'.", type: "Identifier" },
                 { message: "Shadowing of global property 'undefined'.", type: "Identifier" },
                 { message: "Shadowing of global property 'undefined'.", type: "Identifier" },
@@ -108,6 +114,12 @@ ruleTester.run("no-shadow-restricted-names", rule, {
                 { message: "Shadowing of global property 'undefined'.", type: "Identifier" },
                 { message: "Shadowing of global property 'undefined'.", type: "Identifier" },
                 { message: "Shadowing of global property 'undefined'.", type: "Identifier" },
+                { message: "Shadowing of global property 'undefined'.", type: "Identifier" }
+            ]
+        },
+        {
+            code: "var undefined; undefined = 5;",
+            errors: [
                 { message: "Shadowing of global property 'undefined'.", type: "Identifier" }
             ]
         }

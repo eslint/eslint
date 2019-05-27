@@ -37,6 +37,7 @@ Basic configuration:
   --global [String]              Define global variables
   --parser String                Specify the parser to be used
   --parser-options Object        Specify parser options
+  --resolve-plugins-relative-to path::String  A folder where plugins should be resolved from, CWD by default
 
 Specifying rules and plugins:
   --rulesdir [path::String]      Use additional rules from this directory
@@ -111,14 +112,6 @@ Example:
 
 This example uses the configuration file at `~/my-eslint.json`.
 
-It also accepts a module ID of a [sharable config](../developer-guide/shareable-configs).
-
-Example:
-
-    eslint -c myconfig file.js
-
-This example directly uses the sharable config `eslint-config-myconfig`.
-
 If `.eslintrc.*` and/or `package.json` files are also used for configuration (i.e., `--no-eslintrc` was not specified), the configurations will be merged. Options from this configuration file have precedence over the options from `.eslintrc.*` and `package.json` files.
 
 #### `--env`
@@ -171,6 +164,13 @@ Examples:
 
     echo '3 ** 4' | eslint --stdin --parser-options=ecmaVersion:6 # will fail with a parsing error
     echo '3 ** 4' | eslint --stdin --parser-options=ecmaVersion:7 # succeeds, yay!
+
+#### `--resolve-plugins-relative-to`
+
+Changes the folder where plugins are resolved from. By default, plugins are resolved from the current working directory. This option should be used when plugins were installed by someone other than the end user. It should be set to the project directory of the project that has a dependency on the necessary plugins. For example:
+
+* When using a config file that is located outside of the current project (with the `--config` flag), if the config uses plugins which are installed locally to itself, `--resolve-plugins-relative-to` should be set to the directory containing the config file.
+* If an integration has dependencies on ESLint and a set of plugins, and the tool invokes ESLint on behalf of the user with a preset configuration, the tool should set `--resolve-plugins-relative-to` to the top-level directory of the tool.
 
 ### Specifying rules and plugins
 
@@ -420,7 +420,7 @@ Store the info about processed files in order to only operate on the changed one
 
 **Note:** If you run ESLint with `--cache` and then run ESLint without `--cache`, the `.eslintcache` file will be deleted. This is necessary because the results of the lint might change and make `.eslintcache` invalid. If you want to control when the cache file is deleted, then use `--cache-location` to specify an alternate location for the cache file.
 
-**Note:**: Autofixed files are not placed in the cache. Subsequent linting that does not trigger an autofix will place it in the cache.
+**Note:** Autofixed files are not placed in the cache. Subsequent linting that does not trigger an autofix will place it in the cache.
 
 #### `--cache-file`
 

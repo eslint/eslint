@@ -52,7 +52,7 @@ You can supply any number of configurations. If a statement pair matches multipl
     - `"cjs-export"` is `export` statements of CommonJS; e.g. `module.exports = 0`, `module.exports.foo = 1`, and `exports.foo = 2`. This is a special case of assignment.
     - `"cjs-import"` is `import` statements of CommonJS; e.g. `const foo = require("foo")`. This is a special case of variable declarations.
     - `"class"` is `class` declarations.
-    - `"const"` is `const` variable declarations.
+    - `"const"` is `const` variable declarations, both single-line and multiline.
     - `"continue"` is `continue` statements.
     - `"debugger"` is `debugger` statements.
     - `"default"` is `default` labels.
@@ -66,14 +66,20 @@ You can supply any number of configurations. If a statement pair matches multipl
     - `"if"` is `if` statements.
     - `"iife"` is immediately invoked function expression statements. This matches calls on a function expression, optionally prefixed with a unary operator.
     - `"import"` is `import` declarations.
-    - `"let"` is `let` variable declarations.
+    - `"let"` is `let` variable declarations, both single-line and multiline.
     - `"multiline-block-like"` is block like statements. This is the same as `block-like` type, but only if the block is multiline.
+    - `"multiline-const"` is multiline `const` variable declarations.
     - `"multiline-expression"` is expression statements. This is the same as `expression` type, but only if the statement is multiline.
+    - `"multiline-let"` is multiline `let` variable declarations.
+    - `"multiline-var"` is multiline `var` variable declarations.
     - `"return"` is `return` statements.
+    - `"singleline-const"` is single-line `const` variable declarations.
+    - `"singleline-let"` is single-line `let` variable declarations.
+    - `"singleline-var"` is single-line `var` variable declarations.
     - `"switch"` is `switch` statements.
     - `"throw"` is `throw` statements.
     - `"try"` is `try` statements.
-    - `"var"` is `var` variable declarations.
+    - `"var"` is `var` variable declarations, both single-line and multiline.
     - `"while"` is `while` loop statements.
     - `"with"` is `with` statements.
 

@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../tools/internal-rules/no-invalid-meta"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -105,7 +105,7 @@ ruleTester.run("no-invalid-meta", rule, {
                 "};"
             ].join("\n"),
             errors: [{
-                message: "Rule does not export an Object. Make sure the rule follows the new rule format.",
+                messageId: "incorrectExport",
                 line: 1,
                 column: 18
             }]
@@ -121,7 +121,7 @@ ruleTester.run("no-invalid-meta", rule, {
                 "};"
             ].join("\n"),
             errors: [{
-                message: "Rule is missing a meta property.",
+                messageId: "missingMeta",
                 line: 1,
                 column: 18
             }]
@@ -139,7 +139,7 @@ ruleTester.run("no-invalid-meta", rule, {
                 "};"
             ].join("\n"),
             errors: [{
-                message: "Rule is missing a meta.docs property.",
+                messageId: "missingMetaDocs",
                 line: 2,
                 column: 5
             }]
@@ -159,7 +159,7 @@ ruleTester.run("no-invalid-meta", rule, {
                 "};"
             ].join("\n"),
             errors: [{
-                message: "Rule is missing a meta.docs property.",
+                messageId: "missingMetaDocs",
                 line: 2,
                 column: 5
             }]
@@ -183,7 +183,7 @@ ruleTester.run("no-invalid-meta", rule, {
                 "};"
             ].join("\n"),
             errors: [{
-                message: "Rule is missing a meta.docs.description property.",
+                messageId: "missingMetaDocsDescription",
                 line: 2,
                 column: 5
             }]
@@ -207,7 +207,7 @@ ruleTester.run("no-invalid-meta", rule, {
                 "};"
             ].join("\n"),
             errors: [{
-                message: "Rule is missing a meta.docs.category property.",
+                messageId: "missingMetaDocsCategory",
                 line: 2,
                 column: 5
             }]
@@ -231,7 +231,7 @@ ruleTester.run("no-invalid-meta", rule, {
                 "};"
             ].join("\n"),
             errors: [{
-                message: "Rule is missing a meta.docs.recommended property.",
+                messageId: "missingMetaDocsRecommended",
                 line: 2,
                 column: 5
             }]
@@ -255,7 +255,7 @@ ruleTester.run("no-invalid-meta", rule, {
                 "};"
             ].join("\n"),
             errors: [{
-                message: "Rule is missing a meta.schema property.",
+                messageId: "missingMetaSchema",
                 line: 2,
                 column: 5
             }]
@@ -263,7 +263,7 @@ ruleTester.run("no-invalid-meta", rule, {
         {
             code: "",
             errors: [{
-                message: "Rule does not export anything. Make sure rule exports an object according to new rule format.",
+                messageId: "noExport",
                 line: 1,
                 column: 1
             }]
@@ -271,7 +271,7 @@ ruleTester.run("no-invalid-meta", rule, {
         {
             code: "foo();",
             errors: [{
-                message: "Rule does not export anything. Make sure rule exports an object according to new rule format.",
+                messageId: "noExport",
                 line: 1,
                 column: 1
             }]
@@ -279,7 +279,7 @@ ruleTester.run("no-invalid-meta", rule, {
         {
             code: "foo = bar;",
             errors: [{
-                message: "Rule does not export anything. Make sure rule exports an object according to new rule format.",
+                messageId: "noExport",
                 line: 1,
                 column: 1
             }]

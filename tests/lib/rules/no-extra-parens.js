@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-extra-parens"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 /**
  * Create error message object for failure cases
@@ -442,16 +442,17 @@ ruleTester.run("no-extra-parens", rule, {
         "() => ({ foo: 1 }.foo().bar + baz)",
         {
             code: "export default (function(){}).foo",
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
             code: "export default (class{}).foo",
-            parserOptions: { sourceType: "module" }
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         "({}).hasOwnProperty.call(foo, bar)",
         "({}) ? foo() : bar()",
         "({}) + foo",
         "(function(){}) + foo",
+        "(let)\nfoo",
         "(let[foo]) = 1", // setting the 'foo' property of the 'let' variable to 1
         {
             code: "((function(){}).foo.bar)();",
@@ -1092,6 +1093,18 @@ ruleTester.run("no-extra-parens", rule, {
             "Identifier",
             1
         ),
-        invalid("for (a in (b, c));", "for (a in b, c);", "SequenceExpression", null)
+        invalid("for (a in (b, c));", "for (a in b, c);", "SequenceExpression", null),
+        invalid(
+            "(let)",
+            "let",
+            "Identifier",
+            1
+        ),
+        invalid(
+            "((let))",
+            "(let)",
+            "Identifier",
+            1
+        )
     ]
 });

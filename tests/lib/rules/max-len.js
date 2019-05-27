@@ -9,7 +9,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 const rule = require("../../../lib/rules/max-len"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -178,6 +178,17 @@ ruleTester.run("max-len", rule, {
         {
             code: "'🙂😀😆😎😊😜😉👍'",
             options: [10]
+        },
+
+        // Astral symbols in pattern (only matched by unicode regexes)
+        {
+            code: "var longNameLongName = '𝌆𝌆'",
+            options: [5, { ignorePattern: "𝌆{2}" }]
+        },
+
+        {
+            code: "\tfoo",
+            options: [4, { tabWidth: 0 }]
         }
     ],
 
@@ -186,7 +197,8 @@ ruleTester.run("max-len", rule, {
             code: "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tvar i = 1;",
             errors: [
                 {
-                    message: "Line 1 exceeds the maximum line length of 80.",
+                    messageId: "max",
+                    data: { lineLength: 86, maxLength: 80 },
                     type: "Program",
                     line: 1,
                     column: 1
@@ -198,7 +210,8 @@ ruleTester.run("max-len", rule, {
             options: [10, 4],
             errors: [
                 {
-                    message: "Line 1 exceeds the maximum line length of 10.",
+                    messageId: "max",
+                    data: { lineLength: 24, maxLength: 10 },
                     type: "Program",
                     line: 1,
                     column: 1
@@ -210,7 +223,8 @@ ruleTester.run("max-len", rule, {
             options: [15, 4],
             errors: [
                 {
-                    message: "Line 1 exceeds the maximum line length of 15.",
+                    messageId: "max",
+                    data: { lineLength: 22, maxLength: 15 },
                     type: "Program",
                     line: 1,
                     column: 1
@@ -222,13 +236,15 @@ ruleTester.run("max-len", rule, {
             options: [15, 4],
             errors: [
                 {
-                    message: "Line 1 exceeds the maximum line length of 15.",
+                    messageId: "max",
+                    data: { lineLength: 22, maxLength: 15 },
                     type: "Program",
                     line: 1,
                     column: 1
                 },
                 {
-                    message: "Line 2 exceeds the maximum line length of 15.",
+                    messageId: "max",
+                    data: { lineLength: 22, maxLength: 15 },
                     type: "Program",
                     line: 2,
                     column: 1
@@ -240,7 +256,8 @@ ruleTester.run("max-len", rule, {
             options: [20, 4, { ignoreComments: true }],
             errors: [
                 {
-                    message: "Line 1 exceeds the maximum line length of 20.",
+                    messageId: "max",
+                    data: { lineLength: 56, maxLength: 20 },
                     type: "Program",
                     line: 1,
                     column: 1
@@ -254,7 +271,8 @@ ruleTester.run("max-len", rule, {
             options: [20, 4, { ignorePattern: "fizzbuzz" }],
             errors: [
                 {
-                    message: "Line 1 exceeds the maximum line length of 20.",
+                    messageId: "max",
+                    data: { lineLength: 54, maxLength: 20 },
                     type: "Program",
                     line: 1,
                     column: 1
@@ -266,7 +284,8 @@ ruleTester.run("max-len", rule, {
             options: [10, 4, { ignoreComments: true }],
             errors: [
                 {
-                    message: "Line 1 exceeds the maximum line length of 10.",
+                    messageId: "max",
+                    data: { lineLength: 30, maxLength: 10 },
                     type: "Program",
                     line: 1,
                     column: 1
@@ -278,7 +297,8 @@ ruleTester.run("max-len", rule, {
             options: [40, 4], // ignoreComments is disabled
             errors: [
                 {
-                    message: "Line 1 exceeds the maximum line length of 40.",
+                    messageId: "max",
+                    data: { lineLength: 62, maxLength: 40 },
                     type: "Program",
                     line: 1,
                     column: 1
@@ -290,7 +310,8 @@ ruleTester.run("max-len", rule, {
             options: [40, 4], // ignoreUrls is disabled
             errors: [
                 {
-                    message: "Line 1 exceeds the maximum line length of 40.",
+                    messageId: "max",
+                    data: { lineLength: 57, maxLength: 40 },
                     type: "Program",
                     line: 1,
                     column: 1
@@ -301,7 +322,8 @@ ruleTester.run("max-len", rule, {
             options: [40, 4], // ignorePattern is disabled
             errors: [
                 {
-                    message: "Line 1 exceeds the maximum line length of 40.",
+                    messageId: "max",
+                    data: { lineLength: 53, maxLength: 40 },
                     type: "Program",
                     line: 1,
                     column: 1
@@ -312,7 +334,8 @@ ruleTester.run("max-len", rule, {
             options: [80, 4, { comments: 20 }],
             errors: [
                 {
-                    message: "Line 1 exceeds the maximum comment line length of 20.",
+                    messageId: "maxComment",
+                    data: { lineLength: 49, maxCommentLength: 20 },
                     type: "Program",
                     line: 1,
                     column: 1
@@ -323,7 +346,8 @@ ruleTester.run("max-len", rule, {
             options: [40, 4, { comments: 80 }],
             errors: [
                 {
-                    message: "Line 1 exceeds the maximum comment line length of 80.",
+                    messageId: "maxComment",
+                    data: { lineLength: 119, maxCommentLength: 80 },
                     type: "Program",
                     line: 1,
                     column: 1
@@ -334,7 +358,8 @@ ruleTester.run("max-len", rule, {
             options: [{ code: 20 }],
             errors: [
                 {
-                    message: "Line 1 exceeds the maximum line length of 20.",
+                    messageId: "max",
+                    data: { lineLength: 49, maxLength: 20 },
                     type: "Program",
                     line: 1,
                     column: 1
@@ -345,7 +370,8 @@ ruleTester.run("max-len", rule, {
             options: [40, 4, { ignoreTrailingComments: true }],
             errors: [
                 {
-                    message: "Line 1 exceeds the maximum line length of 40.",
+                    messageId: "max",
+                    data: { lineLength: 73, maxLength: 40 },
                     type: "Program",
                     line: 1,
                     column: 1
@@ -361,7 +387,8 @@ ruleTester.run("max-len", rule, {
             options: [40, 4, { comments: 28 }],
             errors: [
                 {
-                    message: "Line 2 exceeds the maximum comment line length of 28.",
+                    messageId: "maxComment",
+                    data: { lineLength: 29, maxCommentLength: 28 },
                     type: "Program",
                     line: 2,
                     column: 1
@@ -374,7 +401,8 @@ ruleTester.run("max-len", rule, {
             options: [40, 4, { comments: 32 }],
             errors: [
                 {
-                    message: "Line 2 exceeds the maximum comment line length of 32.",
+                    messageId: "maxComment",
+                    data: { lineLength: 33, maxCommentLength: 32 },
                     type: "Program",
                     line: 2,
                     column: 1
@@ -388,13 +416,15 @@ ruleTester.run("max-len", rule, {
             options: [40, 4, { comments: 28 }],
             errors: [
                 {
-                    message: "Line 2 exceeds the maximum comment line length of 28.",
+                    messageId: "maxComment",
+                    data: { lineLength: 29, maxCommentLength: 28 },
                     type: "Program",
                     line: 2,
                     column: 1
                 },
                 {
-                    message: "Line 3 exceeds the maximum comment line length of 28.",
+                    messageId: "maxComment",
+                    data: { lineLength: 32, maxCommentLength: 28 },
                     type: "Program",
                     line: 3,
                     column: 1
@@ -408,13 +438,15 @@ ruleTester.run("max-len", rule, {
             options: [40, 4, { comments: 32 }],
             errors: [
                 {
-                    message: "Line 2 exceeds the maximum comment line length of 32.",
+                    messageId: "maxComment",
+                    data: { lineLength: 33, maxCommentLength: 32 },
                     type: "Program",
                     line: 2,
                     column: 1
                 },
                 {
-                    message: "Line 3 exceeds the maximum comment line length of 32.",
+                    messageId: "maxComment",
+                    data: { lineLength: 36, maxCommentLength: 32 },
                     type: "Program",
                     line: 3,
                     column: 1
@@ -428,13 +460,15 @@ ruleTester.run("max-len", rule, {
             options: [39, 4, { comments: 35 }],
             errors: [
                 {
-                    message: "Line 2 exceeds the maximum line length of 39.",
+                    messageId: "max",
+                    data: { lineLength: 40, maxLength: 39 },
                     type: "Program",
                     line: 2,
                     column: 1
                 },
                 {
-                    message: "Line 3 exceeds the maximum comment line length of 35.",
+                    messageId: "maxComment",
+                    data: { lineLength: 36, maxCommentLength: 35 },
                     type: "Program",
                     line: 3,
                     column: 1
@@ -448,13 +482,15 @@ ruleTester.run("max-len", rule, {
             options: [42, 4, { comments: 32 }],
             errors: [
                 {
-                    message: "Line 2 exceeds the maximum comment line length of 32.",
+                    messageId: "maxComment",
+                    data: { lineLength: 33, maxCommentLength: 32 },
                     type: "Program",
                     line: 2,
                     column: 1
                 },
                 {
-                    message: "Line 3 exceeds the maximum line length of 42.",
+                    messageId: "max",
+                    data: { lineLength: 43, maxLength: 42 },
                     type: "Program",
                     line: 3,
                     column: 1
@@ -469,7 +505,8 @@ ruleTester.run("max-len", rule, {
             options: [20, { ignoreComments: true }],
             errors: [
                 {
-                    message: "Line 2 exceeds the maximum line length of 20.",
+                    messageId: "max",
+                    data: { lineLength: 51, maxLength: 20 },
                     type: "Program",
                     line: 2,
                     column: 1
@@ -483,7 +520,8 @@ ruleTester.run("max-len", rule, {
             options: [29, { ignoreStrings: false, ignoreTemplateLiterals: true }],
             errors: [
                 {
-                    message: "Line 2 exceeds the maximum line length of 29.",
+                    messageId: "max",
+                    data: { lineLength: 39, maxLength: 29 },
                     type: "Program",
                     line: 2,
                     column: 1
@@ -495,7 +533,8 @@ ruleTester.run("max-len", rule, {
             options: [29, { ignoreStrings: false, ignoreRegExpLiterals: false }],
             errors: [
                 {
-                    message: "Line 2 exceeds the maximum line length of 29.",
+                    messageId: "max",
+                    data: { lineLength: 45, maxLength: 29 },
                     type: "Program",
                     line: 2,
                     column: 1
@@ -507,7 +546,8 @@ ruleTester.run("max-len", rule, {
             options: [29, { ignoreStrings: false, ignoreRegExpLiterals: true }],
             errors: [
                 {
-                    message: "Line 2 exceeds the maximum line length of 29.",
+                    messageId: "max",
+                    data: { lineLength: 57, maxLength: 29 },
                     type: "Program",
                     line: 2,
                     column: 1
@@ -519,7 +559,8 @@ ruleTester.run("max-len", rule, {
             options: [29, { ignoreStrings: false, ignoreTemplateLiterals: true }],
             errors: [
                 {
-                    message: "Line 2 exceeds the maximum line length of 29.",
+                    messageId: "max",
+                    data: { lineLength: 39, maxLength: 29 },
                     type: "Program",
                     line: 2,
                     column: 1
@@ -532,7 +573,8 @@ ruleTester.run("max-len", rule, {
             parserOptions,
             errors: [
                 {
-                    message: "Line 2 exceeds the maximum line length of 29.",
+                    messageId: "max",
+                    data: { lineLength: 39, maxLength: 29 },
                     type: "Program",
                     line: 2,
                     column: 1
@@ -545,13 +587,15 @@ ruleTester.run("max-len", rule, {
             parserOptions,
             errors: [
                 {
-                    message: "Line 2 exceeds the maximum line length of 29.",
+                    messageId: "max",
+                    data: { lineLength: 37, maxLength: 29 },
                     type: "Program",
                     line: 2,
                     column: 1
                 },
                 {
-                    message: "Line 3 exceeds the maximum line length of 29.",
+                    messageId: "max",
+                    data: { lineLength: 44, maxLength: 29 },
                     type: "Program",
                     line: 3,
                     column: 1
@@ -564,7 +608,8 @@ ruleTester.run("max-len", rule, {
             parserOptions: { ecmaFeatures: { jsx: true } },
             errors: [
                 {
-                    message: "Line 1 exceeds the maximum line length of 29.",
+                    messageId: "max",
+                    data: { lineLength: 58, maxLength: 29 },
                     type: "Program",
                     line: 1,
                     column: 1
@@ -578,7 +623,22 @@ ruleTester.run("max-len", rule, {
             options: [10],
             errors: [
                 {
-                    message: "Line 1 exceeds the maximum line length of 10.",
+                    messageId: "max",
+                    data: { lineLength: 12, maxLength: 10 },
+                    type: "Program",
+                    line: 1,
+                    column: 1
+                }
+            ]
+        },
+
+        {
+            code: "a",
+            options: [0],
+            errors: [
+                {
+                    messageId: "max",
+                    data: { lineLength: 1, maxLength: 0 },
                     type: "Program",
                     line: 1,
                     column: 1

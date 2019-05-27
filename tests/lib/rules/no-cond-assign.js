@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-cond-assign"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -61,6 +61,7 @@ ruleTester.run("no-cond-assign", rule, {
         { code: "while ((x = 0)) { }", options: ["always"], errors: [{ messageId: "unexpected", data: { type: "a 'while' statement" }, type: "WhileStatement" }] },
         { code: "do { } while ((x = x + 1));", options: ["always"], errors: [{ messageId: "unexpected", data: { type: "a 'do...while' statement" }, type: "DoWhileStatement" }] },
         { code: "for(; (x = y); ) { }", options: ["always"], errors: [{ messageId: "unexpected", data: { type: "a 'for' statement" }, type: "ForStatement" }] },
-        { code: "var x; var b = (x = 0) ? 1 : 0;", errors: [{ messageId: "missing", type: "ConditionalExpression" }] }
+        { code: "var x; var b = (x = 0) ? 1 : 0;", errors: [{ messageId: "missing", type: "ConditionalExpression" }] },
+        { code: "(((3496.29)).bkufyydt = 2e308) ? foo : bar;", errors: [{ messageId: "missing", type: "ConditionalExpression" }] }
     ]
 });

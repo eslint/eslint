@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-confusing-arrow"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -21,29 +21,21 @@ const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 ruleTester.run("no-confusing-arrow", rule, {
     valid: [
         "a => { return 1 ? 2 : 3; }",
+        { code: "a => { return 1 ? 2 : 3; }", options: [{ allowParens: false }] },
+
         "var x = a => { return 1 ? 2 : 3; }",
+        { code: "var x = a => { return 1 ? 2 : 3; }", options: [{ allowParens: false }] },
+
         "var x = (a) => { return 1 ? 2 : 3; }",
+        { code: "var x = (a) => { return 1 ? 2 : 3; }", options: [{ allowParens: false }] },
+
+        "var x = a => (1 ? 2 : 3)",
         { code: "var x = a => (1 ? 2 : 3)", options: [{ allowParens: true }] }
     ],
     invalid: [
         {
             code: "a => 1 ? 2 : 3",
-            output: null,
-            errors: [{ messageId: "confusing" }]
-        },
-        {
-            code: "var x = a => 1 ? 2 : 3",
-            output: null,
-            errors: [{ messageId: "confusing" }]
-        },
-        {
-            code: "var x = (a) => 1 ? 2 : 3",
-            output: null,
-            errors: [{ messageId: "confusing" }]
-        },
-        {
-            code: "var x = a => (1 ? 2 : 3)",
-            output: null,
+            output: "a => (1 ? 2 : 3)",
             errors: [{ messageId: "confusing" }]
         },
         {
@@ -53,15 +45,31 @@ ruleTester.run("no-confusing-arrow", rule, {
             errors: [{ messageId: "confusing" }]
         },
         {
+            code: "a => 1 ? 2 : 3",
+            output: null,
+            options: [{ allowParens: false }],
+            errors: [{ messageId: "confusing" }]
+        },
+        {
+            code: "var x = a => 1 ? 2 : 3",
+            output: "var x = a => (1 ? 2 : 3)",
+            errors: [{ messageId: "confusing" }]
+        },
+        {
             code: "var x = a => 1 ? 2 : 3",
             output: "var x = a => (1 ? 2 : 3)",
             options: [{ allowParens: true }],
             errors: [{ messageId: "confusing" }]
         },
         {
+            code: "var x = a => 1 ? 2 : 3",
+            output: null,
+            options: [{ allowParens: false }],
+            errors: [{ messageId: "confusing" }]
+        },
+        {
             code: "var x = (a) => 1 ? 2 : 3",
             output: "var x = (a) => (1 ? 2 : 3)",
-            options: [{ allowParens: true }],
             errors: [{ messageId: "confusing" }]
         }
     ]

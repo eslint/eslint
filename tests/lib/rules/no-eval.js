@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-eval"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -37,7 +37,7 @@ ruleTester.run("no-eval", rule, {
         { code: "function foo() { var eval = 'foo'; global[eval]('foo') }", env: { node: true } },
         "this.noeval('foo');",
         "function foo() { 'use strict'; this.eval('foo'); }",
-        { code: "function foo() { this.eval('foo'); }", parserOptions: { sourceType: "module" } },
+        { code: "function foo() { this.eval('foo'); }", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "function foo() { this.eval('foo'); }", parserOptions: { ecmaFeatures: { impliedStrict: true } } },
         "var obj = {foo: function() { this.eval('foo'); }}",
         "var obj = {}; obj.foo = function() { this.eval('foo'); }",
@@ -72,17 +72,17 @@ ruleTester.run("no-eval", rule, {
 
         // Indirect eval
         { code: "(0, eval)('foo')", errors: [{ messageId: "unexpected", type: "Identifier" }] },
-        { code: "(0, window.eval)('foo')", errors: [{ messageId: "unexpected", type: "MemberExpression" }], env: { browser: true } },
-        { code: "(0, window['eval'])('foo')", errors: [{ messageId: "unexpected", type: "MemberExpression" }], env: { browser: true } },
+        { code: "(0, window.eval)('foo')", env: { browser: true }, errors: [{ messageId: "unexpected", type: "MemberExpression" }] },
+        { code: "(0, window['eval'])('foo')", env: { browser: true }, errors: [{ messageId: "unexpected", type: "MemberExpression" }] },
         { code: "var EVAL = eval; EVAL('foo')", errors: [{ messageId: "unexpected", type: "Identifier" }] },
         { code: "var EVAL = this.eval; EVAL('foo')", errors: [{ messageId: "unexpected", type: "MemberExpression" }] },
         { code: "(function(exe){ exe('foo') })(eval);", errors: [{ messageId: "unexpected", type: "Identifier" }] },
-        { code: "window.eval('foo')", errors: [{ messageId: "unexpected", type: "CallExpression" }], env: { browser: true } },
-        { code: "window.window.eval('foo')", errors: [{ messageId: "unexpected", type: "CallExpression" }], env: { browser: true } },
-        { code: "window.window['eval']('foo')", errors: [{ messageId: "unexpected", type: "CallExpression" }], env: { browser: true } },
-        { code: "global.eval('foo')", errors: [{ messageId: "unexpected", type: "CallExpression" }], env: { node: true } },
-        { code: "global.global.eval('foo')", errors: [{ messageId: "unexpected", type: "CallExpression" }], env: { node: true } },
-        { code: "global.global[`eval`]('foo')", parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpected", type: "CallExpression" }], env: { node: true } },
+        { code: "window.eval('foo')", env: { browser: true }, errors: [{ messageId: "unexpected", type: "CallExpression" }] },
+        { code: "window.window.eval('foo')", env: { browser: true }, errors: [{ messageId: "unexpected", type: "CallExpression" }] },
+        { code: "window.window['eval']('foo')", env: { browser: true }, errors: [{ messageId: "unexpected", type: "CallExpression" }] },
+        { code: "global.eval('foo')", env: { node: true }, errors: [{ messageId: "unexpected", type: "CallExpression" }] },
+        { code: "global.global.eval('foo')", env: { node: true }, errors: [{ messageId: "unexpected", type: "CallExpression" }] },
+        { code: "global.global[`eval`]('foo')", parserOptions: { ecmaVersion: 6 }, env: { node: true }, errors: [{ messageId: "unexpected", type: "CallExpression" }] },
         { code: "this.eval('foo')", errors: [{ messageId: "unexpected", type: "CallExpression" }] },
         { code: "function foo() { this.eval('foo') }", errors: [{ messageId: "unexpected", type: "CallExpression" }] }
     ]

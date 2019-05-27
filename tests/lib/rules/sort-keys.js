@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/sort-keys"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -33,9 +33,22 @@ ruleTester.run("sort-keys", rule, {
         // ignore non-simple computed properties.
         { code: "var obj = {a:1, b:3, [a + b]: -1, c:2}", options: [], parserOptions: { ecmaVersion: 6 } },
 
-        // ignore spread properties.
+        // ignore properties separated by spread properties
         { code: "var obj = {a:1, ...z, b:1}", options: [], parserOptions: { ecmaVersion: 2018 } },
         { code: "var obj = {b:1, ...z, a:1}", options: [], parserOptions: { ecmaVersion: 2018 } },
+        { code: "var obj = {...a, b:1, ...c, d:1}", options: [], parserOptions: { ecmaVersion: 2018 } },
+        { code: "var obj = {...a, b:1, ...d, ...c, e:2, z:5}", options: [], parserOptions: { ecmaVersion: 2018 } },
+        { code: "var obj = {b:1, ...c, ...d, e:2}", options: [], parserOptions: { ecmaVersion: 2018 } },
+
+        // not ignore properties not separated by spread properties
+        { code: "var obj = {...z, a:1, b:1}", options: [], parserOptions: { ecmaVersion: 2018 } },
+        { code: "var obj = {...z, ...c, a:1, b:1}", options: [], parserOptions: { ecmaVersion: 2018 } },
+        { code: "var obj = {a:1, b:1, ...z}", options: [], parserOptions: { ecmaVersion: 2018 } },
+        { code: "var obj = {...z, ...x, a:1, ...c, ...d, f:5, e:4}", options: ["desc"], parserOptions: { ecmaVersion: 2018 } },
+
+        // works when spread occurs somewhere other than an object literal
+        { code: "function fn(...args) { return [...args].length; }", options: [], parserOptions: { ecmaVersion: 2018 } },
+        { code: "function g() {}; function f(...args) { return g(...args); }", options: [], parserOptions: { ecmaVersion: 2018 } },
 
         // ignore destructuring patterns.
         { code: "let {a, b} = {}", options: [], parserOptions: { ecmaVersion: 6 } },
@@ -149,6 +162,53 @@ ruleTester.run("sort-keys", rule, {
         {
             code: "var obj = {'#':1, À:3, 'Z':2, è:4}",
             errors: ["Expected object keys to be in ascending order. 'Z' should be before 'À'."]
+        },
+
+        // not ignore properties not separated by spread properties
+        {
+            code: "var obj = {...z, c:1, b:1}",
+            options: [],
+            parserOptions: { ecmaVersion: 2018 },
+            errors: ["Expected object keys to be in ascending order. 'b' should be before 'c'."]
+        },
+        {
+            code: "var obj = {...z, ...c, d:4, b:1, ...y, ...f, e:2, a:1}",
+            options: [],
+            parserOptions: { ecmaVersion: 2018 },
+            errors: [
+                "Expected object keys to be in ascending order. 'b' should be before 'd'.",
+                "Expected object keys to be in ascending order. 'a' should be before 'e'."
+            ]
+        },
+        {
+            code: "var obj = {c:1, b:1, ...a}",
+            options: [],
+            parserOptions: { ecmaVersion: 2018 },
+            errors: ["Expected object keys to be in ascending order. 'b' should be before 'c'."]
+        },
+        {
+            code: "var obj = {...z, ...a, c:1, b:1}",
+            options: [],
+            parserOptions: { ecmaVersion: 2018 },
+            errors: ["Expected object keys to be in ascending order. 'b' should be before 'c'."]
+        },
+        {
+            code: "var obj = {...z, b:1, a:1, ...d, ...c}",
+            options: [],
+            parserOptions: { ecmaVersion: 2018 },
+            errors: ["Expected object keys to be in ascending order. 'a' should be before 'b'."]
+        },
+        {
+            code: "var obj = {...z, a:2, b:0, ...x, ...c}",
+            options: ["desc"],
+            parserOptions: { ecmaVersion: 2018 },
+            errors: ["Expected object keys to be in descending order. 'b' should be before 'a'."]
+        },
+        {
+            code: "var obj = {...z, a:2, b:0, ...x}",
+            options: ["desc"],
+            parserOptions: { ecmaVersion: 2018 },
+            errors: ["Expected object keys to be in descending order. 'b' should be before 'a'."]
         },
 
         // not ignore simple computed properties.

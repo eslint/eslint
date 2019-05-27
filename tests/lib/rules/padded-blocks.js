@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/padded-blocks"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -54,6 +54,8 @@ ruleTester.run("padded-blocks", rule, {
         { code: "{\na();}", options: ["never"] },
         { code: "{a();\n}", options: ["never"] },
         { code: "{a();}", options: ["never"] },
+        { code: "{a();}", options: ["always", { allowSingleLineBlocks: true }] },
+        { code: "{\n\na();\n\n}", options: ["always", { allowSingleLineBlocks: true }] },
         { code: "{//comment\na();}", options: ["never"] },
         { code: "{\n//comment\na()\n}", options: ["never"] },
         { code: "{a();//comment\n}", options: ["never"] },

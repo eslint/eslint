@@ -84,7 +84,7 @@ var foo = {
 
 See Also:
 
-- [`no-useless-rename`](https://eslint.org/docs/rules/object-shorthand) which disallows renaming import, export, and destructured assignments to the same name.
+- [`no-useless-rename`](https://eslint.org/docs/rules/no-useless-rename) which disallows renaming import, export, and destructured assignments to the same name.
 
 ## Options
 

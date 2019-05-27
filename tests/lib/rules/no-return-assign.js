@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-return-assign"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -21,7 +21,7 @@ const error = {
     type: "ReturnStatement"
 };
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 
 ruleTester.run("no-return-assign", rule, {
     valid: [
@@ -52,13 +52,11 @@ ruleTester.run("no-return-assign", rule, {
         },
         {
             code: "() => { return (result = a * b); }",
-            options: ["except-parens"],
-            parserOptions: { ecmaVersion: 6 }
+            options: ["except-parens"]
         },
         {
             code: "() => (result = a * b)",
-            options: ["except-parens"],
-            parserOptions: { ecmaVersion: 6 }
+            options: ["except-parens"]
         }
     ],
     invalid: [
@@ -82,12 +80,10 @@ ruleTester.run("no-return-assign", rule, {
         },
         {
             code: "() => { return result = a * b; }",
-            parserOptions: { ecmaVersion: 6 },
             errors: [error]
         },
         {
             code: "() => result = a * b",
-            parserOptions: { ecmaVersion: 6 },
             errors: ["Arrow function should not return assignment."]
         },
         {

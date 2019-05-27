@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/comma-style"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -611,6 +611,13 @@ ruleTester.run("comma-style", rule, {
         {
             code: "[\n[foo(3)],\n,\nbar\n];",
             output: "[\n[foo(3)],,\nbar\n];",
+            errors: [{ messageId: "unexpectedLineBeforeAndAfterComma" }]
+        },
+        {
+
+            // https://github.com/eslint/eslint/issues/10632
+            code: "[foo//\n,/*block\ncomment*/];",
+            output: "[foo,//\n/*block\ncomment*/];",
             errors: [{ messageId: "unexpectedLineBeforeAndAfterComma" }]
         }
     ]

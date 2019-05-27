@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/no-async-promise-executor");
-const RuleTester = require("../../../lib/testers/rule-tester");
+const { RuleTester } = require("../../../lib/rule-tester");
 
 
 //------------------------------------------------------------------------------
@@ -30,7 +30,7 @@ ruleTester.run("no-async-promise-executor", rule, {
         {
             code: "new Promise(async function foo(resolve, reject) {})",
             errors: [{
-                message: "Promise executor functions should not be async.",
+                messageId: "async",
                 line: 1,
                 column: 13,
                 endLine: 1,
@@ -40,7 +40,7 @@ ruleTester.run("no-async-promise-executor", rule, {
         {
             code: "new Promise(async (resolve, reject) => {})",
             errors: [{
-                message: "Promise executor functions should not be async.",
+                messageId: "async",
                 line: 1,
                 column: 13,
                 endLine: 1,
@@ -50,7 +50,7 @@ ruleTester.run("no-async-promise-executor", rule, {
         {
             code: "new Promise(((((async () => {})))))",
             errors: [{
-                message: "Promise executor functions should not be async.",
+                messageId: "async",
                 line: 1,
                 column: 17,
                 endLine: 1,

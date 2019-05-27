@@ -10,7 +10,7 @@
 //------------------------------------------------------------------------------
 
 const rule = require("../../../lib/rules/object-shorthand"),
-    RuleTester = require("../../../lib/testers/rule-tester");
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -132,11 +132,43 @@ ruleTester.run("object-shorthand", rule, {
             options: ["always", { ignoreConstructors: true }]
         },
         {
+            code: "var x = {_ConstructorFunction: function(){}, a: b}",
+            options: ["always", { ignoreConstructors: true }]
+        },
+        {
+            code: "var x = {$ConstructorFunction: function(){}, a: b}",
+            options: ["always", { ignoreConstructors: true }]
+        },
+        {
+            code: "var x = {__ConstructorFunction: function(){}, a: b}",
+            options: ["always", { ignoreConstructors: true }]
+        },
+        {
+            code: "var x = {_0ConstructorFunction: function(){}, a: b}",
+            options: ["always", { ignoreConstructors: true }]
+        },
+        {
             code: "var x = {notConstructorFunction(){}, b: c}",
             options: ["always", { ignoreConstructors: true }]
         },
         {
             code: "var x = {ConstructorFunction: function(){}, a: b}",
+            options: ["methods", { ignoreConstructors: true }]
+        },
+        {
+            code: "var x = {_ConstructorFunction: function(){}, a: b}",
+            options: ["methods", { ignoreConstructors: true }]
+        },
+        {
+            code: "var x = {$ConstructorFunction: function(){}, a: b}",
+            options: ["methods", { ignoreConstructors: true }]
+        },
+        {
+            code: "var x = {__ConstructorFunction: function(){}, a: b}",
+            options: ["methods", { ignoreConstructors: true }]
+        },
+        {
+            code: "var x = {_0ConstructorFunction: function(){}, a: b}",
             options: ["methods", { ignoreConstructors: true }]
         },
         {
@@ -708,6 +740,46 @@ ruleTester.run("object-shorthand", rule, {
             errors: [LONGFORM_PROPERTY_ERROR]
         },
 
+        // ignoreConstructors
+        {
+            code: "var x = {y: function() {}}",
+            output: "var x = {y() {}}",
+            options: ["methods", { ignoreConstructors: true }],
+            errors: [METHOD_ERROR]
+        },
+        {
+
+            // https://github.com/eslint/eslint/issues/11595
+            code: "var x = {_y: function() {}}",
+            output: "var x = {_y() {}}",
+            options: ["methods", { ignoreConstructors: true }],
+            errors: [METHOD_ERROR]
+        },
+        {
+
+            // https://github.com/eslint/eslint/issues/11595
+            code: "var x = {$y: function() {}}",
+            output: "var x = {$y() {}}",
+            options: ["methods", { ignoreConstructors: true }],
+            errors: [METHOD_ERROR]
+        },
+        {
+
+            // https://github.com/eslint/eslint/issues/11595
+            code: "var x = {__y: function() {}}",
+            output: "var x = {__y() {}}",
+            options: ["methods", { ignoreConstructors: true }],
+            errors: [METHOD_ERROR]
+        },
+        {
+
+            // https://github.com/eslint/eslint/issues/11595
+            code: "var x = {_0y: function() {}}",
+            output: "var x = {_0y() {}}",
+            options: ["methods", { ignoreConstructors: true }],
+            errors: [METHOD_ERROR]
+        },
+
         // avoidQuotes
         {
             code: "var x = {a: a}",
@@ -929,6 +1001,14 @@ ruleTester.run("object-shorthand", rule, {
             output: "({ async [ foo ](bar) { return; } })",
             options: ["always", { avoidExplicitReturnArrows: true }],
             parserOptions: { ecmaVersion: 8 },
+            errors: [METHOD_ERROR]
+        },
+        {
+
+            // https://github.com/eslint/eslint/issues/11305
+            code: "({ key: (arg = () => {}) => {} })",
+            output: "({ key(arg = () => {}) {} })",
+            options: ["always", { avoidExplicitReturnArrows: true }],
             errors: [METHOD_ERROR]
         },
         {
