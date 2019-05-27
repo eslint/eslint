@@ -31,7 +31,7 @@ describe("formatter:junit", () => {
 
     describe("when passed a single message", () => {
         const code = [{
-            filePath: "foo.js",
+            filePath: "/path/to/foo.js",
             messages: [{
                 message: "Unexpected foo.",
                 severity: 2,
@@ -44,14 +44,14 @@ describe("formatter:junit", () => {
         it("should return a single <testcase> with a message and the line and col number in the body (error)", () => {
             const result = formatter(code);
 
-            assert.strictEqual(result.replace(/\n/gu, ""), "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites><testsuite package=\"org.eslint\" time=\"0\" tests=\"1\" errors=\"1\" name=\"foo.js\"><testcase time=\"0\" name=\"org.eslint.foo\"><failure message=\"Unexpected foo.\"><![CDATA[line 5, col 10, Error - Unexpected foo. (foo)]]></failure></testcase></testsuite></testsuites>");
+            assert.strictEqual(result.replace(/\n/gu, ""), "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites><testsuite package=\"org.eslint\" time=\"0\" tests=\"1\" errors=\"1\" name=\"/path/to/foo.js\"><testcase time=\"0\" name=\"org.eslint.foo\" classname=\"/path/to/foo\"><failure message=\"Unexpected foo.\"><![CDATA[line 5, col 10, Error - Unexpected foo. (foo)]]></failure></testcase></testsuite></testsuites>");
         });
 
         it("should return a single <testcase> with a message and the line and col number in the body (warning)", () => {
             code[0].messages[0].severity = 1;
             const result = formatter(code);
 
-            assert.strictEqual(result.replace(/\n/gu, ""), "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites><testsuite package=\"org.eslint\" time=\"0\" tests=\"1\" errors=\"1\" name=\"foo.js\"><testcase time=\"0\" name=\"org.eslint.foo\"><failure message=\"Unexpected foo.\"><![CDATA[line 5, col 10, Warning - Unexpected foo. (foo)]]></failure></testcase></testsuite></testsuites>");
+            assert.strictEqual(result.replace(/\n/gu, ""), "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites><testsuite package=\"org.eslint\" time=\"0\" tests=\"1\" errors=\"1\" name=\"/path/to/foo.js\"><testcase time=\"0\" name=\"org.eslint.foo\" classname=\"/path/to/foo\"><failure message=\"Unexpected foo.\"><![CDATA[line 5, col 10, Warning - Unexpected foo. (foo)]]></failure></testcase></testsuite></testsuites>");
         });
     });
 
@@ -70,7 +70,7 @@ describe("formatter:junit", () => {
         it("should return a single <testcase> and an <error>", () => {
             const result = formatter(code);
 
-            assert.strictEqual(result.replace(/\n/gu, ""), "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites><testsuite package=\"org.eslint\" time=\"0\" tests=\"1\" errors=\"1\" name=\"foo.js\"><testcase time=\"0\" name=\"org.eslint.foo\"><error message=\"Unexpected foo.\"><![CDATA[line 5, col 10, Error - Unexpected foo. (foo)]]></error></testcase></testsuite></testsuites>");
+            assert.strictEqual(result.replace(/\n/gu, ""), "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites><testsuite package=\"org.eslint\" time=\"0\" tests=\"1\" errors=\"1\" name=\"foo.js\"><testcase time=\"0\" name=\"org.eslint.foo\" classname=\"foo\"><error message=\"Unexpected foo.\"><![CDATA[line 5, col 10, Error - Unexpected foo. (foo)]]></error></testcase></testsuite></testsuites>");
         });
     });
 
@@ -86,7 +86,7 @@ describe("formatter:junit", () => {
         it("should return a single <testcase> and an <error>", () => {
             const result = formatter(code);
 
-            assert.strictEqual(result.replace(/\n/gu, ""), "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites><testsuite package=\"org.eslint\" time=\"0\" tests=\"1\" errors=\"1\" name=\"foo.js\"><testcase time=\"0\" name=\"org.eslint.unknown\"><error message=\"Unexpected foo.\"><![CDATA[line 0, col 0, Error - Unexpected foo.]]></error></testcase></testsuite></testsuites>");
+            assert.strictEqual(result.replace(/\n/gu, ""), "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites><testsuite package=\"org.eslint\" time=\"0\" tests=\"1\" errors=\"1\" name=\"foo.js\"><testcase time=\"0\" name=\"org.eslint.unknown\" classname=\"foo\"><error message=\"Unexpected foo.\"><![CDATA[line 0, col 0, Error - Unexpected foo.]]></error></testcase></testsuite></testsuites>");
         });
     });
 
@@ -101,7 +101,7 @@ describe("formatter:junit", () => {
         it("should return a single <testcase> and an <error>", () => {
             const result = formatter(code);
 
-            assert.strictEqual(result.replace(/\n/gu, ""), "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites><testsuite package=\"org.eslint\" time=\"0\" tests=\"1\" errors=\"1\" name=\"foo.js\"><testcase time=\"0\" name=\"org.eslint.unknown\"><error message=\"\"><![CDATA[line 0, col 0, Error - ]]></error></testcase></testsuite></testsuites>");
+            assert.strictEqual(result.replace(/\n/gu, ""), "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites><testsuite package=\"org.eslint\" time=\"0\" tests=\"1\" errors=\"1\" name=\"foo.js\"><testcase time=\"0\" name=\"org.eslint.unknown\" classname=\"foo\"><error message=\"\"><![CDATA[line 0, col 0, Error - ]]></error></testcase></testsuite></testsuites>");
         });
     });
 
@@ -126,7 +126,7 @@ describe("formatter:junit", () => {
         it("should return a multiple <testcase>'s", () => {
             const result = formatter(code);
 
-            assert.strictEqual(result.replace(/\n/gu, ""), "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites><testsuite package=\"org.eslint\" time=\"0\" tests=\"2\" errors=\"2\" name=\"foo.js\"><testcase time=\"0\" name=\"org.eslint.foo\"><failure message=\"Unexpected foo.\"><![CDATA[line 5, col 10, Error - Unexpected foo. (foo)]]></failure></testcase><testcase time=\"0\" name=\"org.eslint.bar\"><failure message=\"Unexpected bar.\"><![CDATA[line 6, col 11, Warning - Unexpected bar. (bar)]]></failure></testcase></testsuite></testsuites>");
+            assert.strictEqual(result.replace(/\n/gu, ""), "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites><testsuite package=\"org.eslint\" time=\"0\" tests=\"2\" errors=\"2\" name=\"foo.js\"><testcase time=\"0\" name=\"org.eslint.foo\" classname=\"foo\"><failure message=\"Unexpected foo.\"><![CDATA[line 5, col 10, Error - Unexpected foo. (foo)]]></failure></testcase><testcase time=\"0\" name=\"org.eslint.bar\" classname=\"foo\"><failure message=\"Unexpected bar.\"><![CDATA[line 6, col 11, Warning - Unexpected bar. (bar)]]></failure></testcase></testsuite></testsuites>");
         });
     });
 
@@ -145,7 +145,7 @@ describe("formatter:junit", () => {
         it("should make them go away", () => {
             const result = formatter(code);
 
-            assert.strictEqual(result.replace(/\n/gu, ""), "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites><testsuite package=\"org.eslint\" time=\"0\" tests=\"1\" errors=\"1\" name=\"foo.js\"><testcase time=\"0\" name=\"org.eslint.foo\"><failure message=\"Unexpected &lt;foo&gt;&lt;/foo&gt;&#8;&#9;&#10;&#12;&#13;&#29275;&#36924;.\"><![CDATA[line 5, col 10, Warning - Unexpected &lt;foo&gt;&lt;/foo&gt;&#8;&#9;&#10;&#12;&#13;&#29275;&#36924;. (foo)]]></failure></testcase></testsuite></testsuites>");
+            assert.strictEqual(result.replace(/\n/gu, ""), "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites><testsuite package=\"org.eslint\" time=\"0\" tests=\"1\" errors=\"1\" name=\"foo.js\"><testcase time=\"0\" name=\"org.eslint.foo\" classname=\"foo\"><failure message=\"Unexpected &lt;foo&gt;&lt;/foo&gt;&#8;&#9;&#10;&#12;&#13;&#29275;&#36924;.\"><![CDATA[line 5, col 10, Warning - Unexpected &lt;foo&gt;&lt;/foo&gt;&#8;&#9;&#10;&#12;&#13;&#29275;&#36924;. (foo)]]></failure></testcase></testsuite></testsuites>");
         });
     });
 
@@ -173,7 +173,7 @@ describe("formatter:junit", () => {
         it("should return 2 <testsuite>'s", () => {
             const result = formatter(code);
 
-            assert.strictEqual(result.replace(/\n/gu, ""), "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites><testsuite package=\"org.eslint\" time=\"0\" tests=\"1\" errors=\"1\" name=\"foo.js\"><testcase time=\"0\" name=\"org.eslint.foo\"><failure message=\"Unexpected foo.\"><![CDATA[line 5, col 10, Warning - Unexpected foo. (foo)]]></failure></testcase></testsuite><testsuite package=\"org.eslint\" time=\"0\" tests=\"1\" errors=\"1\" name=\"bar.js\"><testcase time=\"0\" name=\"org.eslint.bar\"><failure message=\"Unexpected bar.\"><![CDATA[line 6, col 11, Error - Unexpected bar. (bar)]]></failure></testcase></testsuite></testsuites>");
+            assert.strictEqual(result.replace(/\n/gu, ""), "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites><testsuite package=\"org.eslint\" time=\"0\" tests=\"1\" errors=\"1\" name=\"foo.js\"><testcase time=\"0\" name=\"org.eslint.foo\" classname=\"foo\"><failure message=\"Unexpected foo.\"><![CDATA[line 5, col 10, Warning - Unexpected foo. (foo)]]></failure></testcase></testsuite><testsuite package=\"org.eslint\" time=\"0\" tests=\"1\" errors=\"1\" name=\"bar.js\"><testcase time=\"0\" name=\"org.eslint.bar\" classname=\"bar\"><failure message=\"Unexpected bar.\"><![CDATA[line 6, col 11, Error - Unexpected bar. (bar)]]></failure></testcase></testsuite></testsuites>");
         });
     });
 
@@ -195,7 +195,7 @@ describe("formatter:junit", () => {
         it("should return 2 <testsuite>", () => {
             const result = formatter(code);
 
-            assert.strictEqual(result.replace(/\n/gu, ""), "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites><testsuite package=\"org.eslint\" time=\"0\" tests=\"1\" errors=\"1\" name=\"foo.js\"><testcase time=\"0\" name=\"org.eslint.foo\"><failure message=\"Unexpected foo.\"><![CDATA[line 5, col 10, Warning - Unexpected foo. (foo)]]></failure></testcase></testsuite><testsuite package=\"org.eslint\" time=\"0\" tests=\"1\" errors=\"0\" name=\"bar.js\"><testcase time=\"0\" name=\"bar.js\" /></testsuite></testsuites>");
+            assert.strictEqual(result.replace(/\n/gu, ""), "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites><testsuite package=\"org.eslint\" time=\"0\" tests=\"1\" errors=\"1\" name=\"foo.js\"><testcase time=\"0\" name=\"org.eslint.foo\" classname=\"foo\"><failure message=\"Unexpected foo.\"><![CDATA[line 5, col 10, Warning - Unexpected foo. (foo)]]></failure></testcase></testsuite><testsuite package=\"org.eslint\" time=\"0\" tests=\"1\" errors=\"0\" name=\"bar.js\"><testcase time=\"0\" name=\"bar.js\" classname=\"bar\" /></testsuite></testsuites>");
         });
     });
 
@@ -208,7 +208,7 @@ describe("formatter:junit", () => {
         it("should print a passing <testcase>", () => {
             const result = formatter(code);
 
-            assert.strictEqual(result.replace(/\n/gu, ""), "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites><testsuite package=\"org.eslint\" time=\"0\" tests=\"1\" errors=\"0\" name=\"foo.js\"><testcase time=\"0\" name=\"foo.js\" /></testsuite></testsuites>");
+            assert.strictEqual(result.replace(/\n/gu, ""), "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites><testsuite package=\"org.eslint\" time=\"0\" tests=\"1\" errors=\"0\" name=\"foo.js\"><testcase time=\"0\" name=\"foo.js\" classname=\"foo\" /></testsuite></testsuites>");
         });
     });
 });
