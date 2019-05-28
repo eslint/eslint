@@ -57,10 +57,13 @@ var obj = {
 This rule has an object option:
 
 * `"properties": true` requires object properties to match the specified regular expression
+* `"propertiesPattern": String` can seprately set properties id-match pattern, its value will be copied from main pattern if not provided
 * `"onlyDeclarations": true` requires only `var`, `function`, and `class` declarations to match the specified regular expression
 * `"onlyDeclarations": false` requires all variable names to match the specified regular expression
 * `"ignoreDestructuring": false` (default) enforces `id-match` for destructured identifiers
 * `"ignoreDestructuring": true` does not check destructured identifiers
+* `"errorMessage": String` can customize some more humanized error report message for main pattern
+* `"propertiesErrorMessage": String` can customize some more humanized error report message for properties pattern
 
 ### properties
 
@@ -72,6 +75,27 @@ Examples of **incorrect** code for this rule with the `"^[a-z]+([A-Z][a-z]+)*$",
 var obj = {
     my_pref: 1
 };
+```
+
+### propertiesPattern
+
+Examples of **incorrect** code for this rule with the `"^[a-zA-Z]+$", { "properties": true, "propertiesPattern": "^[a-z][a-zA-Z]*$" }` options:
+
+```js
+/*eslint id-match: ["error", "^[a-zA-Z]+$", { "properties": true, "propertiesPattern": "^[a-z][a-zA-Z]*$" }]*/
+
+var ClassA = { Name: "class-a" };
+```
+
+Examples of **correct** code for this rule with the `"^[a-zA-Z]+$", { "properties": true, "propertiesPattern": "^[a-z][a-zA-Z]*$" }` options:
+
+```js
+/*eslint id-match: ["error", "^[a-zA-Z]+$", { "properties": true, "propertiesPattern": "^[a-z][a-zA-Z]*$" }]*/
+
+var ClassA = { name: "class-a" };
+var x = { [ClassA.name]: false };
+
+var x = { [Math.max(1, 2)]: false };
 ```
 
 ### onlyDeclarations
@@ -125,6 +149,24 @@ var { category_id = 1 } = query;
 
 var { category_id: category_id } = query;
 ```
+
+### errorMessage: String
+
+This option is provided to output humanized error reports, example of `errorMessage` option:
+
+```js
+/*eslint id-match: [2, "^[a-z]+[a-zA-Z0-9]*$", { "errorMessage": "Identifier '{{name}}' in not in lower camelcase." }]*/
+
+var UpperCamelcase = 1;
+```
+
+Error report will be: `Identifier 'UpperCamelcase' in not in lower camelcase.`.
+
+### propertiesErrorMessage: String
+
+This option is similar with errorMessage, the only difference is this message is for properties error report.
+
+If not set, the value of this option will be the same as `errorMessage` option.
 
 ## When Not To Use It
 

@@ -183,6 +183,22 @@ ruleTester.run("id-match", rule, {
             options: ["^[^_]+$", {
                 properties: false
             }]
+        },
+        {
+            code: "var x = { [Math.max(1, 2)]: false };",
+            options: ["^[^_]+$", {
+                properties: true,
+                propertiesPattern: "^[a-z][a-zA-Z0-9]*$"
+            }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var ClassA = { name: 'class-a' };\nvar x = { [ClassA.name]: false };",
+            options: ["^[^_]+$", {
+                properties: true,
+                propertiesPattern: "^[a-z][a-zA-Z0-9]*$"
+            }],
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
     invalid: [
@@ -596,6 +612,38 @@ ruleTester.run("id-match", rule, {
             errors: [
                 {
                     message: "Identifier 'no_camelcased' does not match the pattern '^[^_]+$'.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "var ClassA = { Name: 'class-a' };",
+            options: ["^[^_]+$", {
+                properties: true,
+                propertiesPattern: "^[a-z][a-zA-Z0-9]*$"
+            }],
+            errors: [
+                {
+                    message: "Identifier 'Name' does not match the pattern '^[a-z][a-zA-Z0-9]*$'.",
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "var Name = { Key: 1 };",
+            options: ["^[a-z][a-zA-Z0-9]*$", {
+                properties: true,
+                propertiesPattern: "^[a-z][a-zA-Z0-9]*$",
+                errorMessage: "Identifier '{{name}}' in not in lower camelcase.",
+                propertiesErrorMessage: "Property name '{{name}}' in not in lower camelcase."
+            }],
+            errors: [
+                {
+                    message: "Identifier 'Name' in not in lower camelcase.",
+                    type: "Identifier"
+                },
+                {
+                    message: "Property name 'Key' in not in lower camelcase.",
                     type: "Identifier"
                 }
             ]
