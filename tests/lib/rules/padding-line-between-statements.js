@@ -2275,6 +2275,43 @@ ruleTester.run("padding-line-between-statements", rule, {
             parserOptions: { ecmaFeatures: { globalReturn: true } }
         },
 
+        // Tests for number of empty rows
+        {
+            code: "var a=1\n\n\nclass A{}\n\n\nfunction b(){}",
+            options: [
+                { blankLine: 2, prev: "*", next: "class" },
+                { blankLine: 2, prev: "class", next: "*" }
+            ]
+        },
+        {
+            code: "var a=1\n\nclass A{}\n\nfunction b(){}",
+            options: [
+                { blankLine: 1, prev: "*", next: "class" },
+                { blankLine: 1, prev: "class", next: "*" }
+            ]
+        },
+        {
+            code: "var a=1\n\n\n/* comment */\nclass A{}\n\n\n/* comment */\nfunction b(){}",
+            options: [
+                { blankLine: 2, prev: "*", next: "class" },
+                { blankLine: 2, prev: "class", next: "*" }
+            ]
+        },
+        {
+            code: "var a=1\n\n/* comment */\nclass A{}\n\n/* comment */\nfunction b(){}",
+            options: [
+                { blankLine: 1, prev: "*", next: "class" },
+                { blankLine: 1, prev: "class", next: "*" }
+            ]
+        },
+        {
+            code: "var a=1\n\n/* comment */\n\n\nclass A{}\n\n/* comment */\n\n\nfunction b(){}",
+            options: [
+                { blankLine: 2, prev: "*", next: "class" },
+                { blankLine: 2, prev: "class", next: "*" }
+            ]
+        },
+
         //----------------------------------------------------------------------
         // From JSCS disallowPaddingNewLinesAfterBlocks
         // https://github.com/jscs-dev/node-jscs/blob/44f9b86eb0757fd4ca05a81a50450c5f1b25c37b/test/specs/rules/disallow-padding-newlines-after-blocks.js
@@ -4158,7 +4195,7 @@ ruleTester.run("padding-line-between-statements", rule, {
         },
         {
             code: "var greet = 'hello';    \nconsole.log(greet);",
-            output: "var greet = 'hello';\n    \nconsole.log(greet);",
+            output: "var greet = 'hello';    \n\nconsole.log(greet);",
             options: [
                 { blankLine: "always", prev: ["const", "let", "var"], next: "*" },
                 { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
@@ -4699,6 +4736,80 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "always", prev: "*", next: "return" }
             ],
             errors: [{ messageId: "expectedBlankLine" }]
+        },
+
+        // Tests for number of empty rows
+        {
+            code: "var a=1\n\n\nclass A{}\n\n\nfunction b(){}",
+            output: "var a=1\n\nclass A{}\n\nfunction b(){}",
+            options: [
+                { blankLine: 1, prev: "*", next: "class" },
+                { blankLine: 1, prev: "class", next: "*" }
+            ],
+            errors: [
+                "Before this statement there are 2 blank line. Allowed is 1.",
+                "Before this statement there are 2 blank line. Allowed is 1."
+            ]
+        },
+        {
+            code: "var a=1\n\nclass A{}\n\nfunction b(){}",
+            output: "var a=1\n\n\nclass A{}\n\n\nfunction b(){}",
+            options: [
+                { blankLine: 2, prev: "*", next: "class" },
+                { blankLine: 2, prev: "class", next: "*" }
+            ],
+            errors: [
+                "Before this statement there are 1 blank line. Allowed is 2.",
+                "Before this statement there are 1 blank line. Allowed is 2."
+            ]
+        },
+        {
+            code: "var a=1\n\n\n/* comment */\nclass A{}\n\n\n/* comment */\nfunction b(){}",
+            output: "var a=1\n\n/* comment */\nclass A{}\n\n/* comment */\nfunction b(){}",
+            options: [
+                { blankLine: 1, prev: "*", next: "class" },
+                { blankLine: 1, prev: "class", next: "*" }
+            ],
+            errors: [
+                "Before this statement there are 2 blank line. Allowed is 1.",
+                "Before this statement there are 2 blank line. Allowed is 1."
+            ]
+        },
+        {
+            code: "var a=1\n\n\n/* comment */\n\n\nclass A{}\n\n\n/* comment */function b(){}",
+            output: "var a=1\n\n/* comment */\n\n\nclass A{}\n\n/* comment */function b(){}",
+            options: [
+                { blankLine: 1, prev: "*", next: "class" },
+                { blankLine: 1, prev: "class", next: "*" }
+            ],
+            errors: [
+                "Before this statement there are 2 blank line. Allowed is 1.",
+                "Before this statement there are 2 blank line. Allowed is 1."
+            ]
+        },
+        {
+            code: "var a=1\n\n/* comment */\nclass A{}\n\n/* comment */\nfunction b(){}",
+            output: "var a=1\n\n\n/* comment */\nclass A{}\n\n\n/* comment */\nfunction b(){}",
+            options: [
+                { blankLine: 2, prev: "*", next: "class" },
+                { blankLine: 2, prev: "class", next: "*" }
+            ],
+            errors: [
+                "Before this statement there are 1 blank line. Allowed is 2.",
+                "Before this statement there are 1 blank line. Allowed is 2."
+            ]
+        },
+        {
+            code: "var a=1\n\n/* comment */\n\nclass A{}\n\n/* comment */function b(){}",
+            output: "var a=1\n\n\n/* comment */\n\nclass A{}\n\n\n/* comment */function b(){}",
+            options: [
+                { blankLine: 2, prev: "*", next: "class" },
+                { blankLine: 2, prev: "class", next: "*" }
+            ],
+            errors: [
+                "Before this statement there are 1 blank line. Allowed is 2.",
+                "Before this statement there are 1 blank line. Allowed is 2."
+            ]
         },
 
         //----------------------------------------------------------------------

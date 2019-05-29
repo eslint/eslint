@@ -42,6 +42,7 @@ You can supply any number of configurations. If a statement pair matches multipl
     - `"any"` just ignores the statement pair.
     - `"never"` disallows blank lines.
     - `"always"` requires one or more blank lines. Note it does not count lines that comments exist as blank lines.
+    - `{number}` (minimum: 1) requires a specified number of blank lines.
 
 - `STATEMENT_TYPE` is one of the following, or an array of the following.
     - `"*"` is wildcard. This matches any statements.
@@ -210,6 +211,44 @@ Examples of **correct** code for the `[{ blankLine: "always", prev: "directive",
 "use asm";
 
 foo();
+```
+
+----
+
+This configuration would require two blank lines before and after all `class` statement.
+
+Examples of **incorrect** code for the `[{ blankLine: 2, prev: "*", next: "class" }, { blankLine: 2, prev: "class", next: "*" }]` configuration:
+
+```js
+/*eslint padding-line-between-statements: [
+    "error",
+    { blankLine: 2, prev: "*", next: "class" },
+    { blankLine: 2, prev: "class", next: "*" }
+]*/
+
+"use strict";
+
+class A {}
+
+function b() {}
+```
+
+Examples of **correct** code for the `[{ blankLine: 2, prev: "*", next: "class" }, { blankLine: 2, prev: "class", next: "*" }]` configuration:
+
+```js
+/*eslint padding-line-between-statements: [
+    "error",
+    { blankLine: 2, prev: "*", next: "class" },
+    { blankLine: 2, prev: "class", next: "*" }
+]*/
+
+"use strict";
+
+
+class A {}
+
+
+function b() {}
 ```
 
 ## Compatibility
