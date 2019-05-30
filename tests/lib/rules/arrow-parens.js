@@ -82,6 +82,7 @@ const invalid = [
         errors: [{
             line: 1,
             column: 1,
+            endColumn: 2,
             messageId: "expectedParens",
             type
         }]
@@ -92,6 +93,7 @@ const invalid = [
         errors: [{
             line: 1,
             column: 1,
+            endColumn: 2,
             messageId: "expectedParens",
             type
         }]
@@ -102,6 +104,7 @@ const invalid = [
         errors: [{
             line: 1,
             column: 1,
+            endColumn: 2,
             messageId: "expectedParens",
             type
         }]
@@ -112,6 +115,7 @@ const invalid = [
         errors: [{
             line: 1,
             column: 8,
+            endColumn: 11,
             messageId: "expectedParens",
             type
         }]
@@ -122,6 +126,7 @@ const invalid = [
         errors: [{
             line: 1,
             column: 8,
+            endColumn: 11,
             messageId: "expectedParens",
             type
         }]
@@ -132,6 +137,7 @@ const invalid = [
         errors: [{
             line: 1,
             column: 3,
+            endColumn: 6,
             messageId: "expectedParens",
             type
         }]
@@ -142,7 +148,8 @@ const invalid = [
         parserOptions: { ecmaVersion: 8 },
         errors: [{
             line: 1,
-            column: 3,
+            column: 9,
+            endColumn: 12,
             messageId: "expectedParens",
             type
         }]
@@ -155,7 +162,8 @@ const invalid = [
         options: ["as-needed"],
         errors: [{
             line: 1,
-            column: 1,
+            column: 2,
+            endColumn: 3,
             messageId: "unexpectedParens",
             type
         }]
@@ -167,7 +175,8 @@ const invalid = [
         parserOptions: { ecmaVersion: 8 },
         errors: [{
             line: 1,
-            column: 1,
+            column: 2,
+            endColumn: 3,
             messageId: "unexpectedParens",
             type
         }]
@@ -179,7 +188,8 @@ const invalid = [
         parserOptions: { ecmaVersion: 8 },
         errors: [{
             line: 1,
-            column: 1,
+            column: 8,
+            endColumn: 9,
             messageId: "unexpectedParens",
             type
         }]
@@ -191,7 +201,8 @@ const invalid = [
         parserOptions: { ecmaVersion: 8 },
         errors: [{
             line: 1,
-            column: 1,
+            column: 7,
+            endColumn: 8,
             messageId: "unexpectedParens",
             type
         }]
@@ -205,6 +216,7 @@ const invalid = [
         errors: [{
             line: 1,
             column: 1,
+            endColumn: 2,
             messageId: "expectedParensBlock",
             type
         }]
@@ -215,7 +227,8 @@ const invalid = [
         options: ["as-needed", { requireForBlockBody: true }],
         errors: [{
             line: 1,
-            column: 1,
+            column: 2,
+            endColumn: 3,
             messageId: "unexpectedParensInline",
             type
         }]
@@ -227,7 +240,8 @@ const invalid = [
         parserOptions: { ecmaVersion: 8 },
         errors: [{
             line: 1,
-            column: 1,
+            column: 7,
+            endColumn: 8,
             messageId: "expectedParensBlock",
             type
         }]
@@ -239,7 +253,8 @@ const invalid = [
         parserOptions: { ecmaVersion: 8 },
         errors: [{
             line: 1,
-            column: 1,
+            column: 8,
+            endColumn: 9,
             messageId: "unexpectedParensInline",
             type
         }]
@@ -251,7 +266,8 @@ const invalid = [
         parserOptions: { ecmaVersion: 8 },
         errors: [{
             line: 1,
-            column: 1,
+            column: 7,
+            endColumn: 8,
             messageId: "unexpectedParensInline",
             type
         }]
