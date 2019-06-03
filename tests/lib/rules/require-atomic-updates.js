@@ -191,6 +191,10 @@ ruleTester.run("require-atomic-updates", rule, {
             errors: [VARIABLE_ERROR]
         },
         {
+            code: "async function x() { let foo; bar(() => foo); foo += await amount; }",
+            errors: [VARIABLE_ERROR]
+        },
+        {
             code: "let foo; function* x() { foo += yield baz }",
             errors: [VARIABLE_ERROR]
         },
