@@ -81,7 +81,7 @@ ruleTester.run("complexity", rule, {
         { code: "var func = function () {}", options: [0], errors: [makeError("Function", 1, 0)] },
         { code: "var obj = { a(x) {} }", options: [0], parserOptions: { ecmaVersion: 6 }, errors: [makeError("Method 'a'", 1, 0)] },
         { code: "class Test { a(x) {} }", options: [0], parserOptions: { ecmaVersion: 6 }, errors: [makeError("Method 'a'", 1, 0)] },
-        { code: "var a = (x) => {if (true) {return x;}}", options: [1], errors: 1, settings: { ecmascript: 6 } },
+        { code: "var a = (x) => {if (true) {return x;}}", options: [1], parserOptions: { ecmaVersion: 6 }, errors: 1 },
         { code: "function a(x) {if (true) {return x;}}", options: [1], errors: 1 },
         { code: "function a(x) {if (true) {return x;} else {return x+1;}}", options: [1], errors: 1 },
         { code: "function a(x) {if (true) {return x;} else if (false) {return x+1;} else {return 4;}}", options: [2], errors: 1 },
