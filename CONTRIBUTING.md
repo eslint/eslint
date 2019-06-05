@@ -17,6 +17,10 @@ Before filing an issue, please be sure to read the guidelines for what you're re
 
 To report a security vulnerability in ESLint, please use our [HackerOne program](https://hackerone.com/eslint).
 
+## Triaging Issues [![Open Source Helpers](https://www.codetriage.com/eslint/eslint/badges/users.svg)](https://www.codetriage.com/eslint/eslint)
+
+You can triage issues which may include reproducing bug reports or asking for vital information, such as version numbers or reproduction instructions. If you would like to start triaging issues, one easy way to get started is to [subscribe to eslint on CodeTriage](https://www.codetriage.com/eslint/eslint).
+
 ## Contributing Code
 
 Please sign our [Contributor License Agreement](https://cla.js.foundation/eslint/eslint) and read over the [Pull Request Guidelines](https://eslint.org/docs/developer-guide/contributing/pull-requests).
