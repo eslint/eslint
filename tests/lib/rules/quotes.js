@@ -160,30 +160,35 @@ ruleTester.run("quotes", rule, {
             code: "var foo = 'bar';",
             output: "var foo = `bar`;",
             options: ["backtick"],
+            parserOptions: { ecmaVersion: 2015 },
             errors: [{ message: "Strings must use backtick.", type: "Literal" }]
         },
         {
             code: "var foo = 'b${x}a$r';",
             output: "var foo = `b\\${x}a$r`;",
             options: ["backtick"],
+            parserOptions: { ecmaVersion: 2015 },
             errors: [{ message: "Strings must use backtick.", type: "Literal" }]
         },
         {
             code: "var foo = \"bar\";",
             output: "var foo = `bar`;",
             options: ["backtick"],
+            parserOptions: { ecmaVersion: 2015 },
             errors: [{ message: "Strings must use backtick.", type: "Literal" }]
         },
         {
             code: "var foo = \"bar\";",
             output: "var foo = `bar`;",
             options: ["backtick", { avoidEscape: true }],
+            parserOptions: { ecmaVersion: 2015 },
             errors: [{ message: "Strings must use backtick.", type: "Literal" }]
         },
         {
             code: "var foo = 'bar';",
             output: "var foo = `bar`;",
             options: ["backtick", { avoidEscape: true }],
+            parserOptions: { ecmaVersion: 2015 },
             errors: [{ message: "Strings must use backtick.", type: "Literal" }]
         },
 
@@ -255,7 +260,7 @@ ruleTester.run("quotes", rule, {
             code: "<div blah={'blah'} />",
             output: "<div blah={`blah`} />",
             options: ["backtick"],
-            parserOptions: { ecmaFeatures: { jsx: true } },
+            parserOptions: { ecmaFeatures: { jsx: true }, ecmaVersion: 2015 },
             errors: [
                 { message: "Strings must use backtick.", type: "Literal" }
             ]
