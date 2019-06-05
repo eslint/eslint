@@ -42,21 +42,27 @@ const NODE_ASSERT_STRICT_EQUAL_OPERATOR = (() => {
 
 const ruleTesterTestEmitter = new EventEmitter();
 
-RuleTester.describe = function(text, method) {
-    ruleTesterTestEmitter.emit("describe", text, method);
-    return method.call(this);
-};
-
-RuleTester.it = function(text, method) {
-    ruleTesterTestEmitter.emit("it", text, method);
-    return method.call(this);
-};
-
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
 describe("RuleTester", () => {
+
+    // Stub `describe()` and `it()` while this test suite.
+    before(() => {
+        RuleTester.describe = function(text, method) {
+            ruleTesterTestEmitter.emit("describe", text, method);
+            return method.call(this);
+        };
+        RuleTester.it = function(text, method) {
+            ruleTesterTestEmitter.emit("it", text, method);
+            return method.call(this);
+        };
+    });
+    after(() => {
+        RuleTester.describe = null;
+        RuleTester.it = null;
+    });
 
     let ruleTester;
 
@@ -1041,5 +1047,29 @@ describe("RuleTester", () => {
 
             return assertion;
         });
+    });
+
+    // https://github.com/eslint/eslint/issues/11615
+    it("should fail the case if autofix made a syntax error.", () => {
+        assert.throw(() => {
+            ruleTester.run(
+                "foo",
+                context => ({
+                    Identifier(node) {
+                        context.report({
+                            node,
+                            message: "make a syntax error",
+                            fix(fixer) {
+                                return fixer.replaceText(node, "one two");
+                            }
+                        });
+                    }
+                }),
+                {
+                    valid: ["one()"],
+                    invalid: []
+                }
+            );
+        }, /A fatal parsing error occurred in autofix/u);
     });
 });
