@@ -40,6 +40,29 @@ var myObject = new CustomObject();
 var myObject = {};
 ```
 
+## Options
+
+This rule has a single `allowWithArguments` option.
+
+### allowWithArguments
+
+One can coerce primitives into objects by passing `new Object()` an argument.
+This option allows for this usage.
+
+Examples of **incorrect** code for the `{ "allowWithArguments": true }` option:
+
+```js
+/*eslint no-new-object: [2, { "allowWithArguments": true }]*/
+var myObject = new Object();
+```
+
+Examples of **correct** code for the `{ "allowWithArguments": true }` option:
+
+```js
+/*eslint no-new-object: [2, { "allowWithArguments": true }]*/
+var myObject = new Object(BigInt('1'));
+```
+
 ## When Not To Use It
 
 If you wish to allow the use of the `Object` constructor, you can safely turn this rule off.
