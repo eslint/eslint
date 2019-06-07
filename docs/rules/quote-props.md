@@ -50,7 +50,7 @@ Object option:
 * `"keywords": true` requires quotes around language keywords used as object property names (only applies when using `as-needed` or `consistent-as-needed`)
 * `"unnecessary": true` (default) disallows quotes around object literal property names that are not strictly required (only applies when using `as-needed`)
 * `"unnecessary": false` allows quotes around object literal property names that are not strictly required (only applies when using `as-needed`)
-* `"numbers": true` requires quotes around numbers used as object property names (only applies when using `as-needed`)
+* `"numbers": true` requires quotes around numbers used as object property names (only applies when using `as-needed` or `consistent-as-needed`)
 
 ### always
 
@@ -256,7 +256,39 @@ Examples of additional **incorrect** code for this rule with the `"as-needed", {
 
 var x = {
     100: 1
-}
+};
+```
+
+Examples of additional **correct** code for this rule with the `"as-needed", { "numbers": true }` options:
+
+```js
+/*eslint quote-props: ["error", "as-needed", { "numbers": true }]*/
+
+var x = {
+    '100': 1
+};
+```
+
+Examples of additional **incorrect** code for this rule with the `"consistent-as-needed", { "numbers": true }` options:
+
+```js
+/*eslint quote-props: ["error", "consistent-as-needed", { "numbers": true }]*/
+
+var x = {
+    '100': 1,
+    name: 'thecotne'
+};
+```
+
+Examples of additional **correct** code for this rule with the `"consistent-as-needed", { "numbers": true }` options:
+
+```js
+/*eslint quote-props: ["error", "consistent-as-needed", { "numbers": true }]*/
+
+var x = {
+    '100': 1,
+    'name': 'thecotne'
+};
 ```
 
 ## When Not To Use It

@@ -70,7 +70,7 @@ ruleTester.run("quote-props", rule, {
         { code: "({'unnecessary': 1, 'if': 0})", options: ["as-needed", { keywords: true, unnecessary: false }] },
         { code: "({'1': 1})", options: ["as-needed", { numbers: true }] },
         { code: "({1: 1, x: 2})", options: ["consistent", { numbers: true }] },
-        { code: "({1: 1, x: 2})", options: ["consistent-as-needed", { numbers: true }] },
+        { code: "({'1': 1, 'x': 2})", options: ["consistent-as-needed", { numbers: true }] },
         { code: "({ ...x })", options: ["as-needed"], parserOptions: { ecmaVersion: 2018 } },
         { code: "({ ...x })", options: ["consistent"], parserOptions: { ecmaVersion: 2018 } },
         { code: "({ ...x })", options: ["consistent-as-needed"], parserOptions: { ecmaVersion: 2018 } }
