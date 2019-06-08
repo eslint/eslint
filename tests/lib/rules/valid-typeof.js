@@ -26,6 +26,7 @@ ruleTester.run("valid-typeof", rule, {
         "typeof foo === 'undefined'",
         "typeof foo === 'boolean'",
         "typeof foo === 'number'",
+        "typeof foo === 'bigint'",
         "'string' === typeof foo",
         "'object' === typeof foo",
         "'function' === typeof foo",
