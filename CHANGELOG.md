@@ -1,3 +1,21 @@
+v6.0.0-rc.0 - June 9, 2019
+
+* [`f403b07`](https://github.com/eslint/eslint/commit/f403b07283f91f1285d8318d6acea851dd765755) Update: introduce minKeys option to sort-keys rule (fixes #11624) (#11625) (Christian)
+* [`87451f4`](https://github.com/eslint/eslint/commit/87451f4779bc4c0ec874042b6854920f947ee258) Fix: no-octal should report NonOctalDecimalIntegerLiteral (fixes #11794) (#11805) (Milos Djermanovic)
+* [`e4ab053`](https://github.com/eslint/eslint/commit/e4ab0531c4e44c23494c6a802aa2329d15ac90e5) Update: support "bigint" in valid-typeof rule (#11802) (Colin Ihrig)
+* [`e0fafc8`](https://github.com/eslint/eslint/commit/e0fafc8ef59a80a6137f4170bbe46582d6fbcafc) Chore: removes unnecessary assignment in loop (#11780) (Dimitri Mitropoulos)
+* [`20908a3`](https://github.com/eslint/eslint/commit/20908a38f489c285abf8fceef4d9d13bf8b87f22) Docs: removed '>' prefix from from docs/working-with-rules (#11818) (Alok Takshak)
+* [`1c43eef`](https://github.com/eslint/eslint/commit/1c43eef605a9cf02a157881424ea62dcae747f69) Sponsors: Sync README with website (ESLint Jenkins)
+* [`21f3131`](https://github.com/eslint/eslint/commit/21f3131aa1636afa8e5c01053e0e870f968425b1) Fix: `overrides` handle relative paths as expected (fixes #11577) (#11799) (Toru Nagashima)
+* [`5509cdf`](https://github.com/eslint/eslint/commit/5509cdfa1b3d575248eef89a935f79c82e3f3071) Fix: fails the test case if autofix made syntax error (fixes #11615) (#11798) (Toru Nagashima)
+* [`cb1922b`](https://github.com/eslint/eslint/commit/cb1922bdc07e58de0e55c13fd992dd8faf3292a4) Fix: show custom message for namespace import (fixes #11580) (#11791) (Pig Fang)
+* [`37e5193`](https://github.com/eslint/eslint/commit/37e5193102d7544f155cdcb09c7c50dc602914d4) Update: add `endColumn` to no-useless-escape (fixes #11629) (#11790) (Pig Fang)
+* [`ad4b048`](https://github.com/eslint/eslint/commit/ad4b048c6d034cbd7fd97deb4390d059bde8803f) Build: Fix typo in blog post template (fixes #11614) (#11782) (Kai Cataldo)
+* [`9590587`](https://github.com/eslint/eslint/commit/9590587cef74c936ef9b7ce2d22a71e2fd0fbbc4) Update: improve reported location of arrow-parens (fixes #11773) (#11775) (Pig Fang)
+* [`d662b17`](https://github.com/eslint/eslint/commit/d662b178c7dad193201564d16f7977af2f81ebcf) New: Add classname attribute to JUnit testcase (refs #11068) (#11683) (Fabio Pitino)
+* [`8eaa9b2`](https://github.com/eslint/eslint/commit/8eaa9b259dc08dfb48269b1e4413d0d47698ed87) Chore: remove incorrect comment (#11769) (薛定谔的猫)
+* [`4039a49`](https://github.com/eslint/eslint/commit/4039a49177f2fefacd747050b420c0c4560b7d4b) Chore: add .github/funding.yml (#11764) (Toru Nagashima)
+
 v6.0.0-alpha.2 - May 25, 2019
 
 * [`9b87fee`](https://github.com/eslint/eslint/commit/9b87fee9dc7b1d99a50b924cb6b81255ebb5c4a2) Chore: Fix formatter documentation generation (#11767) (Ilya Volodin)
