@@ -307,6 +307,18 @@ ruleTester.run("no-var", rule, {
             parser: require.resolve("../../fixtures/parsers/typescript-parsers/declare-var"),
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: ["Unexpected var, use let or const instead."]
+        },
+
+        // https://github.com/eslint/eslint/issues/11830
+        {
+            code: "function foo() { var let; }",
+            output: null,
+            errors: ["Unexpected var, use let or const instead."]
+        },
+        {
+            code: "function foo() { var { let } = {}; }",
+            output: null,
+            errors: ["Unexpected var, use let or const instead."]
         }
     ]
 });
