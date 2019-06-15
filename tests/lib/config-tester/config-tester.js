@@ -85,6 +85,86 @@ describe("ConfigTester", () => {
                 });
             });
 
+            describe("and 'ignoreDisabledUnknownRules' option", () => {
+                beforeEach(() => {
+                    const tester = new ConfigTester(fixture("core-rules"));
+
+                    tester.run("index", { ignoreDisabledUnknownRules: true });
+                });
+
+                it("should validate config schema.", () => {
+                    assert(itSpy.args.some(([description]) => description === "should have valid schema."));
+                });
+
+                it("should validate config content.", () => {
+                    assert(itSpy.args.some(([description]) => description === "should have valid content."));
+                });
+
+                it("should check unknown rules.", () => {
+                    assert(itSpy.args.some(([description]) => description === "should not configure unknown rules."));
+                });
+
+                it("should check deprecated rules.", () => {
+                    assert(itSpy.args.some(([description]) => description === "should not enable deprecated rules."));
+                });
+
+                it("should check missing rules.", () => {
+                    assert(itSpy.args.some(([description]) => description === "should configure all rules."));
+                });
+
+                it("should check if the package contains the referred files.", () => {
+                    assert(itSpy.args.some(([description]) => description === "should contain all files that your config referred."));
+                });
+
+                it("should check if the package depends on the referred packages.", () => {
+                    assert(itSpy.args.some(([description]) => description === "should declare all packages that your config referred, as 'dependencies' or 'peerDependencies'."));
+                });
+
+                it("should check if the package contains the referred plugins as peer dependencies.", () => {
+                    assert(itSpy.args.some(([description]) => description === "should declare all plugin packages that your config referred, as 'peerDependencies'."));
+                });
+            });
+
+            describe("and 'ignoreDeprecatedRules' option", () => {
+                beforeEach(() => {
+                    const tester = new ConfigTester(fixture("core-rules"));
+
+                    tester.run("index", { ignoreDeprecatedRules: true });
+                });
+
+                it("should validate config schema.", () => {
+                    assert(itSpy.args.some(([description]) => description === "should have valid schema."));
+                });
+
+                it("should validate config content.", () => {
+                    assert(itSpy.args.some(([description]) => description === "should have valid content."));
+                });
+
+                it("should check unknown rules.", () => {
+                    assert(itSpy.args.some(([description]) => description === "should not configure unknown rules."));
+                });
+
+                it("should NOT check deprecated rules.", () => {
+                    assert(!itSpy.args.some(([description]) => description === "should not enable deprecated rules."));
+                });
+
+                it("should check missing rules.", () => {
+                    assert(itSpy.args.some(([description]) => description === "should configure all rules."));
+                });
+
+                it("should check if the package contains the referred files.", () => {
+                    assert(itSpy.args.some(([description]) => description === "should contain all files that your config referred."));
+                });
+
+                it("should check if the package depends on the referred packages.", () => {
+                    assert(itSpy.args.some(([description]) => description === "should declare all packages that your config referred, as 'dependencies' or 'peerDependencies'."));
+                });
+
+                it("should check if the package contains the referred plugins as peer dependencies.", () => {
+                    assert(itSpy.args.some(([description]) => description === "should declare all plugin packages that your config referred, as 'peerDependencies'."));
+                });
+            });
+
             describe("and 'ignoreMissingRules' option", () => {
                 beforeEach(() => {
                     const tester = new ConfigTester(fixture("core-rules"));
@@ -242,23 +322,65 @@ describe("ConfigTester", () => {
             });
         });
 
-        describe("with 'unknown-rule' fixture", () => {
-            it("should throw as unknown key in 'rules'.", () => {
-                const tester = new ConfigTester(fixture("unknown-rule"));
+        describe("with 'unknown-rule-off' fixture", () => {
+            describe("and no options", () => {
+                it("should throw as unknown key in 'rules'.", () => {
+                    const tester = new ConfigTester(fixture("unknown-rule-off"));
 
-                assert.throws(() => {
-                    tester.run("index");
-                }, /1 rule\(s\) were not found in ESLint v(?:[0-9]+\.[0-9]+\.[0-9]+(?:-.+)?)\./u);
+                    assert.throws(() => {
+                        tester.run("index");
+                    }, /1 rule\(s\) were not found in ESLint v(?:[0-9]+\.[0-9]+\.[0-9]+(?:-.+)?)\./u);
+                });
+            });
+
+            describe("and 'ignoreDisabledUnknownRules' option", () => {
+                it("should NOT throw.", () => {
+                    const tester = new ConfigTester(fixture("unknown-rule-off"));
+
+                    tester.run("index", { ignoreDisabledUnknownRules: true });
+                });
+            });
+        });
+
+        describe("with 'unknown-rule-on' fixture", () => {
+            describe("and no options", () => {
+                it("should throw as unknown key in 'rules'.", () => {
+                    const tester = new ConfigTester(fixture("unknown-rule-on"));
+
+                    assert.throws(() => {
+                        tester.run("index");
+                    }, /1 rule\(s\) were not found in ESLint v(?:[0-9]+\.[0-9]+\.[0-9]+(?:-.+)?)\./u);
+                });
+            });
+
+            describe("and 'ignoreDisabledUnknownRules' option", () => {
+                it("should throw as unknown key in 'rules'.", () => {
+                    const tester = new ConfigTester(fixture("unknown-rule-on"));
+
+                    assert.throws(() => {
+                        tester.run("index");
+                    }, /1 rule\(s\) were not found in ESLint v(?:[0-9]+\.[0-9]+\.[0-9]+(?:-.+)?)\./u);
+                });
             });
         });
 
         describe("with 'deprecated-rule-on' fixture", () => {
-            it("should throw as a rule was deprecated.", () => {
-                const tester = new ConfigTester(fixture("deprecated-rule-on"));
+            describe("and no options", () => {
+                it("should throw as a rule was deprecated.", () => {
+                    const tester = new ConfigTester(fixture("deprecated-rule-on"));
 
-                assert.throws(() => {
-                    tester.run("index");
-                }, /1 deprecated rule\(s\) were found\./u);
+                    assert.throws(() => {
+                        tester.run("index");
+                    }, /1 deprecated rule\(s\) were found\./u);
+                });
+            });
+
+            describe("and 'ignoreDeprecatedRules' option", () => {
+                it("should NOT throw.", () => {
+                    const tester = new ConfigTester(fixture("deprecated-rule-on"));
+
+                    tester.run("index", { ignoreDeprecatedRules: true });
+                });
             });
         });
 
