@@ -1,0 +1,4 @@
+{
+    "name": "eslint-config-extraneous-extends-file1",
+    "files": ["index.js"]
+}

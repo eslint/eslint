@@ -1,0 +1,10 @@
+{
+    "name": "eslint-config-depend-files",
+    "peerDependencies": {
+        "eslint-plugin-test": "*"
+    },
+    "dependencies": {
+        "eslint-config-base": "*",
+        "parser": "*"
+    }
+}

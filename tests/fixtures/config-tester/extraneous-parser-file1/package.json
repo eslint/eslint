@@ -1,0 +1,4 @@
+{
+    "name": "eslint-config-extraneous-parser-file1",
+    "files": ["index.js"]
+}

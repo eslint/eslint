@@ -73,6 +73,7 @@
     "minimatch": "^3.0.4",
     "mkdirp": "^0.5.1",
     "natural-compare": "^1.4.0",
+    "npm-packlist": "^1.4.1",
     "optionator": "^0.8.2",
     "progress": "^2.0.0",
     "regexpp": "^2.0.1",

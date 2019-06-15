@@ -1,0 +1,6 @@
+{
+    "name": "eslint-config-plugin-unknown-rules",
+    "peerDependencies": {
+        "eslint-plugin-test": "*"
+    }
+}

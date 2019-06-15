@@ -1,0 +1,6 @@
+{
+    "name": "eslint-config-core-rules",
+    "dependencies": {
+        "eslint-config-core-rules": "file:../core-rules"
+    }
+}

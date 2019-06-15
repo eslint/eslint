@@ -1,0 +1,6 @@
+{
+    "name": "eslint-config-extraneous-plugin-package1",
+    "dependencies": {
+        "eslint-plugin-test": "*"
+    }
+}
