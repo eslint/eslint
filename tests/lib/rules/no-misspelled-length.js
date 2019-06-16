@@ -1,5 +1,5 @@
 /**
- * @fileoverview Prevents misspelling the 'length' property on strings and arrays.
+ * @fileoverview Prevents misspelling the 'length' property.
  * @author Eric Schaefer <omg@eric-schaefer.com>
  */
 "use strict";

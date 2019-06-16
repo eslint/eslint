@@ -1,4 +1,4 @@
-# Prevents misspelling the 'length' property on strings and arrays. (no-misspelled-length)
+# Prevents misspelling the 'length' property. (no-misspelled-length)
 
 Please describe the origin of the rule here.
 
