@@ -130,6 +130,7 @@
     "no-loop-func": "suggestion",
     "no-magic-numbers": "suggestion",
     "no-misleading-character-class": "problem",
+    "no-misspelled-length": "problem",
     "no-mixed-operators": "suggestion",
     "no-mixed-requires": "suggestion",
     "no-mixed-spaces-and-tabs": "layout",

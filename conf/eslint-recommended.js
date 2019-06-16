@@ -41,6 +41,7 @@ module.exports = {
         "no-invalid-regexp": "error",
         "no-irregular-whitespace": "error",
         "no-misleading-character-class": "error",
+        "no-misspelled-length": "error",
         "no-mixed-spaces-and-tabs": "error",
         "no-new-symbol": "error",
         "no-obj-calls": "error",
