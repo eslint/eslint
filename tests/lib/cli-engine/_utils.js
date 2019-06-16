@@ -58,8 +58,8 @@
 
 const path = require("path");
 const vm = require("vm");
-const MemoryFs = require("metro-memory-fs");
 const Proxyquire = require("proxyquire/lib/proxyquire");
+const { defineInMemoryFs } = require("../_utils");
 
 const CascadingConfigArrayFactoryPath =
     require.resolve("../../../lib/cli-engine/cascading-config-array-factory");
@@ -243,36 +243,6 @@ function fsImportFresh(fs, stubs, absolutePath) {
 }
 
 /**
- * Add support of `recursive` option.
- * @param {import("fs")} fs The in-memory file system.
- * @param {() => string} cwd The current working directory.
- * @returns {void}
- */
-function supportMkdirRecursiveOption(fs, cwd) {
-    const { mkdirSync } = fs;
-
-    fs.mkdirSync = (filePath, options) => {
-        if (typeof options === "object" && options !== null) {
-            if (options.recursive) {
-                const absolutePath = path.resolve(cwd(), filePath);
-                const parentPath = path.dirname(absolutePath);
-
-                if (
-                    parentPath &&
-                    parentPath !== absolutePath &&
-                    !fs.existsSync(parentPath)
-                ) {
-                    fs.mkdirSync(parentPath, options);
-                }
-            }
-            mkdirSync(filePath, options.mode);
-        } else {
-            mkdirSync(filePath, options);
-        }
-    };
-}
-
-/**
  * Define stubbed `ConfigArrayFactory` class what uses the in-memory file system.
  * @param {Object} options The options.
  * @param {() => string} [options.cwd] The current working directory.
@@ -283,19 +253,7 @@ function defineConfigArrayFactoryWithInMemoryFileSystem({
     cwd = process.cwd,
     files = {}
 } = {}) {
-
-    /**
-     * The in-memory file system for this mock.
-     * @type {import("fs")}
-     */
-    const fs = new MemoryFs({
-        cwd,
-        platform: process.platform === "win32" ? "win32" : "posix"
-    });
-
-    supportMkdirRecursiveOption(fs, cwd);
-    fs.mkdirSync(cwd(), { recursive: true });
-
+    const fs = defineInMemoryFs({ cwd, files });
     const RelativeModuleResolver = { resolve: fsResolve.bind(null, fs) };
 
     /*
@@ -315,22 +273,11 @@ function defineConfigArrayFactoryWithInMemoryFileSystem({
     (function initFiles(directoryPath, definition) {
         for (const [filename, content] of Object.entries(definition)) {
             const filePath = path.resolve(directoryPath, filename);
-            const parentPath = path.dirname(filePath);
 
             if (typeof content === "object") {
                 initFiles(filePath, content);
                 continue;
             }
-
-            /*
-             * Write this file to the in-memory file system.
-             * For config files that `fs.readFileSync()` or `importFresh()` will
-             * import.
-             */
-            if (!fs.existsSync(parentPath)) {
-                fs.mkdirSync(parentPath, { recursive: true });
-            }
-            fs.writeFileSync(filePath, content);
 
             /*
              * Compile then stub if this file is a JavaScript file.
