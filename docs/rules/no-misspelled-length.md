@@ -1,10 +1,8 @@
 # Prevents misspelling the 'length' property. (no-misspelled-length)
 
-Please describe the origin of the rule here.
+A misspelled length property does not result in an error, but instead is valid (but buggy) Javascript code that tries to access an undefined property on an object.
 
 ## Rule Details
-
-A misspelled length property does not result in an error, but instead is valid (but buggy) Javascript code that tries to access an undefined property on an object.
 
 This rule checks that if all sorted letters in the property accessor are found in 'length' as well, the property is probably misspelled.
 
