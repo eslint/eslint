@@ -129,6 +129,27 @@ ruleTester.run("require-atomic-updates", rule, {
                     await doElse();
                 }
             }
+        `,
+
+        // https://github.com/eslint/eslint/issues/11723
+        `
+            async function f(foo) {
+                let bar = await get(foo.id);
+                bar.prop = foo.prop;
+            }
+        `,
+        `
+            async function f(foo) {
+                let bar = await get(foo.id);
+                foo = bar.prop;
+            }
+        `,
+        `
+            async function f() {
+                let foo = {}
+                let bar = await get(foo.id);
+                foo.prop = bar.prop;
+            }
         `
     ],
 
@@ -228,6 +249,17 @@ ruleTester.run("require-atomic-updates", rule, {
         {
             code: "let foo = 0; async function x() { foo = (a ? b ? c ? d ? foo : e : f : g : h) + await bar; if (baz); }",
             errors: [VARIABLE_ERROR]
+        },
+
+        // https://github.com/eslint/eslint/issues/11723
+        {
+            code: `
+                async function f(foo) {
+                    let buz = await get(foo.id);
+                    foo.bar = buz.bar;
+                }
+            `,
+            errors: [STATIC_PROPERTY_ERROR]
         }
     ]
 });
