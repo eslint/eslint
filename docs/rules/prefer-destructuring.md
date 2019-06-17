@@ -16,6 +16,11 @@ One key is `VariableDeclarator` and the other is `AssignmentExpression`, which c
 
 The rule has a second object with a single key, `enforceForRenamedProperties`, which determines whether the `object` destructuring applies to renamed variables.
 
+**Note**: It is not possible to determine if a variable will be referring to an object or an array at runtime. This rule therefore guesses the assignment type by checking whether the key being accessed is an integer. This can lead to the following possibly confusing situations:
+
+- Accessing an object property whose key is an integer will fall under the category `array` destructuring.
+- Accessing an array element through a computed index will fall under the category `object` destructuring.
+
 Examples of **incorrect** code for this rule:
 
 ```javascript
