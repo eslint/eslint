@@ -50,8 +50,18 @@ ruleTester.run("no-param-reassign", rule, {
             parserOptions: { ecmaVersion: 2015 }
         },
         {
+            code: "function foo(a) { ([...a.b] = obj); }",
+            options: [{ props: false, ignorePropertyModificationsFor: [] }],
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
             code: "function foo(a) { ({...a.b} = obj); }",
             options: [{ props: false }],
+            parserOptions: { ecmaVersion: 2018 }
+        },
+        {
+            code: "function foo(a) { ({...a.b} = obj); }",
+            options: [{ props: false, ignorePropertyModificationsFor: [] }],
             parserOptions: { ecmaVersion: 2018 }
         }
     ],
