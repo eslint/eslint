@@ -6,7 +6,8 @@
     ],
     "reporter": [
         "lcov",
-        "text-summary"
+        "text-summary",
+        "cobertura"
     ],
     "sourceMap": true
 }
