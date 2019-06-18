@@ -1,0 +1,37 @@
+parameters:
+  name: ""
+  displayName: ""
+  vmImage: ""
+  nodeVersion: ""
+
+jobs:
+  - job: ${{parameters.name}}
+    displayName: ${{parameters.displayName}}
+    pool:
+      vmImage: ${{parameters.vmImage}}
+    steps:
+      - task: NodeTool@0
+        displayName: Install Node.js
+        inputs:
+          versionSpec: ${{parameters.nodeVersion}}
+
+      - script: npm install
+        displayName: Install Packages
+
+      - script: npm test
+        displayName: Test
+
+      - task: PublishTestResults@2
+        displayName: Process Test Results
+        condition: succeededOrFailed()
+        inputs:
+          testRunner: JUnit
+          testResultsFiles: $(System.DefaultWorkingDirectory)/test-results.xml
+
+      - task: PublishCodeCoverageResults@1
+        displayName: Process Coverage Results
+        condition: succeededOrFailed()
+        inputs: 
+          codeCoverageTool: Cobertura
+          summaryFileLocation: $(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml
+          reportDirectory: $(System.DefaultWorkingDirectory)/coverage

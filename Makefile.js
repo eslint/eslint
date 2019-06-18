@@ -544,7 +544,10 @@ target.test = function() {
 
     echo("Running unit tests");
 
-    lastReturn = exec(`${getBinFile("nyc")} -- ${MOCHA} -R progress -t ${MOCHA_TIMEOUT} -c ${TEST_FILES}`);
+    // In CI (Azure Pipelines), use JUnit reporter.
+    const reporter = process.env.TF_BUILD ? "mocha-junit-reporter" : "progress";
+
+    lastReturn = exec(`${getBinFile("nyc")} -- ${MOCHA} -R ${reporter} -t ${MOCHA_TIMEOUT} -c ${TEST_FILES}`);
     if (lastReturn.code !== 0) {
         errors++;
     }

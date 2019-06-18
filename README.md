@@ -1,6 +1,5 @@
 [![NPM version][npm-image]][npm-url]
-[![build status][travis-image]][travis-url]
-[![Build status][appveyor-image]][appveyor-url]
+[![Build Status](https://dev.azure.com/eslint/eslint/_apis/build/status/eslint.eslint?branchName=master)](https://dev.azure.com/eslint/eslint/_build/latest?definitionId=1&branchName=master)
 [![Downloads][downloads-image]][downloads-url]
 [![Bountysource](https://www.bountysource.com/badge/tracker?tracker_id=282608)](https://www.bountysource.com/trackers/282608-eslint?utm_source=282608&utm_medium=shield&utm_campaign=TRACKER_BADGE)
 [![Join the chat at https://gitter.im/eslint/eslint](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/eslint/eslint?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
@@ -271,11 +270,5 @@ The following companies, organizations, and individuals support ESLint's ongoing
 
 [npm-image]: https://img.shields.io/npm/v/eslint.svg?style=flat-square
 [npm-url]: https://www.npmjs.com/package/eslint
-[travis-image]: https://img.shields.io/travis/eslint/eslint/master.svg?style=flat-square
-[travis-url]: https://travis-ci.org/eslint/eslint
-[appveyor-image]: https://ci.appveyor.com/api/projects/status/iwxmiobcvbw3b0av/branch/master?svg=true
-[appveyor-url]: https://ci.appveyor.com/project/nzakas/eslint/branch/master
-[coveralls-image]: https://img.shields.io/coveralls/eslint/eslint/master.svg?style=flat-square
-[coveralls-url]: https://coveralls.io/r/eslint/eslint?branch=master
 [downloads-image]: https://img.shields.io/npm/dm/eslint.svg?style=flat-square
 [downloads-url]: https://www.npmjs.com/package/eslint

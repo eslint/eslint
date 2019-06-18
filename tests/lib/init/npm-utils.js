@@ -9,13 +9,12 @@
 //------------------------------------------------------------------------------
 
 const
-    path = require("path"),
     assert = require("chai").assert,
     spawn = require("cross-spawn"),
-    MemoryFs = require("metro-memory-fs"),
     sinon = require("sinon"),
     npmUtils = require("../../../lib/init/npm-utils"),
-    log = require("../../../lib/shared/logging");
+    log = require("../../../lib/shared/logging"),
+    { defineInMemoryFs } = require("../_utils");
 
 const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
 
@@ -29,28 +28,8 @@ const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
  * @returns {Object} `npm-utils`.
  */
 function requireNpmUtilsWithInMemoryFileSystem(files) {
-    const fs = new MemoryFs({
-        cwd: process.cwd,
-        platform: process.platform === "win32" ? "win32" : "posix"
-    });
+    const fs = defineInMemoryFs({ files });
 
-    // Make cwd.
-    (function mkdir(dirPath) {
-        const parentPath = path.dirname(dirPath);
-
-        if (parentPath && parentPath !== dirPath && !fs.existsSync(parentPath)) {
-            mkdir(parentPath);
-        }
-        fs.mkdirSync(dirPath);
-
-    }(process.cwd()));
-
-    // Write files.
-    for (const [filename, content] of Object.entries(files)) {
-        fs.writeFileSync(filename, content);
-    }
-
-    // Stub.
     return proxyquire("../../../lib/init/npm-utils", { fs });
 }
 
