@@ -51,6 +51,9 @@ ruleTester.run("max-len", rule, {
         }, {
             code: "// really long comment on its own line sitting here",
             options: [40, 4, { ignoreComments: true }]
+        }, {
+            code: "var foo = module.exports = {}; /* inline some other comments */ //more",
+            options: [40, 4, { ignoreComments: true }]
         },
         "var /*inline-comment*/ i = 1;",
         {
@@ -86,6 +89,9 @@ ruleTester.run("max-len", rule, {
             options: [{ code: 30, tabWidth: 4, comments: 20, ignoreTrailingComments: true }]
         }, {
             code: "var foo = module.exports = {}; // really long trailing comment",
+            options: [40, 4, { ignoreTrailingComments: true }]
+        }, {
+            code: "var foo = module.exports = {}; /* inline some other comments */ //more",
             options: [40, 4, { ignoreTrailingComments: true }]
         }, {
             code: "var foo = module.exports = {}; // really long trailing comment",
