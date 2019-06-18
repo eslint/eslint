@@ -3,8 +3,8 @@
 module.exports = {
     mode: "none",
     entry: {
-        eslint: ["@babel/polyfill", "./lib/linter/linter.js"],
-        espree: ["@babel/polyfill", "espree"]
+        eslint: ["core-js/stable", "regenerator-runtime/runtime", "./lib/linter/linter.js"],
+        espree: ["core-js/stable", "regenerator-runtime/runtime", "espree"]
     },
     output: {
         filename: "[name].js",

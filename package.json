@@ -84,7 +84,6 @@
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",
-    "@babel/polyfill": "^7.4.3",
     "@babel/preset-env": "^7.4.3",
     "acorn": "^6.1.1",
     "babel-loader": "^8.0.5",
@@ -93,6 +92,7 @@
     "chai": "^4.0.1",
     "cheerio": "^0.22.0",
     "common-tags": "^1.8.0",
+    "core-js": "^3.1.3",
     "coveralls": "^3.0.3",
     "dateformat": "^3.0.3",
     "ejs": "^2.6.1",
@@ -123,6 +123,7 @@
     "proxyquire": "^2.0.1",
     "puppeteer": "^1.14.0",
     "recast": "^0.17.6",
+    "regenerator-runtime": "^0.13.2",
     "shelljs": "^0.8.2",
     "sinon": "^3.3.0",
     "temp": "^0.9.0",
