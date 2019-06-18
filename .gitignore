@@ -17,3 +17,4 @@ versions.json
 .sublimelinterrc
 .eslint-release-info.json
 .nyc_output
+/test-results.xml
