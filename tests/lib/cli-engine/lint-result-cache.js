@@ -26,15 +26,12 @@ describe("LintResultCache", () => {
 
     let LintResultCache,
         hashStub,
-        sandbox,
         fakeConfig,
         fakeErrorResults,
         fakeErrorResultsAutofix;
 
     before(() => {
-        sandbox = sinon.sandbox.create();
-
-        hashStub = sandbox.stub();
+        hashStub = sinon.stub();
 
         let shouldFix = false;
 
@@ -61,7 +58,7 @@ describe("LintResultCache", () => {
     });
 
     afterEach(done => {
-        sandbox.reset();
+        sinon.reset();
 
         fs.unlink(cacheFileLocation, err => {
             if (err && err.code !== "ENOENT") {
@@ -93,7 +90,7 @@ describe("LintResultCache", () => {
             lintResultsCache;
 
         before(() => {
-            getFileDescriptorStub = sandbox.stub();
+            getFileDescriptorStub = sinon.stub();
 
             fileEntryCacheStubs.create = () => ({
                 getFileDescriptor: getFileDescriptorStub
@@ -187,7 +184,7 @@ describe("LintResultCache", () => {
             lintResultsCache;
 
         before(() => {
-            getFileDescriptorStub = sandbox.stub();
+            getFileDescriptorStub = sinon.stub();
 
             fileEntryCacheStubs.create = () => ({
                 getFileDescriptor: getFileDescriptorStub
@@ -285,7 +282,7 @@ describe("LintResultCache", () => {
             lintResultsCache;
 
         before(() => {
-            reconcileStub = sandbox.stub();
+            reconcileStub = sinon.stub();
 
             fileEntryCacheStubs.create = () => ({
                 reconcile: reconcileStub
