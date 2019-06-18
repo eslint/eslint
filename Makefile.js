@@ -761,7 +761,7 @@ target.gensite = function(prereleaseVersion) {
 
     // 11. Generate rule listing page
     echo("> Generating the rule listing (Step 11)");
-    generateRuleIndexPage(process.cwd());
+    generateRuleIndexPage();
 
     // 12. Delete temporary directory
     echo("> Removing the temporary directory (Step 12)");
@@ -1088,7 +1088,7 @@ target.perf = function() {
                 // Count test target files.
                 const count = glob.sync(
                     process.platform === "win32"
-                        ? PERF_MULTIFILES_TARGETS.slice(2).replace("\\", "/")
+                        ? PERF_MULTIFILES_TARGETS.slice(2).replace(/\\/gu, "/")
                         : PERF_MULTIFILES_TARGETS
                 ).length;
 
