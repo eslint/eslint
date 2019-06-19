@@ -43,18 +43,16 @@ const formatter = proxyquire("../../../../lib/cli-engine/formatters/stylish", { 
 //------------------------------------------------------------------------------
 
 describe("formatter:stylish", () => {
-    let sandbox;
     const colorsEnabled = chalk.enabled;
 
     beforeEach(() => {
         chalk.enabled = false;
-        sandbox = sinon.sandbox.create();
-        sandbox.spy(chalkStub.yellow, "bold");
-        sandbox.spy(chalkStub.red, "bold");
+        sinon.spy(chalkStub.yellow, "bold");
+        sinon.spy(chalkStub.red, "bold");
     });
 
     afterEach(() => {
-        sandbox.verifyAndRestore();
+        sinon.verifyAndRestore();
         chalk.enabled = colorsEnabled;
     });
 

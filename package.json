@@ -121,7 +121,7 @@
     "recast": "^0.17.6",
     "regenerator-runtime": "^0.13.2",
     "shelljs": "^0.8.2",
-    "sinon": "^3.3.0",
+    "sinon": "^7.3.2",
     "temp": "^0.9.0",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.3.0",

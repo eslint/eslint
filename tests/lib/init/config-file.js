@@ -40,12 +40,9 @@ function getFixturePath(filepath) {
 
 describe("ConfigFile", () => {
     describe("write()", () => {
-
-        let sandbox,
-            config;
+        let config;
 
         beforeEach(() => {
-            sandbox = sinon.sandbox.create();
             config = {
                 env: {
                     browser: true,
@@ -59,7 +56,7 @@ describe("ConfigFile", () => {
         });
 
         afterEach(() => {
-            sandbox.verifyAndRestore();
+            sinon.verifyAndRestore();
         });
 
         leche.withData([
@@ -72,7 +69,7 @@ describe("ConfigFile", () => {
             it(`should write a file through fs when a ${fileType} path is passed`, () => {
                 const fakeFS = leche.fake(fs);
 
-                sandbox.mock(fakeFS).expects("writeFileSync").withExactArgs(
+                sinon.mock(fakeFS).expects("writeFileSync").withExactArgs(
                     filename,
                     sinon.match(value => !!validate(value)),
                     "utf8"
@@ -96,7 +93,7 @@ describe("ConfigFile", () => {
                 }
             };
 
-            sandbox.mock(fakeFS).expects("writeFileSync").withExactArgs(
+            sinon.mock(fakeFS).expects("writeFileSync").withExactArgs(
                 "test-config.js",
                 sinon.match(value => !value.includes("\"")),
                 "utf8"
@@ -111,16 +108,16 @@ describe("ConfigFile", () => {
 
         it("should still write a js config file even if linting fails", () => {
             const fakeFS = leche.fake(fs);
-            const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({
+            const fakeCLIEngine = sinon.mock().withExactArgs(sinon.match({
                 baseConfig: config,
                 fix: true,
                 useEslintrc: false
             }));
 
-            fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
-            sandbox.stub(fakeCLIEngine.prototype, "executeOnText").throws();
+            Object.defineProperties(fakeCLIEngine.prototype, Object.getOwnPropertyDescriptors(CLIEngine.prototype));
+            sinon.stub(fakeCLIEngine.prototype, "executeOnText").throws();
 
-            sandbox.mock(fakeFS).expects("writeFileSync").once();
+            sinon.mock(fakeFS).expects("writeFileSync").once();
 
             const StubbedConfigFile = proxyquire("../../../lib/init/config-file", {
                 fs: fakeFS,

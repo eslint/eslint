@@ -38,15 +38,8 @@ function requireNpmUtilsWithInMemoryFileSystem(files) {
 //------------------------------------------------------------------------------
 
 describe("npmUtils", () => {
-
-    let sandbox;
-
-    beforeEach(() => {
-        sandbox = sinon.sandbox.create();
-    });
-
     afterEach(() => {
-        sandbox.verifyAndRestore();
+        sinon.verifyAndRestore();
     });
 
     describe("checkDevDeps()", () => {
@@ -179,7 +172,7 @@ describe("npmUtils", () => {
 
     describe("installSyncSaveDev()", () => {
         it("should invoke npm to install a single desired package", () => {
-            const stub = sandbox.stub(spawn, "sync").returns({ stdout: "" });
+            const stub = sinon.stub(spawn, "sync").returns({ stdout: "" });
 
             npmUtils.installSyncSaveDev("desired-package");
             assert(stub.calledOnce);
@@ -189,7 +182,7 @@ describe("npmUtils", () => {
         });
 
         it("should accept an array of packages to install", () => {
-            const stub = sandbox.stub(spawn, "sync").returns({ stdout: "" });
+            const stub = sinon.stub(spawn, "sync").returns({ stdout: "" });
 
             npmUtils.installSyncSaveDev(["first-package", "second-package"]);
             assert(stub.calledOnce);
@@ -199,8 +192,8 @@ describe("npmUtils", () => {
         });
 
         it("should log an error message if npm throws ENOENT error", () => {
-            const logErrorStub = sandbox.stub(log, "error");
-            const npmUtilsStub = sandbox.stub(spawn, "sync").returns({ error: { code: "ENOENT" } });
+            const logErrorStub = sinon.stub(log, "error");
+            const npmUtilsStub = sinon.stub(spawn, "sync").returns({ error: { code: "ENOENT" } });
 
             npmUtils.installSyncSaveDev("some-package");
 
@@ -213,7 +206,7 @@ describe("npmUtils", () => {
 
     describe("fetchPeerDependencies()", () => {
         it("should execute 'npm show --json <packageName> peerDependencies' command", () => {
-            const stub = sandbox.stub(spawn, "sync").returns({ stdout: "" });
+            const stub = sinon.stub(spawn, "sync").returns({ stdout: "" });
 
             npmUtils.fetchPeerDependencies("desired-package");
             assert(stub.calledOnce);
@@ -223,7 +216,7 @@ describe("npmUtils", () => {
         });
 
         it("should return null if npm throws ENOENT error", () => {
-            const stub = sandbox.stub(spawn, "sync").returns({ error: { code: "ENOENT" } });
+            const stub = sinon.stub(spawn, "sync").returns({ error: { code: "ENOENT" } });
 
             const peerDependencies = npmUtils.fetchPeerDependencies("desired-package");
 
