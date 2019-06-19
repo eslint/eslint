@@ -19,8 +19,7 @@
     "docs": "node Makefile.js docs",
     "gensite": "node Makefile.js gensite",
     "webpack": "node Makefile.js webpack",
-    "perf": "node Makefile.js perf",
-    "profile": "beefy tests/bench/bench.js --open -- -t brfs -t ./tests/bench/xform-rules.js -r espree"
+    "perf": "node Makefile.js perf"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
@@ -86,8 +85,6 @@
     "@babel/preset-env": "^7.4.3",
     "acorn": "^6.1.1",
     "babel-loader": "^8.0.5",
-    "beefy": "^2.1.8",
-    "brfs": "^2.0.2",
     "chai": "^4.0.1",
     "cheerio": "^0.22.0",
     "common-tags": "^1.8.0",
@@ -126,7 +123,6 @@
     "shelljs": "^0.8.2",
     "sinon": "^3.3.0",
     "temp": "^0.9.0",
-    "through": "^2.3.8",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.3.0",
     "yorkie": "^2.0.0"
