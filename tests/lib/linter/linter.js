@@ -73,18 +73,16 @@ const ESLINT_ENV = "eslint-env";
 
 describe("Linter", () => {
     const filename = "filename.js";
-    let sandbox;
 
     /** @type {InstanceType<import("../../lib/linter.js")["Linter"]>} */
     let linter;
 
     beforeEach(() => {
         linter = new Linter();
-        sandbox = sinon.sandbox.create();
     });
 
     afterEach(() => {
-        sandbox.verifyAndRestore();
+        sinon.verifyAndRestore();
     });
 
     describe("Static Members", () => {
@@ -113,7 +111,7 @@ describe("Linter", () => {
         });
 
         it("does not call rule listeners with a `this` value", () => {
-            const spy = sandbox.spy();
+            const spy = sinon.spy();
 
             linter.defineRule("checker", () => ({ Program: spy }));
             linter.verify("foo", { rules: { checker: "error" } });
@@ -122,7 +120,7 @@ describe("Linter", () => {
         });
 
         it("does not allow listeners to use special EventEmitter values", () => {
-            const spy = sandbox.spy();
+            const spy = sinon.spy();
 
             linter.defineRule("checker", () => ({ newListener: spy }));
             linter.verify("foo", { rules: { checker: "error", "no-undef": "error" } });
@@ -130,7 +128,7 @@ describe("Linter", () => {
         });
 
         it("has all the `parent` properties on nodes when the rule listeners are created", () => {
-            const spy = sandbox.spy(context => {
+            const spy = sinon.spy(context => {
                 const ast = context.getSourceCode().ast;
 
                 assert.strictEqual(ast.body[0].parent, ast);
@@ -152,7 +150,7 @@ describe("Linter", () => {
 
         it("should get proper lines when using \\n as a line break", () => {
             const code = "a;\nb;";
-            const spy = sandbox.spy(context => {
+            const spy = sinon.spy(context => {
                 assert.deepStrictEqual(context.getSourceLines(), ["a;", "b;"]);
                 return {};
             });
@@ -164,7 +162,7 @@ describe("Linter", () => {
 
         it("should get proper lines when using \\r\\n as a line break", () => {
             const code = "a;\r\nb;";
-            const spy = sandbox.spy(context => {
+            const spy = sinon.spy(context => {
                 assert.deepStrictEqual(context.getSourceLines(), ["a;", "b;"]);
                 return {};
             });
@@ -176,7 +174,7 @@ describe("Linter", () => {
 
         it("should get proper lines when using \\r as a line break", () => {
             const code = "a;\rb;";
-            const spy = sandbox.spy(context => {
+            const spy = sinon.spy(context => {
                 assert.deepStrictEqual(context.getSourceLines(), ["a;", "b;"]);
                 return {};
             });
@@ -188,7 +186,7 @@ describe("Linter", () => {
 
         it("should get proper lines when using \\u2028 as a line break", () => {
             const code = "a;\u2028b;";
-            const spy = sandbox.spy(context => {
+            const spy = sinon.spy(context => {
                 assert.deepStrictEqual(context.getSourceLines(), ["a;", "b;"]);
                 return {};
             });
@@ -200,7 +198,7 @@ describe("Linter", () => {
 
         it("should get proper lines when using \\u2029 as a line break", () => {
             const code = "a;\u2029b;";
-            const spy = sandbox.spy(context => {
+            const spy = sinon.spy(context => {
                 assert.deepStrictEqual(context.getSourceLines(), ["a;", "b;"]);
                 return {};
             });
@@ -247,7 +245,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", context => {
-                spy = sandbox.spy(() => {
+                spy = sinon.spy(() => {
                     assert.strictEqual(context.getSource(), TEST_CODE);
                 });
                 return { Program: spy };
@@ -262,7 +260,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", context => {
-                spy = sandbox.spy(node => {
+                spy = sinon.spy(node => {
                     assert.strictEqual(context.getSource(node), TEST_CODE);
                 });
                 return { Program: spy };
@@ -277,7 +275,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", context => {
-                spy = sandbox.spy(node => {
+                spy = sinon.spy(node => {
                     assert.strictEqual(context.getSource(node, 2, 0), TEST_CODE);
                 });
                 return { Program: spy };
@@ -292,7 +290,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", context => {
-                spy = sandbox.spy(node => {
+                spy = sinon.spy(node => {
                     assert.strictEqual(context.getSource(node), "6 * 7");
                 });
                 return { BinaryExpression: spy };
@@ -307,7 +305,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", context => {
-                spy = sandbox.spy(node => {
+                spy = sinon.spy(node => {
                     assert.strictEqual(context.getSource(node, 2), "= 6 * 7");
                 });
                 return { BinaryExpression: spy };
@@ -322,7 +320,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", context => {
-                spy = sandbox.spy(node => {
+                spy = sinon.spy(node => {
                     assert.strictEqual(context.getSource(node, 0, 1), "6 * 7;");
                 });
                 return { BinaryExpression: spy };
@@ -337,7 +335,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", context => {
-                spy = sandbox.spy(node => {
+                spy = sinon.spy(node => {
                     assert.strictEqual(context.getSource(node, 2, 1), "= 6 * 7;");
                 });
                 return { BinaryExpression: spy };
@@ -358,7 +356,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", context => {
-                spy = sandbox.spy(() => {
+                spy = sinon.spy(() => {
                     const ancestors = context.getAncestors();
 
                     assert.strictEqual(ancestors.length, 3);
@@ -375,7 +373,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", context => {
-                spy = sandbox.spy(() => {
+                spy = sinon.spy(() => {
                     const ancestors = context.getAncestors();
 
                     assert.strictEqual(ancestors.length, 0);
@@ -394,7 +392,7 @@ describe("Linter", () => {
 
         it("should retrieve a node starting at the given index", () => {
             const config = { rules: { checker: "error" } };
-            const spy = sandbox.spy(context => {
+            const spy = sinon.spy(context => {
                 assert.strictEqual(context.getNodeByRangeIndex(4).type, "Identifier");
                 return {};
             });
@@ -406,7 +404,7 @@ describe("Linter", () => {
 
         it("should retrieve a node containing the given index", () => {
             const config = { rules: { checker: "error" } };
-            const spy = sandbox.spy(context => {
+            const spy = sinon.spy(context => {
                 assert.strictEqual(context.getNodeByRangeIndex(6).type, "Identifier");
                 return {};
             });
@@ -418,7 +416,7 @@ describe("Linter", () => {
 
         it("should retrieve a node that is exactly the given index", () => {
             const config = { rules: { checker: "error" } };
-            const spy = sandbox.spy(context => {
+            const spy = sinon.spy(context => {
                 const node = context.getNodeByRangeIndex(13);
 
                 assert.strictEqual(node.type, "Literal");
@@ -433,7 +431,7 @@ describe("Linter", () => {
 
         it("should retrieve a node ending with the given index", () => {
             const config = { rules: { checker: "error" } };
-            const spy = sandbox.spy(context => {
+            const spy = sinon.spy(context => {
                 assert.strictEqual(context.getNodeByRangeIndex(9).type, "Identifier");
                 return {};
             });
@@ -445,7 +443,7 @@ describe("Linter", () => {
 
         it("should retrieve the deepest node containing the given index", () => {
             const config = { rules: { checker: "error" } };
-            const spy = sandbox.spy(context => {
+            const spy = sinon.spy(context => {
                 const node1 = context.getNodeByRangeIndex(14);
 
                 assert.strictEqual(node1.type, "BinaryExpression");
@@ -463,7 +461,7 @@ describe("Linter", () => {
 
         it("should return null if the index is outside the range of any node", () => {
             const config = { rules: { checker: "error" } };
-            const spy = sandbox.spy(context => {
+            const spy = sinon.spy(context => {
                 const node1 = context.getNodeByRangeIndex(-1);
 
                 assert.isNull(node1);
@@ -489,7 +487,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", context => {
-                spy = sandbox.spy(() => {
+                spy = sinon.spy(() => {
                     const scope = context.getScope();
 
                     assert.strictEqual(scope.type, "global");
@@ -506,7 +504,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", context => {
-                spy = sandbox.spy(() => {
+                spy = sinon.spy(() => {
                     const scope = context.getScope();
 
                     assert.strictEqual(scope.type, "function");
@@ -523,7 +521,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", context => {
-                spy = sandbox.spy(() => {
+                spy = sinon.spy(() => {
                     const scope = context.getScope();
 
                     assert.strictEqual(scope.type, "function");
@@ -541,7 +539,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", context => {
-                spy = sandbox.spy(() => {
+                spy = sinon.spy(() => {
                     const scope = context.getScope();
 
                     assert.strictEqual(scope.type, "function");
@@ -560,7 +558,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", context => {
-                spy = sandbox.spy(() => {
+                spy = sinon.spy(() => {
                     const scope = context.getScope();
 
                     assert.strictEqual(scope.type, "switch");
@@ -579,7 +577,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", context => {
-                spy = sandbox.spy(() => {
+                spy = sinon.spy(() => {
                     const scope = context.getScope();
 
                     assert.strictEqual(scope.type, "block");
@@ -598,7 +596,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", context => {
-                spy = sandbox.spy(() => {
+                spy = sinon.spy(() => {
                     const scope = context.getScope();
 
                     assert.strictEqual(scope.type, "block");
@@ -617,7 +615,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", context => {
-                spy = sandbox.spy(() => {
+                spy = sinon.spy(() => {
                     const scope = context.getScope();
 
                     assert.strictEqual(scope.type, "function");
@@ -636,7 +634,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", context => {
-                spy = sandbox.spy(() => {
+                spy = sinon.spy(() => {
                     const scope = context.getScope();
 
                     assert.strictEqual(scope.type, "function");
@@ -655,7 +653,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", context => {
-                spy = sandbox.spy(() => {
+                spy = sinon.spy(() => {
                     const scope = context.getScope();
 
                     assert.strictEqual(scope.type, "catch");
@@ -674,7 +672,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", context => {
-                spy = sandbox.spy(() => {
+                spy = sinon.spy(() => {
                     const scope = context.getScope();
 
                     assert.strictEqual(scope.type, "module");
@@ -692,7 +690,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", context => {
-                spy = sandbox.spy(() => {
+                spy = sinon.spy(() => {
                     const scope = context.getScope();
 
                     assert.strictEqual(scope.type, "function");
@@ -712,7 +710,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", context => {
-                spy = sandbox.spy(() => {
+                spy = sinon.spy(() => {
                     assert.isTrue(context.markVariableAsUsed("a"));
 
                     const scope = context.getScope();
@@ -732,7 +730,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", context => {
-                spy = sandbox.spy(() => {
+                spy = sinon.spy(() => {
                     assert.isTrue(context.markVariableAsUsed("a"));
 
                     const scope = context.getScope();
@@ -752,10 +750,10 @@ describe("Linter", () => {
             let returnSpy, exitSpy;
 
             linter.defineRule("checker", context => {
-                returnSpy = sandbox.spy(() => {
+                returnSpy = sinon.spy(() => {
                     assert.isTrue(context.markVariableAsUsed("a"));
                 });
-                exitSpy = sandbox.spy(() => {
+                exitSpy = sinon.spy(() => {
                     const scope = context.getScope();
 
                     assert.isTrue(getVariable(scope, "a").eslintUsed);
@@ -775,7 +773,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", context => {
-                spy = sandbox.spy(() => {
+                spy = sinon.spy(() => {
                     const globalScope = context.getScope(),
                         childScope = globalScope.childScopes[0];
 
@@ -797,7 +795,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", context => {
-                spy = sandbox.spy(() => {
+                spy = sinon.spy(() => {
                     const globalScope = context.getScope(),
                         childScope = globalScope.childScopes[0];
 
@@ -819,7 +817,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", context => {
-                spy = sandbox.spy(() => {
+                spy = sinon.spy(() => {
                     assert.isFalse(context.markVariableAsUsed("c"));
                 });
 
@@ -927,7 +925,7 @@ describe("Linter", () => {
                 }
             };
 
-            linter.defineRule("test-rule", sandbox.mock().withArgs(
+            linter.defineRule("test-rule", sinon.mock().withArgs(
                 sinon.match({ parserOptions })
             ).returns({}));
 
@@ -940,7 +938,7 @@ describe("Linter", () => {
 
             const parserOptions = {};
 
-            linter.defineRule("test-rule", sandbox.mock().withArgs(
+            linter.defineRule("test-rule", sinon.mock().withArgs(
                 sinon.match({ parserOptions })
             ).returns({}));
 
@@ -985,7 +983,7 @@ describe("Linter", () => {
             const alternateParser = "esprima";
 
             linter.defineParser("esprima", esprima);
-            linter.defineRule("test-rule", sandbox.mock().withArgs(
+            linter.defineRule("test-rule", sinon.mock().withArgs(
                 sinon.match({ parserPath: alternateParser })
             ).returns({}));
 
@@ -1045,7 +1043,7 @@ describe("Linter", () => {
         });
 
         it("should pass parser as parserPath to all rules when default parser is used", () => {
-            linter.defineRule("test-rule", sandbox.mock().withArgs(
+            linter.defineRule("test-rule", sinon.mock().withArgs(
                 sinon.match({ parserPath: "espree" })
             ).returns({}));
 
@@ -1142,7 +1140,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", context => {
-                spy = sandbox.spy(() => {
+                spy = sinon.spy(() => {
                     const scope = context.getScope();
                     const a = getVariable(scope, "a"),
                         b = getVariable(scope, "b"),
@@ -1188,7 +1186,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", context => {
-                spy = sandbox.spy(() => {
+                spy = sinon.spy(() => {
                     const scope = context.getScope(),
                         a = getVariable(scope, "a"),
                         b = getVariable(scope, "b"),
@@ -1217,7 +1215,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", context => {
-                spy = sandbox.spy(() => {
+                spy = sinon.spy(() => {
                     const scope = context.getScope(),
                         exports = getVariable(scope, "exports"),
                         window = getVariable(scope, "window");
@@ -1242,7 +1240,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", context => {
-                spy = sandbox.spy(() => {
+                spy = sinon.spy(() => {
                     const scope = context.getScope(),
                         exports = getVariable(scope, "exports"),
                         window = getVariable(scope, "window");
@@ -1274,7 +1272,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", context => {
-                spy = sandbox.spy(() => {
+                spy = sinon.spy(() => {
                     const scope = context.getScope(),
                         horse = getVariable(scope, "horse");
 
@@ -1294,7 +1292,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", context => {
-                spy = sandbox.spy(() => {
+                spy = sinon.spy(() => {
                     const scope = context.getScope(),
                         horse = getVariable(scope, "horse");
 
@@ -1314,7 +1312,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", context => {
-                spy = sandbox.spy(() => {
+                spy = sinon.spy(() => {
                     const scope = context.getScope(),
                         horse = getVariable(scope, "horse");
 
@@ -1334,7 +1332,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", context => {
-                spy = sandbox.spy(() => {
+                spy = sinon.spy(() => {
                     const scope = context.getScope(),
                         horse = getVariable(scope, "horse");
 
@@ -1354,7 +1352,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", context => {
-                spy = sandbox.spy(() => {
+                spy = sinon.spy(() => {
                     const scope = context.getScope(),
                         horse = getVariable(scope, "horse");
 
@@ -1377,7 +1375,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", context => {
-                spy = sandbox.spy(() => {
+                spy = sinon.spy(() => {
                     const scope = context.getScope();
 
                     assert.strictEqual(getVariable(scope, "a"), null);
@@ -1399,7 +1397,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", context => {
-                spy = sandbox.spy(() => {
+                spy = sinon.spy(() => {
                     const scope = context.getScope();
 
                     assert.strictEqual(getVariable(scope, "a"), null);
@@ -1424,7 +1422,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", context => {
-                spy = sandbox.spy(() => {
+                spy = sinon.spy(() => {
                     const scope = context.getScope();
 
                     assert.notStrictEqual(getVariable(scope, "Object"), null);
@@ -1444,7 +1442,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", context => {
-                spy = sandbox.spy(() => {
+                spy = sinon.spy(() => {
                     const scope = context.getScope();
 
                     assert.strictEqual(getVariable(scope, "Promise"), null);
@@ -1464,7 +1462,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", context => {
-                spy = sandbox.spy(() => {
+                spy = sinon.spy(() => {
                     const scope = context.getScope();
 
                     assert.notStrictEqual(getVariable(scope, "Promise"), null);
@@ -1484,7 +1482,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", context => {
-                spy = sandbox.spy(() => {
+                spy = sinon.spy(() => {
                     const scope = context.getScope();
 
                     assert.strictEqual(getVariable(scope, "Promise"), null);
@@ -2752,7 +2750,7 @@ describe("Linter", () => {
 
         it("should have a comment with the shebang in it", () => {
             const config = { rules: { checker: "error" } };
-            const spy = sandbox.spy(context => {
+            const spy = sinon.spy(context => {
                 const comments = context.getAllComments();
 
                 assert.strictEqual(comments.length, 1);
@@ -3205,7 +3203,7 @@ describe("Linter", () => {
             let spy;
 
             linter.defineRule("checker", context => {
-                spy = sandbox.spy(node => {
+                spy = sinon.spy(node => {
                     assert.strictEqual(context.getSource(node), "'123';");
                 });
                 return { ExpressionStatement: spy };
@@ -3219,7 +3217,7 @@ describe("Linter", () => {
     describe("verify()", () => {
         describe("filenames", () => {
             it("should allow filename to be passed on options object", () => {
-                const filenameChecker = sandbox.spy(context => {
+                const filenameChecker = sinon.spy(context => {
                     assert.strictEqual(context.getFilename(), "foo.js");
                     return {};
                 });
@@ -3231,7 +3229,7 @@ describe("Linter", () => {
             });
 
             it("should allow filename to be passed as third argument", () => {
-                const filenameChecker = sandbox.spy(context => {
+                const filenameChecker = sinon.spy(context => {
                     assert.strictEqual(context.getFilename(), "bar.js");
                     return {};
                 });
@@ -3242,7 +3240,7 @@ describe("Linter", () => {
             });
 
             it("should default filename to <input> when options object doesn't have filename", () => {
-                const filenameChecker = sandbox.spy(context => {
+                const filenameChecker = sinon.spy(context => {
                     assert.strictEqual(context.getFilename(), "<input>");
                     return {};
                 });
@@ -3253,7 +3251,7 @@ describe("Linter", () => {
             });
 
             it("should default filename to <input> when only two arguments are passed", () => {
-                const filenameChecker = sandbox.spy(context => {
+                const filenameChecker = sinon.spy(context => {
                     assert.strictEqual(context.getFilename(), "<input>");
                     return {};
                 });
@@ -3615,7 +3613,7 @@ describe("Linter", () => {
         });
 
         it("should pass 'id' to rule contexts with the rule id", () => {
-            const spy = sandbox.spy(context => {
+            const spy = sinon.spy(context => {
                 assert.strictEqual(context.id, "foo-bar-baz");
                 return {};
             });

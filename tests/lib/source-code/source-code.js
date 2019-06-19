@@ -228,11 +228,8 @@ describe("SourceCode", () => {
 
 
     describe("getJSDocComment()", () => {
-
-        const sandbox = sinon.sandbox.create();
-
         afterEach(() => {
-            sandbox.verifyAndRestore();
+            sinon.verifyAndRestore();
         });
 
         it("should not take a JSDoc comment from a FunctionDeclaration parent node when the node is a FunctionExpression", () => {
@@ -255,7 +252,7 @@ describe("SourceCode", () => {
                 assert.strictEqual(jsdoc, null);
             }
 
-            const spy = sandbox.spy(assertJSDoc);
+            const spy = sinon.spy(assertJSDoc);
 
             linter.defineRule("checker", () => ({ FunctionExpression: spy }));
             linter.verify(code, { rules: { checker: "error" } });
@@ -283,7 +280,7 @@ describe("SourceCode", () => {
                 assert.strictEqual(jsdoc, null);
             }
 
-            const spy = sandbox.spy(assertJSDoc);
+            const spy = sinon.spy(assertJSDoc);
 
             linter.defineRule("checker", () => ({ FunctionExpression: spy }));
             linter.verify(code, { rules: { checker: "error" } });
@@ -313,7 +310,7 @@ describe("SourceCode", () => {
                 }
             }
 
-            const spy = sandbox.spy(assertJSDoc);
+            const spy = sinon.spy(assertJSDoc);
 
             linter.defineRule("checker", () => ({ FunctionExpression: spy }));
             linter.verify(code, { rules: { checker: "error" } });
@@ -345,7 +342,7 @@ describe("SourceCode", () => {
                 assert.strictEqual(jsdoc.value, "* Documentation. ");
             }
 
-            const spy = sandbox.spy(assertJSDoc);
+            const spy = sinon.spy(assertJSDoc);
 
             linter.defineRule("checker", () => ({ FunctionExpression: spy }));
             linter.verify(code, { rules: { checker: "error" } });
@@ -373,7 +370,7 @@ describe("SourceCode", () => {
                 assert.strictEqual(jsdoc.value, "* Desc");
             }
 
-            const spy = sandbox.spy(assertJSDoc);
+            const spy = sinon.spy(assertJSDoc);
 
             linter.defineRule("checker", () => ({ FunctionDeclaration: spy }));
             linter.verify(code, { rules: { checker: "error" } });
@@ -402,7 +399,7 @@ describe("SourceCode", () => {
                 assert.strictEqual(jsdoc.value, "* Desc");
             }
 
-            const spy = sandbox.spy(assertJSDoc);
+            const spy = sinon.spy(assertJSDoc);
 
             linter.defineRule("checker", () => ({ FunctionDeclaration: spy }));
             linter.verify(code, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6, sourceType: "module" } });
@@ -433,7 +430,7 @@ describe("SourceCode", () => {
                 assert.strictEqual(jsdoc.value, "* Desc");
             }
 
-            const spy = sandbox.spy(assertJSDoc);
+            const spy = sinon.spy(assertJSDoc);
 
             linter.defineRule("checker", () => ({ FunctionDeclaration: spy }));
             linter.verify(code, { rules: { checker: "error" } });
@@ -464,7 +461,7 @@ describe("SourceCode", () => {
                 assert.isNull(jsdoc);
             }
 
-            const spy = sandbox.spy(assertJSDoc);
+            const spy = sinon.spy(assertJSDoc);
 
             linter.defineRule("checker", () => ({ FunctionDeclaration: spy }));
             linter.verify(code, { rules: { checker: "error" } });
@@ -494,7 +491,7 @@ describe("SourceCode", () => {
                 assert.strictEqual(jsdoc.value, "* Desc");
             }
 
-            const spy = sandbox.spy(assertJSDoc);
+            const spy = sinon.spy(assertJSDoc);
 
             linter.defineRule("checker", () => ({ FunctionDeclaration: spy }));
             linter.verify(code, { rules: { checker: "error" } });
@@ -526,7 +523,7 @@ describe("SourceCode", () => {
                 assert.strictEqual(jsdoc.value, "* Desc");
             }
 
-            const spy = sandbox.spy(assertJSDoc);
+            const spy = sinon.spy(assertJSDoc);
 
             linter.defineRule("checker", () => ({ FunctionDeclaration: spy }));
             linter.verify(code, { rules: { checker: "error" } });
@@ -557,7 +554,7 @@ describe("SourceCode", () => {
                 assert.strictEqual(jsdoc.value, "* Desc");
             }
 
-            const spy = sandbox.spy(assertJSDoc);
+            const spy = sinon.spy(assertJSDoc);
 
             linter.defineRule("checker", () => ({ FunctionExpression: spy }));
             linter.verify(code, { rules: { checker: "error" } });
@@ -588,7 +585,7 @@ describe("SourceCode", () => {
                 assert.strictEqual(jsdoc.value, "* Desc");
             }
 
-            const spy = sandbox.spy(assertJSDoc);
+            const spy = sinon.spy(assertJSDoc);
 
             linter.defineRule("checker", () => ({ ArrowFunctionExpression: spy }));
             linter.verify(code, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } });
@@ -617,7 +614,7 @@ describe("SourceCode", () => {
                 assert.strictEqual(jsdoc.value, "* Desc");
             }
 
-            const spy = sandbox.spy(assertJSDoc);
+            const spy = sinon.spy(assertJSDoc);
 
             linter.defineRule("checker", () => ({ FunctionExpression: spy }));
             linter.verify(code, { rules: { checker: "error" } });
@@ -650,7 +647,7 @@ describe("SourceCode", () => {
                 }
             }
 
-            const spy = sandbox.spy(assertJSDoc);
+            const spy = sinon.spy(assertJSDoc);
 
             linter.defineRule("checker", () => ({ FunctionExpression: spy }));
             linter.verify(code, { rules: { checker: "error" } });
@@ -682,7 +679,7 @@ describe("SourceCode", () => {
                 }
             }
 
-            const spy = sandbox.spy(assertJSDoc);
+            const spy = sinon.spy(assertJSDoc);
 
             linter.defineRule("checker", () => ({ FunctionExpression: spy }));
             linter.verify(code, { rules: { checker: "error" } });
@@ -712,7 +709,7 @@ describe("SourceCode", () => {
                 }
             }
 
-            const spy = sandbox.spy(assertJSDoc);
+            const spy = sinon.spy(assertJSDoc);
 
             linter.defineRule("checker", () => ({ FunctionExpression: spy }));
             linter.verify(code, { rules: { checker: "error" } });
@@ -750,7 +747,7 @@ describe("SourceCode", () => {
                 }
             }
 
-            const spy = sandbox.spy(assertJSDoc);
+            const spy = sinon.spy(assertJSDoc);
 
             linter.defineRule("checker", () => ({ FunctionExpression: spy }));
             linter.verify(code, { rules: { checker: "error" } });
@@ -779,7 +776,7 @@ describe("SourceCode", () => {
                 assert.strictEqual(jsdoc.value, "* Merges two objects together.");
             }
 
-            const spy = sandbox.spy(assertJSDoc);
+            const spy = sinon.spy(assertJSDoc);
 
             linter.defineRule("checker", () => ({ ClassExpression: spy }));
             linter.verify(code, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } });
@@ -808,7 +805,7 @@ describe("SourceCode", () => {
                 assert.strictEqual(jsdoc.value, "* Merges two objects together.");
             }
 
-            const spy = sandbox.spy(assertJSDoc);
+            const spy = sinon.spy(assertJSDoc);
 
             linter.defineRule("checker", () => ({ ClassDeclaration: spy }));
             linter.verify(code, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } });
@@ -837,7 +834,7 @@ describe("SourceCode", () => {
                 assert.isNull(jsdoc);
             }
 
-            const spy = sandbox.spy(assertJSDoc);
+            const spy = sinon.spy(assertJSDoc);
 
             linter.defineRule("checker", () => ({ FunctionExpression: spy }));
             linter.verify(code, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } });
@@ -870,7 +867,7 @@ describe("SourceCode", () => {
                 assert.strictEqual(jsdoc.value, "* Merges two objects together.");
             }
 
-            const spy = sandbox.spy(assertJSDoc);
+            const spy = sinon.spy(assertJSDoc);
 
             linter.defineRule("checker", () => ({ FunctionExpression: spy }));
             linter.verify(code, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } });
@@ -901,7 +898,7 @@ describe("SourceCode", () => {
                 assert.isNull(jsdoc);
             }
 
-            const spy = sandbox.spy(assertJSDoc);
+            const spy = sinon.spy(assertJSDoc);
 
             linter.defineRule("checker", () => ({ FunctionDeclaration: spy }));
             linter.verify(code, { rules: { checker: "error" }, parserOptions: { ecmaVersion: 6 } });
