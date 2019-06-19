@@ -96,8 +96,8 @@ describe("configInitializer", () => {
     });
 
     afterEach(() => {
-        log.info.reset();
-        log.error.reset();
+        log.info.resetHistory();
+        log.error.resetHistory();
         npmInstallStub.restore();
         npmCheckStub.restore();
         npmFetchPeerDependenciesStub.restore();
@@ -311,7 +311,6 @@ describe("configInitializer", () => {
         describe("auto", () => {
             const completeSpy = sinon.spy();
             let config;
-            let sandbox;
 
             before(() => {
                 const patterns = [
@@ -327,21 +326,20 @@ describe("configInitializer", () => {
                     format: "JSON"
                 };
 
-                sandbox = sinon.sandbox.create();
-                sandbox.stub(console, "log"); // necessary to replace, because of progress bar
+                sinon.stub(console, "log"); // necessary to replace, because of progress bar
 
                 process.chdir(fixtureDir);
                 config = init.processAnswers(answers);
-                sandbox.restore();
+                sinon.restore();
             });
 
             after(() => {
-                sandbox.restore();
+                sinon.restore();
             });
 
             afterEach(() => {
                 process.chdir(originalDir);
-                sandbox.restore();
+                sinon.restore();
             });
 
             it("should create a config", () => {
@@ -371,7 +369,7 @@ describe("configInitializer", () => {
             it("should throw on fatal parsing error", () => {
                 const filename = getFixturePath("parse-error");
 
-                sandbox.stub(autoconfig, "extendFromRecommended");
+                sinon.stub(autoconfig, "extendFromRecommended");
                 answers.patterns = filename;
                 process.chdir(fixtureDir);
                 assert.throws(() => {
@@ -380,7 +378,7 @@ describe("configInitializer", () => {
             });
 
             it("should throw if no files are matched from patterns", () => {
-                sandbox.stub(autoconfig, "extendFromRecommended");
+                sinon.stub(autoconfig, "extendFromRecommended");
                 answers.patterns = "not-a-real-filename";
                 process.chdir(fixtureDir);
                 assert.throws(() => {

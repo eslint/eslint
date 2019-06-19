@@ -42,14 +42,8 @@ const formatter = proxyquire("../../../../lib/cli-engine/formatters/codeframe", 
 //------------------------------------------------------------------------------
 
 describe("formatter:codeframe", () => {
-    let sandbox;
-
-    beforeEach(() => {
-        sandbox = sinon.sandbox.create();
-    });
-
     afterEach(() => {
-        sandbox.verifyAndRestore();
+        sinon.verifyAndRestore();
     });
 
     describe("when passed no messages", () => {
@@ -99,8 +93,8 @@ describe("formatter:codeframe", () => {
         });
 
         it("should return bold yellow summary when there are only warnings", () => {
-            sandbox.spy(chalkStub.yellow, "bold");
-            sandbox.spy(chalkStub.red, "bold");
+            sinon.spy(chalkStub.yellow, "bold");
+            sinon.spy(chalkStub.red, "bold");
 
             formatter(code);
 
@@ -160,8 +154,8 @@ describe("formatter:codeframe", () => {
         });
 
         it("should return bold red summary when there are errors", () => {
-            sandbox.spy(chalkStub.yellow, "bold");
-            sandbox.spy(chalkStub.red, "bold");
+            sinon.spy(chalkStub.yellow, "bold");
+            sinon.spy(chalkStub.red, "bold");
 
             formatter(code);
 
@@ -230,8 +224,8 @@ describe("formatter:codeframe", () => {
         });
 
         it("should return bold red summary when at least 1 of the messages is an error", () => {
-            sandbox.spy(chalkStub.yellow, "bold");
-            sandbox.spy(chalkStub.red, "bold");
+            sinon.spy(chalkStub.yellow, "bold");
+            sinon.spy(chalkStub.red, "bold");
             code[0].messages[0].severity = 1;
             code[0].warningCount = 1;
             code[0].errorCount = 1;

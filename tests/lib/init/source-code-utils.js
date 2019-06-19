@@ -66,8 +66,8 @@ describe("SourceCodeUtil", () => {
     });
 
     afterEach(() => {
-        log.info.reset();
-        log.error.reset();
+        log.info.resetHistory();
+        log.error.resetHistory();
     });
 
     after(() => {

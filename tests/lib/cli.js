@@ -18,7 +18,6 @@ const assert = require("chai").assert,
     CLIEngine = require("../../lib/cli-engine/index").CLIEngine,
     path = require("path"),
     sinon = require("sinon"),
-    leche = require("leche"),
     fs = require("fs"),
     os = require("os"),
     sh = require("shelljs");
@@ -47,14 +46,13 @@ describe("cli", () => {
      * @returns {void}
      */
     function verifyCLIEngineOpts(cmd, opts) {
-        const sandbox = sinon.sandbox.create();
 
         // create a fake CLIEngine to test with
-        const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match(opts));
+        const fakeCLIEngine = sinon.mock().withExactArgs(sinon.match(opts));
 
-        fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
-        sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns({});
-        sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(sinon.spy());
+        Object.defineProperties(fakeCLIEngine.prototype, Object.getOwnPropertyDescriptors(CLIEngine.prototype));
+        sinon.stub(fakeCLIEngine.prototype, "executeOnFiles").returns({});
+        sinon.stub(fakeCLIEngine.prototype, "getFormatter").returns(sinon.spy());
 
         const localCLI = proxyquire("../../lib/cli", {
             "./cli-engine/index": { CLIEngine: fakeCLIEngine },
@@ -62,7 +60,7 @@ describe("cli", () => {
         });
 
         localCLI.execute(cmd);
-        sandbox.verifyAndRestore();
+        sinon.verifyAndRestore();
     }
 
     // verifyCLIEngineOpts
@@ -84,8 +82,8 @@ describe("cli", () => {
     });
 
     afterEach(() => {
-        log.info.reset();
-        log.error.reset();
+        log.info.resetHistory();
+        log.error.resetHistory();
     });
 
     after(() => {
@@ -315,7 +313,7 @@ describe("cli", () => {
 
             assert.isTrue(log.info.called, "Log should have been called.");
 
-            log.info.reset();
+            log.info.resetHistory();
 
             cli.execute(`--no-ignore --rule semi:2 ${passingPath}`);
             assert.isTrue(log.info.notCalled);
@@ -703,21 +701,19 @@ describe("cli", () => {
     });
 
     describe("when passed --no-inline-config", () => {
-
-        const sandbox = sinon.sandbox.create();
         let localCLI;
 
         afterEach(() => {
-            sandbox.verifyAndRestore();
+            sinon.verifyAndRestore();
         });
 
         it("should pass allowInlineConfig:true to CLIEngine when --no-inline-config is used", () => {
 
             // create a fake CLIEngine to test with
-            const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ allowInlineConfig: false }));
+            const fakeCLIEngine = sinon.mock().withExactArgs(sinon.match({ allowInlineConfig: false }));
 
-            fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
-            sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns({
+            Object.defineProperties(fakeCLIEngine.prototype, Object.getOwnPropertyDescriptors(CLIEngine.prototype));
+            sinon.stub(fakeCLIEngine.prototype, "executeOnFiles").returns({
                 errorCount: 1,
                 warningCount: 0,
                 results: [{
@@ -731,8 +727,8 @@ describe("cli", () => {
                     ]
                 }]
             });
-            sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
-            fakeCLIEngine.outputFixes = sandbox.stub();
+            sinon.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            fakeCLIEngine.outputFixes = sinon.stub();
 
             localCLI = proxyquire("../../lib/cli", {
                 "./cli-engine/index": { CLIEngine: fakeCLIEngine },
@@ -745,17 +741,17 @@ describe("cli", () => {
         it("should not error and allowInlineConfig should be true by default", () => {
 
             // create a fake CLIEngine to test with
-            const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ allowInlineConfig: true }));
+            const fakeCLIEngine = sinon.mock().withExactArgs(sinon.match({ allowInlineConfig: true }));
 
-            fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
-            sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns({
+            Object.defineProperties(fakeCLIEngine.prototype, Object.getOwnPropertyDescriptors(CLIEngine.prototype));
+            sinon.stub(fakeCLIEngine.prototype, "executeOnFiles").returns({
                 errorCount: 0,
                 warningCount: 0,
                 results: []
             });
-            sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
-            sandbox.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
-            fakeCLIEngine.outputFixes = sandbox.stub();
+            sinon.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            sinon.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
+            fakeCLIEngine.outputFixes = sinon.stub();
 
             localCLI = proxyquire("../../lib/cli", {
                 "./cli-engine/index": { CLIEngine: fakeCLIEngine },
@@ -771,28 +767,26 @@ describe("cli", () => {
     });
 
     describe("when passed --fix", () => {
-
-        const sandbox = sinon.sandbox.create();
         let localCLI;
 
         afterEach(() => {
-            sandbox.verifyAndRestore();
+            sinon.verifyAndRestore();
         });
 
         it("should pass fix:true to CLIEngine when executing on files", () => {
 
             // create a fake CLIEngine to test with
-            const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ fix: true }));
+            const fakeCLIEngine = sinon.mock().withExactArgs(sinon.match({ fix: true }));
 
-            fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
-            sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns({
+            Object.defineProperties(fakeCLIEngine.prototype, Object.getOwnPropertyDescriptors(CLIEngine.prototype));
+            sinon.stub(fakeCLIEngine.prototype, "executeOnFiles").returns({
                 errorCount: 0,
                 warningCount: 0,
                 results: []
             });
-            sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
-            sandbox.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
-            fakeCLIEngine.outputFixes = sandbox.mock().once();
+            sinon.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            sinon.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
+            fakeCLIEngine.outputFixes = sinon.mock().once();
 
             localCLI = proxyquire("../../lib/cli", {
                 "./cli-engine/index": { CLIEngine: fakeCLIEngine },
@@ -824,13 +818,13 @@ describe("cli", () => {
             };
 
             // create a fake CLIEngine to test with
-            const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ fix: true }));
+            const fakeCLIEngine = sinon.mock().withExactArgs(sinon.match({ fix: true }));
 
-            fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
-            sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns(report);
-            sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
-            sandbox.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
-            fakeCLIEngine.outputFixes = sandbox.mock().withExactArgs(report);
+            Object.defineProperties(fakeCLIEngine.prototype, Object.getOwnPropertyDescriptors(CLIEngine.prototype));
+            sinon.stub(fakeCLIEngine.prototype, "executeOnFiles").returns(report);
+            sinon.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            sinon.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
+            fakeCLIEngine.outputFixes = sinon.mock().withExactArgs(report);
 
             localCLI = proxyquire("../../lib/cli", {
                 "./cli-engine/index": { CLIEngine: fakeCLIEngine },
@@ -861,14 +855,14 @@ describe("cli", () => {
             };
 
             // create a fake CLIEngine to test with
-            const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ fix: sinon.match.func }));
+            const fakeCLIEngine = sinon.mock().withExactArgs(sinon.match({ fix: sinon.match.func }));
 
-            fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
-            sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns(report);
-            sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
-            sandbox.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
-            fakeCLIEngine.getErrorResults = sandbox.stub().returns([]);
-            fakeCLIEngine.outputFixes = sandbox.mock().withExactArgs(report);
+            Object.defineProperties(fakeCLIEngine.prototype, Object.getOwnPropertyDescriptors(CLIEngine.prototype));
+            sinon.stub(fakeCLIEngine.prototype, "executeOnFiles").returns(report);
+            sinon.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            sinon.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
+            fakeCLIEngine.getErrorResults = sinon.stub().returns([]);
+            fakeCLIEngine.outputFixes = sinon.mock().withExactArgs(report);
 
             localCLI = proxyquire("../../lib/cli", {
                 "./cli-engine/index": { CLIEngine: fakeCLIEngine },
@@ -884,7 +878,7 @@ describe("cli", () => {
         it("should not call CLIEngine and return 1 when executing on text", () => {
 
             // create a fake CLIEngine to test with
-            const fakeCLIEngine = sandbox.mock().never();
+            const fakeCLIEngine = sinon.mock().never();
 
             localCLI = proxyquire("../../lib/cli", {
                 "./cli-engine/index": { CLIEngine: fakeCLIEngine },
@@ -899,27 +893,26 @@ describe("cli", () => {
     });
 
     describe("when passed --fix-dry-run", () => {
-        const sandbox = sinon.sandbox.create();
         let localCLI;
 
         afterEach(() => {
-            sandbox.verifyAndRestore();
+            sinon.verifyAndRestore();
         });
 
         it("should pass fix:true to CLIEngine when executing on files", () => {
 
             // create a fake CLIEngine to test with
-            const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ fix: true }));
+            const fakeCLIEngine = sinon.mock().withExactArgs(sinon.match({ fix: true }));
 
-            fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
-            sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns({
+            Object.defineProperties(fakeCLIEngine.prototype, Object.getOwnPropertyDescriptors(CLIEngine.prototype));
+            sinon.stub(fakeCLIEngine.prototype, "executeOnFiles").returns({
                 errorCount: 0,
                 warningCount: 0,
                 results: []
             });
-            sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
-            sandbox.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
-            fakeCLIEngine.outputFixes = sandbox.mock().never();
+            sinon.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            sinon.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
+            fakeCLIEngine.outputFixes = sinon.mock().never();
 
             localCLI = proxyquire("../../lib/cli", {
                 "./cli-engine/index": { CLIEngine: fakeCLIEngine },
@@ -940,17 +933,17 @@ describe("cli", () => {
             };
 
             // create a fake CLIEngine to test with
-            const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match(expectedCLIEngineOptions));
+            const fakeCLIEngine = sinon.mock().withExactArgs(sinon.match(expectedCLIEngineOptions));
 
-            fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
-            sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns({
+            Object.defineProperties(fakeCLIEngine.prototype, Object.getOwnPropertyDescriptors(CLIEngine.prototype));
+            sinon.stub(fakeCLIEngine.prototype, "executeOnFiles").returns({
                 errorCount: 0,
                 warningCount: 0,
                 results: []
             });
-            sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
-            sandbox.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
-            fakeCLIEngine.outputFixes = sandbox.stub();
+            sinon.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            sinon.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
+            fakeCLIEngine.outputFixes = sinon.stub();
 
             localCLI = proxyquire("../../lib/cli", {
                 "./cli-engine/index": { CLIEngine: fakeCLIEngine },
@@ -980,13 +973,13 @@ describe("cli", () => {
             };
 
             // create a fake CLIEngine to test with
-            const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ fix: true }));
+            const fakeCLIEngine = sinon.mock().withExactArgs(sinon.match({ fix: true }));
 
-            fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
-            sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns(report);
-            sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
-            sandbox.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
-            fakeCLIEngine.outputFixes = sandbox.mock().never();
+            Object.defineProperties(fakeCLIEngine.prototype, Object.getOwnPropertyDescriptors(CLIEngine.prototype));
+            sinon.stub(fakeCLIEngine.prototype, "executeOnFiles").returns(report);
+            sinon.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            sinon.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
+            fakeCLIEngine.outputFixes = sinon.mock().never();
 
             localCLI = proxyquire("../../lib/cli", {
                 "./cli-engine/index": { CLIEngine: fakeCLIEngine },
@@ -1017,14 +1010,14 @@ describe("cli", () => {
             };
 
             // create a fake CLIEngine to test with
-            const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ fix: sinon.match.func }));
+            const fakeCLIEngine = sinon.mock().withExactArgs(sinon.match({ fix: sinon.match.func }));
 
-            fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
-            sandbox.stub(fakeCLIEngine.prototype, "executeOnFiles").returns(report);
-            sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
-            sandbox.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
-            fakeCLIEngine.getErrorResults = sandbox.stub().returns([]);
-            fakeCLIEngine.outputFixes = sandbox.mock().never();
+            Object.defineProperties(fakeCLIEngine.prototype, Object.getOwnPropertyDescriptors(CLIEngine.prototype));
+            sinon.stub(fakeCLIEngine.prototype, "executeOnFiles").returns(report);
+            sinon.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            sinon.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
+            fakeCLIEngine.getErrorResults = sinon.stub().returns([]);
+            fakeCLIEngine.outputFixes = sinon.mock().never();
 
             localCLI = proxyquire("../../lib/cli", {
                 "./cli-engine/index": { CLIEngine: fakeCLIEngine },
@@ -1055,13 +1048,13 @@ describe("cli", () => {
             };
 
             // create a fake CLIEngine to test with
-            const fakeCLIEngine = sandbox.mock().withExactArgs(sinon.match({ fix: true }));
+            const fakeCLIEngine = sinon.mock().withExactArgs(sinon.match({ fix: true }));
 
-            fakeCLIEngine.prototype = leche.fake(CLIEngine.prototype);
-            sandbox.stub(fakeCLIEngine.prototype, "executeOnText").returns(report);
-            sandbox.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
-            sandbox.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
-            fakeCLIEngine.outputFixes = sandbox.mock().never();
+            Object.defineProperties(fakeCLIEngine.prototype, Object.getOwnPropertyDescriptors(CLIEngine.prototype));
+            sinon.stub(fakeCLIEngine.prototype, "executeOnText").returns(report);
+            sinon.stub(fakeCLIEngine.prototype, "getFormatter").returns(() => "done");
+            sinon.stub(fakeCLIEngine.prototype, "getRules").returns(new Map());
+            fakeCLIEngine.outputFixes = sinon.mock().never();
 
             localCLI = proxyquire("../../lib/cli", {
                 "./cli-engine/index": { CLIEngine: fakeCLIEngine },
@@ -1076,7 +1069,7 @@ describe("cli", () => {
         it("should not call CLIEngine and return 1 when used with --fix", () => {
 
             // create a fake CLIEngine to test with
-            const fakeCLIEngine = sandbox.mock().never();
+            const fakeCLIEngine = sinon.mock().never();
 
             localCLI = proxyquire("../../lib/cli", {
                 "./cli-engine/index": { CLIEngine: fakeCLIEngine },

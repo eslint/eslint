@@ -2100,7 +2100,6 @@ describe("CLIEngine", () => {
         });
 
         describe("cache", () => {
-            let sandbox;
 
             /**
              * helper method to delete a file without caring about exceptions
@@ -2131,11 +2130,10 @@ describe("CLIEngine", () => {
 
             beforeEach(() => {
                 deleteCache();
-                sandbox = sinon.sandbox.create();
             });
 
             afterEach(() => {
-                sandbox.restore();
+                sinon.restore();
                 deleteCache();
             });
 
@@ -2187,7 +2185,7 @@ describe("CLIEngine", () => {
 
                     assert.isTrue(shell.test("-f", path.resolve(`./tmp/.cacheFileDir/.cache_${hash(process.cwd())}`)), "the cache for eslint was created");
 
-                    sandbox.restore();
+                    sinon.restore();
                 });
             });
 
@@ -2214,7 +2212,7 @@ describe("CLIEngine", () => {
 
                 assert.isTrue(shell.test("-f", path.resolve(`./tmp/.cacheFileDir/.cache_${hash(process.cwd())}`)), "the cache for eslint was created");
 
-                sandbox.restore();
+                sinon.restore();
             });
 
             it("should create the cache file inside cwd when no cacheLocation provided", () => {
@@ -2254,7 +2252,7 @@ describe("CLIEngine", () => {
                     ignore: false
                 });
 
-                let spy = sandbox.spy(fs, "readFileSync");
+                let spy = sinon.spy(fs, "readFileSync");
 
                 let file = getFixturePath("cache/src", "test-file.js");
 
@@ -2267,7 +2265,7 @@ describe("CLIEngine", () => {
                 assert.isTrue(shell.test("-f", path.resolve(".eslintcache")), "the cache for eslint was created");
 
                 // destroy the spy
-                sandbox.restore();
+                sinon.restore();
 
                 engine = new CLIEngine({
                     useEslintrc: false,
@@ -2283,7 +2281,7 @@ describe("CLIEngine", () => {
                 });
 
                 // create a new spy
-                spy = sandbox.spy(fs, "readFileSync");
+                spy = sinon.spy(fs, "readFileSync");
 
                 const cachedResult = engine.executeOnFiles([file]);
 
@@ -2309,7 +2307,7 @@ describe("CLIEngine", () => {
                     ignore: false
                 });
 
-                let spy = sandbox.spy(fs, "readFileSync");
+                let spy = sinon.spy(fs, "readFileSync");
 
                 let file = getFixturePath("cache/src", "test-file.js");
 
@@ -2321,7 +2319,7 @@ describe("CLIEngine", () => {
                 assert.isTrue(shell.test("-f", path.resolve(".eslintcache")), "the cache for eslint was created");
 
                 // destroy the spy
-                sandbox.restore();
+                sinon.restore();
 
                 engine = new CLIEngine({
                     useEslintrc: false,
@@ -2337,7 +2335,7 @@ describe("CLIEngine", () => {
                 });
 
                 // create a new spy
-                spy = sandbox.spy(fs, "readFileSync");
+                spy = sinon.spy(fs, "readFileSync");
 
                 const cachedResult = engine.executeOnFiles([file]);
 
@@ -3463,15 +3461,12 @@ describe("CLIEngine", () => {
     });
 
     describe("isPathIgnored", () => {
-        let sandbox;
-
         beforeEach(() => {
-            sandbox = sinon.sandbox.create();
-            sandbox.stub(console, "info").returns(void 0);
+            sinon.stub(console, "info").returns(void 0);
         });
 
         afterEach(() => {
-            sandbox.restore();
+            sinon.restore();
         });
 
         it("should check if the given path is ignored", () => {
@@ -3730,11 +3725,8 @@ describe("CLIEngine", () => {
     });
 
     describe("outputFixes()", () => {
-
-        const sandbox = sinon.sandbox.create();
-
         afterEach(() => {
-            sandbox.verifyAndRestore();
+            sinon.verifyAndRestore();
         });
 
         it("should call fs.writeFileSync() for each result with output", () => {
@@ -3756,7 +3748,7 @@ describe("CLIEngine", () => {
                 };
 
             fakeFS.writeFileSync = function() {};
-            const spy = sandbox.spy(fakeFS, "writeFileSync");
+            const spy = sinon.spy(fakeFS, "writeFileSync");
 
             localCLIEngine.outputFixes(report);
 
@@ -3788,7 +3780,7 @@ describe("CLIEngine", () => {
                 };
 
             fakeFS.writeFileSync = function() {};
-            const spy = sandbox.spy(fakeFS, "writeFileSync");
+            const spy = sinon.spy(fakeFS, "writeFileSync");
 
             localCLIEngine.outputFixes(report);
 

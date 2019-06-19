@@ -80,7 +80,6 @@ describe("CascadingConfigArrayFactory", () => {
         describe("with 'tests/fixtures/config-hierarchy' files", () => {
             const { CascadingConfigArrayFactory } = require("../../../lib/cli-engine/cascading-config-array-factory");
             let fixtureDir;
-            let sandbox;
 
             const DIRECTORY_CONFIG_HIERARCHY = require("../../fixtures/config-hierarchy/file-structure.json");
 
@@ -100,7 +99,7 @@ describe("CascadingConfigArrayFactory", () => {
              * @private
              */
             function mockOsHomedir(fakeUserHomePath) {
-                sandbox.stub(os, "homedir")
+                sinon.stub(os, "homedir")
                     .returns(fakeUserHomePath);
             }
 
@@ -155,12 +154,8 @@ describe("CascadingConfigArrayFactory", () => {
                 sh.cp("-r", "./tests/fixtures/rules", fixtureDir);
             });
 
-            beforeEach(() => {
-                sandbox = sinon.sandbox.create();
-            });
-
             afterEach(() => {
-                sandbox.verifyAndRestore();
+                sinon.verifyAndRestore();
             });
 
             after(() => {
@@ -209,7 +204,7 @@ describe("CascadingConfigArrayFactory", () => {
                 const configPath = path.resolve(__dirname, "../../fixtures/configurations/.eslintrc");
                 const factory = new CascadingConfigArrayFactory();
 
-                sandbox.stub(fs, "readFileSync").throws(new Error());
+                sinon.stub(fs, "readFileSync").throws(new Error());
 
                 assert.throws(() => {
                     getConfig(factory, configPath);
@@ -221,7 +216,7 @@ describe("CascadingConfigArrayFactory", () => {
                 const configPath = ".eslintrc";
                 const factory = new CascadingConfigArrayFactory();
 
-                sandbox.stub(fs, "readFileSync").throws(new Error());
+                sinon.stub(fs, "readFileSync").throws(new Error());
 
                 assert.throws(() => {
                     getConfig(factory, configPath);
@@ -234,7 +229,7 @@ describe("CascadingConfigArrayFactory", () => {
                 const configArrayFactory = new ConfigArrayFactory();
                 const factory = new CascadingConfigArrayFactory({ configArrayFactory });
 
-                sandbox.spy(configArrayFactory, "loadInDirectory");
+                sinon.spy(configArrayFactory, "loadInDirectory");
 
                 // If cached this should be called only once
                 getConfig(factory, configPath);
