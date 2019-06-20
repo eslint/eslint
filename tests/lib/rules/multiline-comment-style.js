@@ -481,7 +481,7 @@ ruleTester.run("multiline-comment-style", rule, {
                    bar */
             `,
             options: ["bare-block"],
-            errors: [{ messageId: "expectedBlock", line: 2 }]
+            errors: [{ messageId: "expectedBareBlock", line: 2 }]
         }
     ]
 });
