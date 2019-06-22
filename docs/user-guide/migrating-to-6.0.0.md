@@ -61,7 +61,7 @@ Additionally, the following rule has been *removed* from `eslint:recommended`:
 
 * [`no-console`](https://eslint.org/docs/rules/no-console) disallows calling functions like `console.log`. While this rule is useful in many cases (e.g. to avoid inadvertently leaving debugging statements in production code), it is not as broadly applicable as the other rules in `eslint:recommended`, and it was a source of false positives in cases where `console.log` is acceptable (e.g. in CLI applications).
 
-Finally, in ESLint v5 `eslint:recommended` would explicitly disable all core rules that were not considered "recommended". This could cause confusion behavior if `eslint:recommended` was loaded after another config, since `eslint:recommended` would have the effect of turning off some rules. In ESLint v6, `eslint:recommended` has no effect on non-recommended rules.
+Finally, in ESLint v5 `eslint:recommended` would explicitly disable all core rules that were not considered "recommended". This could cause confusing behavior if `eslint:recommended` was loaded after another config, since `eslint:recommended` would have the effect of turning off some rules. In ESLint v6, `eslint:recommended` has no effect on non-recommended rules.
 
 **To address:** To mimic the `eslint:recommended` behavior from 5.x, you can explicitly disable/enable rules in a config file as follows:
 
