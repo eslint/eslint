@@ -1,3 +1,20 @@
+v6.0.0 - June 21, 2019
+
+* [`81aa06b`](https://github.com/eslint/eslint/commit/81aa06b4cc49e9c15234a2c4d27659a03fea53d8) Upgrade: espree@6.0.0 (#11869) (Teddy Katz)
+* [`5f022bc`](https://github.com/eslint/eslint/commit/5f022bc91d0d93d140876ceb1ee4e08b1b7cfd49) Fix: no-else-return autofix produces name collisions (fixes #11069) (#11867) (Milos Djermanovic)
+* [`ded9548`](https://github.com/eslint/eslint/commit/ded9548d881b15e771ca79b844e8159601f30f70) Fix: multiline-comment-style incorrect message (#11864) (golopot)
+* [`cad074d`](https://github.com/eslint/eslint/commit/cad074d4ddb34a59183b5965ca50170713b5a711) Docs: Add JSHint W047 compat to no-floating-decimal (#11861) (Timo Tijhof)
+* [`41f6304`](https://github.com/eslint/eslint/commit/41f6304ce641a82ee729251b448dceb9fb0d501d) Upgrade: sinon (#11855) (Toru Nagashima)
+* [`167ce87`](https://github.com/eslint/eslint/commit/167ce87e908ec04b0d3d79960278d45c883c4285) Chore: remove unuseable profile command (#11854) (Toru Nagashima)
+* [`c844c6f`](https://github.com/eslint/eslint/commit/c844c6f2ff314cfa8c6ca0e35a1ef58b7e297b79) Fix: max-len properly ignore trailing comments (fixes #11838) (#11841) (ZYSzys)
+* [`1b5661a`](https://github.com/eslint/eslint/commit/1b5661ae467c227c0239e06cc1466480004aa799) Fix: no-var should not fix variables named 'let' (fixes #11830) (#11832) (Milos Djermanovic)
+* [`4d75956`](https://github.com/eslint/eslint/commit/4d75956147b6fd662ee90eb21d3f762816463b88) Build: CI with Azure Pipelines (#11845) (Toru Nagashima)
+* [`1db3462`](https://github.com/eslint/eslint/commit/1db346220889305a427b45a00afcf362b81b3767) Chore: rm superfluous argument & fix perf-multifiles-targets (#11834) (薛定谔的猫)
+* [`c57a4a4`](https://github.com/eslint/eslint/commit/c57a4a4a993193c4208c6419df331a7bc644a536) Upgrade: @babel/polyfill => core-js v3 (#11833) (薛定谔的猫)
+* [`65faa04`](https://github.com/eslint/eslint/commit/65faa04e8b42eecd4505111bbff296951179f033) Docs: Clarify prefer-destructuring array/object difference (fixes #9970) (#11851) (Oliver Sieweke)
+* [`81c3823`](https://github.com/eslint/eslint/commit/81c382378923a45015bafe58362f6c8faa5c3d5f) Fix: require-atomic-updates reports parameters (fixes #11723) (#11774) (Toru Nagashima)
+* [`aef8ea1`](https://github.com/eslint/eslint/commit/aef8ea1a44b9f13d468f48536c4c93f79f201d9b) Sponsors: Sync README with website (ESLint Jenkins)
+
 v6.0.0-rc.0 - June 9, 2019
 
 * [`f403b07`](https://github.com/eslint/eslint/commit/f403b07283f91f1285d8318d6acea851dd765755) Update: introduce minKeys option to sort-keys rule (fixes #11624) (#11625) (Christian)
