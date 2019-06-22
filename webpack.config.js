@@ -3,7 +3,7 @@
 module.exports = {
     mode: "none",
     entry: {
-        eslint: ["core-js/stable", "regenerator-runtime/runtime", "./lib/linter/linter.js"],
+        eslint: ["core-js/stable", "regenerator-runtime/runtime", "./lib/api.js"],
         espree: ["core-js/stable", "regenerator-runtime/runtime", "espree"]
     },
     output: {
