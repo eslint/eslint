@@ -3338,7 +3338,8 @@ describe("CLIEngine", () => {
                 } catch (err) {
                     assert.strictEqual(err.messageTemplate, "extend-config-missing");
                     assert.deepStrictEqual(err.messageData, {
-                        configName: "nonexistent-config"
+                        configName: "nonexistent-config",
+                        importerName: getFixturePath("module-not-found", "extends-js", ".eslintrc.yml")
                     });
                     return;
                 }
