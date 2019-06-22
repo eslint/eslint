@@ -131,7 +131,7 @@ Additionally, if you see new errors for `global` comments in your code, you shou
 
 **Related issue(s):** [eslint/eslint#11370](https://github.com/eslint/eslint/issues/11370), [eslint/eslint#11405](https://github.com/eslint/eslint/issues/11405)
 
-## <a name="comma-dangle-updates"></a> [The `comma-dangle` rule is now more strict by default](#comma-dangle-updates)
+## <a name="comma-dangle-updates"></a> The `comma-dangle` rule is now more strict by default
 
 Previously, the [`comma-dangle`](https://eslint.org/docs/rules/comma-dangle) rule would ignore trailing function arguments and parameters, unless explicitly configured to check for function commas. In ESLint v6, function commas are treated the same way as other types of trailing commas.
 
