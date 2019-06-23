@@ -3796,8 +3796,13 @@ describe("CLIEngine", () => {
         it("should expose the list of rules", () => {
             const engine = new CLIEngine();
 
-            assert.isTrue(engine.getRules().has("no-eval"), "no-eval is present");
+            assert(engine.getRules().has("no-eval"), "no-eval is present");
+        });
 
+        it("should expose the list of plugin rules", () => {
+            const engine = new CLIEngine({ plugins: ["node"] });
+
+            assert(engine.getRules().has("node/no-deprecated-api"), "node/no-deprecated-api is present");
         });
     });
 
