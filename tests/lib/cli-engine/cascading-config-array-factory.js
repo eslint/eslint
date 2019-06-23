@@ -575,6 +575,24 @@ describe("CascadingConfigArrayFactory", () => {
             });
 
 
+            it("should resolve plugins/parsers nested within a shared package", () => {
+                const factory = new CascadingConfigArrayFactory({
+                    cwd: getFixturePath("nested-plugins-parser")
+                });
+                const file = getFixturePath("nested-plugins-parser", "foo.js");
+                const expected = {
+                    parser: getFixturePath("nested-plugins-parser", "node_modules", "eslint-config-awesome", "node_modules", "awesome-parser", "index.js"),
+                    plugins: ["awesome"],
+                    rules: {
+                        "awesome/is-awesome": [2]
+                    }
+                };
+                const actual = getConfig(factory, file);
+
+                assertConfigsEqual(actual, expected);
+            });
+
+
             it("should merge multiple different config file formats", () => {
                 const factory = new CascadingConfigArrayFactory();
                 const file = getFixturePath("fileexts/subdir/subsubdir/foo.js");
