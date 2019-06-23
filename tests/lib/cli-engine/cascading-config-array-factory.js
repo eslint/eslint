@@ -148,7 +148,7 @@ describe("CascadingConfigArrayFactory", () => {
 
             // copy into clean area so as not to get "infected" by this project's .eslintrc files
             before(() => {
-                fixtureDir = `${os.tmpdir()}/eslint/fixtures`;
+                fixtureDir = `${fs.realpathSync(os.tmpdir())}/eslint/fixtures`;
                 sh.mkdir("-p", fixtureDir);
                 sh.cp("-r", "./tests/fixtures/config-hierarchy", fixtureDir);
                 sh.cp("-r", "./tests/fixtures/rules", fixtureDir);
