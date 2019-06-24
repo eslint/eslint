@@ -1,6 +1,6 @@
 # Disallow arrow functions where they could be confused with comparisons (no-confusing-arrow)
 
-Arrow functions (`=>`) are similar in syntax to some comparison operators (`>`, `<`, `<=`, and `>=`). This rule warns against using the arrow function syntax in places where it could be confused with a comparison operator. Even if the arguments of the arrow function are wrapped with parens, this rule still warns about it unless `allowParens` is set to `true`.
+Arrow functions (`=>`) are similar in syntax to some comparison operators (`>`, `<`, `<=`, and `>=`). This rule warns against using the arrow function syntax in places where it could be confused with a comparison operator.
 
 Here's an example where the usage of `=>` could be confusing:
 
@@ -22,8 +22,6 @@ Examples of **incorrect** code for this rule:
 /*eslint-env es6*/
 
 var x = a => 1 ? 2 : 3;
-var x = (a) => 1 ? 2 : 3;
-var x = (a) => (1 ? 2 : 3);
 ```
 
 Examples of **correct** code for this rule:
@@ -32,6 +30,8 @@ Examples of **correct** code for this rule:
 /*eslint no-confusing-arrow: "error"*/
 /*eslint-env es6*/
 
+var x = (a) => 1 ? 2 : 3;
+var x = (a) => (1 ? 2 : 3);
 var x = a => { return 1 ? 2 : 3; };
 var x = (a) => { return 1 ? 2 : 3; };
 ```
@@ -43,7 +43,7 @@ This rule accepts a single options argument with the following defaults:
 ```json
 {
     "rules": {
-        "no-confusing-arrow": ["error", {"allowParens": false}]
+        "no-confusing-arrow": ["error", {"allowParens": true}]
     }
 }
 ```
@@ -53,10 +53,10 @@ This rule accepts a single options argument with the following defaults:
 1. `true` relaxes the rule and accepts parenthesis as a valid "confusion-preventing" syntax.
 2. `false` warns even if the expression is wrapped in parenthesis
 
-Examples of **correct** code for this rule with the `{"allowParens": true}` option:
+Examples of **incorrect** code for this rule with the `{"allowParens": false}` option:
 
 ```js
-/*eslint no-confusing-arrow: ["error", {"allowParens": true}]*/
+/*eslint no-confusing-arrow: ["error", {"allowParens": false}]*/
 /*eslint-env es6*/
 var x = a => (1 ? 2 : 3);
 var x = (a) => (1 ? 2 : 3);
