@@ -314,6 +314,7 @@ function defineConfigArrayFactoryWithInMemoryFileSystem({
     // Override the default cwd.
     return {
         fs,
+        stubs,
         RelativeModuleResolver,
         ConfigArrayFactory: cwd === process.cwd
             ? ConfigArrayFactory
@@ -336,9 +337,9 @@ function defineCascadingConfigArrayFactoryWithInMemoryFileSystem({
     cwd = process.cwd,
     files = {}
 } = {}) {
-    const { fs, RelativeModuleResolver, ConfigArrayFactory } =
+    const { fs, stubs, RelativeModuleResolver, ConfigArrayFactory } =
            defineConfigArrayFactoryWithInMemoryFileSystem({ cwd, files });
-    const loadRules = proxyquire(LoadRulesPath, { fs });
+    const loadRules = proxyquire(LoadRulesPath, stubs);
     const { CascadingConfigArrayFactory } =
         proxyquire(CascadingConfigArrayFactoryPath, {
             "./config-array-factory": { ConfigArrayFactory },
