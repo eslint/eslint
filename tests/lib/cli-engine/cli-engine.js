@@ -3422,6 +3422,38 @@ describe("CLIEngine", () => {
                 assert.fail("Expected to throw an error");
             });
         });
+
+        describe("with '--rulesdir' option", () => {
+            it("should use the configured rules which are defined by '--rulesdir' option.", () => {
+                const rootPath = getFixturePath("cli-engine/with-rulesdir");
+                const StubbedCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => rootPath,
+                    files: {
+                        "internal-rules/test.js": `
+                            module.exports = context => ({
+                                ExpressionStatement(node) {
+                                    context.report({ node, message: "ok" })
+                                }
+                            })
+                        `,
+                        ".eslintrc.json": JSON.stringify({
+                            root: true,
+                            rules: { test: "error" }
+                        }),
+                        "test.js": "console.log('hello')"
+                    }
+                }).CLIEngine;
+
+                engine = new StubbedCLIEngine({
+                    rulePaths: ["internal-rules"]
+                });
+                const report = engine.executeOnFiles(["test.js"]);
+
+                assert.strictEqual(report.results.length, 1);
+                assert.strictEqual(report.results[0].messages.length, 1);
+                assert.strictEqual(report.results[0].messages[0].message, "ok");
+            });
+        });
     });
 
     describe("getConfigForFile", () => {
