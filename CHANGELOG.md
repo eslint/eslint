@@ -1,3 +1,13 @@
+v6.0.1 - June 24, 2019
+
+* [`b5bde06`](https://github.com/eslint/eslint/commit/b5bde0669bd6a7a6b8e38cdf204d8d4b932cea63) Fix: --rulesdir option didn't work (fixes #11888) (#11890) (Toru Nagashima)
+* [`13f0418`](https://github.com/eslint/eslint/commit/13f041897ee31982808a57b4d06450b57c9b27dc) Fix: improve error message on --print-config (fixes #11874) (#11885) (Toru Nagashima)
+* [`056c2aa`](https://github.com/eslint/eslint/commit/056c2aaf39a5f8d06de24f06946dda95032a0361) Fix: improve diagnostics for shareable-config-missing errors (#11880) (Teddy Katz)
+* [`566b7aa`](https://github.com/eslint/eslint/commit/566b7aa5d61fb31cd47fe4da7820b07cf9bde1ec) Docs: Update no-confusing-arrow with the new default option (#11886) (Yuping Zuo)
+* [`d07f3fa`](https://github.com/eslint/eslint/commit/d07f3fae19b901c30cf4998f10722cb3182bd237) Fix: CLIEngine#getRules() contains plugin rules (fixes #11871) (#11872) (Toru Nagashima)
+* [`21f4a80`](https://github.com/eslint/eslint/commit/21f4a8057ccc941f72bb617ae3b5c135a774f6c0) Docs: Fix inconsistent linking in migration guide (#11881) (Teddy Katz)
+* [`f3a0774`](https://github.com/eslint/eslint/commit/f3a0774a8879b08777a4aedc76677f13d5156242) Docs: Fix typo in 6.0.0 migration guide (#11870) (Kevin Partington)
+
 v6.0.0 - June 21, 2019
 
 * [`81aa06b`](https://github.com/eslint/eslint/commit/81aa06b4cc49e9c15234a2c4d27659a03fea53d8) Upgrade: espree@6.0.0 (#11869) (Teddy Katz)
