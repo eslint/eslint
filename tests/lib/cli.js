@@ -1084,7 +1084,7 @@ describe("cli", () => {
 
     describe("when passing --print-config", () => {
         it("should print out the configuration", () => {
-            const filePath = getFixturePath("files");
+            const filePath = getFixturePath("xxxx");
 
             const exitCode = cli.execute(`--print-config ${filePath}`);
 

@@ -3459,6 +3459,17 @@ describe("CLIEngine", () => {
             assert.deepStrictEqual(actualConfig, expectedConfig);
         });
 
+        it("should throw an error if a directory path was given.", () => {
+            const engine = new CLIEngine();
+
+            try {
+                engine.getConfigForFile(".");
+            } catch (error) {
+                assert.strictEqual(error.messageTemplate, "print-config-with-directory-path");
+                return;
+            }
+            assert.fail("should throw an error");
+        });
     });
 
     describe("isPathIgnored", () => {
