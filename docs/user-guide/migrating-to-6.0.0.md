@@ -10,7 +10,7 @@ The lists below are ordered roughly by the number of users each change is expect
 1. [`eslint:recommended` has been updated](#eslint-recommended-changes)
 1. [Plugins and shareable configs are no longer affected by ESLint's location](#package-loading-simplification)
 1. [The default parser now validates options more strictly](#espree-validation)
-1. [Rule configuration are vlidated more strictly](#rule-config-validating)
+1. [Rule configuration are validated more strictly](#rule-config-validating)
 1. [The `no-redeclare` rule is now more strict by default](#no-redeclare-updates)
 1. [The `comma-dangle` rule is now more strict by default](#comma-dangle-updates)
 1. [The `no-confusing-arrow` rule is now more lenient by default](#no-confusing-arrow-updates)
@@ -112,9 +112,9 @@ If you use a config file located outside of a local project (with the `--config`
 
 **Related issue(s):** [eslint/eslint#9687](https://github.com/eslint/eslint/issues/9687), [eslint/espree#384](https://github.com/eslint/espree/issues/384)
 
-## <a name="rule-config-validating"></a> Rule configuration are vlidated more strictly
+## <a name="rule-config-validating"></a> Rule configuration are validated more strictly
 
-To catch config errors eariler, ESLint v6 will report a linting error if you are trying to configure a non-existent rule.
+To catch config errors earlier, ESLint v6 will report a linting error if you are trying to configure a non-existent rule.
 
 config | ESLint v5 | ESLint v6
 ------------- | ------------- | -------------
