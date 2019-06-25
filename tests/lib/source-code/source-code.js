@@ -378,6 +378,35 @@ describe("SourceCode", () => {
 
         });
 
+        it("should get JSDoc comment for node when the node is an ObjectExpression", () => {
+
+            const code = [
+                "/** Desc*/",
+                "const A = {",
+                "};"
+            ].join("\n");
+
+            /**
+             * Check jsdoc presence
+             * @param {ASTNode} node not to check
+             * @returns {void}
+             * @private
+             */
+            function assertJSDoc(node) {
+                const sourceCode = linter.getSourceCode();
+                const jsdoc = sourceCode.getJSDocComment(node);
+
+                assert.strictEqual(jsdoc.type, "Block");
+                assert.strictEqual(jsdoc.value, "* Desc");
+            }
+
+            const spy = sinon.spy(assertJSDoc);
+
+            linter.defineRule("checker", () => ({ ObjectExpression: spy }));
+            linter.verify(code, { rules: { checker: "error" } });
+            assert.isFalse(spy.calledOnce, "Event handler should be called.");
+        });
+
         it("should get JSDoc comment for node when the node is a FunctionDeclaration but its parent is an export", () => {
 
             const code = [
