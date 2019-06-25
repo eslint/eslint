@@ -34,7 +34,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
         "'\\u000B';",
         "'\\u000C';",
         "'\\u0085';",
-        "'\\u00A0';",
         "'\\u180E';",
         "'\\ufeff';",
         "'\\u2000';",
@@ -48,7 +47,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
         "'\\u2008';",
         "'\\u2009';",
         "'\\u200A';",
-        "'\\u200B';",
         "'\\u2028';",
         "'\\u2029';",
         "'\\u202F';",
@@ -57,7 +55,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
         "'\u000B';",
         "'\u000C';",
         "'\u0085';",
-        "'\u00A0';",
         "'\u180E';",
         "'\ufeff';",
         "'\u2000';",
@@ -71,7 +68,6 @@ ruleTester.run("no-irregular-whitespace", rule, {
         "'\u2008';",
         "'\u2009';",
         "'\u200A';",
-        "'\u200B';",
         "'\\\u2028';", // multiline string
         "'\\\u2029';", // multiline string
         "'\u202F';",
