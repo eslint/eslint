@@ -527,15 +527,6 @@ ruleTester.run("prefer-const", rule, {
                 { messageId: "useConst", data: { name: "b" }, type: "Identifier" },
                 { messageId: "useConst", data: { name: "c" }, type: "Identifier" }
             ]
-        },
-        {
-            code: "let {a, b} = {}, c = 0; c = 1;",
-            output: null,
-            errors: [
-                { messageId: "useConst", data: { name: "a" }, type: "Identifier" },
-                { messageId: "useConst", data: { name: "b" }, type: "Identifier" }
-            ]
         }
-
     ]
 });
