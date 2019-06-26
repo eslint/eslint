@@ -10,6 +10,7 @@ The lists below are ordered roughly by the number of users each change is expect
 1. [`eslint:recommended` has been updated](#eslint-recommended-changes)
 1. [Plugins and shareable configs are no longer affected by ESLint's location](#package-loading-simplification)
 1. [The default parser now validates options more strictly](#espree-validation)
+1. [Rule configuration are validated more strictly](#rule-config-validating)
 1. [The `no-redeclare` rule is now more strict by default](#no-redeclare-updates)
 1. [The `comma-dangle` rule is now more strict by default](#comma-dangle-updates)
 1. [The `no-confusing-arrow` rule is now more lenient by default](#no-confusing-arrow-updates)
@@ -110,6 +111,22 @@ If you use a config file located outside of a local project (with the `--config`
 **To address:** If your config sets `ecmaVersion` to something other than a number, you can restore the previous behavior by removing `ecmaVersion`. (However, you may want to double-check that your config is actually working as expected.) If your config sets `parserOptions: { sourceType: "module" }` without also setting `parserOptions.ecmaVersion`, you should add `parserOptions: { ecmaVersion: 2015 }` to restore the previous behavior.
 
 **Related issue(s):** [eslint/eslint#9687](https://github.com/eslint/eslint/issues/9687), [eslint/espree#384](https://github.com/eslint/espree/issues/384)
+
+## <a name="rule-config-validating"></a> Rule configuration are validated more strictly
+
+To catch config errors earlier, ESLint v6 will report a linting error if you are trying to configure a non-existent rule.
+
+config | ESLint v5 | ESLint v6
+------------- | ------------- | -------------
+`/*eslint-enable foo*/`  | no error | linting error
+`/*eslint-disable(-line) foo*/`  | no error | linting error
+`/*eslint foo: 0*/` | no error | linting error
+`{rules: {foo: 0}}` | no error | no error
+`{rules: {foo: 1}` | linting warning | linting error
+
+**To address:** You can remove the non-existent rule in your (inline) config.
+
+**Related issue(s):** [eslint/eslint#9505](https://github.com/eslint/eslint/issues/9505)
 
 ## <a name="no-redeclare-updates"></a> The `no-redeclare` rule is now more strict by default
 
