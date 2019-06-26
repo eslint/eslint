@@ -466,7 +466,9 @@ ruleTester.run("no-extra-parens", rule, {
         "for ((let) in foo);",
         "for ((let[foo]) in bar);",
         "for ((let)[foo] in bar);",
-        "for ((let[foo].bar) in baz);"
+        "for ((let[foo].bar) in baz);",
+
+        "let s = `${(a, b)}`"
     ],
 
     invalid: [
@@ -1105,6 +1107,7 @@ ruleTester.run("no-extra-parens", rule, {
             "(let)",
             "Identifier",
             1
-        )
+        ),
+        invalid("let s = `${(v)}`", "let s = `${v}`", "Identifier")
     ]
 });
