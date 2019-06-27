@@ -231,6 +231,100 @@ ruleTester.run("curly", rule, {
             // https://github.com/feross/standard/issues/664
             code: "if (true) foo()\n;[1, 2, 3].bar()",
             options: ["multi-line"]
+        },
+
+        // https://github.com/eslint/eslint/issues/11908 (also in invalid)
+        {
+            code: "if (true) { const a = 1; }",
+            options: ["multi"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "if (true) { let a; }",
+            options: ["multi"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "if (true) { class a{} }",
+            options: ["multi"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "if (true) { function a() {} }",
+            options: ["multi"]
+        },
+        "if (true) function a() {}",
+        {
+            code: "if (true) \n function a() {}",
+            options: ["multi-line"]
+        },
+        {
+            code: "if (true) function a() \n {}",
+            options: ["multi-line"]
+        },
+        {
+            code: "if (true) function a() \n {}",
+            options: ["multi-or-nest"]
+        },
+        {
+            code: "if (true) { let a; } else { foo; }",
+            options: ["multi", "consistent"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "if (true) { function a() {} } else { foo; }",
+            options: ["multi", "consistent"]
+        },
+        {
+            code: "if (true) function a() {} else b;",
+            options: ["multi", "consistent"]
+        },
+        {
+            code: "if (true) function a() {} else { foo; bar; }",
+            options: ["multi", "consistent"]
+        },
+        {
+            code: "if (true) function a() {} else { let a }",
+            options: ["multi", "consistent"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "if (true) function a() {} else { function b() {} }",
+            options: ["multi", "consistent"]
+        },
+        {
+            code: "if (true) function a() {} else { foo; }",
+            options: ["multi-line", "consistent"]
+        },
+        {
+            code: "if (true) { let a; } else { foo; }",
+            options: ["multi-or-nest", "consistent"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "if (true) { function a() {} } else { foo; }",
+            options: ["multi-or-nest", "consistent"]
+        },
+        {
+            code: "if (true) function a() {} else { foo; bar; }",
+            options: ["multi-or-nest", "consistent"]
+        },
+        {
+            code: "if (true) function a() \n {} else { foo; bar; }",
+            options: ["multi-or-nest", "consistent"]
+        },
+        {
+            code: "if (true) function a() {} else { function b() \n {} }",
+            options: ["multi-or-nest", "consistent"]
+        },
+        {
+            code: "if (true) function a() {} else { let a }",
+            options: ["multi-or-nest", "consistent"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "if (true) function a() {} else { function b() {} }",
+            options: ["multi-or-nest", "consistent"]
         }
     ],
     invalid: [
@@ -897,6 +991,100 @@ ruleTester.run("curly", rule, {
             output: "if (true)\n{foo()\n;}[1, 2, 3].bar()",
             options: ["multi-line"],
             errors: [{ messageId: "missingCurlyAfterCondition", data: { name: "if" }, type: "IfStatement" }]
+        },
+
+        // https://github.com/eslint/eslint/issues/11908 (also in valid)
+        {
+            code: "if (foo) { let a; } else b;",
+            output: "if (foo) { let a; } else {b;}",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "missingCurlyAfter", data: { name: "else" }, type: "IfStatement" }]
+        },
+        {
+            code: "if (foo) a; else { const b = 1; }",
+            output: "if (foo) {a;} else { const b = 1; }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "missingCurlyAfterCondition", data: { name: "if" }, type: "IfStatement" }]
+        },
+        {
+            code: "if (foo) function a() {} else b;",
+            output: "if (foo) function a() {} else {b;}",
+            errors: [{ messageId: "missingCurlyAfter", data: { name: "else" }, type: "IfStatement" }]
+        },
+        {
+            code: "if (foo) { let a; } else b;",
+            output: "if (foo) { let a; } else {b;}",
+            options: ["multi", "consistent"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "missingCurlyAfter", data: { name: "else" }, type: "IfStatement" }]
+        },
+        {
+            code: "if (foo) a; else { const b = 1; }",
+            output: "if (foo) {a;} else { const b = 1; }",
+            options: ["multi", "consistent"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "missingCurlyAfterCondition", data: { name: "if" }, type: "IfStatement" }]
+        },
+        {
+            code: "if (foo) a; else if (bar) { class b {} } else function c() {}",
+            output: "if (foo) {a;} else if (bar) { class b {} } else function c() {}",
+            options: ["multi", "consistent"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "missingCurlyAfterCondition", data: { name: "if" }, type: "IfStatement" }]
+        },
+        {
+            code: "if (foo) { a; } else function b() {}",
+            output: "if (foo)  a;  else function b() {}",
+            options: ["multi", "consistent"],
+            errors: [{ messageId: "unexpectedCurlyAfterCondition", data: { name: "if" }, type: "IfStatement" }]
+        },
+        {
+            code: "if (foo) { let a; } else b;",
+            output: "if (foo) { let a; } else {b;}",
+            options: ["multi-line", "consistent"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "missingCurlyAfter", data: { name: "else" }, type: "IfStatement" }]
+        },
+        {
+            code: "if (foo) a; else { const b = 1; }",
+            output: "if (foo) {a;} else { const b = 1; }",
+            options: ["multi-line", "consistent"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "missingCurlyAfterCondition", data: { name: "if" }, type: "IfStatement" }]
+        },
+        {
+            code: "if (foo) a; else if (bar) { class b {} } else function c() {}",
+            output: "if (foo) {a;} else if (bar) { class b {} } else function c() {}",
+            options: ["multi-line", "consistent"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "missingCurlyAfterCondition", data: { name: "if" }, type: "IfStatement" }]
+        },
+        {
+            code: "if (foo) { let a; } else b;",
+            output: "if (foo) { let a; } else {b;}",
+            options: ["multi-or-nest", "consistent"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "missingCurlyAfter", data: { name: "else" }, type: "IfStatement" }]
+        },
+        {
+            code: "if (foo) a; else { const b = 1; }",
+            output: "if (foo) {a;} else { const b = 1; }",
+            options: ["multi-or-nest", "consistent"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "missingCurlyAfterCondition", data: { name: "if" }, type: "IfStatement" }]
+        },
+        {
+            code: "if (foo) a; else if (bar) { class b {} } else function c() {}",
+            output: "if (foo) {a;} else if (bar) { class b {} } else function c() {}",
+            options: ["multi-or-nest", "consistent"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "missingCurlyAfterCondition", data: { name: "if" }, type: "IfStatement" }]
+        },
+        {
+            code: "if (foo) { a; } else function b() {}",
+            output: "if (foo)  a;  else function b() {}",
+            options: ["multi-or-nest", "consistent"],
+            errors: [{ messageId: "unexpectedCurlyAfterCondition", data: { name: "if" }, type: "IfStatement" }]
         }
     ]
 });
