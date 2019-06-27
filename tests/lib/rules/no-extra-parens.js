@@ -466,9 +466,7 @@ ruleTester.run("no-extra-parens", rule, {
         "for ((let) in foo);",
         "for ((let[foo]) in bar);",
         "for ((let)[foo] in bar);",
-        "for ((let[foo].bar) in baz);",
-
-        "let s = `${(a, b)}`"
+        "for ((let[foo].bar) in baz);"
     ],
 
     invalid: [
@@ -1109,6 +1107,7 @@ ruleTester.run("no-extra-parens", rule, {
             1
         ),
         invalid("let s = `${(v)}`", "let s = `${v}`", "Identifier"),
+        invalid("let s = `${(a, b)}`", "let s = `${a, b}`", "SequenceExpression"),
         invalid("function foo(a = (b)) {}", "function foo(a = b) {}", "Identifier"),
         invalid("const bar = (a = (b)) => a", "const bar = (a = b) => a", "Identifier"),
         invalid("const [a = (b)] = []", "const [a = b] = []", "Identifier"),
