@@ -24,7 +24,7 @@ This rule has a string option:
 Example of **correct** code for this rule with the `"always"` option:
 
 ```js
-/*eslint unicode-bom: "error"*/
+/*eslint unicode-bom: ["error", "always"]*/
 
 U+FEFF
 var abc;
@@ -33,7 +33,7 @@ var abc;
 Example of **incorrect** code for this rule with the `"always"` option:
 
 ```js
-/*eslint unicode-bom: "error"*/
+/*eslint unicode-bom: ["error", "always"]*/
 
 var abc;
 ```
@@ -43,7 +43,7 @@ var abc;
 Example of **correct** code for this rule with the default `"never"` option:
 
 ```js
-/*eslint unicode-bom: ["error", "never"]*/
+/*eslint unicode-bom: "error"*/
 
 var abc;
 ```
@@ -51,7 +51,7 @@ var abc;
 Example of **incorrect** code for this rule with the `"never"` option:
 
 ```js
-/*eslint unicode-bom: ["error", "never"]*/
+/*eslint unicode-bom: "error"*/
 
 U+FEFF
 var abc;
