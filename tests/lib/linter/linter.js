@@ -1208,6 +1208,16 @@ describe("Linter", () => {
         });
     });
 
+    describe("when evaluating code containing a /*global */ block with specific variables", () => {
+        const code = "/* global toString hasOwnProperty valueOf: true */";
+
+        it("should not throw an error if comment block has global variables which are Object.prototype contains", () => {
+            const config = { rules: { checker: "error" } };
+
+            linter.verify(code, config);
+        });
+    });
+
     describe("when evaluating code containing /*eslint-env */ block", () => {
         it("variables should be available in global scope", () => {
             const code = `/*${ESLINT_ENV} node*/ function f() {} /*${ESLINT_ENV} browser, foo*/`;
