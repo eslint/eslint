@@ -18,14 +18,14 @@ b = 10;
 Examples of **correct** code for this rule with `global` declaration:
 
 ```js
-/*global someFunction b:true*/
+/*global someFunction b:writable*/
 /*eslint no-undef: "error"*/
 
 var a = someFunction();
 b = 10;
 ```
 
-The `b:true` syntax in `/*global */` indicates that assignment to `b` is correct.
+The `b:writable` syntax in `/*global */` indicates that assignment to `b` is correct.
 
 Examples of **incorrect** code for this rule with `global` declaration:
 

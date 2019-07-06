@@ -37,7 +37,7 @@ top = 1
 
 ```js
 /*eslint no-global-assign: "error"*/
-/*globals a:false*/
+/*global a:readonly*/
 
 a = 1
 ```
@@ -61,7 +61,7 @@ onload = function() {}
 
 ```js
 /*eslint no-global-assign: "error"*/
-/*globals a:true*/
+/*global a:writable*/
 
 a = 1
 ```
