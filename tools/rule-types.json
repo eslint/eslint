@@ -220,6 +220,7 @@
     "padded-blocks": "layout",
     "padding-line-between-statements": "layout",
     "prefer-arrow-callback": "suggestion",
+    "prefer-async-await": "suggestion",
     "prefer-const": "suggestion",
     "prefer-destructuring": "suggestion",
     "prefer-named-capture-group": "suggestion",

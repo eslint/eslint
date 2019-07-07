@@ -32,7 +32,7 @@ async function useData() {
     console.error(error)
   }
   cleanUp();
-    
+
   console.log(await getData())
 }
 ```
