@@ -47,7 +47,7 @@ class Foo{
 }
 ```
 
-Examples of **correct** code for this rule with the "always" option:
+Examples of **correct** code for this rule with the `"always"` option:
 
 ```js
 /*eslint space-before-blocks: "error"*/
@@ -74,7 +74,7 @@ try {} catch(a) {}
 
 ### "never"
 
-Examples of **incorrect** code for this rule with the "never" option:
+Examples of **incorrect** code for this rule with the `"never"` option:
 
 ```js
 /*eslint space-before-blocks: ["error", "never"]*/
@@ -92,7 +92,7 @@ for (;;) {
 try {} catch(a) {}
 ```
 
-Examples of **correct** code for this rule with the "never" option:
+Examples of **correct** code for this rule with the `"never"` option:
 
 ```js
 /*eslint space-before-blocks: ["error", "never"]*/
