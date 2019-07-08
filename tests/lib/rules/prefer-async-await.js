@@ -54,12 +54,57 @@ ruleTester.run("prefer-async-await", rule, {
         {
             code: "class foo { get a() { bar.then(); } set a(b) { baz.then(); } }",
             options: [{ inGetOrSet: false }],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 2015 }
         },
         {
             code: "class foo { get a() { bar.then(); } set b(c) { baz.then(); } }",
             options: [{ inGetOrSet: false }],
-            parserOptions: { ecmaVersion: 6 }
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: "async function foo() { await bar.then(); }",
+            options: [{ inAwaitExpressions: false }],
+            parserOptions: { ecmaVersion: 2017 }
+        },
+        {
+            code: "async function foo() { await bar.catch(); }",
+            options: [{ inAwaitExpressions: false }],
+            parserOptions: { ecmaVersion: 2017 }
+        },
+        {
+            code: "async function foo() { await bar.baz.then(); }",
+            options: [{ inAwaitExpressions: false }],
+            parserOptions: { ecmaVersion: 2017 }
+        },
+        {
+            code: "async function foo() { await bar().then().baz().catch().finally(); }",
+            options: [{ inAwaitExpressions: false }],
+            parserOptions: { ecmaVersion: 2017 }
+        },
+        {
+            code: "function *foo() { yield bar.then(); }",
+            options: [{ inYieldExpressions: false }],
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: "function *foo() { yield bar.catch(); }",
+            options: [{ inYieldExpressions: false }],
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: "function *foo() { yield bar.baz.then(); }",
+            options: [{ inYieldExpressions: false }],
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: "function *foo() { yield bar().then().baz().catch().finally(); }",
+            options: [{ inYieldExpressions: false }],
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: "function *foo() { yield 1 + bar.then() + 2; }",
+            options: [{ inYieldExpressions: false }],
+            parserOptions: { ecmaVersion: 2015 }
         }
     ],
     invalid: [
@@ -154,7 +199,7 @@ ruleTester.run("prefer-async-await", rule, {
         {
             code: "function foo() { bar.then(); }",
             options: [{ atTopLevel: false, inGetOrSet: false }],
-            parserOptions: { ecmaVersion: 6 },
+            parserOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "promiseMethodCall",
                 type: "CallExpression"
@@ -163,7 +208,7 @@ ruleTester.run("prefer-async-await", rule, {
         {
             code: "const foo = function() { bar.then(); }",
             options: [{ atTopLevel: false, inGetOrSet: false }],
-            parserOptions: { ecmaVersion: 6 },
+            parserOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "promiseMethodCall",
                 type: "CallExpression"
@@ -172,7 +217,7 @@ ruleTester.run("prefer-async-await", rule, {
         {
             code: "const foo = () => { bar.then(); }",
             options: [{ atTopLevel: false, inGetOrSet: false }],
-            parserOptions: { ecmaVersion: 6 },
+            parserOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "promiseMethodCall",
                 type: "CallExpression"
@@ -181,7 +226,7 @@ ruleTester.run("prefer-async-await", rule, {
         {
             code: "const foo = { a() { bar.then(); } }",
             options: [{ atTopLevel: false, inGetOrSet: false }],
-            parserOptions: { ecmaVersion: 6 },
+            parserOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "promiseMethodCall",
                 type: "CallExpression"
@@ -190,7 +235,7 @@ ruleTester.run("prefer-async-await", rule, {
         {
             code: "class foo { a() { bar.then(); } }",
             options: [{ atTopLevel: false, inGetOrSet: false }],
-            parserOptions: { ecmaVersion: 6 },
+            parserOptions: { ecmaVersion: 2015 },
             errors: [{
                 messageId: "promiseMethodCall",
                 type: "CallExpression"
@@ -242,7 +287,7 @@ ruleTester.run("prefer-async-await", rule, {
         },
         {
             code: "class foo { get a() { bar.then(); } set a(b) { baz.then(); } }",
-            parserOptions: { ecmaVersion: 6 },
+            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     messageId: "promiseMethodCall",
@@ -285,12 +330,98 @@ ruleTester.run("prefer-async-await", rule, {
         {
             code: "class foo { get a() { bar.then(); } set a(b) { baz.then(); } }",
             options: [{ inGetOrSet: true }],
-            parserOptions: { ecmaVersion: 6 },
+            parserOptions: { ecmaVersion: 2015 },
             errors: [
                 {
                     messageId: "promiseMethodCall",
                     type: "CallExpression"
                 },
+                {
+                    messageId: "promiseMethodCall",
+                    type: "CallExpression"
+                }
+            ]
+        },
+        {
+            code: "async function foo() { await bar.then(); }",
+            parserOptions: { ecmaVersion: 2017 },
+            errors: [
+                {
+                    messageId: "promiseMethodCall",
+                    type: "CallExpression"
+                }
+            ]
+        },
+        {
+            code: "async function foo() { await bar.then(); }",
+            options: [{ inAwaitExpressions: true }],
+            parserOptions: { ecmaVersion: 2017 },
+            errors: [
+                {
+                    messageId: "promiseMethodCall",
+                    type: "CallExpression"
+                }
+            ]
+        },
+        {
+            code: "async function foo() { await (() => bar.then()) }",
+            options: [{ inAwaitExpressions: false }],
+            parserOptions: { ecmaVersion: 2017 },
+            errors: [
+                {
+                    messageId: "promiseMethodCall",
+                    type: "CallExpression"
+                }
+            ]
+        },
+        {
+            code: "async function foo() { await bar.then(); }",
+            options: [{ inAwaitExpressions: true, inYieldExpressions: false }],
+            parserOptions: { ecmaVersion: 2017 },
+            errors: [
+                {
+                    messageId: "promiseMethodCall",
+                    type: "CallExpression"
+                }
+            ]
+        },
+        {
+            code: "function *foo() { yield bar.then(); }",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                {
+                    messageId: "promiseMethodCall",
+                    type: "CallExpression"
+                }
+            ]
+        },
+        {
+            code: "function *foo() { yield bar.then(); }",
+            options: [{ inYieldExpressions: true }],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                {
+                    messageId: "promiseMethodCall",
+                    type: "CallExpression"
+                }
+            ]
+        },
+        {
+            code: "function *foo() { yield (() => bar.then()) }",
+            options: [{ inYieldExpressions: false }],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                {
+                    messageId: "promiseMethodCall",
+                    type: "CallExpression"
+                }
+            ]
+        },
+        {
+            code: "function *foo() { yield bar.then(); }",
+            options: [{ inAwaitExpressions: false, inYieldExpressions: true }],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
                 {
                     messageId: "promiseMethodCall",
                     type: "CallExpression"
