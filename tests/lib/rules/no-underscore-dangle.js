@@ -37,8 +37,10 @@ ruleTester.run("no-underscore-dangle", rule, {
         { code: "class foo { onClick_() { } }", parserOptions: { ecmaVersion: 6 } },
         { code: "const o = { _onClick() { } }", parserOptions: { ecmaVersion: 6 } },
         { code: "const o = { onClick_() { } }", parserOptions: { ecmaVersion: 6 } },
+        { code: "const o = { _onClick() { } }", options: [{ allow: ["_onClick"], enforceInMethodNames: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "const o = { _foo: 'bar' }", parserOptions: { ecmaVersion: 6 } },
-        { code: "const o = { foo_: 'bar' }", parserOptions: { ecmaVersion: 6 } }
+        { code: "const o = { foo_: 'bar' }", parserOptions: { ecmaVersion: 6 } },
+        { code: "const o = { _foo: 'bar' }", options: [{ allow: ["_foo"], enforceInMethodNames: true }], parserOptions: { ecmaVersion: 6 } }
     ],
     invalid: [
         { code: "var _foo = 1", errors: [{ message: "Unexpected dangling '_' in '_foo'.", type: "VariableDeclarator" }] },
