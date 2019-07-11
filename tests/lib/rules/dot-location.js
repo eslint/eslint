@@ -76,7 +76,31 @@ ruleTester.run("dot-location", rule, {
             options: ["object"]
         },
         {
+            code: "obj\n[prop]",
+            options: ["object"]
+        },
+        {
+            code: "obj[\nprop]",
+            options: ["object"]
+        },
+        {
+            code: "obj\n[\nprop\n]",
+            options: ["object"]
+        },
+        {
             code: "obj[prop]",
+            options: ["property"]
+        },
+        {
+            code: "obj\n[prop]",
+            options: ["property"]
+        },
+        {
+            code: "obj[\nprop]",
+            options: ["property"]
+        },
+        {
+            code: "obj\n[\nprop\n]",
             options: ["property"]
         },
 
