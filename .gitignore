@@ -18,3 +18,5 @@ versions.json
 .eslint-release-info.json
 .nyc_output
 /test-results.xml
+.temp-eslintcache
+/tests/fixtures/autofix-integration/temp.js
