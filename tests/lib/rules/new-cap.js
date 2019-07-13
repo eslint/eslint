@@ -43,6 +43,7 @@ ruleTester.run("new-cap", rule, {
         "var x = RegExp(42)",
         "var x = String(42)",
         "var x = Symbol('symbol')",
+        "var x = BigInt('1n')",
         "var x = _();",
         "var x = $();",
         { code: "var x = Foo(42)", options: [{ capIsNew: false }] },
