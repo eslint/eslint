@@ -125,6 +125,7 @@
     "no-iterator": "suggestion",
     "no-label-var": "suggestion",
     "no-labels": "suggestion",
+    "no-lexical-globals": "suggestion",
     "no-lone-blocks": "suggestion",
     "no-lonely-if": "suggestion",
     "no-loop-func": "suggestion",
