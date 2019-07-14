@@ -9,6 +9,7 @@
   "main": "./lib/api.js",
   "scripts": {
     "test": "node Makefile.js test",
+    "test:update-snapshot": "CHAI_JEST_SNAPSHOT_UPDATE_ALL=true npm run test",
     "lint": "node Makefile.js lint",
     "fuzz": "node Makefile.js fuzz",
     "generate-release": "node Makefile.js generateRelease",
@@ -87,6 +88,7 @@
     "acorn": "^6.1.1",
     "babel-loader": "^8.0.5",
     "chai": "^4.0.1",
+    "chai-jest-snapshot": "^2.0.0",
     "cheerio": "^0.22.0",
     "common-tags": "^1.8.0",
     "core-js": "^3.1.3",
