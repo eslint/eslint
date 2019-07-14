@@ -61,7 +61,7 @@ var e = [
 
 ### never
 
-Examples of **incorrect** code for this rule with the default `"never"` option:
+Examples of **incorrect** code for this rule with the `"never"` option:
 
 ```js
 /*eslint array-element-newline: ["error", "never"]*/
