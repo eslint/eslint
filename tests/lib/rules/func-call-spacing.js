@@ -38,6 +38,10 @@ ruleTester.run("func-call-spacing", rule, {
         "f(0, (1))",
         "describe/**/('foo', function () {});",
         "new (foo())",
+        {
+            code: "import(source)",
+            parserOptions: { ecmaVersion: 2020 }
+        },
 
         // "never"
         {
@@ -104,6 +108,11 @@ ruleTester.run("func-call-spacing", rule, {
             code: "new (foo())",
             options: ["never"]
         },
+        {
+            code: "import(source)",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2020 }
+        },
 
         // "always"
         {
@@ -154,6 +163,11 @@ ruleTester.run("func-call-spacing", rule, {
             code: "f ();\n t   ();",
             options: ["always"]
         },
+        {
+            code: "import (source)",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2020 }
+        },
 
         // "always", "allowNewlines": true
         {
@@ -199,6 +213,11 @@ ruleTester.run("func-call-spacing", rule, {
         {
             code: "f\r\n();",
             options: ["always", { allowNewlines: true }]
+        },
+        {
+            code: "import\n(source)",
+            options: ["always", { allowNewlines: true }],
+            parserOptions: { ecmaVersion: 2020 }
         }
     ],
     invalid: [
@@ -262,6 +281,12 @@ ruleTester.run("func-call-spacing", rule, {
                 { messageId: "unexpected", type: "CallExpression" }
             ]
         },
+        {
+            code: "import (source);",
+            output: "import(source);",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected", type: "ImportExpression" }]
+        },
 
         // https://github.com/eslint/eslint/issues/7787
         {
@@ -288,6 +313,12 @@ ruleTester.run("func-call-spacing", rule, {
             code: "f\r\n();",
             output: null, // no change
             errors: [{ messageId: "unexpected", type: "CallExpression" }]
+        },
+        {
+            code: "import\n(source);",
+            output: null,
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected", type: "ImportExpression" }]
         },
 
         // "never"
@@ -359,6 +390,13 @@ ruleTester.run("func-call-spacing", rule, {
                 { messageId: "unexpected", type: "CallExpression" },
                 { messageId: "unexpected", type: "CallExpression" }
             ]
+        },
+        {
+            code: "import (source);",
+            output: "import(source);",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "unexpected", type: "ImportExpression" }]
         },
 
         // https://github.com/eslint/eslint/issues/7787
@@ -566,6 +604,13 @@ ruleTester.run("func-call-spacing", rule, {
             output: "(f) (0)",
             options: ["always"],
             errors: [{ messageId: "missing", type: "CallExpression" }]
+        },
+        {
+            code: "import(source);",
+            output: "import (source);",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{ messageId: "missing", type: "ImportExpression" }]
         },
         {
             code: "f();\n t();",
