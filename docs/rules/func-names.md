@@ -59,7 +59,7 @@ Foo.prototype.bar = function bar() {};
 
 ECMAScript 6 introduced a `name` property on all functions. The value of `name` is determined by evaluating the code around the function to see if a name can be inferred. For example, a function assigned to a variable will automatically have a `name` property equal to the name of the variable. The value of `name` is then used in stack traces for easier debugging.
 
-Examples of **incorrect** code for this rule with the default `"as-needed"` option:
+Examples of **incorrect** code for this rule with the `"as-needed"` option:
 
 ```js
 /*eslint func-names: ["error", "as-needed"]*/
@@ -71,7 +71,7 @@ Foo.prototype.bar = function() {};
 }())
 ```
 
-Examples of **correct** code for this rule with the default `"as-needed"` option:
+Examples of **correct** code for this rule with the `"as-needed"` option:
 
 ```js
 /*eslint func-names: ["error", "as-needed"]*/

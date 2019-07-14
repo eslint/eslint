@@ -1,4 +1,4 @@
-# Require parentheses when invoking a constructor with no arguments (new-parens)
+# require parentheses when invoking a constructor with no arguments (new-parens)
 
 JavaScript allows the omission of parentheses when invoking a function via the `new` keyword and the constructor has no arguments. However, some coders believe that omitting the parentheses is inconsistent with the rest of the language and thus makes code less clear.
 

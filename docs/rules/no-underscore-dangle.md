@@ -79,7 +79,7 @@ super._bar();
 
 ### enforceInMethodNames
 
-Examples of incorrect code for this rule with the `{ "enforceInMethodNames": true }` option:
+Examples of **incorrect** code for this rule with the `{ "enforceInMethodNames": true }` option:
 
 ```js
 /*eslint no-underscore-dangle: ["error", { "enforceInMethodNames": true }]*/
