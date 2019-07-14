@@ -6,7 +6,7 @@ Inside an `async function`, `return await` is seldom useful. Since the return va
 
 This rule aims to prevent a likely common performance hazard due to a lack of understanding of the semantics of `async function`.
 
-The following patterns are considered warnings:
+Examples of **incorrect** code for this rule:
 
 ```js
 async function foo() {
@@ -14,7 +14,7 @@ async function foo() {
 }
 ```
 
-The following patterns are not warnings:
+Examples of **correct** code for this rule:
 
 ```js
 async function foo() {
