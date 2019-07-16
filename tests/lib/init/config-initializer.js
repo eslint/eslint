@@ -306,6 +306,17 @@ describe("configInitializer", () => {
                     });
                 });
             });
+
+            it("should support the standard style guide with Vue.js", () => {
+                const config = {
+                    plugins: ["vue"],
+                    extends: ["plugin:vue/essential", "standard"]
+                };
+                const modules = init.getModulesList(config);
+
+                assert.include(modules, "eslint-plugin-vue@latest");
+                assert.include(modules, "eslint-config-standard@latest");
+            });
         });
 
         describe("auto", () => {
