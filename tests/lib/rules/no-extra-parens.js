@@ -466,7 +466,36 @@ ruleTester.run("no-extra-parens", rule, {
         "for ((let) in foo);",
         "for ((let[foo]) in bar);",
         "for ((let)[foo] in bar);",
-        "for ((let[foo].bar) in baz);"
+        "for ((let[foo].bar) in baz);",
+
+        // https://github.com/eslint/eslint/issues/11706 (also in invalid[])
+        "for (let a = (b in c); ;);",
+        "for (let a = (b && c in d); ;);",
+        "for (let a = (b in c && d); ;);",
+        "for (let a = (b => b in c); ;);",
+        "for (let a = b => (b in c); ;);",
+        "for (let a = (b in c in d); ;);",
+        "for (let a = (b in c), d = (e in f); ;);",
+        "for (let a = (b => c => b in c); ;);",
+        "for (let a = (b && c && d in e); ;);",
+        "for (let a = b && (c in d); ;);",
+        "for (let a = (b in c) && (d in e); ;);",
+        "for ((a in b); ;);",
+        "for (a = (b in c); ;);",
+        "for ((a in b && c in d && e in f); ;);",
+        "for (let a = [] && (b in c); ;);",
+        "for (let a = (b in [c]); ;);",
+        "for (let a = b => (c in d); ;);",
+        "for (let a = (b in c) ? d : e; ;);",
+        "for (let a = (b in c ? d : e); ;);",
+        "for (let a = b ? c : (d in e); ;);",
+        "for (let a = (b in c), d = () => { for ((e in f);;); for ((g in h);;); }; ;); for((i in j); ;);",
+
+        // https://github.com/eslint/eslint/issues/11706 regression tests (also in invalid[])
+        "for (let a = b; a; a); a; a;",
+        "for (a; a; a); a; a;",
+        "for (; a; a); a; a;",
+        "for (let a = (b && c) === d; ;);"
     ],
 
     invalid: [
@@ -1105,6 +1134,624 @@ ruleTester.run("no-extra-parens", rule, {
             "(let)",
             "Identifier",
             1
-        )
+        ),
+
+        // https://github.com/eslint/eslint/issues/11706 (also in valid[])
+        {
+            code: "for ((a = (b in c)); ;);",
+            output: "for ((a = b in c); ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (let a = ((b in c) && (d in e)); ;);",
+            output: "for (let a = (b in c && d in e); ;);",
+            errors: Array(2).fill(
+                {
+                    messageId: "unexpected"
+                }
+            )
+        },
+        {
+            code: "for (let a = ((b in c) in d); ;);",
+            output: "for (let a = (b in c in d); ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (let a = (b && (c in d)), e = (f in g); ;);",
+            output: "for (let a = (b && c in d), e = (f in g); ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (let a = (b + c), d = (e in f); ;);",
+            output: "for (let a = b + c, d = (e in f); ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (let a = [(b in c)]; ;);",
+            output: "for (let a = [b in c]; ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (let a = [b, (c in d)]; ;);",
+            output: "for (let a = [b, c in d]; ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (let a = ([b in c]); ;);",
+            output: "for (let a = [b in c]; ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (let a = ([b, c in d]); ;);",
+            output: "for (let a = [b, c in d]; ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for ((a = [b in c]); ;);",
+            output: "for (a = [b in c]; ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (let a = [b && (c in d)]; ;);",
+            output: "for (let a = [b && c in d]; ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (let a = [(b && c in d)]; ;);",
+            output: "for (let a = [b && c in d]; ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (let a = ([b && c in d]); ;);",
+            output: "for (let a = [b && c in d]; ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for ((a = [b && c in d]); ;);",
+            output: "for (a = [b && c in d]; ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for ([(a in b)]; ;);",
+            output: "for ([a in b]; ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (([a in b]); ;);",
+            output: "for ([a in b]; ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (let a = [(b in c)], d = (e in f); ;);",
+            output: "for (let a = [b in c], d = (e in f); ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (let [a = b && (c in d)] = []; ;);",
+            output: "for (let [a = b && c in d] = []; ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (let a = () => { (b in c) }; ;);",
+            output: "for (let a = () => { b in c }; ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (let a = () => { a && (b in c) }; ;);",
+            output: "for (let a = () => { a && b in c }; ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (let a = function () { (b in c) }; ;);",
+            output: "for (let a = function () { b in c }; ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (let a = { a: (b in c) }; ;);",
+            output: "for (let a = { a: b in c }; ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (let a = { a: b && (c in d) }; ;);",
+            output: "for (let a = { a: b && c in d }; ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (let { a = b && (c in d) } = {}; ;);",
+            output: "for (let { a = b && c in d } = {}; ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (let { a: { b = c && (d in e) } } = {}; ;);",
+            output: "for (let { a: { b = c && d in e } } = {}; ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (let a = `${a && (b in c)}`; ;);",
+            output: "for (let a = `${a && b in c}`; ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (let a = (b = c && (d in e)) => {}; ;);",
+            output: "for (let a = (b = c && d in e) => {}; ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (let a = (b, c = d && (e in f)) => {}; ;);",
+            output: "for (let a = (b, c = d && e in f) => {}; ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (let a = function (b = c && (d in e)) {}; ;);",
+            output: "for (let a = function (b = c && d in e) {}; ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (let a = function (b, c = d && (e in f)) {}; ;);",
+            output: "for (let a = function (b, c = d && e in f) {}; ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (let a = b((c in d)); ;);",
+            output: "for (let a = b(c in d); ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (let a = b(c, (d in e)); ;);",
+            output: "for (let a = b(c, d in e); ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (let a = b(c && (d in e)); ;);",
+            output: "for (let a = b(c && d in e); ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (let a = b(c, d && (e in f)); ;);",
+            output: "for (let a = b(c, d && e in f); ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (let a = new b((c in d)); ;);",
+            output: "for (let a = new b(c in d); ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (let a = new b(c, (d in e)); ;);",
+            output: "for (let a = new b(c, d in e); ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (let a = new b(c && (d in e)); ;);",
+            output: "for (let a = new b(c && d in e); ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (let a = new b(c, d && (e in f)); ;);",
+            output: "for (let a = new b(c, d && e in f); ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (let a = b[(c in d)]; ;);",
+            output: "for (let a = b[c in d]; ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (let a = b[c && (d in e)]; ;);",
+            output: "for (let a = b[c && d in e]; ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (let a = b ? (c in d) : e; ;);",
+            output: "for (let a = b ? c in d : e; ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (let a = b ? c && (d in e) : f; ;);",
+            output: "for (let a = b ? c && d in e : f; ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (a ? b && (c in d) : e; ;);",
+            output: "for (a ? b && c in d : e; ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (let a = ((b in c)); ;);",
+            output: "for (let a = (b in c); ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (((a in b)); ;);",
+            output: "for ((a in b); ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (((a && b in c && d)); ;);",
+            output: "for ((a && b in c && d); ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (let a = (!(b in c)); ;);",
+            output: "for (let a = !(b in c); ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (let a = (!(b && c in d)); ;);",
+            output: "for (let a = !(b && c in d); ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (let a = !((b in c) && (d in e)); ;);",
+            output: "for (let a = !(b in c && d in e); ;);",
+            errors: Array(2).fill(
+                {
+                    messageId: "unexpected"
+                }
+            )
+        },
+        {
+            code: "for (let a = (x && (b in c)), d = () => { for ((e in f); ;); for ((g in h); ;); }; ;); for((i in j); ;);",
+            output: "for (let a = (x && b in c), d = () => { for ((e in f); ;); for ((g in h); ;); }; ;); for((i in j); ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (let a = (b in c), d = () => { for ((x && (e in f)); ;); for ((g in h); ;); }; ;); for((i in j); ;);",
+            output: "for (let a = (b in c), d = () => { for ((x && e in f); ;); for ((g in h); ;); }; ;); for((i in j); ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (let a = (b in c), d = () => { for ((e in f); ;); for ((x && (g in h)); ;); }; ;); for((i in j); ;);",
+            output: "for (let a = (b in c), d = () => { for ((e in f); ;); for ((x && g in h); ;); }; ;); for((i in j); ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (let a = (b in c), d = () => { for ((e in f); ;); for ((g in h); ;); }; ;); for((x && (i in j)); ;);",
+            output: "for (let a = (b in c), d = () => { for ((e in f); ;); for ((g in h); ;); }; ;); for((x && i in j); ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (let a = (x && (b in c)), d = () => { for ((e in f); ;); for ((y && (g in h)); ;); }; ;); for((i in j); ;);",
+            output: "for (let a = (x && b in c), d = () => { for ((e in f); ;); for ((y && g in h); ;); }; ;); for((i in j); ;);",
+            errors: Array(2).fill(
+                {
+                    messageId: "unexpected"
+                }
+            )
+        },
+        {
+            code: "for (let a = (x && (b in c)), d = () => { for ((y && (e in f)); ;); for ((z && (g in h)); ;); }; ;); for((w && (i in j)); ;);",
+            output: "for (let a = (x && b in c), d = () => { for ((y && e in f); ;); for ((z && g in h); ;); }; ;); for((w && i in j); ;);",
+            errors: Array(4).fill(
+                {
+                    messageId: "unexpected"
+                }
+            )
+        },
+
+        // TODO: Add '`in` inside a for-loop' first level tests for AssignmentPattern (param, obj, ary) and TemplateLiteral when these become supported.
+
+        // https://github.com/eslint/eslint/issues/11706 regression tests (also in valid[])
+        {
+            code: "for (let a = (b); a > (b); a = (b)) a = (b); a = (b);",
+            output: "for (let a = b; a > b; a = b) a = b; a = b;",
+            errors: Array(5).fill(
+                {
+                    messageId: "unexpected"
+                }
+            )
+        },
+        {
+            code: "for ((a = b); (a > b); (a = b)) (a = b); (a = b);",
+            output: "for (a = b; a > b; a = b) a = b; a = b;",
+            errors: Array(5).fill(
+                {
+                    messageId: "unexpected"
+                }
+            )
+        },
+        {
+            code: "for (let a = b; a > (b); a = (b)) a = (b); a = (b);",
+            output: "for (let a = b; a > b; a = b) a = b; a = b;",
+            errors: Array(4).fill(
+                {
+                    messageId: "unexpected"
+                }
+            )
+        },
+        {
+            code: "for (let a = b; (a > b); (a = b)) (a = b); (a = b);",
+            output: "for (let a = b; a > b; a = b) a = b; a = b;",
+            errors: Array(4).fill(
+                {
+                    messageId: "unexpected"
+                }
+            )
+        },
+        {
+            code: "for (; a > (b); a = (b)) a = (b); a = (b);",
+            output: "for (; a > b; a = b) a = b; a = b;",
+            errors: Array(4).fill(
+                {
+                    messageId: "unexpected"
+                }
+            )
+        },
+        {
+            code: "for (; (a > b); (a = b)) (a = b); (a = b);",
+            output: "for (; a > b; a = b) a = b; a = b;",
+            errors: Array(4).fill(
+                {
+                    messageId: "unexpected"
+                }
+            )
+        },
+        {
+            code: "for (let a = (b); a = (b in c); a = (b in c)) a = (b in c); a = (b in c);",
+            output: "for (let a = b; a = b in c; a = b in c) a = b in c; a = b in c;",
+            errors: Array(5).fill(
+                {
+                    messageId: "unexpected"
+                }
+            )
+        },
+        {
+            code: "for (let a = (b); (a in b); (a in b)) (a in b); (a in b);",
+            output: "for (let a = b; a in b; a in b) a in b; a in b;",
+            errors: Array(5).fill(
+                {
+                    messageId: "unexpected"
+                }
+            )
+        },
+        {
+            code: "for (let a = b; a = (b in c); a = (b in c)) a = (b in c); a = (b in c);",
+            output: "for (let a = b; a = b in c; a = b in c) a = b in c; a = b in c;",
+            errors: Array(4).fill(
+                {
+                    messageId: "unexpected"
+                }
+            )
+        },
+        {
+            code: "for (let a = b; (a in b); (a in b)) (a in b); (a in b);",
+            output: "for (let a = b; a in b; a in b) a in b; a in b;",
+            errors: Array(4).fill(
+                {
+                    messageId: "unexpected"
+                }
+            )
+        },
+        {
+            code: "for (; a = (b in c); a = (b in c)) a = (b in c); a = (b in c);",
+            output: "for (; a = b in c; a = b in c) a = b in c; a = b in c;",
+            errors: Array(4).fill(
+                {
+                    messageId: "unexpected"
+                }
+            )
+        },
+        {
+            code: "for (; (a in b); (a in b)) (a in b); (a in b);",
+            output: "for (; a in b; a in b) a in b; a in b;",
+            errors: Array(4).fill(
+                {
+                    messageId: "unexpected"
+                }
+            )
+        },
+        {
+            code: "for (let a = (b + c), d = () => { for ((e + f); ;); for ((g + h); ;); }; ;); for((i + j); ;);",
+            output: "for (let a = b + c, d = () => { for (e + f; ;); for (g + h; ;); }; ;); for(i + j; ;);",
+            errors: Array(4).fill(
+                {
+                    messageId: "unexpected"
+                }
+            )
+        }
     ]
 });
