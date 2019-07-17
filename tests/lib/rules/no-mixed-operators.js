@@ -116,8 +116,8 @@ ruleTester.run("no-mixed-operators", rule, {
         {
             code: "a || b ? c : d",
             errors: [
-                { column: 3, message: "Unexpected mix of '||' and 'ternary operator'." },
-                { column: 8, message: "Unexpected mix of '||' and 'ternary operator'." }
+                { column: 3, message: "Unexpected mix of '||' and '?:'." },
+                { column: 8, message: "Unexpected mix of '||' and '?:'." }
             ]
         }
     ]
