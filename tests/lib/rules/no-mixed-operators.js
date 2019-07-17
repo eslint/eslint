@@ -47,7 +47,9 @@ ruleTester.run("no-mixed-operators", rule, {
         {
             code: "a * b / c",
             options: [{ allowSamePrecedence: true }]
-        }
+        },
+        "a || (b ? c : d)",
+        "(a || b) ? c : d"
     ],
     invalid: [
         {
@@ -109,6 +111,13 @@ ruleTester.run("no-mixed-operators", rule, {
             errors: [
                 { column: 3, message: "Unexpected mix of '*' and '/'." },
                 { column: 7, message: "Unexpected mix of '*' and '/'." }
+            ]
+        },
+        {
+            code: "a || b ? c : d",
+            errors: [
+                { column: 3, message: "Unexpected mix of '||' and 'ternary operator'." },
+                { column: 8, message: "Unexpected mix of '||' and 'ternary operator'." }
             ]
         }
     ]
