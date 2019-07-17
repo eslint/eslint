@@ -5,6 +5,8 @@ This rule warns when different operators are used consecutively without parenthe
 
 ```js
 var foo = a && b || c || d;    /*BAD: Unexpected mix of '&&' and '||'.*/
+var foo = a && b ? c : d;      /*BAD: Unexpected mix of '&&' and '||'.*/
+var foo = (a && b) ? c : d;    /*GOOD*/
 var foo = (a && b) || c || d;  /*GOOD*/
 var foo = a && (b || c || d);  /*GOOD*/
 ```
@@ -23,10 +25,21 @@ will generate
 1:18  Unexpected mix of '&&' and '||'. (no-mixed-operators)
 ```
 
+```js
+var foo = a && b ? c : d;
+```
+
+will generate
+
+```sh
+1:13  Unexpected mix of '&&' and 'ternary operator'. (no-mixed-operators)
+1:18  Unexpected mix of '&&' and 'ternary operator'. (no-mixed-operators)
+```
+
 
 ## Rule Details
 
-This rule checks `BinaryExpression` and `LogicalExpression`.
+This rule checks `BinaryExpression`, `LogicalExpression` and `ConditionalExpression`.
 
 This rule may conflict with [no-extra-parens](no-extra-parens.md) rule.
 If you use both this and [no-extra-parens](no-extra-parens.md) rule together, you need to use the `nestedBinaryExpressions` option of [no-extra-parens](no-extra-parens.md) rule.
