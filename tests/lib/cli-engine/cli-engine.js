@@ -3458,7 +3458,7 @@ describe("CLIEngine", () => {
         describe("glob pattern '[ab].js'", () => {
             const root = getFixturePath("cli-engine/unmatched-glob");
 
-            it("should match 'a.js' and 'b.js', but not '[ab].js'.", () => {
+            it("should match '[ab].js' if existed.", () => {
                 CLIEngine = defineCLIEngineWithInMemoryFileSystem({
                     cwd: () => root,
                     files: {
@@ -3474,15 +3474,16 @@ describe("CLIEngine", () => {
                 const { results } = engine.executeOnFiles(["[ab].js"]);
                 const filenames = results.map(r => path.basename(r.filePath));
 
-                assert.deepStrictEqual(filenames, ["a.js", "b.js"]);
+                assert.deepStrictEqual(filenames, ["[ab].js"]);
             });
 
-            it("should match '[ab].js' if both 'a.js' and 'b.js' didn't exist.", () => {
+            it("should match 'a.js' and 'b.js' if '[ab].js' didn't existed.", () => {
                 CLIEngine = defineCLIEngineWithInMemoryFileSystem({
                     cwd: () => root,
                     files: {
+                        "a.js": "",
+                        "b.js": "",
                         "ab.js": "",
-                        "[ab].js": "",
                         ".eslintrc.yml": "root: true"
                     }
                 }).CLIEngine;
@@ -3491,7 +3492,7 @@ describe("CLIEngine", () => {
                 const { results } = engine.executeOnFiles(["[ab].js"]);
                 const filenames = results.map(r => path.basename(r.filePath));
 
-                assert.deepStrictEqual(filenames, ["[ab].js"]);
+                assert.deepStrictEqual(filenames, ["a.js", "b.js"]);
             });
         });
     });
