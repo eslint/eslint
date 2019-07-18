@@ -200,7 +200,7 @@ foo(
   });
 ```
 
-Examples of **correct** code for this rule with the consistent `"consistent"` option:
+Examples of **correct** code for this rule with the `"consistent"` option:
 
 ```js
 /* eslint function-paren-newline: ["error", "consistent"] */
