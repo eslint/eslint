@@ -56,8 +56,8 @@ const NODE = "node ", // intentional extra space
     TEMP_DIR = "./tmp/",
     DEBUG_DIR = "./debug/",
     BUILD_DIR = "build",
-    DOCS_DIR = "../eslint.github.io/docs",
-    SITE_DIR = "../eslint.github.io/",
+    DOCS_DIR = "../website/docs",
+    SITE_DIR = "../website/",
     PERF_TMP_DIR = path.join(TEMP_DIR, "eslint", "performance"),
 
     // Utilities - intentional extra space at the end of each string
@@ -139,7 +139,7 @@ function generateBlogPost(releaseInfo, prereleaseMajorVersion) {
         now = new Date(),
         month = now.getMonth() + 1,
         day = now.getDate(),
-        filename = `../eslint.github.io/_posts/${now.getFullYear()}-${
+        filename = `../website/_posts/${now.getFullYear()}-${
             month < 10 ? `0${month}` : month}-${
             day < 10 ? `0${day}` : day}-eslint-v${
             releaseInfo.version}-released.md`;
@@ -156,8 +156,8 @@ function generateBlogPost(releaseInfo, prereleaseMajorVersion) {
  */
 function generateFormatterExamples(formatterInfo, prereleaseVersion) {
     const output = ejs.render(cat("./templates/formatter-examples.md.ejs"), formatterInfo);
-    let filename = "../eslint.github.io/docs/user-guide/formatters/index.md",
-        htmlFilename = "../eslint.github.io/docs/user-guide/formatters/html-formatter-example.html";
+    let filename = "../website/docs/user-guide/formatters/index.md",
+        htmlFilename = "../website/docs/user-guide/formatters/html-formatter-example.html";
 
     if (prereleaseVersion) {
         filename = filename.replace("/docs", `/docs/${prereleaseVersion}`);
@@ -176,7 +176,7 @@ function generateFormatterExamples(formatterInfo, prereleaseVersion) {
  * @returns {void}
  */
 function generateRuleIndexPage() {
-    const outputFile = "../eslint.github.io/_data/rules.yml",
+    const outputFile = "../website/_data/rules.yml",
         categoryList = "conf/category-list.json",
         categoriesData = JSON.parse(cat(path.resolve(categoryList)));
 
@@ -216,7 +216,7 @@ function generateRuleIndexPage() {
 }
 
 /**
- * Creates a git commit and tag in an adjacent `eslint.github.io` repository, without pushing it to
+ * Creates a git commit and tag in an adjacent `website` repository, without pushing it to
  * the remote. This assumes that the repository has already been modified somehow (e.g. by adding a blogpost).
  * @param {string} [tag] The string to tag the commit with
  * @returns {void}
@@ -237,7 +237,7 @@ function commitSiteToGit(tag) {
 }
 
 /**
- * Publishes the changes in an adjacent `eslint.github.io` repository to the remote. The
+ * Publishes the changes in an adjacent `website` repository to the remote. The
  * site should already have local commits (e.g. from running `commitSiteToGit`).
  * @returns {void}
  */
@@ -251,7 +251,7 @@ function publishSite() {
 
 /**
  * Updates the changelog, bumps the version number in package.json, creates a local git commit and tag,
- * and generates the site in an adjacent `eslint.github.io` folder.
+ * and generates the site in an adjacent `website` folder.
  * @returns {void}
  */
 function generateRelease() {
@@ -266,7 +266,7 @@ function generateRelease() {
 
 /**
  * Updates the changelog, bumps the version number in package.json, creates a local git commit and tag,
- * and generates the site in an adjacent `eslint.github.io` folder.
+ * and generates the site in an adjacent `website` folder.
  * @param {string} prereleaseId The prerelease identifier (alpha, beta, etc.)
  * @returns {void}
  */
@@ -303,7 +303,7 @@ function generatePrerelease(prereleaseId) {
 }
 
 /**
- * Publishes a generated release to npm and GitHub, and pushes changes to the adjacent `eslint.github.io` repo
+ * Publishes a generated release to npm and GitHub, and pushes changes to the adjacent `website` repo
  * to remote repo.
  * @returns {void}
  */
