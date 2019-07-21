@@ -12,7 +12,7 @@ import { find } from 'module';
 
 ## Rule Details
 
-This rules requires that all imports from a single module exists in a single `import` statement.
+This rule requires that all imports from a single module exists in a single `import` statement.
 
 Example of **incorrect** code for this rule:
 

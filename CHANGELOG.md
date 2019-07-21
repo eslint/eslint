@@ -1,3 +1,32 @@
+v6.1.0 - July 20, 2019
+
+* [`8f86cca`](https://github.com/eslint/eslint/commit/8f86ccaa89daf10123370868c5dcb48c1fcbef7d) Upgrade: eslint-scope@^5.0.0 (#12011) (Kevin Partington)
+* [`d08683e`](https://github.com/eslint/eslint/commit/d08683e3c807f92daf266894093c70f8d5ac6afa) Fix: glob processing (fixes #11940) (#11986) (Toru Nagashima)
+* [`bfcf8b2`](https://github.com/eslint/eslint/commit/bfcf8b21011466b570b536ca31ec10fd228b3dca) Fix: dot-location errors with parenthesized objects (fixes #11868) (#11933) (Milos Djermanovic)
+* [`79e8d09`](https://github.com/eslint/eslint/commit/79e8d099bbbebfa4d804484eeeeea9c074ede870) Fix: add parens for sequence expr in arrow-body-style (fixes #11917) (#11918) (Pig Fang)
+* [`105c098`](https://github.com/eslint/eslint/commit/105c098f3cece8b83ab8d1566b8ea41dd94a60b9) Docs: update docs for object-curly-spacing (fixes #11634) (#12009) (Chiawen Chen)
+* [`c90a12c`](https://github.com/eslint/eslint/commit/c90a12c283698befcafd2c86f8bd8942428fe80b) Chore: update release script for new website repo (#12006) (Kai Cataldo)
+* [`e2c08a9`](https://github.com/eslint/eslint/commit/e2c08a9c8d86238955ecc8fd5a626584ee91eba5) Sponsors: Sync README with website (ESLint Jenkins)
+* [`b974fcb`](https://github.com/eslint/eslint/commit/b974fcbd3321ab382a914520018d4c051b2e5c62) Update: Check computed property keys in no-extra-parens (#11952) (Milos Djermanovic)
+* [`222d27c`](https://github.com/eslint/eslint/commit/222d27c32a6d6d8828233b3b99e93ecefa94c603) Update: Add for-in and for-of checks for props in no-param-reassign (#11941) (Milos Djermanovic)
+* [`e4c450f`](https://github.com/eslint/eslint/commit/e4c450febc9bd77b33f6473667afa9f955be6b71) Fix: no-extra-parens autofix with `in` in a for-loop init (fixes #11706) (#11848) (Milos Djermanovic)
+* [`2dafe2d`](https://github.com/eslint/eslint/commit/2dafe2d288d1e0d353bb938d12a5da888091cfdb) Fix: prefer-const produces invalid autofix (fixes #11699) (#11827) (Milos Djermanovic)
+* [`cb475fd`](https://github.com/eslint/eslint/commit/cb475fd8c0bbfcb00340459966b6780f39ea87a7) Fix: Cache file error handling on read-only file system. (fixes #11945) (#11946) (Cuki)
+* [`89412c3`](https://github.com/eslint/eslint/commit/89412c3cbc52e556dba590fa94e10bf40faf1fdf) Docs: Fixed a typo (fixes #11999) (#12000) (Eddie Olson)
+* [`6669f78`](https://github.com/eslint/eslint/commit/6669f78a3dd305aef6191e7eea24fae2ae4fd2e8) Fix: --init with Vue.js failed (fixes #11970) (#11985) (Toru Nagashima)
+* [`93633c2`](https://github.com/eslint/eslint/commit/93633c2b3716b17816bcb3dc221c49b75db41317) Upgrade: Upgrade lodash dependency (fixes #11992) (#11994) (Cyd La Luz)
+* [`776dae7`](https://github.com/eslint/eslint/commit/776dae71f2f5c7b5f0650ea3c277eca26e324e41) Docs: fix wrong Node.js version in getting started (#11993) (Toru Nagashima)
+* [`4448261`](https://github.com/eslint/eslint/commit/4448261f5d217d8a06eb0ef898401928b54a34e3) Docs: some typos and optimization points (#11960) (Jason Lee)
+* [`2a10856`](https://github.com/eslint/eslint/commit/2a10856d1ed5880a09a5ba452bd80d49c1be4e6c) Chore: Add temporary test files to .gitignore (#11978) (Milos Djermanovic)
+* [`d83b233`](https://github.com/eslint/eslint/commit/d83b23382de3b80056a7e6330ed5846316c94147) Chore: update path for release bundles (#11977) (Kai Cataldo)
+* [`1fb3620`](https://github.com/eslint/eslint/commit/1fb362093a65b99456a11029967d9ee0c31fd697) Fix: creating of enabledGlobals object without prototype (fixes #11929) (#11935) (finico)
+* [`c2f2db9`](https://github.com/eslint/eslint/commit/c2f2db97c6d6a415b78ee7b3e8924853d465e757) Docs: Replace global true and false with writable and readonly in rules (#11956) (Milos Djermanovic)
+* [`19335b8`](https://github.com/eslint/eslint/commit/19335b8f47029b2f742d5507ba39484eaf68d07b) Fix: actual messageId and expected messageId are switched in rule tester (#11928) (Milos Djermanovic)
+* [`8b216e0`](https://github.com/eslint/eslint/commit/8b216e04fb0dd0a1a4d3730ebe4b24780020b09c) Docs: Fix incorrect example comments for unicode-bom rule (fixes #11937) (#11938) (Brandon Yeager)
+* [`cc3885b`](https://github.com/eslint/eslint/commit/cc3885b028e29ebc575c900f43af81cb0dabffb6) Chore: add v8-compile-cache to speed up instantiation time (#11921) (薛定谔的猫)
+* [`d8f2688`](https://github.com/eslint/eslint/commit/d8f26886f19a17f2e1cdcb91e2db84fc7ba3fdfb) Upgrade: deps (#11904) (薛定谔的猫)
+* [`e5f1ccc`](https://github.com/eslint/eslint/commit/e5f1ccc9e2d07ad0acf149027ffc382021d54da1) Docs: add 'stricter rule config validating' in migrating docs (#11905) (薛定谔的猫)
+
 v6.0.1 - June 24, 2019
 
 * [`b5bde06`](https://github.com/eslint/eslint/commit/b5bde0669bd6a7a6b8e38cdf204d8d4b932cea63) Fix: --rulesdir option didn't work (fixes #11888) (#11890) (Toru Nagashima)

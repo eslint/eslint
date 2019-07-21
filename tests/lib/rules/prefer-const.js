@@ -508,7 +508,25 @@ ruleTester.run("prefer-const", rule, {
                 { message: "'a' is never reassigned. Use 'const' instead.", type: "Identifier" },
                 { message: "'b' is never reassigned. Use 'const' instead.", type: "Identifier" }
             ]
-        }
+        },
 
+        // https://github.com/eslint/eslint/issues/11699
+        {
+            code: "let {a, b} = c, d;",
+            output: null,
+            errors: [
+                { messageId: "useConst", data: { name: "a" }, type: "Identifier" },
+                { messageId: "useConst", data: { name: "b" }, type: "Identifier" }
+            ]
+        },
+        {
+            code: "let {a, b, c} = {}, e, f;",
+            output: null,
+            errors: [
+                { messageId: "useConst", data: { name: "a" }, type: "Identifier" },
+                { messageId: "useConst", data: { name: "b" }, type: "Identifier" },
+                { messageId: "useConst", data: { name: "c" }, type: "Identifier" }
+            ]
+        }
     ]
 });

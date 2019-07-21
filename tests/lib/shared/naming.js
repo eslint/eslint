@@ -9,7 +9,7 @@
 
 const assert = require("chai").assert,
     leche = require("leche"),
-    naming = require("../../../lib/cli-engine/naming");
+    naming = require("../../../lib/shared/naming");
 
 //------------------------------------------------------------------------------
 // Tests
