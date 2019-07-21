@@ -163,6 +163,18 @@ ruleTester.run("arrow-body-style", rule, {
             ]
         },
         {
+            code: "var foo = () => { return a, b }",
+            output: "var foo = () => (a, b)",
+            errors: [
+                {
+                    line: 1,
+                    column: 17,
+                    type: "ArrowFunctionExpression",
+                    messageId: "unexpectedSingleBlock"
+                }
+            ]
+        },
+        {
             code: "var foo = () => { return };",
             output: null, // not fixed
             options: ["as-needed", { requireReturnForObjectLiteral: true }],
