@@ -19,22 +19,22 @@ ruleTester.run("prefer-async-await", rule, {
         "a = async () => (await something())"
     ],
     invalid: [
-        { code: "getData().then(() => {});", errors: [{ messageId: "unexpected" }] },
+        { code: "getData().then(() => {});", errors: [{ messageId: "preferAsyncAwait" }] },
         {
             code: "function foo() { hey.then(x => {}) }",
-            errors: [{ messageId: "unexpected" }]
+            errors: [{ messageId: "preferAsyncAwait" }]
         },
         {
             code: "function foo() { hey.then(function() { }).then() }",
-            errors: [{ messageId: "unexpected" }, { messageId: "unexpected" }]
+            errors: [{ messageId: "preferAsyncAwait" }, { messageId: "preferAsyncAwait" }]
         },
         {
             code: "function foo() { hey.then(function() { }).then(x).catch() }",
-            errors: [{ messageId: "unexpected" }, { messageId: "unexpected" }]
+            errors: [{ messageId: "preferAsyncAwait" }, { messageId: "preferAsyncAwait" }]
         },
         {
             code: "async function a() { hey.then(function() { }).then(function() { }) }",
-            errors: [{ messageId: "unexpected" }, { messageId: "unexpected" }]
+            errors: [{ messageId: "preferAsyncAwait" }, { messageId: "preferAsyncAwait" }]
         }
     ]
 });
