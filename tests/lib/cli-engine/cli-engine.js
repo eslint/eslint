@@ -3454,6 +3454,47 @@ describe("CLIEngine", () => {
                 assert.strictEqual(report.results[0].messages[0].message, "ok");
             });
         });
+
+        describe("glob pattern '[ab].js'", () => {
+            const root = getFixturePath("cli-engine/unmatched-glob");
+
+            it("should match '[ab].js' if existed.", () => {
+                CLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        "a.js": "",
+                        "b.js": "",
+                        "ab.js": "",
+                        "[ab].js": "",
+                        ".eslintrc.yml": "root: true"
+                    }
+                }).CLIEngine;
+                engine = new CLIEngine();
+
+                const { results } = engine.executeOnFiles(["[ab].js"]);
+                const filenames = results.map(r => path.basename(r.filePath));
+
+                assert.deepStrictEqual(filenames, ["[ab].js"]);
+            });
+
+            it("should match 'a.js' and 'b.js' if '[ab].js' didn't existed.", () => {
+                CLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        "a.js": "",
+                        "b.js": "",
+                        "ab.js": "",
+                        ".eslintrc.yml": "root: true"
+                    }
+                }).CLIEngine;
+                engine = new CLIEngine();
+
+                const { results } = engine.executeOnFiles(["[ab].js"]);
+                const filenames = results.map(r => path.basename(r.filePath));
+
+                assert.deepStrictEqual(filenames, ["a.js", "b.js"]);
+            });
+        });
     });
 
     describe("getConfigForFile", () => {
