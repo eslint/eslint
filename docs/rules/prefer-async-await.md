@@ -44,7 +44,5 @@ Also, this rule shouldn't be used in case async/await syntax is not preferred.
 
 ## Further Reading
 
-To learn more about `async`/`await`, check out the links below:
-
 - [`async function` (MDN)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function)
 - [`await` (MDN)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await)
