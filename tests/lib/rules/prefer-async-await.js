@@ -16,7 +16,8 @@ ruleTester.run("prefer-async-await", rule, {
         "async function a() { await getData(); }",
         "async function hi() { await thing() }",
         "async function hi() { await thing().catch() }",
-        "a = async () => (await something())"
+        "a = async () => (await something())",
+        "doSomething(foo.then)"
     ],
     invalid: [
         { code: "getData().then(() => {});", errors: [{ messageId: "preferAsyncAwait" }] },
