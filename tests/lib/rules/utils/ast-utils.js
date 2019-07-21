@@ -629,7 +629,7 @@ describe("ast-utils", () => {
         });
     });
 
-    describe("isDecimalInteger", () => {
+    {
         const expectedResults = {
             5: true,
             0: true,
@@ -642,12 +642,22 @@ describe("ast-utils", () => {
             "'5'": false
         };
 
-        Object.keys(expectedResults).forEach(key => {
-            it(`should return ${expectedResults[key]} for ${key}`, () => {
-                assert.strictEqual(astUtils.isDecimalInteger(espree.parse(key).body[0].expression), expectedResults[key]);
+        describe("isDecimalInteger", () => {
+            Object.keys(expectedResults).forEach(key => {
+                it(`should return ${expectedResults[key]} for ${key}`, () => {
+                    assert.strictEqual(astUtils.isDecimalInteger(espree.parse(key).body[0].expression), expectedResults[key]);
+                });
             });
         });
-    });
+
+        describe("isDecimalIntegerNumericToken", () => {
+            Object.keys(expectedResults).forEach(key => {
+                it(`should return ${expectedResults[key]} for ${key}`, () => {
+                    assert.strictEqual(astUtils.isDecimalIntegerNumericToken(espree.tokenize(key)[0]), expectedResults[key]);
+                });
+            });
+        });
+    }
 
     describe("getFunctionNameWithKind", () => {
         const expectedResults = {
@@ -988,6 +998,28 @@ describe("ast-utils", () => {
             tokens.forEach((token, index) => {
                 it(`should return ${expected[index]} for '${token.value}'.`, () => {
                     assert.strictEqual(astUtils.isNotCommaToken(token), !expected[index]);
+                });
+            });
+        });
+    }
+
+    {
+        const code = "const obj = {foo: 1.5, bar: a.b};";
+        const tokens = espree.parse(code, { ecmaVersion: 6, tokens: true }).tokens;
+        const expected = [false, false, false, false, false, false, false, false, false, false, false, true, false, false, false];
+
+        describe("isDotToken", () => {
+            tokens.forEach((token, index) => {
+                it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                    assert.strictEqual(astUtils.isDotToken(token), expected[index]);
+                });
+            });
+        });
+
+        describe("isNotDotToken", () => {
+            tokens.forEach((token, index) => {
+                it(`should return ${!expected[index]} for '${token.value}'.`, () => {
+                    assert.strictEqual(astUtils.isNotDotToken(token), !expected[index]);
                 });
             });
         });
