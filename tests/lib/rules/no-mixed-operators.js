@@ -115,9 +115,34 @@ ruleTester.run("no-mixed-operators", rule, {
         },
         {
             code: "a || b ? c : d",
+            options: [{ groups: [["&&", "||", "?:"]] }],
             errors: [
                 { column: 3, message: "Unexpected mix of '||' and '?:'." },
                 { column: 8, message: "Unexpected mix of '||' and '?:'." }
+            ]
+        },
+        {
+            code: "a && b ? 1 : 2",
+            options: [{ groups: [["&&", "||", "?:"]] }],
+            errors: [
+                { column: 3, message: "Unexpected mix of '&&' and '?:'." },
+                { column: 8, message: "Unexpected mix of '&&' and '?:'." }
+            ]
+        },
+        {
+            code: "x ? a && b : 0",
+            options: [{ groups: [["&&", "||", "?:"]] }],
+            errors: [
+                { column: 3, message: "Unexpected mix of '?:' and '&&'." },
+                { column: 7, message: "Unexpected mix of '?:' and '&&'." }
+            ]
+        },
+        {
+            code: "x ? 0 : a && b",
+            options: [{ groups: [["&&", "||", "?:"]] }],
+            errors: [
+                { column: 3, message: "Unexpected mix of '?:' and '&&'." },
+                { column: 11, message: "Unexpected mix of '?:' and '&&'." }
             ]
         }
     ]
