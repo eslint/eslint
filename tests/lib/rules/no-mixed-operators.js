@@ -48,8 +48,17 @@ ruleTester.run("no-mixed-operators", rule, {
             code: "a * b / c",
             options: [{ allowSamePrecedence: true }]
         },
+        {
+            code: "(a || b) ? c : d",
+            options: [{ groups: [["&&", "||", "?:"]] }]
+        },
+        {
+            code: "a || (b ? c : d)",
+            options: [{ groups: [["&&", "||", "?:"]] }]
+        },
         "a || (b ? c : d)",
-        "(a || b) ? c : d"
+        "(a || b) ? c : d",
+        "a || b ? c : d"
     ],
     invalid: [
         {
