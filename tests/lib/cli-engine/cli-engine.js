@@ -137,7 +137,7 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.results.length, 1);
             assert.strictEqual(report.errorCount, 5);
             assert.strictEqual(report.warningCount, 0);
-            assert.strictEqual(report.fixableErrorCount, 3);
+            assert.strictEqual(report.fixableErrorCount, 4);
             assert.strictEqual(report.fixableWarningCount, 0);
             assert.strictEqual(report.results[0].messages.length, 5);
             assert.strictEqual(report.results[0].messages[0].ruleId, "strict");
@@ -145,7 +145,7 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.results[0].messages[2].ruleId, "no-unused-vars");
             assert.strictEqual(report.results[0].messages[3].ruleId, "quotes");
             assert.strictEqual(report.results[0].messages[4].ruleId, "eol-last");
-            assert.strictEqual(report.results[0].fixableErrorCount, 3);
+            assert.strictEqual(report.results[0].fixableErrorCount, 4);
             assert.strictEqual(report.results[0].fixableWarningCount, 0);
         });
 
@@ -167,7 +167,7 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.errorCount, 0);
             assert.strictEqual(report.warningCount, 5);
             assert.strictEqual(report.fixableErrorCount, 0);
-            assert.strictEqual(report.fixableWarningCount, 3);
+            assert.strictEqual(report.fixableWarningCount, 4);
             assert.strictEqual(report.results[0].messages.length, 5);
             assert.strictEqual(report.results[0].messages[0].ruleId, "strict");
             assert.strictEqual(report.results[0].messages[1].ruleId, "no-var");
@@ -175,7 +175,7 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.results[0].messages[3].ruleId, "quotes");
             assert.strictEqual(report.results[0].messages[4].ruleId, "eol-last");
             assert.strictEqual(report.results[0].fixableErrorCount, 0);
-            assert.strictEqual(report.results[0].fixableWarningCount, 3);
+            assert.strictEqual(report.results[0].fixableWarningCount, 4);
         });
 
         it("should report one message when using specific config file", () => {
@@ -3714,7 +3714,7 @@ describe("CLIEngine", () => {
 
             assert.lengthOf(errorResults[0].messages, 5);
             assert.strictEqual(errorResults[0].errorCount, 5);
-            assert.strictEqual(errorResults[0].fixableErrorCount, 3);
+            assert.strictEqual(errorResults[0].fixableErrorCount, 4);
             assert.strictEqual(errorResults[0].fixableWarningCount, 0);
             assert.strictEqual(errorResults[0].messages[0].ruleId, "strict");
             assert.strictEqual(errorResults[0].messages[0].severity, 2);
