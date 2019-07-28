@@ -98,7 +98,7 @@ ruleTester.run("strict", rule, {
                 { messageId: "never", type: "ExpressionStatement" }
             ]
         }, {
-            code: "function foo() { 'use strict'; return; }",
+            code: "function foo() { 'use strict'; return }",
             output: null,
             options: ["never"],
             errors: [
@@ -157,14 +157,14 @@ ruleTester.run("strict", rule, {
         // "global" mode
         {
             code: "foo();",
-            output: null,
+            output: "'use strict'; foo();",
             options: ["global"],
             errors: [
                 { messageId: "global", type: "Program" }
             ]
         }, {
             code: "function foo() { 'use strict'; return; }",
-            output: null,
+            output: "'use strict'; function foo() {  return; }",
             options: ["global"],
             errors: [
                 { messageId: "global", type: "Program" },
@@ -172,7 +172,7 @@ ruleTester.run("strict", rule, {
             ]
         }, {
             code: "var foo = function() { 'use strict'; return; }",
-            output: null,
+            output: "'use strict'; var foo = function() {  return; }",
             options: ["global"],
             errors: [
                 { messageId: "global", type: "Program" },
@@ -180,7 +180,7 @@ ruleTester.run("strict", rule, {
             ]
         }, {
             code: "var foo = () => { 'use strict'; return () => 1; }",
-            output: null,
+            output: "'use strict'; var foo = () => {  return () => 1; }",
             options: ["global"],
             parserOptions: { ecmaVersion: 6 },
             errors: [
@@ -189,14 +189,14 @@ ruleTester.run("strict", rule, {
             ]
         }, {
             code: "'use strict'; function foo() { 'use strict'; return; }",
-            output: null,
+            output: "'use strict'; function foo() {  return; }",
             options: ["global"],
             errors: [
                 { messageId: "global", type: "ExpressionStatement" }
             ]
         }, {
             code: "'use strict'; var foo = function() { 'use strict'; return; };",
-            output: null,
+            output: "'use strict'; var foo = function() {  return; };",
             options: ["global"],
             errors: [
                 { messageId: "global", type: "ExpressionStatement" }
@@ -418,7 +418,7 @@ ruleTester.run("strict", rule, {
         },
         {
             code: "function foo() { 'use strict'; return; }",
-            output: null,
+            output: "'use strict'; function foo() {  return; }",
             options: ["safe"],
             parserOptions: { ecmaFeatures: { globalReturn: true } },
             errors: [
@@ -463,7 +463,7 @@ ruleTester.run("strict", rule, {
         },
         {
             code: "function foo() { 'use strict'; return; }",
-            output: null,
+            output: "'use strict'; function foo() {  return; }",
             parserOptions: { ecmaFeatures: { globalReturn: true } },
             errors: [
                 { messageId: "global", type: "Program" },
@@ -506,7 +506,7 @@ ruleTester.run("strict", rule, {
         },
         {
             code: "function foo(a = 0) { 'use strict' }",
-            output: null,
+            output: "'use strict'; function foo(a = 0) {  }",
             options: [],
             parserOptions: { ecmaVersion: 6, ecmaFeatures: { globalReturn: true } },
             errors: [
@@ -516,21 +516,21 @@ ruleTester.run("strict", rule, {
         },
         {
             code: "'use strict'; function foo(a = 0) { 'use strict' }",
-            output: null,
+            output: "'use strict'; function foo(a = 0) {  }",
             options: [],
             parserOptions: { ecmaVersion: 6, ecmaFeatures: { globalReturn: true } },
             errors: [{ messageId: "nonSimpleParameterList" }]
         },
         {
             code: "function foo(a = 0) { 'use strict' }",
-            output: null,
+            output: "function foo(a = 0) {  }",
             options: ["never"],
             parserOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "nonSimpleParameterList" }]
         },
         {
             code: "function foo(a = 0) { 'use strict' }",
-            output: null,
+            output: "'use strict'; function foo(a = 0) {  }",
             options: ["global"],
             parserOptions: { ecmaVersion: 6 },
             errors: [
@@ -540,7 +540,7 @@ ruleTester.run("strict", rule, {
         },
         {
             code: "'use strict'; function foo(a = 0) { 'use strict' }",
-            output: null,
+            output: "'use strict'; function foo(a = 0) {  }",
             options: ["global"],
             parserOptions: { ecmaVersion: 6 },
             errors: [{ messageId: "nonSimpleParameterList" }]
