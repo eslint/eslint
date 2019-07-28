@@ -325,8 +325,7 @@ describe("RuleTester", () => {
                 ],
                 invalid: [
                     {
-                        code: `var foo = bar;
-var qux = boop;`,
+                        code: "var foo = bar; var qux = boop;",
                         output: null,
                         errors: 2
                     }
