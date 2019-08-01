@@ -73,7 +73,13 @@ ruleTester.run("quote-props", rule, {
         { code: "({1: 1, x: 2})", options: ["consistent-as-needed", { numbers: true }] },
         { code: "({ ...x })", options: ["as-needed"], parserOptions: { ecmaVersion: 2018 } },
         { code: "({ ...x })", options: ["consistent"], parserOptions: { ecmaVersion: 2018 } },
-        { code: "({ ...x })", options: ["consistent-as-needed"], parserOptions: { ecmaVersion: 2018 } }
+        { code: "({ ...x })", options: ["consistent-as-needed"], parserOptions: { ecmaVersion: 2018 } },
+
+        // This rule does not check object pattern properties
+        { code: "({'a': foo, b: bar} = baz)", options: ["always"], parserOptions: { ecmaVersion: 2015 } },
+        { code: "({'a': foo, b: bar} = baz)", options: ["as-needed"], parserOptions: { ecmaVersion: 2015 } },
+        { code: "({'a': foo, b: bar} = baz)", options: ["consistent"], parserOptions: { ecmaVersion: 2015 } },
+        { code: "({'a': foo, b: bar} = baz)", options: ["consistent-as-needed"], parserOptions: { ecmaVersion: 2015 } }
     ],
     invalid: [{
         code: "({ a: 0 })",
