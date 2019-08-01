@@ -757,6 +757,22 @@ ruleTester.run("key-spacing", rule, {
             }
         }],
         parserOptions: { ecmaVersion: 6 }
+    },
+
+    // This rule does not check object pattern properties
+    {
+        code: "({ a : foo } = bar)",
+        options: [{ beforeColon: false }],
+        parserOptions: { ecmaVersion: 6 }
+    }, {
+        code: [
+            "({",
+            "    foo: a,",
+            "    bar:  b",
+            "} = baz)"
+        ].join("\n"),
+        options: [{ align: "value" }],
+        parserOptions: { ecmaVersion: 6 }
     }],
 
     invalid: [{
