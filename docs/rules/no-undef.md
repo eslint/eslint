@@ -11,32 +11,19 @@ Examples of **incorrect** code for this rule:
 ```js
 /*eslint no-undef: "error"*/
 
-var a = someFunction();
-b = 10;
+var foo = someFunction();
+var bar = a + 1;
 ```
 
 Examples of **correct** code for this rule with `global` declaration:
 
 ```js
-/*global someFunction b:writable*/
+/*global someFunction, a*/
 /*eslint no-undef: "error"*/
 
-var a = someFunction();
-b = 10;
+var foo = someFunction();
+var bar = a + 1;
 ```
-
-The `b:writable` syntax in `/*global */` indicates that assignment to `b` is correct.
-
-Examples of **incorrect** code for this rule with `global` declaration:
-
-```js
-/*global b*/
-/*eslint no-undef: "error"*/
-
-b = 10;
-```
-
-By default, variables declared in `/*global */` are read-only, therefore assignment is incorrect.
 
 ## Options
 
