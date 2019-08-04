@@ -16,9 +16,10 @@ require("v8-compile-cache");
 // Helpers
 //------------------------------------------------------------------------------
 
-const useStdIn = (process.argv.indexOf("--stdin") > -1),
-    init = (process.argv.indexOf("--init") > -1),
-    debug = (process.argv.indexOf("--debug") > -1);
+const useStdIn = process.argv.includes("--stdin"),
+    init = process.argv.includes("--init"),
+    debug = process.argv.includes("--debug"),
+    info = process.argv.includes("--info");
 
 // must do this initialization *before* other requires in order to work
 if (debug) {
@@ -30,9 +31,10 @@ if (debug) {
 //------------------------------------------------------------------------------
 
 // now we can safely include the other modules that use debug
-const cli = require("../lib/cli"),
-    path = require("path"),
-    fs = require("fs");
+const path = require("path"),
+    fs = require("fs"),
+    cli = require("../lib/cli"),
+    logger = require("../lib/shared/logging");
 
 //------------------------------------------------------------------------------
 // Execution
@@ -47,11 +49,11 @@ process.once("uncaughtException", err => {
         const template = lodash.template(fs.readFileSync(path.resolve(__dirname, `../messages/${err.messageTemplate}.txt`), "utf-8"));
         const pkg = require("../package.json");
 
-        console.error("\nOops! Something went wrong! :(");
-        console.error(`\nESLint: ${pkg.version}.\n\n${template(err.messageData || {})}`);
+        logger.error("\nOops! Something went wrong! :(");
+        logger.error(`\nESLint: ${pkg.version}.\n\n${template(err.messageData || {})}`);
     } else {
 
-        console.error(err.stack);
+        logger.error(err.stack);
     }
 
     process.exitCode = 2;
@@ -67,6 +69,17 @@ if (useStdIn) {
     const STDIN_FILE_DESCRIPTOR = 0;
 
     process.exitCode = cli.execute(process.argv, fs.readFileSync(STDIN_FILE_DESCRIPTOR, "utf8"));
+} else if (info) {
+    const infoLogger = require("../lib/info");
+
+    try {
+        infoLogger.log();
+        process.exitCode = 0;
+    } catch (err) {
+        process.exitCode = 1;
+        logger.error(err.message);
+        logger.error(err.stack);
+    }
 } else if (init) {
     const configInit = require("../lib/init/config-initializer");
 
@@ -74,8 +87,8 @@ if (useStdIn) {
         process.exitCode = 0;
     }).catch(err => {
         process.exitCode = 1;
-        console.error(err.message);
-        console.error(err.stack);
+        logger.error(err.message);
+        logger.error(err.stack);
     });
 } else {
     process.exitCode = cli.execute(process.argv);

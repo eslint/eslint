@@ -1112,4 +1112,11 @@ describe("cli", () => {
         });
     });
 
+    describe("when passing --info", () => {
+        it("should print out debugging information concerning the local environment", () => {
+            cli.execute("--info");
+            assert.isTrue(log.info.called);
+        });
+    });
+
 });
