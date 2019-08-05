@@ -25,6 +25,12 @@ var foo = someFunction();
 var bar = a + 1;
 ```
 
+Note that this rule does not disallow assignments to read-only global variables.
+See [no-global-assign](no-global-assign.md) if you also want to disallow those assignments.
+
+This rule also does not disallow redeclarations of global variables.
+See [no-redeclare](no-redeclare.md) if you also want to disallow those redeclarations.
+
 ## Options
 
 * `typeof` set to true will warn for variables used inside typeof check (Default false).
@@ -98,3 +104,8 @@ If explicit declaration of global variables is not to your taste.
 ## Compatibility
 
 This rule provides compatibility with treatment of global variables in [JSHint](http://jshint.com/) and [JSLint](http://www.jslint.com).
+
+## Related Rules
+
+* [no-global-assign](no-global-assign.md)
+* [no-redeclare](no-redeclare.md)
