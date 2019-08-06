@@ -18,6 +18,7 @@ const baseConfigProperties = {
     parserOptions: { type: "object" },
     plugins: { type: "array" },
     processor: { type: "string" },
+    processorOptions: { type: "object" },
     rules: { type: "object" },
     settings: { type: "object" },
     noInlineConfig: { type: "boolean" },
