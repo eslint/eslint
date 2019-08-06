@@ -436,6 +436,7 @@ describe("ConfigArray", () => {
                 },
                 plugins: {},
                 processor: null,
+                processorOptions: {},
                 reportUnusedDisableDirectives: void 0,
                 rules: {},
                 settings: {}
@@ -467,6 +468,7 @@ describe("ConfigArray", () => {
                 },
                 plugins: {},
                 processor: null,
+                processorOptions: {},
                 reportUnusedDisableDirectives: void 0,
                 rules: {},
                 settings: {}
@@ -609,6 +611,7 @@ describe("ConfigArray", () => {
                 },
                 settings: {},
                 processor: null,
+                processorOptions: {},
                 noInlineConfig: void 0,
                 reportUnusedDisableDirectives: void 0
             });
