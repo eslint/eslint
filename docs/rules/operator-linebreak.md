@@ -38,7 +38,7 @@ The default configuration is `"after", { "overrides": { "?": "before", ":": "bef
 
 ### after
 
-Examples of **incorrect** code for this rule with the default `"after"` option:
+Examples of **incorrect** code for this rule with the `"after"` option:
 
 ```js
 /*eslint operator-linebreak: ["error", "after"]*/
@@ -62,7 +62,7 @@ answer = everything
   : foo;
 ```
 
-Examples of **correct** code for this rule with the default `"after"` option:
+Examples of **correct** code for this rule with the `"after"` option:
 
 ```js
 /*eslint operator-linebreak: ["error", "after"]*/
@@ -175,14 +175,24 @@ answer = everything ? 42 : foo;
 
 ### overrides
 
-Examples of additional **correct** code for this rule with the `{ "overrides": { "+=": "before" } }` option:
+Examples of additional **incorrect** code for this rule with the default `{ "overrides": { "?": "before", ":": "before" } }` option:
 
 ```js
-/*eslint operator-linebreak: ["error", "after", { "overrides": { "+=": "before" } }]*/
+/*eslint operator-linebreak: ["error", "after", { "overrides": { "?": "before", ":": "before" } }]*/
 
-var thing = 'thing';
-thing
-  += 's';
+answer = everything ?
+  42 :
+  foo;
+```
+
+Examples of additional **correct** code for this rule with the default `{ "overrides": { "?": "before", ":": "before" } }` option:
+
+```js
+/*eslint operator-linebreak: ["error", "after", { "overrides": { "?": "before", ":": "before" } }]*/
+
+answer = everything
+  ? 42
+  : foo;
 ```
 
 Examples of additional **correct** code for this rule with the `{ "overrides": { "?": "ignore", ":": "ignore" } }` option:
