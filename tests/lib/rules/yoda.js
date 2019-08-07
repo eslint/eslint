@@ -51,6 +51,14 @@ ruleTester.run("yoda", rule, {
             code: "if ('blue' < x.y && x.y < 'green') {}",
             options: ["never", { exceptRange: true }]
         }, {
+            code: "if (0 < x[``] && x[``] < 100) {}",
+            options: ["never", { exceptRange: true }],
+            parserOptions: { ecmaVersion: 2015 }
+        }, {
+            code: "if (0 < x[''] && x[``] < 100) {}",
+            options: ["never", { exceptRange: true }],
+            parserOptions: { ecmaVersion: 2015 }
+        }, {
             code: "if (0 <= x['y'] && x['y'] <= 100) {}",
             options: ["never", { exceptRange: true }]
         }, {
@@ -323,6 +331,66 @@ ruleTester.run("yoda", rule, {
         {
             code: "if (0 <= a[b] && a.b < 1) {}",
             output: "if (a[b] >= 0 && a.b < 1) {}",
+            options: ["never", { exceptRange: true }],
+            errors: [
+                {
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: "<=" },
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "if (0 <= a[''] && a.b < 1) {}",
+            output: "if (a[''] >= 0 && a.b < 1) {}",
+            options: ["never", { exceptRange: true }],
+            errors: [
+                {
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: "<=" },
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "if (0 <= a[''] && a[' '] < 1) {}",
+            output: "if (a[''] >= 0 && a[' '] < 1) {}",
+            options: ["never", { exceptRange: true }],
+            errors: [
+                {
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: "<=" },
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "if (0 <= a[''] && a[null] < 1) {}",
+            output: "if (a[''] >= 0 && a[null] < 1) {}",
+            options: ["never", { exceptRange: true }],
+            errors: [
+                {
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: "<=" },
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "if (0 <= a[''] && a[b] < 1) {}",
+            output: "if (a[''] >= 0 && a[b] < 1) {}",
+            options: ["never", { exceptRange: true }],
+            errors: [
+                {
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: "<=" },
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "if (0 <= a[''] && a[b()] < 1) {}",
+            output: "if (a[''] >= 0 && a[b()] < 1) {}",
             options: ["never", { exceptRange: true }],
             errors: [
                 {
