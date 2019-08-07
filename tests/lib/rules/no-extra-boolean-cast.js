@@ -227,6 +227,88 @@ ruleTester.run("no-extra-boolean-cast", rule, {
                 messageId: "unexpectedCall",
                 type: "CallExpression"
             }]
+        },
+        {
+            code: "var foo = Boolean() ? bar() : baz()",
+            output: "var foo = false ? bar() : baz()",
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "if (Boolean()) {}",
+            output: "if (false) {}",
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
+        },
+
+        // Adjacent tokens tests
+        {
+            code: "void!Boolean()",
+            output: "void true",
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "void! Boolean()",
+            output: "void true",
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "typeof!Boolean()",
+            output: "typeof true",
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "(!Boolean())",
+            output: "(true)",
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "+!Boolean()",
+            output: "+true",
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "void !Boolean()",
+            output: "void true",
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "void(!Boolean())",
+            output: "void(true)",
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "void/**/!Boolean()",
+            output: "void/**/true",
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
         }
     ]
 });
