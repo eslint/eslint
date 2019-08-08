@@ -229,6 +229,22 @@ ruleTester.run("no-extra-boolean-cast", rule, {
             }]
         },
         {
+            code: "if (!Boolean()) { foo() }",
+            output: "if (true) { foo() }",
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "while (!Boolean()) { foo() }",
+            output: "while (true) { foo() }",
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
+        },
+        {
             code: "var foo = Boolean() ? bar() : baz()",
             output: "var foo = false ? bar() : baz()",
             errors: [{
@@ -237,8 +253,16 @@ ruleTester.run("no-extra-boolean-cast", rule, {
             }]
         },
         {
-            code: "if (Boolean()) {}",
-            output: "if (false) {}",
+            code: "if (Boolean()) { foo() }",
+            output: "if (false) { foo() }",
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "while (Boolean()) { foo() }",
+            output: "while (false) { foo() }",
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
