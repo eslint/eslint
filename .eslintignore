@@ -8,5 +8,7 @@
 /tests/performance/**
 /tmp/**
 /lib/rules/utils/unicode/is-combining-character.js
+/lib/types
 test.js
 !.eslintrc.js
+*.ts

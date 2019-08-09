@@ -1,0 +1,37 @@
+{
+    "compilerOptions": {
+        "allowJs": true,
+        "allowSyntheticDefaultImports": true,
+        "checkJs": true,
+        "esModuleInterop": true,
+        "lib": ["es2020"],
+        "moduleResolution": "node",
+        "module": "commonjs",
+        "newLine": "LF",
+        "noEmit": true,
+        "noFallthroughCasesInSwitch": false,
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "strict": true,
+        "target": "es2020"
+    },
+    "include": [
+        "lib/rules/utils/ast-utils.js",
+        "lib/rules/accessor-pairs.js",
+        "lib/rules/array-bracket-newline.js",
+        "lib/rules/block-scoped-var.js",
+        "lib/rules/callback-return.js",
+        "lib/rules/camelcase.js",
+        "lib/rules/class-methods-use-this.js",
+        "lib/rules/constructor-super.js",
+        "lib/rules/default-case.js",
+        "lib/rules/eol-last.js",
+        "lib/shared/ast-utils.js",
+        "lib/types/**/*.ts",
+        "tools/internal-rules/no-invalid-meta.js",
+        "types"
+    ]
+}

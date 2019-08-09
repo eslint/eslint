@@ -38,10 +38,6 @@ Examples of **incorrect** code for this rule with the default `"always"` option:
 
 Foo.prototype.bar = function() {};
 
-const cat = {
-  meow: function() {}
-}
-
 (function() {
     // ...
 }())
@@ -53,10 +49,6 @@ Examples of **correct** code for this rule with the default `"always"` option:
 /*eslint func-names: ["error", "always"]*/
 
 Foo.prototype.bar = function bar() {};
-
-const cat = {
-  meow() {}
-}
 
 (function bar() {
     // ...
@@ -85,10 +77,6 @@ Examples of **correct** code for this rule with the `"as-needed"` option:
 /*eslint func-names: ["error", "as-needed"]*/
 
 var bar = function() {};
-
-const cat = {
-  meow: function() {}
-}
 
 (function bar() {
     // ...

@@ -1,5 +1,7 @@
 "use strict";
 
+const tsconfig = require("./tsconfig.json");
+
 const internalFiles = [
     "**/cli-engine/**/*",
     "**/init/**/*",
@@ -181,6 +183,14 @@ module.exports = {
                         "**/init"
                     ]
                 }]
+            }
+        },
+
+        // TODO:
+        {
+            files: tsconfig.include,
+            rules: {
+                "valid-jsdoc": "off"
             }
         }
     ]

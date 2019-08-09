@@ -586,9 +586,8 @@ Once you have the configuration information, you can pass it into the `linter` o
 
 ```js
 const CLIEngine = require("eslint").CLIEngine,
-    Linter = require("eslint").Linter;
+    linter = require("eslint").linter;
 
-const linter = new Linter();
 const cli = new CLIEngine({
     envs: ["browser", "mocha"],
     useEslintrc: false,

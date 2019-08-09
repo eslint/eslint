@@ -17,6 +17,7 @@ const rule = require("../../../lib/rules/func-names"),
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester();
+const unnamedError = { messageId: "unnamed", type: "FunctionExpression" };
 
 ruleTester.run("func-names", rule, {
     valid: [
@@ -253,166 +254,73 @@ ruleTester.run("func-names", rule, {
     invalid: [
         {
             code: "Foo.prototype.bar = function() {};",
-            errors: [{
-                messageId: "unnamed",
-                type: "FunctionExpression",
-                line: 1,
-                column: 21,
-                endColumn: 29
-            }]
+            errors: [unnamedError]
         },
         {
             code: "(function(){}())",
-            errors: [{
-                messageId: "unnamed",
-                type: "FunctionExpression",
-                line: 1,
-                column: 2,
-                endColumn: 10
-            }]
+            errors: [unnamedError]
         },
         {
             code: "f(function(){})",
-            errors: [{
-                messageId: "unnamed",
-                type: "FunctionExpression",
-                line: 1,
-                column: 3,
-                endColumn: 11
-            }]
+            errors: [unnamedError]
         },
         {
             code: "var a = new Date(function() {});",
-            errors: [{
-                messageId: "unnamed",
-                type: "FunctionExpression",
-                line: 1,
-                column: 18,
-                endColumn: 26
-            }]
+            errors: [unnamedError]
         },
         {
             code: "var test = function(d, e, f) {};",
-            errors: [{
-                messageId: "unnamed",
-                type: "FunctionExpression",
-                line: 1,
-                column: 12,
-                endColumn: 20
-            }]
+            errors: [unnamedError]
         },
         {
             code: "new function() {}",
-            errors: [{
-                messageId: "unnamed",
-                type: "FunctionExpression",
-                line: 1,
-                column: 5,
-                endColumn: 13
-            }]
+            errors: [unnamedError]
         },
         {
             code: "Foo.prototype.bar = function() {};",
             options: ["as-needed"],
-            errors: [{
-                messageId: "unnamed",
-                type: "FunctionExpression",
-                line: 1,
-                column: 21,
-                endColumn: 29
-            }]
+            errors: [unnamedError]
         },
         {
             code: "(function(){}())",
             options: ["as-needed"],
-            errors: [{
-                messageId: "unnamed",
-                type: "FunctionExpression",
-                line: 1,
-                column: 2,
-                endColumn: 10
-            }]
+            errors: [unnamedError]
         },
         {
             code: "f(function(){})",
             options: ["as-needed"],
-            errors: [{
-                messageId: "unnamed",
-                type: "FunctionExpression",
-                line: 1,
-                column: 3,
-                endColumn: 11
-            }]
+            errors: [unnamedError]
         },
         {
             code: "var a = new Date(function() {});",
             options: ["as-needed"],
-            errors: [{
-                messageId: "unnamed",
-                type: "FunctionExpression",
-                line: 1,
-                column: 18,
-                endColumn: 26
-            }]
+            errors: [unnamedError]
         },
         {
             code: "new function() {}",
             options: ["as-needed"],
-            errors: [{
-                messageId: "unnamed",
-                type: "FunctionExpression",
-                line: 1,
-                column: 5,
-                endColumn: 13
-            }]
+            errors: [unnamedError]
         },
         {
             code: "var {foo} = function(){};",
             options: ["as-needed"],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{
-                messageId: "unnamed",
-                type: "FunctionExpression",
-                line: 1,
-                column: 13,
-                endColumn: 21
-            }]
+            errors: [unnamedError]
         },
         {
             code: "var x = function foo() {};",
             options: ["never"],
-            errors: [{
-                messageId: "named",
-                data: { name: "function 'foo'" },
-                type: "FunctionExpression",
-                line: 1,
-                column: 9,
-                endColumn: 21
-            }]
+            errors: [{ messageId: "named", data: { name: "function 'foo'" }, type: "FunctionExpression" }]
         },
         {
             code: "Foo.prototype.bar = function foo() {};",
             options: ["never"],
-            errors: [{
-                messageId: "named",
-                data: { name: "function 'foo'" },
-                type: "FunctionExpression",
-                line: 1,
-                column: 21,
-                endColumn: 33
-            }]
+            errors: [{ messageId: "named", data: { name: "function 'foo'" }, type: "FunctionExpression" }]
         },
         {
             code: "({foo: function foo() {}})",
             options: ["never"],
-            errors: [{
-                messageId: "named",
-                data: { name: "method 'foo'" },
-                type: "FunctionExpression",
-                line: 1,
-                column: 3,
-                endColumn: 20
-            }]
+            errors: [{ messageId: "named", data: { name: "method 'foo'" }, type: "FunctionExpression" }]
         },
 
         // generators
@@ -420,241 +328,121 @@ ruleTester.run("func-names", rule, {
             code: "var foo = bar(function *() {});",
             options: ["always"],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{
-                messageId: "unnamed",
-                type: "FunctionExpression",
-                line: 1,
-                column: 15,
-                endColumn: 25
-            }]
+            errors: [unnamedError]
         },
         {
             code: "var foo = function*() {};",
             options: ["always"],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{
-                messageId: "unnamed",
-                type: "FunctionExpression",
-                line: 1,
-                column: 11,
-                endColumn: 20
-            }]
+            errors: [unnamedError]
         },
         {
             code: "(function*() {}())",
             options: ["always"],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{
-                messageId: "unnamed",
-                type: "FunctionExpression",
-                line: 1,
-                column: 2,
-                endColumn: 11
-            }]
+            errors: [unnamedError]
         },
         {
             code: "var foo = bar(function *() {});",
             options: ["always", { generators: "always" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{
-                messageId: "unnamed",
-                type: "FunctionExpression",
-                line: 1,
-                column: 15,
-                endColumn: 25
-            }]
+            errors: [unnamedError]
         },
         {
             code: "var foo = function*() {};",
             options: ["always", { generators: "always" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{
-                messageId: "unnamed",
-                type: "FunctionExpression",
-                line: 1,
-                column: 11,
-                endColumn: 20
-            }]
+            errors: [unnamedError]
         },
         {
             code: "(function*() {}())",
             options: ["always", { generators: "always" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{
-                messageId: "unnamed",
-                type: "FunctionExpression",
-                line: 1,
-                column: 2,
-                endColumn: 11
-            }]
+            errors: [unnamedError]
         },
         {
             code: "var foo = bar(function *() {});",
             options: ["always", { generators: "as-needed" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{
-                messageId: "unnamed",
-                type: "FunctionExpression",
-                line: 1,
-                column: 15,
-                endColumn: 25
-            }]
+            errors: [unnamedError]
         },
         {
             code: "(function*() {}())",
             options: ["always", { generators: "as-needed" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{
-                messageId: "unnamed",
-                type: "FunctionExpression",
-                line: 1,
-                column: 2,
-                endColumn: 11
-            }]
+            errors: [unnamedError]
         },
         {
             code: "var foo = bar(function *() {});",
             options: ["as-needed"],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{
-                messageId: "unnamed",
-                type: "FunctionExpression",
-                line: 1,
-                column: 15,
-                endColumn: 25
-            }]
+            errors: [unnamedError]
         },
         {
             code: "(function*() {}())",
             options: ["as-needed"],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{
-                messageId: "unnamed",
-                type: "FunctionExpression",
-                line: 1,
-                column: 2,
-                endColumn: 11
-            }]
+            errors: [unnamedError]
         },
         {
             code: "var foo = bar(function *() {});",
             options: ["as-needed", { generators: "always" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{
-                messageId: "unnamed",
-                type: "FunctionExpression",
-                line: 1,
-                column: 15,
-                endColumn: 25
-            }]
+            errors: [unnamedError]
         },
         {
             code: "var foo = function*() {};",
             options: ["as-needed", { generators: "always" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{
-                messageId: "unnamed",
-                type: "FunctionExpression",
-                line: 1,
-                column: 11,
-                endColumn: 20
-            }]
+            errors: [unnamedError]
         },
         {
             code: "(function*() {}())",
             options: ["as-needed", { generators: "always" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{
-                messageId: "unnamed",
-                type: "FunctionExpression",
-                line: 1,
-                column: 2,
-                endColumn: 11
-            }]
+            errors: [unnamedError]
         },
         {
             code: "var foo = bar(function *() {});",
             options: ["as-needed", { generators: "as-needed" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{
-                messageId: "unnamed",
-                type: "FunctionExpression",
-                line: 1,
-                column: 15,
-                endColumn: 25
-            }]
+            errors: [unnamedError]
         },
         {
             code: "(function*() {}())",
             options: ["as-needed", { generators: "as-needed" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{
-                messageId: "unnamed",
-                type: "FunctionExpression",
-                line: 1,
-                column: 2,
-                endColumn: 11
-            }]
+            errors: [unnamedError]
         },
         {
             code: "var foo = bar(function *() {});",
             options: ["never", { generators: "always" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{
-                messageId: "unnamed",
-                type: "FunctionExpression",
-                line: 1,
-                column: 15,
-                endColumn: 25
-            }]
+            errors: [unnamedError]
         },
         {
             code: "var foo = function*() {};",
             options: ["never", { generators: "always" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{
-                messageId: "unnamed",
-                type: "FunctionExpression",
-                line: 1,
-                column: 11,
-                endColumn: 20
-            }]
+            errors: [unnamedError]
         },
         {
             code: "(function*() {}())",
             options: ["never", { generators: "always" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{
-                messageId: "unnamed",
-                type: "FunctionExpression",
-                line: 1,
-                column: 2,
-                endColumn: 11
-            }]
+            errors: [unnamedError]
         },
         {
             code: "var foo = bar(function *() {});",
             options: ["never", { generators: "as-needed" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{
-                messageId: "unnamed",
-                type: "FunctionExpression",
-                line: 1,
-                column: 15,
-                endColumn: 25
-            }]
+            errors: [unnamedError]
         },
         {
             code: "(function*() {}())",
             options: ["never", { generators: "as-needed" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{
-                messageId: "unnamed",
-                type: "FunctionExpression",
-                line: 1,
-                column: 2,
-                endColumn: 11
-            }]
+            errors: [unnamedError]
         },
 
         {
@@ -662,52 +450,26 @@ ruleTester.run("func-names", rule, {
             options: ["never"],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                messageId: "named",
-                data: { name: "generator function 'baz'" },
-                type: "FunctionExpression",
-                line: 1,
-                column: 15,
-                endColumn: 28
+                message: "Unexpected named generator function 'baz'."
             }]
         },
         {
             code: "var foo = bar(function *baz() {});",
             options: ["never", { generators: "never" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{
-                messageId: "named",
-                data: { name: "generator function 'baz'" },
-                type: "FunctionExpression",
-                line: 1,
-                column: 15,
-                endColumn: 28
-            }]
+            errors: [{ messageId: "named", data: { name: "generator function 'baz'" }, type: "FunctionExpression" }]
         },
         {
             code: "var foo = bar(function *baz() {});",
             options: ["always", { generators: "never" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{
-                messageId: "named",
-                data: { name: "generator function 'baz'" },
-                type: "FunctionExpression",
-                line: 1,
-                column: 15,
-                endColumn: 28
-            }]
+            errors: [{ messageId: "named", data: { name: "generator function 'baz'" }, type: "FunctionExpression" }]
         },
         {
             code: "var foo = bar(function *baz() {});",
             options: ["as-needed", { generators: "never" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{
-                messageId: "named",
-                data: { name: "generator function 'baz'" },
-                type: "FunctionExpression",
-                line: 1,
-                column: 15,
-                endColumn: 28
-            }]
+            errors: [{ messageId: "named", data: { name: "generator function 'baz'" }, type: "FunctionExpression" }]
         }
     ]
 });
