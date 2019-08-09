@@ -42,6 +42,8 @@ ruleTester.run("no-octal-escape", rule, {
         { code: "'\\0 \\1'", errors: [{ message: "Don't use octal: '\\1'. Use '\\u....' instead.", type: "Literal" }] },
         { code: "'\\0\\01'", errors: [{ message: "Don't use octal: '\\01'. Use '\\u....' instead.", type: "Literal" }] },
         { code: "'\\0 \\01'", errors: [{ message: "Don't use octal: '\\01'. Use '\\u....' instead.", type: "Literal" }] },
+        { code: "'\\08\\1'", errors: [{ message: "Don't use octal: '\\1'. Use '\\u....' instead.", type: "Literal" }] },
+        { code: "'\\08\\01'", errors: [{ message: "Don't use octal: '\\01'. Use '\\u....' instead.", type: "Literal" }] },
 
         // Only the first one is reported
         { code: "'\\01\\02'", errors: [{ message: "Don't use octal: '\\01'. Use '\\u....' instead.", type: "Literal" }] },
