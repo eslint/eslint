@@ -97,6 +97,14 @@ ruleTester.run("class-methods-use-this", rule, {
             errors: [
                 { type: "FunctionExpression", line: 1, column: 34, messageId: "missingThis", data: { name: "hasOwnProperty" } }
             ]
+        },
+        {
+            code: "class A { [foo]() {} }",
+            options: [{ exceptMethods: ["foo"] }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                { type: "FunctionExpression", line: 1, column: 16, messageId: "missingThis", data: { name: "foo" } }
+            ]
         }
     ]
 });
