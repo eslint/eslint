@@ -1,3 +1,4 @@
+import { ASTDefinition } from "./ast-definition"
 import { ConfigData, GlobalVariableKind, ParserOptions } from "./config"
 import { Rule } from "./rule"
 
@@ -32,9 +33,9 @@ export interface Processor {
     readonly supportsAutofix?: boolean
 }
 
-export interface Plugin<AST> {
+export interface Plugin<TDefinition extends ASTDefinition> {
     configs?: Readonly<Record<string, ConfigData>>
     environments?: Readonly<Record<string, EnvironmentData>>
     processors?: Readonly<Record<string, Processor>>
-    rules?: Readonly<Record<string, Rule<AST>>>
+    rules?: Readonly<Record<string, Rule<TDefinition>>>
 }

@@ -1,4 +1,5 @@
 import { Location, Range } from "./ast-common"
+import { IsAny, IsNever } from "./utils"
 
 /**
  * The Type of AST definition.
@@ -39,8 +40,6 @@ export interface NodeRef<TType extends string> { $ref: TType }
 // Implement `Node<Type, ASTDefinition>`
 //------------------------------------------------------------------------------
 
-type IsAny<T> = boolean extends (T extends never ? true : false) ? true : false
-type IsNever<T> = false extends (T extends never ? true : false) ? false : true
 type NeverToNull<T> = IsNever<T> extends true ? null : T
 
 /**
@@ -49,12 +48,18 @@ type NeverToNull<T> = IsNever<T> extends true ? null : T
 export type SpecialType = "Node" | "Statement" | "Expression"
 
 /**
+ * Get the type of `type` property of a node definition.
+ */
+type Type<TDef extends ASTDefinition, TType extends keyof TDef["nodes"]> =
+    TDef["nodes"][TType] extends { type: infer T }
+        ? (T extends keyof any ? T : TType)
+        : TType
+
+/**
  * The union type of all node types.
  */
-export type ActualNodeType<TDef extends ASTDefinition> = {
-    [P in keyof TDef["nodes"]]:
-        TDef["nodes"][P] extends { type: infer T } ? T : P
-}[keyof TDef["nodes"]]
+export type ActualNodeType<TDef extends ASTDefinition> =
+    { [P in keyof TDef["nodes"]]: Type<TDef, P> }[keyof TDef["nodes"]]
 
 
 /**
@@ -68,14 +73,16 @@ export type ActualNodeType<TDef extends ASTDefinition> = {
 type NormalizeType<
     TDef extends ASTDefinition,
     TType extends SpecialType | keyof TDef["nodes"]
-> = keyof TDef["nodes"] & (
-    IsAny<TType> extends true ? unknown :
-    TType extends "Node" ? unknown :
-    TType extends "Statement" ? TDef["statementType"] :
-    TType extends "Expression" ? TDef["expressionType"] :
-    /* otherwise */ TType
-)
-
+> = Extract<
+    keyof TDef["nodes"],
+    (
+        IsAny<TType> extends true ? any :
+        TType extends "Node" ? any :
+        TType extends "Statement" ? TDef["statementType"] :
+        TType extends "Expression" ? TDef["expressionType"] :
+        /* otherwise */ TType
+    )
+>
 /**
  * Resolve given node types to the corresponded nodes.
  */
@@ -183,9 +190,9 @@ export type Node<
         P extends "loc" ? Location :
         P extends "parent" ? ParentNode<TDef, TType> :
         P extends "range" ? Range :
+        P extends "type" ? Type<TDef, TType> :
         P extends keyof TDef["nodes"][TType] ?
             NodeProperty<TDef, TDef["nodes"][TType][P]> :
-        P extends "type" ? TType :
         never
 }
 

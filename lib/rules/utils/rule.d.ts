@@ -2,7 +2,7 @@ import { Def, ES2019 } from "../../types/ast"
 import { Rule, RuleContext as RuleContextBase, RuleMeta } from "../../types/rule"
 import { Schema } from "../../types/schema"
 import * as scope from "../../types/scope"
-import { SourceCode as SourceCodeBase } from "../../types/source-code"
+import * as source from "../../types/source-code"
 
 export * from "../../types/ast-common"
 export * from "../../types/code-path"
@@ -23,14 +23,18 @@ export type AST<
 > =
     Def.ExtractNode<ASTDef, TType, TFilter>
 
-export interface ScopeManager extends scope.ScopeManager<AST> {}
-export type Scope = scope.Scope<AST>
-export interface Variable extends scope.Variable<AST> {}
-export interface Reference extends scope.Reference<AST> {}
-export type VariableDefinition = scope.Definition<AST>
+export type ScopeManager = scope.ScopeManager<ASTDef>
+export type Scope = scope.Scope<ASTDef>
+export type Variable = scope.Variable<ASTDef>
+export type Reference = scope.Reference<ASTDef>
+export type VariableDefinition = scope.Definition<ASTDef>
 
-export interface RuleContext extends RuleContextBase<AST, any, any> {}
-export interface SourceCode extends SourceCodeBase<AST> {}
+export type SourceCode = source.SourceCode<ASTDef>
+
+export type RuleContext<
+    TMessageId extends string = any,
+    TOptions extends readonly any[] = readonly unknown[]
+> = RuleContextBase<ASTDef, TMessageId, TOptions>
 
 /**
  * This is to infer the types of
@@ -42,5 +46,5 @@ export interface SourceCode extends SourceCodeBase<AST> {}
  * @param rule The rule definition.
  */
 export declare function rule<TMeta extends RuleMeta>(
-    rule: Rule<AST, TMeta>
-): Rule<AST, TMeta>
+    rule: Rule<ASTDef, TMeta>
+): Rule<ASTDef, TMeta>

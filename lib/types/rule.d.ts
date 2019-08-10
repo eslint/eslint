@@ -1,11 +1,11 @@
-import { LineColumn, Location, Range } from "./ast-es2019"
+import { ActualNodeType, ASTDefinition, ExtractNode } from "./ast-definition"
+import { HasRange, LineColumn, Location, Range } from "./ast-es2019"
 import { CodePath, CodePathSegment } from "./code-path"
 import { ArraySchema, Schema, SchemaToType } from "./schema"
 import { ScopeManager, Variable } from "./scope"
 import { SourceCode } from "./source-code"
+import { IsAny } from "./utils"
 
-type Type<T extends string, AST> = Extract<AST, { type: T }>
-interface HasRange { readonly range: Range }
 interface FixData { readonly range: Range; readonly text: string }
 interface NodeLike { readonly type: string; readonly loc: Location }
 
@@ -16,7 +16,10 @@ export interface RuleMetaDocs {
     readonly url: string
 }
 
-export type SchemaSetting = ArraySchema | (readonly Schema[] & { 0: Schema }) | []
+export type SchemaSetting =
+    | ArraySchema
+    | (readonly Schema[] & { 0: Schema })
+    | []
 
 export interface RuleMeta {
     readonly deprecated?: boolean
@@ -61,78 +64,89 @@ export type ReportData<TMessageId extends string = string> = (
     ) => FixData | IterableIterator<FixData> | null
 }
 
-type OptionType<T extends SchemaSetting> =
-    T extends ArraySchema ? SchemaToType<T> :
-    T extends readonly Schema[] ? {
-        readonly [P in keyof T]: SchemaToType<T[P & number]> | undefined
-    } :
-    unknown[]
-
 export interface RuleContext<
-    AST,
-    TMessageId extends string = string,
-    TSchema extends SchemaSetting = SchemaSetting
+    TDefinition extends ASTDefinition,
+    TMessageId extends string = any,
+    TOptions extends readonly any[] = readonly unknown[]
 > {
     readonly id: string
-    readonly options: OptionType<TSchema>
+    readonly options: TOptions
     readonly settings: Readonly<Record<string, unknown>>
     readonly parserPath: string
     readonly parserOptions: Readonly<Record<string, unknown>>
     readonly parserServices: Readonly<Record<string, unknown>>
 
-    getAncestors(): readonly AST[]
-    getDeclaredVariables(node: AST): readonly Variable<AST>[]
+    getAncestors(): readonly ExtractNode<TDefinition, "Node">[]
+    getDeclaredVariables(
+        node: ExtractNode<TDefinition, "Node">
+    ): readonly Variable<TDefinition>[]
     getFilename(): string
-    getScope(): ScopeManager<AST>
-    getSourceCode(): SourceCode<AST>
+    getScope(): ScopeManager<TDefinition>
+    getSourceCode(): SourceCode<TDefinition>
 
     markVariableAsUsed(name: string): void
 
     report(descriptor: ReportData<TMessageId>): void
 }
 
-type CodePathNodeType =
+type CodePathNodeType<TDefinition extends ASTDefinition> = Extract<
+    ActualNodeType<TDefinition>,
     | "ArrowFunctionExpression"
     | "FunctionDeclaration"
     | "FunctionExpression"
     | "Program"
+>
 
-export type Visitor<AST> = {
-    readonly [P in (AST extends { type: string } ? AST["type"] : never)]?: 
-        (node: Type<P, AST>) => void
+export type Visitor<TDefinition extends ASTDefinition> = {
+    readonly [P in ActualNodeType<TDefinition>]?: 
+        (node: ExtractNode<TDefinition, P>) => void
 } & {
     readonly onCodePathStart?: (
         codePath: CodePath,
-        node: Extract<AST, { type: CodePathNodeType }>
+        node: ExtractNode<TDefinition, CodePathNodeType<TDefinition>>
     ) => void
     readonly onCodePathEnd?: (
         codePath: CodePath,
-        node: Extract<AST, { type: CodePathNodeType }>
+        node: ExtractNode<TDefinition, CodePathNodeType<TDefinition>>
     ) => void
     readonly onCodePathSegmentStart?: (
         segment: CodePathSegment,
-        node: AST
+        node: ExtractNode<TDefinition, "Node">
     ) => void
     readonly onCodePathSegmentEnd?: (
         segment: CodePathSegment,
-        node: AST
+        node: ExtractNode<TDefinition, "Node">
     ) => void
     readonly onCodePathSegmentLoop?: (
         fromSegment: CodePathSegment,
         toSegment: CodePathSegment,
-        node: AST
+        node: ExtractNode<TDefinition, "Node">
     ) => void
 } & {
     readonly [selector: string]: any
 }
 
-export interface Rule<AST, TMeta extends RuleMeta = RuleMeta> {
+type SchemaArrayToType<T extends readonly Schema[]> = {
+    readonly [P in keyof T]: T[P] extends Schema ? SchemaToType<T[P]> : T[P]
+}
+
+export type OptionType<T extends SchemaSetting> = readonly unknown[] & (
+    IsAny<T> extends true ? unknown :
+    [T] extends [ArraySchema] ? SchemaToType<T> :
+    [T] extends [readonly Schema[]] ? SchemaArrayToType<T> :
+    unknown
+)
+
+export interface Rule<
+    TDefinition extends ASTDefinition,
+    TMeta extends RuleMeta = RuleMeta
+> {
     readonly meta: TMeta
     create(
         context: RuleContext<
-            AST,
+            TDefinition,
             Extract<keyof TMeta["messages"], string>,
-            TMeta["schema"]
+            OptionType<TMeta["schema"]>
         >
-    ): Visitor<AST>
+    ): Visitor<TDefinition>
 }

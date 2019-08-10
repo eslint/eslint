@@ -1,3 +1,4 @@
+import { IsAny, IsNever } from "./utils"
 
 export interface ArraySchema {
     readonly type: "array"
@@ -68,15 +69,19 @@ type UnionToIntersection<U> =
         : never
 
 type ArraySchemaToType<S extends ArraySchema> =
-    SchemaArrayToTypeR<
-        S["items"] extends Schema ? readonly S["items"][] : S["items"]
-    > & (
-        S["additionalItems"] extends false ? {} :
-        S["additionalItems"] extends Schema ? (
-            { readonly [key: number]: SchemaToTypeR<S["additionalItems"]> }
-        ) :
-        { readonly [key: number]: unknown }
-    )
+    ArraySchema extends S
+        ? unknown[]
+        : (
+            SchemaArrayToTypeR<
+                S["items"] extends Schema ? readonly S["items"][] : S["items"]
+            > & (
+                S["additionalItems"] extends false ? {} :
+                S["additionalItems"] extends Schema ? {
+                    readonly [key: number]: SchemaToTypeR<S["additionalItems"]>
+                } :
+                { readonly [key: number]: unknown }
+            )
+        )
 
 type IntersectionSchemaToType<S extends IntersectionSchema> =
     UnionToIntersection<SchemaArrayToTypeR<S["allOf"]>[number]>
@@ -106,6 +111,7 @@ type SchemaArrayToTypeR<T> = {
 }
 
 type SchemaToTypeR<S> =
+    IsAny<S> extends true ? any :
     S extends EnumSchema ? S["enum"][number] :
     S extends BooleanSchema ? boolean :
     S extends NullSchema ? null :

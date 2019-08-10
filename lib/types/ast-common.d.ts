@@ -23,3 +23,11 @@ export interface Comment {
     readonly range: Range
     readonly loc: Location
 }
+
+export interface HasRange {
+    readonly range: Range
+}
+
+export interface HasLocation {
+    readonly loc: Location
+}
