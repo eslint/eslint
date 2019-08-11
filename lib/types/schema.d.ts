@@ -63,54 +63,98 @@ export type Schema =
     | StringSchema
     | UnionSchema
 
+type ArrayToType<T extends readonly Schema[]> = {
+    readonly [P in keyof T]: T[P] extends Schema ? SchemaToType<T[P]> : T[P]
+}
+
+type ArrayWithRestElementToType<S extends ArraySchema["items"], R> =
+    S extends Schema ? readonly (SchemaToType<S> | R)[] :
+    S extends [Schema] ? readonly [SchemaToType<S[0]>, ...R[]] :
+    S extends [Schema, Schema] ? readonly [
+        SchemaToType<S[0]>,
+        SchemaToType<S[1]>,
+        ...R[]
+    ] :
+    S extends [Schema, Schema, Schema] ? readonly [
+        SchemaToType<S[0]>,
+        SchemaToType<S[1]>,
+        SchemaToType<S[2]>,
+        ...R[]
+    ] :
+    S extends [Schema, Schema, Schema, Schema] ? readonly [
+        SchemaToType<S[0]>,
+        SchemaToType<S[1]>,
+        SchemaToType<S[2]>,
+        SchemaToType<S[3]>,
+        ...R[]
+    ] :
+    S extends readonly Schema[] ? ArrayToType<S> & readonly R[] :
+    /* otherwise */ readonly R[]
+
+type ArraySchemaToType<S extends ArraySchema> = {
+    0:
+        S["additionalItems"] extends false ? (
+            S["items"] extends Schema ? readonly SchemaToType<S["items"]>[] :
+            S["items"] extends readonly Schema[] ? ArrayToType<S["items"]> :
+            /* otherwise */ []
+        ) :
+        S["additionalItems"] extends Schema ? (
+            ArrayWithRestElementToType<
+                S["items"],
+                SchemaToType<S["additionalItems"]>
+            >
+        ) :
+        /* otherwise */ ArrayWithRestElementToType<S["items"], unknown>
+}[S extends any ? 0 : never]
+
 type UnionToIntersection<U> = 
     (U extends any ? (k: U) => void : never) extends ((k: infer I) => void)
         ? I
         : never
 
-type ArraySchemaToType<S extends ArraySchema> =
-    ArraySchema extends S
-        ? unknown[]
-        : (
-            SchemaArrayToTypeR<
-                S["items"] extends Schema ? readonly S["items"][] : S["items"]
-            > & (
-                S["additionalItems"] extends false ? {} :
-                S["additionalItems"] extends Schema ? {
-                    readonly [key: number]: SchemaToTypeR<S["additionalItems"]>
-                } :
-                { readonly [key: number]: unknown }
-            )
-        )
-
 type IntersectionSchemaToType<S extends IntersectionSchema> =
-    UnionToIntersection<SchemaArrayToTypeR<S["allOf"]>[number]>
+    UnionToIntersection<ArrayToType<S["allOf"]>[number]>
 
 type ObjectSchemaToType<S extends ObjectSchema> =
     S["required"][keyof S["required"]] extends infer R
-        ? {
-            readonly [P in Extract<keyof S["properties"], R>]:
-                SchemaToTypeR<S["properties"][P]>
-        } & {
-            readonly [P in Exclude<keyof S["properties"], R>]?:
-                SchemaToTypeR<S["properties"][P]>
-        } & (
-            S["additionalProperties"] extends false ? {} :
-            S["additionalProperties"] extends Schema ? {
-                readonly [key: string]: SchemaToTypeR<S["additionalProperties"]>
-            } :
-            { readonly [key: string]: unknown }
+        ? (
+            & (IsNever<Extract<keyof S["properties"], R>> extends true
+                ? unknown
+                : {
+                    [P in Extract<keyof S["properties"], R>]:
+                        SchemaToType<S["properties"][P]>
+                })
+            & (IsNever<Exclude<keyof S["properties"], R>> extends true
+                ? unknown
+                : {
+                    [P in Exclude<keyof S["properties"], R>]?:
+                        SchemaToType<S["properties"][P]>
+                })
+            & (S["additionalProperties"] extends false
+                ? unknown
+                : {
+                    readonly [key: string]:
+                        S["additionalProperties"] extends Schema
+                            ? SchemaToType<S["additionalProperties"]>
+                            : unknown
+                })
         )
         : never
 
+type A = ObjectSchemaToType<{
+    type: "object"
+    properties: {
+        a: { type: "string" }
+        b: { type: "string" }
+    }
+    required: ["a"]
+    additionalProperties: false
+}>
+
 type UnionSchemaToType<S extends UnionSchema> =
-    SchemaArrayToTypeR<S["anyOf"]>[number]
+    ArrayToType<S["anyOf"]>[number]
 
-type SchemaArrayToTypeR<T> = {
-    readonly [P in keyof T]: SchemaToTypeR<T[P]>
-}
-
-type SchemaToTypeR<S> =
+export type SchemaToType<S extends Schema> =
     IsAny<S> extends true ? any :
     S extends EnumSchema ? S["enum"][number] :
     S extends BooleanSchema ? boolean :
@@ -122,5 +166,3 @@ type SchemaToTypeR<S> =
     S extends ObjectSchema ? ObjectSchemaToType<S> :
     S extends UnionSchema ? UnionSchemaToType<S> :
     never
-
-export type SchemaToType<S extends Schema> = SchemaToTypeR<S>
