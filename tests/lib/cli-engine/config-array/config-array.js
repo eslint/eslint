@@ -425,6 +425,7 @@ describe("ConfigArray", () => {
             assert.deepStrictEqual(result, {
                 env: {},
                 globals: {},
+                noInlineConfig: void 0,
                 parser: null,
                 parserOptions: {
                     ecmaFeatures: {
@@ -454,6 +455,7 @@ describe("ConfigArray", () => {
             assert.deepStrictEqual(result, {
                 env: {},
                 globals: {},
+                noInlineConfig: void 0,
                 parser: null,
                 parserOptions: {
                     ecmaFeatures: {
@@ -601,7 +603,8 @@ describe("ConfigArray", () => {
                     "valid-jsdoc": [2]
                 },
                 settings: {},
-                processor: null
+                processor: null,
+                noInlineConfig: void 0
             });
             assert.deepStrictEqual(config[0], {
                 rules: {
