@@ -59,8 +59,6 @@ After that, you can run ESLint on any file or directory like this:
 $ ./node_modules/.bin/eslint yourfile.js
 ```
 
-It is also possible to install ESLint globally rather than locally (using `npm install eslint --global`). However, any plugins or shareable configs that you use must be installed locally in either case.
-
 ## <a name="configuration"></a>Configuration
 
 After running `eslint --init`, you'll have a `.eslintrc` file in your directory. In it, you'll see some rules configured like this:
