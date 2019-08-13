@@ -423,6 +423,7 @@ describe("ConfigArray", () => {
             const result = merge(config[0], config[1]);
 
             assert.deepStrictEqual(result, {
+                configNameOfNoInlineConfig: "",
                 env: {},
                 globals: {},
                 noInlineConfig: void 0,
@@ -453,6 +454,7 @@ describe("ConfigArray", () => {
             const result = merge(config[0], config[1]);
 
             assert.deepStrictEqual(result, {
+                configNameOfNoInlineConfig: "",
                 env: {},
                 globals: {},
                 noInlineConfig: void 0,
@@ -567,6 +569,7 @@ describe("ConfigArray", () => {
             const result = merge(config[0], config[1]);
 
             assert.deepStrictEqual(result, {
+                configNameOfNoInlineConfig: "",
                 parser: null,
                 parserOptions: {
                     ecmaFeatures: {
