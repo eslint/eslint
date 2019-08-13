@@ -3513,7 +3513,7 @@ describe("CLIEngine", () => {
                 const messages = results[0].messages;
 
                 assert.strictEqual(messages.length, 1);
-                assert.strictEqual(messages[0].message, "'/*globals*/' has no effects because you have 'noInlineConfig' setting in your config.");
+                assert.strictEqual(messages[0].message, "'/*globals*/' has no effect because you have 'noInlineConfig' setting in your config.");
             });
         });
     });

@@ -3168,7 +3168,7 @@ describe("Linter", () => {
                 assert.deepStrictEqual(messages[0].fatal, void 0);
                 assert.deepStrictEqual(messages[0].ruleId, null);
                 assert.deepStrictEqual(messages[0].severity, 1);
-                assert.deepStrictEqual(messages[0].message, `'/*${directive.split(" ")[0]}*/' has no effects because you have 'noInlineConfig' setting in your config.`);
+                assert.deepStrictEqual(messages[0].message, `'/*${directive.split(" ")[0]}*/' has no effect because you have 'noInlineConfig' setting in your config.`);
             });
         }
 
