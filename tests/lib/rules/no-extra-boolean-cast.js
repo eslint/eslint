@@ -227,6 +227,314 @@ ruleTester.run("no-extra-boolean-cast", rule, {
                 messageId: "unexpectedCall",
                 type: "CallExpression"
             }]
+        },
+        {
+            code: "if (!Boolean()) { foo() }",
+            output: "if (true) { foo() }",
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "while (!Boolean()) { foo() }",
+            output: "while (true) { foo() }",
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "var foo = Boolean() ? bar() : baz()",
+            output: "var foo = false ? bar() : baz()",
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "if (Boolean()) { foo() }",
+            output: "if (false) { foo() }",
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "while (Boolean()) { foo() }",
+            output: "while (false) { foo() }",
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
+        },
+
+        // Adjacent tokens tests
+        {
+            code: "void!Boolean()",
+            output: "void true",
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "void! Boolean()",
+            output: "void true",
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "typeof!Boolean()",
+            output: "typeof true",
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "(!Boolean())",
+            output: "(true)",
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "+!Boolean()",
+            output: "+true",
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "void !Boolean()",
+            output: "void true",
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "void(!Boolean())",
+            output: "void(true)",
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "void/**/!Boolean()",
+            output: "void/**/true",
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
+        },
+
+        // Comments tests
+        {
+            code: "!/**/!!foo",
+            output: "!/**/foo",
+            errors: [{
+                messageId: "unexpectedNegation",
+                type: "UnaryExpression"
+            }]
+        },
+        {
+            code: "!!/**/!foo",
+            output: null,
+            errors: [{
+                messageId: "unexpectedNegation",
+                type: "UnaryExpression"
+            }]
+        },
+        {
+            code: "!!!/**/foo",
+            output: null,
+            errors: [{
+                messageId: "unexpectedNegation",
+                type: "UnaryExpression"
+            }]
+        },
+        {
+            code: "!!!foo/**/",
+            output: "!foo/**/",
+            errors: [{
+                messageId: "unexpectedNegation",
+                type: "UnaryExpression"
+            }]
+        },
+        {
+            code: "if(!/**/!foo);",
+            output: null,
+            errors: [{
+                messageId: "unexpectedNegation",
+                type: "UnaryExpression"
+            }]
+        },
+        {
+            code: "(!!/**/foo ? 1 : 2)",
+            output: null,
+            errors: [{
+                messageId: "unexpectedNegation",
+                type: "UnaryExpression"
+            }]
+        },
+        {
+            code: "!/**/Boolean(foo)",
+            output: "!/**/foo",
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "!Boolean/**/(foo)",
+            output: null,
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "!Boolean(/**/foo)",
+            output: null,
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "!Boolean(foo/**/)",
+            output: null,
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "!Boolean(foo)/**/",
+            output: "!foo/**/",
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "if(Boolean/**/(foo));",
+            output: null,
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "(Boolean(foo/**/) ? 1 : 2)",
+            output: null,
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "/**/!Boolean()",
+            output: "/**/true",
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "!/**/Boolean()",
+            output: null,
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "!Boolean/**/()",
+            output: null,
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "!Boolean(/**/)",
+            output: null,
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "!Boolean()/**/",
+            output: "true/**/",
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "if(!/**/Boolean());",
+            output: null,
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "(!Boolean(/**/) ? 1 : 2)",
+            output: null,
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "if(/**/Boolean());",
+            output: "if(/**/false);",
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "if(Boolean/**/());",
+            output: null,
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "if(Boolean(/**/));",
+            output: null,
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "if(Boolean()/**/);",
+            output: "if(false/**/);",
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "(Boolean/**/() ? 1 : 2)",
+            output: null,
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
         }
     ]
 });
