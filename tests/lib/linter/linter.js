@@ -3172,6 +3172,22 @@ describe("Linter", () => {
             });
         }
 
+        for (const directive of [
+            "eslint-disable-line eqeqeq",
+            "eslint-disable-next-line eqeqeq"
+        ]) {
+            // eslint-disable-next-line no-loop-func
+            it(`should warn '// ${directive}' if 'noInlineConfig' was given.`, () => {
+                const messages = linter.verify(`// ${directive}`, { noInlineConfig: true });
+
+                assert.deepStrictEqual(messages.length, 1);
+                assert.deepStrictEqual(messages[0].fatal, void 0);
+                assert.deepStrictEqual(messages[0].ruleId, null);
+                assert.deepStrictEqual(messages[0].severity, 1);
+                assert.deepStrictEqual(messages[0].message, `'//${directive.split(" ")[0]}' has no effect because you have 'noInlineConfig' setting in your config.`);
+            });
+        }
+
         it("should not warn if 'noInlineConfig' and '--no-inline-config' were given.", () => {
             const messages = linter.verify("/* globals foo */", { noInlineConfig: true }, { allowInlineConfig: false });
 
