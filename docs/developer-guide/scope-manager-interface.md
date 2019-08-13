@@ -28,7 +28,7 @@ This document was written based on the implementation of [eslint-scope](https://
     * `node` (`ASTNode`) ... An AST node to get their scope.
     * `inner` (`boolean`) ... If the node has multiple scope, this returns the outermost scope normally. If `inner` is `true` then this returns the innermost scope. Default is `false`.
 * **Return type:** `Scope | null`
-* **Description:** Get the scope of a given AST node. The gotten scope's `block` property is the node. This method never returns `function-expression-name` scope and `TDZ` scope. If the node does not have their scope, this returns `null`.
+* **Description:** Get the scope of a given AST node. The gotten scope's `block` property is the node. This method never returns `function-expression-name` scope. If the node does not have their scope, this returns `null`.
 
 #### getDeclaredVariables(node)
 
@@ -77,7 +77,7 @@ Those members are defined but not used in ESLint.
 #### type
 
 * **Type:** `string`
-* **Description:** The type of this scope. This is one of `"block"`, `"catch"`, `"class"`, `"for"`, `"function"`, `"function-expression-name"`, `"global"`, `"module"`, `"switch"`, `"with"`, `"TDZ"`
+* **Description:** The type of this scope. This is one of `"block"`, `"catch"`, `"class"`, `"for"`, `"function"`, `"function-expression-name"`, `"global"`, `"module"`, `"switch"`, `"with"`
 
 #### isStrict
 
@@ -334,7 +334,7 @@ Those members are defined but not used in ESLint.
 #### type
 
 * **Type:** `string`
-* **Description:** The type of this definition. One of `"CatchClause"`, `"ClassName"`, `"FunctionName"`, `"ImplicitGlobalVariable"`, `"ImportBinding"`, `"Parameter"`, `"TDZ"`, and `"Variable"`.
+* **Description:** The type of this definition. One of `"CatchClause"`, `"ClassName"`, `"FunctionName"`, `"ImplicitGlobalVariable"`, `"ImportBinding"`, `"Parameter"`, and `"Variable"`.
 
 #### name
 
@@ -354,7 +354,6 @@ Those members are defined but not used in ESLint.
 | `"ImplicitGlobalVariable"` | `Program`
 | `"ImportBinding"`          | `ImportSpecifier`, `ImportDefaultSpecifier`, or `ImportNamespaceSpecifier`
 | `"Parameter"`              | `FunctionDeclaration`, `FunctionExpression`, or `ArrowFunctionExpression`
-| `"TDZ"`                    | ?
 | `"Variable"`               | `VariableDeclarator`
 
 #### parent
@@ -370,7 +369,6 @@ Those members are defined but not used in ESLint.
 | `"ImplicitGlobalVariable"` | `null`
 | `"ImportBinding"`          | `ImportDeclaration`
 | `"Parameter"`              | `null`
-| `"TDZ"`                    | `null`
 | `"Variable"`               | `VariableDeclaration`
 
 ### Deprecated members
