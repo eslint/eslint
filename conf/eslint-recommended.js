@@ -37,6 +37,7 @@ module.exports = {
         "no-fallthrough": "error",
         "no-func-assign": "error",
         "no-global-assign": "error",
+        "no-identical-ternary-expressions": "error",
         "no-inner-declarations": "error",
         "no-invalid-regexp": "error",
         "no-irregular-whitespace": "error",

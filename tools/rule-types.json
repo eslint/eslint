@@ -96,6 +96,7 @@
     "no-dupe-keys": "problem",
     "no-duplicate-case": "problem",
     "no-duplicate-imports": "problem",
+    "no-identical-ternary-expressions": "problem",
     "no-else-return": "suggestion",
     "no-empty": "suggestion",
     "no-empty-character-class": "problem",
