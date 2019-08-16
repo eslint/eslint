@@ -21,6 +21,7 @@ const errors = [{ messageId: "unexpected", type: "CallExpression" }];
 ruleTester.run("no-extra-bind", rule, {
     valid: [
         "var a = function(b) { return b }.bind(c, d)",
+        { code: "var a = function(b) { return b }.bind(...c)", parserOptions: { ecmaVersion: 6 } },
         "var a = function() { this.b }()",
         "var a = function() { this.b }.foo()",
         "var a = f.bind(a)",
