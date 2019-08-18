@@ -1250,4 +1250,82 @@ describe("ast-utils", () => {
             assert.strictEqual(astUtils.equalTokens(ast.body[0], ast.body[1], sourceCode), false);
         });
     });
+
+    describe("hasOctalEscapeSequence", () => {
+
+        /* eslint-disable quote-props */
+        const expectedResults = {
+            "\\1": true,
+            "\\2": true,
+            "\\7": true,
+            "\\00": true,
+            "\\01": true,
+            "\\02": true,
+            "\\07": true,
+            "\\08": true,
+            "\\09": true,
+            "\\10": true,
+            "\\12": true,
+            " \\1": true,
+            "\\1 ": true,
+            "a\\1": true,
+            "\\1a": true,
+            "a\\1a": true,
+            " \\01": true,
+            "\\01 ": true,
+            "a\\01": true,
+            "\\01a": true,
+            "a\\01a": true,
+            "a\\08a": true,
+            "\\0\\1": true,
+            "\\0\\01": true,
+            "\\0\\08": true,
+            "\\n\\1": true,
+            "\\n\\01": true,
+            "\\n\\08": true,
+            "\\\\\\1": true,
+            "\\\\\\01": true,
+            "\\\\\\08": true,
+
+            "\\0": false,
+            "\\8": false,
+            "\\9": false,
+            " \\0": false,
+            "\\0 ": false,
+            "a\\0": false,
+            "\\0a": false,
+            "a\\8a": false,
+            "\\0\\8": false,
+            "\\8\\0": false,
+            "\\80": false,
+            "\\81": false,
+            "\\\\": false,
+            "\\\\0": false,
+            "\\\\01": false,
+            "\\\\08": false,
+            "\\\\1": false,
+            "\\\\12": false,
+            "\\\\\\0": false,
+            "\\\\\\8": false,
+            "\\0\\\\": false,
+            "0": false,
+            "1": false,
+            "8": false,
+            "01": false,
+            "08": false,
+            "80": false,
+            "12": false,
+            "\\a": false,
+            "\\n": false
+        };
+        /* eslint-enable quote-props */
+
+        Object.keys(expectedResults).forEach(key => {
+            it(`should return ${expectedResults[key]} for ${key}`, () => {
+                const ast = espree.parse(`"${key}"`);
+
+                assert.strictEqual(astUtils.hasOctalEscapeSequence(ast.body[0].expression.raw), expectedResults[key]);
+            });
+        });
+    });
 });
