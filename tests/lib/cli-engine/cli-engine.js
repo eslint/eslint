@@ -3495,6 +3495,45 @@ describe("CLIEngine", () => {
                 assert.deepStrictEqual(filenames, ["a.js", "b.js"]);
             });
         });
+
+        describe("with 'noInlineConfig' setting", () => {
+            const root = getFixturePath("cli-engine/noInlineConfig");
+
+            it("should warn directive comments if 'noInlineConfig' was given.", () => {
+                CLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        "test.js": "/* globals foo */",
+                        ".eslintrc.yml": "noInlineConfig: true"
+                    }
+                }).CLIEngine;
+                engine = new CLIEngine();
+
+                const { results } = engine.executeOnFiles(["test.js"]);
+                const messages = results[0].messages;
+
+                assert.strictEqual(messages.length, 1);
+                assert.strictEqual(messages[0].message, "'/*globals*/' has no effect because you have 'noInlineConfig' setting in your config (.eslintrc.yml).");
+            });
+
+            it("should show the config file what the 'noInlineConfig' came from.", () => {
+                CLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        "node_modules/eslint-config-foo/index.js": "module.exports = {noInlineConfig: true}",
+                        "test.js": "/* globals foo */",
+                        ".eslintrc.yml": "extends: foo"
+                    }
+                }).CLIEngine;
+                engine = new CLIEngine();
+
+                const { results } = engine.executeOnFiles(["test.js"]);
+                const messages = results[0].messages;
+
+                assert.strictEqual(messages.length, 1);
+                assert.strictEqual(messages[0].message, "'/*globals*/' has no effect because you have 'noInlineConfig' setting in your config (.eslintrc.yml » eslint-config-foo).");
+            });
+        });
     });
 
     describe("getConfigForFile", () => {
