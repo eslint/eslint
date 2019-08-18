@@ -13,6 +13,7 @@ versions.json
 .eslintcache
 .cache
 /packages/**/node_modules
+/tools/internal-rules/node_modules
 /.vscode
 .sublimelinterrc
 .eslint-release-info.json
