@@ -29,71 +29,105 @@ ruleTester.run("no-duplicate-case", rule, {
         "var a = 1, f = function(s) { return { p1: s } }; switch (a) {case f(a + 1).p1: break; case f(a + 2).p1: break; default: break;}",
         "var a = 1, f = function(s) { return { p1: s } }; switch (a) {case f(a == 1 ? 2 : 3).p1: break; case f(a === 1 ? 2 : 3).p1: break; default: break;}",
         "var a = 1, f1 = function() { return { p1: 1 } }, f2 = function() { return { p1: 2 } }; switch (a) {case f1().p1: break; case f2().p1: break; default: break;}",
-        "var a = [1,2]; switch(a.toString()){case ([1,2]).toString():break; case ([1]).toString():break; default:break;}"
+        "var a = [1,2]; switch(a.toString()){case ([1,2]).toString():break; case ([1]).toString():break; default:break;}",
+        "switch(a) { case a: break; } switch(a) { case a: break; }",
+        "switch(a) { case toString: break; }"
     ],
     invalid: [
         {
             code: "var a = 1; switch (a) {case 1: break; case 1: break; case 2: break; default: break;}",
             errors: [{
                 messageId: "unexpected",
-                type: "SwitchCase"
+                type: "SwitchCase",
+                column: 39
             }]
         },
         {
             code: "var a = '1'; switch (a) {case '1': break; case '1': break; case '2': break; default: break;}",
             errors: [{
                 messageId: "unexpected",
-                type: "SwitchCase"
+                type: "SwitchCase",
+                column: 43
             }]
         },
         {
             code: "var a = 1, one = 1; switch (a) {case one: break; case one: break; case 2: break; default: break;}",
             errors: [{
                 messageId: "unexpected",
-                type: "SwitchCase"
+                type: "SwitchCase",
+                column: 50
             }]
         },
         {
             code: "var a = 1, p = {p: {p1: 1, p2: 1}}; switch (a) {case p.p.p1: break; case p.p.p1: break; default: break;}",
             errors: [{
                 messageId: "unexpected",
-                type: "SwitchCase"
+                type: "SwitchCase",
+                column: 69
             }]
         },
         {
             code: "var a = 1, f = function(b) { return b ? { p1: 1 } : { p1: 2 }; }; switch (a) {case f(true).p1: break; case f(true).p1: break; default: break;}",
             errors: [{
                 messageId: "unexpected",
-                type: "SwitchCase"
+                type: "SwitchCase",
+                column: 103
             }]
         },
         {
             code: "var a = 1, f = function(s) { return { p1: s } }; switch (a) {case f(a + 1).p1: break; case f(a + 1).p1: break; default: break;}",
             errors: [{
                 messageId: "unexpected",
-                type: "SwitchCase"
+                type: "SwitchCase",
+                column: 87
             }]
         },
         {
             code: "var a = 1, f = function(s) { return { p1: s } }; switch (a) {case f(a === 1 ? 2 : 3).p1: break; case f(a === 1 ? 2 : 3).p1: break; default: break;}",
             errors: [{
                 messageId: "unexpected",
-                type: "SwitchCase"
+                type: "SwitchCase",
+                column: 97
             }]
         },
         {
             code: "var a = 1, f1 = function() { return { p1: 1 } }; switch (a) {case f1().p1: break; case f1().p1: break; default: break;}",
             errors: [{
                 messageId: "unexpected",
-                type: "SwitchCase"
+                type: "SwitchCase",
+                column: 83
             }]
         },
         {
             code: "var a = [1, 2]; switch(a.toString()){case ([1, 2]).toString():break; case ([1, 2]).toString():break; default:break;}",
             errors: [{
                 messageId: "unexpected",
-                type: "SwitchCase"
+                type: "SwitchCase",
+                column: 70
             }]
+        },
+        {
+            code: "switch (a) { case a: case a: }",
+            errors: [{
+                messageId: "unexpected",
+                type: "SwitchCase",
+                column: 22
+            }]
+        },
+        {
+            code: "switch (a) { case a: break; case b: break; case a: break; case c: break; case a: break; }",
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "SwitchCase",
+                    column: 44
+                },
+                {
+                    messageId: "unexpected",
+                    type: "SwitchCase",
+                    column: 74
+                }
+            ]
         }
     ]
 });
