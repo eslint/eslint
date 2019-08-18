@@ -200,6 +200,16 @@ ruleTester.run("prefer-template", rule, {
             errors
         },
         {
+            code: "foo + '\\0\\1'",
+            output: null,
+            errors
+        },
+        {
+            code: "foo + '\\08'",
+            output: null,
+            errors
+        },
+        {
             code: "foo + '\\\\033'",
             output: "`${foo  }\\\\033`",
             errors
