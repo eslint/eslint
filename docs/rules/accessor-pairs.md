@@ -143,6 +143,27 @@ Object.defineProperty(o, 'c', {
 
 ```
 
+## Known Limitations
+
+Due to the limits of static analysis, this rule does not account for possible side effects and in certain cases
+might not report a missing pair for a getter/setter that has a computed key, like in the following example:
+
+```js
+/*eslint accessor-pairs: "error"*/
+
+var a = 1;
+
+// no warnings
+var o = {
+    get [a++]() {
+        return this.val;
+    },
+    set [a++](value) {
+        this.val = value;
+    }
+};
+```
+
 ## When Not To Use It
 
 You can turn this rule off if you are not concerned with the simultaneous presence of setters and getters on objects.
