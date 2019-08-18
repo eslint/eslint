@@ -73,6 +73,10 @@ ruleTester.run("require-await", rule, {
             errors: ["Async method 'foo' has no 'await' expression."]
         },
         {
+            code: "(class { async ''() { doSomething() } })",
+            errors: ["Async method '' has no 'await' expression."]
+        },
+        {
             code: "async function foo() { async () => { await doSomething() } }",
             errors: ["Async function 'foo' has no 'await' expression."]
         },
