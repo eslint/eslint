@@ -30,6 +30,7 @@ function assertConfigArrayElement(actual, providedExpected) {
         criteria: null,
         env: void 0,
         globals: void 0,
+        noInlineConfig: void 0,
         parser: void 0,
         parserOptions: void 0,
         plugins: void 0,
@@ -53,6 +54,7 @@ function assertConfig(actual, providedExpected) {
     const expected = {
         env: {},
         globals: {},
+        noInlineConfig: void 0,
         parser: null,
         parserOptions: {},
         plugins: [],
