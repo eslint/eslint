@@ -33,6 +33,7 @@
     "func-name-matching": "suggestion",
     "func-names": "suggestion",
     "func-style": "suggestion",
+    "function-call-argument-newline": "layout",
     "function-paren-newline": "layout",
     "generator-star-spacing": "layout",
     "getter-return": "problem",
