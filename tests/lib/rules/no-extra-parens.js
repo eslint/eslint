@@ -1197,6 +1197,12 @@ ruleTester.run("no-extra-parens", rule, {
             "Identifier",
             1
         ),
+        invalid("let s = `${(v)}`", "let s = `${v}`", "Identifier"),
+        invalid("let s = `${(a, b)}`", "let s = `${a, b}`", "SequenceExpression"),
+        invalid("function foo(a = (b)) {}", "function foo(a = b) {}", "Identifier"),
+        invalid("const bar = (a = (b)) => a", "const bar = (a = b) => a", "Identifier"),
+        invalid("const [a = (b)] = []", "const [a = b] = []", "Identifier"),
+        invalid("const {a = (b)} = {}", "const {a = b} = {}", "Identifier"),
 
         // https://github.com/eslint/eslint/issues/11706 (also in valid[])
         {
