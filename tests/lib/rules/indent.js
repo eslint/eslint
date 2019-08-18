@@ -4949,7 +4949,19 @@ ruleTester.run("indent", rule, {
             { // comment
                 bar
             }];
-        `
+        `,
+
+        // import expressions
+        {
+            code: unIndent`
+                import(
+                    // before
+                    source
+                    // after
+                )
+            `,
+            parserOptions: { ecmaVersion: 2020 }
+        }
     ],
 
     invalid: [
@@ -9593,6 +9605,25 @@ ruleTester.run("indent", rule, {
                 }];
             `,
             errors: expectedErrors([5, 0, 4, "Line"])
+        },
+
+        // import expressions
+        {
+            code: unIndent`
+                import(
+                source
+                    )
+            `,
+            output: unIndent`
+                import(
+                    source
+                )
+            `,
+            parserOptions: { ecmaVersion: 2020 },
+            errors: expectedErrors([
+                [2, 4, 0, "Identifier"],
+                [3, 0, 4, "Punctuator"]
+            ])
         }
     ]
 });
