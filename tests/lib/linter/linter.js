@@ -74,7 +74,7 @@ const ESLINT_ENV = "eslint-env";
 describe("Linter", () => {
     const filename = "filename.js";
 
-    /** @type {InstanceType<import("../../lib/linter.js")["Linter"]>} */
+    /** @type {InstanceType<import("../../../lib/linter/linter.js")["Linter"]>} */
     let linter;
 
     beforeEach(() => {
@@ -3134,37 +3134,64 @@ describe("Linter", () => {
 
         it("should report a violation for env changes", () => {
             const code = [
-                `/*${ESLINT_ENV} browser*/`
+                `/*${ESLINT_ENV} browser*/ window`
             ].join("\n");
             const config = {
                 rules: {
-                    test: 2
+                    "no-undef": 2
                 }
             };
-            let ok = false;
+            const messages = linter.verify(code, config, { allowInlineConfig: false });
 
-            linter.defineRules({
-                test(context) {
-                    return {
-                        Program() {
-                            const scope = context.getScope();
-                            const sourceCode = context.getSourceCode();
-                            const comments = sourceCode.getAllComments();
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].ruleId, "no-undef");
+        });
+    });
 
-                            assert.strictEqual(1, comments.length);
+    describe("when evaluating code with 'noInlineComment'", () => {
+        for (const directive of [
+            "globals foo",
+            "global foo",
+            "exported foo",
+            "eslint eqeqeq: error",
+            "eslint-disable eqeqeq",
+            "eslint-disable-line eqeqeq",
+            "eslint-disable-next-line eqeqeq",
+            "eslint-enable eqeqeq",
+            "eslint-env es6"
+        ]) {
+            // eslint-disable-next-line no-loop-func
+            it(`should warn '/* ${directive} */' if 'noInlineConfig' was given.`, () => {
+                const messages = linter.verify(`/* ${directive} */`, { noInlineConfig: true });
 
-                            const windowVar = getVariable(scope, "window");
-
-                            assert.notOk(windowVar.eslintExplicitGlobal);
-
-                            ok = true;
-                        }
-                    };
-                }
+                assert.deepStrictEqual(messages.length, 1);
+                assert.deepStrictEqual(messages[0].fatal, void 0);
+                assert.deepStrictEqual(messages[0].ruleId, null);
+                assert.deepStrictEqual(messages[0].severity, 1);
+                assert.deepStrictEqual(messages[0].message, `'/*${directive.split(" ")[0]}*/' has no effect because you have 'noInlineConfig' setting in your config.`);
             });
+        }
 
-            linter.verify(code, config, { allowInlineConfig: false });
-            assert(ok);
+        for (const directive of [
+            "eslint-disable-line eqeqeq",
+            "eslint-disable-next-line eqeqeq"
+        ]) {
+            // eslint-disable-next-line no-loop-func
+            it(`should warn '// ${directive}' if 'noInlineConfig' was given.`, () => {
+                const messages = linter.verify(`// ${directive}`, { noInlineConfig: true });
+
+                assert.deepStrictEqual(messages.length, 1);
+                assert.deepStrictEqual(messages[0].fatal, void 0);
+                assert.deepStrictEqual(messages[0].ruleId, null);
+                assert.deepStrictEqual(messages[0].severity, 1);
+                assert.deepStrictEqual(messages[0].message, `'//${directive.split(" ")[0]}' has no effect because you have 'noInlineConfig' setting in your config.`);
+            });
+        }
+
+        it("should not warn if 'noInlineConfig' and '--no-inline-config' were given.", () => {
+            const messages = linter.verify("/* globals foo */", { noInlineConfig: true }, { allowInlineConfig: false });
+
+            assert.deepStrictEqual(messages.length, 0);
         });
     });
 
