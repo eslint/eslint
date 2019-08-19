@@ -164,6 +164,28 @@ var o = {
 };
 ```
 
+Also, this rule does not disallow duplicate keys in object literals, and in certain cases with duplicate keys
+might not report a missing pair for a getter/setter, like in the following example:
+
+```js
+/*eslint accessor-pairs: "error"*/
+
+// no warnings
+var o = {
+    get a() {
+        return this.val;
+    },
+    a: 1,
+    set a(value) {
+        this.val = value;
+    }
+};
+```
+
+The code above creates an object with just a setter for the property `"a"`.
+
+See [no-dupe-keys](no-dupe-keys.md) if you also want to disallow duplicate keys in object literals.
+
 ## When Not To Use It
 
 You can turn this rule off if you are not concerned with the simultaneous presence of setters and getters on objects.
