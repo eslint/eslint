@@ -244,6 +244,11 @@ The people who review and fix bugs and help triage issues.
 <img src="https://github.com/g-plane.png?s=75" width="75" height="75"><br />
 Pig Fang
 </a>
+</td><td align="center" valign="top" width="11%">
+<a href="https://github.com/mdjermanovic">
+<img src="https://github.com/mdjermanovic.png?s=75" width="75" height="75"><br />
+Milos Djermanovic
+</a>
 </td></tr></tbody></table>
 
 
