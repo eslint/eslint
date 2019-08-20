@@ -1,3 +1,10 @@
+v6.2.1 - August 20, 2019
+
+* [`8c021b5`](https://github.com/eslint/eslint/commit/8c021b5917b3aa3c578ffe3972106d0a6bcf0838) Upgrade: eslint-utils 1.4.2 (#12131) (Toru Nagashima)
+* [`e82388b`](https://github.com/eslint/eslint/commit/e82388bd87717430200ec554634cc08806e38d3c) Sponsors: Sync README with website (ESLint Jenkins)
+* [`4aeeeed`](https://github.com/eslint/eslint/commit/4aeeeedb656ee3519ea82ebf0cb41ca801215046) Docs: update docs for ecmaVersion 2020 (#12120) (silverwind)
+* [`6886148`](https://github.com/eslint/eslint/commit/6886148d1f528659ec3e125f61ef7a5f4c67556d) Docs: Add duplicate keys limitation to accessor-pairs (#12124) (Milos Djermanovic)
+
 v6.2.0 - August 18, 2019
 
 * [`fee6acb`](https://github.com/eslint/eslint/commit/fee6acbe13cecd4c028e681e185fc6a6d6ba9452) Update: support bigint and dynamic import (refs #11803) (#11983) (Toru Nagashima)
