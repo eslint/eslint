@@ -30,7 +30,7 @@ ruleTester.run("require-unicode-regexp", rule, {
         "new RegExp('', 'gimuy')",
         "const flags = 'u'; new RegExp('', flags)",
         "const flags = 'g'; new RegExp('', flags + 'u')",
-        "const flags = 'gimu'; new RegExp('foo', flags.slice(1))",
+        "const flags = 'gimu'; new RegExp('foo', flags[3])",
         "new RegExp('', flags)",
         "function f(flags) { return new RegExp('', flags) }",
         "function f(RegExp) { return new RegExp('foo') }"
@@ -73,7 +73,7 @@ ruleTester.run("require-unicode-regexp", rule, {
             errors: [{ messageId: "requireUFlag" }]
         },
         {
-            code: "const flags = 'gimu'; new RegExp('foo', flags.slice(0, -1))",
+            code: "const flags = 'gimu'; new RegExp('foo', flags[0])",
             errors: [{ messageId: "requireUFlag" }]
         },
         {
