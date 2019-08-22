@@ -497,7 +497,7 @@ target.lint = function() {
     }
 };
 
-target.fuzz = function({ amount = process.env.CI ? 1000 : 300, fuzzBrokenAutofixes = true } = {}) {
+target.fuzz = function({ amount = 1000, fuzzBrokenAutofixes = false } = {}) {
     const fuzzerRunner = require("./tools/fuzzer-runner");
     const fuzzResults = fuzzerRunner.run({ amount, fuzzBrokenAutofixes });
 
@@ -542,10 +542,7 @@ target.mocha = () => {
 
     echo("Running unit tests");
 
-    // In CI (Azure Pipelines), use JUnit reporter.
-    const reporter = process.env.TF_BUILD ? "mocha-junit-reporter" : "progress";
-
-    lastReturn = exec(`${getBinFile("nyc")} -- ${MOCHA} -R ${reporter} -t ${MOCHA_TIMEOUT} -c ${TEST_FILES}`);
+    lastReturn = exec(`${getBinFile("nyc")} -- ${MOCHA} -R progress -t ${MOCHA_TIMEOUT} -c ${TEST_FILES}`);
     if (lastReturn.code !== 0) {
         errors++;
     }
