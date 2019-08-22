@@ -23,17 +23,15 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macOS-latest]
         node: [8.x, 10.x, 12.x]
-        include:
-        - os: ubuntu-latest
-          node: 8.x
-        - os: ubuntu-latest
-          node: 10.x
-        - os: ubuntu-latest
-          node: 12.x
+        exclude:
         - os: windows-latest
-          node: 12.x
+          node: 8.x
+        - os: windows-latest
+          node: 10.x
         - os: macOS-latest
-          node: 12.x
+          node: 8.x
+        - os: macOS-latest
+          node: 10.x
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v1
