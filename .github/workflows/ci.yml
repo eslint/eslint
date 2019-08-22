@@ -21,6 +21,8 @@ jobs:
     name: Test
     strategy:
       matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+        node: [8.x, 10.x, 12.x]
         include:
         - os: ubuntu-latest
           node: 8.x
