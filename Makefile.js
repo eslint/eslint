@@ -536,9 +536,7 @@ target.fuzz = function({ amount = process.env.CI ? 1000 : 300, fuzzBrokenAutofix
     }
 };
 
-target.test = function() {
-    target.lint();
-    target.checkRuleFiles();
+target.mocha = () => {
     let errors = 0,
         lastReturn;
 
@@ -557,6 +555,14 @@ target.test = function() {
         errors++;
     }
 
+    if (errors) {
+        exit(1);
+    }
+};
+
+target.karma = () => {
+    echo("Running unit tests on browsers");
+
     target.webpack();
 
     const browserFileLintOutput = new CLIEngine({
@@ -569,20 +575,22 @@ target.test = function() {
     if (browserFileLintOutput.errorCount > 0) {
         echo(`error: Failed to lint ${BUILD_DIR}/eslint.js as ES5 code`);
         echo(CLIEngine.getFormatter("stylish")(browserFileLintOutput.results));
-        errors++;
-    }
-
-    lastReturn = exec(`${getBinFile("karma")} start karma.conf.js`);
-    if (lastReturn.code !== 0) {
-        errors++;
-    }
-
-    if (errors) {
         exit(1);
     }
 
-    target.fuzz({ amount: 150, fuzzBrokenAutofixes: false });
+    const lastReturn = exec(`${getBinFile("karma")} start karma.conf.js`);
 
+    if (lastReturn.code !== 0) {
+        exit(1);
+    }
+};
+
+target.test = function() {
+    target.lint();
+    target.checkRuleFiles();
+    target.mocha();
+    target.karma();
+    target.fuzz({ amount: 150, fuzzBrokenAutofixes: false });
     target.checkLicenses();
 };
 
