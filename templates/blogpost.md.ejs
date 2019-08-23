@@ -14,7 +14,7 @@ const RULE_REGEX = new RegExp(`\`?\\b(${ruleList.join("|")})\\b\`?`, "g");
 
 function linkify(line) {
     return line
-        .replace(/#(\d+)/g, "[#$1](https://github.com/eslint/eslint/issues/$1)")
+        .replace(/([^\s/]+[/][^\s/]+)?#(\d+)/g, (_, repo, num) => `[${repo || ""}#${num}](https://github.com/${repo || "eslint/eslint"}/issues/${num})`)
         .replace(RULE_REGEX, "[$&](/docs/rules/$1)");
 }
 
