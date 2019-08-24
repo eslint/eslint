@@ -19,7 +19,7 @@ require("v8-compile-cache");
 const useStdIn = process.argv.includes("--stdin"),
     init = process.argv.includes("--init"),
     debug = process.argv.includes("--debug"),
-    info = process.argv.includes("--info");
+    info = ["--info", "-i"].some(flag => process.argv.includes(flag));
 
 // must do this initialization *before* other requires in order to work
 if (debug) {
