@@ -1,3 +1,10 @@
+v6.2.2 - August 23, 2019
+
+* [`0e0b784`](https://github.com/eslint/eslint/commit/0e0b784b922051c2a1d39dd8160382114b645800) Upgrade: espree@^6.1.1 (#12158) (Kevin Partington)
+* [`04e859f`](https://github.com/eslint/eslint/commit/04e859f228d081efd3af6edb22563dbc775f8d1d) Sponsors: Sync README with website (ESLint Jenkins)
+* [`34783d1`](https://github.com/eslint/eslint/commit/34783d10ff9b58a3c1e39a36e10864caeb9f66e0) Sponsors: Sync README with website (ESLint Jenkins)
+* [`b809e72`](https://github.com/eslint/eslint/commit/b809e72221bc658e5a42bfd4b8723d3771571f9e) Docs: Update README team and sponsors (ESLint Jenkins)
+
 v6.2.1 - August 20, 2019
 
 * [`8c021b5`](https://github.com/eslint/eslint/commit/8c021b5917b3aa3c578ffe3972106d0a6bcf0838) Upgrade: eslint-utils 1.4.2 (#12131) (Toru Nagashima)
