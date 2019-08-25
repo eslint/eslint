@@ -312,12 +312,12 @@ ruleTester.run("space-infix-ops", rule, {
                 message: "Operator '=' must be spaced.",
                 line: 1,
                 column: 7,
-                nodeType: "AssignmentPattern"
+                type: "AssignmentPattern"
             }, {
                 message: "Operator '=' must be spaced.",
                 line: 1,
                 column: 10,
-                nodeType: "VariableDeclarator"
+                type: "VariableDeclarator"
             }]
         },
         {
@@ -328,7 +328,7 @@ ruleTester.run("space-infix-ops", rule, {
                 message: "Operator '=' must be spaced.",
                 line: 1,
                 column: 15,
-                nodeType: "AssignmentPattern"
+                type: "AssignmentPattern"
             }]
         },
         {
@@ -339,7 +339,7 @@ ruleTester.run("space-infix-ops", rule, {
                 message: "Operator '**' must be spaced.",
                 line: 1,
                 column: 2,
-                nodeType: "BinaryExpression"
+                type: "BinaryExpression"
             }]
         },
         {
@@ -349,7 +349,7 @@ ruleTester.run("space-infix-ops", rule, {
                 message: "Operator 'in' must be spaced.",
                 line: 1,
                 column: 6,
-                nodeType: "BinaryExpression"
+                type: "BinaryExpression"
             }]
         },
         {
@@ -359,7 +359,7 @@ ruleTester.run("space-infix-ops", rule, {
                 message: "Operator 'instanceof' must be spaced.",
                 line: 1,
                 column: 6,
-                nodeType: "BinaryExpression"
+                type: "BinaryExpression"
             }]
         },
 
@@ -385,7 +385,7 @@ ruleTester.run("space-infix-ops", rule, {
                 message: "Operator '=' must be spaced.",
                 line: 1,
                 column: 23,
-                nodeType: "AssignmentPattern"
+                type: "AssignmentPattern"
             }]
         }
     ]
