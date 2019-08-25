@@ -271,6 +271,68 @@ ruleTester.run("no-extra-boolean-cast", rule, {
 
         // Adjacent tokens tests
         {
+            code: "function *foo() { yield!!a ? b : c }",
+            output: "function *foo() { yield a ? b : c }",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{
+                messageId: "unexpectedNegation",
+                type: "UnaryExpression"
+            }]
+        },
+        {
+            code: "function *foo() { yield!! a ? b : c }",
+            output: "function *foo() { yield a ? b : c }",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{
+                messageId: "unexpectedNegation",
+                type: "UnaryExpression"
+            }]
+        },
+        {
+            code: "function *foo() { yield! !a ? b : c }",
+            output: "function *foo() { yield a ? b : c }",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{
+                messageId: "unexpectedNegation",
+                type: "UnaryExpression"
+            }]
+        },
+        {
+            code: "function *foo() { yield !!a ? b : c }",
+            output: "function *foo() { yield a ? b : c }",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{
+                messageId: "unexpectedNegation",
+                type: "UnaryExpression"
+            }]
+        },
+        {
+            code: "function *foo() { yield(!!a) ? b : c }",
+            output: "function *foo() { yield(a) ? b : c }",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{
+                messageId: "unexpectedNegation",
+                type: "UnaryExpression"
+            }]
+        },
+        {
+            code: "function *foo() { yield/**/!!a ? b : c }",
+            output: "function *foo() { yield/**/a ? b : c }",
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [{
+                messageId: "unexpectedNegation",
+                type: "UnaryExpression"
+            }]
+        },
+        {
+            code: "x=!!a ? b : c ",
+            output: "x=a ? b : c ",
+            errors: [{
+                messageId: "unexpectedNegation",
+                type: "UnaryExpression"
+            }]
+        },
+        {
             code: "void!Boolean()",
             output: "void true",
             errors: [{
