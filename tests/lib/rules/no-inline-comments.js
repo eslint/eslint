@@ -17,11 +17,11 @@ const rule = require("../../../lib/rules/no-inline-comments"),
 
 const ruleTester = new RuleTester(),
     lineError = {
-        messsage: "Unexpected comment inline with code.",
+        message: "Unexpected comment inline with code.",
         type: "Line"
     },
     blockError = {
-        messsage: "Unexpected comment inline with code.",
+        message: "Unexpected comment inline with code.",
         type: "Block"
     };
 
