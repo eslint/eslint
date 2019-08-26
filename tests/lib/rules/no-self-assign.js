@@ -32,6 +32,8 @@ ruleTester.run("no-self-assign", rule, {
         { code: "[a, b] = [b, a]", parserOptions: { ecmaVersion: 6 } },
         { code: "[a,, b] = [, b, a]", parserOptions: { ecmaVersion: 6 } },
         { code: "[x, a] = [...x, a]", parserOptions: { ecmaVersion: 6 } },
+        { code: "[...a] = [...a, 1]", parserOptions: { ecmaVersion: 6 } },
+        { code: "[a, ...b] = [0, ...b, 1]", parserOptions: { ecmaVersion: 6 } },
         { code: "[a, b] = {a, b}", parserOptions: { ecmaVersion: 6 } },
         { code: "({a} = a)", parserOptions: { ecmaVersion: 6 } },
         { code: "({a = 1} = {a})", parserOptions: { ecmaVersion: 6 } },
