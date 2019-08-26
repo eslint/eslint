@@ -39,10 +39,36 @@ if (!(key in object)) {
 if (!(obj instanceof Ctor)) {
     // obj is not an instance of Ctor
 }
+```
 
-if(("" + !key) in object) {
-    // make operator precedence and type conversion explicit
-    // in a rare situation when that is the intended meaning
+### Exception
+
+For rare situations when negating the left operand is intended, this rule allows an exception.
+If the whole negation is explicitly wrapped in parentheses, the rule will not report a problem.
+
+Examples of **correct** code for this rule:
+
+```js
+/*eslint no-unsafe-negation: "error"*/
+
+if ((!foo) in object) {
+    // allowed, because the negation is explicitly wrapped in parentheses
+    // it is equivalent to (foo ? "false" : "true") in object
+    // this is allowed as an exception for rare situations when that is the intended meaning
+}
+
+if(("" + !foo) in object) {
+    // you can also make the intention more explicit, with type conversion
+}
+```
+
+Examples of **incorrect** code for this rule:
+
+```js
+/*eslint no-unsafe-negation: "error"*/
+
+if (!(foo) in object) {
+    // this is not an allowed exception
 }
 ```
 
