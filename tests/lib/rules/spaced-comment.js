@@ -313,7 +313,7 @@ ruleTester.run("spaced-comment", rule, {
             output: "// An invalid comment NOT starting with space\nvar a = 1;",
             options: ["always"],
             errors: [{
-                messsage: "Expected space or tab after '//' in comment.",
+                message: "Expected space or tab after '//' in comment.",
                 type: "Line"
             }]
         },
