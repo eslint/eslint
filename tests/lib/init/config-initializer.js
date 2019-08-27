@@ -338,7 +338,7 @@ describe("configInitializer", () => {
 
             it("should support custom parser", () => {
                 const config = {
-                    parser: "@typescript-eslint"
+                    parser: "@typescript-eslint/parser"
                 };
                 const modules = init.getModulesList(config);
 
@@ -350,7 +350,7 @@ describe("configInitializer", () => {
 
                     // We should declare the parser at `parserOptions` when using with `eslint-plugin-vue`.
                     parserOptions: {
-                        parser: "@typescript-eslint"
+                        parser: "@typescript-eslint/parser"
                     }
                 };
                 const modules = init.getModulesList(config);
