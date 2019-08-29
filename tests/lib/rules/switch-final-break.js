@@ -83,6 +83,22 @@ switch (x) {
     break;
   }`,
             options: ["always"]
+        },
+        {
+            code: `function a() {
+            switch (x) {
+              case 0: throw 1;
+              }
+  }`,
+            options: ["always"]
+        },
+        {
+            code: `function a() {
+            switch (x) {
+              case 0: return 1;
+              }
+  }`,
+            options: ["always"]
         }
     ],
     invalid: [
