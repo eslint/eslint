@@ -530,6 +530,34 @@ To disable rules inside of a configuration file for a group of files, use the `o
 }
 ```
 
+## Configuring Inline Comment Behaviors
+
+### Disabling Inline Comments
+
+To disable all inline config comments, use `noInlineConfig` setting. For example:
+
+```json
+{
+  "rules": {...},
+  "noInlineConfig": true
+}
+```
+
+This setting is similar to [--no-inline-config](./command-line-interface.md#--no-inline-config) CLI option.
+
+### Report Unused `eslint-disable` Comments
+
+To report unused `eslint-disable` comments, use `reportUnusedDisableDirectives` setting. For example:
+
+```json
+{
+  "rules": {...},
+  "reportUnusedDisableDirectives": true
+}
+```
+
+This setting is similar to [--report-unused-disable-directives](./command-line-interface.md#--report-unused-disable-directives) CLI option, but doesn't fail linting (reports as `"warn"` severity).
+
 ## Adding Shared Settings
 
 ESLint supports adding shared settings into configuration file. You can add `settings` object to ESLint configuration file and it will be supplied to every rule that will be executed. This may be useful if you are adding custom rules and want them to have access to the same information and be easily configurable.
