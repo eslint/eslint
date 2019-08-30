@@ -1,3 +1,22 @@
+v6.3.0 - August 30, 2019
+
+* [`0acdefb`](https://github.com/eslint/eslint/commit/0acdefb97f35bb09db2910540c70dc377a01ad62) Chore: refactor code (#12113) (James George)
+* [`52e2cf5`](https://github.com/eslint/eslint/commit/52e2cf50b35d57fb8466e0bcd0581eff1590fb4c) New: reportUnusedDisableDirectives in config (refs eslint/rfcs#22) (#12151) (Toru Nagashima)
+* [`020f952`](https://github.com/eslint/eslint/commit/020f9526b618a191566acea3e17e20815d484c58) Update: enforceForSequenceExpressions to no-extra-parens (fixes #11916) (#12142) (Milos Djermanovic)
+* [`aab1b84`](https://github.com/eslint/eslint/commit/aab1b840f9cffb2a76a5c9fe1852961be71dc184) Fix: reset to the default color (#12174) (Ricardo Gobbo de Souza)
+* [`4009d39`](https://github.com/eslint/eslint/commit/4009d39aa59451510aa24911e758d664f216289a) Fix: yoda rule produces invalid autofix with preceding yield (#12166) (Milos Djermanovic)
+* [`febb660`](https://github.com/eslint/eslint/commit/febb6605d350c936d64cb73e694482cfbb20b29c) Fix: no-extra-boolean-cast invalid autofix with yield before negation (#12164) (Milos Djermanovic)
+* [`4c0b70b`](https://github.com/eslint/eslint/commit/4c0b70b869c16647f7af6de9d5c5479fc19f49db) New: support TypeScript at config initializer (fixes #11789) (#12172) (Pig Fang)
+* [`94e39d9`](https://github.com/eslint/eslint/commit/94e39d9f782f45db86a079e07508d63040118ef1) Chore: use GitHub Actions (#12144) (Toru Nagashima)
+* [`e88f305`](https://github.com/eslint/eslint/commit/e88f305df9d454868624c559fd93b981a680c215) Chore: support es2020 in fuzz (#12180) (薛定谔的猫)
+* [`00d2c5b`](https://github.com/eslint/eslint/commit/00d2c5be9a89efd90135c4368a9589f33df3f7ba) Docs: corrected class extension example (#12176) (Marius M)
+* [`31e5428`](https://github.com/eslint/eslint/commit/31e542819967b2aa1191e1abaa1c4a49fddbe3cf) Chore: Fix wrong error object keys in test files (#12162) (Milos Djermanovic)
+* [`197f443`](https://github.com/eslint/eslint/commit/197f4432fca70a574028e5568c48afad12213224) Fix: func-name-matching crash on descriptor-like arguments (#12100) (Milos Djermanovic)
+* [`644ce33`](https://github.com/eslint/eslint/commit/644ce3306748a33b74fc6a94be0267c2c9f19348) Fix: no-self-assign false positive with rest and spread in array (#12099) (Milos Djermanovic)
+* [`a81d263`](https://github.com/eslint/eslint/commit/a81d2636ce41fb34d6826c2e9857814e11cb9c30) Fix: fix message of function-paren-newline (#12136) (Pig Fang)
+* [`77f8ed1`](https://github.com/eslint/eslint/commit/77f8ed1ad9656c526217ce54a6717fa232d522c8) Chore: update blogpost template (#12154) (Toru Nagashima)
+* [`6abc7b7`](https://github.com/eslint/eslint/commit/6abc7b72dfb824a372379708ca39340b2c7abc03) Docs: Document the exception in no-unsafe-negation (#12161) (Milos Djermanovic)
+
 v6.2.2 - August 23, 2019
 
 * [`0e0b784`](https://github.com/eslint/eslint/commit/0e0b784b922051c2a1d39dd8160382114b645800) Upgrade: espree@^6.1.1 (#12158) (Kevin Partington)
