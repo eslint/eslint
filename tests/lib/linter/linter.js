@@ -3211,6 +3211,54 @@ describe("Linter", () => {
                 ]
             );
         });
+
+        it("reports problems for unused eslint-disable comments (error)", () => {
+            assert.deepStrictEqual(
+                linter.verify("/* eslint-disable */", {}, { reportUnusedDisableDirectives: "error" }),
+                [
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-disable directive (no problems were reported).",
+                        line: 1,
+                        column: 1,
+                        severity: 2,
+                        nodeType: null
+                    }
+                ]
+            );
+        });
+
+        it("reports problems for unused eslint-disable comments (warn)", () => {
+            assert.deepStrictEqual(
+                linter.verify("/* eslint-disable */", {}, { reportUnusedDisableDirectives: "warn" }),
+                [
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-disable directive (no problems were reported).",
+                        line: 1,
+                        column: 1,
+                        severity: 1,
+                        nodeType: null
+                    }
+                ]
+            );
+        });
+
+        it("reports problems for unused eslint-disable comments (in config)", () => {
+            assert.deepStrictEqual(
+                linter.verify("/* eslint-disable */", { reportUnusedDisableDirectives: true }),
+                [
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-disable directive (no problems were reported).",
+                        line: 1,
+                        column: 1,
+                        severity: 1,
+                        nodeType: null
+                    }
+                ]
+            );
+        });
     });
 
     describe("when evaluating code with comments to change config when allowInlineConfig is disabled", () => {
