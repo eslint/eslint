@@ -431,7 +431,7 @@ describe("apply-disable-directives", () => {
                 applyDisableDirectives({
                     directives: [{ type: "disable", line: 1, column: 5 }],
                     problems: [],
-                    reportUnusedDisableDirectives: true
+                    reportUnusedDisableDirectives: "error"
                 }),
                 [
                     {
@@ -451,7 +451,7 @@ describe("apply-disable-directives", () => {
                 applyDisableDirectives({
                     directives: [{ type: "disable", line: 1, column: 5, ruleId: null }],
                     problems: [{ line: 2, column: 1, ruleId: "foo" }],
-                    reportUnusedDisableDirectives: true
+                    reportUnusedDisableDirectives: "error"
                 }),
                 []
             );
@@ -462,7 +462,7 @@ describe("apply-disable-directives", () => {
                 applyDisableDirectives({
                     directives: [{ type: "disable", line: 1, column: 5, ruleId: "foo" }],
                     problems: [],
-                    reportUnusedDisableDirectives: true
+                    reportUnusedDisableDirectives: "error"
                 }),
                 [
                     {
@@ -482,7 +482,7 @@ describe("apply-disable-directives", () => {
                 applyDisableDirectives({
                     directives: [{ type: "disable", line: 1, column: 5, ruleId: "foo" }],
                     problems: [{ line: 1, column: 20, ruleId: "not-foo" }],
-                    reportUnusedDisableDirectives: true
+                    reportUnusedDisableDirectives: "error"
                 }),
                 [
                     {
@@ -510,7 +510,7 @@ describe("apply-disable-directives", () => {
                         { type: "enable", line: 1, column: 6, ruleId: "foo" }
                     ],
                     problems: [{ line: 1, column: 2, ruleId: "foo" }],
-                    reportUnusedDisableDirectives: true
+                    reportUnusedDisableDirectives: "error"
                 }),
                 [
                     {
@@ -538,7 +538,7 @@ describe("apply-disable-directives", () => {
                         { type: "enable", line: 1, column: 6, ruleId: null }
                     ],
                     problems: [],
-                    reportUnusedDisableDirectives: true
+                    reportUnusedDisableDirectives: "error"
                 }),
                 [
                     {
@@ -561,7 +561,7 @@ describe("apply-disable-directives", () => {
                         { type: "disable", line: 2, column: 1, ruleId: null }
                     ],
                     problems: [],
-                    reportUnusedDisableDirectives: true
+                    reportUnusedDisableDirectives: "error"
                 }),
                 [
                     {
@@ -592,7 +592,7 @@ describe("apply-disable-directives", () => {
                         { type: "disable", line: 2, column: 1, ruleId: null }
                     ],
                     problems: [{ line: 3, column: 1, ruleId: "foo" }],
-                    reportUnusedDisableDirectives: true
+                    reportUnusedDisableDirectives: "error"
                 }),
                 [
                     {
@@ -615,7 +615,7 @@ describe("apply-disable-directives", () => {
                         { type: "disable", line: 2, column: 1, ruleId: null }
                     ],
                     problems: [{ line: 3, column: 1, ruleId: "foo" }],
-                    reportUnusedDisableDirectives: true
+                    reportUnusedDisableDirectives: "error"
                 }),
                 [
                     {
@@ -635,7 +635,7 @@ describe("apply-disable-directives", () => {
                 applyDisableDirectives({
                     directives: [{ type: "disable", line: 1, column: 5, ruleId: "foo" }],
                     problems: [{ line: 1, column: 6, ruleId: "foo" }],
-                    reportUnusedDisableDirectives: true
+                    reportUnusedDisableDirectives: "error"
                 }),
                 []
             );
@@ -649,7 +649,7 @@ describe("apply-disable-directives", () => {
                         { type: "disable", line: 2, column: 1, ruleId: "foo" }
                     ],
                     problems: [{ line: 3, column: 1, ruleId: "foo" }],
-                    reportUnusedDisableDirectives: true
+                    reportUnusedDisableDirectives: "error"
                 }),
                 [
                     {
@@ -672,7 +672,7 @@ describe("apply-disable-directives", () => {
                         { type: "disable", line: 2, column: 1, ruleId: "foo" }
                     ],
                     problems: [{ line: 3, column: 1, ruleId: "bar" }],
-                    reportUnusedDisableDirectives: true
+                    reportUnusedDisableDirectives: "error"
                 }),
                 [
                     {
@@ -695,7 +695,7 @@ describe("apply-disable-directives", () => {
                         { type: "enable", line: 1, column: 8, ruleId: "foo" }
                     ],
                     problems: [{ line: 1, column: 10, ruleId: "foo" }],
-                    reportUnusedDisableDirectives: true
+                    reportUnusedDisableDirectives: "error"
                 }),
                 [
                     {
@@ -723,7 +723,7 @@ describe("apply-disable-directives", () => {
                         { type: "enable", line: 1, column: 8, ruleId: null }
                     ],
                     problems: [{ line: 1, column: 10, ruleId: "foo" }],
-                    reportUnusedDisableDirectives: true
+                    reportUnusedDisableDirectives: "error"
                 }),
                 [
                     {
@@ -752,7 +752,7 @@ describe("apply-disable-directives", () => {
                         { type: "enable", line: 3, column: 1, ruleId: "foo" }
                     ],
                     problems: [{ line: 4, column: 1, ruleId: "foo" }],
-                    reportUnusedDisableDirectives: true
+                    reportUnusedDisableDirectives: "error"
                 }),
                 [
                     {
@@ -786,7 +786,7 @@ describe("apply-disable-directives", () => {
                 applyDisableDirectives({
                     directives: [{ type: "disable-line", line: 1, column: 5, ruleId: null }],
                     problems: [],
-                    reportUnusedDisableDirectives: true
+                    reportUnusedDisableDirectives: "error"
                 }),
                 [
                     {
@@ -807,7 +807,7 @@ describe("apply-disable-directives", () => {
                 applyDisableDirectives({
                     directives: [{ type: "disable-line", line: 1, column: 5, ruleId: null }],
                     problems: [{ line: 1, column: 10, ruleId: "foo" }],
-                    reportUnusedDisableDirectives: true
+                    reportUnusedDisableDirectives: "error"
                 }),
                 []
             );
@@ -818,7 +818,7 @@ describe("apply-disable-directives", () => {
                 applyDisableDirectives({
                     directives: [{ type: "disable-next-line", line: 1, column: 5, ruleId: null }],
                     problems: [],
-                    reportUnusedDisableDirectives: true
+                    reportUnusedDisableDirectives: "error"
                 }),
                 [
                     {
@@ -838,7 +838,7 @@ describe("apply-disable-directives", () => {
                 applyDisableDirectives({
                     directives: [{ type: "disable-next-line", line: 1, column: 5, ruleId: null }],
                     problems: [{ line: 2, column: 10, ruleId: "foo" }],
-                    reportUnusedDisableDirectives: true
+                    reportUnusedDisableDirectives: "error"
                 }),
                 []
             );
@@ -852,7 +852,7 @@ describe("apply-disable-directives", () => {
                         { type: "disable-line", line: 1, column: 5, ruleId: null }
                     ],
                     problems: [],
-                    reportUnusedDisableDirectives: true
+                    reportUnusedDisableDirectives: "error"
                 }),
                 [
                     {
@@ -875,12 +875,12 @@ describe("apply-disable-directives", () => {
             );
         });
 
-        it("Does not add problems when reportUnusedDisableDirectives: false is used", () => {
+        it("Does not add problems when reportUnusedDisableDirectives: \"off\" is used", () => {
             assert.deepStrictEqual(
                 applyDisableDirectives({
                     directives: [{ type: "disable-next-line", line: 1, column: 5, ruleId: null }],
                     problems: [],
-                    reportUnusedDisableDirectives: false
+                    reportUnusedDisableDirectives: "off"
                 }),
                 []
             );

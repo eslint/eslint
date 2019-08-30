@@ -3534,6 +3534,64 @@ describe("CLIEngine", () => {
                 assert.strictEqual(messages[0].message, "'/*globals*/' has no effect because you have 'noInlineConfig' setting in your config (.eslintrc.yml » eslint-config-foo).");
             });
         });
+
+        describe("with 'reportUnusedDisableDirectives' setting", () => {
+            const root = getFixturePath("cli-engine/reportUnusedDisableDirectives");
+
+            it("should warn unused 'eslint-disable' comments if 'reportUnusedDisableDirectives' was given.", () => {
+                CLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        "test.js": "/* eslint-disable eqeqeq */",
+                        ".eslintrc.yml": "reportUnusedDisableDirectives: true"
+                    }
+                }).CLIEngine;
+                engine = new CLIEngine();
+
+                const { results } = engine.executeOnFiles(["test.js"]);
+                const messages = results[0].messages;
+
+                assert.strictEqual(messages.length, 1);
+                assert.strictEqual(messages[0].severity, 1);
+                assert.strictEqual(messages[0].message, "Unused eslint-disable directive (no problems were reported from 'eqeqeq').");
+            });
+
+            describe("the runtime option overrides config files.", () => {
+                it("should not warn unused 'eslint-disable' comments if 'reportUnusedDisableDirectives=off' was given in runtime.", () => {
+                    CLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                        cwd: () => root,
+                        files: {
+                            "test.js": "/* eslint-disable eqeqeq */",
+                            ".eslintrc.yml": "reportUnusedDisableDirectives: true"
+                        }
+                    }).CLIEngine;
+                    engine = new CLIEngine({ reportUnusedDisableDirectives: "off" });
+
+                    const { results } = engine.executeOnFiles(["test.js"]);
+                    const messages = results[0].messages;
+
+                    assert.strictEqual(messages.length, 0);
+                });
+
+                it("should warn unused 'eslint-disable' comments as error if 'reportUnusedDisableDirectives=error' was given in runtime.", () => {
+                    CLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                        cwd: () => root,
+                        files: {
+                            "test.js": "/* eslint-disable eqeqeq */",
+                            ".eslintrc.yml": "reportUnusedDisableDirectives: true"
+                        }
+                    }).CLIEngine;
+                    engine = new CLIEngine({ reportUnusedDisableDirectives: "error" });
+
+                    const { results } = engine.executeOnFiles(["test.js"]);
+                    const messages = results[0].messages;
+
+                    assert.strictEqual(messages.length, 1);
+                    assert.strictEqual(messages[0].severity, 2);
+                    assert.strictEqual(messages[0].message, "Unused eslint-disable directive (no problems were reported from 'eqeqeq').");
+                });
+            });
+        });
     });
 
     describe("getConfigForFile", () => {

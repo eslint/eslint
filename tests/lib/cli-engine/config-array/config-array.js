@@ -436,6 +436,7 @@ describe("ConfigArray", () => {
                 },
                 plugins: {},
                 processor: null,
+                reportUnusedDisableDirectives: void 0,
                 rules: {},
                 settings: {}
             });
@@ -466,6 +467,7 @@ describe("ConfigArray", () => {
                 },
                 plugins: {},
                 processor: null,
+                reportUnusedDisableDirectives: void 0,
                 rules: {},
                 settings: {}
             });
@@ -607,7 +609,8 @@ describe("ConfigArray", () => {
                 },
                 settings: {},
                 processor: null,
-                noInlineConfig: void 0
+                noInlineConfig: void 0,
+                reportUnusedDisableDirectives: void 0
             });
             assert.deepStrictEqual(config[0], {
                 rules: {
