@@ -45,6 +45,8 @@ const cat = {
 (function() {
     // ...
 }())
+
+export default function() {}
 ```
 
 Examples of **correct** code for this rule with the default `"always"` option:
@@ -61,6 +63,8 @@ const cat = {
 (function bar() {
     // ...
 }())
+
+export default function foo() {}
 ```
 
 ### as-needed
@@ -77,6 +81,8 @@ Foo.prototype.bar = function() {};
 (function() {
     // ...
 }())
+
+export default function() {}
 ```
 
 Examples of **correct** code for this rule with the `"as-needed"` option:
@@ -93,6 +99,8 @@ const cat = {
 (function bar() {
     // ...
 }())
+
+export default function foo() {}
 ```
 
 ### never
