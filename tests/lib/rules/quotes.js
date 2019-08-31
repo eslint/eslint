@@ -328,6 +328,96 @@ ruleTester.run("quotes", rule, {
             output: "\"\"``",
             parserOptions: { ecmaVersion: 6 },
             errors: [{ message: "Strings must use doublequote.", type: "TemplateLiteral", line: 1, column: 1 }]
+        },
+
+        // Strings containing octal escape sequences. Don't autofix to backticks.
+        {
+            code: "var foo = \"\\1\"",
+            output: "var foo = '\\1'",
+            options: ["single"],
+            errors: [
+                { message: "Strings must use singlequote.", type: "Literal" }
+            ]
+        },
+        {
+            code: "var foo = '\\1'",
+            output: "var foo = \"\\1\"",
+            options: ["double"],
+            errors: [
+                { message: "Strings must use doublequote.", type: "Literal" }
+            ]
+        },
+        {
+            code: "var notoctal = '\\0'",
+            output: "var notoctal = `\\0`",
+            options: ["backtick"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                { message: "Strings must use backtick.", type: "Literal" }
+            ]
+        },
+        {
+            code: "var foo = '\\1'",
+            output: null,
+            options: ["backtick"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                { message: "Strings must use backtick.", type: "Literal" }
+            ]
+        },
+        {
+            code: "var foo = \"\\1\"",
+            output: null,
+            options: ["backtick"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                { message: "Strings must use backtick.", type: "Literal" }
+            ]
+        },
+        {
+            code: "var foo = '\\01'",
+            output: null,
+            options: ["backtick"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                { message: "Strings must use backtick.", type: "Literal" }
+            ]
+        },
+        {
+            code: "var foo = '\\0\\1'",
+            output: null,
+            options: ["backtick"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                { message: "Strings must use backtick.", type: "Literal" }
+            ]
+        },
+        {
+            code: "var foo = '\\08'",
+            output: null,
+            options: ["backtick"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                { message: "Strings must use backtick.", type: "Literal" }
+            ]
+        },
+        {
+            code: "var foo = 'prefix \\33'",
+            output: null,
+            options: ["backtick"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                { message: "Strings must use backtick.", type: "Literal" }
+            ]
+        },
+        {
+            code: "var foo = 'prefix \\75 sufix'",
+            output: null,
+            options: ["backtick"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                { message: "Strings must use backtick.", type: "Literal" }
+            ]
         }
     ]
 });
