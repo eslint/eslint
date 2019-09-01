@@ -1,10 +1,10 @@
 # enforce default parameters to be last (default-param-last)
 
-Putting default parameter at last allowes function calls to omit optional tail arguments.
+Putting default parameter at last allows function calls to omit optional tail arguments.
 
 ## Rule Details
 
-This rule enforces default parameters to be the last of paramters.
+This rule enforces default parameters to be the last of parameters.
 
 Examples of **incorrect** code for this rule:
 

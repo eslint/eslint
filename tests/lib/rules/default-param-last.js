@@ -33,7 +33,7 @@ ruleTester.run("default-param-last", rule, {
                 {
                     messageId: SHOULD_BE_LAST,
                     column: 12,
-                    columnEnd: 15
+                    endColumn: 17
                 }
             ]
         },
