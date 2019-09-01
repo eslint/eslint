@@ -2,6 +2,16 @@
 
 Putting default parameter at last allows function calls to omit optional tail arguments.
 
+```js
+// Correct: optional argument can be omitted
+function createUser(id, isAdmin = false) {}
+createUser("tabby")
+
+// Incorrect: optional argument can **not** be omitted
+function createUser(isAdmin = false, id) {}
+createUser(undefined, "tabby")
+```
+
 ## Rule Details
 
 This rule enforces default parameters to be the last of parameters.
