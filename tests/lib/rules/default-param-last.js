@@ -66,7 +66,13 @@ ruleTester.run("default-param-last", rule, {
         },
         {
             code: "function f(a = 5, b, c = 5) {}",
-            errors: [cannedError]
+            errors: [
+                {
+                    messageId: SHOULD_BE_LAST,
+                    column: 12,
+                    endColumn: 17
+                }
+            ]
         },
         {
             code: "const f = (a = 5, b, ...c) => {}",
