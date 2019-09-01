@@ -20,11 +20,19 @@ const cannedError = {
 
 ruleTester.run("default-param-last", rule, {
     valid: [
+        "function f() {}",
         "function f(a) {}",
         "function f(a = 5) {}",
+        "function f(a, b) {}",
         "function f(a, b = 5) {}",
         "function f(a, b = 5, c = 5) {}",
-        "function f(a, b = 5, ...c) {}"
+        "function f(a, b = 5, ...c) {}",
+        "const f = () => {}",
+        "const f = (a) => {}",
+        "const f = (a = 5) => {}",
+        "const f = function f() {}",
+        "const f = function f(a) {}",
+        "const f = function f(a = 5) {}"
     ],
     invalid: [
         {
