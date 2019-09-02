@@ -129,6 +129,23 @@ Processors may make named code blocks such as `0.js` and `1.js`. ESLint handles 
 
 ESLint checks the file extension of named code blocks then ignores those if [`--ext` CLI option](../user-guide/command-line-interface.md#--ext) didn't include the file extension. Be sure to specify the `--ext` option if you wanted to lint named code blocks other than `*.js`.
 
+Processors can also be passed options via the `processorOptions` key. These too can be sent to a specific processor by using a combination of `overrides` and `processorOptions`.
+
+```json
+{
+    "plugins": ["a-plugin"],
+    "overrides": [
+        {
+            "files": ["*.md"],
+            "processor": "a-plugin/markdown",
+            "processorOptions": {
+                "someOption": "someValue"
+            }
+        }
+    ]
+}
+```
+
 ## Specifying Environments
 
 An environment defines global variables that are predefined. The available environments are:

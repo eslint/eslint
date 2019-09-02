@@ -55,8 +55,8 @@ You can also create plugins that would tell ESLint how to process files other th
 module.exports = {
     processors: {
         "processor-name": {
-            // takes text of the file and filename
-            preprocess: function(text, filename) {
+            // takes text of the file, filename, and options
+            preprocess: function(text, filename, processorOptions) {
                 // here, you can strip out any non-JS content
                 // and split into multiple strings to lint
 
@@ -66,8 +66,8 @@ module.exports = {
                 ];
             },
 
-            // takes a Message[][] and filename
-            postprocess: function(messages, filename) {
+            // takes a Message[][], filename, and options
+            postprocess: function(messages, filename, processorOptions) {
                 // `messages` argument contains two-dimensional array of Message objects
                 // where each top-level array item contains array of lint messages related
                 // to the text that was returned in array from preprocess() method
@@ -82,13 +82,13 @@ module.exports = {
 };
 ```
 
-**The `preprocess` method** takes the file contents and filename as arguments, and returns an array of code blocks to lint. The code blocks will be linted separately but still be registered to the filename.
+**The `preprocess` method** takes the file contents, filename, and `processorOptions` as arguments, and returns an array of code blocks to lint. The code blocks will be linted separately but still be registered to the filename.
 
 A code block has two properties `text` and `filename`; the `text` property is the content of the block and the `filename` property is the name of the block. Name of the block can be anything, but should include the file extension, that would tell the linter how to process the current block. The linter will check [`--ext` CLI option](../user-guide/command-line-interface.md#--ext) to see if the current block should be linted, and resolve `overrides` configs to check how to process the current block.
 
 It's up to the plugin to decide if it needs to return just one part, or multiple pieces. For example in the case of processing `.html` files, you might want to return just one item in the array by combining all scripts, but for `.md` file where each JavaScript block might be independent, you can return multiple items.
 
-**The `postprocess` method** takes a two-dimensional array of arrays of lint messages and the filename. Each item in the input array corresponds to the part that was returned from the `preprocess` method. The `postprocess` method must adjust the locations of all errors to correspond to locations in the original, unprocessed code, and aggregate them into a single flat array and return it.
+**The `postprocess` method** takes a two-dimensional array of arrays of lint messages, the filename, and the `processorOptions`. Each item in the input array corresponds to the part that was returned from the `preprocess` method. The `postprocess` method must adjust the locations of all errors to correspond to locations in the original, unprocessed code, and aggregate them into a single flat array and return it.
 
 Reported problems have the following location information:
 
@@ -134,6 +134,8 @@ plugins:
 overrides:
   - files: "*.md"
     processor: a-plugin/markdown
+    processorOptions:
+      someOption: someValue
 ```
 
 See [Specifying Processor](../user-guide/configuring.md#specifying-processor) for details.
