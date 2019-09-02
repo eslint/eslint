@@ -770,6 +770,35 @@ describe("CLIEngine", () => {
 
     describe("executeOnFiles()", () => {
 
+
+        // eslint-disable-next-line require-jsdoc
+        async function assertSyncAndAsync({
+            CLIEngineClass = CLIEngine,
+            engineOptions,
+            patterns,
+            parallel = 4,
+            assertOutput
+        }) {
+
+            // assert sync
+            const syncEngine = new CLIEngineClass(engineOptions);
+            const syncReport = syncEngine.executeOnFiles(patterns);
+
+            assertOutput(syncReport);
+
+            // assert async
+            const asyncEngine = new CLIEngineClass({
+                ...engineOptions,
+                parallel
+            });
+
+            const asyncReportPromise = asyncEngine.executeOnFiles(patterns);
+
+            assert(asyncReportPromise instanceof Promise, "CLIEngine did not return a promise");
+
+            assertOutput(await asyncReportPromise);
+        }
+
         /** @type {InstanceType<import("../../../lib/cli-engine")["CLIEngine"]>} */
         let engine;
 
@@ -788,7 +817,6 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.results[0].messages[0].message, "Parsing error: Boom!");
 
         });
-
         it("should report zero messages when given a config file and a valid file", () => {
 
             engine = new CLIEngine({
@@ -1116,31 +1144,32 @@ describe("CLIEngine", () => {
         });
 
 
-        it("should return the total number of errors when given multiple files", () => {
-
-            engine = new CLIEngine({
-                cwd: path.join(fixtureDir, ".."),
-                configFile: getFixturePath("configurations", "single-quotes-error.json")
+        it("should return the total number of errors when given multiple files", async() => {
+            await assertSyncAndAsync({
+                engineOptions: {
+                    cwd: path.join(fixtureDir, ".."),
+                    configFile: getFixturePath("configurations", "single-quotes-error.json")
+                },
+                patterns: [getFixturePath("formatters")],
+                assertOutput: report => {
+                    assert.strictEqual(report.errorCount, 6);
+                    assert.strictEqual(report.warningCount, 0);
+                    assert.strictEqual(report.fixableErrorCount, 6);
+                    assert.strictEqual(report.fixableWarningCount, 0);
+                    assert.strictEqual(report.results[0].errorCount, 0);
+                    assert.strictEqual(report.results[0].warningCount, 0);
+                    assert.strictEqual(report.results[0].fixableErrorCount, 0);
+                    assert.strictEqual(report.results[0].fixableWarningCount, 0);
+                    assert.strictEqual(report.results[1].errorCount, 3);
+                    assert.strictEqual(report.results[1].warningCount, 0);
+                    assert.strictEqual(report.results[1].fixableErrorCount, 3);
+                    assert.strictEqual(report.results[1].fixableWarningCount, 0);
+                    assert.strictEqual(report.results[2].errorCount, 3);
+                    assert.strictEqual(report.results[2].warningCount, 0);
+                    assert.strictEqual(report.results[2].fixableErrorCount, 3);
+                    assert.strictEqual(report.results[2].fixableWarningCount, 0);
+                }
             });
-
-            const report = engine.executeOnFiles([getFixturePath("formatters")]);
-
-            assert.strictEqual(report.errorCount, 6);
-            assert.strictEqual(report.warningCount, 0);
-            assert.strictEqual(report.fixableErrorCount, 6);
-            assert.strictEqual(report.fixableWarningCount, 0);
-            assert.strictEqual(report.results[0].errorCount, 0);
-            assert.strictEqual(report.results[0].warningCount, 0);
-            assert.strictEqual(report.results[0].fixableErrorCount, 0);
-            assert.strictEqual(report.results[0].fixableWarningCount, 0);
-            assert.strictEqual(report.results[1].errorCount, 3);
-            assert.strictEqual(report.results[1].warningCount, 0);
-            assert.strictEqual(report.results[1].fixableErrorCount, 3);
-            assert.strictEqual(report.results[1].fixableWarningCount, 0);
-            assert.strictEqual(report.results[2].errorCount, 3);
-            assert.strictEqual(report.results[2].warningCount, 0);
-            assert.strictEqual(report.results[2].fixableErrorCount, 3);
-            assert.strictEqual(report.results[2].fixableWarningCount, 0);
         });
 
         it("should process when file is given by not specifying extensions", () => {

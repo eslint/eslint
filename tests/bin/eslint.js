@@ -167,9 +167,13 @@ describe("bin/eslint.js", () => {
 
     describe("running on files", () => {
         it("has exit code 0 if no linting errors occur", () => assertExitCode(runESLint(["bin/eslint.js"]), 0));
+        it("has exit code 0 if no linting errors occur [parallel]", () => assertExitCode(runESLint(["bin/eslint.js", "-p", "4"]), 0));
         it("has exit code 0 if a linting warning is reported", () => assertExitCode(runESLint(["bin/eslint.js", "--env", "es6", "--no-eslintrc", "--rule", "semi: [1, never]"]), 0));
+        it("has exit code 0 if a linting warning is reported [parallel]", () => assertExitCode(runESLint(["bin/eslint.js", "--env", "es6", "--no-eslintrc", "--rule", "semi: [1, never]", "-p", "4"]), 0));
         it("has exit code 1 if a linting error is reported", () => assertExitCode(runESLint(["bin/eslint.js", "--env", "es6", "--no-eslintrc", "--rule", "semi: [2, never]"]), 1));
+        it("has exit code 1 if a linting error is reported [parallel]", () => assertExitCode(runESLint(["bin/eslint.js", "--env", "es6", "--no-eslintrc", "--rule", "semi: [2, never]", "-p", "4"]), 1));
         it("has exit code 1 if a syntax error is thrown", () => assertExitCode(runESLint(["README.md"]), 1));
+        it("has exit code 1 if a syntax error is thrown [parallel]", () => assertExitCode(runESLint(["README.md", "-p", "4"]), 1));
     });
 
     describe("automatically fixing files", () => {

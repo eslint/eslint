@@ -89,6 +89,7 @@
     "acorn": "^7.0.0",
     "babel-loader": "^8.0.5",
     "chai": "^4.0.1",
+    "chai-as-promised": "^7.1.1",
     "cheerio": "^0.22.0",
     "common-tags": "^1.8.0",
     "core-js": "^3.1.3",

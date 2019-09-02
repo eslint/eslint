@@ -86,7 +86,7 @@ if (useStdIn) {
         }).catch(err => {
             console.log("exited with unexpected async error", err);
             // eslint-disable-next-line no-process-exit
-            process.exit(1);
+            process.exit(2);
         });
     } else {
         process.exitCode = executeResult;
