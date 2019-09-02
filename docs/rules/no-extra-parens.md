@@ -24,6 +24,7 @@ This rule has an object option for exceptions to the `"all"` option:
 * `"nestedBinaryExpressions": false` allows extra parentheses in nested binary expressions
 * `"ignoreJSX": "none|all|multi-line|single-line"` allows extra parentheses around no/all/multi-line/single-line JSX components. Defaults to `none`.
 * `"enforceForArrowConditionals": false` allows extra parentheses around ternary expressions which are the body of an arrow function
+* `"enforceForSequenceExpressions": false` allows extra parentheses around sequence expressions
 
 ### all
 
@@ -190,6 +191,20 @@ Examples of **correct** code for this rule with the `"all"` and `{ "enforceForAr
 
 const b = a => 1 ? 2 : 3;
 const d = c => (1 ? 2 : 3);
+```
+
+### enforceForSequenceExpressions
+
+Examples of **correct** code for this rule with the `"all"` and `{ "enforceForSequenceExpressions": false }` options:
+
+```js
+/* eslint no-extra-parens: ["error", "all", { "enforceForSequenceExpressions": false }] */
+
+(a, b);
+
+if ((val = foo(), val < 10)) {}
+
+while ((val = foo(), val < 10));
 ```
 
 ### functions

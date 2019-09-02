@@ -568,6 +568,175 @@ ruleTester.run("yoda", rule, {
                     type: "BinaryExpression"
                 }
             ]
+        },
+
+        // Adjacent tokens tests
+        {
+            code: "function *foo() { yield(1) < a }",
+            output: "function *foo() { yield a > (1) }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                {
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: "<" },
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "function *foo() { yield((1)) < a }",
+            output: "function *foo() { yield a > ((1)) }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                {
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: "<" },
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "function *foo() { yield 1 < a }",
+            output: "function *foo() { yield a > 1 }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                {
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: "<" },
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "function *foo() { yield/**/1 < a }",
+            output: "function *foo() { yield/**/a > 1 }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                {
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: "<" },
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "function *foo() { yield(1) < ++a }",
+            output: "function *foo() { yield++a > (1) }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                {
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: "<" },
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "function *foo() { yield(1) < (a) }",
+            output: "function *foo() { yield(a) > (1) }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                {
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: "<" },
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "x=1 < a",
+            output: "x=a > 1",
+            options: ["never"],
+            errors: [
+                {
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: "<" },
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "function *foo() { yield++a < 1 }",
+            output: "function *foo() { yield 1 > ++a }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                {
+                    messageId: "expected",
+                    data: { expectedSide: "left", operator: "<" },
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "function *foo() { yield(a) < 1 }",
+            output: "function *foo() { yield 1 > (a) }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                {
+                    messageId: "expected",
+                    data: { expectedSide: "left", operator: "<" },
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "function *foo() { yield a < 1 }",
+            output: "function *foo() { yield 1 > a }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                {
+                    messageId: "expected",
+                    data: { expectedSide: "left", operator: "<" },
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "function *foo() { yield/**/a < 1 }",
+            output: "function *foo() { yield/**/1 > a }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                {
+                    messageId: "expected",
+                    data: { expectedSide: "left", operator: "<" },
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "function *foo() { yield++a < (1) }",
+            output: "function *foo() { yield(1) > ++a }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                {
+                    messageId: "expected",
+                    data: { expectedSide: "left", operator: "<" },
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "x=a < 1",
+            output: "x=1 > a",
+            options: ["always"],
+            errors: [
+                {
+                    messageId: "expected",
+                    data: { expectedSide: "left", operator: "<" },
+                    type: "BinaryExpression"
+                }
+            ]
         }
     ]
 });
