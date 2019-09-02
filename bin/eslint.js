@@ -78,5 +78,17 @@ if (useStdIn) {
         console.error(err.stack);
     });
 } else {
-    process.exitCode = cli.execute(process.argv);
+    const executeResult = cli.execute(process.argv);
+
+    if (executeResult instanceof Promise) {
+        executeResult.then(exitCode => {
+            process.exitCode = exitCode;
+        }).catch(err => {
+            console.log("exited with unexpected async error", err);
+            // eslint-disable-next-line no-process-exit
+            process.exit(1);
+        });
+    } else {
+        process.exitCode = executeResult;
+    }
 }

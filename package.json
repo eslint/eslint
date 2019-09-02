@@ -45,6 +45,7 @@
   "dependencies": {
     "@babel/code-frame": "^7.0.0",
     "ajv": "^6.10.0",
+    "bluebird": "^3.5.5",
     "chalk": "^2.1.0",
     "cross-spawn": "^6.0.5",
     "debug": "^4.0.1",
@@ -79,7 +80,8 @@
     "strip-json-comments": "^3.0.1",
     "table": "^5.2.3",
     "text-table": "^0.2.0",
-    "v8-compile-cache": "^2.0.3"
+    "v8-compile-cache": "^2.0.3",
+    "workerpool": "^5.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",
