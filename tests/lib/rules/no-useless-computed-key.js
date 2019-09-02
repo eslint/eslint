@@ -26,7 +26,9 @@ ruleTester.run("no-useless-computed-key", rule, {
         "({ ['__proto__']: [] })",
         "class Foo { 'a'() {} }",
         "class Foo { [x]() {} }",
-        "class Foo { ['constructor']() {} }"
+        "class Foo { ['constructor']() {} }",
+        "class Foo { static ['constructor']() {} }",
+        "class Foo { static ['prototype']() {} }"
     ],
     invalid: [
         {
@@ -321,6 +323,13 @@ ruleTester.run("no-useless-computed-key", rule, {
             options: [{ checkMethods: true }],
             errors: [{
                 message: "Unnecessarily computed property [2] found.", type: "MethodDefinition"
+            }]
+        }, {
+            code: "class Foo { ['prototype']() {} }",
+            output: "class Foo { 'prototype'() {} }",
+            options: [{ checkMethods: true }],
+            errors: [{
+                message: "Unnecessarily computed property ['prototype'] found.", type: "MethodDefinition"
             }]
         }
     ]
