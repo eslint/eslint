@@ -6767,7 +6767,7 @@ var a = "test2";
                 linter.verify(code, {}, { filename, preprocess });
 
                 assert.strictEqual(preprocess.calledOnce, true);
-                assert.deepStrictEqual(preprocess.args[0], [code, filename, void 0]);
+                assert.deepStrictEqual(preprocess.args[0], [code, filename, {}]);
             });
 
             it("should apply a preprocessor to the code, and lint each code sample separately", () => {
@@ -6830,7 +6830,7 @@ var a = "test2";
                 linter.verify(sourceCode, {}, { filename, preprocess });
 
                 assert.strictEqual(preprocess.calledOnce, true);
-                assert.deepStrictEqual(preprocess.args[0], [code, filename, void 0]);
+                assert.deepStrictEqual(preprocess.args[0], [code, filename, {}]);
             });
 
             it("should receive text even if a SourceCode object was given (with BOM).", () => {
@@ -6843,7 +6843,7 @@ var a = "test2";
                 linter.verify(sourceCode, {}, { filename, preprocess });
 
                 assert.strictEqual(preprocess.calledOnce, true);
-                assert.deepStrictEqual(preprocess.args[0], [code, filename, void 0]);
+                assert.deepStrictEqual(preprocess.args[0], [code, filename, {}]);
             });
 
             it("should catch preprocess error.", () => {
@@ -6881,7 +6881,7 @@ var a = "test2";
                 linter.verify(code, {}, { filename, postprocess, preprocess });
 
                 assert.strictEqual(postprocess.calledOnce, true);
-                assert.deepStrictEqual(postprocess.args[0], [[[], [], []], filename, void 0]);
+                assert.deepStrictEqual(postprocess.args[0], [[[], [], []], filename, {}]);
             });
 
             it("should apply a postprocessor to the reported messages", () => {
