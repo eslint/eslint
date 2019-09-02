@@ -41,6 +41,10 @@ describe("'ExtractedConfig' class", () => {
             assert.deepStrictEqual(config.processor, null);
         });
 
+        it("should have 'processorOptions' property.", () => {
+            assert.deepStrictEqual(config.processorOptions, {});
+        });
+
         it("should have 'rules' property.", () => {
             assert.deepStrictEqual(config.rules, {});
         });
