@@ -1,6 +1,6 @@
 # Working with Plugins
 
-Each plugin is an npm module with a name in the format of `eslint-plugin-<plugin-name>`, such as `eslint-plugin-jquery`. You can also use scoped packages in the format of `@<scope>/eslint-plugin-<plugin-name>` such as `@jquery/eslint-plugin-jquery`.
+Each plugin is an npm module with a name in the format of `eslint-plugin-<plugin-name>`, such as `eslint-plugin-jquery`. You can also use scoped packages in the format of `@<scope>/eslint-plugin-<plugin-name>` such as `@jquery/eslint-plugin-jquery` or even `@<scope>/eslint-plugin` such as `@jquery/eslint-plugin`.
 
 ## Create a Plugin
 
@@ -222,11 +222,11 @@ In order to make your plugin available to the community you have to publish it o
 
 Recommended keywords:
 
-* `eslint`
-* `eslintplugin`
+- `eslint`
+- `eslintplugin`
 
 Add these keywords into your `package.json` file to make it easy for others to find.
 
 ## Further Reading
 
-* [npm Developer Guide](https://docs.npmjs.com/misc/developers)
+- [npm Developer Guide](https://docs.npmjs.com/misc/developers)
