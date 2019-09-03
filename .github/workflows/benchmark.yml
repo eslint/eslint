@@ -36,7 +36,8 @@ jobs:
         cd repo
         yarn
     - name: lint test repo
-      run: bash {0} |
+      shell: bash {0}
+      run: |
         cd ../repo
         echo "starting run #${{ matrix.repeat }}"
         T1=`date +%s`
