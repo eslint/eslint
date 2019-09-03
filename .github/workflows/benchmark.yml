@@ -25,6 +25,7 @@ jobs:
     - name: temp
       shell: bash {0}
       run: |
+        bash {0}
         cd abc
     - name: npm install
       run: |
