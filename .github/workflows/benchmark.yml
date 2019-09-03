@@ -23,9 +23,9 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - name: temp
+      shell: bash {0}
       run: |
-        bash {0}
-        npm install
+        cd abc
     - name: npm install
       run: |
         npm install
