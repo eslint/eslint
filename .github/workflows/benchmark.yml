@@ -38,7 +38,7 @@ jobs:
         ls
         echo "starting run #${{ matrix.repeat }}"
         T1=`date +%s`
-        ../eslint/bin/eslint.js${{ matrix.lint-options }}--quiet .
+        ../eslint/bin/eslint.js ${{ matrix.lint-options }} --quiet .
         T2=`date +%s`
         echo $(($T2-T1))
         echo "linting time: $(($T2-T1))s"
