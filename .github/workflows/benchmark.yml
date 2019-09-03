@@ -17,13 +17,15 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: npm install, build, and test
+    - name: npm install
       run: |
         npm install
+    - name: clone repo
+      run: |
         echo "install done"
         pwd
         cd ..
-        git checkout https://github.com/facebook/react.git 
+        git clone https://github.com/facebook/react.git 
         cd react
         npm install
         ls -alh
