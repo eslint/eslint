@@ -20,10 +20,12 @@ jobs:
     - name: npm install, build, and test
       run: |
         npm install
+        echo "install done"
+        pwd
         cd ..
         git checkout https://github.com/facebook/react.git 
         cd react
-        npm i
+        npm install
         ls -alh
       env:
         CI: true
