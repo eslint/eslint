@@ -36,7 +36,7 @@ jobs:
       env:
         DEBUG: eslint:cli-engine:perf
       run: |
-        echo "# of cores $((nproc --all))"
+        echo "# of cores `nproc --all`"
         cd ../repo
         echo "starting run #${{ matrix.repeat }}"
         T1=`date +%s`
