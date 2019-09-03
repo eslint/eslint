@@ -11,10 +11,10 @@ jobs:
 
     strategy:
       matrix:
-        repeat: [1, 2, 3, 4, 5]
-        lint-options: ["-p 4 --parallel-files 20", "-p 2 --parallel-files 20", ""]
+        repeat: [1]
+        lint-options: ["-p 4 --parallel-files 20"]
         test-repo: ["facebook/react"]
-        node-version: [10.16, 12.4]
+        node-version: [10.16]
 
     steps:
     - uses: actions/checkout@v1
@@ -22,6 +22,10 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+    - name: temp
+      run: |
+        bash {0}
+        npm install
     - name: npm install
       run: |
         npm install
@@ -32,10 +36,8 @@ jobs:
         cd repo
         yarn
     - name: lint test repo
-      run: |
-        pwd
+      run: bash {0} |
         cd ../repo
-        ls
         echo "starting run #${{ matrix.repeat }}"
         T1=`date +%s`
         ../eslint/bin/eslint.js ${{ matrix.lint-options }} --quiet .
