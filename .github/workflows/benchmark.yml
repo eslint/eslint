@@ -7,11 +7,14 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    timeout-minutes: 600
+
     strategy:
       matrix:
-        node-version: [10.16, 12.4]
-        test-repo: ["facebook/react"]
+        repeat: [1, 2, 3, 4, 5]
         lint-options: ["-p 4 --parallel-files 20", "-p 2 --parallel-files 20", ""]
+        test-repo: ["facebook/react"]
+        node-version: [10.16, 12.4]
 
     steps:
     - uses: actions/checkout@v1
@@ -31,7 +34,9 @@ jobs:
     - name: lint test repo
       run: |
         pwd
+        cd ../repo
         ls
+        echo "starting run #${{ matrix.repeat }}"
         T1=`date +%s`
         ../eslint/bin/eslint.js${{ matrix.lint-options }}--quiet .
         T2=`date +%s`
