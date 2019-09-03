@@ -10,6 +10,7 @@ jobs:
     strategy:
       matrix:
         node-version: [10.16, 12.4]
+        test-repo: ["facebook/react"]
 
     steps:
     - uses: actions/checkout@v1
@@ -20,14 +21,12 @@ jobs:
     - name: npm install
       run: |
         npm install
-    - name: clone repo
+    - name: clone test repo
       run: |
-        echo "install done"
-        pwd
         cd ..
-        git clone https://github.com/facebook/react.git 
-        cd react
+        git clone https://github.com/${{ matrix.test-repo }}.git repo
+        cd repo
         yarn
-        ls -alh
+        ../eslint/bin/eslint.js -p 4 --parallel-files 20  --quiet .
       env:
         CI: true
