@@ -11,8 +11,8 @@ jobs:
 
     strategy:
       matrix:
-        repeat: [1]
-        lint-options: ["-p 4 --parallel-files 20"]
+        repeat: [1, 2, 3]
+        lint-options: ["-p 4 --parallel-files 30", "-p 2 --parallel-files 30", ""]
         test-repo: ["facebook/react"]
         node-version: [10.16]
 
