@@ -11,6 +11,7 @@ jobs:
       matrix:
         node-version: [10.16, 12.4]
         test-repo: ["facebook/react"]
+        lint-options: ["-p 4 --parallel-files 20", "-p 2 --parallel-files 20", , ""]
 
     steps:
     - uses: actions/checkout@v1
@@ -27,6 +28,16 @@ jobs:
         git clone https://github.com/${{ matrix.test-repo }}.git repo
         cd repo
         yarn
-        ../eslint/bin/eslint.js -p 4 --parallel-files 20  --quiet .
-      env:
-        CI: true
+    - name: lint test repo
+      run: |
+        pwd
+        ls
+        T1=`date +%s`
+        ../eslint/bin/eslint.js${{ matrix.lint-options }}--quiet .
+        T2=`date +%s`
+        echo $(($T2-T1))
+        echo "linting time: $(($T2-T1))s"
+
+
+
+
