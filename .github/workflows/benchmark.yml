@@ -33,6 +33,8 @@ jobs:
         yarn
     - name: lint test repo
       shell: bash {0}
+      env:
+        DEBUG: eslint:cli-engine:perf
       run: |
         cd ../repo
         echo "starting run #${{ matrix.repeat }}"
