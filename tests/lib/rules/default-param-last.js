@@ -85,6 +85,22 @@ ruleTester.run("default-param-last", rule, {
         {
             code: "const f = (a = 5, { b }) => {}",
             errors: [cannedError]
+        },
+        {
+            code: "const f = ({ a } = {}, b) => {}",
+            errors: [cannedError]
+        },
+        {
+            code: "const f = ({ a, b } = { a: 1, b: 2 }, c) => {}",
+            errors: [cannedError]
+        },
+        {
+            code: "const f = ([a] = [], b) => {}",
+            errors: [cannedError]
+        },
+        {
+            code: "const f = ([a, b] = [1, 2], c) => {}",
+            errors: [cannedError]
         }
     ]
 });
