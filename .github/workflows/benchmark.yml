@@ -27,7 +27,7 @@ jobs:
         cd ..
         git clone https://github.com/facebook/react.git 
         cd react
-        npm install
+        yarn
         ls -alh
       env:
         CI: true
