@@ -3592,6 +3592,36 @@ describe("CLIEngine", () => {
                 });
             });
         });
+
+        describe("with 'overrides[*].extends' setting on deep locations", () => {
+            const root = getFixturePath("cli-engine/deeply-overrides-i-extends");
+
+            it("should not throw.", () => {
+                CLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        "node_modules/eslint-config-one/index.js": `module.exports = ${JSON.stringify({
+                            overrides: [{ files: ["*test*"], extends: "two" }]
+                        })}`,
+                        "node_modules/eslint-config-two/index.js": `module.exports = ${JSON.stringify({
+                            overrides: [{ files: ["*.js"], extends: "three" }]
+                        })}`,
+                        "node_modules/eslint-config-three/index.js": `module.exports = ${JSON.stringify({
+                            rules: { "no-console": "error" }
+                        })}`,
+                        "test.js": "console.log('hello')",
+                        ".eslintrc.yml": "extends: one"
+                    }
+                }).CLIEngine;
+                engine = new CLIEngine();
+
+                const { results } = engine.executeOnFiles(["test.js"]);
+                const messages = results[0].messages;
+
+                assert.strictEqual(messages.length, 1);
+                assert.strictEqual(messages[0].ruleId, "no-console");
+            });
+        });
     });
 
     describe("getConfigForFile", () => {

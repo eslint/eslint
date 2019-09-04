@@ -58,16 +58,22 @@ describe("OverrideTester", () => {
             assert.strictEqual(OverrideTester.and(null, null), null);
         });
 
-        it("should return the first one if the second one was null.", () => {
-            const tester = OverrideTester.create("*.js");
+        it("should return a new tester with the the first one's properties if the second one was null.", () => {
+            const tester = OverrideTester.create("*.js", null, process.cwd());
+            const result = OverrideTester.and(tester, null);
 
-            assert.strictEqual(OverrideTester.and(tester, null), tester);
+            assert.notStrictEqual(result, tester);
+            assert.strictEqual(result.patterns, tester.patterns);
+            assert.strictEqual(result.basePath, tester.basePath);
         });
 
-        it("should return the second one if the first one was null.", () => {
-            const tester = OverrideTester.create("*.js");
+        it("should return a new tester with the the second one's properties if the first one was null.", () => {
+            const tester = OverrideTester.create("*.js", null, process.cwd());
+            const result = OverrideTester.and(null, tester);
 
-            assert.strictEqual(OverrideTester.and(null, tester), tester);
+            assert.notStrictEqual(result, tester);
+            assert.strictEqual(result.patterns, tester.patterns);
+            assert.strictEqual(result.basePath, tester.basePath);
         });
 
         it("should return another one what includes both patterns if both are testers.", () => {
