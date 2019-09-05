@@ -58,6 +58,20 @@ jobs:
         T2=`date +%s`
         echo $(($T2-T1))
         echo "linting time: $(($T2-T1))s"
+    - name: lint parallel more threads
+      shell: bash {0}
+      env:
+        DEBUG: eslint:cli-engine:perf
+        UV_THREADPOOL_SIZE: 20
+      run: |
+        echo "# of cores `nproc --all`"
+        cd ../repo
+        echo "starting run"
+        T1=`date +%s`
+        ../eslint/bin/eslint.js -p 2 --parallel-files 50 .
+        T2=`date +%s`
+        echo $(($T2-T1))
+        echo "linting time: $(($T2-T1))s"
 
 
 
