@@ -11,8 +11,6 @@ jobs:
 
     strategy:
       matrix:
-        repeat: [1, 2, 3, 4, 5]
-
         test-repo:
         - "webpack/webpack" # => 796 files to lint
         - "facebook/react"
@@ -20,6 +18,7 @@ jobs:
         - "eslint/eslint"
         # - "zeit/next.js"
         # - "mrdoob/three.js"
+        repeat: [1, 2, 3, 4, 5]
         node-version: [10.16]
 
     steps:
