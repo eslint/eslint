@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         repeat: [1, 2, 3, 4, 5]
-        lint-options: ["-p 2 --parallel-files 30", ""]
+        # lint-options: ["-p 2 --parallel-files 30", ""]
         # test-repo: ["facebook/react", nodejs/node]
         test-repo: ["webpack/webpack"]
         node-version: [10.16]
@@ -25,23 +25,36 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: npm install
       run: |
-        npm install
+        npm install --production
     - name: clone test repo
       run: |
         cd ..
         git clone --depth 1 https://github.com/${{ matrix.test-repo }}.git repo
         cd repo
         yarn
-    - name: lint test repo
+    - name: lint sync
       shell: bash {0}
       env:
         DEBUG: eslint:cli-engine:perf
       run: |
         echo "# of cores `nproc --all`"
         cd ../repo
-        echo "starting run #${{ matrix.repeat }}"
+        echo "starting run"
         T1=`date +%s`
-        ../eslint/bin/eslint.js ${{ matrix.lint-options }} --quiet .
+        ../eslint/bin/eslint.js .
+        T2=`date +%s`
+        echo $(($T2-T1))
+        echo "linting time: $(($T2-T1))s"
+    - name: lint parallel
+      shell: bash {0}
+      env:
+        DEBUG: eslint:cli-engine:perf
+      run: |
+        echo "# of cores `nproc --all`"
+        cd ../repo
+        echo "starting run"
+        T1=`date +%s`
+        ../eslint/bin/eslint.js -p 2 --parallel-files 30 .
         T2=`date +%s`
         echo $(($T2-T1))
         echo "linting time: $(($T2-T1))s"
