@@ -621,6 +621,19 @@ ruleTester.run("semi", rule, {
             options: ["never", { beforeStatementContinuationChars: "never" }],
             parserOptions: { ecmaVersion: 2015 },
             errors: ["Extra semicolon."]
+        },
+        {
+            code: `
+                const f = [1,2,3]
+                ;[4,5,6].forEach(doSomething)
+            `,
+            output: `
+                const f = [1,2,3]
+                [4,5,6].forEach(doSomething)
+            `,
+            options: ["never", { beforeStatementContinuationChars: "never", allowAsiHazardAfter: true }],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: ["Extra semicolon."]
         }
     ]
 });
