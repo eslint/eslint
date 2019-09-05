@@ -12,13 +12,13 @@ jobs:
     strategy:
       matrix:
         test-repo:
-        - "webpack/webpack" # => 796 files to lint
-        - "facebook/react"
+        - "webpack/webpack" # 796 files to lint
+        # - "facebook/react" # 1011 files to lint
         # - "nodejs/node"
-        - "eslint/eslint"
-        # - "zeit/next.js"
-        # - "mrdoob/three.js"
-        repeat: [1, 2, 3, 4, 5]
+        # - "eslint/eslint" # 721 files to lint
+        - "zeit/next.js"
+        - "mrdoob/three.js"
+        repeat: [1, 2, 3, 4]
         node-version: [10.16]
 
     steps:
