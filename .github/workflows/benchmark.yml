@@ -28,7 +28,7 @@ jobs:
     - name: clone test repo
       run: |
         cd ..
-        git clone https://github.com/${{ matrix.test-repo }}.git repo
+        git clone --depth 1 https://github.com/${{ matrix.test-repo }}.git repo
         cd repo
         yarn
     - name: lint test repo
