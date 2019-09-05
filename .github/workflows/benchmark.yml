@@ -12,9 +12,14 @@ jobs:
     strategy:
       matrix:
         repeat: [1, 2, 3, 4, 5]
-        # lint-options: ["-p 2 --parallel-files 30", ""]
-        # test-repo: ["facebook/react", nodejs/node]
-        test-repo: ["webpack/webpack"]
+
+        test-repo:
+        - "webpack/webpack" # => 796 files to lint
+        - "facebook/react"
+        # - "nodejs/node"
+        - "eslint/eslint"
+        # - "zeit/next.js"
+        # - "mrdoob/three.js"
         node-version: [10.16]
 
     steps:
@@ -32,7 +37,7 @@ jobs:
         git clone --depth 1 https://github.com/${{ matrix.test-repo }}.git repo
         cd repo
         yarn
-    - name: lint sync
+    - name: lint sync [warm up]
       shell: bash {0}
       env:
         DEBUG: eslint:cli-engine:perf
