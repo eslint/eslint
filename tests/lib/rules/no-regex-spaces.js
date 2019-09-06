@@ -20,6 +20,7 @@ ruleTester.run("no-regex-spaces", rule, {
         "var foo = RegExp('foo')",
         "var foo = / /;",
         "var foo = RegExp(' ')",
+        "var foo = / a b c d /;",
         "var foo = /bar {3}baz/g;",
         "var foo = RegExp('bar {3}baz', 'g')",
         "var foo = new RegExp('bar {3}baz')",
@@ -73,6 +74,26 @@ ruleTester.run("no-regex-spaces", rule, {
                 {
                     message: "Spaces are hard to count. Use {4}.",
                     type: "Literal"
+                }
+            ]
+        },
+        {
+            code: "var foo = / a b  c d /;",
+            output: "var foo = / a b {2}c d /;",
+            errors: [
+                {
+                    message: "Spaces are hard to count. Use {2}.",
+                    type: "Literal"
+                }
+            ]
+        },
+        {
+            code: "var foo = RegExp(' a b c d  ');",
+            output: "var foo = RegExp(' a b c d {2}');",
+            errors: [
+                {
+                    message: "Spaces are hard to count. Use {2}.",
+                    type: "CallExpression"
                 }
             ]
         },
