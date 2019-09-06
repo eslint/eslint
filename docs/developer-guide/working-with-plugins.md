@@ -222,11 +222,11 @@ In order to make your plugin available to the community you have to publish it o
 
 Recommended keywords:
 
-- `eslint`
-- `eslintplugin`
+* `eslint`
+* `eslintplugin`
 
 Add these keywords into your `package.json` file to make it easy for others to find.
 
 ## Further Reading
 
-- [npm Developer Guide](https://docs.npmjs.com/misc/developers)
+* [npm Developer Guide](https://docs.npmjs.com/misc/developers)
