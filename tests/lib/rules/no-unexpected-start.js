@@ -19,6 +19,8 @@ const rule = require("../../../lib/rules/no-unexpected-start"),
 
 const ruleTester = new RuleTester();
 
+const prefix = "Unexpected continuation character at start of statement: ";
+
 ruleTester.run("no-unexpected-start", rule, {
 
     valid: [
@@ -31,19 +33,19 @@ ruleTester.run("no-unexpected-start", rule, {
         {
             code: "[1, 2, 3].reverse()",
             errors: [{
-                message: "Unexpected start of statement."
+                message: `${prefix}[`
             }]
         },
         {
             code: "(function () { console.log(42) })()",
             errors: [{
-                message: "Unexpected start of statement."
+                message: `${prefix}(`
             }]
         },
         {
             code: ";(function () {})()",
             errors: [{
-                message: "Unexpected start of statement."
+                message: `${prefix}(`
             }]
         },
         {
@@ -52,25 +54,25 @@ ruleTester.run("no-unexpected-start", rule, {
                 ecmaVersion: 8
             },
             errors: [{
-                message: "Unexpected start of statement."
+                message: `${prefix}\``
             }]
         },
         {
             code: "+42",
             errors: [{
-                message: "Unexpected start of statement."
+                message: `${prefix}+`
             }]
         },
         {
             code: "-42",
             errors: [{
-                message: "Unexpected start of statement."
+                message: `${prefix}-`
             }]
         },
         {
             code: "/foo/",
             errors: [{
-                message: "Unexpected start of statement."
+                message: `${prefix}/`
             }]
         }
     ]
