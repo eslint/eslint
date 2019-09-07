@@ -188,6 +188,7 @@
     "no-undefined": "suggestion",
     "no-underscore-dangle": "suggestion",
     "no-unexpected-multiline": "problem",
+    "no-unexpected-start": "suggestion",
     "no-unmodified-loop-condition": "problem",
     "no-unneeded-ternary": "suggestion",
     "no-unreachable": "problem",
