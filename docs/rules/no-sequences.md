@@ -37,6 +37,8 @@ if (doSomething(), !!test);
 switch (val = foo(), val) {}
 
 while (val = foo(), val < 42);
+
+with (doSomething(), val) {}
 ```
 
 Examples of **correct** code for this rule:
@@ -57,6 +59,8 @@ if ((doSomething(), !!test));
 switch ((val = foo(), val)) {}
 
 while ((val = foo(), val < 42));
+
+with ((doSomething(), val)) {}
 ```
 
 ## When Not To Use It
