@@ -26,7 +26,13 @@ ruleTester.run("no-unexpected-start", rule, {
     valid: [
         "var numbers = [1, 2, 3]; numbers.reverse()",
         "{ console.log(42) }",
-        ";;;;console.log(42)"
+        ";;;;console.log(42)",
+        {
+            code: "myTag`Hello ${myWorld}`",
+            parserOptions: {
+                ecmaVersion: 8
+            }
+        }
     ],
 
     invalid: [
