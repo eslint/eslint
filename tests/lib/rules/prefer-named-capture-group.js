@@ -71,6 +71,17 @@ ruleTester.run("prefer-named-capture-group", rule, {
             }]
         },
         {
+            code: "new RegExp(`a(bc)d`)",
+            errors: [{
+                messageId: "required",
+                type: "NewExpression",
+                data: { group: "(bc)" },
+                line: 1,
+                column: 14,
+                endColumn: 18
+            }]
+        },
+        {
             code: "/([0-9]{4})-(\\w{5})/",
             errors: [
                 {
@@ -90,6 +101,120 @@ ruleTester.run("prefer-named-capture-group", rule, {
                     endColumn: 20
                 }
             ]
+        },
+
+        // For computed, multiline and strings with escape sequences, report the whole arguments[0] location.
+        {
+            code: "new RegExp('(' + 'a)')",
+            errors: [{
+                messageId: "required",
+                type: "NewExpression",
+                data: { group: "(a)" },
+                line: 1,
+                column: 12,
+                endColumn: 22
+            }]
+        },
+        {
+            code: "new RegExp('a(bc)d' + 'e')",
+            errors: [{
+                messageId: "required",
+                type: "NewExpression",
+                data: { group: "(bc)" },
+                line: 1,
+                column: 12,
+                endColumn: 26
+            }]
+        },
+        {
+            code: "RegExp('(a)'+'')",
+            errors: [{
+                messageId: "required",
+                type: "CallExpression",
+                data: { group: "(a)" },
+                line: 1,
+                column: 8,
+                endColumn: 16
+            }]
+        },
+        {
+            code: "RegExp( '' + '(ab)')",
+            errors: [{
+                messageId: "required",
+                type: "CallExpression",
+                data: { group: "(ab)" },
+                line: 1,
+                column: 9,
+                endColumn: 20
+            }]
+        },
+        {
+            code: "new RegExp(`(ab)${''}`)",
+            errors: [{
+                messageId: "required",
+                type: "NewExpression",
+                data: { group: "(ab)" },
+                line: 1,
+                column: 12,
+                endColumn: 23
+            }]
+        },
+        {
+            code: "new RegExp(`(a)\n`)",
+            errors: [{
+                messageId: "required",
+                type: "NewExpression",
+                data: { group: "(a)" },
+                line: 1,
+                column: 12,
+                endLine: 2,
+                endColumn: 2
+            }]
+        },
+        {
+            code: "RegExp(`a(b\nc)d`)",
+            errors: [{
+                messageId: "required",
+                type: "CallExpression",
+                data: { group: "(b\nc)" },
+                line: 1,
+                column: 8,
+                endLine: 2,
+                endColumn: 5
+            }]
+        },
+        {
+            code: "new RegExp('a(b)\\'')",
+            errors: [{
+                messageId: "required",
+                type: "NewExpression",
+                data: { group: "(b)" },
+                line: 1,
+                column: 12,
+                endColumn: 20
+            }]
+        },
+        {
+            code: "RegExp('(a)\\\\d')",
+            errors: [{
+                messageId: "required",
+                type: "CallExpression",
+                data: { group: "(a)" },
+                line: 1,
+                column: 8,
+                endColumn: 16
+            }]
+        },
+        {
+            code: "RegExp(`\\a(b)`)",
+            errors: [{
+                messageId: "required",
+                type: "CallExpression",
+                data: { group: "(b)" },
+                line: 1,
+                column: 8,
+                endColumn: 15
+            }]
         }
     ]
 });
