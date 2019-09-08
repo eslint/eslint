@@ -65,6 +65,18 @@ jobs:
         ../eslint/bin/eslint.js -p 2 --parallel-files 30 .
         T2=`date +%s`
         echo "linting time: $(($T2-T1))s"
+    - name: lint parallel
+      shell: bash {0}
+      env:
+        DEBUG: eslint:cli-engine:perf
+      run: |
+        echo "# of cores `nproc --all`"
+        cd ../repo
+        echo "starting run"
+        T1=`date +%s`
+        ../eslint/bin/eslint.js -p 2 --parallel-files 30 .
+        T2=`date +%s`
+        echo "linting time: $(($T2-T1))s"
     - name: lint sync
       shell: bash {0}
       env:
