@@ -14,8 +14,8 @@ jobs:
         test-repo:
         - "webpack/webpack" # 796 files to lint
         - "facebook/react" # 1011 files to lint
-        # - "nodejs/node" # Out of memory
-        - "eslint/eslint" # 721 files to lint
+        # - "eslint/eslint" # 721 files to lint
+        - "nodejs/node" # Out of memory
         # - "zeit/next.js" # no eslint config
         # - "mrdoob/three.js" # 1388 files, out of memory
         repeat: [1, 2, 3, 4]
@@ -36,6 +36,11 @@ jobs:
         git clone --depth 1 https://github.com/${{ matrix.test-repo }}.git repo
         cd repo
         yarn
+        if [[ ${{ matrix.test-repo }} == *"node"* ]]; then
+          echo "test" >> .eslintignore
+          echo "deps/v8/tools/profviz/gnuplot-4.6.3-emscripten.js" >> .eslintignore
+        fi
+        cat .eslintignore
     - name: lint sync [warm up]
       shell: bash {0}
       env:
