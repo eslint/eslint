@@ -54,6 +54,17 @@ ruleTester.run("no-sequences", rule, {
 
     // Examples of code that should trigger the rule
     invalid: [
+        {
+            code: "1, 2;",
+            errors: [{
+                message: "Unexpected use of comma operator.",
+                type: "SequenceExpression",
+                line: 1,
+                column: 2,
+                endLine: 1,
+                endColumn: 3
+            }]
+        },
         { code: "a = 1, 2", errors: errors(6) },
         { code: "do {} while (doSomething(), !!test);", errors: errors(27) },
         { code: "for (; doSomething(), !!test; );", errors: errors(21) },
