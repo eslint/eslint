@@ -15,7 +15,7 @@ jobs:
         - "webpack/webpack" # 796 files to lint
         - "facebook/react" # 1011 files to lint
         # - "eslint/eslint" # 721 files to lint
-        - "nodejs/node" # Out of memory
+        - "nodejs/node" # 744 files
         # - "zeit/next.js" # no eslint config
         # - "mrdoob/three.js" # 1388 files, out of memory
         repeat: [1, 2, 3, 4]
@@ -41,18 +41,18 @@ jobs:
           echo "deps/v8/tools/profviz/gnuplot-4.6.3-emscripten.js" >> .eslintignore
         fi
         cat .eslintignore
-    - name: lint sync [warm up]
-      shell: bash {0}
-      env:
-        DEBUG: eslint:cli-engine:perf
-      run: |
-        echo "# of cores `nproc --all`"
-        cd ../repo
-        echo "starting run"
-        T1=`date +%s`
-        ../eslint/bin/eslint.js .
-        T2=`date +%s`
-        echo "linting time: $(($T2-T1))s"
+    # - name: lint sync [warm up]
+    #   shell: bash {0}
+    #   env:
+    #     DEBUG: eslint:cli-engine:perf
+    #   run: |
+    #     echo "# of cores `nproc --all`"
+    #     cd ../repo
+    #     echo "starting run"
+    #     T1=`date +%s`
+    #     ../eslint/bin/eslint.js .
+    #     T2=`date +%s`
+    #     echo "linting time: $(($T2-T1))s"
     - name: lint parallel
       shell: bash {0}
       env:
