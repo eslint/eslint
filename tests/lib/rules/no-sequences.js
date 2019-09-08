@@ -61,6 +61,9 @@ ruleTester.run("no-sequences", rule, {
         { code: "switch (doSomething(), val) {}", errors: errors(22) },
         { code: "while (doSomething(), !!test);", errors: errors(21) },
         { code: "with (doSomething(), val) {}", errors: errors(20) },
-        { code: "a => (doSomething(), a)", env: { es6: true }, errors: errors(20) }
+        { code: "a => (doSomething(), a)", env: { es6: true }, errors: errors(20) },
+        { code: "(1), 2", errors: errors(4) },
+        { code: "((1)) , (2)", errors: errors(7) },
+        { code: "while((1) , 2);", errors: errors(11) }
     ]
 });
