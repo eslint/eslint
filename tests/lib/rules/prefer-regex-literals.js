@@ -65,13 +65,27 @@ ruleTester.run("prefer-regex-literals", rule, {
         "RegExp(foo.String.raw`a`);",
         "new RegExp(String.raw);",
 
-        // not the global RegExp
+        // not the global String in String.raw``
+        "let String; new RegExp(String.raw`a`);",
+        "function foo() { var String; new RegExp(String.raw`a`); }",
+        "function foo(String) { RegExp(String.raw`a`); }",
+        "if (foo) { const String = bar; RegExp(String.raw`a`); }",
+        "/* globals String:off */ new RegExp(String.raw`a`);",
+        {
+            code: "RegExp('a', String.raw`g`);",
+            globals: { String: "off" }
+        },
+
+        // not RegExp
         "new Regexp('abc');",
         "Regexp(`a`);",
         "new Regexp(String.raw`a`);",
+
+        // not the global RegExp
+        "let RegExp; new RegExp('a');",
         "function foo() { var RegExp; RegExp('a', 'g'); }",
-        "if (foo) { const RegExp = bar; RegExp('a'); }",
         "function foo(RegExp) { new RegExp(String.raw`a`); }",
+        "if (foo) { const RegExp = bar; RegExp('a'); }",
         "/* globals RegExp:off */ new RegExp('a');",
         {
             code: "RegExp('a');",
