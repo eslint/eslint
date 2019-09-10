@@ -16,7 +16,7 @@ const { RuleTester } = require("../../../lib/rule-tester");
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2015 } });
 
 ruleTester.run("prefer-regex-literals", rule, {
     valid: [
@@ -29,40 +29,16 @@ ruleTester.run("prefer-regex-literals", rule, {
         "new RegExp(f('a'))",
         "RegExp(prefix + 'a')",
         "new RegExp('a' + sufix)",
-        {
-            code: "RegExp(`a` + sufix);",
-            parserOptions: { ecmaVersion: 2015 }
-        },
-        {
-            code: "new RegExp(String.raw`a` + sufix);",
-            parserOptions: { ecmaVersion: 2015 }
-        },
+        "RegExp(`a` + sufix);",
+        "new RegExp(String.raw`a` + sufix);",
         "RegExp('a', flags)",
         "RegExp('a', 'g' + flags)",
-        {
-            code: "new RegExp(String.raw`a`, flags);",
-            parserOptions: { ecmaVersion: 2015 }
-        },
-        {
-            code: "RegExp(`${prefix}abc`)",
-            parserOptions: { ecmaVersion: 2015 }
-        },
-        {
-            code: "new RegExp(`a${b}c`);",
-            parserOptions: { ecmaVersion: 2015 }
-        },
-        {
-            code: "new RegExp(`a${''}c`);",
-            parserOptions: { ecmaVersion: 2015 }
-        },
-        {
-            code: "new RegExp(String.raw`a${b}c`);",
-            parserOptions: { ecmaVersion: 2015 }
-        },
-        {
-            code: "new RegExp(String.raw`a${''}c`);",
-            parserOptions: { ecmaVersion: 2015 }
-        },
+        "new RegExp(String.raw`a`, flags);",
+        "RegExp(`${prefix}abc`)",
+        "new RegExp(`a${b}c`);",
+        "new RegExp(`a${''}c`);",
+        "new RegExp(String.raw`a${b}c`);",
+        "new RegExp(String.raw`a${''}c`);",
         "new RegExp('a' + 'b')",
         "RegExp(1)",
 
@@ -72,84 +48,30 @@ ruleTester.run("prefer-regex-literals", rule, {
         "RegExp();",
         "new RegExp('a', 'g', 'b');",
         "RegExp('a', 'g', 'b');",
-        {
-            code: "new RegExp(`a`, `g`, `b`);",
-            parserOptions: { ecmaVersion: 2015 }
-        },
-        {
-            code: "RegExp(`a`, `g`, `b`);",
-            parserOptions: { ecmaVersion: 2015 }
-        },
-        {
-            code: "new RegExp(String.raw`a`, String.raw`g`, String.raw`b`);",
-            parserOptions: { ecmaVersion: 2015 }
-        },
-        {
-            code: "RegExp(String.raw`a`, String.raw`g`, String.raw`b`);",
-            parserOptions: { ecmaVersion: 2015 }
-        },
+        "new RegExp(`a`, `g`, `b`);",
+        "RegExp(`a`, `g`, `b`);",
+        "new RegExp(String.raw`a`, String.raw`g`, String.raw`b`);",
+        "RegExp(String.raw`a`, String.raw`g`, String.raw`b`);",
 
         // not String.raw``
-        {
-            code: "new RegExp(String`a`);",
-            parserOptions: { ecmaVersion: 2015 }
-        },
-        {
-            code: "RegExp(raw`a`);",
-            parserOptions: { ecmaVersion: 2015 }
-        },
-        {
-            code: "new RegExp(f(String.raw)`a`);",
-            parserOptions: { ecmaVersion: 2015 }
-        },
-        {
-            code: "RegExp(string.raw`a`);",
-            parserOptions: { ecmaVersion: 2015 }
-        },
-        {
-            code: "new RegExp(String.Raw`a`);",
-            parserOptions: { ecmaVersion: 2015 }
-        },
-        {
-            code: "new RegExp(String[raw]`a`);",
-            parserOptions: { ecmaVersion: 2015 }
-        },
-        {
-            code: "RegExp(String.raw.foo`a`);",
-            parserOptions: { ecmaVersion: 2015 }
-        },
-        {
-            code: "new RegExp(String.foo.raw`a`);",
-            parserOptions: { ecmaVersion: 2015 }
-        },
-        {
-            code: "RegExp(foo.String.raw`a`);",
-            parserOptions: { ecmaVersion: 2015 }
-        },
-        {
-            code: "new RegExp(String.raw);",
-            parserOptions: { ecmaVersion: 2015 }
-        },
+        "new RegExp(String`a`);",
+        "RegExp(raw`a`);",
+        "new RegExp(f(String.raw)`a`);",
+        "RegExp(string.raw`a`);",
+        "new RegExp(String.Raw`a`);",
+        "new RegExp(String[raw]`a`);",
+        "RegExp(String.raw.foo`a`);",
+        "new RegExp(String.foo.raw`a`);",
+        "RegExp(foo.String.raw`a`);",
+        "new RegExp(String.raw);",
 
         // not the global RegExp
         "new Regexp('abc');",
-        {
-            code: "Regexp(`a`);",
-            parserOptions: { ecmaVersion: 2015 }
-        },
-        {
-            code: "new Regexp(String.raw`a`);",
-            parserOptions: { ecmaVersion: 2015 }
-        },
+        "Regexp(`a`);",
+        "new Regexp(String.raw`a`);",
         "function foo() { var RegExp; RegExp('a', 'g'); }",
-        {
-            code: "if (foo) { const RegExp = bar; RegExp('a'); }",
-            parserOptions: { ecmaVersion: 2015 }
-        },
-        {
-            code: "function foo(RegExp) { new RegExp(String.raw`a`); }",
-            parserOptions: { ecmaVersion: 2015 }
-        },
+        "if (foo) { const RegExp = bar; RegExp('a'); }",
+        "function foo(RegExp) { new RegExp(String.raw`a`); }",
         "/* globals RegExp:off */ new RegExp('a');",
         {
             code: "RegExp('a');",
@@ -176,47 +98,38 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new RegExp(`abc`);",
-            parserOptions: { ecmaVersion: 2015 },
             errors: [{ messageId: "unexpectedRegExp", type: "NewExpression" }]
         },
         {
             code: "RegExp(`abc`);",
-            parserOptions: { ecmaVersion: 2015 },
             errors: [{ messageId: "unexpectedRegExp", type: "CallExpression" }]
         },
         {
             code: "new RegExp(`abc`, `g`);",
-            parserOptions: { ecmaVersion: 2015 },
             errors: [{ messageId: "unexpectedRegExp", type: "NewExpression" }]
         },
         {
             code: "RegExp(`abc`, `g`);",
-            parserOptions: { ecmaVersion: 2015 },
             errors: [{ messageId: "unexpectedRegExp", type: "CallExpression" }]
         },
         {
             code: "new RegExp(String.raw`abc`);",
-            parserOptions: { ecmaVersion: 2015 },
             errors: [{ messageId: "unexpectedRegExp", type: "NewExpression" }]
         },
         {
             code: "RegExp(String.raw`abc`);",
-            parserOptions: { ecmaVersion: 2015 },
             errors: [{ messageId: "unexpectedRegExp", type: "CallExpression" }]
         },
         {
             code: "new RegExp(String.raw`abc`, String.raw`g`);",
-            parserOptions: { ecmaVersion: 2015 },
             errors: [{ messageId: "unexpectedRegExp", type: "NewExpression" }]
         },
         {
             code: "RegExp(String.raw`abc`, String.raw`g`);",
-            parserOptions: { ecmaVersion: 2015 },
             errors: [{ messageId: "unexpectedRegExp", type: "CallExpression" }]
         },
         {
             code: "new RegExp(String['raw']`a`);",
-            parserOptions: { ecmaVersion: 2015 },
             errors: [{ messageId: "unexpectedRegExp", type: "NewExpression" }]
         },
         {
@@ -229,32 +142,26 @@ ruleTester.run("prefer-regex-literals", rule, {
         },
         {
             code: "new RegExp(String.raw``);",
-            parserOptions: { ecmaVersion: 2015 },
             errors: [{ messageId: "unexpectedRegExp", type: "NewExpression" }]
         },
         {
             code: "new RegExp('a', `g`);",
-            parserOptions: { ecmaVersion: 2015 },
             errors: [{ messageId: "unexpectedRegExp", type: "NewExpression" }]
         },
         {
             code: "RegExp(`a`, 'g');",
-            parserOptions: { ecmaVersion: 2015 },
             errors: [{ messageId: "unexpectedRegExp", type: "CallExpression" }]
         },
         {
             code: "RegExp(String.raw`a`, 'g');",
-            parserOptions: { ecmaVersion: 2015 },
             errors: [{ messageId: "unexpectedRegExp", type: "CallExpression" }]
         },
         {
             code: "new RegExp(String.raw`\\d`, `g`);",
-            parserOptions: { ecmaVersion: 2015 },
             errors: [{ messageId: "unexpectedRegExp", type: "NewExpression" }]
         },
         {
             code: "RegExp('a', String.raw`g`);",
-            parserOptions: { ecmaVersion: 2015 },
             errors: [{ messageId: "unexpectedRegExp", type: "CallExpression" }]
         }
     ]
