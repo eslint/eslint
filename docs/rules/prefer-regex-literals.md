@@ -3,7 +3,7 @@
 There are two ways to create a regular expression:
 
 * Regular expression literals, e.g., `/abc/u`.
-* The `RegExp` constructor function, e.g. `new RegExp("abc", "u")` or `RegExp("abc", "u")`.
+* The `RegExp` constructor function, e.g., `new RegExp("abc", "u")` or `RegExp("abc", "u")`.
 
 The constructor function is particularly useful when you want to dynamically generate the pattern,
 because it takes string arguments.
