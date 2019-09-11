@@ -80,7 +80,8 @@ ruleTester.run("no-import-assign", rule, {
         "import * as mod from 'mod'; Object[assign](mod, obj);",
         "import * as mod from 'mod'; Object.getPrototypeOf(mod);",
         "import * as mod from 'mod'; Reflect.set(obj, key, mod);",
-        "import * as mod from 'mod'; { var Object; Object.assign(mod, obj); }"
+        "import * as mod from 'mod'; { var Object; Object.assign(mod, obj); }",
+        "import * as mod from 'mod'; var Object; Object.assign(mod, obj);"
     ],
     invalid: [
         {
