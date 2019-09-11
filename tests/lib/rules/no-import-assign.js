@@ -81,7 +81,10 @@ ruleTester.run("no-import-assign", rule, {
         "import * as mod from 'mod'; Object.getPrototypeOf(mod);",
         "import * as mod from 'mod'; Reflect.set(obj, key, mod);",
         "import * as mod from 'mod'; { var Object; Object.assign(mod, obj); }",
-        "import * as mod from 'mod'; var Object; Object.assign(mod, obj);"
+        "import * as mod from 'mod'; var Object; Object.assign(mod, obj);",
+        "import * as mod from 'mod'; Object.seal(mod, obj)",
+        "import * as mod from 'mod'; Object.preventExtensions(mod)",
+        "import * as mod from 'mod'; Reflect.preventExtensions(mod)"
     ],
     invalid: [
         {
@@ -289,14 +292,6 @@ ruleTester.run("no-import-assign", rule, {
             errors: [{ messageId: "readonlyMember", data: { name: "mod" }, column: 29 }]
         },
         {
-            code: "import * as mod from 'mod'; Object.seal(mod, obj)",
-            errors: [{ messageId: "readonlyMember", data: { name: "mod" }, column: 29 }]
-        },
-        {
-            code: "import * as mod from 'mod'; Object.preventExtensions(mod)",
-            errors: [{ messageId: "readonlyMember", data: { name: "mod" }, column: 29 }]
-        },
-        {
             code: "import * as mod from 'mod'; Reflect.defineProperty(mod, key, d)",
             errors: [{ messageId: "readonlyMember", data: { name: "mod" }, column: 29 }]
         },
@@ -310,10 +305,6 @@ ruleTester.run("no-import-assign", rule, {
         },
         {
             code: "import * as mod from 'mod'; Reflect.setPrototypeOf(mod, proto)",
-            errors: [{ messageId: "readonlyMember", data: { name: "mod" }, column: 29 }]
-        },
-        {
-            code: "import * as mod from 'mod'; Reflect.preventExtensions(mod)",
             errors: [{ messageId: "readonlyMember", data: { name: "mod" }, column: 29 }]
         }
     ]
