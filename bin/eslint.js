@@ -18,8 +18,7 @@ require("v8-compile-cache");
 
 const useStdIn = process.argv.includes("--stdin"),
     init = process.argv.includes("--init"),
-    debug = process.argv.includes("--debug"),
-    info = process.argv.includes("--info");
+    debug = process.argv.includes("--debug");
 
 // must do this initialization *before* other requires in order to work
 if (debug) {
@@ -33,8 +32,7 @@ if (debug) {
 // now we can safely include the other modules that use debug
 const path = require("path"),
     fs = require("fs"),
-    cli = require("../lib/cli"),
-    logger = require("../lib/shared/logging");
+    cli = require("../lib/cli");
 
 //------------------------------------------------------------------------------
 // Execution
@@ -49,11 +47,10 @@ process.once("uncaughtException", err => {
         const template = lodash.template(fs.readFileSync(path.resolve(__dirname, `../messages/${err.messageTemplate}.txt`), "utf-8"));
         const pkg = require("../package.json");
 
-        logger.error("\nOops! Something went wrong! :(");
-        logger.error(`\nESLint: ${pkg.version}.\n\n${template(err.messageData || {})}`);
+        console.error("\nOops! Something went wrong! :(");
+        console.error(`\nESLint: ${pkg.version}.\n\n${template(err.messageData || {})}`);
     } else {
-
-        logger.error(err.stack);
+        console.error(err.stack);
     }
 
     process.exitCode = 2;
@@ -69,17 +66,6 @@ if (useStdIn) {
     const STDIN_FILE_DESCRIPTOR = 0;
 
     process.exitCode = cli.execute(process.argv, fs.readFileSync(STDIN_FILE_DESCRIPTOR, "utf8"));
-} else if (info) {
-    const infoLogger = require("../lib/info");
-
-    try {
-        infoLogger.log();
-        process.exitCode = 0;
-    } catch (err) {
-        process.exitCode = 1;
-        logger.error(err.message);
-        logger.error(err.stack);
-    }
 } else if (init) {
     const configInit = require("../lib/init/config-initializer");
 
@@ -87,8 +73,8 @@ if (useStdIn) {
         process.exitCode = 0;
     }).catch(err => {
         process.exitCode = 1;
-        logger.error(err.message);
-        logger.error(err.stack);
+        console.error(err.message);
+        console.error(err.stack);
     });
 } else {
     process.exitCode = cli.execute(process.argv);
