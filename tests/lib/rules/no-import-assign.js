@@ -306,6 +306,10 @@ ruleTester.run("no-import-assign", rule, {
         {
             code: "import * as mod from 'mod'; Reflect.setPrototypeOf(mod, proto)",
             errors: [{ messageId: "readonlyMember", data: { name: "mod" }, column: 29 }]
+        },
+        {
+            code: "import mod, * as mod_ns from 'mod'; mod.prop = 0; mod_ns.prop = 0",
+            errors: [{ messageId: "readonlyMember", data: { name: "mod_ns" }, column: 51 }]
         }
     ]
 });
