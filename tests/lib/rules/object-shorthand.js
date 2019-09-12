@@ -1070,6 +1070,36 @@ ruleTester.run("object-shorthand", rule, {
             options: ["always", { avoidExplicitReturnArrows: true }],
             errors: [METHOD_ERROR]
         },
+        {
+            code: "({ a: ((arg) => { return foo; }) })",
+            output: "({ a(arg) { return foo; } })",
+            options: ["always", { avoidExplicitReturnArrows: true }],
+            errors: [METHOD_ERROR]
+        },
+        {
+            code: "({ a: ((arg, arg2) => { return foo; }) })",
+            output: "({ a(arg, arg2) { return foo; } })",
+            options: ["always", { avoidExplicitReturnArrows: true }],
+            errors: [METHOD_ERROR]
+        },
+        {
+            code: "({ a: (async () => { return foo; }) })",
+            output: "({ async a() { return foo; } })",
+            options: ["always", { avoidExplicitReturnArrows: true }],
+            errors: [METHOD_ERROR]
+        },
+        {
+            code: "({ a: (async (arg) => { return foo; }) })",
+            output: "({ async a(arg) { return foo; } })",
+            options: ["always", { avoidExplicitReturnArrows: true }],
+            errors: [METHOD_ERROR]
+        },
+        {
+            code: "({ a: (async (arg, arg2) => { return foo; }) })",
+            output: "({ async a(arg, arg2) { return foo; } })",
+            options: ["always", { avoidExplicitReturnArrows: true }],
+            errors: [METHOD_ERROR]
+        },
 
         // async generators
         {
