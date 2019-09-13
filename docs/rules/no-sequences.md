@@ -60,7 +60,7 @@ switch ((val = foo(), val)) {}
 
 while ((val = foo(), val < 42));
 
-// with ((doSomething(), val)) {}
+with ((doSomething(), val)) {}
 ```
 
 ## When Not To Use It
