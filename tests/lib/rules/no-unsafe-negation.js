@@ -34,32 +34,26 @@ ruleTester.run("no-unsafe-negation", rule, {
     invalid: [
         {
             code: "!a in b",
-            output: "!(a in b)",
             errors: [unexpectedInError]
         },
         {
             code: "(!a in b)",
-            output: "(!(a in b))",
             errors: [unexpectedInError]
         },
         {
             code: "!(a) in b",
-            output: "!((a) in b)",
             errors: [unexpectedInError]
         },
         {
             code: "!a instanceof b",
-            output: "!(a instanceof b)",
             errors: [unexpectedInstanceofError]
         },
         {
             code: "(!a instanceof b)",
-            output: "(!(a instanceof b))",
             errors: [unexpectedInstanceofError]
         },
         {
             code: "!(a) instanceof b",
-            output: "!((a) instanceof b)",
             errors: [unexpectedInstanceofError]
         }
     ]
