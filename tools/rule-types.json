@@ -229,6 +229,7 @@
     "prefer-object-spread": "suggestion",
     "prefer-promise-reject-errors": "suggestion",
     "prefer-reflect": "suggestion",
+    "prefer-regex-literals": "suggestion",
     "prefer-rest-params": "suggestion",
     "prefer-spread": "suggestion",
     "prefer-template": "suggestion",
