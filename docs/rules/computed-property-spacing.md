@@ -25,10 +25,16 @@ This rule does not apply to brackets that are separated from the adjacent value 
 
 ## Options
 
-This rule has a string option:
+This rule has two options, a string option and an object option.
+
+String option:
 
 * `"never"` (default) disallows spaces inside computed property brackets
 * `"always"` requires one or more spaces inside computed property brackets
+
+Object option:
+
+* `"enforceForClassMembers": true` additionally applies this rule to class members (default is `false`)
 
 ### never
 
@@ -84,6 +90,53 @@ var x = {[ b ]: a}
 obj[ foo[ bar ] ]
 ```
 
+#### enforceForClassMembers
+
+By default, this rule does not check class declarations and class expressions,
+as the default value for `enforceForClassMembers` is `false`.
+
+When `enforceForClassMembers` is set to `true`, the rule will also disallow/enforce spaces inside of
+computed keys of class methods, getters and setters.
+
+Examples of **incorrect** code for this rule with `"never"` and `{ "enforceForClassMembers": true }`:
+
+```js
+/*eslint computed-property-spacing: ["error", "never", { "enforceForClassMembers": true }]*/
+/*eslint-env es6*/
+
+class Foo {
+  [a ]() {}
+  get [b ]() {}
+  set [b ](value) {}
+}
+
+const Bar = class {
+  [ a](){}
+  static [ b]() {}
+  static get [ c ]() {}
+  static set [ c ](value) {}
+}
+```
+
+Examples of **correct** code for this rule with `"never"` and `{ "enforceForClassMembers": true }`:
+
+```js
+/*eslint computed-property-spacing: ["error", "never", { "enforceForClassMembers": true }]*/
+/*eslint-env es6*/
+
+class Foo {
+  [a]() {}
+  get [b]() {}
+  set [b](value) {}
+}
+
+const Bar = class {
+  [a](){}
+  static [b]() {}
+  static get [c]() {}
+  static set [c](value) {}
+}
+```
 
 ## When Not To Use It
 
