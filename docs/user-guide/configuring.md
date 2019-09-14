@@ -323,6 +323,71 @@ And in YAML:
 
 **Note:** Plugins are resolved relative to the current working directory of the ESLint process. In other words, ESLint will load the same plugin as a user would obtain by running `require('eslint-plugin-pluginname')` in a Node REPL from their project root.
 
+### Naming Convention
+
+#### Include a Plugin
+
+The `eslint-plugin-` prefix can be omitted for non-scoped packages
+
+```js
+{
+    // ...
+    "plugins": [
+        "jquery", // means eslint-plugin-jquery
+    ]
+    // ...
+}
+```
+
+The same rule does apply to scoped packages:
+
+```js
+{
+    // ...
+    "plugins": [
+        "@jquery/jquery", // means @jquery/eslint-plugin-jquery
+        "@foobar" // means @foobar/eslint-plugin
+    ]
+    // ...
+}
+```
+
+#### Use a Plugin
+
+When using rules, environments or configs defined by plugins, they must be referenced following the convention:
+
+* `eslint-plugin-foo` → `foo/a-rule`
+* `@foo/eslint-plugin` → `@foo/a-config`
+* `@foo/eslint-plugin-bar` → `@foo/bar/a-environment`
+
+For example:
+
+```js
+{
+    // ...
+    "plugins": [
+        "jquery",   // eslint-plugin-jquery
+        "@foo/foo", // @foo/eslint-plugin-foo
+        "@bar"      // @bar/eslint-plugin
+    ],
+    "extends": [
+        "plugin:@foo/foo/recommended",
+        "plugin:@bar/recommended"
+    ],
+    "rules": [
+        "jquery/a-rule": "error",
+        "@foo/foo/some-rule": "error",
+        "@bar/another-rule": "error"
+    ],
+    "env": {
+        "jquery/jquery": true,
+        "@foo/foo/env-foo": true,
+        "@bar/env-bar": true,
+    }
+    // ...
+}
+```
+
 ## Configuring Rules
 
 ESLint comes with a large number of rules. You can modify which rules your project uses either using configuration comments or configuration files. To change a rule setting, you must set the rule ID equal to one of these values:
