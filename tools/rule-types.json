@@ -119,6 +119,7 @@
     "no-implicit-coercion": "suggestion",
     "no-implicit-globals": "suggestion",
     "no-implied-eval": "suggestion",
+    "no-import-assign": "problem",
     "no-inline-comments": "suggestion",
     "no-inner-declarations": "problem",
     "no-invalid-regexp": "problem",
