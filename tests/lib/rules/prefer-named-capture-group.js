@@ -44,8 +44,8 @@ ruleTester.run("prefer-named-capture-group", rule, {
                 type: "Literal",
                 data: { group: "([0-9]{4})" },
                 line: 1,
-                column: 2,
-                endColumn: 12
+                column: 1,
+                endColumn: 13
             }]
         },
         {
@@ -55,8 +55,8 @@ ruleTester.run("prefer-named-capture-group", rule, {
                 type: "NewExpression",
                 data: { group: "([0-9]{4})" },
                 line: 1,
-                column: 13,
-                endColumn: 23
+                column: 1,
+                endColumn: 25
             }]
         },
         {
@@ -66,8 +66,8 @@ ruleTester.run("prefer-named-capture-group", rule, {
                 type: "CallExpression",
                 data: { group: "([0-9]{4})" },
                 line: 1,
-                column: 9,
-                endColumn: 19
+                column: 1,
+                endColumn: 21
             }]
         },
         {
@@ -75,10 +75,7 @@ ruleTester.run("prefer-named-capture-group", rule, {
             errors: [{
                 messageId: "required",
                 type: "NewExpression",
-                data: { group: "(bc)" },
-                line: 1,
-                column: 14,
-                endColumn: 18
+                data: { group: "(bc)" }
             }]
         },
         {
@@ -89,30 +86,25 @@ ruleTester.run("prefer-named-capture-group", rule, {
                     type: "Literal",
                     data: { group: "([0-9]{4})" },
                     line: 1,
-                    column: 2,
-                    endColumn: 12
+                    column: 1,
+                    endColumn: 21
                 },
                 {
                     messageId: "required",
                     type: "Literal",
                     data: { group: "(\\w{5})" },
                     line: 1,
-                    column: 13,
-                    endColumn: 20
+                    column: 1,
+                    endColumn: 21
                 }
             ]
         },
-
-        // For computed, multiline and strings with escape sequences, report the whole arguments[0] location.
         {
             code: "new RegExp('(' + 'a)')",
             errors: [{
                 messageId: "required",
                 type: "NewExpression",
-                data: { group: "(a)" },
-                line: 1,
-                column: 12,
-                endColumn: 22
+                data: { group: "(a)" }
             }]
         },
         {
@@ -120,10 +112,7 @@ ruleTester.run("prefer-named-capture-group", rule, {
             errors: [{
                 messageId: "required",
                 type: "NewExpression",
-                data: { group: "(bc)" },
-                line: 1,
-                column: 12,
-                endColumn: 26
+                data: { group: "(bc)" }
             }]
         },
         {
@@ -131,10 +120,7 @@ ruleTester.run("prefer-named-capture-group", rule, {
             errors: [{
                 messageId: "required",
                 type: "CallExpression",
-                data: { group: "(a)" },
-                line: 1,
-                column: 8,
-                endColumn: 16
+                data: { group: "(a)" }
             }]
         },
         {
@@ -142,10 +128,7 @@ ruleTester.run("prefer-named-capture-group", rule, {
             errors: [{
                 messageId: "required",
                 type: "CallExpression",
-                data: { group: "(ab)" },
-                line: 1,
-                column: 9,
-                endColumn: 20
+                data: { group: "(ab)" }
             }]
         },
         {
@@ -153,10 +136,7 @@ ruleTester.run("prefer-named-capture-group", rule, {
             errors: [{
                 messageId: "required",
                 type: "NewExpression",
-                data: { group: "(ab)" },
-                line: 1,
-                column: 12,
-                endColumn: 23
+                data: { group: "(ab)" }
             }]
         },
         {
@@ -166,9 +146,9 @@ ruleTester.run("prefer-named-capture-group", rule, {
                 type: "NewExpression",
                 data: { group: "(a)" },
                 line: 1,
-                column: 12,
+                column: 1,
                 endLine: 2,
-                endColumn: 2
+                endColumn: 3
             }]
         },
         {
@@ -176,11 +156,7 @@ ruleTester.run("prefer-named-capture-group", rule, {
             errors: [{
                 messageId: "required",
                 type: "CallExpression",
-                data: { group: "(b\nc)" },
-                line: 1,
-                column: 8,
-                endLine: 2,
-                endColumn: 5
+                data: { group: "(b\nc)" }
             }]
         },
         {
@@ -188,10 +164,7 @@ ruleTester.run("prefer-named-capture-group", rule, {
             errors: [{
                 messageId: "required",
                 type: "NewExpression",
-                data: { group: "(b)" },
-                line: 1,
-                column: 12,
-                endColumn: 20
+                data: { group: "(b)" }
             }]
         },
         {
@@ -199,10 +172,7 @@ ruleTester.run("prefer-named-capture-group", rule, {
             errors: [{
                 messageId: "required",
                 type: "CallExpression",
-                data: { group: "(a)" },
-                line: 1,
-                column: 8,
-                endColumn: 16
+                data: { group: "(a)" }
             }]
         },
         {
@@ -210,10 +180,7 @@ ruleTester.run("prefer-named-capture-group", rule, {
             errors: [{
                 messageId: "required",
                 type: "CallExpression",
-                data: { group: "(b)" },
-                line: 1,
-                column: 8,
-                endColumn: 15
+                data: { group: "(b)" }
             }]
         }
     ]
