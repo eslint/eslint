@@ -1,5 +1,5 @@
 /**
- * @fileoverview Tests for info util
+ * @fileoverview Tests for RuntimeInfo util
  * @author Kai Cataldo
  */
 
@@ -13,7 +13,7 @@ const assert = require("chai").assert;
 const sinon = require("sinon");
 const spawn = require("cross-spawn");
 const { unIndent } = require("../_utils");
-const info = require("../../../lib/shared/info");
+const RuntimeInfo = require("../../../lib/shared/runtime-info");
 const log = require("../../../lib/shared/logging");
 const packageJson = require("../../../package.json");
 
@@ -44,7 +44,7 @@ function setupSpawnSyncStubReturnVals(stub, returnVals) {
     return stubChain;
 }
 
-describe("info", () => {
+describe("RuntimeInfo", () => {
     describe("environment()", () => {
         let spawnSyncStub;
         let logErrorStub;
@@ -97,7 +97,7 @@ describe("info", () => {
             setupSpawnSyncStubReturnVals(spawnSyncStub, spawnSyncStubArgs);
 
             assert.strictEqual(
-                info.environment(),
+                RuntimeInfo.environment(),
                 unIndent`
                     Environment Info:
 
@@ -114,7 +114,7 @@ describe("info", () => {
             process.argv[1] = GLOBAL_ESLINT_BIN_PATH;
 
             assert.strictEqual(
-                info.environment(),
+                RuntimeInfo.environment(),
                 unIndent`
                     Environment Info:
 
@@ -137,7 +137,7 @@ describe("info", () => {
             process.argv[1] = GLOBAL_ESLINT_BIN_PATH;
 
             assert.strictEqual(
-                info.environment(),
+                RuntimeInfo.environment(),
                 unIndent`
                     Environment Info:
 
@@ -154,7 +154,7 @@ describe("info", () => {
             setupSpawnSyncStubReturnVals(spawnSyncStub, spawnSyncStubArgs);
 
             assert.strictEqual(
-                info.environment(),
+                RuntimeInfo.environment(),
                 unIndent`
                     Environment Info:
 
@@ -172,7 +172,7 @@ describe("info", () => {
             spawnSyncStubArgs[1] = expectedErr;
             setupSpawnSyncStubReturnVals(spawnSyncStub, spawnSyncStubArgs);
 
-            assert.throws(info.environment, expectedErr);
+            assert.throws(RuntimeInfo.environment, expectedErr);
             assert.strictEqual(logErrorStub.args[0][0], "Error finding npm version running the command `npm --version`");
         });
 
@@ -182,7 +182,7 @@ describe("info", () => {
             spawnSyncStubArgs[3] = expectedErr;
             setupSpawnSyncStubReturnVals(spawnSyncStub, spawnSyncStubArgs);
 
-            assert.throws(info.environment, expectedErr);
+            assert.throws(RuntimeInfo.environment, expectedErr);
             assert.strictEqual(logErrorStub.args[0][0], "Error finding npm binary path when running command `npm bin -g`");
         });
 
@@ -190,7 +190,7 @@ describe("info", () => {
             spawnSyncStubArgs[2] = "This is not JSON";
             setupSpawnSyncStubReturnVals(spawnSyncStub, spawnSyncStubArgs);
 
-            assert.throws(info.environment, "Unexpected token T in JSON at position 0");
+            assert.throws(RuntimeInfo.environment, "Unexpected token T in JSON at position 0");
             assert.strictEqual(logErrorStub.args[0][0], "Error finding eslint version running the command `npm ls --depth=0 --json eslint`");
         });
 
@@ -198,14 +198,14 @@ describe("info", () => {
             spawnSyncStubArgs[4] = "This is not JSON";
             setupSpawnSyncStubReturnVals(spawnSyncStub, spawnSyncStubArgs);
 
-            assert.throws(info.environment, "Unexpected token T in JSON at position 0");
+            assert.throws(RuntimeInfo.environment, "Unexpected token T in JSON at position 0");
             assert.strictEqual(logErrorStub.args[0][0], "Error finding eslint version running the command `npm ls --depth=0 --json eslint -g`");
         });
     });
 
     describe("version()", () => {
         it("should return the version of the package defined in package.json", () => {
-            assert.strictEqual(info.version(), `v${packageJson.version}`);
+            assert.strictEqual(RuntimeInfo.version(), `v${packageJson.version}`);
         });
     });
 });

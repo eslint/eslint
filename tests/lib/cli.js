@@ -34,13 +34,13 @@ describe("cli", () => {
         info: sinon.spy(),
         error: sinon.spy()
     };
-    const info = {
+    const RuntimeInfo = {
         environment: sinon.stub(),
         version: sinon.stub()
     };
     const cli = proxyquire("../../lib/cli", {
         "./shared/logging": log,
-        "./shared/info": info
+        "./shared/runtime-info": RuntimeInfo
     });
 
     /**
@@ -339,7 +339,7 @@ describe("cli", () => {
         });
 
         it("should print error message and return error code", () => {
-            info.environment.throws("There was an error!");
+            RuntimeInfo.environment.throws("There was an error!");
 
             assert.strictEqual(cli.execute("--info"), 2);
             assert.strictEqual(log.error.callCount, 1);
