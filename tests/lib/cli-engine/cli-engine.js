@@ -3703,6 +3703,416 @@ describe("CLIEngine", () => {
             assert.isTrue(engine.isPathIgnored("node_modules/foo.js"));
         });
 
+        describe("about the default ignore patterns", () => {
+            it("should always apply defaultPatterns if ignore option is true", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ cwd });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "bower_components/package/file.js")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "node_modules/package/file.js")));
+            });
+
+            it("should still apply defaultPatterns if ignore option is is false", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ ignore: false, cwd });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "bower_components/package/file.js")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "node_modules/package/file.js")));
+            });
+
+            it("should not ignore files in defaultPatterns within a subdirectory", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ cwd });
+
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "subdir/bower_components/package/file.js")));
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "subdir/node_modules/package/file.js")));
+            });
+
+            it("should allow subfolders of defaultPatterns to be unignored by ignorePattern", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ cwd, ignorePattern: "!/node_modules/package" });
+
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "node_modules", "package", "file.js")));
+            });
+
+            it("should allow subfolders of defaultPatterns to be unignored by ignorePath", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ cwd, ignorePath: getFixturePath("ignored-paths", ".eslintignoreWithUnignoredDefaults") });
+
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "node_modules", "package", "file.js")));
+            });
+
+            it("should ignore dotfiles", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ cwd });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", ".foo")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "foo/.bar")));
+            });
+
+            it("should ignore directories beginning with a dot", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ cwd });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", ".foo/bar")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "foo/.bar/baz")));
+            });
+
+            it("should still ignore dotfiles when ignore option disabled", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ ignore: false, cwd });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", ".foo")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "foo/.bar")));
+            });
+
+            it("should still ignore directories beginning with a dot when ignore option disabled", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ ignore: false, cwd });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", ".foo/bar")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "foo/.bar/baz")));
+            });
+
+            it("should not ignore absolute paths containing '..'", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ cwd });
+
+                assert(!engine.isPathIgnored(`${getFixturePath("ignored-paths", "foo")}/../unignored.js`));
+            });
+
+            it("should ignore /node_modules/ at top level relative to .eslintignore when loaded", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ ignorePath: getFixturePath("ignored-paths", ".eslintignore"), cwd });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "node_modules", "existing.js")));
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "foo", "node_modules", "existing.js")));
+            });
+
+            it("should ignore /node_modules/ at top level relative to cwd without an .eslintignore", () => {
+                const cwd = getFixturePath("ignored-paths", "no-ignore-file");
+                const engine = new CLIEngine({ cwd });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "no-ignore-file", "node_modules", "existing.js")));
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "no-ignore-file", "foo", "node_modules", "existing.js")));
+            });
+        });
+
+        describe("with no .eslintignore file", () => {
+            it("should not travel to parent directories to find .eslintignore when it's missing and cwd is provided", () => {
+                const cwd = getFixturePath("ignored-paths", "configurations");
+                const engine = new CLIEngine({ cwd });
+
+                // a .eslintignore in parent directories includes `*.js`, but don't load it.
+                assert(!engine.isPathIgnored("foo.js"));
+                assert(engine.isPathIgnored("node_modules/foo.js"));
+            });
+
+            it("should return false for files outside of the cwd (with no ignore file provided)", () => {
+
+                // Default ignore patterns should not inadvertantly ignore files in parent directories
+                const engine = new CLIEngine({ cwd: getFixturePath("ignored-paths", "no-ignore-file") });
+
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "undef.js")));
+            });
+        });
+
+        describe("with .eslintignore file or package.json file", () => {
+            it("should load .eslintignore from cwd when explicitly passed", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ cwd });
+
+                // `${cwd}/.eslintignore` includes `sampleignorepattern`.
+                assert(engine.isPathIgnored("sampleignorepattern"));
+            });
+
+            it("should use package.json's eslintIgnore files if no specified .eslintignore file", () => {
+                const cwd = getFixturePath("ignored-paths", "package-json-ignore");
+                const engine = new CLIEngine({ cwd });
+
+                assert(engine.isPathIgnored("hello.js"));
+                assert(engine.isPathIgnored("world.js"));
+            });
+
+            it("should use correct message template if failed to parse package.json", () => {
+                const cwd = getFixturePath("ignored-paths", "broken-package-json");
+
+                assert.throw(() => {
+                    try {
+                    // eslint-disable-next-line no-new
+                        new CLIEngine({ cwd });
+                    } catch (error) {
+                        assert.strictEqual(error.messageTemplate, "failed-to-read-json");
+                        throw error;
+                    }
+                });
+            });
+
+            it("should not use package.json's eslintIgnore files if specified .eslintignore file", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ cwd });
+
+                /*
+                 * package.json includes `hello.js` and `world.js`.
+                 * .eslintignore includes `sampleignorepattern`.
+                 */
+                assert(!engine.isPathIgnored("hello.js"));
+                assert(!engine.isPathIgnored("world.js"));
+                assert(engine.isPathIgnored("sampleignorepattern"));
+            });
+
+            it("should error if package.json's eslintIgnore is not an array of file paths", () => {
+                const cwd = getFixturePath("ignored-paths", "bad-package-json-ignore");
+
+                assert.throws(() => {
+                    // eslint-disable-next-line no-new
+                    new CLIEngine({ cwd });
+                }, "Package.json eslintIgnore property requires an array of paths");
+            });
+        });
+
+        describe("with --ignore-pattern option", () => {
+            it("should accept an array for options.ignorePattern", () => {
+                const cwd = getFixturePath("ignored-paths", "ignore-pattern");
+                const engine = new CLIEngine({
+                    ignorePattern: "ignore-me.txt",
+                    cwd
+                });
+
+                assert(engine.isPathIgnored("ignore-me.txt"));
+            });
+
+            it("should accept an array for options.ignorePattern", () => {
+                const engine = new CLIEngine({
+                    ignorePattern: ["a", "b"],
+                    useEslintrc: false
+                });
+
+                assert(engine.isPathIgnored("a"));
+                assert(engine.isPathIgnored("b"));
+                assert(!engine.isPathIgnored("c"));
+            });
+
+            it("should return true for files which match an ignorePattern even if they do not exist on the filesystem", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({
+                    ignorePattern: "not-a-file",
+                    cwd
+                });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "not-a-file")));
+            });
+
+            it("should return true for file matching an ignore pattern exactly", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ ignorePattern: "undef.js", cwd });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "undef.js")));
+            });
+
+            it("should return false for file matching an invalid ignore pattern with leading './'", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ ignorePattern: "./undef.js", cwd });
+
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "undef.js")));
+            });
+
+            it("should return false for file in subfolder of cwd matching an ignore pattern with leading '/'", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ ignorePattern: "/undef.js", cwd });
+
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "subdir", "undef.js")));
+            });
+
+            it("should return true for file matching a child of an ignore pattern", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ ignorePattern: "ignore-pattern", cwd });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "ignore-pattern", "ignore-me.txt")));
+            });
+
+            it("should return true for file matching a grandchild of an ignore pattern", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ ignorePattern: "ignore-pattern", cwd });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "ignore-pattern", "subdir", "ignore-me.txt")));
+            });
+
+            it("should return false for file not matching any ignore pattern", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ ignorePattern: "failing.js", cwd });
+
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "unignored.js")));
+            });
+
+            it("two globstar '**' ignore pattern should ignore files in nested directories", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ ignorePattern: "**/*.js", cwd });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "foo.js")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "foo/bar.js")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "foo/bar/baz.js")));
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "foo.j2")));
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "foo/bar.j2")));
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "foo/bar/baz.j2")));
+            });
+        });
+
+        describe("with --ignore-path option", () => {
+            it("should load empty array with ignorePath set to false", () => {
+                const cwd = getFixturePath("ignored-paths", "no-ignore-file");
+                const engine = new CLIEngine({ ignorePath: false, cwd });
+
+                // a .eslintignore in parent directories includes `*.js`, but don't load it.
+                assert(!engine.isPathIgnored("foo.js"));
+                assert(engine.isPathIgnored("node_modules/foo.js"));
+            });
+
+            it("initialization with ignorePath should work when cwd is a parent directory", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const ignorePath = getFixturePath("ignored-paths", "custom-name", "ignore-file");
+                const engine = new CLIEngine({ ignorePath, cwd });
+
+                assert(engine.isPathIgnored("custom-name/foo.js"));
+            });
+
+            it("initialization with ignorePath should work when the file is in the cwd", () => {
+                const cwd = getFixturePath("ignored-paths", "custom-name");
+                const ignorePath = getFixturePath("ignored-paths", "custom-name", "ignore-file");
+                const engine = new CLIEngine({ ignorePath, cwd });
+
+                assert(engine.isPathIgnored("foo.js"));
+            });
+
+            it("initialization with ignorePath should work when cwd is a subdirectory", () => {
+                const cwd = getFixturePath("ignored-paths", "custom-name", "subdirectory");
+                const ignorePath = getFixturePath("ignored-paths", "custom-name", "ignore-file");
+                const engine = new CLIEngine({ ignorePath, cwd });
+
+                assert(engine.isPathIgnored("../custom-name/foo.js"));
+            });
+
+            it("initialization with invalid file should throw error", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const ignorePath = getFixturePath("ignored-paths", "not-a-directory", ".foobaz");
+
+                assert.throws(() => {
+                    // eslint-disable-next-line no-new
+                    new CLIEngine({ ignorePath, cwd });
+                }, "Cannot read .eslintignore file");
+            });
+
+            it("should return false for files outside of ignorePath's directory", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const ignorePath = getFixturePath("ignored-paths", "custom-name", "ignore-file");
+                const engine = new CLIEngine({ ignorePath, cwd });
+
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "undef.js")));
+            });
+
+            it("should resolve relative paths from the ignorePath, not cwd", () => {
+                const cwd = getFixturePath("ignored-paths", "subdir");
+                const ignorePath = getFixturePath("ignored-paths", ".eslintignoreForDifferentCwd");
+                const engine = new CLIEngine({ ignorePath, cwd });
+
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "subdir/undef.js")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "undef.js")));
+            });
+
+            it("should resolve relative paths from the ignorePath when it's in a child directory", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const ignorePath = getFixturePath("ignored-paths", "subdir/.eslintignoreInChildDir");
+                const engine = new CLIEngine({ ignorePath, cwd });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "subdir/undef.js")));
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "undef.js")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "foo.js")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "subdir/foo.js")));
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "node_modules/bar.js")));
+            });
+
+            it("should resolve relative paths from the ignorePath when it contains negated globs", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const ignorePath = getFixturePath("ignored-paths", "subdir/.eslintignoreInChildDir");
+                const engine = new CLIEngine({ ignorePath, cwd });
+
+                assert(engine.isPathIgnored("subdir/blah.txt"));
+                assert(engine.isPathIgnored("blah.txt"));
+                assert(!engine.isPathIgnored("subdir/bar.txt"));
+                assert(engine.isPathIgnored("bar.txt"));
+                assert(!engine.isPathIgnored("subdir/baz.txt"));
+                assert(!engine.isPathIgnored("baz.txt"));
+            });
+
+            it("should resolve default ignore patterns from the CWD even when the ignorePath is in a subdirectory", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const ignorePath = getFixturePath("ignored-paths", "subdir/.eslintignoreInChildDir");
+                const engine = new CLIEngine({ ignorePath, cwd });
+
+                assert(engine.isPathIgnored("node_modules/blah.js"));
+            });
+
+            it("should resolve default ignore patterns from the CWD even when the ignorePath is in a parent directory", () => {
+                const cwd = getFixturePath("ignored-paths", "subdir");
+                const ignorePath = getFixturePath("ignored-paths", ".eslintignoreForDifferentCwd");
+                const engine = new CLIEngine({ ignorePath, cwd });
+
+                assert(engine.isPathIgnored("node_modules/blah.js"));
+            });
+
+            it("should handle .eslintignore which contains CRLF correctly.", () => {
+                const ignoreFileContent = fs.readFileSync(getFixturePath("ignored-paths", "crlf/.eslintignore"), "utf8");
+
+                assert(ignoreFileContent.includes("\r"), "crlf/.eslintignore should contains CR.");
+
+                const cwd = getFixturePath("ignored-paths");
+                const ignorePath = getFixturePath("ignored-paths", "crlf/.eslintignore");
+                const engine = new CLIEngine({ ignorePath, cwd });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "crlf/hide1/a.js")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "crlf/hide2/a.js")));
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "crlf/hide3/a.js")));
+            });
+
+            it("should not include comments in ignore rules", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const ignorePath = getFixturePath("ignored-paths", ".eslintignoreWithComments");
+                const engine = new CLIEngine({ ignorePath, cwd });
+
+                assert(!engine.isPathIgnored("# should be ignored"));
+                assert(engine.isPathIgnored("this_one_not"));
+            });
+
+            it("should ignore a non-negated pattern", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const ignorePath = getFixturePath("ignored-paths", ".eslintignoreWithNegation");
+                const engine = new CLIEngine({ ignorePath, cwd });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "negation", "ignore.js")));
+            });
+
+            it("should not ignore a negated pattern", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const ignorePath = getFixturePath("ignored-paths", ".eslintignoreWithNegation");
+                const engine = new CLIEngine({ ignorePath, cwd });
+
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "negation", "unignore.js")));
+            });
+        });
+
+        describe("with --ignore-path option and --ignore-pattern option", () => {
+            it("should return false for ignored file when unignored with ignore pattern", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({
+                    ignorePath: getFixturePath("ignored-paths", ".eslintignore"),
+                    ignorePattern: "!sampleignorepattern",
+                    cwd
+                });
+
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "sampleignorepattern")));
+            });
+        });
     });
 
     describe("getFormatter()", () => {
