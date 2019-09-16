@@ -111,7 +111,7 @@ describe("CLIEngine", () => {
             assert.throws(() => {
                 // eslint-disable-next-line no-new
                 new CLIEngine({ ignorePath: fixtureDir });
-            }, `Cannot read ignore file: ${fixtureDir}\nError: ${fixtureDir} is not a file`);
+            }, `Cannot read .eslintignore file: ${fixtureDir}\nError: EISDIR: illegal operation on a directory, read`);
         });
 
         // https://github.com/eslint/eslint/issues/2380
@@ -3673,14 +3673,6 @@ describe("CLIEngine", () => {
     });
 
     describe("isPathIgnored", () => {
-        beforeEach(() => {
-            sinon.stub(console, "info").returns(void 0);
-        });
-
-        afterEach(() => {
-            sinon.restore();
-        });
-
         it("should check if the given path is ignored", () => {
             const engine = new CLIEngine({
                 ignorePath: getFixturePath(".eslintignore2"),
