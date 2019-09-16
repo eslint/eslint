@@ -30,6 +30,9 @@ ruleTester.run("no-regex-spaces", rule, {
         "var RegExp = function() {}; var foo = new RegExp('bar   baz');",
         "var RegExp = function() {}; var foo = RegExp('bar   baz');",
         "var foo = /  +/;",
+        "var foo = /  ?/;",
+        "var foo = /  */;",
+        "var foo = /  {2}/;",
 
         // don't report if there are no consecutive spaces in the source code
         "var foo = /bar \\ baz/;",
@@ -47,9 +50,13 @@ ruleTester.run("no-regex-spaces", rule, {
         "var foo = /[  ]/;",
         "var foo = /[   ]/;",
         "var foo = / [  ] /;",
+        "var foo = / [  ] [  ] /;",
         "var foo = new RegExp('[  ]');",
         "var foo = new RegExp('[   ]');",
         "var foo = new RegExp(' [  ] ');",
+        "var foo = RegExp(' [  ] [  ] ');",
+        "var foo = new RegExp(' \\[   ');",
+        "var foo = new RegExp(' \\[   \\] ');",
 
         // don't report invalid regex
         "var foo = new RegExp('[  ');",
@@ -131,12 +138,42 @@ ruleTester.run("no-regex-spaces", rule, {
             ]
         },
         {
+            code: "var foo = /bar   {3}baz/;",
+            output: "var foo = /bar {2} {3}baz/;",
+            errors: [
+                {
+                    message: "Spaces are hard to count. Use {2}.",
+                    type: "Literal"
+                }
+            ]
+        },
+        {
             code: "var foo = /bar    ?baz/;",
             output: "var foo = /bar {3} ?baz/;",
             errors: [
                 {
                     message: "Spaces are hard to count. Use {3}.",
                     type: "Literal"
+                }
+            ]
+        },
+        {
+            code: "var foo = new RegExp('bar   *baz')",
+            output: "var foo = new RegExp('bar {2} *baz')",
+            errors: [
+                {
+                    message: "Spaces are hard to count. Use {2}.",
+                    type: "NewExpression"
+                }
+            ]
+        },
+        {
+            code: "var foo = RegExp('bar   +baz')",
+            output: "var foo = RegExp('bar {2} +baz')",
+            errors: [
+                {
+                    message: "Spaces are hard to count. Use {2}.",
+                    type: "CallExpression"
                 }
             ]
         },
@@ -171,12 +208,52 @@ ruleTester.run("no-regex-spaces", rule, {
             ]
         },
         {
+            code: "var foo = /  [   ] /;",
+            output: "var foo = / {2}[   ] /;",
+            errors: [
+                {
+                    message: "Spaces are hard to count. Use {2}.",
+                    type: "Literal"
+                }
+            ]
+        },
+        {
             code: "var foo = new RegExp('[   ]  ');",
             output: "var foo = new RegExp('[   ] {2}');",
             errors: [
                 {
                     message: "Spaces are hard to count. Use {2}.",
                     type: "NewExpression"
+                }
+            ]
+        },
+        {
+            code: "var foo = RegExp('  [ ]');",
+            output: "var foo = RegExp(' {2}[ ]');",
+            errors: [
+                {
+                    message: "Spaces are hard to count. Use {2}.",
+                    type: "CallExpression"
+                }
+            ]
+        },
+        {
+            code: "var foo = /\\[  /;",
+            output: "var foo = /\\[ {2}/;",
+            errors: [
+                {
+                    message: "Spaces are hard to count. Use {2}.",
+                    type: "Literal"
+                }
+            ]
+        },
+        {
+            code: "var foo = /\\[  \\]/;",
+            output: "var foo = /\\[ {2}\\]/;",
+            errors: [
+                {
+                    message: "Spaces are hard to count. Use {2}.",
+                    type: "Literal"
                 }
             ]
         },
@@ -251,6 +328,16 @@ ruleTester.run("no-regex-spaces", rule, {
                 {
                     message: "Spaces are hard to count. Use {3}.",
                     type: "CallExpression"
+                }
+            ]
+        },
+        {
+            code: "var foo = new RegExp('\\\\[  \\\\]');",
+            output: null,
+            errors: [
+                {
+                    message: "Spaces are hard to count. Use {2}.",
+                    type: "NewExpression"
                 }
             ]
         }
