@@ -5244,7 +5244,7 @@ describe("CLIEngine", () => {
             });
         });
 
-        describe("ignorePatterns in a config file can unignore the files which are ignored by ignorePatterns in the shareable config should be used.", () => {
+        describe("ignorePatterns in a config file can unignore the files which are ignored by ignorePatterns in the shareable config.", () => {
             beforeEach(() => {
                 InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
                     cwd: () => root,
@@ -5281,6 +5281,62 @@ describe("CLIEngine", () => {
                 assert.deepStrictEqual(filePaths, [
                     path.join(root, "bar.js")
                 ]);
+            });
+        });
+
+        describe("ignorePatterns in a config file should not be used if --no-ignore option was given.", () => {
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        ".eslintrc.js": `module.exports = ${JSON.stringify({
+                            ignorePatterns: "*.js"
+                        })}`,
+                        "foo.js": ""
+                    }
+                }).CLIEngine;
+            });
+
+            it("'isPathIgnored()' should return 'false' for 'foo.js'.", () => {
+                const engine = new InMemoryCLIEngine({ ignore: false });
+
+                assert.strictEqual(engine.isPathIgnored("foo.js"), false);
+            });
+
+            it("'executeOnFiles()' should verify 'foo.js'.", () => {
+                const engine = new InMemoryCLIEngine({ ignore: false });
+                const filePaths = engine.executeOnFiles("**/*.js").results.map(r => r.filePath);
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "foo.js")
+                ]);
+            });
+        });
+
+        describe("ignorePatterns in overrides section is not allowed.", () => {
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        ".eslintrc.js": `module.exports = ${JSON.stringify({
+                            overrides: [
+                                {
+                                    files: "*.js",
+                                    ignorePatterns: "foo.js"
+                                }
+                            ]
+                        })}`,
+                        "foo.js": ""
+                    }
+                }).CLIEngine;
+            });
+
+            it("should throw a configuration error.", () => {
+                assert.throws(() => {
+                    const engine = new InMemoryCLIEngine();
+
+                    engine.executeOnFiles("*.js");
+                }, "Unexpected top-level property \"overrides[0].ignorePatterns\"");
             });
         });
 
