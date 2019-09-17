@@ -1641,6 +1641,8 @@ describe("CLIEngine", () => {
                             {
                                 column: 9,
                                 line: 2,
+                                endColumn: 11,
+                                endLine: 2,
                                 message: "Expected '===' and instead saw '=='.",
                                 messageId: "unexpected",
                                 nodeType: "BinaryExpression",
