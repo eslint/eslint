@@ -78,7 +78,7 @@ Caching:
 
 Miscellaneous:
   --init                         Run config initialization wizard - default: false
-  --info                         Output execution environment information - default: false
+  --env-info                     Output execution environment information - default: false
   --debug                        Output debugging information
   -h, --help                     Show help
   -v, --version                  Output the version number
@@ -447,7 +447,7 @@ This option will start config initialization wizard. It's designed to help new u
 
 The resulting configuration file will be created in the current directory.
 
-#### `--info`
+#### `--env-info`
 
 This option outputs information about the execution environment, including the version of Node, npm, and local and global installations of ESLint. The ESLint team may ask for this information to help solve bugs.
 

@@ -332,16 +332,16 @@ describe("cli", () => {
         });
     });
 
-    describe("when executing with info flag", () => {
+    describe("when executing with env-info flag", () => {
         it("should print out environment information", () => {
-            assert.strictEqual(cli.execute("--info"), 0);
+            assert.strictEqual(cli.execute("--env-info"), 0);
             assert.strictEqual(log.info.callCount, 1);
         });
 
         it("should print error message and return error code", () => {
             RuntimeInfo.environment.throws("There was an error!");
 
-            assert.strictEqual(cli.execute("--info"), 2);
+            assert.strictEqual(cli.execute("--env-info"), 2);
             assert.strictEqual(log.error.callCount, 1);
         });
     });
