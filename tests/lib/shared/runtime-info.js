@@ -1,5 +1,5 @@
 /**
- * @fileoverview Tests for RuntimeInfo util
+ * @fileoverview Tests for RuntimeInfo util.
  * @author Kai Cataldo
  */
 
@@ -18,11 +18,8 @@ const log = require("../../../lib/shared/logging");
 const packageJson = require("../../../package.json");
 
 //------------------------------------------------------------------------------
-// Tests
+// Helpers
 //------------------------------------------------------------------------------
-
-const LOCAL_ESLINT_BIN_PATH = "/Users/username/code/project/node_modules/eslint/bin/eslint.js";
-const GLOBAL_ESLINT_BIN_PATH = "/usr/local/bin/npm/node_modules/eslint/bin/eslint.js";
 
 /**
  * Sets up spawn.sync() stub calls to return values and throw errors in the order in which they are given.
@@ -43,6 +40,14 @@ function setupSpawnSyncStubReturnVals(stub, returnVals) {
 
     return stubChain;
 }
+
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
+
+const LOCAL_ESLINT_BIN_PATH = "/Users/username/code/project/node_modules/eslint/bin/eslint.js";
+const GLOBAL_ESLINT_BIN_PATH = "/usr/local/bin/npm/node_modules/eslint/bin/eslint.js";
+const NPM_BIN_PATH = "/usr/local/bin/npm";
 
 describe("RuntimeInfo", () => {
     describe("environment()", () => {
@@ -70,7 +75,7 @@ describe("RuntimeInfo", () => {
                         }
                     }
                 `,
-                "/usr/local/bin/npm",
+                NPM_BIN_PATH,
                 unIndent`
                     {
                         "dependencies": {
@@ -82,7 +87,7 @@ describe("RuntimeInfo", () => {
                         }
                     }
                 `,
-                "/usr/local/bin/npm"
+                NPM_BIN_PATH
             ];
         });
 
