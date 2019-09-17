@@ -4692,22 +4692,25 @@ describe("CLIEngine", () => {
         });
     });
 
-    describe.only("with ignorePatterns config", () => {
+    describe("with ignorePatterns config", () => {
         const root = getFixturePath("cli-engine/ignore-patterns");
+        let InMemoryCLIEngine;
 
         describe("ignorePatterns can add an ignore pattern ('foo.js').", () => {
-            const InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
-                cwd: () => root,
-                files: {
-                    ".eslintrc.json": JSON.stringify({
-                        ignorePatterns: "foo.js"
-                    }),
-                    "foo.js": "",
-                    "bar.js": "",
-                    "subdir/foo.js": "",
-                    "subdir/bar.js": ""
-                }
-            }).CLIEngine;
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        ".eslintrc.json": JSON.stringify({
+                            ignorePatterns: "foo.js"
+                        }),
+                        "foo.js": "",
+                        "bar.js": "",
+                        "subdir/foo.js": "",
+                        "subdir/bar.js": ""
+                    }
+                }).CLIEngine;
+            });
 
             it("'isPathIgnored()' should return 'true' for 'foo.js'.", () => {
                 const engine = new InMemoryCLIEngine();
@@ -4735,20 +4738,22 @@ describe("CLIEngine", () => {
         });
 
         describe("ignorePatterns can add ignore patterns ('foo.js', '/bar.js').", () => {
-            const InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
-                cwd: () => root,
-                files: {
-                    ".eslintrc.json": JSON.stringify({
-                        ignorePatterns: ["foo.js", "/bar.js"]
-                    }),
-                    "foo.js": "",
-                    "bar.js": "",
-                    "baz.js": "",
-                    "subdir/foo.js": "",
-                    "subdir/bar.js": "",
-                    "subdir/baz.js": ""
-                }
-            }).CLIEngine;
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        ".eslintrc.json": JSON.stringify({
+                            ignorePatterns: ["foo.js", "/bar.js"]
+                        }),
+                        "foo.js": "",
+                        "bar.js": "",
+                        "baz.js": "",
+                        "subdir/foo.js": "",
+                        "subdir/bar.js": "",
+                        "subdir/baz.js": ""
+                    }
+                }).CLIEngine;
+            });
 
             it("'isPathIgnored()' should return 'true' for 'foo.js'.", () => {
                 const engine = new InMemoryCLIEngine();
@@ -4777,18 +4782,20 @@ describe("CLIEngine", () => {
         });
 
         describe("ignorePatterns can unignore '/node_modules/foo'.", () => {
-            const InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
-                cwd: () => root,
-                files: {
-                    ".eslintrc.json": JSON.stringify({
-                        ignorePatterns: "!/node_modules/foo"
-                    }),
-                    "node_modules/foo/index.js": "",
-                    "node_modules/foo/.dot.js": "",
-                    "node_modules/bar/index.js": "",
-                    "foo.js": ""
-                }
-            }).CLIEngine;
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        ".eslintrc.json": JSON.stringify({
+                            ignorePatterns: "!/node_modules/foo"
+                        }),
+                        "node_modules/foo/index.js": "",
+                        "node_modules/foo/.dot.js": "",
+                        "node_modules/bar/index.js": "",
+                        "foo.js": ""
+                    }
+                }).CLIEngine;
+            });
 
             it("'isPathIgnored()' should return 'false' for 'node_modules/foo/index.js'.", () => {
                 const engine = new InMemoryCLIEngine();
@@ -4820,15 +4827,17 @@ describe("CLIEngine", () => {
         });
 
         describe("ignorePatterns can unignore '.eslintrc.js'.", () => {
-            const InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
-                cwd: () => root,
-                files: {
-                    ".eslintrc.js": `module.exports = ${JSON.stringify({
-                        ignorePatterns: "!.eslintrc.js"
-                    })}`,
-                    "foo.js": ""
-                }
-            }).CLIEngine;
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        ".eslintrc.js": `module.exports = ${JSON.stringify({
+                            ignorePatterns: "!.eslintrc.js"
+                        })}`,
+                        "foo.js": ""
+                    }
+                }).CLIEngine;
+            });
 
             it("'isPathIgnored()' should return 'false' for '.eslintrc.js'.", () => {
                 const engine = new InMemoryCLIEngine();
@@ -4848,17 +4857,19 @@ describe("CLIEngine", () => {
         });
 
         describe(".eslintignore can re-ignore files that are unignored by ignorePatterns.", () => {
-            const InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
-                cwd: () => root,
-                files: {
-                    ".eslintrc.js": `module.exports = ${JSON.stringify({
-                        ignorePatterns: "!.*"
-                    })}`,
-                    ".eslintignore": ".foo*",
-                    ".foo.js": "",
-                    ".bar.js": ""
-                }
-            }).CLIEngine;
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        ".eslintrc.js": `module.exports = ${JSON.stringify({
+                            ignorePatterns: "!.*"
+                        })}`,
+                        ".eslintignore": ".foo*",
+                        ".foo.js": "",
+                        ".bar.js": ""
+                    }
+                }).CLIEngine;
+            });
 
             it("'isPathIgnored()' should return 'true' for re-ignored '.foo.js'.", () => {
                 const engine = new InMemoryCLIEngine();
@@ -4884,17 +4895,19 @@ describe("CLIEngine", () => {
         });
 
         describe(".eslintignore can unignore files that are ignored by ignorePatterns.", () => {
-            const InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
-                cwd: () => root,
-                files: {
-                    ".eslintrc.js": `module.exports = ${JSON.stringify({
-                        ignorePatterns: "*.js"
-                    })}`,
-                    ".eslintignore": "!foo.js",
-                    "foo.js": "",
-                    "bar.js": ""
-                }
-            }).CLIEngine;
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        ".eslintrc.js": `module.exports = ${JSON.stringify({
+                            ignorePatterns: "*.js"
+                        })}`,
+                        ".eslintignore": "!foo.js",
+                        "foo.js": "",
+                        "bar.js": ""
+                    }
+                }).CLIEngine;
+            });
 
             it("'isPathIgnored()' should return 'false' for unignored 'foo.js'.", () => {
                 const engine = new InMemoryCLIEngine();
@@ -4919,23 +4932,25 @@ describe("CLIEngine", () => {
         });
 
         describe("ignorePatterns in the config file in a child directory affects to only in the directory.", () => {
-            const InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
-                cwd: () => root,
-                files: {
-                    ".eslintrc.js": `module.exports = ${JSON.stringify({
-                        ignorePatterns: "foo.js"
-                    })}`,
-                    "subdir/.eslintrc.js": `module.exports = ${JSON.stringify({
-                        ignorePatterns: "bar.js"
-                    })}`,
-                    "foo.js": "",
-                    "bar.js": "",
-                    "subdir/foo.js": "",
-                    "subdir/bar.js": "",
-                    "subdir/subsubdir/foo.js": "",
-                    "subdir/subsubdir/bar.js": ""
-                }
-            }).CLIEngine;
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        ".eslintrc.js": `module.exports = ${JSON.stringify({
+                            ignorePatterns: "foo.js"
+                        })}`,
+                        "subdir/.eslintrc.js": `module.exports = ${JSON.stringify({
+                            ignorePatterns: "bar.js"
+                        })}`,
+                        "foo.js": "",
+                        "bar.js": "",
+                        "subdir/foo.js": "",
+                        "subdir/bar.js": "",
+                        "subdir/subsubdir/foo.js": "",
+                        "subdir/subsubdir/bar.js": ""
+                    }
+                }).CLIEngine;
+            });
 
             it("'isPathIgnored()' should return 'true' for 'foo.js'.", () => {
                 const engine = new InMemoryCLIEngine();
@@ -4969,19 +4984,21 @@ describe("CLIEngine", () => {
         });
 
         describe("ignorePatterns in the config file in a child directory can unignore the ignored files in the parent directory's config.", () => {
-            const InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
-                cwd: () => root,
-                files: {
-                    ".eslintrc.js": `module.exports = ${JSON.stringify({
-                        ignorePatterns: "foo.js"
-                    })}`,
-                    "subdir/.eslintrc.js": `module.exports = ${JSON.stringify({
-                        ignorePatterns: "!foo.js"
-                    })}`,
-                    "foo.js": "",
-                    "subdir/foo.js": ""
-                }
-            }).CLIEngine;
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        ".eslintrc.js": `module.exports = ${JSON.stringify({
+                            ignorePatterns: "foo.js"
+                        })}`,
+                        "subdir/.eslintrc.js": `module.exports = ${JSON.stringify({
+                            ignorePatterns: "!foo.js"
+                        })}`,
+                        "foo.js": "",
+                        "subdir/foo.js": ""
+                    }
+                }).CLIEngine;
+            });
 
             it("'isPathIgnored()' should return 'true' for 'foo.js' in the root directory.", () => {
                 const engine = new InMemoryCLIEngine();
@@ -5006,19 +5023,21 @@ describe("CLIEngine", () => {
         });
 
         describe(".eslintignore can unignore files that are ignored by ignorePatterns in the config file in the child directory.", () => {
-            const InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
-                cwd: () => root,
-                files: {
-                    ".eslintrc.json": JSON.stringify({}),
-                    "subdir/.eslintrc.json": JSON.stringify({
-                        ignorePatterns: "*.js"
-                    }),
-                    ".eslintignore": "!foo.js",
-                    "foo.js": "",
-                    "subdir/foo.js": "",
-                    "subdir/bar.js": ""
-                }
-            }).CLIEngine;
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        ".eslintrc.json": JSON.stringify({}),
+                        "subdir/.eslintrc.json": JSON.stringify({
+                            ignorePatterns: "*.js"
+                        }),
+                        ".eslintignore": "!foo.js",
+                        "foo.js": "",
+                        "subdir/foo.js": "",
+                        "subdir/bar.js": ""
+                    }
+                }).CLIEngine;
+            });
 
             it("'isPathIgnored()' should return 'false' for unignored 'foo.js'.", () => {
                 const engine = new InMemoryCLIEngine();
@@ -5045,22 +5064,24 @@ describe("CLIEngine", () => {
         });
 
         describe("if the config in a child directory has 'root:true', ignorePatterns in the config file in the parent directory should not be used.", () => {
-            const InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
-                cwd: () => root,
-                files: {
-                    ".eslintrc.js": `module.exports = ${JSON.stringify({
-                        ignorePatterns: "foo.js"
-                    })}`,
-                    "subdir/.eslintrc.js": `module.exports = ${JSON.stringify({
-                        root: true,
-                        ignorePatterns: "bar.js"
-                    })}`,
-                    "foo.js": "",
-                    "bar.js": "",
-                    "subdir/foo.js": "",
-                    "subdir/bar.js": ""
-                }
-            }).CLIEngine;
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        ".eslintrc.js": `module.exports = ${JSON.stringify({
+                            ignorePatterns: "foo.js"
+                        })}`,
+                        "subdir/.eslintrc.js": `module.exports = ${JSON.stringify({
+                            root: true,
+                            ignorePatterns: "bar.js"
+                        })}`,
+                        "foo.js": "",
+                        "bar.js": "",
+                        "subdir/foo.js": "",
+                        "subdir/bar.js": ""
+                    }
+                }).CLIEngine;
+            });
 
             it("'isPathIgnored()' should return 'true' for 'foo.js' in the root directory.", () => {
                 const engine = new InMemoryCLIEngine();
@@ -5098,21 +5119,23 @@ describe("CLIEngine", () => {
         });
 
         describe("even if the config in a child directory has 'root:true', .eslintignore should be used.", () => {
-            const InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
-                cwd: () => root,
-                files: {
-                    ".eslintrc.js": `module.exports = ${JSON.stringify({})}`,
-                    "subdir/.eslintrc.js": `module.exports = ${JSON.stringify({
-                        root: true,
-                        ignorePatterns: "bar.js"
-                    })}`,
-                    ".eslintignore": "foo.js",
-                    "foo.js": "",
-                    "bar.js": "",
-                    "subdir/foo.js": "",
-                    "subdir/bar.js": ""
-                }
-            }).CLIEngine;
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        ".eslintrc.js": `module.exports = ${JSON.stringify({})}`,
+                        "subdir/.eslintrc.js": `module.exports = ${JSON.stringify({
+                            root: true,
+                            ignorePatterns: "bar.js"
+                        })}`,
+                        ".eslintignore": "foo.js",
+                        "foo.js": "",
+                        "bar.js": "",
+                        "subdir/foo.js": "",
+                        "subdir/bar.js": ""
+                    }
+                }).CLIEngine;
+            });
 
             it("'isPathIgnored()' should return 'true' for 'foo.js'.", () => {
                 const engine = new InMemoryCLIEngine();
@@ -5144,19 +5167,21 @@ describe("CLIEngine", () => {
         });
 
         describe("ignorePatterns in the shareable config should be used.", () => {
-            const InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
-                cwd: () => root,
-                files: {
-                    "node_modules/eslint-config-one/index.js": `module.exports = ${JSON.stringify({
-                        ignorePatterns: "foo.js"
-                    })}`,
-                    ".eslintrc.js": `module.exports = ${JSON.stringify({
-                        extends: "one"
-                    })}`,
-                    "foo.js": "",
-                    "bar.js": ""
-                }
-            }).CLIEngine;
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        "node_modules/eslint-config-one/index.js": `module.exports = ${JSON.stringify({
+                            ignorePatterns: "foo.js"
+                        })}`,
+                        ".eslintrc.js": `module.exports = ${JSON.stringify({
+                            extends: "one"
+                        })}`,
+                        "foo.js": "",
+                        "bar.js": ""
+                    }
+                }).CLIEngine;
+            });
 
             it("'isPathIgnored()' should return 'true' for 'foo.js'.", () => {
                 const engine = new InMemoryCLIEngine();
@@ -5181,19 +5206,21 @@ describe("CLIEngine", () => {
         });
 
         describe("ignorePatterns in the shareable config should be relative to the entry config file.", () => {
-            const InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
-                cwd: () => root,
-                files: {
-                    "node_modules/eslint-config-one/index.js": `module.exports = ${JSON.stringify({
-                        ignorePatterns: "/foo.js"
-                    })}`,
-                    ".eslintrc.js": `module.exports = ${JSON.stringify({
-                        extends: "one"
-                    })}`,
-                    "foo.js": "",
-                    "subdir/foo.js": ""
-                }
-            }).CLIEngine;
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        "node_modules/eslint-config-one/index.js": `module.exports = ${JSON.stringify({
+                            ignorePatterns: "/foo.js"
+                        })}`,
+                        ".eslintrc.js": `module.exports = ${JSON.stringify({
+                            extends: "one"
+                        })}`,
+                        "foo.js": "",
+                        "subdir/foo.js": ""
+                    }
+                }).CLIEngine;
+            });
 
             it("'isPathIgnored()' should return 'true' for 'foo.js'.", () => {
                 const engine = new InMemoryCLIEngine();
@@ -5218,20 +5245,22 @@ describe("CLIEngine", () => {
         });
 
         describe("ignorePatterns in a config file can unignore the files which are ignored by ignorePatterns in the shareable config should be used.", () => {
-            const InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
-                cwd: () => root,
-                files: {
-                    "node_modules/eslint-config-one/index.js": `module.exports = ${JSON.stringify({
-                        ignorePatterns: "*.js"
-                    })}`,
-                    ".eslintrc.js": `module.exports = ${JSON.stringify({
-                        extends: "one",
-                        ignorePatterns: "!bar.js"
-                    })}`,
-                    "foo.js": "",
-                    "bar.js": ""
-                }
-            }).CLIEngine;
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        "node_modules/eslint-config-one/index.js": `module.exports = ${JSON.stringify({
+                            ignorePatterns: "*.js"
+                        })}`,
+                        ".eslintrc.js": `module.exports = ${JSON.stringify({
+                            extends: "one",
+                            ignorePatterns: "!bar.js"
+                        })}`,
+                        "foo.js": "",
+                        "bar.js": ""
+                    }
+                }).CLIEngine;
+            });
 
             it("'isPathIgnored()' should return 'true' for 'foo.js'.", () => {
                 const engine = new InMemoryCLIEngine();
