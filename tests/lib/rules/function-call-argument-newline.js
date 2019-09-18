@@ -46,6 +46,7 @@ ruleTester.run("function-call-argument-newline", rule, {
             options: ["always"],
             parserOptions: { ecmaVersion: 6 }
         },
+        { code: "fn({\n\ta: 1\n},\n\tb,\n\tc)", options: ["always"] },
 
         /* "never" */
         { code: "fn(a, b)", options: ["never"] },
@@ -59,10 +60,13 @@ ruleTester.run("function-call-argument-newline", rule, {
             options: ["never"],
             parserOptions: { ecmaVersion: 6 }
         },
+        { code: "fn({\n\ta: 1\n}, b)", options: ["never"] },
 
         /* "consistent" */
         { code: "fn(a, b, c)", options: ["consistent"] },
-        { code: "fn(a,\n\tb,\n\tc)", options: ["consistent"] }
+        { code: "fn(a,\n\tb,\n\tc)", options: ["consistent"] },
+        { code: "fn({\n\ta: 1\n}, b, c)", options: ["consistent"] },
+        { code: "fn({\n\ta: 1\n},\n\tb,\n\tc)", options: ["consistent"] }
     ],
     invalid: [
 
@@ -202,6 +206,20 @@ ruleTester.run("function-call-argument-newline", rule, {
                 }
             ]
         },
+        {
+            code: "fn({\n\ta: 1\n}, b)",
+            output: "fn({\n\ta: 1\n},\nb)",
+            options: ["always"],
+            errors: [
+                {
+                    messageId: "missingLineBreak",
+                    line: 3,
+                    column: 3,
+                    endLine: 3,
+                    endColumn: 4
+                }
+            ]
+        },
 
         /* "never" */
         {
@@ -324,6 +342,20 @@ ruleTester.run("function-call-argument-newline", rule, {
                 }
             ]
         },
+        {
+            code: "fn({\n\ta: 1\n},\nb)",
+            output: "fn({\n\ta: 1\n}, b)",
+            options: ["never"],
+            errors: [
+                {
+                    messageId: "unexpectedLineBreak",
+                    line: 3,
+                    column: 3,
+                    endLine: 4,
+                    endColumn: 1
+                }
+            ]
+        },
 
         /* "consistent" */
         {
@@ -379,6 +411,34 @@ ruleTester.run("function-call-argument-newline", rule, {
                     column: 18,
                     endLine: 2,
                     endColumn: 19
+                }
+            ]
+        },
+        {
+            code: "fn({\n\ta: 1\n},\nb, c)",
+            output: "fn({\n\ta: 1\n},\nb,\nc)",
+            options: ["consistent"],
+            errors: [
+                {
+                    messageId: "missingLineBreak",
+                    line: 4,
+                    column: 3,
+                    endLine: 4,
+                    endColumn: 4
+                }
+            ]
+        },
+        {
+            code: "fn({\n\ta: 1\n}, b,\nc)",
+            output: "fn({\n\ta: 1\n}, b, c)",
+            options: ["consistent"],
+            errors: [
+                {
+                    messageId: "unexpectedLineBreak",
+                    line: 3,
+                    column: 6,
+                    endLine: 4,
+                    endColumn: 1
                 }
             ]
         }
