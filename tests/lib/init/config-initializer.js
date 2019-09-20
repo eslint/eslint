@@ -157,6 +157,7 @@ describe("configInitializer", () => {
                 assert.strictEqual(config.parserOptions.ecmaFeatures.jsx, true);
                 assert.strictEqual(config.parserOptions.ecmaVersion, 2018);
                 assert.deepStrictEqual(config.plugins, ["react"]);
+                assert.deepStrictEqual(config.extends, ["eslint:recommended", "plugin:react/recommended"]);
             });
 
             it("should enable vue plugin", () => {
