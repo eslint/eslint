@@ -4651,6 +4651,210 @@ ruleTester.run("indent", rule, {
                 </div>
             `,
 
+        /*
+         * JSX Fragments
+         * https://github.com/eslint/eslint/issues/12208
+         */
+        unIndent`
+            <>
+                <A />
+            </>
+        `,
+        unIndent`
+            <
+            >
+                <A />
+            </>
+        `,
+        unIndent`
+            <>
+                <A />
+            <
+            />
+        `,
+        unIndent`
+            <>
+                <A />
+            </
+            >
+        `,
+        unIndent`
+            <
+            >
+                <A />
+            </
+            >
+        `,
+        unIndent`
+            <
+            >
+                <A />
+            <
+            />
+        `,
+        unIndent`
+            < // Comment
+            >
+                <A />
+            </>
+        `,
+        unIndent`
+            <
+                // Comment
+            >
+                <A />
+            </>
+        `,
+        unIndent`
+            <
+            // Comment
+            >
+                <A />
+            </>
+        `,
+        unIndent`
+            <>
+                <A />
+            < // Comment
+            />
+        `,
+        unIndent`
+            <>
+                <A />
+            <
+                // Comment
+            />
+        `,
+        unIndent`
+            <>
+                <A />
+            <
+            // Comment
+            />
+        `,
+        unIndent`
+            <>
+                <A />
+            </ // Comment
+            >
+        `,
+        unIndent`
+            <>
+                <A />
+            </
+                // Comment
+            >
+        `,
+        unIndent`
+            <>
+                <A />
+            </
+            // Comment
+            >
+        `,
+        unIndent`
+            < /* Comment */
+            >
+                <A />
+            </>
+        `,
+        unIndent`
+            <
+                /* Comment */
+            >
+                <A />
+            </>
+        `,
+        unIndent`
+            <
+            /* Comment */
+            >
+                <A />
+            </>
+        `,
+        unIndent`
+            <
+                /*
+                 * Comment
+                 */
+            >
+                <A />
+            </>
+        `,
+        unIndent`
+            <
+            /*
+             * Comment
+             */
+            >
+                <A />
+            </>
+        `,
+        unIndent`
+            <>
+                <A />
+            < /* Comment */
+            />
+        `,
+        unIndent`
+            <>
+                <A />
+            <
+                /* Comment */ />
+        `,
+        unIndent`
+            <>
+                <A />
+            <
+            /* Comment */ />
+        `,
+        unIndent`
+            <>
+                <A />
+            <
+                /* Comment */
+            />
+        `,
+        unIndent`
+            <>
+                <A />
+            <
+            /* Comment */
+            />
+        `,
+        unIndent`
+            <>
+                <A />
+            </ /* Comment */
+            >
+        `,
+        unIndent`
+            <>
+                <A />
+            </
+                /* Comment */ >
+        `,
+        unIndent`
+            <>
+                <A />
+            </
+            /* Comment */ >
+        `,
+        unIndent`
+            <>
+                <A />
+            </
+                /* Comment */
+            >
+        `,
+        unIndent`
+            <>
+                <A />
+            </
+            /* Comment */
+            >
+        `,
+
         // https://github.com/eslint/eslint/issues/8832
         unIndent`
                 <div>
@@ -9576,6 +9780,200 @@ ruleTester.run("indent", rule, {
             `,
             errors: expectedErrors([2, 4, 0, "Punctuator"])
         },
+
+        /*
+         * JSX Fragments
+         * https://github.com/eslint/eslint/issues/12208
+         */
+        {
+            code: unIndent`
+                <>
+                <A />
+                </>
+            `,
+            output: unIndent`
+                <>
+                    <A />
+                </>
+            `,
+            errors: expectedErrors([2, 4, 0, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                <
+                    >
+                    <A />
+                </>
+            `,
+            output: unIndent`
+                <
+                >
+                    <A />
+                </>
+            `,
+            errors: expectedErrors([2, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                <>
+                    <A />
+                <
+                    />
+            `,
+            output: unIndent`
+                <>
+                    <A />
+                <
+                />
+            `,
+            errors: expectedErrors([4, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                <>
+                    <A />
+                </
+                    >
+            `,
+            output: unIndent`
+                <>
+                    <A />
+                </
+                >
+            `,
+            errors: expectedErrors([4, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                <
+                    >
+                    <A />
+                </
+                    >
+            `,
+            output: unIndent`
+                <
+                >
+                    <A />
+                </
+                >
+            `,
+            errors: expectedErrors([
+                [2, 0, 4, "Punctuator"],
+                [5, 0, 4, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                <
+                    >
+                    <A />
+                <
+                    />
+            `,
+            output: unIndent`
+                <
+                >
+                    <A />
+                <
+                />
+            `,
+            errors: expectedErrors([
+                [2, 0, 4, "Punctuator"],
+                [5, 0, 4, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                < // Comment
+                    >
+                    <A />
+                </>
+            `,
+            output: unIndent`
+                < // Comment
+                >
+                    <A />
+                </>
+            `,
+            errors: expectedErrors([2, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                <>
+                    <A />
+                < // Comment
+                    />
+            `,
+            output: unIndent`
+                <>
+                    <A />
+                < // Comment
+                />
+            `,
+            errors: expectedErrors([4, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                <>
+                    <A />
+                </ // Comment
+                    >
+            `,
+            output: unIndent`
+                <>
+                    <A />
+                </ // Comment
+                >
+            `,
+            errors: expectedErrors([4, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                < /* Comment */
+                    >
+                    <A />
+                </>
+            `,
+            output: unIndent`
+                < /* Comment */
+                >
+                    <A />
+                </>
+            `,
+            errors: expectedErrors([2, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                <>
+                    <A />
+                < /* Comment */
+                    />
+            `,
+            output: unIndent`
+                <>
+                    <A />
+                < /* Comment */
+                />
+            `,
+            errors: expectedErrors([4, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                <>
+                    <A />
+                </ /* Comment */
+                    >
+            `,
+            output: unIndent`
+                <>
+                    <A />
+                </ /* Comment */
+                >
+            `,
+            errors: expectedErrors([4, 0, 4, "Punctuator"])
+        },
+
         {
             code: unIndent`
                 ({
