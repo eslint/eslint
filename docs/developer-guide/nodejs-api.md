@@ -617,14 +617,16 @@ const cli = new CLIEngine({
     }
 });
 
-// lint the supplied text and optionally set
-// a filename that is displayed in the report
+// Lint the supplied text and optionally set a filename that is displayed in the report
 const report = cli.executeOnText("var foo = 'bar';", "foo.js");
+
+// In addition to the above, warn if the resolved file name is ignored.
+const reportAndWarnOnIgnoredFile = cli.executeOnText("var foo = 'bar';", "foo.js", true);
 ```
 
 The `report` returned from `executeOnText()` is in the same format as from `executeOnFiles()`, but there is only ever one result in `report.results`.
 
-If a filename in the optional second parameter matches a file that is configured to be ignored, then this function returns no errors or warnings. To return a warning instead, call the method with true as the optional third parameter.
+If a filename in the optional second parameter matches a file that is configured to be ignored, then this function returns no errors or warnings. The method includes an additional optional boolean third parameter. When `true`, a resolved file name that is ignored will return a warning.
 
 ### CLIEngine#addPlugin()
 
