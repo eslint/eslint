@@ -160,6 +160,18 @@ describe("configInitializer", () => {
                 assert.deepStrictEqual(config.extends, ["eslint:recommended", "plugin:react/recommended"]);
             });
 
+            it("should enable typescript parser and plugin with react", () => {
+                answers.framework = "react";
+                answers.typescript = true;
+                const config = init.processAnswers(answers);
+
+                assert.strictEqual(config.parser, "@typescript-eslint/parser");
+                assert.strictEqual(config.parserOptions.ecmaFeatures.jsx, true);
+                assert.strictEqual(config.parserOptions.ecmaVersion, 2018);
+                assert.deepStrictEqual(config.plugins, ["react", "@typescript-eslint"]);
+                assert.deepStrictEqual(config.extends, ["eslint:recommended", "plugin:react/recommended", "plugin:@typescript-eslint/eslint-recommended"]);
+            });
+
             it("should enable vue plugin", () => {
                 answers.framework = "vue";
                 const config = init.processAnswers(answers);
