@@ -62,6 +62,7 @@ rules:
     no-extra-bind: "error"
     no-fallthrough: "error"
     no-floating-decimal: "error"
+    no-floating-promise: "error"
     no-global-assign: "error"
     no-implied-eval: "error"
     no-invalid-this: "error"
