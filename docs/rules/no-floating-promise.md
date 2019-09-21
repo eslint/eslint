@@ -57,6 +57,10 @@ await (async () => 5)();
 // note: function is not async but a Promise return type is specified
 function foo(): Promise<void> { return Promise.resolve(); };
 await foo();
+
+// note: promise is not awaited, but it is chained with a 'then'
+async function foo() {}
+foo().then(() => {});
 ```
 
 You may catch additional errors by combining this rule with `no-unused-expression`.

@@ -93,6 +93,13 @@ ruleTester.run("no-floating-promise", rule, {
             code: "function foo(): any { return Promise.resolve(); }; async function wrap() { foo(); }",
             parser: parser("floating-promise-any"),
             parserOptions: { ecmaVersion: 8 }
+        },
+        {
+
+            // no error if Then is used
+            code: "async function foo() {}; async function wrap() { foo().then(() => {}); }",
+            parser: parser("floating-promise-any"),
+            parserOptions: { ecmaVersion: 8 }
         }
     ],
     invalid: [
