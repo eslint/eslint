@@ -96,9 +96,8 @@ ruleTester.run("no-floating-promise", rule, {
         },
         {
 
-            // no error if Then is used
+            // no error if then is used
             code: "async function foo() {}; async function wrap() { foo().then(() => {}); }",
-            parser: parser("floating-promise-any"),
             parserOptions: { ecmaVersion: 8 }
         }
     ],
