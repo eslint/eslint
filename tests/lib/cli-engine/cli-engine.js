@@ -776,7 +776,7 @@ describe("CLIEngine", () => {
             CLIEngineClass = CLIEngine,
             engineOptions,
             patterns,
-            parallel = 4,
+            numParallel = 2,
             assertOutput
         }) {
 
@@ -789,7 +789,8 @@ describe("CLIEngine", () => {
             // assert async
             const asyncEngine = new CLIEngineClass({
                 ...engineOptions,
-                parallel
+                parallel: true,
+                numParallel
             });
 
             const asyncReportPromise = asyncEngine.executeOnFiles(patterns);
