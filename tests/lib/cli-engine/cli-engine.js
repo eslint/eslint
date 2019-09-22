@@ -9,7 +9,8 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const assert = require("chai").assert,
+const chai = require("chai"),
+    chaiAsPromised = require("chai-as-promised"),
     path = require("path"),
     sinon = require("sinon"),
     leche = require("leche"),
@@ -20,9 +21,11 @@ const assert = require("chai").assert,
     { CascadingConfigArrayFactory } = require("../../../lib/cli-engine/cascading-config-array-factory"),
     { unIndent } = require("../_utils"),
     { defineCLIEngineWithInMemoryFileSystem } = require("./_utils");
-
 const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
 const fCache = require("file-entry-cache");
+
+chai.use(chaiAsPromised);
+const assert = chai.assert;
 
 //------------------------------------------------------------------------------
 // Tests
@@ -777,27 +780,36 @@ describe("CLIEngine", () => {
             engineOptions,
             patterns,
             numParallel = 2,
-            assertOutput
+            assertOutput,
+            assertThrows
         }) {
-
-            // assert sync
             const syncEngine = new CLIEngineClass(engineOptions);
-            const syncReport = syncEngine.executeOnFiles(patterns);
 
-            assertOutput(syncReport);
-
-            // assert async
             const asyncEngine = new CLIEngineClass({
                 ...engineOptions,
                 parallel: true,
                 numParallel
             });
 
-            const asyncReportPromise = asyncEngine.executeOnFiles(patterns);
+            if (assertOutput) {
 
-            assert(asyncReportPromise instanceof Promise, "CLIEngine did not return a promise");
+                // assert sync
+                assertOutput(syncEngine.executeOnFiles(patterns));
 
-            assertOutput(await asyncReportPromise);
+                // assert async
+                const asyncReportPromise = asyncEngine.executeOnFiles(patterns);
+
+                assert(asyncReportPromise instanceof Promise, "CLIEngine did not return a promise");
+                assertOutput(await asyncReportPromise);
+            } else if (assertThrows) {
+                assert.throws(() => syncEngine.executeOnFiles(patterns), assertThrows);
+                assert.isRejected(
+                    Promise.resolve().then(() => asyncEngine.executeOnFiles(patterns)),
+                    assertThrows
+                );
+            } else {
+                throw new Error("must pass assertOutput or assertThrows");
+            }
         }
 
         /** @type {InstanceType<import("../../../lib/cli-engine")["CLIEngine"]>} */
@@ -1173,161 +1185,182 @@ describe("CLIEngine", () => {
             });
         });
 
-        it("should process when file is given by not specifying extensions", () => {
-
-            engine = new CLIEngine({
-                ignore: false,
-                cwd: path.join(fixtureDir, "..")
-            });
-
-            const report = engine.executeOnFiles(["fixtures/files/foo.js2"]);
-
-            assert.strictEqual(report.results.length, 1);
-            assert.strictEqual(report.results[0].messages.length, 0);
-        });
-
-        it("should return zero messages when given a config with environment set to browser", () => {
-
-            engine = new CLIEngine({
-                cwd: path.join(fixtureDir, ".."),
-                configFile: getFixturePath("configurations", "env-browser.json")
-            });
-
-            const report = engine.executeOnFiles([fs.realpathSync(getFixturePath("globals-browser.js"))]);
-
-            assert.strictEqual(report.results.length, 1);
-            assert.strictEqual(report.results[0].messages.length, 0);
-        });
-
-        it("should return zero messages when given an option to set environment to browser", () => {
-
-            engine = new CLIEngine({
-                cwd: path.join(fixtureDir, ".."),
-                envs: ["browser"],
-                rules: {
-                    "no-alert": 0,
-                    "no-undef": 2
+        it("should process when file is given by not specifying extensions", async() => {
+            await assertSyncAndAsync({
+                engineOptions: {
+                    ignore: false,
+                    cwd: path.join(fixtureDir, "..")
+                },
+                patterns: ["fixtures/files/foo.js2"],
+                assertOutput: report => {
+                    assert.strictEqual(report.results.length, 1);
+                    assert.strictEqual(report.results[0].messages.length, 0);
                 }
             });
-
-            const report = engine.executeOnFiles([fs.realpathSync(getFixturePath("globals-browser.js"))]);
-
-            assert.strictEqual(report.results.length, 1);
-            assert.strictEqual(report.results[0].messages.length, 0);
         });
 
-        it("should return zero messages when given a config with environment set to Node.js", () => {
-
-            engine = new CLIEngine({
-                cwd: path.join(fixtureDir, ".."),
-                configFile: getFixturePath("configurations", "env-node.json")
+        it("should return zero messages when given a config with environment set to browser", async() => {
+            await assertSyncAndAsync({
+                engineOptions: {
+                    cwd: path.join(fixtureDir, ".."),
+                    configFile: getFixturePath("configurations", "env-browser.json")
+                },
+                patterns: [fs.realpathSync(getFixturePath("globals-browser.js"))],
+                assertOutput: report => {
+                    assert.strictEqual(report.results.length, 1);
+                    assert.strictEqual(report.results[0].messages.length, 0);
+                }
             });
-
-            const report = engine.executeOnFiles([fs.realpathSync(getFixturePath("globals-node.js"))]);
-
-            assert.strictEqual(report.results.length, 1);
-            assert.strictEqual(report.results[0].messages.length, 0);
         });
 
-        it("should not return results from previous call when calling more than once", () => {
+        it("should return zero messages when given an option to set environment to browser", async() => {
+            await assertSyncAndAsync({
+                engineOptions: {
+                    cwd: path.join(fixtureDir, ".."),
+                    envs: ["browser"],
+                    rules: {
+                        "no-alert": 0,
+                        "no-undef": 2
+                    }
+                },
+                patterns: [fs.realpathSync(getFixturePath("globals-browser.js"))],
+                assertOutput: report => {
+                    assert.strictEqual(report.results.length, 1);
+                    assert.strictEqual(report.results[0].messages.length, 0);
+                }
+            });
+        });
 
-            engine = new CLIEngine({
+        it("should return zero messages when given a config with environment set to Node.js", async() => {
+            await assertSyncAndAsync({
+                engineOptions: {
+                    cwd: path.join(fixtureDir, ".."),
+                    configFile: getFixturePath("configurations", "env-node.json")
+                },
+                patterns: [fs.realpathSync(getFixturePath("globals-node.js"))],
+                assertOutput: report => {
+                    assert.strictEqual(report.results.length, 1);
+                    assert.strictEqual(report.results[0].messages.length, 0);
+                }
+            });
+        });
+
+        it("should not return results from previous call when calling more than once", async() => {
+            const engineOptions = {
                 cwd: path.join(fixtureDir, ".."),
                 ignore: false,
                 rules: {
                     semi: 2
                 }
+            };
+
+            const syncEngine = new CLIEngine(engineOptions);
+            const asyncEngine = new CLIEngine({
+                ...engineOptions,
+                parallel: true,
+                numParallel: 2
             });
 
             const failFilePath = fs.realpathSync(getFixturePath("missing-semicolon.js"));
             const passFilePath = fs.realpathSync(getFixturePath("passing.js"));
 
-            let report = engine.executeOnFiles([failFilePath]);
+            // eslint-disable-next-line require-jsdoc
+            function assertFailReport(report) {
+                assert.strictEqual(report.results.length, 1);
+                assert.strictEqual(report.results[0].filePath, failFilePath);
+                assert.strictEqual(report.results[0].messages.length, 1);
+                assert.strictEqual(report.results[0].messages[0].ruleId, "semi");
+                assert.strictEqual(report.results[0].messages[0].severity, 2);
+            }
 
-            assert.strictEqual(report.results.length, 1);
-            assert.strictEqual(report.results[0].filePath, failFilePath);
-            assert.strictEqual(report.results[0].messages.length, 1);
-            assert.strictEqual(report.results[0].messages[0].ruleId, "semi");
-            assert.strictEqual(report.results[0].messages[0].severity, 2);
+            assertFailReport(syncEngine.executeOnFiles([failFilePath]));
+            assertFailReport(await asyncEngine.executeOnFiles([failFilePath]));
 
-            report = engine.executeOnFiles([passFilePath]);
-            assert.strictEqual(report.results.length, 1);
-            assert.strictEqual(report.results[0].filePath, passFilePath);
-            assert.strictEqual(report.results[0].messages.length, 0);
-
+            // eslint-disable-next-line require-jsdoc
+            function assertPassReport(report) {
+                assert.strictEqual(report.results.length, 1);
+                assert.strictEqual(report.results[0].filePath, passFilePath);
+                assert.strictEqual(report.results[0].messages.length, 0);
+            }
+            assertPassReport(syncEngine.executeOnFiles([passFilePath]));
+            assertPassReport(await asyncEngine.executeOnFiles([passFilePath]));
         });
 
-        it("should throw an error when given a directory with all eslint excluded files in the directory", () => {
-
-            engine = new CLIEngine({
-                ignorePath: getFixturePath(".eslintignore")
+        it("should throw an error when given a directory with all eslint excluded files in the directory", async() => {
+            await assertSyncAndAsync({
+                engineOptions: {
+                    ignorePath: getFixturePath(".eslintignore")
+                },
+                patterns: [getFixturePath("./cli-engine/")],
+                assertThrows: `All files matched by '${getFixturePath("./cli-engine/")}' are ignored.`
             });
-
-            assert.throws(() => {
-                engine.executeOnFiles([getFixturePath("./cli-engine/")]);
-            }, `All files matched by '${getFixturePath("./cli-engine/")}' are ignored.`);
         });
 
-        it("should throw an error when all given files are ignored", () => {
-
-            assert.throws(() => {
-                engine.executeOnFiles(["tests/fixtures/cli-engine/"]);
-            }, "All files matched by 'tests/fixtures/cli-engine/' are ignored.");
-        });
-
-        it("should throw an error when all given files are ignored even with a `./` prefix", () => {
-            engine = new CLIEngine({
-                ignorePath: getFixturePath(".eslintignore")
+        it("should throw an error when all given files are ignored", async() => {
+            await assertSyncAndAsync({
+                engineOptions: {
+                    ignorePath: getFixturePath(".eslintignore")
+                },
+                patterns: ["tests/fixtures/cli-engine/"],
+                assertThrows: "All files matched by 'tests/fixtures/cli-engine/' are ignored."
             });
+        });
 
-            assert.throws(() => {
-                engine.executeOnFiles(["./tests/fixtures/cli-engine/"]);
-            }, "All files matched by './tests/fixtures/cli-engine/' are ignored.");
+        it("should throw an error when all given files are ignored even with a `./` prefix", async() => {
+            await assertSyncAndAsync({
+                engineOptions: {
+                    ignorePath: getFixturePath(".eslintignore")
+                },
+                patterns: ["./tests/fixtures/cli-engine/"],
+                assertThrows: "All files matched by './tests/fixtures/cli-engine/' are ignored."
+            });
         });
 
         // https://github.com/eslint/eslint/issues/3788
-        it("should ignore one-level down node_modules when ignore file has 'node_modules/' in it", () => {
-            engine = new CLIEngine({
-                ignorePath: getFixturePath("cli-engine", "nested_node_modules", ".eslintignore"),
-                useEslintrc: false,
-                rules: {
-                    quotes: [2, "double"]
+        it("should ignore one-level down node_modules when ignore file has 'node_modules/' in it", async() => {
+            await assertSyncAndAsync({
+                engineOptions: {
+                    ignorePath: getFixturePath("cli-engine", "nested_node_modules", ".eslintignore"),
+                    useEslintrc: false,
+                    rules: {
+                        quotes: [2, "double"]
+                    },
+                    cwd: getFixturePath("cli-engine", "nested_node_modules")
                 },
-                cwd: getFixturePath("cli-engine", "nested_node_modules")
+                patterns: ["."],
+                assertOutput: report => {
+                    assert.strictEqual(report.results.length, 1);
+                    assert.strictEqual(report.results[0].errorCount, 0);
+                    assert.strictEqual(report.results[0].warningCount, 0);
+                    assert.strictEqual(report.results[0].fixableErrorCount, 0);
+                    assert.strictEqual(report.results[0].fixableWarningCount, 0);
+                }
             });
-
-            const report = engine.executeOnFiles(["."]);
-
-            assert.strictEqual(report.results.length, 1);
-            assert.strictEqual(report.results[0].errorCount, 0);
-            assert.strictEqual(report.results[0].warningCount, 0);
-            assert.strictEqual(report.results[0].fixableErrorCount, 0);
-            assert.strictEqual(report.results[0].fixableWarningCount, 0);
         });
 
         // https://github.com/eslint/eslint/issues/3812
-        it("should ignore all files and throw an error when tests/fixtures/ is in ignore file", () => {
-            engine = new CLIEngine({
-                ignorePath: getFixturePath("cli-engine/.eslintignore2"),
-                useEslintrc: false,
-                rules: {
-                    quotes: [2, "double"]
-                }
+        it("should ignore all files and throw an error when tests/fixtures/ is in ignore file", async() => {
+            await assertSyncAndAsync({
+                engineOptions: {
+                    ignorePath: getFixturePath("cli-engine/.eslintignore2"),
+                    useEslintrc: false,
+                    rules: {
+                        quotes: [2, "double"]
+                    }
+                },
+                patterns: ["./tests/fixtures/cli-engine/"],
+                assertThrows: "No files matching './tests/fixtures/cli-engine/' were found."
             });
-
-            assert.throws(() => {
-                engine.executeOnFiles(["./tests/fixtures/cli-engine/"]);
-            }, "No files matching './tests/fixtures/cli-engine/' were found.");
         });
 
-        it("should throw an error when all given files are ignored via ignore-pattern", () => {
-            engine = new CLIEngine({
-                ignorePattern: "tests/fixtures/single-quoted.js"
+        it("should throw an error when all given files are ignored via ignore-pattern", async() => {
+            await assertSyncAndAsync({
+                engineOptions: {
+                    ignorePattern: "tests/fixtures/single-quoted.js"
+                },
+                patterns: ["tests/fixtures/*-quoted.js"],
+                assertThrows: "All files matched by 'tests/fixtures/*-quoted.js' are ignored."
             });
-
-            assert.throws(() => {
-                engine.executeOnFiles(["tests/fixtures/*-quoted.js"]);
-            }, "All files matched by 'tests/fixtures/*-quoted.js' are ignored.");
         });
 
         it("should return a warning when an explicitly given file is ignored", () => {
@@ -1354,70 +1387,70 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.results[0].fixableWarningCount, 0);
         });
 
-        it("should return two messages when given a file in excluded files list while ignore is off", () => {
-
-            engine = new CLIEngine({
-                ignorePath: getFixturePath(".eslintignore"),
-                ignore: false,
-                rules: {
-                    "no-undef": 2
-                }
-            });
-
+        it("should return two messages when given a file in excluded files list while ignore is off", async() => {
             const filePath = fs.realpathSync(getFixturePath("undef.js"));
 
-            const report = engine.executeOnFiles([filePath]);
-
-            assert.strictEqual(report.results.length, 1);
-            assert.strictEqual(report.results[0].filePath, filePath);
-            assert.strictEqual(report.results[0].messages[0].ruleId, "no-undef");
-            assert.strictEqual(report.results[0].messages[0].severity, 2);
-            assert.strictEqual(report.results[0].messages[1].ruleId, "no-undef");
-            assert.strictEqual(report.results[0].messages[1].severity, 2);
+            await assertSyncAndAsync({
+                engineOptions: {
+                    ignorePath: getFixturePath(".eslintignore"),
+                    ignore: false,
+                    rules: {
+                        "no-undef": 2
+                    }
+                },
+                patterns: [filePath],
+                assertOutput: report => {
+                    assert.strictEqual(report.results.length, 1);
+                    assert.strictEqual(report.results[0].filePath, filePath);
+                    assert.strictEqual(report.results[0].messages[0].ruleId, "no-undef");
+                    assert.strictEqual(report.results[0].messages[0].severity, 2);
+                    assert.strictEqual(report.results[0].messages[1].ruleId, "no-undef");
+                    assert.strictEqual(report.results[0].messages[1].severity, 2);
+                }
+            });
         });
 
-        it("should return zero messages when executing a file with a shebang", () => {
-
-            engine = new CLIEngine({
-                ignore: false
+        it("should return zero messages when executing a file with a shebang", async() => {
+            await assertSyncAndAsync({
+                engineOptions: {
+                    ignore: false
+                },
+                patterns: [getFixturePath("shebang.js")],
+                assertOutput: report => {
+                    assert.strictEqual(report.results.length, 1);
+                    assert.strictEqual(report.results[0].messages.length, 0);
+                }
             });
-
-            const report = engine.executeOnFiles([getFixturePath("shebang.js")]);
-
-            assert.strictEqual(report.results.length, 1);
-            assert.strictEqual(report.results[0].messages.length, 0);
         });
 
-        it("should give a warning when loading a custom rule that doesn't exist", () => {
-
-            engine = new CLIEngine({
-                ignore: false,
-                rulesPaths: [getFixturePath("rules", "dir1")],
-                configFile: getFixturePath("rules", "missing-rule.json")
+        it("should give a warning when loading a custom rule that doesn't exist", async() => {
+            await assertSyncAndAsync({
+                engineOptions: {
+                    ignore: false,
+                    rulesPaths: [getFixturePath("rules", "dir1")],
+                    configFile: getFixturePath("rules", "missing-rule.json")
+                },
+                patterns: [getFixturePath("rules", "test", "test-custom-rule.js")],
+                assertOutput: report => {
+                    assert.strictEqual(report.results.length, 1);
+                    assert.strictEqual(report.results[0].messages.length, 1);
+                    assert.strictEqual(report.results[0].messages[0].ruleId, "missing-rule");
+                    assert.strictEqual(report.results[0].messages[0].severity, 2);
+                    assert.strictEqual(report.results[0].messages[0].message, "Definition for rule 'missing-rule' was not found.");
+                }
             });
-            const report = engine.executeOnFiles([getFixturePath("rules", "test", "test-custom-rule.js")]);
-
-            assert.strictEqual(report.results.length, 1);
-            assert.strictEqual(report.results[0].messages.length, 1);
-            assert.strictEqual(report.results[0].messages[0].ruleId, "missing-rule");
-            assert.strictEqual(report.results[0].messages[0].severity, 2);
-            assert.strictEqual(report.results[0].messages[0].message, "Definition for rule 'missing-rule' was not found.");
-
-
         });
 
-        it("should throw an error when loading a bad custom rule", () => {
-
-            engine = new CLIEngine({
-                ignore: false,
-                rulePaths: [getFixturePath("rules", "wrong")],
-                configFile: getFixturePath("rules", "eslint.json")
+        it("should throw an error when loading a bad custom rule", async() => {
+            await assertSyncAndAsync({
+                engineOptions: {
+                    ignore: false,
+                    rulePaths: [getFixturePath("rules", "wrong")],
+                    configFile: getFixturePath("rules", "eslint.json")
+                },
+                patterns: [getFixturePath("rules", "test", "test-custom-rule.js")],
+                assertThrows: /Error while loading rule 'custom-rule'/u
             });
-
-
-            assert.throws(() => {
-                engine.executeOnFiles([getFixturePath("rules", "test", "test-custom-rule.js")]);
-            }, /Error while loading rule 'custom-rule'/u);
         });
 
         it("should return one message when a custom rule matches a file", () => {
