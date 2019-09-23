@@ -1363,28 +1363,30 @@ describe("CLIEngine", () => {
             });
         });
 
-        it("should return a warning when an explicitly given file is ignored", () => {
-            engine = new CLIEngine({
-                ignorePath: getFixturePath(".eslintignore"),
-                cwd: getFixturePath()
-            });
-
+        it("should return a warning when an explicitly given file is ignored", async() => {
             const filePath = getFixturePath("passing.js");
 
-            const report = engine.executeOnFiles([filePath]);
-
-            assert.strictEqual(report.results.length, 1);
-            assert.strictEqual(report.errorCount, 0);
-            assert.strictEqual(report.warningCount, 1);
-            assert.strictEqual(report.fixableErrorCount, 0);
-            assert.strictEqual(report.fixableWarningCount, 0);
-            assert.strictEqual(report.results[0].filePath, filePath);
-            assert.strictEqual(report.results[0].messages[0].severity, 1);
-            assert.strictEqual(report.results[0].messages[0].message, "File ignored because of a matching ignore pattern. Use \"--no-ignore\" to override.");
-            assert.strictEqual(report.results[0].errorCount, 0);
-            assert.strictEqual(report.results[0].warningCount, 1);
-            assert.strictEqual(report.results[0].fixableErrorCount, 0);
-            assert.strictEqual(report.results[0].fixableWarningCount, 0);
+            await assertSyncAndAsync({
+                engineOptions: {
+                    ignorePath: getFixturePath(".eslintignore"),
+                    cwd: getFixturePath()
+                },
+                patterns: [filePath],
+                assertOutput: report => {
+                    assert.strictEqual(report.results.length, 1);
+                    assert.strictEqual(report.errorCount, 0);
+                    assert.strictEqual(report.warningCount, 1);
+                    assert.strictEqual(report.fixableErrorCount, 0);
+                    assert.strictEqual(report.fixableWarningCount, 0);
+                    assert.strictEqual(report.results[0].filePath, filePath);
+                    assert.strictEqual(report.results[0].messages[0].severity, 1);
+                    assert.strictEqual(report.results[0].messages[0].message, "File ignored because of a matching ignore pattern. Use \"--no-ignore\" to override.");
+                    assert.strictEqual(report.results[0].errorCount, 0);
+                    assert.strictEqual(report.results[0].warningCount, 1);
+                    assert.strictEqual(report.results[0].fixableErrorCount, 0);
+                    assert.strictEqual(report.results[0].fixableWarningCount, 0);
+                }
+            });
         });
 
         it("should return two messages when given a file in excluded files list while ignore is off", async() => {
