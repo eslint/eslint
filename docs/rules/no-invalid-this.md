@@ -197,6 +197,56 @@ function foo() {
 }
 ```
 
+## Options
+
+This rule has an object option, with one option:
+
+* `"capIsConstructor": false` (default `true`) disables the assumption that a function which name starts with an uppercase is a constructor.
+
+### capIsConstructor
+
+By default, this rule always allows the use of `this` in functions which name starts with an uppercase and anonymous functions
+that are assigned to a variable which name starts with an uppercase, assuming that those functions are used as constructor functions.
+
+Set `"capIsConstructor"` to `false` if you want those functions to be treated as 'regular' functions.
+
+Examples of **incorrect** code for this rule with `"capIsConstructor"` option set to `false`:
+
+```js
+/*eslint no-invalid-this: ["error", { "capIsConstructor": false }]*/
+
+"use strict";
+
+function Foo() {
+    this.a = 0;
+}
+
+var bar = function Foo() {
+    this.a = 0;
+}
+
+var Bar = function() {
+    this.a = 0;
+};
+
+Baz = function() {
+    this.a = 0;
+};
+```
+
+Examples of **correct** code for this rule with `"capIsConstructor"` option set to `false`:
+
+```js
+/*eslint no-invalid-this: ["error", { "capIsConstructor": false }]*/
+
+"use strict";
+
+obj.Foo = function Foo() {
+    // OK, this is in a method.
+    this.a = 0;
+};
+```
+
 ## When Not To Use It
 
 If you don't want to be notified about usage of `this` keyword outside of classes or class-like objects, you can safely disable this rule.
