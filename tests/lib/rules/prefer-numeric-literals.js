@@ -90,6 +90,68 @@ ruleTester.run("prefer-numeric-literals", rule, {
             code: "Number.parseInt('1️⃣3️⃣3️⃣7️⃣', 16);",
             output: null, // not fixed, javascript doesn't support emoji literals
             errors: [{ message: "Use hexadecimal literals instead of Number.parseInt()." }]
+        },
+
+        // Should not autofix if it would remove comments
+        {
+            code: "/* comment */Number.parseInt('11', 2);",
+            output: "/* comment */0b11;",
+            errors: 1
+        },
+        {
+            code: "Number/**/.parseInt('11', 2);",
+            output: null,
+            errors: 1
+        },
+        {
+            code: "Number//\n.parseInt('11', 2);",
+            output: null,
+            errors: 1
+        },
+        {
+            code: "Number./**/parseInt('11', 2);",
+            output: null,
+            errors: 1
+        },
+        {
+            code: "Number.parseInt(/**/'11', 2);",
+            output: null,
+            errors: 1
+        },
+        {
+            code: "Number.parseInt('11', /**/2);",
+            output: null,
+            errors: 1
+        },
+        {
+            code: "Number.parseInt('11', 2)/* comment */;",
+            output: "0b11/* comment */;",
+            errors: 1
+        },
+        {
+            code: "parseInt/**/('11', 2);",
+            output: null,
+            errors: 1
+        },
+        {
+            code: "parseInt(//\n'11', 2);",
+            output: null,
+            errors: 1
+        },
+        {
+            code: "parseInt('11'/**/, 2);",
+            output: null,
+            errors: 1
+        },
+        {
+            code: "parseInt('11', 2 /**/);",
+            output: null,
+            errors: 1
+        },
+        {
+            code: "parseInt('11', 2)//comment\n;",
+            output: "0b11//comment\n;",
+            errors: 1
         }
     ]
 });
