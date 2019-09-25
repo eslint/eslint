@@ -16,9 +16,9 @@ require("v8-compile-cache");
 // Helpers
 //------------------------------------------------------------------------------
 
-const useStdIn = (process.argv.indexOf("--stdin") > -1),
-    init = (process.argv.indexOf("--init") > -1),
-    debug = (process.argv.indexOf("--debug") > -1);
+const useStdIn = process.argv.includes("--stdin"),
+    init = process.argv.includes("--init"),
+    debug = process.argv.includes("--debug");
 
 // must do this initialization *before* other requires in order to work
 if (debug) {
@@ -30,9 +30,9 @@ if (debug) {
 //------------------------------------------------------------------------------
 
 // now we can safely include the other modules that use debug
-const cli = require("../lib/cli"),
-    path = require("path"),
-    fs = require("fs");
+const path = require("path"),
+    fs = require("fs"),
+    cli = require("../lib/cli");
 
 //------------------------------------------------------------------------------
 // Execution
@@ -50,7 +50,6 @@ process.once("uncaughtException", err => {
         console.error("\nOops! Something went wrong! :(");
         console.error(`\nESLint: ${pkg.version}.\n\n${template(err.messageData || {})}`);
     } else {
-
         console.error(err.stack);
     }
 
