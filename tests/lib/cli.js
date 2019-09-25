@@ -29,14 +29,18 @@ const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
 //------------------------------------------------------------------------------
 
 describe("cli", () => {
-
     let fixtureDir;
     const log = {
         info: sinon.spy(),
         error: sinon.spy()
     };
+    const RuntimeInfo = {
+        environment: sinon.stub(),
+        version: sinon.stub()
+    };
     const cli = proxyquire("../../lib/cli", {
-        "./shared/logging": log
+        "./shared/logging": log,
+        "./shared/runtime-info": RuntimeInfo
     });
 
     /**
@@ -324,15 +328,27 @@ describe("cli", () => {
     describe("when executing with version flag", () => {
         it("should print out current version", () => {
             assert.strictEqual(cli.execute("-v"), 0);
-
             assert.strictEqual(log.info.callCount, 1);
+        });
+    });
+
+    describe("when executing with env-info flag", () => {
+        it("should print out environment information", () => {
+            assert.strictEqual(cli.execute("--env-info"), 0);
+            assert.strictEqual(log.info.callCount, 1);
+        });
+
+        it("should print error message and return error code", () => {
+            RuntimeInfo.environment.throws("There was an error!");
+
+            assert.strictEqual(cli.execute("--env-info"), 2);
+            assert.strictEqual(log.error.callCount, 1);
         });
     });
 
     describe("when executing with help flag", () => {
         it("should print out help", () => {
             assert.strictEqual(cli.execute("-h"), 0);
-
             assert.strictEqual(log.info.callCount, 1);
         });
     });
@@ -349,7 +365,6 @@ describe("cli", () => {
     });
 
     describe("when given a file in excluded files list", () => {
-
         it("should not process the file", () => {
             const ignorePath = getFixturePath(".eslintignore");
             const filePath = getFixturePath("passing.js");
@@ -398,7 +413,6 @@ describe("cli", () => {
     });
 
     describe("when executing a file with a shebang", () => {
-
         it("should execute without error", () => {
             const filePath = getFixturePath("shebang.js");
             const exit = cli.execute(`--no-ignore ${filePath}`);
@@ -408,7 +422,6 @@ describe("cli", () => {
     });
 
     describe("when loading a custom rule", () => {
-
         it("should return an error when rule isn't found", () => {
             const rulesPath = getFixturePath("rules", "wrong");
             const configPath = getFixturePath("rules", "eslint.json");
@@ -551,7 +564,6 @@ describe("cli", () => {
     });
 
     describe("when supplied with report output file path", () => {
-
         afterEach(() => {
             sh.rm("-rf", "tests/output");
         });
@@ -594,7 +606,6 @@ describe("cli", () => {
     });
 
     describe("when supplied with a plugin", () => {
-
         it("should pass plugins to CLIEngine", () => {
             const examplePluginName = "eslint-plugin-example";
 
