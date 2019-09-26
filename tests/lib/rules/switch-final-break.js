@@ -99,6 +99,14 @@ switch (x) {
               }
   }`,
             options: ["always"]
+        },
+        {
+            code: `function a() {
+            switch (x) {
+              case 0: return 1; console.log(1);
+              }
+  }`,
+            options: ["always"]
         }
     ],
     invalid: [
