@@ -109,20 +109,21 @@ describe("ConfigArrayFactory", () => {
             }, /Unexpected top-level property "files"/u);
         });
 
-        it("should call '_normalizeConfigData(configData, options)' with given arguments except 'options.parent'.", () => {
+        it("should call '_normalizeConfigData(configData, options)' with given arguments.", () => {
             const configData = {};
             const filePath = __filename;
             const name = "example";
-            const parent = new ConfigArray();
+            const pluginBasePath = ".";
             const normalizeConfigData = spy(factory, "_normalizeConfigData");
 
-            factory.create(configData, { filePath, name, parent });
+            factory.create(configData, { filePath, name, pluginBasePath });
 
             assert.strictEqual(normalizeConfigData.callCount, 1);
-            assert.strictEqual(normalizeConfigData.args[0].length, 3);
+            assert.strictEqual(normalizeConfigData.args[0].length, 4);
             assert.strictEqual(normalizeConfigData.args[0][0], configData);
             assert.strictEqual(normalizeConfigData.args[0][1], filePath);
             assert.strictEqual(normalizeConfigData.args[0][2], name);
+            assert.strictEqual(normalizeConfigData.args[0][3], pluginBasePath);
         });
 
         it("should return a config array that contains the yielded elements from '_normalizeConfigData(configData, options)'.", () => {
@@ -212,19 +213,20 @@ describe("ConfigArrayFactory", () => {
             });
         }
 
-        it("should call '_normalizeConfigData(configData, options)' with the loaded config data and given options except 'options.parent'.", () => {
+        it("should call '_normalizeConfigData(configData, options)' with the loaded config data and given options.", () => {
             const filePath = "js/.eslintrc.js";
             const name = "example";
-            const parent = new ConfigArray();
+            const pluginBasePath = ".";
             const normalizeConfigData = spy(factory, "_normalizeConfigData");
 
-            factory.loadFile(filePath, { name, parent });
+            factory.loadFile(filePath, { name, pluginBasePath });
 
             assert.strictEqual(normalizeConfigData.callCount, 1);
-            assert.strictEqual(normalizeConfigData.args[0].length, 3);
+            assert.strictEqual(normalizeConfigData.args[0].length, 4);
             assert.deepStrictEqual(normalizeConfigData.args[0][0], { settings: { name: filePath } });
             assert.strictEqual(normalizeConfigData.args[0][1], path.resolve(tempDir, filePath));
             assert.strictEqual(normalizeConfigData.args[0][2], name);
+            assert.strictEqual(normalizeConfigData.args[0][3], pluginBasePath);
         });
 
         it("should return a config array that contains the yielded elements from '_normalizeConfigData(configData, options)'.", () => {
@@ -312,19 +314,20 @@ describe("ConfigArrayFactory", () => {
             });
         }
 
-        it("should call '_normalizeConfigData(configData, options)' with the loaded config data and given options except 'options.parent'.", () => {
+        it("should call '_normalizeConfigData(configData, options)' with the loaded config data and given options.", () => {
             const directoryPath = "js";
             const name = "example";
-            const parent = new ConfigArray();
+            const pluginBasePath = ".";
             const normalizeConfigData = spy(factory, "_normalizeConfigData");
 
-            factory.loadInDirectory(directoryPath, { name, parent });
+            factory.loadInDirectory(directoryPath, { name, pluginBasePath });
 
             assert.strictEqual(normalizeConfigData.callCount, 1);
-            assert.strictEqual(normalizeConfigData.args[0].length, 3);
+            assert.strictEqual(normalizeConfigData.args[0].length, 4);
             assert.deepStrictEqual(normalizeConfigData.args[0][0], { settings: { name: `${directoryPath}/.eslintrc.js` } });
             assert.strictEqual(normalizeConfigData.args[0][1], path.resolve(tempDir, directoryPath, ".eslintrc.js"));
             assert.strictEqual(normalizeConfigData.args[0][2], name);
+            assert.strictEqual(normalizeConfigData.args[0][3], pluginBasePath);
         });
 
         it("should return a config array that contains the yielded elements from '_normalizeConfigData(configData, options)'.", () => {
