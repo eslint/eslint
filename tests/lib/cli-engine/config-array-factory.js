@@ -137,21 +137,6 @@ describe("ConfigArrayFactory", () => {
             assert.strictEqual(configArray[1], elements[1]);
         });
 
-        it("should concatenate the elements of `options.parent` and the yielded elements from '_normalizeConfigData(configData, options)'.", () => {
-            const parent = new ConfigArray({}, {});
-            const elements = [{}, {}];
-
-            factory._normalizeConfigData = () => elements; // eslint-disable-line no-underscore-dangle
-
-            const configArray = factory.create({}, { parent });
-
-            assert.strictEqual(configArray.length, 4);
-            assert.strictEqual(configArray[0], parent[0]);
-            assert.strictEqual(configArray[1], parent[1]);
-            assert.strictEqual(configArray[2], elements[0]);
-            assert.strictEqual(configArray[3], elements[1]);
-        });
-
         it("should not concatenate the elements of `options.parent` if the yielded elements from '_normalizeConfigData(configData, options)' has 'root:true'.", () => {
             const parent = new ConfigArray({}, {});
             const elements = [{ root: true }, {}];
@@ -254,21 +239,6 @@ describe("ConfigArrayFactory", () => {
             assert.strictEqual(configArray[1], elements[1]);
         });
 
-        it("should concatenate the elements of `options.parent` and the yielded elements from '_normalizeConfigData(configData, options)'.", () => {
-            const parent = new ConfigArray({}, {});
-            const elements = [{}, {}];
-
-            factory._normalizeConfigData = () => elements; // eslint-disable-line no-underscore-dangle
-
-            const configArray = factory.loadFile("js/.eslintrc.js", { parent });
-
-            assert.strictEqual(configArray.length, 4);
-            assert.strictEqual(configArray[0], parent[0]);
-            assert.strictEqual(configArray[1], parent[1]);
-            assert.strictEqual(configArray[2], elements[0]);
-            assert.strictEqual(configArray[3], elements[1]);
-        });
-
         it("should not concatenate the elements of `options.parent` if the yielded elements from '_normalizeConfigData(configData, options)' has 'root:true'.", () => {
             const parent = new ConfigArray({}, {});
             const elements = [{ root: true }, {}];
@@ -367,21 +337,6 @@ describe("ConfigArrayFactory", () => {
             assert.strictEqual(configArray.length, 2);
             assert.strictEqual(configArray[0], elements[0]);
             assert.strictEqual(configArray[1], elements[1]);
-        });
-
-        it("should concatenate the elements of `options.parent` and the yielded elements from '_normalizeConfigData(configData, options)'.", () => {
-            const parent = new ConfigArray({}, {});
-            const elements = [{}, {}];
-
-            factory._normalizeConfigData = () => elements; // eslint-disable-line no-underscore-dangle
-
-            const configArray = factory.loadInDirectory("js", { parent });
-
-            assert.strictEqual(configArray.length, 4);
-            assert.strictEqual(configArray[0], parent[0]);
-            assert.strictEqual(configArray[1], parent[1]);
-            assert.strictEqual(configArray[2], elements[0]);
-            assert.strictEqual(configArray[3], elements[1]);
         });
 
         it("should not concatenate the elements of `options.parent` if the yielded elements from '_normalizeConfigData(configData, options)' has 'root:true'.", () => {
