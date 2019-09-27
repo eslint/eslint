@@ -25,6 +25,13 @@ if (debug) {
     require("debug").enable("eslint:*,-eslint:code-path");
 }
 
+/*
+ * Note: `process.stdin.fd` is not used here due to https://github.com/nodejs/node/issues/7439.
+ * Accessing the `process.stdin` property seems to modify the behavior of file descriptor 0, resulting
+ * in an error when stdin is piped in asynchronously.
+ */
+const STDIN_FILE_DESCRIPTOR = 0;
+
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
@@ -32,13 +39,23 @@ if (debug) {
 // now we can safely include the other modules that use debug
 const path = require("path"),
     fs = require("fs"),
+    util = require("util"),
     cli = require("../lib/cli");
+
+const readFile = util.promisify(fs.readFile);
 
 //------------------------------------------------------------------------------
 // Execution
 //------------------------------------------------------------------------------
 
-process.once("uncaughtException", err => {
+/**
+ * Capture uncaught errors.
+ * @param {any} err The error object
+ * @returns {void}
+ */
+function handleError(err) {
+    process.removeListener("uncaughtException", handleError);
+    process.removeListener("unhandledRejection", handleError);
 
     // lazy load
     const lodash = require("lodash");
@@ -54,28 +71,26 @@ process.once("uncaughtException", err => {
     }
 
     process.exitCode = 2;
-});
-
-if (useStdIn) {
-
-    /*
-     * Note: `process.stdin.fd` is not used here due to https://github.com/nodejs/node/issues/7439.
-     * Accessing the `process.stdin` property seems to modify the behavior of file descriptor 0, resulting
-     * in an error when stdin is piped in asynchronously.
-     */
-    const STDIN_FILE_DESCRIPTOR = 0;
-
-    process.exitCode = cli.execute(process.argv, fs.readFileSync(STDIN_FILE_DESCRIPTOR, "utf8"));
-} else if (init) {
-    const configInit = require("../lib/init/config-initializer");
-
-    configInit.initializeConfig().then(() => {
-        process.exitCode = 0;
-    }).catch(err => {
-        process.exitCode = 1;
-        console.error(err.message);
-        console.error(err.stack);
-    });
-} else {
-    process.exitCode = cli.execute(process.argv);
 }
+
+process.on("uncaughtException", handleError);
+process.on("unhandledRejection", handleError);
+
+/**
+ * The main function.
+ * @returns {Promise<number>} The exit code.
+ */
+async function main() {
+    if (init) {
+        await require("../lib/init/config-initializer").initializeConfig();
+        return 0;
+    }
+    if (useStdIn) {
+        return cli.execute(process.argv, await readFile(STDIN_FILE_DESCRIPTOR, "utf8"));
+    }
+    return cli.execute(process.argv);
+}
+
+main().then(exitCode => {
+    process.exitCode = exitCode;
+}, handleError);
