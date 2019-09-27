@@ -124,7 +124,7 @@ ruleTester.run("class-methods-use-this", rule, {
         },
         {
             code: "class A { foo() {} bar() {} afoobar() {} }",
-            options: [{ exceptMethods: ["bar"], exceptMethodsForRegex: ["afoo.*"] }],
+            options: [{ exceptMethods: ["bar"], exceptMethodsForRegex: ["^afoo.*"] }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 { type: "FunctionExpression", line: 1, column: 14, messageId: "missingThis", data: { name: "method 'foo'" } }
