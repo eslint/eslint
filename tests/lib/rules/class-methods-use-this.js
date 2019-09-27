@@ -103,7 +103,7 @@ ruleTester.run("class-methods-use-this", rule, {
             options: [{ exceptMethodsForRegex: ["^foo.*"] }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { type: "FunctionExpression", line: 1, column: 34, messageId: "missingThis", data: { name: "method 'hasOwnProperty'" } }
+                { type: "FunctionExpression", line: 1, column: 37, messageId: "missingThis", data: { name: "method 'hasOwnProperty'" } }
             ]
         },
         {
@@ -119,7 +119,7 @@ ruleTester.run("class-methods-use-this", rule, {
             options: [{ exceptMethodsForRegex: ["^foo.*"] }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { type: "FunctionExpression", line: 1, column: 16, messageId: "missingThis", data: { name: "method" } }
+                { type: "FunctionExpression", line: 1, column: 19, messageId: "missingThis", data: { name: "method" } }
             ]
         },
         {
