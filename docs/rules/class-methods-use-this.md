@@ -96,7 +96,7 @@ class A {
 
 The `exceptMethods` option allows you to pass an array of method names for which you would like to ignore warnings. For example, you might have a spec from an external library that requires you to overwrite a method as a regular function (and not as a static method) and does not use `this` inside the function body. In this case, you can add that method to ignore in the warnings.
 
-The option `useRegExp` option enables the use of regex expressions.
+The option `exceptMethodsForRegex` works like exceptMethods just for regular expressions.
 
 Examples of **incorrect** code for this rule when used without exceptMethods:
 
@@ -116,6 +116,13 @@ Examples of **correct** code for this rule when used with exceptMethods:
 
 class A {
     foo() {
+    }
+}
+
+/*eslint class-methods-use-this: ["error", { "exceptMethodsForRegex": ["^foo.*"] }] */
+
+class B {
+    foobar() {
     }
 }
 ```

@@ -99,11 +99,35 @@ ruleTester.run("class-methods-use-this", rule, {
             ]
         },
         {
+            code: "class A { foobar() {} hasOwnProperty() {} }",
+            options: [{ exceptMethodsForRegex: ["^foo.*"] }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                { type: "FunctionExpression", line: 1, column: 34, messageId: "missingThis", data: { name: "method 'hasOwnProperty'" } }
+            ]
+        },
+        {
             code: "class A { [foo]() {} }",
             options: [{ exceptMethods: ["foo"] }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 { type: "FunctionExpression", line: 1, column: 16, messageId: "missingThis", data: { name: "method" } }
+            ]
+        },
+        {
+            code: "class A { [foobar]() {} }",
+            options: [{ exceptMethodsForRegex: ["^foo.*"] }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                { type: "FunctionExpression", line: 1, column: 16, messageId: "missingThis", data: { name: "method" } }
+            ]
+        },
+        {
+            code: "class A { foo() {} bar() {} afoobar() {} }",
+            options: [{ exceptMethods: ["bar"], exceptMethodsForRegex: ["afoo.*"] }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                { type: "FunctionExpression", line: 1, column: 14, messageId: "missingThis", data: { name: "method 'foo'" } }
             ]
         },
         {
