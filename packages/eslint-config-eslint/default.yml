@@ -3,6 +3,11 @@ extends:
     - "plugin:node/recommended"
 plugins:
     - "jsdoc"
+settings:
+    jsdoc:
+        preferredTypes:
+            object: "Object"
+            function: "Function"
 rules:
     array-bracket-spacing: "error"
     array-callback-return: "error"
@@ -33,6 +38,7 @@ rules:
     generator-star-spacing: "error"
     guard-for-in: "error"
     handle-callback-err: ["error", "err"]
+    jsdoc/check-types: "error"
     jsdoc/require-jsdoc: "error"
     key-spacing: ["error", { beforeColon: false, afterColon: true }]
     keyword-spacing: "error"
@@ -174,17 +180,6 @@ rules:
     template-curly-spacing: ["error", "never"]
     template-tag-spacing: "error"
     unicode-bom: "error"
-    valid-jsdoc: ["error", {
-        prefer: { "return": "returns"},
-        preferType: {
-            "String": "string",
-            "Number": "number",
-            "Boolean": "boolean",
-            "array": "Array",
-            "object": "Object",
-            "function": "Function"
-        }
-    }]
     wrap-iife: "error"
     yield-star-spacing: "error"
     yoda: ["error", "never"]
