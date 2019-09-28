@@ -11,7 +11,6 @@ settings:
             class: "constructor"
         preferredTypes:
             object: "Object"
-            function: "Function"
 rules:
     array-bracket-spacing: "error"
     array-callback-return: "error"
