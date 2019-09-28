@@ -1,6 +1,6 @@
 # Require grouped accessor pairs in object literals and classes (grouped-accessor-pairs)
 
-Getter and setter for the same property don't necessarily have to be defined one after the other.
+A getter and setter for the same property don't necessarily have to be defined adjacent to each other.
 
 For example, the following statements would create the same object:
 
