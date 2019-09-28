@@ -74,6 +74,7 @@
     "optionator": "^0.8.2",
     "progress": "^2.0.0",
     "regexpp": "^2.0.1",
+    "require-from-string": "^2.0.2",
     "semver": "^6.1.2",
     "strip-ansi": "^5.2.0",
     "strip-json-comments": "^3.0.1",
