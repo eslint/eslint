@@ -44,6 +44,7 @@ rules:
     handle-callback-err: ["error", "err"]
     jsdoc/check-alignment: "error"
     jsdoc/check-param-names: "error"
+    jsdoc/check-syntax: "error"
     jsdoc/check-tag-names: "error"
     jsdoc/check-types: "error"
     jsdoc/require-jsdoc: "error"
