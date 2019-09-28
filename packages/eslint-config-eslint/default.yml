@@ -1,6 +1,8 @@
 extends:
     - "eslint:recommended"
     - "plugin:node/recommended"
+plugins:
+    - "jsdoc"
 rules:
     array-bracket-spacing: "error"
     array-callback-return: "error"
@@ -31,6 +33,7 @@ rules:
     generator-star-spacing: "error"
     guard-for-in: "error"
     handle-callback-err: ["error", "err"]
+    jsdoc/require-jsdoc: "error"
     key-spacing: ["error", { beforeColon: false, afterColon: true }]
     keyword-spacing: "error"
     lines-around-comment: ["error", {
@@ -154,7 +157,6 @@ rules:
     quotes: ["error", "double", {avoidEscape: true}]
     quote-props: ["error", "as-needed"]
     radix: "error"
-    require-jsdoc: "error"
     require-unicode-regexp: "error"
     rest-spread-spacing: "error"
     semi: "error"
