@@ -53,6 +53,7 @@ rules:
     jsdoc/require-param-description: "error"
     jsdoc/require-param-name: "error"
     jsdoc/require-param-type: "error"
+    jsdoc/require-returns: ["error", { forceRequireReturn: true, forceReturnsWithAsync: true }]
     jsdoc/require-returns-description: "error"
     jsdoc/require-returns-type: "error"
     key-spacing: ["error", { beforeColon: false, afterColon: true }]
