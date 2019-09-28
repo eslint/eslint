@@ -86,8 +86,7 @@ describe("RuntimeInfo", () => {
                             }
                         }
                     }
-                `,
-                NPM_BIN_PATH
+                `
             ];
         });
 
@@ -138,6 +137,7 @@ describe("RuntimeInfo", () => {
                     "version": "1.0.0"
                 }
             `);
+            spawnSyncStubArgs.push(NPM_BIN_PATH);
             setupSpawnSyncStubReturnVals(spawnSyncStub, spawnSyncStubArgs);
             process.argv[1] = GLOBAL_ESLINT_BIN_PATH;
 
