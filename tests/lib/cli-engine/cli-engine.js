@@ -1544,7 +1544,11 @@ describe("CLIEngine", () => {
             engine = new CLIEngine({
                 cwd: originalDir,
                 configFile: ".eslintrc.js",
-                rules: { "indent-legacy": 1 }
+                rules: {
+                    "indent-legacy": 1,
+                    "require-jsdoc": 1,
+                    "valid-jsdoc": 1
+                }
             });
 
             const report = engine.executeOnFiles(["lib/cli*.js"]);
