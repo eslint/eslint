@@ -54,6 +54,7 @@ rules:
     jsdoc/require-param-name: "error"
     jsdoc/require-param-type: "error"
     jsdoc/require-returns-description: "error"
+    jsdoc/require-returns-type: "error"
     key-spacing: ["error", { beforeColon: false, afterColon: true }]
     keyword-spacing: "error"
     lines-around-comment: ["error", {
