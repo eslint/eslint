@@ -47,6 +47,7 @@ rules:
     jsdoc/check-syntax: "error"
     jsdoc/check-tag-names: "error"
     jsdoc/check-types: "error"
+    jsdoc/implements-on-classes: "error"
     jsdoc/require-jsdoc: "error"
     key-spacing: ["error", { beforeColon: false, afterColon: true }]
     keyword-spacing: "error"
