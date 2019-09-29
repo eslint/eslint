@@ -473,12 +473,12 @@ target.all = function() {
     target.test();
 };
 
-target.lint = function() {
+target.lint = function([fix = false] = []) {
     let errors = 0,
         lastReturn;
 
     echo("Validating JavaScript files");
-    lastReturn = exec(`${ESLINT} .`);
+    lastReturn = exec(`${ESLINT}${fix ? "--fix" : ""} .`);
     if (lastReturn.code !== 0) {
         errors++;
     }

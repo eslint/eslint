@@ -10,6 +10,7 @@
   "scripts": {
     "test": "node Makefile.js test",
     "lint": "node Makefile.js lint",
+    "fix": "node Makefile.js lint -- fix",
     "fuzz": "node Makefile.js fuzz",
     "generate-release": "node Makefile.js generateRelease",
     "generate-alpharelease": "node Makefile.js generatePrerelease -- alpha",
