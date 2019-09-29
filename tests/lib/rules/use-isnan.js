@@ -18,7 +18,7 @@ const rule = require("../../../lib/rules/use-isnan"),
 
 const ruleTester = new RuleTester();
 
-const error = { messageId: "useIsNaN", type: "BinaryExpression" };
+const comparisonError = { messageId: "comparisonWithNaN", type: "BinaryExpression" };
 
 ruleTester.run("use-isnan", rule, {
     valid: [
@@ -35,72 +35,217 @@ ruleTester.run("use-isnan", rule, {
         "foo(2 * NaN)",
         "foo(NaN / 2)",
         "foo(2 / NaN)",
-        "var x; if (x = NaN) { }"
+        "var x; if (x = NaN) { }",
+
+        //------------------------------------------------------------------------------
+        // enforceForSwitchCase
+        //------------------------------------------------------------------------------
+
+        "switch(NaN) { case foo: break; }",
+        "switch(foo) { case NaN: break; }",
+        {
+            code: "switch(NaN) { case foo: break; }",
+            options: [{}]
+        },
+        {
+            code: "switch(foo) { case NaN: break; }",
+            options: [{}]
+        },
+        {
+            code: "switch(NaN) { case foo: break; }",
+            options: [{ enforceForSwitchCase: false }]
+        },
+        {
+            code: "switch(foo) { case NaN: break; }",
+            options: [{ enforceForSwitchCase: false }]
+        },
+        {
+            code: "switch(NaN) { case NaN: break; }",
+            options: [{ enforceForSwitchCase: false }]
+        },
+        {
+            code: "switch(foo) { case bar: break; case NaN: break; default: break; }",
+            options: [{ enforceForSwitchCase: false }]
+        },
+        {
+            code: "switch(foo) {}",
+            options: [{ enforceForSwitchCase: true }]
+        },
+        {
+            code: "switch(foo) { case bar: NaN; }",
+            options: [{ enforceForSwitchCase: true }]
+        },
+        {
+            code: "switch(foo) { default: NaN; }",
+            options: [{ enforceForSwitchCase: true }]
+        },
+        {
+            code: "switch(Nan) {}",
+            options: [{ enforceForSwitchCase: true }]
+        },
+        {
+            code: "switch('NaN') { default: break; }",
+            options: [{ enforceForSwitchCase: true }]
+        },
+        {
+            code: "switch(foo(NaN)) {}",
+            options: [{ enforceForSwitchCase: true }]
+        },
+        {
+            code: "switch(foo.NaN) {}",
+            options: [{ enforceForSwitchCase: true }]
+        },
+        {
+            code: "switch(foo) { case Nan: break }",
+            options: [{ enforceForSwitchCase: true }]
+        },
+        {
+            code: "switch(foo) { case 'NaN': break }",
+            options: [{ enforceForSwitchCase: true }]
+        },
+        {
+            code: "switch(foo) { case foo(NaN): break }",
+            options: [{ enforceForSwitchCase: true }]
+        },
+        {
+            code: "switch(foo) { case foo.NaN: break }",
+            options: [{ enforceForSwitchCase: true }]
+        },
+        {
+            code: "switch(foo) { case bar: break; case 1: break; default: break; }",
+            options: [{ enforceForSwitchCase: true }]
+        }
     ],
     invalid: [
         {
             code: "123 == NaN;",
-            errors: [error]
+            errors: [comparisonError]
         },
         {
             code: "123 === NaN;",
-            errors: [error]
+            errors: [comparisonError]
         },
         {
             code: "NaN === \"abc\";",
-            errors: [error]
+            errors: [comparisonError]
         },
         {
             code: "NaN == \"abc\";",
-            errors: [error]
+            errors: [comparisonError]
         },
         {
             code: "123 != NaN;",
-            errors: [error]
+            errors: [comparisonError]
         },
         {
             code: "123 !== NaN;",
-            errors: [error]
+            errors: [comparisonError]
         },
         {
             code: "NaN !== \"abc\";",
-            errors: [error]
+            errors: [comparisonError]
         },
         {
             code: "NaN != \"abc\";",
-            errors: [error]
+            errors: [comparisonError]
         },
         {
             code: "NaN < \"abc\";",
-            errors: [error]
+            errors: [comparisonError]
         },
         {
             code: "\"abc\" < NaN;",
-            errors: [error]
+            errors: [comparisonError]
         },
         {
             code: "NaN > \"abc\";",
-            errors: [error]
+            errors: [comparisonError]
         },
         {
             code: "\"abc\" > NaN;",
-            errors: [error]
+            errors: [comparisonError]
         },
         {
             code: "NaN <= \"abc\";",
-            errors: [error]
+            errors: [comparisonError]
         },
         {
             code: "\"abc\" <= NaN;",
-            errors: [error]
+            errors: [comparisonError]
         },
         {
             code: "NaN >= \"abc\";",
-            errors: [error]
+            errors: [comparisonError]
         },
         {
             code: "\"abc\" >= NaN;",
-            errors: [error]
+            errors: [comparisonError]
+        },
+
+        //------------------------------------------------------------------------------
+        // enforceForSwitchCase
+        //------------------------------------------------------------------------------
+
+        {
+            code: "switch(NaN) {}",
+            options: [{ enforceForSwitchCase: true }],
+            errors: [{ messageId: "switchNaN", type: "SwitchStatement", column: 1 }]
+        },
+        {
+            code: "switch(NaN) { case foo: break; }",
+            options: [{ enforceForSwitchCase: true }],
+            errors: [{ messageId: "switchNaN", type: "SwitchStatement", column: 1 }]
+        },
+        {
+            code: "switch(NaN) { default: break; }",
+            options: [{ enforceForSwitchCase: true }],
+            errors: [{ messageId: "switchNaN", type: "SwitchStatement", column: 1 }]
+        },
+        {
+            code: "switch(NaN) { case foo: break; default: break; }",
+            options: [{ enforceForSwitchCase: true }],
+            errors: [{ messageId: "switchNaN", type: "SwitchStatement", column: 1 }]
+        },
+        {
+            code: "switch(foo) { case NaN: }",
+            options: [{ enforceForSwitchCase: true }],
+            errors: [{ messageId: "caseNaN", type: "SwitchCase", column: 15 }]
+        },
+        {
+            code: "switch(foo) { case NaN: break; }",
+            options: [{ enforceForSwitchCase: true }],
+            errors: [{ messageId: "caseNaN", type: "SwitchCase", column: 15 }]
+        },
+        {
+            code: "switch(foo) { case (NaN): break; }",
+            options: [{ enforceForSwitchCase: true }],
+            errors: [{ messageId: "caseNaN", type: "SwitchCase", column: 15 }]
+        },
+        {
+            code: "switch(foo) { case bar: break; case NaN: break; default: break; }",
+            options: [{ enforceForSwitchCase: true }],
+            errors: [{ messageId: "caseNaN", type: "SwitchCase", column: 32 }]
+        },
+        {
+            code: "switch(foo) { case bar: case NaN: default: break; }",
+            options: [{ enforceForSwitchCase: true }],
+            errors: [{ messageId: "caseNaN", type: "SwitchCase", column: 25 }]
+        },
+        {
+            code: "switch(foo) { case bar: break; case NaN: break; case baz: break; case NaN: break; }",
+            options: [{ enforceForSwitchCase: true }],
+            errors: [
+                { messageId: "caseNaN", type: "SwitchCase", column: 32 },
+                { messageId: "caseNaN", type: "SwitchCase", column: 66 }
+            ]
+        },
+        {
+            code: "switch(NaN) { case NaN: break; }",
+            options: [{ enforceForSwitchCase: true }],
+            errors: [
+                { messageId: "switchNaN", type: "SwitchStatement", column: 1 },
+                { messageId: "caseNaN", type: "SwitchCase", column: 15 }
+            ]
         }
     ]
 });
