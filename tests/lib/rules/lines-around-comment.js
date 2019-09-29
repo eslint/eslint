@@ -60,6 +60,20 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{ afterBlockComment: false }]
         },
         {
+            code: "bar()\n/** block block block\n * block \n */\nvar a = 1;",
+
+            // check for ignore `beforeBlockComment`
+            /* eslint-disable-next-line no-undefined */
+            options: [{ beforeBlockComment: undefined }]
+        },
+        {
+            code: "bar()\n/** block block block\n * block \n */\n\nvar a = 1;",
+
+            // check for ignore `beforeBlockComment`
+            /* eslint-disable-next-line no-undefined */
+            options: [{ beforeBlockComment: undefined, afterBlockComment: true }]
+        },
+        {
             code: "/** \nblock \nblock block\n */\n/* block \n block \n */",
             options: [{ afterBlockComment: true, beforeBlockComment: true }]
         },
@@ -857,7 +871,7 @@ ruleTester.run("lines-around-comment", rule, {
         {
             code: "bar()\n/** block block block\n * block \n */\nvar a = 1;",
             output: "bar()\n\n/** block block block\n * block \n */\nvar a = 1;",
-            errors: [{ messageId: "before", type: "Block" }]
+            errors: [{ messageId: "expected-before", type: "Block" }]
         },
 
         // line comments
@@ -865,25 +879,28 @@ ruleTester.run("lines-around-comment", rule, {
             code: "baz()\n// A line comment with no empty line after\nvar a = 1;",
             output: "baz()\n// A line comment with no empty line after\n\nvar a = 1;",
             options: [{ afterLineComment: true }],
-            errors: [{ messageId: "after", type: "Line" }]
+            errors: [{ messageId: "expected-after", type: "Line" }]
         },
         {
-            code: "baz()\n// A line comment with no empty line after\nvar a = 1;",
+            code: "baz()\n// A line comment with no empty line after\n\nvar a = 1;",
             output: "baz()\n\n// A line comment with no empty line after\nvar a = 1;",
             options: [{ beforeLineComment: true, afterLineComment: false }],
-            errors: [{ messageId: "before", type: "Line" }]
+            errors: [
+                { messageId: "expected-before", type: "Line" },
+                { messageId: "unexpected-after", type: "Line" }
+            ]
         },
         {
             code: "// A line comment with no empty line after\nvar a = 1;",
             output: "// A line comment with no empty line after\n\nvar a = 1;",
             options: [{ beforeLineComment: true, afterLineComment: true }],
-            errors: [{ messageId: "after", type: "Line", line: 1, column: 1 }]
+            errors: [{ messageId: "expected-after", type: "Line", line: 1, column: 1 }]
         },
         {
             code: "baz()\n// A line comment with no empty line after\nvar a = 1;",
             output: "baz()\n\n// A line comment with no empty line after\n\nvar a = 1;",
             options: [{ beforeLineComment: true, afterLineComment: true }],
-            errors: [{ messageId: "before", type: "Line", line: 2 }, { messageId: "after", type: "Line", line: 2 }]
+            errors: [{ messageId: "expected-before", type: "Line", line: 2 }, { messageId: "expected-after", type: "Line", line: 2 }]
         },
 
         // block comments
@@ -891,15 +908,15 @@ ruleTester.run("lines-around-comment", rule, {
             code: "bar()\n/**\n * block block block\n */\nvar a = 1;",
             output: "bar()\n\n/**\n * block block block\n */\n\nvar a = 1;",
             options: [{ afterBlockComment: true, beforeBlockComment: true }],
-            errors: [{ messageId: "before", type: "Block", line: 2 }, { messageId: "after", type: "Block", line: 2 }]
+            errors: [{ messageId: "expected-before", type: "Block", line: 2 }, { messageId: "expected-after", type: "Block", line: 2 }]
         },
         {
             code: "bar()\n/* first block comment */ /* second block comment */\nvar a = 1;",
             output: "bar()\n\n/* first block comment */ /* second block comment */\n\nvar a = 1;",
             options: [{ afterBlockComment: true, beforeBlockComment: true }],
             errors: [
-                { messageId: "before", type: "Block", line: 2 },
-                { messageId: "after", type: "Block", line: 2 }
+                { messageId: "expected-before", type: "Block", line: 2 },
+                { messageId: "expected-after", type: "Block", line: 2 }
             ]
         },
         {
@@ -907,21 +924,27 @@ ruleTester.run("lines-around-comment", rule, {
             output: "bar()\n\n/* first block comment */ /* second block\n comment */\n\nvar a = 1;",
             options: [{ afterBlockComment: true, beforeBlockComment: true }],
             errors: [
-                { messageId: "before", type: "Block", line: 2 },
-                { messageId: "after", type: "Block", line: 2 }
+                { messageId: "expected-before", type: "Block", line: 2 },
+                { messageId: "expected-after", type: "Block", line: 2 }
             ]
         },
         {
-            code: "bar()\n/**\n * block block block\n */\nvar a = 1;",
+            code: "bar()\n\n/**\n * block block block\n */\nvar a = 1;",
             output: "bar()\n/**\n * block block block\n */\n\nvar a = 1;",
             options: [{ afterBlockComment: true, beforeBlockComment: false }],
-            errors: [{ messageId: "after", type: "Block", line: 2 }]
+            errors: [
+                { messageId: "unexpected-before", type: "Block", line: 3 },
+                { messageId: "expected-after", type: "Block", line: 3 }
+            ]
         },
         {
-            code: "bar()\n/**\n * block block block\n */\nvar a = 1;",
+            code: "bar()\n/**\n * block block block\n */\n\nvar a = 1;",
             output: "bar()\n\n/**\n * block block block\n */\nvar a = 1;",
             options: [{ afterBlockComment: false, beforeBlockComment: true }],
-            errors: [{ messageId: "before", type: "Block", line: 2 }]
+            errors: [
+                { messageId: "expected-before", type: "Block", line: 2 },
+                { messageId: "unexpected-after", type: "Block", line: 2 }
+            ]
         },
         {
             code: "var a,\n// line\nb;",
@@ -930,7 +953,7 @@ ruleTester.run("lines-around-comment", rule, {
                 beforeLineComment: true,
                 allowBlockStart: true
             }],
-            errors: [{ messageId: "before", type: "Line", line: 2 }]
+            errors: [{ messageId: "expected-before", type: "Line", line: 2 }]
         },
         {
             code: "function foo(){\nvar a = 1;\n// line at block start\nvar g = 1;\n}",
@@ -939,7 +962,7 @@ ruleTester.run("lines-around-comment", rule, {
                 beforeLineComment: true,
                 allowBlockStart: true
             }],
-            errors: [{ messageId: "before", type: "Line", line: 3 }]
+            errors: [{ messageId: "expected-before", type: "Line", line: 3 }]
         },
         {
             code: "var a,\n// line\nb;",
@@ -948,7 +971,7 @@ ruleTester.run("lines-around-comment", rule, {
                 afterLineComment: true,
                 allowBlockEnd: true
             }],
-            errors: [{ messageId: "after", type: "Line", line: 2 }]
+            errors: [{ messageId: "expected-after", type: "Line", line: 2 }]
         },
         {
             code: "function foo(){\nvar a = 1;\n\n// line at block start\nvar g = 1;\n}",
@@ -957,7 +980,7 @@ ruleTester.run("lines-around-comment", rule, {
                 afterLineComment: true,
                 allowBlockEnd: true
             }],
-            errors: [{ messageId: "after", type: "Line", line: 4 }]
+            errors: [{ messageId: "expected-after", type: "Line", line: 4 }]
         },
         {
             code: "switch ('foo'){\ncase 'foo':\n// line at switch case start\nbreak;\n}",
@@ -965,7 +988,7 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{
                 beforeLineComment: true
             }],
-            errors: [{ messageId: "before", type: "Line", line: 3 }]
+            errors: [{ messageId: "expected-before", type: "Line", line: 3 }]
         },
         {
             code: "switch ('foo'){\ncase 'foo':\nbreak;\n\ndefault:\n// line at switch case start\nbreak;\n}",
@@ -973,7 +996,7 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{
                 beforeLineComment: true
             }],
-            errors: [{ messageId: "before", type: "Line", line: 6 }]
+            errors: [{ messageId: "expected-before", type: "Line", line: 6 }]
         },
         {
             code: "while(true){\n// line at block start and end\n}",
@@ -982,7 +1005,7 @@ ruleTester.run("lines-around-comment", rule, {
                 afterLineComment: true,
                 allowBlockStart: true
             }],
-            errors: [{ messageId: "after", type: "Line", line: 2 }]
+            errors: [{ messageId: "expected-after", type: "Line", line: 2 }]
         },
         {
             code: "while(true){\n// line at block start and end\n}",
@@ -991,7 +1014,7 @@ ruleTester.run("lines-around-comment", rule, {
                 beforeLineComment: true,
                 allowBlockEnd: true
             }],
-            errors: [{ messageId: "before", type: "Line", line: 2 }]
+            errors: [{ messageId: "expected-before", type: "Line", line: 2 }]
         },
         {
             code: "class A {\n// line at class start\nconstructor() {}\n}",
@@ -1000,7 +1023,7 @@ ruleTester.run("lines-around-comment", rule, {
                 beforeLineComment: true
             }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "before", type: "Line", line: 2 }]
+            errors: [{ messageId: "expected-before", type: "Line", line: 2 }]
         },
         {
             code: "class A {\n// line at class start\nconstructor() {}\n}",
@@ -1011,7 +1034,7 @@ ruleTester.run("lines-around-comment", rule, {
                 beforeLineComment: true
             }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "before", type: "Line", line: 2 }]
+            errors: [{ messageId: "expected-before", type: "Line", line: 2 }]
         },
         {
             code: "class B {\nconstructor() {}\n\n// line at class end\n}",
@@ -1020,7 +1043,7 @@ ruleTester.run("lines-around-comment", rule, {
                 afterLineComment: true
             }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "after", type: "Line", line: 4 }]
+            errors: [{ messageId: "expected-after", type: "Line", line: 4 }]
         },
         {
             code: "class B {\nconstructor() {}\n\n// line at class end\n}",
@@ -1031,7 +1054,7 @@ ruleTester.run("lines-around-comment", rule, {
                 allowClassEnd: false
             }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "after", type: "Line", line: 4 }]
+            errors: [{ messageId: "expected-after", type: "Line", line: 4 }]
         },
         {
             code: "switch ('foo'){\ncase 'foo':\nvar g = 1;\n\n// line at switch case end\n}",
@@ -1039,7 +1062,7 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{
                 afterLineComment: true
             }],
-            errors: [{ messageId: "after", type: "Line", line: 5 }]
+            errors: [{ messageId: "expected-after", type: "Line", line: 5 }]
         },
         {
             code: "switch ('foo'){\ncase 'foo':\nbreak;\n\ndefault:\nvar g = 1;\n\n// line at switch case end\n}",
@@ -1047,7 +1070,7 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{
                 afterLineComment: true
             }],
-            errors: [{ messageId: "after", type: "Line", line: 8 }]
+            errors: [{ messageId: "expected-after", type: "Line", line: 8 }]
         },
 
         // object start comments
@@ -1066,7 +1089,7 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{
                 beforeLineComment: true
             }],
-            errors: [{ messageId: "before", type: "Line", line: 2 }]
+            errors: [{ messageId: "expected-before", type: "Line", line: 2 }]
         },
         {
             code:
@@ -1089,7 +1112,7 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{
                 beforeLineComment: true
             }],
-            errors: [{ messageId: "before", type: "Line", line: 3 }]
+            errors: [{ messageId: "expected-before", type: "Line", line: 3 }]
         },
         {
             code:
@@ -1106,7 +1129,7 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{
                 beforeBlockComment: true
             }],
-            errors: [{ messageId: "before", type: "Block", line: 2 }]
+            errors: [{ messageId: "expected-before", type: "Block", line: 2 }]
         },
         {
             code:
@@ -1133,7 +1156,7 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{
                 beforeLineComment: true
             }],
-            errors: [{ messageId: "before", type: "Block", line: 3 }]
+            errors: [{ messageId: "expected-before", type: "Block", line: 3 }]
         },
         {
             code:
@@ -1151,7 +1174,7 @@ ruleTester.run("lines-around-comment", rule, {
                 beforeLineComment: true
             }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "before", type: "Line", line: 2 }]
+            errors: [{ messageId: "expected-before", type: "Line", line: 2 }]
         },
         {
             code:
@@ -1169,7 +1192,7 @@ ruleTester.run("lines-around-comment", rule, {
                 beforeLineComment: true
             }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "before", type: "Line", line: 2 }]
+            errors: [{ messageId: "expected-before", type: "Line", line: 2 }]
         },
         {
             code:
@@ -1187,7 +1210,7 @@ ruleTester.run("lines-around-comment", rule, {
                 beforeBlockComment: true
             }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "before", type: "Block", line: 2 }]
+            errors: [{ messageId: "expected-before", type: "Block", line: 2 }]
         },
         {
             code:
@@ -1205,7 +1228,7 @@ ruleTester.run("lines-around-comment", rule, {
                 beforeBlockComment: true
             }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "before", type: "Block", line: 2 }]
+            errors: [{ messageId: "expected-before", type: "Block", line: 2 }]
         },
 
         // object end comments
@@ -1224,7 +1247,7 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{
                 afterLineComment: true
             }],
-            errors: [{ messageId: "after", type: "Line", line: 3 }]
+            errors: [{ messageId: "expected-after", type: "Line", line: 3 }]
         },
         {
             code:
@@ -1247,7 +1270,7 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{
                 afterLineComment: true
             }],
-            errors: [{ messageId: "after", type: "Line", line: 5 }]
+            errors: [{ messageId: "expected-after", type: "Line", line: 5 }]
         },
         {
             code:
@@ -1266,7 +1289,7 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{
                 afterBlockComment: true
             }],
-            errors: [{ messageId: "after", type: "Block", line: 4 }]
+            errors: [{ messageId: "expected-after", type: "Block", line: 4 }]
         },
         {
             code:
@@ -1295,7 +1318,7 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{
                 afterBlockComment: true
             }],
-            errors: [{ messageId: "after", type: "Block", line: 6 }]
+            errors: [{ messageId: "expected-after", type: "Block", line: 6 }]
         },
         {
             code:
@@ -1313,7 +1336,7 @@ ruleTester.run("lines-around-comment", rule, {
                 afterLineComment: true
             }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "after", type: "Line", line: 3 }]
+            errors: [{ messageId: "expected-after", type: "Line", line: 3 }]
         },
         {
             code:
@@ -1331,7 +1354,7 @@ ruleTester.run("lines-around-comment", rule, {
                 afterLineComment: true
             }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "after", type: "Line", line: 3 }]
+            errors: [{ messageId: "expected-after", type: "Line", line: 3 }]
         },
         {
             code:
@@ -1351,7 +1374,7 @@ ruleTester.run("lines-around-comment", rule, {
                 afterBlockComment: true
             }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "after", type: "Block", line: 4 }]
+            errors: [{ messageId: "expected-after", type: "Block", line: 4 }]
         },
         {
             code:
@@ -1371,7 +1394,7 @@ ruleTester.run("lines-around-comment", rule, {
                 afterBlockComment: true
             }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "after", type: "Block", line: 4 }]
+            errors: [{ messageId: "expected-after", type: "Block", line: 4 }]
         },
 
         // array start comments
@@ -1390,7 +1413,7 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{
                 beforeLineComment: true
             }],
-            errors: [{ messageId: "before", type: "Line", line: 2 }]
+            errors: [{ messageId: "expected-before", type: "Line", line: 2 }]
         },
         {
             code:
@@ -1407,7 +1430,7 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{
                 beforeBlockComment: true
             }],
-            errors: [{ messageId: "before", type: "Block", line: 2 }]
+            errors: [{ messageId: "expected-before", type: "Block", line: 2 }]
         },
         {
             code:
@@ -1425,7 +1448,7 @@ ruleTester.run("lines-around-comment", rule, {
                 beforeLineComment: true
             }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "before", type: "Line", line: 2 }]
+            errors: [{ messageId: "expected-before", type: "Line", line: 2 }]
         },
         {
             code:
@@ -1443,7 +1466,7 @@ ruleTester.run("lines-around-comment", rule, {
                 beforeBlockComment: true
             }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "before", type: "Block", line: 2 }]
+            errors: [{ messageId: "expected-before", type: "Block", line: 2 }]
         },
 
         // array end comments
@@ -1462,7 +1485,7 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{
                 afterLineComment: true
             }],
-            errors: [{ messageId: "after", type: "Line", line: 3 }]
+            errors: [{ messageId: "expected-after", type: "Line", line: 3 }]
         },
         {
             code:
@@ -1481,7 +1504,7 @@ ruleTester.run("lines-around-comment", rule, {
             options: [{
                 afterBlockComment: true
             }],
-            errors: [{ messageId: "after", type: "Block", line: 4 }]
+            errors: [{ messageId: "expected-after", type: "Block", line: 4 }]
         },
         {
             code:
@@ -1499,7 +1522,7 @@ ruleTester.run("lines-around-comment", rule, {
                 afterLineComment: true
             }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "after", type: "Line", line: 3 }]
+            errors: [{ messageId: "expected-after", type: "Line", line: 3 }]
         },
         {
             code:
@@ -1519,7 +1542,7 @@ ruleTester.run("lines-around-comment", rule, {
                 afterBlockComment: true
             }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ messageId: "after", type: "Block", line: 4 }]
+            errors: [{ messageId: "expected-after", type: "Block", line: 4 }]
         },
 
         // ignorePattern
@@ -1546,69 +1569,69 @@ ruleTester.run("lines-around-comment", rule, {
                 applyDefaultIgnorePatterns: false
             }],
             errors: [
-                { messageId: "before", type: "Block", line: 7 },
-                { messageId: "after", type: "Block", line: 7 }
+                { messageId: "expected-before", type: "Block", line: 7 },
+                { messageId: "expected-after", type: "Block", line: 7 }
             ]
         },
         {
             code: "foo;\n/* eslint */",
             output: "foo;\n\n/* eslint */",
             options: [{ applyDefaultIgnorePatterns: false }],
-            errors: [{ messageId: "before", type: "Block" }]
+            errors: [{ messageId: "expected-before", type: "Block" }]
         },
         {
             code: "foo;\n/* jshint */",
             output: "foo;\n\n/* jshint */",
             options: [{ applyDefaultIgnorePatterns: false }],
-            errors: [{ messageId: "before", type: "Block" }]
+            errors: [{ messageId: "expected-before", type: "Block" }]
         },
         {
             code: "foo;\n/* jslint */",
             output: "foo;\n\n/* jslint */",
             options: [{ applyDefaultIgnorePatterns: false }],
-            errors: [{ messageId: "before", type: "Block" }]
+            errors: [{ messageId: "expected-before", type: "Block" }]
         },
         {
             code: "foo;\n/* istanbul */",
             output: "foo;\n\n/* istanbul */",
             options: [{ applyDefaultIgnorePatterns: false }],
-            errors: [{ messageId: "before", type: "Block" }]
+            errors: [{ messageId: "expected-before", type: "Block" }]
         },
         {
             code: "foo;\n/* global */",
             output: "foo;\n\n/* global */",
             options: [{ applyDefaultIgnorePatterns: false }],
-            errors: [{ messageId: "before", type: "Block" }]
+            errors: [{ messageId: "expected-before", type: "Block" }]
         },
         {
             code: "foo;\n/* globals */",
             output: "foo;\n\n/* globals */",
             options: [{ applyDefaultIgnorePatterns: false }],
-            errors: [{ messageId: "before", type: "Block" }]
+            errors: [{ messageId: "expected-before", type: "Block" }]
         },
         {
             code: "foo;\n/* exported */",
             output: "foo;\n\n/* exported */",
             options: [{ applyDefaultIgnorePatterns: false }],
-            errors: [{ messageId: "before", type: "Block" }]
+            errors: [{ messageId: "expected-before", type: "Block" }]
         },
         {
             code: "foo;\n/* jscs */",
             output: "foo;\n\n/* jscs */",
             options: [{ applyDefaultIgnorePatterns: false }],
-            errors: [{ messageId: "before", type: "Block" }]
+            errors: [{ messageId: "expected-before", type: "Block" }]
         },
         {
             code: "foo\n/* something else */",
             output: "foo\n\n/* something else */",
             options: [{ ignorePattern: "pragma" }],
-            errors: [{ messageId: "before", type: "Block" }]
+            errors: [{ messageId: "expected-before", type: "Block" }]
         },
         {
             code: "foo\n/* eslint */",
             output: "foo\n\n/* eslint */",
             options: [{ applyDefaultIgnorePatterns: false }],
-            errors: [{ messageId: "before", type: "Block" }]
+            errors: [{ messageId: "expected-before", type: "Block" }]
         },
 
         // "fallthrough" patterns are not ignored by default
@@ -1616,7 +1639,7 @@ ruleTester.run("lines-around-comment", rule, {
             code: "foo;\n/* fallthrough */",
             output: "foo;\n\n/* fallthrough */",
             options: [],
-            errors: [{ messageId: "before", type: "Block" }]
+            errors: [{ messageId: "expected-before", type: "Block" }]
         }
     ]
 

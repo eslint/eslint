@@ -59,9 +59,7 @@ rules:
     keyword-spacing: "error"
     lines-around-comment: ["error", {
         beforeBlockComment: true,
-        afterBlockComment: false,
-        beforeLineComment: true,
-        afterLineComment: false
+        beforeLineComment: true
     }]
     max-len: ["error", 160, {
         "ignoreComments": true,

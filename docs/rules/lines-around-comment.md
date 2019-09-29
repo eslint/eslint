@@ -1,20 +1,21 @@
 # require empty lines around comments (lines-around-comment)
 
-Many style guides require empty lines before or after comments. The primary goal
-of these rules is to make the comments easier to read and improve readability of the code.
+Many style guides require empty lines before or after comments.
+The primary goal of these rules is to make the comments easier to read and improve readability of the code.
 
 ## Rule Details
 
-This rule requires empty lines before and/or after comments. It can be enabled separately for both block (`/*`) and line (`//`) comments. This rule does not apply to comments that appear on the same line as code and does not require empty lines at the beginning or end of a file.
+This rule requires or rejects empty lines before and/or after comments. It can be enabled separately for both block (`/*`) and line (`//`) comments.
+This rule does not apply to comments that appear on the same line as code and does not require empty lines at the beginning or end of a file.
 
 ## Options
 
 This rule has an object option:
 
-* `"beforeBlockComment": true` (default) requires an empty line before block comments
-* `"afterBlockComment": true` requires an empty line after block comments
-* `"beforeLineComment": true` requires an empty line before line comments
-* `"afterLineComment": true` requires an empty line after line comments
+* `"beforeBlockComment": true/false` (default: true) requires/rejects an empty line before block comments
+* `"afterBlockComment": true/false` requires/rejects an empty line after block comments
+* `"beforeLineComment": true/false` requires/rejects an empty line before line comments
+* `"afterLineComment": true/false` requires/rejects an empty line after line comments
 * `"allowBlockStart": true` allows comments to appear at the start of block statements
 * `"allowBlockEnd": true` allows comments to appear at the end of block statements
 * `"allowObjectStart": true` allows comments to appear at the start of object literals
@@ -72,6 +73,29 @@ var night = "long";
 
 /* what a great and wonderful day */
 
+var day = "great"
+```
+
+Examples of **incorrect** code for this rule with the `{ "afterBlockComment": false }` option:
+
+```js
+/*eslint lines-around-comment: ["error", { "afterBlockComment": true }]*/
+
+var night = "long";
+
+/* what a great and wonderful day */
+
+var day = "great"
+```
+
+Examples of **correct** code for this rule with the `{ "afterBlockComment": false }` option:
+
+```js
+/*eslint lines-around-comment: ["error", { "afterBlockComment": true }]*/
+
+var night = "long";
+
+/* what a great and wonderful day */
 var day = "great"
 ```
 
