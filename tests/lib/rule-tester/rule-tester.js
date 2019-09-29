@@ -324,7 +324,11 @@ describe("RuleTester", () => {
                     "bar = baz;"
                 ],
                 invalid: [
-                    { code: "var foo = bar; var qux = boop;", output: null, errors: 2 }
+                    {
+                        code: "var foo = bar; var qux = boop;",
+                        output: null,
+                        errors: 2
+                    }
                 ]
             });
         }, /Expected no autofixes to be suggested/u);
@@ -1071,5 +1075,53 @@ describe("RuleTester", () => {
                 }
             );
         }, /A fatal parsing error occurred in autofix/u);
+    });
+
+    describe("sanitize test cases", () => {
+        let originalRuleTesterIt;
+        let spyRuleTesterIt;
+
+        before(() => {
+            originalRuleTesterIt = RuleTester.it;
+            spyRuleTesterIt = sinon.spy();
+            RuleTester.it = spyRuleTesterIt;
+        });
+        after(() => {
+            RuleTester.it = originalRuleTesterIt;
+        });
+        beforeEach(() => {
+            spyRuleTesterIt.resetHistory();
+            ruleTester = new RuleTester();
+        });
+        it("should present newline when using back-tick as new line", () => {
+            const code = `
+            var foo = bar;`;
+
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: [],
+                invalid: [
+                    {
+                        code,
+                        errors: [/^Bad var/u]
+                    }
+                ]
+            });
+            sinon.assert.calledWith(spyRuleTesterIt, code);
+        });
+        it("should present \\u0000 as a string", () => {
+            const code = "\u0000";
+
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: [],
+                invalid: [
+                    {
+                        code,
+                        errors: [/^Bad var/u]
+                    }
+                ]
+            });
+            sinon.assert.calledWith(spyRuleTesterIt, "\\u0000");
+        });
+
     });
 });
