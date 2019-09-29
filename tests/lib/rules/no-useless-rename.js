@@ -183,6 +183,21 @@ ruleTester.run("no-useless-rename", rule, {
             errors: ["Destructuring assignment bar unnecessarily renamed.", "Destructuring assignment baz unnecessarily renamed."]
         },
         {
+            code: "let {foo: foo = 1, 'bar': bar = 1, baz: baz} = obj;",
+            output: "let {foo = 1, bar = 1, baz} = obj;",
+            errors: ["Destructuring assignment foo unnecessarily renamed.", "Destructuring assignment bar unnecessarily renamed.", "Destructuring assignment baz unnecessarily renamed."]
+        },
+        {
+            code: "let {foo: {bar: bar = 1, 'baz': baz = 1}} = obj;",
+            output: "let {foo: {bar = 1, baz = 1}} = obj;",
+            errors: ["Destructuring assignment bar unnecessarily renamed.", "Destructuring assignment baz unnecessarily renamed."]
+        },
+        {
+            code: "let {foo: {bar: bar = {}} = {}} = obj;",
+            output: "let {foo: {bar = {}} = {}} = obj;",
+            errors: ["Destructuring assignment bar unnecessarily renamed."]
+        },
+        {
             code: "function func({foo: foo}) {}",
             output: "function func({foo}) {}",
             errors: ["Destructuring assignment foo unnecessarily renamed."]
@@ -203,6 +218,21 @@ ruleTester.run("no-useless-rename", rule, {
             errors: ["Destructuring assignment foo unnecessarily renamed.", "Destructuring assignment bar unnecessarily renamed."]
         },
         {
+            code: "function func({foo: foo = 1, 'bar': bar = 1, baz: baz}) {}",
+            output: "function func({foo = 1, bar = 1, baz}) {}",
+            errors: ["Destructuring assignment foo unnecessarily renamed.", "Destructuring assignment bar unnecessarily renamed.", "Destructuring assignment baz unnecessarily renamed."]
+        },
+        {
+            code: "function func({foo: {bar: bar = 1, 'baz': baz = 1}}) {}",
+            output: "function func({foo: {bar = 1, baz = 1}}) {}",
+            errors: ["Destructuring assignment bar unnecessarily renamed.", "Destructuring assignment baz unnecessarily renamed."]
+        },
+        {
+            code: "function func({foo: {bar: bar = {}} = {}}) {}",
+            output: "function func({foo: {bar = {}} = {}}) {}",
+            errors: ["Destructuring assignment bar unnecessarily renamed."]
+        },
+        {
             code: "({foo: foo}) => {}",
             output: "({foo}) => {}",
             errors: ["Destructuring assignment foo unnecessarily renamed."]
@@ -221,6 +251,21 @@ ruleTester.run("no-useless-rename", rule, {
             code: "({foo: foo, bar: bar}) => {}",
             output: "({foo, bar}) => {}",
             errors: ["Destructuring assignment foo unnecessarily renamed.", "Destructuring assignment bar unnecessarily renamed."]
+        },
+        {
+            code: "({foo: foo = 1, 'bar': bar = 1, baz: baz}) => {}",
+            output: "({foo = 1, bar = 1, baz}) => {}",
+            errors: ["Destructuring assignment foo unnecessarily renamed.", "Destructuring assignment bar unnecessarily renamed.", "Destructuring assignment baz unnecessarily renamed."]
+        },
+        {
+            code: "({foo: {bar: bar = 1, 'baz': baz = 1}}) => {}",
+            output: "({foo: {bar = 1, baz = 1}}) => {}",
+            errors: ["Destructuring assignment bar unnecessarily renamed.", "Destructuring assignment baz unnecessarily renamed."]
+        },
+        {
+            code: "({foo: {bar: bar = {}} = {}}) => {}",
+            output: "({foo: {bar = {}} = {}}) => {}",
+            errors: ["Destructuring assignment bar unnecessarily renamed."]
         },
         {
             code: "const {foo: foo, ...stuff} = myObject;",
