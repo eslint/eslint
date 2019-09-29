@@ -163,6 +163,15 @@ describe("bin/eslint.js", () => {
                 return assertExitCode(child, 0);
             });
         });
+
+        it("successfully handles more than 4k data via stdin", () => {
+            const child = runESLint(["--stdin", "--no-eslintrc"]);
+            const large = fs.createReadStream(`${__dirname}/../bench/large.js`, "utf8");
+
+            large.pipe(child.stdin);
+
+            return assertExitCode(child, 0);
+        });
     });
 
     describe("running on files", () => {
