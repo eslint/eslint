@@ -18,10 +18,6 @@ Examples of **correct** code for this rule:
 
 ```js
 async function foo() {
-    return bar();
-}
-
-async function foo() {
     await bar();
     return;
 }
