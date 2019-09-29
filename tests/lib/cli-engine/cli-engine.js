@@ -66,7 +66,7 @@ describe("CLIEngine", () => {
 
     /**
      * Create the CLIEngine object by mocking some of the plugins
-     * @param {Object} options - options for CLIEngine
+     * @param {Object} options options for CLIEngine
      * @returns {CLIEngine} engine object
      * @private
      */
@@ -1597,7 +1597,7 @@ describe("CLIEngine", () => {
                 /**
                  * Converts CRLF to LF in output.
                  * This is a workaround for git's autocrlf option on Windows.
-                 * @param {Object} result - A result object to convert.
+                 * @param {Object} result A result object to convert.
                  * @returns {void}
                  */
                 function convertCRLF(result) {

@@ -95,7 +95,7 @@ describe("CascadingConfigArrayFactory", () => {
 
             /**
              * Mocks the current user's home path
-             * @param {string} fakeUserHomePath - fake user's home path
+             * @param {string} fakeUserHomePath fake user's home path
              * @returns {void}
              * @private
              */
