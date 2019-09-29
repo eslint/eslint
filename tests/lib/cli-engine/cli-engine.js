@@ -3874,7 +3874,7 @@ describe("CLIEngine", () => {
         });
 
         describe("with --ignore-pattern option", () => {
-            it("should accept an array for options.ignorePattern", () => {
+            it("should accept a string for options.ignorePattern", () => {
                 const cwd = getFixturePath("ignored-paths", "ignore-pattern");
                 const engine = new CLIEngine({
                     ignorePattern: "ignore-me.txt",
