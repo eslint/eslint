@@ -9,7 +9,6 @@
 const acorn = require("acorn");
 const espree = require("espree/lib/espree");
 
-// eslint-disable-next-line valid-jsdoc
 /**
  * Define the parser which ignores recoverable errors.
  * @returns {(parser:acorn.Parser) => acorn.Parser} The function that defines loose parser.
