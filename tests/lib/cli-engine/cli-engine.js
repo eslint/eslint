@@ -2110,7 +2110,6 @@ describe("CLIEngine", () => {
 
             /**
              * helper method to delete a file without caring about exceptions
-             *
              * @param {string} filePath The file path
              * @returns {void}
              */

@@ -19,7 +19,6 @@ const linter = new Linter();
 
 /**
  * Gets the code path of a given source code.
- *
  * @param {string} code - A source code.
  * @returns {CodePath[]} A list of created code paths.
  */
@@ -38,7 +37,6 @@ function parseCodePaths(code) {
 
 /**
  * Traverses a given code path then returns the order of traversing.
- *
  * @param {CodePath} codePath - A code path to traverse.
  * @param {Object|undefined} [options] - The option object of
  *      `codePath.traverseSegments()` method.

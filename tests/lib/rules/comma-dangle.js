@@ -19,7 +19,6 @@ const path = require("path"),
 
 /**
  * Gets the path to the parser of the given name.
- *
  * @param {string} name - The name of a parser to get.
  * @returns {string} The path to the specified parser.
  */

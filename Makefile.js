@@ -1017,7 +1017,6 @@ function time(cmd, runs, runNumber, results, cb) {
 
 /**
  * Run a performance test.
- *
  * @param {string} title - A title.
  * @param {string} targets - Test targets.
  * @param {number} multiplier - A multiplier for limitation.

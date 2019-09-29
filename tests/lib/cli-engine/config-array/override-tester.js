@@ -127,7 +127,6 @@ describe("OverrideTester", () => {
          * Previously, the testing logic of `overrides` properties had been
          * implemented in `ConfigOps.pathMatchesGlobs()` function. But
          * currently, it's implemented in `OverrideTester` class.
-         *
          * @param {string} filePath The file path to test patterns against
          * @param {string|string[]} files One or more glob patterns
          * @param {string|string[]} [excludedFiles] One or more glob patterns
