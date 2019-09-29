@@ -97,6 +97,68 @@ ruleTester.run("no-extra-bind", rule, {
             code: "var a = function() {}.bind(b.c)",
             output: null,
             errors
+        },
+
+        // Should not autofix if it would remove comments
+        {
+            code: "var a = function() {}/**/.bind(b)",
+            output: "var a = function() {}/**/",
+            errors
+        },
+        {
+            code: "var a = function() {}/**/['bind'](b)",
+            output: "var a = function() {}/**/",
+            errors
+        },
+        {
+            code: "var a = function() {}//comment\n.bind(b)",
+            output: "var a = function() {}//comment\n",
+            errors
+        },
+        {
+            code: "var a = function() {}./**/bind(b)",
+            output: null,
+            errors
+        },
+        {
+            code: "var a = function() {}[/**/'bind'](b)",
+            output: null,
+            errors
+        },
+        {
+            code: "var a = function() {}.//\nbind(b)",
+            output: null,
+            errors
+        },
+        {
+            code: "var a = function() {}.bind/**/(b)",
+            output: null,
+            errors
+        },
+        {
+            code: "var a = function() {}.bind(\n/**/b)",
+            output: null,
+            errors
+        },
+        {
+            code: "var a = function() {}.bind(b/**/)",
+            output: null,
+            errors
+        },
+        {
+            code: "var a = function() {}.bind(b//\n)",
+            output: null,
+            errors
+        },
+        {
+            code: "var a = function() {}.bind(b\n/**/)",
+            output: null,
+            errors
+        },
+        {
+            code: "var a = function() {}.bind(b)/**/",
+            output: "var a = function() {}/**/",
+            errors
         }
     ]
 });
