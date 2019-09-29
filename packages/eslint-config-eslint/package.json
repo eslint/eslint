@@ -20,6 +20,7 @@
   "homepage": "https://eslint.org",
   "bugs": "https://github.com/eslint/eslint/issues/",
   "peerDependencies": {
+    "eslint-plugin-jsdoc": "^15.9.5",
     "eslint-plugin-node": "^9.0.0"
   },
   "keywords": [

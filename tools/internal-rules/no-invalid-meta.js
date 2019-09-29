@@ -104,7 +104,6 @@ function hasMetaSchema(metaPropertyNode) {
  *
  * @param {RuleContext} context The ESLint rule context.
  * @param {ASTNode} exportsNode ObjectExpression node that the rule exports.
- * @param {boolean} ruleIsFixable whether the rule is fixable or not.
  * @returns {void}
  */
 function checkMetaValidity(context, exportsNode) {
