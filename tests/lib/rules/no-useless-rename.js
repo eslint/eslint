@@ -299,6 +299,133 @@ ruleTester.run("no-useless-rename", rule, {
             code: "export {foo as foo, bar as bar} from 'foo';",
             output: "export {foo, bar} from 'foo';",
             errors: ["Export foo unnecessarily renamed.", "Export bar unnecessarily renamed."]
+        },
+
+        // Should not autofix if it would remove comments
+        {
+            code: "({/* comment */foo: foo} = {});",
+            output: "({/* comment */foo} = {});",
+            errors: ["Destructuring assignment foo unnecessarily renamed."]
+        },
+        {
+            code: "({foo, /* comment */bar: bar} = {});",
+            output: "({foo, /* comment */bar} = {});",
+            errors: ["Destructuring assignment bar unnecessarily renamed."]
+        },
+        {
+            code: "({foo/**/ : foo} = {});",
+            output: null,
+            errors: ["Destructuring assignment foo unnecessarily renamed."]
+        },
+        {
+            code: "({foo /**/: foo} = {});",
+            output: null,
+            errors: ["Destructuring assignment foo unnecessarily renamed."]
+        },
+        {
+            code: "({foo://\nfoo} = {});",
+            output: null,
+            errors: ["Destructuring assignment foo unnecessarily renamed."]
+        },
+        {
+            code: "({foo: /**/foo} = {});",
+            output: null,
+            errors: ["Destructuring assignment foo unnecessarily renamed."]
+        },
+        {
+            code: "({foo: foo/* comment */} = {});",
+            output: "({foo/* comment */} = {});",
+            errors: ["Destructuring assignment foo unnecessarily renamed."]
+        },
+        {
+            code: "({foo: foo//comment\n,bar} = {});",
+            output: "({foo//comment\n,bar} = {});",
+            errors: ["Destructuring assignment foo unnecessarily renamed."]
+        },
+        {
+            code: "import {/* comment */foo as foo} from 'foo';",
+            output: "import {/* comment */foo} from 'foo';",
+            errors: ["Import foo unnecessarily renamed."]
+        },
+        {
+            code: "import {foo,/* comment */bar as bar} from 'foo';",
+            output: "import {foo,/* comment */bar} from 'foo';",
+            errors: ["Import bar unnecessarily renamed."]
+        },
+        {
+            code: "import {foo/**/ as foo} from 'foo';",
+            output: null,
+            errors: ["Import foo unnecessarily renamed."]
+        },
+        {
+            code: "import {foo /**/as foo} from 'foo';",
+            output: null,
+            errors: ["Import foo unnecessarily renamed."]
+        },
+        {
+            code: "import {foo //\nas foo} from 'foo';",
+            output: null,
+            errors: ["Import foo unnecessarily renamed."]
+        },
+        {
+            code: "import {foo as/**/foo} from 'foo';",
+            output: null,
+            errors: ["Import foo unnecessarily renamed."]
+        },
+        {
+            code: "import {foo as foo/* comment */} from 'foo';",
+            output: "import {foo/* comment */} from 'foo';",
+            errors: ["Import foo unnecessarily renamed."]
+        },
+        {
+            code: "import {foo as foo/* comment */,bar} from 'foo';",
+            output: "import {foo/* comment */,bar} from 'foo';",
+            errors: ["Import foo unnecessarily renamed."]
+        },
+        {
+            code: "let foo; export {/* comment */foo as foo};",
+            output: "let foo; export {/* comment */foo};",
+            errors: ["Export foo unnecessarily renamed."]
+        },
+        {
+            code: "let foo, bar; export {foo,/* comment */bar as bar};",
+            output: "let foo, bar; export {foo,/* comment */bar};",
+            errors: ["Export bar unnecessarily renamed."]
+        },
+        {
+            code: "let foo; export {foo/**/as foo};",
+            output: null,
+            errors: ["Export foo unnecessarily renamed."]
+        },
+        {
+            code: "let foo; export {foo as/**/ foo};",
+            output: null,
+            errors: ["Export foo unnecessarily renamed."]
+        },
+        {
+            code: "let foo; export {foo as /**/foo};",
+            output: null,
+            errors: ["Export foo unnecessarily renamed."]
+        },
+        {
+            code: "let foo; export {foo as//comment\n foo};",
+            output: null,
+            errors: ["Export foo unnecessarily renamed."]
+        },
+        {
+            code: "let foo; export {foo as foo/* comment*/};",
+            output: "let foo; export {foo/* comment*/};",
+            errors: ["Export foo unnecessarily renamed."]
+        },
+        {
+            code: "let foo, bar; export {foo as foo/* comment*/,bar};",
+            output: "let foo, bar; export {foo/* comment*/,bar};",
+            errors: ["Export foo unnecessarily renamed."]
+        },
+        {
+            code: "let foo, bar; export {foo as foo//comment\n,bar};",
+            output: "let foo, bar; export {foo//comment\n,bar};",
+            errors: ["Export foo unnecessarily renamed."]
         }
     ]
 });
