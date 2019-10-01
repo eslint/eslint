@@ -1,3 +1,9 @@
+v6.5.1 - September 30, 2019
+
+* [`0d3d7d9`](https://github.com/eslint/eslint/commit/0d3d7d9cdd83a7f0e035c95f716a91b9ecc4868b) Docs: fix typo in no-magic-numbers (#12345) (Josiah Rooney)
+* [`447ac87`](https://github.com/eslint/eslint/commit/447ac877e8ca2858d61b1e983f72d39e3e2ca74d) Fix: no-useless-rename handles ExperimentalRestProperty (fixes #12335) (#12339) (Kai Cataldo)
+* [`b6ff73c`](https://github.com/eslint/eslint/commit/b6ff73cad13282fbfc91186cf4bc2f20278a8936) Sponsors: Sync README with website (ESLint Jenkins)
+
 v6.5.0 - September 29, 2019
 
 * [`73596cb`](https://github.com/eslint/eslint/commit/73596cbdf0a12e2878b2994783f9b969b0c5fbeb) Update: Add enforceForSwitchCase option to use-isnan (#12106) (Milos Djermanovic)
