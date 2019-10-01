@@ -173,6 +173,7 @@
     "no-self-assign": "problem",
     "no-self-compare": "problem",
     "no-sequences": "suggestion",
+    "no-setter-return": "problem",
     "no-shadow": "suggestion",
     "no-shadow-restricted-names": "suggestion",
     "no-spaced-func": "layout",
