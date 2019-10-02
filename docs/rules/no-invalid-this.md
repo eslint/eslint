@@ -205,8 +205,7 @@ This rule has an object option, with one option:
 
 ### capIsConstructor
 
-By default, this rule always allows the use of `this` in functions which name starts with an uppercase and anonymous functions
-that are assigned to a variable which name starts with an uppercase, assuming that those functions are used as constructor functions.
+By default, this rule always allows the use of `this` in functions which name starts with an uppercase and anonymous functions that are assigned to a variable which name starts with an uppercase, assuming that those functions are used as constructor functions.
 
 Set `"capIsConstructor"` to `false` if you want those functions to be treated as 'regular' functions.
 
