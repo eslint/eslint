@@ -81,7 +81,7 @@ ruleTester.run("prefer-exponentiation-operator", rule, {
         invalid("Math[`${'pow'}`](a, b)", "a**b"),
         invalid("Math['p' + 'o' + 'w'](a, b)", "a**b"),
 
-        // non-expression parents don't require parens
+        // non-expression parents that don't require parens
         invalid("var x = Math.pow(a, b);", "var x = a**b;"),
         invalid("if(Math.pow(a, b)){}", "if(a**b){}"),
         invalid("for(;Math.pow(a, b);){}", "for(;a**b;){}"),
@@ -89,6 +89,9 @@ ruleTester.run("prefer-exponentiation-operator", rule, {
         invalid("{ foo: Math.pow(a, b) }", "{ foo: a**b }"),
         invalid("function foo(bar, baz = Math.pow(a, b), quux){}", "function foo(bar, baz = a**b, quux){}"),
         invalid("`${Math.pow(a, b)}`", "`${a**b}`"),
+
+        // non-expression parents that do require parens
+        invalid("class C extends Math.pow(a, b) {}", "class C extends (a**b) {}"),
 
         // parents with a higher precedence
         invalid("+ Math.pow(a, b)", "+ (a**b)"),
@@ -99,10 +102,13 @@ ruleTester.run("prefer-exponentiation-operator", rule, {
         invalid("Math.pow(a, b) .toString()", "(a**b) .toString()"),
         invalid("Math.pow(a, b) ()", "(a**b) ()"),
         invalid("Math.pow(a, b) ``", "(a**b) ``"),
+        invalid("(class extends Math.pow(a, b) {})", "(class extends (a**b) {})"),
 
         // already parenthesised, shouldn't insert extra parens
         invalid("+(Math.pow(a, b))", "+(a**b)"),
         invalid("(Math.pow(a, b)).toString()", "(a**b).toString()"),
+        invalid("(class extends (Math.pow(a, b)) {})", "(class extends (a**b) {})"),
+        invalid("class C extends (Math.pow(a, b)) {}", "class C extends (a**b) {}"),
 
         // parents with a higher precedence, but the expression's role doesn't require parens
         invalid("f(Math.pow(a, b))", "f(a**b)"),
