@@ -128,8 +128,8 @@ ruleTester.run("space-in-parens", rule, {
             output: "bar(baz)",
             options: ["never"],
             errors: [
-                { messageId: "rejectedOpeningSpace", line: 1, column: 4 },
-                { messageId: "rejectedClosingSpace", line: 1, column: 10 }
+                { messageId: "rejectedOpeningSpace", line: 1, column: 5, endColumn: 6 },
+                { messageId: "rejectedClosingSpace", line: 1, column: 9, endColumn: 10 }
             ]
         },
         {
@@ -137,8 +137,8 @@ ruleTester.run("space-in-parens", rule, {
             output: "foo()",
             options: ["never"],
             errors: [
-                { messageId: "rejectedOpeningSpace", line: 1, column: 4 },
-                { messageId: "rejectedClosingSpace", line: 1, column: 6 }
+                { messageId: "rejectedOpeningSpace", line: 1, column: 5, endColumn: 6 },
+                { messageId: "rejectedClosingSpace", line: 1, column: 5, endColumn: 6 }
             ]
         },
         {
@@ -151,7 +151,7 @@ ruleTester.run("space-in-parens", rule, {
             code: "foo\n(\nbar )",
             output: "foo\n(\nbar)",
             options: ["never"],
-            errors: [{ messageId: "rejectedClosingSpace", line: 3, column: 5 }]
+            errors: [{ messageId: "rejectedClosingSpace", line: 3, column: 4 }]
         },
         {
             code: "foo\n(bar\n)\n",
@@ -170,8 +170,8 @@ ruleTester.run("space-in-parens", rule, {
             output: "foo( bar )",
             options: ["always"],
             errors: [
-                { messageId: "missingOpeningSpace", line: 1, column: 4 },
-                { messageId: "missingClosingSpace", line: 1, column: 8 }
+                { messageId: "missingOpeningSpace", line: 1, column: 4, endColumn: 5 },
+                { messageId: "missingClosingSpace", line: 1, column: 8, endColumn: 9 }
             ]
         },
 
@@ -248,7 +248,7 @@ ruleTester.run("space-in-parens", rule, {
             code: "foo( /* bar */ baz)",
             output: "foo(/* bar */ baz)",
             options: ["never"],
-            errors: [{ messageId: "rejectedOpeningSpace", line: 1, column: 4 }]
+            errors: [{ messageId: "rejectedOpeningSpace", line: 1, column: 5 }]
         },
 
         // exceptions
@@ -266,8 +266,8 @@ ruleTester.run("space-in-parens", rule, {
             output: "foo()",
             options: ["always", { exceptions: ["()", "empty"] }],
             errors: [
-                { messageId: "rejectedOpeningSpace", line: 1, column: 4 },
-                { messageId: "rejectedClosingSpace", line: 1, column: 6 }
+                { messageId: "rejectedOpeningSpace", line: 1, column: 5 },
+                { messageId: "rejectedClosingSpace", line: 1, column: 5 }
             ]
         },
         {
@@ -275,8 +275,8 @@ ruleTester.run("space-in-parens", rule, {
             output: "foo()",
             options: ["always", { exceptions: ["empty"] }],
             errors: [
-                { messageId: "rejectedOpeningSpace", line: 1, column: 4 },
-                { messageId: "rejectedClosingSpace", line: 1, column: 6 }
+                { messageId: "rejectedOpeningSpace", line: 1, column: 5 },
+                { messageId: "rejectedClosingSpace", line: 1, column: 5 }
             ]
         },
         {
@@ -284,7 +284,7 @@ ruleTester.run("space-in-parens", rule, {
             output: "foo( bar())",
             options: ["always", { exceptions: ["()", "empty"] }],
             errors: [
-                { messageId: "rejectedClosingSpace", line: 1, column: 12 }
+                { messageId: "rejectedClosingSpace", line: 1, column: 11 }
             ]
         },
         {
@@ -300,10 +300,10 @@ ruleTester.run("space-in-parens", rule, {
             output: "foo(bar( ))",
             options: ["never", { exceptions: ["empty"] }],
             errors: [
-                { messageId: "rejectedOpeningSpace", line: 1, column: 4 },
+                { messageId: "rejectedOpeningSpace", line: 1, column: 5 },
                 { messageId: "missingOpeningSpace", line: 1, column: 9 },
                 { messageId: "missingClosingSpace", line: 1, column: 10 },
-                { messageId: "rejectedClosingSpace", line: 1, column: 12 }
+                { messageId: "rejectedClosingSpace", line: 1, column: 11 }
             ]
         },
         {
@@ -312,7 +312,7 @@ ruleTester.run("space-in-parens", rule, {
             options: ["never", { exceptions: ["[]"] }],
             errors: [
                 { messageId: "missingOpeningSpace", line: 1, column: 4 },
-                { messageId: "rejectedClosingSpace", line: 1, column: 18 }
+                { messageId: "rejectedClosingSpace", line: 1, column: 17 }
             ]
         },
         {
@@ -449,8 +449,8 @@ ruleTester.run("space-in-parens", rule, {
             output: "(( 1 + 2 ))",
             options: ["always", { exceptions: ["()"] }],
             errors: [
-                { messageId: "rejectedOpeningSpace", line: 1, column: 1 },
-                { messageId: "rejectedClosingSpace", line: 1, column: 13 }
+                { messageId: "rejectedOpeningSpace", line: 1, column: 2 },
+                { messageId: "rejectedClosingSpace", line: 1, column: 12 }
             ]
         },
         {
@@ -458,10 +458,10 @@ ruleTester.run("space-in-parens", rule, {
             output: "((1 + 2))",
             options: ["never"],
             errors: [
-                { messageId: "rejectedOpeningSpace", line: 1, column: 1 },
-                { messageId: "rejectedOpeningSpace", line: 1, column: 3 },
-                { messageId: "rejectedClosingSpace", line: 1, column: 11 },
-                { messageId: "rejectedClosingSpace", line: 1, column: 13 }
+                { messageId: "rejectedOpeningSpace", line: 1, column: 2 },
+                { messageId: "rejectedOpeningSpace", line: 1, column: 4 },
+                { messageId: "rejectedClosingSpace", line: 1, column: 10 },
+                { messageId: "rejectedClosingSpace", line: 1, column: 12 }
             ]
         },
         {
@@ -506,7 +506,7 @@ ruleTester.run("space-in-parens", rule, {
             output: "var result = ( 1 / ( 1 + 2 )) + 3",
             options: ["always", { exceptions: ["()"] }],
             errors: [
-                { messageId: "rejectedClosingSpace", line: 1, column: 30 }
+                { messageId: "rejectedClosingSpace", line: 1, column: 29 }
             ]
         },
         {
@@ -524,7 +524,7 @@ ruleTester.run("space-in-parens", rule, {
             errors: [
                 { messageId: "missingOpeningSpace", line: 1, column: 14 },
                 { messageId: "missingClosingSpace", line: 1, column: 26 },
-                { messageId: "rejectedClosingSpace", line: 1, column: 28 }
+                { messageId: "rejectedClosingSpace", line: 1, column: 27 }
             ]
         },
 
@@ -535,8 +535,8 @@ ruleTester.run("space-in-parens", rule, {
             options: ["never"],
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { messageId: "rejectedOpeningSpace", line: 1, column: 19 },
-                { messageId: "rejectedClosingSpace", line: 1, column: 27 }
+                { messageId: "rejectedOpeningSpace", line: 1, column: 20 },
+                { messageId: "rejectedClosingSpace", line: 1, column: 26 }
             ]
         },
         {
