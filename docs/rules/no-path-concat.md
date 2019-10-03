@@ -35,6 +35,8 @@ var fullPath = __dirname + "/foo.js";
 
 var fullPath = __filename + "/foo.js";
 
+var fullPath = `${__dirname}/foo.js`;
+
 ```
 
 Examples of **correct** code for this rule:
@@ -43,6 +45,8 @@ Examples of **correct** code for this rule:
 /*eslint no-path-concat: "error"*/
 
 var fullPath = dirname + "/foo.js";
+
+var fullPath = `${dirname}/foo.js`;
 ```
 
 ## When Not To Use It
