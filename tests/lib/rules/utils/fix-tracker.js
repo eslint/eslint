@@ -30,7 +30,6 @@ const DEFAULT_CONFIG = {
 /**
  * Create a SourceCode instance from the given code. Also add parent pointers in
  * the AST so that parent traversals will work.
- *
  * @param {string} text The text of the code.
  * @returns {SourceCode} The SourceCode.
  */

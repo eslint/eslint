@@ -4064,9 +4064,9 @@ describe("Linter", () => {
 
         /**
          * Assert `context.getDeclaredVariables(node)` is valid.
-         * @param {string} code - A code to check.
-         * @param {string} type - A type string of ASTNode. This method checks variables on the node of the type.
-         * @param {Array<Array<string>>} expectedNamesList - An array of expected variable names. The expected variable names is an array of string.
+         * @param {string} code A code to check.
+         * @param {string} type A type string of ASTNode. This method checks variables on the node of the type.
+         * @param {Array<Array<string>>} expectedNamesList An array of expected variable names. The expected variable names is an array of string.
          * @returns {void}
          */
         function verify(code, type, expectedNamesList) {
@@ -4075,7 +4075,7 @@ describe("Linter", () => {
 
                     /**
                      * Assert `context.getDeclaredVariables(node)` is empty.
-                     * @param {ASTNode} node - A node to check.
+                     * @param {ASTNode} node A node to check.
                      * @returns {void}
                      */
                     function checkEmpty(node) {
