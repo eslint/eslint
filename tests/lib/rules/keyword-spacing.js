@@ -34,9 +34,8 @@ const NEITHER = { before: false, after: false };
  *         after: false,
  *         overrides: {as: {before: true, after: true}}
  *     }
- *
- * @param {string} keyword - A keyword to be overriden.
- * @param {Object} value - A value to override.
+ * @param {string} keyword A keyword to be overriden.
+ * @param {Object} value A value to override.
  * @returns {Object} An option object to test an "overrides" option.
  */
 function override(keyword, value) {
@@ -53,8 +52,7 @@ function override(keyword, value) {
 
 /**
  * Gets an error message that expected space(s) before a specified keyword.
- *
- * @param {string} keyword - A keyword.
+ * @param {string} keyword A keyword.
  * @returns {string[]} An error message.
  */
 function expectedBefore(keyword) {
@@ -63,8 +61,7 @@ function expectedBefore(keyword) {
 
 /**
  * Gets an error message that expected space(s) after a specified keyword.
- *
- * @param {string} keyword - A keyword.
+ * @param {string} keyword A keyword.
  * @returns {string[]} An error message.
  */
 function expectedAfter(keyword) {
@@ -74,8 +71,7 @@ function expectedAfter(keyword) {
 /**
  * Gets error messages that expected space(s) before and after a specified
  * keyword.
- *
- * @param {string} keyword - A keyword.
+ * @param {string} keyword A keyword.
  * @returns {string[]} Error messages.
  */
 function expectedBeforeAndAfter(keyword) {
@@ -87,8 +83,7 @@ function expectedBeforeAndAfter(keyword) {
 
 /**
  * Gets an error message that unexpected space(s) before a specified keyword.
- *
- * @param {string} keyword - A keyword.
+ * @param {string} keyword A keyword.
  * @returns {string[]} An error message.
  */
 function unexpectedBefore(keyword) {
@@ -97,8 +92,7 @@ function unexpectedBefore(keyword) {
 
 /**
  * Gets an error message that unexpected space(s) after a specified keyword.
- *
- * @param {string} keyword - A keyword.
+ * @param {string} keyword A keyword.
  * @returns {string[]} An error message.
  */
 function unexpectedAfter(keyword) {
@@ -108,8 +102,7 @@ function unexpectedAfter(keyword) {
 /**
  * Gets error messages that unexpected space(s) before and after a specified
  * keyword.
- *
- * @param {string} keyword - A keyword.
+ * @param {string} keyword A keyword.
  * @returns {string[]} Error messages.
  */
 function unexpectedBeforeAndAfter(keyword) {

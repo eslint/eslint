@@ -23,8 +23,8 @@ const packageJson = require("../../../package.json");
 
 /**
  * Sets up spawn.sync() stub calls to return values and throw errors in the order in which they are given.
- * @param {Function} stub - The stub to set up.
- * @param {Array} returnVals - Values to be returned by subsequent stub calls.
+ * @param {Function} stub The stub to set up.
+ * @param {Array} returnVals Values to be returned by subsequent stub calls.
  * @returns {Function} The set up stub.
  */
 function setupSpawnSyncStubReturnVals(stub, returnVals) {
