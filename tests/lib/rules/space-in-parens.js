@@ -133,12 +133,30 @@ ruleTester.run("space-in-parens", rule, {
             ]
         },
         {
+            code: "bar(  baz  )",
+            output: "bar(baz)",
+            options: ["never"],
+            errors: [
+                { messageId: "rejectedOpeningSpace", line: 1, column: 5, endColumn: 7 },
+                { messageId: "rejectedClosingSpace", line: 1, column: 10, endColumn: 12 }
+            ]
+        },
+        {
             code: "foo( )",
             output: "foo()",
             options: ["never"],
             errors: [
                 { messageId: "rejectedOpeningSpace", line: 1, column: 5, endColumn: 6 },
                 { messageId: "rejectedClosingSpace", line: 1, column: 5, endColumn: 6 }
+            ]
+        },
+        {
+            code: "foo(  )",
+            output: "foo()",
+            options: ["never"],
+            errors: [
+                { messageId: "rejectedOpeningSpace", line: 1, column: 5, endColumn: 7 },
+                { messageId: "rejectedClosingSpace", line: 1, column: 5, endColumn: 7 }
             ]
         },
         {
