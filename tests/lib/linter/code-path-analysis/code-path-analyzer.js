@@ -32,8 +32,7 @@ const linter = new Linter();
 /**
  * Extracts the content of `/*expected` comments from a given source code.
  * It's expected DOT arrows.
- *
- * @param {string} source - A source code text.
+ * @param {string} source A source code text.
  * @returns {string[]} DOT arrows.
  */
 function getExpectedDotArrows(source) {

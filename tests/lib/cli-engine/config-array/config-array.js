@@ -357,7 +357,6 @@ describe("ConfigArray", () => {
          * Previously, the merging logic of multiple config data had been
          * implemented in `ConfigOps.merge()` function. But currently, it's
          * implemented in `ConfigArray#extractConfig()` method.
-         *
          * @param {Object} target A config data.
          * @param {Object} source Another config data.
          * @returns {Object} The merged config data.
