@@ -8,7 +8,8 @@
 const childProcess = require("child_process");
 const fs = require("fs");
 const assert = require("chai").assert;
-const EXECUTABLE_PATH = require("path").resolve(`${__dirname}/../../bin/eslint.js`);
+const path = require("path");
+const EXECUTABLE_PATH = path.resolve(path.join(__dirname, "/../../bin/eslint.js"));
 
 /**
  * Returns a Promise for when a child process exits
@@ -166,7 +167,7 @@ describe("bin/eslint.js", () => {
 
         it("successfully handles more than 4k data via stdin", () => {
             const child = runESLint(["--stdin", "--no-eslintrc"]);
-            const large = fs.createReadStream(`${__dirname}/../bench/large.js`, "utf8");
+            const large = fs.createReadStream(path.join(__dirname, "/../bench/large.js"), "utf8");
 
             large.pipe(child.stdin);
 
@@ -182,7 +183,7 @@ describe("bin/eslint.js", () => {
     });
 
     describe("automatically fixing files", () => {
-        const fixturesPath = `${__dirname}/../fixtures/autofix-integration`;
+        const fixturesPath = path.join(__dirname, "/../fixtures/autofix-integration");
         const tempFilePath = `${fixturesPath}/temp.js`;
         const startingText = fs.readFileSync(`${fixturesPath}/left-pad.js`).toString();
         const expectedFixedText = fs.readFileSync(`${fixturesPath}/left-pad-expected.js`).toString();
@@ -359,7 +360,7 @@ describe("bin/eslint.js", () => {
         });
 
         it("prints the error message pointing to line of code", () => {
-            const invalidConfig = `${__dirname}/../fixtures/bin/.eslintrc.yml`;
+            const invalidConfig = path.join(__dirname, "/../fixtures/bin/.eslintrc.yml");
             const child = runESLint(["--no-ignore", invalidConfig]);
             const exitCodeAssertion = assertExitCode(child, 2);
             const outputAssertion = getOutput(child).then(output => {

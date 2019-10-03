@@ -693,8 +693,8 @@ describe("ConfigArray", () => {
 
         for (const { filePaths } of [
             { filePaths: [__filename] },
-            { filePaths: [__filename, `${__filename}.ts`] },
-            { filePaths: [__filename, `${__filename}.ts`, path.join(__dirname, "foo.js")] }
+            { filePaths: [__filename, `${path.resolve(__filename)}.ts`] },
+            { filePaths: [__filename, `${path.resolve(__filename)}.ts`, path.join(__dirname, "foo.js")] }
         ]) {
             describe(`after it called 'extractConfig(filePath)' ${filePaths.length} time(s) with ${JSON.stringify(filePaths, null, 4)}, the returned array`, () => { // eslint-disable-line no-loop-func
                 let configs;
@@ -721,7 +721,7 @@ describe("ConfigArray", () => {
 
             // Call some times, including with the same arguments.
             configArray.extractConfig(__filename);
-            configArray.extractConfig(`${__filename}.ts`);
+            configArray.extractConfig(`${path.resolve(__filename)}.ts`);
             configArray.extractConfig(path.join(__dirname, "foo.js"));
             configArray.extractConfig(__filename);
             configArray.extractConfig(path.join(__dirname, "foo.js"));
