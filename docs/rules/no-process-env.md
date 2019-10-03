@@ -31,7 +31,7 @@ if(config.env === "development") {
 
 ## When Not To Use It
 
-If prefer to use `process.env` throughout your project to retrieve values from environment variables, then you can safely disable this rule.
+If you prefer to use `process.env` throughout your project to retrieve values from environment variables, then you can safely disable this rule.
 
 ## Further Reading
 
