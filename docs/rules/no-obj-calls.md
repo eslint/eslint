@@ -12,7 +12,7 @@ The [ECMAScript 2015 specification](https://www.ecma-international.org/ecma-262/
 
 And the [ECMAScript 2017 specification](https://www.ecma-international.org/ecma-262/8.0/index.html#sec-atomics-object) makes it clear that `Atomics` cannot be invoked:
 
-> The Atomics object does not have a [[Call]] internal method; it is not possible to invoke the Atomics object as a function.
+> The Atomics object does not have a `[[Call]]` internal method; it is not possible to invoke the Atomics object as a function.
 
 ## Rule Details
 
