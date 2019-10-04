@@ -175,56 +175,56 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "class Foo { ['0']() {} }",
             output: "class Foo { '0'() {} }",
-            options: [{ checkMethods: true }],
+            options: [{ enforceForClassMembers: true }],
             errors: [{
                 message: "Unnecessarily computed property ['0'] found.", type: "MethodDefinition"
             }]
         }, {
             code: "class Foo { ['0+1,234']() {} }",
             output: "class Foo { '0+1,234'() {} }",
-            options: [{ checkMethods: true }],
+            options: [{ enforceForClassMembers: true }],
             errors: [{
                 message: "Unnecessarily computed property ['0+1,234'] found.", type: "MethodDefinition"
             }]
         }, {
             code: "class Foo { ['x']() {} }",
             output: "class Foo { 'x'() {} }",
-            options: [{ checkMethods: true }],
+            options: [{ enforceForClassMembers: true }],
             errors: [{
                 message: "Unnecessarily computed property ['x'] found.", type: "MethodDefinition"
             }]
         }, {
             code: "class Foo { [/* this comment prevents a fix */ 'x']() {} }",
             output: null,
-            options: [{ checkMethods: true }],
+            options: [{ enforceForClassMembers: true }],
             errors: [{
                 message: "Unnecessarily computed property ['x'] found.", type: "MethodDefinition"
             }]
         }, {
             code: "class Foo { ['x' /* this comment also prevents a fix */]() {} }",
             output: null,
-            options: [{ checkMethods: true }],
+            options: [{ enforceForClassMembers: true }],
             errors: [{
                 message: "Unnecessarily computed property ['x'] found.", type: "MethodDefinition"
             }]
         }, {
             code: "class Foo { [('x')]() {} }",
             output: "class Foo { 'x'() {} }",
-            options: [{ checkMethods: true }],
+            options: [{ enforceForClassMembers: true }],
             errors: [{
                 message: "Unnecessarily computed property ['x'] found.", type: "MethodDefinition"
             }]
         }, {
             code: "class Foo { *['x']() {} }",
             output: "class Foo { *'x'() {} }",
-            options: [{ checkMethods: true }],
+            options: [{ enforceForClassMembers: true }],
             errors: [{
                 message: "Unnecessarily computed property ['x'] found.", type: "MethodDefinition"
             }]
         }, {
             code: "class Foo { async ['x']() {} }",
             output: "class Foo { async 'x'() {} }",
-            options: [{ checkMethods: true }],
+            options: [{ enforceForClassMembers: true }],
             parserOptions: { ecmaVersion: 8 },
             errors: [{
                 message: "Unnecessarily computed property ['x'] found.", type: "MethodDefinition"
@@ -232,21 +232,21 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "class Foo { get[.2]() {} }",
             output: "class Foo { get.2() {} }",
-            options: [{ checkMethods: true }],
+            options: [{ enforceForClassMembers: true }],
             errors: [{
                 message: "Unnecessarily computed property [.2] found.", type: "MethodDefinition"
             }]
         }, {
             code: "class Foo { set[.2](value) {} }",
             output: "class Foo { set.2(value) {} }",
-            options: [{ checkMethods: true }],
+            options: [{ enforceForClassMembers: true }],
             errors: [{
                 message: "Unnecessarily computed property [.2] found.", type: "MethodDefinition"
             }]
         }, {
             code: "class Foo { async[.2]() {} }",
             output: "class Foo { async.2() {} }",
-            options: [{ checkMethods: true }],
+            options: [{ enforceForClassMembers: true }],
             parserOptions: { ecmaVersion: 8 },
             errors: [{
                 message: "Unnecessarily computed property [.2] found.", type: "MethodDefinition"
@@ -254,28 +254,28 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "class Foo { [2]() {} }",
             output: "class Foo { 2() {} }",
-            options: [{ checkMethods: true }],
+            options: [{ enforceForClassMembers: true }],
             errors: [{
                 message: "Unnecessarily computed property [2] found.", type: "MethodDefinition"
             }]
         }, {
             code: "class Foo { get [2]() {} }",
             output: "class Foo { get 2() {} }",
-            options: [{ checkMethods: true }],
+            options: [{ enforceForClassMembers: true }],
             errors: [{
                 message: "Unnecessarily computed property [2] found.", type: "MethodDefinition"
             }]
         }, {
             code: "class Foo { set [2](value) {} }",
             output: "class Foo { set 2(value) {} }",
-            options: [{ checkMethods: true }],
+            options: [{ enforceForClassMembers: true }],
             errors: [{
                 message: "Unnecessarily computed property [2] found.", type: "MethodDefinition"
             }]
         }, {
             code: "class Foo { async [2]() {} }",
             output: "class Foo { async 2() {} }",
-            options: [{ checkMethods: true }],
+            options: [{ enforceForClassMembers: true }],
             parserOptions: { ecmaVersion: 8 },
             errors: [{
                 message: "Unnecessarily computed property [2] found.", type: "MethodDefinition"
@@ -283,21 +283,21 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "class Foo { get[2]() {} }",
             output: "class Foo { get 2() {} }",
-            options: [{ checkMethods: true }],
+            options: [{ enforceForClassMembers: true }],
             errors: [{
                 message: "Unnecessarily computed property [2] found.", type: "MethodDefinition"
             }]
         }, {
             code: "class Foo { set[2](value) {} }",
             output: "class Foo { set 2(value) {} }",
-            options: [{ checkMethods: true }],
+            options: [{ enforceForClassMembers: true }],
             errors: [{
                 message: "Unnecessarily computed property [2] found.", type: "MethodDefinition"
             }]
         }, {
             code: "class Foo { async[2]() {} }",
             output: "class Foo { async 2() {} }",
-            options: [{ checkMethods: true }],
+            options: [{ enforceForClassMembers: true }],
             parserOptions: { ecmaVersion: 8 },
             errors: [{
                 message: "Unnecessarily computed property [2] found.", type: "MethodDefinition"
@@ -305,35 +305,35 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "class Foo { get['foo']() {} }",
             output: "class Foo { get'foo'() {} }",
-            options: [{ checkMethods: true }],
+            options: [{ enforceForClassMembers: true }],
             errors: [{
                 message: "Unnecessarily computed property ['foo'] found.", type: "MethodDefinition"
             }]
         }, {
             code: "class Foo { *[2]() {} }",
             output: "class Foo { *2() {} }",
-            options: [{ checkMethods: true }],
+            options: [{ enforceForClassMembers: true }],
             errors: [{
                 message: "Unnecessarily computed property [2] found.", type: "MethodDefinition"
             }]
         }, {
             code: "class Foo { async*[2]() {} }",
             output: "class Foo { async*2() {} }",
-            options: [{ checkMethods: true }],
+            options: [{ enforceForClassMembers: true }],
             errors: [{
                 message: "Unnecessarily computed property [2] found.", type: "MethodDefinition"
             }]
         }, {
             code: "class Foo { static ['constructor']() {} }",
             output: "class Foo { static 'constructor'() {} }",
-            options: [{ checkMethods: true }],
+            options: [{ enforceForClassMembers: true }],
             errors: [{
                 message: "Unnecessarily computed property ['constructor'] found.", type: "MethodDefinition"
             }]
         }, {
             code: "class Foo { ['prototype']() {} }",
             output: "class Foo { 'prototype'() {} }",
-            options: [{ checkMethods: true }],
+            options: [{ enforceForClassMembers: true }],
             errors: [{
                 message: "Unnecessarily computed property ['prototype'] found.", type: "MethodDefinition"
             }]
