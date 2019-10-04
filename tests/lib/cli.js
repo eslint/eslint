@@ -347,6 +347,74 @@ describe("cli", () => {
         });
     });
 
+    describe("when executing without no-error-on-unmatched-pattern flag", () => {
+        it("should throw an error on unmatched glob pattern", () => {
+            const filePath = getFixturePath("unmatched-patterns");
+            const globPattern = "*.js3";
+
+            assert.throws(() => {
+                cli.execute(`"${filePath}/${globPattern}"`);
+            }, `No files matching '${filePath}/${globPattern}' were found.`);
+        });
+
+        it("should throw an error on unmatched --ext", () => {
+            const filePath = getFixturePath("unmatched-patterns");
+            const extension = ".js3";
+
+            assert.throws(() => {
+                cli.execute(`--ext ${extension} ${filePath}`);
+            }, `No files matching '${filePath}' were found`);
+        });
+    });
+
+    describe("when executing with no-error-on-unmatched-pattern flag", () => {
+        it("should not throw an error on unmatched node glob syntax patterns", () => {
+            const filePath = getFixturePath("unmatched-patterns");
+            const exit = cli.execute(`--no-error-on-unmatched-pattern "${filePath}/*.js3"`);
+
+            assert.strictEqual(exit, 0);
+        });
+
+        it("should not throw an error on unmatched --ext", () => {
+            const filePath = getFixturePath("unmatched-patterns");
+            const exit = cli.execute(`--no-error-on-unmatched-pattern --ext .js3 ${filePath}`);
+
+            assert.strictEqual(exit, 0);
+        });
+    });
+
+    describe("when executing with no-error-on-unmatched-pattern flag and multiple patterns", () => {
+        it("should not throw an error on multiple unmatched node glob syntax patterns", () => {
+            const filePath = getFixturePath("unmatched-patterns");
+            const exit = cli.execute(`--no-error-on-unmatched-pattern ${filePath}/*.js3 ${filePath}/*.js4`);
+
+            assert.strictEqual(exit, 0);
+        });
+
+        it("should still throw an error on when a matched pattern has lint errors", () => {
+            const filePath = getFixturePath("unmatched-patterns");
+            const exit = cli.execute(`--no-error-on-unmatched-pattern ${filePath}/*.js3 ${filePath}/*.js`);
+
+            assert.strictEqual(exit, 1);
+        });
+    });
+
+    describe("when executing with no-error-on-unmatched-pattern flag and multiple --ext arguments", () => {
+        it("should not throw an error on multiple unmatched --ext arguments", () => {
+            const filePath = getFixturePath("unmatched-patterns");
+            const exit = cli.execute(`--no-error-on-unmatched-pattern --ext .js3 --ext .js4 ${filePath}`);
+
+            assert.strictEqual(exit, 0);
+        });
+
+        it("should still throw an error on when a matched pattern has lint errors", () => {
+            const filePath = getFixturePath("unmatched-patterns");
+            const exit = cli.execute(`--no-error-on-unmatched-pattern --ext .js3 --ext .js ${filePath}`);
+
+            assert.strictEqual(exit, 1);
+        });
+    });
+
     describe("when executing with help flag", () => {
         it("should print out help", () => {
             assert.strictEqual(cli.execute("-h"), 0);
