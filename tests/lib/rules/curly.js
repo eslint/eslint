@@ -185,6 +185,45 @@ ruleTester.run("curly", rule, {
             parserOptions: { ecmaVersion: 6 }
         },
 
+        // https://github.com/eslint/eslint/issues/12370
+        {
+            code: "if (foo) doSomething() \n ;",
+            options: ["multi-or-nest"]
+        },
+        {
+            code: "if (foo) doSomething(); \n else if (bar) doSomethingElse() \n ;",
+            options: ["multi-or-nest"]
+        },
+        {
+            code: "if (foo) doSomething(); \n else doSomethingElse() \n ;",
+            options: ["multi-or-nest"]
+        },
+        {
+            code: "if (foo) doSomething(); \n else if (bar) doSomethingElse(); \n else doAnotherThing() \n ;",
+            options: ["multi-or-nest"]
+        },
+        {
+            code: "for (var i = 0; foo; i++) doSomething() \n ;",
+            options: ["multi-or-nest"]
+        },
+        {
+            code: "for (var foo in bar) console.log(foo) \n ;",
+            options: ["multi-or-nest"]
+        },
+        {
+            code: "for (var foo of bar) console.log(foo) \n ;",
+            options: ["multi-or-nest"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "while (true) doSomething() \n ;",
+            options: ["multi-or-nest"]
+        },
+        {
+            code: "do doSomething() \n ;while (foo)",
+            options: ["multi-or-nest"]
+        },
+
         // https://github.com/eslint/eslint/issues/3856
         {
             code: "if (true) { if (false) console.log(1) } else console.log(2)",
