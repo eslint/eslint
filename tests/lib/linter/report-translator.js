@@ -91,7 +91,14 @@ describe("createReportTranslator", () => {
                 node,
                 loc: location,
                 message,
-                fix: () => ({ range: [1, 2], text: "foo" })
+                fix: () => ({ range: [1, 2], text: "foo" }),
+                suggest: [{
+                    desc: "suggestion 1",
+                    fix: () => ({ range: [2, 3], text: "s1" })
+                }, {
+                    desc: "suggestion 2",
+                    fix: () => ({ range: [3, 4], text: "s2" })
+                }]
             };
 
             assert.deepStrictEqual(
@@ -106,10 +113,18 @@ describe("createReportTranslator", () => {
                     fix: {
                         range: [1, 2],
                         text: "foo"
-                    }
+                    },
+                    suggestions: [{
+                        desc: "suggestion 1",
+                        fix: { range: [2, 3], text: "s1" }
+                    }, {
+                        desc: "suggestion 2",
+                        fix: { range: [3, 4], text: "s2" }
+                    }]
                 }
             );
         });
+
         it("should translate the messageId into a message", () => {
             const reportDescriptor = {
                 node,
@@ -135,6 +150,7 @@ describe("createReportTranslator", () => {
                 }
             );
         });
+
         it("should throw when both messageId and message are provided", () => {
             const reportDescriptor = {
                 node,
@@ -150,6 +166,7 @@ describe("createReportTranslator", () => {
                 "context.report() called with a message and a messageId. Please only pass one."
             );
         });
+
         it("should throw when an invalid messageId is provided", () => {
             const reportDescriptor = {
                 node,
@@ -164,6 +181,7 @@ describe("createReportTranslator", () => {
                 /^context\.report\(\) called with a messageId of '[^']+' which is not present in the 'messages' config:/u
             );
         });
+
         it("should throw when no message is provided", () => {
             const reportDescriptor = { node };
 
@@ -174,6 +192,7 @@ describe("createReportTranslator", () => {
             );
         });
     });
+
     describe("combining autofixes", () => {
         it("should merge fixes to one if 'fix' function returns an array of fixes.", () => {
             const reportDescriptor = {
@@ -346,7 +365,6 @@ describe("createReportTranslator", () => {
                 }
             );
         });
-
     });
 
     describe("message interpolation", () => {
