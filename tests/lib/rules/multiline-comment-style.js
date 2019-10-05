@@ -132,6 +132,50 @@ ruleTester.run("multiline-comment-style", rule, {
         },
         {
             code: `
+                /*
+                 * foo
+                 */
+            `,
+            options: ["starred-block"]
+        },
+        {
+            code: `
+                /* foo */
+            `,
+            options: ["bare-block"]
+        },
+        {
+            code: `
+                /*
+                   foo */
+            `,
+            options: ["bare-block"]
+        },
+        {
+            code: `
+                /*
+                   foo
+                */
+            `,
+            options: ["bare-block"]
+        },
+        {
+            code: `
+                /*
+              foo */
+            `,
+            options: ["bare-block"]
+        },
+        {
+            code: `
+                /*
+            foo
+        */
+            `,
+            options: ["bare-block"]
+        },
+        {
+            code: `
                 // this is
                 // a comment
             `,
@@ -230,6 +274,60 @@ ruleTester.run("multiline-comment-style", rule, {
                  * 4 is 20. */
             `,
             options: ["bare-block"]
+        },
+        {
+            code: `
+                /*
+                 *    foo
+                 *  bar
+                 *   baz
+                 * qux
+                 */
+            `,
+            options: ["starred-block"]
+        },
+        {
+            code: `
+                /*    foo
+                 *  bar
+                 *   baz
+                 * qux
+                 */
+            `,
+            options: ["bare-block"]
+        },
+        {
+            code: `
+                /**
+                 *    JSDoc blocks
+                 *  are
+                 *   ignored
+                 * !
+                 */
+            `,
+            options: ["bare-block"]
+        },
+        {
+            code: `
+                /**
+                 *    JSDoc blocks
+                 *  are
+                 *   ignored
+                 * !
+                 */
+            `,
+            options: ["starred-block"]
+        },
+        {
+            code: `
+                /**
+                 *    JSDoc blocks
+                 *  are
+                 *   ignored
+                 * !
+                 */
+            `,
+            options: ["separate-lines"]
         }
     ],
 
@@ -275,6 +373,57 @@ ruleTester.run("multiline-comment-style", rule, {
                  */
             `,
             errors: [{ messageId: "expectedBlock", line: 2 }, { messageId: "expectedBlock", line: 5 }]
+        },
+        {
+            code: `
+                //  foo
+                // bar
+                //    baz
+                // qux
+            `,
+            output: `
+                /*
+                 *  foo
+                 * bar
+                 *    baz
+                 * qux
+                 */
+            `,
+            errors: [{ messageId: "expectedBlock", line: 2 }]
+        },
+        {
+            code: `
+                //  foo
+                //
+                //    baz
+                // qux
+            `,
+            output: `
+                /*
+                 *  foo
+                 *${" "}
+                 *    baz
+                 * qux
+                 */
+            `,
+            errors: [{ messageId: "expectedBlock", line: 2 }]
+        },
+        {
+            code: `
+                //    foo
+                     // bar
+           //  baz
+                // qux
+            `,
+            output: `
+                /*
+                 *    foo
+                 * bar
+                 *  baz
+                 * qux
+                 */
+            `,
+            errors: [{ messageId: "expectedBlock", line: 2 }]
         },
         {
             code: `
@@ -486,6 +635,72 @@ ruleTester.run("multiline-comment-style", rule, {
         },
         {
             code: `
+                // foo
+                //
+                // bar
+            `,
+            output: `
+                /* foo
+                ${" ".repeat(3)}
+                   bar */
+            `,
+            options: ["bare-block"],
+            errors: [{ messageId: "expectedBlock", line: 2 }]
+        },
+        {
+            code: `
+                //foo
+                //bar
+            `,
+            output: `
+                /* foo
+                   bar */
+            `,
+            options: ["bare-block"],
+            errors: [{ messageId: "expectedBlock", line: 2 }]
+        },
+        {
+            code: `
+                //   foo
+                //   bar
+            `,
+            output: `
+                /*   foo
+                     bar */
+            `,
+            options: ["bare-block"],
+            errors: [{ messageId: "expectedBlock", line: 2 }]
+        },
+        {
+            code: `
+                // foo
+              // bar
+            `,
+            output: `
+                /* foo
+                   bar */
+            `,
+            options: ["bare-block"],
+            errors: [{ messageId: "expectedBlock", line: 2 }]
+        },
+        {
+            code: `
+                //    foo
+                     // bar
+           //  baz
+                // qux
+            `,
+            output: `
+                /*    foo
+                   bar
+                    baz
+                   qux */
+            `,
+            options: ["bare-block"],
+            errors: [{ messageId: "expectedBlock", line: 2 }]
+        },
+        {
+            code: `
                 /*
                 * foo
                 * bar
@@ -494,6 +709,66 @@ ruleTester.run("multiline-comment-style", rule, {
             output: `
                 /* foo
                    bar */
+            `,
+            options: ["bare-block"],
+            errors: [{ messageId: "expectedBareBlock", line: 2 }]
+        },
+        {
+            code: `
+                /*
+                *foo
+                *bar
+                */
+            `,
+            output: `
+                /* foo
+                   bar */
+            `,
+            options: ["bare-block"],
+            errors: [{ messageId: "expectedBareBlock", line: 2 }]
+        },
+        {
+            code: `
+                /*
+                *   foo
+                *   bar
+                */
+            `,
+            output: `
+                /*   foo
+                     bar */
+            `,
+            options: ["bare-block"],
+            errors: [{ messageId: "expectedBareBlock", line: 2 }]
+        },
+        {
+            code: `
+                /*
+                * foo
+             * bar
+                */
+            `,
+            output: `
+                /* foo
+                   bar */
+            `,
+            options: ["bare-block"],
+            errors: [{ messageId: "expectedBareBlock", line: 2 }]
+        },
+        {
+            code: `
+                /*
+                 *    foo
+                 *  bar
+                 *   baz
+                 * qux
+                 */
+            `,
+            output: `
+                /*    foo
+                    bar
+                     baz
+                   qux */
             `,
             options: ["bare-block"],
             errors: [{ messageId: "expectedBareBlock", line: 2 }]
@@ -632,14 +907,152 @@ ruleTester.run("multiline-comment-style", rule, {
             `,
             output: `
                 /*
+                 * {
+                 *     "foo": 1,
+                 *     "bar": 2
+                 * }
+                 */
+            `,
+            errors: [
+                { messageId: "expectedBlock", line: 2 }
+            ]
+        },
+        {
+            code: `
+                /*
+                 * {
+                 *     "foo": 1,
+                 *     "bar": 2
+                 * }
+                 */
+            `,
+            output: `
+                // {
+                //     "foo": 1,
+                //     "bar": 2
+                // }
+            `,
+            options: ["separate-lines"],
+            errors: [
+                { messageId: "expectedLines", line: 2 }
+            ]
+        },
+        {
+            code: `
+                /*
                  *{
                  *    "foo": 1,
                  *    "bar": 2
                  *}
                  */
             `,
+            output: `
+                // {
+                //     "foo": 1,
+                //     "bar": 2
+                // }
+            `,
+            options: ["separate-lines"],
             errors: [
-                { messageId: "expectedBlock", line: 2 }
+                { messageId: "expectedLines", line: 2 }
+            ]
+        },
+        {
+            code: `
+                /*
+                 *   {
+                 *       "foo": 1,
+                 *       "bar": 2
+                 *   }
+                 */
+            `,
+            output: `
+                //   {
+                //       "foo": 1,
+                //       "bar": 2
+                //   }
+            `,
+            options: ["separate-lines"],
+            errors: [
+                { messageId: "expectedLines", line: 2 }
+            ]
+        },
+        {
+            code: `
+                /*
+            *{
+                 *    "foo": 1,
+                    *    "bar": 2
+                 *}
+                  */
+            `,
+            output: `
+                // {
+                //     "foo": 1,
+                //     "bar": 2
+                // }
+            `,
+            options: ["separate-lines"],
+            errors: [
+                { messageId: "expectedLines", line: 2 }
+            ]
+        },
+        {
+            code: `
+                /*
+                 *   {
+                 *       "foo": 1,
+                 *       "bar": 2
+           *}
+                 */
+            `,
+            output: `
+                //    {
+                //        "foo": 1,
+                //        "bar": 2
+                // }
+            `,
+            options: ["separate-lines"],
+            errors: [
+                { messageId: "expectedLines", line: 2 }
+            ]
+        },
+        {
+            code: `
+                /*
+                {
+                    "foo": 1,
+                    "bar": 2
+                }
+                */
+            `,
+            output: `
+                // {
+                //     "foo": 1,
+                //     "bar": 2
+                // }
+            `,
+            options: ["separate-lines"],
+            errors: [
+                { messageId: "expectedLines", line: 2 }
+            ]
+        },
+        {
+            code: `
+                /* {
+                       "foo": 1,
+                       "bar": 2
+                   } */
+            `,
+            output: `
+                // {
+                //     "foo": 1,
+                //     "bar": 2
+                // }${" "}
+            `,
+            options: ["separate-lines"],
+            errors: [
+                { messageId: "expectedLines", line: 2 }
             ]
         }
     ]
