@@ -62,6 +62,7 @@ The source file for a rule exports an object with the following properties.
     * `category` (string) specifies the heading under which the rule is listed in the [rules index](../rules/)
     * `recommended` (boolean) is whether the `"extends": "eslint:recommended"` property in a [configuration file](../user-guide/configuring.md#extending-configuration-files) enables the rule
     * `url` (string) specifies the URL at which the full documentation can be accessed
+    * `suggestion` (boolean) specifies whether rules can return suggestions
 
     In a custom rule or plugin, you can omit `docs` or include any properties that you need in it.
 
@@ -343,6 +344,29 @@ Best practices for fixes:
         ```
 
     * This fixer can just select a quote type arbitrarily. If it guesses wrong, the resulting code will be automatically reported and fixed by the [`quotes`](/docs/rules/quotes.md) rule.
+
+### Providing Suggestions
+
+In some cases fixes aren't appropriate to be automatically applied, for example, if a fix potentially changes functionality or if there are multiple valid ways to fix a rule depending on the implementation intent (see the best practices for [applying fixes](#applying-fixes) listed above). In these cases, there is an alternative `suggest` option on `context.report()` that allows other tools, such as editors, to expose helpers for users to manually apply a suggestion.
+
+In order to provide suggestions, use the `suggest` key in the report argument with an array of suggestion objects. The suggestion objects represent individual suggestions that could be applied and require a `desc` key string that describes what applying the suggestion would do, and a `fix` key that is a function defining the suggestion result. This `fix` function follows the same API as regular fixes (described above in [applying fixes](#applying-fixes)).
+
+```js
+context.report({
+    node: node,
+    message: "Missing semicolon",
+    suggest: [
+        {
+            desc: "Insert the missing semicolon",
+            fix: function(fixer) {
+                return fixer.insertTextAfter(node, ";");
+            }
+        }
+    ]
+});
+```
+
+Note: Suggestions will be applied as a stand-alone change, without triggering multipass fixes. Each suggestion should focus on a singular change in the code and should not try to confirm to user defined styles. For example, if a suggestion is adding a new statement into the codebase, it should not try to match correct indentation, or confirm to user preferences on presence/absence of semicolumns. All of those things can be corrected by multipass autofix when the user triggers it.
 
 ### context.options
 

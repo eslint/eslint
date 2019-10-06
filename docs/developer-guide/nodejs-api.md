@@ -108,7 +108,7 @@ The most important method on `Linter` is `verify()`, which initiates linting of 
     * `preprocess` - (optional) A function that [Processors in Plugins](/docs/developer-guide/working-with-plugins.md#processors-in-plugins) documentation describes as the `preprocess` method.
     * `postprocess` - (optional) A function that [Processors in Plugins](/docs/developer-guide/working-with-plugins.md#processors-in-plugins) documentation describes as the `postprocess` method.
     * `filterCodeBlock` - (optional) A function that decides which code blocks the linter should adopt. The function receives two arguments. The first argument is the virtual filename of a code block. The second argument is the text of the code block. If the function returned `true` then the linter adopts the code block. If the function was omitted, the linter adopts only `*.js` code blocks. If you provided a `filterCodeBlock` function, it overrides this default behavior, so the linter doesn't adopt `*.js` code blocks automatically.
-    * `disableFixes` - (optional) when set to `true`, the linter doesn't make the `fix` property of the lint result.
+    * `disableFixes` - (optional) when set to `true`, the linter doesn't make either the `fix` or `suggestions` property of the lint result.
     * `allowInlineConfig` - (optional) set to `false` to disable inline comments from changing ESLint rules.
     * `reportUnusedDisableDirectives` - (optional) when set to `true`, adds reported errors for unused `eslint-disable` directives when no problems would be reported in the disabled area anyway.
 
@@ -154,7 +154,16 @@ The `verify()` method returns an array of objects containing information about t
     fix: {
         range: [1, 15],
         text: ";"
-    }
+    },
+    suggestions: [
+        {
+            desc: 'Insert a semicolon',
+            fix: {
+                range: [1, 15],
+                text: ";"
+            }
+        }
+    ]
 }
 ```
 
@@ -170,6 +179,7 @@ The information available for each linting message is:
 * `endColumn` - the end column of the range on which the error occurred (this property is omitted if it's not range).
 * `endLine` - the end line of the range on which the error occurred (this property is omitted if it's not range).
 * `fix` - an object describing the fix for the problem (this property is omitted if no fix is available).
+* `suggestions` - an array of objects describing possible lint fixes for editors to programmatically enable.
 
 Linting message objects have a deprecated `source` property. This property **will be removed** from linting messages in an upcoming breaking release. If you depend on this property, you should now use the `SourceCode` instance provided by the linter.
 
@@ -436,7 +446,16 @@ The return value is an object containing the results of the linting operation. H
                 line: 1,
                 column: 13,
                 nodeType: "ExpressionStatement",
-                fix: { range: [12, 12], text: ";" }
+                fix: { range: [12, 12], text: ";" },
+                suggestions: [
+                    {
+                        desc: 'Insert a semicolon',
+                        fix: {
+                            range: [1, 15],
+                            text: ";"
+                        }
+                    }
+                ]
             }],
             errorCount: 1,
             warningCount: 0,
@@ -485,7 +504,16 @@ const report = cli.executeOnFiles(["myfile.js", "lib/"]);
                     line: 1,
                     column: 13,
                     nodeType: "ExpressionStatement",
-                    fix: { range: [12, 12], text: ";" }
+                    fix: { range: [12, 12], text: ";" },
+                    suggestions: [
+                        {
+                            desc: 'Insert a semicolon',
+                            fix: {
+                                range: [1, 15],
+                                text: ";"
+                            }
+                        }
+                    ]
                 },
                 {
                     ruleId: "func-name-matching",
