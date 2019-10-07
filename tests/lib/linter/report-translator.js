@@ -367,6 +367,73 @@ describe("createReportTranslator", () => {
         });
     });
 
+    describe("suggestions", () => {
+        it("should support multiple suggestions.", () => {
+            const reportDescriptor = {
+                node,
+                loc: location,
+                message,
+                suggest: [{
+                    desc: "A first suggestion for the issue",
+                    fix: () => [{ range: [1, 2], text: "foo" }]
+                }, {
+                    desc: "A different suggestion for the issue",
+                    fix: () => [{ range: [1, 3], text: "foobar" }]
+                }]
+            };
+
+            assert.deepStrictEqual(
+                translateReport(reportDescriptor),
+                {
+                    ruleId: "foo-rule",
+                    severity: 2,
+                    message: "foo",
+                    line: 2,
+                    column: 1,
+                    nodeType: "ExpressionStatement",
+                    suggestions: [{
+                        desc: "A first suggestion for the issue",
+                        fix: { range: [1, 2], text: "foo" }
+                    }, {
+                        desc: "A different suggestion for the issue",
+                        fix: { range: [1, 3], text: "foobar" }
+                    }]
+                }
+            );
+        });
+
+        it("should merge suggestion fixes to one if 'fix' function returns an array of fixes.", () => {
+            const reportDescriptor = {
+                node,
+                loc: location,
+                message,
+                suggest: [{
+                    desc: "A suggestion for the issue",
+                    fix: () => [{ range: [1, 2], text: "foo" }, { range: [4, 5], text: "bar" }]
+                }]
+            };
+
+            assert.deepStrictEqual(
+                translateReport(reportDescriptor),
+                {
+                    ruleId: "foo-rule",
+                    severity: 2,
+                    message: "foo",
+                    line: 2,
+                    column: 1,
+                    nodeType: "ExpressionStatement",
+                    suggestions: [{
+                        desc: "A suggestion for the issue",
+                        fix: {
+                            range: [1, 5],
+                            text: "fooo\nbar"
+                        }
+                    }]
+                }
+            );
+        });
+    });
+
     describe("message interpolation", () => {
         it("should correctly parse a message when being passed all options in an old-style report", () => {
             assert.deepStrictEqual(
