@@ -24,10 +24,10 @@ ruleTester.run("no-useless-computed-key", rule, {
         "({ [x]: 0 });",
         "({ a: 0, [b](){} })",
         "({ ['__proto__']: [] })",
-        "class Foo { 'a'() {} }",
-        "class Foo { [x]() {} }",
-        "class Foo { ['constructor']() {} }",
-        "class Foo { static ['prototype']() {} }"
+        { code: "class Foo { 'a'() {} }", options: [{ enforceForClassMembers: true }] },
+        { code: "class Foo { [x]() {} }", options: [{ enforceForClassMembers: true }] },
+        { code: "class Foo { ['constructor']() {} }", options: [{ enforceForClassMembers: true }] },
+        { code: "class Foo { static ['prototype']() {} }", options: [{ enforceForClassMembers: true }] }
     ],
     invalid: [
         {
