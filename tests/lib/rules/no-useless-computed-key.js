@@ -28,10 +28,16 @@ ruleTester.run("no-useless-computed-key", rule, {
         { code: "class Foo { [x]() {} }", options: [{ enforceForClassMembers: true }] },
         { code: "class Foo { ['constructor']() {} }", options: [{ enforceForClassMembers: true }] },
         { code: "class Foo { static ['prototype']() {} }", options: [{ enforceForClassMembers: true }] },
+        { code: "(class { 'a'() {} })", options: [{ enforceForClassMembers: true }] },
+        { code: "(class { [x]() {} })", options: [{ enforceForClassMembers: true }] },
+        { code: "(class { ['constructor']() {} })", options: [{ enforceForClassMembers: true }] },
+        { code: "(class { static ['prototype']() {} })", options: [{ enforceForClassMembers: true }] },
         "class Foo { ['x']() {} }",
+        "(class { ['x']() {} })",
         "class Foo { static ['constructor']() {} }",
         "class Foo { ['prototype']() {} }",
         { code: "class Foo { ['x']() {} }", options: [{ enforceForClassMembers: false }] },
+        { code: "(class { ['x']() {} })", options: [{ enforceForClassMembers: false }] },
         { code: "class Foo { static ['constructor']() {} }", options: [{ enforceForClassMembers: false }] },
         { code: "class Foo { ['prototype']() {} }", options: [{ enforceForClassMembers: false }] }
     ],
@@ -339,6 +345,27 @@ ruleTester.run("no-useless-computed-key", rule, {
         }, {
             code: "class Foo { ['prototype']() {} }",
             output: "class Foo { 'prototype'() {} }",
+            options: [{ enforceForClassMembers: true }],
+            errors: [{
+                message: "Unnecessarily computed property ['prototype'] found.", type: "MethodDefinition"
+            }]
+        }, {
+            code: "(class { ['x']() {} })",
+            output: "(class { 'x'() {} })",
+            options: [{ enforceForClassMembers: true }],
+            errors: [{
+                message: "Unnecessarily computed property ['x'] found.", type: "MethodDefinition"
+            }]
+        }, {
+            code: "(class { static ['constructor']() {} })",
+            output: "(class { static 'constructor'() {} })",
+            options: [{ enforceForClassMembers: true }],
+            errors: [{
+                message: "Unnecessarily computed property ['constructor'] found.", type: "MethodDefinition"
+            }]
+        }, {
+            code: "(class { ['prototype']() {} })",
+            output: "(class { 'prototype'() {} })",
             options: [{ enforceForClassMembers: true }],
             errors: [{
                 message: "Unnecessarily computed property ['prototype'] found.", type: "MethodDefinition"
