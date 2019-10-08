@@ -45,10 +45,8 @@ if (!isNaN(foo)) {
 
 This rule has an object option, with two options:
 
-* `"enforceForSwitchCase"` when set to `true` disallows `case NaN` and `switch(NaN)` in `switch` statements. Default is `false`, meaning
-that this rule by default does not warn about `case NaN` or `switch(NaN)`.
-* `"enforceForIndexOf"` when set to `true` disallows the use of `Array` prototype methods `indexOf` and `lastIndexOf` with `NaN`. Default is `false`, meaning
-that this rule by default does not warn about `indexOf(NaN)` or `lastIndexOf(NaN)` method calls.
+* `"enforceForSwitchCase"` when set to `true` disallows `case NaN` and `switch(NaN)` in `switch` statements. Default is `false`, meaning that this rule by default does not warn about `case NaN` or `switch(NaN)`.
+* `"enforceForIndexOf"` when set to `true` disallows the use of `indexOf` and `lastIndexOf` methods with `NaN`. Default is `false`, meaning that this rule by default does not warn about `indexOf(NaN)` or `lastIndexOf(NaN)` method calls.
 
 ### enforceForSwitchCase
 
