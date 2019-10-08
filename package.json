@@ -1,6 +1,6 @@
 {
   "name": "eslint",
-  "version": "6.4.0",
+  "version": "6.5.1",
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "An AST-based pattern checker for JavaScript.",
   "bin": {
@@ -10,6 +10,7 @@
   "scripts": {
     "test": "node Makefile.js test",
     "lint": "node Makefile.js lint",
+    "fix": "node Makefile.js lint -- fix",
     "fuzz": "node Makefile.js fuzz",
     "generate-release": "node Makefile.js generateRelease",
     "generate-alpharelease": "node Makefile.js generatePrerelease -- alpha",
@@ -96,6 +97,7 @@
     "eslint-config-eslint": "file:packages/eslint-config-eslint",
     "eslint-plugin-eslint-plugin": "^2.0.1",
     "eslint-plugin-internal-rules": "file:tools/internal-rules",
+    "eslint-plugin-jsdoc": "^15.9.5",
     "eslint-plugin-node": "^9.0.0",
     "eslint-release": "^1.2.0",
     "eslump": "^2.0.0",

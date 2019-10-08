@@ -96,6 +96,7 @@ describe("CascadingConfigArrayFactory", () => {
 
             /**
              * Returns the path inside of the fixture directory.
+             * @param {...string} args file path segments.
              * @returns {string} The path inside the fixture directory.
              * @private
              */
@@ -105,7 +106,7 @@ describe("CascadingConfigArrayFactory", () => {
 
             /**
              * Mocks the current user's home path
-             * @param {string} fakeUserHomePath - fake user's home path
+             * @param {string} fakeUserHomePath fake user's home path
              * @returns {void}
              * @private
              */
@@ -121,7 +122,6 @@ describe("CascadingConfigArrayFactory", () => {
              * The `expected` object is merged with the default values of config
              * data before comparing, so you can specify only the properties you
              * focus on.
-             *
              * @param {Object} actual The config object to check.
              * @param {Object} expected What the config object should look like.
              * @returns {void}
@@ -698,6 +698,7 @@ describe("CascadingConfigArrayFactory", () => {
 
                 /**
                  * Returns the path inside of the fixture directory.
+                 * @param {...string} args file path segments.
                  * @returns {string} The path inside the fixture directory.
                  * @private
                  */
@@ -793,6 +794,7 @@ describe("CascadingConfigArrayFactory", () => {
 
                 /**
                  * Returns the path inside of the fixture directory.
+                 * @param {...string} args file path segments.
                  * @returns {string} The path inside the fixture directory.
                  * @private
                  */

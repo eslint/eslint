@@ -50,6 +50,7 @@ describe("CLIEngine", () => {
 
     /**
      * Returns the path inside of the fixture directory.
+     * @param {...string} args file path segments.
      * @returns {string} The path inside the fixture directory.
      * @private
      */
@@ -65,7 +66,7 @@ describe("CLIEngine", () => {
 
     /**
      * Create the CLIEngine object by mocking some of the plugins
-     * @param {Object} options - options for CLIEngine
+     * @param {Object} options options for CLIEngine
      * @returns {CLIEngine} engine object
      * @private
      */
@@ -1543,7 +1544,11 @@ describe("CLIEngine", () => {
             engine = new CLIEngine({
                 cwd: originalDir,
                 configFile: ".eslintrc.js",
-                rules: { "indent-legacy": 1 }
+                rules: {
+                    "indent-legacy": 1,
+                    "require-jsdoc": 1,
+                    "valid-jsdoc": 1
+                }
             });
 
             const report = engine.executeOnFiles(["lib/cli*.js"]);
@@ -1592,7 +1597,7 @@ describe("CLIEngine", () => {
                 /**
                  * Converts CRLF to LF in output.
                  * This is a workaround for git's autocrlf option on Windows.
-                 * @param {Object} result - A result object to convert.
+                 * @param {Object} result A result object to convert.
                  * @returns {void}
                  */
                 function convertCRLF(result) {
@@ -2105,7 +2110,6 @@ describe("CLIEngine", () => {
 
             /**
              * helper method to delete a file without caring about exceptions
-             *
              * @param {string} filePath The file path
              * @returns {void}
              */

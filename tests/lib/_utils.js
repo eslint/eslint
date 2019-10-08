@@ -25,7 +25,6 @@ function unIndent(strings, ...values) {
     return lines.map(line => line.slice(minLineIndent)).join("\n");
 }
 
-// eslint-disable-next-line valid-jsdoc
 /**
  * Add support of `recursive` option.
  * @param {import("fs")} fs The in-memory file system.
@@ -56,7 +55,6 @@ function supportMkdirRecursiveOption(fs, cwd) {
     };
 }
 
-// eslint-disable-next-line valid-jsdoc
 /**
  * Define in-memory file system.
  * @param {Object} options The options.

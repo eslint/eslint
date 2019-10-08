@@ -53,9 +53,6 @@
  */
 "use strict";
 
-// To use TypeScript type annotations for VSCode intellisense.
-/* eslint-disable valid-jsdoc */
-
 const path = require("path");
 const vm = require("vm");
 const Proxyquire = require("proxyquire/lib/proxyquire");
