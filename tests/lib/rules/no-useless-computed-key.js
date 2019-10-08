@@ -27,7 +27,13 @@ ruleTester.run("no-useless-computed-key", rule, {
         { code: "class Foo { 'a'() {} }", options: [{ enforceForClassMembers: true }] },
         { code: "class Foo { [x]() {} }", options: [{ enforceForClassMembers: true }] },
         { code: "class Foo { ['constructor']() {} }", options: [{ enforceForClassMembers: true }] },
-        { code: "class Foo { static ['prototype']() {} }", options: [{ enforceForClassMembers: true }] }
+        { code: "class Foo { static ['prototype']() {} }", options: [{ enforceForClassMembers: true }] },
+        "class Foo { ['x']() {} }",
+        "class Foo { static ['constructor']() {} }",
+        "class Foo { ['prototype']() {} }",
+        { code: "class Foo { ['x']() {} }", options: [{ enforceForClassMembers: false }] },
+        { code: "class Foo { static ['constructor']() {} }", options: [{ enforceForClassMembers: false }] },
+        { code: "class Foo { ['prototype']() {} }", options: [{ enforceForClassMembers: false }] }
     ],
     invalid: [
         {
