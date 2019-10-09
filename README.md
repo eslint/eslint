@@ -88,7 +88,7 @@ ESLint adheres to the [JS Foundation Code of Conduct](https://js.foundation/comm
 ## <a name="filing-issues"></a>Filing Issues
 
 Before filing an issue, please be sure to read the guidelines for what you're reporting:
-
+Below are the resources where you can read it from --
 * [Bug Report](https://eslint.org/docs/developer-guide/contributing/reporting-bugs)
 * [Propose a New Rule](https://eslint.org/docs/developer-guide/contributing/new-rules)
 * [Proposing a Rule Change](https://eslint.org/docs/developer-guide/contributing/rule-changes)
