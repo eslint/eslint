@@ -216,11 +216,48 @@ ruleTester.run("curly", rule, {
             parserOptions: { ecmaVersion: 6 }
         },
         {
-            code: "while (true) doSomething() \n ;",
+            code: "while (foo) doSomething() \n ;",
             options: ["multi-or-nest"]
         },
         {
             code: "do doSomething() \n ;while (foo)",
+            options: ["multi-or-nest"]
+        },
+        {
+            code: "if (foo)\n;",
+            options: ["multi-or-nest"]
+        },
+        {
+            code: "if (foo) doSomething(); \n else if (bar)\n;",
+            options: ["multi-or-nest"]
+        },
+        {
+            code: "if (foo) doSomething(); \n else\n;",
+            options: ["multi-or-nest"]
+        },
+        {
+            code: "if (foo) doSomething(); \n else if (bar) doSomethingElse(); \n else\n;",
+            options: ["multi-or-nest"]
+        },
+        {
+            code: "for (var i = 0; foo; i++)\n;",
+            options: ["multi-or-nest"]
+        },
+        {
+            code: "for (var foo in bar)\n;",
+            options: ["multi-or-nest"]
+        },
+        {
+            code: "for (var foo of bar)\n;",
+            options: ["multi-or-nest"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "while (foo)\n;",
+            options: ["multi-or-nest"]
+        },
+        {
+            code: "do\n;while (foo)",
             options: ["multi-or-nest"]
         },
 
@@ -936,6 +973,57 @@ ruleTester.run("curly", rule, {
             output: "if (true)\n{foo()\n;}[1, 2, 3].bar()",
             options: ["multi-line"],
             errors: [{ messageId: "missingCurlyAfterCondition", data: { name: "if" }, type: "IfStatement" }]
+        },
+
+        // https://github.com/eslint/eslint/issues/12370
+        {
+            code: "if (foo) {\ndoSomething()\n;\n}",
+            output: "if (foo) \ndoSomething()\n;\n",
+            options: ["multi-or-nest"],
+            errors: [{ messageId: "unexpectedCurlyAfterCondition", data: { name: "if" }, type: "IfStatement" }]
+        },
+        {
+            code: "if (foo) doSomething();\nelse if (bar) {\ndoSomethingElse()\n;\n}",
+            output: "if (foo) doSomething();\nelse if (bar) \ndoSomethingElse()\n;\n",
+            options: ["multi-or-nest"],
+            errors: [{ messageId: "unexpectedCurlyAfterCondition", data: { name: "if" }, type: "IfStatement" }]
+        },
+        {
+            code: "if (foo) doSomething();\nelse {\ndoSomethingElse()\n;\n}",
+            output: "if (foo) doSomething();\nelse \ndoSomethingElse()\n;\n",
+            options: ["multi-or-nest"],
+            errors: [{ messageId: "unexpectedCurlyAfter", data: { name: "else" }, type: "IfStatement" }]
+        },
+        {
+            code: "for (var i = 0; foo; i++) {\ndoSomething()\n;\n}",
+            output: "for (var i = 0; foo; i++) \ndoSomething()\n;\n",
+            options: ["multi-or-nest"],
+            errors: [{ messageId: "unexpectedCurlyAfterCondition", data: { name: "for" }, type: "ForStatement" }]
+        },
+        {
+            code: "for (var foo in bar) {\ndoSomething()\n;\n}",
+            output: "for (var foo in bar) \ndoSomething()\n;\n",
+            options: ["multi-or-nest"],
+            errors: [{ messageId: "unexpectedCurlyAfter", data: { name: "for-in" }, type: "ForInStatement" }]
+        },
+        {
+            code: "for (var foo of bar) {\ndoSomething()\n;\n}",
+            output: "for (var foo of bar) \ndoSomething()\n;\n",
+            options: ["multi-or-nest"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "unexpectedCurlyAfter", data: { name: "for-of" }, type: "ForOfStatement" }]
+        },
+        {
+            code: "while (foo) {\ndoSomething()\n;\n}",
+            output: "while (foo) \ndoSomething()\n;\n",
+            options: ["multi-or-nest"],
+            errors: [{ messageId: "unexpectedCurlyAfterCondition", data: { name: "while" }, type: "WhileStatement" }]
+        },
+        {
+            code: "do {\ndoSomething()\n;\n} while (foo)",
+            output: "do \ndoSomething()\n;\n while (foo)",
+            options: ["multi-or-nest"],
+            errors: [{ messageId: "unexpectedCurlyAfter", data: { name: "do" }, type: "DoWhileStatement" }]
         }
     ]
 });
