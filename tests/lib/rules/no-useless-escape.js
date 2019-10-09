@@ -127,9 +127,59 @@ ruleTester.run("no-useless-escape", rule, {
     ],
 
     invalid: [
-        { code: "var foo = /\\#/;", errors: [{ line: 1, column: 12, endColumn: 13, message: "Unnecessary escape character: \\#.", type: "Literal" }] },
-        { code: "var foo = /\\;/;", errors: [{ line: 1, column: 12, endColumn: 13, message: "Unnecessary escape character: \\;.", type: "Literal" }] },
-        { code: "var foo = \"\\'\";", errors: [{ line: 1, column: 12, endColumn: 13, message: "Unnecessary escape character: \\'.", type: "Literal" }] },
+        {
+            code: "var foo = /\\#/;",
+            errors: [{
+                line: 1,
+                column: 12,
+                endColumn: 13,
+                message: "Unnecessary escape character: \\#.",
+                type: "Literal",
+                suggestions: [{
+                    desc: "Remove unnecessary escape.",
+                    fix: { range: [11, 12], text: "" }
+                }, {
+                    desc: "Escape backslash to include it in the RegExp.",
+                    fix: { range: [11, 11], text: "\\" }
+                }]
+            }]
+        },
+        {
+            code: "var foo = /\\;/;",
+            errors: [{
+                line: 1,
+                column: 12,
+                endColumn: 13,
+                message: "Unnecessary escape character: \\;.",
+                type: "Literal",
+                suggestions: [{
+                    desc: "Remove unnecessary escape.",
+                    fix: { range: [11, 12], text: "" }
+                }, {
+                    desc: "Escape backslash to include it in the RegExp.",
+                    fix: { range: [11, 11], text: "\\" }
+                }]
+            }]
+        },
+        {
+            code: "var foo = \"\\'\";",
+            errors: [{
+                line: 1,
+                column: 12,
+                endColumn: 13,
+                message: "Unnecessary escape character: \\'.",
+                type: "Literal",
+                suggestions: [{
+                    desc: "Remove unnecessary escape.",
+                    fix: { range: [11, 12], text: "" }
+                }, {
+                    desc: "Escape backslash to include it in the RegExp.",
+                    fix: { range: [11, 11], text: "\\" }
+                }]
+            }]
+        },
+
+        // TODO update the rest of these
         { code: "var foo = \"\\#/\";", errors: [{ line: 1, column: 12, endColumn: 13, message: "Unnecessary escape character: \\#.", type: "Literal" }] },
         { code: "var foo = \"\\a\"", errors: [{ line: 1, column: 12, endColumn: 13, message: "Unnecessary escape character: \\a.", type: "Literal" }] },
         { code: "var foo = \"\\B\";", errors: [{ line: 1, column: 12, endColumn: 13, message: "Unnecessary escape character: \\B.", type: "Literal" }] },
