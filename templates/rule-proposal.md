@@ -16,4 +16,4 @@ Rule should save the programing behaviour of the programmer, variable name and c
 
 **Why should this rule be included in ESLint (instead of a plugin)?**
 
-ESLint is best plugin and just want people get more benifits from it and it will make it super cool
+ESLint is best plugin and just want people get more benifits from it and it will make it super cool.
