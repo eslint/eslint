@@ -67,7 +67,7 @@ describe("RuleTester", () => {
     let ruleTester;
 
     /**
-     * @description A helper function to verify Node.js core error messages.
+     * A helper function to verify Node.js core error messages.
      * @param {string} actual The actual input
      * @param {string} expected The expected input
      * @returns {Function} Error callback to verify that the message is correct
