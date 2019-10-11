@@ -31,10 +31,12 @@ String option:
 
 * `"never"` (default) disallows spaces inside computed property brackets
 * `"always"` requires one or more spaces inside computed property brackets
+* `"consistent"` requires consistent usage of spaces inside computed property brackets: there should be equal number of spaces after `[` and before `]` (the limit of spaces can be set by `maxSpaces` option, see below)
 
 Object option:
 
 * `"enforceForClassMembers": true` additionally applies this rule to class members (default is `false`)
+* `"maxSpaces": 2` specifies maximum number of allowed spaced for `"consistent"` option (default is `1`)
 
 ### never
 
@@ -90,6 +92,34 @@ var x = {[ b ]: a}
 obj[ foo[ bar ] ]
 ```
 
+### consistent
+
+Examples of **incorrect** code for this rule with the `"consistent"` option:
+
+```js
+/*eslint computed-property-spacing: ["error", "consistent"]*/
+/*eslint-env es6*/
+
+obj[foo ]
+var x = {[ b]: a}
+obj[ foo  ]
+obj[   'foo' ]
+obj[ foo[ bar ]]
+var x = {[b ]: a}
+```
+
+Examples of **correct** code for this rule with the `"consistent"` option:
+
+```js
+/*eslint computed-property-spacing: ["error", "consistent"]*/
+/*eslint-env es6*/
+
+obj[ foo ]
+obj['foo']
+var x = {[ b ]: a[ c[d] ]}
+obj[ foo[bar] ]
+```
+
 #### enforceForClassMembers
 
 By default, this rule does not check class declarations and class expressions,
@@ -136,6 +166,34 @@ const Bar = class {
   static get [c]() {}
   static set [c](value) {}
 }
+```
+
+### maxSpaces
+
+Examples of **incorrect** code for this rule with `"consistent"` and `{ maxSpaces: 2 }`:
+
+```js
+/*eslint computed-property-spacing: ["error", "consistent", { "maxSpaces": 2 }]*/
+/*eslint-env es6*/
+
+obj[   foo ]
+var x = {[ b   ]: a}
+obj[  foo ]
+obj['foo'  ]
+obj[  foo[ bar ]   ]
+var x = {[   b   ]: a}
+```
+
+Examples of **correct** code for this rule with `"consistent"` and `{ maxSpaces: 2 }`:
+
+```js
+/*eslint computed-property-spacing: ["error", "consistent", { "maxSpaces": 2 }]*/
+/*eslint-env es6*/
+
+obj[ foo ]
+obj[  'foo'  ]
+var x = {[ b ]: a[  c[ d ]  ]}
+obj[  foo[bar]  ]
 ```
 
 ## When Not To Use It

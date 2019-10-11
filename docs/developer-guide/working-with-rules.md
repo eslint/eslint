@@ -391,6 +391,8 @@ Once you have an instance of `SourceCode`, you can use the methods on it to work
 * `getCommentsAfter(nodeOrToken)` - returns an array of comment tokens that occur directly after the given node or token.
 * `getCommentsInside(node)` - returns an array of all comment tokens inside a given node.
 * `getJSDocComment(node)` - returns the JSDoc comment for a given node or `null` if there is none.
+* `getTextBetweenTokens(first, second)` - returns text between two tokens.
+* `getCleanTextBetweenTokens(first, second)` - returns text between two tokens without inline comments (`/*   */`).
 * `isSpaceBetweenTokens(first, second)` - returns true if there is a whitespace character between the two tokens.
 * `getFirstToken(node, skipOptions)` - returns the first token representing the given node.
 * `getFirstTokens(node, countOptions)` - returns the first `count` tokens representing the given node.

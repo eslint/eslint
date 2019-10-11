@@ -227,6 +227,41 @@ describe("SourceCode", () => {
     });
 
 
+    describe("SourceCode.removeInlineComments()", () => {
+        it("should remove inline comments from text", () => {
+            const codeWithComments = [
+                "/* A starting comment. */",
+                "/** ",
+                "  * Code is ",
+                "  * really good ",
+                "  */",
+                "(function iife() {",
+                "//* whatever",
+                "Foo.bar = function() { /* some comment here */ }",
+                "//* and here *",
+                "}());",
+                " /* Final comment */ "
+            ].join("\n");
+            const codeWithoutComments = [
+                "",
+                "/** ",
+                "  * Code is ",
+                "  * really good ",
+                "  */",
+                "(function iife() {",
+                "//* whatever",
+                "Foo.bar = function() {  }",
+                "//* and here *",
+                "}());",
+                "  "
+            ].join("\n");
+
+            assert.strictEqual(SourceCode.removeInlineComments(codeWithComments), codeWithoutComments);
+            assert.strictEqual(SourceCode.removeInlineComments(codeWithoutComments), codeWithoutComments);
+        });
+    });
+
+
     describe("getJSDocComment()", () => {
         afterEach(() => {
             sinon.verifyAndRestore();
@@ -1786,6 +1821,108 @@ describe("SourceCode", () => {
             assert.isNull(node);
             node = sourceCode.getNodeByRangeIndex(-99);
             assert.isNull(node);
+        });
+    });
+
+    describe("getTextBetweenTokens()", () => {
+
+        leche.withData([
+            ["let foo = bar;", " "],
+            ["let  foo = bar;", "  "],
+            ["let  foo = bar;", "  foo = ", 0, 3],
+            ["let  foo = bar;", "  foo = bar", 0, 4],
+            ["let /**/ foo = bar;", " /**/ "],
+            ["let /**/ foo = bar;", " /**/ foo = bar", 0, 4],
+            ["let /**/ foo = bar;", " bar", 2, 4],
+            ["let/**/foo = bar;", "/**/"],
+            ["a+b", ""],
+            ["a+b", "", 1, 2],
+            ["a/**/+b", "/**/"],
+            ["a/* Some comment */+b", "/* Some comment */"],
+            ["a /* Some comment */ + b", " /* Some comment */ "],
+            ["a /* Some comment */ + b", " /* Some comment */ + ", 0, 2],
+            ["a/* */+b", "/* */"],
+            ["a/**/ +b", "/**/ "],
+            ["a/**/ /**/+b", "/**/ /**/"],
+            ["a/**/\n/**/+b", "/**/\n/**/"],
+            ["a /* comment 1 */\n/*  comment #2  */  +  b", " /* comment 1 */\n/*  comment #2  */  "],
+            ["a /* comment 1 */\n/*  comment #2  */  +  b", " /* comment 1 */\n/*  comment #2  */  +  ", 0, 2],
+            ["a +b", " "],
+            ["a[b] = c", "b", 1, 3],
+            ["a[b] = c;", "[b] ", 0, 4],
+            ["a[ b ] = 3;", " b ", 1, 3],
+            ["foo[ bar ] = 'value';", "[ bar ] ", 0, 4],
+            ["foo [  bar  ] /* comment here */  =   null ;", " "],
+            ["foo [   bar  ] /* comment here */  =   null ;", "   bar  ", 1, 3],
+            ["foo [   bar  ] /* comment here */  =   null ;", " /* comment here */  ", 3, 4],
+            ["foo [   bar  ] /* comment here */  =   null ;", " [   bar  ] /* comment here */  =   ", 0, 5]
+        ], (code, expected, firstTokenIndex, secondTokenIndex) => {
+
+            it("should return text between tokens", () => {
+                const ast = espree.parse(code, DEFAULT_CONFIG),
+                    sourceCode = new SourceCode(code, ast),
+                    firstIndex = firstTokenIndex || 0,
+                    secondIndex = typeof secondTokenIndex === "number" ? secondTokenIndex : firstIndex + 1,
+                    tokens = sourceCode.ast.tokens;
+
+                assert.strictEqual(
+                    sourceCode.getTextBetweenTokens(
+                        tokens[firstIndex], tokens[secondIndex]
+                    ),
+                    expected
+                );
+            });
+        });
+    });
+
+    describe("getCleanTextBetweenTokens()", () => {
+
+        leche.withData([
+            ["let foo = bar;", " "],
+            ["let  foo = bar;", "  "],
+            ["let  foo = bar;", "  foo = ", 0, 3],
+            ["let  foo = bar;", "  foo = bar", 0, 4],
+            ["let /**/ foo = bar;", "  "],
+            ["let /**/ foo = bar;", "  foo = bar", 0, 4],
+            ["let /**/ foo = bar;", " bar", 2, 4],
+            ["let/**/foo = bar;", ""],
+            ["a+b", ""],
+            ["a+b", "", 1, 2],
+            ["a/**/+b", ""],
+            ["a/* Some comment */+b", ""],
+            ["a /* Some comment */ + b", "  "],
+            ["a /* Some comment */ + b", "  + ", 0, 2],
+            ["a/* */+b", ""],
+            ["a/**/ +b", " "],
+            ["a/**/ /**/+b", " "],
+            ["a/**/\n/**/+b", "\n"],
+            ["a /* comment 1 */\n/*  comment #2  */  +  b", " \n  "],
+            ["a /* comment 1 */ \n   \n /*  comment #2  */  +  b", "  \n   \n   +  ", 0, 2],
+            ["a +b", " "],
+            ["a[b] = c", "b", 1, 3],
+            ["a[b] = c;", "[b] ", 0, 4],
+            ["a[ b ] = 3;", " b ", 1, 3],
+            ["foo[ bar ] = /* commented 'value'*/ 0 ;", "  0 ", 4, 6],
+            ["foo/* comment here */[  bar  ]  =   null ;", ""],
+            ["foo [   bar  /* comment here */ ]  =   null ;", "   bar   ", 1, 3],
+            ["foo [   bar  ] /* comment here */ /*and here*/ =   null ;", "   ", 3, 4],
+            ["foo [ /* comment here */  bar  ] /* here */  =  /* and here */ null ;", " [   bar  ]   =   ", 0, 5]
+        ], (code, expected, firstTokenIndex, secondTokenIndex) => {
+
+            it("should return text between tokens without inline comments", () => {
+                const ast = espree.parse(code, DEFAULT_CONFIG),
+                    sourceCode = new SourceCode(code, ast),
+                    firstIndex = firstTokenIndex || 0,
+                    secondIndex = typeof secondTokenIndex === "number" ? secondTokenIndex : firstIndex + 1,
+                    tokens = sourceCode.ast.tokens;
+
+                assert.strictEqual(
+                    sourceCode.getCleanTextBetweenTokens(
+                        tokens[firstIndex], tokens[secondIndex]
+                    ),
+                    expected
+                );
+            });
         });
     });
 
