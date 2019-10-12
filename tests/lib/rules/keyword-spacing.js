@@ -545,6 +545,7 @@ ruleTester.run("keyword-spacing", rule, {
         { code: "if (a) {}else{}", options: [override("else", NEITHER)] },
         "if (a) {}\nelse\n{}",
         { code: "if(a) {}\nelse\n{}", options: [NEITHER] },
+        { code: "if(a){ }else{ }", options: [{ before: false, after: true, overrides: { else: { after: false }, if: { after: false } } }] },
 
         // not conflict with `semi-spacing`
         "if (a);else;",
