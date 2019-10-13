@@ -247,7 +247,7 @@ With this change, any unknown values in a `globals` object result in a config va
 
 **To address:** If you see config validation errors related to globals after updating, ensure that all values configured for globals are either `readonly`, `writable`, or `off`. (ESLint also accepts some alternate spellings and variants for compatibility.)
 
-## <a name="experimental-object-rest-spread"></a> The depreacted `experimentalObjectRestSpread` option has been removed
+## <a name="experimental-object-rest-spread"></a> The deprecated `experimentalObjectRestSpread` option has been removed
 
 Previously, when using the default parser, a config could use the `experimentalObjectRestSpread` option to enable parsing support for object rest/spread properties:
 
