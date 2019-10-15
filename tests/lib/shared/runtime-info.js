@@ -23,8 +23,8 @@ const packageJson = require("../../../package.json");
 
 /**
  * Sets up spawn.sync() stub calls to return values and throw errors in the order in which they are given.
- * @param {Function} stub - The stub to set up.
- * @param {Array} returnVals - Values to be returned by subsequent stub calls.
+ * @param {Function} stub The stub to set up.
+ * @param {Array} returnVals Values to be returned by subsequent stub calls.
  * @returns {Function} The set up stub.
  */
 function setupSpawnSyncStubReturnVals(stub, returnVals) {
@@ -86,8 +86,7 @@ describe("RuntimeInfo", () => {
                             }
                         }
                     }
-                `,
-                NPM_BIN_PATH
+                `
             ];
         });
 
@@ -138,6 +137,7 @@ describe("RuntimeInfo", () => {
                     "version": "1.0.0"
                 }
             `);
+            spawnSyncStubArgs.push(NPM_BIN_PATH);
             setupSpawnSyncStubReturnVals(spawnSyncStub, spawnSyncStubArgs);
             process.argv[1] = GLOBAL_ESLINT_BIN_PATH;
 

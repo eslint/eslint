@@ -23,7 +23,7 @@ This rule is aimed at ensuring there are spaces around infix operators.
 This rule accepts a single options argument with the following defaults:
 
 ```json
-"space-infix-ops": ["error", {"int32Hint": false}]
+"space-infix-ops": ["error", { "int32Hint": false }]
 ```
 
 ### `int32Hint`

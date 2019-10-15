@@ -77,6 +77,41 @@ process.on("uncaughtException", handleError);
 process.on("unhandledRejection", handleError);
 
 /**
+ * Read text from stdin.
+ * 
+ * Note: See
+ * - https://github.com/nodejs/node/blob/master/doc/api/process.md#processstdin
+ * - https://github.com/nodejs/node/blob/master/doc/api/process.md#a-note-on-process-io
+ * - https://lists.gnu.org/archive/html/bug-gnu-emacs/2016-01/msg00419.html
+ * - https://github.com/nodejs/node/issues/7439 (historical)
+ *
+ * On Windows using `fs.readFileSync(STDIN_FILE_DESCRIPTOR, "utf8")` seems
+ * to read 4096 bytes before blocking and never drains to read further data.
+ *
+ * The investigation on the Emacs thread indicates:
+ *
+ * > Emacs on MS-Windows uses pipes to communicate with subprocesses; a
+ * > pipe on Windows has a 4K buffer. So as soon as Emacs writes more than
+ * > 4096 bytes to the pipe, the pipe becomes full, and Emacs then waits for
+ * > the subprocess to read its end of the pipe, at which time Emacs will
+ * > write the rest of the stuff.
+ *
+ * Using the nodejs code example for reading from stdin.
+ * 
+ * @returns {Promise<string>} The text.
+ */
+function readStdIn() {
+    return new Promise((resolve, reject) => {
+        const chunks = [];
+
+        process.stdin
+            .on("data", chunk => chunks.push(chunk))
+            .on("end", () => resolve(Buffer.concat(chunks).toString()))
+            .on("error", reject)
+    })
+}
+
+/**
  * The main function.
  * @returns {Promise<number>} The exit code.
  */
@@ -86,7 +121,7 @@ async function main() {
         return 0;
     }
     if (useStdIn) {
-        return cli.execute(process.argv, await readFile(STDIN_FILE_DESCRIPTOR, "utf8"));
+        return cli.execute(process.argv, await readStdIn());
     }
     return cli.execute(process.argv);
 }
