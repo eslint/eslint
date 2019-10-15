@@ -156,8 +156,9 @@ ESLint follows [semantic versioning](https://semver.org). However, due to the na
     * A new CLI capability is created.
     * New capabilities to the public API are added (new classes, new methods, new arguments to existing methods, etc.).
     * A new formatter is created.
+    * `eslint:recommended` is updated and will result in strictly fewer errors (e.g., rule removals).
 * Major release (likely to break your lint build)
-    * `eslint:recommended` is updated.
+    * `eslint:recommended` is updated and may result in new errors (e.g., rule additions, most rule option updates).
     * A new option to an existing rule that results in ESLint reporting more errors by default.
     * An existing formatter is removed.
     * Part of the public API is removed or changed in an incompatible way.
