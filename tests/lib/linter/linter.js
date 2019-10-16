@@ -3195,6 +3195,58 @@ describe("Linter", () => {
         });
     });
 
+    describe("when receiving cwd in options during instantiation", () => {
+        const code = "a;\nb;";
+        const config = { rules: { checker: "error" } };
+
+        it("should get cwd correctly in the context", () => {
+            const cwd = "cwd";
+            const linterWithOption = new Linter({ cwd });
+            let spy;
+
+            linterWithOption.defineRule("checker", context => {
+                spy = sinon.spy(() => {
+                    assert.strictEqual(context.getCwd(), cwd);
+                });
+                return { Program: spy };
+            });
+
+            linterWithOption.verify(code, config);
+            assert(spy && spy.calledOnce);
+        });
+
+        it("should assign process.cwd() to it if cwd is undefined", () => {
+            let spy;
+            const linterWithOption = new Linter({ });
+
+            linterWithOption.defineRule("checker", context => {
+
+                spy = sinon.spy(() => {
+                    assert.strictEqual(context.getCwd(), process.cwd());
+                });
+                return { Program: spy };
+            });
+
+            linterWithOption.verify(code, config);
+            assert(spy && spy.calledOnce);
+        });
+
+        it("should assign process.cwd() to it if the option is undefined", () => {
+            let spy;
+
+            linter.defineRule("checker", context => {
+
+                spy = sinon.spy(() => {
+                    assert.strictEqual(context.getCwd(), process.cwd());
+                });
+                return { Program: spy };
+            });
+
+            linter.verify(code, config);
+            assert(spy && spy.calledOnce);
+        });
+    });
+
     describe("reportUnusedDisable option", () => {
         it("reports problems for unused eslint-disable comments", () => {
             assert.deepStrictEqual(
