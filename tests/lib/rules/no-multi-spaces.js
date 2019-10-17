@@ -112,7 +112,9 @@ ruleTester.run("no-multi-spaces", rule, {
             output: "function foo(a, b) {}",
             errors: [{
                 message: "Multiple spaces found before 'b'.",
-                type: "Identifier"
+                type: "Identifier",
+                column: 16,
+                endColumn: 18
             }]
         },
         {
@@ -121,7 +123,9 @@ ruleTester.run("no-multi-spaces", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [{
                 message: "Multiple spaces found before 'b'.",
-                type: "Identifier"
+                type: "Identifier",
+                column: 14,
+                endColumn: 16
             }]
         },
         {
@@ -129,7 +133,9 @@ ruleTester.run("no-multi-spaces", rule, {
             output: "var a = 1",
             errors: [{
                 message: "Multiple spaces found before '1'.",
-                type: "Numeric"
+                type: "Numeric",
+                column: 8,
+                endColumn: 10
             }]
         },
         {
@@ -153,7 +159,9 @@ ruleTester.run("no-multi-spaces", rule, {
             output: "var arr = {'a': 1, 'b': 2};",
             errors: [{
                 message: "Multiple spaces found before ''b''.",
-                type: "String"
+                type: "String",
+                column: 19,
+                endColumn: 21
             }]
         },
         {
@@ -213,16 +221,24 @@ ruleTester.run("no-multi-spaces", rule, {
             output: "[ , 1, , 3, , ]",
             errors: [{
                 message: "Multiple spaces found before ','.",
-                type: "Punctuator"
+                type: "Punctuator",
+                column: 2,
+                endColumn: 4
             }, {
                 message: "Multiple spaces found before ','.",
-                type: "Punctuator"
+                type: "Punctuator",
+                column: 8,
+                endColumn: 10
             }, {
                 message: "Multiple spaces found before ','.",
-                type: "Punctuator"
+                type: "Punctuator",
+                column: 14,
+                endColumn: 16
             }, {
                 message: "Multiple spaces found before ']'.",
-                type: "Punctuator"
+                type: "Punctuator",
+                column: 17,
+                endColumn: 19
             }]
         },
         {
@@ -273,7 +289,9 @@ ruleTester.run("no-multi-spaces", rule, {
             output: "function foo () {}",
             errors: [{
                 message: "Multiple spaces found before '('.",
-                type: "Punctuator"
+                type: "Punctuator",
+                column: 13,
+                endColumn: 19
             }]
         },
         {
@@ -389,7 +407,9 @@ ruleTester.run("no-multi-spaces", rule, {
             output: "var x = 5;",
             errors: [{
                 message: "Multiple spaces found before '5'.",
-                type: "Numeric"
+                type: "Numeric",
+                column: 8,
+                endColumn: 11
             }]
         },
 
@@ -415,7 +435,9 @@ ruleTester.run("no-multi-spaces", rule, {
             output: "var x = 5; // comment",
             errors: [{
                 message: "Multiple spaces found before '// comment'.",
-                type: "Line"
+                type: "Line",
+                column: 11,
+                endColumn: 13
             }]
         },
         {
@@ -582,7 +604,9 @@ ruleTester.run("no-multi-spaces", rule, {
             options: [{ ignoreEOLComments: false }],
             errors: [{
                 message: "Multiple spaces found before '/*comment...*/'.",
-                type: "Block"
+                type: "Block",
+                column: 11,
+                endColumn: 13
             }]
         },
         {
