@@ -9,6 +9,7 @@
   "main": "./lib/api.js",
   "scripts": {
     "test": "node Makefile.js test",
+    "test:cli": "mocha",
     "lint": "node Makefile.js lint",
     "fix": "node Makefile.js lint -- fix",
     "fuzz": "node Makefile.js fuzz",

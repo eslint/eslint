@@ -12,6 +12,10 @@ This automatically starts Mocha and runs all tests in the `tests` directory. You
 
 If you want to quickly run just one test, you can do so by running Mocha directly and passing in the filename. For example:
 
-    ./node_modules/.bin/mocha tests/lib/rules/no-wrap-func.js
+    npm test:cli tests/lib/rules/no-wrap-func.js
 
 Running individual tests is useful when you're working on a specific bug and iterating on the solution. You should be sure to run `npm test` before submitting a pull request.
+
+## More Control on Unit Testing
+
+`npm test:cli` is an alias of the Mocha cli in `./node_modules/.bin/mocha`. [Options](https://mochajs.org/#command-line-usage) are available to be provided to help to better control the test to run.
