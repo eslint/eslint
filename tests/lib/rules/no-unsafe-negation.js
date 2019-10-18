@@ -76,7 +76,7 @@ ruleTester.run("no-unsafe-negation", rule, {
             options: [{ enforceForOrderingRelations: true }]
         },
         {
-            code: "foo = a > b);",
+            code: "foo = a > b;",
             options: [{ enforceForOrderingRelations: true }]
         }
     ],
@@ -128,7 +128,7 @@ ruleTester.run("no-unsafe-negation", rule, {
         {
             code: "! a <= b",
             options: [{ enforceForOrderingRelations: true }],
-            errors: [unexpectedMoreThanOrEqualOperatorError]
+            errors: [unexpectedLessThanOrEqualOperatorError]
         }
     ]
 });
