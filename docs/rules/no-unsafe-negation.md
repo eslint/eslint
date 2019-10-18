@@ -79,12 +79,8 @@ This rule has an object option:
 
 ### enforceForOrderingRelations
 
-The enforceForOrderingRelations option extends the rule to apply to all [Relational Operators](https://www.ecma-international.org/ecma-262/10.0/index.html#sec-relational-operators), not just `in` and `instanceof`.
+With this option set to true, the rule is additionally enforced for:
 
-With this option set to true, the rule is enforced for all of the following:
-
-- `in` operator.
-- `instanceof` operator.
 - `<` operator.
 - `>` operator.
 - `<=` operator.
@@ -95,7 +91,7 @@ The purpose is to avoid expressions such as `! a < b` (which is equivalent to `(
 Examples of additional **incorrect** code for this rule with the `{ "enforceForOrderingRelations": true }` option:
 
 ```js
-/*eslint no-unneeded-ternary: ["error", { "enforceForOrderingRelations": true }]*/
+/*eslint no-unsafe-negation: ["error", { "enforceForOrderingRelations": true }]*/
 
 if (! a < b) {}
 

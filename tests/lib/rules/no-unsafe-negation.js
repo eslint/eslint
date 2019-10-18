@@ -49,14 +49,35 @@ ruleTester.run("no-unsafe-negation", rule, {
         "a instanceof b === false",
         "!(a instanceof b)",
         "(!a) instanceof b",
+
+        // tests cases for enforceForOrderingRelations option:
         "if (! a < b) {}",
         "while (! a > b) {}",
         "foo = ! a <= b;",
         "foo = ! a >= b;",
         {
+            code: "! a <= b",
+            options: [{}]
+        },
+        {
+            code: "foo = ! a >= b;",
+            options: [{ enforceForOrderingRelations: false }]
+        },
+        {
             code: "foo = (!a) >= b;",
-            options: [{ enforceForOrderingRelations: true }],
-            errors: [unexpectedMoreThanOrEqualOperatorError]
+            options: [{ enforceForOrderingRelations: true }]
+        },
+        {
+            code: "a <= b",
+            options: [{ enforceForOrderingRelations: true }]
+        },
+        {
+            code: "!(a < b)",
+            options: [{ enforceForOrderingRelations: true }]
+        },
+        {
+            code: "foo = a > b);",
+            options: [{ enforceForOrderingRelations: true }]
         }
     ],
     invalid: [
@@ -101,6 +122,11 @@ ruleTester.run("no-unsafe-negation", rule, {
         },
         {
             code: "foo = ! a >= b;",
+            options: [{ enforceForOrderingRelations: true }],
+            errors: [unexpectedMoreThanOrEqualOperatorError]
+        },
+        {
+            code: "! a <= b",
             options: [{ enforceForOrderingRelations: true }],
             errors: [unexpectedMoreThanOrEqualOperatorError]
         }
