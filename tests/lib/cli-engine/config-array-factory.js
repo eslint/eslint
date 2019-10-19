@@ -60,6 +60,7 @@ function assertConfig(actual, providedExpected) {
         parserOptions: {},
         plugins: [],
         reportUnusedDisableDirectives: void 0,
+        resolveRelativeToConfigFile: void 0,
         rules: {},
         settings: {},
         ...providedExpected
