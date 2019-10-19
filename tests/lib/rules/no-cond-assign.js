@@ -47,12 +47,12 @@ ruleTester.run("no-cond-assign", rule, {
         { code: "switch (foo) { case baz + (a = b): bar(); }", options: ["always"] }
     ],
     invalid: [
-        { code: "var x; if (x = 0) { var b = 1; }", errors: [{ messageId: "missing", type: "IfStatement", line: 1, column: 12 }] },
+        { code: "var x; if (x = 0) { var b = 1; }", errors: [{ messageId: "missing", type: "IfStatement", line: 1, column: 12, endLine: 1, endColumn: 17 }] },
         { code: "var x; while (x = 0) { var b = 1; }", errors: [{ messageId: "missing", type: "WhileStatement" }] },
         { code: "var x = 0, y; do { y = x; } while (x = x + 1);", errors: [{ messageId: "missing", type: "DoWhileStatement" }] },
         { code: "var x; for(; x+=1 ;){};", errors: [{ messageId: "missing", type: "ForStatement" }] },
         { code: "var x; if ((x) = (0));", errors: [{ messageId: "missing", type: "IfStatement" }] },
-        { code: "if (someNode || (someNode = parentNode)) { }", options: ["always"], errors: [{ messageId: "unexpected", data: { type: "an 'if' statement" }, type: "IfStatement" }] },
+        { code: "if (someNode || (someNode = parentNode)) { }", options: ["always"], errors: [{ messageId: "unexpected", data: { type: "an 'if' statement" }, type: "IfStatement", column: 18, endColumn: 39 }] },
         { code: "while (someNode || (someNode = parentNode)) { }", options: ["always"], errors: [{ messageId: "unexpected", data: { type: "a 'while' statement" }, type: "WhileStatement" }] },
         { code: "do { } while (someNode || (someNode = parentNode));", options: ["always"], errors: [{ messageId: "unexpected", data: { type: "a 'do...while' statement" }, type: "DoWhileStatement" }] },
         { code: "for (; (typeof l === 'undefined' ? (l = 0) : l); i++) { }", options: ["always"], errors: [{ messageId: "unexpected", data: { type: "a 'for' statement" }, type: "ForStatement" }] },
