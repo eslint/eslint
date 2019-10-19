@@ -79,7 +79,7 @@ This rule has an object option:
 
 ### enforceForOrderingRelations
 
-With this option set to `true`, the rule is additionally enforced for:
+With this option set to `true` the rule is additionally enforced for:
 
 - `<` operator.
 - `>` operator.
