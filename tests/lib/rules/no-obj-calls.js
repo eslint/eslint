@@ -61,6 +61,10 @@ ruleTester.run("no-obj-calls", rule, {
         {
             code: "function foo() { var Atomics = bar(); var baz = Atomics(5); }",
             globals: { Atomics: false }
+        },
+        {
+            code: "var construct = typeof Reflect !== \"undefined\" ? Reflect.construct : undefined; construct();",
+            globals: { Reflect: false }
         }
     ],
     invalid: [
