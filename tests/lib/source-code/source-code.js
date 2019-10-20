@@ -1796,6 +1796,7 @@ describe("SourceCode", () => {
             ["let  foo = bar;", true],
             ["let /**/ foo = bar;", true],
             ["let/**/foo = bar;", false],
+            ["let/*\n*/foo = bar", false],
             ["a+b", false],
             ["a/**/+b", false],
             ["a/* */+b", false],
