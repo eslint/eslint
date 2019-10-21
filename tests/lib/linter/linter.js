@@ -3195,6 +3195,58 @@ describe("Linter", () => {
         });
     });
 
+    describe("when receiving cwd in options during instantiation", () => {
+        const code = "a;\nb;";
+        const config = { rules: { checker: "error" } };
+
+        it("should get cwd correctly in the context", () => {
+            const cwd = "cwd";
+            const linterWithOption = new Linter({ cwd });
+            let spy;
+
+            linterWithOption.defineRule("checker", context => {
+                spy = sinon.spy(() => {
+                    assert.strictEqual(context.getCwd(), cwd);
+                });
+                return { Program: spy };
+            });
+
+            linterWithOption.verify(code, config);
+            assert(spy && spy.calledOnce);
+        });
+
+        it("should assign process.cwd() to it if cwd is undefined", () => {
+            let spy;
+            const linterWithOption = new Linter({ });
+
+            linterWithOption.defineRule("checker", context => {
+
+                spy = sinon.spy(() => {
+                    assert.strictEqual(context.getCwd(), process.cwd());
+                });
+                return { Program: spy };
+            });
+
+            linterWithOption.verify(code, config);
+            assert(spy && spy.calledOnce);
+        });
+
+        it("should assign process.cwd() to it if the option is undefined", () => {
+            let spy;
+
+            linter.defineRule("checker", context => {
+
+                spy = sinon.spy(() => {
+                    assert.strictEqual(context.getCwd(), process.cwd());
+                });
+                return { Program: spy };
+            });
+
+            linter.verify(code, config);
+            assert(spy && spy.calledOnce);
+        });
+    });
+
     describe("reportUnusedDisable option", () => {
         it("reports problems for unused eslint-disable comments", () => {
             assert.deepStrictEqual(
@@ -4064,9 +4116,9 @@ describe("Linter", () => {
 
         /**
          * Assert `context.getDeclaredVariables(node)` is valid.
-         * @param {string} code - A code to check.
-         * @param {string} type - A type string of ASTNode. This method checks variables on the node of the type.
-         * @param {Array<Array<string>>} expectedNamesList - An array of expected variable names. The expected variable names is an array of string.
+         * @param {string} code A code to check.
+         * @param {string} type A type string of ASTNode. This method checks variables on the node of the type.
+         * @param {Array<Array<string>>} expectedNamesList An array of expected variable names. The expected variable names is an array of string.
          * @returns {void}
          */
         function verify(code, type, expectedNamesList) {
@@ -4075,7 +4127,7 @@ describe("Linter", () => {
 
                     /**
                      * Assert `context.getDeclaredVariables(node)` is empty.
-                     * @param {ASTNode} node - A node to check.
+                     * @param {ASTNode} node A node to check.
                      * @returns {void}
                      */
                     function checkEmpty(node) {

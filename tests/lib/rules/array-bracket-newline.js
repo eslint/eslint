@@ -65,6 +65,10 @@ ruleTester.run("array-bracket-newline", rule, {
         { code: "var a = [\n]", options: ["consistent"] },
         { code: "var a = [1]", options: ["consistent"] },
         { code: "var a = [\n1\n]", options: ["consistent"] },
+        { code: "var a = [//\n1\n]", options: ["consistent"] },
+        { code: "var a = [/**/\n1\n]", options: ["consistent"] },
+        { code: "var a = [/*\n*/1\n]", options: ["consistent"] },
+        { code: "var a = [//\n]", options: ["consistent"] },
 
         // { multiline: true }
         { code: "var foo = [];", options: [{ multiline: true }] },
@@ -156,6 +160,10 @@ ruleTester.run("array-bracket-newline", rule, {
         { code: "var [\n] = foo", options: ["consistent"], parserOptions: { ecmaVersion: 6 } },
         { code: "var [a] = foo", options: ["consistent"], parserOptions: { ecmaVersion: 6 } },
         { code: "var [\na\n] = foo", options: ["consistent"], parserOptions: { ecmaVersion: 6 } },
+        { code: "var [//\na\n] = foo", options: ["consistent"], parserOptions: { ecmaVersion: 6 } },
+        { code: "var [/**/\na\n] = foo", options: ["consistent"], parserOptions: { ecmaVersion: 6 } },
+        { code: "var [/*\n*/a\n] = foo", options: ["consistent"], parserOptions: { ecmaVersion: 6 } },
+        { code: "var [//\n] = foo", options: ["consistent"], parserOptions: { ecmaVersion: 6 } },
 
         // { multiline: true }
         { code: "var [] = foo;", options: [{ multiline: true }], parserOptions: { ecmaVersion: 6 } },
@@ -526,6 +534,21 @@ ruleTester.run("array-bracket-newline", rule, {
                     column: 1,
                     endLine: 2,
                     endColumn: 2
+                }
+            ]
+        },
+        {
+            code: "var foo = [//\n1]",
+            output: "var foo = [//\n1\n]",
+            options: ["consistent"],
+            errors: [
+                {
+                    messageId: "missingClosingLinebreak",
+                    type: "ArrayExpression",
+                    line: 2,
+                    column: 2,
+                    endLine: 2,
+                    endColumn: 3
                 }
             ]
         },
@@ -1456,6 +1479,22 @@ ruleTester.run("array-bracket-newline", rule, {
                     column: 1,
                     endLine: 2,
                     endColumn: 2
+                }
+            ]
+        },
+        {
+            code: "var [//\na] = foo",
+            output: "var [//\na\n] = foo",
+            options: ["consistent"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "missingClosingLinebreak",
+                    type: "ArrayPattern",
+                    line: 2,
+                    column: 2,
+                    endLine: 2,
+                    endColumn: 3
                 }
             ]
         },

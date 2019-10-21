@@ -197,6 +197,14 @@ ruleTester.run("no-useless-return", rule, {
             output: "function foo() { if (foo) return; }"
         },
         {
+            code: "function foo() { bar(); return/**/; }",
+            output: null
+        },
+        {
+            code: "function foo() { bar(); return//\n; }",
+            output: null
+        },
+        {
             code: "foo(); return;",
             output: "foo(); ",
             parserOptions: { ecmaFeatures: { globalReturn: true } }

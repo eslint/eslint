@@ -1,3 +1,42 @@
+v6.5.1 - September 30, 2019
+
+* [`0d3d7d9`](https://github.com/eslint/eslint/commit/0d3d7d9cdd83a7f0e035c95f716a91b9ecc4868b) Docs: fix typo in no-magic-numbers (#12345) (Josiah Rooney)
+* [`447ac87`](https://github.com/eslint/eslint/commit/447ac877e8ca2858d61b1e983f72d39e3e2ca74d) Fix: no-useless-rename handles ExperimentalRestProperty (fixes #12335) (#12339) (Kai Cataldo)
+* [`b6ff73c`](https://github.com/eslint/eslint/commit/b6ff73cad13282fbfc91186cf4bc2f20278a8936) Sponsors: Sync README with website (ESLint Jenkins)
+
+v6.5.0 - September 29, 2019
+
+* [`73596cb`](https://github.com/eslint/eslint/commit/73596cbdf0a12e2878b2994783f9b969b0c5fbeb) Update: Add enforceForSwitchCase option to use-isnan (#12106) (Milos Djermanovic)
+* [`d592a24`](https://github.com/eslint/eslint/commit/d592a248d67920f7200925c003f10853d29f1f8d) Fix: exclude `\u000d` so new line won't convert to text (fixes #12027) (#12031) (zamboney)
+* [`e85d27a`](https://github.com/eslint/eslint/commit/e85d27af427d6185ac553a0d801b5103153426d4) Fix: no-regex-spaces false positives and invalid autofix (fixes #12226) (#12231) (Milos Djermanovic)
+* [`b349bf7`](https://github.com/eslint/eslint/commit/b349bf79ad56dded826bc99cb52c3551af34fa63) Fix: prefer-named-capture-group incorrect locations (fixes #12233) (#12247) (Milos Djermanovic)
+* [`7dc1ea9`](https://github.com/eslint/eslint/commit/7dc1ea9a1b9a21daaffcf712ba9c0e91af81b906) Fix: no-useless-return autofix removes comments (#12292) (Milos Djermanovic)
+* [`0e68677`](https://github.com/eslint/eslint/commit/0e68677ec0aaf060a071ecf71e4af954dddb6af0) Fix: no-extra-bind autofix removes comments (#12293) (Milos Djermanovic)
+* [`6ad7e86`](https://github.com/eslint/eslint/commit/6ad7e864303e56a39c89569d50c6caf80752ee21) Fix: no-extra-label autofix removes comments (#12298) (Milos Djermanovic)
+* [`acec201`](https://github.com/eslint/eslint/commit/acec201f06df780791179ad92cfc484f9b6d23d4) Fix: no-undef-init autofix removes comments (#12299) (Milos Djermanovic)
+* [`d89390b`](https://github.com/eslint/eslint/commit/d89390b75e3e9993f347387a49b0ac5550f45c7f) Fix: use async reading of stdin in bin/eslint.js (fixes #12212) (#12230) (Barrie Treloar)
+* [`334ca7c`](https://github.com/eslint/eslint/commit/334ca7c8b9c18ac097849c1cefaa43097a4e51dc) Update: no-useless-rename also reports default values (fixes #12301) (#12322) (Kai Cataldo)
+* [`41bfe91`](https://github.com/eslint/eslint/commit/41bfe919c06932b7e58cd9ead20157e06656160a) Update: Fix handling of chained new expressions in new-parens (#12303) (Milos Djermanovic)
+* [`160b7c4`](https://github.com/eslint/eslint/commit/160b7c46b556ccb6023eb411a8be8801a4bda6df) Chore: add autofix npm script (#12330) (Kai Cataldo)
+* [`04b6adb`](https://github.com/eslint/eslint/commit/04b6adb7f1bcb2b6cb3fa377b1ca4cecd810630e) Chore: enable eslint-plugin-jsdoc (refs #11146) (#12332) (Kai Cataldo)
+* [`9b86167`](https://github.com/eslint/eslint/commit/9b86167e6f053e4a72bf68ebc79db53903f7f8c3) Docs: Add new ES environments to Configuring ESLint (#12289) (Milos Djermanovic)
+* [`c9aeab2`](https://github.com/eslint/eslint/commit/c9aeab21a71c6743f51163b7a8fdf4f0cbfcdbde) Docs: Add supported ECMAScript version to README (#12290) (Milos Djermanovic)
+* [`8316e7b`](https://github.com/eslint/eslint/commit/8316e7be5a9429513d7ecf2ee2afc40ab4415b8f) Fix: no-useless-rename autofix removes comments (#12300) (Milos Djermanovic)
+* [`29c12f1`](https://github.com/eslint/eslint/commit/29c12f18726a3afb21fc89ab1bdacc6972d49e68) Chore: cache results in runtime-info (#12320) (Kai Cataldo)
+* [`f5537b2`](https://github.com/eslint/eslint/commit/f5537b2ed0b0b5e51a34c22cdd4ebfd024eaea3d) Fix: prefer-numeric-literals autofix removes comments (#12313) (Milos Djermanovic)
+* [`11ae6fc`](https://github.com/eslint/eslint/commit/11ae6fcb5d5503e5dea41c02780369efe51f0bb9) Update: Fix call, new and member expressions in no-extra-parens (#12302) (Milos Djermanovic)
+* [`a7894eb`](https://github.com/eslint/eslint/commit/a7894ebb43523152d36720efa770bb1fe8b58c07) New: add --env-info flag to CLI (#12270) (Kai Cataldo)
+* [`61392ff`](https://github.com/eslint/eslint/commit/61392ff5ec660bfc01ac2ff0e9660d259cf88fd6) Sponsors: Sync README with website (ESLint Jenkins)
+* [`2c6bf8e`](https://github.com/eslint/eslint/commit/2c6bf8ea9c8a8f94746f980bd5bea0a8c5c4d6b7) Docs: English fix (#12306) (Daniel Nixon)
+* [`6f11877`](https://github.com/eslint/eslint/commit/6f118778366613fc53036cb6a7537e1b4c6e7af8) Sponsors: Sync README with website (ESLint Jenkins)
+* [`2e202ca`](https://github.com/eslint/eslint/commit/2e202ca2228846e6226aa8dd99c614d572fb86a8) Docs: fix links in array-callback-return (#12288) (Milos Djermanovic)
+* [`e39c631`](https://github.com/eslint/eslint/commit/e39c6318af0fd27edd5fd2aaf2b24a3e204005dd) Docs: add example for CLIEngine#executeOnText 3rd arg (#12286) (Kai Cataldo)
+* [`d4f9a16`](https://github.com/eslint/eslint/commit/d4f9a16af7e00021e2ed63823d9c2f149bc985d6) Update: add support for JSXFragments in indent rule (fixes #12208) (#12210) (Kai Cataldo)
+* [`c6af95f`](https://github.com/eslint/eslint/commit/c6af95f5bf1ef10f08545d54fd52b98e85fdf7f7) Sponsors: Sync README with website (ESLint Jenkins)
+* [`8cadd52`](https://github.com/eslint/eslint/commit/8cadd5229b7372aed0d4785dcae15532a399bf55) Sponsors: Sync README with website (ESLint Jenkins)
+* [`f9fc695`](https://github.com/eslint/eslint/commit/f9fc695d77c19cd5ecb3f0e97e1ea124c8543409) Chore: enable default-param-last (#12244) (薛定谔的猫)
+* [`9984c3e`](https://github.com/eslint/eslint/commit/9984c3e27c92de76b8c05a58525dbcea12b10b83) Docs: Update README team and sponsors (ESLint Jenkins)
+
 v6.4.0 - September 13, 2019
 
 * [`e915fff`](https://github.com/eslint/eslint/commit/e915fffb6089a23ff1cae926cc607f9b87dc1819) Docs: Improve examples and clarify default option (#12067) (Yuping Zuo)

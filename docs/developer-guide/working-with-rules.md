@@ -126,6 +126,7 @@ The `context` object contains additional functionality that is helpful for rules
 Additionally, the `context` object has the following methods:
 
 * `getAncestors()` - returns an array of the ancestors of the currently-traversed node, starting at the root of the AST and continuing through the direct parent of the current node. This array does not include the currently-traversed node itself.
+* `getCwd()` - returns the `cwd` passed to [Linter](./nodejs-api.md#Linter). It is a path to a directory that should be considered as the current working directory.
 * `getDeclaredVariables(node)` - returns a list of [variables](./scope-manager-interface.md#variable-interface) declared by the given node. This information can be used to track references to variables.
     * If the node is a `VariableDeclaration`, all variables declared in the declaration are returned.
     * If the node is a `VariableDeclarator`, all variables declared in the declarator are returned.
@@ -616,6 +617,6 @@ The thing that makes ESLint different from other linters is the ability to defin
 
 Runtime rules are written in the same format as all other rules. Create your rule as you would any other and then follow these steps:
 
-1. Place all of your runtime rules in the same directory (i.e., `eslint_rules`).
+1. Place all of your runtime rules in the same directory (e.g., `eslint_rules`).
 2. Create a [configuration file](../user-guide/configuring.md) and specify your rule ID error level under the `rules` key. Your rule will not run unless it has a value of `1` or `2` in the configuration file.
 3. Run the [command line interface](../user-guide/command-line-interface.md) using the `--rulesdir` option to specify the location of your runtime rules.
