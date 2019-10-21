@@ -56,7 +56,7 @@ var a = x ? "Yes" : "No";
 
 var a = x ? y : x;
 
-var a = x ? x : 1; // Note that this is only allowed when defaultAssignment option is set to true (which it is by default). See option details below.
+f(x ? x : 1); // default assignment - would be disallowed if defaultAssignment option set to false. See option details below.
 ```
 
 ## Options
@@ -68,7 +68,7 @@ This rule has an object option:
 
 ### defaultAssignment
 
-The defaultAssignment option allows expressions of the form `x ? x : expr` (where `x` is any identifier and `expr` is any expression).
+When set to `true`, which it is by default, The defaultAssignment option allows expressions of the form `x ? x : expr` (where `x` is any identifier and `expr` is any expression).
 
 Examples of additional **incorrect** code for this rule with the `{ "defaultAssignment": false }` option:
 
@@ -79,6 +79,8 @@ var a = x ? x : 1;
 
 f(x ? x : 1);
 ```
+
+Note that `defaultAssignment: false` still allows expressions of the form `x ? expr : x` (where the identifier is on the right hand side of the ternary).
 
 ## When Not To Use It
 
