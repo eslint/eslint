@@ -143,13 +143,13 @@ ruleTester.run("dot-location", rule, {
             code: "obj\n.property",
             output: "obj.\nproperty",
             options: ["object"],
-            errors: [{ messageId: "expectedDotAfterObject", type: "MemberExpression", line: 2, column: 1 }]
+            errors: [{ messageId: "expectedDotAfterObject", type: "MemberExpression", line: 2, column: 1, endLine: 2, endColumn: 2 }]
         },
         {
             code: "obj.\nproperty",
             output: "obj\n.property",
             options: ["property"],
-            errors: [{ messageId: "expectedDotBeforeProperty", type: "MemberExpression", line: 1, column: 4 }]
+            errors: [{ messageId: "expectedDotBeforeProperty", type: "MemberExpression", line: 1, column: 4, endLine: 1, endColumn: 5 }]
         },
         {
             code: "(obj).\nproperty",
