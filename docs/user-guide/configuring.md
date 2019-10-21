@@ -376,11 +376,11 @@ For example:
         "plugin:@foo/foo/recommended",
         "plugin:@bar/recommended"
     ],
-    "rules": [
+    "rules": {
         "jquery/a-rule": "error",
         "@foo/foo/some-rule": "error",
         "@bar/another-rule": "error"
-    ],
+    },
     "env": {
         "jquery/jquery": true,
         "@foo/foo/env-foo": true,

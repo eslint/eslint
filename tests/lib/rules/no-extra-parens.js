@@ -456,6 +456,14 @@ ruleTester.run("no-extra-parens", rule, {
         { code: "if((a, b)){}", options: ["all", { enforceForSequenceExpressions: false }] },
         { code: "while ((val = foo(), val < 10));", options: ["all", { enforceForSequenceExpressions: false }] },
 
+        // ["all", { enforceForNewInMemberExpressions: false }]
+        { code: "(new foo()).bar", options: ["all", { enforceForNewInMemberExpressions: false }] },
+        { code: "(new foo())[bar]", options: ["all", { enforceForNewInMemberExpressions: false }] },
+        { code: "(new foo()).bar()", options: ["all", { enforceForNewInMemberExpressions: false }] },
+        { code: "(new foo(bar)).baz", options: ["all", { enforceForNewInMemberExpressions: false }] },
+        { code: "(new foo.bar()).baz", options: ["all", { enforceForNewInMemberExpressions: false }] },
+        { code: "(new foo.bar()).baz()", options: ["all", { enforceForNewInMemberExpressions: false }] },
+
         "let a = [ ...b ]",
         "let a = { ...b }",
         {
@@ -659,6 +667,7 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("(foo.bar()).baz", "foo.bar().baz", "CallExpression"),
         invalid("(foo\n.bar())\n.baz", "foo\n.bar()\n.baz", "CallExpression"),
         invalid("(new foo()).bar", "new foo().bar", "NewExpression"),
+        invalid("(new foo())[bar]", "new foo()[bar]", "NewExpression"),
         invalid("(new foo()).bar()", "new foo().bar()", "NewExpression"),
         invalid("(new foo(bar)).baz", "new foo(bar).baz", "NewExpression"),
         invalid("(new foo.bar()).baz", "new foo.bar().baz", "NewExpression"),
@@ -1161,6 +1170,63 @@ ruleTester.run("no-extra-parens", rule, {
                 {
                     messageId: "unexpected",
                     type: "SequenceExpression"
+                }
+            ]
+        },
+
+        // ["all", { enforceForNewInMemberExpressions: true }]
+        {
+            code: "(new foo()).bar",
+            output: "new foo().bar",
+            options: ["all"],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "NewExpression"
+                }
+            ]
+        },
+        {
+            code: "(new foo()).bar",
+            output: "new foo().bar",
+            options: ["all", {}],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "NewExpression"
+                }
+            ]
+        },
+        {
+            code: "(new foo()).bar",
+            output: "new foo().bar",
+            options: ["all", { enforceForNewInMemberExpressions: true }],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "NewExpression"
+                }
+            ]
+        },
+        {
+            code: "(new foo())[bar]",
+            output: "new foo()[bar]",
+            options: ["all", { enforceForNewInMemberExpressions: true }],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "NewExpression"
+                }
+            ]
+        },
+        {
+            code: "(new foo.bar()).baz",
+            output: "new foo.bar().baz",
+            options: ["all", { enforceForNewInMemberExpressions: true }],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "NewExpression"
                 }
             ]
         },
