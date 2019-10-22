@@ -41,8 +41,6 @@ Examples of **incorrect** code for this rule:
 var a = x === 2 ? true : false;
 
 var a = x ? true : false;
-
-var a = f(x ? x : 1);
 ```
 
 Examples of **correct** code for this rule:
@@ -58,7 +56,7 @@ var a = x ? "Yes" : "No";
 
 var a = x ? y : x;
 
-var a = x ? x : 1;  // Note that this is only allowed as it on the right hand side of an assignment; this type of ternary is disallowed everywhere else. See defaultAssignment option below for more details.
+f(x ? x : 1); // default assignment - would be disallowed if defaultAssignment option set to false. See option details below.
 ```
 
 ## Options
@@ -70,7 +68,7 @@ This rule has an object option:
 
 ### defaultAssignment
 
-The defaultAssignment option allows expressions of the form `x ? x : expr` (where `x` is any identifier and `expr` is any expression) as the right hand side of assignments (but nowhere else).
+When set to `true`, which it is by default, The defaultAssignment option allows expressions of the form `x ? x : expr` (where `x` is any identifier and `expr` is any expression).
 
 Examples of additional **incorrect** code for this rule with the `{ "defaultAssignment": false }` option:
 
@@ -78,7 +76,11 @@ Examples of additional **incorrect** code for this rule with the `{ "defaultAssi
 /*eslint no-unneeded-ternary: ["error", { "defaultAssignment": false }]*/
 
 var a = x ? x : 1;
+
+f(x ? x : 1);
 ```
+
+Note that `defaultAssignment: false` still allows expressions of the form `x ? expr : x` (where the identifier is on the right hand side of the ternary).
 
 ## When Not To Use It
 
