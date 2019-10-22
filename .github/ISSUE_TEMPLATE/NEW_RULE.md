@@ -31,12 +31,17 @@ assignees: ''
 
 **Provide 2-3 code examples that this rule will warn about:**
 
+
 <!-- Put your code examples here -->
 ```js
+for (i=0; i<demoClass.length;i++){
 
+    demoClass[i].style.border ='4px solid orange'
+}
 ```
 
 **Why should this rule be included in ESLint (instead of a plugin)?**
-
+to enable people aply css to there javascript 
 
 **Are you willing to submit a pull request to implement this rule?**
+yes
