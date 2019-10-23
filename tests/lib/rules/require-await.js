@@ -41,7 +41,11 @@ ruleTester.run("require-await", rule, {
         "function foo() { doSomething() }",
 
         // for-await-of
-        "async function foo() { for await (x of xs); }"
+        "async function foo() { for await (x of xs); }",
+
+        // async generators do not require await
+        "async function * bar () { yield * foo() }",
+        "async function * bar () { yield * await foo() }"
     ],
     invalid: [
         {
@@ -83,6 +87,10 @@ ruleTester.run("require-await", rule, {
         {
             code: "async function foo() { await async () => { doSomething() } }",
             errors: ["Async arrow function has no 'await' expression."]
+        },
+        {
+            code: "async function foo () { baz() }",
+            errors: ["Async function 'foo' has no 'await' expression."]
         }
     ]
 });
