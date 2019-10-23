@@ -40,7 +40,9 @@ ruleTester.run("no-tabs", rule, {
             errors: [{
                 message: ERROR_MESSAGE,
                 line: 1,
-                column: 17
+                column: 17,
+                endLine: 1,
+                endColumn: 18
             }]
         },
         {
@@ -48,7 +50,9 @@ ruleTester.run("no-tabs", rule, {
             errors: [{
                 message: ERROR_MESSAGE,
                 line: 1,
-                column: 5
+                column: 5,
+                endLine: 1,
+                endColumn: 6
             }]
         },
         {
@@ -59,7 +63,9 @@ ruleTester.run("no-tabs", rule, {
             errors: [{
                 message: ERROR_MESSAGE,
                 line: 2,
-                column: 5
+                column: 5,
+                endLine: 2,
+                endColumn: 6
             }]
         },
         {
@@ -70,7 +76,9 @@ ruleTester.run("no-tabs", rule, {
             errors: [{
                 message: ERROR_MESSAGE,
                 line: 1,
-                column: 9
+                column: 9,
+                endLine: 1,
+                endColumn: 10
             }]
         },
         {
@@ -82,12 +90,16 @@ ruleTester.run("no-tabs", rule, {
                 {
                     message: ERROR_MESSAGE,
                     line: 2,
-                    column: 5
+                    column: 5,
+                    endLine: 2,
+                    endColumn: 6
                 },
                 {
                     message: ERROR_MESSAGE,
                     line: 3,
-                    column: 1
+                    column: 1,
+                    endLine: 3,
+                    endColumn: 2
                 }
             ]
         },
@@ -97,8 +109,50 @@ ruleTester.run("no-tabs", rule, {
             errors: [{
                 message: ERROR_MESSAGE,
                 line: 1,
-                column: 30
+                column: 30,
+                endLine: 1,
+                endColumn: 31
             }]
+        },
+        {
+            code: "\t\ta =\t\t\tb +\tc\t\t;\t\t",
+            errors: [
+                {
+                    message: ERROR_MESSAGE,
+                    line: 1,
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 3
+                },
+                {
+                    message: ERROR_MESSAGE,
+                    line: 1,
+                    column: 6,
+                    endLine: 1,
+                    endColumn: 9
+                },
+                {
+                    message: ERROR_MESSAGE,
+                    line: 1,
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 13
+                },
+                {
+                    message: ERROR_MESSAGE,
+                    line: 1,
+                    column: 14,
+                    endLine: 1,
+                    endColumn: 16
+                },
+                {
+                    message: ERROR_MESSAGE,
+                    line: 1,
+                    column: 17,
+                    endLine: 1,
+                    endColumn: 19
+                }
+            ]
         }
     ]
 });
