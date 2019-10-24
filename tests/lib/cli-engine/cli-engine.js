@@ -4022,6 +4022,14 @@ describe("CLIEngine", () => {
 
             assert(engine.getRules().has("node/no-deprecated-api"), "node/no-deprecated-api is present");
         });
+
+        it("should expose the rules of the plugin that is added by 'addPlugin'.", () => {
+            const engine = new CLIEngine({ plugins: ["foo"] });
+
+            engine.addPlugin("foo", require("eslint-plugin-node"));
+
+            assert(engine.getRules().has("foo/no-deprecated-api"), "foo/no-deprecated-api is present");
+        });
     });
 
     describe("resolveFileGlobPatterns", () => {
