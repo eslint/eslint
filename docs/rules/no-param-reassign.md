@@ -42,7 +42,7 @@ function foo(bar) {
 
 ## Options
 
-This rule takes one option, an object, with a boolean property `"props"` and an array `"ignorePropertyModificationsFor"`. `"props"` is `false` by default. If `"props"` is set to `true`, this rule warns against the modification of parameter properties unless they're included in `"ignorePropertyModificationsFor"`, which is an empty array by default.
+This rule takes one option, an object, with a boolean property `"props"`, and  arrays `"ignorePropertyModificationsFor"` and `"ignorePropertyModificationsForRegex"`. `"props"` is `false` by default. If `"props"` is set to `true`, this rule warns against the modification of parameter properties unless they're included in `"ignorePropertyModificationsFor"` or `"ignorePropertyModificationsForRegex"`, which is an empty array by default.
 
 ### props
 
@@ -121,6 +121,24 @@ function foo(bar) {
 
 function foo(bar) {
     for (bar.aaa of baz) {}
+}
+```
+
+Examples of **correct** code for the `{ "props": true }` option with `"ignorePropertyModificationsForRegex"` set:
+
+```js
+/*eslint no-param-reassign: ["error", { "props": true, "ignorePropertyModificationsForRegex": ["^bar"] }]*/
+
+function foo(bar) {
+    barVar.prop = "value";
+}
+
+function foo(bar) {
+    delete barrito.aaa;
+}
+
+function foo(bar) {
+    bar_.aaa++;
 }
 ```
 
