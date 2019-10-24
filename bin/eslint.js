@@ -1,21 +1,10 @@
 #!/usr/bin/env node
 
-/**
- * @fileoverview Main CLI that is run via the eslint command.
- * @author Nicholas C. Zakas
- */
-
-/* eslint no-console:off */
 
 "use strict";
 
 // to use V8's code cache to speed up instantiation time
 require("v8-compile-cache");
-
-//------------------------------------------------------------------------------
-// Helpers
-//------------------------------------------------------------------------------
-
 const useStdIn = process.argv.includes("--stdin"),
     init = process.argv.includes("--init"),
     debug = process.argv.includes("--debug");
@@ -27,16 +16,11 @@ if (debug) {
 
 //------------------------------------------------------------------------------
 // Requirements
-//------------------------------------------------------------------------------
 
-// now we can safely include the other modules that use debug
 const path = require("path"),
     fs = require("fs"),
     cli = require("../lib/cli");
 
-//------------------------------------------------------------------------------
-// Execution
-//------------------------------------------------------------------------------
 
 process.once("uncaughtException", err => {
 
