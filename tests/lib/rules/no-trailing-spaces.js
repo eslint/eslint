@@ -86,6 +86,14 @@ ruleTester.run("no-trailing-spaces", rule, {
         {
             code: "#!/usr/bin/env node ",
             options: [{ ignoreComments: true }]
+        },
+        {
+            code: "/* \n */ // ",
+            options: [{ ignoreComments: true }]
+        },
+        {
+            code: "/* \n */ /* \n */",
+            options: [{ ignoreComments: true }]
         }
     ],
 
@@ -445,6 +453,58 @@ ruleTester.run("no-trailing-spaces", rule, {
                     type: "Program",
                     line: 1,
                     column: 17
+                }
+            ]
+        },
+        {
+            code: "/* */ ",
+            output: "/* */",
+            options: [{ ignoreComments: true }],
+            errors: [
+                {
+                    message: "Trailing spaces not allowed.",
+                    type: "Program",
+                    line: 1,
+                    column: 6
+                }
+            ]
+        },
+        {
+            code: "/* */foo ",
+            output: "/* */foo",
+            options: [{ ignoreComments: true }],
+            errors: [
+                {
+                    message: "Trailing spaces not allowed.",
+                    type: "Program",
+                    line: 1,
+                    column: 9
+                }
+            ]
+        },
+        {
+            code: "/* \n */ ",
+            output: "/* \n */",
+            options: [{ ignoreComments: true }],
+            errors: [
+                {
+                    message: "Trailing spaces not allowed.",
+                    type: "Program",
+                    line: 2,
+                    column: 4
+                }
+            ]
+        },
+        {
+            code: "/* \n */ foo ",
+            output: "/* \n */ foo",
+            options: [{ ignoreComments: true }],
+            errors: [
+                {
+                    message: "Trailing spaces not allowed.",
+                    type: "Program",
+                    line: 2,
+                    column: 8
                 }
             ]
         },
