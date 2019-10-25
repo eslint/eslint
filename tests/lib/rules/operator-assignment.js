@@ -230,6 +230,31 @@ ruleTester.run("operator-assignment", rule, {
         output: "foo = foo * (bar + 1)",
         options: ["never"],
         errors: UNEXPECTED_OPERATOR_ASSIGNMENT
+    }, {
+        code: "foo+=-bar",
+        output: "foo= foo+-bar", // tokens can be adjacent
+        options: ["never"],
+        errors: UNEXPECTED_OPERATOR_ASSIGNMENT
+    }, {
+        code: "foo+=+bar",
+        output: "foo= foo+ +bar", // tokens cannot be adjacent, insert a space between
+        options: ["never"],
+        errors: UNEXPECTED_OPERATOR_ASSIGNMENT
+    }, {
+        code: "foo+= +bar",
+        output: "foo= foo+ +bar", // tokens cannot be adjacent, but there is already a space between
+        options: ["never"],
+        errors: UNEXPECTED_OPERATOR_ASSIGNMENT
+    }, {
+        code: "foo+=/**/+bar",
+        output: "foo= foo+/**/+bar", // tokens cannot be adjacent, but there is a comment between
+        options: ["never"],
+        errors: UNEXPECTED_OPERATOR_ASSIGNMENT
+    }, {
+        code: "foo+=+bar===baz",
+        output: "foo= foo+(+bar===baz)", // tokens cannot be adjacent, but the right side will be parenthesised
+        options: ["never"],
+        errors: UNEXPECTED_OPERATOR_ASSIGNMENT
     }]
 
 });
