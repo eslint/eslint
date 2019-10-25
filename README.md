@@ -223,6 +223,11 @@ Teddy Katz
 The people who review and implement new features.
 
 <table><tbody><tr><td align="center" valign="top" width="11%">
+<a href="https://github.com/kaicataldo">
+<img src="https://github.com/kaicataldo.png?s=75" width="75" height="75"><br />
+Kai Cataldo
+</a>
+</td><td align="center" valign="top" width="11%">
 <a href="https://github.com/aladdin-add">
 <img src="https://github.com/aladdin-add.png?s=75" width="75" height="75"><br />
 薛定谔的猫
@@ -237,11 +242,6 @@ The people who review and implement new features.
 The people who review and fix bugs and help triage issues.
 
 <table><tbody><tr><td align="center" valign="top" width="11%">
-<a href="https://github.com/kaicataldo">
-<img src="https://github.com/kaicataldo.png?s=75" width="75" height="75"><br />
-Kai Cataldo
-</a>
-</td><td align="center" valign="top" width="11%">
 <a href="https://github.com/g-plane">
 <img src="https://github.com/g-plane.png?s=75" width="75" height="75"><br />
 Pig Fang
