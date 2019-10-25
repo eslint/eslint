@@ -192,6 +192,86 @@ ruleTester.run("operator-assignment", rule, {
         output: "foo[5] /= baz", // this is ok because 5 is a literal, so toString won't get called
         errors: EXPECTED_OPERATOR_ASSIGNMENT
     }, {
+        code: "/*1*/x/*2*/./*3*/y/*4*/= x.y +/*5*/z/*6*/./*7*/w/*8*/;",
+        output: "/*1*/x/*2*/./*3*/y/*4*/+=/*5*/z/*6*/./*7*/w/*8*/;", // these comments are preserved
+        options: ["always"],
+        errors: EXPECTED_OPERATOR_ASSIGNMENT
+    }, {
+        code: "x // 1\n . // 2\n y // 3\n = x.y + //4\n z //5\n . //6\n w;",
+        output: "x // 1\n . // 2\n y // 3\n += //4\n z //5\n . //6\n w;", // these comments are preserved
+        options: ["always"],
+        errors: EXPECTED_OPERATOR_ASSIGNMENT
+    }, {
+        code: "x = /*1*/ x + y",
+        output: null, // not fixed; fixing would remove this comment
+        options: ["always"],
+        errors: EXPECTED_OPERATOR_ASSIGNMENT
+    }, {
+        code: "x = //1\n x + y",
+        output: null, // not fixed; fixing would remove this comment
+        options: ["always"],
+        errors: EXPECTED_OPERATOR_ASSIGNMENT
+    }, {
+        code: "x.y = x/*1*/.y + z",
+        output: null, // not fixed; fixing would remove this comment
+        options: ["always"],
+        errors: EXPECTED_OPERATOR_ASSIGNMENT
+    }, {
+        code: "x.y = x. //1\n y + z",
+        output: null, // not fixed; fixing would remove this comment
+        options: ["always"],
+        errors: EXPECTED_OPERATOR_ASSIGNMENT
+    }, {
+        code: "x = x /*1*/ + y",
+        output: null, // not fixed; fixing would remove this comment
+        options: ["always"],
+        errors: EXPECTED_OPERATOR_ASSIGNMENT
+    }, {
+        code: "x = x //1\n + y",
+        output: null, // not fixed; fixing would remove this comment
+        options: ["always"],
+        errors: EXPECTED_OPERATOR_ASSIGNMENT
+    }, {
+        code: "/*1*/x +=/*2*/y/*3*/;",
+        output: "/*1*/x = x +/*2*/y/*3*/;", // these comments are preserved and not duplicated
+        options: ["never"],
+        errors: UNEXPECTED_OPERATOR_ASSIGNMENT
+    }, {
+        code: "x +=//1\n y",
+        output: "x = x +//1\n y", // this comment is preserved and not duplicated
+        options: ["never"],
+        errors: UNEXPECTED_OPERATOR_ASSIGNMENT
+    }, {
+        code: "(/*1*/x += y)",
+        output: "(/*1*/x = x + y)", // this comment is preserved and not duplicated
+        options: ["never"],
+        errors: UNEXPECTED_OPERATOR_ASSIGNMENT
+    }, {
+        code: "x/*1*/+=  y",
+        output: null, // not fixed; fixing would duplicate this comment
+        options: ["never"],
+        errors: UNEXPECTED_OPERATOR_ASSIGNMENT
+    }, {
+        code: "x //1\n +=  y",
+        output: null, // not fixed; fixing would duplicate this comment
+        options: ["never"],
+        errors: UNEXPECTED_OPERATOR_ASSIGNMENT
+    }, {
+        code: "(/*1*/x) +=  y",
+        output: null, // not fixed; fixing would duplicate this comment
+        options: ["never"],
+        errors: UNEXPECTED_OPERATOR_ASSIGNMENT
+    }, {
+        code: "x/*1*/.y +=  z",
+        output: null, // not fixed; fixing would duplicate this comment
+        options: ["never"],
+        errors: UNEXPECTED_OPERATOR_ASSIGNMENT
+    }, {
+        code: "x.//1\n y +=  z",
+        output: null, // not fixed; fixing would duplicate this comment
+        options: ["never"],
+        errors: UNEXPECTED_OPERATOR_ASSIGNMENT
+    }, {
         code: "(foo.bar) ^= ((((((((((((((((baz))))))))))))))))",
         output: "(foo.bar) = (foo.bar) ^ ((((((((((((((((baz))))))))))))))))",
         options: ["never"],
