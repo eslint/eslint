@@ -940,6 +940,78 @@ ruleTester.run("multiline-comment-style", rule, {
         {
             code: `
                 /*
+                 *
+                 * {
+                 *     "foo": 1,
+                 *     "bar": 2
+                 * }
+                 *
+                 */
+            `,
+            output: `
+                //${" "}
+                // {
+                //     "foo": 1,
+                //     "bar": 2
+                // }
+                //${" "}
+            `,
+            options: ["separate-lines"],
+            errors: [
+                { messageId: "expectedLines", line: 2 }
+            ]
+        },
+        {
+            code: `
+                /*
+                 *
+                 * {
+                 *     "foo": 1,
+                 *     "bar": 2
+                 * }
+                 *
+                 */
+            `,
+            output: `
+                /*${" "}
+                   {
+                       "foo": 1,
+                       "bar": 2
+                   }
+                    */
+            `,
+            options: ["bare-block"],
+            errors: [
+                { messageId: "expectedBareBlock", line: 2 }
+            ]
+        },
+        {
+            code: `
+                /*
+                 *
+                 *{
+                 *    "foo": 1,
+                 *    "bar": 2
+                 *}
+                 *
+                 */
+            `,
+            output: `
+                /*${" "}
+                   {
+                       "foo": 1,
+                       "bar": 2
+                   }
+                    */
+            `,
+            options: ["bare-block"],
+            errors: [
+                { messageId: "expectedBareBlock", line: 2 }
+            ]
+        },
+        {
+            code: `
+                /*
                  *{
                  *    "foo": 1,
                  *    "bar": 2
@@ -1027,10 +1099,12 @@ ruleTester.run("multiline-comment-style", rule, {
                 */
             `,
             output: `
+                //${" "}
                 // {
                 //     "foo": 1,
                 //     "bar": 2
                 // }
+                //${" "}
             `,
             options: ["separate-lines"],
             errors: [
@@ -1054,6 +1128,38 @@ ruleTester.run("multiline-comment-style", rule, {
             errors: [
                 { messageId: "expectedLines", line: 2 }
             ]
+        },
+        {
+            code: `
+                /*
+                 * foo
+                 *
+                 * bar
+                 */
+            `,
+            output: `
+                // foo
+                //${" "}
+                // bar
+            `,
+            options: ["separate-lines"],
+            errors: [{ messageId: "expectedLines", line: 2 }]
+        },
+        {
+            code: `
+                /*
+                 * foo
+                 *${" "}
+                 * bar
+                 */
+            `,
+            output: `
+                // foo
+                //${" "}
+                // bar
+            `,
+            options: ["separate-lines"],
+            errors: [{ messageId: "expectedLines", line: 2 }]
         }
     ]
 });
