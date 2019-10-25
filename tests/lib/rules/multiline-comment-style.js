@@ -471,7 +471,7 @@ ruleTester.run("multiline-comment-style", rule, {
             code: `
                 /*
                  * the following line
-                is missing a '*' at the start
+                   is missing a '*' at the start
                  */
             `,
             output: `
@@ -492,7 +492,22 @@ ruleTester.run("multiline-comment-style", rule, {
             output: `
                 /*
                  * the following line
-                 *  is missing a '*' at the start
+                 * is missing a '*' at the start
+                 */
+            `,
+            errors: [{ messageId: "missingStar", line: 4 }]
+        },
+        {
+            code: `
+                /*
+                 * the following line
+                is missing a '*' at the start
+                 */
+            `,
+            output: `
+                /*
+                 * the following line
+                 * is missing a '*' at the start
                  */
             `,
             errors: [{ messageId: "missingStar", line: 4 }]
@@ -784,10 +799,10 @@ ruleTester.run("multiline-comment-style", rule, {
             `,
             output: `
                 /*
-                 * {
-                 *     "foo": 1,
-                 *     "bar": 2
-                 * }
+                 *{
+                 *    "foo": 1,
+                 *    "bar": 2
+                 *}
                  */
             `,
             errors: [
@@ -809,10 +824,10 @@ ruleTester.run("multiline-comment-style", rule, {
             `,
             output: `
                 /*
-                 * {
-                 * \t"foo": 1,
-                 * \t"bar": 2
-                 * }
+                 *{
+                 *\t"foo": 1,
+                 *\t"bar": 2
+                 *}
                  */
             `,
             errors: [
@@ -834,10 +849,10 @@ ruleTester.run("multiline-comment-style", rule, {
             `,
             output: `
                 /*
-                 * {
-                 * \t  "foo": 1,
-                 * \t  "bar": 2
-                 * }
+                 *{
+                 *\t  "foo": 1,
+                 *\t  "bar": 2
+                 *}
                  */
             `,
             errors: [
@@ -859,10 +874,10 @@ ruleTester.run("multiline-comment-style", rule, {
             `,
             output: `
                 /*
-                 * {
-                 * "foo": 1,
-                 * "bar": 2
-                 * }
+                 *{
+                 *"foo": 1,
+                 *"bar": 2
+                 *}
                  */
             `,
             errors: [
@@ -884,10 +899,10 @@ ruleTester.run("multiline-comment-style", rule, {
             `,
             output: `
                 \t /*
-                \t  * {
-                \t  * "foo": 1,
-                \t  *   "bar": 2
-                \t  * }
+                \t  *{
+                \t  *"foo": 1,
+                \t  *"bar": 2
+                \t  *}
                 \t  */
             `,
             errors: [
@@ -1290,8 +1305,8 @@ ${"                   "}
             output: `
                 /*
                  * foo
-                 *
-                 * bar
+                 *${" "}
+                 * bar${" "}
                  */
             `,
             options: ["starred-block"],
@@ -1311,8 +1326,8 @@ ${"                   "}
             output: `
                 /*
                  * foo
-                 *
-                 * bar
+                 *${" "}
+                 * bar${" "}
                  */
             `,
             options: ["starred-block"],
@@ -1353,7 +1368,7 @@ ${"                   "}
             output: `
                 /*
                  *foo
-                 *
+                 *${" "}
                  *bar${" "}
                  */
             `,
