@@ -32,6 +32,15 @@ async function foo() {
         return await bar();
     } catch (error) {}
 }
+
+async function foo() {
+    /** 
+     * Note: Though this is not a lint rule violation, 
+     * this function simply proxies a value and does not 
+     * need to be async  
+     */
+    return bar();
+}
 ```
 
 In the last example the `await` is necessary to be able to catch errors thrown from `bar()`.
