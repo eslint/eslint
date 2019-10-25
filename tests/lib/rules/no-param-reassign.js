@@ -91,6 +91,13 @@ ruleTester.run("no-param-reassign", rule, {
             code: "function foo(a) { for (bar of baz) a.b; }",
             options: [{ props: true }],
             parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "function foo(bar, baz) { bar.a = true; baz.b = false; }",
+            options: [{
+                ignorePropertyModificationsForRegex: ["^(foo|bar)$"],
+                ignorePropertyModificationsFor: ["baz"]
+            }]
         }
     ],
 
