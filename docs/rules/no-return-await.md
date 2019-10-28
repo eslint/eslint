@@ -34,11 +34,6 @@ async function foo() {
 }
 
 async function foo() {
-    /** 
-     * Note: Though this is not a lint rule violation, 
-     * this function simply proxies a value and does not 
-     * need to be async  
-     */
     return bar();
 }
 ```
