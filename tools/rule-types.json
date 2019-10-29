@@ -95,6 +95,7 @@
     "no-div-regex": "suggestion",
     "no-dupe-args": "problem",
     "no-dupe-class-members": "problem",
+    "no-dupe-else-if": "problem",
     "no-dupe-keys": "problem",
     "no-duplicate-case": "problem",
     "no-duplicate-imports": "problem",
