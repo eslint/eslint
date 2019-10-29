@@ -42,6 +42,7 @@ This rule has an object option:
 * `"allow"` allows specified identifiers to have dangling underscores
 * `"allowAfterThis": false` (default) disallows dangling underscores in members of the `this` object
 * `"allowAfterSuper": false` (default) disallows dangling underscores in members of the `super` object
+* `"allowAfterThisConstructor": false` (default) disallows dangling underscores in members of the `this.constructor` object
 * `"enforceInMethodNames": false` (default) allows dangling underscores in method names
 
 ### allow
@@ -75,6 +76,17 @@ Examples of **correct** code for this rule with the `{ "allowAfterSuper": true }
 
 var a = super.foo_;
 super._bar();
+```
+
+### allowAfterThisConstructor
+
+Examples of **correct** code for this rule with the `{ "allowAfterThisConstructor": true }` option:
+
+```js
+/*eslint no-underscore-dangle: ["error", { "allowAfterThisConstructor": true }]*/
+
+var a = this.constructor.foo_;
+this.constructor._bar();
 ```
 
 ### enforceInMethodNames
