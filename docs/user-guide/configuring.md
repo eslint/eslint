@@ -1094,7 +1094,7 @@ If `eslint` could find configuration files in the project, `eslint` ignores `~/.
 
 ### How Personal Configuration File Behaves
 
-`~/.eslintrc.*` file behaves samely as regular configuration files, but there are some notes.
+`~/.eslintrc.*` file behaves in the same way as regular configuration files, but there are some notes.
 
 The `~/.eslintrc.*` file loads shareable configs and custom parsers from `~/node_modules/` as similar to `require()` in home directory. Please mind that it doesn't load global-installed packages.
 
