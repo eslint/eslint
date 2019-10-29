@@ -27,7 +27,7 @@
     "bin",
     "conf",
     "lib",
-    "messages"
+    "Messages"
   ],
   "repository": {
     "type": "git",
