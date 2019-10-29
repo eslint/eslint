@@ -12,11 +12,36 @@
 //------------------------------------------------------------------------------
 
 const assert = require("chai").assert,
-    formatter = require("../../../../lib/cli-engine/formatters/junit");
+    formatter = require("../../../../lib/cli-engine/formatters/junit"),
+    process = require("process");
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
+
+/**
+ * Returns the suppliedFilePath for each test
+ * @returns {string} the filepath in a format that would be expected on either a win32 system or POSIX system
+ * @private
+ */
+function suppliedFilePath() {
+    if (process.platform === "win32") {
+        return "C:\\path\\to\\foo.js";
+    }
+    return "/path/to/foo.js";
+}
+
+/**
+ * Returns the expectedClassName for each test
+ * @returns {string} the expected classname in a win32 system or POSIX system path format
+ * @private
+ */
+function expectedClassName() {
+    if (process.platform === "win32") {
+        return "C:\\path\\to\\foo";
+    }
+    return "/path/to/foo";
+}
 
 describe("formatter:junit", () => {
     describe("when there are no problems", () => {
@@ -31,7 +56,7 @@ describe("formatter:junit", () => {
 
     describe("when passed a single message", () => {
         const code = [{
-            filePath: "/path/to/foo.js",
+            filePath: suppliedFilePath(),
             messages: [{
                 message: "Unexpected foo.",
                 severity: 2,
@@ -44,20 +69,20 @@ describe("formatter:junit", () => {
         it("should return a single <testcase> with a message and the line and col number in the body (error)", () => {
             const result = formatter(code);
 
-            assert.strictEqual(result.replace(/\n/gu, ""), "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites><testsuite package=\"org.eslint\" time=\"0\" tests=\"1\" errors=\"1\" name=\"/path/to/foo.js\"><testcase time=\"0\" name=\"org.eslint.foo\" classname=\"/path/to/foo\"><failure message=\"Unexpected foo.\"><![CDATA[line 5, col 10, Error - Unexpected foo. (foo)]]></failure></testcase></testsuite></testsuites>");
+            assert.strictEqual(result.replace(/\n/gu, ""), `<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite package="org.eslint" time="0" tests="1" errors="1" name="${suppliedFilePath()}"><testcase time="0" name="org.eslint.foo" classname="${expectedClassName()}"><failure message="Unexpected foo."><![CDATA[line 5, col 10, Error - Unexpected foo. (foo)]]></failure></testcase></testsuite></testsuites>`);
         });
 
         it("should return a single <testcase> with a message and the line and col number in the body (warning)", () => {
             code[0].messages[0].severity = 1;
             const result = formatter(code);
 
-            assert.strictEqual(result.replace(/\n/gu, ""), "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites><testsuite package=\"org.eslint\" time=\"0\" tests=\"1\" errors=\"1\" name=\"/path/to/foo.js\"><testcase time=\"0\" name=\"org.eslint.foo\" classname=\"/path/to/foo\"><failure message=\"Unexpected foo.\"><![CDATA[line 5, col 10, Warning - Unexpected foo. (foo)]]></failure></testcase></testsuite></testsuites>");
+            assert.strictEqual(result.replace(/\n/gu, ""), `<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite package="org.eslint" time="0" tests="1" errors="1" name="${suppliedFilePath()}"><testcase time="0" name="org.eslint.foo" classname="${expectedClassName()}"><failure message="Unexpected foo."><![CDATA[line 5, col 10, Warning - Unexpected foo. (foo)]]></failure></testcase></testsuite></testsuites>`);
         });
     });
 
     describe("when passed a fatal error message", () => {
         const code = [{
-            filePath: "foo.js",
+            filePath: suppliedFilePath(),
             messages: [{
                 fatal: true,
                 message: "Unexpected foo.",
@@ -70,13 +95,13 @@ describe("formatter:junit", () => {
         it("should return a single <testcase> and an <error>", () => {
             const result = formatter(code);
 
-            assert.strictEqual(result.replace(/\n/gu, ""), "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites><testsuite package=\"org.eslint\" time=\"0\" tests=\"1\" errors=\"1\" name=\"foo.js\"><testcase time=\"0\" name=\"org.eslint.foo\" classname=\"foo\"><error message=\"Unexpected foo.\"><![CDATA[line 5, col 10, Error - Unexpected foo. (foo)]]></error></testcase></testsuite></testsuites>");
+            assert.strictEqual(result.replace(/\n/gu, ""), `<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite package="org.eslint" time="0" tests="1" errors="1" name="${suppliedFilePath()}"><testcase time="0" name="org.eslint.foo" classname="${expectedClassName()}"><error message="Unexpected foo."><![CDATA[line 5, col 10, Error - Unexpected foo. (foo)]]></error></testcase></testsuite></testsuites>`);
         });
     });
 
     describe("when passed a fatal error message with no line or column", () => {
         const code = [{
-            filePath: "foo.js",
+            filePath: suppliedFilePath(),
             messages: [{
                 fatal: true,
                 message: "Unexpected foo."
@@ -86,13 +111,13 @@ describe("formatter:junit", () => {
         it("should return a single <testcase> and an <error>", () => {
             const result = formatter(code);
 
-            assert.strictEqual(result.replace(/\n/gu, ""), "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites><testsuite package=\"org.eslint\" time=\"0\" tests=\"1\" errors=\"1\" name=\"foo.js\"><testcase time=\"0\" name=\"org.eslint.unknown\" classname=\"foo\"><error message=\"Unexpected foo.\"><![CDATA[line 0, col 0, Error - Unexpected foo.]]></error></testcase></testsuite></testsuites>");
+            assert.strictEqual(result.replace(/\n/gu, ""), `<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite package="org.eslint" time="0" tests="1" errors="1" name="${suppliedFilePath()}"><testcase time="0" name="org.eslint.unknown" classname="${expectedClassName()}"><error message="Unexpected foo."><![CDATA[line 0, col 0, Error - Unexpected foo.]]></error></testcase></testsuite></testsuites>`);
         });
     });
 
     describe("when passed a fatal error message with no line, column, or message text", () => {
         const code = [{
-            filePath: "foo.js",
+            filePath: suppliedFilePath(),
             messages: [{
                 fatal: true
             }]
@@ -101,13 +126,13 @@ describe("formatter:junit", () => {
         it("should return a single <testcase> and an <error>", () => {
             const result = formatter(code);
 
-            assert.strictEqual(result.replace(/\n/gu, ""), "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites><testsuite package=\"org.eslint\" time=\"0\" tests=\"1\" errors=\"1\" name=\"foo.js\"><testcase time=\"0\" name=\"org.eslint.unknown\" classname=\"foo\"><error message=\"\"><![CDATA[line 0, col 0, Error - ]]></error></testcase></testsuite></testsuites>");
+            assert.strictEqual(result.replace(/\n/gu, ""), `<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite package="org.eslint" time="0" tests="1" errors="1" name="${suppliedFilePath()}"><testcase time="0" name="org.eslint.unknown" classname="${expectedClassName()}"><error message=""><![CDATA[line 0, col 0, Error - ]]></error></testcase></testsuite></testsuites>`);
         });
     });
 
     describe("when passed multiple messages", () => {
         const code = [{
-            filePath: "foo.js",
+            filePath: suppliedFilePath(),
             messages: [{
                 message: "Unexpected foo.",
                 severity: 2,
@@ -126,13 +151,13 @@ describe("formatter:junit", () => {
         it("should return a multiple <testcase>'s", () => {
             const result = formatter(code);
 
-            assert.strictEqual(result.replace(/\n/gu, ""), "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites><testsuite package=\"org.eslint\" time=\"0\" tests=\"2\" errors=\"2\" name=\"foo.js\"><testcase time=\"0\" name=\"org.eslint.foo\" classname=\"foo\"><failure message=\"Unexpected foo.\"><![CDATA[line 5, col 10, Error - Unexpected foo. (foo)]]></failure></testcase><testcase time=\"0\" name=\"org.eslint.bar\" classname=\"foo\"><failure message=\"Unexpected bar.\"><![CDATA[line 6, col 11, Warning - Unexpected bar. (bar)]]></failure></testcase></testsuite></testsuites>");
+            assert.strictEqual(result.replace(/\n/gu, ""), `<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite package="org.eslint" time="0" tests="2" errors="2" name="${suppliedFilePath()}"><testcase time="0" name="org.eslint.foo" classname="${expectedClassName()}"><failure message="Unexpected foo."><![CDATA[line 5, col 10, Error - Unexpected foo. (foo)]]></failure></testcase><testcase time="0" name="org.eslint.bar" classname="${expectedClassName()}"><failure message="Unexpected bar."><![CDATA[line 6, col 11, Warning - Unexpected bar. (bar)]]></failure></testcase></testsuite></testsuites>`);
         });
     });
 
     describe("when passed special characters", () => {
         const code = [{
-            filePath: "foo.js",
+            filePath: suppliedFilePath(),
             messages: [{
                 message: "Unexpected <foo></foo>\b\t\n\f\r牛逼.",
                 severity: 1,
@@ -145,13 +170,13 @@ describe("formatter:junit", () => {
         it("should make them go away", () => {
             const result = formatter(code);
 
-            assert.strictEqual(result.replace(/\n/gu, ""), "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites><testsuite package=\"org.eslint\" time=\"0\" tests=\"1\" errors=\"1\" name=\"foo.js\"><testcase time=\"0\" name=\"org.eslint.foo\" classname=\"foo\"><failure message=\"Unexpected &lt;foo&gt;&lt;/foo&gt;&#8;&#9;&#10;&#12;&#13;&#29275;&#36924;.\"><![CDATA[line 5, col 10, Warning - Unexpected &lt;foo&gt;&lt;/foo&gt;&#8;&#9;&#10;&#12;&#13;&#29275;&#36924;. (foo)]]></failure></testcase></testsuite></testsuites>");
+            assert.strictEqual(result.replace(/\n/gu, ""), `<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite package="org.eslint" time="0" tests="1" errors="1" name="${suppliedFilePath()}"><testcase time="0" name="org.eslint.foo" classname="${expectedClassName()}"><failure message="Unexpected &lt;foo&gt;&lt;/foo&gt;&#8;&#9;&#10;&#12;&#13;&#29275;&#36924;."><![CDATA[line 5, col 10, Warning - Unexpected &lt;foo&gt;&lt;/foo&gt;&#8;&#9;&#10;&#12;&#13;&#29275;&#36924;. (foo)]]></failure></testcase></testsuite></testsuites>`);
         });
     });
 
     describe("when passed multiple files with 1 message each", () => {
         const code = [{
-            filePath: "foo.js",
+            filePath: suppliedFilePath(),
             messages: [{
                 message: "Unexpected foo.",
                 severity: 1,
@@ -173,13 +198,13 @@ describe("formatter:junit", () => {
         it("should return 2 <testsuite>'s", () => {
             const result = formatter(code);
 
-            assert.strictEqual(result.replace(/\n/gu, ""), "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites><testsuite package=\"org.eslint\" time=\"0\" tests=\"1\" errors=\"1\" name=\"foo.js\"><testcase time=\"0\" name=\"org.eslint.foo\" classname=\"foo\"><failure message=\"Unexpected foo.\"><![CDATA[line 5, col 10, Warning - Unexpected foo. (foo)]]></failure></testcase></testsuite><testsuite package=\"org.eslint\" time=\"0\" tests=\"1\" errors=\"1\" name=\"bar.js\"><testcase time=\"0\" name=\"org.eslint.bar\" classname=\"bar\"><failure message=\"Unexpected bar.\"><![CDATA[line 6, col 11, Error - Unexpected bar. (bar)]]></failure></testcase></testsuite></testsuites>");
+            assert.strictEqual(result.replace(/\n/gu, ""), `<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite package="org.eslint" time="0" tests="1" errors="1" name="${suppliedFilePath()}"><testcase time="0" name="org.eslint.foo" classname="${expectedClassName()}"><failure message="Unexpected foo."><![CDATA[line 5, col 10, Warning - Unexpected foo. (foo)]]></failure></testcase></testsuite><testsuite package="org.eslint" time="0" tests="1" errors="1" name="bar.js"><testcase time="0" name="org.eslint.bar" classname="bar"><failure message="Unexpected bar."><![CDATA[line 6, col 11, Error - Unexpected bar. (bar)]]></failure></testcase></testsuite></testsuites>`);
         });
     });
 
     describe("when passed multiple files should print even if no errors", () => {
         const code = [{
-            filePath: "foo.js",
+            filePath: suppliedFilePath(),
             messages: [{
                 message: "Unexpected foo.",
                 severity: 1,
@@ -195,20 +220,20 @@ describe("formatter:junit", () => {
         it("should return 2 <testsuite>", () => {
             const result = formatter(code);
 
-            assert.strictEqual(result.replace(/\n/gu, ""), "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites><testsuite package=\"org.eslint\" time=\"0\" tests=\"1\" errors=\"1\" name=\"foo.js\"><testcase time=\"0\" name=\"org.eslint.foo\" classname=\"foo\"><failure message=\"Unexpected foo.\"><![CDATA[line 5, col 10, Warning - Unexpected foo. (foo)]]></failure></testcase></testsuite><testsuite package=\"org.eslint\" time=\"0\" tests=\"1\" errors=\"0\" name=\"bar.js\"><testcase time=\"0\" name=\"bar.js\" classname=\"bar\" /></testsuite></testsuites>");
+            assert.strictEqual(result.replace(/\n/gu, ""), `<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite package="org.eslint" time="0" tests="1" errors="1" name="${suppliedFilePath()}"><testcase time="0" name="org.eslint.foo" classname="${expectedClassName()}"><failure message="Unexpected foo."><![CDATA[line 5, col 10, Warning - Unexpected foo. (foo)]]></failure></testcase></testsuite><testsuite package="org.eslint" time="0" tests="1" errors="0" name="bar.js"><testcase time="0" name="bar.js" classname="bar" /></testsuite></testsuites>`);
         });
     });
 
     describe("when passed a file with no errors", () => {
         const code = [{
-            filePath: "foo.js",
+            filePath: suppliedFilePath(),
             messages: []
         }];
 
         it("should print a passing <testcase>", () => {
             const result = formatter(code);
 
-            assert.strictEqual(result.replace(/\n/gu, ""), "<?xml version=\"1.0\" encoding=\"utf-8\"?><testsuites><testsuite package=\"org.eslint\" time=\"0\" tests=\"1\" errors=\"0\" name=\"foo.js\"><testcase time=\"0\" name=\"foo.js\" classname=\"foo\" /></testsuite></testsuites>");
+            assert.strictEqual(result.replace(/\n/gu, ""), `<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite package="org.eslint" time="0" tests="1" errors="0" name="${suppliedFilePath()}"><testcase time="0" name="${suppliedFilePath()}" classname="${expectedClassName()}" /></testsuite></testsuites>`);
         });
     });
 });
