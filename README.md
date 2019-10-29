@@ -18,7 +18,7 @@
 [Mailing List](https://groups.google.com/group/eslint) |
 [Chat Room](https://gitter.im/eslint/eslint)
 
-ESLint is a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code. In many ways, it is similar to JSLint and JSHint with a few exceptions:
+ESLint is a tool used for identifying and reporting on patterns found in ECMAScript/JavaScript code. In many ways, it is similar to JSLint and JSHint with a few exceptions:
 
 * ESLint uses [Espree](https://github.com/eslint/espree) for JavaScript parsing.
 * ESLint uses an AST to evaluate patterns in code.
