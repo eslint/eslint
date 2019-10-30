@@ -1,4 +1,4 @@
-# Disallow unnecessary computed property keys (no-useless-computed-key)
+# Disallow unnecessary computed property keys in objects and classes (no-useless-computed-key)
 
 It's unnecessary to use computed properties with literals such as:
 
@@ -64,7 +64,7 @@ class Foo {
     [0]() {}
     ['a']() {}
     get ['b']() {}
-    set ['c']() {}
+    set ['c'](value) {}
 
     static ['a']() {}
 }

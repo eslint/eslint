@@ -24,6 +24,7 @@ ruleTester.run("no-useless-computed-key", rule, {
         "({ [x]: 0 });",
         "({ a: 0, [b](){} })",
         "({ ['__proto__']: [] })",
+        { code: "class Foo { a() {} }", options: [{ enforceForClassMembers: true }] },
         { code: "class Foo { 'a'() {} }", options: [{ enforceForClassMembers: true }] },
         { code: "class Foo { [x]() {} }", options: [{ enforceForClassMembers: true }] },
         { code: "class Foo { ['constructor']() {} }", options: [{ enforceForClassMembers: true }] },
