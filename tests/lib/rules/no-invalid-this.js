@@ -135,8 +135,32 @@ const patterns = [
         invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
     },
     {
+        code: "function foo() { console.log(this); z(x => console.log(x, this)); }",
+        parserOptions: { ecmaVersion: 6 },
+        options: [{ capIsConstructor: false }], // test that the option doesn't reverse the logic and mistakenly allows lowercase functions
+        errors,
+        valid: [NORMAL],
+        invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
+    },
+    {
+        code: "function Foo() { console.log(this); z(x => console.log(x, this)); }",
+        parserOptions: { ecmaVersion: 6 },
+        options: [{ capIsConstructor: false }],
+        errors,
+        valid: [NORMAL],
+        invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
+    },
+    {
         code: "function foo() { \"use strict\"; console.log(this); z(x => console.log(x, this)); }",
         parserOptions: { ecmaVersion: 6 },
+        errors,
+        valid: [],
+        invalid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES]
+    },
+    {
+        code: "function Foo() { \"use strict\"; console.log(this); z(x => console.log(x, this)); }",
+        parserOptions: { ecmaVersion: 6 },
+        options: [{ capIsConstructor: false }],
         errors,
         valid: [],
         invalid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES]
@@ -223,6 +247,20 @@ const patterns = [
     {
         code: "function Foo() { console.log(this); z(x => console.log(x, this)); }",
         parserOptions: { ecmaVersion: 6 },
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        invalid: []
+    },
+    {
+        code: "function Foo() { console.log(this); z(x => console.log(x, this)); }",
+        parserOptions: { ecmaVersion: 6 },
+        options: [{}], // test the default value in schema
+        valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
+        invalid: []
+    },
+    {
+        code: "function Foo() { console.log(this); z(x => console.log(x, this)); }",
+        parserOptions: { ecmaVersion: 6 },
+        options: [{ capIsConstructor: true }], // test explicitly set option to the default value
         valid: [NORMAL, USE_STRICT, IMPLIED_STRICT, MODULES],
         invalid: []
     },
@@ -557,8 +595,24 @@ const patterns = [
         invalid: []
     },
     {
+        code: "var Ctor = function() { console.log(this); z(x => console.log(x, this)); }",
+        parserOptions: { ecmaVersion: 6 },
+        options: [{ capIsConstructor: false }],
+        errors,
+        valid: [NORMAL],
+        invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
+    },
+    {
         code: "var func = function() { console.log(this); z(x => console.log(x, this)); }",
         parserOptions: { ecmaVersion: 6 },
+        errors,
+        valid: [NORMAL],
+        invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
+    },
+    {
+        code: "var func = function() { console.log(this); z(x => console.log(x, this)); }",
+        parserOptions: { ecmaVersion: 6 },
+        options: [{ capIsConstructor: false }],
         errors,
         valid: [NORMAL],
         invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
@@ -570,8 +624,24 @@ const patterns = [
         invalid: []
     },
     {
+        code: "Ctor = function() { console.log(this); z(x => console.log(x, this)); }",
+        parserOptions: { ecmaVersion: 6 },
+        options: [{ capIsConstructor: false }],
+        errors,
+        valid: [NORMAL],
+        invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
+    },
+    {
         code: "func = function() { console.log(this); z(x => console.log(x, this)); }",
         parserOptions: { ecmaVersion: 6 },
+        errors,
+        valid: [NORMAL],
+        invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
+    },
+    {
+        code: "func = function() { console.log(this); z(x => console.log(x, this)); }",
+        parserOptions: { ecmaVersion: 6 },
+        options: [{ capIsConstructor: false }],
         errors,
         valid: [NORMAL],
         invalid: [USE_STRICT, IMPLIED_STRICT, MODULES]
