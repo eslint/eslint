@@ -41,7 +41,10 @@ ruleTester.run("no-cond-assign", rule, {
         { code: "if (function(node) { return node = parentNode; }) { }", options: ["except-parens"] },
         { code: "if (function(node) { return node = parentNode; }) { }", options: ["always"] },
         { code: "x = 0;", options: ["always"] },
-        "var x; var b = (x === 0) ? 1 : 0;"
+        "var x; var b = (x === 0) ? 1 : 0;",
+        { code: "switch (foo) { case a = b: bar(); }", options: ["except-parens"] },
+        { code: "switch (foo) { case a = b: bar(); }", options: ["always"] },
+        { code: "switch (foo) { case baz + (a = b): bar(); }", options: ["always"] }
     ],
     invalid: [
         { code: "var x; if (x = 0) { var b = 1; }", errors: [{ messageId: "missing", type: "IfStatement", line: 1, column: 12 }] },
@@ -62,6 +65,7 @@ ruleTester.run("no-cond-assign", rule, {
         { code: "do { } while ((x = x + 1));", options: ["always"], errors: [{ messageId: "unexpected", data: { type: "a 'do...while' statement" }, type: "DoWhileStatement" }] },
         { code: "for(; (x = y); ) { }", options: ["always"], errors: [{ messageId: "unexpected", data: { type: "a 'for' statement" }, type: "ForStatement" }] },
         { code: "var x; var b = (x = 0) ? 1 : 0;", errors: [{ messageId: "missing", type: "ConditionalExpression" }] },
+        { code: "var x; var b = x && (y = 0) ? 1 : 0;", options: ["always"], errors: [{ messageId: "unexpected", type: "ConditionalExpression" }] },
         { code: "(((3496.29)).bkufyydt = 2e308) ? foo : bar;", errors: [{ messageId: "missing", type: "ConditionalExpression" }] }
     ]
 });
