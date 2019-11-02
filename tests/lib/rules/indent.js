@@ -5360,6 +5360,13 @@ ruleTester.run("indent", rule, {
                 ;[1, 2, 3].forEach(() => {})
             }
         `,
+        {
+            code: "" +
+                "    if (foo) {\n" +
+                "        doSomething();\n" +
+                "    }",
+            options: [4, { baseIndent: 1 }]
+        },
 
         // import expressions
         {
@@ -10493,6 +10500,18 @@ ruleTester.run("indent", rule, {
                 }
             `,
             errors: expectedErrors([5, 8, 4, "Block"])
+        },
+        {
+            code: "" +
+                "if (foo) {\n" +
+                "            doSomething();\n" +
+                "        }",
+            output: "" +
+                "        if (foo) {\n" +
+                "            doSomething();\n" +
+                "        }",
+            options: [4, { baseIndent: 2 }],
+            errors: expectedErrors([1, 8, 0, "Keyword"])
         },
 
         // import expressions

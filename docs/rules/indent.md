@@ -86,6 +86,7 @@ This rule has an object option:
 * `"flatTernaryExpressions": true` (`false` by default) requires no indentation for ternary expressions which are nested in other ternary expressions.
 * `"ignoredNodes"` accepts an array of [selectors](/docs/developer-guide/selectors.md). If an AST node is matched by any of the selectors, the indentation of tokens which are direct children of that node will be ignored. This can be used as an escape hatch to relax the rule if you disagree with the indentation that it enforces for a particular syntactic pattern.
 * `"ignoreComments"` (default: false) can be used when comments do not need to be aligned with nodes on the previous or next line.
+* `"baseIndent"` (default: 0) enforces extra indentation for top-level statements.
 
 Level of indentation denotes the multiple of the indent specified. Example:
 
@@ -689,6 +690,18 @@ if (foo) {
 // comment intentionally de-indented
     doSomethingElse();
 }
+```
+
+### baseIndent
+
+   Examples of additional **correct** code for this rule with the `4, { "baseIndent": 2 }` option:
+
+```js
+        /*eslint indent: ["error", 4, { "baseIndent": 2 }] */
+
+        if (foo) {
+            doSomething();
+        }
 ```
 
 
