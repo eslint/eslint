@@ -1084,7 +1084,7 @@ This message occurs because ESLint is unsure if you wanted to actually lint the 
 
 ⚠️ **This feature has been deprecated**. It will start to print deprecation warnings on ESLint `7.0.0` and will be removed on ESLint `8.0.0`. If you want to continue to use personal configuration file, please use [`--config` CLI option](https://eslint.org/docs/user-guide/command-line-interface#-c---config). If you want to know the discussion of this decision, see [RFC 28](https://github.com/eslint/rfcs/pull/28) and [RFC 32](https://github.com/eslint/rfcs/pull/32).
 
-Here `~/` means [the home directory of the current user on your OS](https://nodejs.org/api/os.html#os_os_homedir). The personal configuration file is `~/.eslintrc.*` file. ESLint handles `~/.eslintrc.*` file in special.
+`~/` refers to [the home directory of the current user on your preferred operating system](https://nodejs.org/api/os.html#os_os_homedir). The personal configuration file being referred to here is `~/.eslintrc.*` file, which is currently handled differently than other configuration files.
 
 ### How ESLint Finds Personal Configuration File
 
