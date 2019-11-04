@@ -15,7 +15,7 @@ if (foo) {
 
 Of course, you could also have a style guide that disallows spaces around keywords.
 
-However, if you want to enforce the style of spacing between `function` keyword and parenthesis, please refer to [space-before-function-paren](space-before-function-paren.md).
+However, if you want to enforce the style of spacing between the `function` keyword and the following opening parenthesis, please refer to [space-before-function-paren](space-before-function-paren.md).
 
 ## Rule Details
 
