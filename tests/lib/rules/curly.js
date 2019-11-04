@@ -165,6 +165,35 @@ ruleTester.run("curly", rule, {
             parserOptions: { ecmaVersion: 6 }
         },
         {
+            code: "if (foo) { const bar = 'baz'; }",
+            options: ["multi"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "while (foo) { let bar = 'baz'; }",
+            options: ["multi"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "for(;;) { function foo() {} }",
+            options: ["multi"]
+        },
+        {
+            code: "for (foo in bar) { class Baz {} }",
+            options: ["multi"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "if (foo) { let bar; } else { baz(); }",
+            options: ["multi", "consistent"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "if (foo) { bar(); } else { const baz = 'quux'; }",
+            options: ["multi", "consistent"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
             code: "if (foo) { \n const bar = 'baz'; \n }",
             options: ["multi-or-nest"],
             parserOptions: { ecmaVersion: 6 }
@@ -687,6 +716,44 @@ ruleTester.run("curly", rule, {
             errors: [
                 {
                     messageId: "unexpectedCurlyAfterCondition",
+                    data: { name: "if" },
+                    type: "IfStatement"
+                }
+            ]
+        },
+        {
+            code: "if (foo) { var bar = 'baz'; }",
+            output: "if (foo)  var bar = 'baz'; ",
+            options: ["multi"],
+            errors: [
+                {
+                    messageId: "unexpectedCurlyAfterCondition",
+                    data: { name: "if" },
+                    type: "IfStatement"
+                }
+            ]
+        },
+        {
+            code: "if (foo) { let bar; } else baz();",
+            output: "if (foo) { let bar; } else {baz();}",
+            options: ["multi", "consistent"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "missingCurlyAfter",
+                    data: { name: "else" },
+                    type: "IfStatement"
+                }
+            ]
+        },
+        {
+            code: "if (foo) bar(); else { const baz = 'quux' }",
+            output: "if (foo) {bar();} else { const baz = 'quux' }",
+            options: ["multi", "consistent"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "missingCurlyAfterCondition",
                     data: { name: "if" },
                     type: "IfStatement"
                 }
