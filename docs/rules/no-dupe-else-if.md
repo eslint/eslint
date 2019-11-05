@@ -1,6 +1,6 @@
 # Disallow duplicate conditions in `if-else-if` chains (no-dupe-else-if)
 
-`if-else-if` chains are commonly used when there is a need to execute only one branch or at most one branch out of several possible branches, based on certain conditions.
+`if-else-if` chains are commonly used when there is a need to execute only one branch (or at most one branch) out of several possible branches, based on certain conditions.
 
 ```js
 if (a) {
@@ -99,6 +99,54 @@ if (n === 1) {
     quux();
 } else if (n === 5) {
     quuux();
+}
+```
+
+This rule can also detect some cases where the conditions are not identical, but the branch can never execute due to the logic of `||` and `&&` operators.
+
+Examples of additional **incorrect** code for this rule:
+
+```js
+/*eslint no-dupe-else-if: "error"*/
+
+if (a || b) {
+    foo();
+} else if (a) {
+    bar();
+}
+
+if (a) {
+    foo();
+} else if (b) {
+    bar();
+} else if (a || b) {
+    baz();
+}
+
+if (a) {
+    foo();
+} else if (a && b) {
+    bar();
+}
+
+if (a && b) {
+    foo();
+} else if (a && b && c) {
+    bar();
+}
+
+if (a || b) {
+    foo();
+} else if (b && c) {
+    bar();
+}
+
+if (a) {
+    foo();
+} else if (b && c) {
+    bar();
+} else if (d && (c && e && b || a)) {
+    baz();
 }
 ```
 
