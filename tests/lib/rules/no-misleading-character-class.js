@@ -63,7 +63,11 @@ ruleTester.run("no-misleading-character-class", rule, {
 
         // Ignore solo ZWJ.
         "var r = /[\\u200D]/",
-        "var r = /[\\u200D]/u"
+        "var r = /[\\u200D]/u",
+
+        // don't report and don't crash on invalid regex
+        "var r = new RegExp('[Á] [ ');",
+        "var r = RegExp('{ [Á]', 'u');"
     ],
     invalid: [
 
