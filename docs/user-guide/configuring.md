@@ -138,6 +138,8 @@ An environment defines global variables that are predefined. The available envir
 * `commonjs` - CommonJS global variables and CommonJS scoping (use this for browser-only code that uses Browserify/WebPack).
 * `shared-node-browser` - Globals common to both Node.js and Browser.
 * `es6` - enable all ECMAScript 6 features except for modules (this automatically sets the `ecmaVersion` parser option to 6).
+* `es2017` - adds all ECMAScript 2017 globals and automatically sets the `ecmaVersion` parser option to 8.
+* `es2020` - adds all ECMAScript 2020 globals and automatically sets the `ecmaVersion` parser option to 11.
 * `worker` - web workers global variables.
 * `amd` - defines `require()` and `define()` as global variables as per the [amd](https://github.com/amdjs/amdjs-api/wiki/AMD) spec.
 * `mocha` - adds all of the Mocha testing global variables.
@@ -322,6 +324,71 @@ And in YAML:
 ```
 
 **Note:** Plugins are resolved relative to the current working directory of the ESLint process. In other words, ESLint will load the same plugin as a user would obtain by running `require('eslint-plugin-pluginname')` in a Node REPL from their project root.
+
+### Naming Convention
+
+#### Include a Plugin
+
+The `eslint-plugin-` prefix can be omitted for non-scoped packages
+
+```js
+{
+    // ...
+    "plugins": [
+        "jquery", // means eslint-plugin-jquery
+    ]
+    // ...
+}
+```
+
+The same rule does apply to scoped packages:
+
+```js
+{
+    // ...
+    "plugins": [
+        "@jquery/jquery", // means @jquery/eslint-plugin-jquery
+        "@foobar" // means @foobar/eslint-plugin
+    ]
+    // ...
+}
+```
+
+#### Use a Plugin
+
+When using rules, environments or configs defined by plugins, they must be referenced following the convention:
+
+* `eslint-plugin-foo` → `foo/a-rule`
+* `@foo/eslint-plugin` → `@foo/a-config`
+* `@foo/eslint-plugin-bar` → `@foo/bar/a-environment`
+
+For example:
+
+```js
+{
+    // ...
+    "plugins": [
+        "jquery",   // eslint-plugin-jquery
+        "@foo/foo", // @foo/eslint-plugin-foo
+        "@bar"      // @bar/eslint-plugin
+    ],
+    "extends": [
+        "plugin:@foo/foo/recommended",
+        "plugin:@bar/recommended"
+    ],
+    "rules": {
+        "jquery/a-rule": "error",
+        "@foo/foo/some-rule": "error",
+        "@bar/another-rule": "error"
+    },
+    "env": {
+        "jquery/jquery": true,
+        "@foo/foo/env-foo": true,
+        "@bar/env-bar": true,
+    }
+    // ...
+}
+```
 
 ## Configuring Rules
 
@@ -529,6 +596,34 @@ To disable rules inside of a configuration file for a group of files, use the `o
   ]
 }
 ```
+
+## Configuring Inline Comment Behaviors
+
+### Disabling Inline Comments
+
+To disable all inline config comments, use `noInlineConfig` setting. For example:
+
+```json
+{
+  "rules": {...},
+  "noInlineConfig": true
+}
+```
+
+This setting is similar to [--no-inline-config](./command-line-interface.md#--no-inline-config) CLI option.
+
+### Report Unused `eslint-disable` Comments
+
+To report unused `eslint-disable` comments, use `reportUnusedDisableDirectives` setting. For example:
+
+```json
+{
+  "rules": {...},
+  "reportUnusedDisableDirectives": true
+}
+```
+
+This setting is similar to [--report-unused-disable-directives](./command-line-interface.md#--report-unused-disable-directives) CLI option, but doesn't fail linting (reports as `"warn"` severity).
 
 ## Adding Shared Settings
 

@@ -24,6 +24,11 @@ ruleTester.run("space-before-function-paren", rule, {
         "function foo () {}",
         "var foo = function () {}",
         "var bar = function foo () {}",
+        "var bar = function foo/**/ () {}",
+        "var bar = function foo /**/() {}",
+        "var bar = function foo/**/\n() {}",
+        "var bar = function foo\n/**/() {}",
+        "var bar = function foo//\n() {}",
         "var obj = { get foo () {}, set foo (val) {} };",
         {
             code: "var obj = { foo () {} };",
@@ -34,6 +39,9 @@ ruleTester.run("space-before-function-paren", rule, {
 
         { code: "function foo() {}", options: ["never"] },
         { code: "var foo = function() {}", options: ["never"] },
+        { code: "var foo = function/**/() {}", options: ["never"] },
+        { code: "var foo = function/* */() {}", options: ["never"] },
+        { code: "var foo = function/* *//*  */() {}", options: ["never"] },
         { code: "var bar = function foo() {}", options: ["never"] },
         { code: "var obj = { get foo() {}, set foo(val) {} };", options: ["never"] },
         {
@@ -216,6 +224,84 @@ ruleTester.run("space-before-function-paren", rule, {
         {
             code: "function foo () {}",
             output: "function foo() {}",
+            options: ["never"],
+            errors: [
+                {
+                    type: "FunctionDeclaration",
+                    message: "Unexpected space before function parentheses.",
+                    line: 1,
+                    column: 13
+                }
+            ]
+        },
+        {
+            code: "function foo /* */ () {}",
+            output: "function foo/* */() {}",
+            options: ["never"],
+            errors: [
+                {
+                    type: "FunctionDeclaration",
+                    message: "Unexpected space before function parentheses.",
+                    line: 1,
+                    column: 13
+                }
+            ]
+        },
+        {
+            code: "function foo/* block comment */ () {}",
+            output: "function foo/* block comment */() {}",
+            options: ["never"],
+            errors: [
+                {
+                    type: "FunctionDeclaration",
+                    message: "Unexpected space before function parentheses.",
+                    line: 1,
+                    column: 13
+                }
+            ]
+        },
+        {
+            code: "function foo/* 1 */ /* 2 */ \n /* 3 */\n/* 4 */ () {}",
+            output: "function foo/* 1 *//* 2 *//* 3 *//* 4 */() {}",
+            options: ["never"],
+            errors: [
+                {
+                    type: "FunctionDeclaration",
+                    message: "Unexpected space before function parentheses.",
+                    line: 1,
+                    column: 13
+                }
+            ]
+        },
+        {
+            code: "function foo//\n() {}",
+            output: null,
+            options: ["never"],
+            errors: [
+                {
+                    type: "FunctionDeclaration",
+                    message: "Unexpected space before function parentheses.",
+                    line: 1,
+                    column: 13
+                }
+            ]
+        },
+        {
+            code: "function foo // line comment \n () {}",
+            output: null,
+            options: ["never"],
+            errors: [
+                {
+                    type: "FunctionDeclaration",
+                    message: "Unexpected space before function parentheses.",
+                    line: 1,
+                    column: 13
+                }
+            ]
+        },
+        {
+            code: "function foo\n//\n() {}",
+            output: null,
             options: ["never"],
             errors: [
                 {

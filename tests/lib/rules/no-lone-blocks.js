@@ -56,7 +56,8 @@ ruleTester.run("no-lone-blocks", rule, {
               baz;
             }
           }
-        `
+        `,
+        { code: "function foo() { { const x = 4 } const x = 3 }", parserOptions: { ecmaVersion: 6 } }
     ],
     invalid: [
         { code: "{}", errors: [{ message: "Block is redundant.", type: "BlockStatement" }] },
@@ -118,6 +119,39 @@ ruleTester.run("no-lone-blocks", rule, {
               }
             `,
             errors: [{ message: "Block is redundant.", type: "BlockStatement", line: 4 }]
+        },
+        {
+            code: `
+              function foo () {
+                {
+                  const x = 4;
+                }
+              }
+            `,
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    message: "Nested block is redundant.",
+                    type: "BlockStatement",
+                    line: 3
+                }
+            ]
+        },
+        {
+            code: `
+              function foo () {
+                {
+                  var x = 4;
+                }
+              }
+            `,
+            errors: [
+                {
+                    message: "Nested block is redundant.",
+                    type: "BlockStatement",
+                    line: 3
+                }
+            ]
         }
     ]
 });

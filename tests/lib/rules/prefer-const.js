@@ -527,6 +527,25 @@ ruleTester.run("prefer-const", rule, {
                 { messageId: "useConst", data: { name: "b" }, type: "Identifier" },
                 { messageId: "useConst", data: { name: "c" }, type: "Identifier" }
             ]
+        },
+        {
+            code: [
+                "function a() {",
+                "let foo = 0,",
+                "  bar = 1;",
+                "foo = 1;",
+                "}",
+                "function b() {",
+                "let foo = 0,",
+                "  bar = 2;",
+                "foo = 2;",
+                "}"
+            ].join("\n"),
+            output: null,
+            errors: [
+                { message: "'bar' is never reassigned. Use 'const' instead.", type: "Identifier" },
+                { message: "'bar' is never reassigned. Use 'const' instead.", type: "Identifier" }
+            ]
         }
     ]
 });

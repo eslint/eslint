@@ -473,12 +473,12 @@ target.all = function() {
     target.test();
 };
 
-target.lint = function() {
+target.lint = function([fix = false] = []) {
     let errors = 0,
         lastReturn;
 
     echo("Validating JavaScript files");
-    lastReturn = exec(`${ESLINT} .`);
+    lastReturn = exec(`${ESLINT}${fix ? "--fix" : ""} .`);
     if (lastReturn.code !== 0) {
         errors++;
     }
@@ -497,7 +497,7 @@ target.lint = function() {
     }
 };
 
-target.fuzz = function({ amount = process.env.CI ? 1000 : 300, fuzzBrokenAutofixes = true } = {}) {
+target.fuzz = function({ amount = 1000, fuzzBrokenAutofixes = false } = {}) {
     const fuzzerRunner = require("./tools/fuzzer-runner");
     const fuzzResults = fuzzerRunner.run({ amount, fuzzBrokenAutofixes });
 
@@ -536,18 +536,13 @@ target.fuzz = function({ amount = process.env.CI ? 1000 : 300, fuzzBrokenAutofix
     }
 };
 
-target.test = function() {
-    target.lint();
-    target.checkRuleFiles();
+target.mocha = () => {
     let errors = 0,
         lastReturn;
 
     echo("Running unit tests");
 
-    // In CI (Azure Pipelines), use JUnit reporter.
-    const reporter = process.env.TF_BUILD ? "mocha-junit-reporter" : "progress";
-
-    lastReturn = exec(`${getBinFile("nyc")} -- ${MOCHA} -R ${reporter} -t ${MOCHA_TIMEOUT} -c ${TEST_FILES}`);
+    lastReturn = exec(`${getBinFile("nyc")} -- ${MOCHA} -R progress -t ${MOCHA_TIMEOUT} -c ${TEST_FILES}`);
     if (lastReturn.code !== 0) {
         errors++;
     }
@@ -556,6 +551,14 @@ target.test = function() {
     if (lastReturn.code !== 0) {
         errors++;
     }
+
+    if (errors) {
+        exit(1);
+    }
+};
+
+target.karma = () => {
+    echo("Running unit tests on browsers");
 
     target.webpack();
 
@@ -569,20 +572,22 @@ target.test = function() {
     if (browserFileLintOutput.errorCount > 0) {
         echo(`error: Failed to lint ${BUILD_DIR}/eslint.js as ES5 code`);
         echo(CLIEngine.getFormatter("stylish")(browserFileLintOutput.results));
-        errors++;
-    }
-
-    lastReturn = exec(`${getBinFile("karma")} start karma.conf.js`);
-    if (lastReturn.code !== 0) {
-        errors++;
-    }
-
-    if (errors) {
         exit(1);
     }
 
-    target.fuzz({ amount: 150, fuzzBrokenAutofixes: false });
+    const lastReturn = exec(`${getBinFile("karma")} start karma.conf.js`);
 
+    if (lastReturn.code !== 0) {
+        exit(1);
+    }
+};
+
+target.test = function() {
+    target.lint();
+    target.checkRuleFiles();
+    target.mocha();
+    target.karma();
+    target.fuzz({ amount: 150, fuzzBrokenAutofixes: false });
     target.checkLicenses();
 };
 
@@ -936,7 +941,7 @@ target.checkLicenses = function() {
 /**
  * Downloads a repository which has many js files to test performance with multi files.
  * Here, it's eslint@1.10.3 (450 files)
- * @param {Function} cb - A callback function.
+ * @param {Function} cb A callback function.
  * @returns {void}
  */
 function downloadMultifilesTestTarget(cb) {
@@ -1012,11 +1017,10 @@ function time(cmd, runs, runNumber, results, cb) {
 
 /**
  * Run a performance test.
- *
- * @param {string} title - A title.
- * @param {string} targets - Test targets.
- * @param {number} multiplier - A multiplier for limitation.
- * @param {Function} cb - A callback function.
+ * @param {string} title A title.
+ * @param {string} targets Test targets.
+ * @param {number} multiplier A multiplier for limitation.
+ * @param {Function} cb A callback function.
  * @returns {void}
  */
 function runPerformanceTest(title, targets, multiplier, cb) {

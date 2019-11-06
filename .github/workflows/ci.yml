@@ -1,0 +1,71 @@
+name: CI
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  verify_files:
+    name: Verify Files
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+    - name: Install Packages
+      run: npm install
+    - name: Lint Files
+      run: node Makefile lint
+    - name: Check Rule Files
+      run: node Makefile checkRuleFiles
+    - name: Check Licenses
+      run: node Makefile checkLicenses
+
+  test_on_node:
+    name: Test
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+        node: [13.x, 12.x, 10.x, 8.x, "8.10.0"]
+        exclude:
+        - os: windows-latest
+          node: "8.10.0"
+        - os: windows-latest
+          node: 8.x
+        - os: windows-latest
+          node: 10.x
+        - os: windows-latest
+          node: 13.x
+        - os: macOS-latest
+          node: "8.10.0"
+        - os: macOS-latest
+          node: 8.x
+        - os: macOS-latest
+          node: 10.x
+        - os: macOS-latest
+          node: 13.x
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node }}
+    - name: Install Packages
+      run: npm install
+    - name: Test
+      run: node Makefile mocha
+    - name: Fuzz Test
+      run: node Makefile fuzz
+
+  test_on_browser:
+    name: Browser Test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+    - name: Install Packages
+      run: npm install
+    - name: Test
+      run: node Makefile karma
+    - name: Fuzz Test
+      run: node Makefile fuzz

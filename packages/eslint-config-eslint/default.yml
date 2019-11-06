@@ -1,6 +1,16 @@
 extends:
     - "eslint:recommended"
     - "plugin:node/recommended"
+plugins:
+    - "jsdoc"
+settings:
+    jsdoc:
+        tagNamePreference:
+            file: "fileoverview"
+            augments: "extends"
+            class: "constructor"
+        preferredTypes:
+            object: "Object"
 rules:
     array-bracket-spacing: "error"
     array-callback-return: "error"
@@ -20,6 +30,7 @@ rules:
     consistent-return: "error"
     curly: ["error", "all"]
     default-case: "error"
+    default-param-last: "error"
     dot-location: ["error", "property"]
     dot-notation: ["error", { allowKeywords: true }]
     eol-last: "error"
@@ -30,6 +41,23 @@ rules:
     generator-star-spacing: "error"
     guard-for-in: "error"
     handle-callback-err: ["error", "err"]
+    jsdoc/check-alignment: "error"
+    jsdoc/check-param-names: "error"
+    jsdoc/check-syntax: "error"
+    jsdoc/check-tag-names: "error"
+    jsdoc/check-types: "error"
+    jsdoc/implements-on-classes: "error"
+    jsdoc/newline-after-description: ["error", "never"]
+    jsdoc/require-description: "error"
+    jsdoc/require-hyphen-before-param-description: ["error", "never"]
+    jsdoc/require-jsdoc: "error"
+    jsdoc/require-param: "error"
+    jsdoc/require-param-description: "error"
+    jsdoc/require-param-name: "error"
+    jsdoc/require-param-type: "error"
+    jsdoc/require-returns: ["error", { forceRequireReturn: true, forceReturnsWithAsync: true }]
+    jsdoc/require-returns-description: "error"
+    jsdoc/require-returns-type: "error"
     key-spacing: ["error", { beforeColon: false, afterColon: true }]
     keyword-spacing: "error"
     lines-around-comment: ["error", {
@@ -153,7 +181,6 @@ rules:
     quotes: ["error", "double", {avoidEscape: true}]
     quote-props: ["error", "as-needed"]
     radix: "error"
-    require-jsdoc: "error"
     require-unicode-regexp: "error"
     rest-spread-spacing: "error"
     semi: "error"
@@ -171,17 +198,6 @@ rules:
     template-curly-spacing: ["error", "never"]
     template-tag-spacing: "error"
     unicode-bom: "error"
-    valid-jsdoc: ["error", {
-        prefer: { "return": "returns"},
-        preferType: {
-            "String": "string",
-            "Number": "number",
-            "Boolean": "boolean",
-            "array": "Array",
-            "object": "Object",
-            "function": "Function"
-        }
-    }]
     wrap-iife: "error"
     yield-star-spacing: "error"
     yoda: ["error", "never"]

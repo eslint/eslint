@@ -80,12 +80,21 @@ const codeLines = SourceCode.splitLines(code);
 
 ## Linter
 
-The `Linter` object does the actual evaluation of the JavaScript code. It doesn't do any filesystem operations, it simply parses and reports on the code. In particular, the `Linter` object does not process configuration objects or files. You can retrieve instances of `Linter` like this:
+The `Linter` object does the actual evaluation of the JavaScript code. It doesn't do any filesystem operations, it simply parses and reports on the code. In particular, the `Linter` object does not process configuration objects or files.
+The `Linter` is a constructor, and you can create a new instance by passing in the options you want to use. The available options are:
+
+* `cwd` - Path to a directory that should be considered as the current working directory. It is accessible to rules by calling `context.getCwd()` (see [The Context Object](./working-with-rules.md#The-Context-Object)). If `cwd` is `undefined`, it will be normalized to `process.cwd()` if the global `process` object is defined (for example, in the Node.js runtime) , or `undefined` otherwise.
+
+For example:
 
 ```js
 const Linter = require("eslint").Linter;
-const linter = new Linter();
+const linter1 = new Linter({ cwd: 'path/to/project' });
+const linter2 = new Linter();
 ```
+
+In this example, rules run on `linter1` will get `path/to/project` when calling `context.getCwd()`.
+Those run on `linter2` will get `process.cwd()` if the global `process` object is defined or `undefined` otherwise (e.g. on the browser https://eslint.org/demo).
 
 ### Linter#verify
 
@@ -617,14 +626,16 @@ const cli = new CLIEngine({
     }
 });
 
-// lint the supplied text and optionally set
-// a filename that is displayed in the report
+// Lint the supplied text and optionally set a filename that is displayed in the report
 const report = cli.executeOnText("var foo = 'bar';", "foo.js");
+
+// In addition to the above, warn if the resolved file name is ignored.
+const reportAndWarnOnIgnoredFile = cli.executeOnText("var foo = 'bar';", "foo.js", true);
 ```
 
 The `report` returned from `executeOnText()` is in the same format as from `executeOnFiles()`, but there is only ever one result in `report.results`.
 
-If a filename in the optional second parameter matches a file that is configured to be ignored, then this function returns no errors or warnings. To return a warning instead, call the method with true as the optional third parameter.
+If a filename in the optional second parameter matches a file that is configured to be ignored, then this function returns no errors or warnings. The method includes an additional optional boolean third parameter. When `true`, a resolved file name that is ignored will return a warning.
 
 ### CLIEngine#addPlugin()
 

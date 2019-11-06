@@ -35,6 +35,7 @@ function assertConfigArrayElement(actual, providedExpected) {
         parserOptions: void 0,
         plugins: void 0,
         processor: void 0,
+        reportUnusedDisableDirectives: void 0,
         root: void 0,
         rules: void 0,
         settings: void 0,
@@ -58,6 +59,7 @@ function assertConfig(actual, providedExpected) {
         parser: null,
         parserOptions: {},
         plugins: [],
+        reportUnusedDisableDirectives: void 0,
         rules: {},
         settings: {},
         ...providedExpected

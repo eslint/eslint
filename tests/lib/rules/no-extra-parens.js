@@ -95,6 +95,17 @@ ruleTester.run("no-extra-parens", rule, {
         "new A()()",
         "(new A)()",
         "(new (Foo || Bar))()",
+        "(new new foo())()",
+        "new (new new foo())(bar)",
+        "(new foo).bar",
+        "(new foo)[bar]",
+        "(new foo).bar.baz",
+        "(new foo.bar).baz",
+        "(new foo).bar()",
+        "(new foo.bar).baz()",
+        "new (new foo).bar",
+        "new (new foo.bar).baz",
+        "(new new foo()).baz",
         "(2 + 3) ** 4",
         "2 ** (2 + 3)",
         "new (import(source))",
@@ -439,6 +450,20 @@ ruleTester.run("no-extra-parens", rule, {
         { code: "var a = b => 1 ? 2 : 3", options: ["all", { enforceForArrowConditionals: false }] },
         { code: "var a = (b) => (1 ? 2 : 3)", options: ["all", { enforceForArrowConditionals: false }] },
 
+        // ["all", { enforceForSequenceExpressions: false }]
+        { code: "(a, b)", options: ["all", { enforceForSequenceExpressions: false }] },
+        { code: "(foo(), bar());", options: ["all", { enforceForSequenceExpressions: false }] },
+        { code: "if((a, b)){}", options: ["all", { enforceForSequenceExpressions: false }] },
+        { code: "while ((val = foo(), val < 10));", options: ["all", { enforceForSequenceExpressions: false }] },
+
+        // ["all", { enforceForNewInMemberExpressions: false }]
+        { code: "(new foo()).bar", options: ["all", { enforceForNewInMemberExpressions: false }] },
+        { code: "(new foo())[bar]", options: ["all", { enforceForNewInMemberExpressions: false }] },
+        { code: "(new foo()).bar()", options: ["all", { enforceForNewInMemberExpressions: false }] },
+        { code: "(new foo(bar)).baz", options: ["all", { enforceForNewInMemberExpressions: false }] },
+        { code: "(new foo.bar()).baz", options: ["all", { enforceForNewInMemberExpressions: false }] },
+        { code: "(new foo.bar()).baz()", options: ["all", { enforceForNewInMemberExpressions: false }] },
+
         "let a = [ ...b ]",
         "let a = { ...b }",
         {
@@ -641,6 +666,12 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("(foo()).bar", "foo().bar", "CallExpression"),
         invalid("(foo.bar()).baz", "foo.bar().baz", "CallExpression"),
         invalid("(foo\n.bar())\n.baz", "foo\n.bar()\n.baz", "CallExpression"),
+        invalid("(new foo()).bar", "new foo().bar", "NewExpression"),
+        invalid("(new foo())[bar]", "new foo()[bar]", "NewExpression"),
+        invalid("(new foo()).bar()", "new foo().bar()", "NewExpression"),
+        invalid("(new foo(bar)).baz", "new foo(bar).baz", "NewExpression"),
+        invalid("(new foo.bar()).baz", "new foo.bar().baz", "NewExpression"),
+        invalid("(new foo.bar()).baz()", "new foo.bar().baz()", "NewExpression"),
 
         invalid("new (A)", "new A", "Identifier"),
         invalid("(new A())()", "new A()()", "NewExpression"),
@@ -836,7 +867,7 @@ ruleTester.run("no-extra-parens", rule, {
             options: ["all", { returnAssign: false }],
             errors: [
                 {
-                    messgeId: "unexpected",
+                    messageId: "unexpected",
                     type: "LogicalExpression"
                 }
             ]
@@ -846,7 +877,7 @@ ruleTester.run("no-extra-parens", rule, {
             output: "function a(b) { return (b = c) || (d = e); }",
             errors: [
                 {
-                    messgeId: "unexpected",
+                    messageId: "unexpected",
                     type: "LogicalExpression"
                 }
             ]
@@ -856,7 +887,7 @@ ruleTester.run("no-extra-parens", rule, {
             output: "function a(b) { return b = 1; }",
             errors: [
                 {
-                    messgeId: "unexpected",
+                    messageId: "unexpected",
                     type: "AssignmentExpression"
                 }
             ]
@@ -866,11 +897,11 @@ ruleTester.run("no-extra-parens", rule, {
             output: "function a(b) { return c ? d = b : e = b; }",
             errors: [
                 {
-                    messgeId: "unexpected",
+                    messageId: "unexpected",
                     type: "AssignmentExpression"
                 },
                 {
-                    messgeId: "unexpected",
+                    messageId: "unexpected",
                     type: "AssignmentExpression"
                 }
             ]
@@ -882,7 +913,7 @@ ruleTester.run("no-extra-parens", rule, {
 
             errors: [
                 {
-                    messgeId: "unexpected",
+                    messageId: "unexpected",
                     type: "LogicalExpression"
                 }
             ]
@@ -892,7 +923,7 @@ ruleTester.run("no-extra-parens", rule, {
             output: "b => (b = c) || (d = e);",
             errors: [
                 {
-                    messgeId: "unexpected",
+                    messageId: "unexpected",
                     type: "LogicalExpression"
                 }
             ]
@@ -902,7 +933,7 @@ ruleTester.run("no-extra-parens", rule, {
             output: "b => b = 1;",
             errors: [
                 {
-                    messgeId: "unexpected",
+                    messageId: "unexpected",
                     type: "AssignmentExpression"
                 }
             ]
@@ -912,11 +943,11 @@ ruleTester.run("no-extra-parens", rule, {
             output: "b => c ? d = b : e = b;",
             errors: [
                 {
-                    messgeId: "unexpected",
+                    messageId: "unexpected",
                     type: "AssignmentExpression"
                 },
                 {
-                    messgeId: "unexpected",
+                    messageId: "unexpected",
                     type: "AssignmentExpression"
                 }
             ]
@@ -927,7 +958,7 @@ ruleTester.run("no-extra-parens", rule, {
             options: ["all", { returnAssign: false }],
             errors: [
                 {
-                    messgeId: "unexpected",
+                    messageId: "unexpected",
                     type: "LogicalExpression"
                 }
             ]
@@ -937,7 +968,7 @@ ruleTester.run("no-extra-parens", rule, {
             output: "b => { return (b = c) || (d = e) };",
             errors: [
                 {
-                    messgeId: "unexpected",
+                    messageId: "unexpected",
                     type: "LogicalExpression"
                 }
             ]
@@ -947,7 +978,7 @@ ruleTester.run("no-extra-parens", rule, {
             output: "b => { return b = 1 };",
             errors: [
                 {
-                    messgeId: "unexpected",
+                    messageId: "unexpected",
                     type: "AssignmentExpression"
                 }
             ]
@@ -957,11 +988,11 @@ ruleTester.run("no-extra-parens", rule, {
             output: "b => { return c ? d = b : e = b; }",
             errors: [
                 {
-                    messgeId: "unexpected",
+                    messageId: "unexpected",
                     type: "AssignmentExpression"
                 },
                 {
-                    messgeId: "unexpected",
+                    messageId: "unexpected",
                     type: "AssignmentExpression"
                 }
             ]
@@ -973,11 +1004,11 @@ ruleTester.run("no-extra-parens", rule, {
             output: "async function a() { await a + await b; }",
             errors: [
                 {
-                    messgeId: "unexpected",
+                    messageId: "unexpected",
                     type: "AwaitExpression"
                 },
                 {
-                    messgeId: "unexpected",
+                    messageId: "unexpected",
                     type: "AwaitExpression"
                 }
             ]
@@ -1058,7 +1089,7 @@ ruleTester.run("no-extra-parens", rule, {
             options: ["all", { enforceForArrowConditionals: true }],
             errors: [
                 {
-                    messgeId: "unexpected"
+                    messageId: "unexpected"
                 }
             ]
         },
@@ -1070,7 +1101,132 @@ ruleTester.run("no-extra-parens", rule, {
             options: ["all", { enforceForArrowConditionals: false }],
             errors: [
                 {
-                    messgeId: "unexpected"
+                    messageId: "unexpected"
+                }
+            ]
+        },
+
+        // ["all", { enforceForSequenceExpressions: true }]
+        {
+            code: "(a, b)",
+            output: "a, b",
+            options: ["all"],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "SequenceExpression"
+                }
+            ]
+        },
+        {
+            code: "(a, b)",
+            output: "a, b",
+            options: ["all", {}],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "SequenceExpression"
+                }
+            ]
+        },
+        {
+            code: "(a, b)",
+            output: "a, b",
+            options: ["all", { enforceForSequenceExpressions: true }],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "SequenceExpression"
+                }
+            ]
+        },
+        {
+            code: "(foo(), bar());",
+            output: "foo(), bar();",
+            options: ["all", { enforceForSequenceExpressions: true }],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "SequenceExpression"
+                }
+            ]
+        },
+        {
+            code: "if((a, b)){}",
+            output: "if(a, b){}",
+            options: ["all", { enforceForSequenceExpressions: true }],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "SequenceExpression"
+                }
+            ]
+        },
+        {
+            code: "while ((val = foo(), val < 10));",
+            output: "while (val = foo(), val < 10);",
+            options: ["all", { enforceForSequenceExpressions: true }],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "SequenceExpression"
+                }
+            ]
+        },
+
+        // ["all", { enforceForNewInMemberExpressions: true }]
+        {
+            code: "(new foo()).bar",
+            output: "new foo().bar",
+            options: ["all"],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "NewExpression"
+                }
+            ]
+        },
+        {
+            code: "(new foo()).bar",
+            output: "new foo().bar",
+            options: ["all", {}],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "NewExpression"
+                }
+            ]
+        },
+        {
+            code: "(new foo()).bar",
+            output: "new foo().bar",
+            options: ["all", { enforceForNewInMemberExpressions: true }],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "NewExpression"
+                }
+            ]
+        },
+        {
+            code: "(new foo())[bar]",
+            output: "new foo()[bar]",
+            options: ["all", { enforceForNewInMemberExpressions: true }],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "NewExpression"
+                }
+            ]
+        },
+        {
+            code: "(new foo.bar()).baz",
+            output: "new foo.bar().baz",
+            options: ["all", { enforceForNewInMemberExpressions: true }],
+            errors: [
+                {
+                    messageId: "unexpected",
+                    type: "NewExpression"
                 }
             ]
         },
@@ -1361,6 +1517,15 @@ ruleTester.run("no-extra-parens", rule, {
             ]
         },
         {
+            code: "for (let [a = (b in c)] = []; ;);",
+            output: "for (let [a = b in c] = []; ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
             code: "for (let [a = b && (c in d)] = []; ;);",
             output: "for (let [a = b && c in d] = []; ;);",
             errors: [
@@ -1415,6 +1580,15 @@ ruleTester.run("no-extra-parens", rule, {
             ]
         },
         {
+            code: "for (let { a = (b in c) } = {}; ;);",
+            output: "for (let { a = b in c } = {}; ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
             code: "for (let { a = b && (c in d) } = {}; ;);",
             output: "for (let { a = b && c in d } = {}; ;);",
             errors: [
@@ -1433,8 +1607,26 @@ ruleTester.run("no-extra-parens", rule, {
             ]
         },
         {
+            code: "for (let a = `${(a in b)}`; ;);",
+            output: "for (let a = `${a in b}`; ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
             code: "for (let a = `${a && (b in c)}`; ;);",
             output: "for (let a = `${a && b in c}`; ;);",
+            errors: [
+                {
+                    messageId: "unexpected"
+                }
+            ]
+        },
+        {
+            code: "for (let a = (b = (c in d)) => {}; ;);",
+            output: "for (let a = (b = c in d) => {}; ;);",
             errors: [
                 {
                     messageId: "unexpected"
@@ -1702,8 +1894,6 @@ ruleTester.run("no-extra-parens", rule, {
                 }
             )
         },
-
-        // TODO: Add '`in` inside a for-loop' first level tests for AssignmentPattern (param, obj, ary) and TemplateLiteral when these become supported.
 
         // https://github.com/eslint/eslint/issues/11706 regression tests (also in valid[])
         {

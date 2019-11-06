@@ -4651,6 +4651,210 @@ ruleTester.run("indent", rule, {
                 </div>
             `,
 
+        /*
+         * JSX Fragments
+         * https://github.com/eslint/eslint/issues/12208
+         */
+        unIndent`
+            <>
+                <A />
+            </>
+        `,
+        unIndent`
+            <
+            >
+                <A />
+            </>
+        `,
+        unIndent`
+            <>
+                <A />
+            <
+            />
+        `,
+        unIndent`
+            <>
+                <A />
+            </
+            >
+        `,
+        unIndent`
+            <
+            >
+                <A />
+            </
+            >
+        `,
+        unIndent`
+            <
+            >
+                <A />
+            <
+            />
+        `,
+        unIndent`
+            < // Comment
+            >
+                <A />
+            </>
+        `,
+        unIndent`
+            <
+                // Comment
+            >
+                <A />
+            </>
+        `,
+        unIndent`
+            <
+            // Comment
+            >
+                <A />
+            </>
+        `,
+        unIndent`
+            <>
+                <A />
+            < // Comment
+            />
+        `,
+        unIndent`
+            <>
+                <A />
+            <
+                // Comment
+            />
+        `,
+        unIndent`
+            <>
+                <A />
+            <
+            // Comment
+            />
+        `,
+        unIndent`
+            <>
+                <A />
+            </ // Comment
+            >
+        `,
+        unIndent`
+            <>
+                <A />
+            </
+                // Comment
+            >
+        `,
+        unIndent`
+            <>
+                <A />
+            </
+            // Comment
+            >
+        `,
+        unIndent`
+            < /* Comment */
+            >
+                <A />
+            </>
+        `,
+        unIndent`
+            <
+                /* Comment */
+            >
+                <A />
+            </>
+        `,
+        unIndent`
+            <
+            /* Comment */
+            >
+                <A />
+            </>
+        `,
+        unIndent`
+            <
+                /*
+                 * Comment
+                 */
+            >
+                <A />
+            </>
+        `,
+        unIndent`
+            <
+            /*
+             * Comment
+             */
+            >
+                <A />
+            </>
+        `,
+        unIndent`
+            <>
+                <A />
+            < /* Comment */
+            />
+        `,
+        unIndent`
+            <>
+                <A />
+            <
+                /* Comment */ />
+        `,
+        unIndent`
+            <>
+                <A />
+            <
+            /* Comment */ />
+        `,
+        unIndent`
+            <>
+                <A />
+            <
+                /* Comment */
+            />
+        `,
+        unIndent`
+            <>
+                <A />
+            <
+            /* Comment */
+            />
+        `,
+        unIndent`
+            <>
+                <A />
+            </ /* Comment */
+            >
+        `,
+        unIndent`
+            <>
+                <A />
+            </
+                /* Comment */ >
+        `,
+        unIndent`
+            <>
+                <A />
+            </
+            /* Comment */ >
+        `,
+        unIndent`
+            <>
+                <A />
+            </
+                /* Comment */
+            >
+        `,
+        unIndent`
+            <>
+                <A />
+            </
+            /* Comment */
+            >
+        `,
+
         // https://github.com/eslint/eslint/issues/8832
         unIndent`
                 <div>
@@ -4949,6 +5153,212 @@ ruleTester.run("indent", rule, {
             { // comment
                 bar
             }];
+        `,
+        unIndent`
+            let foo
+
+            // comment
+
+            ;(async () => {})()
+        `,
+        unIndent`
+            let foo
+            // comment
+
+            ;(async () => {})()
+        `,
+        unIndent`
+            let foo
+
+            // comment
+            ;(async () => {})()
+        `,
+        unIndent`
+            let foo
+            // comment
+            ;(async () => {})()
+        `,
+        unIndent`
+            let foo
+
+                /* comment */;
+
+            (async () => {})()
+        `,
+        unIndent`
+            let foo
+                /* comment */;
+
+            (async () => {})()
+        `,
+        unIndent`
+            let foo
+
+                /* comment */;
+            (async () => {})()
+        `,
+        unIndent`
+            let foo
+                /* comment */;
+            (async () => {})()
+        `,
+        unIndent`
+            let foo
+            /* comment */;
+
+            (async () => {})()
+        `,
+        unIndent`
+            let foo
+            /* comment */;
+            (async () => {})()
+        `,
+        unIndent`
+            // comment
+
+            ;(async () => {})()
+        `,
+        unIndent`
+            // comment
+            ;(async () => {})()
+        `,
+        unIndent`
+            {
+                let foo
+
+                // comment
+
+                ;(async () => {})()
+            }
+        `,
+        unIndent`
+            {
+                let foo
+                // comment
+                ;(async () => {})()
+            }
+        `,
+        unIndent`
+            {
+                // comment
+
+                ;(async () => {})()
+            }
+        `,
+        unIndent`
+            {
+                // comment
+                ;(async () => {})()
+            }
+        `,
+        unIndent`
+            const foo = 1
+            const bar = foo
+
+            /* comment */
+
+            ;[1, 2, 3].forEach(() => {})
+        `,
+        unIndent`
+            const foo = 1
+            const bar = foo
+            /* comment */
+
+            ;[1, 2, 3].forEach(() => {})
+        `,
+        unIndent`
+            const foo = 1
+            const bar = foo
+
+            /* comment */
+            ;[1, 2, 3].forEach(() => {})
+        `,
+        unIndent`
+            const foo = 1
+            const bar = foo
+            /* comment */
+            ;[1, 2, 3].forEach(() => {})
+        `,
+        unIndent`
+            const foo = 1
+            const bar = foo
+
+                /* comment */;
+
+            [1, 2, 3].forEach(() => {})
+        `,
+        unIndent`
+            const foo = 1
+            const bar = foo
+                /* comment */;
+
+            [1, 2, 3].forEach(() => {})
+        `,
+        unIndent`
+            const foo = 1
+            const bar = foo
+
+                /* comment */;
+            [1, 2, 3].forEach(() => {})
+        `,
+        unIndent`
+            const foo = 1
+            const bar = foo
+                /* comment */;
+            [1, 2, 3].forEach(() => {})
+        `,
+        unIndent`
+            const foo = 1
+            const bar = foo
+            /* comment */;
+
+            [1, 2, 3].forEach(() => {})
+        `,
+        unIndent`
+            const foo = 1
+            const bar = foo
+            /* comment */;
+            [1, 2, 3].forEach(() => {})
+        `,
+        unIndent`
+            /* comment */
+
+            ;[1, 2, 3].forEach(() => {})
+        `,
+        unIndent`
+            /* comment */
+            ;[1, 2, 3].forEach(() => {})
+        `,
+        unIndent`
+            {
+                const foo = 1
+                const bar = foo
+
+                /* comment */
+
+                ;[1, 2, 3].forEach(() => {})
+            }
+        `,
+        unIndent`
+            {
+                const foo = 1
+                const bar = foo
+                /* comment */
+                ;[1, 2, 3].forEach(() => {})
+            }
+        `,
+        unIndent`
+            {
+                /* comment */
+
+                ;[1, 2, 3].forEach(() => {})
+            }
+        `,
+        unIndent`
+            {
+                /* comment */
+                ;[1, 2, 3].forEach(() => {})
+            }
         `,
 
         // import expressions
@@ -9370,6 +9780,200 @@ ruleTester.run("indent", rule, {
             `,
             errors: expectedErrors([2, 4, 0, "Punctuator"])
         },
+
+        /*
+         * JSX Fragments
+         * https://github.com/eslint/eslint/issues/12208
+         */
+        {
+            code: unIndent`
+                <>
+                <A />
+                </>
+            `,
+            output: unIndent`
+                <>
+                    <A />
+                </>
+            `,
+            errors: expectedErrors([2, 4, 0, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                <
+                    >
+                    <A />
+                </>
+            `,
+            output: unIndent`
+                <
+                >
+                    <A />
+                </>
+            `,
+            errors: expectedErrors([2, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                <>
+                    <A />
+                <
+                    />
+            `,
+            output: unIndent`
+                <>
+                    <A />
+                <
+                />
+            `,
+            errors: expectedErrors([4, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                <>
+                    <A />
+                </
+                    >
+            `,
+            output: unIndent`
+                <>
+                    <A />
+                </
+                >
+            `,
+            errors: expectedErrors([4, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                <
+                    >
+                    <A />
+                </
+                    >
+            `,
+            output: unIndent`
+                <
+                >
+                    <A />
+                </
+                >
+            `,
+            errors: expectedErrors([
+                [2, 0, 4, "Punctuator"],
+                [5, 0, 4, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                <
+                    >
+                    <A />
+                <
+                    />
+            `,
+            output: unIndent`
+                <
+                >
+                    <A />
+                <
+                />
+            `,
+            errors: expectedErrors([
+                [2, 0, 4, "Punctuator"],
+                [5, 0, 4, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                < // Comment
+                    >
+                    <A />
+                </>
+            `,
+            output: unIndent`
+                < // Comment
+                >
+                    <A />
+                </>
+            `,
+            errors: expectedErrors([2, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                <>
+                    <A />
+                < // Comment
+                    />
+            `,
+            output: unIndent`
+                <>
+                    <A />
+                < // Comment
+                />
+            `,
+            errors: expectedErrors([4, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                <>
+                    <A />
+                </ // Comment
+                    >
+            `,
+            output: unIndent`
+                <>
+                    <A />
+                </ // Comment
+                >
+            `,
+            errors: expectedErrors([4, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                < /* Comment */
+                    >
+                    <A />
+                </>
+            `,
+            output: unIndent`
+                < /* Comment */
+                >
+                    <A />
+                </>
+            `,
+            errors: expectedErrors([2, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                <>
+                    <A />
+                < /* Comment */
+                    />
+            `,
+            output: unIndent`
+                <>
+                    <A />
+                < /* Comment */
+                />
+            `,
+            errors: expectedErrors([4, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                <>
+                    <A />
+                </ /* Comment */
+                    >
+            `,
+            output: unIndent`
+                <>
+                    <A />
+                </ /* Comment */
+                >
+            `,
+            errors: expectedErrors([4, 0, 4, "Punctuator"])
+        },
+
         {
             code: unIndent`
                 ({
@@ -9605,6 +10209,290 @@ ruleTester.run("indent", rule, {
                 }];
             `,
             errors: expectedErrors([5, 0, 4, "Line"])
+        },
+        {
+            code: unIndent`
+                let foo
+
+                    // comment
+
+                ;(async () => {})()
+            `,
+            output: unIndent`
+                let foo
+
+                // comment
+
+                ;(async () => {})()
+            `,
+            errors: expectedErrors([3, 0, 4, "Line"])
+        },
+        {
+            code: unIndent`
+                let foo
+                    // comment
+                ;(async () => {})()
+            `,
+            output: unIndent`
+                let foo
+                // comment
+                ;(async () => {})()
+            `,
+            errors: expectedErrors([2, 0, 4, "Line"])
+        },
+        {
+            code: unIndent`
+                let foo
+
+                /* comment */;
+
+                (async () => {})()
+            `,
+            output: unIndent`
+                let foo
+
+                    /* comment */;
+
+                (async () => {})()
+            `,
+            errors: expectedErrors([3, 4, 0, "Block"])
+        },
+        {
+            code: unIndent`
+                    // comment
+
+                ;(async () => {})()
+            `,
+            output: unIndent`
+                // comment
+
+                ;(async () => {})()
+            `,
+            errors: expectedErrors([1, 0, 4, "Line"])
+        },
+        {
+            code: unIndent`
+                    // comment
+                ;(async () => {})()
+            `,
+            output: unIndent`
+                // comment
+                ;(async () => {})()
+            `,
+            errors: expectedErrors([1, 0, 4, "Line"])
+        },
+        {
+            code: unIndent`
+                {
+                    let foo
+
+                        // comment
+
+                    ;(async () => {})()
+
+                }
+            `,
+            output: unIndent`
+                {
+                    let foo
+
+                    // comment
+
+                    ;(async () => {})()
+
+                }
+            `,
+            errors: expectedErrors([4, 4, 8, "Line"])
+        },
+        {
+            code: unIndent`
+                {
+                    let foo
+                        // comment
+                    ;(async () => {})()
+
+                }
+            `,
+            output: unIndent`
+                {
+                    let foo
+                    // comment
+                    ;(async () => {})()
+
+                }
+            `,
+            errors: expectedErrors([3, 4, 8, "Line"])
+        },
+        {
+            code: unIndent`
+                {
+                    let foo
+
+                    /* comment */;
+
+                    (async () => {})()
+
+                }
+            `,
+            output: unIndent`
+                {
+                    let foo
+
+                        /* comment */;
+
+                    (async () => {})()
+
+                }
+            `,
+            errors: expectedErrors([4, 8, 4, "Block"])
+        },
+        {
+            code: unIndent`
+                const foo = 1
+                const bar = foo
+
+                    /* comment */
+
+                ;[1, 2, 3].forEach(() => {})
+            `,
+            output: unIndent`
+                const foo = 1
+                const bar = foo
+
+                /* comment */
+
+                ;[1, 2, 3].forEach(() => {})
+            `,
+            errors: expectedErrors([4, 0, 4, "Block"])
+        },
+        {
+            code: unIndent`
+                const foo = 1
+                const bar = foo
+                    /* comment */
+                ;[1, 2, 3].forEach(() => {})
+            `,
+            output: unIndent`
+                const foo = 1
+                const bar = foo
+                /* comment */
+                ;[1, 2, 3].forEach(() => {})
+            `,
+            errors: expectedErrors([3, 0, 4, "Block"])
+        },
+        {
+            code: unIndent`
+                const foo = 1
+                const bar = foo
+
+                /* comment */;
+
+                [1, 2, 3].forEach(() => {})
+            `,
+            output: unIndent`
+                const foo = 1
+                const bar = foo
+
+                    /* comment */;
+
+                [1, 2, 3].forEach(() => {})
+            `,
+            errors: expectedErrors([4, 4, 0, "Block"])
+        },
+        {
+            code: unIndent`
+                    /* comment */
+
+                ;[1, 2, 3].forEach(() => {})
+            `,
+            output: unIndent`
+                /* comment */
+
+                ;[1, 2, 3].forEach(() => {})
+            `,
+            errors: expectedErrors([1, 0, 4, "Block"])
+        },
+        {
+            code: unIndent`
+                    /* comment */
+                ;[1, 2, 3].forEach(() => {})
+            `,
+            output: unIndent`
+                /* comment */
+                ;[1, 2, 3].forEach(() => {})
+            `,
+            errors: expectedErrors([1, 0, 4, "Block"])
+        },
+        {
+            code: unIndent`
+                {
+                    const foo = 1
+                    const bar = foo
+
+                        /* comment */
+
+                    ;[1, 2, 3].forEach(() => {})
+
+                }
+            `,
+            output: unIndent`
+                {
+                    const foo = 1
+                    const bar = foo
+
+                    /* comment */
+
+                    ;[1, 2, 3].forEach(() => {})
+
+                }
+            `,
+            errors: expectedErrors([5, 4, 8, "Block"])
+        },
+        {
+            code: unIndent`
+                {
+                    const foo = 1
+                    const bar = foo
+                        /* comment */
+                    ;[1, 2, 3].forEach(() => {})
+
+                }
+            `,
+            output: unIndent`
+                {
+                    const foo = 1
+                    const bar = foo
+                    /* comment */
+                    ;[1, 2, 3].forEach(() => {})
+
+                }
+            `,
+            errors: expectedErrors([4, 4, 8, "Block"])
+        },
+        {
+            code: unIndent`
+                {
+                    const foo = 1
+                    const bar = foo
+
+                    /* comment */;
+
+                    [1, 2, 3].forEach(() => {})
+
+                }
+            `,
+            output: unIndent`
+                {
+                    const foo = 1
+                    const bar = foo
+
+                        /* comment */;
+
+                    [1, 2, 3].forEach(() => {})
+
+                }
+            `,
+            errors: expectedErrors([5, 8, 4, "Block"])
         },
 
         // import expressions

@@ -6,13 +6,17 @@ The [ECMAScript 5 specification](https://es5.github.io/#x15.8) makes it clear th
 
 > The Math object does not have a `[[Call]]` internal property; it is not possible to invoke the Math object as a function.
 
-And the [ECMAScript 2015 specification](https://www.ecma-international.org/ecma-262/6.0/index.html#sec-reflect-object) makes it clear that `Reflect` cannot be invoked:
+The [ECMAScript 2015 specification](https://www.ecma-international.org/ecma-262/6.0/index.html#sec-reflect-object) makes it clear that `Reflect` cannot be invoked:
 
 > The Reflect object also does not have a `[[Call]]` internal method; it is not possible to invoke the Reflect object as a function.
 
+And the [ECMAScript 2017 specification](https://www.ecma-international.org/ecma-262/8.0/index.html#sec-atomics-object) makes it clear that `Atomics` cannot be invoked:
+
+> The Atomics object does not have a `[[Call]]` internal method; it is not possible to invoke the Atomics object as a function.
+
 ## Rule Details
 
-This rule disallows calling the `Math`, `JSON` and `Reflect` objects as functions.
+This rule disallows calling the `Math`, `JSON`, `Reflect` and `Atomics` objects as functions.
 
 Examples of **incorrect** code for this rule:
 
@@ -22,6 +26,7 @@ Examples of **incorrect** code for this rule:
 var math = Math();
 var json = JSON();
 var reflect = Reflect();
+var atomics = Atomics();
 ```
 
 Examples of **correct** code for this rule:
@@ -34,6 +39,7 @@ function area(r) {
 }
 var object = JSON.parse("{}");
 var value = Reflect.get({ x: 1, y: 2 }, "x");
+var first = Atomics.load(foo, 0);
 ```
 
 ## Further Reading

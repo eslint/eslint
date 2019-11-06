@@ -43,6 +43,12 @@ try {
 } catch (e) {
   handleError(e);
 }
+
+try {
+  doSomethingThatMightThrow();
+} finally {
+  cleanUp();
+}
 ```
 
 ## When Not To Use It

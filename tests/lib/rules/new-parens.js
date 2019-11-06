@@ -119,6 +119,12 @@ ruleTester.run("new-parens", rule, {
             options: ["always"],
             errors: [error]
         },
+        {
+            code: "var a = new new Foo()",
+            output: "var a = new new Foo()()",
+            options: ["always"],
+            errors: [error]
+        },
 
         // Never
         {
@@ -166,6 +172,12 @@ ruleTester.run("new-parens", rule, {
         {
             code: "var a = (new Foo()).bar;",
             output: "var a = ((new Foo)).bar;",
+            options: ["never"],
+            errors: [neverError]
+        },
+        {
+            code: "var a = new new Foo()",
+            output: "var a = new (new Foo)",
             options: ["never"],
             errors: [neverError]
         }

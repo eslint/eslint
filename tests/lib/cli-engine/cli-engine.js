@@ -53,6 +53,7 @@ describe("CLIEngine", () => {
 
     /**
      * Returns the path inside of the fixture directory.
+     * @param {...string} args file path segments.
      * @returns {string} The path inside the fixture directory.
      * @private
      */
@@ -68,7 +69,7 @@ describe("CLIEngine", () => {
 
     /**
      * Create the CLIEngine object by mocking some of the plugins
-     * @param {Object} options - options for CLIEngine
+     * @param {Object} options options for CLIEngine
      * @returns {CLIEngine} engine object
      * @private
      */
@@ -1603,7 +1604,11 @@ describe("CLIEngine", () => {
             engine = new CLIEngine({
                 cwd: originalDir,
                 configFile: ".eslintrc.js",
-                rules: { "indent-legacy": 1 }
+                rules: {
+                    "indent-legacy": 1,
+                    "require-jsdoc": 1,
+                    "valid-jsdoc": 1
+                }
             });
 
             const report = engine.executeOnFiles(["lib/cli*.js"]);
@@ -1652,7 +1657,7 @@ describe("CLIEngine", () => {
                 /**
                  * Converts CRLF to LF in output.
                  * This is a workaround for git's autocrlf option on Windows.
-                 * @param {Object} result - A result object to convert.
+                 * @param {Object} result A result object to convert.
                  * @returns {void}
                  */
                 function convertCRLF(result) {
@@ -1701,6 +1706,8 @@ describe("CLIEngine", () => {
                             {
                                 column: 9,
                                 line: 2,
+                                endColumn: 11,
+                                endLine: 2,
                                 message: "Expected '===' and instead saw '=='.",
                                 messageId: "unexpected",
                                 nodeType: "BinaryExpression",
@@ -2163,7 +2170,6 @@ describe("CLIEngine", () => {
 
             /**
              * helper method to delete a file without caring about exceptions
-             *
              * @param {string} filePath The file path
              * @returns {void}
              */
@@ -3594,6 +3600,94 @@ describe("CLIEngine", () => {
                 assert.strictEqual(messages[0].message, "'/*globals*/' has no effect because you have 'noInlineConfig' setting in your config (.eslintrc.yml » eslint-config-foo).");
             });
         });
+
+        describe("with 'reportUnusedDisableDirectives' setting", () => {
+            const root = getFixturePath("cli-engine/reportUnusedDisableDirectives");
+
+            it("should warn unused 'eslint-disable' comments if 'reportUnusedDisableDirectives' was given.", () => {
+                CLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        "test.js": "/* eslint-disable eqeqeq */",
+                        ".eslintrc.yml": "reportUnusedDisableDirectives: true"
+                    }
+                }).CLIEngine;
+                engine = new CLIEngine();
+
+                const { results } = engine.executeOnFiles(["test.js"]);
+                const messages = results[0].messages;
+
+                assert.strictEqual(messages.length, 1);
+                assert.strictEqual(messages[0].severity, 1);
+                assert.strictEqual(messages[0].message, "Unused eslint-disable directive (no problems were reported from 'eqeqeq').");
+            });
+
+            describe("the runtime option overrides config files.", () => {
+                it("should not warn unused 'eslint-disable' comments if 'reportUnusedDisableDirectives=off' was given in runtime.", () => {
+                    CLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                        cwd: () => root,
+                        files: {
+                            "test.js": "/* eslint-disable eqeqeq */",
+                            ".eslintrc.yml": "reportUnusedDisableDirectives: true"
+                        }
+                    }).CLIEngine;
+                    engine = new CLIEngine({ reportUnusedDisableDirectives: "off" });
+
+                    const { results } = engine.executeOnFiles(["test.js"]);
+                    const messages = results[0].messages;
+
+                    assert.strictEqual(messages.length, 0);
+                });
+
+                it("should warn unused 'eslint-disable' comments as error if 'reportUnusedDisableDirectives=error' was given in runtime.", () => {
+                    CLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                        cwd: () => root,
+                        files: {
+                            "test.js": "/* eslint-disable eqeqeq */",
+                            ".eslintrc.yml": "reportUnusedDisableDirectives: true"
+                        }
+                    }).CLIEngine;
+                    engine = new CLIEngine({ reportUnusedDisableDirectives: "error" });
+
+                    const { results } = engine.executeOnFiles(["test.js"]);
+                    const messages = results[0].messages;
+
+                    assert.strictEqual(messages.length, 1);
+                    assert.strictEqual(messages[0].severity, 2);
+                    assert.strictEqual(messages[0].message, "Unused eslint-disable directive (no problems were reported from 'eqeqeq').");
+                });
+            });
+        });
+
+        describe("with 'overrides[*].extends' setting on deep locations", () => {
+            const root = getFixturePath("cli-engine/deeply-overrides-i-extends");
+
+            it("should not throw.", () => {
+                CLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        "node_modules/eslint-config-one/index.js": `module.exports = ${JSON.stringify({
+                            overrides: [{ files: ["*test*"], extends: "two" }]
+                        })}`,
+                        "node_modules/eslint-config-two/index.js": `module.exports = ${JSON.stringify({
+                            overrides: [{ files: ["*.js"], extends: "three" }]
+                        })}`,
+                        "node_modules/eslint-config-three/index.js": `module.exports = ${JSON.stringify({
+                            rules: { "no-console": "error" }
+                        })}`,
+                        "test.js": "console.log('hello')",
+                        ".eslintrc.yml": "extends: one"
+                    }
+                }).CLIEngine;
+                engine = new CLIEngine();
+
+                const { results } = engine.executeOnFiles(["test.js"]);
+                const messages = results[0].messages;
+
+                assert.strictEqual(messages.length, 1);
+                assert.strictEqual(messages[0].ruleId, "no-console");
+            });
+        });
     });
 
     describe("getConfigForFile", () => {
@@ -3987,6 +4081,14 @@ describe("CLIEngine", () => {
             const engine = new CLIEngine({ plugins: ["node"] });
 
             assert(engine.getRules().has("node/no-deprecated-api"), "node/no-deprecated-api is present");
+        });
+
+        it("should expose the rules of the plugin that is added by 'addPlugin'.", () => {
+            const engine = new CLIEngine({ plugins: ["foo"] });
+
+            engine.addPlugin("foo", require("eslint-plugin-node"));
+
+            assert(engine.getRules().has("foo/no-deprecated-api"), "foo/no-deprecated-api is present");
         });
     });
 
