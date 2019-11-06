@@ -775,10 +775,7 @@ describe("CLIEngine", () => {
     describe("executeOnFiles()", () => {
 
 
-        // eslint-disable-next-line require-jsdoc
-        /**
-         *
-         */
+        // eslint-disable-next-line jsdoc/require-jsdoc
         async function assertSyncAndAsync({
             CLIEngineClass = CLIEngine,
             engineOptions,
@@ -1268,10 +1265,7 @@ describe("CLIEngine", () => {
             const failFilePath = fs.realpathSync(getFixturePath("missing-semicolon.js"));
             const passFilePath = fs.realpathSync(getFixturePath("passing.js"));
 
-            // eslint-disable-next-line require-jsdoc
-            /**
-             * @param report
-             */
+            // eslint-disable-next-line jsdoc/require-jsdoc
             function assertFailReport(report) {
                 assert.strictEqual(report.results.length, 1);
                 assert.strictEqual(report.results[0].filePath, failFilePath);
@@ -1283,10 +1277,7 @@ describe("CLIEngine", () => {
             assertFailReport(syncEngine.executeOnFiles([failFilePath]));
             assertFailReport(await asyncEngine.executeOnFiles([failFilePath]));
 
-            // eslint-disable-next-line require-jsdoc
-            /**
-             * @param report
-             */
+            // eslint-disable-next-line jsdoc/require-jsdoc
             function assertPassReport(report) {
                 assert.strictEqual(report.results.length, 1);
                 assert.strictEqual(report.results[0].filePath, passFilePath);
