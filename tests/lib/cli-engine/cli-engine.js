@@ -776,6 +776,9 @@ describe("CLIEngine", () => {
 
 
         // eslint-disable-next-line require-jsdoc
+        /**
+         *
+         */
         async function assertSyncAndAsync({
             CLIEngineClass = CLIEngine,
             engineOptions,
@@ -801,8 +804,13 @@ describe("CLIEngine", () => {
                 const asyncReportPromise = asyncEngine.executeOnFiles(patterns);
 
                 assert(asyncReportPromise instanceof Promise, "CLIEngine did not return a promise");
+                assertOutput(await asyncReportPromise);
             } else if (assertThrows) {
                 assert.throws(() => syncEngine.executeOnFiles(patterns), assertThrows);
+                assert.isRejected(
+                    Promise.resolve().then(() => asyncEngine.executeOnFiles(patterns)),
+                    assertThrows
+                );
             } else {
                 throw new Error("must pass assertOutput or assertThrows");
             }
@@ -1261,6 +1269,9 @@ describe("CLIEngine", () => {
             const passFilePath = fs.realpathSync(getFixturePath("passing.js"));
 
             // eslint-disable-next-line require-jsdoc
+            /**
+             * @param report
+             */
             function assertFailReport(report) {
                 assert.strictEqual(report.results.length, 1);
                 assert.strictEqual(report.results[0].filePath, failFilePath);
@@ -1273,6 +1284,9 @@ describe("CLIEngine", () => {
             assertFailReport(await asyncEngine.executeOnFiles([failFilePath]));
 
             // eslint-disable-next-line require-jsdoc
+            /**
+             * @param report
+             */
             function assertPassReport(report) {
                 assert.strictEqual(report.results.length, 1);
                 assert.strictEqual(report.results[0].filePath, passFilePath);
