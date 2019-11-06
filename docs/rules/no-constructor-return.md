@@ -14,8 +14,9 @@ Examples of **incorrect** code for this rule:
 /*eslint no-constructor-return: "error"*/
 
 class A {
-    constructor() {
-        return 'a';
+    constructor(a) {
+        this.a = a;
+        return a;
     }
 }
 
@@ -34,7 +35,9 @@ Examples of **correct** code for this rule:
 /*eslint no-constructor-return: "error"*/
 
 class C {
-    constructor() { }
+    constructor(c) {
+        this.c = c;
+    }
 }
 
 class D {
