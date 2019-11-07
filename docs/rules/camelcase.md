@@ -15,7 +15,7 @@ This rule has an object option:
 * `"ignoreDestructuring": false` (default) enforces camelcase style for destructured identifiers
 * `"ignoreDestructuring": true` does not check destructured identifiers
 * `"ignoreImports": false` (default) enforces camelcase style for ES2015 imports
-* `"ignoreImports": true` does not check ES2015 imports
+* `"ignoreImports": true` does not check ES2015 imports (but still checks any use of the imports later in the code except function arguments)
 * `allow` (`string[]`) list of properties to accept. Accept regex.
 
 ### properties: "always"
