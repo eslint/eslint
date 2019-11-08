@@ -42,6 +42,7 @@
     "messages"
   ],
   "repository": "eslint/eslint",
+  "funding": "https://opencollective.com/eslint",
   "homepage": "https://eslint.org",
   "bugs": "https://github.com/eslint/eslint/issues/",
   "dependencies": {
