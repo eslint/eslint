@@ -14,6 +14,8 @@ This rule has an object option:
 * `"properties": "never"` does not check property names
 * `"ignoreDestructuring": false` (default) enforces camelcase style for destructured identifiers
 * `"ignoreDestructuring": true` does not check destructured identifiers
+* `"ignoreImports": false` (default) enforces camelcase style for ES2015 imports
+* `"ignoreImports": true` does not check ES2015 imports (but still checks any use of the imports later in the code except function arguments)
 * `allow` (`string[]`) list of properties to accept. Accept regex.
 
 ### properties: "always"
@@ -150,6 +152,36 @@ var { category_id } = query;
 var { category_id = 1 } = query;
 
 var { category_id: category_id } = query;
+```
+
+### ignoreImports: false
+
+Examples of **incorrect** code for this rule with the default `{ "ignoreImports": false }` option:
+
+```js
+/*eslint camelcase: "error"*/
+
+import { snake_cased } from 'mod';
+```
+
+### ignoreImports: true
+
+Examples of **incorrect** code for this rule with the `{ "ignoreImports": true }` option:
+
+```js
+/*eslint camelcase: ["error", {ignoreImports: true}]*/
+
+import default_import from 'mod';
+
+import * as namespaced_import from 'mod';
+```
+
+Examples of **correct** code for this rule with the `{ "ignoreImports": true }` option:
+
+```js
+/*eslint camelcase: ["error", {ignoreImports: true}]*/
+
+import { snake_cased } from 'mod';
 ```
 
 ## allow
