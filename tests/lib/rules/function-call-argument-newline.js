@@ -391,15 +391,15 @@ ruleTester.run("function-call-argument-newline", rule, {
             ]
         },
         {
-            code: "fn(a,/* commeent */\nb)",
-            output: "fn(a,/* commeent */ b)",
+            code: "fn(a,/* comment */\nb)",
+            output: "fn(a,/* comment */ b)",
             options: ["never"],
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
                     messageId: "unexpectedLineBreak",
                     line: 1,
-                    column: 20,
+                    column: 19,
                     endLine: 2,
                     endColumn: 1
                 }
