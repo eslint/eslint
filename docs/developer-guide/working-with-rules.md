@@ -349,17 +349,24 @@ Best practices for fixes:
 
 In some cases fixes aren't appropriate to be automatically applied, for example, if a fix potentially changes functionality or if there are multiple valid ways to fix a rule depending on the implementation intent (see the best practices for [applying fixes](#applying-fixes) listed above). In these cases, there is an alternative `suggest` option on `context.report()` that allows other tools, such as editors, to expose helpers for users to manually apply a suggestion.
 
-In order to provide suggestions, use the `suggest` key in the report argument with an array of suggestion objects. The suggestion objects represent individual suggestions that could be applied and require a `desc` key string that describes what applying the suggestion would do, and a `fix` key that is a function defining the suggestion result. This `fix` function follows the same API as regular fixes (described above in [applying fixes](#applying-fixes)).
+In order to provide suggestions, use the `suggest` key in the report argument with an array of suggestion objects. The suggestion objects represent individual suggestions that could be applied and require either a `desc` key string that describes what applying the suggestion would do or a `messageId` key (see [below](#suggestion-messageids)), and a `fix` key that is a function defining the suggestion result. This `fix` function follows the same API as regular fixes (described above in [applying fixes](#applying-fixes)).
 
 ```js
 context.report({
     node: node,
-    message: "Missing semicolon",
+    message: "Unnecessary escape character: \\{{character}}.",
+    data: { character },
     suggest: [
         {
-            desc: "Insert the missing semicolon",
+            desc: "Remove unnecessary escape.",
             fix: function(fixer) {
-                return fixer.insertTextAfter(node, ";");
+                return fixer.removeRange(range);
+            }
+        },
+        {
+            desc: "Escape backslash to include it in the RegExp.",
+            fix: function(fixer) {
+                return fixer.insertTextBeforeRange(range, "\\");
             }
         }
     ]
@@ -367,6 +374,43 @@ context.report({
 ```
 
 Note: Suggestions will be applied as a stand-alone change, without triggering multipass fixes. Each suggestion should focus on a singular change in the code and should not try to confirm to user defined styles. For example, if a suggestion is adding a new statement into the codebase, it should not try to match correct indentation, or confirm to user preferences on presence/absence of semicolumns. All of those things can be corrected by multipass autofix when the user triggers it.
+
+#### Suggestion `messageId`s
+
+Instead of using a `desc` key for suggestions a `messageId` can be used instead. This works the same way as `messageId`s for the overall error (see [messageIds](#messageIds)). Here is an example of how to use it in a rule:
+
+```js
+module.exports = {
+    meta: {
+        messages: {
+            removeEscape: "Remove unnecessary escape.",
+            escapeBackslash: "Escape backslash to include it in the RegExp."
+        }
+    },
+    create: function(context) {
+        // ...
+        context.report({
+            node: node,
+            message: "Unnecessary escape character: \\{{character}}.",
+            data: { character },
+            suggest: [
+                {
+                    messageId: "removeEscape",
+                    fix: function(fixer) {
+                        return fixer.removeRange(range);
+                    }
+                },
+                {
+                    messageId: "escapeBackslash",
+                    fix: function(fixer) {
+                        return fixer.insertTextBeforeRange(range, "\\");
+                    }
+                }
+            ]
+        });
+    }
+};
+```
 
 ### context.options
 

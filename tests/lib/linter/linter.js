@@ -4385,6 +4385,50 @@ describe("Linter", () => {
                 }
             }]);
         });
+
+        it("supports messageIds for suggestions", () => {
+            linter.defineRule("rule-with-suggestions", {
+                meta: {
+                    messages: {
+                        suggestion1: "Insert space at the beginning",
+                        suggestion2: "Insert space at the end"
+                    }
+                },
+                create: context => ({
+                    Program(node) {
+                        context.report({
+                            node,
+                            message: "Incorrect spacing",
+                            suggest: [{
+                                messageId: "suggestion1",
+                                fix: fixer => fixer.insertTextBefore(node, " ")
+                            }, {
+                                messageId: "suggestion2",
+                                fix: fixer => fixer.insertTextAfter(node, " ")
+                            }]
+                        });
+                    }
+                })
+            });
+
+            const messages = linter.verify("var a = 1;", { rules: { "rule-with-suggestions": "error" } });
+
+            assert.deepStrictEqual(messages[0].suggestions, [{
+                messageId: "suggestion1",
+                desc: "Insert space at the beginning",
+                fix: {
+                    range: [0, 0],
+                    text: " "
+                }
+            }, {
+                messageId: "suggestion2",
+                desc: "Insert space at the end",
+                fix: {
+                    range: [10, 10],
+                    text: " "
+                }
+            }]);
+        });
     });
 
     describe("mutability", () => {

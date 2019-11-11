@@ -40,7 +40,7 @@ describe("createReportTranslator", () => {
         );
     }
 
-    let node, location, message, translateReport;
+    let node, location, message, translateReport, suggestion1, suggestion2;
 
     beforeEach(() => {
         const sourceCode = createSourceCode("foo\nbar");
@@ -48,7 +48,18 @@ describe("createReportTranslator", () => {
         node = sourceCode.ast.body[0];
         location = sourceCode.ast.body[1].loc.start;
         message = "foo";
-        translateReport = createReportTranslator({ ruleId: "foo-rule", severity: 2, sourceCode, messageIds: { testMessage: message } });
+        suggestion1 = "First suggestion";
+        suggestion2 = "Second suggestion {{interpolated}}";
+        translateReport = createReportTranslator({
+            ruleId: "foo-rule",
+            severity: 2,
+            sourceCode,
+            messageIds: {
+                testMessage: message,
+                suggestion1,
+                suggestion2
+            }
+        });
     });
 
     describe("old-style call with location", () => {
@@ -189,6 +200,116 @@ describe("createReportTranslator", () => {
                 () => translateReport(reportDescriptor),
                 TypeError,
                 "Missing `message` property in report() call; add a message that describes the linting problem."
+            );
+        });
+
+        it("should support messageIds for suggestions and output resulting descriptions", () => {
+            const reportDescriptor = {
+                node,
+                loc: location,
+                message,
+                suggest: [{
+                    messageId: "suggestion1",
+                    fix: () => ({ range: [2, 3], text: "s1" })
+                }, {
+                    messageId: "suggestion2",
+                    data: { interpolated: "'interpolated value'" },
+                    fix: () => ({ range: [3, 4], text: "s2" })
+                }]
+            };
+
+            assert.deepStrictEqual(
+                translateReport(reportDescriptor),
+                {
+                    ruleId: "foo-rule",
+                    severity: 2,
+                    message: "foo",
+                    line: 2,
+                    column: 1,
+                    nodeType: "ExpressionStatement",
+                    suggestions: [{
+                        messageId: "suggestion1",
+                        desc: "First suggestion",
+                        fix: { range: [2, 3], text: "s1" }
+                    }, {
+                        messageId: "suggestion2",
+                        data: { interpolated: "'interpolated value'" },
+                        desc: "Second suggestion 'interpolated value'",
+                        fix: { range: [3, 4], text: "s2" }
+                    }]
+                }
+            );
+        });
+
+        it("should throw when a suggestion defines both a desc and messageId", () => {
+            const reportDescriptor = {
+                node,
+                loc: location,
+                message,
+                suggest: [{
+                    desc: "The description",
+                    messageId: "suggestion1",
+                    fix: () => ({ range: [2, 3], text: "s1" })
+                }]
+            };
+
+            assert.throws(
+                () => translateReport(reportDescriptor),
+                TypeError,
+                "context.report() called with a suggest option that defines both a 'messageId' and an 'desc'. Please only pass one."
+            );
+        });
+
+        it("should throw when a suggestion uses an invalid messageId", () => {
+            const reportDescriptor = {
+                node,
+                loc: location,
+                message,
+                suggest: [{
+                    messageId: "noMatchingMessage",
+                    fix: () => ({ range: [2, 3], text: "s1" })
+                }]
+            };
+
+            assert.throws(
+                () => translateReport(reportDescriptor),
+                TypeError,
+                /^context\.report\(\) called with a suggest option with a messageId '[^']+' which is not present in the 'messages' config:/u
+            );
+        });
+
+        it("should throw when a suggestion does not provide either a desc or messageId", () => {
+            const reportDescriptor = {
+                node,
+                loc: location,
+                message,
+                suggest: [{
+                    fix: () => ({ range: [2, 3], text: "s1" })
+                }]
+            };
+
+            assert.throws(
+                () => translateReport(reportDescriptor),
+                TypeError,
+                "context.report() called with a suggest option that doesn't have either a `desc` or `messageId`"
+            );
+        });
+
+        it("should throw when a suggestion does not provide a fix function", () => {
+            const reportDescriptor = {
+                node,
+                loc: location,
+                message,
+                suggest: [{
+                    desc: "The description",
+                    fix: false
+                }]
+            };
+
+            assert.throws(
+                () => translateReport(reportDescriptor),
+                TypeError,
+                /^context\.report\(\) called with a suggest option without a fix function. See:/u
             );
         });
     });
