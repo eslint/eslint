@@ -153,10 +153,10 @@ ruleTester.run("no-useless-escape", rule, {
                 message: "Unnecessary escape character: \\;.",
                 type: "Literal",
                 suggestions: [{
-                    desc: "Remove unnecessary escape.",
+                    messageId: "removeEscape",
                     fix: { range: [11, 12], text: "" }
                 }, {
-                    desc: "Escape backslash to include it in the RegExp.",
+                    messageId: "escapeBackslash",
                     fix: { range: [11, 11], text: "\\" }
                 }]
             }]
@@ -170,10 +170,10 @@ ruleTester.run("no-useless-escape", rule, {
                 message: "Unnecessary escape character: \\'.",
                 type: "Literal",
                 suggestions: [{
-                    desc: "Remove unnecessary escape.",
+                    messageId: "removeEscape",
                     fix: { range: [11, 12], text: "" }
                 }, {
-                    desc: "Escape backslash to include it in the RegExp.",
+                    messageId: "escapeBackslash",
                     fix: { range: [11, 11], text: "\\" }
                 }]
             }]
