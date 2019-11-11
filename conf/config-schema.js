@@ -8,6 +8,7 @@
 const baseConfigProperties = {
     env: { type: "object" },
     extends: { $ref: "#/definitions/stringOrStrings" },
+    extensions: { type: "array", items: "string" },
     globals: { type: "object" },
     overrides: {
         type: "array",

@@ -424,6 +424,7 @@ describe("ConfigArray", () => {
             assert.deepStrictEqual(result, {
                 configNameOfNoInlineConfig: "",
                 env: {},
+                extensions: [],
                 globals: {},
                 noInlineConfig: void 0,
                 parser: null,
@@ -456,6 +457,7 @@ describe("ConfigArray", () => {
             assert.deepStrictEqual(result, {
                 configNameOfNoInlineConfig: "",
                 env: {},
+                extensions: [],
                 globals: {},
                 noInlineConfig: void 0,
                 parser: null,
@@ -550,6 +552,7 @@ describe("ConfigArray", () => {
                         ecmaFeatures: { jsx: true }
                     },
                     env: { browser: true },
+                    extensions: ["ts"],
                     globals: { foo: false }
                 },
                 {
@@ -563,6 +566,7 @@ describe("ConfigArray", () => {
                         ecmaFeatures: { globalReturn: true }
                     },
                     env: { browser: false },
+                    extensions: ["vue"],
                     globals: { foo: true }
                 }
             ];
@@ -582,6 +586,7 @@ describe("ConfigArray", () => {
                 env: {
                     browser: false
                 },
+                extensions: ["vue", "ts"],
                 globals: {
                     foo: true
                 },
@@ -623,6 +628,7 @@ describe("ConfigArray", () => {
                     ecmaFeatures: { jsx: true }
                 },
                 env: { browser: true },
+                extensions: ["ts"],
                 globals: { foo: false }
             });
             assert.deepStrictEqual(config[1], {
@@ -636,6 +642,7 @@ describe("ConfigArray", () => {
                     ecmaFeatures: { globalReturn: true }
                 },
                 env: { browser: false },
+                extensions: ["vue"],
                 globals: { foo: true }
             });
         });

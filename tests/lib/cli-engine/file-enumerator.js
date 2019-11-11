@@ -9,6 +9,7 @@ const path = require("path");
 const os = require("os");
 const { assert } = require("chai");
 const sh = require("shelljs");
+const { ConfigArrayFactory } = require("../../../lib/cli-engine/config-array-factory");
 const { CascadingConfigArrayFactory } =
     require("../../../lib/cli-engine/cascading-config-array-factory");
 const { IgnoredPaths } = require("../../../lib/cli-engine/ignored-paths");
@@ -474,6 +475,58 @@ describe("FileEnumerator", () => {
                     assert.deepStrictEqual(result, [{ filename, ignored: false }]);
                 });
             });
+        });
+    });
+
+    describe("'getExtensionRegExp()' method should return correct regex", () => {
+        const { FileEnumerator } = require("../../../lib/cli-engine/file-enumerator");
+
+        /**
+         * Generate extension regex with reading from configuration.
+         * @param {import("../../../lib/shared/types").ConfigData} [config] ESLint configuration.
+         * @returns {RegExp} The RegExp to test if a string ends with specific file extensions.
+         */
+        function readFromConfig(config = {}) {
+            const configArrayFactory = new ConfigArrayFactory();
+            const filePath = path.join(process.cwd(), "foo.js");
+            const configArray = configArrayFactory.create(config, { filePath });
+            const fileEnumerator = new FileEnumerator();
+
+            return fileEnumerator.getExtensionRegExp(configArray, filePath);
+        }
+
+        it("should return default regex without configuration", () => {
+            const fileEnumerator = new FileEnumerator();
+            const regex = fileEnumerator.getExtensionRegExp();
+
+            assert.match("foo.js", regex);
+            assert.notMatch("foo.ts", regex);
+        });
+
+        it("should read from configuration", () => {
+            const regex = readFromConfig({ extensions: ["ts"] });
+
+            assert.match("foo.js", regex);
+            assert.match("foo.ts", regex);
+        });
+
+        it("should deduplicate extensions", () => {
+            const regex = readFromConfig({ extensions: ["js", "js"] });
+
+            assert.strictEqual(regex.source, ".\\.js$");
+        });
+
+        it("should strip prefixed dot", () => {
+            const regex = readFromConfig({ extensions: [".ts"] });
+
+            assert.strictEqual(regex.source, ".\\.js|ts$");
+        });
+
+        it("should allow missing in configuration", () => {
+            const regex = readFromConfig();
+
+            assert.match("foo.js", regex);
+            assert.notMatch("foo.ts", regex);
         });
     });
 });

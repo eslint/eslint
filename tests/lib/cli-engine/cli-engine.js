@@ -633,7 +633,6 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.results[0].source, "var foo = 'bar'");
         });
 
-
         it("should not return a `source` property when no errors or warnings are present", () => {
             engine = new CLIEngine({
                 useEslintrc: false,
@@ -753,6 +752,7 @@ describe("CLIEngine", () => {
                 assert.strictEqual(report.messages[0].message, "OK");
             });
         });
+
         it("should warn when deprecated rules are found in a config", () => {
             engine = new CLIEngine({
                 cwd: originalDir,
@@ -1155,6 +1155,30 @@ describe("CLIEngine", () => {
 
             assert.strictEqual(report.results.length, 1);
             assert.strictEqual(report.results[0].messages.length, 0);
+        });
+
+        it("should process files with specifying extensions in configuration file", () => {
+
+            engine = new CLIEngine({
+                cwd: path.join(fixtureDir, "extensions"),
+                configFile: getFixturePath("configurations", "extensions.json")
+            });
+
+            let report = engine.executeOnFiles(["."]);
+
+            assert.lengthOf(report.results, 2);
+            assert.lengthOf(report.results[0].messages, 0);
+            assert.lengthOf(report.results[1].messages, 0);
+
+            engine = new CLIEngine({
+                cwd: path.join(fixtureDir, "extensions"),
+                configFile: getFixturePath("configurations", "es6.json")
+            });
+
+            report = engine.executeOnFiles(["."]);
+
+            assert.lengthOf(report.results, 1);
+            assert.lengthOf(report.results[0].messages, 0);
         });
 
         it("should return zero messages when given a config with environment set to browser", () => {

@@ -29,6 +29,7 @@ function assertConfigArrayElement(actual, providedExpected) {
         filePath: "",
         criteria: null,
         env: void 0,
+        extensions: void 0,
         globals: void 0,
         noInlineConfig: void 0,
         parser: void 0,
@@ -54,6 +55,7 @@ function assertConfigArrayElement(actual, providedExpected) {
 function assertConfig(actual, providedExpected) {
     const expected = {
         env: {},
+        extensions: [],
         globals: {},
         noInlineConfig: void 0,
         parser: null,
@@ -458,6 +460,23 @@ describe("ConfigArrayFactory", () => {
 
                 it("should have the 'env' value in the element.", () => {
                     assertConfigArrayElement(configArray[0], { env });
+                });
+            });
+
+            describe("if the config data had 'extensions' property, the returned value", () => {
+                const extensions = ["ts"];
+                let configArray;
+
+                beforeEach(() => {
+                    configArray = create({ extensions });
+                });
+
+                it("should have an element.", () => {
+                    assert.strictEqual(configArray.length, 1);
+                });
+
+                it("should have the 'extensions' value in the element.", () => {
+                    assertConfigArrayElement(configArray[0], { extensions });
                 });
             });
 

@@ -21,6 +21,10 @@ describe("'ExtractedConfig' class", () => {
             assert.deepStrictEqual(config.env, {});
         });
 
+        it("should have 'extensions' property.", () => {
+            assert.deepStrictEqual(config.extensions, []);
+        });
+
         it("should have 'globals' property.", () => {
             assert.deepStrictEqual(config.globals, {});
         });
