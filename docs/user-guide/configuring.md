@@ -10,6 +10,7 @@ ESLint is designed to be completely configurable, meaning you can turn off every
 There are several pieces of information that can be configured:
 
 * **Environments** - which environments your script is designed to run in. Each environment brings with it a certain set of predefined global variables.
+* **Extensions** - files with specified extensions will be linted.
 * **Globals** - the additional global variables your script accesses during execution.
 * **Rules** - which rules are enabled and at what error level.
 
@@ -128,6 +129,24 @@ Processors may make named code blocks such as `0.js` and `1.js`. ESLint handles 
 ```
 
 ESLint checks the file extension of named code blocks then ignores those if [`--ext` CLI option](../user-guide/command-line-interface.md#--ext) didn't include the file extension. Be sure to specify the `--ext` option if you wanted to lint named code blocks other than `*.js`.
+
+## Specifying Extensions
+
+By default, ESLint only lints files whose names end with `.js`. If you want to let ESLint lint files whose names end with other extensions, you can specify it by passing an argument at CLI with `--ext`.
+
+However, sometimes you may want this behavior can be defined in configuration file, which will be able to be shared so you don't need to specify it at CLI.
+
+Adding `extensions` property in configuration file will let ESLint lint files whose names end with those extensions without specifying it at CLI:
+
+```json
+{
+    "extensions": ["ts"]
+}
+```
+
+Note that you don't need to add prefix to extension with dot (`.`).
+
+With the configuration above, files whose names end with `.js` or `.ts` will be linted.
 
 ## Specifying Environments
 
