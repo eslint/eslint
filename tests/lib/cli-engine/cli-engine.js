@@ -1181,6 +1181,20 @@ describe("CLIEngine", () => {
             assert.lengthOf(report.results[0].messages, 0);
         });
 
+        it("should ignoring configuration precedences extensions", () => {
+
+            engine = new CLIEngine({
+                cwd: path.join(fixtureDir, "extensions"),
+                configFile: getFixturePath("configurations", "extensions.json"),
+                ignorePattern: "*.ts"
+            });
+
+            const report = engine.executeOnFiles(["."]);
+
+            assert.lengthOf(report.results, 1);
+            assert.lengthOf(report.results[0].messages, 0);
+        });
+
         it("should return zero messages when given a config with environment set to browser", () => {
 
             engine = new CLIEngine({

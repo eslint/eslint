@@ -136,6 +136,8 @@ By default, ESLint only lints files whose names end with `.js`. If you want to l
 
 However, sometimes you may want this behavior can be defined in configuration file, which will be able to be shared so you don't need to specify it at CLI.
 
+The ignoring configuration (`.eslintignore`) precedences this configuration. If `.eslintignore` contains the additional target files, those files will still be ignored.
+
 Adding `extensions` property in configuration file will let ESLint lint files whose names end with those extensions without specifying it at CLI:
 
 ```json
