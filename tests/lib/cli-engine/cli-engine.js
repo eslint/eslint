@@ -1195,6 +1195,22 @@ describe("CLIEngine", () => {
             assert.lengthOf(report.results[0].messages, 0);
         });
 
+        it("should treat glob patterns over extensions defined in configuration", () => {
+
+            engine = new CLIEngine({
+                cwd: path.join(fixtureDir, "extensions"),
+
+                // This config doesn't specify about extensions.
+                configFile: getFixturePath("configurations", "es6.json")
+            });
+
+            const report = engine.executeOnFiles(["*.*"]);
+
+            assert.lengthOf(report.results, 2);
+            assert.lengthOf(report.results[0].messages, 0);
+            assert.lengthOf(report.results[1].messages, 0);
+        });
+
         it("should return zero messages when given a config with environment set to browser", () => {
 
             engine = new CLIEngine({
