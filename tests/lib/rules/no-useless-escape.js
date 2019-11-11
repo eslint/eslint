@@ -154,10 +154,10 @@ ruleTester.run("no-useless-escape", rule, {
                 type: "Literal",
                 suggestions: [{
                     messageId: "removeEscape",
-                    fix: { range: [11, 12], text: "" }
+                    output: "var foo = /;/;"
                 }, {
                     messageId: "escapeBackslash",
-                    fix: { range: [11, 11], text: "\\" }
+                    output: "var foo = /\\\\;/;"
                 }]
             }]
         },
@@ -171,10 +171,10 @@ ruleTester.run("no-useless-escape", rule, {
                 type: "Literal",
                 suggestions: [{
                     messageId: "removeEscape",
-                    fix: { range: [11, 12], text: "" }
+                    output: "var foo = \"'\";"
                 }, {
                     messageId: "escapeBackslash",
-                    fix: { range: [11, 11], text: "\\" }
+                    output: "var foo = \"\\\\'\";"
                 }]
             }]
         },
