@@ -154,16 +154,7 @@ The `verify()` method returns an array of objects containing information about t
     fix: {
         range: [1, 15],
         text: ";"
-    },
-    suggestions: [
-        {
-            desc: 'Insert a semicolon',
-            fix: {
-                range: [1, 15],
-                text: ";"
-            }
-        }
-    ]
+    }
 }
 ```
 
@@ -179,7 +170,7 @@ The information available for each linting message is:
 * `endColumn` - the end column of the range on which the error occurred (this property is omitted if it's not range).
 * `endLine` - the end line of the range on which the error occurred (this property is omitted if it's not range).
 * `fix` - an object describing the fix for the problem (this property is omitted if no fix is available).
-* `suggestions` - an array of objects describing possible lint fixes for editors to programmatically enable.
+* `suggestions` - an array of objects describing possible lint fixes for editors to programmatically enable (see details in the [Working with Rules docs](./working-with-rules.md#providing-suggestions)).
 
 Linting message objects have a deprecated `source` property. This property **will be removed** from linting messages in an upcoming breaking release. If you depend on this property, you should now use the `SourceCode` instance provided by the linter.
 
@@ -446,19 +437,24 @@ The return value is an object containing the results of the linting operation. H
                 line: 1,
                 column: 13,
                 nodeType: "ExpressionStatement",
-                fix: { range: [12, 12], text: ";" },
-                suggestions: [
-                    {
-                        desc: 'Insert a semicolon',
-                        fix: {
-                            range: [1, 15],
-                            text: ";"
-                        }
-                    }
-                ]
+                fix: { range: [12, 12], text: ";" }
+            }, {
+                ruleId: "no-useless-escape",
+                severity: 1,
+                message: "disallow unnecessary escape characters",
+                line: 1,
+                column: 10,
+                nodeType: "ExpressionStatement",
+                suggestions: [{
+                    desc: "Remove unnecessary escape. This maintains the current functionality.",
+                    fix: { range: [9, 10], text: "" }
+                }, {
+                    desc: "Escape backslash to include it in the RegExp.",
+                    fix: { range: [9, 9], text: "\\" }
+                }]
             }],
             errorCount: 1,
-            warningCount: 0,
+            warningCount: 1,
             fixableErrorCount: 1,
             fixableWarningCount: 0,
             source: "\"use strict\"\n"
@@ -504,16 +500,7 @@ const report = cli.executeOnFiles(["myfile.js", "lib/"]);
                     line: 1,
                     column: 13,
                     nodeType: "ExpressionStatement",
-                    fix: { range: [12, 12], text: ";" },
-                    suggestions: [
-                        {
-                            desc: 'Insert a semicolon',
-                            fix: {
-                                range: [1, 15],
-                                text: ";"
-                            }
-                        }
-                    ]
+                    fix: { range: [12, 12], text: ";" }
                 },
                 {
                     ruleId: "func-name-matching",

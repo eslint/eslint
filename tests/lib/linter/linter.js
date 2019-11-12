@@ -4682,6 +4682,19 @@ describe("Linter", () => {
             });
         });
 
+        it("does not include suggestions in autofix results", () => {
+            const fixResult = linter.verifyAndFix("var foo = /\\#/", {
+                rules: {
+                    semi: 2,
+                    "no-useless-escape": 2
+                }
+            });
+
+            assert.strictEqual(fixResult.output, "var foo = /\\#/;");
+            assert.strictEqual(fixResult.fixed, true);
+            assert.strictEqual(fixResult.messages[0].suggestions.length > 0, true);
+        });
+
         it("does not apply autofixes when fix argument is `false`", () => {
             const fixResult = linter.verifyAndFix("var a", {
                 rules: {

@@ -62,7 +62,7 @@ The source file for a rule exports an object with the following properties.
     * `category` (string) specifies the heading under which the rule is listed in the [rules index](../rules/)
     * `recommended` (boolean) is whether the `"extends": "eslint:recommended"` property in a [configuration file](../user-guide/configuring.md#extending-configuration-files) enables the rule
     * `url` (string) specifies the URL at which the full documentation can be accessed
-    * `suggestion` (boolean) specifies whether rules can return suggestions
+    * `suggestion` (boolean) specifies whether rules can return suggestions (defaults to false if omitted)
 
     In a custom rule or plugin, you can omit `docs` or include any properties that you need in it.
 
@@ -373,7 +373,12 @@ context.report({
 });
 ```
 
-Note: Suggestions will be applied as a stand-alone change, without triggering multipass fixes. Each suggestion should focus on a singular change in the code and should not try to confirm to user defined styles. For example, if a suggestion is adding a new statement into the codebase, it should not try to match correct indentation, or confirm to user preferences on presence/absence of semicolumns. All of those things can be corrected by multipass autofix when the user triggers it.
+Note: Suggestions will be applied as a stand-alone change, without triggering multipass fixes. Each suggestion should focus on a singular change in the code and should not try to conform to user defined styles. For example, if a suggestion is adding a new statement into the codebase, it should not try to match correct indentation, or confirm to user preferences on presence/absence of semicolumns. All of those things can be corrected by multipass autofix when the user triggers it.
+
+Best practices for suggestions:
+
+1. Don't try to do too much and suggest large refactors that could introduce a lot of breaking changes.
+1. As noted above, don't try to conform to user-defined styles.
 
 #### Suggestion `messageId`s
 
