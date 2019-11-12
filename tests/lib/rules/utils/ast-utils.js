@@ -846,6 +846,283 @@ describe("ast-utils", () => {
         });
     });
 
+    describe("getTextBetween", () => {
+
+        /**
+         * Extracts index data from test data.
+         * @param {Array} data Test data.
+         * @returns {Object} Index data.
+         */
+        function getIndexData(data) {
+            let firstIndex = data[2] || 0;
+            let secondIndex = data[3];
+            let firstNode = false;
+            let secondNode = false;
+
+            if (typeof firstIndex === "object") {
+                if ("node" in firstIndex) {
+                    firstIndex = firstIndex.node;
+                    firstNode = true;
+                } else if ("token" in firstIndex) {
+                    firstIndex = firstIndex.token;
+                } else {
+                    firstIndex = 0;
+                }
+            }
+            if (secondIndex && typeof secondIndex === "object") {
+                if ("node" in secondIndex) {
+                    secondIndex = secondIndex.node;
+                    secondNode = true;
+                } else if ("token" in secondIndex) {
+                    secondIndex = secondIndex.token;
+                }
+            }
+            if (typeof secondIndex !== "number") {
+                secondIndex = firstIndex + 1;
+                secondNode = firstNode;
+            }
+
+            return {
+                firstIndex,
+                secondIndex,
+                firstNode,
+                secondNode
+            };
+        }
+
+        /**
+         * Gets list item by index.
+         * @param {Array} list Source list.
+         * @param {number} index Index of target item.
+         * @returns {*} Item data.
+         */
+        function getItem(list, index) {
+            return list[index < 0 ? list.length + index : index];
+        }
+
+        describe("should return text between nodes/tokens with comments", () => {
+            const caseDataList = [
+                ["let foo = bar;", " "],
+                ["let  foo = bar;", "  "],
+                ["let  foo = bar;", "  foo = ", 0, 3],
+                ["let  foo = bar;", "  foo = bar", 0, 4],
+                ["let /**/ foo = bar;", " /**/ "],
+                ["let /**/ foo = bar;", " /**/ foo = bar", 0, 4],
+                ["let /**/ foo = bar;", " bar", 2, 4],
+                ["let/**/foo = bar;", "/**/"],
+                ["a+b", ""],
+                ["a+b", "", 1, 2],
+                ["a/**/+b", "/**/"],
+                ["a/* Some comment */+b", "/* Some comment */"],
+                ["a /* Some comment */ + b", " /* Some comment */ "],
+                ["a /* Some comment */ + b", " /* Some comment */ + ", 0, 2],
+                ["a/* */+b", "/* */"],
+                ["a/**/ +b", "/**/ "],
+                ["a/**/ /**/+b", "/**/ /**/"],
+                ["a/**/\n/**/+b", "/**/\n/**/"],
+                ["a /* comment 1 */\n/*  comment #2  */  +  b", " /* comment 1 */\n/*  comment #2  */  "],
+                ["a /* comment 1 */\n/*  comment #2  */  +  b", " /* comment 1 */\n/*  comment #2  */  +  ", 0, 2],
+                ["a +b", " "],
+                ["a[b] = c", "b", 1, 3],
+                ["a[b] = c;", "[b] ", 0, 4],
+                ["a[ b ] = 3;", " b ", 1, 3],
+                ["a[ b ] = 3;", "", 3, 3],
+                ["foo[ bar ] = 'value';", "[ bar ] ", 0, 4],
+                ["foo [  bar  ] /* comment here */  =   null ;", " "],
+                ["foo [   bar  ] /* comment here */  =   null ;", "   bar  ", 1, 3],
+                ["foo [   bar  ] /* comment here */  =   null ;", " /* comment here */  ", 3, 4],
+                ["foo [   bar  ] /* comment here */  =   null ;", " [   bar  ] /* comment here */  =   ", 0, 5],
+                ["let foo = bar; /* */ ;", " /* */ ", { node: 0 }],
+                ["let foo = bar; /* */ ;", "", { node: 0 }, { node: 0 }],
+                ["let foo = bar; ;/* */ ;", " ", { node: 0 }, { token: -2 }],
+                ["let foo = bar; /* */ ;", " = bar; /* */ ", 1, { node: 1 }],
+                ["let foo = bar; /* */ ;", "; /* */ ", { token: 3 }, { node: 1 }],
+                [
+                    "let foo = bar + 3; /*test comment*/ let d = foo * 2 ; // ending comment\n /* next line */ if (d) {\n// todo\n}",
+                    " /*test comment*/ let d = foo * 2 ; // ending comment\n /* next line */ ",
+                    { node: 0 }, { node: -1 }
+                ],
+                [
+                    "let foo = bar + 3;\n/*test comment*/\nlet d = foo * 2 ;\nconsole.log('/*/ some output /*/'); // ending comment\n /* next line */ if (d) {\n// print result\nconsole.log('d -', d)}\nd = null;",
+                    "\nconsole.log('/*/ some output /*/'); // ending comment\n /* next line */ ",
+                    { node: 1 }, { node: -2 }
+                ]
+            ];
+
+            describe("when the first given is located before the second", () => {
+                caseDataList.forEach(data => {
+                    const code = data[0];
+                    const expected = data[1];
+                    const index = getIndexData(data);
+
+                    it(`should return ${expected} for ${code} with ${JSON.stringify(index)}`, () => {
+                        const ast = espree.parse(code, ESPREE_CONFIG),
+                            sourceCode = new SourceCode(code, ast),
+                            body = sourceCode.ast.body,
+                            tokens = sourceCode.ast.tokens;
+
+                        assert.strictEqual(
+                            astUtils.getTextBetween(
+                                sourceCode,
+                                getItem(index.firstNode ? body : tokens, index.firstIndex),
+                                getItem(index.secondNode ? body : tokens, index.secondIndex)
+                            ),
+                            expected
+                        );
+                        assert.strictEqual(
+                            astUtils.getTextBetween(
+                                sourceCode,
+                                getItem(index.firstNode ? body : tokens, index.firstIndex),
+                                getItem(index.secondNode ? body : tokens, index.secondIndex),
+                                false
+                            ),
+                            expected
+                        );
+                    });
+                });
+            });
+
+            describe("when the first given is located after the second", () => {
+                caseDataList.forEach(data => {
+                    const code = data[0];
+                    const expected = data[1];
+                    const index = getIndexData(data);
+
+                    it(`should return ${expected} for ${code} with ${JSON.stringify(index)}`, () => {
+                        const ast = espree.parse(code, ESPREE_CONFIG),
+                            sourceCode = new SourceCode(code, ast),
+                            body = sourceCode.ast.body,
+                            tokens = sourceCode.ast.tokens;
+
+                        assert.strictEqual(
+                            astUtils.getTextBetween(
+                                sourceCode,
+                                getItem(index.secondNode ? body : tokens, index.secondIndex),
+                                getItem(index.firstNode ? body : tokens, index.firstIndex)
+                            ),
+                            expected
+                        );
+                        assert.strictEqual(
+                            astUtils.getTextBetween(
+                                sourceCode,
+                                getItem(index.secondNode ? body : tokens, index.secondIndex),
+                                getItem(index.firstNode ? body : tokens, index.firstIndex),
+                                false
+                            ),
+                            expected
+                        );
+                    });
+                });
+            });
+        });
+
+        describe("should return text between nodes/tokens without comments", () => {
+            const caseDataList = [
+                ["let foo = bar;", " "],
+                ["let  foo = bar;", "  "],
+                ["let  foo = bar;", "  foo = ", 0, 3],
+                ["let  foo = bar;", "  foo = bar", 0, 4],
+                ["let /**/ foo = bar;", "  "],
+                ["let /**/ foo = bar;", "  foo = bar", 0, 4],
+                ["let /**/ foo = bar;", " bar", 2, 4],
+                ["let/**/foo = bar;", ""],
+                ["a+b", ""],
+                ["a+b", "", 1, 2],
+                ["a/**/+b", ""],
+                ["a/* Some comment */+b", ""],
+                ["a /* Some comment */ + b", "  "],
+                ["a /* Some comment */ + b", "  + ", 0, 2],
+                ["a/* */+b", ""],
+                ["a/**/ +b", " "],
+                ["a/**/ /**/+b", " "],
+                ["a/**/\n/**/+b", "\n"],
+                ["a /* comment 1 */\n/*  comment #2  */  +  b", " \n  "],
+                ["a /* comment 1 */ \n   \n /*  comment #2  */  +  b", "  \n   \n   +  ", 0, 2],
+                ["a +b", " "],
+                ["a[b] = c", "b", 1, 3],
+                ["a[b] = c;", "[b] ", 0, 4],
+                ["a[ b ] = 3;", " b ", 1, 3],
+                ["a[ b ] = 3;", "", 3, 3],
+                ["foo[ bar ] = /* commented 'value'*/ 0 ;", "  0 ", 4, 6],
+                ["foo/* comment here */[  bar  ]  =   null ;", ""],
+                ["foo [   bar  /* comment here */ ]  =   null ;", "   bar   ", 1, 3],
+                ["foo [   bar  ] /* comment here */ /*and here*/ =   null ;", "   ", 3, 4],
+                ["foo [ /* comment here */  bar  ] /* here */  =  /* and here */ null ;", " [   bar  ]   =   ", 0, 5],
+                ["let foo = bar; /* */ ;", "  ", { node: 0 }],
+                ["let foo = bar; /* */ ;", "", { node: 0 }, { node: 0 }],
+                ["let foo = bar; ;/* */ ;", " ", { node: 0 }, { token: -2 }],
+                ["let foo = bar; ;/* */ ;", " ; ", { node: 0 }, { token: -1 }],
+                ["let foo = bar;\n/*\n---\n*/\n; /* let a = 3; */ ;", "\n\n;  ", { node: 0 }, { token: -1 }],
+                ["let foo = bar; /* */ ;", " = bar;  ", 1, { node: 1 }],
+                ["let foo = bar; /* */ ;", ";  ", { token: 3 }, { node: 1 }],
+                [
+                    "let foo = bar; let /* vip var decl */ vip = `some value with /* ${embeddedComment} */` /* end of vip decl */;   // final comment\nconsole.log( /*- output -*/ vip );",
+                    " let  vip = `some value with /* ${embeddedComment} */` ;   \n",
+                    { node: 0 }, { node: -1 }],
+                [
+                    "let foo = bar + 3; /*test comment*/ let d = foo * 2 ; // ending comment\n /* next line */ if (d) {\n// todo\n}",
+                    "  let d = foo * 2 ; \n  ",
+                    { node: 0 }, { node: -1 }
+                ],
+                [
+                    "let foo = bar + 3;\n/*test comment*/\nlet d = foo * 2 ;\nconsole.log('/*/ some output /*/'); // ending comment\n /* next line */ if (d) {\n// print result\nconsole.log('d -', d)}\nd = null;",
+                    "\nconsole.log('/*/ some output /*/'); \n  ",
+                    { node: 1 }, { node: -2 }
+                ]
+            ];
+
+            describe("when the first given is located before the second", () => {
+                caseDataList.forEach(data => {
+                    const code = data[0];
+                    const expected = data[1];
+                    const index = getIndexData(data);
+
+                    it(`should return ${expected} for ${code} with ${JSON.stringify(index)}`, () => {
+                        const ast = espree.parse(code, ESPREE_CONFIG),
+                            sourceCode = new SourceCode(code, ast),
+                            body = sourceCode.ast.body,
+                            tokens = sourceCode.ast.tokens;
+
+                        assert.strictEqual(
+                            astUtils.getTextBetween(
+                                sourceCode,
+                                getItem(index.firstNode ? body : tokens, index.firstIndex),
+                                getItem(index.secondNode ? body : tokens, index.secondIndex),
+                                true
+                            ),
+                            expected
+                        );
+                    });
+                });
+            });
+
+            describe("when the first given is located after the second", () => {
+                caseDataList.forEach(data => {
+                    const code = data[0];
+                    const expected = data[1];
+                    const index = getIndexData(data);
+
+                    it(`should return ${expected} for ${code} with ${JSON.stringify(index)}`, () => {
+                        const ast = espree.parse(code, ESPREE_CONFIG),
+                            sourceCode = new SourceCode(code, ast),
+                            body = sourceCode.ast.body,
+                            tokens = sourceCode.ast.tokens;
+
+                        assert.strictEqual(
+                            astUtils.getTextBetween(
+                                sourceCode,
+                                getItem(index.secondNode ? body : tokens, index.secondIndex),
+                                getItem(index.firstNode ? body : tokens, index.firstIndex),
+                                true
+                            ),
+                            expected
+                        );
+                    });
+                });
+            });
+        });
+    });
+
     describe("couldBeError", () => {
         const EXPECTED_RESULTS = {
             5: false,
