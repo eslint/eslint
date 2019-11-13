@@ -1276,7 +1276,12 @@ describe("CLIEngine", () => {
             const failFilePath = fs.realpathSync(getFixturePath("missing-semicolon.js"));
             const passFilePath = fs.realpathSync(getFixturePath("passing.js"));
 
-            function assertFailReport(report) { // eslint-disable-line jsdoc/require-jsdoc
+            /**
+             * asserts the report of the failing files.
+             * @param {LintReport} report lint result report.
+             * @returns {void}
+             */
+            function assertFailReport(report) {
                 assert.strictEqual(report.results.length, 1);
                 assert.strictEqual(report.results[0].filePath, failFilePath);
                 assert.strictEqual(report.results[0].messages.length, 1);
@@ -1287,7 +1292,12 @@ describe("CLIEngine", () => {
             assertFailReport(syncEngine.executeOnFiles([failFilePath]));
             assertFailReport(await asyncEngine.executeOnFiles([failFilePath]));
 
-            function assertPassReport(report) { // eslint-disable-line jsdoc/require-jsdoc
+            /**
+             * asserts the report of the passing files.
+             * @param {LintReport} report lint result report.
+             * @returns {void}
+             */
+            function assertPassReport(report) {
                 assert.strictEqual(report.results.length, 1);
                 assert.strictEqual(report.results[0].filePath, passFilePath);
                 assert.strictEqual(report.results[0].messages.length, 0);
