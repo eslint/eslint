@@ -42,6 +42,7 @@
     "messages"
   ],
   "repository": "eslint/eslint",
+  "funding": "https://opencollective.com/eslint",
   "homepage": "https://eslint.org",
   "bugs": "https://github.com/eslint/eslint/issues/",
   "dependencies": {
@@ -73,7 +74,7 @@
     "minimatch": "^3.0.4",
     "mkdirp": "^0.5.1",
     "natural-compare": "^1.4.0",
-    "optionator": "^0.8.2",
+    "optionator": "^0.8.3",
     "physical-cpu-count": "^2.0.0",
     "progress": "^2.0.0",
     "regexpp": "^2.0.1",
