@@ -62,7 +62,7 @@ jobs:
         cd ../repo
         echo "starting run"
         T1=`date +%s`
-        ../eslint/bin/eslint.js -p 2 .
+        ../eslint/bin/eslint.js -p .
         T2=`date +%s`
         echo "linting time: $(($T2-T1))s"
     - name: lint parallel
@@ -74,7 +74,7 @@ jobs:
         cd ../repo
         echo "starting run"
         T1=`date +%s`
-        ../eslint/bin/eslint.js -p 2 .
+        ../eslint/bin/eslint.js -p .
         T2=`date +%s`
         echo "linting time: $(($T2-T1))s"
     - name: lint sync
