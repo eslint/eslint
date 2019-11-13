@@ -774,8 +774,19 @@ describe("CLIEngine", () => {
 
     describe("executeOnFiles()", () => {
 
-
-        // eslint-disable-next-line jsdoc/require-jsdoc
+        // TODO: fix type docs
+        /**
+         * Runs the same test once without the parallel flag, and once with it
+         * and verifies the result in both cases
+         * @param {Object} options The options for the test
+         * @param {Class} options.CLIEngineClass The class to create the engine instance.
+         * @param {CLIEngineOptions} options.engineOptions The options object to pass to the class constructor.
+         * @param {Array<string>} options.patterns An array of file and directory names.
+         * @param {number} options.numParallel The number of child processes to use for parallel linting.
+         * @param {Function} options.assertOutput Callback that will run assertions on the engine output.
+         * @param {string | RegExp} options.assertThrows Matcher for the error message.
+         * @returns {Promise<void>} promise that resolves when assertion done.
+         */
         async function assertSyncAndAsync({
             CLIEngineClass = CLIEngine,
             engineOptions,
@@ -804,7 +815,7 @@ describe("CLIEngine", () => {
                 assertOutput(await asyncReportPromise);
             } else if (assertThrows) {
                 assert.throws(() => syncEngine.executeOnFiles(patterns), assertThrows);
-                assert.isRejected(
+                await assert.isRejected(
                     Promise.resolve().then(() => asyncEngine.executeOnFiles(patterns)),
                     assertThrows
                 );
@@ -1265,7 +1276,6 @@ describe("CLIEngine", () => {
             const failFilePath = fs.realpathSync(getFixturePath("missing-semicolon.js"));
             const passFilePath = fs.realpathSync(getFixturePath("passing.js"));
 
-            // eslint-disable-next-line jsdoc/require-jsdoc
             function assertFailReport(report) {
                 assert.strictEqual(report.results.length, 1);
                 assert.strictEqual(report.results[0].filePath, failFilePath);
@@ -1277,7 +1287,6 @@ describe("CLIEngine", () => {
             assertFailReport(syncEngine.executeOnFiles([failFilePath]));
             assertFailReport(await asyncEngine.executeOnFiles([failFilePath]));
 
-            // eslint-disable-next-line jsdoc/require-jsdoc
             function assertPassReport(report) {
                 assert.strictEqual(report.results.length, 1);
                 assert.strictEqual(report.results[0].filePath, passFilePath);
