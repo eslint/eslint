@@ -27,7 +27,10 @@ ruleTester.run("no-constructor-return", rule, {
         "class C { constructor() { let v } }",
         "class C { method() { return '' } }",
         "class C { get value() { return '' } }",
-        "class C { constructor(a) { if (!a) { return } else { a() } } }"
+        "class C { constructor(a) { if (!a) { return } else { a() } } }",
+        "class C { constructor() { function fn() { return true } } }",
+        "class C { constructor() { this.fn = function () { return true } } }",
+        "class C { constructor() { this.fn = () => { return true } } }"
     ],
     invalid: [
         {
