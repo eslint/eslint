@@ -390,6 +390,21 @@ ruleTester.run("function-call-argument-newline", rule, {
                 }
             ]
         },
+        {
+            code: "fn(a,/* comment */\nb)",
+            output: "fn(a,/* comment */ b)",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "unexpectedLineBreak",
+                    line: 1,
+                    column: 19,
+                    endLine: 2,
+                    endColumn: 1
+                }
+            ]
+        },
 
         /* "consistent" */
         {
@@ -501,6 +516,50 @@ ruleTester.run("function-call-argument-newline", rule, {
                     messageId: "unexpectedLineBreak",
                     line: 2,
                     column: 6,
+                    endLine: 3,
+                    endColumn: 1
+                }
+            ]
+        },
+        {
+            code: "fn(a,// comment\n{b, c})",
+            output: null,
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "unexpectedLineBreak",
+                    line: 1,
+                    column: 16,
+                    endLine: 2,
+                    endColumn: 1
+                }
+            ]
+        },
+        {
+            code: "fn(a, // comment\nb)",
+            output: null,
+            options: ["never"],
+            errors: [
+                {
+                    messageId: "unexpectedLineBreak",
+                    line: 1,
+                    column: 17,
+                    endLine: 2,
+                    endColumn: 1
+                }
+            ]
+        },
+        {
+            code: "fn(`\n`, b, // comment\nc)",
+            output: null,
+            options: ["consistent"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "unexpectedLineBreak",
+                    line: 2,
+                    column: 17,
                     endLine: 3,
                     endColumn: 1
                 }
