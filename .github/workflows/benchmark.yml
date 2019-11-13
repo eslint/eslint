@@ -19,7 +19,7 @@ jobs:
         # - "zeit/next.js" # no eslint config
         # - "mrdoob/three.js" # 1388 files, out of memory
         repeat: [1, 2, 3, 4]
-        node-version: [10.16]
+        node-version: [12.13]
 
     steps:
     - uses: actions/checkout@v1
