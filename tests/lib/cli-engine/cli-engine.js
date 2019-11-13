@@ -787,7 +787,7 @@ describe("CLIEngine", () => {
          * @param {string | RegExp} options.assertThrows Matcher for the error message.
          * @returns {Promise<void>} promise that resolves when assertion done.
          */
-        async function assertSyncAndAsync({
+        async function assertExecuteOnFilesSyncAndAsync({
             CLIEngineClass = CLIEngine,
             engineOptions,
             patterns,
@@ -1170,7 +1170,7 @@ describe("CLIEngine", () => {
 
 
         it("should return the total number of errors when given multiple files", async() => {
-            await assertSyncAndAsync({
+            await assertExecuteOnFilesSyncAndAsync({
                 engineOptions: {
                     cwd: path.join(fixtureDir, ".."),
                     configFile: getFixturePath("configurations", "single-quotes-error.json")
@@ -1198,7 +1198,7 @@ describe("CLIEngine", () => {
         });
 
         it("should process when file is given by not specifying extensions", async() => {
-            await assertSyncAndAsync({
+            await assertExecuteOnFilesSyncAndAsync({
                 engineOptions: {
                     ignore: false,
                     cwd: path.join(fixtureDir, "..")
@@ -1212,7 +1212,7 @@ describe("CLIEngine", () => {
         });
 
         it("should return zero messages when given a config with environment set to browser", async() => {
-            await assertSyncAndAsync({
+            await assertExecuteOnFilesSyncAndAsync({
                 engineOptions: {
                     cwd: path.join(fixtureDir, ".."),
                     configFile: getFixturePath("configurations", "env-browser.json")
@@ -1226,7 +1226,7 @@ describe("CLIEngine", () => {
         });
 
         it("should return zero messages when given an option to set environment to browser", async() => {
-            await assertSyncAndAsync({
+            await assertExecuteOnFilesSyncAndAsync({
                 engineOptions: {
                     cwd: path.join(fixtureDir, ".."),
                     envs: ["browser"],
@@ -1244,7 +1244,7 @@ describe("CLIEngine", () => {
         });
 
         it("should return zero messages when given a config with environment set to Node.js", async() => {
-            await assertSyncAndAsync({
+            await assertExecuteOnFilesSyncAndAsync({
                 engineOptions: {
                     cwd: path.join(fixtureDir, ".."),
                     configFile: getFixturePath("configurations", "env-node.json")
@@ -1307,7 +1307,7 @@ describe("CLIEngine", () => {
         });
 
         it("should throw an error when given a directory with all eslint excluded files in the directory", async() => {
-            await assertSyncAndAsync({
+            await assertExecuteOnFilesSyncAndAsync({
                 engineOptions: {
                     ignorePath: getFixturePath(".eslintignore")
                 },
@@ -1317,7 +1317,7 @@ describe("CLIEngine", () => {
         });
 
         it("should throw an error when all given files are ignored", async() => {
-            await assertSyncAndAsync({
+            await assertExecuteOnFilesSyncAndAsync({
                 engineOptions: {
                     ignorePath: getFixturePath(".eslintignore")
                 },
@@ -1327,7 +1327,7 @@ describe("CLIEngine", () => {
         });
 
         it("should throw an error when all given files are ignored even with a `./` prefix", async() => {
-            await assertSyncAndAsync({
+            await assertExecuteOnFilesSyncAndAsync({
                 engineOptions: {
                     ignorePath: getFixturePath(".eslintignore")
                 },
@@ -1338,7 +1338,7 @@ describe("CLIEngine", () => {
 
         // https://github.com/eslint/eslint/issues/3788
         it("should ignore one-level down node_modules when ignore file has 'node_modules/' in it", async() => {
-            await assertSyncAndAsync({
+            await assertExecuteOnFilesSyncAndAsync({
                 engineOptions: {
                     ignorePath: getFixturePath("cli-engine", "nested_node_modules", ".eslintignore"),
                     useEslintrc: false,
@@ -1360,7 +1360,7 @@ describe("CLIEngine", () => {
 
         // https://github.com/eslint/eslint/issues/3812
         it("should ignore all files and throw an error when tests/fixtures/ is in ignore file", async() => {
-            await assertSyncAndAsync({
+            await assertExecuteOnFilesSyncAndAsync({
                 engineOptions: {
                     ignorePath: getFixturePath("cli-engine/.eslintignore2"),
                     useEslintrc: false,
@@ -1374,7 +1374,7 @@ describe("CLIEngine", () => {
         });
 
         it("should throw an error when all given files are ignored via ignore-pattern", async() => {
-            await assertSyncAndAsync({
+            await assertExecuteOnFilesSyncAndAsync({
                 engineOptions: {
                     ignorePattern: "tests/fixtures/single-quoted.js"
                 },
@@ -1386,7 +1386,7 @@ describe("CLIEngine", () => {
         it("should return a warning when an explicitly given file is ignored", async() => {
             const filePath = getFixturePath("passing.js");
 
-            await assertSyncAndAsync({
+            await assertExecuteOnFilesSyncAndAsync({
                 engineOptions: {
                     ignorePath: getFixturePath(".eslintignore"),
                     cwd: getFixturePath()
@@ -1412,7 +1412,7 @@ describe("CLIEngine", () => {
         it("should return two messages when given a file in excluded files list while ignore is off", async() => {
             const filePath = fs.realpathSync(getFixturePath("undef.js"));
 
-            await assertSyncAndAsync({
+            await assertExecuteOnFilesSyncAndAsync({
                 engineOptions: {
                     ignorePath: getFixturePath(".eslintignore"),
                     ignore: false,
@@ -1433,7 +1433,7 @@ describe("CLIEngine", () => {
         });
 
         it("should return zero messages when executing a file with a shebang", async() => {
-            await assertSyncAndAsync({
+            await assertExecuteOnFilesSyncAndAsync({
                 engineOptions: {
                     ignore: false
                 },
@@ -1446,7 +1446,7 @@ describe("CLIEngine", () => {
         });
 
         it("should give a warning when loading a custom rule that doesn't exist", async() => {
-            await assertSyncAndAsync({
+            await assertExecuteOnFilesSyncAndAsync({
                 engineOptions: {
                     ignore: false,
                     rulesPaths: [getFixturePath("rules", "dir1")],
@@ -1464,7 +1464,7 @@ describe("CLIEngine", () => {
         });
 
         it("should throw an error when loading a bad custom rule", async() => {
-            await assertSyncAndAsync({
+            await assertExecuteOnFilesSyncAndAsync({
                 engineOptions: {
                     ignore: false,
                     rulePaths: [getFixturePath("rules", "wrong")],
