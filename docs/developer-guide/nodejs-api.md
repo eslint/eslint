@@ -880,6 +880,7 @@ In addition to the properties above, invalid test cases can also have the follow
     * `column` (number): The 1-based column number of the reported location
     * `endLine` (number): The 1-based line number of the end of the reported location
     * `endColumn` (number): The 1-based column number of the end of the reported location
+    * `suggestions` (array): An array of objects with suggestion details to check. See [Testing Suggestions](#testing-suggestions) for details
 
     If a string is provided as an error instead of an object, the string is used to assert the `message` of the error.
 * `output` (string, optional): Asserts the output that will be produced when using this rule for a single pass of autofixing (e.g. with the `--fix` command line flag). If this is `null`, asserts that none of the reported problems suggest autofixes.
@@ -894,6 +895,32 @@ Any additional properties of a test case will be passed directly to the linter a
 ```
 
 If a valid test case only uses the `code` property, it can optionally be provided as a string containing the code, rather than an object with a `code` key.
+
+#### Testing Suggestions
+
+Suggestions can be tested by defining a `suggestions` key on an errors object. The options to check for the suggestions are the following (all are optional):
+    * `desc` (string): The suggestion `desc` value
+    * `messageId` (string): The suggestion `messageId` value for suggestions that use `messageId`s
+    * `fix` (object): An object matching the suggestion `fix` object output with fields `text` and `range`
+    * `output` (string): A code string representing the result of applying the suggestion fix to the input code
+
+Example:
+```js
+ruleTester.run("my-rule-for-no-foo", rule, {
+    valid: [],
+    invalid: [{
+        code: "var foo;",
+        errors: [{
+            suggestions: [{
+                desc: "Rename identifier 'foo' to 'bar'",
+                messageId: "renameFoo",
+                output: "var bar;",
+                fix: { text: "bar", range: [4, 7] }
+            }]
+        }]
+    }]
+})
+```
 
 ### Customizing RuleTester
 
