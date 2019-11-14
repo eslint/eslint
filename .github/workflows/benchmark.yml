@@ -43,8 +43,8 @@ jobs:
         cat .eslintignore
     # - name: lint sync [warm up]
     #   shell: bash {0}
-    #   env:
-    #     DEBUG: eslint:cli-engine:perf
+      env:
+        DEBUG: eslint:cli-engine:perf
     #   run: |
     #     echo "# of cores `nproc --all`"
     #     cd ../repo
@@ -55,8 +55,8 @@ jobs:
     #     echo "linting time: $(($T2-T1))s"
     - name: lint parallel
       shell: bash {0}
-      env:
-        DEBUG: eslint:cli-engine:perf
+      # env:
+        # DEBUG: eslint:cli-engine:perf
       run: |
         echo "# of cores `nproc --all`"
         cd ../repo
@@ -67,8 +67,8 @@ jobs:
         echo "linting time: $(($T2-T1))s"
     - name: lint parallel
       shell: bash {0}
-      env:
-        DEBUG: eslint:cli-engine:perf
+      # env:
+        # DEBUG: eslint:cli-engine:perf
       run: |
         echo "# of cores `nproc --all`"
         cd ../repo
@@ -79,8 +79,8 @@ jobs:
         echo "linting time: $(($T2-T1))s"
     - name: lint sync
       shell: bash {0}
-      env:
-        DEBUG: eslint:cli-engine:perf
+      # env:
+        # DEBUG: eslint:cli-engine:perf
       run: |
         echo "# of cores `nproc --all`"
         cd ../repo
