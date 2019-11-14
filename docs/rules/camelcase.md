@@ -13,7 +13,7 @@ This rule has an object option:
 * `"properties": "always"` (default) enforces camelcase style for property names
 * `"properties": "never"` does not check property names
 * `"ignoreDestructuring": false` (default) enforces camelcase style for destructured identifiers
-* `"ignoreDestructuring": true` does not check destructured identifiers
+* `"ignoreDestructuring": true` does not check destructured identifiers (but still checks any use of those identifiers later in the code)
 * `"ignoreImports": false` (default) enforces camelcase style for ES2015 imports
 * `"ignoreImports": true` does not check ES2015 imports (but still checks any use of the imports later in the code except function arguments)
 * `allow` (`string[]`) list of properties to accept. Accept regex.
@@ -152,6 +152,39 @@ var { category_id } = query;
 var { category_id = 1 } = query;
 
 var { category_id: category_id } = query;
+```
+
+Please note that this option applies only to identifiers inside destructuring patterns. It doesn't additionally allow any particular use of the created variables later in the code apart from the use that is already allowed by default or by other options.
+
+Examples of additional **incorrect** code for this rule with the `{ "ignoreDestructuring": true }` option:
+
+```js
+/*eslint camelcase: ["error", {ignoreDestructuring: true}]*/
+
+var { some_property } = obj; // allowed by {ignoreDestructuring: true}
+var foo = some_property + 1; // error, ignoreDestructuring does not apply to this statement
+```
+
+A common use case for this option is to avoid useless renaming when the identifier is not intended to be used later in the code.
+
+Examples of additional **correct** code for this rule with the `{ "ignoreDestructuring": true }` option:
+
+```js
+/*eslint camelcase: ["error", {ignoreDestructuring: true}]*/
+
+var { some_property, ...rest } = obj;
+// do something with 'rest', nothing with 'some_property'
+```
+
+Another common use case for this option is in combination with `{ "properties": "never" }`, when the identifier is intended to be used only as a property shorthand.
+
+Examples of additional **correct** code for this rule with the `{ "properties": "never", "ignoreDestructuring": true }` options:
+
+```js
+/*eslint camelcase: ["error", {"properties": "never", ignoreDestructuring: true}]*/
+
+var { some_property } = obj;
+doSomething({ some_property });
 ```
 
 ### ignoreImports: false
