@@ -69,6 +69,8 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
             code: "`foo${ 5 }\t    `;",
             env: { es6: true }
         },
+        "' \t\\\n\t multiline string';",
+        "'\t \\\n \tmultiline string';",
         {
             code: "\tvar x = 5,\n\t    y = 2;",
             options: ["smart-tabs"]
@@ -155,6 +157,26 @@ ruleTester.run("no-mixed-spaces-and-tabs", rule, {
                     type: "Program",
                     line: 2,
                     column: 2
+                }
+            ]
+        },
+        {
+            code: "  \t'';",
+            errors: [
+                {
+                    message: "Mixed spaces and tabs.",
+                    type: "Program",
+                    line: 1
+                }
+            ]
+        },
+        {
+            code: "''\n\t ",
+            errors: [
+                {
+                    message: "Mixed spaces and tabs.",
+                    type: "Program",
+                    line: 2
                 }
             ]
         }
