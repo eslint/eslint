@@ -41,7 +41,21 @@ ruleTester.run("require-await", rule, {
         "function foo() { doSomething() }",
 
         // for-await-of
-        "async function foo() { for await (x of xs); }"
+        "async function foo() { for await (x of xs); }",
+
+        // global await
+        {
+            code: "await foo()",
+            parser: require.resolve("../../fixtures/parsers/typescript-parsers/global-await")
+        },
+        {
+            code: `
+                for await (let num of asyncIterable) {
+                    console.log(num);
+                }
+            `,
+            parser: require.resolve("../../fixtures/parsers/typescript-parsers/global-for-await-of")
+        }
     ],
     invalid: [
         {
