@@ -322,3 +322,5 @@ See [no-dupe-class-members](no-dupe-class-members.md) if you also want to disall
 ## Related Rules
 
 * [accessor-pairs](accessor-pairs.md)
+* [no-dupe-keys](no-dupe-keys.md)
+* [no-dupe-class-members](no-dupe-class-members.md)
