@@ -358,13 +358,13 @@ context.report({
     data: { character },
     suggest: [
         {
-            desc: "Remove unnecessary escape.",
+            desc: "Remove the `\\`. This maintains the current functionality.",
             fix: function(fixer) {
                 return fixer.removeRange(range);
             }
         },
         {
-            desc: "Escape backslash to include it in the RegExp.",
+            desc: "Replace the `\\` with `\\\\` to include the actual backslash character.",
             fix: function(fixer) {
                 return fixer.insertTextBeforeRange(range, "\\");
             }
@@ -388,15 +388,16 @@ Instead of using a `desc` key for suggestions a `messageId` can be used instead.
 module.exports = {
     meta: {
         messages: {
-            removeEscape: "Remove unnecessary escape.",
-            escapeBackslash: "Escape backslash to include it in the RegExp."
+            unnecessaryEscape: "Unnecessary escape character: \\{{character}}.",
+            removeEscape: "Remove the `\\`. This maintains the current functionality.",
+            escapeBackslash: "Replace the `\\` with `\\\\` to include the actual backslash character."
         }
     },
     create: function(context) {
         // ...
         context.report({
             node: node,
-            message: "Unnecessary escape character: \\{{character}}.",
+            messageId: 'unnecessaryEscape',
             data: { character },
             suggest: [
                 {
