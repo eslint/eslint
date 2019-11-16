@@ -1018,6 +1018,32 @@ describe("RuleTester", () => {
             });
         });
 
+        it("should support explicitly expecting no suggestions", () => {
+            ruleTester.run("suggestions-basic", require("../../fixtures/testers/rule-tester/no-eval"), {
+                valid: [],
+                invalid: [{
+                    code: "eval('var foo');",
+                    errors: [{
+                        suggestions: void 0
+                    }]
+                }]
+            });
+        });
+
+        it("should fail when expecting no suggestions and there are suggestions", () => {
+            assert.throws(() => {
+                ruleTester.run("suggestions-basic", require("../../fixtures/testers/rule-tester/suggestions").basic, {
+                    valid: [],
+                    invalid: [{
+                        code: "var foo;",
+                        errors: [{
+                            suggestions: void 0
+                        }]
+                    }]
+                });
+            }, "Error should have no suggestions on error with message: \"Avoid using identifiers named 'foo'.\"");
+        });
+
         it("should fail when testing for suggestions that don't exist", () => {
             assert.throws(() => {
                 ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
@@ -1031,7 +1057,7 @@ describe("RuleTester", () => {
                         }]
                     }]
                 });
-            }, "Error should have an array of suggestions. Instead received 'undefined'");
+            }, "Error should have an array of suggestions. Instead received \"undefined\" on error with message: \"Bad var.\"");
         });
 
         it("should fail when there are a different number of suggestions", () => {
@@ -1068,7 +1094,7 @@ describe("RuleTester", () => {
                         }]
                     }]
                 });
-            }, /Error suggestion at index "0" should have desc of:/u);
+            }, "Error suggestion at index: 0 should have desc of: \"Rename identifier 'foo' to 'bar'\"");
         });
 
         it("should fail when the resulting suggestion output doesn't match", () => {
