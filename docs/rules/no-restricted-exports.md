@@ -1,4 +1,4 @@
-# Disallow specified names in named exports (no-restricted-exports)
+# Disallow specified names in exports (no-restricted-exports)
 
 In a project, certain names may be disallowed from being used as exported names for various reasons.
 
@@ -10,12 +10,16 @@ This rule disallows specified names from being used as exported names.
 
 By default, this rule doesn't disallow any names. Only the names you specify in the configuration will be disallowed.
 
-This rule has one option, an array of strings, where each string is a name to be restricted.
+This rule has an object option:
+
+* `"restrictedNamedExports"` is an array of strings, where each string is a name to be restricted.
 
 Examples of **incorrect** code for this rule:
 
 ```js
-/*eslint no-restricted-exports: ["error", ["foo", "bar", "Baz", "a", "b", "c", "d"]]*/
+/*eslint no-restricted-exports: ["error", {
+    "restrictedNamedExports": ["foo", "bar", "Baz", "a", "b", "c", "d"]
+}]*/
 
 export const foo = 1;
 
@@ -37,7 +41,9 @@ export { something as d } from 'some_module';
 Examples of **correct** code for this rule:
 
 ```js
-/*eslint no-restricted-exports: ["error", ["foo", "bar", "Baz", "a", "b", "c", "d"]]*/
+/*eslint no-restricted-exports: ["error", {
+    "restrictedNamedExports": ["foo", "bar", "Baz", "a", "b", "c", "d"]
+}]*/
 
 export const quux = 1;
 
@@ -58,20 +64,20 @@ export { something } from 'some_module';
 
 ### Default exports
 
-By design, this rule never disallows default export declarations. If you configure `"default"` as a restricted name, that restriction will apply only to named export declarations.
+By design, this rule doesn't disallow `export default` declarations. If you configure `"default"` as a restricted name, that restriction will apply only to named export declarations.
 
 Examples of additional **incorrect** code for this rule:
 
 ```js
-/*eslint no-restricted-exports: ["error", ["default"]]*/
+/*eslint no-restricted-exports: ["error", { "restrictedNamedExports": ["default"] }]*/
 
 function foo() {}
 
-export {foo as default};
+export { foo as default };
 ```
 
 ```js
-/*eslint no-restricted-exports: ["error", ["default"]]*/
+/*eslint no-restricted-exports: ["error", { "restrictedNamedExports": ["default"] }]*/
 
 export { default } from 'some_module';
 ```
@@ -79,7 +85,7 @@ export { default } from 'some_module';
 Examples of additional **correct** code for this rule:
 
 ```js
-/*eslint no-restricted-exports: ["error", ["default", "foo"]]*/
+/*eslint no-restricted-exports: ["error", { "restrictedNamedExports": ["default", "foo"] }]*/
 
 export default function foo() {}
 ```
@@ -94,7 +100,7 @@ This rule doesn't inspect the content of source modules in re-export declaration
 export function foo() {}
 
 //----- my_module.js -----
-/*eslint no-restricted-exports: ["error", ["foo"]]*/
+/*eslint no-restricted-exports: ["error", { "restrictedNamedExports": ["foo"] }]*/
 
 export * from 'some_module'; // allowed, although this declaration exports "foo" from my_module
 ```
