@@ -2,11 +2,9 @@
 
 In JavaScript, returning value in the constructor of a class may be a mistake. Forbidding this pattern prevents mistake resulting from unfamiliarity with the language or copy-paste error.
 
-Note that returning nothing with flow control is allowed.
-
 ## Rule Details
 
-This rule disallows return statement in constructor of a class.
+This rule disallows return statement in constructor of a class. Note that returning nothing with flow control is allowed.
 
 Examples of **incorrect** code for this rule:
 
