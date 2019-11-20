@@ -22,6 +22,17 @@ const errors = [{ type: "ReturnStatement", messageId: "unexpected" }];
 
 ruleTester.run("no-constructor-return", rule, {
     valid: [
+        "function fn() { return }",
+        "function fn(kumiko) { if (kumiko) { return kumiko } }",
+        "const fn = function () { return }",
+        "const fn = function () { if (kumiko) { return kumiko } }",
+        "const fn = () => { return }",
+        "const fn = () => { if (kumiko) { return kumiko } }",
+        {
+            code: "return 'Kumiko Oumae'",
+            parserOptions: { ecmaFeatures: { globalReturn: true } }
+        },
+
         "class C {  }",
         "class C { constructor() {} }",
         "class C { constructor() { let v } }",
