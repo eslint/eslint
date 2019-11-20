@@ -266,7 +266,7 @@ Example:
 
 #### `--no-ignore`
 
-Disables excluding of files from `.eslintignore`, `--ignore-path` and `--ignore-pattern`.
+Disables excluding of files from `.eslintignore`, `--ignore-path`, `--ignore-pattern`, and `ignorePatterns` property in config files.
 
 Example:
 
