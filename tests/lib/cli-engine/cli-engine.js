@@ -1005,6 +1005,27 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.results[0].messages[0].message, expectedMsg);
         });
 
+        // https://github.com/eslint/eslint/issues/12873
+        it("should not check files within a .hidden folder if they are passed explicitly without the --no-ignore flag", () => {
+            engine = new CLIEngine({
+                cwd: getFixturePath("cli-engine"),
+                useEslintrc: false,
+                rules: {
+                    quotes: [2, "single"]
+                }
+            });
+
+            const report = engine.executeOnFiles(["hidden/.hiddenfolder/double-quotes.js"]);
+            const expectedMsg = "File ignored by default.  Use a negated ignore pattern (like \"--ignore-pattern '!<relative/path/to/filename>'\") to override.";
+
+            assert.strictEqual(report.results.length, 1);
+            assert.strictEqual(report.results[0].errorCount, 0);
+            assert.strictEqual(report.results[0].warningCount, 1);
+            assert.strictEqual(report.results[0].fixableErrorCount, 0);
+            assert.strictEqual(report.results[0].fixableWarningCount, 0);
+            assert.strictEqual(report.results[0].messages[0].message, expectedMsg);
+        });
+
         it("should check .hidden files if they are passed explicitly with --no-ignore flag", () => {
 
             engine = new CLIEngine({
