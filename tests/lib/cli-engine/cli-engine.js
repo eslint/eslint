@@ -3845,7 +3845,7 @@ describe("CLIEngine", () => {
 
                 assert.throw(() => {
                     try {
-                    // eslint-disable-next-line no-new
+                        // eslint-disable-next-line no-new
                         new CLIEngine({ cwd });
                     } catch (error) {
                         assert.strictEqual(error.messageTemplate, "failed-to-read-json");
