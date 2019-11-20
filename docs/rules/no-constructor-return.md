@@ -1,6 +1,6 @@
 # Disallow returning value in constructor (no-constructor-return)
 
-In JavaScript, returning a value in the constructor of a class may be a mistake. Forbidding this pattern prevents mistake resulting from unfamiliarity with the language or copy-paste error.
+In JavaScript, returning a value in the constructor of a class may be a mistake. Forbidding this pattern prevents mistakes resulting from unfamiliarity with the language or a copy-paste error.
 
 ## Rule Details
 
