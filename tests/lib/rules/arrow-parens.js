@@ -53,6 +53,8 @@ const valid = [
     { code: "async (a, b) => {}", options: ["as-needed"], parserOptions: { ecmaVersion: 8 } },
     { code: "(a: T) => a", options: ["as-needed"], parser: parser("identifer-type") },
     { code: "(a): T => a", options: ["as-needed"], parser: parser("return-type") },
+    { code: "<T extends Array>(param: T) => { return param }", options: ["as-needed"], parser: parser("generic-param") },
+    { code: "<T extends Object>(): T => { return 1 }", options: ["as-needed"], parser: parser("generic-no-params") },
 
     // "as-needed", { "requireForBlockBody": true }
     { code: "() => {}", options: ["as-needed", { requireForBlockBody: true }] },
