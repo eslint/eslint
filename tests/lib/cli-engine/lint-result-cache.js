@@ -121,19 +121,17 @@ describe("LintResultCache", () => {
         });
 
         describe("when calculating the hashing", () => {
-            const calculateHash = sinon.stub();
-
             it("contains eslint version during hashing", () => {
                 const version = "eslint-=-version";
                 const NewLintResultCache = proxyquire("../../../lib/cli-engine/lint-result-cache.js", {
                     "../../package.json": { version },
-                    "./hash": calculateHash
+                    "./hash": hashStub
                 });
                 const newLintResultCache = new NewLintResultCache(cacheFileLocation);
 
                 newLintResultCache.getCachedLintResults(filePath, fakeConfig);
-                assert.ok(calculateHash.calledOnce);
-                assert.ok(calculateHash.calledWithMatch(version));
+                assert.ok(hashStub.calledOnce);
+                assert.ok(hashStub.calledWithMatch(version));
             });
 
             it("contains node version during hashing", () => {
@@ -141,13 +139,13 @@ describe("LintResultCache", () => {
 
                 sinon.stub(process, "version").value(version);
                 const NewLintResultCache = proxyquire("../../../lib/cli-engine/lint-result-cache.js", {
-                    "./hash": calculateHash
+                    "./hash": hashStub
                 });
                 const newLintResultCache = new NewLintResultCache(cacheFileLocation);
 
                 newLintResultCache.getCachedLintResults(filePath, fakeConfig);
-                assert.ok(calculateHash.calledOnce);
-                assert.ok(calculateHash.calledWithMatch("version"));
+                assert.ok(hashStub.calledOnce);
+                assert.ok(hashStub.calledWithMatch(version));
             });
         });
 
