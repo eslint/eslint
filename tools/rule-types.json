@@ -88,6 +88,7 @@
     "no-console": "suggestion",
     "no-const-assign": "problem",
     "no-constant-condition": "problem",
+    "no-constructor-return": "problem",
     "no-continue": "suggestion",
     "no-control-regex": "problem",
     "no-debugger": "problem",
