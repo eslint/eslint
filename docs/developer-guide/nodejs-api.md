@@ -901,7 +901,6 @@ If a valid test case only uses the `code` property, it can optionally be provide
 Suggestions can be tested by defining a `suggestions` key on an errors object. The options to check for the suggestions are the following (all are optional):
     * `desc` (string): The suggestion `desc` value
     * `messageId` (string): The suggestion `messageId` value for suggestions that use `messageId`s
-    * `fix` (object): An object matching the suggestion `fix` object output with fields `text` and `range`
     * `output` (string): A code string representing the result of applying the suggestion fix to the input code
 
 Example:
@@ -915,8 +914,7 @@ ruleTester.run("my-rule-for-no-foo", rule, {
             suggestions: [{
                 desc: "Rename identifier 'foo' to 'bar'",
                 messageId: "renameFoo",
-                output: "var bar;",
-                fix: { text: "bar", range: [4, 7] }
+                output: "var bar;"
             }]
         }]
     }]

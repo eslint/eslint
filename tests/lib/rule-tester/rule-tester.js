@@ -970,8 +970,7 @@ describe("RuleTester", () => {
                     errors: [{
                         suggestions: [{
                             desc: "Rename identifier 'foo' to 'bar'",
-                            output: "var bar;",
-                            fix: { text: "bar", range: [4, 7] }
+                            output: "var bar;"
                         }]
                     }]
                 }]
