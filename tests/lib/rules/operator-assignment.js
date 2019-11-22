@@ -72,7 +72,19 @@ ruleTester.run("operator-assignment", rule, {
             options: ["never"]
         },
         "x = y ** x",
-        "x = x * y + z"
+        "x = x * y + z",
+        {
+            code: "this.x = this.y + z",
+            options: ["always"]
+        },
+        {
+            code: "this.x = foo.x + y",
+            options: ["always"]
+        },
+        {
+            code: "this.x = foo.this.x + y",
+            options: ["always"]
+        }
     ],
 
     invalid: [{
@@ -170,6 +182,15 @@ ruleTester.run("operator-assignment", rule, {
         options: ["never"],
         errors: UNEXPECTED_OPERATOR_ASSIGNMENT
     }, {
+        code: "this.foo = this.foo + bar",
+        output: "this.foo += bar",
+        errors: EXPECTED_OPERATOR_ASSIGNMENT
+    }, {
+        code: "this.foo += bar",
+        output: "this.foo = this.foo + bar",
+        options: ["never"],
+        errors: UNEXPECTED_OPERATOR_ASSIGNMENT
+    }, {
         code: "foo.bar.baz = foo.bar.baz + qux",
         output: null, // not fixed; fixing would cause a foo.bar getter to activate once rather than twice
         errors: EXPECTED_OPERATOR_ASSIGNMENT
@@ -179,8 +200,21 @@ ruleTester.run("operator-assignment", rule, {
         options: ["never"],
         errors: UNEXPECTED_OPERATOR_ASSIGNMENT
     }, {
+        code: "this.foo.bar = this.foo.bar + baz",
+        output: null, // not fixed; fixing would cause a this.foo getter to activate once rather than twice
+        errors: EXPECTED_OPERATOR_ASSIGNMENT
+    }, {
+        code: "this.foo.bar += baz",
+        output: null, // not fixed; fixing would cause a this.foo getter to activate twice rather than once
+        options: ["never"],
+        errors: UNEXPECTED_OPERATOR_ASSIGNMENT
+    }, {
         code: "foo[bar] = foo[bar] + baz",
         output: null, // not fixed; fixing would cause bar.toString() to get called once instead of twice
+        errors: EXPECTED_OPERATOR_ASSIGNMENT
+    }, {
+        code: "this[foo] = this[foo] + bar",
+        output: null, // not fixed; fixing would cause foo.toString() to get called once instead of twice
         errors: EXPECTED_OPERATOR_ASSIGNMENT
     }, {
         code: "foo[bar] >>>= baz",
@@ -188,8 +222,17 @@ ruleTester.run("operator-assignment", rule, {
         options: ["never"],
         errors: UNEXPECTED_OPERATOR_ASSIGNMENT
     }, {
+        code: "this[foo] >>>= bar",
+        output: null, // not fixed; fixing would cause foo.toString() to get called twice instead of once
+        options: ["never"],
+        errors: UNEXPECTED_OPERATOR_ASSIGNMENT
+    }, {
         code: "foo[5] = foo[5] / baz",
         output: "foo[5] /= baz", // this is ok because 5 is a literal, so toString won't get called
+        errors: EXPECTED_OPERATOR_ASSIGNMENT
+    }, {
+        code: "this[5] = this[5] / foo",
+        output: "this[5] /= foo", // this is ok because 5 is a literal, so toString won't get called
         errors: EXPECTED_OPERATOR_ASSIGNMENT
     }, {
         code: "/*1*/x/*2*/./*3*/y/*4*/= x.y +/*5*/z/*6*/./*7*/w/*8*/;",
