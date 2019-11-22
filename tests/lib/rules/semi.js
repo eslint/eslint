@@ -233,7 +233,7 @@ ruleTester.run("semi", rule, {
         }
     ],
     invalid: [
-        { code: "import * as utils from './utils'", output: "import * as utils from './utils';", parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ImportDeclaration", column: 33 }] },
+        { code: "import * as utils from './utils'", output: "import * as utils from './utils';", parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ImportDeclaration", column: 33, endLine: void 0, endColumn: void 0 }] },
         { code: "import { square, diag } from 'lib'", output: "import { square, diag } from 'lib';", parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ImportDeclaration" }] },
         { code: "import { default as foo } from 'lib'", output: "import { default as foo } from 'lib';", parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ImportDeclaration" }] },
         { code: "import 'src/mylib'", output: "import 'src/mylib';", parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ImportDeclaration" }] },
@@ -245,7 +245,9 @@ ruleTester.run("semi", rule, {
         { code: "var x = 5", output: "var x = 5;", errors: [{ message: "Missing semicolon.", type: "VariableDeclaration" }] },
         { code: "var x = 5, y", output: "var x = 5, y;", errors: [{ message: "Missing semicolon.", type: "VariableDeclaration" }] },
         { code: "debugger", output: "debugger;", errors: [{ message: "Missing semicolon.", type: "DebuggerStatement" }] },
-        { code: "foo()", output: "foo();", errors: [{ message: "Missing semicolon.", type: "ExpressionStatement" }] },
+        { code: "foo()", output: "foo();", errors: [{ message: "Missing semicolon.", type: "ExpressionStatement", column: 6, endColumn: void 0 }] },
+        { code: "foo()\n", output: "foo();\n", errors: [{ message: "Missing semicolon.", type: "ExpressionStatement", column: 6, endLine: 2, endColumn: 1 }] },
+        { code: "foo()\nbar();", output: "foo();\nbar();", errors: [{ message: "Missing semicolon.", type: "ExpressionStatement", column: 6, endLine: 2, endColumn: 1 }] },
         { code: "for (var a in b) var i ", output: "for (var a in b) var i; ", errors: [{ message: "Missing semicolon.", type: "VariableDeclaration" }] },
         { code: "for (;;){var i}", output: "for (;;){var i;}", errors: [{ message: "Missing semicolon.", type: "VariableDeclaration" }] },
         { code: "for (;;) var i ", output: "for (;;) var i; ", errors: [{ message: "Missing semicolon.", type: "VariableDeclaration" }] },
@@ -254,6 +256,9 @@ ruleTester.run("semi", rule, {
         { code: "var foo\nvar bar;", output: "var foo;\nvar bar;", errors: [{ message: "Missing semicolon.", type: "VariableDeclaration", line: 1 }] },
         { code: "throw new Error('foo')", output: "throw new Error('foo');", errors: [{ message: "Missing semicolon.", type: "ThrowStatement", line: 1 }] },
         { code: "do{}while(true)", output: "do{}while(true);", errors: [{ message: "Missing semicolon.", type: "DoWhileStatement", line: 1 }] },
+        { code: "if (foo) {bar()}", output: "if (foo) {bar();}", errors: [{ message: "Missing semicolon.", column: 16, endColumn: 17 }] },
+        { code: "if (foo) {bar()} ", output: "if (foo) {bar();} ", errors: [{ message: "Missing semicolon.", column: 16, endColumn: 17 }] },
+        { code: "if (foo) {bar()\n}", output: "if (foo) {bar();\n}", errors: [{ message: "Missing semicolon.", column: 16, endLine: 2, endColumn: 1 }] },
 
         { code: "throw new Error('foo');", output: "throw new Error('foo')", options: ["never"], errors: [{ message: "Extra semicolon.", type: "ThrowStatement", column: 23 }] },
         { code: "function foo() { return []; }", output: "function foo() { return [] }", options: ["never"], errors: [{ message: "Extra semicolon.", type: "ReturnStatement" }] },
@@ -291,7 +296,7 @@ ruleTester.run("semi", rule, {
         { code: "export default foo += 42", output: "export default foo += 42;", parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "Missing semicolon.", type: "ExportDefaultDeclaration" }] },
 
         // exports, "never"
-        { code: "export * from 'foo';", output: "export * from 'foo'", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "ExportAllDeclaration" }] },
+        { code: "export * from 'foo';", output: "export * from 'foo'", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "ExportAllDeclaration", column: 20, endColumn: 21 }] },
         { code: "export { foo } from 'foo';", output: "export { foo } from 'foo'", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "ExportNamedDeclaration" }] },
         { code: "var foo = 0;export { foo };", output: "var foo = 0;export { foo }", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "ExportNamedDeclaration" }] },
         { code: "export var foo;", output: "export var foo", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "VariableDeclaration" }] },
@@ -301,7 +306,7 @@ ruleTester.run("semi", rule, {
         { code: "export default (foo) => foo.bar();", output: "export default (foo) => foo.bar()", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "ExportDefaultDeclaration" }] },
         { code: "export default foo = 42;", output: "export default foo = 42", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "ExportDefaultDeclaration" }] },
         { code: "export default foo += 42;", output: "export default foo += 42", options: ["never"], parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "Extra semicolon.", type: "ExportDefaultDeclaration" }] },
-        { code: "a;\n++b", output: "a\n++b", options: ["never"], errors: [{ message: "Extra semicolon." }] },
+        { code: "a;\n++b", output: "a\n++b", options: ["never"], errors: [{ message: "Extra semicolon.", column: 2, endColumn: 3 }] },
 
         // https://github.com/eslint/eslint/issues/7928
         {

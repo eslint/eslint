@@ -3195,6 +3195,58 @@ describe("Linter", () => {
         });
     });
 
+    describe("when receiving cwd in options during instantiation", () => {
+        const code = "a;\nb;";
+        const config = { rules: { checker: "error" } };
+
+        it("should get cwd correctly in the context", () => {
+            const cwd = "cwd";
+            const linterWithOption = new Linter({ cwd });
+            let spy;
+
+            linterWithOption.defineRule("checker", context => {
+                spy = sinon.spy(() => {
+                    assert.strictEqual(context.getCwd(), cwd);
+                });
+                return { Program: spy };
+            });
+
+            linterWithOption.verify(code, config);
+            assert(spy && spy.calledOnce);
+        });
+
+        it("should assign process.cwd() to it if cwd is undefined", () => {
+            let spy;
+            const linterWithOption = new Linter({ });
+
+            linterWithOption.defineRule("checker", context => {
+
+                spy = sinon.spy(() => {
+                    assert.strictEqual(context.getCwd(), process.cwd());
+                });
+                return { Program: spy };
+            });
+
+            linterWithOption.verify(code, config);
+            assert(spy && spy.calledOnce);
+        });
+
+        it("should assign process.cwd() to it if the option is undefined", () => {
+            let spy;
+
+            linter.defineRule("checker", context => {
+
+                spy = sinon.spy(() => {
+                    assert.strictEqual(context.getCwd(), process.cwd());
+                });
+                return { Program: spy };
+            });
+
+            linter.verify(code, config);
+            assert(spy && spy.calledOnce);
+        });
+    });
+
     describe("reportUnusedDisable option", () => {
         it("reports problems for unused eslint-disable comments", () => {
             assert.deepStrictEqual(
@@ -4299,6 +4351,86 @@ describe("Linter", () => {
         });
     });
 
+    describe("suggestions", () => {
+        it("provides suggestion information for tools to use", () => {
+            linter.defineRule("rule-with-suggestions", context => ({
+                Program(node) {
+                    context.report({
+                        node,
+                        message: "Incorrect spacing",
+                        suggest: [{
+                            desc: "Insert space at the beginning",
+                            fix: fixer => fixer.insertTextBefore(node, " ")
+                        }, {
+                            desc: "Insert space at the end",
+                            fix: fixer => fixer.insertTextAfter(node, " ")
+                        }]
+                    });
+                }
+            }));
+
+            const messages = linter.verify("var a = 1;", { rules: { "rule-with-suggestions": "error" } });
+
+            assert.deepStrictEqual(messages[0].suggestions, [{
+                desc: "Insert space at the beginning",
+                fix: {
+                    range: [0, 0],
+                    text: " "
+                }
+            }, {
+                desc: "Insert space at the end",
+                fix: {
+                    range: [10, 10],
+                    text: " "
+                }
+            }]);
+        });
+
+        it("supports messageIds for suggestions", () => {
+            linter.defineRule("rule-with-suggestions", {
+                meta: {
+                    messages: {
+                        suggestion1: "Insert space at the beginning",
+                        suggestion2: "Insert space at the end"
+                    }
+                },
+                create: context => ({
+                    Program(node) {
+                        context.report({
+                            node,
+                            message: "Incorrect spacing",
+                            suggest: [{
+                                messageId: "suggestion1",
+                                fix: fixer => fixer.insertTextBefore(node, " ")
+                            }, {
+                                messageId: "suggestion2",
+                                fix: fixer => fixer.insertTextAfter(node, " ")
+                            }]
+                        });
+                    }
+                })
+            });
+
+            const messages = linter.verify("var a = 1;", { rules: { "rule-with-suggestions": "error" } });
+
+            assert.deepStrictEqual(messages[0].suggestions, [{
+                messageId: "suggestion1",
+                desc: "Insert space at the beginning",
+                fix: {
+                    range: [0, 0],
+                    text: " "
+                }
+            }, {
+                messageId: "suggestion2",
+                desc: "Insert space at the end",
+                fix: {
+                    range: [10, 10],
+                    text: " "
+                }
+            }]);
+        });
+    });
+
     describe("mutability", () => {
         let linter1 = null;
         let linter2 = null;
@@ -4548,6 +4680,19 @@ describe("Linter", () => {
                 messages: [],
                 output: "var a;"
             });
+        });
+
+        it("does not include suggestions in autofix results", () => {
+            const fixResult = linter.verifyAndFix("var foo = /\\#/", {
+                rules: {
+                    semi: 2,
+                    "no-useless-escape": 2
+                }
+            });
+
+            assert.strictEqual(fixResult.output, "var foo = /\\#/;");
+            assert.strictEqual(fixResult.fixed, true);
+            assert.strictEqual(fixResult.messages[0].suggestions.length > 0, true);
         });
 
         it("does not apply autofixes when fix argument is `false`", () => {

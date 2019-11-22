@@ -829,6 +829,42 @@ describe("ast-utils", () => {
         });
     });
 
+    describe("getNextLocation", () => {
+        const code = "foo;\n";
+        const ast = espree.parse(code, ESPREE_CONFIG);
+        const sourceCode = new SourceCode(code, ast);
+
+        it("should handle normal case", () => {
+            assert.deepStrictEqual(
+                astUtils.getNextLocation(
+                    sourceCode,
+                    { line: 1, column: 0 }
+                ),
+                { line: 1, column: 1 }
+            );
+        });
+
+        it("should handle linebreaks", () => {
+            assert.deepStrictEqual(
+                astUtils.getNextLocation(
+                    sourceCode,
+                    { line: 1, column: 4 }
+                ),
+                { line: 2, column: 0 }
+            );
+        });
+
+        it("should return null when result is out of bound", () => {
+            assert.strictEqual(
+                astUtils.getNextLocation(
+                    sourceCode,
+                    { line: 2, column: 0 }
+                ),
+                null
+            );
+        });
+    });
+
     describe("getParenthesisedText", () => {
         const expectedResults = {
             "(((foo))); bar;": "(((foo)))",

@@ -127,163 +127,851 @@ ruleTester.run("no-useless-escape", rule, {
     ],
 
     invalid: [
-        { code: "var foo = /\\#/;", errors: [{ line: 1, column: 12, endColumn: 13, message: "Unnecessary escape character: \\#.", type: "Literal" }] },
-        { code: "var foo = /\\;/;", errors: [{ line: 1, column: 12, endColumn: 13, message: "Unnecessary escape character: \\;.", type: "Literal" }] },
-        { code: "var foo = \"\\'\";", errors: [{ line: 1, column: 12, endColumn: 13, message: "Unnecessary escape character: \\'.", type: "Literal" }] },
-        { code: "var foo = \"\\#/\";", errors: [{ line: 1, column: 12, endColumn: 13, message: "Unnecessary escape character: \\#.", type: "Literal" }] },
-        { code: "var foo = \"\\a\"", errors: [{ line: 1, column: 12, endColumn: 13, message: "Unnecessary escape character: \\a.", type: "Literal" }] },
-        { code: "var foo = \"\\B\";", errors: [{ line: 1, column: 12, endColumn: 13, message: "Unnecessary escape character: \\B.", type: "Literal" }] },
-        { code: "var foo = \"\\@\";", errors: [{ line: 1, column: 12, endColumn: 13, message: "Unnecessary escape character: \\@.", type: "Literal" }] },
-        { code: "var foo = \"foo \\a bar\";", errors: [{ line: 1, column: 16, endColumn: 17, message: "Unnecessary escape character: \\a.", type: "Literal" }] },
-        { code: "var foo = '\\\"';", errors: [{ line: 1, column: 12, endColumn: 13, message: "Unnecessary escape character: \\\".", type: "Literal" }] },
-        { code: "var foo = '\\#';", errors: [{ line: 1, column: 12, endColumn: 13, message: "Unnecessary escape character: \\#.", type: "Literal" }] },
-        { code: "var foo = '\\$';", errors: [{ line: 1, column: 12, endColumn: 13, message: "Unnecessary escape character: \\$.", type: "Literal" }] },
-        { code: "var foo = '\\p';", errors: [{ line: 1, column: 12, endColumn: 13, message: "Unnecessary escape character: \\p.", type: "Literal" }] },
+        {
+            code: "var foo = /\\#/;",
+            errors: [{
+                line: 1,
+                column: 12,
+                endColumn: 13,
+                message: "Unnecessary escape character: \\#.",
+                type: "Literal",
+                suggestions: [{
+                    messageId: "removeEscape",
+                    output: "var foo = /#/;"
+                }, {
+                    messageId: "escapeBackslash",
+                    output: "var foo = /\\\\#/;"
+                }]
+            }]
+        },
+        {
+            code: "var foo = /\\;/;",
+            errors: [{
+                line: 1,
+                column: 12,
+                endColumn: 13,
+                message: "Unnecessary escape character: \\;.",
+                type: "Literal",
+                suggestions: [{
+                    messageId: "removeEscape",
+                    output: "var foo = /;/;"
+                }, {
+                    messageId: "escapeBackslash",
+                    output: "var foo = /\\\\;/;"
+                }]
+            }]
+        },
+        {
+            code: "var foo = \"\\'\";",
+            errors: [{
+                line: 1,
+                column: 12,
+                endColumn: 13,
+                message: "Unnecessary escape character: \\'.",
+                type: "Literal",
+                suggestions: [{
+                    messageId: "removeEscape",
+                    output: "var foo = \"'\";"
+                }, {
+                    messageId: "escapeBackslash",
+                    output: "var foo = \"\\\\'\";"
+                }]
+            }]
+        },
+        {
+            code: "var foo = \"\\#/\";",
+            errors: [{
+                line: 1,
+                column: 12,
+                endColumn: 13,
+                message: "Unnecessary escape character: \\#.",
+                type: "Literal",
+                suggestions: [{
+                    messageId: "removeEscape",
+                    output: "var foo = \"#/\";"
+                }, {
+                    messageId: "escapeBackslash",
+                    output: "var foo = \"\\\\#/\";"
+                }]
+            }]
+        },
+        {
+            code: "var foo = \"\\a\"",
+            errors: [{
+                line: 1,
+                column: 12,
+                endColumn: 13,
+                message: "Unnecessary escape character: \\a.",
+                type: "Literal",
+                suggestions: [{
+                    messageId: "removeEscape",
+                    output: "var foo = \"a\""
+                }, {
+                    messageId: "escapeBackslash",
+                    output: "var foo = \"\\\\a\""
+                }]
+            }]
+        },
+        {
+            code: "var foo = \"\\B\";",
+            errors: [{
+                line: 1,
+                column: 12,
+                endColumn: 13,
+                message: "Unnecessary escape character: \\B.",
+                type: "Literal",
+                suggestions: [{
+                    messageId: "removeEscape",
+                    output: "var foo = \"B\";"
+                }, {
+                    messageId: "escapeBackslash",
+                    output: "var foo = \"\\\\B\";"
+                }]
+            }]
+        },
+        {
+            code: "var foo = \"\\@\";",
+            errors: [{
+                line: 1,
+                column: 12,
+                endColumn: 13,
+                message: "Unnecessary escape character: \\@.",
+                type: "Literal",
+                suggestions: [{
+                    messageId: "removeEscape",
+                    output: "var foo = \"@\";"
+                }, {
+                    messageId: "escapeBackslash",
+                    output: "var foo = \"\\\\@\";"
+                }]
+            }]
+        },
+        {
+            code: "var foo = \"foo \\a bar\";",
+            errors: [{
+                line: 1,
+                column: 16,
+                endColumn: 17,
+                message: "Unnecessary escape character: \\a.",
+                type: "Literal",
+                suggestions: [{
+                    messageId: "removeEscape",
+                    output: "var foo = \"foo a bar\";"
+                }, {
+                    messageId: "escapeBackslash",
+                    output: "var foo = \"foo \\\\a bar\";"
+                }]
+            }]
+        },
+        {
+            code: "var foo = '\\\"';",
+            errors: [{
+                line: 1,
+                column: 12,
+                endColumn: 13,
+                message: "Unnecessary escape character: \\\".",
+                type: "Literal",
+                suggestions: [{
+                    messageId: "removeEscape",
+                    output: "var foo = '\"';"
+                }, {
+                    messageId: "escapeBackslash",
+                    output: "var foo = '\\\\\"';"
+                }]
+            }]
+        },
+        {
+            code: "var foo = '\\#';",
+            errors: [{
+                line: 1,
+                column: 12,
+                endColumn: 13,
+                message: "Unnecessary escape character: \\#.",
+                type: "Literal",
+                suggestions: [{
+                    messageId: "removeEscape",
+                    output: "var foo = '#';"
+                }, {
+                    messageId: "escapeBackslash",
+                    output: "var foo = '\\\\#';"
+                }]
+            }]
+        },
+        {
+            code: "var foo = '\\$';",
+            errors: [{
+                line: 1,
+                column: 12,
+                endColumn: 13,
+                message: "Unnecessary escape character: \\$.",
+                type: "Literal",
+                suggestions: [{
+                    messageId: "removeEscape",
+                    output: "var foo = '$';"
+                }, {
+                    messageId: "escapeBackslash",
+                    output: "var foo = '\\\\$';"
+                }]
+            }]
+        },
+        {
+            code: "var foo = '\\p';",
+            errors: [{
+                line: 1,
+                column: 12,
+                endColumn: 13,
+                message: "Unnecessary escape character: \\p.",
+                type: "Literal",
+                suggestions: [{
+                    messageId: "removeEscape",
+                    output: "var foo = 'p';"
+                }, {
+                    messageId: "escapeBackslash",
+                    output: "var foo = '\\\\p';"
+                }]
+            }]
+        },
         {
             code: "var foo = '\\p\\a\\@';",
             errors: [
-                { line: 1, column: 12, endColumn: 13, message: "Unnecessary escape character: \\p.", type: "Literal" },
-                { line: 1, column: 14, endColumn: 15, message: "Unnecessary escape character: \\a.", type: "Literal" },
-                { line: 1, column: 16, endColumn: 17, message: "Unnecessary escape character: \\@.", type: "Literal" }
+                {
+                    line: 1,
+                    column: 12,
+                    endColumn: 13,
+                    message: "Unnecessary escape character: \\p.",
+                    type: "Literal",
+                    suggestions: [{
+                        messageId: "removeEscape",
+                        output: "var foo = 'p\\a\\@';"
+                    }, {
+                        messageId: "escapeBackslash",
+                        output: "var foo = '\\\\p\\a\\@';"
+                    }]
+                },
+                {
+                    line: 1,
+                    column: 14,
+                    endColumn: 15,
+                    message: "Unnecessary escape character: \\a.",
+                    type: "Literal",
+                    suggestions: [{
+                        messageId: "removeEscape",
+                        output: "var foo = '\\pa\\@';"
+                    }, {
+                        messageId: "escapeBackslash",
+                        output: "var foo = '\\p\\\\a\\@';"
+                    }]
+                },
+                {
+                    line: 1,
+                    column: 16,
+                    endColumn: 17,
+                    message: "Unnecessary escape character: \\@.",
+                    type: "Literal",
+                    suggestions: [{
+                        messageId: "removeEscape",
+                        output: "var foo = '\\p\\a@';"
+                    }, {
+                        messageId: "escapeBackslash",
+                        output: "var foo = '\\p\\a\\\\@';"
+                    }]
+                }
             ]
         },
         {
             code: "<foo attr={\"\\d\"}/>",
             parserOptions: { ecmaFeatures: { jsx: true } },
-            errors: [{ line: 1, column: 13, endColumn: 14, message: "Unnecessary escape character: \\d.", type: "Literal" }]
+            errors: [{
+                line: 1,
+                column: 13,
+                endColumn: 14,
+                message: "Unnecessary escape character: \\d.",
+                type: "Literal",
+                suggestions: [{
+                    messageId: "removeEscape",
+                    output: "<foo attr={\"d\"}/>"
+                }, {
+                    messageId: "escapeBackslash",
+                    output: "<foo attr={\"\\\\d\"}/>"
+                }]
+            }]
         },
-        { code: "var foo = '\\`';", errors: [{ line: 1, column: 12, endColumn: 13, message: "Unnecessary escape character: \\`.", type: "Literal" }] },
-        { code: "var foo = `\\\"`;", parserOptions: { ecmaVersion: 6 }, errors: [{ line: 1, column: 12, endColumn: 13, message: "Unnecessary escape character: \\\".", type: "TemplateElement" }] },
-        { code: "var foo = `\\'`;", parserOptions: { ecmaVersion: 6 }, errors: [{ line: 1, column: 12, endColumn: 13, message: "Unnecessary escape character: \\'.", type: "TemplateElement" }] },
-        { code: "var foo = `\\#`;", parserOptions: { ecmaVersion: 6 }, errors: [{ line: 1, column: 12, endColumn: 13, message: "Unnecessary escape character: \\#.", type: "TemplateElement" }] },
+        {
+            code: "var foo = '\\`';",
+            errors: [{
+                line: 1,
+                column: 12,
+                endColumn: 13,
+                message: "Unnecessary escape character: \\`.",
+                type: "Literal",
+                suggestions: [{
+                    messageId: "removeEscape",
+                    output: "var foo = '`';"
+                }, {
+                    messageId: "escapeBackslash",
+                    output: "var foo = '\\\\`';"
+                }]
+            }]
+        },
+        {
+            code: "var foo = `\\\"`;",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                line: 1,
+                column: 12,
+                endColumn: 13,
+                message: "Unnecessary escape character: \\\".",
+                type: "TemplateElement",
+                suggestions: [{
+                    messageId: "removeEscape",
+                    output: "var foo = `\"`;"
+                }, {
+                    messageId: "escapeBackslash",
+                    output: "var foo = `\\\\\"`;"
+                }]
+            }]
+        },
+        {
+            code: "var foo = `\\'`;",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                line: 1,
+                column: 12,
+                endColumn: 13,
+                message: "Unnecessary escape character: \\'.",
+                type: "TemplateElement",
+                suggestions: [{
+                    messageId: "removeEscape",
+                    output: "var foo = `'`;"
+                }, {
+                    messageId: "escapeBackslash",
+                    output: "var foo = `\\\\'`;"
+                }]
+            }]
+        },
+        {
+            code: "var foo = `\\#`;",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                line: 1,
+                column: 12,
+                endColumn: 13,
+                message: "Unnecessary escape character: \\#.",
+                type: "TemplateElement",
+                suggestions: [{
+                    messageId: "removeEscape",
+                    output: "var foo = `#`;"
+                }, {
+                    messageId: "escapeBackslash",
+                    output: "var foo = `\\\\#`;"
+                }]
+            }]
+        },
         {
             code: "var foo = '\\`foo\\`';",
             errors: [
-                { line: 1, column: 12, endColumn: 13, message: "Unnecessary escape character: \\`.", type: "Literal" },
-                { line: 1, column: 17, endColumn: 18, message: "Unnecessary escape character: \\`.", type: "Literal" }
+                {
+                    line: 1,
+                    column: 12,
+                    endColumn: 13,
+                    message: "Unnecessary escape character: \\`.",
+                    type: "Literal",
+                    suggestions: [{
+                        messageId: "removeEscape",
+                        output: "var foo = '`foo\\`';"
+                    }, {
+                        messageId: "escapeBackslash",
+                        output: "var foo = '\\\\`foo\\`';"
+                    }]
+                },
+                {
+                    line: 1,
+                    column: 17,
+                    endColumn: 18,
+                    message: "Unnecessary escape character: \\`.",
+                    type: "Literal",
+                    suggestions: [{
+                        messageId: "removeEscape",
+                        output: "var foo = '\\`foo`';"
+                    }, {
+                        messageId: "escapeBackslash",
+                        output: "var foo = '\\`foo\\\\`';"
+                    }]
+                }
             ]
         },
         {
             code: "var foo = `\\\"${foo}\\\"`;",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { line: 1, column: 12, endColumn: 13, message: "Unnecessary escape character: \\\".", type: "TemplateElement" },
-                { line: 1, column: 20, endColumn: 21, message: "Unnecessary escape character: \\\".", type: "TemplateElement" }
+                {
+                    line: 1,
+                    column: 12,
+                    endColumn: 13,
+                    message: "Unnecessary escape character: \\\".",
+                    type: "TemplateElement",
+                    suggestions: [{
+                        messageId: "removeEscape",
+                        output: "var foo = `\"${foo}\\\"`;"
+                    }, {
+                        messageId: "escapeBackslash",
+                        output: "var foo = `\\\\\"${foo}\\\"`;"
+                    }]
+                },
+                {
+                    line: 1,
+                    column: 20,
+                    endColumn: 21,
+                    message: "Unnecessary escape character: \\\".",
+                    type: "TemplateElement",
+                    suggestions: [{
+                        messageId: "removeEscape",
+                        output: "var foo = `\\\"${foo}\"`;"
+                    }, {
+                        messageId: "escapeBackslash",
+                        output: "var foo = `\\\"${foo}\\\\\"`;"
+                    }]
+                }
             ]
         },
         {
             code: "var foo = `\\'${foo}\\'`;",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { line: 1, column: 12, endColumn: 13, message: "Unnecessary escape character: \\'.", type: "TemplateElement" },
-                { line: 1, column: 20, endColumn: 21, message: "Unnecessary escape character: \\'.", type: "TemplateElement" }
+                {
+                    line: 1,
+                    column: 12,
+                    endColumn: 13,
+                    message: "Unnecessary escape character: \\'.",
+                    type: "TemplateElement",
+                    suggestions: [{
+                        messageId: "removeEscape",
+                        output: "var foo = `'${foo}\\'`;"
+                    }, {
+                        messageId: "escapeBackslash",
+                        output: "var foo = `\\\\'${foo}\\'`;"
+                    }]
+                },
+                {
+                    line: 1,
+                    column: 20,
+                    endColumn: 21,
+                    message: "Unnecessary escape character: \\'.",
+                    type: "TemplateElement",
+                    suggestions: [{
+                        messageId: "removeEscape",
+                        output: "var foo = `\\'${foo}'`;"
+                    }, {
+                        messageId: "escapeBackslash",
+                        output: "var foo = `\\'${foo}\\\\'`;"
+                    }]
+                }
             ]
         },
         {
             code: "var foo = `\\#${foo}`;",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ line: 1, column: 12, endColumn: 13, message: "Unnecessary escape character: \\#.", type: "TemplateElement" }]
+            errors: [{
+                line: 1,
+                column: 12,
+                endColumn: 13,
+                message: "Unnecessary escape character: \\#.",
+                type: "TemplateElement",
+                suggestions: [{
+                    messageId: "removeEscape",
+                    output: "var foo = `#${foo}`;"
+                }, {
+                    messageId: "escapeBackslash",
+                    output: "var foo = `\\\\#${foo}`;"
+                }]
+            }]
         },
         {
             code: "let foo = '\\ ';",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ line: 1, column: 12, endColumn: 13, message: "Unnecessary escape character: \\ .", type: "Literal" }]
+            errors: [{
+                line: 1,
+                column: 12,
+                endColumn: 13,
+                message: "Unnecessary escape character: \\ .",
+                type: "Literal",
+                suggestions: [{
+                    messageId: "removeEscape",
+                    output: "let foo = ' ';"
+                }, {
+                    messageId: "escapeBackslash",
+                    output: "let foo = '\\\\ ';"
+                }]
+            }]
         },
         {
             code: "let foo = /\\ /;",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ line: 1, column: 12, endColumn: 13, message: "Unnecessary escape character: \\ .", type: "Literal" }]
+            errors: [{
+                line: 1,
+                column: 12,
+                endColumn: 13,
+                message: "Unnecessary escape character: \\ .",
+                type: "Literal",
+                suggestions: [{
+                    messageId: "removeEscape",
+                    output: "let foo = / /;"
+                }, {
+                    messageId: "escapeBackslash",
+                    output: "let foo = /\\\\ /;"
+                }]
+            }]
         },
         {
             code: "var foo = `\\$\\{{${foo}`;",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { line: 1, column: 12, endColumn: 13, message: "Unnecessary escape character: \\$.", type: "TemplateElement" }
+                {
+                    line: 1,
+                    column: 12,
+                    endColumn: 13,
+                    message: "Unnecessary escape character: \\$.",
+                    type: "TemplateElement",
+                    suggestions: [{
+                        messageId: "removeEscape",
+                        output: "var foo = `$\\{{${foo}`;"
+                    }, {
+                        messageId: "escapeBackslash",
+                        output: "var foo = `\\\\$\\{{${foo}`;"
+                    }]
+                }
             ]
         },
         {
             code: "var foo = `\\$a${foo}`;",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { line: 1, column: 12, endColumn: 13, message: "Unnecessary escape character: \\$.", type: "TemplateElement" }
+                {
+                    line: 1,
+                    column: 12,
+                    endColumn: 13,
+                    message: "Unnecessary escape character: \\$.",
+                    type: "TemplateElement",
+                    suggestions: [{
+                        messageId: "removeEscape",
+                        output: "var foo = `$a${foo}`;"
+                    }, {
+                        messageId: "escapeBackslash",
+                        output: "var foo = `\\\\$a${foo}`;"
+                    }]
+                }
             ]
         },
         {
             code: "var foo = `a\\{{${foo}`;",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { line: 1, column: 13, endColumn: 14, message: "Unnecessary escape character: \\{.", type: "TemplateElement" }
+                {
+                    line: 1,
+                    column: 13,
+                    endColumn: 14,
+                    message: "Unnecessary escape character: \\{.",
+                    type: "TemplateElement",
+                    suggestions: [{
+                        messageId: "removeEscape",
+                        output: "var foo = `a{{${foo}`;"
+                    }, {
+                        messageId: "escapeBackslash",
+                        output: "var foo = `a\\\\{{${foo}`;"
+                    }]
+                }
             ]
         },
         {
             code: String.raw`var foo = /[ab\-]/`,
-            errors: [{ line: 1, column: 15, endColumn: 16, message: "Unnecessary escape character: \\-.", type: "Literal" }]
+            errors: [{
+                line: 1,
+                column: 15,
+                endColumn: 16,
+                message: "Unnecessary escape character: \\-.",
+                type: "Literal",
+                suggestions: [{
+                    messageId: "removeEscape",
+                    output: String.raw`var foo = /[ab-]/`
+                }, {
+                    messageId: "escapeBackslash",
+                    output: String.raw`var foo = /[ab\\-]/`
+                }]
+            }]
         },
         {
             code: String.raw`var foo = /[\-ab]/`,
-            errors: [{ line: 1, column: 13, endColumn: 14, message: "Unnecessary escape character: \\-.", type: "Literal" }]
+            errors: [{
+                line: 1,
+                column: 13,
+                endColumn: 14,
+                message: "Unnecessary escape character: \\-.",
+                type: "Literal",
+                suggestions: [{
+                    messageId: "removeEscape",
+                    output: String.raw`var foo = /[-ab]/`
+                }, {
+                    messageId: "escapeBackslash",
+                    output: String.raw`var foo = /[\\-ab]/`
+                }]
+            }]
         },
         {
             code: String.raw`var foo = /[ab\?]/`,
-            errors: [{ line: 1, column: 15, endColumn: 16, message: "Unnecessary escape character: \\?.", type: "Literal" }]
+            errors: [{
+                line: 1,
+                column: 15,
+                endColumn: 16,
+                message: "Unnecessary escape character: \\?.",
+                type: "Literal",
+                suggestions: [{
+                    messageId: "removeEscape",
+                    output: String.raw`var foo = /[ab?]/`
+                }, {
+                    messageId: "escapeBackslash",
+                    output: String.raw`var foo = /[ab\\?]/`
+                }]
+            }]
         },
         {
             code: String.raw`var foo = /[ab\.]/`,
-            errors: [{ line: 1, column: 15, endColumn: 16, message: "Unnecessary escape character: \\..", type: "Literal" }]
+            errors: [{
+                line: 1,
+                column: 15,
+                endColumn: 16,
+                message: "Unnecessary escape character: \\..",
+                type: "Literal",
+                suggestions: [{
+                    messageId: "removeEscape",
+                    output: String.raw`var foo = /[ab.]/`
+                }, {
+                    messageId: "escapeBackslash",
+                    output: String.raw`var foo = /[ab\\.]/`
+                }]
+            }]
         },
         {
             code: String.raw`var foo = /[a\|b]/`,
-            errors: [{ line: 1, column: 14, endColumn: 15, message: "Unnecessary escape character: \\|.", type: "Literal" }]
+            errors: [{
+                line: 1,
+                column: 14,
+                endColumn: 15,
+                message: "Unnecessary escape character: \\|.",
+                type: "Literal",
+                suggestions: [{
+                    messageId: "removeEscape",
+                    output: String.raw`var foo = /[a|b]/`
+                }, {
+                    messageId: "escapeBackslash",
+                    output: String.raw`var foo = /[a\\|b]/`
+                }]
+            }]
         },
         {
             code: String.raw`var foo = /\-/`,
-            errors: [{ line: 1, column: 12, endColumn: 13, message: "Unnecessary escape character: \\-.", type: "Literal" }]
+            errors: [{
+                line: 1,
+                column: 12,
+                endColumn: 13,
+                message: "Unnecessary escape character: \\-.",
+                type: "Literal",
+                suggestions: [{
+                    messageId: "removeEscape",
+                    output: String.raw`var foo = /-/`
+                }, {
+                    messageId: "escapeBackslash",
+                    output: String.raw`var foo = /\\-/`
+                }]
+            }]
         },
         {
             code: String.raw`var foo = /[\-]/`,
-            errors: [{ line: 1, column: 13, endColumn: 14, message: "Unnecessary escape character: \\-.", type: "Literal" }]
+            errors: [{
+                line: 1,
+                column: 13,
+                endColumn: 14,
+                message: "Unnecessary escape character: \\-.",
+                type: "Literal",
+                suggestions: [{
+                    messageId: "removeEscape",
+                    output: String.raw`var foo = /[-]/`
+                }, {
+                    messageId: "escapeBackslash",
+                    output: String.raw`var foo = /[\\-]/`
+                }]
+            }]
         },
         {
             code: String.raw`var foo = /[ab\$]/`,
-            errors: [{ line: 1, column: 15, endColumn: 16, message: "Unnecessary escape character: \\$.", type: "Literal" }]
+            errors: [{
+                line: 1,
+                column: 15,
+                endColumn: 16,
+                message: "Unnecessary escape character: \\$.",
+                type: "Literal",
+                suggestions: [{
+                    messageId: "removeEscape",
+                    output: String.raw`var foo = /[ab$]/`
+                }, {
+                    messageId: "escapeBackslash",
+                    output: String.raw`var foo = /[ab\\$]/`
+                }]
+            }]
         },
         {
             code: String.raw`var foo = /[\(paren]/`,
-            errors: [{ line: 1, column: 13, endColumn: 14, message: "Unnecessary escape character: \\(.", type: "Literal" }]
+            errors: [{
+                line: 1,
+                column: 13,
+                endColumn: 14,
+                message: "Unnecessary escape character: \\(.",
+                type: "Literal",
+                suggestions: [{
+                    messageId: "removeEscape",
+                    output: String.raw`var foo = /[(paren]/`
+                }, {
+                    messageId: "escapeBackslash",
+                    output: String.raw`var foo = /[\\(paren]/`
+                }]
+            }]
         },
         {
             code: String.raw`var foo = /[\[]/`,
-            errors: [{ line: 1, column: 13, endColumn: 14, message: "Unnecessary escape character: \\[.", type: "Literal" }]
+            errors: [{
+                line: 1,
+                column: 13,
+                endColumn: 14,
+                message: "Unnecessary escape character: \\[.",
+                type: "Literal",
+                suggestions: [{
+                    messageId: "removeEscape",
+                    output: String.raw`var foo = /[[]/`
+                }, {
+                    messageId: "escapeBackslash",
+                    output: String.raw`var foo = /[\\[]/`
+                }]
+            }]
         },
         {
             code: String.raw`var foo = /[\/]/`, // A character class containing '/'
-            errors: [{ line: 1, column: 13, endColumn: 14, message: "Unnecessary escape character: \\/.", type: "Literal" }]
+            errors: [{
+                line: 1,
+                column: 13,
+                endColumn: 14,
+                message: "Unnecessary escape character: \\/.",
+                type: "Literal",
+                suggestions: [{
+                    messageId: "removeEscape",
+                    output: String.raw`var foo = /[/]/`
+                }, {
+                    messageId: "escapeBackslash",
+                    output: String.raw`var foo = /[\\/]/`
+                }]
+            }]
         },
         {
             code: String.raw`var foo = /[\B]/`,
-            errors: [{ line: 1, column: 13, endColumn: 14, message: "Unnecessary escape character: \\B.", type: "Literal" }]
+            errors: [{
+                line: 1,
+                column: 13,
+                endColumn: 14,
+                message: "Unnecessary escape character: \\B.",
+                type: "Literal",
+                suggestions: [{
+                    messageId: "removeEscape",
+                    output: String.raw`var foo = /[B]/`
+                }, {
+                    messageId: "escapeBackslash",
+                    output: String.raw`var foo = /[\\B]/`
+                }]
+            }]
         },
         {
             code: String.raw`var foo = /[a][\-b]/`,
-            errors: [{ line: 1, column: 16, endColumn: 17, message: "Unnecessary escape character: \\-.", type: "Literal" }]
+            errors: [{
+                line: 1,
+                column: 16,
+                endColumn: 17,
+                message: "Unnecessary escape character: \\-.",
+                type: "Literal",
+                suggestions: [{
+                    messageId: "removeEscape",
+                    output: String.raw`var foo = /[a][-b]/`
+                }, {
+                    messageId: "escapeBackslash",
+                    output: String.raw`var foo = /[a][\\-b]/`
+                }]
+            }]
         },
         {
             code: String.raw`var foo = /\-[]/`,
-            errors: [{ line: 1, column: 12, endColumn: 13, message: "Unnecessary escape character: \\-.", type: "Literal" }]
+            errors: [{
+                line: 1,
+                column: 12,
+                endColumn: 13,
+                message: "Unnecessary escape character: \\-.",
+                type: "Literal",
+                suggestions: [{
+                    messageId: "removeEscape",
+                    output: String.raw`var foo = /-[]/`
+                }, {
+                    messageId: "escapeBackslash",
+                    output: String.raw`var foo = /\\-[]/`
+                }]
+            }]
         },
         {
             code: String.raw`var foo = /[a\^]/`,
-            errors: [{ line: 1, column: 14, endColumn: 15, message: "Unnecessary escape character: \\^.", type: "Literal" }]
+            errors: [{
+                line: 1,
+                column: 14,
+                endColumn: 15,
+                message: "Unnecessary escape character: \\^.",
+                type: "Literal",
+                suggestions: [{
+                    messageId: "removeEscape",
+                    output: String.raw`var foo = /[a^]/`
+                }, {
+                    messageId: "escapeBackslash",
+                    output: String.raw`var foo = /[a\\^]/`
+                }]
+            }]
         },
         {
             code: "`multiline template\nliteral with useless \\escape`",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ line: 2, column: 22, endColumn: 23, message: "Unnecessary escape character: \\e.", type: "TemplateElement" }]
+            errors: [{
+                line: 2,
+                column: 22,
+                endColumn: 23,
+                message: "Unnecessary escape character: \\e.",
+                type: "TemplateElement",
+                suggestions: [{
+                    messageId: "removeEscape",
+                    output: "`multiline template\nliteral with useless escape`"
+                }, {
+                    messageId: "escapeBackslash",
+                    output: "`multiline template\nliteral with useless \\\\escape`"
+                }]
+            }]
         },
         {
             code: "`\\a```",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ line: 1, column: 2, endColumn: 3, message: "Unnecessary escape character: \\a.", type: "TemplateElement" }]
+            errors: [{
+                line: 1,
+                column: 2,
+                endColumn: 3,
+                message: "Unnecessary escape character: \\a.",
+                type: "TemplateElement",
+                suggestions: [{
+                    messageId: "removeEscape",
+                    output: "`a```"
+                }, {
+                    messageId: "escapeBackslash",
+                    output: "`\\\\a```"
+                }]
+            }]
         }
     ]
 });
