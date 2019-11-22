@@ -108,7 +108,7 @@ The most important method on `Linter` is `verify()`, which initiates linting of 
     * `preprocess` - (optional) A function that [Processors in Plugins](/docs/developer-guide/working-with-plugins.md#processors-in-plugins) documentation describes as the `preprocess` method.
     * `postprocess` - (optional) A function that [Processors in Plugins](/docs/developer-guide/working-with-plugins.md#processors-in-plugins) documentation describes as the `postprocess` method.
     * `filterCodeBlock` - (optional) A function that decides which code blocks the linter should adopt. The function receives two arguments. The first argument is the virtual filename of a code block. The second argument is the text of the code block. If the function returned `true` then the linter adopts the code block. If the function was omitted, the linter adopts only `*.js` code blocks. If you provided a `filterCodeBlock` function, it overrides this default behavior, so the linter doesn't adopt `*.js` code blocks automatically.
-    * `disableFixes` - (optional) when set to `true`, the linter doesn't make the `fix` property of the lint result.
+    * `disableFixes` - (optional) when set to `true`, the linter doesn't make either the `fix` or `suggestions` property of the lint result.
     * `allowInlineConfig` - (optional) set to `false` to disable inline comments from changing ESLint rules.
     * `reportUnusedDisableDirectives` - (optional) when set to `true`, adds reported errors for unused `eslint-disable` directives when no problems would be reported in the disabled area anyway.
 
@@ -170,6 +170,7 @@ The information available for each linting message is:
 * `endColumn` - the end column of the range on which the error occurred (this property is omitted if it's not range).
 * `endLine` - the end line of the range on which the error occurred (this property is omitted if it's not range).
 * `fix` - an object describing the fix for the problem (this property is omitted if no fix is available).
+* `suggestions` - an array of objects describing possible lint fixes for editors to programmatically enable (see details in the [Working with Rules docs](./working-with-rules.md#providing-suggestions)).
 
 Linting message objects have a deprecated `source` property. This property **will be removed** from linting messages in an upcoming breaking release. If you depend on this property, you should now use the `SourceCode` instance provided by the linter.
 
@@ -437,9 +438,23 @@ The return value is an object containing the results of the linting operation. H
                 column: 13,
                 nodeType: "ExpressionStatement",
                 fix: { range: [12, 12], text: ";" }
+            }, {
+                ruleId: "no-useless-escape",
+                severity: 1,
+                message: "disallow unnecessary escape characters",
+                line: 1,
+                column: 10,
+                nodeType: "ExpressionStatement",
+                suggestions: [{
+                    desc: "Remove unnecessary escape. This maintains the current functionality.",
+                    fix: { range: [9, 10], text: "" }
+                }, {
+                    desc: "Escape backslash to include it in the RegExp.",
+                    fix: { range: [9, 9], text: "\\" }
+                }]
             }],
             errorCount: 1,
-            warningCount: 0,
+            warningCount: 1,
             fixableErrorCount: 1,
             fixableWarningCount: 0,
             source: "\"use strict\"\n"
@@ -865,6 +880,7 @@ In addition to the properties above, invalid test cases can also have the follow
     * `column` (number): The 1-based column number of the reported location
     * `endLine` (number): The 1-based line number of the end of the reported location
     * `endColumn` (number): The 1-based column number of the end of the reported location
+    * `suggestions` (array): An array of objects with suggestion details to check. See [Testing Suggestions](#testing-suggestions) for details
 
     If a string is provided as an error instead of an object, the string is used to assert the `message` of the error.
 * `output` (string, optional): Asserts the output that will be produced when using this rule for a single pass of autofixing (e.g. with the `--fix` command line flag). If this is `null`, asserts that none of the reported problems suggest autofixes.
@@ -879,6 +895,31 @@ Any additional properties of a test case will be passed directly to the linter a
 ```
 
 If a valid test case only uses the `code` property, it can optionally be provided as a string containing the code, rather than an object with a `code` key.
+
+#### Testing Suggestions
+
+Suggestions can be tested by defining a `suggestions` key on an errors object. The options to check for the suggestions are the following (all are optional):
+    * `desc` (string): The suggestion `desc` value
+    * `messageId` (string): The suggestion `messageId` value for suggestions that use `messageId`s
+    * `output` (string): A code string representing the result of applying the suggestion fix to the input code
+
+Example:
+
+```js
+ruleTester.run("my-rule-for-no-foo", rule, {
+    valid: [],
+    invalid: [{
+        code: "var foo;",
+        errors: [{
+            suggestions: [{
+                desc: "Rename identifier 'foo' to 'bar'",
+                messageId: "renameFoo",
+                output: "var bar;"
+            }]
+        }]
+    }]
+})
+```
 
 ### Customizing RuleTester
 
