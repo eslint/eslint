@@ -39,6 +39,7 @@
     "generator-star-spacing": "layout",
     "getter-return": "problem",
     "global-require": "suggestion",
+    "grouped-accessor-pairs": "suggestion",
     "guard-for-in": "suggestion",
     "handle-callback-err": "suggestion",
     "id-blacklist": "suggestion",
