@@ -70,7 +70,10 @@ const valid = [
     { code: "async a => ({})", options: ["as-needed", { requireForBlockBody: true }], parserOptions: { ecmaVersion: 8 } },
     { code: "async a => a", options: ["as-needed", { requireForBlockBody: true }], parserOptions: { ecmaVersion: 8 } },
     { code: "(a: T) => a", options: ["as-needed", { requireForBlockBody: true }], parser: parser("identifer-type") },
-    { code: "(a): T => a", options: ["as-needed", { requireForBlockBody: true }], parser: parser("return-type") }
+    { code: "(a): T => a", options: ["as-needed", { requireForBlockBody: true }], parser: parser("return-type") },
+    { code: "<T extends Array>(param: T) => { return param }", options: ["as-needed", { requireForBlockBody: true }], parser: parser("generic-param") },
+    { code: "<T extends Object>(): T => { return 1 }", options: ["as-needed", { requireForBlockBody: true }], parser: parser("generic-no-params") }
+
 ];
 
 const type = "ArrowFunctionExpression";
