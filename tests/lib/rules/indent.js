@@ -5383,6 +5383,60 @@ ruleTester.run("indent", rule, {
                 )
             `,
             parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: unIndent`
+            describe('', () => {
+                test.each\`
+                a    | b
+                \${1} | \${1}
+                \`('$a == $b', ({ a, b }) => {
+                    expect(a).toBe(b);
+                });
+            });
+            `,
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: unIndent`
+                nest(() => {
+                    tag\`
+                    a    | b
+                    \${1} | \${1}
+                    \`('$a == $b', ({ a, b }) => {
+                        expect(a).toBe(b);
+                    });
+                })
+            `,
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: unIndent`
+                nest(() => {
+                    tag\`
+                    a    | b
+                    \${1} | \${1}
+                    \`('$a == $b', ({ a, b }) => {
+                        tag\`
+                        a    | b
+                        \${1} | \${1}
+                        \`('$a == $b', ({ a, b }) => {
+                            test();
+                        });
+                    });
+                })
+            `,
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: unIndent`
+                nest(() => {
+                    tag\`a    | b\${1} | \${1}\`('$a == $b', ({ a, b }) => {
+                        expect(a).toBe(b);
+                    });
+                })
+            `,
+            parserOptions: { ecmaVersion: 2020 }
         }
     ],
 
@@ -10553,6 +10607,59 @@ ruleTester.run("indent", rule, {
             errors: expectedErrors([
                 [2, 4, 0, "Identifier"],
                 [3, 0, 4, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                nest(() => {
+                    tag\`
+                    a    | b
+                    \${1} | \${1}
+                    \`('$a == $b', ({ a, b }) => {
+                    expect(a).toBe(b);
+                    });
+                });
+            `,
+            output: unIndent`
+                nest(() => {
+                    tag\`
+                    a    | b
+                    \${1} | \${1}
+                    \`('$a == $b', ({ a, b }) => {
+                        expect(a).toBe(b);
+                    });
+                });
+            `,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: expectedErrors([
+                [6, 8, 4, "Identifier"]
+            ])
+        },
+        {
+            code: unIndent`
+                nest(() => {
+                    tag\`
+                    a    | b
+                    \${1} | \${1}
+                    \`('$a == $b', ({ a, b }) => {
+                    expect(a).toBe(b);
+                });
+                });
+            `,
+            output: unIndent`
+                nest(() => {
+                    tag\`
+                    a    | b
+                    \${1} | \${1}
+                    \`('$a == $b', ({ a, b }) => {
+                        expect(a).toBe(b);
+                    });
+                });
+            `,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: expectedErrors([
+                [6, 8, 4, "Identifier"],
+                [7, 4, 0, "Punctuator"]
             ])
         }
     ]
