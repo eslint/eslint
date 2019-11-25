@@ -1,3 +1,8 @@
+v6.7.1 - November 24, 2019
+
+* [`dd1e9f4`](https://github.com/eslint/eslint/commit/dd1e9f4df2103c43509a54b0ad5f9106557997f9) Fix: revert changes to key-spacing due to regression (#12598) (Kai Cataldo)
+* [`c644b54`](https://github.com/eslint/eslint/commit/c644b5429e5bc8a050afd70c99ec82035eb611fa) Docs: Update README team and sponsors (ESLint Jenkins)
+
 v6.7.0 - November 22, 2019
 
 * [`312a88f`](https://github.com/eslint/eslint/commit/312a88f2230082d898b7d8d82f8af63cb352e55a) New: Add grouped-accessor-pairs rule (fixes #12277) (#12331) (Milos Djermanovic)
