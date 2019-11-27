@@ -54,8 +54,42 @@ Examples of **incorrect** code for this rule:
 /*eslint no-void: "error"*/
 
 void foo
+void someFunction();
 
 var foo = void bar();
+function baz() {
+    return void 0;
+}
+```
+
+## Options
+
+This rule has an object option:
+
+* `allowAsStatement` set to `true` allows the void operator to be used as a statement (Default `false`).
+
+### allowAsStatement
+
+When `allowAsStatement` is set to true, the rule will not error on cases that the void operator is used as a statement, i.e. when it's not used in an expression position, like in a variable assignment or a function return.
+
+Examples of **incorrect** code for `{ "allowAsStatement": true }`:
+
+```js
+/*eslint no-void: ["error", { "allowAsStatement": true }]*/
+
+var foo = void bar();
+function baz() {
+    return void 0;
+}
+```
+
+Examples of **correct** code for `{ "allowAsStatement": true }`:
+
+```js
+/*eslint no-void: ["error", { "allowAsStatement": true }]*/
+
+void foo;
+void someFunction();
 ```
 
 ## When Not To Use It
