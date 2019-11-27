@@ -17,27 +17,6 @@ const rule = require("../../../lib/rules/no-unsafe-negation"),
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester();
-const unexpectedInError = { messageId: "unexpected", data: { operator: "in" } };
-const unexpectedInstanceofError = {
-    messageId: "unexpected",
-    data: { operator: "instanceof" }
-};
-const unexpectedLessThanOperatorError = {
-    messageId: "unexpected",
-    data: { operator: "<" }
-};
-const unexpectedMoreThanOperatorError = {
-    messageId: "unexpected",
-    data: { operator: ">" }
-};
-const unexpectedMoreThanOrEqualOperatorError = {
-    messageId: "unexpected",
-    data: { operator: ">=" }
-};
-const unexpectedLessThanOrEqualOperatorError = {
-    messageId: "unexpected",
-    data: { operator: "<=" }
-};
 
 ruleTester.run("no-unsafe-negation", rule, {
     valid: [
@@ -83,52 +62,194 @@ ruleTester.run("no-unsafe-negation", rule, {
     invalid: [
         {
             code: "!a in b",
-            errors: [unexpectedInError]
+            errors: [{
+                message: "Unexpected negating the left operand of 'in' operator.",
+                suggestions: [
+                    {
+                        desc: "Negate 'in' expression instead of its left operand. This changes the current behavior.",
+                        output: "!(a in b)"
+                    },
+                    {
+                        desc: "Wrap negation in '()' to make the intention explicit. This preserves the current behavior.",
+                        output: "(!a) in b"
+                    }
+                ]
+            }]
         },
         {
             code: "(!a in b)",
-            errors: [unexpectedInError]
+            errors: [{
+                messageId: "unexpected",
+                data: { operator: "in" },
+                suggestions: [
+                    {
+                        messageId: "suggestNegatedExpression",
+                        output: "(!(a in b))"
+                    },
+                    {
+                        messageId: "suggestParenthesisedNegation",
+                        output: "((!a) in b)"
+                    }
+                ]
+            }]
         },
         {
             code: "!(a) in b",
-            errors: [unexpectedInError]
+            errors: [{
+                messageId: "unexpected",
+                data: { operator: "in" },
+                suggestions: [
+                    {
+                        messageId: "suggestNegatedExpression",
+                        output: "!((a) in b)"
+                    },
+                    {
+                        messageId: "suggestParenthesisedNegation",
+                        output: "(!(a)) in b"
+                    }
+                ]
+            }]
         },
         {
             code: "!a instanceof b",
-            errors: [unexpectedInstanceofError]
+            errors: [{
+                messageId: "unexpected",
+                data: { operator: "instanceof" },
+                suggestions: [
+                    {
+                        messageId: "suggestNegatedExpression",
+                        output: "!(a instanceof b)"
+                    },
+                    {
+                        messageId: "suggestParenthesisedNegation",
+                        output: "(!a) instanceof b"
+                    }
+                ]
+            }]
         },
         {
             code: "(!a instanceof b)",
-            errors: [unexpectedInstanceofError]
+            errors: [{
+                messageId: "unexpected",
+                data: { operator: "instanceof" },
+                suggestions: [
+                    {
+                        messageId: "suggestNegatedExpression",
+                        output: "(!(a instanceof b))"
+                    },
+                    {
+                        messageId: "suggestParenthesisedNegation",
+                        output: "((!a) instanceof b)"
+                    }
+                ]
+            }]
         },
         {
             code: "!(a) instanceof b",
-            errors: [unexpectedInstanceofError]
+            errors: [{
+                messageId: "unexpected",
+                data: { operator: "instanceof" },
+                suggestions: [
+                    {
+                        messageId: "suggestNegatedExpression",
+                        output: "!((a) instanceof b)"
+                    },
+                    {
+                        messageId: "suggestParenthesisedNegation",
+                        output: "(!(a)) instanceof b"
+                    }
+                ]
+            }]
         },
         {
             code: "if (! a < b) {}",
             options: [{ enforceForOrderingRelations: true }],
-            errors: [unexpectedLessThanOperatorError]
+            errors: [{
+                messageId: "unexpected",
+                data: { operator: "<" },
+                suggestions: [
+                    {
+                        messageId: "suggestNegatedExpression",
+                        output: "if (!( a < b)) {}"
+                    },
+                    {
+                        messageId: "suggestParenthesisedNegation",
+                        output: "if ((! a) < b) {}"
+                    }
+                ]
+            }]
         },
         {
             code: "while (! a > b) {}",
             options: [{ enforceForOrderingRelations: true }],
-            errors: [unexpectedMoreThanOperatorError]
+            errors: [{
+                messageId: "unexpected",
+                data: { operator: ">" },
+                suggestions: [
+                    {
+                        messageId: "suggestNegatedExpression",
+                        output: "while (!( a > b)) {}"
+                    },
+                    {
+                        messageId: "suggestParenthesisedNegation",
+                        output: "while ((! a) > b) {}"
+                    }
+                ]
+            }]
         },
         {
             code: "foo = ! a <= b;",
             options: [{ enforceForOrderingRelations: true }],
-            errors: [unexpectedLessThanOrEqualOperatorError]
+            errors: [{
+                messageId: "unexpected",
+                data: { operator: "<=" },
+                suggestions: [
+                    {
+                        messageId: "suggestNegatedExpression",
+                        output: "foo = !( a <= b);"
+                    },
+                    {
+                        messageId: "suggestParenthesisedNegation",
+                        output: "foo = (! a) <= b;"
+                    }
+                ]
+            }]
         },
         {
             code: "foo = ! a >= b;",
             options: [{ enforceForOrderingRelations: true }],
-            errors: [unexpectedMoreThanOrEqualOperatorError]
+            errors: [{
+                messageId: "unexpected",
+                data: { operator: ">=" },
+                suggestions: [
+                    {
+                        messageId: "suggestNegatedExpression",
+                        output: "foo = !( a >= b);"
+                    },
+                    {
+                        messageId: "suggestParenthesisedNegation",
+                        output: "foo = (! a) >= b;"
+                    }
+                ]
+            }]
         },
         {
             code: "! a <= b",
             options: [{ enforceForOrderingRelations: true }],
-            errors: [unexpectedLessThanOrEqualOperatorError]
+            errors: [{
+                messageId: "unexpected",
+                data: { operator: "<=" },
+                suggestions: [
+                    {
+                        messageId: "suggestNegatedExpression",
+                        output: "!( a <= b)"
+                    },
+                    {
+                        messageId: "suggestParenthesisedNegation",
+                        output: "(! a) <= b"
+                    }
+                ]
+            }]
         }
     ]
 });
