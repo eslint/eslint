@@ -108,6 +108,13 @@ ruleTester.run("radix", rule, {
             }]
         },
         {
+            code: "parseInt(\"10\", 37);",
+            errors: [{
+                message: "Invalid radix parameter.",
+                type: "CallExpression"
+            }]
+        },
+        {
             code: "Number.parseInt();",
             errors: [{
                 message: "Missing parameters.",
@@ -126,6 +133,13 @@ ruleTester.run("radix", rule, {
             code: "Number.parseInt(\"10\");",
             errors: [{
                 message: "Missing radix parameter.",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "Number.parseInt(\"10\", 37);",
+            errors: [{
+                message: "Invalid radix parameter.",
                 type: "CallExpression"
             }]
         },
