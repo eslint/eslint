@@ -2225,6 +2225,47 @@ describe("SourceCode", () => {
                     });
                 });
             });
+
+            it("JSXText tokens that contain only whitespaces should be handled as space", () => {
+                const code = "let jsx = <div>\n   {content}\n</div>";
+                const ast = espree.parse(code, { ...DEFAULT_CONFIG, ecmaFeatures: { jsx: true } });
+                const sourceCode = new SourceCode(code, ast);
+                const jsx = ast.body[0].declarations[0].init;
+                const interpolation = jsx.children[1];
+
+                assert.strictEqual(
+                    sourceCode.isSpaceBetweenTokens(jsx.openingElement, interpolation),
+                    true
+                );
+                assert.strictEqual(
+                    sourceCode.isSpaceBetweenTokens(interpolation, jsx.closingElement),
+                    true
+                );
+            });
+
+            it("JSXText tokens that contain both letters and whitespaces should be handled as space", () => {
+                const code = "let jsx = <div>\n   Hello\n</div>";
+                const ast = espree.parse(code, { ...DEFAULT_CONFIG, ecmaFeatures: { jsx: true } });
+                const sourceCode = new SourceCode(code, ast);
+                const jsx = ast.body[0].declarations[0].init;
+
+                assert.strictEqual(
+                    sourceCode.isSpaceBetweenTokens(jsx.openingElement, jsx.closingElement),
+                    true
+                );
+            });
+
+            it("JSXText tokens that contain only letters should NOT be handled as space", () => {
+                const code = "let jsx = <div>Hello</div>";
+                const ast = espree.parse(code, { ...DEFAULT_CONFIG, ecmaFeatures: { jsx: true } });
+                const sourceCode = new SourceCode(code, ast);
+                const jsx = ast.body[0].declarations[0].init;
+
+                assert.strictEqual(
+                    sourceCode.isSpaceBetweenTokens(jsx.openingElement, jsx.closingElement),
+                    false
+                );
+            });
         });
 
         describe("should return true when there is at least one whitespace character between a token and a node", () => {
