@@ -5384,59 +5384,114 @@ ruleTester.run("indent", rule, {
             `,
             parserOptions: { ecmaVersion: 2020 }
         },
+
+        // https://github.com/eslint/eslint/issues/12122
         {
             code: unIndent`
-            describe('', () => {
-                test.each\`
-                a    | b
-                \${1} | \${1}
-                \`('$a == $b', ({ a, b }) => {
-                    expect(a).toBe(b);
+                foo(() => {
+                    tag\`
+                    multiline
+                    template
+                    literal
+                    \`(() => {
+                        bar();
+                    });
                 });
-            });
             `,
-            parserOptions: { ecmaVersion: 2020 }
+            parserOptions: { ecmaVersion: 2015 }
         },
         {
             code: unIndent`
-                nest(() => {
+                {
                     tag\`
-                    a    | b
-                    \${1} | \${1}
-                    \`('$a == $b', ({ a, b }) => {
-                        expect(a).toBe(b);
+                    multiline
+                    template
+                    literal
+                    \`(() => {
+                        bar();
                     });
-                })
+                }
             `,
-            parserOptions: { ecmaVersion: 2020 }
+            parserOptions: { ecmaVersion: 2015 }
         },
         {
             code: unIndent`
-                nest(() => {
-                    tag\`
-                    a    | b
-                    \${1} | \${1}
-                    \`('$a == $b', ({ a, b }) => {
-                        tag\`
-                        a    | b
-                        \${1} | \${1}
-                        \`('$a == $b', ({ a, b }) => {
-                            test();
+                foo(() => {
+                    tagOne\`
+                    multiline
+                    template
+                    literal
+                    \`(() => {
+                        tagTwo\`
+                        multiline
+                        template
+                        literal
+                        \`(() => {
+                            bar();
                         });
+
+                        baz();
                     });
-                })
+                });
             `,
-            parserOptions: { ecmaVersion: 2020 }
+            parserOptions: { ecmaVersion: 2015 }
         },
         {
             code: unIndent`
-                nest(() => {
-                    tag\`a    | b\${1} | \${1}\`('$a == $b', ({ a, b }) => {
-                        expect(a).toBe(b);
+                {
+                    tagOne\`
+                    multiline
+                    template
+                    literal
+                    \`(() => {
+                        tagTwo\`
+                        multiline
+                        template
+                        literal
+                        \`(() => {
+                            bar();
+                        });
+
+                        baz();
                     });
-                })
+                };
             `,
-            parserOptions: { ecmaVersion: 2020 }
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                tagOne\`multiline
+                        template
+                        linteral
+                        \`(() => {        
+                    foo();
+                    
+                    tagTwo\`multiline
+                            template
+                            literal
+                        \`({
+                        bar: 1,
+                        baz: 2
+                    });
+                });
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                tagOne\`multiline
+                    template
+                    linteral\`({        
+                    foo: 1,
+                    bar: tagTwo\`multiline
+                        template
+                        linteral\`(() => {
+                        
+                        baz();
+                    })
+                });
+            `,
+            parserOptions: { ecmaVersion: 2015 }
         }
     ],
 
@@ -10609,57 +10664,229 @@ ruleTester.run("indent", rule, {
                 [3, 0, 4, "Punctuator"]
             ])
         },
+
+        // https://github.com/eslint/eslint/issues/12122
         {
             code: unIndent`
-                nest(() => {
+                foo(() => {
                     tag\`
-                    a    | b
-                    \${1} | \${1}
-                    \`('$a == $b', ({ a, b }) => {
-                    expect(a).toBe(b);
+                    multiline
+                    template
+                    literal
+                    \`(() => {
+                    bar();
                     });
                 });
             `,
             output: unIndent`
-                nest(() => {
+                foo(() => {
                     tag\`
-                    a    | b
-                    \${1} | \${1}
-                    \`('$a == $b', ({ a, b }) => {
-                        expect(a).toBe(b);
+                    multiline
+                    template
+                    literal
+                    \`(() => {
+                        bar();
                     });
                 });
             `,
             parserOptions: { ecmaVersion: 2015 },
             errors: expectedErrors([
-                [6, 8, 4, "Identifier"]
+                [7, 8, 4, "Identifier"]
             ])
         },
         {
             code: unIndent`
-                nest(() => {
+                {
+                        tag\`
+                    multiline
+                    template
+                    literal
+                    \`(() => {
+                            bar();
+                        });
+                }
+            `,
+            output: unIndent`
+                {
                     tag\`
-                    a    | b
-                    \${1} | \${1}
-                    \`('$a == $b', ({ a, b }) => {
-                    expect(a).toBe(b);
+                    multiline
+                    template
+                    literal
+                    \`(() => {
+                        bar();
+                    });
+                }
+            `,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: expectedErrors([
+                [2, 4, 8, "Identifier"],
+                [7, 8, 12, "Identifier"],
+                [8, 4, 8, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                foo(() => {
+                    tagOne\`
+                    multiline
+                    template
+                    literal
+                    \`(() => {
+                            tagTwo\`
+                        multiline
+                        template
+                        literal
+                        \`(() => {
+                            bar();
+                        });
+
+                            baz();
                 });
                 });
             `,
             output: unIndent`
-                nest(() => {
-                    tag\`
-                    a    | b
-                    \${1} | \${1}
-                    \`('$a == $b', ({ a, b }) => {
-                        expect(a).toBe(b);
+                foo(() => {
+                    tagOne\`
+                    multiline
+                    template
+                    literal
+                    \`(() => {
+                        tagTwo\`
+                        multiline
+                        template
+                        literal
+                        \`(() => {
+                            bar();
+                        });
+
+                        baz();
                     });
                 });
             `,
             parserOptions: { ecmaVersion: 2015 },
             errors: expectedErrors([
-                [6, 8, 4, "Identifier"],
-                [7, 4, 0, "Punctuator"]
+                [7, 8, 12, "Identifier"],
+                [15, 8, 12, "Identifier"],
+                [16, 4, 0, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                {
+                    tagOne\`
+                    multiline
+                    template
+                    literal
+                    \`(() => {
+                            tagTwo\`
+                        multiline
+                        template
+                        literal
+                        \`(() => {
+                            bar();
+                        });
+
+                            baz();
+                });
+                }
+            `,
+            output: unIndent`
+                {
+                    tagOne\`
+                    multiline
+                    template
+                    literal
+                    \`(() => {
+                        tagTwo\`
+                        multiline
+                        template
+                        literal
+                        \`(() => {
+                            bar();
+                        });
+
+                        baz();
+                    });
+                }
+            `,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: expectedErrors([
+                [7, 8, 12, "Identifier"],
+                [15, 8, 12, "Identifier"],
+                [16, 4, 0, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                tagOne\`multiline
+                        template
+                        linteral
+                        \`(() => {        
+                foo();
+                    
+                    tagTwo\`multiline
+                            template
+                            literal
+                        \`({
+                    bar: 1,
+                        baz: 2
+                    });
+                });
+            `,
+            output: unIndent`
+                tagOne\`multiline
+                        template
+                        linteral
+                        \`(() => {        
+                    foo();
+                    
+                    tagTwo\`multiline
+                            template
+                            literal
+                        \`({
+                        bar: 1,
+                        baz: 2
+                    });
+                });
+            `,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: expectedErrors([
+                [5, 4, 0, "Identifier"],
+                [11, 8, 4, "Identifier"]
+            ])
+        },
+        {
+            code: unIndent`
+                tagOne\`multiline
+                    template
+                    linteral\`({        
+                        foo: 1,
+                bar: tagTwo\`multiline
+                        template
+                        linteral\`(() => {
+                        
+                baz();
+                    })
+                });
+            `,
+            output: unIndent`
+                tagOne\`multiline
+                    template
+                    linteral\`({        
+                    foo: 1,
+                    bar: tagTwo\`multiline
+                        template
+                        linteral\`(() => {
+                        
+                        baz();
+                    })
+                });
+            `,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: expectedErrors([
+                [4, 4, 8, "Identifier"],
+                [5, 4, 0, "Identifier"],
+                [9, 8, 0, "Identifier"]
             ])
         }
     ]
