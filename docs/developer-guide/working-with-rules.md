@@ -418,6 +418,40 @@ module.exports = {
 };
 ```
 
+#### Placeholders in suggestion messages
+
+You can also use placeholders in the suggestion message. This works the same way as placeholders for the overall error (see [using message placeholders](#using-message-placeholders)).
+
+Please note that you have to provide `data` on the suggestion's object. Suggestion messages cannot use properties from the overall error's `data`.
+
+```js
+module.exports = {
+    meta: {
+        messages: {
+            unnecessaryEscape: "Unnecessary escape character: \\{{character}}.",
+            removeEscape: "Remove `\\` before {{character}}.",
+        }
+    },
+    create: function(context) {
+        // ...
+        context.report({
+            node: node,
+            messageId: "unnecessaryEscape",
+            data: { character }, // data for the unnecessaryEscape overall message
+            suggest: [
+                {
+                    messageId: "removeEscape",
+                    data: { character }, // data for the removeEscape suggestion message
+                    fix: function(fixer) {
+                        return fixer.removeRange(range);
+                    }
+                }
+            ]
+        });
+    }
+};
+```
+
 ### context.options
 
 Some rules require options in order to function correctly. These options appear in configuration (`.eslintrc`, command line, or in comments). For example:
