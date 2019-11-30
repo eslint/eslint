@@ -1,3 +1,12 @@
+v6.7.2 - November 30, 2019
+
+* [`bc435a9`](https://github.com/eslint/eslint/commit/bc435a93afd6ba4def1b53993ef7cf8220f3f070) Fix: isSpaceBetweenTokens() recognizes spaces in JSXText (fixes #12614) (#12616) (Toru Nagashima)
+* [`4928d51`](https://github.com/eslint/eslint/commit/4928d513b4fe716c7ed958c294a10ef8517be25e) Fix: don't ignore the entry directory (fixes #12604) (#12607) (Toru Nagashima)
+* [`b41677a`](https://github.com/eslint/eslint/commit/b41677ae2a143790b19b0e70391a46ec6c8f5de1) Docs: Clarify suggestion's data in Working with Rules (refs #12606) (#12617) (Milos Djermanovic)
+* [`ea16de4`](https://github.com/eslint/eslint/commit/ea16de4e7c6f661398b0b7843f95e5f307c89551) Fix: Support tagged template literal generics in no-unexpected-multiline (#11698) (Brad Zacher)
+* [`fa6415d`](https://github.com/eslint/eslint/commit/fa6415d5b877370374a6a530a5190ab5a411b4dc) Sponsors: Sync README with website (ESLint Jenkins)
+* [`e1e158b`](https://github.com/eslint/eslint/commit/e1e158b4d7bd61e812723b378d2c391295da43a5) Sponsors: Sync README with website (ESLint Jenkins)
+
 v6.7.1 - November 24, 2019
 
 * [`dd1e9f4`](https://github.com/eslint/eslint/commit/dd1e9f4df2103c43509a54b0ad5f9106557997f9) Fix: revert changes to key-spacing due to regression (#12598) (Kai Cataldo)
