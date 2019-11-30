@@ -2076,6 +2076,47 @@ describe("SourceCode", () => {
                     });
                 });
             });
+
+            it("JSXText tokens that contain only whitespaces should NOT be handled as space", () => {
+                const code = "let jsx = <div>\n   {content}\n</div>";
+                const ast = espree.parse(code, { ...DEFAULT_CONFIG, ecmaFeatures: { jsx: true } });
+                const sourceCode = new SourceCode(code, ast);
+                const jsx = ast.body[0].declarations[0].init;
+                const interpolation = jsx.children[1];
+
+                assert.strictEqual(
+                    sourceCode.isSpaceBetween(jsx.openingElement, interpolation),
+                    false
+                );
+                assert.strictEqual(
+                    sourceCode.isSpaceBetween(interpolation, jsx.closingElement),
+                    false
+                );
+            });
+
+            it("JSXText tokens that contain both letters and whitespaces should NOT be handled as space", () => {
+                const code = "let jsx = <div>\n   Hello\n</div>";
+                const ast = espree.parse(code, { ...DEFAULT_CONFIG, ecmaFeatures: { jsx: true } });
+                const sourceCode = new SourceCode(code, ast);
+                const jsx = ast.body[0].declarations[0].init;
+
+                assert.strictEqual(
+                    sourceCode.isSpaceBetween(jsx.openingElement, jsx.closingElement),
+                    false
+                );
+            });
+
+            it("JSXText tokens that contain only letters should NOT be handled as space", () => {
+                const code = "let jsx = <div>Hello</div>";
+                const ast = espree.parse(code, { ...DEFAULT_CONFIG, ecmaFeatures: { jsx: true } });
+                const sourceCode = new SourceCode(code, ast);
+                const jsx = ast.body[0].declarations[0].init;
+
+                assert.strictEqual(
+                    sourceCode.isSpaceBetween(jsx.openingElement, jsx.closingElement),
+                    false
+                );
+            });
         });
 
         describe("should return false either of the arguments' location is inside the other one", () => {
