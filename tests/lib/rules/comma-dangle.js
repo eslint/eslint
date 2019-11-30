@@ -475,6 +475,10 @@ ruleTester.run("comma-dangle", rule, {
             code: "function foo(a,): {b: boolean} {}",
             options: [{ functions: "always" }],
             parser: parser("return-type-2")
+        },
+        {
+            code: "function foo(a) {}",
+            options: [{ functions: "always" }]
         }
     ],
     invalid: [
@@ -1725,6 +1729,7 @@ let d = 0;export {d,};
             output: "function foo(a,): {b: boolean,} {}",
             options: [{ functions: "always" }],
             parser: parser("return-type-1"),
+            parserOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "missing" }]
         },
         {
@@ -1732,6 +1737,7 @@ let d = 0;export {d,};
             output: "function foo(a): {b: boolean} {}",
             options: [{ functions: "never" }],
             parser: parser("return-type-2"),
+            parserOptions: { ecmaVersion: 8 },
             errors: [{ messageId: "unexpected" }]
         },
 
