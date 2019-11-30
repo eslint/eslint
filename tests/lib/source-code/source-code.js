@@ -2092,6 +2092,16 @@ describe("SourceCode", () => {
                     sourceCode.isSpaceBetween(interpolation, jsx.closingElement),
                     false
                 );
+
+                // Reversed order
+                assert.strictEqual(
+                    sourceCode.isSpaceBetween(interpolation, jsx.openingElement),
+                    false
+                );
+                assert.strictEqual(
+                    sourceCode.isSpaceBetween(jsx.closingElement, interpolation),
+                    false
+                );
             });
 
             it("JSXText tokens that contain both letters and whitespaces should NOT be handled as space", () => {
@@ -2104,6 +2114,12 @@ describe("SourceCode", () => {
                     sourceCode.isSpaceBetween(jsx.openingElement, jsx.closingElement),
                     false
                 );
+
+                // Reversed order
+                assert.strictEqual(
+                    sourceCode.isSpaceBetween(jsx.closingElement, jsx.openingElement),
+                    false
+                );
             });
 
             it("JSXText tokens that contain only letters should NOT be handled as space", () => {
@@ -2114,6 +2130,12 @@ describe("SourceCode", () => {
 
                 assert.strictEqual(
                     sourceCode.isSpaceBetween(jsx.openingElement, jsx.closingElement),
+                    false
+                );
+
+                // Reversed order
+                assert.strictEqual(
+                    sourceCode.isSpaceBetween(jsx.closingElement, jsx.openingElement),
                     false
                 );
             });
@@ -2466,6 +2488,16 @@ describe("SourceCode", () => {
                     sourceCode.isSpaceBetweenTokens(interpolation, jsx.closingElement),
                     true
                 );
+
+                // Reversed order
+                assert.strictEqual(
+                    sourceCode.isSpaceBetweenTokens(interpolation, jsx.openingElement),
+                    true
+                );
+                assert.strictEqual(
+                    sourceCode.isSpaceBetweenTokens(jsx.closingElement, interpolation),
+                    true
+                );
             });
 
             it("JSXText tokens that contain both letters and whitespaces should be handled as space", () => {
@@ -2478,6 +2510,12 @@ describe("SourceCode", () => {
                     sourceCode.isSpaceBetweenTokens(jsx.openingElement, jsx.closingElement),
                     true
                 );
+
+                // Reversed order
+                assert.strictEqual(
+                    sourceCode.isSpaceBetweenTokens(jsx.closingElement, jsx.openingElement),
+                    true
+                );
             });
 
             it("JSXText tokens that contain only letters should NOT be handled as space", () => {
@@ -2488,6 +2526,12 @@ describe("SourceCode", () => {
 
                 assert.strictEqual(
                     sourceCode.isSpaceBetweenTokens(jsx.openingElement, jsx.closingElement),
+                    false
+                );
+
+                // Reversed order
+                assert.strictEqual(
+                    sourceCode.isSpaceBetweenTokens(jsx.closingElement, jsx.openingElement),
                     false
                 );
             });
