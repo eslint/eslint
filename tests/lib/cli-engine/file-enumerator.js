@@ -380,7 +380,7 @@ describe("FileEnumerator", () => {
 
                     assert.throws(() => {
                         listFiles(patterns);
-                    }, `No files matching '${patterns[0]}' were found.`);
+                    }, `All files matched by '${patterns[0]}' are ignored.`);
                 });
 
                 it("should return an ignored file, if ignore option is turned off", () => {
