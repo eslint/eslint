@@ -1288,7 +1288,7 @@ describe("CLIEngine", () => {
 
             assert.throws(() => {
                 engine.executeOnFiles(["./tests/fixtures/cli-engine/"]);
-            }, "No files matching './tests/fixtures/cli-engine/' were found.");
+            }, "All files matched by './tests/fixtures/cli-engine/' are ignored.");
         });
 
         it("should throw an error when all given files are ignored via ignore-pattern", () => {
@@ -3626,6 +3626,55 @@ describe("CLIEngine", () => {
 
                 assert.strictEqual(messages.length, 1);
                 assert.strictEqual(messages[0].ruleId, "no-console");
+            });
+        });
+
+        describe("don't ignore the entry directory.", () => {
+            const root = getFixturePath("cli-engine/dont-ignore-entry-dir");
+
+            it("'executeOnFiles(\".\")' should not load config files from outside of \".\".", () => {
+                CLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        "../.eslintrc.json": "BROKEN FILE",
+                        ".eslintrc.json": JSON.stringify({ root: true }),
+                        "index.js": "console.log(\"hello\")"
+                    }
+                }).CLIEngine;
+                engine = new CLIEngine();
+
+                // Don't throw "failed to load config file" error.
+                engine.executeOnFiles(".");
+            });
+
+            it("'executeOnFiles(\".\")' should not ignore '.' even if 'ignorePatterns' contains it.", () => {
+                CLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        "../.eslintrc.json": JSON.stringify({ ignorePatterns: ["/dont-ignore-entry-dir"] }),
+                        ".eslintrc.json": JSON.stringify({ root: true }),
+                        "index.js": "console.log(\"hello\")"
+                    }
+                }).CLIEngine;
+                engine = new CLIEngine();
+
+                // Don't throw "file not found" error.
+                engine.executeOnFiles(".");
+            });
+
+            it("'executeOnFiles(\"subdir\")' should not ignore './subdir' even if 'ignorePatterns' contains it.", () => {
+                CLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        ".eslintrc.json": JSON.stringify({ ignorePatterns: ["/subdir"] }),
+                        "subdir/.eslintrc.json": JSON.stringify({ root: true }),
+                        "subdir/index.js": "console.log(\"hello\")"
+                    }
+                }).CLIEngine;
+                engine = new CLIEngine();
+
+                // Don't throw "file not found" error.
+                engine.executeOnFiles("subdir");
             });
         });
     });
