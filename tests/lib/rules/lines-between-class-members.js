@@ -73,6 +73,26 @@ ruleTester.run("lines-between-class-members", rule, {
             output: "class foo{ bar(){\n}\n\nbaz(){}}",
             options: ["always", { exceptAfterSingleLine: true }],
             errors: [alwaysError]
+        }, {
+            code: "class foo{ bar(){\n}\n/* comment */\nbaz(){}}",
+            output: "class foo{ bar(){\n}\n\n/* comment */\nbaz(){}}",
+            options: ["always", { exceptAfterSingleLine: true }],
+            errors: [alwaysError]
+        }, {
+            code: "class foo{ bar(){}\n\n// comment\nbaz(){}}",
+            output: "class foo{ bar(){}\n// comment\nbaz(){}}",
+            options: ["never"],
+            errors: [neverError]
+        }, {
+            code: "class foo{ bar(){}\n\n/* comment */\nbaz(){}}",
+            output: "class foo{ bar(){}\n/* comment */\nbaz(){}}",
+            options: ["never"],
+            errors: [neverError]
+        }, {
+            code: "class foo{ bar(){}\n/* comment-1 */\n\n/* comment-2 */\nbaz(){}}",
+            output: "class foo{ bar(){}\n/* comment-1 */\n/* comment-2 */\nbaz(){}}",
+            options: ["never"],
+            errors: [neverError]
         }
     ]
 });
