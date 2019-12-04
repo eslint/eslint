@@ -361,6 +361,16 @@ ruleTester.run("comma-dangle", rule, {
         // trailing comma in functions
         {
             code: "function foo(a) {} ",
+            options: [{}],
+            parserOptions: { ecmaVersion: 8 }
+        },
+        {
+            code: "foo(a)",
+            options: [{}],
+            parserOptions: { ecmaVersion: 8 }
+        },
+        {
+            code: "function foo(a) {} ",
             options: [{ functions: "never" }],
             parserOptions: { ecmaVersion: 8 }
         },
