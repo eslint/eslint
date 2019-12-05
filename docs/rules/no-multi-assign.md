@@ -4,10 +4,10 @@ Chaining the assignment of variables can lead to unexpected results and be diffi
 
 ```js
 (function() {
-    const foo = bar = 0; // do you mean `foo = bar == 0`?
-    bar = 1;             // will not fail, not constant
+    const foo = bar = 0; // Did you mean `foo = bar == 0`?
+    bar = 1;             // This will not fail since `bar` is not constant.
 })();
-console.log(bar);        // will not fail, not scoped, output 1
+console.log(bar);        // This will output 1 since `bar` is not scoped.
 ```
 
 ## Rule Details
