@@ -352,6 +352,7 @@ In some cases fixes aren't appropriate to be automatically applied, for example,
 In order to provide suggestions, use the `suggest` key in the report argument with an array of suggestion objects. The suggestion objects represent individual suggestions that could be applied and require either a `desc` key string that describes what applying the suggestion would do or a `messageId` key (see [below](#suggestion-messageids)), and a `fix` key that is a function defining the suggestion result. This `fix` function follows the same API as regular fixes (described above in [applying fixes](#applying-fixes)).
 
 ```js
+{% raw %}
 context.report({
     node: node,
     message: "Unnecessary escape character: \\{{character}}.",
@@ -371,6 +372,7 @@ context.report({
         }
     ]
 });
+{% endraw %}
 ```
 
 Note: Suggestions will be applied as a stand-alone change, without triggering multipass fixes. Each suggestion should focus on a singular change in the code and should not try to conform to user defined styles. For example, if a suggestion is adding a new statement into the codebase, it should not try to match correct indentation, or confirm to user preferences on presence/absence of semicolumns. All of those things can be corrected by multipass autofix when the user triggers it.
@@ -385,6 +387,7 @@ Best practices for suggestions:
 Instead of using a `desc` key for suggestions a `messageId` can be used instead. This works the same way as `messageId`s for the overall error (see [messageIds](#messageIds)). Here is an example of how to use it in a rule:
 
 ```js
+{% raw %}
 module.exports = {
     meta: {
         messages: {
@@ -416,6 +419,7 @@ module.exports = {
         });
     }
 };
+{% endraw %}
 ```
 
 #### Placeholders in suggestion messages
@@ -425,6 +429,7 @@ You can also use placeholders in the suggestion message. This works the same way
 Please note that you have to provide `data` on the suggestion's object. Suggestion messages cannot use properties from the overall error's `data`.
 
 ```js
+{% raw %}
 module.exports = {
     meta: {
         messages: {
@@ -450,6 +455,7 @@ module.exports = {
         });
     }
 };
+{% endraw %}
 ```
 
 ### context.options
