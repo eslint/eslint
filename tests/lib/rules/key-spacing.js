@@ -757,6 +757,103 @@ ruleTester.run("key-spacing", rule, {
             }
         }],
         parserOptions: { ecmaVersion: 6 }
+    },
+
+    // https://github.com/eslint/eslint/issues/11414
+    {
+        code: [
+            "var obj = {",
+            "   foo: 1, 'bar': 2, baz: 3",
+            "}"
+        ].join("\n"),
+        options: [{
+            singleLine: {
+                beforeColon: false,
+                afterColon: false
+            },
+            multiLine: {
+                beforeColon: false,
+                afterColon: true
+            }
+        }]
+    }, {
+        code: [
+            "var obj = {",
+            "   foo: 1, 'bar': 2, baz: 3",
+            "}"
+        ].join("\n"),
+        options: [{
+            singleLine: {
+                beforeColon: false,
+                afterColon: false
+            },
+            multiLine: {
+                align: "value"
+            }
+        }]
+    }, {
+        code: [
+            "var obj = {",
+            "   foo : 1, 'bar' : 2, baz : 3,",
+            "   short        : 4,",
+            "   longlonglong : 5",
+            "}"
+        ].join("\n"),
+        options: [{
+            singleLine: {
+                afterColon: true,
+                beforeColon: false
+            },
+            multiLine: {
+                afterColon: true,
+                beforeColon: true,
+                align: "colon"
+            }
+        }]
+    }, {
+        code: [
+            "var obj = {",
+            "   foo: 1, 'bar': 2, baz: 3,",
+            "   short:        4,",
+            "   longlonglong: 5",
+            "}"
+        ].join("\n"),
+        options: [{
+            align: "value"
+        }]
+    }, {
+        code: [
+            "var obj = {",
+            "   foo : 1, 'bar' : 2, baz : 3,",
+            "   short        : 4,",
+            "   longlonglong : 5",
+            "}"
+        ].join("\n"),
+        options: [{
+            align: "colon",
+            beforeColon: true
+        }]
+    }, {
+        code: [
+            "foo({",
+            "   foo: 1, 'bar': 2, baz: 3,",
+            "   short       :4,",
+            "   longlonglong:5",
+            "})"
+        ].join("\n"),
+        options: [{
+            multiLine: {
+                beforeColon: false,
+                afterColon: true,
+                mode: "strict"
+            },
+            align: {
+                beforeColon: false,
+                afterColon: false,
+                on: "colon",
+                mode: "minimum"
+            }
+        }]
     }],
 
     invalid: [{
@@ -1768,6 +1865,171 @@ ruleTester.run("key-spacing", rule, {
         errors: [
             { messageId: "missingKey", data: { computed: "", key: "foo" }, line: 1, column: 7, type: "Identifier" },
             { messageId: "missingValue", data: { computed: "", key: "foo" }, line: 1, column: 19, type: "Identifier" }
+        ]
+    }, // https://github.com/eslint/eslint/issues/11414
+    {
+        code: [
+            "var obj = {",
+            "   foo:1, 'bar':2, baz:3",
+            "}"
+        ].join("\n"),
+        output: [
+            "var obj = {",
+            "   foo: 1, 'bar': 2, baz: 3",
+            "}"
+        ].join("\n"),
+        options: [{
+            singleLine: {
+                beforeColon: false,
+                afterColon: false
+            },
+            multiLine: {
+                beforeColon: false,
+                afterColon: true
+            }
+        }],
+        errors: [
+            { messageId: "missingValue", data: { computed: "", key: "foo" }, line: 2, column: 8, type: "Literal" },
+            { messageId: "missingValue", data: { computed: "", key: "bar" }, line: 2, column: 17, type: "Literal" },
+            { messageId: "missingValue", data: { computed: "", key: "baz" }, line: 2, column: 24, type: "Literal" }
+        ]
+    }, {
+        code: [
+            "var obj = {",
+            "   foo : 1, 'bar' : 2, baz : 3",
+            "}"
+        ].join("\n"),
+        output: [
+            "var obj = {",
+            "   foo: 1, 'bar': 2, baz: 3",
+            "}"
+        ].join("\n"),
+        options: [{
+            singleLine: {
+                beforeColon: false,
+                afterColon: false
+            },
+            multiLine: {
+                align: "value"
+            }
+        }],
+        errors: [
+            { messageId: "extraKey", data: { computed: "", key: "foo" }, line: 2, column: 4, type: "Identifier" },
+            { messageId: "extraKey", data: { computed: "", key: "bar" }, line: 2, column: 13, type: "Literal" },
+            { messageId: "extraKey", data: { computed: "", key: "baz" }, line: 2, column: 24, type: "Identifier" }
+        ]
+    }, {
+        code: [
+            "var obj = {",
+            "   foo:1, 'bar':2, baz:3,",
+            "   short: 4,",
+            "   longlonglong : 5",
+            "}"
+        ].join("\n"),
+        output: [
+            "var obj = {",
+            "   foo : 1, 'bar' : 2, baz : 3,",
+            "   short        : 4,",
+            "   longlonglong : 5",
+            "}"
+        ].join("\n"),
+        options: [{
+            singleLine: {
+                afterColon: true,
+                beforeColon: false
+            },
+            multiLine: {
+                afterColon: true,
+                beforeColon: true,
+                align: "colon"
+            }
+        }],
+        errors: [
+            { messageId: "missingKey", data: { computed: "", key: "foo" }, line: 2, column: 4, type: "Identifier" },
+            { messageId: "missingValue", data: { computed: "", key: "foo" }, line: 2, column: 8, type: "Literal" },
+            { messageId: "missingKey", data: { computed: "", key: "bar" }, line: 2, column: 11, type: "Literal" },
+            { messageId: "missingValue", data: { computed: "", key: "bar" }, line: 2, column: 17, type: "Literal" },
+            { messageId: "missingKey", data: { computed: "", key: "baz" }, line: 2, column: 20, type: "Identifier" },
+            { messageId: "missingValue", data: { computed: "", key: "baz" }, line: 2, column: 24, type: "Literal" },
+            { messageId: "missingKey", data: { computed: "", key: "short" }, line: 3, column: 4, type: "Identifier" }
+        ]
+    }, {
+        code: [
+            "var obj = {",
+            "   foo: 1, 'bar': 2, baz: 3,",
+            "   short:4,",
+            "   longlonglong: 5",
+            "}"
+        ].join("\n"),
+        output: [
+            "var obj = {",
+            "   foo: 1, 'bar': 2, baz: 3,",
+            "   short:        4,",
+            "   longlonglong: 5",
+            "}"
+        ].join("\n"),
+        options: [{
+            align: "value"
+        }],
+        errors: [
+            { messageId: "missingValue", data: { computed: "", key: "short" }, line: 3, column: 10, type: "Literal" }
+        ]
+    }, {
+        code: [
+            "var obj = {",
+            "   foo : 1, 'bar' : 2, baz : 3,",
+            "   short :4,",
+            "   longlonglong : 5",
+            "}"
+        ].join("\n"),
+        output: [
+            "var obj = {",
+            "   foo : 1, 'bar' : 2, baz : 3,",
+            "   short        : 4,",
+            "   longlonglong : 5",
+            "}"
+        ].join("\n"),
+        options: [{
+            align: "colon",
+            beforeColon: true
+        }],
+        errors: [
+            { messageId: "missingKey", data: { computed: "", key: "short" }, line: 3, column: 4, type: "Identifier" },
+            { messageId: "missingValue", data: { computed: "", key: "short" }, line: 3, column: 11, type: "Literal" }
+        ]
+    }, {
+        code: [
+            "foo({",
+            "   foo : 1, 'bar' : 2, baz : 3,",
+            "   short       :   4,",
+            "   longlonglong:5",
+            "})"
+        ].join("\n"),
+        output: [
+            "foo({",
+            "   foo: 1, 'bar': 2, baz: 3,",
+            "   short       :4,",
+            "   longlonglong:5",
+            "})"
+        ].join("\n"),
+        options: [{
+            multiLine: {
+                beforeColon: false,
+                afterColon: true,
+                mode: "strict"
+            },
+            align: {
+                beforeColon: false,
+                afterColon: false,
+                on: "colon",
+                mode: "minimum"
+            }
+        }],
+        errors: [
+            { messageId: "extraKey", data: { computed: "", key: "foo" }, line: 2, column: 4, type: "Identifier" },
+            { messageId: "extraKey", data: { computed: "", key: "bar" }, line: 2, column: 13, type: "Literal" },
+            { messageId: "extraKey", data: { computed: "", key: "baz" }, line: 2, column: 24, type: "Identifier" },
+            { messageId: "extraValue", data: { computed: "", key: "short" }, line: 3, column: 20, type: "Literal" }
         ]
     }]
 });
