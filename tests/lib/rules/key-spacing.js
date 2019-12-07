@@ -757,6 +757,34 @@ ruleTester.run("key-spacing", rule, {
             }
         }],
         parserOptions: { ecmaVersion: 6 }
+    }, {
+        code: [
+            "var obj = {",
+            "    foo : 1, 'bar' : 2, baz : 3, longlonglong : 4",
+            "}"
+        ].join("\n"),
+        options: [{
+            singleLine: {
+                beforeColon: false,
+                afterColon: false
+            },
+            multiLine: {
+                beforeColon: true,
+                afterColon: true,
+                align: "colon"
+            }
+        }]
+    }, {
+        code: [
+            "var obj = {",
+            "    foo: 1, 'bar': 2, baz: 3",
+            "}"
+        ].join("\n"),
+        options: [{
+            multiLine: {
+                align: "value"
+            }
+        }]
     }],
 
     invalid: [{
@@ -1768,6 +1796,58 @@ ruleTester.run("key-spacing", rule, {
         errors: [
             { messageId: "missingKey", data: { computed: "", key: "foo" }, line: 1, column: 7, type: "Identifier" },
             { messageId: "missingValue", data: { computed: "", key: "foo" }, line: 1, column: 19, type: "Identifier" }
+        ]
+    }, {
+        code: [
+            "var obj = {",
+            "    foo:1, 'bar':2, baz:3",
+            "}"
+        ].join("\n"),
+        output: [
+            "var obj = {",
+            "    foo : 1, 'bar' : 2, baz : 3",
+            "}"
+        ].join("\n"),
+        options: [{
+            singleLine: {
+                beforeColon: false,
+                afterColon: false
+            },
+            multiLine: {
+                beforeColon: true,
+                afterColon: true,
+                align: "colon"
+            }
+        }],
+        errors: [
+            { messageId: "missingKey", data: { computed: "", key: "foo" }, line: 2, column: 5, type: "Identifier" },
+            { messageId: "missingValue", data: { computed: "", key: "foo" }, line: 2, column: 9, type: "Literal" },
+            { messageId: "missingKey", data: { computed: "", key: "bar" }, line: 2, column: 12, type: "Literal" },
+            { messageId: "missingValue", data: { computed: "", key: "bar" }, line: 2, column: 18, type: "Literal" },
+            { messageId: "missingKey", data: { computed: "", key: "baz" }, line: 2, column: 21, type: "Identifier" },
+            { messageId: "missingValue", data: { computed: "", key: "baz" }, line: 2, column: 25, type: "Literal" }
+        ]
+    }, {
+        code: [
+            "var obj = {",
+            "    foo : 1, 'bar' : 2, baz : 3, longlonglong : 4",
+            "}"
+        ].join("\n"),
+        output: [
+            "var obj = {",
+            "    foo: 1, 'bar': 2, baz: 3, longlonglong: 4",
+            "}"
+        ].join("\n"),
+        options: [{
+            multiLine: {
+                align: "value"
+            }
+        }],
+        errors: [
+            { messageId: "extraKey", data: { computed: "", key: "foo" }, line: 2, column: 5, type: "Identifier" },
+            { messageId: "extraKey", data: { computed: "", key: "bar" }, line: 2, column: 14, type: "Literal" },
+            { messageId: "extraKey", data: { computed: "", key: "baz" }, line: 2, column: 25, type: "Identifier" },
+            { messageId: "extraKey", data: { computed: "", key: "longlonglong" }, line: 2, column: 34, type: "Identifier" }
         ]
     }]
 });
