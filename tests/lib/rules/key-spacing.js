@@ -785,6 +785,36 @@ ruleTester.run("key-spacing", rule, {
                 align: "value"
             }
         }]
+    }, {
+        code: [
+            "var obj = {",
+            "    foo: 1",
+            "}"
+        ].join("\n"),
+        options: [{
+            singleLine: {
+                beforeColon: false,
+                afterColon: false
+            },
+            multiLine: {
+                align: "value"
+            }
+        }]
+    }, {
+        code: [
+            "foo({",
+            "    bar: 1",
+            "})"
+        ].join("\n"),
+        options: [{
+            singleLine: {
+                beforeColon: false,
+                afterColon: false
+            },
+            align: {
+                on: "colon"
+            }
+        }]
     }],
 
     invalid: [{
@@ -1848,6 +1878,52 @@ ruleTester.run("key-spacing", rule, {
             { messageId: "extraKey", data: { computed: "", key: "bar" }, line: 2, column: 14, type: "Literal" },
             { messageId: "extraKey", data: { computed: "", key: "baz" }, line: 2, column: 25, type: "Identifier" },
             { messageId: "extraKey", data: { computed: "", key: "longlonglong" }, line: 2, column: 34, type: "Identifier" }
+        ]
+    }, {
+        code: [
+            "var obj = {",
+            "    foo:1",
+            "}"
+        ].join("\n"),
+        output: [
+            "var obj = {",
+            "    foo: 1",
+            "}"
+        ].join("\n"),
+        options: [{
+            singleLine: {
+                beforeColon: false,
+                afterColon: false
+            },
+            multiLine: {
+                align: "value"
+            }
+        }],
+        errors: [
+            { messageId: "missingValue", data: { computed: "", key: "foo" }, line: 2, column: 9, type: "Literal" }
+        ]
+    }, {
+        code: [
+            "foo({",
+            "    bar:1",
+            "})"
+        ].join("\n"),
+        output: [
+            "foo({",
+            "    bar: 1",
+            "})"
+        ].join("\n"),
+        options: [{
+            singleLine: {
+                beforeColon: false,
+                afterColon: false
+            },
+            align: {
+                on: "colon"
+            }
+        }],
+        errors: [
+            { messageId: "missingValue", data: { computed: "", key: "bar" }, line: 2, column: 9, type: "Literal" }
         ]
     }]
 });
