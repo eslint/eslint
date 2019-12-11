@@ -31,7 +31,28 @@ ruleTester.run("prefer-numeric-literals", rule, {
         "parseInt(foo);",
         "parseInt(foo, 2);",
         "Number.parseInt(foo);",
-        "Number.parseInt(foo, 2);"
+        "Number.parseInt(foo, 2);",
+        "parseInt(11, 2);",
+        "Number.parseInt(1, 8);",
+        "parseInt(1e5, 16);",
+        "parseInt('11', '2');",
+        "Number.parseInt('11', '8');",
+        {
+            code: "parseInt('11', 2n);",
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "Number.parseInt('11', 8n);",
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "parseInt('11', 16n);",
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "parseInt(1n, 2);",
+            parserOptions: { ecmaVersion: 2020 }
+        }
     ],
     invalid: [
         {
