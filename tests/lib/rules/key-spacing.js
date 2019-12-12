@@ -815,6 +815,83 @@ ruleTester.run("key-spacing", rule, {
                 on: "colon"
             }
         }]
+    }, {
+        code: "var obj = { foo:1, 'bar':2, baz:3, longlonglong:4 }",
+        options: [{
+            singleLine: {
+                beforeColon: false,
+                afterColon: false
+            },
+            align: {
+                on: "colon"
+            }
+        }]
+    }, {
+        code: [
+            "var obj = {",
+            "    foo         : 1,",
+            "    'bar'       : 2, baz         : 3, longlonglong: 4",
+            "}"
+        ].join("\n"),
+        options: [{
+            singleLine: {
+                beforeColon: false,
+                afterColon: false
+            },
+            align: {
+                on: "colon"
+            }
+        }]
+    }, {
+        code: [
+            "var obj = {",
+            "    foo:          1,",
+            "    'bar':        2, baz:          3, longlonglong: 4",
+            "}"
+        ].join("\n"),
+        options: [{
+            singleLine: {
+                beforeColon: false,
+                afterColon: false
+            },
+            align: {
+                on: "value"
+            }
+        }]
+    }, {
+        code: [
+            "var obj = {",
+            "    foo         : 1,",
+            "    'bar'       : 2, baz         : 3,",
+            "    longlonglong: 4",
+            "}"
+        ].join("\n"),
+        options: [{
+            singleLine: {
+                beforeColon: false,
+                afterColon: false
+            },
+            align: {
+                on: "colon"
+            }
+        }]
+    }, {
+        code: [
+            "var obj = {",
+            "    foo:          1,",
+            "    'bar':        2, baz:          3,",
+            "    longlonglong: 4",
+            "}"
+        ].join("\n"),
+        options: [{
+            singleLine: {
+                beforeColon: false,
+                afterColon: false
+            },
+            align: {
+                on: "value"
+            }
+        }]
     }],
 
     invalid: [{
@@ -1924,6 +2001,109 @@ ruleTester.run("key-spacing", rule, {
         }],
         errors: [
             { messageId: "missingValue", data: { computed: "", key: "bar" }, line: 2, column: 9, type: "Literal" }
+        ]
+    }, {
+        code: "var obj = { foo: 1, 'bar': 2, baz :3, longlonglong :4 }",
+        output: "var obj = { foo:1, 'bar':2, baz:3, longlonglong:4 }",
+        options: [{
+            singleLine: {
+                beforeColon: false,
+                afterColon: false
+            },
+            align: {
+                on: "colon"
+            }
+        }],
+        errors: [
+            { messageId: "extraValue", data: { computed: "", key: "foo" }, line: 1, column: 18, type: "Literal" },
+            { messageId: "extraValue", data: { computed: "", key: "bar" }, line: 1, column: 28, type: "Literal" },
+            { messageId: "extraKey", data: { computed: "", key: "baz" }, line: 1, column: 31, type: "Identifier" },
+            { messageId: "extraKey", data: { computed: "", key: "longlonglong" }, line: 1, column: 39, type: "Identifier" }
+        ]
+    }, {
+        code: [
+            "var obj = {",
+            "    foo: 1,",
+            "    'bar': 2, baz: 3, longlonglong: 4",
+            "}"
+        ].join("\n"),
+        output: [
+            "var obj = {",
+            "    foo         : 1,",
+            "    'bar'       : 2, baz         : 3, longlonglong: 4",
+            "}"
+        ].join("\n"),
+        options: [{
+            singleLine: {
+                beforeColon: false,
+                afterColon: false
+            },
+            align: {
+                on: "colon"
+            }
+        }],
+        errors: [
+            { messageId: "missingKey", data: { computed: "", key: "foo" }, line: 2, column: 5, type: "Identifier" },
+            { messageId: "missingKey", data: { computed: "", key: "bar" }, line: 3, column: 5, type: "Literal" },
+            { messageId: "missingKey", data: { computed: "", key: "baz" }, line: 3, column: 15, type: "Identifier" }
+        ]
+    }, {
+        code: [
+            "var obj = {",
+            "    foo : 1,",
+            "    'bar' : 2, baz : 3,",
+            "    longlonglong: 4",
+            "}"
+        ].join("\n"),
+        output: [
+            "var obj = {",
+            "    foo         : 1,",
+            "    'bar'       : 2, baz         : 3,",
+            "    longlonglong: 4",
+            "}"
+        ].join("\n"),
+        options: [{
+            singleLine: {
+                beforeColon: false,
+                afterColon: false
+            },
+            align: {
+                on: "colon"
+            }
+        }],
+        errors: [
+            { messageId: "missingKey", data: { computed: "", key: "foo" }, line: 2, column: 5, type: "Identifier" },
+            { messageId: "missingKey", data: { computed: "", key: "bar" }, line: 3, column: 5, type: "Literal" },
+            { messageId: "missingKey", data: { computed: "", key: "baz" }, line: 3, column: 16, type: "Identifier" }
+        ]
+    }, {
+        code: [
+            "var obj = {",
+            "    foo: 1,",
+            "    'bar': 2, baz: 3,",
+            "    longlonglong: 4",
+            "}"
+        ].join("\n"),
+        output: [
+            "var obj = {",
+            "    foo:          1,",
+            "    'bar':        2, baz:          3,",
+            "    longlonglong: 4",
+            "}"
+        ].join("\n"),
+        options: [{
+            singleLine: {
+                beforeColon: false,
+                afterColon: false
+            },
+            align: {
+                on: "value"
+            }
+        }],
+        errors: [
+            { messageId: "missingValue", data: { computed: "", key: "foo" }, line: 2, column: 10, type: "Literal" },
+            { messageId: "missingValue", data: { computed: "", key: "bar" }, line: 3, column: 12, type: "Literal" },
+            { messageId: "missingValue", data: { computed: "", key: "baz" }, line: 3, column: 20, type: "Literal" }
         ]
     }]
 });
