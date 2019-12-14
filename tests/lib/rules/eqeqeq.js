@@ -105,6 +105,69 @@ ruleTester.run("eqeqeq", rule, {
                 { messageId: "unexpected", data: wantedNotEqEq, type: "BinaryExpression", line: 1 },
                 { messageId: "unexpected", data: wantedNotEqEq, type: "BinaryExpression", line: 1 }
             ]
+        },
+
+        // location tests
+        {
+            code: "a == b;",
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedEqEqEq,
+                    type: "BinaryExpression",
+                    column: 3,
+                    endColumn: 5
+                }
+            ]
+        },
+        {
+            code: "a!=b;",
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedNotEqEq,
+                    type: "BinaryExpression",
+                    column: 2,
+                    endColumn: 4
+                }
+            ]
+        },
+        {
+            code: "(a + b) == c;",
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedEqEqEq,
+                    type: "BinaryExpression",
+                    column: 9,
+                    endColumn: 11
+                }
+            ]
+        },
+        {
+            code: "(a + b)  !=  c;",
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedNotEqEq,
+                    type: "BinaryExpression",
+                    column: 10,
+                    endColumn: 12
+                }
+            ]
+        },
+        {
+            code: "((1) )  ==  (2);",
+            output: "((1) )  ===  (2);",
+            errors: [
+                {
+                    messageId: "unexpected",
+                    data: wantedEqEqEq,
+                    type: "BinaryExpression",
+                    column: 9,
+                    endColumn: 11
+                }
+            ]
         }
 
     // If no output is provided, assert that no output is produced.

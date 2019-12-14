@@ -56,6 +56,7 @@ const configSchema = {
             type: "object",
             properties: {
                 root: { type: "boolean" },
+                ignorePatterns: { $ref: "#/definitions/stringOrStrings" },
                 ...baseConfigProperties
             },
             additionalProperties: false

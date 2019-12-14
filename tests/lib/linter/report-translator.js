@@ -40,7 +40,7 @@ describe("createReportTranslator", () => {
         );
     }
 
-    let node, location, message, translateReport;
+    let node, location, message, translateReport, suggestion1, suggestion2;
 
     beforeEach(() => {
         const sourceCode = createSourceCode("foo\nbar");
@@ -48,7 +48,18 @@ describe("createReportTranslator", () => {
         node = sourceCode.ast.body[0];
         location = sourceCode.ast.body[1].loc.start;
         message = "foo";
-        translateReport = createReportTranslator({ ruleId: "foo-rule", severity: 2, sourceCode, messageIds: { testMessage: message } });
+        suggestion1 = "First suggestion";
+        suggestion2 = "Second suggestion {{interpolated}}";
+        translateReport = createReportTranslator({
+            ruleId: "foo-rule",
+            severity: 2,
+            sourceCode,
+            messageIds: {
+                testMessage: message,
+                suggestion1,
+                suggestion2
+            }
+        });
     });
 
     describe("old-style call with location", () => {
@@ -91,7 +102,14 @@ describe("createReportTranslator", () => {
                 node,
                 loc: location,
                 message,
-                fix: () => ({ range: [1, 2], text: "foo" })
+                fix: () => ({ range: [1, 2], text: "foo" }),
+                suggest: [{
+                    desc: "suggestion 1",
+                    fix: () => ({ range: [2, 3], text: "s1" })
+                }, {
+                    desc: "suggestion 2",
+                    fix: () => ({ range: [3, 4], text: "s2" })
+                }]
             };
 
             assert.deepStrictEqual(
@@ -106,10 +124,18 @@ describe("createReportTranslator", () => {
                     fix: {
                         range: [1, 2],
                         text: "foo"
-                    }
+                    },
+                    suggestions: [{
+                        desc: "suggestion 1",
+                        fix: { range: [2, 3], text: "s1" }
+                    }, {
+                        desc: "suggestion 2",
+                        fix: { range: [3, 4], text: "s2" }
+                    }]
                 }
             );
         });
+
         it("should translate the messageId into a message", () => {
             const reportDescriptor = {
                 node,
@@ -135,6 +161,7 @@ describe("createReportTranslator", () => {
                 }
             );
         });
+
         it("should throw when both messageId and message are provided", () => {
             const reportDescriptor = {
                 node,
@@ -150,6 +177,7 @@ describe("createReportTranslator", () => {
                 "context.report() called with a message and a messageId. Please only pass one."
             );
         });
+
         it("should throw when an invalid messageId is provided", () => {
             const reportDescriptor = {
                 node,
@@ -164,6 +192,7 @@ describe("createReportTranslator", () => {
                 /^context\.report\(\) called with a messageId of '[^']+' which is not present in the 'messages' config:/u
             );
         });
+
         it("should throw when no message is provided", () => {
             const reportDescriptor = { node };
 
@@ -173,7 +202,118 @@ describe("createReportTranslator", () => {
                 "Missing `message` property in report() call; add a message that describes the linting problem."
             );
         });
+
+        it("should support messageIds for suggestions and output resulting descriptions", () => {
+            const reportDescriptor = {
+                node,
+                loc: location,
+                message,
+                suggest: [{
+                    messageId: "suggestion1",
+                    fix: () => ({ range: [2, 3], text: "s1" })
+                }, {
+                    messageId: "suggestion2",
+                    data: { interpolated: "'interpolated value'" },
+                    fix: () => ({ range: [3, 4], text: "s2" })
+                }]
+            };
+
+            assert.deepStrictEqual(
+                translateReport(reportDescriptor),
+                {
+                    ruleId: "foo-rule",
+                    severity: 2,
+                    message: "foo",
+                    line: 2,
+                    column: 1,
+                    nodeType: "ExpressionStatement",
+                    suggestions: [{
+                        messageId: "suggestion1",
+                        desc: "First suggestion",
+                        fix: { range: [2, 3], text: "s1" }
+                    }, {
+                        messageId: "suggestion2",
+                        data: { interpolated: "'interpolated value'" },
+                        desc: "Second suggestion 'interpolated value'",
+                        fix: { range: [3, 4], text: "s2" }
+                    }]
+                }
+            );
+        });
+
+        it("should throw when a suggestion defines both a desc and messageId", () => {
+            const reportDescriptor = {
+                node,
+                loc: location,
+                message,
+                suggest: [{
+                    desc: "The description",
+                    messageId: "suggestion1",
+                    fix: () => ({ range: [2, 3], text: "s1" })
+                }]
+            };
+
+            assert.throws(
+                () => translateReport(reportDescriptor),
+                TypeError,
+                "context.report() called with a suggest option that defines both a 'messageId' and an 'desc'. Please only pass one."
+            );
+        });
+
+        it("should throw when a suggestion uses an invalid messageId", () => {
+            const reportDescriptor = {
+                node,
+                loc: location,
+                message,
+                suggest: [{
+                    messageId: "noMatchingMessage",
+                    fix: () => ({ range: [2, 3], text: "s1" })
+                }]
+            };
+
+            assert.throws(
+                () => translateReport(reportDescriptor),
+                TypeError,
+                /^context\.report\(\) called with a suggest option with a messageId '[^']+' which is not present in the 'messages' config:/u
+            );
+        });
+
+        it("should throw when a suggestion does not provide either a desc or messageId", () => {
+            const reportDescriptor = {
+                node,
+                loc: location,
+                message,
+                suggest: [{
+                    fix: () => ({ range: [2, 3], text: "s1" })
+                }]
+            };
+
+            assert.throws(
+                () => translateReport(reportDescriptor),
+                TypeError,
+                "context.report() called with a suggest option that doesn't have either a `desc` or `messageId`"
+            );
+        });
+
+        it("should throw when a suggestion does not provide a fix function", () => {
+            const reportDescriptor = {
+                node,
+                loc: location,
+                message,
+                suggest: [{
+                    desc: "The description",
+                    fix: false
+                }]
+            };
+
+            assert.throws(
+                () => translateReport(reportDescriptor),
+                TypeError,
+                /^context\.report\(\) called with a suggest option without a fix function. See:/u
+            );
+        });
     });
+
     describe("combining autofixes", () => {
         it("should merge fixes to one if 'fix' function returns an array of fixes.", () => {
             const reportDescriptor = {
@@ -346,7 +486,73 @@ describe("createReportTranslator", () => {
                 }
             );
         });
+    });
 
+    describe("suggestions", () => {
+        it("should support multiple suggestions.", () => {
+            const reportDescriptor = {
+                node,
+                loc: location,
+                message,
+                suggest: [{
+                    desc: "A first suggestion for the issue",
+                    fix: () => [{ range: [1, 2], text: "foo" }]
+                }, {
+                    desc: "A different suggestion for the issue",
+                    fix: () => [{ range: [1, 3], text: "foobar" }]
+                }]
+            };
+
+            assert.deepStrictEqual(
+                translateReport(reportDescriptor),
+                {
+                    ruleId: "foo-rule",
+                    severity: 2,
+                    message: "foo",
+                    line: 2,
+                    column: 1,
+                    nodeType: "ExpressionStatement",
+                    suggestions: [{
+                        desc: "A first suggestion for the issue",
+                        fix: { range: [1, 2], text: "foo" }
+                    }, {
+                        desc: "A different suggestion for the issue",
+                        fix: { range: [1, 3], text: "foobar" }
+                    }]
+                }
+            );
+        });
+
+        it("should merge suggestion fixes to one if 'fix' function returns an array of fixes.", () => {
+            const reportDescriptor = {
+                node,
+                loc: location,
+                message,
+                suggest: [{
+                    desc: "A suggestion for the issue",
+                    fix: () => [{ range: [1, 2], text: "foo" }, { range: [4, 5], text: "bar" }]
+                }]
+            };
+
+            assert.deepStrictEqual(
+                translateReport(reportDescriptor),
+                {
+                    ruleId: "foo-rule",
+                    severity: 2,
+                    message: "foo",
+                    line: 2,
+                    column: 1,
+                    nodeType: "ExpressionStatement",
+                    suggestions: [{
+                        desc: "A suggestion for the issue",
+                        fix: {
+                            range: [1, 5],
+                            text: "fooo\nbar"
+                        }
+                    }]
+                }
+            );
+        });
     });
 
     describe("message interpolation", () => {

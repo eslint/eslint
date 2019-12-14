@@ -357,7 +357,6 @@ describe("ast-utils", () => {
         /**
          * Asserts that the unique node of the given type in the code is either
          * in a loop or not in a loop.
-         *
          * @param {string} code the code to check.
          * @param {string} nodeType the type of the node to consider. The code
          *      must have exactly one node of ths type.
@@ -827,6 +826,42 @@ describe("ast-utils", () => {
 
                 assert.strictEqual(astUtils.isEmptyFunction(ast.body[0].expression), expectedResults[key]);
             });
+        });
+    });
+
+    describe("getNextLocation", () => {
+        const code = "foo;\n";
+        const ast = espree.parse(code, ESPREE_CONFIG);
+        const sourceCode = new SourceCode(code, ast);
+
+        it("should handle normal case", () => {
+            assert.deepStrictEqual(
+                astUtils.getNextLocation(
+                    sourceCode,
+                    { line: 1, column: 0 }
+                ),
+                { line: 1, column: 1 }
+            );
+        });
+
+        it("should handle linebreaks", () => {
+            assert.deepStrictEqual(
+                astUtils.getNextLocation(
+                    sourceCode,
+                    { line: 1, column: 4 }
+                ),
+                { line: 2, column: 0 }
+            );
+        });
+
+        it("should return null when result is out of bound", () => {
+            assert.strictEqual(
+                astUtils.getNextLocation(
+                    sourceCode,
+                    { line: 2, column: 0 }
+                ),
+                null
+            );
         });
     });
 

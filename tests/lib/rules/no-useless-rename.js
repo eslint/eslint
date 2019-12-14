@@ -113,6 +113,15 @@ ruleTester.run("no-useless-rename", rule, {
         {
             code: "export {foo as foo, bar as bar} from 'foo';",
             options: [{ ignoreExport: true }]
+        },
+
+        /*
+         * TODO: Remove after babel-eslint removes ExperimentalRestProperty
+         * https://github.com/eslint/eslint/issues/12335
+         */
+        {
+            code: "const { ...foo } = bar;",
+            parser: require.resolve("../../fixtures/parsers/babel-eslint10/object-pattern-with-rest-element")
         }
     ],
 
@@ -183,6 +192,21 @@ ruleTester.run("no-useless-rename", rule, {
             errors: ["Destructuring assignment bar unnecessarily renamed.", "Destructuring assignment baz unnecessarily renamed."]
         },
         {
+            code: "let {foo: foo = 1, 'bar': bar = 1, baz: baz} = obj;",
+            output: "let {foo = 1, bar = 1, baz} = obj;",
+            errors: ["Destructuring assignment foo unnecessarily renamed.", "Destructuring assignment bar unnecessarily renamed.", "Destructuring assignment baz unnecessarily renamed."]
+        },
+        {
+            code: "let {foo: {bar: bar = 1, 'baz': baz = 1}} = obj;",
+            output: "let {foo: {bar = 1, baz = 1}} = obj;",
+            errors: ["Destructuring assignment bar unnecessarily renamed.", "Destructuring assignment baz unnecessarily renamed."]
+        },
+        {
+            code: "let {foo: {bar: bar = {}} = {}} = obj;",
+            output: "let {foo: {bar = {}} = {}} = obj;",
+            errors: ["Destructuring assignment bar unnecessarily renamed."]
+        },
+        {
             code: "function func({foo: foo}) {}",
             output: "function func({foo}) {}",
             errors: ["Destructuring assignment foo unnecessarily renamed."]
@@ -203,6 +227,21 @@ ruleTester.run("no-useless-rename", rule, {
             errors: ["Destructuring assignment foo unnecessarily renamed.", "Destructuring assignment bar unnecessarily renamed."]
         },
         {
+            code: "function func({foo: foo = 1, 'bar': bar = 1, baz: baz}) {}",
+            output: "function func({foo = 1, bar = 1, baz}) {}",
+            errors: ["Destructuring assignment foo unnecessarily renamed.", "Destructuring assignment bar unnecessarily renamed.", "Destructuring assignment baz unnecessarily renamed."]
+        },
+        {
+            code: "function func({foo: {bar: bar = 1, 'baz': baz = 1}}) {}",
+            output: "function func({foo: {bar = 1, baz = 1}}) {}",
+            errors: ["Destructuring assignment bar unnecessarily renamed.", "Destructuring assignment baz unnecessarily renamed."]
+        },
+        {
+            code: "function func({foo: {bar: bar = {}} = {}}) {}",
+            output: "function func({foo: {bar = {}} = {}}) {}",
+            errors: ["Destructuring assignment bar unnecessarily renamed."]
+        },
+        {
             code: "({foo: foo}) => {}",
             output: "({foo}) => {}",
             errors: ["Destructuring assignment foo unnecessarily renamed."]
@@ -221,6 +260,21 @@ ruleTester.run("no-useless-rename", rule, {
             code: "({foo: foo, bar: bar}) => {}",
             output: "({foo, bar}) => {}",
             errors: ["Destructuring assignment foo unnecessarily renamed.", "Destructuring assignment bar unnecessarily renamed."]
+        },
+        {
+            code: "({foo: foo = 1, 'bar': bar = 1, baz: baz}) => {}",
+            output: "({foo = 1, bar = 1, baz}) => {}",
+            errors: ["Destructuring assignment foo unnecessarily renamed.", "Destructuring assignment bar unnecessarily renamed.", "Destructuring assignment baz unnecessarily renamed."]
+        },
+        {
+            code: "({foo: {bar: bar = 1, 'baz': baz = 1}}) => {}",
+            output: "({foo: {bar = 1, baz = 1}}) => {}",
+            errors: ["Destructuring assignment bar unnecessarily renamed.", "Destructuring assignment baz unnecessarily renamed."]
+        },
+        {
+            code: "({foo: {bar: bar = {}} = {}}) => {}",
+            output: "({foo: {bar = {}} = {}}) => {}",
+            errors: ["Destructuring assignment bar unnecessarily renamed."]
         },
         {
             code: "const {foo: foo, ...stuff} = myObject;",
@@ -299,6 +353,133 @@ ruleTester.run("no-useless-rename", rule, {
             code: "export {foo as foo, bar as bar} from 'foo';",
             output: "export {foo, bar} from 'foo';",
             errors: ["Export foo unnecessarily renamed.", "Export bar unnecessarily renamed."]
+        },
+
+        // Should not autofix if it would remove comments
+        {
+            code: "({/* comment */foo: foo} = {});",
+            output: "({/* comment */foo} = {});",
+            errors: ["Destructuring assignment foo unnecessarily renamed."]
+        },
+        {
+            code: "({foo, /* comment */bar: bar} = {});",
+            output: "({foo, /* comment */bar} = {});",
+            errors: ["Destructuring assignment bar unnecessarily renamed."]
+        },
+        {
+            code: "({foo/**/ : foo} = {});",
+            output: null,
+            errors: ["Destructuring assignment foo unnecessarily renamed."]
+        },
+        {
+            code: "({foo /**/: foo} = {});",
+            output: null,
+            errors: ["Destructuring assignment foo unnecessarily renamed."]
+        },
+        {
+            code: "({foo://\nfoo} = {});",
+            output: null,
+            errors: ["Destructuring assignment foo unnecessarily renamed."]
+        },
+        {
+            code: "({foo: /**/foo} = {});",
+            output: null,
+            errors: ["Destructuring assignment foo unnecessarily renamed."]
+        },
+        {
+            code: "({foo: foo/* comment */} = {});",
+            output: "({foo/* comment */} = {});",
+            errors: ["Destructuring assignment foo unnecessarily renamed."]
+        },
+        {
+            code: "({foo: foo//comment\n,bar} = {});",
+            output: "({foo//comment\n,bar} = {});",
+            errors: ["Destructuring assignment foo unnecessarily renamed."]
+        },
+        {
+            code: "import {/* comment */foo as foo} from 'foo';",
+            output: "import {/* comment */foo} from 'foo';",
+            errors: ["Import foo unnecessarily renamed."]
+        },
+        {
+            code: "import {foo,/* comment */bar as bar} from 'foo';",
+            output: "import {foo,/* comment */bar} from 'foo';",
+            errors: ["Import bar unnecessarily renamed."]
+        },
+        {
+            code: "import {foo/**/ as foo} from 'foo';",
+            output: null,
+            errors: ["Import foo unnecessarily renamed."]
+        },
+        {
+            code: "import {foo /**/as foo} from 'foo';",
+            output: null,
+            errors: ["Import foo unnecessarily renamed."]
+        },
+        {
+            code: "import {foo //\nas foo} from 'foo';",
+            output: null,
+            errors: ["Import foo unnecessarily renamed."]
+        },
+        {
+            code: "import {foo as/**/foo} from 'foo';",
+            output: null,
+            errors: ["Import foo unnecessarily renamed."]
+        },
+        {
+            code: "import {foo as foo/* comment */} from 'foo';",
+            output: "import {foo/* comment */} from 'foo';",
+            errors: ["Import foo unnecessarily renamed."]
+        },
+        {
+            code: "import {foo as foo/* comment */,bar} from 'foo';",
+            output: "import {foo/* comment */,bar} from 'foo';",
+            errors: ["Import foo unnecessarily renamed."]
+        },
+        {
+            code: "let foo; export {/* comment */foo as foo};",
+            output: "let foo; export {/* comment */foo};",
+            errors: ["Export foo unnecessarily renamed."]
+        },
+        {
+            code: "let foo, bar; export {foo,/* comment */bar as bar};",
+            output: "let foo, bar; export {foo,/* comment */bar};",
+            errors: ["Export bar unnecessarily renamed."]
+        },
+        {
+            code: "let foo; export {foo/**/as foo};",
+            output: null,
+            errors: ["Export foo unnecessarily renamed."]
+        },
+        {
+            code: "let foo; export {foo as/**/ foo};",
+            output: null,
+            errors: ["Export foo unnecessarily renamed."]
+        },
+        {
+            code: "let foo; export {foo as /**/foo};",
+            output: null,
+            errors: ["Export foo unnecessarily renamed."]
+        },
+        {
+            code: "let foo; export {foo as//comment\n foo};",
+            output: null,
+            errors: ["Export foo unnecessarily renamed."]
+        },
+        {
+            code: "let foo; export {foo as foo/* comment*/};",
+            output: "let foo; export {foo/* comment*/};",
+            errors: ["Export foo unnecessarily renamed."]
+        },
+        {
+            code: "let foo, bar; export {foo as foo/* comment*/,bar};",
+            output: "let foo, bar; export {foo/* comment*/,bar};",
+            errors: ["Export foo unnecessarily renamed."]
+        },
+        {
+            code: "let foo, bar; export {foo as foo//comment\n,bar};",
+            output: "let foo, bar; export {foo//comment\n,bar};",
+            errors: ["Export foo unnecessarily renamed."]
         }
     ]
 });

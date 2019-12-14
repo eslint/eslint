@@ -19,7 +19,7 @@ const ruleTester = new RuleTester();
 
 /**
  * Creates the expected error message object for the specified number of lines
- * @param {lines} lines - The number of lines expected.
+ * @param {lines} lines The number of lines expected.
  * @returns {Object} the expected error message object
  * @private
  */
@@ -37,7 +37,7 @@ function getExpectedError(lines) {
 
 /**
  * Creates the expected error message object for the specified number of lines
- * @param {lines} lines - The number of lines expected.
+ * @param {lines} lines The number of lines expected.
  * @returns {Object} the expected error message object
  * @private
  */
@@ -51,7 +51,7 @@ function getExpectedErrorEOF(lines) {
 
 /**
  * Creates the expected error message object for the specified number of lines
- * @param {lines} lines - The number of lines expected.
+ * @param {lines} lines The number of lines expected.
  * @returns {Object} the expected error message object
  * @private
  */

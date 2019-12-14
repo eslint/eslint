@@ -57,7 +57,8 @@ ruleTester.run("space-infix-ops", rule, {
                 message: "Operator '+' must be spaced.",
                 type: "BinaryExpression",
                 line: 1,
-                column: 2
+                column: 2,
+                endColumn: 3
             }]
         },
         {
@@ -67,7 +68,8 @@ ruleTester.run("space-infix-ops", rule, {
                 message: "Operator '+' must be spaced.",
                 type: "BinaryExpression",
                 line: 1,
-                column: 3
+                column: 3,
+                endColumn: 4
             }]
         },
         {
@@ -77,7 +79,8 @@ ruleTester.run("space-infix-ops", rule, {
                 message: "Operator '+' must be spaced.",
                 type: "BinaryExpression",
                 line: 1,
-                column: 2
+                column: 2,
+                endColumn: 3
             }]
         },
         {
@@ -87,7 +90,8 @@ ruleTester.run("space-infix-ops", rule, {
                 message: "Operator '||' must be spaced.",
                 type: "LogicalExpression",
                 line: 1,
-                column: 2
+                column: 2,
+                endColumn: 4
             }]
         },
         {
@@ -97,7 +101,8 @@ ruleTester.run("space-infix-ops", rule, {
                 message: "Operator '||' must be spaced.",
                 type: "LogicalExpression",
                 line: 1,
-                column: 3
+                column: 3,
+                endColumn: 5
             }]
         },
         {
@@ -107,7 +112,8 @@ ruleTester.run("space-infix-ops", rule, {
                 message: "Operator '||' must be spaced.",
                 type: "LogicalExpression",
                 line: 1,
-                column: 2
+                column: 2,
+                endColumn: 4
             }]
         },
         {
@@ -147,7 +153,8 @@ ruleTester.run("space-infix-ops", rule, {
                 message: "Operator '?' must be spaced.",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 2
+                column: 2,
+                endColumn: 3
             }]
         },
         {
@@ -157,7 +164,8 @@ ruleTester.run("space-infix-ops", rule, {
                 message: "Operator '?' must be spaced.",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 2
+                column: 2,
+                endColumn: 3
             }]
         },
         {
@@ -167,7 +175,8 @@ ruleTester.run("space-infix-ops", rule, {
                 message: "Operator ':' must be spaced.",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 6
+                column: 6,
+                endColumn: 7
             }]
         },
         {
@@ -177,7 +186,8 @@ ruleTester.run("space-infix-ops", rule, {
                 message: "Operator '?' must be spaced.",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 2
+                column: 2,
+                endColumn: 3
             }]
         },
         {
@@ -187,7 +197,8 @@ ruleTester.run("space-infix-ops", rule, {
                 message: "Operator '?' must be spaced.",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 3
+                column: 3,
+                endColumn: 4
             }]
         },
         {
@@ -197,7 +208,8 @@ ruleTester.run("space-infix-ops", rule, {
                 message: "Operator ':' must be spaced.",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 6
+                column: 6,
+                endColumn: 7
             }]
         },
         {
@@ -207,7 +219,8 @@ ruleTester.run("space-infix-ops", rule, {
                 message: "Operator ':' must be spaced.",
                 type: "ConditionalExpression",
                 line: 1,
-                column: 7
+                column: 7,
+                endColumn: 8
             }]
         },
         {

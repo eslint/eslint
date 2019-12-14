@@ -304,6 +304,44 @@ ruleTester.run("spaced-comment", rule, {
         {
             code: "/***\u2028*/",
             options: ["always", { exceptions: ["*"] }]
+        },
+
+        // ignore marker-only comments, https://github.com/eslint/eslint/issues/12036
+        {
+            code: "//#endregion",
+            options: ["always", { line: { markers: ["#endregion"] } }]
+        },
+        {
+            code: "/*foo*/",
+            options: ["always", { block: { markers: ["foo"] } }]
+        },
+        {
+            code: "/*foo*/",
+            options: ["always", { block: { markers: ["foo"], balanced: true } }]
+        },
+        {
+            code: "/*foo*/ /*bar*/",
+            options: ["always", { markers: ["foo", "bar"] }]
+        },
+        {
+            code: "//foo\n//bar",
+            options: ["always", { markers: ["foo", "bar"] }]
+        },
+        {
+            code: "/* foo */",
+            options: ["never", { markers: [" foo "] }]
+        },
+        {
+            code: "// foo ",
+            options: ["never", { markers: [" foo "] }]
+        },
+        {
+            code: "//*", // "*" is a marker by default
+            options: ["always"]
+        },
+        {
+            code: "/***/", // "*" is a marker by default
+            options: ["always"]
         }
     ],
 
@@ -586,6 +624,65 @@ ruleTester.run("spaced-comment", rule, {
             output: null,
             options: ["never"],
             errors: 1
+        },
+
+        // not a marker-only comment, regression tests for https://github.com/eslint/eslint/issues/12036
+        {
+            code: "//#endregionfoo",
+            output: "//#endregion foo",
+            options: ["always", { line: { markers: ["#endregion"] } }],
+            errors: [{
+                message: "Expected space or tab after '//#endregion' in comment.",
+                type: "Line"
+            }]
+        },
+        {
+            code: "/*#endregion*/",
+            output: "/* #endregion*/", // not an allowed marker for block comments
+            options: ["always", { line: { markers: ["#endregion"] } }],
+            errors: [{
+                message: "Expected space or tab after '/*' in comment.",
+                type: "Block"
+            }]
+        },
+        {
+            code: "/****/",
+            output: "/** **/",
+            options: ["always"],
+            errors: [{
+                message: "Expected space or tab after '/**' in comment.",
+                type: "Block"
+            }]
+        },
+        {
+            code: "/****/",
+            output: "/** * */",
+            options: ["always", { block: { balanced: true } }],
+            errors: [
+                {
+                    message: "Expected space or tab after '/**' in comment.",
+                    type: "Block"
+                },
+                {
+                    message: "Expected space or tab before '*/' in comment.",
+                    type: "Block"
+                }
+            ]
+        },
+        {
+            code: "/* foo */",
+            output: "/*foo*/",
+            options: ["never", { block: { markers: ["foo"], balanced: true } }], // not " foo "
+            errors: [
+                {
+                    message: "Unexpected space or tab after '/*' in comment.",
+                    type: "Block"
+                },
+                {
+                    message: "Unexpected space or tab before '*/' in comment.",
+                    type: "Block"
+                }
+            ]
         }
     ]
 

@@ -473,12 +473,12 @@ target.all = function() {
     target.test();
 };
 
-target.lint = function() {
+target.lint = function([fix = false] = []) {
     let errors = 0,
         lastReturn;
 
     echo("Validating JavaScript files");
-    lastReturn = exec(`${ESLINT} .`);
+    lastReturn = exec(`${ESLINT}${fix ? "--fix" : ""} .`);
     if (lastReturn.code !== 0) {
         errors++;
     }
@@ -780,7 +780,6 @@ target.gensite = function(prereleaseVersion) {
         echo("> Updating the demos (Step 13)");
         target.webpack("production");
         cp("-f", "build/eslint.js", `${SITE_DIR}src/js/eslint.js`);
-        cp("-f", "build/espree.js", `${SITE_DIR}src/js/espree.js`);
     } else {
         echo("> Skipped updating the demos (Step 13)");
     }
@@ -941,7 +940,7 @@ target.checkLicenses = function() {
 /**
  * Downloads a repository which has many js files to test performance with multi files.
  * Here, it's eslint@1.10.3 (450 files)
- * @param {Function} cb - A callback function.
+ * @param {Function} cb A callback function.
  * @returns {void}
  */
 function downloadMultifilesTestTarget(cb) {
@@ -988,7 +987,7 @@ function createConfigForPerformanceTest() {
 function time(cmd, runs, runNumber, results, cb) {
     const start = process.hrtime();
 
-    exec(cmd, { silent: true }, (code, stdout, stderr) => {
+    exec(cmd, { maxBuffer: 64 * 1024 * 1024, silent: true }, (code, stdout, stderr) => {
         const diff = process.hrtime(start),
             actual = (diff[0] * 1e3 + diff[1] / 1e6); // ms
 
@@ -1017,11 +1016,10 @@ function time(cmd, runs, runNumber, results, cb) {
 
 /**
  * Run a performance test.
- *
- * @param {string} title - A title.
- * @param {string} targets - Test targets.
- * @param {number} multiplier - A multiplier for limitation.
- * @param {Function} cb - A callback function.
+ * @param {string} title A title.
+ * @param {string} targets Test targets.
+ * @param {number} multiplier A multiplier for limitation.
+ * @param {Function} cb A callback function.
  * @returns {void}
  */
 function runPerformanceTest(title, targets, multiplier, cb) {

@@ -11,7 +11,9 @@
 * Emacs: [Flycheck](http://www.flycheck.org/) supports ESLint with the [javascript-eslint](http://www.flycheck.org/en/latest/languages.html#javascript) checker.
 * Eclipse Orion: ESLint is the [default linter](https://dev.eclipse.org/mhonarc/lists/orion-dev/msg02718.html)
 * Eclipse IDE: [Tern ESLint linter](https://github.com/angelozerr/tern.java/wiki/Tern-Linter-ESLint)
-* TextMate 2: [ESLint Bundle](https://github.com/natesilva/javascript-eslint.tmbundle)
+* TextMate 2:
+    * [eslint.tmbundle](https://github.com/ryanfitzer/eslint.tmbundle)
+    * [javascript-eslint.tmbundle](https://github.com/natesilva/javascript-eslint.tmbundle)
 * Atom: [linter-eslint](https://atom.io/packages/linter-eslint)
 * IntelliJ IDEA, RubyMine, WebStorm, PhpStorm, PyCharm, AppCode, Android Studio, 0xDBE: [ESLint Plugin](https://plugins.jetbrains.com/plugin/7494-eslint)
 * Visual Studio Code: [ESLint Extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)

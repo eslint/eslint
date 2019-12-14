@@ -67,7 +67,7 @@ describe("RuleTester", () => {
     let ruleTester;
 
     /**
-     * @description A helper function to verify Node.js core error messages.
+     * A helper function to verify Node.js core error messages.
      * @param {string} actual The actual input
      * @param {string} expected The expected input
      * @returns {Function} Error callback to verify that the message is correct
@@ -324,7 +324,11 @@ describe("RuleTester", () => {
                     "bar = baz;"
                 ],
                 invalid: [
-                    { code: "var foo = bar; var qux = boop;", output: null, errors: 2 }
+                    {
+                        code: "var foo = bar; var qux = boop;",
+                        output: null,
+                        errors: 2
+                    }
                 ]
             });
         }, /Expected no autofixes to be suggested/u);
@@ -955,6 +959,161 @@ describe("RuleTester", () => {
         }, "Error must specify 'messageId' if 'data' is used.");
     });
 
+    describe("suggestions", () => {
+        it("should pass with valid suggestions", () => {
+            ruleTester.run("suggestions-basic", require("../../fixtures/testers/rule-tester/suggestions").basic, {
+                valid: [
+                    "var boo;"
+                ],
+                invalid: [{
+                    code: "var foo;",
+                    errors: [{
+                        suggestions: [{
+                            desc: "Rename identifier 'foo' to 'bar'",
+                            output: "var bar;"
+                        }]
+                    }]
+                }]
+            });
+        });
+
+        it("should pass with suggestions on multiple lines", () => {
+            ruleTester.run("suggestions-basic", require("../../fixtures/testers/rule-tester/suggestions").basic, {
+                valid: [],
+                invalid: [
+                    {
+                        code: "function foo() {\n  var foo = 1;\n}",
+                        errors: [{
+                            suggestions: [{
+                                desc: "Rename identifier 'foo' to 'bar'",
+                                output: "function bar() {\n  var foo = 1;\n}"
+                            }]
+                        }, {
+                            suggestions: [{
+                                desc: "Rename identifier 'foo' to 'bar'",
+                                output: "function foo() {\n  var bar = 1;\n}"
+                            }]
+                        }]
+                    }
+                ]
+            });
+        });
+
+        it("should pass with suggestions using messageIds", () => {
+            ruleTester.run("suggestions-messageIds", require("../../fixtures/testers/rule-tester/suggestions").withMessageIds, {
+                valid: [],
+                invalid: [{
+                    code: "var foo;",
+                    errors: [{
+                        suggestions: [{
+                            messageId: "renameFoo",
+                            output: "var bar;"
+                        }, {
+                            desc: "Rename identifier 'foo' to 'baz'",
+                            output: "var baz;"
+                        }]
+                    }]
+                }]
+            });
+        });
+
+        it("should support explicitly expecting no suggestions", () => {
+            ruleTester.run("suggestions-basic", require("../../fixtures/testers/rule-tester/no-eval"), {
+                valid: [],
+                invalid: [{
+                    code: "eval('var foo');",
+                    errors: [{
+                        suggestions: void 0
+                    }]
+                }]
+            });
+        });
+
+        it("should fail when expecting no suggestions and there are suggestions", () => {
+            assert.throws(() => {
+                ruleTester.run("suggestions-basic", require("../../fixtures/testers/rule-tester/suggestions").basic, {
+                    valid: [],
+                    invalid: [{
+                        code: "var foo;",
+                        errors: [{
+                            suggestions: void 0
+                        }]
+                    }]
+                });
+            }, "Error should have no suggestions on error with message: \"Avoid using identifiers named 'foo'.\"");
+        });
+
+        it("should fail when testing for suggestions that don't exist", () => {
+            assert.throws(() => {
+                ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                    valid: [],
+                    invalid: [{
+                        code: "var foo;",
+                        errors: [{
+                            suggestions: [{
+                                messageId: "this-does-not-exist"
+                            }]
+                        }]
+                    }]
+                });
+            }, "Error should have an array of suggestions. Instead received \"undefined\" on error with message: \"Bad var.\"");
+        });
+
+        it("should fail when there are a different number of suggestions", () => {
+            assert.throws(() => {
+                ruleTester.run("suggestions-basic", require("../../fixtures/testers/rule-tester/suggestions").basic, {
+                    valid: [],
+                    invalid: [{
+                        code: "var foo;",
+                        errors: [{
+                            suggestions: [{
+                                desc: "Rename identifier 'foo' to 'bar'",
+                                output: "var bar;"
+                            }, {
+                                desc: "Rename identifier 'foo' to 'baz'",
+                                output: "var baz;"
+                            }]
+                        }]
+                    }]
+                });
+            }, "Error should have 2 suggestions. Instead found 1 suggestions");
+        });
+
+        it("should fail when the suggestion description doesn't match", () => {
+            assert.throws(() => {
+                ruleTester.run("suggestions-basic", require("../../fixtures/testers/rule-tester/suggestions").basic, {
+                    valid: [],
+                    invalid: [{
+                        code: "var foo;",
+                        errors: [{
+                            suggestions: [{
+                                desc: "not right",
+                                output: "var baz;"
+                            }]
+                        }]
+                    }]
+                });
+            }, "Error suggestion at index: 0 should have desc of: \"Rename identifier 'foo' to 'bar'\"");
+        });
+
+        it("should fail when the resulting suggestion output doesn't match", () => {
+            assert.throws(() => {
+                ruleTester.run("suggestions-basic", require("../../fixtures/testers/rule-tester/suggestions").basic, {
+                    valid: [],
+                    invalid: [{
+                        code: "var foo;",
+                        errors: [{
+                            suggestions: [{
+                                desc: "Rename identifier 'foo' to 'bar'",
+                                output: "var baz;"
+                            }]
+                        }]
+                    }]
+                });
+            }, "Expected the applied suggestion fix to match the test suggestion output");
+        });
+    });
+
     describe("naming test cases", () => {
 
         /**
@@ -1071,5 +1230,53 @@ describe("RuleTester", () => {
                 }
             );
         }, /A fatal parsing error occurred in autofix/u);
+    });
+
+    describe("sanitize test cases", () => {
+        let originalRuleTesterIt;
+        let spyRuleTesterIt;
+
+        before(() => {
+            originalRuleTesterIt = RuleTester.it;
+            spyRuleTesterIt = sinon.spy();
+            RuleTester.it = spyRuleTesterIt;
+        });
+        after(() => {
+            RuleTester.it = originalRuleTesterIt;
+        });
+        beforeEach(() => {
+            spyRuleTesterIt.resetHistory();
+            ruleTester = new RuleTester();
+        });
+        it("should present newline when using back-tick as new line", () => {
+            const code = `
+            var foo = bar;`;
+
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: [],
+                invalid: [
+                    {
+                        code,
+                        errors: [/^Bad var/u]
+                    }
+                ]
+            });
+            sinon.assert.calledWith(spyRuleTesterIt, code);
+        });
+        it("should present \\u0000 as a string", () => {
+            const code = "\u0000";
+
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: [],
+                invalid: [
+                    {
+                        code,
+                        errors: [/^Bad var/u]
+                    }
+                ]
+            });
+            sinon.assert.calledWith(spyRuleTesterIt, "\\u0000");
+        });
+
     });
 });

@@ -11,9 +11,6 @@
 const rule = require("../../../lib/rules/space-in-parens"),
     { RuleTester } = require("../../../lib/rule-tester");
 
-const MISSING_SPACE_ERROR = "There must be a space inside this paren.",
-    REJECTED_SPACE_ERROR = "There should be no spaces inside this paren.";
-
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
@@ -23,6 +20,7 @@ const ruleTester = new RuleTester();
 ruleTester.run("space-in-parens", rule, {
 
     valid: [
+        { code: "foo()", options: ["never"] },
         { code: "foo()", options: ["always"] },
         { code: "foo( bar )", options: ["always"] },
         { code: "foo\n(\nbar\n)\n", options: ["always"] },
@@ -38,7 +36,6 @@ ruleTester.run("space-in-parens", rule, {
         { code: "var foo = `(bar)`;", options: ["always"], parserOptions: { ecmaVersion: 6 } },
         { code: "var foo = `(bar ${baz})`;", options: ["always"], parserOptions: { ecmaVersion: 6 } },
         { code: "var foo = `(bar ${( 1 + 2 )})`;", options: ["always"], parserOptions: { ecmaVersion: 6 } },
-        { code: "bar()", options: ["never"] },
         { code: "bar(baz)", options: ["never"] },
         { code: "var x = (4 + 5) * 6", options: ["never"] },
         { code: "foo\n(\nbar\n)\n", options: ["never"] },
@@ -64,6 +61,7 @@ ruleTester.run("space-in-parens", rule, {
         // exceptions
         { code: "foo({ bar: 'baz' })", options: ["always", { exceptions: ["{}"] }] },
         { code: "foo( { bar: 'baz' } )", options: ["always", { exceptions: ["[]", "()"] }] },
+        { code: "( (foo(bar() ) ) );", options: ["never", { exceptions: ["()"] }] },
         { code: "foo( 1, { bar: 'baz' })", options: ["always", { exceptions: ["{}"] }] },
         { code: "foo({ bar: 'baz' }, 1 )", options: ["always", { exceptions: ["{}"] }] },
         { code: "foo({\nbar: 'baz',\nbaz: 'bar'\n})", options: ["always", { exceptions: ["{}"] }] },
@@ -95,16 +93,18 @@ ruleTester.run("space-in-parens", rule, {
         { code: "foo( (1 + 2) / 1)", options: ["never", { exceptions: ["()"] }] },
         { code: "foo( (\n1 + 2\n) )", options: ["never", { exceptions: ["()"] }] },
 
-        { code: "foo()", options: ["always", { exceptions: ["empty"] }] },
-        { code: "foo( )", options: ["always", { exceptions: ["{}"] }] },
-        { code: "foo(\n1 + 2\n)", options: ["always", { exceptions: ["empty"] }] },
         { code: "foo()", options: ["never", { exceptions: ["{}"] }] },
         { code: "foo( )", options: ["never", { exceptions: ["empty"] }] },
+        { code: "foo()", options: ["always", { exceptions: ["empty"] }] },
+        { code: "foo( )", options: ["always", { exceptions: ["[]"] }] },
+        { code: "foo(( x, {bar:'baz'} ))", options: ["always", { exceptions: ["empty", "()"] }] },
+        { code: "foo( [1, 2], 1 )", options: ["always", { exceptions: ["empty", "()"] }] },
+        { code: "foo(\n1 + 2\n)", options: ["always", { exceptions: ["empty"] }] },
         { code: "foo( \n1 + 2\n )", options: ["never", { exceptions: ["empty"] }] },
 
         { code: "foo({ bar: 'baz' }, [ 1, 2 ])", options: ["always", { exceptions: ["{}", "[]"] }] },
         { code: "foo({\nbar: 'baz'\n}, [\n1,\n2\n])", options: ["always", { exceptions: ["{}", "[]"] }] },
-        { code: "foo(); bar({bar:'baz'}); baz([1,2])", options: ["always", { exceptions: ["{}", "[]", "()"] }] },
+        { code: "foo(); bar({bar:'baz'}); baz([1,2])", options: ["always", { exceptions: ["{}", "[]", "()", "empty"] }] },
         { code: "foo( { bar: 'baz' }, [ 1, 2 ] )", options: ["never", { exceptions: ["{}", "[]"] }] },
         { code: "foo( {\nbar: 'baz'\n}, [\n1,\n2\n] )", options: ["never", { exceptions: ["{}", "[]"] }] },
         { code: "foo( ); bar( {bar:'baz'} ); baz( [1,2] )", options: ["never", { exceptions: ["{}", "[]", "empty"] }] },
@@ -115,71 +115,108 @@ ruleTester.run("space-in-parens", rule, {
     ],
 
     invalid: [
-        {
-            code: "foo( )",
-            output: "foo()",
-            options: ["never"],
-            errors: [{ message: REJECTED_SPACE_ERROR, line: 1, column: 4 }]
-        },
-        {
-            code: "foo( bar)",
-            output: "foo( bar )",
-            options: ["always"],
-            errors: [{ message: MISSING_SPACE_ERROR, line: 1, column: 9 }]
-        },
-        {
-            code: "foo(bar)",
-            output: "foo( bar )",
-            options: ["always"],
-            errors: [
-                { message: MISSING_SPACE_ERROR, line: 1, column: 4 },
-                { message: MISSING_SPACE_ERROR, line: 1, column: 8 }
-            ]
-        },
-        {
-            code: "var x = ( 1 + 2) * 3",
-            output: "var x = ( 1 + 2 ) * 3",
-            options: ["always"],
-            errors: [{ message: MISSING_SPACE_ERROR, line: 1, column: 16 }]
-        },
-        {
-            code: "var x = (1 + 2 ) * 3",
-            output: "var x = ( 1 + 2 ) * 3",
-            options: ["always"],
-            errors: [{ message: MISSING_SPACE_ERROR, line: 1, column: 9 }]
-        },
-        {
-            code: "foo\n(bar\n)\n",
-            output: "foo\n( bar\n)\n",
-            options: ["always"],
-            errors: [{ message: MISSING_SPACE_ERROR, line: 2, column: 1 }]
-        },
+
+        // methods and functions
         {
             code: "bar(baz )",
             output: "bar(baz)",
             options: ["never"],
-            errors: [REJECTED_SPACE_ERROR]
+            errors: [{ messageId: "rejectedClosingSpace" }]
         },
         {
             code: "bar( baz )",
             output: "bar(baz)",
             options: ["never"],
             errors: [
-                { message: REJECTED_SPACE_ERROR, line: 1, column: 4 },
-                { message: REJECTED_SPACE_ERROR, line: 1, column: 10 }
+                { messageId: "rejectedOpeningSpace", line: 1, column: 5, endColumn: 6 },
+                { messageId: "rejectedClosingSpace", line: 1, column: 9, endColumn: 10 }
             ]
+        },
+        {
+            code: "bar(  baz  )",
+            output: "bar(baz)",
+            options: ["never"],
+            errors: [
+                { messageId: "rejectedOpeningSpace", line: 1, column: 5, endColumn: 7 },
+                { messageId: "rejectedClosingSpace", line: 1, column: 10, endColumn: 12 }
+            ]
+        },
+        {
+            code: "foo( )",
+            output: "foo()",
+            options: ["never"],
+            errors: [
+                { messageId: "rejectedOpeningSpace", line: 1, column: 5, endColumn: 6 },
+                { messageId: "rejectedClosingSpace", line: 1, column: 5, endColumn: 6 }
+            ]
+        },
+        {
+            code: "foo(  )",
+            output: "foo()",
+            options: ["never"],
+            errors: [
+                { messageId: "rejectedOpeningSpace", line: 1, column: 5, endColumn: 7 },
+                { messageId: "rejectedClosingSpace", line: 1, column: 5, endColumn: 7 }
+            ]
+        },
+        {
+            code: "foo(bar() )",
+            output: "foo(bar())",
+            options: ["never"],
+            errors: [{ messageId: "rejectedClosingSpace" }]
+        },
+        {
+            code: "foo\n(\nbar )",
+            output: "foo\n(\nbar)",
+            options: ["never"],
+            errors: [{ messageId: "rejectedClosingSpace", line: 3, column: 4 }]
+        },
+        {
+            code: "foo\n(bar\n)\n",
+            output: "foo\n( bar\n)\n",
+            options: ["always"],
+            errors: [{ messageId: "missingOpeningSpace", line: 2, column: 1 }]
+        },
+        {
+            code: "foo( bar)",
+            output: "foo( bar )",
+            options: ["always"],
+            errors: [{ messageId: "missingClosingSpace", line: 1, column: 9 }]
+        },
+        {
+            code: "foo(bar)",
+            output: "foo( bar )",
+            options: ["always"],
+            errors: [
+                { messageId: "missingOpeningSpace", line: 1, column: 4, endColumn: 5 },
+                { messageId: "missingClosingSpace", line: 1, column: 8, endColumn: 9 }
+            ]
+        },
+
+        // variable declaration and formulas
+        {
+            code: "var x = ( 1 + 2) * 3",
+            output: "var x = ( 1 + 2 ) * 3",
+            options: ["always"],
+            errors: [{ messageId: "missingClosingSpace", line: 1, column: 16 }]
+        },
+        {
+            code: "var x = (1 + 2 ) * 3",
+            output: "var x = ( 1 + 2 ) * 3",
+            options: ["always"],
+            errors: [{ messageId: "missingOpeningSpace", line: 1, column: 9 }]
         },
         {
             code: "var x = ( 4 + 5) * 6",
             output: "var x = (4 + 5) * 6",
             options: ["never"],
-            errors: [REJECTED_SPACE_ERROR]
+            errors: [{ messageId: "rejectedOpeningSpace" }]
         },
         {
             code: "var x = (4 + 5 ) * 6",
             output: "var x = (4 + 5) * 6",
             options: ["never"],
-            errors: [REJECTED_SPACE_ERROR]
+            errors: [{ messageId: "rejectedClosingSpace" }]
         },
 
         // comments
@@ -187,247 +224,345 @@ ruleTester.run("space-in-parens", rule, {
             code: "foo(/* bar */)",
             output: "foo( /* bar */ )",
             options: ["always"],
-            errors: [MISSING_SPACE_ERROR, MISSING_SPACE_ERROR]
+            errors: [
+                { messageId: "missingOpeningSpace" },
+                { messageId: "missingClosingSpace" }
+            ]
         },
         {
             code: "foo(/* bar */baz )",
             output: "foo( /* bar */baz )",
             options: ["always"],
-            errors: [MISSING_SPACE_ERROR]
+            errors: [{ messageId: "missingOpeningSpace" }]
         },
         {
             code: "foo(/* bar */ baz )",
             output: "foo( /* bar */ baz )",
             options: ["always"],
-            errors: [MISSING_SPACE_ERROR]
+            errors: [{ messageId: "missingOpeningSpace" }]
         },
         {
             code: "foo( baz/* bar */)",
             output: "foo( baz/* bar */ )",
             options: ["always"],
-            errors: [MISSING_SPACE_ERROR]
+            errors: [{ messageId: "missingClosingSpace" }]
         },
         {
             code: "foo( baz /* bar */)",
             output: "foo( baz /* bar */ )",
             options: ["always"],
-            errors: [MISSING_SPACE_ERROR]
+            errors: [{ messageId: "missingClosingSpace" }]
         },
         {
             code: "foo( /* bar */ )",
             output: "foo(/* bar */)",
             options: ["never"],
-            errors: [REJECTED_SPACE_ERROR, REJECTED_SPACE_ERROR]
+            errors: [
+                { messageId: "rejectedOpeningSpace" },
+                { messageId: "rejectedClosingSpace" }
+            ]
         },
         {
             code: "foo( /* bar */ baz)",
             output: "foo(/* bar */ baz)",
             options: ["never"],
-            errors: [{ message: REJECTED_SPACE_ERROR, line: 1, column: 4 }]
+            errors: [{ messageId: "rejectedOpeningSpace", line: 1, column: 5 }]
         },
 
         // exceptions
         {
-            code: "foo({ bar: 'baz' })",
-            output: "foo( { bar: 'baz' } )",
-            options: ["always", { exceptions: ["[]"] }],
-            errors: [MISSING_SPACE_ERROR, MISSING_SPACE_ERROR]
-        },
-        {
-            code: "foo( { bar: 'baz' } )",
-            output: "foo({ bar: 'baz' })",
-            options: ["always", { exceptions: ["{}"] }],
-            errors: [REJECTED_SPACE_ERROR, REJECTED_SPACE_ERROR]
-        },
-        {
-            code: "foo({ bar: 'baz' })",
-            output: "foo( { bar: 'baz' } )",
-            options: ["never", { exceptions: ["{}"] }],
-            errors: [MISSING_SPACE_ERROR, MISSING_SPACE_ERROR]
-        },
-        {
-            code: "foo( { bar: 'baz' } )",
-            output: "foo({ bar: 'baz' })",
-            options: ["never", { exceptions: ["[]"] }],
-            errors: [REJECTED_SPACE_ERROR, REJECTED_SPACE_ERROR]
-        },
-        {
-            code: "foo( { bar: 'baz' })",
-            output: "foo({ bar: 'baz' })",
-            options: ["always", { exceptions: ["{}"] }],
-            errors: [REJECTED_SPACE_ERROR]
-        },
-        {
-            code: "foo( { bar: 'baz' })",
-            output: "foo( { bar: 'baz' } )",
-            options: ["never", { exceptions: ["{}"] }],
-            errors: [MISSING_SPACE_ERROR]
-        },
-        {
-            code: "foo({ bar: 'baz' } )",
-            output: "foo({ bar: 'baz' })",
-            options: ["always", { exceptions: ["{}"] }],
-            errors: [REJECTED_SPACE_ERROR]
-        },
-        {
-            code: "foo({ bar: 'baz' } )",
-            output: "foo( { bar: 'baz' } )",
-            options: ["never", { exceptions: ["{}"] }],
-            errors: [MISSING_SPACE_ERROR]
-        },
-        {
-            code: "foo([ 1, 2 ])",
-            output: "foo( [ 1, 2 ] )",
-            options: ["always", { exceptions: ["empty"] }],
-            errors: [MISSING_SPACE_ERROR, MISSING_SPACE_ERROR]
-        },
-        {
-            code: "foo( [ 1, 2 ] )",
-            output: "foo([ 1, 2 ])",
-            options: ["always", { exceptions: ["[]"] }],
-            errors: [REJECTED_SPACE_ERROR, REJECTED_SPACE_ERROR]
-        },
-        {
-            code: "foo([ 1, 2 ])",
-            output: "foo( [ 1, 2 ] )",
-            options: ["never", { exceptions: ["[]"] }],
-            errors: [MISSING_SPACE_ERROR, MISSING_SPACE_ERROR]
-        },
-        {
-            code: "foo( [ 1, 2 ] )",
-            output: "foo([ 1, 2 ])",
-            options: ["never", { exceptions: ["()"] }],
-            errors: [REJECTED_SPACE_ERROR, REJECTED_SPACE_ERROR]
-        },
-        {
-            code: "foo([ 1, 2 ] )",
-            output: "foo([ 1, 2 ])",
-            options: ["always", { exceptions: ["[]"] }],
-            errors: [REJECTED_SPACE_ERROR]
-        },
-        {
-            code: "foo([ 1, 2 ] )",
-            output: "foo( [ 1, 2 ] )",
-            options: ["never", { exceptions: ["[]"] }],
-            errors: [MISSING_SPACE_ERROR]
-        },
-        {
-            code: "foo( [ 1, 2 ])",
-            output: "foo([ 1, 2 ])",
-            options: ["always", { exceptions: ["[]"] }],
-            errors: [REJECTED_SPACE_ERROR]
-        },
-        {
-            code: "foo( [ 1, 2 ])",
-            output: "foo( [ 1, 2 ] )",
-            options: ["never", { exceptions: ["[]"] }],
-            errors: [MISSING_SPACE_ERROR]
-        },
-        {
-            code: "(( 1 + 2 ))",
-            output: "( ( 1 + 2 ) )",
-            options: ["always", { exceptions: ["[]"] }],
-            errors: [MISSING_SPACE_ERROR, MISSING_SPACE_ERROR]
-        },
-        {
-            code: "( ( 1 + 2 ) )",
-            output: "(( 1 + 2 ))",
-            options: ["always", { exceptions: ["()"] }],
+            code: "foo()",
+            output: "foo( )",
+            options: ["never", { exceptions: ["empty"] }],
             errors: [
-                { message: REJECTED_SPACE_ERROR, line: 1, column: 1 },
-                { message: REJECTED_SPACE_ERROR, line: 1, column: 13 }
+                { messageId: "missingOpeningSpace", line: 1, column: 4 },
+                { messageId: "missingClosingSpace", line: 1, column: 5 }
             ]
         },
         {
-            code: "( ( 1 + 2 ) )",
-            output: "((1 + 2))",
-            options: ["never"],
+            code: "foo( )",
+            output: "foo()",
+            options: ["always", { exceptions: ["()", "empty"] }],
             errors: [
-                { message: REJECTED_SPACE_ERROR, line: 1, column: 1 },
-                { message: REJECTED_SPACE_ERROR, line: 1, column: 3 },
-                { message: REJECTED_SPACE_ERROR, line: 1, column: 11 },
-                { message: REJECTED_SPACE_ERROR, line: 1, column: 13 }
+                { messageId: "rejectedOpeningSpace", line: 1, column: 5 },
+                { messageId: "rejectedClosingSpace", line: 1, column: 5 }
             ]
-        },
-        {
-            code: "( ( 1 + 2 ) )",
-            output: "((1 + 2))",
-            options: ["never", { exceptions: ["[]"] }],
-            errors: [REJECTED_SPACE_ERROR, REJECTED_SPACE_ERROR, REJECTED_SPACE_ERROR, REJECTED_SPACE_ERROR]
-        },
-        {
-            code: "( ( 1 + 2 ))",
-            output: "(( 1 + 2 ))",
-            options: ["always", { exceptions: ["()"] }],
-            errors: [{ message: REJECTED_SPACE_ERROR, line: 1, column: 1 }]
-        },
-        {
-            code: "( (1 + 2))",
-            output: "( (1 + 2) )",
-            options: ["never", { exceptions: ["()"] }],
-            errors: [MISSING_SPACE_ERROR]
-        },
-        {
-            code: "(( 1 + 2 ) )",
-            output: "(( 1 + 2 ))",
-            options: ["always", { exceptions: ["()"] }],
-            errors: [REJECTED_SPACE_ERROR]
-        },
-        {
-            code: "((1 + 2) )",
-            output: "( (1 + 2) )",
-            options: ["never", { exceptions: ["()"] }],
-            errors: [MISSING_SPACE_ERROR]
-        },
-        {
-            code: "var result = ( 1 / ( 1 + 2 ) ) + 3",
-            output: "var result = ( 1 / ( 1 + 2 )) + 3",
-            options: ["always", { exceptions: ["()"] }],
-            errors: [REJECTED_SPACE_ERROR]
-        },
-        {
-            code: "var result = (1 / (1 + 2)) + 3",
-            output: "var result = (1 / (1 + 2) ) + 3",
-            options: ["never", { exceptions: ["()"] }],
-            errors: [MISSING_SPACE_ERROR]
-        },
-        {
-            code: "var result = ( 1 / ( 1 + 2)) + 3",
-            output: "var result = ( 1 / ( 1 + 2 )) + 3",
-            options: ["always", { exceptions: ["()"] }],
-            errors: [MISSING_SPACE_ERROR]
         },
         {
             code: "foo( )",
             output: "foo()",
             options: ["always", { exceptions: ["empty"] }],
-            errors: [{ message: REJECTED_SPACE_ERROR, line: 1, column: 4 }]
+            errors: [
+                { messageId: "rejectedOpeningSpace", line: 1, column: 5 },
+                { messageId: "rejectedClosingSpace", line: 1, column: 5 }
+            ]
         },
         {
-            code: "foo()",
-            output: "foo( )",
+            code: "foo( bar() )",
+            output: "foo( bar())",
+            options: ["always", { exceptions: ["()", "empty"] }],
+            errors: [
+                { messageId: "rejectedClosingSpace", line: 1, column: 11 }
+            ]
+        },
+        {
+            code: "foo(bar())",
+            output: "foo(bar() )",
+            options: ["never", { exceptions: ["()"] }],
+            errors: [
+                { messageId: "missingClosingSpace", line: 1, column: 10 }
+            ]
+        },
+        {
+            code: "foo( bar() )",
+            output: "foo(bar( ))",
             options: ["never", { exceptions: ["empty"] }],
-            errors: [{ message: MISSING_SPACE_ERROR, line: 1, column: 4 }]
+            errors: [
+                { messageId: "rejectedOpeningSpace", line: 1, column: 5 },
+                { messageId: "missingOpeningSpace", line: 1, column: 9 },
+                { messageId: "missingClosingSpace", line: 1, column: 10 },
+                { messageId: "rejectedClosingSpace", line: 1, column: 11 }
+            ]
         },
         {
-            code: "foo\n(\nbar )\n",
-            output: "foo\n(\nbar)\n",
+            code: "foo([1,2], bar() )",
+            output: "foo( [1,2], bar())",
+            options: ["never", { exceptions: ["[]"] }],
+            errors: [
+                { messageId: "missingOpeningSpace", line: 1, column: 4 },
+                { messageId: "rejectedClosingSpace", line: 1, column: 17 }
+            ]
+        },
+        {
+            code: "foo({ bar: 'baz' })",
+            output: "foo( { bar: 'baz' } )",
+            options: ["always", { exceptions: ["[]"] }],
+            errors: [
+                { messageId: "missingOpeningSpace" },
+                { messageId: "missingClosingSpace" }
+            ]
+        },
+        {
+            code: "foo( { bar: 'baz' } )",
+            output: "foo({ bar: 'baz' })",
+            options: ["always", { exceptions: ["{}"] }],
+            errors: [
+                { messageId: "rejectedOpeningSpace" },
+                { messageId: "rejectedClosingSpace" }
+            ]
+        },
+        {
+            code: "foo({ bar: 'baz' })",
+            output: "foo( { bar: 'baz' } )",
+            options: ["never", { exceptions: ["{}"] }],
+            errors: [
+                { messageId: "missingOpeningSpace" },
+                { messageId: "missingClosingSpace" }
+            ]
+        },
+        {
+            code: "foo( { bar: 'baz' } )",
+            output: "foo({ bar: 'baz' })",
+            options: ["never", { exceptions: ["[]"] }],
+            errors: [
+                { messageId: "rejectedOpeningSpace" },
+                { messageId: "rejectedClosingSpace" }
+            ]
+        },
+        {
+            code: "foo( { bar: 'baz' })",
+            output: "foo({ bar: 'baz' })",
+            options: ["always", { exceptions: ["{}"] }],
+            errors: [{ messageId: "rejectedOpeningSpace" }]
+        },
+        {
+            code: "foo( { bar: 'baz' })",
+            output: "foo( { bar: 'baz' } )",
+            options: ["never", { exceptions: ["{}"] }],
+            errors: [{ messageId: "missingClosingSpace" }]
+        },
+        {
+            code: "foo({ bar: 'baz' } )",
+            output: "foo({ bar: 'baz' })",
+            options: ["always", { exceptions: ["{}"] }],
+            errors: [{ messageId: "rejectedClosingSpace" }]
+        },
+        {
+            code: "foo({ bar: 'baz' } )",
+            output: "foo( { bar: 'baz' } )",
+            options: ["never", { exceptions: ["{}"] }],
+            errors: [{ messageId: "missingOpeningSpace" }]
+        },
+        {
+            code: "foo([ 1, 2 ])",
+            output: "foo( [ 1, 2 ] )",
+            options: ["always", { exceptions: ["empty"] }],
+            errors: [
+                { messageId: "missingOpeningSpace" },
+                { messageId: "missingClosingSpace" }
+            ]
+        },
+        {
+            code: "foo( [ 1, 2 ] )",
+            output: "foo([ 1, 2 ])",
+            options: ["always", { exceptions: ["[]"] }],
+            errors: [
+                { messageId: "rejectedOpeningSpace" },
+                { messageId: "rejectedClosingSpace" }
+            ]
+        },
+        {
+            code: "foo([ 1, 2 ])",
+            output: "foo( [ 1, 2 ] )",
+            options: ["never", { exceptions: ["[]"] }],
+            errors: [
+                { messageId: "missingOpeningSpace" },
+                { messageId: "missingClosingSpace" }
+            ]
+        },
+        {
+            code: "foo( [ 1, 2 ] )",
+            output: "foo([ 1, 2 ])",
+            options: ["never", { exceptions: ["()"] }],
+            errors: [
+                { messageId: "rejectedOpeningSpace" },
+                { messageId: "rejectedClosingSpace" }
+            ]
+        },
+        {
+            code: "foo([ 1, 2 ] )",
+            output: "foo([ 1, 2 ])",
+            options: ["always", { exceptions: ["[]"] }],
+            errors: [{ messageId: "rejectedClosingSpace" }]
+        },
+        {
+            code: "foo([ 1, 2 ] )",
+            output: "foo( [ 1, 2 ] )",
+            options: ["never", { exceptions: ["[]"] }],
+            errors: [{ messageId: "missingOpeningSpace" }]
+        },
+        {
+            code: "foo( [ 1, 2 ])",
+            output: "foo([ 1, 2 ])",
+            options: ["always", { exceptions: ["[]"] }],
+            errors: [{ messageId: "rejectedOpeningSpace" }]
+        },
+        {
+            code: "foo( [ 1, 2 ])",
+            output: "foo( [ 1, 2 ] )",
+            options: ["never", { exceptions: ["[]"] }],
+            errors: [{ messageId: "missingClosingSpace" }]
+        },
+        {
+            code: "(( 1 + 2 ))",
+            output: "( ( 1 + 2 ) )",
+            options: ["always", { exceptions: ["[]"] }],
+            errors: [
+                { messageId: "missingOpeningSpace" },
+                { messageId: "missingClosingSpace" }
+            ]
+        },
+        {
+            code: "( ( 1 + 2 ) )",
+            output: "(( 1 + 2 ))",
+            options: ["always", { exceptions: ["()"] }],
+            errors: [
+                { messageId: "rejectedOpeningSpace", line: 1, column: 2 },
+                { messageId: "rejectedClosingSpace", line: 1, column: 12 }
+            ]
+        },
+        {
+            code: "( ( 1 + 2 ) )",
+            output: "((1 + 2))",
             options: ["never"],
-            errors: [{ message: REJECTED_SPACE_ERROR, line: 3, column: 5 }]
+            errors: [
+                { messageId: "rejectedOpeningSpace", line: 1, column: 2 },
+                { messageId: "rejectedOpeningSpace", line: 1, column: 4 },
+                { messageId: "rejectedClosingSpace", line: 1, column: 10 },
+                { messageId: "rejectedClosingSpace", line: 1, column: 12 }
+            ]
         },
         {
-            code: "var foo = `(bar ${(1 + 2 )})`;",
+            code: "( ( 1 + 2 ) )",
+            output: "((1 + 2))",
+            options: ["never", { exceptions: ["[]"] }],
+            errors: [
+                { messageId: "rejectedOpeningSpace" },
+                { messageId: "rejectedOpeningSpace" },
+                { messageId: "rejectedClosingSpace" },
+                { messageId: "rejectedClosingSpace" }
+            ]
+        },
+        {
+            code: "((1 + 2))",
+            output: "(( 1 + 2 ))",
+            options: ["always", { exceptions: ["()"] }],
+            errors: [
+                { messageId: "missingOpeningSpace", line: 1, column: 2 },
+                { messageId: "missingClosingSpace", line: 1, column: 8 }
+            ]
+        },
+        {
+            code: "((1 + 2))",
+            output: "( (1 + 2) )",
+            options: ["never", { exceptions: ["()"] }],
+            errors: [
+                { messageId: "missingOpeningSpace", line: 1, column: 1 },
+                { messageId: "missingClosingSpace", line: 1, column: 9 }
+            ]
+        },
+        {
+            code: "((1 + 2) )",
+            output: "( (1 + 2) )",
+            options: ["never", { exceptions: ["()"] }],
+            errors: [
+                { messageId: "missingOpeningSpace", line: 1, column: 1 }
+            ]
+        },
+        {
+            code: "var result = ( 1 / ( 1 + 2 ) ) + 3",
+            output: "var result = ( 1 / ( 1 + 2 )) + 3",
+            options: ["always", { exceptions: ["()"] }],
+            errors: [
+                { messageId: "rejectedClosingSpace", line: 1, column: 29 }
+            ]
+        },
+        {
+            code: "var result = (1 / (1 + 2)) + 3",
+            output: "var result = (1 / (1 + 2) ) + 3",
+            options: ["never", { exceptions: ["()"] }],
+            errors: [
+                { messageId: "missingClosingSpace", line: 1, column: 26 }
+            ]
+        },
+        {
+            code: "var result = (1 / ( 1 + 2) ) + 3",
+            output: "var result = ( 1 / ( 1 + 2 )) + 3",
+            options: ["always", { exceptions: ["()"] }],
+            errors: [
+                { messageId: "missingOpeningSpace", line: 1, column: 14 },
+                { messageId: "missingClosingSpace", line: 1, column: 26 },
+                { messageId: "rejectedClosingSpace", line: 1, column: 27 }
+            ]
+        },
+
+        // ES6
+        {
+            code: "var foo = `(bar ${( 1 + 2 )})`;",
             output: "var foo = `(bar ${(1 + 2)})`;",
             options: ["never"],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: REJECTED_SPACE_ERROR, line: 1, column: 26 }]
+            errors: [
+                { messageId: "rejectedOpeningSpace", line: 1, column: 20 },
+                { messageId: "rejectedClosingSpace", line: 1, column: 26 }
+            ]
         },
         {
             code: "var foo = `(bar ${(1 + 2 )})`;",
             output: "var foo = `(bar ${( 1 + 2 )})`;",
             options: ["always"],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: MISSING_SPACE_ERROR, line: 1, column: 19 }]
+            errors: [{ messageId: "missingOpeningSpace", line: 1, column: 19 }]
         }
     ]
 });

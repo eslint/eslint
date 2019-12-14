@@ -38,7 +38,8 @@ ruleTester.run("no-underscore-dangle", rule, {
         { code: "const o = { _onClick() { } }", parserOptions: { ecmaVersion: 6 } },
         { code: "const o = { onClick_() { } }", parserOptions: { ecmaVersion: 6 } },
         { code: "const o = { _foo: 'bar' }", parserOptions: { ecmaVersion: 6 } },
-        { code: "const o = { foo_: 'bar' }", parserOptions: { ecmaVersion: 6 } }
+        { code: "const o = { foo_: 'bar' }", parserOptions: { ecmaVersion: 6 } },
+        { code: "this.constructor._bar", options: [{ allowAfterThisConstructor: true }] }
     ],
     invalid: [
         { code: "var _foo = 1", errors: [{ message: "Unexpected dangling '_' in '_foo'.", type: "VariableDeclarator" }] },
@@ -53,6 +54,8 @@ ruleTester.run("no-underscore-dangle", rule, {
         { code: "class foo { _onClick() { } }", options: [{ enforceInMethodNames: true }], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Unexpected dangling '_' in '_onClick'.", type: "MethodDefinition" }] },
         { code: "class foo { onClick_() { } }", options: [{ enforceInMethodNames: true }], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Unexpected dangling '_' in 'onClick_'.", type: "MethodDefinition" }] },
         { code: "const o = { _onClick() { } }", options: [{ enforceInMethodNames: true }], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Unexpected dangling '_' in '_onClick'.", type: "Property" }] },
-        { code: "const o = { onClick_() { } }", options: [{ enforceInMethodNames: true }], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Unexpected dangling '_' in 'onClick_'.", type: "Property" }] }
+        { code: "const o = { onClick_() { } }", options: [{ enforceInMethodNames: true }], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Unexpected dangling '_' in 'onClick_'.", type: "Property" }] },
+        { code: "this.constructor._bar", errors: [{ message: "Unexpected dangling '_' in '_bar'.", type: "MemberExpression" }] },
+        { code: "foo.constructor._bar", options: [{ allowAfterThisConstructor: true }], errors: [{ message: "Unexpected dangling '_' in '_bar'.", type: "MemberExpression" }] }
     ]
 });

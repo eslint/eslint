@@ -41,6 +41,8 @@ ruleTester.run("no-self-assign", rule, {
         { code: "({a} = {a: b})", parserOptions: { ecmaVersion: 6 } },
         { code: "({a} = {a() {}})", parserOptions: { ecmaVersion: 6 } },
         { code: "({a} = {[a]: a})", parserOptions: { ecmaVersion: 6 } },
+        { code: "({[a]: b} = {[a]: b})", parserOptions: { ecmaVersion: 6 } },
+        { code: "({'foo': a, 1: a} = {'bar': a, 2: a})", parserOptions: { ecmaVersion: 6 } },
         { code: "({a, ...b} = {a, ...b})", parserOptions: { ecmaVersion: 2018 } },
         { code: "a.b = a.c", options: [{ props: true }] },
         { code: "a.b = c.b", options: [{ props: true }] },
@@ -68,6 +70,14 @@ ruleTester.run("no-self-assign", rule, {
         {
             code: "a[\n    'b'\n] = a[\n    'b'\n]",
             options: [{ props: false }]
+        },
+        {
+            code: "this.x = this.y",
+            options: [{ props: true }]
+        },
+        {
+            code: "this.x = this.x",
+            options: [{ props: false }]
         }
     ],
     invalid: [
@@ -80,6 +90,15 @@ ruleTester.run("no-self-assign", rule, {
         { code: "[[a], {b}] = [[a], {b}]", parserOptions: { ecmaVersion: 6 }, errors: ["'a' is assigned to itself.", "'b' is assigned to itself."] },
         { code: "({a} = {a})", parserOptions: { ecmaVersion: 6 }, errors: ["'a' is assigned to itself."] },
         { code: "({a: b} = {a: b})", parserOptions: { ecmaVersion: 6 }, errors: ["'b' is assigned to itself."] },
+        { code: "({'a': b} = {'a': b})", parserOptions: { ecmaVersion: 6 }, errors: ["'b' is assigned to itself."] },
+        { code: "({a: b} = {'a': b})", parserOptions: { ecmaVersion: 6 }, errors: ["'b' is assigned to itself."] },
+        { code: "({'a': b} = {a: b})", parserOptions: { ecmaVersion: 6 }, errors: ["'b' is assigned to itself."] },
+        { code: "({1: b} = {1: b})", parserOptions: { ecmaVersion: 6 }, errors: ["'b' is assigned to itself."] },
+        { code: "({1: b} = {'1': b})", parserOptions: { ecmaVersion: 6 }, errors: ["'b' is assigned to itself."] },
+        { code: "({'1': b} = {1: b})", parserOptions: { ecmaVersion: 6 }, errors: ["'b' is assigned to itself."] },
+        { code: "({['a']: b} = {a: b})", parserOptions: { ecmaVersion: 6 }, errors: ["'b' is assigned to itself."] },
+        { code: "({'a': b} = {[`a`]: b})", parserOptions: { ecmaVersion: 6 }, errors: ["'b' is assigned to itself."] },
+        { code: "({1: b} = {[1]: b})", parserOptions: { ecmaVersion: 6 }, errors: ["'b' is assigned to itself."] },
         { code: "({a, b} = {a, b})", parserOptions: { ecmaVersion: 6 }, errors: ["'a' is assigned to itself.", "'b' is assigned to itself."] },
         { code: "({a, b} = {b, a})", parserOptions: { ecmaVersion: 6 }, errors: ["'b' is assigned to itself.", "'a' is assigned to itself."] },
         { code: "({a, b} = {c, a})", parserOptions: { ecmaVersion: 6 }, errors: ["'a' is assigned to itself."] },
@@ -109,6 +128,11 @@ ruleTester.run("no-self-assign", rule, {
         { code: "a.b.c = a.b.c", options: [{ props: true }], errors: ["'a.b.c' is assigned to itself."] },
         { code: "a[b] = a[b]", options: [{ props: true }], errors: ["'a[b]' is assigned to itself."] },
         { code: "a['b'] = a['b']", options: [{ props: true }], errors: ["'a['b']' is assigned to itself."] },
-        { code: "a[\n    'b'\n] = a[\n    'b'\n]", options: [{ props: true }], errors: ["'a['b']' is assigned to itself."] }
+        { code: "a[\n    'b'\n] = a[\n    'b'\n]", options: [{ props: true }], errors: ["'a['b']' is assigned to itself."] },
+        {
+            code: "this.x = this.x",
+            options: [{ props: true }],
+            errors: ["'this.x' is assigned to itself."]
+        }
     ]
 });
