@@ -41,7 +41,7 @@ ruleTester.run("lines-between-class-members", rule, {
         "class A{ foo() {}/* a */ \n\n /* b */bar() {}}",
 
         "class A {\nfoo() {}\n/* comment */;\n;\n\nbar() {}\n}",
-        "class A {\nfoo() {}\n// comment */\n\n;\n;\nbar() {}\n}",
+        "class A {\nfoo() {}\n// comment\n\n;\n;\nbar() {}\n}",
 
         "class foo{ bar(){}\n\n;;baz(){}}",
         "class foo{ bar(){};\n\nbaz(){}}",
@@ -102,7 +102,7 @@ ruleTester.run("lines-between-class-members", rule, {
             options: ["never"],
             errors: [neverError]
         }, {
-            code: "class foo{ bar(){}\n\n// comment */\n\nbaz(){}}",
+            code: "class foo{ bar(){}\n\n// comment\n\nbaz(){}}",
             output: null,
             options: ["never"],
             errors: [neverError]
@@ -117,8 +117,8 @@ ruleTester.run("lines-between-class-members", rule, {
             options: ["never"],
             errors: [neverError]
         }, {
-            code: "class A {\nfoo() {}// comment */;\n;\n/* comment */\nbar() {}\n}",
-            output: "class A {\nfoo() {}// comment */;\n\n;\n/* comment */\nbar() {}\n}",
+            code: "class A {\nfoo() {}// comment\n;\n/* comment */\nbar() {}\n}",
+            output: "class A {\nfoo() {}// comment\n\n;\n/* comment */\nbar() {}\n}",
             options: ["always"],
             errors: [alwaysError]
         }, {
