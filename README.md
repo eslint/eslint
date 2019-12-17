@@ -1,5 +1,4 @@
 [![NPM version][npm-image]][npm-url]
-[![Build Status](https://dev.azure.com/eslint/eslint/_apis/build/status/eslint.eslint?branchName=master)](https://dev.azure.com/eslint/eslint/_build/latest?definitionId=1&branchName=master)
 [![Build Status](https://github.com/eslint/eslint/workflows/CI/badge.svg)](https://github.com/eslint/eslint/actions)
 [![Downloads][downloads-image]][downloads-url]
 [![Bountysource](https://www.bountysource.com/badge/tracker?tracker_id=282608)](https://www.bountysource.com/trackers/282608-eslint?utm_source=282608&utm_medium=shield&utm_campaign=TRACKER_BADGE)
