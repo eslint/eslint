@@ -40,6 +40,7 @@ function assertConfigArrayElement(actual, providedExpected) {
         root: void 0,
         rules: void 0,
         settings: void 0,
+        type: "config",
         ...providedExpected
     };
 

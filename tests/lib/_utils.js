@@ -56,6 +56,26 @@ function supportMkdirRecursiveOption(fs, cwd) {
 }
 
 /**
+ * Suppress the error of `existsSync` bug in metro.
+ * @param {import("fs")} fs The in-memory file system.
+ * @returns {void}
+ */
+function suppressExistsSyncBug(fs) {
+    const { existsSync } = fs;
+
+    fs.existsSync = (...args) => {
+        try {
+            return existsSync(...args);
+        } catch (error) {
+            if (error.code === "ENOTDIR") {
+                return false;
+            }
+            throw error;
+        }
+    };
+}
+
+/**
  * Define in-memory file system.
  * @param {Object} options The options.
  * @param {() => string} [options.cwd] The current working directory.
@@ -82,6 +102,7 @@ function defineInMemoryFs({
     }
 
     supportMkdirRecursiveOption(fs, cwd);
+    suppressExistsSyncBug(fs);
     fs.mkdirSync(cwd(), { recursive: true });
 
     /*
