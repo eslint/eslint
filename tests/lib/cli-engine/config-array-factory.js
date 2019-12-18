@@ -171,12 +171,13 @@ describe("ConfigArrayFactory", () => {
     describe("'loadFile(filePath, options)' method should load a config file.", () => {
         const basicFiles = {
             "js/.eslintrc.js": "exports.settings = { name: 'js/.eslintrc.js' }",
+            "cjs/.eslintrc.cjs": "exports.settings = { name: 'cjs/.eslintrc.cjs' }",
             "json/.eslintrc.json": "{ \"settings\": { \"name\": \"json/.eslintrc.json\" } }",
             "legacy-json/.eslintrc": "{ \"settings\": { \"name\": \"legacy-json/.eslintrc\" } }",
             "legacy-yml/.eslintrc": "settings:\n  name: legacy-yml/.eslintrc",
             "package-json/package.json": "{ \"eslintConfig\": { \"settings\": { \"name\": \"package-json/package.json\" } } }",
             "yml/.eslintrc.yml": "settings:\n  name: yml/.eslintrc.yml",
-            "yaml/.eslintrc.yaml": "settings:\n  name: yaml/.eslintrc.yaml"
+            "yaml/.eslintrc.yaml": "settings:\n  name: yaml/.eslintrc.yaml",
         };
         const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
             cwd: () => tempDir,
@@ -288,6 +289,7 @@ describe("ConfigArrayFactory", () => {
     describe("'loadInDirectory(directoryPath, options)' method should load the config file of a directory.", () => {
         const basicFiles = {
             "js/.eslintrc.js": "exports.settings = { name: 'js/.eslintrc.js' }",
+            "cjs/.eslintrc.cjs": "exports.settings = { name: 'cjs/.eslintrc.cjs' }",
             "json/.eslintrc.json": "{ \"settings\": { \"name\": \"json/.eslintrc.json\" } }",
             "legacy-json/.eslintrc": "{ \"settings\": { \"name\": \"legacy-json/.eslintrc\" } }",
             "legacy-yml/.eslintrc": "settings:\n  name: legacy-yml/.eslintrc",
@@ -1497,6 +1499,7 @@ describe("ConfigArrayFactory", () => {
             "node_modules/eslint-plugin-invalid-parser/index.js": "exports.configs = { foo: { parser: 'nonexistent-parser' } }",
             "node_modules/eslint-plugin-invalid-config/index.js": "exports.configs = { foo: {} }",
             "js/.eslintrc.js": "module.exports = { rules: { semi: [2, 'always'] } };",
+            "cjs/.eslintrc.cjs": "module.exports = { rules: { semi: [2, 'always'] } };",
             "json/.eslintrc.json": "{ \"rules\": { \"quotes\": [2, \"double\"] } }",
             "package-json/package.json": "{ \"eslintConfig\": { \"env\": { \"es6\": true } } }",
             "yaml/.eslintrc.yaml": "env:\n    browser: true"
@@ -1739,6 +1742,22 @@ describe("ConfigArrayFactory", () => {
             });
             const factory = new ConfigArrayFactory();
             const config = load(factory, "js/.eslintrc.js");
+
+            assertConfig(config, {
+                rules: {
+                    semi: [2, "always"]
+                }
+            });
+        });
+
+        it("should load information from a JavaScript file with a .cjs extension", () => {
+            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
+                files: {
+                    "cjs/.eslintrc.cjs": "module.exports = { rules: { semi: [2, 'always'] } };"
+                }
+            });
+            const factory = new ConfigArrayFactory();
+            const config = load(factory, "cjs/.eslintrc.cjs");
 
             assertConfig(config, {
                 rules: {
