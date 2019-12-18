@@ -177,7 +177,7 @@ describe("ConfigArrayFactory", () => {
             "legacy-yml/.eslintrc": "settings:\n  name: legacy-yml/.eslintrc",
             "package-json/package.json": "{ \"eslintConfig\": { \"settings\": { \"name\": \"package-json/package.json\" } } }",
             "yml/.eslintrc.yml": "settings:\n  name: yml/.eslintrc.yml",
-            "yaml/.eslintrc.yaml": "settings:\n  name: yaml/.eslintrc.yaml",
+            "yaml/.eslintrc.yaml": "settings:\n  name: yaml/.eslintrc.yaml"
         };
         const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
             cwd: () => tempDir,
