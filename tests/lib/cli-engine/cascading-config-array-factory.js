@@ -1162,7 +1162,7 @@ describe("CascadingConfigArrayFactory", () => {
                     assert.notStrictEqual(warning, null);
                     assert.strictEqual(
                         warning.message,
-                        `The 'ecmaFeatures' config file property is deprecated, and has no effect. (found in "ecma-features${path.sep}.eslintrc.yml")`
+                        `The 'ecmaFeatures' config file property is deprecated and has no effect. (found in "ecma-features${path.sep}.eslintrc.yml")`
                     );
                 });
             });
