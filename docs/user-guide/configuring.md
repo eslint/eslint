@@ -664,7 +664,7 @@ In each case, the settings in the configuration file override default settings.
 ESLint supports configuration files in several formats:
 
 * **JavaScript** - use `.eslintrc.js` and export an object containing your configuration.
-* **JavaScript (ESM)** - same as `.eslintrc.js` but used with ES module packages
+* **JavaScript (ESM)** - use `.eslintrc.cjs` when running ESLint in JavaScript packages that specify `"type":"module"` in their `package.json`. Note that ESLint does not support ESM configuration at this time.
 * **YAML** - use `.eslintrc.yaml` or `.eslintrc.yml` to define the configuration structure.
 * **JSON** - use `.eslintrc.json` to define the configuration structure. ESLint's JSON files also allow JavaScript-style comments.
 * **Deprecated** - use `.eslintrc`, which can be either JSON or YAML.
@@ -679,8 +679,6 @@ If there are multiple configuration files in the same directory, ESLint will onl
 1. `.eslintrc.json`
 1. `.eslintrc`
 1. `package.json`
-
-**Note:** JavaScript (ESM) is for use with JavaScript packages that specify `"type":"module"` in `package.json`.
 
 ## Configuration Cascading and Hierarchy
 
