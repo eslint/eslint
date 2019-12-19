@@ -27,7 +27,7 @@ Only `return` without a value is allowed, as it's a control flow statement.
 Examples of **incorrect** code for this rule:
 
 ```js
-/*no-promise-executor-return: "error"*/
+/*eslint no-promise-executor-return: "error"*/
 
 new Promise((resolve, reject) => {
     if (someCondition) {
@@ -58,7 +58,7 @@ new Promise(() => {
 Examples of **correct** code for this rule:
 
 ```js
-/*no-promise-executor-return: "error"*/
+/*eslint no-promise-executor-return: "error"*/
 
 new Promise((resolve, reject) => {
     if (someCondition) {
