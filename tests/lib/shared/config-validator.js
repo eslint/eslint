@@ -114,6 +114,7 @@ describe("Validator", () => {
         it("should do nothing with a valid eslint config", () => {
             validator.validate(
                 {
+                    $schema: "http://json.schemastore.org/eslintrc",
                     root: true,
                     globals: { globalFoo: "readonly" },
                     parser: "parserFoo",
