@@ -560,7 +560,7 @@ target.mocha = () => {
 target.karma = () => {
     echo("Running unit tests on browsers");
 
-    target.webpack();
+    target.webpack("production");
 
     const browserFileLintOutput = new CLIEngine({
         useEslintrc: false,
@@ -775,16 +775,7 @@ target.gensite = function(prereleaseVersion) {
     echo("> Removing the temporary directory (Step 12)");
     rm("-rf", TEMP_DIR);
 
-    // 13. Update demos, but only for non-prereleases
-    if (!prereleaseVersion) {
-        echo("> Updating the demos (Step 13)");
-        target.webpack("production");
-        cp("-f", "build/eslint.js", `${SITE_DIR}src/js/eslint.js`);
-    } else {
-        echo("> Skipped updating the demos (Step 13)");
-    }
-
-    // 14. Create Example Formatter Output Page
+    // 13. Create Example Formatter Output Page
     echo("> Creating the formatter examples (Step 14)");
     generateFormatterExamples(getFormatterResults(), prereleaseVersion);
 
