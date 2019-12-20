@@ -1,3 +1,33 @@
+v6.8.0 - December 20, 2019
+
+* [`c5c7086`](https://github.com/eslint/eslint/commit/c5c708666b450fb69522a55aa375626f9297dc6f) Fix: ignore aligning single line in key-spacing (fixes #11414) (#12652) (YeonJuan)
+* [`9986d9e`](https://github.com/eslint/eslint/commit/9986d9e0baed0d3586bbee472fe2fae2ed625f5d) Chore: add object option test cases in yield-star-spacing (#12679) (YeonJuan)
+* [`1713d07`](https://github.com/eslint/eslint/commit/1713d0758b083f3840d724505f997a7cb20ff384) New: Add no-error-on-unmatched-pattern flag (fixes #10587) (#12377) (ncraley)
+* [`5c25a26`](https://github.com/eslint/eslint/commit/5c25a26608fbd9a1d0127c9a3653609aa4b63e86) Update: autofix bug in lines-between-class-members (fixes #12391) (#12632) (YeonJuan)
+* [`4b3cc5c`](https://github.com/eslint/eslint/commit/4b3cc5cd2459f04eae149faea0651785d7f9db0b) Chore: enable prefer-regex-literals in eslint codebase (#12268) (薛定谔的猫)
+* [`05faebb`](https://github.com/eslint/eslint/commit/05faebb943456ad2b20117f3c8b3eccbe2e2fb03) Update: improve suggestion testing experience (#12602) (Brad Zacher)
+* [`05f7dd5`](https://github.com/eslint/eslint/commit/05f7dd53ed91a6e3be9eb40825fb6d2207f82209) Update: Add suggestions for no-unsafe-negation (fixes #12591) (#12609) (Milos Djermanovic)
+* [`d3e43f1`](https://github.com/eslint/eslint/commit/d3e43f1c10c5e19f40e7b3d3944b87f1b0c9c075) Docs: Update no-multi-assign explanation (#12615) (Yuping Zuo)
+* [`272e4db`](https://github.com/eslint/eslint/commit/272e4db6074283bc01cc6ec72c9e396bb3c110e6) Fix: no-multiple-empty-lines: Adjust reported `loc` (#12594) (Tobias Bieniek)
+* [`a258039`](https://github.com/eslint/eslint/commit/a258039e556075d7d1f955a79d094ea103ec165a) Fix: no-restricted-imports schema allows multiple paths/patterns objects (#12639) (Milos Djermanovic)
+* [`51f9620`](https://github.com/eslint/eslint/commit/51f9620cc55cc091fe38dbe68e4633de06297b8c) Fix: improve report location for array-bracket-spacing (#12653) (Milos Djermanovic)
+* [`45364af`](https://github.com/eslint/eslint/commit/45364afc9c7f0251348cd1a7a13656c3816435d7) Fix: prefer-numeric-literals doesn't check types of literal arguments (#12655) (Milos Djermanovic)
+* [`e3c570e`](https://github.com/eslint/eslint/commit/e3c570eaf3d1d44fb57bf42f1870887856e4c5a0) Docs: Add example for expression option (#12694) (Arnaud Barré)
+* [`6b774ef`](https://github.com/eslint/eslint/commit/6b774ef0d849ccf5c1127b25e1fe7c3e438d586b) Docs: Add spacing in comments for no-console rule (#12696) (Nikki Nikkhoui)
+* [`7171fca`](https://github.com/eslint/eslint/commit/7171fca6ef4e0e8f267658fc7d8f603f00eddd84) Chore: refactor regex in config comment parser (#12662) (Milos Djermanovic)
+* [`1600648`](https://github.com/eslint/eslint/commit/1600648d2880ffb1e9e414b31ff0f66ead7167f9) Update: Allow $schema in config (#12612) (Yordis Prieto)
+* [`acc0e47`](https://github.com/eslint/eslint/commit/acc0e47572a9390292b4e313b4a4bf360d236358) Update: support .eslintrc.cjs (refs eslint/rfcs#43) (#12321) (Evan Plaice)
+* [`49c1658`](https://github.com/eslint/eslint/commit/49c1658544ace24b9aaaa301af0fc07a2ef3bf30) Chore: remove bundling of ESLint during release (#12676) (Kai Cataldo)
+* [`257f3d6`](https://github.com/eslint/eslint/commit/257f3d67905a52bf8602a5a5707c893cc90d7ca7) Chore: complete to move to GitHub Actions (#12625) (Toru Nagashima)
+* [`ab912f0`](https://github.com/eslint/eslint/commit/ab912f0ef709a916ab9a27ea09d9d7adf046fb2d) Docs: 1tbs with allowSingleLine edge cases (refs #12284) (#12314) (Ari Kardasis)
+* [`dd1c30e`](https://github.com/eslint/eslint/commit/dd1c30e35f05ed332e2abbd3d4d53635efde74b8) Sponsors: Sync README with website (ESLint Jenkins)
+* [`a230f84`](https://github.com/eslint/eslint/commit/a230f8404e4f2423dd79378b065d24c12776775b) Update: include node version in cache (#12582) (Eric Wang)
+* [`8b65f17`](https://github.com/eslint/eslint/commit/8b65f175dfb4fac11ed7184537be400ed14996fb) Chore: remove references to parser demo (#12644) (Kai Cataldo)
+* [`e9cef99`](https://github.com/eslint/eslint/commit/e9cef99e6ebec1faefdb576ca597e81ae4f04afd) Docs: wrap {{}} in raw liquid tags to prevent interpolation (#12643) (Kai Cataldo)
+* [`e707453`](https://github.com/eslint/eslint/commit/e70745325ff9e085acc6843dd8bfae5550645d4f) Docs: Fix configuration example in no-restricted-imports (fixes #11717) (#12638) (Milos Djermanovic)
+* [`19194ce`](https://github.com/eslint/eslint/commit/19194cec724e016df02376bbeae31171be6f0bdf) Chore: Add tests to cover default object options in comma-dangle (#12627) (YeonJuan)
+* [`6e36d12`](https://github.com/eslint/eslint/commit/6e36d12d95e76022172fd0ec8a5e85c22fde6a8a) Update: do not recommend require-atomic-updates (refs #11899) (#12599) (Kai Cataldo)
+
 v6.7.2 - November 30, 2019
 
 * [`bc435a9`](https://github.com/eslint/eslint/commit/bc435a93afd6ba4def1b53993ef7cf8220f3f070) Fix: isSpaceBetweenTokens() recognizes spaces in JSXText (fixes #12614) (#12616) (Toru Nagashima)
