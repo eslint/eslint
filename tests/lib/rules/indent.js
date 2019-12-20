@@ -5406,6 +5406,7 @@ ruleTester.run("indent", rule, {
                     tag\`
                     multiline
                     template
+                    \${a} \${b}
                     literal
                     \`(() => {
                         bar();
@@ -5421,6 +5422,7 @@ ruleTester.run("indent", rule, {
                     multiline
                     template
                     literal
+                    \${a} \${b}
                     \`(() => {
                         tagTwo\`
                         multiline
@@ -5440,6 +5442,7 @@ ruleTester.run("indent", rule, {
             code: unIndent`
                 {
                     tagOne\`
+                    \${a} \${b}
                     multiline
                     template
                     literal
@@ -5461,8 +5464,9 @@ ruleTester.run("indent", rule, {
         {
             code: unIndent`
                 tagOne\`multiline
+                        \${a} \${b}
                         template
-                        linteral
+                        literal
                         \`(() => {        
                     foo();
                     
@@ -5481,11 +5485,12 @@ ruleTester.run("indent", rule, {
             code: unIndent`
                 tagOne\`multiline
                     template
-                    linteral\`({        
+                    literal
+                    \${a} \${b}\`({        
                     foo: 1,
                     bar: tagTwo\`multiline
                         template
-                        linteral\`(() => {
+                        literal\`(() => {
                         
                         baz();
                     })
@@ -10671,7 +10676,7 @@ ruleTester.run("indent", rule, {
                 foo(() => {
                     tag\`
                     multiline
-                    template
+                    template\${a} \${b}
                     literal
                     \`(() => {
                     bar();
@@ -10682,7 +10687,7 @@ ruleTester.run("indent", rule, {
                 foo(() => {
                     tag\`
                     multiline
-                    template
+                    template\${a} \${b}
                     literal
                     \`(() => {
                         bar();
@@ -10701,7 +10706,7 @@ ruleTester.run("indent", rule, {
                     multiline
                     template
                     literal
-                    \`(() => {
+                    \${a} \${b}\`(() => {
                             bar();
                         });
                 }
@@ -10712,7 +10717,7 @@ ruleTester.run("indent", rule, {
                     multiline
                     template
                     literal
-                    \`(() => {
+                    \${a} \${b}\`(() => {
                         bar();
                     });
                 }
@@ -10727,7 +10732,7 @@ ruleTester.run("indent", rule, {
         {
             code: unIndent`
                 foo(() => {
-                    tagOne\`
+                    tagOne\`\${a} \${b}
                     multiline
                     template
                     literal
@@ -10746,7 +10751,7 @@ ruleTester.run("indent", rule, {
             `,
             output: unIndent`
                 foo(() => {
-                    tagOne\`
+                    tagOne\`\${a} \${b}
                     multiline
                     template
                     literal
@@ -10777,7 +10782,7 @@ ruleTester.run("indent", rule, {
                     multiline
                     template
                     literal
-                    \`(() => {
+                    \${a} \${b}\`(() => {
                             tagTwo\`
                         multiline
                         template
@@ -10796,7 +10801,7 @@ ruleTester.run("indent", rule, {
                     multiline
                     template
                     literal
-                    \`(() => {
+                    \${a} \${b}\`(() => {
                         tagTwo\`
                         multiline
                         template
@@ -10818,9 +10823,9 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
-                tagOne\`multiline
+                tagOne\`multiline \${a} \${b}
                         template
-                        linteral
+                        literal
                         \`(() => {        
                 foo();
                     
@@ -10834,9 +10839,9 @@ ruleTester.run("indent", rule, {
                 });
             `,
             output: unIndent`
-                tagOne\`multiline
+                tagOne\`multiline \${a} \${b}
                         template
-                        linteral
+                        literal
                         \`(() => {        
                     foo();
                     
@@ -10858,12 +10863,12 @@ ruleTester.run("indent", rule, {
         {
             code: unIndent`
                 tagOne\`multiline
-                    template
-                    linteral\`({        
+                    template \${a} \${b}
+                    literal\`({
                         foo: 1,
                 bar: tagTwo\`multiline
                         template
-                        linteral\`(() => {
+                        literal\`(() => {
                         
                 baz();
                     })
@@ -10871,12 +10876,12 @@ ruleTester.run("indent", rule, {
             `,
             output: unIndent`
                 tagOne\`multiline
-                    template
-                    linteral\`({        
+                    template \${a} \${b}
+                    literal\`({
                     foo: 1,
                     bar: tagTwo\`multiline
                         template
-                        linteral\`(() => {
+                        literal\`(() => {
                         
                         baz();
                     })
