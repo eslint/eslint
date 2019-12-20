@@ -1018,29 +1018,33 @@ describe("RuleTester", () => {
         });
 
         it("should support explicitly expecting no suggestions", () => {
-            ruleTester.run("suggestions-basic", require("../../fixtures/testers/rule-tester/no-eval"), {
-                valid: [],
-                invalid: [{
-                    code: "eval('var foo');",
-                    errors: [{
-                        suggestions: void 0
+            [void 0, null, false, []].forEach(suggestions => {
+                ruleTester.run("suggestions-basic", require("../../fixtures/testers/rule-tester/no-eval"), {
+                    valid: [],
+                    invalid: [{
+                        code: "eval('var foo');",
+                        errors: [{
+                            suggestions
+                        }]
                     }]
-                }]
+                });
             });
         });
 
         it("should fail when expecting no suggestions and there are suggestions", () => {
-            assert.throws(() => {
-                ruleTester.run("suggestions-basic", require("../../fixtures/testers/rule-tester/suggestions").basic, {
-                    valid: [],
-                    invalid: [{
-                        code: "var foo;",
-                        errors: [{
-                            suggestions: void 0
+            [void 0, null, false, []].forEach(suggestions => {
+                assert.throws(() => {
+                    ruleTester.run("suggestions-basic", require("../../fixtures/testers/rule-tester/suggestions").basic, {
+                        valid: [],
+                        invalid: [{
+                            code: "var foo;",
+                            errors: [{
+                                suggestions
+                            }]
                         }]
-                    }]
-                });
-            }, "Error should have no suggestions on error with message: \"Avoid using identifiers named 'foo'.\"");
+                    });
+                }, "Error should have no suggestions on error with message: \"Avoid using identifiers named 'foo'.\"");
+            });
         });
 
         it("should fail when testing for suggestions that don't exist", () => {
