@@ -175,6 +175,7 @@ rules:
     prefer-const: "error"
     prefer-numeric-literals: "error"
     prefer-promise-reject-errors: "error"
+    prefer-regex-literals: "error"
     prefer-rest-params: "error"
     prefer-spread: "error"
     prefer-template: "error"
