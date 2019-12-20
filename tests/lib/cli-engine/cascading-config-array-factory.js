@@ -388,6 +388,64 @@ describe("CascadingConfigArrayFactory", () => {
                     });
                 });
             });
+
+            describe("when '~/.eslintrc.json' doesn't exist and CWD is `~/subdir`", () => {
+                beforeEach(() => {
+                    cwd = path.join(homeDir, "subdir");
+                    const { CascadingConfigArrayFactory } = defineCascadingConfigArrayFactoryWithInMemoryFileSystem({
+                        cwd: () => cwd,
+                        files: {
+                            "exist-with-root/test.js": "",
+                            "exist-with-root/.eslintrc.json": JSON.stringify({ root: true, rules: { yoda: "error" } }),
+                            "exist/test.js": "",
+                            "exist/.eslintrc.json": JSON.stringify({ rules: { yoda: "error" } }),
+                            "not-exist/test.js": ""
+                        }
+                    });
+
+                    factory = new CascadingConfigArrayFactory({ cwd });
+                });
+
+                describe("when it lints 'subdir/exist/test.js'", () => {
+                    beforeEach(async() => {
+                        config = factory.getConfigArrayForFile("exist/test.js");
+                        await delay();
+                    });
+
+                    it("should not raise any warnings.", () => {
+                        assert.deepStrictEqual(warnings, []);
+                    });
+                });
+            });
+
+            describe("when '~/.eslintrc.json' doesn't exist and CWD is `~/../another`", () => {
+                beforeEach(() => {
+                    cwd = path.join(homeDir, "../another");
+                    const { CascadingConfigArrayFactory } = defineCascadingConfigArrayFactoryWithInMemoryFileSystem({
+                        cwd: () => cwd,
+                        files: {
+                            "exist-with-root/test.js": "",
+                            "exist-with-root/.eslintrc.json": JSON.stringify({ root: true, rules: { yoda: "error" } }),
+                            "exist/test.js": "",
+                            "exist/.eslintrc.json": JSON.stringify({ rules: { yoda: "error" } }),
+                            "not-exist/test.js": ""
+                        }
+                    });
+
+                    factory = new CascadingConfigArrayFactory({ cwd });
+                });
+
+                describe("when it lints 'not-exist/test.js'", () => {
+                    beforeEach(async() => {
+                        config = factory.getConfigArrayForFile("not-exist/test.js", { ignoreNotFoundError: true });
+                        await delay();
+                    });
+
+                    it("should not raise any warnings.", () => {
+                        assert.deepStrictEqual(warnings, []);
+                    });
+                });
+            });
         });
 
         // This group moved from 'tests/lib/config.js' when refactoring to keep the cumulated test cases.
