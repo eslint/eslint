@@ -77,6 +77,8 @@ Examples of **correct** code for this rule with the default `"expression"` optio
 var foo = function() {
     // ...
 };
+
+var foo = () => {};
 ```
 
 ### declaration

@@ -114,6 +114,102 @@ ruleTester.run("use-isnan", rule, {
         {
             code: "switch(foo) { case bar: break; case 1: break; default: break; }",
             options: [{ enforceForSwitchCase: true }]
+        },
+
+        //------------------------------------------------------------------------------
+        // enforceForIndexOf
+        //------------------------------------------------------------------------------
+
+        "foo.indexOf(NaN)",
+        "foo.lastIndexOf(NaN)",
+        {
+            code: "foo.indexOf(NaN)",
+            options: [{}]
+        },
+        {
+            code: "foo.lastIndexOf(NaN)",
+            options: [{}]
+        },
+        {
+            code: "foo.indexOf(NaN)",
+            options: [{ enforceForIndexOf: false }]
+        },
+        {
+            code: "foo.lastIndexOf(NaN)",
+            options: [{ enforceForIndexOf: false }]
+        },
+        {
+            code: "indexOf(NaN)",
+            options: [{ enforceForIndexOf: true }]
+        },
+        {
+            code: "lastIndexOf(NaN)",
+            options: [{ enforceForIndexOf: true }]
+        },
+        {
+            code: "new foo.indexOf(NaN)",
+            options: [{ enforceForIndexOf: true }]
+        },
+        {
+            code: "foo.bar(NaN)",
+            options: [{ enforceForIndexOf: true }]
+        },
+        {
+            code: "foo.IndexOf(NaN)",
+            options: [{ enforceForIndexOf: true }]
+        },
+        {
+            code: "foo[indexOf](NaN)",
+            options: [{ enforceForIndexOf: true }]
+        },
+        {
+            code: "foo[lastIndexOf](NaN)",
+            options: [{ enforceForIndexOf: true }]
+        },
+        {
+            code: "indexOf.foo(NaN)",
+            options: [{ enforceForIndexOf: true }]
+        },
+        {
+            code: "foo.indexOf()",
+            options: [{ enforceForIndexOf: true }]
+        },
+        {
+            code: "foo.lastIndexOf()",
+            options: [{ enforceForIndexOf: true }]
+        },
+        {
+            code: "foo.indexOf(a)",
+            options: [{ enforceForIndexOf: true }]
+        },
+        {
+            code: "foo.lastIndexOf(Nan)",
+            options: [{ enforceForIndexOf: true }]
+        },
+        {
+            code: "foo.indexOf(a, NaN)",
+            options: [{ enforceForIndexOf: true }]
+        },
+        {
+            code: "foo.lastIndexOf(NaN, b)",
+            options: [{ enforceForIndexOf: true }]
+        },
+        {
+            code: "foo.indexOf(a, b)",
+            options: [{ enforceForIndexOf: true }]
+        },
+        {
+            code: "foo.lastIndexOf(NaN, NaN)",
+            options: [{ enforceForIndexOf: true }]
+        },
+        {
+            code: "foo.indexOf(...NaN)",
+            options: [{ enforceForIndexOf: true }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "foo.lastIndexOf(NaN())",
+            options: [{ enforceForIndexOf: true }]
         }
     ],
     invalid: [
@@ -246,6 +342,41 @@ ruleTester.run("use-isnan", rule, {
                 { messageId: "switchNaN", type: "SwitchStatement", column: 1 },
                 { messageId: "caseNaN", type: "SwitchCase", column: 15 }
             ]
+        },
+
+        //------------------------------------------------------------------------------
+        // enforceForIndexOf
+        //------------------------------------------------------------------------------
+
+        {
+            code: "foo.indexOf(NaN)",
+            options: [{ enforceForIndexOf: true }],
+            errors: [{ messageId: "indexOfNaN", type: "CallExpression", data: { methodName: "indexOf" } }]
+        },
+        {
+            code: "foo.lastIndexOf(NaN)",
+            options: [{ enforceForIndexOf: true }],
+            errors: [{ messageId: "indexOfNaN", type: "CallExpression", data: { methodName: "lastIndexOf" } }]
+        },
+        {
+            code: "foo['indexOf'](NaN)",
+            options: [{ enforceForIndexOf: true }],
+            errors: [{ messageId: "indexOfNaN", type: "CallExpression", data: { methodName: "indexOf" } }]
+        },
+        {
+            code: "foo['lastIndexOf'](NaN)",
+            options: [{ enforceForIndexOf: true }],
+            errors: [{ messageId: "indexOfNaN", type: "CallExpression", data: { methodName: "lastIndexOf" } }]
+        },
+        {
+            code: "foo().indexOf(NaN)",
+            options: [{ enforceForIndexOf: true }],
+            errors: [{ messageId: "indexOfNaN", type: "CallExpression", data: { methodName: "indexOf" } }]
+        },
+        {
+            code: "foo.bar.lastIndexOf(NaN)",
+            options: [{ enforceForIndexOf: true }],
+            errors: [{ messageId: "indexOfNaN", type: "CallExpression", data: { methodName: "lastIndexOf" } }]
         }
     ]
 });

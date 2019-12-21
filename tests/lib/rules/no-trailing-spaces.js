@@ -86,6 +86,14 @@ ruleTester.run("no-trailing-spaces", rule, {
         {
             code: "#!/usr/bin/env node ",
             options: [{ ignoreComments: true }]
+        },
+        {
+            code: "/* \n */ // ",
+            options: [{ ignoreComments: true }]
+        },
+        {
+            code: "/* \n */ /* \n */",
+            options: [{ ignoreComments: true }]
         }
     ],
 
@@ -268,12 +276,16 @@ ruleTester.run("no-trailing-spaces", rule, {
                 message: "Trailing spaces not allowed.",
                 type: "Program",
                 line: 1,
-                column: 11
+                column: 11,
+                endLine: 1,
+                endColumn: 12
             }, {
                 message: "Trailing spaces not allowed.",
                 type: "Program",
                 line: 2,
-                column: 8
+                column: 8,
+                endLine: 2,
+                endColumn: 9
             }]
         },
         {
@@ -284,7 +296,9 @@ ruleTester.run("no-trailing-spaces", rule, {
                 message: "Trailing spaces not allowed.",
                 type: "Program",
                 line: 1,
-                column: 11
+                column: 11,
+                endLine: 1,
+                endColumn: 12
             }]
         },
         {
@@ -295,7 +309,9 @@ ruleTester.run("no-trailing-spaces", rule, {
                 message: "Trailing spaces not allowed.",
                 type: "Program",
                 line: 1,
-                column: 1
+                column: 1,
+                endLine: 1,
+                endColumn: 6
             }]
         },
         {
@@ -317,7 +333,9 @@ ruleTester.run("no-trailing-spaces", rule, {
                 message: "Trailing spaces not allowed.",
                 type: "Program",
                 line: 1,
-                column: 15 // there are invalid spaces in columns 15 and 16
+                column: 15, // there are invalid spaces in columns 15 and 16
+                endLine: 1,
+                endColumn: 17
             }]
         },
         {
@@ -331,13 +349,17 @@ ruleTester.run("no-trailing-spaces", rule, {
                     message: "Trailing spaces not allowed.",
                     type: "Program",
                     line: 1,
-                    column: 15
+                    column: 15,
+                    endLine: 1,
+                    endColumn: 18
                 },
                 {
                     message: "Trailing spaces not allowed.",
                     type: "Program",
                     line: 2,
-                    column: 15
+                    column: 15,
+                    endLine: 2,
+                    endColumn: 17
                 }
             ]
         },
@@ -349,7 +371,9 @@ ruleTester.run("no-trailing-spaces", rule, {
                 message: "Trailing spaces not allowed.",
                 type: "Program",
                 line: 3,
-                column: 7
+                column: 7,
+                endLine: 3,
+                endColumn: 9
             }]
         },
         {
@@ -361,13 +385,17 @@ ruleTester.run("no-trailing-spaces", rule, {
                     message: "Trailing spaces not allowed.",
                     type: "Program",
                     line: 4,
-                    column: 7
+                    column: 7,
+                    endLine: 4,
+                    endColumn: 9
                 },
                 {
                     message: "Trailing spaces not allowed.",
                     type: "Program",
                     line: 5,
-                    column: 1
+                    column: 1,
+                    endLine: 5,
+                    endColumn: 2
                 }
             ]
         },
@@ -380,7 +408,9 @@ ruleTester.run("no-trailing-spaces", rule, {
                     message: "Trailing spaces not allowed.",
                     type: "Program",
                     line: 4,
-                    column: 7
+                    column: 7,
+                    endLine: 4,
+                    endColumn: 9
                 }
             ]
         },
@@ -396,7 +426,9 @@ ruleTester.run("no-trailing-spaces", rule, {
                     message: "Trailing spaces not allowed.",
                     type: "Program",
                     line: 3,
-                    column: 7
+                    column: 7,
+                    endLine: 3,
+                    endColumn: 9
                 }
             ]
         },
@@ -411,7 +443,9 @@ ruleTester.run("no-trailing-spaces", rule, {
                     message: "Trailing spaces not allowed.",
                     type: "Program",
                     line: 2,
-                    column: 8
+                    column: 8,
+                    endLine: 2,
+                    endColumn: 9
                 }
             ]
         },
@@ -423,13 +457,17 @@ ruleTester.run("no-trailing-spaces", rule, {
                     message: "Trailing spaces not allowed.",
                     type: "Program",
                     line: 1,
-                    column: 1
+                    column: 1,
+                    endLine: 1,
+                    endColumn: 5
                 },
                 {
                     message: "Trailing spaces not allowed.",
                     type: "Program",
                     line: 2,
-                    column: 8
+                    column: 8,
+                    endLine: 2,
+                    endColumn: 9
                 }
             ]
         },
@@ -444,7 +482,61 @@ ruleTester.run("no-trailing-spaces", rule, {
                     message: "Trailing spaces not allowed.",
                     type: "Program",
                     line: 1,
-                    column: 17
+                    column: 17,
+                    endLine: 1,
+                    endColumn: 18
+                }
+            ]
+        },
+        {
+            code: "/* */ ",
+            output: "/* */",
+            options: [{ ignoreComments: true }],
+            errors: [
+                {
+                    message: "Trailing spaces not allowed.",
+                    type: "Program",
+                    line: 1,
+                    column: 6
+                }
+            ]
+        },
+        {
+            code: "/* */foo ",
+            output: "/* */foo",
+            options: [{ ignoreComments: true }],
+            errors: [
+                {
+                    message: "Trailing spaces not allowed.",
+                    type: "Program",
+                    line: 1,
+                    column: 9
+                }
+            ]
+        },
+        {
+            code: "/* \n */ ",
+            output: "/* \n */",
+            options: [{ ignoreComments: true }],
+            errors: [
+                {
+                    message: "Trailing spaces not allowed.",
+                    type: "Program",
+                    line: 2,
+                    column: 4
+                }
+            ]
+        },
+        {
+            code: "/* \n */ foo ",
+            output: "/* \n */ foo",
+            options: [{ ignoreComments: true }],
+            errors: [
+                {
+                    message: "Trailing spaces not allowed.",
+                    type: "Program",
+                    line: 2,
+                    column: 8
                 }
             ]
         },
@@ -457,7 +549,9 @@ ruleTester.run("no-trailing-spaces", rule, {
                     message: "Trailing spaces not allowed.",
                     type: "Program",
                     line: 1,
-                    column: 26
+                    column: 26,
+                    endLine: 1,
+                    endColumn: 27
                 }
             ]
         },
@@ -470,13 +564,17 @@ ruleTester.run("no-trailing-spaces", rule, {
                     message: "Trailing spaces not allowed.",
                     type: "Program",
                     line: 1,
-                    column: 3
+                    column: 3,
+                    endLine: 1,
+                    endColumn: 4
                 },
                 {
                     message: "Trailing spaces not allowed.",
                     type: "Program",
                     line: 2,
-                    column: 24
+                    column: 24,
+                    endLine: 2,
+                    endColumn: 25
                 }
             ]
         },
@@ -489,7 +587,9 @@ ruleTester.run("no-trailing-spaces", rule, {
                     message: "Trailing spaces not allowed.",
                     type: "Program",
                     line: 1,
-                    column: 20
+                    column: 20,
+                    endLine: 1,
+                    endColumn: 21
                 }
             ]
         },
@@ -502,7 +602,9 @@ ruleTester.run("no-trailing-spaces", rule, {
                     message: "Trailing spaces not allowed.",
                     type: "Program",
                     line: 1,
-                    column: 34
+                    column: 34,
+                    endLine: 1,
+                    endColumn: 35
                 }
             ]
         }

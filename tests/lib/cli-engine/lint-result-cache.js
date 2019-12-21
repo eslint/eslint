@@ -120,6 +120,35 @@ describe("LintResultCache", () => {
             lintResultsCache = new LintResultCache(cacheFileLocation);
         });
 
+        describe("when calculating the hashing", () => {
+            it("contains eslint version during hashing", () => {
+                const version = "eslint-=-version";
+                const NewLintResultCache = proxyquire("../../../lib/cli-engine/lint-result-cache.js", {
+                    "../../package.json": { version },
+                    "./hash": hashStub
+                });
+                const newLintResultCache = new NewLintResultCache(cacheFileLocation);
+
+                newLintResultCache.getCachedLintResults(filePath, fakeConfig);
+                assert.ok(hashStub.calledOnce);
+                assert.ok(hashStub.calledWithMatch(version));
+            });
+
+            it("contains node version during hashing", () => {
+                const version = "node-=-version";
+
+                sinon.stub(process, "version").value(version);
+                const NewLintResultCache = proxyquire("../../../lib/cli-engine/lint-result-cache.js", {
+                    "./hash": hashStub
+                });
+                const newLintResultCache = new NewLintResultCache(cacheFileLocation);
+
+                newLintResultCache.getCachedLintResults(filePath, fakeConfig);
+                assert.ok(hashStub.calledOnce);
+                assert.ok(hashStub.calledWithMatch(version));
+            });
+        });
+
         describe("When file is changed", () => {
             beforeEach(() => {
                 hashStub.returns(hashOfConfig);

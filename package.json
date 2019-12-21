@@ -1,6 +1,6 @@
 {
   "name": "eslint",
-  "version": "6.5.1",
+  "version": "6.8.0",
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "An AST-based pattern checker for JavaScript.",
   "bin": {
@@ -42,6 +42,7 @@
     "messages"
   ],
   "repository": "eslint/eslint",
+  "funding": "https://opencollective.com/eslint",
   "homepage": "https://eslint.org",
   "bugs": "https://github.com/eslint/eslint/issues/",
   "dependencies": {
@@ -60,7 +61,7 @@
     "file-entry-cache": "^5.0.1",
     "functional-red-black-tree": "^1.0.1",
     "glob-parent": "^5.0.0",
-    "globals": "^11.7.0",
+    "globals": "^12.1.0",
     "ignore": "^4.0.6",
     "import-fresh": "^3.0.0",
     "imurmurhash": "^0.1.4",
@@ -73,7 +74,7 @@
     "minimatch": "^3.0.4",
     "mkdirp": "^0.5.1",
     "natural-compare": "^1.4.0",
-    "optionator": "^0.8.2",
+    "optionator": "^0.8.3",
     "progress": "^2.0.0",
     "regexpp": "^2.0.1",
     "semver": "^6.1.2",

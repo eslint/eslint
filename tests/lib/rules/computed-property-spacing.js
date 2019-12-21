@@ -183,6 +183,87 @@ ruleTester.run("computed-property-spacing", rule, {
             code: "A = class {a(){}get b(){}set b(foo){}static c(){}static get d(){}static set d(bar){}}",
             options: ["always", { enforceForClassMembers: true }],
             parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: [
+                "const foo = {",
+                "  [ (a) ]: 1",
+                "}"
+            ].join("\n"),
+            options: ["always"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: [
+                "const foo = {",
+                "  [ ( a ) ]: 1",
+                "}"
+            ].join("\n"),
+            options: ["always"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: [
+                "const foo = {",
+                "  [( a )]: 1",
+                "}"
+            ].join("\n"),
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: [
+                "const foo = {",
+                "  [ /**/ a /**/ ]: 1",
+                "}"
+            ].join("\n"),
+            options: ["always"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: [
+                "const foo = {",
+                "  [/**/ a /**/]: 1",
+                "}"
+            ].join("\n"),
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: [
+                "const foo = {",
+                "  [ a[ b ] ]: 1",
+                "}"
+            ].join("\n"),
+            options: ["always"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: [
+                "const foo = {",
+                "  [a[b]]: 1",
+                "}"
+            ].join("\n"),
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: [
+                "const foo = {",
+                "  [ a[ /**/ b ]/**/ ]: 1",
+                "}"
+            ].join("\n"),
+            options: ["always"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: [
+                "const foo = {",
+                "  [/**/a[b /**/] /**/]: 1",
+                "}"
+            ].join("\n"),
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
 
@@ -755,6 +836,318 @@ ruleTester.run("computed-property-spacing", rule, {
                     type: "MethodDefinition",
                     column: 95,
                     line: 1
+                }
+            ]
+        },
+        {
+            code: [
+                "const foo = {",
+                "  [(a)]: 1",
+                "}"
+            ].join("\n"),
+            output: [
+                "const foo = {",
+                "  [ (a) ]: 1",
+                "}"
+            ].join("\n"),
+            options: ["always"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "missingSpaceAfter",
+                    data: { tokenValue: "[" },
+                    type: "Property",
+                    column: 3,
+                    line: 2
+                },
+                {
+                    messageId: "missingSpaceBefore",
+                    data: { tokenValue: "]" },
+                    type: "Property",
+                    column: 7,
+                    line: 2
+                }
+            ]
+        },
+        {
+            code: [
+                "const foo = {",
+                "  [( a )]: 1",
+                "}"
+            ].join("\n"),
+            output: [
+                "const foo = {",
+                "  [ ( a ) ]: 1",
+                "}"
+            ].join("\n"),
+            options: ["always"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "missingSpaceAfter",
+                    data: { tokenValue: "[" },
+                    type: "Property",
+                    column: 3,
+                    line: 2
+                },
+                {
+                    messageId: "missingSpaceBefore",
+                    data: { tokenValue: "]" },
+                    type: "Property",
+                    column: 9,
+                    line: 2
+                }
+            ]
+        },
+        {
+            code: [
+                "const foo = {",
+                "  [ ( a ) ]: 1",
+                "}"
+            ].join("\n"),
+            output: [
+                "const foo = {",
+                "  [( a )]: 1",
+                "}"
+            ].join("\n"),
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: { tokenValue: "[" },
+                    type: "Property",
+                    column: 3,
+                    line: 2
+                },
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: { tokenValue: "]" },
+                    type: "Property",
+                    column: 11,
+                    line: 2
+                }
+            ]
+        },
+        {
+            code: [
+                "const foo = {",
+                "  [/**/ a /**/]: 1",
+                "}"
+            ].join("\n"),
+            output: [
+                "const foo = {",
+                "  [ /**/ a /**/ ]: 1",
+                "}"
+            ].join("\n"),
+            options: ["always"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "missingSpaceAfter",
+                    data: { tokenValue: "[" },
+                    type: "Property",
+                    column: 3,
+                    line: 2
+                },
+                {
+                    messageId: "missingSpaceBefore",
+                    data: { tokenValue: "]" },
+                    type: "Property",
+                    column: 15,
+                    line: 2
+                }
+            ]
+        },
+        {
+            code: [
+                "const foo = {",
+                "  [ /**/ a /**/ ]: 1",
+                "}"
+            ].join("\n"),
+            output: [
+                "const foo = {",
+                "  [/**/ a /**/]: 1",
+                "}"
+            ].join("\n"),
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: { tokenValue: "[" },
+                    type: "Property",
+                    column: 3,
+                    line: 2
+                },
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: { tokenValue: "]" },
+                    type: "Property",
+                    column: 17,
+                    line: 2
+                }
+            ]
+        },
+        {
+            code: [
+                "const foo = {",
+                "  [a[b]]: 1",
+                "}"
+            ].join("\n"),
+            output: [
+                "const foo = {",
+                "  [ a[ b ] ]: 1",
+                "}"
+            ].join("\n"),
+            options: ["always"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "missingSpaceAfter",
+                    data: { tokenValue: "[" },
+                    type: "Property",
+                    column: 3,
+                    line: 2
+                },
+                {
+                    messageId: "missingSpaceAfter",
+                    data: { tokenValue: "[" },
+                    type: "MemberExpression",
+                    column: 5,
+                    line: 2
+                },
+                {
+                    messageId: "missingSpaceBefore",
+                    data: { tokenValue: "]" },
+                    type: "MemberExpression",
+                    column: 7,
+                    line: 2
+                },
+                {
+                    messageId: "missingSpaceBefore",
+                    data: { tokenValue: "]" },
+                    type: "Property",
+                    column: 8,
+                    line: 2
+                }
+            ]
+        },
+        {
+            code: [
+                "const foo = {",
+                "  [ a[ b ] ]: 1",
+                "}"
+            ].join("\n"),
+            output: [
+                "const foo = {",
+                "  [a[b]]: 1",
+                "}"
+            ].join("\n"),
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: { tokenValue: "[" },
+                    type: "Property",
+                    column: 3,
+                    line: 2
+                },
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: { tokenValue: "[" },
+                    type: "MemberExpression",
+                    column: 6,
+                    line: 2
+                },
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: { tokenValue: "]" },
+                    type: "MemberExpression",
+                    column: 10,
+                    line: 2
+                },
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: { tokenValue: "]" },
+                    type: "Property",
+                    column: 12,
+                    line: 2
+                }
+            ]
+        },
+        {
+            code: [
+                "const foo = {",
+                "  [a[/**/ b ]/**/]: 1",
+                "}"
+            ].join("\n"),
+            output: [
+                "const foo = {",
+                "  [ a[ /**/ b ]/**/ ]: 1",
+                "}"
+            ].join("\n"),
+            options: ["always"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "missingSpaceAfter",
+                    data: { tokenValue: "[" },
+                    type: "Property",
+                    column: 3,
+                    line: 2
+                },
+                {
+                    messageId: "missingSpaceAfter",
+                    data: { tokenValue: "[" },
+                    type: "MemberExpression",
+                    column: 5,
+                    line: 2
+                },
+                {
+                    messageId: "missingSpaceBefore",
+                    data: { tokenValue: "]" },
+                    type: "Property",
+                    column: 18,
+                    line: 2
+                }
+            ]
+        },
+        {
+            code: [
+                "const foo = {",
+                "  [ /**/a[ b /**/ ] /**/]: 1",
+                "}"
+            ].join("\n"),
+            output: [
+                "const foo = {",
+                "  [/**/a[b /**/] /**/]: 1",
+                "}"
+            ].join("\n"),
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: { tokenValue: "[" },
+                    type: "Property",
+                    column: 3,
+                    line: 2
+                },
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: { tokenValue: "[" },
+                    type: "MemberExpression",
+                    column: 10,
+                    line: 2
+                },
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: { tokenValue: "]" },
+                    type: "MemberExpression",
+                    column: 19,
+                    line: 2
                 }
             ]
         }

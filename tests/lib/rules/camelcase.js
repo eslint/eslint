@@ -152,6 +152,16 @@ ruleTester.run("camelcase", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
+            code: "import { snake_cased } from 'mod'",
+            options: [{ ignoreImports: true }],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "import { camelCased } from 'mod'",
+            options: [{ ignoreImports: false }],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
             code: "function foo({ no_camelcased: camelCased }) {};",
             parserOptions: { ecmaVersion: 6 }
         },
@@ -528,6 +538,54 @@ ruleTester.run("camelcase", rule, {
                 {
                     messageId: "notCamelCase",
                     data: { name: "no_camelcased" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "import snake_cased from 'mod'",
+            options: [{ ignoreImports: true }],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "snake_cased" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "import * as snake_cased from 'mod'",
+            options: [{ ignoreImports: true }],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "snake_cased" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "import snake_cased from 'mod'",
+            options: [{ ignoreImports: false }],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "snake_cased" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "import * as snake_cased from 'mod'",
+            options: [{ ignoreImports: false }],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "snake_cased" },
                     type: "Identifier"
                 }
             ]

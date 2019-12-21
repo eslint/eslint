@@ -79,6 +79,7 @@ Caching:
 Miscellaneous:
   --init                         Run config initialization wizard - default: false
   --env-info                     Output execution environment information - default: false
+  --no-error-on-unmatched-pattern  Prevent errors when pattern is unmatched - default: false
   --debug                        Output debugging information
   -h, --help                     Show help
   -v, --version                  Output the version number
@@ -266,7 +267,7 @@ Example:
 
 #### `--no-ignore`
 
-Disables excluding of files from `.eslintignore`, `--ignore-path` and `--ignore-pattern`.
+Disables excluding of files from `.eslintignore`, `--ignore-path`, `--ignore-pattern`, and `ignorePatterns` property in config files.
 
 Example:
 
@@ -450,6 +451,10 @@ The resulting configuration file will be created in the current directory.
 #### `--env-info`
 
 This option outputs information about the execution environment, including the version of Node, npm, and local and global installations of ESLint. The ESLint team may ask for this information to help solve bugs.
+
+#### `--no-error-on-unmatched-pattern`
+
+This option prevents errors when a quoted glob pattern or `--ext` is unmatched. This will not prevent errors when your shell can't match a glob.
 
 #### `--debug`
 

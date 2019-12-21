@@ -361,6 +361,16 @@ ruleTester.run("comma-dangle", rule, {
         // trailing comma in functions
         {
             code: "function foo(a) {} ",
+            options: [{}],
+            parserOptions: { ecmaVersion: 8 }
+        },
+        {
+            code: "foo(a)",
+            options: [{}],
+            parserOptions: { ecmaVersion: 8 }
+        },
+        {
+            code: "function foo(a) {} ",
             options: [{ functions: "never" }],
             parserOptions: { ecmaVersion: 8 }
         },
@@ -486,7 +496,8 @@ ruleTester.run("comma-dangle", rule, {
                     messageId: "unexpected",
                     type: "Property",
                     line: 1,
-                    column: 23
+                    column: 23,
+                    endColumn: 24
                 }
             ]
         },
@@ -498,7 +509,8 @@ ruleTester.run("comma-dangle", rule, {
                     messageId: "unexpected",
                     type: "Property",
                     line: 2,
-                    column: 11
+                    column: 11,
+                    endColumn: 12
                 }
             ]
         },
@@ -639,7 +651,9 @@ ruleTester.run("comma-dangle", rule, {
                     messageId: "missing",
                     type: "Property",
                     line: 1,
-                    column: 23
+                    column: 23,
+                    endLine: 1,
+                    endColumn: 24
                 }
             ]
         },
@@ -652,7 +666,9 @@ ruleTester.run("comma-dangle", rule, {
                     messageId: "missing",
                     type: "Property",
                     line: 2,
-                    column: 11
+                    column: 11,
+                    endLine: 3,
+                    endColumn: 1
                 }
             ]
         },
@@ -665,7 +681,10 @@ ruleTester.run("comma-dangle", rule, {
                     messageId: "missing",
                     type: "Property",
                     line: 1,
-                    column: 30
+                    column: 30,
+                    endLine: 1,
+                    endColumn: 31
+
                 }
             ]
         },
@@ -678,7 +697,9 @@ ruleTester.run("comma-dangle", rule, {
                     messageId: "missing",
                     type: "Property",
                     line: 3,
-                    column: 12
+                    column: 12,
+                    endLine: 4,
+                    endColumn: 1
                 }
             ]
         },
@@ -692,6 +713,20 @@ ruleTester.run("comma-dangle", rule, {
                     type: "Literal",
                     line: 1,
                     column: 18
+                }
+            ]
+        },
+        {
+            code: "var foo = ['baz']",
+            output: "var foo = ['baz',]",
+            options: ["always"],
+            errors: [
+                {
+                    messageId: "missing",
+                    type: "Literal",
+                    line: 1,
+                    column: 17,
+                    endColumn: 18
                 }
             ]
         },

@@ -4889,6 +4889,18 @@ ruleTester.run("indent", rule, {
                 <a>baz qux</a>.
             </small>
         `,
+        unIndent`
+            <div
+                {...props}
+            />
+        `,
+        unIndent`
+            <div
+                {
+                    ...props
+                }
+            />
+        `,
         {
             code: unIndent`
                 a(b
@@ -9753,6 +9765,36 @@ ruleTester.run("indent", rule, {
                 </div>
             `,
             errors: expectedErrors([3, 8, 6, "Block"])
+        },
+        {
+            code: unIndent`
+                <div
+                {...props}
+                />
+            `,
+            output: unIndent`
+                <div
+                    {...props}
+                />
+            `,
+            errors: expectedErrors([2, 4, 0, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                <div
+                    {
+                      ...props
+                    }
+                />
+            `,
+            output: unIndent`
+                <div
+                    {
+                        ...props
+                    }
+                />
+            `,
+            errors: expectedErrors([3, 8, 6, "Punctuator"])
         },
         {
             code: unIndent`

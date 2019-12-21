@@ -11,7 +11,6 @@ const { assert } = require("chai");
 const sh = require("shelljs");
 const { CascadingConfigArrayFactory } =
     require("../../../lib/cli-engine/cascading-config-array-factory");
-const { IgnoredPaths } = require("../../../lib/cli-engine/ignored-paths");
 const { defineFileEnumeratorWithInMemoryFileSystem } = require("./_utils");
 
 describe("FileEnumerator", () => {
@@ -82,8 +81,10 @@ describe("FileEnumerator", () => {
 
                 it("should use the config '.eslintrc.json' for both files.", () => {
                     assert.strictEqual(list[0].config, list[1].config);
-                    assert.strictEqual(list[0].config.length, 1);
-                    assert.strictEqual(list[0].config[0].filePath, path.join(root, ".eslintrc.json"));
+                    assert.strictEqual(list[0].config.length, 3);
+                    assert.strictEqual(list[0].config[0].name, "DefaultIgnorePattern");
+                    assert.strictEqual(list[0].config[1].filePath, path.join(root, ".eslintrc.json"));
+                    assert.strictEqual(list[0].config[2].filePath, path.join(root, ".eslintignore"));
                 });
             });
 
@@ -114,15 +115,19 @@ describe("FileEnumerator", () => {
 
                 it("should use the merged config of '.eslintrc.json' and 'lib/nested/.eslintrc.yml' for 'lib/nested/one.js' and 'lib/nested/two.js'.", () => {
                     assert.strictEqual(list[0].config, list[1].config);
-                    assert.strictEqual(list[0].config.length, 2);
-                    assert.strictEqual(list[0].config[0].filePath, path.join(root, ".eslintrc.json"));
-                    assert.strictEqual(list[0].config[1].filePath, path.join(root, "lib/nested/.eslintrc.yml"));
+                    assert.strictEqual(list[0].config.length, 4);
+                    assert.strictEqual(list[0].config[0].name, "DefaultIgnorePattern");
+                    assert.strictEqual(list[0].config[1].filePath, path.join(root, ".eslintrc.json"));
+                    assert.strictEqual(list[0].config[2].filePath, path.join(root, "lib/nested/.eslintrc.yml"));
+                    assert.strictEqual(list[0].config[3].filePath, path.join(root, ".eslintignore"));
                 });
 
                 it("should use the config '.eslintrc.json' for 'lib/one.js' and 'lib/two.js'.", () => {
                     assert.strictEqual(list[2].config, list[3].config);
-                    assert.strictEqual(list[2].config.length, 1);
-                    assert.strictEqual(list[2].config[0].filePath, path.join(root, ".eslintrc.json"));
+                    assert.strictEqual(list[2].config.length, 3);
+                    assert.strictEqual(list[2].config[0].name, "DefaultIgnorePattern");
+                    assert.strictEqual(list[2].config[1].filePath, path.join(root, ".eslintrc.json"));
+                    assert.strictEqual(list[2].config[2].filePath, path.join(root, ".eslintignore"));
                 });
             });
 
@@ -153,15 +158,19 @@ describe("FileEnumerator", () => {
 
                 it("should use the config '.eslintrc.json' for 'lib/one.js' and 'lib/two.js'.", () => {
                     assert.strictEqual(list[0].config, list[1].config);
-                    assert.strictEqual(list[0].config.length, 1);
-                    assert.strictEqual(list[0].config[0].filePath, path.join(root, ".eslintrc.json"));
+                    assert.strictEqual(list[0].config.length, 3);
+                    assert.strictEqual(list[0].config[0].name, "DefaultIgnorePattern");
+                    assert.strictEqual(list[0].config[1].filePath, path.join(root, ".eslintrc.json"));
+                    assert.strictEqual(list[0].config[2].filePath, path.join(root, ".eslintignore"));
                 });
 
                 it("should use the merged config of '.eslintrc.json' and 'test/.eslintrc.yml' for 'test/one.js' and 'test/two.js'.", () => {
                     assert.strictEqual(list[2].config, list[3].config);
-                    assert.strictEqual(list[2].config.length, 2);
-                    assert.strictEqual(list[2].config[0].filePath, path.join(root, ".eslintrc.json"));
-                    assert.strictEqual(list[2].config[1].filePath, path.join(root, "test/.eslintrc.yml"));
+                    assert.strictEqual(list[2].config.length, 4);
+                    assert.strictEqual(list[2].config[0].name, "DefaultIgnorePattern");
+                    assert.strictEqual(list[2].config[1].filePath, path.join(root, ".eslintrc.json"));
+                    assert.strictEqual(list[2].config[2].filePath, path.join(root, "test/.eslintrc.yml"));
+                    assert.strictEqual(list[2].config[3].filePath, path.join(root, ".eslintignore"));
                 });
             });
         });
@@ -196,8 +205,7 @@ describe("FileEnumerator", () => {
 
                             // Disable "No Configuration Found" error.
                             useEslintrc: false
-                        }),
-                        ignoredPaths: new IgnoredPaths(options)
+                        })
                     }).iterateFiles(patterns),
                     ({ filePath, ignored }) => ({ filename: filePath, ignored })
                 );
@@ -372,7 +380,7 @@ describe("FileEnumerator", () => {
 
                     assert.throws(() => {
                         listFiles(patterns);
-                    }, `No files matching '${patterns[0]}' were found.`);
+                    }, `All files matched by '${patterns[0]}' are ignored.`);
                 });
 
                 it("should return an ignored file, if ignore option is turned off", () => {
@@ -393,7 +401,7 @@ describe("FileEnumerator", () => {
                 });
 
                 it("should ignore a file from a glob if matching a specified ignore pattern", () => {
-                    const options = { ignore: true, ignorePattern: "foo.js", cwd: getFixturePath() };
+                    const options = { ignore: true, cliConfig: { ignorePatterns: ["foo.js"] }, cwd: getFixturePath() };
                     const patterns = [getFixturePath("glob-util", "ignored", "**/*.js")];
 
                     assert.throws(() => {
@@ -419,7 +427,7 @@ describe("FileEnumerator", () => {
                 });
 
                 it("should set 'ignored: true' for files that are explicitly specified but ignored", () => {
-                    const options = { ignore: true, ignorePattern: "foo.js", cwd: getFixturePath() };
+                    const options = { ignore: true, cliConfig: { ignorePatterns: ["foo.js"] }, cwd: getFixturePath() };
                     const filename = getFixturePath("glob-util", "ignored", "foo.js");
                     const patterns = [filename];
                     const result = listFiles(patterns, options);
@@ -441,7 +449,7 @@ describe("FileEnumerator", () => {
                 });
 
                 it("should return unignored files from default ignored folders", () => {
-                    const options = { ignorePattern: "!/node_modules/dependency.js", cwd: getFixturePath("glob-util") };
+                    const options = { cliConfig: { ignorePatterns: ["!/node_modules/dependency.js"] }, cwd: getFixturePath("glob-util") };
                     const glob = getFixturePath("glob-util", "**/*.js");
                     const patterns = [glob];
                     const result = listFiles(patterns, options);
