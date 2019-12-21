@@ -31,7 +31,7 @@ Alternatively, different configurations can be specified for array expressions a
 ```
 
 * `"ArrayExpression"` configuration for array expressions (if unspecified, this rule will not apply to array expressions)
-* `"ArrayPattern"` configuration for array patterns (if unspecified, this rule will not apply to array patterns)
+* `"ArrayPattern"` configuration for array patterns of destructuring assignments (if unspecified, this rule will not apply to array patterns)
 
 ### always
 
@@ -297,6 +297,63 @@ var e = [
 ];
 ```
 
+### ArrayExpression and ArrayPattern
+
+Examples of **incorrect** code for this rule with the `{ "ArrayExpression": "always", "ArrayPattern": "never" }` options:
+
+```js
+/*eslint array-element-newline: ["error", { "ArrayExpression": "always", "ArrayPattern": "never" }]*/
+
+var a = [1, 2];
+var b = [1, 2, 3];
+var c = [
+    function foo() {
+        dosomething();
+    }, function bar() {
+        dosomething();
+    }
+];
+
+var [d,
+    e] = arr;
+var [f,
+    g,
+    h] = arr;
+var [i = function foo() {
+  dosomething()
+},
+j = function bar() {
+  dosomething()
+}] = arr
+```
+
+Examples of **correct** code for this rule with the `{ "ArrayExpression": "always", "ArrayPattern": "never" }` options:
+
+```js
+/*eslint object-curly-newline: ["error", { "ArrayExpression": "always", "ArrayPattern": "never" }]*/
+
+var a = [1,
+    2];
+var b = [1,
+    2,
+    3];
+var c = [
+    function foo() {
+        dosomething();
+    },
+    function bar() {
+        dosomething();
+    }
+];
+
+var [d, e] = arr
+var [f, g, h] = arr
+var [i = function foo() {
+    dosomething()
+}, j = function bar() {
+    dosomething()
+}] = arr
+```
 
 ## When Not To Use It
 
