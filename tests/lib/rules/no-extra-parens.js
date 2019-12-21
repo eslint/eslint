@@ -2035,6 +2035,98 @@ ruleTester.run("no-extra-parens", rule, {
             "SequenceExpression",
             1,
             { parserOptions: { ecmaVersion: 2020 } }
-        )
+        ),
+
+        // https://github.com/eslint/eslint/issues/12127
+        {
+            code: "[1, ((2, 3))];",
+            output: "[1, (2, 3)];",
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "const foo = () => ((bar, baz));",
+            output: "const foo = () => (bar, baz);",
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "foo = ((bar, baz));",
+            output: "foo = (bar, baz);",
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "foo + ((bar + baz));",
+            output: "foo + (bar + baz);",
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "((foo + bar)) + baz;",
+            output: "(foo + bar) + baz;",
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "foo * ((bar + baz));",
+            output: "foo * (bar + baz);",
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "((foo + bar)) * baz;",
+            output: "(foo + bar) * baz;",
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "new A(((foo, bar)))",
+            output: "new A((foo, bar))",
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "class A{ [((foo, bar))]() {} }",
+            output: "class A{ [(foo, bar)]() {} }",
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "new ((A, B))()",
+            output: "new (A, B)()",
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "((foo, bar)) ? bar : baz;",
+            output: "(foo, bar) ? bar : baz;",
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "((f ? o : o)) ? bar : baz;",
+            output: "(f ? o : o) ? bar : baz;",
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "((f = oo)) ? bar : baz;",
+            output: "(f = oo) ? bar : baz;",
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "foo ? ((bar, baz)) : baz;",
+            output: "foo ? (bar, baz) : baz;",
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "foo ? bar : ((bar, baz));",
+            output: "foo ? bar : (bar, baz);",
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "function foo(bar = ((baz1, baz2))) {}",
+            output: "function foo(bar = (baz1, baz2)) {}",
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "var foo = { bar: ((baz1, baz2)) };",
+            output: "var foo = { bar: (baz1, baz2) };",
+            errors: [{ messageId: "unexpected" }]
+        },
+        {
+            code: "var foo = { [((bar1, bar2))]: baz };",
+            output: "var foo = { [(bar1, bar2)]: baz };",
+            errors: [{ messageId: "unexpected" }]
+        }
     ]
 });
