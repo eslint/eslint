@@ -95,6 +95,7 @@ ruleTester.run("no-param-reassign", rule, {
         {
             code: "function foo(bar, baz) { bar.a = true; baz.b = false; }",
             options: [{
+                props: true,
                 ignorePropertyModificationsForRegex: ["^(foo|bar)$"],
                 ignorePropertyModificationsFor: ["baz"]
             }]
