@@ -94,6 +94,26 @@ ruleTester.run("no-magic-numbers", rule, {
             ]
         },
         {
+            code: "var foo = 42n",
+            options: [{
+                enforceConst: true
+            }],
+            parserOptions: {
+                ecmaVersion: 2020
+            },
+            errors: [{ messageId: "useConst" }]
+        },
+        {
+            code: "var foo = 0n + 1n;",
+            parserOptions: {
+                ecmaVersion: 2020
+            },
+            errors: [
+                { messageId: "noMagic", data: { raw: "0n" } },
+                { messageId: "noMagic", data: { raw: "1n" } }
+            ]
+        },
+        {
             code: "a = a + 5;",
             errors: [
                 { messageId: "noMagic", data: { raw: "5" } }
