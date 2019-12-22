@@ -91,6 +91,22 @@ ruleTester.run("yoda", rule, {
         }, {
             code: "if (0 <= a.b && a[\"b\"] <= 100) {}",
             options: ["never", { exceptRange: true }]
+        }, {
+            code: "if (-1n < x && x <= 1n) {}",
+            options: ["never", { exceptRange: true }],
+            parserOptions: { ecmaVersion: 2020 }
+        }, {
+            code: "if (x < -1n || 1n <= x) {}",
+            options: ["never", { exceptRange: true }],
+            parserOptions: { ecmaVersion: 2020 }
+        }, {
+            code: "if (-1n <= x && x < 1n) {}",
+            options: ["always", { exceptRange: true }],
+            parserOptions: { ecmaVersion: 2020 }
+        }, {
+            code: "if (x < -1n || 1n <= x) {}",
+            options: ["always", { exceptRange: true }],
+            parserOptions: { ecmaVersion: 2020 }
         },
 
         // onlyEquality
@@ -128,6 +144,19 @@ ruleTester.run("yoda", rule, {
             code: "if (5 != value) {}",
             output: "if (value != 5) {}",
             options: ["never"],
+            errors: [
+                {
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: "!=" },
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "if (5n != value) {}",
+            output: "if (value != 5n) {}",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2020 },
             errors: [
                 {
                     messageId: "expected",
@@ -224,6 +253,19 @@ ruleTester.run("yoda", rule, {
             code: "if (value === true) {}",
             output: "if (true === value) {}",
             options: ["always"],
+            errors: [
+                {
+                    messageId: "expected",
+                    data: { expectedSide: "left", operator: "===" },
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "if (value === 5n) {}",
+            output: "if (5n === value) {}",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2020 },
             errors: [
                 {
                     messageId: "expected",
