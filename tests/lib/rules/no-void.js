@@ -39,6 +39,16 @@ ruleTester.run("no-void", rule, {
             errors: [{ messageId: "noVoid" }]
         },
         {
+            code: "void 0",
+            options: [{}],
+            errors: [{ messageId: "noVoid" }]
+        },
+        {
+            code: "void 0",
+            options: [{ allowAsStatement: false }],
+            errors: [{ messageId: "noVoid" }]
+        },
+        {
             code: "void(0)",
             errors: [{ messageId: "noVoid" }]
         },
