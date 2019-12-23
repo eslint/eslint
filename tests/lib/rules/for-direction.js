@@ -53,7 +53,13 @@ ruleTester.run("for-direction", rule, {
         "for(var i = 10; i >= 0; i %= 2){}",
         "for(var i = 0; i < MAX; i += STEP_SIZE);",
         "for(var i = 0; i < MAX; i -= STEP_SIZE);",
-        "for(var i = 10; i > 0; i += STEP_SIZE);"
+        "for(var i = 10; i > 0; i += STEP_SIZE);",
+
+        // other cond-expressions.
+        "for(var i = 0; i !== 10; i+=1){}",
+        "for(var i = 0; i === 10; i+=1){}",
+        "for(var i = 0; i == 10; i+=1){}",
+        "for(var i = 0; i != 10; i+=1){}"
     ],
     invalid: [
 
