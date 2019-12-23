@@ -2097,6 +2097,86 @@ ruleTester.run("indent", rule, {
             `,
             options: [2]
         },
+        {
+            code: unIndent`
+              condition
+                ? () => {
+                  return true
+                }
+                : condition2
+                  ? () => {
+                    return true
+                  }
+                  : () => {
+                    return false
+                  }
+            `,
+            options: [2]
+        },
+        {
+            code: unIndent`
+              condition
+                ? () => {
+                  return true
+                }
+                : condition2
+                  ? () => {
+                    return true
+                  }
+                  : () => {
+                    return false
+                  }
+            `,
+            options: [2, { offsetTernaryExpressions: false }]
+        },
+        {
+            code: unIndent`
+              condition
+                ? () => {
+                    return true
+                  }
+                : condition2
+                  ? () => {
+                      return true
+                    }
+                  : () => {
+                      return false
+                    }
+            `,
+            options: [2, { offsetTernaryExpressions: true }]
+        },
+        {
+            code: unIndent`
+              condition
+                  ? () => {
+                          return true
+                      }
+                  : condition2
+                      ? () => {
+                              return true
+                          }
+                      : () => {
+                              return false
+                          }
+            `,
+            options: [4, { offsetTernaryExpressions: true }]
+        },
+        {
+            code: unIndent`
+              condition
+              \t? () => {
+              \t\t\treturn true
+              \t\t}
+              \t: condition2
+              \t\t? () => {
+              \t\t\t\treturn true
+              \t\t\t}
+              \t\t: () => {
+              \t\t\t\treturn false
+              \t\t\t}
+            `,
+            options: ["tab", { offsetTernaryExpressions: true }]
+        },
         unIndent`
             [
                 foo ?
@@ -7704,6 +7784,88 @@ ruleTester.run("indent", rule, {
                 ]
             `,
             errors: expectedErrors([5, 4, 8, "Identifier"])
+        },
+        {
+            code: unIndent`
+              condition
+              ? () => {
+              return true
+              }
+              : condition2
+              ? () => {
+              return true
+              }
+              : () => {
+              return false
+              }
+            `,
+            output: unIndent`
+              condition
+                ? () => {
+                    return true
+                  }
+                : condition2
+                  ? () => {
+                      return true
+                    }
+                  : () => {
+                      return false
+                    }
+            `,
+            options: [2, { offsetTernaryExpressions: true }],
+            errors: expectedErrors([
+                [2, 2, 0, "Punctuator"],
+                [3, 6, 0, "Keyword"],
+                [4, 4, 0, "Punctuator"],
+                [5, 2, 0, "Punctuator"],
+                [6, 4, 0, "Punctuator"],
+                [7, 8, 0, "Keyword"],
+                [8, 6, 0, "Punctuator"],
+                [9, 4, 0, "Punctuator"],
+                [10, 8, 0, "Keyword"],
+                [11, 6, 0, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+              condition
+              ? () => {
+              return true
+              }
+              : condition2
+              ? () => {
+              return true
+              }
+              : () => {
+              return false
+              }
+            `,
+            output: unIndent`
+              condition
+                ? () => {
+                  return true
+                }
+                : condition2
+                  ? () => {
+                    return true
+                  }
+                  : () => {
+                    return false
+                  }
+            `,
+            options: [2, { offsetTernaryExpressions: false }],
+            errors: expectedErrors([
+                [2, 2, 0, "Punctuator"],
+                [3, 4, 0, "Keyword"],
+                [4, 2, 0, "Punctuator"],
+                [5, 2, 0, "Punctuator"],
+                [6, 4, 0, "Punctuator"],
+                [7, 6, 0, "Keyword"],
+                [8, 4, 0, "Punctuator"],
+                [9, 4, 0, "Punctuator"],
+                [10, 6, 0, "Keyword"],
+                [11, 4, 0, "Punctuator"]
+            ])
         },
         {
 
