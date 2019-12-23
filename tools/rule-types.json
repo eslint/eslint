@@ -165,6 +165,7 @@
     "no-prototype-builtins": "problem",
     "no-redeclare": "suggestion",
     "no-regex-spaces": "suggestion",
+    "no-restricted-exports": "suggestion",
     "no-restricted-globals": "suggestion",
     "no-restricted-imports": "suggestion",
     "no-restricted-modules": "suggestion",
