@@ -562,19 +562,6 @@ target.karma = () => {
 
     target.webpack("production");
 
-    const browserFileLintOutput = new CLIEngine({
-        useEslintrc: false,
-        ignore: false,
-        allowInlineConfig: false,
-        baseConfig: { parserOptions: { ecmaVersion: 5 } }
-    }).executeOnFiles([`${BUILD_DIR}/eslint.js`]);
-
-    if (browserFileLintOutput.errorCount > 0) {
-        echo(`error: Failed to lint ${BUILD_DIR}/eslint.js as ES5 code`);
-        echo(CLIEngine.getFormatter("stylish")(browserFileLintOutput.results));
-        exit(1);
-    }
-
     const lastReturn = exec(`${getBinFile("karma")} start karma.conf.js`);
 
     if (lastReturn.code !== 0) {
