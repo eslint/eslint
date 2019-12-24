@@ -590,7 +590,7 @@ foo(); /* eslint-disable-line example/rule-name */
 If the part preceded by `--` exists in the inline comments, ESLint ignores the part. The `--` can be longer than 2. For examples:
 
 ```js
-// eslint-disable-next-line no-console -- this console.log makes fine the program for some reason.
+// eslint-disable-next-line no-console -- Here's a description about why this configuration is necessary.
 console.log('hello');
 ```
 
