@@ -234,6 +234,36 @@ ruleTester.run("max-len", rule, {
                   "</>)",
             options: [37, { ignoreTrailingComments: true }],
             parserOptions: { ecmaFeatures: { jsx: true } }
+        },
+        {
+            code: "var jsx = <Foo>\n" +
+                  "         attr = {a && b/* this line has 57 characters */}\n" +
+                  "</Foo>;",
+            options: [57],
+            parserOptions: { ecmaFeatures: { jsx: true } }
+        },
+        {
+            code: "var jsx = <Foo>\n" +
+                  "         attr = {/* this line has 57 characters */a && b}\n" +
+                  "</Foo>;",
+            options: [57],
+            parserOptions: { ecmaFeatures: { jsx: true } }
+        },
+        {
+            code: "var jsx = <Foo>\n" +
+                  "         attr = \n" +
+                  "          {/* this line has 45 characters */}\n" +
+                  "</Foo>;",
+            options: [20, { comments: 45 }],
+            parserOptions: { ecmaFeatures: { jsx: true } }
+        },
+        {
+            code: "var jsx = <Foo>\n" +
+                  "         attr = \n" +
+                  "          {/* this line has 45 characters */}\n" +
+                  "</Foo>;",
+            options: [20, { ignoreComments: true }],
+            parserOptions: { ecmaFeatures: { jsx: true } }
         }
     ],
 
@@ -769,6 +799,71 @@ ruleTester.run("max-len", rule, {
                     data: { lineLength: 44, maxLength: 37 },
                     type: "Program",
                     line: 2,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "var jsx = <Foo>\n" +
+                  "         attr = {a && b/* this line has 57 characters */}\n" +
+                  "</Foo>;",
+            options: [56],
+            parserOptions: { ecmaFeatures: { jsx: true } },
+            errors: [
+                {
+                    messageId: "max",
+                    data: { lineLength: 57, maxLength: 56 },
+                    type: "Program",
+                    line: 2,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "var jsx = <Foo>\n" +
+                  "         attr = {/* this line has 57 characters */a && b}\n" +
+                  "</Foo>;",
+            options: [56],
+            parserOptions: { ecmaFeatures: { jsx: true } },
+            errors: [
+                {
+                    messageId: "max",
+                    data: { lineLength: 57, maxLength: 56 },
+                    type: "Program",
+                    line: 2,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "var jsx = <Foo>\n" +
+                  "         attr = {a & b/* this line has 56 characters */}\n" +
+                  "</Foo>;",
+            options: [55, { ignoreTrailingComments: true }],
+            parserOptions: { ecmaFeatures: { jsx: true } },
+            errors: [
+                {
+                    messageId: "max",
+                    data: { lineLength: 56, maxLength: 55 },
+                    type: "Program",
+                    line: 2,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "var jsx = <Foo>\n" +
+                  "         attr = \n" +
+                  "          {/* this line has 45 characters */}\n" +
+                  "</Foo>;",
+            options: [80, { comments: 44 }],
+            parserOptions: { ecmaFeatures: { jsx: true } },
+            errors: [
+                {
+                    messageId: "maxComment",
+                    data: { lineLength: 45, maxCommentLength: 44 },
+                    type: "Program",
+                    line: 3,
                     column: 1
                 }
             ]
