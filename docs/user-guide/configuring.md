@@ -429,7 +429,7 @@ Configuration comments can include descriptions to explain why the comment is ne
 ```js
 /* eslint eqeqeq: "off", curly: "error"
     --------
-    You can clarify the reason of this configuration.
+    Here's a description about why this configuration is necessary.
     But mind that '*' at beginning lines may cause syntax error. */
 ```
 
