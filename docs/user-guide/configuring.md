@@ -587,7 +587,7 @@ foo(); // eslint-disable-line example/rule-name
 foo(); /* eslint-disable-line example/rule-name */
 ```
 
-If the part preceded by `--` exists in the inline comments, ESLint ignores the part. The `--` can be longer than 2. For examples:
+Configuration comments can include descriptions to explain why the comment is necessary. The description must occur after the configuration is separated from the comment by at two or more consecutive `-` characters. For example:
 
 ```js
 // eslint-disable-next-line no-console -- Here's a description about why this configuration is necessary.
