@@ -3760,7 +3760,7 @@ describe("Linter", () => {
             assert(spy.calledOnce);
         });
 
-        describe("comments in directive comments", () => {
+        describe("descriptions in directive comments", () => {
             it("should ignore the part preceded by '--' in '/*eslint*/'.", () => {
                 const aaa = sinon.stub().returns({});
                 const bbb = sinon.stub().returns({});
