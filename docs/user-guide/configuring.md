@@ -423,7 +423,7 @@ This comment specifies the "double" option for the [`quotes`](../rules/quotes) r
 Configuration comments can include descriptions to explain why the comment is necessary. The description must occur after the configuration is separated from the comment by at two or more consecutive `-` characters. For example:
 
 ```js
-/* eslint eqeqeq: "off", curly: "error" -- You can clarify the reason of this configuration. */
+/* eslint eqeqeq: "off", curly: "error" -- Here's a description about why this configuration is necessary. */
 ```
 
 ```js
