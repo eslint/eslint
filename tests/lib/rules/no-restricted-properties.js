@@ -96,6 +96,12 @@ ruleTester.run("no-restricted-properties", rule, {
                 object: "foo"
             }]
         }, {
+            code: "foo[/(?<zero>0)/]",
+            options: [{
+                property: "null"
+            }],
+            parserOptions: { ecmaVersion: 2018 }
+        }, {
             code: "let bar = foo;",
             options: [{ object: "foo", property: "bar" }],
             parserOptions: { ecmaVersion: 6 }
@@ -248,6 +254,11 @@ ruleTester.run("no-restricted-properties", rule, {
             code: "foo.bar.baz();",
             options: [{ property: "bar" }],
             errors: [{ message: "'bar' is restricted from being used.", type: "MemberExpression" }]
+        }, {
+            code: "foo[/(?<zero>0)/]",
+            options: [{ property: "/(?<zero>0)/" }],
+            parserOptions: { ecmaVersion: 2018 },
+            errors: [{ message: "'/(?<zero>0)/' is restricted from being used.", type: "MemberExpression" }]
         }, {
             code: "require.call({}, 'foo')",
             options: [{

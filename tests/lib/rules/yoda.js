@@ -107,6 +107,10 @@ ruleTester.run("yoda", rule, {
             code: "if (x < -1n || 1n <= x) {}",
             options: ["always", { exceptRange: true }],
             parserOptions: { ecmaVersion: 2020 }
+        }, {
+            code: "if (1 <= a['/(?<zero>0)/'] && a[/(?<zero>0)/] <= 100) {}",
+            options: ["never", { exceptRange: true }],
+            parserOptions: { ecmaVersion: 2018 }
         },
 
         // onlyEquality
@@ -446,6 +450,19 @@ ruleTester.run("yoda", rule, {
             code: "if (0 <= a[b()] && a[b()] < 1) {}",
             output: "if (a[b()] >= 0 && a[b()] < 1) {}",
             options: ["never", { exceptRange: true }],
+            errors: [
+                {
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: "<=" },
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "if (0 <= a.null && a[/(?<zero>0)/] <= 1) {}",
+            output: "if (a.null >= 0 && a[/(?<zero>0)/] <= 1) {}",
+            options: ["never", { exceptRange: true }],
+            parserOptions: { ecmaVersion: 2018 },
             errors: [
                 {
                     messageId: "expected",
