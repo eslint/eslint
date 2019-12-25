@@ -50,6 +50,7 @@ ruleTester.run("no-self-assign", rule, {
         { code: "a[b] = a.b", options: [{ props: true }] },
         { code: "a.b().c = a.b().c", options: [{ props: true }] },
         { code: "b().c = b().c", options: [{ props: true }] },
+        { code: "a.null = a[/(?<zero>0)/]", options: [{ props: true }], parserOptions: { ecmaVersion: 2018 } },
         { code: "a[b + 1] = a[b + 1]", options: [{ props: true }] }, // it ignores non-simple computed properties.
         {
             code: "a.b = a.b",
@@ -133,6 +134,7 @@ ruleTester.run("no-self-assign", rule, {
             code: "this.x = this.x",
             options: [{ props: true }],
             errors: ["'this.x' is assigned to itself."]
-        }
+        },
+        { code: "a['/(?<zero>0)/'] = a[/(?<zero>0)/]", options: [{ props: true }], parserOptions: { ecmaVersion: 2018 }, errors: ["'a[/(?<zero>0)/]' is assigned to itself."] }
     ]
 });
