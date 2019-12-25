@@ -20,7 +20,6 @@ const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6, sourceType:
 
 ruleTester.run("no-restricted-imports", rule, {
     valid: [
-        "import os from \"os\";",
         { code: "import os from \"os\";", options: ["osx"] },
         { code: "import fs from \"fs\";", options: ["crypto"] },
         { code: "import path from \"path\";", options: ["crypto", "stream", "os"] },
@@ -164,6 +163,10 @@ ruleTester.run("no-restricted-imports", rule, {
                     message: "Please import 'DisallowedObject' and 'DisallowedObjectTwo' from /bar/ instead."
                 }]
             }]
+        },
+        {
+            code: "import {\nAllowedObject,\nDisallowedObject, // eslint-disable-line\n} from \"foo\";",
+            options: [{ paths: [{ name: "foo", importNames: ["DisallowedObject"] }] }]
         }
     ],
     invalid: [{
@@ -211,7 +214,7 @@ ruleTester.run("no-restricted-imports", rule, {
                 message: "Don't import 'foo'."
             }]
         }],
-        errors: [{ message: "'fs' import is restricted from being used. Don't import 'foo'.", type: "ExportNamedDeclaration" }]
+        errors: [{ message: "'foo' import from 'fs' is restricted. Don't import 'foo'.", type: "ExportNamedDeclaration" }]
     }, {
         code: "import withGitignores from \"foo\";",
         options: [{
@@ -287,7 +290,7 @@ ruleTester.run("no-restricted-imports", rule, {
             }]
         }],
         errors: [{
-            message: "'foo' import is restricted from being used. Please import 'DisallowedObject' from /bar/ instead.",
+            message: "'DisallowedObject' import from 'foo' is restricted. Please import 'DisallowedObject' from /bar/ instead.",
             type: "ImportDeclaration"
         }]
     },
@@ -301,7 +304,7 @@ ruleTester.run("no-restricted-imports", rule, {
             }]
         }],
         errors: [{
-            message: "'foo' import is restricted from being used. Please import 'DisallowedObject' from /bar/ instead.",
+            message: "'DisallowedObject' import from 'foo' is restricted. Please import 'DisallowedObject' from /bar/ instead.",
             type: "ImportDeclaration"
         }]
     },
@@ -315,7 +318,7 @@ ruleTester.run("no-restricted-imports", rule, {
             }]
         }],
         errors: [{
-            message: "'foo' import is restricted from being used. Please import 'DisallowedObject' from /bar/ instead.",
+            message: "'DisallowedObject' import from 'foo' is restricted. Please import 'DisallowedObject' from /bar/ instead.",
             type: "ImportDeclaration"
         }]
     },
@@ -329,7 +332,7 @@ ruleTester.run("no-restricted-imports", rule, {
             }]
         }],
         errors: [{
-            message: "'foo' import is restricted from being used. Please import 'DisallowedObject' from /bar/ instead.",
+            message: "'DisallowedObject' import from 'foo' is restricted. Please import 'DisallowedObject' from /bar/ instead.",
             type: "ImportDeclaration"
         }]
     },
@@ -343,7 +346,7 @@ ruleTester.run("no-restricted-imports", rule, {
             }]
         }],
         errors: [{
-            message: "'foo' import is restricted from being used. Please import 'DisallowedObject' and 'DisallowedObjectTwo' from /bar/ instead.",
+            message: "'DisallowedObject' import from 'foo' is restricted. Please import 'DisallowedObject' and 'DisallowedObjectTwo' from /bar/ instead.",
             type: "ImportDeclaration"
         }]
     },
@@ -357,7 +360,7 @@ ruleTester.run("no-restricted-imports", rule, {
             }]
         }],
         errors: [{
-            message: "'foo' import is restricted from being used. Please import 'DisallowedObject' and 'DisallowedObjectTwo' from /bar/ instead.",
+            message: "'DisallowedObject' import from 'foo' is restricted. Please import 'DisallowedObject' and 'DisallowedObjectTwo' from /bar/ instead.",
             type: "ImportDeclaration"
         }]
     },
@@ -414,6 +417,52 @@ ruleTester.run("no-restricted-imports", rule, {
         }],
         errors: [{
             message: "* import is invalid because 'DisallowedObject,DisallowedObjectTwo' from 'foo' is restricted. Please import 'DisallowedObject' and 'DisallowedObjectTwo' from /bar/ instead.",
+            type: "ImportDeclaration"
+        }]
+    },
+    {
+        code: "import { DisallowedObjectOne, DisallowedObjectTwo, AllowedObject } from \"foo\";",
+        options: [{
+            paths: [{
+                name: "foo",
+                importNames: ["DisallowedObjectOne", "DisallowedObjectTwo"]
+            }]
+        }],
+        errors: [{
+            message: "'DisallowedObjectOne' import from 'foo' is restricted.",
+            type: "ImportDeclaration"
+        }, {
+            message: "'DisallowedObjectTwo' import from 'foo' is restricted.",
+            type: "ImportDeclaration"
+        }]
+    },
+    {
+        code: "import { DisallowedObjectOne, DisallowedObjectTwo, AllowedObject } from \"foo\";",
+        options: [{
+            paths: [{
+                name: "foo",
+                importNames: ["DisallowedObjectOne", "DisallowedObjectTwo"],
+                message: "Please import this module from /bar/ instead."
+            }]
+        }],
+        errors: [{
+            message: "'DisallowedObjectOne' import from 'foo' is restricted. Please import this module from /bar/ instead.",
+            type: "ImportDeclaration"
+        }, {
+            message: "'DisallowedObjectTwo' import from 'foo' is restricted. Please import this module from /bar/ instead.",
+            type: "ImportDeclaration"
+        }]
+    },
+    {
+        code: "import { AllowedObject, DisallowedObject as Bar } from \"foo\";",
+        options: [{
+            paths: [{
+                name: "foo",
+                importNames: ["DisallowedObject"]
+            }]
+        }],
+        errors: [{
+            message: "'DisallowedObject' import from 'foo' is restricted.",
             type: "ImportDeclaration"
         }]
     }
