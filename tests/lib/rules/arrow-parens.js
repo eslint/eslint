@@ -69,6 +69,7 @@ const valid = [
     { code: "a => ({})", options: ["as-needed", { requireForBlockBody: true }] },
     { code: "async a => ({})", options: ["as-needed", { requireForBlockBody: true }], parserOptions: { ecmaVersion: 8 } },
     { code: "async a => a", options: ["as-needed", { requireForBlockBody: true }], parserOptions: { ecmaVersion: 8 } },
+    { code: "function *f() { yield a => a; }", options: ["as-needed", { requireForBlockBody: true }], parserOptions: { ecmaVersion: 8 } },
     { code: "(a: T) => a", options: ["as-needed", { requireForBlockBody: true }], parser: parser("identifer-type") },
     { code: "(a): T => a", options: ["as-needed", { requireForBlockBody: true }], parser: parser("return-type") },
     { code: "<T extends Array>(param: T) => { return param }", options: ["as-needed", { requireForBlockBody: true }], parser: parser("generic-param") },
@@ -195,6 +196,19 @@ const invalid = [
             line: 1,
             column: 8,
             endColumn: 9,
+            messageId: "unexpectedParens",
+            type
+        }]
+    },
+    {
+        code: "function *f() { yield(a) => a; }",
+        output: "function *f() { yield a => a; }",
+        options: ["as-needed"],
+        parserOptions: { ecmaVersion: 8 },
+        errors: [{
+            line: 1,
+            column: 23,
+            endColumn: 24,
             messageId: "unexpectedParens",
             type
         }]
