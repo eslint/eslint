@@ -75,6 +75,11 @@ ruleTester.run("no-magic-numbers", rule, {
                     jsx: true
                 }
             }
+        },
+        {
+            code: "f(100n)",
+            options: [{ ignore: [100n] }],
+            parserOptions: { ecmaVersion: 2020 }
         }
     ],
     invalid: [
@@ -246,6 +251,21 @@ ruleTester.run("no-magic-numbers", rule, {
                 { messageId: "noMagic", data: { raw: "1" }, line: 1 },
                 { messageId: "noMagic", data: { raw: "10" }, line: 1 },
                 { messageId: "noMagic", data: { raw: "4" }, line: 1 }
+            ]
+        },
+        {
+            code: "f(100n)",
+            options: [{ ignore: [100] }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [
+                { messageId: "noMagic", data: { raw: "100n" }, line: 1 }
+            ]
+        },
+        {
+            code: "f(100)",
+            options: [{ ignore: [100n] }],
+            errors: [
+                { messageId: "noMagic", data: { raw: "100" }, line: 1 }
             ]
         }
     ]
