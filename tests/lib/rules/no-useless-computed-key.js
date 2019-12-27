@@ -40,7 +40,16 @@ ruleTester.run("no-useless-computed-key", rule, {
         { code: "class Foo { ['x']() {} }", options: [{ enforceForClassMembers: false }] },
         { code: "(class { ['x']() {} })", options: [{ enforceForClassMembers: false }] },
         { code: "class Foo { static ['constructor']() {} }", options: [{ enforceForClassMembers: false }] },
-        { code: "class Foo { ['prototype']() {} }", options: [{ enforceForClassMembers: false }] }
+        { code: "class Foo { ['prototype']() {} }", options: [{ enforceForClassMembers: false }] },
+
+        /*
+         * Well-known browsers throw syntax error bigint literals on property names,
+         * so, this rule doesn't touch those for now.
+         */
+        {
+            code: "({ [99999999999999999n]: 0 })",
+            parserOptions: { ecmaVersion: 2020 }
+        }
     ],
     invalid: [
         {
@@ -370,28 +379,6 @@ ruleTester.run("no-useless-computed-key", rule, {
             options: [{ enforceForClassMembers: true }],
             errors: [{
                 message: "Unnecessarily computed property ['prototype'] found.", type: "MethodDefinition"
-            }]
-        },
-
-        /*
-         * Well-known browsers throw syntax error bigint literals on property names,
-         * so, this rule fixes it to string literal.
-         */
-        {
-            code: "({ [99999999999999999n]: 0 })",
-            output: "({ \"99999999999999999\": 0 })",
-            parserOptions: { ecmaVersion: 2020 },
-            errors: [{
-                message: "Unnecessarily computed property [99999999999999999n] found.", type: "Property"
-            }]
-        },
-        {
-
-            // In fact, this makes `{"100000000000000000": 0}` because of precision.
-            code: "({ [99999999999999999]: 0 })",
-            output: "({ 99999999999999999: 0 })",
-            errors: [{
-                message: "Unnecessarily computed property [99999999999999999] found.", type: "Property"
             }]
         }
     ]
