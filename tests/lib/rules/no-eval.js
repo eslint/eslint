@@ -57,7 +57,14 @@ ruleTester.run("no-eval", rule, {
         { code: "global.eval('foo')", options: [{ allowIndirect: true }], env: { node: true } },
         { code: "global.global.eval('foo')", options: [{ allowIndirect: true }], env: { node: true } },
         { code: "this.eval('foo')", options: [{ allowIndirect: true }] },
-        { code: "function foo() { this.eval('foo') }", options: [{ allowIndirect: true }] }
+        { code: "function foo() { this.eval('foo') }", options: [{ allowIndirect: true }] },
+
+        "globalThis.eval('foo')",
+        { code: "globalThis.eval('foo')", env: { es6: true } },
+        { code: "(0, globalThis.eval)('foo')", options: [{ allowIndirect: true }], env: { es2020: true } },
+        { code: "var EVAL = globalThis.eval; EVAL('foo')", options: [{ allowIndirect: true }] },
+        { code: "globalThis.globalThis.eval('foo')", options: [{ allowIndirect: true }], env: { es2020: true } },
+        { code: "function foo() { globalThis.eval('foo') }", options: [{ allowIndirect: true }], env: { es2020: true } }
     ],
 
     invalid: [
@@ -84,6 +91,12 @@ ruleTester.run("no-eval", rule, {
         { code: "global.global.eval('foo')", env: { node: true }, errors: [{ messageId: "unexpected", type: "CallExpression" }] },
         { code: "global.global[`eval`]('foo')", parserOptions: { ecmaVersion: 6 }, env: { node: true }, errors: [{ messageId: "unexpected", type: "CallExpression" }] },
         { code: "this.eval('foo')", errors: [{ messageId: "unexpected", type: "CallExpression" }] },
-        { code: "function foo() { this.eval('foo') }", errors: [{ messageId: "unexpected", type: "CallExpression" }] }
+        { code: "function foo() { this.eval('foo') }", errors: [{ messageId: "unexpected", type: "CallExpression" }] },
+        { code: "var EVAL = globalThis.eval; EVAL('foo')", env: { es2020: true }, errors: [{ messageId: "unexpected", type: "MemberExpression" }] },
+        { code: "globalThis.eval('foo')", env: { es2020: true }, errors: [{ messageId: "unexpected", type: "CallExpression" }] },
+        { code: "globalThis.globalThis.eval('foo')", env: { es2020: true }, errors: [{ messageId: "unexpected", type: "CallExpression" }] },
+        { code: "globalThis.globalThis['eval']('foo')", env: { es2020: true }, errors: [{ messageId: "unexpected", type: "CallExpression" }] },
+        { code: "(0, globalThis.eval)('foo')", env: { es2020: true }, errors: [{ messageId: "unexpected", type: "MemberExpression" }] },
+        { code: "(0, globalThis['eval'])('foo')", env: { es2020: true }, errors: [{ messageId: "unexpected", type: "MemberExpression" }] }
     ]
 });
