@@ -78,7 +78,7 @@ ruleTester.run("no-magic-numbers", rule, {
         },
         {
             code: "f(100n)",
-            options: [{ ignore: [100n] }],
+            options: [{ ignore: ["100n"] }],
             parserOptions: { ecmaVersion: 2020 }
         }
     ],
@@ -263,7 +263,7 @@ ruleTester.run("no-magic-numbers", rule, {
         },
         {
             code: "f(100)",
-            options: [{ ignore: [100n] }],
+            options: [{ ignore: ["100n"] }],
             errors: [
                 { messageId: "noMagic", data: { raw: "100" }, line: 1 }
             ]
