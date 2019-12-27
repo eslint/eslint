@@ -648,6 +648,8 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("(a || b) ? c : d", "a || b ? c : d", "LogicalExpression"),
         invalid("a ? (b = c) : d", "a ? b = c : d", "AssignmentExpression"),
         invalid("a ? b : (c = d)", "a ? b : c = d", "AssignmentExpression"),
+        invalid("(c = d) ? (b) : c", "(c = d) ? b : c", "Identifier", null, { options: ["all", { conditionalAssign: false }] }),
+        invalid("(c = d) ? b : (c)", "(c = d) ? b : c", "Identifier", null, { options: ["all", { conditionalAssign: false }] }),
         invalid("f((a = b))", "f(a = b)", "AssignmentExpression"),
         invalid("a, (b = c)", "a, b = c", "AssignmentExpression"),
         invalid("a = (b * c)", "a = b * c", "BinaryExpression"),
