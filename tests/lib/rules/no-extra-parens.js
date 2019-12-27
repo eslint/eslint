@@ -250,17 +250,22 @@ ruleTester.run("no-extra-parens", rule, {
         { code: "var a = (b = c)", options: ["functions"] },
         { code: "_ => (a = 0)", options: ["functions"] },
 
-        // ["all", {conditionalAssign: false}] enables extra parens around conditional assignments
+        // ["all", { conditionalAssign: false }] enables extra parens around conditional assignments
         { code: "while ((foo = bar())) {}", options: ["all", { conditionalAssign: false }] },
         { code: "if ((foo = bar())) {}", options: ["all", { conditionalAssign: false }] },
         { code: "do; while ((foo = bar()))", options: ["all", { conditionalAssign: false }] },
         { code: "for (;(a = b););", options: ["all", { conditionalAssign: false }] },
+        { code: "var a = ((b = c)) ? foo : bar;", options: ["all", { conditionalAssign: false }] },
 
         // ["all", { nestedBinaryExpressions: false }] enables extra parens around conditional assignments
         { code: "a + (b * c)", options: ["all", { nestedBinaryExpressions: false }] },
         { code: "(a * b) + c", options: ["all", { nestedBinaryExpressions: false }] },
         { code: "(a * b) / c", options: ["all", { nestedBinaryExpressions: false }] },
         { code: "a || (b && c)", options: ["all", { nestedBinaryExpressions: false }] },
+        { code: "a + ((b * c))", options: ["all", { nestedBinaryExpressions: false }] },
+        { code: "((a * b)) + c", options: ["all", { nestedBinaryExpressions: false }] },
+        { code: "((a * b)) / c", options: ["all", { nestedBinaryExpressions: false }] },
+        { code: "a || ((b && c))", options: ["all", { nestedBinaryExpressions: false }] },
 
         // ["all", { returnAssign: false }] enables extra parens around expressions returned by return statements
         { code: "function a(b) { return b || c; }", options: ["all", { returnAssign: false }] },
@@ -276,6 +281,8 @@ ruleTester.run("no-extra-parens", rule, {
         { code: "b => { return (b = 1) };", options: ["all", { returnAssign: false }] },
         { code: "b => { return (b = c) || (b = d) };", options: ["all", { returnAssign: false }] },
         { code: "b => { return c ? (d = b) : (e = b) };", options: ["all", { returnAssign: false }] },
+        { code: "function a(b) { return ((b = 1)); }", options: ["all", { returnAssign: false }] },
+        { code: "b => ((b = 1));", options: ["all", { returnAssign: false }] },
 
         // https://github.com/eslint/eslint/issues/3653
         "(function(){}).foo(), 1, 2;",
@@ -352,6 +359,8 @@ ruleTester.run("no-extra-parens", rule, {
         { code: "foo in (bar in baz)", options: ["all", { nestedBinaryExpressions: false }] },
         { code: "foo + (bar + baz)", options: ["all", { nestedBinaryExpressions: false }] },
         { code: "foo && (bar && baz)", options: ["all", { nestedBinaryExpressions: false }] },
+        { code: "((foo instanceof bar)) instanceof baz", options: ["all", { nestedBinaryExpressions: false }] },
+        { code: "((foo in bar)) in baz", options: ["all", { nestedBinaryExpressions: false }] },
 
         // https://github.com/eslint/eslint/issues/9019
         "(async function() {});",
@@ -452,7 +461,9 @@ ruleTester.run("no-extra-parens", rule, {
 
         // ["all", { enforceForSequenceExpressions: false }]
         { code: "(a, b)", options: ["all", { enforceForSequenceExpressions: false }] },
+        { code: "((a, b))", options: ["all", { enforceForSequenceExpressions: false }] },
         { code: "(foo(), bar());", options: ["all", { enforceForSequenceExpressions: false }] },
+        { code: "((foo(), bar()));", options: ["all", { enforceForSequenceExpressions: false }] },
         { code: "if((a, b)){}", options: ["all", { enforceForSequenceExpressions: false }] },
         { code: "while ((val = foo(), val < 10));", options: ["all", { enforceForSequenceExpressions: false }] },
 
@@ -463,6 +474,7 @@ ruleTester.run("no-extra-parens", rule, {
         { code: "(new foo(bar)).baz", options: ["all", { enforceForNewInMemberExpressions: false }] },
         { code: "(new foo.bar()).baz", options: ["all", { enforceForNewInMemberExpressions: false }] },
         { code: "(new foo.bar()).baz()", options: ["all", { enforceForNewInMemberExpressions: false }] },
+        { code: "((new foo.bar())).baz()", options: ["all", { enforceForNewInMemberExpressions: false }] },
 
         "let a = [ ...b ]",
         "let a = { ...b }",
