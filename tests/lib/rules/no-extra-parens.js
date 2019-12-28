@@ -199,6 +199,7 @@ ruleTester.run("no-extra-parens", rule, {
         "var regex = (/^a$/);",
         "function a(){ return (/^a$/); }",
         "function a(){ return (/^a$/).test('a'); }",
+        "var isA = ((/^a$/)).test('a');",
 
         // IIFE is allowed to have parens in any position (#655)
         "var foo = (function() { return bar(); }())",
@@ -643,6 +644,8 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("-(-foo)", "- -foo", "UnaryExpression"),
         invalid("+(-foo)", "+-foo", "UnaryExpression"),
         invalid("-(+foo)", "-+foo", "UnaryExpression"),
+        invalid("-((bar+foo))", "-(bar+foo)", "BinaryExpression"),
+        invalid("+((bar-foo))", "+(bar-foo)", "BinaryExpression"),
         invalid("++(foo)", "++foo", "Identifier"),
         invalid("--(foo)", "--foo", "Identifier"),
         invalid("(a || b) ? c : d", "a || b ? c : d", "LogicalExpression"),
@@ -743,6 +746,7 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("bar((class{}).foo(), 0);", "bar(class{}.foo(), 0);", "ClassExpression", null),
         invalid("bar[(class{}).foo()];", "bar[class{}.foo()];", "ClassExpression", null),
         invalid("var bar = (class{}).foo();", "var bar = class{}.foo();", "ClassExpression", null),
+        invalid("var foo = ((bar, baz));", "var foo = (bar, baz);", "SequenceExpression", null),
 
         // https://github.com/eslint/eslint/issues/4608
         invalid("function *a() { yield (b); }", "function *a() { yield b; }", "Identifier", null),
@@ -1031,6 +1035,7 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("async function a() { await (a()); }", "async function a() { await a(); }", "CallExpression", null),
         invalid("async function a() { await (+a); }", "async function a() { await +a; }", "UnaryExpression", null),
         invalid("async function a() { +(await a); }", "async function a() { +await a; }", "AwaitExpression", null),
+        invalid("async function a() { await ((a,b)); }", "async function a() { await (a,b); }", "SequenceExpression", null),
         invalid("(foo) instanceof bar", "foo instanceof bar", "Identifier", 1, { options: ["all", { nestedBinaryExpressions: false }] }),
         invalid("(foo) in bar", "foo in bar", "Identifier", 1, { options: ["all", { nestedBinaryExpressions: false }] }),
         invalid("(foo) + bar", "foo + bar", "Identifier", 1, { options: ["all", { nestedBinaryExpressions: false }] }),
