@@ -80,6 +80,7 @@ ruleTester.run("no-constant-condition", rule, {
         "if ('' + [y, 'm'] === '' + [ty, 'tm']) {}",
         "if ('' + [y, 'm'] === '' + ['ty']) {}",
         "if ([,] in\n\n($2))\n ;\nelse\n ;",
+        "if ([...x]+'' === 'y'){}",
 
         // { checkLoops: false }
         { code: "while(true);", options: [{ checkLoops: false }] },
@@ -212,6 +213,18 @@ ruleTester.run("no-constant-condition", rule, {
         },
         {
             code: "if([a]==[a]) {}",
+            errors: [{ messageId: "unexpected", type: "BinaryExpression" }]
+        },
+        {
+            code: "if([a] - '') {}",
+            errors: [{ messageId: "unexpected", type: "BinaryExpression" }]
+        },
+        {
+            code: "if(+1) {}",
+            errors: [{ messageId: "unexpected", type: "UnaryExpression" }]
+        },
+        {
+            code: "if ([,] + ''){}",
             errors: [{ messageId: "unexpected", type: "BinaryExpression" }]
         }
     ]
