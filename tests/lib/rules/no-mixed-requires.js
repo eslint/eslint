@@ -35,15 +35,85 @@ ruleTester.run("no-mixed-requires", rule, {
         { code: "var async = require('async'), debug = require('diagnostics')('my-module')", options: [{ allowCall: true }] }
     ],
     invalid: [
-        { code: "var fs = require('fs'), foo = 42", options: [false], errors: [{ message: "Do not mix 'require' and other declarations.", type: "VariableDeclaration" }] },
-        { code: "var fs = require('fs'), foo", options: [false], errors: [{ message: "Do not mix 'require' and other declarations.", type: "VariableDeclaration" }] },
-        { code: "var a = require(42), b = require(), c = require('y'), d = require(doStuff())", options: [true], errors: [{ message: "Do not mix core, module, file and computed requires.", type: "VariableDeclaration" }] },
-        { code: "var fs = require('fs'), foo = require('foo')", options: [true], errors: [{ message: "Do not mix core, module, file and computed requires.", type: "VariableDeclaration" }] },
-        { code: "var fs = require('fs'), foo = require('foo')", options: [{ grouping: true }], errors: [{ message: "Do not mix core, module, file and computed requires.", type: "VariableDeclaration" }] },
-        { code: "var exec = require('child_process').exec, foo = require('foo')", options: [true], errors: [{ message: "Do not mix core, module, file and computed requires.", type: "VariableDeclaration" }] },
-        { code: "var fs = require('fs'), foo = require('./foo')", options: [true], errors: [{ message: "Do not mix core, module, file and computed requires.", type: "VariableDeclaration" }] },
-        { code: "var foo = require('foo'), foo2 = require('./foo')", options: [true], errors: [{ message: "Do not mix core, module, file and computed requires.", type: "VariableDeclaration" }] },
-        { code: "var foo = require('foo'), bar = require(getName())", options: [true], errors: [{ message: "Do not mix core, module, file and computed requires.", type: "VariableDeclaration" }] },
-        { code: "var async = require('async'), debug = require('diagnostics').someFun('my-module')", options: [{ allowCall: true }], errors: [{ message: "Do not mix 'require' and other declarations.", type: "VariableDeclaration" }] }
+        {
+            code: "var fs = require('fs'), foo = 42",
+            options: [false],
+            errors: [{
+                messageId: "noMixRequire",
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "var fs = require('fs'), foo",
+            options: [false],
+            errors: [{
+                messageId: "noMixRequire",
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "var a = require(42), b = require(), c = require('y'), d = require(doStuff())",
+            options: [true],
+            errors: [{
+                messageId: "noMixCoreModuleFileComputed",
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "var fs = require('fs'), foo = require('foo')",
+            options: [true],
+            errors: [{
+                messageId: "noMixCoreModuleFileComputed",
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "var fs = require('fs'), foo = require('foo')",
+            options: [{ grouping: true }],
+            errors: [{
+                messageId: "noMixCoreModuleFileComputed",
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "var exec = require('child_process').exec, foo = require('foo')",
+            options: [true],
+            errors: [{
+                messageId: "noMixCoreModuleFileComputed",
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "var fs = require('fs'), foo = require('./foo')",
+            options: [true],
+            errors: [{
+                messageId: "noMixCoreModuleFileComputed",
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "var foo = require('foo'), foo2 = require('./foo')",
+            options: [true],
+            errors: [{
+                messageId: "noMixCoreModuleFileComputed",
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "var foo = require('foo'), bar = require(getName())",
+            options: [true],
+            errors: [{
+                messageId: "noMixCoreModuleFileComputed",
+                type: "VariableDeclaration"
+            }]
+        },
+        {
+            code: "var async = require('async'), debug = require('diagnostics').someFun('my-module')",
+            options: [{ allowCall: true }],
+            errors: [{
+                messageId: "noMixRequire",
+                type: "VariableDeclaration"
+            }]
+        }
     ]
 });

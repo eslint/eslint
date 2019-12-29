@@ -23,11 +23,11 @@ const ruleTester = new RuleTester({
         }
     }),
     lineError = {
-        message: "Unexpected comment inline with code.",
+        messageId: "unexpectedInlineComment",
         type: "Line"
     },
     blockError = {
-        message: "Unexpected comment inline with code.",
+        messageId: "unexpectedInlineComment",
         type: "Block"
     };
 

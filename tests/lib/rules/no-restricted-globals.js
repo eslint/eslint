@@ -60,122 +60,210 @@ ruleTester.run("no-restricted-globals", rule, {
         {
             code: "foo",
             options: ["foo"],
-            errors: [{ message: "Unexpected use of 'foo'.", type: "Identifier" }]
+            errors: [{
+                messageId: "defaultMessage",
+                data: { name: "foo" },
+                type: "Identifier"
+            }]
         },
         {
             code: "function fn() { foo; }",
             options: ["foo"],
-            errors: [{ message: "Unexpected use of 'foo'.", type: "Identifier" }]
+            errors: [{
+                messageId: "defaultMessage",
+                data: { name: "foo" },
+                type: "Identifier"
+            }]
         },
         {
             code: "function fn() { foo; }",
             options: ["foo"],
             globals: { foo: false },
-            errors: [{ message: "Unexpected use of 'foo'.", type: "Identifier" }]
+            errors: [{
+                messageId: "defaultMessage",
+                data: { name: "foo" },
+                type: "Identifier"
+            }]
         },
         {
             code: "event",
             options: ["foo", "event"],
             env: { browser: true },
-            errors: [{ message: "Unexpected use of 'event'.", type: "Identifier" }]
+            errors: [{
+                messageId: "defaultMessage",
+                data: { name: "event" },
+                type: "Identifier"
+            }]
         },
         {
             code: "foo",
             options: ["foo"],
             globals: { foo: false },
-            errors: [{ message: "Unexpected use of 'foo'.", type: "Identifier" }]
+            errors: [{
+                messageId: "defaultMessage",
+                data: { name: "foo" },
+                type: "Identifier"
+            }]
         },
         {
             code: "foo()",
             options: ["foo"],
-            errors: [{ message: "Unexpected use of 'foo'.", type: "Identifier" }]
+            errors: [{
+                messageId: "defaultMessage",
+                data: { name: "foo" },
+                type: "Identifier"
+            }]
         },
         {
             code: "foo.bar()",
             options: ["foo"],
-            errors: [{ message: "Unexpected use of 'foo'.", type: "Identifier" }]
+            errors: [{
+                messageId: "defaultMessage",
+                data: { name: "foo" },
+                type: "Identifier"
+            }]
         },
         {
             code: "foo",
             options: [{ name: "foo" }],
-            errors: [{ message: "Unexpected use of 'foo'.", type: "Identifier" }]
+            errors: [{
+                messageId: "defaultMessage",
+                data: { name: "foo" },
+                type: "Identifier"
+            }]
         },
         {
             code: "function fn() { foo; }",
             options: [{ name: "foo" }],
-            errors: [{ message: "Unexpected use of 'foo'.", type: "Identifier" }]
+            errors: [{
+                messageId: "defaultMessage",
+                data: { name: "foo" },
+                type: "Identifier"
+            }]
         },
         {
             code: "function fn() { foo; }",
             options: [{ name: "foo" }],
             globals: { foo: false },
-            errors: [{ message: "Unexpected use of 'foo'.", type: "Identifier" }]
+            errors: [{
+                messageId: "defaultMessage",
+                data: { name: "foo" },
+                type: "Identifier"
+            }]
         },
         {
             code: "event",
             options: ["foo", { name: "event" }],
             env: { browser: true },
-            errors: [{ message: "Unexpected use of 'event'.", type: "Identifier" }]
+            errors: [{
+                messageId: "defaultMessage",
+                data: { name: "event" },
+                type: "Identifier"
+            }]
         },
         {
             code: "foo",
             options: [{ name: "foo" }],
             globals: { foo: false },
-            errors: [{ message: "Unexpected use of 'foo'.", type: "Identifier" }]
+            errors: [{
+                messageId: "defaultMessage",
+                data: { name: "foo" },
+                type: "Identifier"
+            }]
         },
         {
             code: "foo()",
             options: [{ name: "foo" }],
-            errors: [{ message: "Unexpected use of 'foo'.", type: "Identifier" }]
+            errors: [{
+                messageId: "defaultMessage",
+                data: { name: "foo" },
+                type: "Identifier"
+            }]
         },
         {
             code: "foo.bar()",
             options: [{ name: "foo" }],
-            errors: [{ message: "Unexpected use of 'foo'.", type: "Identifier" }]
+            errors: [{
+                messageId: "defaultMessage",
+                data: { name: "foo" },
+                type: "Identifier"
+            }]
         },
         {
             code: "foo",
             options: [{ name: "foo", message: "Use bar instead." }],
-            errors: [{ message: "Unexpected use of 'foo'. Use bar instead.", type: "Identifier" }]
+            errors: [{
+                messageId: "customMessage",
+                data: { name: "foo", customMessage: "Use bar instead." },
+                type: "Identifier"
+            }]
         },
         {
             code: "function fn() { foo; }",
             options: [{ name: "foo", message: "Use bar instead." }],
-            errors: [{ message: "Unexpected use of 'foo'. Use bar instead.", type: "Identifier" }]
+            errors: [{
+                messageId: "customMessage",
+                data: { name: "foo", customMessage: "Use bar instead." },
+                type: "Identifier"
+            }]
         },
         {
             code: "function fn() { foo; }",
             options: [{ name: "foo", message: "Use bar instead." }],
             globals: { foo: false },
-            errors: [{ message: "Unexpected use of 'foo'. Use bar instead.", type: "Identifier" }]
+            errors: [{
+                messageId: "customMessage",
+                data: { name: "foo", customMessage: "Use bar instead." },
+                type: "Identifier"
+            }]
         },
         {
             code: "event",
             options: ["foo", { name: "event", message: "Use local event parameter." }],
             env: { browser: true },
-            errors: [{ message: "Unexpected use of 'event'. Use local event parameter.", type: "Identifier" }]
+            errors: [{
+                messageId: "customMessage",
+                data: { name: "event", customMessage: "Use local event parameter." },
+                type: "Identifier"
+            }]
         },
         {
             code: "foo",
             options: [{ name: "foo", message: "Use bar instead." }],
             globals: { foo: false },
-            errors: [{ message: "Unexpected use of 'foo'. Use bar instead.", type: "Identifier" }]
+            errors: [{
+                messageId: "customMessage",
+                data: { name: "foo", customMessage: "Use bar instead." },
+                type: "Identifier"
+            }]
         },
         {
             code: "foo()",
             options: [{ name: "foo", message: "Use bar instead." }],
-            errors: [{ message: "Unexpected use of 'foo'. Use bar instead.", type: "Identifier" }]
+            errors: [{
+                messageId: "customMessage",
+                data: { name: "foo", customMessage: "Use bar instead." },
+                type: "Identifier"
+            }]
         },
         {
             code: "foo.bar()",
             options: [{ name: "foo", message: "Use bar instead." }],
-            errors: [{ message: "Unexpected use of 'foo'. Use bar instead.", type: "Identifier" }]
+            errors: [{
+                messageId: "customMessage",
+                data: { name: "foo", customMessage: "Use bar instead." },
+                type: "Identifier"
+            }]
         },
         {
             code: "var foo = obj => hasOwnProperty(obj, 'name');",
             options: ["hasOwnProperty"],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Unexpected use of 'hasOwnProperty'.", type: "Identifier" }]
+            errors: [{
+                messageId: "defaultMessage",
+                data: { name: "hasOwnProperty" },
+                type: "Identifier"
+            }]
         }
     ]
 });

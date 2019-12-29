@@ -24,8 +24,26 @@ ruleTester.run("no-iterator", rule, {
         "var __iterator__ = null;"
     ],
     invalid: [
-        { code: "var a = test.__iterator__;", errors: [{ message: "Reserved name '__iterator__'.", type: "MemberExpression" }] },
-        { code: "Foo.prototype.__iterator__ = function() {};", errors: [{ message: "Reserved name '__iterator__'.", type: "MemberExpression" }] },
-        { code: "var a = test['__iterator__'];", errors: [{ message: "Reserved name '__iterator__'.", type: "MemberExpression" }] }
+        {
+            code: "var a = test.__iterator__;",
+            errors: [{
+                messageId: "noIterator",
+                type: "MemberExpression"
+            }]
+        },
+        {
+            code: "Foo.prototype.__iterator__ = function() {};",
+            errors: [{
+                messageId: "noIterator",
+                type: "MemberExpression"
+            }]
+        },
+        {
+            code: "var a = test['__iterator__'];",
+            errors: [{
+                messageId: "noIterator",
+                type: "MemberExpression"
+            }]
+        }
     ]
 });
