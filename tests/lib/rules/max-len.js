@@ -236,33 +236,48 @@ ruleTester.run("max-len", rule, {
             parserOptions: { ecmaFeatures: { jsx: true } }
         },
         {
-            code: "var jsx = <Foo>\n" +
+            code: "var jsx = <Foo\n" +
                   "         attr = {a && b/* this line has 57 characters */}\n" +
-                  "</Foo>;",
+                  "></Foo>;",
             options: [57],
             parserOptions: { ecmaFeatures: { jsx: true } }
         },
         {
-            code: "var jsx = <Foo>\n" +
+            code: "var jsx = <Foo\n" +
                   "         attr = {/* this line has 57 characters */a && b}\n" +
-                  "</Foo>;",
+                  "></Foo>;",
             options: [57],
             parserOptions: { ecmaFeatures: { jsx: true } }
         },
         {
-            code: "var jsx = <Foo>\n" +
+            code: "var jsx = <Foo\n" +
                   "         attr = \n" +
-                  "          {/* this line has 45 characters */}\n" +
-                  "</Foo>;",
-            options: [20, { comments: 45 }],
+                  "          {a & b/* this line has 50 characters */}\n" +
+                  "></Foo>;",
+            options: [50],
             parserOptions: { ecmaFeatures: { jsx: true } }
         },
         {
-            code: "var jsx = <Foo>\n" +
-                  "         attr = \n" +
-                  "          {/* this line has 45 characters */}\n" +
-                  "</Foo>;",
-            options: [20, { ignoreComments: true }],
+            code: "var jsx = (<>\n" +
+                 "  <> </> {/* this line with two separate comments */} {/* have 80 characters */}\n" +
+                  "</>)",
+            options: [80],
+            parserOptions: { ecmaFeatures: { jsx: true } }
+        },
+        {
+            code: "var jsx = (<>\n" +
+                 "  {/* this line has 37 characters */}\n" +
+                 "  <> </> {/* this line with two separate comments */} {/* have 80 characters */}\n" +
+                  "</>)",
+            options: [37, { ignoreTrailingComments: true }],
+            parserOptions: { ecmaFeatures: { jsx: true } }
+        },
+        {
+            code: "var jsx = (<>\n" +
+                 "  {/* this line has 37 characters */}\n" +
+                 "  <> </> {/* this line with two separate comments */} {/* have 80 characters */}\n" +
+                  "</>)",
+            options: [37, { ignoreComments: true }],
             parserOptions: { ecmaFeatures: { jsx: true } }
         }
     ],
@@ -804,9 +819,9 @@ ruleTester.run("max-len", rule, {
             ]
         },
         {
-            code: "var jsx = <Foo>\n" +
+            code: "var jsx = <Foo\n" +
                   "         attr = {a && b/* this line has 57 characters */}\n" +
-                  "</Foo>;",
+                  "></Foo>;",
             options: [56],
             parserOptions: { ecmaFeatures: { jsx: true } },
             errors: [
@@ -820,9 +835,9 @@ ruleTester.run("max-len", rule, {
             ]
         },
         {
-            code: "var jsx = <Foo>\n" +
+            code: "var jsx = <Foo\n" +
                   "         attr = {/* this line has 57 characters */a && b}\n" +
-                  "</Foo>;",
+                  "></Foo>;",
             options: [56],
             parserOptions: { ecmaFeatures: { jsx: true } },
             errors: [
@@ -836,9 +851,9 @@ ruleTester.run("max-len", rule, {
             ]
         },
         {
-            code: "var jsx = <Foo>\n" +
+            code: "var jsx = <Foo\n" +
                   "         attr = {a & b/* this line has 56 characters */}\n" +
-                  "</Foo>;",
+                  "></Foo>;",
             options: [55, { ignoreTrailingComments: true }],
             parserOptions: { ecmaFeatures: { jsx: true } },
             errors: [
@@ -852,16 +867,66 @@ ruleTester.run("max-len", rule, {
             ]
         },
         {
-            code: "var jsx = <Foo>\n" +
+            code: "var jsx = <Foo\n" +
                   "         attr = \n" +
-                  "          {/* this line has 45 characters */}\n" +
-                  "</Foo>;",
-            options: [80, { comments: 44 }],
+                  "          {a & b /* this line has 51 characters */}\n" +
+                  "></Foo>;",
+            options: [30, { comments: 44 }],
             parserOptions: { ecmaFeatures: { jsx: true } },
             errors: [
                 {
-                    messageId: "maxComment",
-                    data: { lineLength: 45, maxCommentLength: 44 },
+                    messageId: "max",
+                    data: { lineLength: 51, maxLength: 30 },
+                    type: "Program",
+                    line: 3,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "var jsx = (<>\n" +
+                 "  {/* this line has 37 characters */}\n" +
+                 "  <> </> {/* this line with two separate comments */} {/* have 80 characters */}\n" +
+                  "</>)",
+            options: [79],
+            parserOptions: { ecmaFeatures: { jsx: true } },
+            errors: [
+                {
+                    messageId: "max",
+                    data: { lineLength: 80, maxLength: 79 },
+                    type: "Program",
+                    line: 3,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "var jsx = (<>\n" +
+                 "  <> </> {/* this line with two separate comments */} {/* have 87 characters */} <> </>\n" +
+                  "</>)",
+            options: [85, { ignoreTrailingComments: true }],
+            parserOptions: { ecmaFeatures: { jsx: true } },
+            errors: [
+                {
+                    messageId: "max",
+                    data: { lineLength: 87, maxLength: 85 },
+                    type: "Program",
+                    line: 2,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "var jsx = (<>\n" +
+                 "  {/* this line has 37 characters */}\n" +
+                 "  <> </> {/* this line with two separate comments */} {/* have 87 characters */} <> </>\n" +
+                  "</>)",
+            options: [37, { ignoreComments: true }],
+            parserOptions: { ecmaFeatures: { jsx: true } },
+            errors: [
+                {
+                    messageId: "max",
+                    data: { lineLength: 87, maxLength: 37 },
                     type: "Program",
                     line: 3,
                     column: 1
