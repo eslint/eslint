@@ -67,7 +67,9 @@ ruleTester.run("no-misleading-character-class", rule, {
 
         // don't report and don't crash on invalid regex
         "var r = new RegExp('[Á] [ ');",
-        "var r = RegExp('{ [Á]', 'u');"
+        "var r = RegExp('{ [Á]', 'u');",
+        { code: "var r = new globalThis.RegExp('[Á] [ ');", env: { es2020: true } },
+        { code: "var r = globalThis.RegExp('{ [Á]', 'u');", env: { es2020: true } }
     ],
     invalid: [
 
@@ -270,6 +272,26 @@ ruleTester.run("no-misleading-character-class", rule, {
         },
         {
             code: String.raw`var r = new RegExp("[\\u{1F468}\\u{200D}\\u{1F469}\\u{200D}\\u{1F466}]", "u")`,
+            errors: [{ messageId: "zwj" }]
+        },
+        {
+            code: String.raw`var r = new globalThis.RegExp("[❇️]", "")`,
+            env: { es2020: true },
+            errors: [{ messageId: "combiningClass" }]
+        },
+        {
+            code: String.raw`var r = new globalThis.RegExp("[👶🏻]", "u")`,
+            env: { es2020: true },
+            errors: [{ messageId: "emojiModifier" }]
+        },
+        {
+            code: String.raw`var r = new globalThis.RegExp("[🇯🇵]", "")`,
+            env: { es2020: true },
+            errors: [{ messageId: "surrogatePairWithoutUFlag" }]
+        },
+        {
+            code: String.raw`var r = new globalThis.RegExp("[\\u{1F468}\\u{200D}\\u{1F469}\\u{200D}\\u{1F466}]", "u")`,
+            env: { es2020: true },
             errors: [{ messageId: "zwj" }]
         }
     ]
