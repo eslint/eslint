@@ -5497,6 +5497,39 @@ ruleTester.run("indent", rule, {
                 });
             `,
             parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                foo
+                    .test\`
+                    \${a} \${b}
+                    \`(() => {
+                        bar();
+                    })
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                foo
+                .test\`
+                    \${a} \${b}
+                    \`(() => {
+                    bar();
+                })
+            `,
+            options: [4, { MemberExpression: 0 }]
+        },
+        {
+            code: unIndent`
+                foo
+                        .test\`
+                    \${a} \${b}
+                    \`(() => {
+                            bar();
+                        })
+            `,
+            options: [4, { MemberExpression: 2 }]
         }
     ],
 
@@ -10892,6 +10925,53 @@ ruleTester.run("indent", rule, {
                 [4, 4, 8, "Identifier"],
                 [5, 4, 0, "Identifier"],
                 [9, 8, 0, "Identifier"]
+            ])
+        },
+        {
+            code: unIndent`
+                foo
+                    .test\`
+                    \${a} \${b}
+                    \`(() => {
+                bar();
+                    })
+            `,
+            output: unIndent`
+                foo
+                    .test\`
+                    \${a} \${b}
+                    \`(() => {
+                        bar();
+                    })
+            `,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: expectedErrors([
+                [5, 8, 0, "Identifier"]
+            ])
+        },
+        {
+            code: unIndent`
+                foo
+                    .test\`
+                    \${a} \${b}
+                    \`(() => {
+                bar();
+                    })
+            `,
+            output: unIndent`
+                foo
+                .test\`
+                    \${a} \${b}
+                    \`(() => {
+                    bar();
+                })
+            `,
+            options: [4, { MemberExpression: 0 }],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: expectedErrors([
+                [2, 0, 4, "Punctuator"],
+                [5, 4, 0, "Identifier"],
+                [6, 0, 4, "Punctuator"]
             ])
         }
     ]
