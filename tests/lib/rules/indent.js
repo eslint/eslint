@@ -5500,11 +5500,80 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                foo.bar\` template literal \`(() => {
+                    baz();
+                })
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                foo.bar.baz\` template literal \`(() => {
+                    baz();
+                })
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
                 foo
-                    .test\`
+                    .bar\` template
+                        literal \`(() => {
+                        baz();
+                    })
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                foo
+                    .bar
+                    .baz\` template 
+                        literal \`(() => {
+                        baz();
+                    })
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                foo.bar\`
                     \${a} \${b}
                     \`(() => {
-                        bar();
+                    baz();
+                })
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                foo.bar1.bar2\`
+                    \${a} \${b}
+                    \`(() => {
+                    baz();
+                })
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                foo
+                    .bar1
+                    .bar2\`
+                    \${a} \${b}
+                    \`(() => {
+                        baz();
+                    })
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                foo
+                    .bar\`
+                    \${a} \${b}
+                    \`(() => {
+                        baz();
                     })
             `,
             parserOptions: { ecmaVersion: 2015 }
@@ -5515,10 +5584,11 @@ ruleTester.run("indent", rule, {
                 .test\`
                     \${a} \${b}
                     \`(() => {
-                    bar();
+                    baz();
                 })
             `,
-            options: [4, { MemberExpression: 0 }]
+            options: [4, { MemberExpression: 0 }],
+            parserOptions: { ecmaVersion: 2015 }
         },
         {
             code: unIndent`
@@ -5526,10 +5596,11 @@ ruleTester.run("indent", rule, {
                         .test\`
                     \${a} \${b}
                     \`(() => {
-                            bar();
+                            baz();
                         })
             `,
-            options: [4, { MemberExpression: 2 }]
+            options: [4, { MemberExpression: 2 }],
+            parserOptions: { ecmaVersion: 2015 }
         }
     ],
 
@@ -10925,6 +10996,59 @@ ruleTester.run("indent", rule, {
                 [4, 4, 8, "Identifier"],
                 [5, 4, 0, "Identifier"],
                 [9, 8, 0, "Identifier"]
+            ])
+        },
+        {
+            code: unIndent`
+                foo.bar\` template literal \`(() => {
+                        baz();
+                })
+            `,
+            output: unIndent`
+                foo.bar\` template literal \`(() => {
+                    baz();
+                })
+            `,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: expectedErrors([
+                [2, 4, 8, "Identifier"]
+            ])
+        },
+        {
+            code: unIndent`
+                foo.bar.baz\` template literal \`(() => {
+                baz();
+                    })
+            `,
+            output: unIndent`
+                foo.bar.baz\` template literal \`(() => {
+                    baz();
+                })
+            `,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: expectedErrors([
+                [2, 4, 0, "Identifier"],
+                [3, 0, 4, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                foo
+                    .bar\` template
+                        literal \`(() => {
+                        baz();
+                })
+            `,
+            output: unIndent`
+                foo
+                    .bar\` template
+                        literal \`(() => {
+                        baz();
+                    })
+            `,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: expectedErrors([
+                [5, 4, 0, "Punctuator"]
             ])
         },
         {
