@@ -55,7 +55,6 @@ const valid = [
     { code: "(a): T => a", options: ["as-needed"], parser: parser("return-type") },
     { code: "<T extends Array>(param: T) => { return param }", options: ["as-needed"], parser: parser("generic-param") },
     { code: "<T extends Object>(): T => { return 1 }", options: ["as-needed"], parser: parser("generic-no-params") },
-    { code: "<T extends (A | B)>() => { }", options: ["as-needed"], parser: parser("generic-no-params") },
 
     // "as-needed", { "requireForBlockBody": true }
     { code: "() => {}", options: ["as-needed", { requireForBlockBody: true }] },
