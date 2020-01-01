@@ -35,6 +35,11 @@ ruleTester.run("no-eval", rule, {
         { code: "global.eval('foo')", env: { browser: true } },
         { code: "global.noeval('foo')", env: { node: true } },
         { code: "function foo() { var eval = 'foo'; global[eval]('foo') }", env: { node: true } },
+        "globalThis.eval('foo')",
+        { code: "globalThis.eval('foo')", env: { es2017: true } },
+        { code: "globalThis.eval('foo')", env: { browser: true } },
+        { code: "globalThis.noneval('foo')", env: { es2020: true } },
+        { code: "function foo() { var eval = 'foo'; globalThis[eval]('foo') }", env: { es2020: true } },
         "this.noeval('foo');",
         "function foo() { 'use strict'; this.eval('foo'); }",
         { code: "function foo() { this.eval('foo'); }", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
@@ -58,13 +63,11 @@ ruleTester.run("no-eval", rule, {
         { code: "global.global.eval('foo')", options: [{ allowIndirect: true }], env: { node: true } },
         { code: "this.eval('foo')", options: [{ allowIndirect: true }] },
         { code: "function foo() { this.eval('foo') }", options: [{ allowIndirect: true }] },
-
-        "globalThis.eval('foo')",
-        { code: "globalThis.eval('foo')", env: { es6: true } },
         { code: "(0, globalThis.eval)('foo')", options: [{ allowIndirect: true }], env: { es2020: true } },
+        { code: "(0, globalThis['eval'])('foo')", options: [{ allowIndirect: true }], env: { es2020: true } },
         { code: "var EVAL = globalThis.eval; EVAL('foo')", options: [{ allowIndirect: true }] },
-        { code: "globalThis.globalThis.eval('foo')", options: [{ allowIndirect: true }], env: { es2020: true } },
-        { code: "function foo() { globalThis.eval('foo') }", options: [{ allowIndirect: true }], env: { es2020: true } }
+        { code: "function foo() { globalThis.eval('foo') }", options: [{ allowIndirect: true }], env: { es2020: true } },
+        { code: "globalThis.globalThis.eval('foo');", options: [{ allowIndirect: true }], env: { es2020: true } }
     ],
 
     invalid: [
