@@ -279,6 +279,56 @@ ruleTester.run("max-len", rule, {
                   "</>)",
             options: [37, { ignoreComments: true }],
             parserOptions: { ecmaFeatures: { jsx: true } }
+        },
+        {
+            code: "var jsx = (<>\n" +
+                "  {/* this line has 37 characters */}\n" +
+                "  <> </> {/* this line with two separate comments */} {/* have > 80 characters */ /* another comment in same braces */}\n" +
+                "</>)",
+            options: [37, { ignoreTrailingComments: true }],
+            parserOptions: { ecmaFeatures: { jsx: true } }
+        },
+        {
+            code: "var jsx = (<>\n" +
+                "  {/* this line has 37 characters */}\n" +
+                "  <> </> {/* this line with two separate comments */} {/* have > 80 characters */ /* another comment in same braces */}\n" +
+                "</>)",
+            options: [37, { ignoreComments: true }],
+            parserOptions: { ecmaFeatures: { jsx: true } }
+        },
+        {
+            code: "var jsx = (<>\n" +
+                "  {/*\n" +
+                "       this line has 34 characters\n" +
+                "   */}\n" +
+                "</>)",
+            options: [33, { comments: 34 }],
+            parserOptions: { ecmaFeatures: { jsx: true } }
+        },
+        {
+            code: "var jsx = (<>\n" +
+                "  {/*\n" +
+                "       this line has 34 characters\n" +
+                "   */}\n" +
+                "</>)",
+            options: [33, { ignoreComments: true }],
+            parserOptions: { ecmaFeatures: { jsx: true } }
+        },
+        {
+            code: "var jsx = (<>\n" +
+                "  {a & b /* this line has 34 characters\n" +
+                "   */}\n" +
+                "</>)",
+            options: [33, { ignoreTrailingComments: true }],
+            parserOptions: { ecmaFeatures: { jsx: true } }
+        },
+        {
+            code: "var jsx = (<>\n" +
+                "  {a & b /* this line has 34 characters\n" +
+                "   */}\n" +
+                "</>)",
+            options: [33, { ignoreComments: true }],
+            parserOptions: { ecmaFeatures: { jsx: true } }
         }
     ],
 
@@ -773,12 +823,44 @@ ruleTester.run("max-len", rule, {
             code: "var jsx = (<>\n" +
                   "{ 38/* this line has 38 characters */}\n" +
                   "</>)",
-            options: [15, { comments: 37 }],
+            options: [15, { comments: 38 }],
             parserOptions: { ecmaFeatures: { jsx: true } },
             errors: [
                 {
                     messageId: "max",
                     data: { lineLength: 38, maxLength: 15 },
+                    type: "Program",
+                    line: 2,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "var jsx = (<>\n" +
+                  "{ 38/* this line has 38 characters */}\n" +
+                  "</>)",
+            options: [37, { ignoreTrailingComments: true }],
+            parserOptions: { ecmaFeatures: { jsx: true } },
+            errors: [
+                {
+                    messageId: "max",
+                    data: { lineLength: 38, maxLength: 37 },
+                    type: "Program",
+                    line: 2,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "var jsx = (<>\n" +
+                  "{ 38/* this line has 38 characters */}\n" +
+                  "</>)",
+            options: [37, { ignoreComments: true }],
+            parserOptions: { ecmaFeatures: { jsx: true } },
+            errors: [
+                {
+                    messageId: "max",
+                    data: { lineLength: 38, maxLength: 37 },
                     type: "Program",
                     line: 2,
                     column: 1
@@ -927,6 +1009,57 @@ ruleTester.run("max-len", rule, {
                 {
                     messageId: "max",
                     data: { lineLength: 87, maxLength: 37 },
+                    type: "Program",
+                    line: 3,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "var jsx = (<>\n" +
+                "  {/* this line has 37 characters */}\n" +
+                "  <> </> {/* this line with two separate comments */} {/* have > 80 characters */ /* another comment in same braces */}\n" +
+                "</>)",
+            options: [37],
+            parserOptions: { ecmaFeatures: { jsx: true } },
+            errors: [
+                {
+                    messageId: "max",
+                    data: { lineLength: 119, maxLength: 37 },
+                    type: "Program",
+                    line: 3,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "var jsx = (<>\n" +
+                "  {/* this line has 37 characters */}\n" +
+                "  <> </> {/* this is not treated as a comment */ a & b} {/* trailing */ /* comments */}\n" +
+                "</>)",
+            options: [37, { ignoreTrailingComments: true }],
+            parserOptions: { ecmaFeatures: { jsx: true } },
+            errors: [
+                {
+                    messageId: "max",
+                    data: { lineLength: 55, maxLength: 37 },
+                    type: "Program",
+                    line: 3,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "var jsx = (<>\n" +
+                "  {/* this line has 37 characters */}\n" +
+                "  <> </> {/* this is not treated as a comment */ a & b} {/* trailing */ /* comments */}\n" +
+                "</>)",
+            options: [37, { ignoreComments: true }],
+            parserOptions: { ecmaFeatures: { jsx: true } },
+            errors: [
+                {
+                    messageId: "max",
+                    data: { lineLength: 55, maxLength: 37 },
                     type: "Program",
                     line: 3,
                     column: 1
