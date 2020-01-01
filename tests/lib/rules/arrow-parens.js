@@ -55,6 +55,9 @@ const valid = [
     { code: "(a): T => a", options: ["as-needed"], parser: parser("return-type") },
     { code: "<T extends Array>(param: T) => { return param }", options: ["as-needed"], parser: parser("generic-param") },
     { code: "<T extends Object>(): T => { return 1 }", options: ["as-needed"], parser: parser("generic-no-params") },
+    { code: "<T>(x) => {};", options: ["as-needed"], parser: parser("generic-no-params-simple") },
+    { code: "<T extends (A | B) & C>(): T => {};", options: ["as-needed"], parser: parser("generic-union-type") },
+    { code: "<T extends (A | B) & C>(a: (string | number)): T => {};", options: ["as-needed"], parser: parser("generic-union-type-complex") },
 
     // "as-needed", { "requireForBlockBody": true }
     { code: "() => {}", options: ["as-needed", { requireForBlockBody: true }] },
