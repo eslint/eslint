@@ -262,7 +262,7 @@ ruleTester.run("no-restricted-imports", rule, {
             }]
         }],
         errors: [{
-            message: "'foo' import is restricted from being used. Please import the default import of 'foo' from /bar/ instead.",
+            message: "'default' import from 'foo' is restricted. Please import the default import of 'foo' from /bar/ instead.",
             type: "ImportDeclaration"
         }]
     },
@@ -374,7 +374,7 @@ ruleTester.run("no-restricted-imports", rule, {
             }]
         }],
         errors: [{
-            message: "'foo' import is restricted from being used. Please import the default import of 'foo' from /bar/ instead.",
+            message: "'default' import from 'foo' is restricted. Please import the default import of 'foo' from /bar/ instead.",
             type: "ImportDeclaration"
         }]
     },
@@ -388,7 +388,7 @@ ruleTester.run("no-restricted-imports", rule, {
             }]
         }],
         errors: [{
-            message: "'foo' import is restricted from being used. Please import 'DisallowedObject' from /bar/ instead.",
+            message: "'DisallowedObject' import from 'foo' is restricted. Please import 'DisallowedObject' from /bar/ instead.",
             type: "ImportDeclaration"
         }]
     },
@@ -463,6 +463,48 @@ ruleTester.run("no-restricted-imports", rule, {
         }],
         errors: [{
             message: "'DisallowedObject' import from 'foo' is restricted.",
+            type: "ImportDeclaration"
+        }]
+    },
+    {
+        code: "import foo, { bar } from 'mod';",
+        options: [{
+            paths: [{
+                name: "mod",
+                importNames: ["bar"]
+            }]
+        }],
+        errors: [{
+            message: "'bar' import from 'mod' is restricted.",
+            type: "ImportDeclaration"
+        }]
+    },
+    {
+        code: "import foo, { bar } from 'mod';",
+        options: [{
+            paths: [{
+                name: "mod",
+                importNames: ["default"]
+            }]
+        }],
+        errors: [{
+            message: "'default' import from 'mod' is restricted.",
+            type: "ImportDeclaration"
+        }]
+    },
+    {
+        code: "import foo, * as bar from 'mod';",
+        options: [{
+            paths: [{
+                name: "mod",
+                importNames: ["default"]
+            }]
+        }],
+        errors: [{
+            message: "* import is invalid because 'default' from 'mod' is restricted.",
+            type: "ImportDeclaration"
+        }, {
+            message: "'default' import from 'mod' is restricted.",
             type: "ImportDeclaration"
         }]
     }
