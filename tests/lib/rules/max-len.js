@@ -1065,6 +1065,40 @@ ruleTester.run("max-len", rule, {
                     column: 1
                 }
             ]
+        },
+        {
+            code: "var jsx = (<>\n" +
+                  "12345678901234{/*\n" +
+                  "*/}\n" +
+                  "</>)",
+            options: [14, { ignoreTrailingComments: true }],
+            parserOptions: { ecmaFeatures: { jsx: true } },
+            errors: [
+                {
+                    messageId: "max",
+                    data: { lineLength: 15, maxLength: 14 },
+                    type: "Program",
+                    line: 2,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "var jsx = (<>\n" +
+                  "{/*\n" +
+                  "this line has 31 characters */}\n" +
+                  "</>)",
+            options: [30, { comments: 100 }],
+            parserOptions: { ecmaFeatures: { jsx: true } },
+            errors: [
+                {
+                    messageId: "max",
+                    data: { lineLength: 31, maxLength: 30 },
+                    type: "Program",
+                    line: 3,
+                    column: 1
+                }
+            ]
         }
     ]
 });
