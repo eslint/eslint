@@ -281,7 +281,7 @@ Examples of **incorrect** code for this rule with the options `2, { "outerIIFEBo
 })();
 
 
-if(y) {
+if (y) {
 console.log('foo');
 }
 ```
@@ -300,7 +300,7 @@ function foo(x) {
 })();
 
 
-if(y) {
+if (y) {
    console.log('foo');
 }
 ```
@@ -326,13 +326,8 @@ function foo(x) {
 
 })();
 
-
 if (y) {
-console.log('foo');
-}
-
-if (y) {
-   console.log('foo');
+  console.log('foo');
 }
 ```
 
