@@ -12,7 +12,8 @@
 const assert = require("chai").assert,
     autoconfig = require("../../../lib/init/autoconfig"),
     sourceCodeUtils = require("../../../lib/init/source-code-utils"),
-    baseDefaultOptions = require("../../../conf/default-cli-options");
+    baseDefaultOptions = require("../../../conf/default-cli-options"),
+    recommendedConfig = require("../../conf/eslint-recommended");
 
 const defaultOptions = Object.assign({}, baseDefaultOptions, { cwd: process.cwd() });
 
@@ -350,6 +351,13 @@ describe("autoconfig", () => {
             const lastExtendInNewConfig = newConfig.extends[newConfig.extends.length - 1];
 
             assert.strictEqual(lastExtendInNewConfig, "eslint:recommended");
+        });
+
+        it("should return a configuration which not includes rules configured in `eslint:recommended`", () => {
+            const oldConfig = { extends: [], rules: { ...recommendedConfig.rules } };
+            const newConfig = autoconfig.extendFromRecommended(oldConfig);
+
+            assert.notInclude(newConfig.rules, oldConfig.rules);
         });
     });
 });
