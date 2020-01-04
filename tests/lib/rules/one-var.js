@@ -201,13 +201,11 @@ ruleTester.run("one-var", rule, {
         },
         {
             code: "var foo = require('foo'), bar;",
-            options: [{ separateRequires: false, var: "always" }],
-            parserOptions: { env: { node: true } }
+            options: [{ separateRequires: false, var: "always" }]
         },
         {
             code: "var foo = require('foo'), bar = require('bar');",
-            options: [{ separateRequires: true, var: "always" }],
-            parserOptions: { env: { node: true } }
+            options: [{ separateRequires: true, var: "always" }]
         },
         {
             code: "var bar = 'bar'; var foo = require('foo');",
@@ -216,11 +214,6 @@ ruleTester.run("one-var", rule, {
         {
             code: "var foo = require('foo'); var bar = 'bar';",
             options: [{ separateRequires: true, var: "always" }]
-        },
-        {
-            code: "var foo = require('foo'); var bar = 'bar';",
-            options: [{ separateRequires: true, var: "always" }],
-            parserOptions: { env: { node: true } }
         },
 
         // https://github.com/eslint/eslint/issues/4680
@@ -968,7 +961,6 @@ ruleTester.run("one-var", rule, {
             code: "var foo = require('foo'), bar;",
             output: null,
             options: [{ separateRequires: true, var: "always" }],
-            parserOptions: { env: { node: true } },
             errors: [{
                 message: "Split requires to be separated into a single block.",
                 type: "VariableDeclaration",
@@ -980,7 +972,6 @@ ruleTester.run("one-var", rule, {
             code: "var foo, bar = require('bar');",
             output: null,
             options: [{ separateRequires: true, var: "always" }],
-            parserOptions: { env: { node: true } },
             errors: [{
                 message: "Split requires to be separated into a single block.",
                 type: "VariableDeclaration",
@@ -992,7 +983,6 @@ ruleTester.run("one-var", rule, {
             code: "let foo, bar = require('bar');",
             output: null,
             options: [{ separateRequires: true, let: "always" }],
-            parserOptions: { env: { node: true } },
             errors: [{
                 message: "Split requires to be separated into a single block.",
                 type: "VariableDeclaration",
@@ -1004,7 +994,6 @@ ruleTester.run("one-var", rule, {
             code: "const foo = 0, bar = require('bar');",
             output: null,
             options: [{ separateRequires: true, const: "always" }],
-            parserOptions: { env: { node: true } },
             errors: [{
                 message: "Split requires to be separated into a single block.",
                 type: "VariableDeclaration",
@@ -1016,7 +1005,6 @@ ruleTester.run("one-var", rule, {
             code: "const foo = require('foo'); const bar = require('bar');",
             output: "const foo = require('foo'),  bar = require('bar');",
             options: [{ separateRequires: true, const: "always" }],
-            parserOptions: { env: { node: true } },
             errors: [{
                 message: "Combine this with the previous 'const' statement.",
                 type: "VariableDeclaration",
