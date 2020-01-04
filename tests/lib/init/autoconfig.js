@@ -328,4 +328,28 @@ describe("autoconfig", () => {
             });
         });
     });
+
+    describe("extendFromRecommended()", () => {
+        it("should return a configuration which includes `eslint:recommended` in `extends`", () => {
+            const oldConfig = { extends: [], rules: {} };
+            const newConfig = autoconfig.extendFromRecommended(oldConfig);
+
+            assert.include(newConfig.extends, "eslint:recommended");
+        });
+
+        it("should return a configuration which preserves the previous extending configurations", () => {
+            const oldConfig = { extends: ["pevious:configuration1", "previous:configuration2"], rules: {} };
+            const newConfig = autoconfig.extendFromRecommended(oldConfig);
+
+            assert.includeMembers(newConfig.extends, oldConfig.extends);
+        });
+
+        it("should return a configuration which has `eslint:recommended` at the last of `extends`", () => {
+            const oldConfig = { extends: ["pevious:configuration1", "previous:configuration2"], rules: {} };
+            const newConfig = autoconfig.extendFromRecommended(oldConfig);
+            const lastExtendInNewConfig = newConfig.extends[newConfig.extends.length - 1];
+
+            assert.strictEqual(lastExtendInNewConfig, "eslint:recommended");
+        });
+    });
 });
