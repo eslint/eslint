@@ -664,6 +664,9 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("(2 ** 3)", "2 ** 3", "BinaryExpression", null),
         invalid("(2 ** 3) + 1", "2 ** 3 + 1", "BinaryExpression", null),
         invalid("1 - (2 ** 3)", "1 - 2 ** 3", "BinaryExpression", null),
+        invalid("-((2 ** 3))", "-(2 ** 3)", "BinaryExpression", null),
+        invalid("typeof ((a ** b));", "typeof (a ** b);", "BinaryExpression", null),
+        invalid("((-2)) ** 3", "(-2) ** 3", "UnaryExpression", null),
 
         invalid("a = (b * c)", "a = b * c", "BinaryExpression", null, { options: ["all", { nestedBinaryExpressions: false }] }),
         invalid("(b * c)", "b * c", "BinaryExpression", null, { options: ["all", { nestedBinaryExpressions: false }] }),
