@@ -20,7 +20,6 @@ const ruleTester = new RuleTester();
 
 ruleTester.run("no-loss-of-precision", rule, {
     valid: [
-
         "var x = 12345",
         "var x = 123.456",
         "var x = -123.456",
