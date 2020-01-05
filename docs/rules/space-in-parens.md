@@ -39,6 +39,8 @@ Examples of **incorrect** code for this rule with the default `"never"` option:
 foo( 'bar');
 foo('bar' );
 foo( 'bar' );
+foo(bar()
+);
 
 var foo = ( 1 + 2 ) * 3;
 ( function () { return 'bar'; }() );
@@ -52,6 +54,7 @@ Examples of **correct** code for this rule with the default `"never"` option:
 foo();
 
 foo('bar');
+foo(bar())
 
 var foo = (1 + 2) * 3;
 (function () { return 'bar'; }());
