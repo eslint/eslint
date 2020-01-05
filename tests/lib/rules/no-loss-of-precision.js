@@ -1,6 +1,6 @@
 /**
- * @fileoverview Tests for no-loss-of-precision rule.
- * @author Jacob Moore
+ *@fileoverview Tests for no-loss-of-precision rule.
+ *@author Jacob Moore
  */
 
 "use strict";
@@ -20,6 +20,7 @@ const ruleTester = new RuleTester();
 
 ruleTester.run("no-loss-of-precision", rule, {
     valid: [
+
         "var x = 12345",
         "var x = 123.456",
         "var x = -123.456",
@@ -37,16 +38,40 @@ ruleTester.run("no-loss-of-precision", rule, {
         "var x = -12300000000000000000000000",
         "var x = 0.00000000000000000000000123",
         "var x = -0.00000000000000000000000123",
-        "var x = 9007199254740991"
+        "var x = 9007199254740991",
+        "var x = 0",
+        "var x = 0.0",
+        "var x = 0.000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "var x = -0",
+        "var x = 123.0000000000000000000000",
+
+
+        { code: "var x = 0b11111111111111111111111111111111111111111111111111111", parserOptions: { ecmaVersion: 6 } },
+        { code: "var x = 0B11111111111111111111111111111111111111111111111111111", parserOptions: { ecmaVersion: 6 } },
+
+        { code: "var x = 0o377777777777777777", parserOptions: { ecmaVersion: 6 } },
+        { code: "var x = 0O377777777777777777", parserOptions: { ecmaVersion: 6 } },
+        "var x = 0377777777777777777",
+
+        "var x = 0x1FFFFFFFFFFFFF",
+        "var x = 0X1FFFFFFFFFFFFF"
 
     ],
     invalid: [
         {
-            code: "var x = 9007199254740992",
+            code: "var x = 9007199254740993",
             errors: [{ messageId: "noLossOfPrecision" }]
         },
         {
-            code: "var x = -9007199254740992",
+            code: "var x = 9007199254740.993e3",
+            errors: [{ messageId: "noLossOfPrecision" }]
+        },
+        {
+            code: "var x = 9.007199254740993e15",
+            errors: [{ messageId: "noLossOfPrecision" }]
+        },
+        {
+            code: "var x = -9007199254740993",
             errors: [{ messageId: "noLossOfPrecision" }]
         },
         {
@@ -71,7 +96,15 @@ ruleTester.run("no-loss-of-precision", rule, {
             errors: [{ messageId: "noLossOfPrecision" }]
         },
         {
-            code: "var x = 123.0000000000000000000000",
+            code: "var x = 1.0000000000000000000000123",
+            errors: [{ messageId: "noLossOfPrecision" }]
+        },
+        {
+            code: "var x = 17498005798264095394980017816940970922825355447145699491406164851279623993595007385788105416184430592",
+            errors: [{ messageId: "noLossOfPrecision" }]
+        },
+        {
+            code: "var x = 2e999",
             errors: [{ messageId: "noLossOfPrecision" }]
         },
         {
@@ -79,8 +112,37 @@ ruleTester.run("no-loss-of-precision", rule, {
             errors: [{ messageId: "noLossOfPrecision" }]
         },
         {
-            code: "var x = 1.0000000000000000000000123",
+            code: "var x = 0b100000000000000000000000000000000000000000000000000001",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "noLossOfPrecision" }]
+        },
+        {
+            code: "var x = 0B100000000000000000000000000000000000000000000000000001",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "noLossOfPrecision" }]
+        },
+        {
+            code: "var x = 0o400000000000000001",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "noLossOfPrecision" }]
+        },
+        {
+            code: "var x = 0O400000000000000001",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ messageId: "noLossOfPrecision" }]
+        },
+        {
+            code: "var x = 0400000000000000001",
+            errors: [{ messageId: "noLossOfPrecision" }]
+        },
+        {
+            code: "var x = 0x20000000000001",
+            errors: [{ messageId: "noLossOfPrecision" }]
+        },
+        {
+            code: "var x = 0X20000000000001",
             errors: [{ messageId: "noLossOfPrecision" }]
         }
+
     ]
 });
