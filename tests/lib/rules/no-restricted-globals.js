@@ -17,6 +17,7 @@ const rule = require("../../../lib/rules/no-restricted-globals"),
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester();
+const customMessage = "Use bar instead.";
 
 ruleTester.run("no-restricted-globals", rule, {
     valid: [
@@ -191,29 +192,29 @@ ruleTester.run("no-restricted-globals", rule, {
         },
         {
             code: "foo",
-            options: [{ name: "foo", message: "Use bar instead." }],
+            options: [{ name: "foo", message: customMessage }],
             errors: [{
                 messageId: "customMessage",
-                data: { name: "foo", customMessage: "Use bar instead." },
+                data: { name: "foo", customMessage },
                 type: "Identifier"
             }]
         },
         {
             code: "function fn() { foo; }",
-            options: [{ name: "foo", message: "Use bar instead." }],
+            options: [{ name: "foo", message: customMessage }],
             errors: [{
                 messageId: "customMessage",
-                data: { name: "foo", customMessage: "Use bar instead." },
+                data: { name: "foo", customMessage },
                 type: "Identifier"
             }]
         },
         {
             code: "function fn() { foo; }",
-            options: [{ name: "foo", message: "Use bar instead." }],
+            options: [{ name: "foo", message: customMessage }],
             globals: { foo: false },
             errors: [{
                 messageId: "customMessage",
-                data: { name: "foo", customMessage: "Use bar instead." },
+                data: { name: "foo", customMessage },
                 type: "Identifier"
             }]
         },
@@ -229,29 +230,29 @@ ruleTester.run("no-restricted-globals", rule, {
         },
         {
             code: "foo",
-            options: [{ name: "foo", message: "Use bar instead." }],
+            options: [{ name: "foo", message: customMessage }],
             globals: { foo: false },
             errors: [{
                 messageId: "customMessage",
-                data: { name: "foo", customMessage: "Use bar instead." },
+                data: { name: "foo", customMessage },
                 type: "Identifier"
             }]
         },
         {
             code: "foo()",
-            options: [{ name: "foo", message: "Use bar instead." }],
+            options: [{ name: "foo", message: customMessage }],
             errors: [{
                 messageId: "customMessage",
-                data: { name: "foo", customMessage: "Use bar instead." },
+                data: { name: "foo", customMessage },
                 type: "Identifier"
             }]
         },
         {
             code: "foo.bar()",
-            options: [{ name: "foo", message: "Use bar instead." }],
+            options: [{ name: "foo", message: customMessage }],
             errors: [{
                 messageId: "customMessage",
-                data: { name: "foo", customMessage: "Use bar instead." },
+                data: { name: "foo", customMessage },
                 type: "Identifier"
             }]
         },
