@@ -639,6 +639,16 @@ ruleTester.run("no-restricted-imports", rule, {
             column: 13,
             endColumn: 21
         }]
+    }, {
+        code: "import * as bar from 'foo';",
+        options: ["foo"],
+        errors: [{
+            message: "'foo' import is restricted from being used.",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 1,
+            endColumn: 28
+        }]
     }
     ]
 });
