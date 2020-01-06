@@ -143,7 +143,7 @@ if (bar) {
   boom();
 }
 
-if (foo) { baz); } else if (bar) {
+if (foo) { baz(); } else if (bar) {
   boom();
 }
 
