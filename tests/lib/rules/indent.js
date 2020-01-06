@@ -1788,6 +1788,49 @@ ruleTester.run("indent", rule, {
             options: [2, { outerIIFEBody: 0 }]
         },
         {
+            code: unIndent`
+                (function(x) {
+                    return x + 1;
+                })();
+            `,
+            options: [4, { outerIIFEBody: "off" }]
+        },
+        {
+            code: unIndent`
+                (function(x) {
+                return x + 1;
+                })();
+            `,
+            options: [4, { outerIIFEBody: "off" }]
+        },
+        {
+            code: unIndent`
+                ;(() => {
+                    function x(y) {
+                        return y + 1;
+                    }
+                })();
+            `,
+            options: [4, { outerIIFEBody: "off" }]
+        },
+        {
+            code: unIndent`
+                ;(() => {
+                function x(y) {
+                    return y + 1;
+                }
+                })();
+            `,
+            options: [4, { outerIIFEBody: "off" }]
+        },
+        {
+            code: unIndent`
+                function foo() {
+                }
+            `,
+            options: [4, { outerIIFEBody: "off" }]
+        },
+        {
             code: "Buffer.length",
             options: [4, { MemberExpression: 1 }]
         },
@@ -6985,6 +7028,78 @@ ruleTester.run("indent", rule, {
             `,
             options: ["tab", { outerIIFEBody: 3 }],
             errors: expectedErrors("tab", [[3, 2, 4, "Keyword"]])
+        },
+        {
+            code: unIndent`
+                (function(){
+                    function foo(x) {
+                    return x + 1;
+                    }
+                })();
+            `,
+            output: unIndent`
+                (function(){
+                    function foo(x) {
+                        return x + 1;
+                    }
+                })();
+            `,
+            options: [4, { outerIIFEBody: "off" }],
+            errors: expectedErrors([[3, 8, 4, "Keyword"]])
+        },
+        {
+            code: unIndent`
+                (function(){
+                function foo(x) {
+                return x + 1;
+                }
+                })();
+            `,
+            output: unIndent`
+                (function(){
+                function foo(x) {
+                    return x + 1;
+                }
+                })();
+            `,
+            options: [4, { outerIIFEBody: "off" }],
+            errors: expectedErrors([[3, 4, 0, "Keyword"]])
+        },
+        {
+            code: unIndent`
+                (() => {
+                    function foo(x) {
+                    return x + 1;
+                    }
+                })();
+            `,
+            output: unIndent`
+                (() => {
+                    function foo(x) {
+                        return x + 1;
+                    }
+                })();
+            `,
+            options: [4, { outerIIFEBody: "off" }],
+            errors: expectedErrors([[3, 8, 4, "Keyword"]])
+        },
+        {
+            code: unIndent`
+                (() => {
+                function foo(x) {
+                return x + 1;
+                }
+                })();
+            `,
+            output: unIndent`
+                (() => {
+                function foo(x) {
+                    return x + 1;
+                }
+                })();
+            `,
+            options: [4, { outerIIFEBody: "off" }],
+            errors: expectedErrors([[3, 4, 0, "Keyword"]])
         },
         {
             code: unIndent`

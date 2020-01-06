@@ -70,7 +70,7 @@ This rule has an object option:
 
 * `"SwitchCase"` (default: 0) enforces indentation level for `case` clauses in `switch` statements
 * `"VariableDeclarator"` (default: 1) enforces indentation level for `var` declarators; can also take an object to define separate rules for `var`, `let` and `const` declarations. It can also be `"first"`, indicating all the declarators should be aligned with the first declarator.
-* `"outerIIFEBody"` (default: 1) enforces indentation level for file-level IIFEs.
+* `"outerIIFEBody"` (default: 1) enforces indentation level for file-level IIFEs. This can also be set to `"off"` to disable checking for file-level IIFEs.
 * `"MemberExpression"` (default: 1) enforces indentation level for multi-line property chains. This can also be set to `"off"` to disable checking for MemberExpression indentation.
 * `"FunctionDeclaration"` takes an object to define rules for function declarations.
     * `parameters` (default: 1) enforces indentation level for parameters in a function declaration. This can either be a number indicating indentation level, or the string `"first"` indicating that all parameters of the declaration must be aligned with the first parameter. This can also be set to `"off"` to disable checking for FunctionDeclaration parameters.
@@ -281,12 +281,12 @@ Examples of **incorrect** code for this rule with the options `2, { "outerIIFEBo
 })();
 
 
-if(y) {
+if (y) {
 console.log('foo');
 }
 ```
 
-Examples of **correct** code for this rule with the options `2, {"outerIIFEBody": 0}`:
+Examples of **correct** code for this rule with the options `2, { "outerIIFEBody": 0 }`:
 
 ```js
 /*eslint indent: ["error", 2, { "outerIIFEBody": 0 }]*/
@@ -300,8 +300,34 @@ function foo(x) {
 })();
 
 
-if(y) {
+if (y) {
    console.log('foo');
+}
+```
+
+Examples of **correct** code for this rule with the options `2, { "outerIIFEBody":  "off" }`:
+
+```js
+/*eslint indent: ["error", 2, { "outerIIFEBody": "off" }]*/
+
+(function() {
+
+function foo(x) {
+  return x + 1;
+}
+
+})();
+
+(function() {
+
+  function foo(x) {
+    return x + 1;
+  }
+
+})();
+
+if (y) {
+  console.log('foo');
 }
 ```
 
