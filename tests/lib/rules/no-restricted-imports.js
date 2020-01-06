@@ -20,6 +20,7 @@ const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6, sourceType:
 
 ruleTester.run("no-restricted-imports", rule, {
     valid: [
+        "import os from \"os\";",
         { code: "import os from \"os\";", options: ["osx"] },
         { code: "import fs from \"fs\";", options: ["crypto"] },
         { code: "import path from \"path\";", options: ["crypto", "stream", "os"] },
