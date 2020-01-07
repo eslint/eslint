@@ -23,14 +23,49 @@ const ruleTester = new RuleTester(),
 ruleTester.run("no-implied-eval", rule, {
     valid: [
 
+        "window.setTimeout('foo')",
+        "window.setInterval('foo')",
+        "window['setTimeout']('foo')",
+        "window['setInterval']('foo')",
+
+        { code: "window.setTimeout('foo')", env: { node: true } },
+        { code: "window.setInterval('foo')", env: { node: true } },
+        { code: "window['setTimeout']('foo')", env: { node: true } },
+        { code: "window['setInterval']('foo')", env: { node: true } },
+        { code: "global.setTimeout('foo')", env: { browser: true } },
+        { code: "global.setInterval('foo')", env: { browser: true } },
+        { code: "global['setTimeout']('foo')", env: { browser: true } },
+        { code: "global['setInterval']('foo')", env: { browser: true } },
+
+        { code: "window[`SetTimeOut`]('foo', 100);", parserOptions: { ecmaVersion: 6 }, env: { browser: true } },
+        { code: "global[`SetTimeOut`]('foo', 100);", parserOptions: { ecmaVersion: 6 }, env: { node: true } },
+        { code: "global[`setTimeout${foo}`]('foo', 100);", parserOptions: { ecmaVersion: 6 }, env: { browser: true } },
+        { code: "global[`setTimeout${foo}`]('foo', 100);", parserOptions: { ecmaVersion: 6 }, env: { node: true } },
+
         // normal usage
-        "setInterval(function() { x = 1; }, 100);",
+        "setTimeout(function() { x = 1; }, 100);",
+        "setInterval(function() { x = 1; }, 100)",
+        "execScript(function() { x = 1; }, 100)",
+        { code: "window.setTimeout(function() { x = 1; }, 100);", env: { browser: true } },
+        { code: "window.setInterval(function() { x = 1; }, 100);", env: { browser: true } },
+        { code: "window.execScript(function() { x = 1; }, 100);", env: { browser: true } },
+        { code: "window.setTimeout(foo, 100);", env: { browser: true } },
+        { code: "window.setInterval(foo, 100);", env: { browser: true } },
+        { code: "window.execScript(foo, 100);", env: { browser: true } },
+        { code: "global.setTimeout(function() { x = 1; }, 100);", env: { node: true } },
+        { code: "global.setInterval(function() { x = 1; }, 100);", env: { node: true } },
+        { code: "global.execScript(function() { x = 1; }, 100);", env: { node: true } },
+        { code: "global.setTimeout(foo, 100);", env: { node: true } },
+        { code: "global.setInterval(foo, 100);", env: { node: true } },
+        { code: "global.execScript(foo, 100);", env: { node: true } },
 
         // only checks on top-level statements or window.*
         "foo.setTimeout('hi')",
 
         // identifiers are fine
         "setTimeout(foo, 10)",
+        "setInteval(1, 10)",
+        "execScript(2)",
 
         // as are function expressions
         "setTimeout(function() {}, 10)",
@@ -66,19 +101,40 @@ ruleTester.run("no-implied-eval", rule, {
         { code: "execScript(\"x = 1;\");", errors: [expectedError] },
 
         // member expressions
-        { code: "window.setTimeout('foo')", errors: [expectedError] },
-        { code: "window.setInterval('foo')", errors: [expectedError] },
-        { code: "window['setTimeout']('foo')", errors: [expectedError] },
-        { code: "window['setInterval']('foo')", errors: [expectedError] },
+        { code: "window.setTimeout('foo')", env: { browser: true }, errors: [expectedError] },
+        { code: "window.setInterval('foo')", env: { browser: true }, errors: [expectedError] },
+        { code: "window['setTimeout']('foo')", env: { browser: true }, errors: [expectedError] },
+        { code: "window['setInterval']('foo')", env: { browser: true }, errors: [expectedError] },
+        { code: "window[`setInterval`]('foo')", parserOptions: { ecmaVersion: 6 }, env: { browser: true }, errors: [expectedError] },
+        { code: "window.window['setInterval']('foo')", env: { browser: true }, errors: [expectedError] },
+        { code: "global.setTimeout('foo')", env: { node: true }, errors: [expectedError] },
+        { code: "global.setInterval('foo')", env: { node: true }, errors: [expectedError] },
+        { code: "global['setTimeout']('foo')", env: { node: true }, errors: [expectedError] },
+        { code: "global['setInterval']('foo')", env: { node: true }, errors: [expectedError] },
+        { code: "global[`setInterval`]('foo')", parserOptions: { ecmaVersion: 6 }, env: { node: true }, errors: [expectedError] },
+        { code: "global.global['setInterval']('foo')", env: { node: true }, errors: [expectedError] },
 
         // template literals
         { code: "setTimeout(`foo${bar}`)", parserOptions: { ecmaVersion: 6 }, errors: [expectedError] },
+        { code: "window.setTimeout(`foo${bar}`)", parserOptions: { ecmaVersion: 6 }, env: { browser: true }, errors: [expectedError] },
+        { code: "window.window.setTimeout(`foo${bar}`)", parserOptions: { ecmaVersion: 6 }, env: { browser: true }, errors: [expectedError] },
+        { code: "global.global.setTimeout(`foo${bar}`)", parserOptions: { ecmaVersion: 6 }, env: { node: true }, errors: [expectedError] },
 
         // string concatination
         { code: "setTimeout('foo' + bar)", errors: [expectedError] },
         { code: "setTimeout(foo + 'bar')", errors: [expectedError] },
         { code: "setTimeout(`foo` + bar)", parserOptions: { ecmaVersion: 6 }, errors: [expectedError] },
         { code: "setTimeout(1 + ';' + 1)", errors: [expectedError] },
+        { code: "window.setTimeout('foo' + bar)", env: { browser: true }, errors: [expectedError] },
+        { code: "window.setTimeout(foo + 'bar')", env: { browser: true }, errors: [expectedError] },
+        { code: "window.setTimeout(`foo` + bar)", parserOptions: { ecmaVersion: 6 }, env: { browser: true }, errors: [expectedError] },
+        { code: "window.setTimeout(1 + ';' + 1)", env: { browser: true }, errors: [expectedError] },
+        { code: "window.window.setTimeout(1 + ';' + 1)", env: { browser: true }, errors: [expectedError] },
+        { code: "global.setTimeout('foo' + bar)", env: { node: true }, errors: [expectedError] },
+        { code: "global.setTimeout(foo + 'bar')", env: { node: true }, errors: [expectedError] },
+        { code: "global.setTimeout(`foo` + bar)", parserOptions: { ecmaVersion: 6 }, env: { node: true }, errors: [expectedError] },
+        { code: "global.setTimeout(1 + ';' + 1)", env: { node: true }, errors: [expectedError] },
+        { code: "global.global.setTimeout(1 + ';' + 1)", env: { node: true }, errors: [expectedError] },
 
         // gives the correct node when dealing with nesting
         {
@@ -88,6 +144,52 @@ ruleTester.run("no-implied-eval", rule, {
                 "   execScript('str');\n" +
                 "   return 'bar';\n" +
                 "})())",
+            errors: [
+                {
+                    message: expectedErrorMessage,
+                    type: "CallExpression",
+                    line: 1
+                },
+
+                // no error on line 2
+                {
+                    message: expectedErrorMessage,
+                    type: "CallExpression",
+                    line: 3
+                }
+            ]
+        },
+        {
+            code:
+                "window.setTimeout('foo' + (function() {\n" +
+                "   setTimeout(helper);\n" +
+                "   window.execScript('str');\n" +
+                "   return 'bar';\n" +
+                "})())",
+            env: { browser: true },
+            errors: [
+                {
+                    message: expectedErrorMessage,
+                    type: "CallExpression",
+                    line: 1
+                },
+
+                // no error on line 2
+                {
+                    message: expectedErrorMessage,
+                    type: "CallExpression",
+                    line: 3
+                }
+            ]
+        },
+        {
+            code:
+                "global.setTimeout('foo' + (function() {\n" +
+                "   setTimeout(helper);\n" +
+                "   global.execScript('str');\n" +
+                "   return 'bar';\n" +
+                "})())",
+            env: { node: true },
             errors: [
                 {
                     message: expectedErrorMessage,
