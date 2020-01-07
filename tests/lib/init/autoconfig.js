@@ -331,7 +331,15 @@ describe("autoconfig", () => {
     });
 
     describe("extendFromRecommended()", () => {
-        it("should return a configuration which includes `eslint:recommended` in `extends`", () => {
+        it("should return a configuration which has `extends` key with Array type value", () => {
+            const oldConfig = { extends: [], rules: {} };
+            const newConfig = autoconfig.extendFromRecommended(oldConfig);
+
+            assert.exists(newConfig.extends);
+            assert.isArray(newConfig.extends);
+        });
+
+        it("should return a configuration which has array property `extends`", () => {
             const oldConfig = { extends: [], rules: {} };
             const newConfig = autoconfig.extendFromRecommended(oldConfig);
 
@@ -339,14 +347,14 @@ describe("autoconfig", () => {
         });
 
         it("should return a configuration which preserves the previous extending configurations", () => {
-            const oldConfig = { extends: ["pevious:configuration1", "previous:configuration2"], rules: {} };
+            const oldConfig = { extends: ["previous:configuration1", "previous:configuration2"], rules: {} };
             const newConfig = autoconfig.extendFromRecommended(oldConfig);
 
             assert.includeMembers(newConfig.extends, oldConfig.extends);
         });
 
         it("should return a configuration which has `eslint:recommended` at the last of `extends`", () => {
-            const oldConfig = { extends: ["pevious:configuration1", "previous:configuration2"], rules: {} };
+            const oldConfig = { extends: ["previous:configuration1", "previous:configuration2"], rules: {} };
             const newConfig = autoconfig.extendFromRecommended(oldConfig);
             const lastExtendInNewConfig = newConfig.extends[newConfig.extends.length - 1];
 
