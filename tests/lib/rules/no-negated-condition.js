@@ -41,42 +41,42 @@ ruleTester.run("no-negated-condition", rule, {
         {
             code: "if (!a) {;} else {;}",
             errors: [{
-                message: "Unexpected negated condition.",
+                messageId: "unexpectedNegated",
                 type: "IfStatement"
             }]
         },
         {
             code: "if (a != b) {;} else {;}",
             errors: [{
-                message: "Unexpected negated condition.",
+                messageId: "unexpectedNegated",
                 type: "IfStatement"
             }]
         },
         {
             code: "if (a !== b) {;} else {;}",
             errors: [{
-                message: "Unexpected negated condition.",
+                messageId: "unexpectedNegated",
                 type: "IfStatement"
             }]
         },
         {
             code: "!a ? b : c",
             errors: [{
-                message: "Unexpected negated condition.",
+                messageId: "unexpectedNegated",
                 type: "ConditionalExpression"
             }]
         },
         {
             code: "a != b ? c : d",
             errors: [{
-                message: "Unexpected negated condition.",
+                messageId: "unexpectedNegated",
                 type: "ConditionalExpression"
             }]
         },
         {
             code: "a !== b ? c : d",
             errors: [{
-                message: "Unexpected negated condition.",
+                messageId: "unexpectedNegated",
                 type: "ConditionalExpression"
             }]
         }

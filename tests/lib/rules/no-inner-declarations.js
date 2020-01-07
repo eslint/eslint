@@ -54,40 +54,64 @@ ruleTester.run("no-inner-declarations", rule, {
         code: "if (test) { function doSomething() { } }",
         options: ["both"],
         errors: [{
-            message: "Move function declaration to program root.",
+            messageId: "moveDeclToRoot",
+            data: {
+                type: "function",
+                body: "program"
+            },
             type: "FunctionDeclaration"
         }]
     }, {
         code: "function doSomething() { do { function somethingElse() { } } while (test); }",
         errors: [{
-            message: "Move function declaration to function body root.",
+            messageId: "moveDeclToRoot",
+            data: {
+                type: "function",
+                body: "function body"
+            },
             type: "FunctionDeclaration"
         }]
     }, {
         code: "(function() { if (test) { function doSomething() { } } }());",
         errors: [{
-            message: "Move function declaration to function body root.",
+            messageId: "moveDeclToRoot",
+            data: {
+                type: "function",
+                body: "function body"
+            },
             type: "FunctionDeclaration"
         }]
     }, {
         code: "while (test) { var foo; }",
         options: ["both"],
         errors: [{
-            message: "Move variable declaration to program root.",
+            messageId: "moveDeclToRoot",
+            data: {
+                type: "variable",
+                body: "program"
+            },
             type: "VariableDeclaration"
         }]
     }, {
         code: "function doSomething() { if (test) { var foo = 42; } }",
         options: ["both"],
         errors: [{
-            message: "Move variable declaration to function body root.",
+            messageId: "moveDeclToRoot",
+            data: {
+                type: "variable",
+                body: "function body"
+            },
             type: "VariableDeclaration"
         }]
     }, {
         code: "(function() { if (test) { var foo; } }());",
         options: ["both"],
         errors: [{
-            message: "Move variable declaration to function body root.",
+            messageId: "moveDeclToRoot",
+            data: {
+                type: "variable",
+                body: "function body"
+            },
             type: "VariableDeclaration"
         }]
     }]

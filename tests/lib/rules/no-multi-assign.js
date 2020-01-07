@@ -26,7 +26,7 @@ const rule = require("../../../lib/rules/no-multi-assign"),
  */
 function errorAt(line, column, type) {
     return {
-        message: "Unexpected chained assignment.",
+        messageId: "unexpectedChain",
         type,
         line,
         column

@@ -94,149 +94,257 @@ ruleTester.run("no-implicit-coercion", rule, {
         {
             code: "!!foo",
             output: "Boolean(foo)",
-            errors: [{ message: "use `Boolean(foo)` instead.", type: "UnaryExpression" }]
+            errors: [{
+                messageId: "useRecommendation",
+                data: { recommendation: "Boolean(foo)" },
+                type: "UnaryExpression"
+            }]
         },
         {
             code: "!!(foo + bar)",
             output: "Boolean(foo + bar)",
-            errors: [{ message: "use `Boolean(foo + bar)` instead.", type: "UnaryExpression" }]
+            errors: [{
+                messageId: "useRecommendation",
+                data: { recommendation: "Boolean(foo + bar)" },
+                type: "UnaryExpression"
+            }]
         },
         {
             code: "~foo.indexOf(1)",
             output: null,
-            errors: [{ message: "use `foo.indexOf(1) !== -1` instead.", type: "UnaryExpression" }]
+            errors: [{
+                messageId: "useRecommendation",
+                data: { recommendation: "foo.indexOf(1) !== -1" },
+                type: "UnaryExpression"
+            }]
         },
         {
             code: "~foo.bar.indexOf(2)",
             output: null,
-            errors: [{ message: "use `foo.bar.indexOf(2) !== -1` instead.", type: "UnaryExpression" }]
+            errors: [{
+                messageId: "useRecommendation",
+                data: { recommendation: "foo.bar.indexOf(2) !== -1" },
+                type: "UnaryExpression"
+            }]
         },
         {
             code: "+foo",
             output: "Number(foo)",
-            errors: [{ message: "use `Number(foo)` instead.", type: "UnaryExpression" }]
+            errors: [{
+                messageId: "useRecommendation",
+                data: { recommendation: "Number(foo)" },
+                type: "UnaryExpression"
+            }]
         },
         {
             code: "+foo.bar",
             output: "Number(foo.bar)",
-            errors: [{ message: "use `Number(foo.bar)` instead.", type: "UnaryExpression" }]
+            errors: [{
+                messageId: "useRecommendation",
+                data: { recommendation: "Number(foo.bar)" },
+                type: "UnaryExpression"
+            }]
         },
         {
             code: "1*foo",
             output: "Number(foo)",
-            errors: [{ message: "use `Number(foo)` instead.", type: "BinaryExpression" }]
+            errors: [{
+                messageId: "useRecommendation",
+                data: { recommendation: "Number(foo)" },
+                type: "BinaryExpression"
+            }]
         },
         {
             code: "foo*1",
             output: "Number(foo)",
-            errors: [{ message: "use `Number(foo)` instead.", type: "BinaryExpression" }]
+            errors: [{
+                messageId: "useRecommendation",
+                data: { recommendation: "Number(foo)" },
+                type: "BinaryExpression"
+            }]
         },
         {
             code: "1*foo.bar",
             output: "Number(foo.bar)",
-            errors: [{ message: "use `Number(foo.bar)` instead.", type: "BinaryExpression" }]
+            errors: [{
+                messageId: "useRecommendation",
+                data: { recommendation: "Number(foo.bar)" },
+                type: "BinaryExpression"
+            }]
         },
         {
             code: "\"\"+foo",
             output: "String(foo)",
-            errors: [{ message: "use `String(foo)` instead.", type: "BinaryExpression" }]
+            errors: [{
+                messageId: "useRecommendation",
+                data: { recommendation: "String(foo)" },
+                type: "BinaryExpression"
+            }]
         },
         {
             code: "``+foo",
             output: "String(foo)",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "use `String(foo)` instead.", type: "BinaryExpression" }]
+            errors: [{
+                messageId: "useRecommendation",
+                data: { recommendation: "String(foo)" },
+                type: "BinaryExpression"
+            }]
         },
         {
             code: "foo+\"\"",
             output: "String(foo)",
-            errors: [{ message: "use `String(foo)` instead.", type: "BinaryExpression" }]
+            errors: [{
+                messageId: "useRecommendation",
+                data: { recommendation: "String(foo)" },
+                type: "BinaryExpression"
+            }]
         },
         {
             code: "foo+``",
             output: "String(foo)",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "use `String(foo)` instead.", type: "BinaryExpression" }]
+            errors: [{
+                messageId: "useRecommendation",
+                data: { recommendation: "String(foo)" },
+                type: "BinaryExpression"
+            }]
         },
         {
             code: "\"\"+foo.bar",
             output: "String(foo.bar)",
-            errors: [{ message: "use `String(foo.bar)` instead.", type: "BinaryExpression" }]
+            errors: [{
+                messageId: "useRecommendation",
+                data: { recommendation: "String(foo.bar)" },
+                type: "BinaryExpression"
+            }]
         },
         {
             code: "``+foo.bar",
             output: "String(foo.bar)",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "use `String(foo.bar)` instead.", type: "BinaryExpression" }]
+            errors: [{
+                messageId: "useRecommendation",
+                data: { recommendation: "String(foo.bar)" },
+                type: "BinaryExpression"
+            }]
         },
         {
             code: "foo.bar+\"\"",
             output: "String(foo.bar)",
-            errors: [{ message: "use `String(foo.bar)` instead.", type: "BinaryExpression" }]
+            errors: [{
+                messageId: "useRecommendation",
+                data: { recommendation: "String(foo.bar)" },
+                type: "BinaryExpression"
+            }]
         },
         {
             code: "foo.bar+``",
             output: "String(foo.bar)",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "use `String(foo.bar)` instead.", type: "BinaryExpression" }]
+            errors: [{
+                messageId: "useRecommendation",
+                data: { recommendation: "String(foo.bar)" },
+                type: "BinaryExpression"
+            }]
         },
         {
             code: "foo += \"\"",
             output: "foo = String(foo)",
-            errors: [{ message: "use `foo = String(foo)` instead.", type: "AssignmentExpression" }]
+            errors: [{
+                messageId: "useRecommendation",
+                data: { recommendation: "foo = String(foo)" },
+                type: "AssignmentExpression"
+            }]
         },
         {
             code: "foo += ``",
             output: "foo = String(foo)",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "use `foo = String(foo)` instead.", type: "AssignmentExpression" }]
+            errors: [{
+                messageId: "useRecommendation",
+                data: { recommendation: "foo = String(foo)" },
+                type: "AssignmentExpression"
+            }]
         },
         {
             code: "var a = !!foo",
             output: "var a = Boolean(foo)",
             options: [{ boolean: true, allow: ["~"] }],
-            errors: [{ message: "use `Boolean(foo)` instead.", type: "UnaryExpression" }]
+            errors: [{
+                messageId: "useRecommendation",
+                data: { recommendation: "Boolean(foo)" },
+                type: "UnaryExpression"
+            }]
         },
         {
             code: "var a = ~foo.indexOf(1)",
             output: null,
             options: [{ boolean: true, allow: ["!!"] }],
-            errors: [{ message: "use `foo.indexOf(1) !== -1` instead.", type: "UnaryExpression" }]
+            errors: [{
+                messageId: "useRecommendation",
+                data: { recommendation: "foo.indexOf(1) !== -1" },
+                type: "UnaryExpression"
+            }]
         },
         {
             code: "var a = 1 * foo",
             output: "var a = Number(foo)",
             options: [{ boolean: true, allow: ["+"] }],
-            errors: [{ message: "use `Number(foo)` instead.", type: "BinaryExpression" }]
+            errors: [{
+                messageId: "useRecommendation",
+                data: { recommendation: "Number(foo)" },
+                type: "BinaryExpression"
+            }]
         },
         {
             code: "var a = +foo",
             output: "var a = Number(foo)",
             options: [{ boolean: true, allow: ["*"] }],
-            errors: [{ message: "use `Number(foo)` instead.", type: "UnaryExpression" }]
+            errors: [{
+                messageId: "useRecommendation",
+                data: { recommendation: "Number(foo)" },
+                type: "UnaryExpression"
+            }]
         },
         {
             code: "var a = \"\" + foo",
             output: "var a = String(foo)",
             options: [{ boolean: true, allow: ["*"] }],
-            errors: [{ message: "use `String(foo)` instead.", type: "BinaryExpression" }]
+            errors: [{
+                messageId: "useRecommendation",
+                data: { recommendation: "String(foo)" },
+                type: "BinaryExpression"
+            }]
         },
         {
             code: "var a = `` + foo",
             output: "var a = String(foo)",
             options: [{ boolean: true, allow: ["*"] }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "use `String(foo)` instead.", type: "BinaryExpression" }]
+            errors: [{
+                messageId: "useRecommendation",
+                data: { recommendation: "String(foo)" },
+                type: "BinaryExpression"
+            }]
         },
         {
             code: "typeof+foo",
             output: "typeof Number(foo)",
-            errors: [{ message: "use `Number(foo)` instead.", type: "UnaryExpression" }]
+            errors: [{
+                messageId: "useRecommendation",
+                data: { recommendation: "Number(foo)" },
+                type: "UnaryExpression"
+            }]
         },
         {
             code: "typeof +foo",
             output: "typeof Number(foo)",
-            errors: [{ message: "use `Number(foo)` instead.", type: "UnaryExpression" }]
+            errors: [{
+                messageId: "useRecommendation",
+                data: { recommendation: "Number(foo)" },
+                type: "UnaryExpression"
+            }]
         }
     ]
 });
