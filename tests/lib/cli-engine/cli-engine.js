@@ -4757,6 +4757,8 @@ describe("CLIEngine", () => {
 
     describe("with ignorePatterns config", () => {
         const root = getFixturePath("cli-engine/ignore-patterns");
+
+        /** @type {typeof CLIEngine} */
         let InMemoryCLIEngine;
 
         describe("ignorePatterns can add an ignore pattern ('foo.js').", () => {
@@ -4791,7 +4793,10 @@ describe("CLIEngine", () => {
 
             it("'executeOnFiles()' should not verify 'foo.js'.", () => {
                 const engine = new InMemoryCLIEngine();
-                const filePaths = engine.executeOnFiles("**/*.js").results.map(r => r.filePath);
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
 
                 assert.deepStrictEqual(filePaths, [
                     path.join(root, "bar.js"),
@@ -4834,7 +4839,10 @@ describe("CLIEngine", () => {
 
             it("'executeOnFiles()' should not verify 'foo.js' and '/bar.js'.", () => {
                 const engine = new InMemoryCLIEngine();
-                const filePaths = engine.executeOnFiles("**/*.js").results.map(r => r.filePath);
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
 
                 assert.deepStrictEqual(filePaths, [
                     path.join(root, "baz.js"),
@@ -4880,11 +4888,14 @@ describe("CLIEngine", () => {
 
             it("'executeOnFiles()' should verify 'node_modules/foo/index.js'.", () => {
                 const engine = new InMemoryCLIEngine();
-                const filePaths = engine.executeOnFiles("**/*.js").results.map(r => r.filePath);
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
 
                 assert.deepStrictEqual(filePaths, [
-                    path.join(root, "node_modules/foo/index.js"),
-                    path.join(root, "foo.js")
+                    path.join(root, "foo.js"),
+                    path.join(root, "node_modules/foo/index.js")
                 ]);
             });
         });
@@ -4910,7 +4921,10 @@ describe("CLIEngine", () => {
 
             it("'executeOnFiles()' should verify '.eslintrc.js'.", () => {
                 const engine = new InMemoryCLIEngine();
-                const filePaths = engine.executeOnFiles("**/*.js").results.map(r => r.filePath);
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
 
                 assert.deepStrictEqual(filePaths, [
                     path.join(root, ".eslintrc.js"),
@@ -4948,11 +4962,14 @@ describe("CLIEngine", () => {
 
             it("'executeOnFiles()' should not verify re-ignored '.foo.js'.", () => {
                 const engine = new InMemoryCLIEngine();
-                const filePaths = engine.executeOnFiles("**/*.js").results.map(r => r.filePath);
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
 
                 assert.deepStrictEqual(filePaths, [
-                    path.join(root, ".eslintrc.js"),
-                    path.join(root, ".bar.js")
+                    path.join(root, ".bar.js"),
+                    path.join(root, ".eslintrc.js")
                 ]);
             });
         });
@@ -4986,7 +5003,10 @@ describe("CLIEngine", () => {
 
             it("'executeOnFiles()' should verify unignored 'foo.js'.", () => {
                 const engine = new InMemoryCLIEngine();
-                const filePaths = engine.executeOnFiles("**/*.js").results.map(r => r.filePath);
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
 
                 assert.deepStrictEqual(filePaths, [
                     path.join(root, "foo.js")
@@ -5038,7 +5058,10 @@ describe("CLIEngine", () => {
 
             it("'executeOnFiles()' should verify 'bar.js' in the outside of 'subdir'.", () => {
                 const engine = new InMemoryCLIEngine();
-                const filePaths = engine.executeOnFiles("**/*.js").results.map(r => r.filePath);
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
 
                 assert.deepStrictEqual(filePaths, [
                     path.join(root, "bar.js")
@@ -5077,7 +5100,10 @@ describe("CLIEngine", () => {
 
             it("'executeOnFiles()' should verify 'foo.js' in the child directory.", () => {
                 const engine = new InMemoryCLIEngine();
-                const filePaths = engine.executeOnFiles("**/*.js").results.map(r => r.filePath);
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
 
                 assert.deepStrictEqual(filePaths, [
                     path.join(root, "subdir/foo.js")
@@ -5117,11 +5143,14 @@ describe("CLIEngine", () => {
 
             it("'executeOnFiles()' should verify unignored 'foo.js'.", () => {
                 const engine = new InMemoryCLIEngine();
-                const filePaths = engine.executeOnFiles("**/*.js").results.map(r => r.filePath);
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
 
                 assert.deepStrictEqual(filePaths, [
-                    path.join(root, "subdir/foo.js"),
-                    path.join(root, "foo.js")
+                    path.join(root, "foo.js"),
+                    path.join(root, "subdir/foo.js")
                 ]);
             });
         });
@@ -5172,11 +5201,14 @@ describe("CLIEngine", () => {
 
             it("'executeOnFiles()' should verify 'bar.js' in the root directory and 'foo.js' in the child directory.", () => {
                 const engine = new InMemoryCLIEngine();
-                const filePaths = engine.executeOnFiles("**/*.js").results.map(r => r.filePath);
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
 
                 assert.deepStrictEqual(filePaths, [
-                    path.join(root, "subdir/foo.js"),
-                    path.join(root, "bar.js")
+                    path.join(root, "bar.js"),
+                    path.join(root, "subdir/foo.js")
                 ]);
             });
         });
@@ -5221,7 +5253,10 @@ describe("CLIEngine", () => {
 
             it("'executeOnFiles()' should verify 'bar.js' in the root directory.", () => {
                 const engine = new InMemoryCLIEngine();
-                const filePaths = engine.executeOnFiles("**/*.js").results.map(r => r.filePath);
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
 
                 assert.deepStrictEqual(filePaths, [
                     path.join(root, "bar.js")
@@ -5260,7 +5295,10 @@ describe("CLIEngine", () => {
 
             it("'executeOnFiles()' should verify 'bar.js'.", () => {
                 const engine = new InMemoryCLIEngine();
-                const filePaths = engine.executeOnFiles("**/*.js").results.map(r => r.filePath);
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
 
                 assert.deepStrictEqual(filePaths, [
                     path.join(root, "bar.js")
@@ -5299,7 +5337,10 @@ describe("CLIEngine", () => {
 
             it("'executeOnFiles()' should verify 'subdir/foo.js'.", () => {
                 const engine = new InMemoryCLIEngine();
-                const filePaths = engine.executeOnFiles("**/*.js").results.map(r => r.filePath);
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
 
                 assert.deepStrictEqual(filePaths, [
                     path.join(root, "subdir/foo.js")
@@ -5339,7 +5380,10 @@ describe("CLIEngine", () => {
 
             it("'executeOnFiles()' should verify 'bar.js'.", () => {
                 const engine = new InMemoryCLIEngine();
-                const filePaths = engine.executeOnFiles("**/*.js").results.map(r => r.filePath);
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
 
                 assert.deepStrictEqual(filePaths, [
                     path.join(root, "bar.js")
@@ -5368,7 +5412,10 @@ describe("CLIEngine", () => {
 
             it("'executeOnFiles()' should verify 'foo.js'.", () => {
                 const engine = new InMemoryCLIEngine({ ignore: false });
-                const filePaths = engine.executeOnFiles("**/*.js").results.map(r => r.filePath);
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
 
                 assert.deepStrictEqual(filePaths, [
                     path.join(root, "foo.js")

@@ -33,6 +33,7 @@ ruleTester.run("sort-keys", rule, {
         { code: "var obj = {$:1, A:3, _:2, a:4}", options: [] },
         { code: "var obj = {1:1, '11':2, 2:4, A:3}", options: [] },
         { code: "var obj = {'#':1, 'Z':2, À:3, è:4}", options: [] },
+        { code: "var obj = { [/(?<zero>0)/]: 1, '/(?<zero>0)/': 2 }", options: [], parserOptions: { ecmaVersion: 2018 } },
 
         // ignore non-simple computed properties.
         { code: "var obj = {a:1, b:3, [a + b]: -1, c:2}", options: [], parserOptions: { ecmaVersion: 6 } },
@@ -203,6 +204,11 @@ ruleTester.run("sort-keys", rule, {
         {
             code: "var obj = {'#':1, À:3, 'Z':2, è:4}",
             errors: ["Expected object keys to be in ascending order. 'Z' should be before 'À'."]
+        },
+        {
+            code: "var obj = { null: 1, [/(?<zero>0)/]: 2 }",
+            parserOptions: { ecmaVersion: 2018 },
+            errors: ["Expected object keys to be in ascending order. '/(?<zero>0)/' should be before 'null'."]
         },
 
         // not ignore properties not separated by spread properties
