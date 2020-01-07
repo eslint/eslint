@@ -5518,23 +5518,29 @@ describe("CLIEngine", () => {
 
             it("'executeOnFiles()' with a directory path should contain 'foo/test.txt'.", () => {
                 const engine = new InMemoryCLIEngine();
-                const filePaths = engine.executeOnFiles(".").results.map(r => r.filePath);
+                const filePaths = engine.executeOnFiles(".")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
 
                 assert.deepStrictEqual(filePaths, [
+                    path.join(root, "bar/test.js"),
                     path.join(root, "foo/test.js"),
                     path.join(root, "foo/test.txt"),
-                    path.join(root, "bar/test.js"),
                     path.join(root, "test.js")
                 ]);
             });
 
             it("'executeOnFiles()' with a glob pattern '*.js' should not contain 'foo/test.txt'.", () => {
                 const engine = new InMemoryCLIEngine();
-                const filePaths = engine.executeOnFiles("**/*.js").results.map(r => r.filePath);
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
 
                 assert.deepStrictEqual(filePaths, [
-                    path.join(root, "foo/test.js"),
                     path.join(root, "bar/test.js"),
+                    path.join(root, "foo/test.js"),
                     path.join(root, "test.js")
                 ]);
             });
@@ -5565,13 +5571,16 @@ describe("CLIEngine", () => {
 
             it("'executeOnFiles()' with a directory path should contain 'foo/test.txt' and 'foo/nested/test.txt'.", () => {
                 const engine = new InMemoryCLIEngine();
-                const filePaths = engine.executeOnFiles(".").results.map(r => r.filePath);
+                const filePaths = engine.executeOnFiles(".")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
 
                 assert.deepStrictEqual(filePaths, [
+                    path.join(root, "bar/test.js"),
                     path.join(root, "foo/nested/test.txt"),
                     path.join(root, "foo/test.js"),
                     path.join(root, "foo/test.txt"),
-                    path.join(root, "bar/test.js"),
                     path.join(root, "test.js")
                 ]);
             });
@@ -5602,11 +5611,14 @@ describe("CLIEngine", () => {
 
             it("'executeOnFiles()' with a directory path should NOT contain 'foo/test.txt' and 'foo/nested/test.txt'.", () => {
                 const engine = new InMemoryCLIEngine();
-                const filePaths = engine.executeOnFiles(".").results.map(r => r.filePath);
+                const filePaths = engine.executeOnFiles(".")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
 
                 assert.deepStrictEqual(filePaths, [
-                    path.join(root, "foo/test.js"),
                     path.join(root, "bar/test.js"),
+                    path.join(root, "foo/test.js"),
                     path.join(root, "test.js")
                 ]);
             });
@@ -5640,13 +5652,16 @@ describe("CLIEngine", () => {
 
             it("'executeOnFiles()' with a directory path should contain 'foo/test.txt' and 'foo/nested/test.txt'.", () => {
                 const engine = new InMemoryCLIEngine();
-                const filePaths = engine.executeOnFiles(".").results.map(r => r.filePath);
+                const filePaths = engine.executeOnFiles(".")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
 
                 assert.deepStrictEqual(filePaths, [
+                    path.join(root, "bar/test.js"),
                     path.join(root, "foo/nested/test.txt"),
                     path.join(root, "foo/test.js"),
                     path.join(root, "foo/test.txt"),
-                    path.join(root, "bar/test.js"),
                     path.join(root, "test.js")
                 ]);
             });
@@ -5682,13 +5697,16 @@ describe("CLIEngine", () => {
 
             it("'executeOnFiles()' with a directory path should contain 'foo/test.txt' and 'foo/nested/test.txt'.", () => {
                 const engine = new InMemoryCLIEngine();
-                const filePaths = engine.executeOnFiles(".").results.map(r => r.filePath);
+                const filePaths = engine.executeOnFiles(".")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
 
                 assert.deepStrictEqual(filePaths, [
+                    path.join(root, "bar/test.js"),
                     path.join(root, "foo/nested/test.txt"),
                     path.join(root, "foo/test.js"),
                     path.join(root, "foo/test.txt"),
-                    path.join(root, "bar/test.js"),
                     path.join(root, "test.js")
                 ]);
             });
