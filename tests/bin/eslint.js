@@ -388,7 +388,7 @@ describe("bin/eslint.js", () => {
 
             const exitCodePromise = assertExitCode(child, 0);
             const outputPromise = getOutput(child).then(output => {
-                assert.include(output.stderr, "The 'ecmaFeatures' config file property is deprecated, and has no effect.");
+                assert.include(output.stderr, "The 'ecmaFeatures' config file property is deprecated and has no effect.");
             });
 
             return Promise.all([exitCodePromise, outputPromise]);
