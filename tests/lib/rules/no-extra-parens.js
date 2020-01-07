@@ -1318,6 +1318,12 @@ ruleTester.run("no-extra-parens", rule, {
             1
         ),
         invalid(
+            "class A extends ((++foo)) {}",
+            "class A extends (++foo) {}",
+            "UpdateExpression",
+            1
+        ),
+        invalid(
             "for (foo of(bar));",
             "for (foo of bar);",
             "Identifier",
