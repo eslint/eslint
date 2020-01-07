@@ -420,7 +420,7 @@ If a rule has additional options, you can specify them using array literal synta
 
 This comment specifies the "double" option for the [`quotes`](../rules/quotes) rule. The first item in the array is always the rule severity (number or string).
 
-Configuration comments can include descriptions to explain why the comment is necessary. The description must occur after the configuration is separated from the comment by at two or more consecutive `-` characters. For example:
+Configuration comments can include descriptions to explain why the comment is necessary. The description must occur after the configuration and is separated from the configuration by two or more consecutive `-` characters. For example:
 
 ```js
 /* eslint eqeqeq: "off", curly: "error" -- Here's a description about why this configuration is necessary. */
