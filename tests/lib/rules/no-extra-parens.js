@@ -494,6 +494,7 @@ ruleTester.run("no-extra-parens", rule, {
         "const A = class extends B {}",
         "class A extends (B=C) {}",
         "const A = class extends (B=C) {}",
+        "class A extends (++foo) {}",
         "() => ({ foo: 1 })",
         "() => ({ foo: 1 }).foo",
         "() => ({ foo: 1 }.foo().bar).baz.qux()",
