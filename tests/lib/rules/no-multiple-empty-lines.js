@@ -316,6 +316,32 @@ ruleTester.run("no-multiple-empty-lines", rule, {
             output: "foo\n",
             options: [{ max: 1, maxEOF: 0 }],
             errors: [getExpectedErrorEOF(0)]
+        },
+        {
+
+            // https://github.com/eslint/eslint/pull/12594
+            code: "var a;\n\n\n\n\nvar b;",
+            output: "var a;\n\nvar b;",
+            options: [{ max: 1 }],
+            errors: [{
+                message: "More than 1 blank line not allowed.",
+                type: "Program",
+                line: 3,
+                column: 1
+            }]
+        },
+        {
+
+            // https://github.com/eslint/eslint/pull/12594
+            code: "var a;\n\n\n\n\nvar b;",
+            output: "var a;\n\n\nvar b;",
+            options: [{ max: 2 }],
+            errors: [{
+                message: "More than 2 blank lines not allowed.",
+                type: "Program",
+                line: 4,
+                column: 1
+            }]
         }
     ]
 });

@@ -32,6 +32,7 @@ ruleTester.run("no-dupe-keys", rule, {
         { code: "var x = { a: b, ...c }", parserOptions: { ecmaVersion: 2018 } },
         { code: "var x = { get a() {}, set a (value) {} };", parserOptions: { ecmaVersion: 6 } },
         { code: "var x = { a: 1, b: { a: 2 } };", parserOptions: { ecmaVersion: 6 } },
+        { code: "var x = ({ null: 1, [/(?<zero>0)/]: 2 })", parserOptions: { ecmaVersion: 2018 } },
         { code: "var {a, a} = obj", parserOptions: { ecmaVersion: 6 } }
     ],
     invalid: [
@@ -44,6 +45,7 @@ ruleTester.run("no-dupe-keys", rule, {
         { code: "var foo = {\n  bar: 1,\n  bar: 1,\n}", errors: [{ messageId: "unexpected", data: { name: "bar" }, line: 3, column: 3 }] },
         { code: "var x = { a: 1, get a() {} };", parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpected", data: { name: "a" }, type: "ObjectExpression" }] },
         { code: "var x = { a: 1, set a(value) {} };", parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpected", data: { name: "a" }, type: "ObjectExpression" }] },
-        { code: "var x = { a: 1, b: { a: 2 }, get b() {} };", parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpected", data: { name: "b" }, type: "ObjectExpression" }] }
+        { code: "var x = { a: 1, b: { a: 2 }, get b() {} };", parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unexpected", data: { name: "b" }, type: "ObjectExpression" }] },
+        { code: "var x = ({ '/(?<zero>0)/': 1, [/(?<zero>0)/]: 2 })", parserOptions: { ecmaVersion: 2018 }, errors: [{ messageId: "unexpected", data: { name: "/(?<zero>0)/" }, type: "ObjectExpression" }] }
     ]
 });

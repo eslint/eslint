@@ -1788,6 +1788,49 @@ ruleTester.run("indent", rule, {
             options: [2, { outerIIFEBody: 0 }]
         },
         {
+            code: unIndent`
+                (function(x) {
+                    return x + 1;
+                })();
+            `,
+            options: [4, { outerIIFEBody: "off" }]
+        },
+        {
+            code: unIndent`
+                (function(x) {
+                return x + 1;
+                })();
+            `,
+            options: [4, { outerIIFEBody: "off" }]
+        },
+        {
+            code: unIndent`
+                ;(() => {
+                    function x(y) {
+                        return y + 1;
+                    }
+                })();
+            `,
+            options: [4, { outerIIFEBody: "off" }]
+        },
+        {
+            code: unIndent`
+                ;(() => {
+                function x(y) {
+                    return y + 1;
+                }
+                })();
+            `,
+            options: [4, { outerIIFEBody: "off" }]
+        },
+        {
+            code: unIndent`
+                function foo() {
+                }
+            `,
+            options: [4, { outerIIFEBody: "off" }]
+        },
+        {
             code: "Buffer.length",
             options: [4, { MemberExpression: 1 }]
         },
@@ -2096,6 +2139,86 @@ ruleTester.run("indent", rule, {
                 );
             `,
             options: [2]
+        },
+        {
+            code: unIndent`
+              condition
+                ? () => {
+                  return true
+                }
+                : condition2
+                  ? () => {
+                    return true
+                  }
+                  : () => {
+                    return false
+                  }
+            `,
+            options: [2]
+        },
+        {
+            code: unIndent`
+              condition
+                ? () => {
+                  return true
+                }
+                : condition2
+                  ? () => {
+                    return true
+                  }
+                  : () => {
+                    return false
+                  }
+            `,
+            options: [2, { offsetTernaryExpressions: false }]
+        },
+        {
+            code: unIndent`
+              condition
+                ? () => {
+                    return true
+                  }
+                : condition2
+                  ? () => {
+                      return true
+                    }
+                  : () => {
+                      return false
+                    }
+            `,
+            options: [2, { offsetTernaryExpressions: true }]
+        },
+        {
+            code: unIndent`
+              condition
+                  ? () => {
+                          return true
+                      }
+                  : condition2
+                      ? () => {
+                              return true
+                          }
+                      : () => {
+                              return false
+                          }
+            `,
+            options: [4, { offsetTernaryExpressions: true }]
+        },
+        {
+            code: unIndent`
+              condition
+              \t? () => {
+              \t\t\treturn true
+              \t\t}
+              \t: condition2
+              \t\t? () => {
+              \t\t\t\treturn true
+              \t\t\t}
+              \t\t: () => {
+              \t\t\t\treturn false
+              \t\t\t}
+            `,
+            options: ["tab", { offsetTernaryExpressions: true }]
         },
         unIndent`
             [
@@ -6908,6 +7031,78 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                (function(){
+                    function foo(x) {
+                    return x + 1;
+                    }
+                })();
+            `,
+            output: unIndent`
+                (function(){
+                    function foo(x) {
+                        return x + 1;
+                    }
+                })();
+            `,
+            options: [4, { outerIIFEBody: "off" }],
+            errors: expectedErrors([[3, 8, 4, "Keyword"]])
+        },
+        {
+            code: unIndent`
+                (function(){
+                function foo(x) {
+                return x + 1;
+                }
+                })();
+            `,
+            output: unIndent`
+                (function(){
+                function foo(x) {
+                    return x + 1;
+                }
+                })();
+            `,
+            options: [4, { outerIIFEBody: "off" }],
+            errors: expectedErrors([[3, 4, 0, "Keyword"]])
+        },
+        {
+            code: unIndent`
+                (() => {
+                    function foo(x) {
+                    return x + 1;
+                    }
+                })();
+            `,
+            output: unIndent`
+                (() => {
+                    function foo(x) {
+                        return x + 1;
+                    }
+                })();
+            `,
+            options: [4, { outerIIFEBody: "off" }],
+            errors: expectedErrors([[3, 8, 4, "Keyword"]])
+        },
+        {
+            code: unIndent`
+                (() => {
+                function foo(x) {
+                return x + 1;
+                }
+                })();
+            `,
+            output: unIndent`
+                (() => {
+                function foo(x) {
+                    return x + 1;
+                }
+                })();
+            `,
+            options: [4, { outerIIFEBody: "off" }],
+            errors: expectedErrors([[3, 4, 0, "Keyword"]])
+        },
+        {
+            code: unIndent`
                 Buffer
                 .toString()
             `,
@@ -7704,6 +7899,88 @@ ruleTester.run("indent", rule, {
                 ]
             `,
             errors: expectedErrors([5, 4, 8, "Identifier"])
+        },
+        {
+            code: unIndent`
+              condition
+              ? () => {
+              return true
+              }
+              : condition2
+              ? () => {
+              return true
+              }
+              : () => {
+              return false
+              }
+            `,
+            output: unIndent`
+              condition
+                ? () => {
+                    return true
+                  }
+                : condition2
+                  ? () => {
+                      return true
+                    }
+                  : () => {
+                      return false
+                    }
+            `,
+            options: [2, { offsetTernaryExpressions: true }],
+            errors: expectedErrors([
+                [2, 2, 0, "Punctuator"],
+                [3, 6, 0, "Keyword"],
+                [4, 4, 0, "Punctuator"],
+                [5, 2, 0, "Punctuator"],
+                [6, 4, 0, "Punctuator"],
+                [7, 8, 0, "Keyword"],
+                [8, 6, 0, "Punctuator"],
+                [9, 4, 0, "Punctuator"],
+                [10, 8, 0, "Keyword"],
+                [11, 6, 0, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+              condition
+              ? () => {
+              return true
+              }
+              : condition2
+              ? () => {
+              return true
+              }
+              : () => {
+              return false
+              }
+            `,
+            output: unIndent`
+              condition
+                ? () => {
+                  return true
+                }
+                : condition2
+                  ? () => {
+                    return true
+                  }
+                  : () => {
+                    return false
+                  }
+            `,
+            options: [2, { offsetTernaryExpressions: false }],
+            errors: expectedErrors([
+                [2, 2, 0, "Punctuator"],
+                [3, 4, 0, "Keyword"],
+                [4, 2, 0, "Punctuator"],
+                [5, 2, 0, "Punctuator"],
+                [6, 4, 0, "Punctuator"],
+                [7, 6, 0, "Keyword"],
+                [8, 4, 0, "Punctuator"],
+                [9, 4, 0, "Punctuator"],
+                [10, 6, 0, "Keyword"],
+                [11, 4, 0, "Punctuator"]
+            ])
         },
         {
 
