@@ -429,8 +429,14 @@ Configuration comments can include descriptions to explain why the comment is ne
 ```js
 /* eslint eqeqeq: "off", curly: "error"
     --------
-    Here's a description about why this configuration is necessary.
-    But mind that '*' at beginning lines may cause syntax error. */
+    Here's a description about why this configuration is necessary. */
+```
+
+```js
+/* eslint eqeqeq: "off", curly: "error"
+ * --------
+ * This will not work due to the line above starting with a '*' character.
+ */
 ```
 
 ### Using Configuration Files
@@ -587,7 +593,7 @@ foo(); // eslint-disable-line example/rule-name
 foo(); /* eslint-disable-line example/rule-name */
 ```
 
-Configuration comments can include descriptions to explain why the comment is necessary. The description must occur after the configuration is separated from the comment by at two or more consecutive `-` characters. For example:
+Configuration comments can include descriptions to explain why the comment is necessary. The description must occur after the configuration and is separated from the configuration by two or more consecutive `-` characters. For example:
 
 ```js
 // eslint-disable-next-line no-console -- Here's a description about why this configuration is necessary.
