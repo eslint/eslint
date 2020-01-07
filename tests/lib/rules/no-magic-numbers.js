@@ -80,6 +80,11 @@ ruleTester.run("no-magic-numbers", rule, {
             code: "f(100n)",
             options: [{ ignore: ["100n"] }],
             parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "f(-100n)",
+            options: [{ ignore: ["-100n"] }],
+            parserOptions: { ecmaVersion: 2020 }
         }
     ],
     invalid: [
@@ -256,6 +261,22 @@ ruleTester.run("no-magic-numbers", rule, {
         {
             code: "f(100n)",
             options: [{ ignore: [100] }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [
+                { messageId: "noMagic", data: { raw: "100n" }, line: 1 }
+            ]
+        },
+        {
+            code: "f(-100n)",
+            options: [{ ignore: ["100n"] }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [
+                { messageId: "noMagic", data: { raw: "-100n" }, line: 1 }
+            ]
+        },
+        {
+            code: "f(100n)",
+            options: [{ ignore: ["-100n"] }],
             parserOptions: { ecmaVersion: 2020 },
             errors: [
                 { messageId: "noMagic", data: { raw: "100n" }, line: 1 }
