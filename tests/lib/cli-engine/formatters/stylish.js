@@ -49,10 +49,10 @@ const formatter = proxyquire("../../../../lib/cli-engine/formatters/stylish", { 
 //------------------------------------------------------------------------------
 
 describe("formatter:stylish", () => {
-    const colorsEnabled = chalk.enabled;
+    const originalColorLevel = chalk.level;
 
     beforeEach(() => {
-        chalk.enabled = false;
+        chalk.level = 0;
         sinon.spy(chalkStub, "reset");
         sinon.spy(chalkStub.yellow, "bold");
         sinon.spy(chalkStub.red, "bold");
@@ -60,7 +60,7 @@ describe("formatter:stylish", () => {
 
     afterEach(() => {
         sinon.verifyAndRestore();
-        chalk.enabled = colorsEnabled;
+        chalk.level = originalColorLevel;
     });
 
     describe("when passed no messages", () => {
