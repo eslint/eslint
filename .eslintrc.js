@@ -25,6 +25,7 @@ module.exports = {
         "eslint-plugin/prefer-output-null": "error",
         "eslint-plugin/prefer-placeholders": "error",
         "eslint-plugin/report-message-format": ["error", "[^a-z].*\\.$"],
+        "eslint-plugin/require-meta-docs-description": "error",
         "eslint-plugin/require-meta-type": "error",
         "eslint-plugin/test-case-property-ordering": [
             "error",
