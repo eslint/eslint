@@ -203,6 +203,7 @@
     "no-unused-labels": "suggestion",
     "no-unused-vars": "problem",
     "no-use-before-define": "problem",
+    "no-useless-backreference": "problem",
     "no-useless-call": "suggestion",
     "no-useless-catch": "suggestion",
     "no-useless-computed-key": "suggestion",
