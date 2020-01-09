@@ -673,6 +673,12 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("(new foo.bar()).baz", "new foo.bar().baz", "NewExpression"),
         invalid("(new foo.bar()).baz()", "new foo.bar().baz()", "NewExpression"),
 
+        invalid("(a)()", "a()", "Identifier"),
+        invalid("(a.b)()", "a.b()", "MemberExpression"),
+        invalid("(a())()", "a()()", "CallExpression"),
+        invalid("(a.b())()", "a.b()()", "CallExpression"),
+        invalid("(a().b)()", "a().b()", "MemberExpression"),
+        invalid("(a().b.c)()", "a().b.c()", "MemberExpression"),
         invalid("new (A)", "new A", "Identifier"),
         invalid("(new A())()", "new A()()", "NewExpression"),
         invalid("(new A(1))()", "new A(1)()", "NewExpression"),
