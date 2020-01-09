@@ -6,7 +6,7 @@
 "use strict";
 
 const path = require("path");
-const MemoryFs = require("metro-memory-fs");
+const { Volume, createFsFromVolume } = require("memfs");
 
 /**
  * Prevents leading spaces in a multiline template literal from appearing in the resulting string
@@ -26,36 +26,6 @@ function unIndent(strings, ...values) {
 }
 
 /**
- * Add support of `recursive` option.
- * @param {import("fs")} fs The in-memory file system.
- * @param {() => string} cwd The current working directory.
- * @returns {void}
- */
-function supportMkdirRecursiveOption(fs, cwd) {
-    const { mkdirSync } = fs;
-
-    fs.mkdirSync = (filePath, options) => {
-        if (typeof options === "object" && options !== null) {
-            if (options.recursive) {
-                const absolutePath = path.resolve(cwd(), filePath);
-                const parentPath = path.dirname(absolutePath);
-
-                if (
-                    parentPath &&
-                    parentPath !== absolutePath &&
-                    !fs.existsSync(parentPath)
-                ) {
-                    fs.mkdirSync(parentPath, options);
-                }
-            }
-            mkdirSync(filePath, options.mode);
-        } else {
-            mkdirSync(filePath, options);
-        }
-    };
-}
-
-/**
  * Define in-memory file system.
  * @param {Object} options The options.
  * @param {() => string} [options.cwd] The current working directory.
@@ -71,17 +41,8 @@ function defineInMemoryFs({
      * The in-memory file system for this mock.
      * @type {import("fs")}
      */
-    const fs = new MemoryFs({
-        cwd,
-        platform: process.platform === "win32" ? "win32" : "posix"
-    });
+    const fs = createFsFromVolume(new Volume());
 
-    // Support D: drive.
-    if (process.platform === "win32") {
-        fs._roots.set("D:", fs._makeDir(0o777)); // eslint-disable-line no-underscore-dangle
-    }
-
-    supportMkdirRecursiveOption(fs, cwd);
     fs.mkdirSync(cwd(), { recursive: true });
 
     /*

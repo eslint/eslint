@@ -29,12 +29,65 @@ ruleTester.run("no-func-assign", rule, {
         { code: "import bar from 'bar'; function foo() { var foo = bar; }", parserOptions: { ecmaVersion: 6, sourceType: "module" } }
     ],
     invalid: [
-        { code: "function foo() {}; foo = bar;", errors: [{ message: "'foo' is a function.", type: "Identifier" }] },
-        { code: "function foo() { foo = bar; }", errors: [{ message: "'foo' is a function.", type: "Identifier" }] },
-        { code: "foo = bar; function foo() { };", errors: [{ message: "'foo' is a function.", type: "Identifier" }] },
-        { code: "[foo] = bar; function foo() { };", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'foo' is a function.", type: "Identifier" }] },
-        { code: "({x: foo = 0} = bar); function foo() { };", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'foo' is a function.", type: "Identifier" }] },
-        { code: "function foo() { [foo] = bar; }", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'foo' is a function.", type: "Identifier" }] },
-        { code: "(function() { ({x: foo = 0} = bar); function foo() { }; })();", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'foo' is a function.", type: "Identifier" }] }
+        {
+            code: "function foo() {}; foo = bar;",
+            errors: [{
+                messageId: "isAFunction",
+                data: { name: "foo" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "function foo() { foo = bar; }",
+            errors: [{
+                messageId: "isAFunction",
+                data: { name: "foo" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "foo = bar; function foo() { };",
+            errors: [{
+                messageId: "isAFunction",
+                data: { name: "foo" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "[foo] = bar; function foo() { };",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "isAFunction",
+                data: { name: "foo" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "({x: foo = 0} = bar); function foo() { };",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "isAFunction",
+                data: { name: "foo" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "function foo() { [foo] = bar; }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "isAFunction",
+                data: { name: "foo" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "(function() { ({x: foo = 0} = bar); function foo() { }; })();",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "isAFunction",
+                data: { name: "foo" },
+                type: "Identifier"
+            }]
+        }
     ]
 });

@@ -17,8 +17,7 @@ const rule = require("../../../lib/rules/no-implied-eval"),
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester(),
-    expectedErrorMessage = "Implied eval. Consider passing a function instead of a string.",
-    expectedError = { message: expectedErrorMessage, type: "CallExpression" };
+    expectedError = { messageId: "impliedEval", type: "CallExpression" };
 
 ruleTester.run("no-implied-eval", rule, {
     valid: [
@@ -146,14 +145,14 @@ ruleTester.run("no-implied-eval", rule, {
                 "})())",
             errors: [
                 {
-                    message: expectedErrorMessage,
+                    messageId: "impliedEval",
                     type: "CallExpression",
                     line: 1
                 },
 
                 // no error on line 2
                 {
-                    message: expectedErrorMessage,
+                    messageId: "impliedEval",
                     type: "CallExpression",
                     line: 3
                 }
@@ -169,14 +168,14 @@ ruleTester.run("no-implied-eval", rule, {
             env: { browser: true },
             errors: [
                 {
-                    message: expectedErrorMessage,
+                    messageId: "impliedEval",
                     type: "CallExpression",
                     line: 1
                 },
 
                 // no error on line 2
                 {
-                    message: expectedErrorMessage,
+                    messageId: "impliedEval",
                     type: "CallExpression",
                     line: 3
                 }
@@ -192,14 +191,14 @@ ruleTester.run("no-implied-eval", rule, {
             env: { node: true },
             errors: [
                 {
-                    message: expectedErrorMessage,
+                    messageId: "impliedEval",
                     type: "CallExpression",
                     line: 1
                 },
 
                 // no error on line 2
                 {
-                    message: expectedErrorMessage,
+                    messageId: "impliedEval",
                     type: "CallExpression",
                     line: 3
                 }

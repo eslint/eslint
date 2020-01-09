@@ -19,11 +19,11 @@ const rule = require("../../../lib/rules/no-irregular-whitespace"),
 const ruleTester = new RuleTester();
 
 const expectedErrors = [{
-    message: "Irregular whitespace not allowed.",
+    messageId: "noIrregularWhitespace",
     type: "Program"
 }];
 const expectedCommentErrors = [{
-    message: "Irregular whitespace not allowed.",
+    messageId: "noIrregularWhitespace",
     type: "Program",
     line: 1,
     column: 4
@@ -262,13 +262,13 @@ ruleTester.run("no-irregular-whitespace", rule, {
             code: "var a = 'b',\u2028c = 'd',\ne = 'f'\u2028",
             errors: [
                 {
-                    message: "Irregular whitespace not allowed.",
+                    messageId: "noIrregularWhitespace",
                     type: "Program",
                     line: 1,
                     column: 13
                 },
                 {
-                    message: "Irregular whitespace not allowed.",
+                    messageId: "noIrregularWhitespace",
                     type: "Program",
                     line: 3,
                     column: 8
@@ -279,19 +279,19 @@ ruleTester.run("no-irregular-whitespace", rule, {
             code: "var any \u3000 = 'thing', other \u3000 = 'thing';\nvar third \u3000 = 'thing';",
             errors: [
                 {
-                    message: "Irregular whitespace not allowed.",
+                    messageId: "noIrregularWhitespace",
                     type: "Program",
                     line: 1,
                     column: 9
                 },
                 {
-                    message: "Irregular whitespace not allowed.",
+                    messageId: "noIrregularWhitespace",
                     type: "Program",
                     line: 1,
                     column: 28
                 },
                 {
-                    message: "Irregular whitespace not allowed.",
+                    messageId: "noIrregularWhitespace",
                     type: "Program",
                     line: 2,
                     column: 11
@@ -478,13 +478,13 @@ ruleTester.run("no-irregular-whitespace", rule, {
             code: "var any = /\u3000/, other = /\u000B/;",
             errors: [
                 {
-                    message: "Irregular whitespace not allowed.",
+                    messageId: "noIrregularWhitespace",
                     type: "Program",
                     line: 1,
                     column: 12
                 },
                 {
-                    message: "Irregular whitespace not allowed.",
+                    messageId: "noIrregularWhitespace",
                     type: "Program",
                     line: 1,
                     column: 25
@@ -496,13 +496,13 @@ ruleTester.run("no-irregular-whitespace", rule, {
             options: [{ skipStrings: false }],
             errors: [
                 {
-                    message: "Irregular whitespace not allowed.",
+                    messageId: "noIrregularWhitespace",
                     type: "Program",
                     line: 1,
                     column: 12
                 },
                 {
-                    message: "Irregular whitespace not allowed.",
+                    messageId: "noIrregularWhitespace",
                     type: "Program",
                     line: 1,
                     column: 25
@@ -515,13 +515,13 @@ ruleTester.run("no-irregular-whitespace", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Irregular whitespace not allowed.",
+                    messageId: "noIrregularWhitespace",
                     type: "Program",
                     line: 1,
                     column: 12
                 },
                 {
-                    message: "Irregular whitespace not allowed.",
+                    messageId: "noIrregularWhitespace",
                     type: "Program",
                     line: 1,
                     column: 25
@@ -534,7 +534,7 @@ ruleTester.run("no-irregular-whitespace", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Irregular whitespace not allowed.",
+                    messageId: "noIrregularWhitespace",
                     type: "Program",
                     line: 1,
                     column: 14

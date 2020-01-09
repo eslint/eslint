@@ -27,11 +27,11 @@ ruleTester.run("no-new-symbol", rule, {
     invalid: [
         {
             code: "var foo = new Symbol('foo');",
-            errors: [{ message: "`Symbol` cannot be called as a constructor." }]
+            errors: [{ messageId: "noNewSymbol" }]
         },
         {
             code: "function bar() { return function Symbol() {}; } var baz = new Symbol('baz');",
-            errors: [{ message: "`Symbol` cannot be called as a constructor." }]
+            errors: [{ messageId: "noNewSymbol" }]
         }
     ]
 });
