@@ -403,6 +403,83 @@ describe("ast-utils", () => {
         });
     });
 
+    describe("getStaticStringValue", () => {
+
+        /* eslint-disable quote-props */
+        const expectedResults = {
+
+            // string literals
+            "''": "",
+            "'foo'": "foo",
+
+            // boolean literals
+            "false": "false",
+            "true": "true",
+
+            // null literal
+            "null": "null",
+
+            // number literals
+            "0": "0",
+            "0.": "0",
+            ".0": "0",
+            "1": "1",
+            "1.": "1",
+            ".1": "0.1",
+            "12": "12",
+            ".12": "0.12",
+            "0.12": "0.12",
+            "12.34": "12.34",
+            "12e3": "12000",
+            "12e-3": "0.012",
+            "12.34e5": "1234000",
+            "12.34e-5": "0.0001234",
+            "011": "9",
+            "081": "81",
+            "0b11": "3",
+            "0b011": "3",
+            "0o11": "9",
+            "0o011": "9",
+            "0x11": "17",
+            "0x011": "17",
+
+            // regexp literals
+            "/a/": "/a/",
+            "/a/i": "/a/i",
+            "/[0-9]/": "/[0-9]/",
+            "/(?<zero>0)/": "/(?<zero>0)/",
+            "/(?<zero>0)/s": "/(?<zero>0)/s",
+            "/(?<=a)b/s": "/(?<=a)b/s",
+
+            // simple template literals
+            "``": "",
+            "`foo`": "foo",
+
+            // unsupported
+            "`${''}`": null,
+            "`${0}`": null,
+            "tag``": null,
+            "-0": null,
+            "-1": null,
+            "1 + 2": null,
+            "[]": null,
+            "({})": null,
+            "foo": null,
+            "undefined": null,
+            "this": null,
+            "(function () {})": null
+        };
+        /* eslint-enable quote-props */
+
+        Object.keys(expectedResults).forEach(key => {
+            it(`should return ${expectedResults[key]} for ${key}`, () => {
+                const ast = espree.parse(key, { ecmaVersion: 2018 });
+
+                assert.strictEqual(astUtils.getStaticStringValue(ast.body[0].expression), expectedResults[key]);
+            });
+        });
+    });
+
     describe("getStaticPropertyName", () => {
         it("should return 'b' for `a.b`", () => {
             const ast = espree.parse("a.b");
@@ -507,6 +584,13 @@ describe("ast-utils", () => {
             const node = ast.body[0].expression.properties[0];
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), "100");
+        });
+
+        it("should return '/(?<zero>0)/' for `[/(?<zero>0)/]: 1`", () => {
+            const ast = espree.parse("({[/(?<zero>0)/]: 1})", { ecmaVersion: 2018 });
+            const node = ast.body[0].expression.properties[0];
+
+            assert.strictEqual(astUtils.getStaticPropertyName(node), "/(?<zero>0)/");
         });
 
         it("should return null for `[b]: 1`", () => {
