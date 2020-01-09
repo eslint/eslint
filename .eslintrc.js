@@ -51,8 +51,7 @@ module.exports = {
             files: ["lib/rules/*", "tools/internal-rules/*"],
             excludedFiles: ["index.js"],
             rules: {
-                "internal-rules/no-invalid-meta": "error",
-                "internal-rules/consistent-docs-description": "error"
+                "internal-rules/no-invalid-meta": "error"
 
                 /*
                  * TODO: enable it when all the rules using meta.messages
