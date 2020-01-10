@@ -45,6 +45,34 @@ ruleTester.run("no-duplicate-imports", rule, {
         {
             code: "import { merge } from \"lodash-es\";\nexport { merge as lodashMerge }",
             options: [{ includeExports: true }]
+        },
+
+        // ignore `export * from` declarations, they cannot be merged with any other import/export declarations
+        {
+            code: "import os from 'os'; export * from 'os';",
+            options: [{ includeExports: true }]
+        },
+        {
+            code: "export * from 'os'; import { a } from 'os';",
+            options: [{ includeExports: true }]
+        },
+        {
+            code: "import * as ns from 'os'; export * from 'os';",
+            options: [{ includeExports: true }]
+        },
+        {
+            code: "export * from 'os'; export { a } from 'os';",
+            options: [{ includeExports: true }]
+        },
+        {
+            code: "export { a as b } from 'os'; export * from 'os';",
+            options: [{ includeExports: true }]
+        },
+
+        // this is probably an exporting error, but that isn't a responsibility of this rule
+        {
+            code: "export * from 'os'; export * from 'os';",
+            options: [{ includeExports: true }]
         }
     ],
     invalid: [
@@ -80,9 +108,9 @@ ruleTester.run("no-duplicate-imports", rule, {
             errors: [{ messageId: "exportAs", data: { module: "os" }, type: "ExportNamedDeclaration" }]
         },
         {
-            code: "import os from \"os\";\nexport * from \"os\";",
+            code: "import os from 'os'; export * from 'os'; export { a } from 'os';",
             options: [{ includeExports: true }],
-            errors: [{ messageId: "exportAs", data: { module: "os" }, type: "ExportAllDeclaration" }]
+            errors: [{ messageId: "exportAs", data: { module: "os" }, type: "ExportNamedDeclaration" }]
         }
     ]
 });

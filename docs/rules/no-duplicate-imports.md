@@ -37,9 +37,31 @@ import something from 'another-module';
 
 This rule takes one optional argument, an object with a single key, `includeExports` which is a `boolean`. It defaults to `false`.
 
-If re-exporting from an imported module, you should add the imports to the `import`-statement, and export that directly, not use `export ... from`.
+### includeExports
+
+If the `includeExports` option is set to `true`, this rule will also require that all named re-exports from a single module exist in a single `export` statement.
 
 Example of **incorrect** code for this rule with the `{ "includeExports": true }` option:
+
+```js
+/*eslint no-duplicate-imports: ["error", { "includeExports": true }]*/
+
+export { merge } from 'module';
+
+export { find } from 'module';
+```
+
+Example of **correct** code for this rule with the `{ "includeExports": true }` option:
+
+```js
+/*eslint no-duplicate-imports: ["error", { "includeExports": true }]*/
+
+export { merge, find } from 'module';
+```
+
+Additionally, if re-exporting from an imported module, you should add the imports to the `import`-statement, and export that directly, not use `export ... from`.
+
+Example of additional **incorrect** code for this rule with the `{ "includeExports": true }` option:
 
 ```js
 /*eslint no-duplicate-imports: ["error", { "includeExports": true }]*/
@@ -49,7 +71,7 @@ import { merge } from 'module';
 export { find } from 'module';
 ```
 
-Example of **correct** code for this rule with the `{ "includeExports": true }` option:
+Example of additional **correct** code for this rule with the `{ "includeExports": true }` option:
 
 ```js
 /*eslint no-duplicate-imports: ["error", { "includeExports": true }]*/
