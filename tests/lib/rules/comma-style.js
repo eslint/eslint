@@ -586,19 +586,6 @@ ruleTester.run("comma-style", rule, {
             errors: [{ messageId: "expectedCommaFirst" }]
         },
         {
-            code: "var foo = [\n(bar\n)\n,\nbaz\n];",
-            output: "var foo = [\n(bar\n),\nbaz\n];",
-            errors: [{
-                messageId: "unexpectedLineBeforeAndAfterComma",
-                type: "Identifier"
-            }]
-        },
-        {
-            code: "[(foo),\n,\nbar]",
-            output: "[(foo),,\nbar]",
-            errors: [{ messageId: "unexpectedLineBeforeAndAfterComma" }]
-        },
-        {
             code: "new Foo(a\n,b);",
             output: "new Foo(a,\nb);",
             options: ["last", {
@@ -607,11 +594,6 @@ ruleTester.run("comma-style", rule, {
                 }
             }],
             errors: [{ messageId: "expectedCommaLast" }]
-        },
-        {
-            code: "[\n[foo(3)],\n,\nbar\n];",
-            output: "[\n[foo(3)],,\nbar\n];",
-            errors: [{ messageId: "unexpectedLineBeforeAndAfterComma" }]
         },
         {
 
