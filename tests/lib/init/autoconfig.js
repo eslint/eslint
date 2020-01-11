@@ -353,12 +353,12 @@ describe("autoconfig", () => {
             assert.includeMembers(newConfig.extends, oldConfig.extends);
         });
 
-        it("should return a configuration which has `eslint:recommended` at the last of `extends`", () => {
+        it("should return a configuration which has `eslint:recommended` at the first of `extends`", () => {
             const oldConfig = { extends: ["previous:configuration1", "previous:configuration2"], rules: {} };
             const newConfig = autoconfig.extendFromRecommended(oldConfig);
-            const lastExtendInNewConfig = newConfig.extends[newConfig.extends.length - 1];
+            const [firstExtendInNewConfig] = newConfig.extends;
 
-            assert.strictEqual(lastExtendInNewConfig, "eslint:recommended");
+            assert.strictEqual(firstExtendInNewConfig, "eslint:recommended");
         });
 
         it("should return a configuration which not includes rules configured in `eslint:recommended`", () => {
