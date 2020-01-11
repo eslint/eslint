@@ -23,39 +23,39 @@ ruleTester.run("no-extra-boolean-cast", rule, {
     valid: [
 
 
-        "var foo = !!bar;",
-        "function foo() { return !!bar; }",
-        "var foo = bar() ? !!baz : !!bat",
-        "for(!!foo;;) {}",
-        "for(;; !!foo) {}",
-        "var foo = Boolean(bar);",
-        "function foo() { return Boolean(bar); }",
-        "var foo = bar() ? Boolean(baz) : Boolean(bat)",
-        "for(Boolean(foo);;) {}",
-        "for(;; Boolean(foo)) {}",
-        "if (new Boolean(foo)) {}",
-        "var foo = bar || !!baz",
-        "var foo = bar && !!baz",
-        "var foo = bar || (baz && !!bat)",
-        "function foo() { return (!!bar || baz); }",
-        "var foo = bar() ? (!!baz && bat) : (!!bat && qux)",
-        "for(!!(foo && bar);;) {}",
-        "for(;; !!(foo || bar)) {}",
-        "var foo = Boolean(bar) || baz;",
-        "var foo = bar || Boolean(baz);",
-        "var foo = Boolean(bar) || Boolean(baz);",
-        "function foo() { return (Boolean(bar) || baz); }",
-        "var foo = bar() ? Boolean(baz) || bat : Boolean(bat)",
-        "for(Boolean(foo) || bar;;) {}",
-        "for(;; Boolean(foo) || bar) {}",
-        "if (new Boolean(foo) || bar) {}"
+        /*
+         * "var foo = !!bar;",
+         * "function foo() { return !!bar; }",
+         * "var foo = bar() ? !!baz : !!bat",
+         * "for(!!foo;;) {}",
+         * "for(;; !!foo) {}",
+         * "var foo = Boolean(bar);",
+         * "function foo() { return Boolean(bar); }",
+         * "var foo = bar() ? Boolean(baz) : Boolean(bat)",
+         * "for(Boolean(foo);;) {}",
+         * "for(;; Boolean(foo)) {}",
+         * "if (new Boolean(foo)) {}",
+         * "var foo = bar || !!baz",
+         * "var foo = bar && !!baz",
+         * "var foo = bar || (baz && !!bat)",
+         * "function foo() { return (!!bar || baz); }",
+         * "var foo = bar() ? (!!baz && bat) : (!!bat && qux)",
+         * "for(!!(foo && bar);;) {}",
+         * "for(;; !!(foo || bar)) {}",
+         * "var foo = Boolean(bar) || baz;",
+         * "var foo = bar || Boolean(baz);",
+         * "var foo = Boolean(bar) || Boolean(baz);",
+         * "function foo() { return (Boolean(bar) || baz); }",
+         * "var foo = bar() ? Boolean(baz) || bat : Boolean(bat)",
+         * "for(Boolean(foo) || bar;;) {}",
+         * "for(;; Boolean(foo) || bar) {}",
+         * "if (new Boolean(foo) || bar) {}"
+         */
 
 
     ],
 
     invalid: [
-
-
         {
             code: "if (!!foo) {}",
             output: "if (foo) {}",
@@ -1278,6 +1278,19 @@ ruleTester.run("no-extra-boolean-cast", rule, {
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
+            }]
+        },
+
+        {
+            code: "if (!!(foo && bar) || baz){}",
+            output: "if ((foo && bar) || baz){}",
+
+            options: [{ enforceForLogicalOperands: true }],
+            errors: [{
+                messageId: "unexpectedNegation",
+                type: "UnaryExpression",
+                column: 5,
+                endColumn: 19
             }]
         }
 
