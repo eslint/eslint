@@ -650,6 +650,69 @@ ruleTester.run("no-restricted-imports", rule, {
             column: 1,
             endColumn: 28
         }]
+    }, {
+        code: "import { a, a as b } from 'mod';",
+        options: [{
+            paths: [{
+                name: "mod",
+                importNames: ["a"]
+            }]
+        }],
+        errors: [{
+            message: "'a' import from 'mod' is restricted.",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 10,
+            endColumn: 11
+        }, {
+            message: "'a' import from 'mod' is restricted.",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 13,
+            endColumn: 19
+        }]
+    }, {
+        code: "export { x as y, x as z } from 'mod';",
+        options: [{
+            paths: [{
+                name: "mod",
+                importNames: ["x"]
+            }]
+        }],
+        errors: [{
+            message: "'x' import from 'mod' is restricted.",
+            type: "ExportNamedDeclaration",
+            line: 1,
+            column: 10,
+            endColumn: 16
+        }, {
+            message: "'x' import from 'mod' is restricted.",
+            type: "ExportNamedDeclaration",
+            line: 1,
+            column: 18,
+            endColumn: 24
+        }]
+    }, {
+        code: "import foo, { default as bar } from 'mod';",
+        options: [{
+            paths: [{
+                name: "mod",
+                importNames: ["default"]
+            }]
+        }],
+        errors: [{
+            message: "'default' import from 'mod' is restricted.",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 8,
+            endColumn: 11
+        }, {
+            message: "'default' import from 'mod' is restricted.",
+            type: "ImportDeclaration",
+            line: 1,
+            column: 15,
+            endColumn: 29
+        }]
     }
     ]
 });
