@@ -41,6 +41,8 @@ ruleTester.run("no-redeclare", rule, {
             options: [{ builtinGlobals: true }],
             env: { browser: false }
         },
+        { code: "var glovalThis = foo", options: [{ builtinGlobals: true }], env: { es6: true } },
+        { code: "var glovalThis = foo", options: [{ builtinGlobals: true }], env: { es2017: true } },
 
         // Comments and built-ins.
         {
@@ -122,6 +124,22 @@ ruleTester.run("no-redeclare", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 { message: "'a' is already defined.", type: "Identifier" }
+            ]
+        },
+        {
+            code: "var globalThis = 0;",
+            options: [{ builtinGlobals: true }],
+            env: { es2020: true },
+            errors: [{ message: "'globalThis' is already defined as a built-in global variable.", type: "Identifier" }]
+        },
+        {
+            code: "var a; var {a = 0, b: globalThis = 0} = {};",
+            options: [{ builtinGlobals: true }],
+            parserOptions: { ecmaVersion: 6 },
+            env: { es2020: true },
+            errors: [
+                { message: "'a' is already defined.", type: "Identifier" },
+                { message: "'globalThis' is already defined as a built-in global variable.", type: "Identifier" }
             ]
         },
         {
