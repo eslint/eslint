@@ -28,6 +28,19 @@ ruleTester.run("no-obj-calls", rule, {
         "Reflect.get(foo, 'x')",
         "Atomics.load(foo, 0)",
 
+        { code: "globalThis.Math();", env: { es6: true } },
+        { code: "var x = globalThis.Math();", env: { es6: true } },
+        { code: "f(globalThis.Math());", env: { es6: true } },
+        { code: "globalThis.Math().foo;", env: { es6: true } },
+        { code: "var x = globalThis.JSON();", env: { es6: true } },
+        { code: "x = globalThis.JSON(str);", env: { es6: true } },
+        { code: "globalThis.Math( globalThis.JSON() );", env: { es6: true } },
+        { code: "var x = globalThis.Reflect();", env: { es6: true } },
+        { code: "var x = globalThis.Reflect();", env: { es2017: true } },
+        { code: "/*globals Reflect: true*/ globalThis.Reflect();", env: { es2017: true } },
+        { code: "var x = globalThis.Atomics();", env: { es2017: true } },
+        { code: "var x = globalThis.Atomics();", globals: { Atomics: false }, env: { es2017: true } },
+
         // non-existing variables
         "/*globals Math: off*/ Math();",
         {
@@ -129,6 +142,54 @@ ruleTester.run("no-obj-calls", rule, {
         {
             code: "var x = Atomics();",
             globals: { Atomics: false },
+            errors: [{ messageId: "unexpectedCall", data: { name: "Atomics" }, type: "CallExpression" }]
+        },
+        {
+            code: "var x = globalThis.Math();",
+            env: { es2020: true },
+            errors: [{ messageId: "unexpectedCall", data: { name: "Math" }, type: "CallExpression" }]
+        },
+        {
+            code: "f(globalThis.Math());",
+            env: { es2020: true },
+            errors: [{ messageId: "unexpectedCall", data: { name: "Math" }, type: "CallExpression", column: 3, endColumn: 20 }]
+        },
+        {
+            code: "globalThis.Math().foo;",
+            env: { es2020: true },
+            errors: [{ messageId: "unexpectedCall", data: { name: "Math" }, type: "CallExpression", column: 1, endColumn: 18 }]
+        },
+        {
+            code: "var x = globalThis.JSON();",
+            env: { es2020: true },
+            errors: [{ messageId: "unexpectedCall", data: { name: "JSON" }, type: "CallExpression" }]
+        },
+        {
+            code: "x = globalThis.JSON(str);",
+            env: { es2020: true },
+            errors: [{ messageId: "unexpectedCall", data: { name: "JSON" }, type: "CallExpression" }]
+        },
+        {
+            code: "globalThis.Math( globalThis.JSON() );",
+            env: { es2020: true },
+            errors: [
+                { messageId: "unexpectedCall", data: { name: "Math" }, type: "CallExpression", column: 1, endColumn: 37 },
+                { messageId: "unexpectedCall", data: { name: "JSON" }, type: "CallExpression", column: 18, endColumn: 35 }
+            ]
+        },
+        {
+            code: "var x = globalThis.Reflect();",
+            env: { es2020: true },
+            errors: [{ messageId: "unexpectedCall", data: { name: "Reflect" }, type: "CallExpression" }]
+        },
+        {
+            code: "/*globals Reflect: true*/ Reflect();",
+            env: { es2020: true },
+            errors: [{ messageId: "unexpectedCall", data: { name: "Reflect" }, type: "CallExpression" }]
+        },
+        {
+            code: "var x = globalThis.Atomics();",
+            env: { es2020: true },
             errors: [{ messageId: "unexpectedCall", data: { name: "Atomics" }, type: "CallExpression" }]
         }
     ]
