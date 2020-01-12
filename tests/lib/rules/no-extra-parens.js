@@ -1336,6 +1336,12 @@ ruleTester.run("no-extra-parens", rule, {
             1
         ),
         invalid(
+            "for (foo of ((bar, baz)));",
+            "for (foo of (bar, baz));",
+            "SequenceExpression",
+            1
+        ),
+        invalid(
             "for ((foo)in bar);",
             "for (foo in bar);",
             "Identifier",
