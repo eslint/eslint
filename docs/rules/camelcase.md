@@ -12,6 +12,8 @@ This rule has an object option:
 
 * `"properties": "always"` (default) enforces camelcase style for property names
 * `"properties": "never"` does not check property names
+* `"ignoreQuotedProperties": true` (default) does not check quoted property names
+* `"ignoreQuotedProperties": false` enforces camelcase style for all property names
 * `"ignoreDestructuring": false` (default) enforces camelcase style for destructured identifiers
 * `"ignoreDestructuring": true` does not check destructured identifiers (but still checks any use of those identifiers later in the code)
 * `"ignoreImports": false` (default) enforces camelcase style for ES2015 imports
@@ -110,6 +112,48 @@ Examples of **correct** code for this rule with the `{ "properties": "never" }` 
 var obj = {
     my_pref: 1
 };
+```
+
+### ignoreQuotedProperties: true
+
+Examples of **incorrect** code for this rule with the default `{ "ignoreQuotedProperties": true }` option:
+
+```js
+/*eslint camelcase: "error"*/
+
+var foo = {
+    qux_quux: 2
+};
+
+foo.snake_cased = 11;
+```
+
+Examples of **correct** code for this rule with the default `{ "ignoreQuotedProperties": true }` option:
+
+```js
+/*eslint camelcase: "error"*/
+
+var foo = {
+    barBaz: 1,
+    "qux_quux": 2
+};
+
+foo.camelCased = 10;
+foo["snake_cased"] = 11;
+```
+
+### ignoreQuotedProperties: false
+
+Examples of **correct** code for this rule with the `{ "ignoreQuotedProperties": false }` option:
+
+```js
+/*eslint camelcase: ["error", {ignoreQuotedProperties: false}]*/
+
+var foo = {
+    barBaz: 1,
+};
+
+foo.camelCased = 10;
 ```
 
 ### ignoreDestructuring: false

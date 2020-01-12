@@ -39,6 +39,8 @@ ruleTester.run("camelcase", rule, {
         "var arr = [foo.bar_baz.qux];",
         "[foo.bar_baz.nesting]",
         "if (foo.bar_baz === boom.bam_pow) { [foo.baz_boom] }",
+        "\"foo_bar\".baz = qux",
+        "var foo = { bar: \"baz_qux\" }",
         {
             code: "var o = {key: 1}",
             options: [{ properties: "always" }]
@@ -92,6 +94,14 @@ ruleTester.run("camelcase", rule, {
             options: [{ properties: "never" }]
         },
         {
+            code: "obj[\"a_b\"] = 2;",
+            options: [{ properties: "always", ignoreQuotedProperties: true }]
+        },
+        {
+            code: "var o = {\"bar_baz\": 1}",
+            options: [{ properties: "always", ignoreQuotedProperties: true }]
+        },
+        {
             code: "const { ['foo']: _foo } = obj;",
             parserOptions: { ecmaVersion: 6 }
         },
@@ -121,6 +131,14 @@ ruleTester.run("camelcase", rule, {
         },
         {
             code: "var { category_id: category } = query;",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var { \"category_id\": category } = query;",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "var { [\"category_id\"]: category } = query;",
             parserOptions: { ecmaVersion: 6 }
         },
         {
@@ -278,6 +296,11 @@ ruleTester.run("camelcase", rule, {
             code: "([obj.foo = obj.fo_o] = bar);",
             options: [{ properties: "always" }],
             parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "({ a: obj[\"fo_o\"] } = bar);",
+            options: [{ ignoreQuotedProperties: false, allow: ["fo_o"] }],
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
     invalid: [
@@ -415,6 +438,39 @@ ruleTester.run("camelcase", rule, {
             ]
         },
         {
+            code: "\"foo_bar\".baz_qux = quux",
+            options: [{ properties: "always" }],
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "baz_qux" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "var foo = { \"bar_baz\": 1 }",
+            options: [{ properties: "always", ignoreQuotedProperties: false }],
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "bar_baz" },
+                    type: "Literal"
+                }
+            ]
+        },
+        {
+            code: "foo[\"bar_baz\"] = 1",
+            options: [{ properties: "always", ignoreQuotedProperties: false }],
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "bar_baz" },
+                    type: "Literal"
+                }
+            ]
+        },
+        {
             code: "var { category_id: category_alias } = query;",
             parserOptions: { ecmaVersion: 6 },
             errors: [
@@ -496,6 +552,17 @@ ruleTester.run("camelcase", rule, {
         },
         {
             code: "var { category_id = 1 } = query;",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "category_id" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "var { \"category_id\": category_id } = query;",
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
@@ -944,6 +1011,54 @@ ruleTester.run("camelcase", rule, {
                     messageId: "notCamelCase",
                     data: { name: "fo_o" },
                     type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "({ a: obj[\"fo_o\"] } = bar);",
+            options: [{ properties: "always", ignoreQuotedProperties: false }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "fo_o" },
+                    type: "Literal"
+                }
+            ]
+        },
+        {
+            code: "([obj[\"fo_o\"]] = bar);",
+            options: [{ properties: "always", ignoreQuotedProperties: false }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "fo_o" },
+                    type: "Literal"
+                }
+            ]
+        },
+        {
+            code: "({ a: [obj[\"fo_o\"]] } = bar);",
+            options: [{ properties: "always", ignoreQuotedProperties: false }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "fo_o" },
+                    type: "Literal"
+                }
+            ]
+        },
+        {
+            code: "({...obj[\"fo_o\"]} = baz);",
+            options: [{ properties: "always", ignoreQuotedProperties: false }],
+            parserOptions: { ecmaVersion: 9 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "fo_o" },
+                    type: "Literal"
                 }
             ]
         }
