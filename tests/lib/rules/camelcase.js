@@ -170,6 +170,16 @@ ruleTester.run("camelcase", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
+            code: "var _camelCased = camelCased",
+            options: [{ ignoreGlobals: false }],
+            globals: { camelCased: false }
+        },
+        {
+            code: "var camelCased = snake_cased",
+            options: [{ ignoreGlobals: true }],
+            globals: { snake_cased: false } // eslint-disable-line camelcase
+        },
+        {
             code: "function foo({ no_camelcased: camelCased }) {};",
             parserOptions: { ecmaVersion: 6 }
         },
@@ -644,6 +654,18 @@ ruleTester.run("camelcase", rule, {
             code: "import * as snake_cased from 'mod'",
             options: [{ ignoreImports: false }],
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "snake_cased" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "var camelCased = snake_cased",
+            options: [{ ignoreGlobals: false }],
+            globals: { snake_cased: false }, // eslint-disable-line camelcase
             errors: [
                 {
                     messageId: "notCamelCase",
