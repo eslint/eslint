@@ -6,8 +6,8 @@
 
 #### Prerequisites checklist
 
-- [ ] I have read the [contributing guidelines](https://raw.githubusercontent.com/eslint/eslint/master/templates/bug-report.md).
-- [ ] The team has reached consensus on the changes proposed in this pull request. If not, I understand that the process will begin with this pull request and won't be merged until it has been accepted.
+- [ ] I have read the [contributing guidelines](https://github.com/eslint/eslint/blob/master/CONTRIBUTING.md).
+- [ ] The team has reached consensus on the changes proposed in this pull request. If not, I understand that the evaluation process will begin with this pull request and won't be merged until the team has reached consensus.
 
 #### What is the purpose of this pull request? (put an "X" next to item)
 
