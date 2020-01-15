@@ -66,6 +66,10 @@ ruleTester.run("id-blacklist", rule, {
             options: ["f", "fo", "fooo", "b", "ba", "barr", "bazz", "bingg"]
         },
         {
+            code: "{foo: bar}",
+            options: ["foo"]
+        },
+        {
             code: "var arr = [foo.bar];",
             options: ["f", "fo", "fooo", "b", "ba", "barr", "bazz", "bingg"]
         },
@@ -172,6 +176,13 @@ ruleTester.run("id-blacklist", rule, {
         {
             code: "var obj = { key: foo.bar };",
             options: ["foo"],
+            errors: [
+                error
+            ]
+        },
+        {
+            code: "{foo: bar}",
+            options: ["foo", "bar"],
             errors: [
                 error
             ]
