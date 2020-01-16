@@ -81,7 +81,7 @@ ruleTester.run("id-blacklist", rule, {
             parserOptions: { ecmaVersion: 6 }
         },
         {
-            code: "function foo({ bar: {bas: qux} }) {}",
+            code: "function foo({ bar: {baz: qux} }) {}",
             options: ["bar", "baz", "qux"],
             parserOptions: { ecmaVersion: 6 }
         },
