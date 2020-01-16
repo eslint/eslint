@@ -66,8 +66,9 @@ ruleTester.run("id-blacklist", rule, {
             options: ["f", "fo", "fooo", "b", "ba", "barr", "bazz", "bingg"]
         },
         {
-            code: "{foo: bar}",
-            options: ["foo"]
+            code: "const {foo: bar} = baz",
+            options: ["foo, bar"],
+            parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "var arr = [foo.bar];",
@@ -176,13 +177,6 @@ ruleTester.run("id-blacklist", rule, {
         {
             code: "var obj = { key: foo.bar };",
             options: ["foo"],
-            errors: [
-                error
-            ]
-        },
-        {
-            code: "{foo: bar}",
-            options: ["foo", "bar"],
             errors: [
                 error
             ]
