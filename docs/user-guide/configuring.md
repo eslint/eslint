@@ -850,7 +850,7 @@ Example of a configuration file in JSON format:
         "plugin:react/recommended"
     ],
     "rules": {
-       "no-set-state": "off"
+       "react/no-set-state": "off"
     }
 }
 ```
