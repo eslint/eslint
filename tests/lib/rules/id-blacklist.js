@@ -67,7 +67,22 @@ ruleTester.run("id-blacklist", rule, {
         },
         {
             code: "const {foo: bar} = baz",
-            options: ["foo, bar"],
+            options: ["foo", "bar"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "const {foo: {bar: baz}} = qux",
+            options: ["foo", "bar", "baz"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "function foo({ bar: baz }) {}",
+            options: ["bar", "baz"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "function foo({ bar: {bas: qux} }) {}",
+            options: ["bar", "baz", "qux"],
             parserOptions: { ecmaVersion: 6 }
         },
         {
