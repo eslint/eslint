@@ -1403,6 +1403,30 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("const [a = (b)] = []", "const [a = b] = []", "Identifier"),
         invalid("const {a = (b)} = {}", "const {a = b} = {}", "Identifier"),
 
+        // LHS of assigments/Assignment targets
+        invalid("(a) = b", "a = b", "Identifier"),
+        invalid("(a.b) = c", "a.b = c", "MemberExpression"),
+        invalid("(a) += b", "a += b", "Identifier"),
+        invalid("(a.b) >>= c", "a.b >>= c", "MemberExpression"),
+        invalid("[(a) = b] = []", "[a = b] = []", "Identifier"),
+        invalid("[(a.b) = c] = []", "[a.b = c] = []", "MemberExpression"),
+        invalid("({ a: (b) = c } = {})", "({ a: b = c } = {})", "Identifier"),
+        invalid("({ a: (b.c) = d } = {})", "({ a: b.c = d } = {})", "MemberExpression"),
+        invalid("[(a)] = []", "[a] = []", "Identifier"),
+        invalid("[(a.b)] = []", "[a.b] = []", "MemberExpression"),
+        invalid("[,(a),,] = []", "[,a,,] = []", "Identifier"),
+        invalid("[...(a)] = []", "[...a] = []", "Identifier"),
+        invalid("[...(a.b)] = []", "[...a.b] = []", "MemberExpression"),
+        invalid("({ a: (b) } = {})", "({ a: b } = {})", "Identifier"),
+        invalid("({ a: (b.c) } = {})", "({ a: b.c } = {})", "MemberExpression"),
+
+        /*
+         * TODO: Add these tests for RestElement's parenthesized arguments in object patterns when that becomes supported by Espree.
+         *
+         * invalid("({ ...(a) } = {})", "({ ...a } = {})", "Identifier"),
+         * invalid("({ ...(a.b) } = {})", "({ ...a.b } = {})", "MemberExpression")
+         */
+
         // https://github.com/eslint/eslint/issues/11706 (also in valid[])
         {
             code: "for ((a = (b in c)); ;);",
