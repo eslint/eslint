@@ -168,6 +168,17 @@ ruleTester.run("no-restricted-imports", rule, {
         {
             code: "import {\nAllowedObject,\nDisallowedObject, // eslint-disable-line\n} from \"foo\";",
             options: [{ paths: [{ name: "foo", importNames: ["DisallowedObject"] }] }]
+        },
+        {
+            code: "export * from \"foo\";",
+            options: ["bar"]
+        },
+        {
+            code: "export * from \"foo\";",
+            options: [{
+                name: "bar",
+                importNames: ["DisallowedObject"]
+            }]
         }
     ],
     invalid: [{
@@ -354,6 +365,37 @@ ruleTester.run("no-restricted-imports", rule, {
             line: 1,
             column: 8,
             endColumn: 16
+        }]
+    },
+    {
+        code: "export * from \"foo\";",
+        options: [{
+            paths: [{
+                name: "foo",
+                importNames: ["DisallowedObject"],
+                message: "Please import 'DisallowedObject' from /bar/ instead."
+            }]
+        }],
+        errors: [{
+            message: "* import is invalid because 'DisallowedObject' from 'foo' is restricted. Please import 'DisallowedObject' from /bar/ instead.",
+            type: "ExportAllDeclaration",
+            line: 1,
+            column: 8,
+            endColumn: 9
+        }]
+    },
+    {
+        code: "export * from \"foo\";",
+        options: [{
+            name: "foo",
+            importNames: ["DisallowedObject1, DisallowedObject2"]
+        }],
+        errors: [{
+            message: "* import is invalid because 'DisallowedObject1, DisallowedObject2' from 'foo' is restricted.",
+            type: "ExportAllDeclaration",
+            line: 1,
+            column: 8,
+            endColumn: 9
         }]
     },
     {
