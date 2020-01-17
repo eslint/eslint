@@ -24,6 +24,7 @@
     "constructor-super": "problem",
     "curly": "suggestion",
     "default-case": "suggestion",
+    "default-case-last": "suggestion",
     "default-param-last": "suggestion",
     "dot-location": "layout",
     "dot-notation": "suggestion",
