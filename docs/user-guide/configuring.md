@@ -420,6 +420,25 @@ If a rule has additional options, you can specify them using array literal synta
 
 This comment specifies the "double" option for the [`quotes`](../rules/quotes) rule. The first item in the array is always the rule severity (number or string).
 
+Configuration comments can include descriptions to explain why the comment is necessary. The description must occur after the configuration and is separated from the configuration by two or more consecutive `-` characters. For example:
+
+```js
+/* eslint eqeqeq: "off", curly: "error" -- Here's a description about why this configuration is necessary. */
+```
+
+```js
+/* eslint eqeqeq: "off", curly: "error"
+    --------
+    Here's a description about why this configuration is necessary. */
+```
+
+```js
+/* eslint eqeqeq: "off", curly: "error"
+ * --------
+ * This will not work due to the line above starting with a '*' character.
+ */
+```
+
 ### Using Configuration Files
 
 To configure rules inside of a configuration file, use the `rules` key along with an error level and any options you want to use. For example:
@@ -572,6 +591,13 @@ All of the above methods also work for plugin rules. For example, to disable `es
 ```js
 foo(); // eslint-disable-line example/rule-name
 foo(); /* eslint-disable-line example/rule-name */
+```
+
+Configuration comments can include descriptions to explain why the comment is necessary. The description must occur after the configuration and is separated from the configuration by two or more consecutive `-` characters. For example:
+
+```js
+// eslint-disable-next-line no-console -- Here's a description about why this configuration is necessary.
+console.log('hello');
 ```
 
 **Note:** Comments that disable warnings for a portion of a file tell ESLint not to report rule violations for the disabled code. ESLint still parses the entire file, however, so disabled code still needs to be syntactically valid JavaScript.
