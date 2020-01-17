@@ -56,6 +56,9 @@ var dutyFreePrice = 100,
 An array of numbers to ignore. It's set to `[]` by default.
 If provided, it must be an `Array`.
 
+The array can contain values of `number` and `string` types.
+If it's a string, the text must be parsed as `bigint` literal (e.g., `"100n"`).
+
 Examples of **correct** code for the sample `{ "ignore": [1] }` option:
 
 ```js
@@ -63,6 +66,14 @@ Examples of **correct** code for the sample `{ "ignore": [1] }` option:
 
 var data = ['foo', 'bar', 'baz'];
 var dataLast = data.length && data[data.length - 1];
+```
+
+Examples of **correct** code for the sample `{ "ignore": ["1n"] }` option:
+
+```js
+/*eslint no-magic-numbers: ["error", { "ignore": ["1n"] }]*/
+
+foo(1n);
 ```
 
 ### ignoreArrayIndexes
