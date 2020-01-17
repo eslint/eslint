@@ -5506,6 +5506,224 @@ ruleTester.run("indent", rule, {
                 )
             `,
             parserOptions: { ecmaVersion: 2020 }
+        },
+
+        // https://github.com/eslint/eslint/issues/12122
+        {
+            code: unIndent`
+                foo(() => {
+                    tag\`
+                    multiline
+                    template
+                    literal
+                    \`(() => {
+                        bar();
+                    });
+                });
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                {
+                    tag\`
+                    multiline
+                    template
+                    \${a} \${b}
+                    literal
+                    \`(() => {
+                        bar();
+                    });
+                }
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                foo(() => {
+                    tagOne\`
+                    multiline
+                    template
+                    literal
+                    \${a} \${b}
+                    \`(() => {
+                        tagTwo\`
+                        multiline
+                        template
+                        literal
+                        \`(() => {
+                            bar();
+                        });
+
+                        baz();
+                    });
+                });
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                {
+                    tagOne\`
+                    \${a} \${b}
+                    multiline
+                    template
+                    literal
+                    \`(() => {
+                        tagTwo\`
+                        multiline
+                        template
+                        literal
+                        \`(() => {
+                            bar();
+                        });
+
+                        baz();
+                    });
+                };
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                tagOne\`multiline
+                        \${a} \${b}
+                        template
+                        literal
+                        \`(() => {        
+                    foo();
+                    
+                    tagTwo\`multiline
+                            template
+                            literal
+                        \`({
+                        bar: 1,
+                        baz: 2
+                    });
+                });
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                tagOne\`multiline
+                    template
+                    literal
+                    \${a} \${b}\`({        
+                    foo: 1,
+                    bar: tagTwo\`multiline
+                        template
+                        literal\`(() => {
+                        
+                        baz();
+                    })
+                });
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                foo.bar\` template literal \`(() => {
+                    baz();
+                })
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                foo.bar.baz\` template literal \`(() => {
+                    baz();
+                })
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                foo
+                    .bar\` template
+                        literal \`(() => {
+                        baz();
+                    })
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                foo
+                    .bar
+                    .baz\` template 
+                        literal \`(() => {
+                        baz();
+                    })
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                foo.bar\`
+                    \${a} \${b}
+                    \`(() => {
+                    baz();
+                })
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                foo.bar1.bar2\`
+                    \${a} \${b}
+                    \`(() => {
+                    baz();
+                })
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                foo
+                    .bar1
+                    .bar2\`
+                    \${a} \${b}
+                    \`(() => {
+                        baz();
+                    })
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                foo
+                    .bar\`
+                    \${a} \${b}
+                    \`(() => {
+                        baz();
+                    })
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                foo
+                .test\`
+                    \${a} \${b}
+                    \`(() => {
+                    baz();
+                })
+            `,
+            options: [4, { MemberExpression: 0 }],
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                foo
+                        .test\`
+                    \${a} \${b}
+                    \`(() => {
+                            baz();
+                        })
+            `,
+            options: [4, { MemberExpression: 2 }],
+            parserOptions: { ecmaVersion: 2015 }
         }
     ],
 
@@ -10830,6 +11048,331 @@ ruleTester.run("indent", rule, {
             errors: expectedErrors([
                 [2, 4, 0, "Identifier"],
                 [3, 0, 4, "Punctuator"]
+            ])
+        },
+
+        // https://github.com/eslint/eslint/issues/12122
+        {
+            code: unIndent`
+                foo(() => {
+                    tag\`
+                    multiline
+                    template\${a} \${b}
+                    literal
+                    \`(() => {
+                    bar();
+                    });
+                });
+            `,
+            output: unIndent`
+                foo(() => {
+                    tag\`
+                    multiline
+                    template\${a} \${b}
+                    literal
+                    \`(() => {
+                        bar();
+                    });
+                });
+            `,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: expectedErrors([
+                [7, 8, 4, "Identifier"]
+            ])
+        },
+        {
+            code: unIndent`
+                {
+                        tag\`
+                    multiline
+                    template
+                    literal
+                    \${a} \${b}\`(() => {
+                            bar();
+                        });
+                }
+            `,
+            output: unIndent`
+                {
+                    tag\`
+                    multiline
+                    template
+                    literal
+                    \${a} \${b}\`(() => {
+                        bar();
+                    });
+                }
+            `,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: expectedErrors([
+                [2, 4, 8, "Identifier"],
+                [7, 8, 12, "Identifier"],
+                [8, 4, 8, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                foo(() => {
+                    tagOne\`\${a} \${b}
+                    multiline
+                    template
+                    literal
+                    \`(() => {
+                            tagTwo\`
+                        multiline
+                        template
+                        literal
+                        \`(() => {
+                            bar();
+                        });
+
+                            baz();
+                });
+                });
+            `,
+            output: unIndent`
+                foo(() => {
+                    tagOne\`\${a} \${b}
+                    multiline
+                    template
+                    literal
+                    \`(() => {
+                        tagTwo\`
+                        multiline
+                        template
+                        literal
+                        \`(() => {
+                            bar();
+                        });
+
+                        baz();
+                    });
+                });
+            `,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: expectedErrors([
+                [7, 8, 12, "Identifier"],
+                [15, 8, 12, "Identifier"],
+                [16, 4, 0, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                {
+                    tagOne\`
+                    multiline
+                    template
+                    literal
+                    \${a} \${b}\`(() => {
+                            tagTwo\`
+                        multiline
+                        template
+                        literal
+                        \`(() => {
+                            bar();
+                        });
+
+                            baz();
+                });
+                }
+            `,
+            output: unIndent`
+                {
+                    tagOne\`
+                    multiline
+                    template
+                    literal
+                    \${a} \${b}\`(() => {
+                        tagTwo\`
+                        multiline
+                        template
+                        literal
+                        \`(() => {
+                            bar();
+                        });
+
+                        baz();
+                    });
+                }
+            `,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: expectedErrors([
+                [7, 8, 12, "Identifier"],
+                [15, 8, 12, "Identifier"],
+                [16, 4, 0, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                tagOne\`multiline \${a} \${b}
+                        template
+                        literal
+                        \`(() => {        
+                foo();
+                    
+                    tagTwo\`multiline
+                            template
+                            literal
+                        \`({
+                    bar: 1,
+                        baz: 2
+                    });
+                });
+            `,
+            output: unIndent`
+                tagOne\`multiline \${a} \${b}
+                        template
+                        literal
+                        \`(() => {        
+                    foo();
+                    
+                    tagTwo\`multiline
+                            template
+                            literal
+                        \`({
+                        bar: 1,
+                        baz: 2
+                    });
+                });
+            `,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: expectedErrors([
+                [5, 4, 0, "Identifier"],
+                [11, 8, 4, "Identifier"]
+            ])
+        },
+        {
+            code: unIndent`
+                tagOne\`multiline
+                    template \${a} \${b}
+                    literal\`({
+                        foo: 1,
+                bar: tagTwo\`multiline
+                        template
+                        literal\`(() => {
+                        
+                baz();
+                    })
+                });
+            `,
+            output: unIndent`
+                tagOne\`multiline
+                    template \${a} \${b}
+                    literal\`({
+                    foo: 1,
+                    bar: tagTwo\`multiline
+                        template
+                        literal\`(() => {
+                        
+                        baz();
+                    })
+                });
+            `,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: expectedErrors([
+                [4, 4, 8, "Identifier"],
+                [5, 4, 0, "Identifier"],
+                [9, 8, 0, "Identifier"]
+            ])
+        },
+        {
+            code: unIndent`
+                foo.bar\` template literal \`(() => {
+                        baz();
+                })
+            `,
+            output: unIndent`
+                foo.bar\` template literal \`(() => {
+                    baz();
+                })
+            `,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: expectedErrors([
+                [2, 4, 8, "Identifier"]
+            ])
+        },
+        {
+            code: unIndent`
+                foo.bar.baz\` template literal \`(() => {
+                baz();
+                    })
+            `,
+            output: unIndent`
+                foo.bar.baz\` template literal \`(() => {
+                    baz();
+                })
+            `,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: expectedErrors([
+                [2, 4, 0, "Identifier"],
+                [3, 0, 4, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                foo
+                    .bar\` template
+                        literal \`(() => {
+                        baz();
+                })
+            `,
+            output: unIndent`
+                foo
+                    .bar\` template
+                        literal \`(() => {
+                        baz();
+                    })
+            `,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: expectedErrors([
+                [5, 4, 0, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                foo
+                    .test\`
+                    \${a} \${b}
+                    \`(() => {
+                bar();
+                    })
+            `,
+            output: unIndent`
+                foo
+                    .test\`
+                    \${a} \${b}
+                    \`(() => {
+                        bar();
+                    })
+            `,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: expectedErrors([
+                [5, 8, 0, "Identifier"]
+            ])
+        },
+        {
+            code: unIndent`
+                foo
+                    .test\`
+                    \${a} \${b}
+                    \`(() => {
+                bar();
+                    })
+            `,
+            output: unIndent`
+                foo
+                .test\`
+                    \${a} \${b}
+                    \`(() => {
+                    bar();
+                })
+            `,
+            options: [4, { MemberExpression: 0 }],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: expectedErrors([
+                [2, 0, 4, "Punctuator"],
+                [5, 4, 0, "Identifier"],
+                [6, 0, 4, "Punctuator"]
             ])
         }
     ]
