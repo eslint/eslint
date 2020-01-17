@@ -21,36 +21,79 @@ const ruleTester = new RuleTester();
 ruleTester.run("no-extra-boolean-cast", rule, {
 
     valid: [
-
-
-        /*
-         * "var foo = !!bar;",
-         * "function foo() { return !!bar; }",
-         * "var foo = bar() ? !!baz : !!bat",
-         * "for(!!foo;;) {}",
-         * "for(;; !!foo) {}",
-         * "var foo = Boolean(bar);",
-         * "function foo() { return Boolean(bar); }",
-         * "var foo = bar() ? Boolean(baz) : Boolean(bat)",
-         * "for(Boolean(foo);;) {}",
-         * "for(;; Boolean(foo)) {}",
-         * "if (new Boolean(foo)) {}",
-         * "var foo = bar || !!baz",
-         * "var foo = bar && !!baz",
-         * "var foo = bar || (baz && !!bat)",
-         * "function foo() { return (!!bar || baz); }",
-         * "var foo = bar() ? (!!baz && bat) : (!!bat && qux)",
-         * "for(!!(foo && bar);;) {}",
-         * "for(;; !!(foo || bar)) {}",
-         * "var foo = Boolean(bar) || baz;",
-         * "var foo = bar || Boolean(baz);",
-         * "var foo = Boolean(bar) || Boolean(baz);",
-         * "function foo() { return (Boolean(bar) || baz); }",
-         * "var foo = bar() ? Boolean(baz) || bat : Boolean(bat)",
-         * "for(Boolean(foo) || bar;;) {}",
-         * "for(;; Boolean(foo) || bar) {}",
-         * "if (new Boolean(foo) || bar) {}"
-         */
+        "Boolean(bar, !!baz);",
+        "var foo = !!bar;",
+        "function foo() { return !!bar; }",
+        "var foo = bar() ? !!baz : !!bat",
+        "for(!!foo;;) {}",
+        "for(;; !!foo) {}",
+        "var foo = Boolean(bar);",
+        "function foo() { return Boolean(bar); }",
+        "var foo = bar() ? Boolean(baz) : Boolean(bat)",
+        "for(Boolean(foo);;) {}",
+        "for(;; Boolean(foo)) {}",
+        "if (new Boolean(foo)) {}",
+        {
+            code: "var foo = bar || !!baz",
+            options: [{ enforceForLogicalOperands: true }]
+        },
+        {
+            code: "var foo = bar && !!baz",
+            options: [{ enforceForLogicalOperands: true }]
+        },
+        {
+            code: "var foo = bar || (baz && !!bat)",
+            options: [{ enforceForLogicalOperands: true }]
+        },
+        {
+            code: "function foo() { return (!!bar || baz); }",
+            options: [{ enforceForLogicalOperands: true }]
+        },
+        {
+            code: "var foo = bar() ? (!!baz && bat) : (!!bat && qux)",
+            options: [{ enforceForLogicalOperands: true }]
+        },
+        {
+            code: "for(!!(foo && bar);;) {}",
+            options: [{ enforceForLogicalOperands: true }]
+        },
+        {
+            code: "for(;; !!(foo || bar)) {}",
+            options: [{ enforceForLogicalOperands: true }]
+        },
+        {
+            code: "var foo = Boolean(bar) || baz;",
+            options: [{ enforceForLogicalOperands: true }]
+        },
+        {
+            code: "var foo = bar || Boolean(baz);",
+            options: [{ enforceForLogicalOperands: true }]
+        },
+        {
+            code: "var foo = Boolean(bar) || Boolean(baz);",
+            options: [{ enforceForLogicalOperands: true }]
+        },
+        {
+            code: "function foo() { return (Boolean(bar) || baz); }",
+            options: [{ enforceForLogicalOperands: true }]
+        },
+        {
+            code: "var foo = bar() ? Boolean(baz) || bat : Boolean(bat)",
+            options: [{ enforceForLogicalOperands: true }]
+        },
+        {
+            code: "for(Boolean(foo) || bar;;) {}",
+            options: [{ enforceForLogicalOperands: true }]
+        },
+        {
+            code: "for(;; Boolean(foo) || bar) {}",
+            options: [{ enforceForLogicalOperands: true }]
+        },
+        {
+            code: "if (new Boolean(foo) || bar) {}",
+            options: [{ enforceForLogicalOperands: true }]
+        },
+        "if (!!foo || bar) {}"
 
 
     ],
@@ -1282,15 +1325,15 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         },
 
         {
-            code: "if (!!(foo && bar) || baz){}",
-            output: "if ((foo && bar) || baz){}",
+            code: "if (a && !!(b ? c : d)){}",
+            output: "if (a && (b ? c : d)){}",
 
             options: [{ enforceForLogicalOperands: true }],
             errors: [{
                 messageId: "unexpectedNegation",
                 type: "UnaryExpression",
-                column: 5,
-                endColumn: 19
+                column: 10,
+                endColumn: 23
             }]
         }
 

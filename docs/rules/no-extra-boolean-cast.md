@@ -86,6 +86,10 @@ if (!!foo || bar) {
     //...
 }
 
+if (!!foo && bar) {
+    //...
+}
+
 if ((!!foo || bar) && baz) {
     //...
 }
@@ -93,7 +97,7 @@ if ((!!foo || bar) && baz) {
 var foo = new Boolean(!!bar || baz)
 
 
-if (Boolean(foo || bar)) {
+if (Boolean(foo) || bar) {
     // ...
 }
 ```
