@@ -1420,7 +1420,12 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("({ a: (b) } = {})", "({ a: b } = {})", "Identifier"),
         invalid("({ a: (b.c) } = {})", "({ a: b.c } = {})", "MemberExpression"),
 
-        // TODO: add tests for the RestElement in object patterns when it becomes supported in espree
+        /*
+         * TODO: Add these tests for RestElement's parenthesized arguments in object patterns when that becomes supported by Espree.
+         *
+         * invalid("({ ...(a) } = {})", "({ ...a } = {})", "Identifier"),
+         * invalid("({ ...(a.b) } = {})", "({ ...a.b } = {})", "MemberExpression")
+         */
 
         // https://github.com/eslint/eslint/issues/11706 (also in valid[])
         {
