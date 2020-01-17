@@ -59,7 +59,19 @@ ruleTester.run("prefer-object-spread", rule, {
         `
         import { Object, Array } from 'globals';
         Object.assign({ foo: 'bar' });
-        `
+        `,
+
+        // ignore Object.assign() with > 1 arguments if any of the arguments is an object expression with a getter/setter
+        "Object.assign({ get a() {} }, {})",
+        "Object.assign({ set a(val) {} }, {})",
+        "Object.assign({ get a() {} }, foo)",
+        "Object.assign({ set a(val) {} }, foo)",
+        "Object.assign({ foo: 'bar', get a() {}, baz: 'quux' }, quuux)",
+        "Object.assign({ foo: 'bar', set a(val) {} }, { baz: 'quux' })",
+        "Object.assign({}, { get a() {} })",
+        "Object.assign({}, { set a(val) {} })",
+        "Object.assign({}, { foo: 'bar', get a() {} }, {})",
+        "Object.assign({ foo }, bar, {}, { baz: 'quux', set a(val) {}, quuux }, {})"
     ],
 
     invalid: [
@@ -826,6 +838,20 @@ ruleTester.run("prefer-object-spread", rule, {
         {
             code: "Object.assign({\n});",
             output: "({});",
+            errors: [
+                {
+                    messageId: "useLiteralMessage",
+                    type: "CallExpression",
+                    line: 1,
+                    column: 1
+                }
+            ]
+        },
+
+        // report Object.assign() with getters/setters if the function call has only 1 argument
+        {
+            code: "Object.assign({ get a() {}, set b(val) {} })",
+            output: "({get a() {}, set b(val) {}})",
             errors: [
                 {
                     messageId: "useLiteralMessage",
