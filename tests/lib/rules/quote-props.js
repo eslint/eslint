@@ -73,7 +73,13 @@ ruleTester.run("quote-props", rule, {
         { code: "({1: 1, x: 2})", options: ["consistent-as-needed", { numbers: true }] },
         { code: "({ ...x })", options: ["as-needed"], parserOptions: { ecmaVersion: 2018 } },
         { code: "({ ...x })", options: ["consistent"], parserOptions: { ecmaVersion: 2018 } },
-        { code: "({ ...x })", options: ["consistent-as-needed"], parserOptions: { ecmaVersion: 2018 } }
+        { code: "({ ...x })", options: ["consistent-as-needed"], parserOptions: { ecmaVersion: 2018 } },
+        { code: "({ 1n: 1 })", options: ["as-needed"], parserOptions: { ecmaVersion: 2020 } },
+        { code: "({ 1n: 1 })", options: ["as-needed", { numbers: false }], parserOptions: { ecmaVersion: 2020 } },
+        { code: "({ 1n: 1 })", options: ["consistent"], parserOptions: { ecmaVersion: 2020 } },
+        { code: "({ 1n: 1 })", options: ["consistent-as-needed"], parserOptions: { ecmaVersion: 2020 } },
+        { code: "({ '99999999999999999': 1 })", options: ["as-needed"], parserOptions: { ecmaVersion: 2020 } },
+        { code: "({ '1n': 1 })", options: ["as-needed"], parserOptions: { ecmaVersion: 2020 } }
     ],
     invalid: [{
         code: "({ a: 0 })",
@@ -304,5 +310,17 @@ ruleTester.run("quote-props", rule, {
         errors: [{
             message: "Unquoted property '5' found."
         }]
+    }, {
+        code: "({ 1n: 1 })",
+        output: "({ \"1\": 1 })",
+        options: ["always"],
+        parserOptions: { ecmaVersion: 2020 },
+        errors: [{ message: "Unquoted property '1' found." }]
+    }, {
+        code: "({ 1n: 1 })",
+        output: "({ \"1\": 1 })",
+        options: ["as-needed", { numbers: true }],
+        parserOptions: { ecmaVersion: 2020 },
+        errors: [{ message: "Unquoted number literal '1' used as key." }]
     }]
 });

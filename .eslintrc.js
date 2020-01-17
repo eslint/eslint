@@ -19,6 +19,9 @@ module.exports = {
         "eslint",
         "plugin:eslint-plugin/recommended"
     ],
+    parserOptions: {
+        ecmaVersion: 2020
+    },
     rules: {
         "eslint-plugin/consistent-output": "error",
         "eslint-plugin/no-deprecated-context-methods": "error",

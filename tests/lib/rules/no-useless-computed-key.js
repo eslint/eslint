@@ -40,7 +40,16 @@ ruleTester.run("no-useless-computed-key", rule, {
         { code: "class Foo { ['x']() {} }", options: [{ enforceForClassMembers: false }] },
         { code: "(class { ['x']() {} })", options: [{ enforceForClassMembers: false }] },
         { code: "class Foo { static ['constructor']() {} }", options: [{ enforceForClassMembers: false }] },
-        { code: "class Foo { ['prototype']() {} }", options: [{ enforceForClassMembers: false }] }
+        { code: "class Foo { ['prototype']() {} }", options: [{ enforceForClassMembers: false }] },
+
+        /*
+         * Well-known browsers throw syntax error bigint literals on property names,
+         * so, this rule doesn't touch those for now.
+         */
+        {
+            code: "({ [99999999999999999n]: 0 })",
+            parserOptions: { ecmaVersion: 2020 }
+        }
     ],
     invalid: [
         {
