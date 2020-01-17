@@ -125,7 +125,7 @@ Processors may make named code blocks such as `0.js` and `1.js`. ESLint handles 
 }
 ```
 
-ESLint checks the file extension of named code blocks then ignores those if [`--ext` CLI option](../user-guide/command-line-interface.md#--ext) didn't include the file extension. Be sure to specify the `--ext` option if you wanted to lint named code blocks other than `*.js`.
+ESLint checks the file path of named code blocks then ignores those if any `overrides` entry didn't match the file path. Be sure to make `overrides` entry if you wanted to lint named code blocks other than `*.js`.
 
 ## Specifying Environments
 
@@ -990,6 +990,12 @@ In your `.eslintrc.json`:
 }
 ```
 
+### Specifying Target Files to Lint
+
+If you specified directories with CLI (e.g., `eslint lib`), ESLint searches target files in the directory to lint. The target files are `*.js` or the files that match any of `overrides` entries (but exclude entries that are any of `files` end with `*`).
+
+If you specified the [`--ext`](./command-line-interface#ext) command line option along with directories, the target files are only the files that have specified file extensions regardless of `overrides` entries.
+
 ## Comments in Configuration Files
 
 Both the JSON and YAML configuration file formats support comments (`package.json` files should not include them). You can use JavaScript-style comments or YAML-style comments in either type of file and ESLint will safely ignore them. This allows your configuration files to be more human-friendly. For example:
@@ -1006,10 +1012,6 @@ Both the JSON and YAML configuration file formats support comments (`package.jso
     }
 }
 ```
-
-## Specifying File extensions to Lint
-
-Currently the sole method for telling ESLint which file extensions to lint is by specifying a comma separated list of extensions using the [`--ext`](./command-line-interface#ext) command line option. Note this flag only takes effect in conjunction with directories, and will be ignored if used with filenames or glob patterns.
 
 ## Ignoring Files and Directories
 
