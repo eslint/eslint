@@ -75,6 +75,16 @@ ruleTester.run("no-magic-numbers", rule, {
                     jsx: true
                 }
             }
+        },
+        {
+            code: "f(100n)",
+            options: [{ ignore: ["100n"] }],
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "f(-100n)",
+            options: [{ ignore: ["-100n"] }],
+            parserOptions: { ecmaVersion: 2020 }
         }
     ],
     invalid: [
@@ -91,6 +101,26 @@ ruleTester.run("no-magic-numbers", rule, {
             errors: [
                 { messageId: "noMagic", data: { raw: "0" } },
                 { messageId: "noMagic", data: { raw: "1" } }
+            ]
+        },
+        {
+            code: "var foo = 42n",
+            options: [{
+                enforceConst: true
+            }],
+            parserOptions: {
+                ecmaVersion: 2020
+            },
+            errors: [{ messageId: "useConst" }]
+        },
+        {
+            code: "var foo = 0n + 1n;",
+            parserOptions: {
+                ecmaVersion: 2020
+            },
+            errors: [
+                { messageId: "noMagic", data: { raw: "0n" } },
+                { messageId: "noMagic", data: { raw: "1n" } }
             ]
         },
         {
@@ -226,6 +256,37 @@ ruleTester.run("no-magic-numbers", rule, {
                 { messageId: "noMagic", data: { raw: "1" }, line: 1 },
                 { messageId: "noMagic", data: { raw: "10" }, line: 1 },
                 { messageId: "noMagic", data: { raw: "4" }, line: 1 }
+            ]
+        },
+        {
+            code: "f(100n)",
+            options: [{ ignore: [100] }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [
+                { messageId: "noMagic", data: { raw: "100n" }, line: 1 }
+            ]
+        },
+        {
+            code: "f(-100n)",
+            options: [{ ignore: ["100n"] }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [
+                { messageId: "noMagic", data: { raw: "-100n" }, line: 1 }
+            ]
+        },
+        {
+            code: "f(100n)",
+            options: [{ ignore: ["-100n"] }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [
+                { messageId: "noMagic", data: { raw: "100n" }, line: 1 }
+            ]
+        },
+        {
+            code: "f(100)",
+            options: [{ ignore: ["100n"] }],
+            errors: [
+                { messageId: "noMagic", data: { raw: "100" }, line: 1 }
             ]
         }
     ]
