@@ -3329,6 +3329,39 @@ describe("CLIEngine", () => {
                     engine.executeOnFiles(["test.md"]);
                 }, /ESLint configuration of processor in '\.eslintrc\.json' is invalid: 'markdown\/unknown' was not found\./u);
             });
+
+            it("should lint HTML blocks as well with multiple processors if 'overrides[].files' is present.", () => {
+                CLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        ...commonFiles,
+                        ".eslintrc.json": JSON.stringify({
+                            plugins: ["markdown", "html"],
+                            rules: { semi: "error" },
+                            overrides: [
+                                {
+                                    files: "*.html",
+                                    processor: "html/.html"
+                                },
+                                {
+                                    files: "*.md",
+                                    processor: "markdown/.md"
+                                }
+                            ]
+                        })
+                    }
+                }).CLIEngine;
+                engine = new CLIEngine({ cwd: root });
+
+                const { results } = engine.executeOnFiles(["test.md"]);
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "semi"); // JS block
+                assert.strictEqual(results[0].messages[0].line, 2);
+                assert.strictEqual(results[0].messages[1].ruleId, "semi"); // JS block in HTML block
+                assert.strictEqual(results[0].messages[1].line, 7);
+            });
         });
 
         describe("MODULE_NOT_FOUND error handling", () => {
@@ -4757,6 +4790,8 @@ describe("CLIEngine", () => {
 
     describe("with ignorePatterns config", () => {
         const root = getFixturePath("cli-engine/ignore-patterns");
+
+        /** @type {typeof CLIEngine} */
         let InMemoryCLIEngine;
 
         describe("ignorePatterns can add an ignore pattern ('foo.js').", () => {
@@ -4791,7 +4826,10 @@ describe("CLIEngine", () => {
 
             it("'executeOnFiles()' should not verify 'foo.js'.", () => {
                 const engine = new InMemoryCLIEngine();
-                const filePaths = engine.executeOnFiles("**/*.js").results.map(r => r.filePath);
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
 
                 assert.deepStrictEqual(filePaths, [
                     path.join(root, "bar.js"),
@@ -4834,7 +4872,10 @@ describe("CLIEngine", () => {
 
             it("'executeOnFiles()' should not verify 'foo.js' and '/bar.js'.", () => {
                 const engine = new InMemoryCLIEngine();
-                const filePaths = engine.executeOnFiles("**/*.js").results.map(r => r.filePath);
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
 
                 assert.deepStrictEqual(filePaths, [
                     path.join(root, "baz.js"),
@@ -4880,11 +4921,14 @@ describe("CLIEngine", () => {
 
             it("'executeOnFiles()' should verify 'node_modules/foo/index.js'.", () => {
                 const engine = new InMemoryCLIEngine();
-                const filePaths = engine.executeOnFiles("**/*.js").results.map(r => r.filePath);
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
 
                 assert.deepStrictEqual(filePaths, [
-                    path.join(root, "node_modules/foo/index.js"),
-                    path.join(root, "foo.js")
+                    path.join(root, "foo.js"),
+                    path.join(root, "node_modules/foo/index.js")
                 ]);
             });
         });
@@ -4910,7 +4954,10 @@ describe("CLIEngine", () => {
 
             it("'executeOnFiles()' should verify '.eslintrc.js'.", () => {
                 const engine = new InMemoryCLIEngine();
-                const filePaths = engine.executeOnFiles("**/*.js").results.map(r => r.filePath);
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
 
                 assert.deepStrictEqual(filePaths, [
                     path.join(root, ".eslintrc.js"),
@@ -4948,11 +4995,14 @@ describe("CLIEngine", () => {
 
             it("'executeOnFiles()' should not verify re-ignored '.foo.js'.", () => {
                 const engine = new InMemoryCLIEngine();
-                const filePaths = engine.executeOnFiles("**/*.js").results.map(r => r.filePath);
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
 
                 assert.deepStrictEqual(filePaths, [
-                    path.join(root, ".eslintrc.js"),
-                    path.join(root, ".bar.js")
+                    path.join(root, ".bar.js"),
+                    path.join(root, ".eslintrc.js")
                 ]);
             });
         });
@@ -4986,7 +5036,10 @@ describe("CLIEngine", () => {
 
             it("'executeOnFiles()' should verify unignored 'foo.js'.", () => {
                 const engine = new InMemoryCLIEngine();
-                const filePaths = engine.executeOnFiles("**/*.js").results.map(r => r.filePath);
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
 
                 assert.deepStrictEqual(filePaths, [
                     path.join(root, "foo.js")
@@ -5038,7 +5091,10 @@ describe("CLIEngine", () => {
 
             it("'executeOnFiles()' should verify 'bar.js' in the outside of 'subdir'.", () => {
                 const engine = new InMemoryCLIEngine();
-                const filePaths = engine.executeOnFiles("**/*.js").results.map(r => r.filePath);
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
 
                 assert.deepStrictEqual(filePaths, [
                     path.join(root, "bar.js")
@@ -5077,7 +5133,10 @@ describe("CLIEngine", () => {
 
             it("'executeOnFiles()' should verify 'foo.js' in the child directory.", () => {
                 const engine = new InMemoryCLIEngine();
-                const filePaths = engine.executeOnFiles("**/*.js").results.map(r => r.filePath);
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
 
                 assert.deepStrictEqual(filePaths, [
                     path.join(root, "subdir/foo.js")
@@ -5117,11 +5176,14 @@ describe("CLIEngine", () => {
 
             it("'executeOnFiles()' should verify unignored 'foo.js'.", () => {
                 const engine = new InMemoryCLIEngine();
-                const filePaths = engine.executeOnFiles("**/*.js").results.map(r => r.filePath);
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
 
                 assert.deepStrictEqual(filePaths, [
-                    path.join(root, "subdir/foo.js"),
-                    path.join(root, "foo.js")
+                    path.join(root, "foo.js"),
+                    path.join(root, "subdir/foo.js")
                 ]);
             });
         });
@@ -5172,11 +5234,14 @@ describe("CLIEngine", () => {
 
             it("'executeOnFiles()' should verify 'bar.js' in the root directory and 'foo.js' in the child directory.", () => {
                 const engine = new InMemoryCLIEngine();
-                const filePaths = engine.executeOnFiles("**/*.js").results.map(r => r.filePath);
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
 
                 assert.deepStrictEqual(filePaths, [
-                    path.join(root, "subdir/foo.js"),
-                    path.join(root, "bar.js")
+                    path.join(root, "bar.js"),
+                    path.join(root, "subdir/foo.js")
                 ]);
             });
         });
@@ -5221,7 +5286,10 @@ describe("CLIEngine", () => {
 
             it("'executeOnFiles()' should verify 'bar.js' in the root directory.", () => {
                 const engine = new InMemoryCLIEngine();
-                const filePaths = engine.executeOnFiles("**/*.js").results.map(r => r.filePath);
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
 
                 assert.deepStrictEqual(filePaths, [
                     path.join(root, "bar.js")
@@ -5260,7 +5328,10 @@ describe("CLIEngine", () => {
 
             it("'executeOnFiles()' should verify 'bar.js'.", () => {
                 const engine = new InMemoryCLIEngine();
-                const filePaths = engine.executeOnFiles("**/*.js").results.map(r => r.filePath);
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
 
                 assert.deepStrictEqual(filePaths, [
                     path.join(root, "bar.js")
@@ -5299,7 +5370,10 @@ describe("CLIEngine", () => {
 
             it("'executeOnFiles()' should verify 'subdir/foo.js'.", () => {
                 const engine = new InMemoryCLIEngine();
-                const filePaths = engine.executeOnFiles("**/*.js").results.map(r => r.filePath);
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
 
                 assert.deepStrictEqual(filePaths, [
                     path.join(root, "subdir/foo.js")
@@ -5339,7 +5413,10 @@ describe("CLIEngine", () => {
 
             it("'executeOnFiles()' should verify 'bar.js'.", () => {
                 const engine = new InMemoryCLIEngine();
-                const filePaths = engine.executeOnFiles("**/*.js").results.map(r => r.filePath);
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
 
                 assert.deepStrictEqual(filePaths, [
                     path.join(root, "bar.js")
@@ -5368,7 +5445,10 @@ describe("CLIEngine", () => {
 
             it("'executeOnFiles()' should verify 'foo.js'.", () => {
                 const engine = new InMemoryCLIEngine({ ignore: false });
-                const filePaths = engine.executeOnFiles("**/*.js").results.map(r => r.filePath);
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
 
                 assert.deepStrictEqual(filePaths, [
                     path.join(root, "foo.js")
@@ -5403,5 +5483,233 @@ describe("CLIEngine", () => {
             });
         });
 
+    });
+
+    describe("'overrides[].files' adds lint targets", () => {
+        const root = getFixturePath("cli-engine/additional-lint-targets");
+        let InMemoryCLIEngine;
+
+        describe("if { files: 'foo/*.txt', excludedFiles: '**/ignore.txt' } is present,", () => {
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        ".eslintrc.json": JSON.stringify({
+                            overrides: [
+                                {
+                                    files: "foo/*.txt",
+                                    excludedFiles: "**/ignore.txt"
+                                }
+                            ]
+                        }),
+                        "foo/nested/test.txt": "",
+                        "foo/test.js": "",
+                        "foo/test.txt": "",
+                        "foo/ignore.txt": "",
+                        "bar/test.js": "",
+                        "bar/test.txt": "",
+                        "bar/ignore.txt": "",
+                        "test.js": "",
+                        "test.txt": "",
+                        "ignore.txt": ""
+                    }
+                }).CLIEngine;
+            });
+
+            it("'executeOnFiles()' with a directory path should contain 'foo/test.txt'.", () => {
+                const engine = new InMemoryCLIEngine();
+                const filePaths = engine.executeOnFiles(".")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "bar/test.js"),
+                    path.join(root, "foo/test.js"),
+                    path.join(root, "foo/test.txt"),
+                    path.join(root, "test.js")
+                ]);
+            });
+
+            it("'executeOnFiles()' with a glob pattern '*.js' should not contain 'foo/test.txt'.", () => {
+                const engine = new InMemoryCLIEngine();
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "bar/test.js"),
+                    path.join(root, "foo/test.js"),
+                    path.join(root, "test.js")
+                ]);
+            });
+        });
+
+        describe("if { files: 'foo/**/*.txt' } is present,", () => {
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        ".eslintrc.json": JSON.stringify({
+                            overrides: [
+                                {
+                                    files: "foo/**/*.txt"
+                                }
+                            ]
+                        }),
+                        "foo/nested/test.txt": "",
+                        "foo/test.js": "",
+                        "foo/test.txt": "",
+                        "bar/test.js": "",
+                        "bar/test.txt": "",
+                        "test.js": "",
+                        "test.txt": ""
+                    }
+                }).CLIEngine;
+            });
+
+            it("'executeOnFiles()' with a directory path should contain 'foo/test.txt' and 'foo/nested/test.txt'.", () => {
+                const engine = new InMemoryCLIEngine();
+                const filePaths = engine.executeOnFiles(".")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "bar/test.js"),
+                    path.join(root, "foo/nested/test.txt"),
+                    path.join(root, "foo/test.js"),
+                    path.join(root, "foo/test.txt"),
+                    path.join(root, "test.js")
+                ]);
+            });
+        });
+
+        describe("if { files: 'foo/**/*' } is present,", () => {
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        ".eslintrc.json": JSON.stringify({
+                            overrides: [
+                                {
+                                    files: "foo/**/*"
+                                }
+                            ]
+                        }),
+                        "foo/nested/test.txt": "",
+                        "foo/test.js": "",
+                        "foo/test.txt": "",
+                        "bar/test.js": "",
+                        "bar/test.txt": "",
+                        "test.js": "",
+                        "test.txt": ""
+                    }
+                }).CLIEngine;
+            });
+
+            it("'executeOnFiles()' with a directory path should NOT contain 'foo/test.txt' and 'foo/nested/test.txt'.", () => {
+                const engine = new InMemoryCLIEngine();
+                const filePaths = engine.executeOnFiles(".")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "bar/test.js"),
+                    path.join(root, "foo/test.js"),
+                    path.join(root, "test.js")
+                ]);
+            });
+        });
+
+        describe("if { files: 'foo/**/*.txt' } is present in a shareable config,", () => {
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        "node_modules/eslint-config-foo/index.js": `module.exports = ${JSON.stringify({
+                            overrides: [
+                                {
+                                    files: "foo/**/*.txt"
+                                }
+                            ]
+                        })}`,
+                        ".eslintrc.json": JSON.stringify({
+                            extends: "foo"
+                        }),
+                        "foo/nested/test.txt": "",
+                        "foo/test.js": "",
+                        "foo/test.txt": "",
+                        "bar/test.js": "",
+                        "bar/test.txt": "",
+                        "test.js": "",
+                        "test.txt": ""
+                    }
+                }).CLIEngine;
+            });
+
+            it("'executeOnFiles()' with a directory path should contain 'foo/test.txt' and 'foo/nested/test.txt'.", () => {
+                const engine = new InMemoryCLIEngine();
+                const filePaths = engine.executeOnFiles(".")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "bar/test.js"),
+                    path.join(root, "foo/nested/test.txt"),
+                    path.join(root, "foo/test.js"),
+                    path.join(root, "foo/test.txt"),
+                    path.join(root, "test.js")
+                ]);
+            });
+        });
+
+        describe("if { files: 'foo/**/*.txt' } is present in a plugin config,", () => {
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        "node_modules/eslint-plugin-foo/index.js": `exports.configs = ${JSON.stringify({
+                            bar: {
+                                overrides: [
+                                    {
+                                        files: "foo/**/*.txt"
+                                    }
+                                ]
+                            }
+                        })}`,
+                        ".eslintrc.json": JSON.stringify({
+                            extends: "plugin:foo/bar"
+                        }),
+                        "foo/nested/test.txt": "",
+                        "foo/test.js": "",
+                        "foo/test.txt": "",
+                        "bar/test.js": "",
+                        "bar/test.txt": "",
+                        "test.js": "",
+                        "test.txt": ""
+                    }
+                }).CLIEngine;
+            });
+
+            it("'executeOnFiles()' with a directory path should contain 'foo/test.txt' and 'foo/nested/test.txt'.", () => {
+                const engine = new InMemoryCLIEngine();
+                const filePaths = engine.executeOnFiles(".")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "bar/test.js"),
+                    path.join(root, "foo/nested/test.txt"),
+                    path.join(root, "foo/test.js"),
+                    path.join(root, "foo/test.txt"),
+                    path.join(root, "test.js")
+                ]);
+            });
+        });
     });
 });

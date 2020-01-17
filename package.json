@@ -1,6 +1,6 @@
 {
   "name": "eslint",
-  "version": "6.8.0",
+  "version": "7.0.0-alpha.0",
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "description": "An AST-based pattern checker for JavaScript.",
   "bin": {
@@ -48,8 +48,8 @@
   "dependencies": {
     "@babel/code-frame": "^7.0.0",
     "ajv": "^6.10.0",
-    "chalk": "^2.1.0",
-    "cross-spawn": "^6.0.5",
+    "chalk": "^3.0.0",
+    "cross-spawn": "^7.0.1",
     "debug": "^4.0.1",
     "doctrine": "^3.0.0",
     "eslint-scope": "^5.0.0",
@@ -72,13 +72,12 @@
     "levn": "^0.3.0",
     "lodash": "^4.17.14",
     "minimatch": "^3.0.4",
-    "mkdirp": "^0.5.1",
     "natural-compare": "^1.4.0",
     "optionator": "^0.8.3",
     "progress": "^2.0.0",
-    "regexpp": "^2.0.1",
-    "semver": "^6.1.2",
-    "strip-ansi": "^5.2.0",
+    "regexpp": "^3.0.0",
+    "semver": "^7.1.1",
+    "strip-ansi": "^6.0.0",
     "strip-json-comments": "^3.0.1",
     "table": "^5.2.3",
     "text-table": "^0.2.0",
@@ -116,7 +115,7 @@
     "load-perf": "^0.2.0",
     "markdownlint": "^0.15.0",
     "markdownlint-cli": "^0.17.0",
-    "metro-memory-fs": "^0.54.1",
+    "memfs": "^3.0.1",
     "mocha": "^6.1.2",
     "mocha-junit-reporter": "^1.23.0",
     "npm-license": "^0.3.3",
@@ -141,6 +140,6 @@
   ],
   "license": "MIT",
   "engines": {
-    "node": "^8.10.0 || ^10.13.0 || >=11.10.1"
+    "node": "^10.12.0 || >=12.0.0"
   }
 }

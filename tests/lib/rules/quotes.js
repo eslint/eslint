@@ -80,13 +80,21 @@ ruleTester.run("quotes", rule, {
         {
             code: "var foo = 'bar';",
             output: "var foo = \"bar\";",
-            errors: [{ message: "Strings must use doublequote.", type: "Literal" }]
+            errors: [{
+                messageId: "wrongQuotes",
+                data: { description: "doublequote" },
+                type: "Literal"
+            }]
         },
         {
             code: "var foo = \"bar\";",
             output: "var foo = 'bar';",
             options: ["single"],
-            errors: [{ message: "Strings must use singlequote.", type: "Literal" }]
+            errors: [{
+                messageId: "wrongQuotes",
+                data: { description: "singlequote" },
+                type: "Literal"
+            }]
         },
         {
             code: "var foo = `bar`;",
@@ -95,27 +103,49 @@ ruleTester.run("quotes", rule, {
             parserOptions: {
                 ecmaVersion: 6
             },
-            errors: [{ message: "Strings must use singlequote.", type: "TemplateLiteral" }]
+            errors: [{
+                messageId: "wrongQuotes",
+                data: { description: "singlequote" },
+                type: "TemplateLiteral"
+            }]
         },
         {
             code: "var foo = 'don\\'t';",
             output: "var foo = \"don't\";",
-            errors: [{ message: "Strings must use doublequote.", type: "Literal" }]
+            errors: [{
+                messageId: "wrongQuotes",
+                data: { description: "doublequote" },
+                type: "Literal"
+            }]
         },
         {
             code: "var msg = \"Plugin '\" + name + \"' not found\"",
             output: "var msg = 'Plugin \\'' + name + '\\' not found'",
             options: ["single"],
             errors: [
-                { message: "Strings must use singlequote.", type: "Literal", column: 11 },
-                { message: "Strings must use singlequote.", type: "Literal", column: 31 }
+                {
+                    messageId: "wrongQuotes",
+                    data: { description: "singlequote" },
+                    type: "Literal",
+                    column: 11
+                },
+                {
+                    messageId: "wrongQuotes",
+                    data: { description: "singlequote" },
+                    type: "Literal",
+                    column: 31
+                }
             ]
         },
         {
             code: "var foo = 'bar';",
             output: "var foo = \"bar\";",
             options: ["double"],
-            errors: [{ message: "Strings must use doublequote.", type: "Literal" }]
+            errors: [{
+                messageId: "wrongQuotes",
+                data: { description: "doublequote" },
+                type: "Literal"
+            }]
         },
         {
             code: "var foo = `bar`;",
@@ -124,72 +154,116 @@ ruleTester.run("quotes", rule, {
             parserOptions: {
                 ecmaVersion: 6
             },
-            errors: [{ message: "Strings must use doublequote.", type: "TemplateLiteral" }]
+            errors: [{
+                messageId: "wrongQuotes",
+                data: { description: "doublequote" },
+                type: "TemplateLiteral"
+            }]
         },
         {
             code: "var foo = \"bar\";",
             output: "var foo = 'bar';",
             options: ["single", { avoidEscape: true }],
-            errors: [{ message: "Strings must use singlequote.", type: "Literal" }]
+            errors: [{
+                messageId: "wrongQuotes",
+                data: { description: "singlequote" },
+                type: "Literal"
+            }]
         },
         {
             code: "var foo = 'bar';",
             output: "var foo = \"bar\";",
             options: ["double", { avoidEscape: true }],
-            errors: [{ message: "Strings must use doublequote.", type: "Literal" }]
+            errors: [{
+                messageId: "wrongQuotes",
+                data: { description: "doublequote" },
+                type: "Literal"
+            }]
         },
         {
             code: "var foo = '\\\\';",
             output: "var foo = \"\\\\\";",
             options: ["double", { avoidEscape: true }],
-            errors: [{ message: "Strings must use doublequote.", type: "Literal" }]
+            errors: [{
+                messageId: "wrongQuotes",
+                data: { description: "doublequote" },
+                type: "Literal"
+            }]
         },
         {
             code: "var foo = \"bar\";",
             output: "var foo = 'bar';",
             options: ["single", { allowTemplateLiterals: true }],
-            errors: [{ message: "Strings must use singlequote.", type: "Literal" }]
+            errors: [{
+                messageId: "wrongQuotes",
+                data: { description: "singlequote" },
+                type: "Literal"
+            }]
         },
         {
             code: "var foo = 'bar';",
             output: "var foo = \"bar\";",
             options: ["double", { allowTemplateLiterals: true }],
-            errors: [{ message: "Strings must use doublequote.", type: "Literal" }]
+            errors: [{
+                messageId: "wrongQuotes",
+                data: { description: "doublequote" },
+                type: "Literal"
+            }]
         },
         {
             code: "var foo = 'bar';",
             output: "var foo = `bar`;",
             options: ["backtick"],
             parserOptions: { ecmaVersion: 2015 },
-            errors: [{ message: "Strings must use backtick.", type: "Literal" }]
+            errors: [{
+                messageId: "wrongQuotes",
+                data: { description: "backtick" },
+                type: "Literal"
+            }]
         },
         {
             code: "var foo = 'b${x}a$r';",
             output: "var foo = `b\\${x}a$r`;",
             options: ["backtick"],
             parserOptions: { ecmaVersion: 2015 },
-            errors: [{ message: "Strings must use backtick.", type: "Literal" }]
+            errors: [{
+                messageId: "wrongQuotes",
+                data: { description: "backtick" },
+                type: "Literal"
+            }]
         },
         {
             code: "var foo = \"bar\";",
             output: "var foo = `bar`;",
             options: ["backtick"],
             parserOptions: { ecmaVersion: 2015 },
-            errors: [{ message: "Strings must use backtick.", type: "Literal" }]
+            errors: [{
+                messageId: "wrongQuotes",
+                data: { description: "backtick" },
+                type: "Literal"
+            }]
         },
         {
             code: "var foo = \"bar\";",
             output: "var foo = `bar`;",
             options: ["backtick", { avoidEscape: true }],
             parserOptions: { ecmaVersion: 2015 },
-            errors: [{ message: "Strings must use backtick.", type: "Literal" }]
+            errors: [{
+                messageId: "wrongQuotes",
+                data: { description: "backtick" },
+                type: "Literal"
+            }]
         },
         {
             code: "var foo = 'bar';",
             output: "var foo = `bar`;",
             options: ["backtick", { avoidEscape: true }],
             parserOptions: { ecmaVersion: 2015 },
-            errors: [{ message: "Strings must use backtick.", type: "Literal" }]
+            errors: [{
+                messageId: "wrongQuotes",
+                data: { description: "backtick" },
+                type: "Literal"
+            }]
         },
 
         // "use strict" is *not* a directive prologue in these statements so is subject to the rule
@@ -198,21 +272,33 @@ ruleTester.run("quotes", rule, {
             output: "var foo = `backtick`; `use strict`;",
             options: ["backtick"],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Strings must use backtick.", type: "Literal" }]
+            errors: [{
+                messageId: "wrongQuotes",
+                data: { description: "backtick" },
+                type: "Literal"
+            }]
         },
         {
             code: "{ \"use strict\"; var foo = `backtick`; }",
             output: "{ `use strict`; var foo = `backtick`; }",
             options: ["backtick"],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Strings must use backtick.", type: "Literal" }]
+            errors: [{
+                messageId: "wrongQuotes",
+                data: { description: "backtick" },
+                type: "Literal"
+            }]
         },
         {
             code: "if (1) { \"use strict\"; var foo = `backtick`; }",
             output: "if (1) { `use strict`; var foo = `backtick`; }",
             options: ["backtick"],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Strings must use backtick.", type: "Literal" }]
+            errors: [{
+                messageId: "wrongQuotes",
+                data: { description: "backtick" },
+                type: "Literal"
+            }]
         },
 
         // `backtick` should warn computed property names.
@@ -222,8 +308,16 @@ ruleTester.run("quotes", rule, {
             options: ["backtick"],
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Strings must use backtick.", type: "Literal" },
-                { message: "Strings must use backtick.", type: "Literal" }
+                {
+                    messageId: "wrongQuotes",
+                    data: { description: "backtick" },
+                    type: "Literal"
+                },
+                {
+                    messageId: "wrongQuotes",
+                    data: { description: "backtick" },
+                    type: "Literal"
+                }
             ]
         },
         {
@@ -232,8 +326,16 @@ ruleTester.run("quotes", rule, {
             options: ["backtick"],
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Strings must use backtick.", type: "Literal" },
-                { message: "Strings must use backtick.", type: "Literal" }
+                {
+                    messageId: "wrongQuotes",
+                    data: { description: "backtick" },
+                    type: "Literal"
+                },
+                {
+                    messageId: "wrongQuotes",
+                    data: { description: "backtick" },
+                    type: "Literal"
+                }
             ]
         },
 
@@ -244,7 +346,11 @@ ruleTester.run("quotes", rule, {
             options: ["single"],
             parserOptions: { ecmaFeatures: { jsx: true } },
             errors: [
-                { message: "Strings must use singlequote.", type: "Literal" }
+                {
+                    messageId: "wrongQuotes",
+                    data: { description: "singlequote" },
+                    type: "Literal"
+                }
             ]
         },
         {
@@ -253,7 +359,11 @@ ruleTester.run("quotes", rule, {
             options: ["double"],
             parserOptions: { ecmaFeatures: { jsx: true } },
             errors: [
-                { message: "Strings must use doublequote.", type: "Literal" }
+                {
+                    messageId: "wrongQuotes",
+                    data: { description: "doublequote" },
+                    type: "Literal"
+                }
             ]
         },
         {
@@ -262,7 +372,11 @@ ruleTester.run("quotes", rule, {
             options: ["backtick"],
             parserOptions: { ecmaFeatures: { jsx: true }, ecmaVersion: 2015 },
             errors: [
-                { message: "Strings must use backtick.", type: "Literal" }
+                {
+                    messageId: "wrongQuotes",
+                    data: { description: "backtick" },
+                    type: "Literal"
+                }
             ]
         },
 
@@ -271,37 +385,61 @@ ruleTester.run("quotes", rule, {
             code: "`use strict`;",
             output: null,
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Strings must use doublequote.", type: "TemplateLiteral" }]
+            errors: [{
+                messageId: "wrongQuotes",
+                data: { description: "doublequote" },
+                type: "TemplateLiteral"
+            }]
         },
         {
             code: "function foo() { `use strict`; foo(); }",
             output: null,
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Strings must use doublequote.", type: "TemplateLiteral" }]
+            errors: [{
+                messageId: "wrongQuotes",
+                data: { description: "doublequote" },
+                type: "TemplateLiteral"
+            }]
         },
         {
             code: "foo = function() { `use strict`; foo(); }",
             output: null,
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Strings must use doublequote.", type: "TemplateLiteral" }]
+            errors: [{
+                messageId: "wrongQuotes",
+                data: { description: "doublequote" },
+                type: "TemplateLiteral"
+            }]
         },
         {
             code: "() => { `use strict`; foo(); }",
             output: null,
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Strings must use doublequote.", type: "TemplateLiteral" }]
+            errors: [{
+                messageId: "wrongQuotes",
+                data: { description: "doublequote" },
+                type: "TemplateLiteral"
+            }]
         },
         {
             code: "() => { foo(); `use strict`; }",
             output: "() => { foo(); \"use strict\"; }",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Strings must use doublequote.", type: "TemplateLiteral" }]
+            errors: [{
+                messageId: "wrongQuotes",
+                data: { description: "doublequote" },
+                type: "TemplateLiteral"
+            }]
         },
         {
             code: "foo(); `use strict`;",
             output: "foo(); \"use strict\";",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Strings must use doublequote.", type: "TemplateLiteral" }]
+            errors: [{
+                messageId: "wrongQuotes",
+                data: { description: "doublequote" },
+                type: "TemplateLiteral"
+            }]
         },
 
         // https://github.com/eslint/eslint/issues/7646
@@ -309,25 +447,43 @@ ruleTester.run("quotes", rule, {
             code: "var foo = `foo\\nbar`;",
             output: "var foo = \"foo\\nbar\";",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Strings must use doublequote.", type: "TemplateLiteral" }]
+            errors: [{
+                messageId: "wrongQuotes",
+                data: { description: "doublequote" },
+                type: "TemplateLiteral"
+            }]
         },
         {
             code: "var foo = `foo\\\nbar`;", // 1 backslash followed by a newline
             output: "var foo = \"foo\\\nbar\";",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Strings must use doublequote.", type: "TemplateLiteral" }]
+            errors: [{
+                messageId: "wrongQuotes",
+                data: { description: "doublequote" },
+                type: "TemplateLiteral"
+            }]
         },
         {
             code: "var foo = `foo\\\\\\\nbar`;", // 3 backslashes followed by a newline
             output: "var foo = \"foo\\\\\\\nbar\";",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Strings must use doublequote.", type: "TemplateLiteral" }]
+            errors: [{
+                messageId: "wrongQuotes",
+                data: { description: "doublequote" },
+                type: "TemplateLiteral"
+            }]
         },
         {
             code: "````",
             output: "\"\"``",
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "Strings must use doublequote.", type: "TemplateLiteral", line: 1, column: 1 }]
+            errors: [{
+                messageId: "wrongQuotes",
+                data: { description: "doublequote" },
+                type: "TemplateLiteral",
+                line: 1,
+                column: 1
+            }]
         },
 
         // Strings containing octal escape sequences. Don't autofix to backticks.
@@ -336,7 +492,11 @@ ruleTester.run("quotes", rule, {
             output: "var foo = '\\1'",
             options: ["single"],
             errors: [
-                { message: "Strings must use singlequote.", type: "Literal" }
+                {
+                    messageId: "wrongQuotes",
+                    data: { description: "singlequote" },
+                    type: "Literal"
+                }
             ]
         },
         {
@@ -344,7 +504,11 @@ ruleTester.run("quotes", rule, {
             output: "var foo = \"\\1\"",
             options: ["double"],
             errors: [
-                { message: "Strings must use doublequote.", type: "Literal" }
+                {
+                    messageId: "wrongQuotes",
+                    data: { description: "doublequote" },
+                    type: "Literal"
+                }
             ]
         },
         {
@@ -353,7 +517,11 @@ ruleTester.run("quotes", rule, {
             options: ["backtick"],
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Strings must use backtick.", type: "Literal" }
+                {
+                    messageId: "wrongQuotes",
+                    data: { description: "backtick" },
+                    type: "Literal"
+                }
             ]
         },
         {
@@ -362,7 +530,11 @@ ruleTester.run("quotes", rule, {
             options: ["backtick"],
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Strings must use backtick.", type: "Literal" }
+                {
+                    messageId: "wrongQuotes",
+                    data: { description: "backtick" },
+                    type: "Literal"
+                }
             ]
         },
         {
@@ -371,7 +543,11 @@ ruleTester.run("quotes", rule, {
             options: ["backtick"],
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Strings must use backtick.", type: "Literal" }
+                {
+                    messageId: "wrongQuotes",
+                    data: { description: "backtick" },
+                    type: "Literal"
+                }
             ]
         },
         {
@@ -380,7 +556,11 @@ ruleTester.run("quotes", rule, {
             options: ["backtick"],
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Strings must use backtick.", type: "Literal" }
+                {
+                    messageId: "wrongQuotes",
+                    data: { description: "backtick" },
+                    type: "Literal"
+                }
             ]
         },
         {
@@ -389,7 +569,11 @@ ruleTester.run("quotes", rule, {
             options: ["backtick"],
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Strings must use backtick.", type: "Literal" }
+                {
+                    messageId: "wrongQuotes",
+                    data: { description: "backtick" },
+                    type: "Literal"
+                }
             ]
         },
         {
@@ -398,7 +582,11 @@ ruleTester.run("quotes", rule, {
             options: ["backtick"],
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Strings must use backtick.", type: "Literal" }
+                {
+                    messageId: "wrongQuotes",
+                    data: { description: "backtick" },
+                    type: "Literal"
+                }
             ]
         },
         {
@@ -407,7 +595,11 @@ ruleTester.run("quotes", rule, {
             options: ["backtick"],
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Strings must use backtick.", type: "Literal" }
+                {
+                    messageId: "wrongQuotes",
+                    data: { description: "backtick" },
+                    type: "Literal"
+                }
             ]
         },
         {
@@ -416,7 +608,11 @@ ruleTester.run("quotes", rule, {
             options: ["backtick"],
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { message: "Strings must use backtick.", type: "Literal" }
+                {
+                    messageId: "wrongQuotes",
+                    data: { description: "backtick" },
+                    type: "Literal"
+                }
             ]
         }
     ]
