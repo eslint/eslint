@@ -19,6 +19,7 @@ ruleTester.run("radix", rule, {
     valid: [
         "parseInt(\"10\", 10);",
         "parseInt(\"10\", 0x10);",
+        "parseInt(\"10\", 1.6e1);",
         "parseInt(\"10\", foo);",
         "Number.parseInt(\"10\", foo);",
         {
