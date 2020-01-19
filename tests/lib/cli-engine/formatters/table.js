@@ -17,15 +17,14 @@ const formatter = require("../../../../lib/cli-engine/formatters/table");
 //------------------------------------------------------------------------------
 
 describe("formatter:table", () => {
-    let originalChalkEnabled;
+    const originalColorLevel = chalk.level;
 
     before(() => {
-        originalChalkEnabled = chalk.enabled;
-        chalk.enabled = false;
+        chalk.level = 0;
     });
 
     after(() => {
-        chalk.enabled = originalChalkEnabled;
+        chalk.level = originalColorLevel;
     });
 
     describe("when passed no messages", () => {
