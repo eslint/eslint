@@ -54,6 +54,14 @@ ruleTester.run("no-iterator", rule, {
                 messageId: "noIterator",
                 type: "MemberExpression"
             }]
+        },
+        {
+            code: "test[`__iterator__`] = function () {};",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "noIterator",
+                type: "MemberExpression"
+            }]
         }
     ]
 });
