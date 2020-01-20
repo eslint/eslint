@@ -25,6 +25,9 @@ ruleTester.run("no-constant-condition", rule, {
         "if(a = f());",
         "if(1, a);",
         "if ('every' in []);",
+        "if (`${a}`);",
+        "if (`${foo()}`);",
+        "if (`${a === 'b' && b==='a'}`);",
         "while(~!a);",
         "while(a = b);",
         "for(;x < 10;);",
@@ -101,6 +104,11 @@ ruleTester.run("no-constant-condition", rule, {
         { code: "if(0 < 1);", errors: [{ messageId: "unexpected", type: "BinaryExpression" }] },
         { code: "if(0 || 1);", errors: [{ messageId: "unexpected", type: "LogicalExpression" }] },
         { code: "if(a, 1);", errors: [{ messageId: "unexpected", type: "SequenceExpression" }] },
+        { code: "if(`foo`);", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
+        { code: "if(`${'bar'}`);", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
+        { code: "if(`${'bar' + `foo`}`);", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
+        { code: "if(`foo${false || true}`);", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
+
 
         { code: "while([]);", errors: [{ messageId: "unexpected", type: "ArrayExpression" }] },
         { code: "while(~!0);", errors: [{ messageId: "unexpected", type: "UnaryExpression" }] },
