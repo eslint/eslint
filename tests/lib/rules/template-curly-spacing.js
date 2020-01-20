@@ -57,10 +57,10 @@ ruleTester.run("template-curly-spacing", rule, {
             code: "`${ foo } ${ bar }`",
             output: "`${foo} ${bar}`",
             errors: [
-                { messageId: "unexpectedAfter", column: 2 },
-                { messageId: "unexpectedBefore", column: 9 },
-                { messageId: "unexpectedAfter", column: 11 },
-                { messageId: "unexpectedBefore", column: 18 }
+                { messageId: "unexpectedAfter", line: 1, column: 4, endLine: 1, endColumn: 5 },
+                { messageId: "unexpectedBefore", line: 1, column: 8, endLine: 1, endColumn: 9 },
+                { messageId: "unexpectedAfter", line: 1, column: 13, endLine: 1, endColumn: 14 },
+                { messageId: "unexpectedBefore", line: 1, column: 17, endLine: 1, endColumn: 18 }
             ]
         },
         {
@@ -68,10 +68,52 @@ ruleTester.run("template-curly-spacing", rule, {
             output: "`${foo} ${bar}`",
             options: ["never"],
             errors: [
-                { messageId: "unexpectedAfter", column: 2 },
-                { messageId: "unexpectedBefore", column: 9 },
-                { messageId: "unexpectedAfter", column: 11 },
-                { messageId: "unexpectedBefore", column: 18 }
+                { messageId: "unexpectedAfter", line: 1, column: 4, endLine: 1, endColumn: 5 },
+                { messageId: "unexpectedBefore", line: 1, column: 8, endLine: 1, endColumn: 9 },
+                { messageId: "unexpectedAfter", line: 1, column: 13, endLine: 1, endColumn: 14 },
+                { messageId: "unexpectedBefore", line: 1, column: 17, endLine: 1, endColumn: 18 }
+            ]
+        },
+        {
+            code: "` ${ foo }${ bar }` ",
+            output: "` ${foo}${bar}` ",
+            options: ["never"],
+            errors: [
+                { messageId: "unexpectedAfter", line: 1, column: 5, endLine: 1, endColumn: 6 },
+                { messageId: "unexpectedBefore", line: 1, column: 9, endLine: 1, endColumn: 10 },
+                { messageId: "unexpectedAfter", line: 1, column: 13, endLine: 1, endColumn: 14 },
+                { messageId: "unexpectedBefore", line: 1, column: 17, endLine: 1, endColumn: 18 }
+            ]
+        },
+        {
+            code: "`${  foo } ${ bar  }`",
+            output: "`${foo} ${bar}`",
+            options: ["never"],
+            errors: [
+                { messageId: "unexpectedAfter", line: 1, column: 4, endLine: 1, endColumn: 6 },
+                { messageId: "unexpectedBefore", line: 1, column: 9, endLine: 1, endColumn: 10 },
+                { messageId: "unexpectedAfter", line: 1, column: 14, endLine: 1, endColumn: 15 },
+                { messageId: "unexpectedBefore", line: 1, column: 18, endLine: 1, endColumn: 20 }
+            ]
+        },
+        {
+            code: "`${foo   }${   bar}`",
+            output: "`${foo}${bar}`",
+            options: ["never"],
+            errors: [
+                { messageId: "unexpectedBefore", line: 1, column: 7, endLine: 1, endColumn: 10 },
+                { messageId: "unexpectedAfter", line: 1, column: 13, endLine: 1, endColumn: 16 }
+            ]
+        },
+        {
+            code: "`${   foo \t}${\t\tbar   }`",
+            output: "`${foo}${bar}`",
+            options: ["never"],
+            errors: [
+                { messageId: "unexpectedAfter", line: 1, column: 4, endLine: 1, endColumn: 7 },
+                { messageId: "unexpectedBefore", line: 1, column: 10, endLine: 1, endColumn: 12 },
+                { messageId: "unexpectedAfter", line: 1, column: 15, endLine: 1, endColumn: 17 },
+                { messageId: "unexpectedBefore", line: 1, column: 20, endLine: 1, endColumn: 23 }
             ]
         },
         {
@@ -79,20 +121,42 @@ ruleTester.run("template-curly-spacing", rule, {
             output: "`${ foo } ${ bar }`",
             options: ["always"],
             errors: [
-                { messageId: "expectedAfter", column: 2 },
-                { messageId: "expectedBefore", column: 7 },
-                { messageId: "expectedAfter", column: 9 },
-                { messageId: "expectedBefore", column: 14 }
+                { messageId: "expectedAfter", line: 1, column: 2, endLine: 1, endColumn: 4 },
+                { messageId: "expectedBefore", line: 1, column: 7, endLine: 1, endColumn: 8 },
+                { messageId: "expectedAfter", line: 1, column: 9, endLine: 1, endColumn: 11 },
+                { messageId: "expectedBefore", line: 1, column: 14, endLine: 1, endColumn: 15 }
+            ]
+        },
+        {
+            code: "`${foo}${bar}`",
+            output: "`${ foo }${ bar }`",
+            options: ["always"],
+            errors: [
+                { messageId: "expectedAfter", line: 1, column: 2, endLine: 1, endColumn: 4 },
+                { messageId: "expectedBefore", line: 1, column: 7, endLine: 1, endColumn: 8 },
+                { messageId: "expectedAfter", line: 1, column: 8, endLine: 1, endColumn: 10 },
+                { messageId: "expectedBefore", line: 1, column: 13, endLine: 1, endColumn: 14 }
+            ]
+        },
+        {
+            code: "`a${foo}b${bar}c`",
+            output: "`a${ foo }b${ bar }c`",
+            options: ["always"],
+            errors: [
+                { messageId: "expectedAfter", line: 1, column: 3, endLine: 1, endColumn: 5 },
+                { messageId: "expectedBefore", line: 1, column: 8, endLine: 1, endColumn: 9 },
+                { messageId: "expectedAfter", line: 1, column: 10, endLine: 1, endColumn: 12 },
+                { messageId: "expectedBefore", line: 1, column: 15, endLine: 1, endColumn: 16 }
             ]
         },
         {
             code: "tag`${ foo } ${ bar }`",
             output: "tag`${foo} ${bar}`",
             errors: [
-                { messageId: "unexpectedAfter", column: 5 },
-                { messageId: "unexpectedBefore", column: 12 },
-                { messageId: "unexpectedAfter", column: 14 },
-                { messageId: "unexpectedBefore", column: 21 }
+                { messageId: "unexpectedAfter", line: 1, column: 7, endLine: 1, endColumn: 8 },
+                { messageId: "unexpectedBefore", line: 1, column: 11, endLine: 1, endColumn: 12 },
+                { messageId: "unexpectedAfter", line: 1, column: 16, endLine: 1, endColumn: 17 },
+                { messageId: "unexpectedBefore", line: 1, column: 20, endLine: 1, endColumn: 21 }
             ]
         },
         {
@@ -100,10 +164,10 @@ ruleTester.run("template-curly-spacing", rule, {
             output: "tag`${foo} ${bar}`",
             options: ["never"],
             errors: [
-                { messageId: "unexpectedAfter", column: 5 },
-                { messageId: "unexpectedBefore", column: 12 },
-                { messageId: "unexpectedAfter", column: 14 },
-                { messageId: "unexpectedBefore", column: 21 }
+                { messageId: "unexpectedAfter", line: 1, column: 7, endLine: 1, endColumn: 8 },
+                { messageId: "unexpectedBefore", line: 1, column: 11, endLine: 1, endColumn: 12 },
+                { messageId: "unexpectedAfter", line: 1, column: 16, endLine: 1, endColumn: 17 },
+                { messageId: "unexpectedBefore", line: 1, column: 20, endLine: 1, endColumn: 21 }
             ]
         },
         {
@@ -111,30 +175,30 @@ ruleTester.run("template-curly-spacing", rule, {
             output: "tag`${ foo } ${ bar }`",
             options: ["always"],
             errors: [
-                { messageId: "expectedAfter", column: 5 },
-                { messageId: "expectedBefore", column: 10 },
-                { messageId: "expectedAfter", column: 12 },
-                { messageId: "expectedBefore", column: 17 }
+                { messageId: "expectedAfter", line: 1, column: 5, endLine: 1, endColumn: 7 },
+                { messageId: "expectedBefore", line: 1, column: 10, endLine: 1, endColumn: 11 },
+                { messageId: "expectedAfter", line: 1, column: 12, endLine: 1, endColumn: 14 },
+                { messageId: "expectedBefore", line: 1, column: 17, endLine: 1, endColumn: 18 }
             ]
         },
         {
             code: "`${ /*  */foo } ${ bar/*  */ }`",
             output: "`${/*  */foo} ${bar/*  */}`",
             errors: [
-                { messageId: "unexpectedAfter", column: 2 },
-                { messageId: "unexpectedBefore", column: 15 },
-                { messageId: "unexpectedAfter", column: 17 },
-                { messageId: "unexpectedBefore", column: 30 }
+                { messageId: "unexpectedAfter", line: 1, column: 4, endLine: 1, endColumn: 5 },
+                { messageId: "unexpectedBefore", line: 1, column: 14, endLine: 1, endColumn: 15 },
+                { messageId: "unexpectedAfter", line: 1, column: 19, endLine: 1, endColumn: 20 },
+                { messageId: "unexpectedBefore", line: 1, column: 29, endLine: 1, endColumn: 30 }
             ]
         },
         {
             code: "`${ /*\n  */foo } ${ bar/*  \n*/ }`",
             output: "`${/*\n  */foo} ${bar/*  \n*/}`",
             errors: [
-                { messageId: "unexpectedAfter", line: 1, column: 2 },
-                { messageId: "unexpectedBefore", line: 2, column: 9 },
-                { messageId: "unexpectedAfter", line: 2, column: 11 },
-                { messageId: "unexpectedBefore", line: 3, column: 4 }
+                { messageId: "unexpectedAfter", line: 1, column: 4, endLine: 1, endColumn: 5 },
+                { messageId: "unexpectedBefore", line: 2, column: 8, endLine: 2, endColumn: 9 },
+                { messageId: "unexpectedAfter", line: 2, column: 13, endLine: 2, endColumn: 14 },
+                { messageId: "unexpectedBefore", line: 3, column: 3, endLine: 3, endColumn: 4 }
             ]
         },
         {
@@ -142,10 +206,10 @@ ruleTester.run("template-curly-spacing", rule, {
             output: "`${/*  */ foo} ${bar /*  */}`",
             options: ["never"],
             errors: [
-                { messageId: "unexpectedAfter", column: 2 },
-                { messageId: "unexpectedBefore", column: 16 },
-                { messageId: "unexpectedAfter", column: 18 },
-                { messageId: "unexpectedBefore", column: 32 }
+                { messageId: "unexpectedAfter", line: 1, column: 4, endLine: 1, endColumn: 5 },
+                { messageId: "unexpectedBefore", line: 1, column: 15, endLine: 1, endColumn: 16 },
+                { messageId: "unexpectedAfter", line: 1, column: 20, endLine: 1, endColumn: 21 },
+                { messageId: "unexpectedBefore", line: 1, column: 31, endLine: 1, endColumn: 32 }
             ]
         },
         {
@@ -153,10 +217,10 @@ ruleTester.run("template-curly-spacing", rule, {
             output: "`${/*\n  */ foo} ${bar /*  \n*/}`",
             options: ["never"],
             errors: [
-                { messageId: "unexpectedAfter", line: 1, column: 2 },
-                { messageId: "unexpectedBefore", line: 2, column: 10 },
-                { messageId: "unexpectedAfter", line: 2, column: 12 },
-                { messageId: "unexpectedBefore", line: 3, column: 4 }
+                { messageId: "unexpectedAfter", line: 1, column: 4, endLine: 1, endColumn: 5 },
+                { messageId: "unexpectedBefore", line: 2, column: 9, endLine: 2, endColumn: 10 },
+                { messageId: "unexpectedAfter", line: 2, column: 14, endLine: 2, endColumn: 15 },
+                { messageId: "unexpectedBefore", line: 3, column: 3, endLine: 3, endColumn: 4 }
             ]
         },
         {
@@ -164,10 +228,10 @@ ruleTester.run("template-curly-spacing", rule, {
             output: "`${ /*  */foo } ${ bar/*  */ }`",
             options: ["always"],
             errors: [
-                { messageId: "expectedAfter", column: 2 },
-                { messageId: "expectedBefore", column: 13 },
-                { messageId: "expectedAfter", column: 15 },
-                { messageId: "expectedBefore", column: 26 }
+                { messageId: "expectedAfter", line: 1, column: 2, endLine: 1, endColumn: 4 },
+                { messageId: "expectedBefore", line: 1, column: 13, endLine: 1, endColumn: 14 },
+                { messageId: "expectedAfter", line: 1, column: 15, endLine: 1, endColumn: 17 },
+                { messageId: "expectedBefore", line: 1, column: 26, endLine: 1, endColumn: 27 }
             ]
         },
         {
@@ -175,30 +239,30 @@ ruleTester.run("template-curly-spacing", rule, {
             output: "`${ /*\n  */foo } ${ bar/*  \n*/ }`",
             options: ["always"],
             errors: [
-                { messageId: "expectedAfter", line: 1, column: 2 },
-                { messageId: "expectedBefore", line: 2, column: 8 },
-                { messageId: "expectedAfter", line: 2, column: 10 },
-                { messageId: "expectedBefore", line: 3, column: 3 }
+                { messageId: "expectedAfter", line: 1, column: 2, endLine: 1, endColumn: 4 },
+                { messageId: "expectedBefore", line: 2, column: 8, endLine: 2, endColumn: 9 },
+                { messageId: "expectedAfter", line: 2, column: 10, endLine: 2, endColumn: 12 },
+                { messageId: "expectedBefore", line: 3, column: 3, endLine: 3, endColumn: 4 }
             ]
         },
         {
             code: "tag`${ /*  */foo } ${ bar/*  */ }`",
             output: "tag`${/*  */foo} ${bar/*  */}`",
             errors: [
-                { messageId: "unexpectedAfter", column: 5 },
-                { messageId: "unexpectedBefore", column: 18 },
-                { messageId: "unexpectedAfter", column: 20 },
-                { messageId: "unexpectedBefore", column: 33 }
+                { messageId: "unexpectedAfter", line: 1, column: 7, endLine: 1, endColumn: 8 },
+                { messageId: "unexpectedBefore", line: 1, column: 17, endLine: 1, endColumn: 18 },
+                { messageId: "unexpectedAfter", line: 1, column: 22, endLine: 1, endColumn: 23 },
+                { messageId: "unexpectedBefore", line: 1, column: 32, endLine: 1, endColumn: 33 }
             ]
         },
         {
             code: "tag`${ /*\n  */foo } ${ bar/*  \n*/ }`",
             output: "tag`${/*\n  */foo} ${bar/*  \n*/}`",
             errors: [
-                { messageId: "unexpectedAfter", line: 1, column: 5 },
-                { messageId: "unexpectedBefore", line: 2, column: 9 },
-                { messageId: "unexpectedAfter", line: 2, column: 11 },
-                { messageId: "unexpectedBefore", line: 3, column: 4 }
+                { messageId: "unexpectedAfter", line: 1, column: 7, endLine: 1, endColumn: 8 },
+                { messageId: "unexpectedBefore", line: 2, column: 8, endLine: 2, endColumn: 9 },
+                { messageId: "unexpectedAfter", line: 2, column: 13, endLine: 2, endColumn: 14 },
+                { messageId: "unexpectedBefore", line: 3, column: 3, endLine: 3, endColumn: 4 }
             ]
         },
         {
@@ -206,10 +270,10 @@ ruleTester.run("template-curly-spacing", rule, {
             output: "tag`${/*  */foo} ${bar/*  */}`",
             options: ["never"],
             errors: [
-                { messageId: "unexpectedAfter", column: 5 },
-                { messageId: "unexpectedBefore", column: 18 },
-                { messageId: "unexpectedAfter", column: 20 },
-                { messageId: "unexpectedBefore", column: 33 }
+                { messageId: "unexpectedAfter", line: 1, column: 7, endLine: 1, endColumn: 8 },
+                { messageId: "unexpectedBefore", line: 1, column: 17, endLine: 1, endColumn: 18 },
+                { messageId: "unexpectedAfter", line: 1, column: 22, endLine: 1, endColumn: 23 },
+                { messageId: "unexpectedBefore", line: 1, column: 32, endLine: 1, endColumn: 33 }
             ]
         },
         {
@@ -217,10 +281,10 @@ ruleTester.run("template-curly-spacing", rule, {
             output: "tag`${/*\n  */foo} ${bar/*  \n*/}`",
             options: ["never"],
             errors: [
-                { messageId: "unexpectedAfter", line: 1, column: 5 },
-                { messageId: "unexpectedBefore", line: 2, column: 9 },
-                { messageId: "unexpectedAfter", line: 2, column: 11 },
-                { messageId: "unexpectedBefore", line: 3, column: 4 }
+                { messageId: "unexpectedAfter", line: 1, column: 7, endLine: 1, endColumn: 8 },
+                { messageId: "unexpectedBefore", line: 2, column: 8, endLine: 2, endColumn: 9 },
+                { messageId: "unexpectedAfter", line: 2, column: 13, endLine: 2, endColumn: 14 },
+                { messageId: "unexpectedBefore", line: 3, column: 3, endLine: 3, endColumn: 4 }
             ]
         },
         {
@@ -228,10 +292,10 @@ ruleTester.run("template-curly-spacing", rule, {
             output: "tag`${ /*  */foo } ${ bar/*  */ }`",
             options: ["always"],
             errors: [
-                { messageId: "expectedAfter", column: 5 },
-                { messageId: "expectedBefore", column: 16 },
-                { messageId: "expectedAfter", column: 18 },
-                { messageId: "expectedBefore", column: 29 }
+                { messageId: "expectedAfter", line: 1, column: 5, endLine: 1, endColumn: 7 },
+                { messageId: "expectedBefore", line: 1, column: 16, endLine: 1, endColumn: 17 },
+                { messageId: "expectedAfter", line: 1, column: 18, endLine: 1, endColumn: 20 },
+                { messageId: "expectedBefore", line: 1, column: 29, endLine: 1, endColumn: 30 }
             ]
         },
         {
@@ -239,17 +303,17 @@ ruleTester.run("template-curly-spacing", rule, {
             output: "tag`${ /*\n  */foo } ${ bar/*  \n*/ }`",
             options: ["always"],
             errors: [
-                { messageId: "expectedAfter", line: 1, column: 5 },
-                { messageId: "expectedBefore", line: 2, column: 8 },
-                { messageId: "expectedAfter", line: 2, column: 10 },
-                { messageId: "expectedBefore", line: 3, column: 3 }
+                { messageId: "expectedAfter", line: 1, column: 5, endLine: 1, endColumn: 7 },
+                { messageId: "expectedBefore", line: 2, column: 8, endLine: 2, endColumn: 9 },
+                { messageId: "expectedAfter", line: 2, column: 10, endLine: 2, endColumn: 12 },
+                { messageId: "expectedBefore", line: 3, column: 3, endLine: 3, endColumn: 4 }
             ]
         },
         {
             code: "`${ // comment\n foo} ${bar // comment \n}`",
             output: "`${// comment\n foo} ${bar // comment \n}`",
             errors: [
-                { messageId: "unexpectedAfter", line: 1, column: 2 }
+                { messageId: "unexpectedAfter", line: 1, column: 4, endLine: 1, endColumn: 5 }
             ]
         },
         {
@@ -257,7 +321,7 @@ ruleTester.run("template-curly-spacing", rule, {
             output: "`${// comment\n foo} ${bar // comment \n}`",
             options: ["never"],
             errors: [
-                { messageId: "unexpectedAfter", line: 1, column: 2 }
+                { messageId: "unexpectedAfter", line: 1, column: 4, endLine: 1, endColumn: 5 }
             ]
         },
         {
@@ -265,7 +329,25 @@ ruleTester.run("template-curly-spacing", rule, {
             output: "`${ // comment\n foo } ${ bar // comment \n}`",
             options: ["always"],
             errors: [
-                { messageId: "expectedAfter", line: 1, column: 2 }
+                { messageId: "expectedAfter", line: 1, column: 2, endLine: 1, endColumn: 4 }
+            ]
+        },
+        {
+            code: "`\n${ foo }\n`",
+            output: "`\n${foo}\n`",
+            options: ["never"],
+            errors: [
+                { messageId: "unexpectedAfter", line: 2, column: 3, endLine: 2, endColumn: 4 },
+                { messageId: "unexpectedBefore", line: 2, column: 7, endLine: 2, endColumn: 8 }
+            ]
+        },
+        {
+            code: "`\n${foo}\n`",
+            output: "`\n${ foo }\n`",
+            options: ["always"],
+            errors: [
+                { messageId: "expectedAfter", line: 2, column: 1, endLine: 2, endColumn: 3 },
+                { messageId: "expectedBefore", line: 2, column: 6, endLine: 2, endColumn: 7 }
             ]
         }
     ]
