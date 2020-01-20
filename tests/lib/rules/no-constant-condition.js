@@ -30,10 +30,13 @@ ruleTester.run("no-constant-condition", rule, {
         "if (`${a === 'b' && b==='a'}`);",
         "while(~!a);",
         "while(a = b);",
+        "while(`${a}`);",
         "for(;x < 10;);",
         "for(;;);",
+        "for(;`${a}`;);",
         "do{ }while(x)",
         "q > 0 ? 1 : 2;",
+        "`${a}` === a ? 1 : 2",
         "while(x += 3) {}",
 
         // #5228, typeof conditions
@@ -116,6 +119,9 @@ ruleTester.run("no-constant-condition", rule, {
         { code: "while(function(){});", errors: [{ messageId: "unexpected", type: "FunctionExpression" }] },
         { code: "while(true);", errors: [{ messageId: "unexpected", type: "Literal" }] },
         { code: "while(() => {});", errors: [{ messageId: "unexpected", type: "ArrowFunctionExpression" }] },
+        { code: "while(`foo`);", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
+        { code: "while(`${'foo'}`);", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
+        { code: "while(`${'foo' + 'bar'}`);", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
 
         // #5228 , typeof conditions
         { code: "if(typeof x){}", errors: [{ messageId: "unexpected", type: "UnaryExpression" }] },
