@@ -28,6 +28,8 @@ ruleTester.run("no-constant-condition", rule, {
         "if (`${a}`);",
         "if (`${foo()}`);",
         "if (`${a === 'b' && b==='a'}`);",
+        "if (tag`a`);",
+        "if (tag`${a}`);",
         "while(~!a);",
         "while(a = b);",
         "while(`${a}`);",
@@ -37,7 +39,11 @@ ruleTester.run("no-constant-condition", rule, {
         "do{ }while(x)",
         "q > 0 ? 1 : 2;",
         "`${a}` === a ? 1 : 2",
+        "tag`a` === a ? 1 : 2",
+        "tag`${a}` === a ? 1 : 2",
         "while(x += 3) {}",
+        "while(tag`a`) {}",
+        "while(tag`${a}`) {}",
 
         // #5228, typeof conditions
         "if(typeof x === 'undefined'){}",
