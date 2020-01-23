@@ -1379,6 +1379,25 @@ ${"                   "}
                 { messageId: "missingStar", line: 4 },
                 { messageId: "endNewline", line: 4 }
             ]
+        },
+        {
+            code: `
+                /*
+                 // a line comment
+                 some.code();
+                 */
+            `,
+            output: `
+                /*
+                 * // a line comment
+                 *some.code();
+                 */
+            `,
+            options: ["starred-block"],
+            errors: [
+                { messageId: "missingStar", line: 3 },
+                { messageId: "missingStar", line: 4 }
+            ]
         }
     ]
 });
