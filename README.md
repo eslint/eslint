@@ -277,4 +277,4 @@ The following companies, organizations, and individuals support ESLint's ongoing
 [downloads-image]: https://img.shields.io/npm/dm/eslint.svg?style=flat-square
 [downloads-url]: https://www.npmjs.com/package/eslint
 [github-actions-image]: https://img.shields.io/github/workflow/status/eslint/eslint/CI?style=flat-square
-[github-actions-image]: https://github.com/eslint/eslint/actions
+[github-actions-url]: https://github.com/eslint/eslint/actions
