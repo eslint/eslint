@@ -45,13 +45,15 @@ ruleTester.run("radix", rule, {
         "Number.foo();",
         "Number[parseInt]();",
 
-        // Ignores if it's shadowed.
+        // Ignores if it's shadowed or disabled.
         "var parseInt; parseInt();",
         { code: "var parseInt; parseInt(foo);", options: ["always"] },
         { code: "var parseInt; parseInt(foo, 10);", options: ["as-needed"] },
         "var Number; Number.parseInt();",
         { code: "var Number; Number.parseInt(foo);", options: ["always"] },
-        { code: "var Number; Number.parseInt(foo, 10);", options: ["as-needed"] }
+        { code: "var Number; Number.parseInt(foo, 10);", options: ["as-needed"] },
+        { code: "/* globals parseInt:off */ parseInt(foo);", options: ["always"] },
+        { code: "Number.parseInt(foo, 10);", options: ["as-needed"], globals: { Number: "off" } }
     ],
 
     invalid: [
