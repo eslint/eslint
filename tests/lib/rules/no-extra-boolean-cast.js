@@ -93,7 +93,15 @@ ruleTester.run("no-extra-boolean-cast", rule, {
             code: "if (new Boolean(foo) || bar) {}",
             options: [{ enforceForLogicalOperands: true }]
         },
-        "if (!!foo || bar) {}"
+        "if (!!foo || bar) {}",
+        {
+            code: "if (!!foo || bar) {}",
+            options: [{}]
+        },
+        {
+            code: "if (!!foo || bar) {}",
+            options: [{ enforceForLogicalOperands: false }]
+        }
 
 
     ],
@@ -339,6 +347,22 @@ ruleTester.run("no-extra-boolean-cast", rule, {
             errors: [{
                 messageId: "unexpectedCall",
                 type: "CallExpression"
+            }]
+        },
+        {
+            code: "Boolean(Boolean(foo))",
+            output: "Boolean(foo)",
+            errors: [{
+                messageId: "unexpectedCall",
+                type: "CallExpression"
+            }]
+        },
+        {
+            code: "Boolean(!!foo, bar)",
+            output: "Boolean(foo, bar)",
+            errors: [{
+                messageId: "unexpectedNegation",
+                type: "UnaryExpression"
             }]
         },
 
