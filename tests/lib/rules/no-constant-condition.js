@@ -47,9 +47,11 @@ ruleTester.run("no-constant-condition", rule, {
 
         // #5228, typeof conditions
         "if(typeof x === 'undefined'){}",
+        "if(`${typeof x}` === 'undeifned'){}",
         "if(a === 'str' && typeof b){}",
         "typeof a == typeof b",
         "typeof 'a' === 'string'|| typeof b === 'string'",
+        "`${typeof 'a'}` === 'string'|| `${typeof b}` === 'string'",
 
         // #5726, void conditions
         "if (void a || a);",
@@ -131,6 +133,8 @@ ruleTester.run("no-constant-condition", rule, {
 
         // #5228 , typeof conditions
         { code: "if(typeof x){}", errors: [{ messageId: "unexpected", type: "UnaryExpression" }] },
+        { code: "if(`${typeof x}`){}", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
+        { code: "if(`${''}${typeof x}`){}", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
         { code: "if(typeof 'abc' === 'string'){}", errors: [{ messageId: "unexpected", type: "BinaryExpression" }] },
         { code: "if(a = typeof b){}", errors: [{ messageId: "unexpected", type: "AssignmentExpression" }] },
         { code: "if(a, typeof b){}", errors: [{ messageId: "unexpected", type: "SequenceExpression" }] },
