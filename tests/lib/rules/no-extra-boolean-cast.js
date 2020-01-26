@@ -101,9 +101,11 @@ ruleTester.run("no-extra-boolean-cast", rule, {
         {
             code: "if (!!foo || bar) {}",
             options: [{ enforceForLogicalOperands: false }]
+        },
+        {
+            code: "if ((!!foo || bar) === baz) {}",
+            options: [{ enforceForLogicalOperands: true }]
         }
-
-
     ],
 
     invalid: [

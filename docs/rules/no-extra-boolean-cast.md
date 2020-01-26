@@ -73,7 +73,7 @@ var foo = bar ? !!baz : !!bat;
 
 This rule has an object option:
 
-* `"enforceForLogicalOperands"` when set to `true`, checks whether the extra boolean cast is contained within a logical expression. Default is `false`, meaning that this rule by default does not warn about extra booleans cast inside logical expression.
+* `"enforceForLogicalOperands"` when set to `true`, in addition to checking default contexts, checks whether the extra boolean cast is contained within a logical expression. Default is `false`, meaning that this rule by default does not warn about extra booleans cast inside logical expression.
 
 ### enforceForLogicalOperands
 
@@ -94,12 +94,9 @@ if ((!!foo || bar) && baz) {
     //...
 }
 
+foo && Boolean(bar) ? baz : bat
+
 var foo = new Boolean(!!bar || baz)
-
-
-if (Boolean(foo) || bar) {
-    // ...
-}
 ```
 
 Examples of **correct** code for this rule with `"enforceForLogicalOperands"` option set to `true`:
@@ -121,10 +118,7 @@ if ((foo || bar) && baz) {
 
 var foo = new Boolean(bar || baz)
 
-
-if (foo || bar) {
-    // ...
-}
+foo && bar ? baz : bat
 
 var foo = !!bar || baz;
 ```
