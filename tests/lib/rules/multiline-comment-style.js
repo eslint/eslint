@@ -328,6 +328,15 @@ ruleTester.run("multiline-comment-style", rule, {
                  */
             `,
             options: ["separate-lines"]
+        },
+        {
+            code: `
+                /*
+                 * // a line comment
+                 *some.code();
+                 */
+            `,
+            options: ["starred-block"]
         }
     ],
 
@@ -1397,6 +1406,46 @@ ${"                   "}
             errors: [
                 { messageId: "missingStar", line: 3 },
                 { messageId: "missingStar", line: 4 }
+            ]
+        },
+        {
+            code: `
+                /*
+                 // a line comment
+                 * some.code();
+                 */
+            `,
+            output: `
+                /*
+                 * // a line comment
+                 * some.code();
+                 */
+            `,
+            options: ["starred-block"],
+            errors: [
+                { messageId: "missingStar", line: 3 }
+            ]
+        },
+        {
+            code: `
+                ////This comment is in
+                //\`separate-lines\` format.
+            `,
+            output: null,
+            options: ["starred-block"],
+            errors: [
+                { messageId: "expectedBlock", line: 2 }
+            ]
+        },
+        {
+            code: `
+                // // This comment is in
+                // \`separate-lines\` format.
+            `,
+            output: null,
+            options: ["starred-block"],
+            errors: [
+                { messageId: "expectedBlock", line: 2 }
             ]
         }
     ]
