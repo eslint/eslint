@@ -73,6 +73,15 @@ ruleTester.run("no-constant-condition", rule, {
         "if ((key || 'k') in obj) {}",
         "if ((foo || {}) instanceof obj) {}",
 
+        // #12225
+        "if ('' + [y] === '' + [ty]) {}",
+        "if ('a' === '' + [ty]) {}",
+        "if ('' + [y, m, d] === 'a') {}",
+        "if ('' + [y, 'm'] === '' + [ty, 'tm']) {}",
+        "if ('' + [y, 'm'] === '' + ['ty']) {}",
+        "if ([,] in\n\n($2))\n ;\nelse\n ;",
+        "if ([...x]+'' === 'y'){}",
+
         // { checkLoops: false }
         { code: "while(true);", options: [{ checkLoops: false }] },
         { code: "for(;true;);", options: [{ checkLoops: false }] },
@@ -183,6 +192,40 @@ ruleTester.run("no-constant-condition", rule, {
         {
             code: "function* foo() { for (let foo = 1 + 2 + 3 + (yield); true; baz) {}}",
             errors: [{ messageId: "unexpected", type: "Literal" }]
+        },
+
+        // #12225
+        {
+            code: "if([a]) {}",
+            errors: [{ messageId: "unexpected", type: "ArrayExpression" }]
+        },
+        {
+            code: "if([]) {}",
+            errors: [{ messageId: "unexpected", type: "ArrayExpression" }]
+        },
+        {
+            code: "if(''+['a']) {}",
+            errors: [{ messageId: "unexpected", type: "BinaryExpression" }]
+        },
+        {
+            code: "if(''+[]) {}",
+            errors: [{ messageId: "unexpected", type: "BinaryExpression" }]
+        },
+        {
+            code: "if([a]==[a]) {}",
+            errors: [{ messageId: "unexpected", type: "BinaryExpression" }]
+        },
+        {
+            code: "if([a] - '') {}",
+            errors: [{ messageId: "unexpected", type: "BinaryExpression" }]
+        },
+        {
+            code: "if(+1) {}",
+            errors: [{ messageId: "unexpected", type: "UnaryExpression" }]
+        },
+        {
+            code: "if ([,] + ''){}",
+            errors: [{ messageId: "unexpected", type: "BinaryExpression" }]
         }
     ]
 });
