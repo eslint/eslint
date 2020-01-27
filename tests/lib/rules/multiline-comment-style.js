@@ -1447,6 +1447,32 @@ ${"                   "}
             errors: [
                 { messageId: "expectedBlock", line: 2 }
             ]
+        },
+        {
+            code: `
+                /*
+                {
+                \t"foo": 1,
+                \t//"bar": 2
+                }
+                */
+            `,
+            output: `
+                /*
+                 *{
+                 *\t"foo": 1,
+                 *\t//"bar": 2
+                 *}
+                 */
+            `,
+            options: ["starred-block"],
+            errors: [
+                { messageId: "missingStar", line: 3 },
+                { messageId: "missingStar", line: 4 },
+                { messageId: "missingStar", line: 5 },
+                { messageId: "missingStar", line: 6 },
+                { messageId: "alignment", line: 7 }
+            ]
         }
     ]
 });
