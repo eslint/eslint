@@ -25,6 +25,7 @@ ruleTester.run("no-constant-condition", rule, {
         "if(a = f());",
         "if(1, a);",
         "if ('every' in []);",
+        "if (`\\\n${a}`) {}",
         "if (`${a}`);",
         "if (`${foo()}`);",
         "if (`${a === 'b' && b==='a'}`);",
@@ -46,10 +47,11 @@ ruleTester.run("no-constant-condition", rule, {
         "while(x += 3) {}",
         "while(tag`a`) {}",
         "while(tag`${a}`) {}",
+        "while(`\\\n${a}`) {}",
 
         // #5228, typeof conditions
         "if(typeof x === 'undefined'){}",
-        "if(`${typeof x}` === 'undeifned'){}",
+        "if(`${typeof x}` === 'undefined'){}",
         "if(a === 'str' && typeof b){}",
         "typeof a == typeof b",
         "typeof 'a' === 'string'|| typeof b === 'string'",
@@ -128,6 +130,7 @@ ruleTester.run("no-constant-condition", rule, {
         { code: "if(a, 1);", errors: [{ messageId: "unexpected", type: "SequenceExpression" }] },
         { code: "if(`foo`);", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
         { code: "if(``);", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
+        { code: "if(`\\\n`);", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
         { code: "if(`${'bar'}`);", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
         { code: "if(`${'bar' + `foo`}`);", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
         { code: "if(`foo${false || true}`);", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
