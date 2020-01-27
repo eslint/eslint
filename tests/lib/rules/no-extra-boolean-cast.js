@@ -1349,7 +1349,6 @@ ruleTester.run("no-extra-boolean-cast", rule, {
                 type: "CallExpression"
             }]
         },
-
         {
             code: "if (a && !!(b ? c : d)){}",
             output: "if (a && (b ? c : d)){}",
@@ -1361,7 +1360,18 @@ ruleTester.run("no-extra-boolean-cast", rule, {
                 column: 10,
                 endColumn: 23
             }]
+        },
+        {
+            code: "function *foo() { yield!!a || d ? b : c }",
+            output: "function *foo() { yield a || d ? b : c }",
+            options: [{ enforceForLogicalOperands: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "unexpectedNegation",
+                type: "UnaryExpression",
+                column: 24,
+                endColumn: 27
+            }]
         }
-
     ]
 });

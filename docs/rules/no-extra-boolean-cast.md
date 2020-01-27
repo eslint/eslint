@@ -116,9 +116,9 @@ if ((foo || bar) && baz) {
     //...
 }
 
-var foo = new Boolean(bar || baz)
-
 foo && bar ? baz : bat
+
+var foo = new Boolean(bar || baz)
 
 var foo = !!bar || baz;
 ```
