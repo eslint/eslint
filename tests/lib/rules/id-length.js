@@ -51,7 +51,6 @@ ruleTester.run("id-length", rule, {
         { code: "function foo(...args) { }", parserOptions: { ecmaVersion: 6 } },
         { code: "var { prop } = {};", parserOptions: { ecmaVersion: 6 } },
         { code: "var { prop: a } = {};", parserOptions: { ecmaVersion: 6 } },
-        { code: "var { prop: [x] } = {};", parserOptions: { ecmaVersion: 6 } },
         { code: "import something from 'y';", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "export var num = 0;", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "({ prop: obj.x.y.something } = {});", parserOptions: { ecmaVersion: 6 } },
@@ -63,7 +62,9 @@ ruleTester.run("id-length", rule, {
         { code: "var obj = { aaaaa: 1 };", options: [{ max: 4, properties: "never" }] },
         { code: "var obj = {}; obj.aaaaa = 1;", options: [{ max: 4, properties: "never" }] },
         { code: "({ a: obj.x.y.z } = {});", options: [{ max: 4, properties: "never" }], parserOptions: { ecmaVersion: 6 } },
-        { code: "({ prop: obj.xxxxx } = {});", options: [{ max: 4, properties: "never" }], parserOptions: { ecmaVersion: 6 } }
+        { code: "({ prop: obj.xxxxx } = {});", options: [{ max: 4, properties: "never" }], parserOptions: { ecmaVersion: 6 } },
+        { code: "var arr = [i,j,f,b]", parserOptions: { ecmaVersion: 6 } },
+        { code: "function foo([arr]) {}", parserOptions: { ecmaVersion: 6 }, errors: [tooShortError, tooShortError] }
     ],
     invalid: [
         { code: "var x = 1;", errors: [tooShortError] },
@@ -76,6 +77,9 @@ ruleTester.run("id-length", rule, {
         { code: "var handler = function (e) {};", errors: [tooShortError] },
         { code: "for (var i=0; i < 10; i++) { console.log(i); }", errors: [tooShortError] },
         { code: "var j=0; while (j > -10) { console.log(--j); }", errors: [tooShortError] },
+        { code: "var [i] = arr;", parserOptions: { ecmaVersion: 6 }, errors: [tooShortError] },
+        { code: "var [,i,a] = arr;", parserOptions: { ecmaVersion: 6 }, errors: [tooShortError, tooShortError] },
+        { code: "function foo([a]) {}", parserOptions: { ecmaVersion: 6 }, errors: [tooShortError] },
         {
             code: "var _$xt_$ = Foo(42)",
             options: [{ min: 2, max: 4 }],
@@ -142,6 +146,21 @@ ruleTester.run("id-length", rule, {
         },
         {
             code: "var { a: [x]} = {};",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                tooShortError,
+                tooShortError
+            ]
+        },
+        {
+            code: "var { prop: [x] } = {};",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                tooShortError
+            ]
+        },
+        {
+            code: "var { prop: [[x]] } = {};",
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 tooShortError

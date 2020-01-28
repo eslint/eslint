@@ -31,9 +31,11 @@ var myObj = { a: 1 };
 class x { }
 class Foo { x() {} }
 function foo(...x) { }
+function foo([x]) { }
 var { x } = {};
 var { x: a} = {};
 var { a: [x]} = {};
+var [x] = arr;
 ({ prop: obj.x } = {});
 ```
 
@@ -59,9 +61,11 @@ function foo(num = 0) { }
 class MyClass { }
 class Foo { method() {} }
 function foo(...args) { }
+function foo([longName]) { }
 var { prop } = {};
 var { prop: a } = {};
-var { prop: [x] } = {};
+var { prop: [longName] } = {};
+var [longName] = arr;
 ({ prop: obj.longName } = {});
 var data = { "x": 1 };  // excused because of quotes
 data["y"] = 3;  // excused because of calculated property access
