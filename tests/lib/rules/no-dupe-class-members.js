@@ -36,6 +36,14 @@ ruleTester.run("no-dupe-class-members", rule, {
         "class A { [1.0]() {} ['1.0']() {} }",
         "class A { [0x1]() {} [`0x1`]() {} }",
         "class A { [null]() {} ['']() {} }",
+        "class A { get ['foo']() {} set ['foo'](value) {} }",
+        "class A { ['foo']() {} static ['foo']() {} }",
+
+        // computed "constructor" key doesn't create constructor
+        "class A { ['constructor']() {} constructor() {} }",
+        "class A { 'constructor'() {} [`constructor`]() {} }",
+        "class A { constructor() {} get [`constructor`]() {} }",
+        "class A { 'constructor'() {} set ['constructor'](value) {} }",
 
         // not assumed to be statically-known values
         "class A { ['foo' + '']() {} ['foo']() {} }",
@@ -83,6 +91,12 @@ ruleTester.run("no-dupe-class-members", rule, {
             ]
         },
         {
+            code: "class A { set 'foo'(value) {} set ['foo'](val) {} }",
+            errors: [
+                { type: "MethodDefinition", line: 1, column: 31, messageId: "unexpected", data: { name: "foo" } }
+            ]
+        },
+        {
             code: "class A { ''() {} ['']() {} }",
             errors: [
                 { type: "MethodDefinition", line: 1, column: 19, messageId: "unexpected", data: { name: "" } }
@@ -95,9 +109,9 @@ ruleTester.run("no-dupe-class-members", rule, {
             ]
         },
         {
-            code: "class A { [`foo`]() {} ['foo']() {} }",
+            code: "class A { static get [`foo`]() {} static get ['foo']() {} }",
             errors: [
-                { type: "MethodDefinition", line: 1, column: 24, messageId: "unexpected", data: { name: "foo" } }
+                { type: "MethodDefinition", line: 1, column: 35, messageId: "unexpected", data: { name: "foo" } }
             ]
         },
         {
@@ -107,9 +121,33 @@ ruleTester.run("no-dupe-class-members", rule, {
             ]
         },
         {
+            code: "class A { get [`foo`]() {} 'foo'() {} }",
+            errors: [
+                { type: "MethodDefinition", line: 1, column: 28, messageId: "unexpected", data: { name: "foo" } }
+            ]
+        },
+        {
             code: "class A { static 'foo'() {} static [`foo`]() {} }",
             errors: [
                 { type: "MethodDefinition", line: 1, column: 29, messageId: "unexpected", data: { name: "foo" } }
+            ]
+        },
+        {
+            code: "class A { ['constructor']() {} ['constructor']() {} }",
+            errors: [
+                { type: "MethodDefinition", line: 1, column: 32, messageId: "unexpected", data: { name: "constructor" } }
+            ]
+        },
+        {
+            code: "class A { static [`constructor`]() {} static constructor() {} }",
+            errors: [
+                { type: "MethodDefinition", line: 1, column: 39, messageId: "unexpected", data: { name: "constructor" } }
+            ]
+        },
+        {
+            code: "class A { static constructor() {} static 'constructor'() {} }",
+            errors: [
+                { type: "MethodDefinition", line: 1, column: 35, messageId: "unexpected", data: { name: "constructor" } }
             ]
         },
         {
