@@ -29,7 +29,21 @@ ruleTester.run("no-dupe-class-members", rule, {
         "class A { 'foo'() {} 'bar'() {} baz() {} }",
         "class A { *'foo'() {} *'bar'() {} *baz() {} }",
         "class A { get 'foo'() {} get 'bar'() {} get baz() {} }",
-        "class A { 1() {} 2() {} }"
+        "class A { 1() {} 2() {} }",
+        "class A { ['foo']() {} ['bar']() {} }",
+        "class A { [`foo`]() {} [`bar`]() {} }",
+        "class A { [12]() {} [123]() {} }",
+        "class A { [1.0]() {} ['1.0']() {} }",
+        "class A { [0x1]() {} [`0x1`]() {} }",
+        "class A { [null]() {} ['']() {} }",
+
+        // not assumed to be statically-known values
+        "class A { ['foo' + '']() {} ['foo']() {} }",
+        "class A { [`foo${''}`]() {} [`foo`]() {} }",
+        "class A { [-1]() {} ['-1']() {} }",
+
+        // not supported by this rule
+        "class A { [foo]() {} [foo]() {} }"
     ],
     invalid: [
         {
@@ -54,6 +68,91 @@ ruleTester.run("no-dupe-class-members", rule, {
             code: "class A { 10() {} 1e1() {} }",
             errors: [
                 { type: "MethodDefinition", line: 1, column: 19, messageId: "unexpected", data: { name: "10" } }
+            ]
+        },
+        {
+            code: "class A { ['foo']() {} ['foo']() {} }",
+            errors: [
+                { type: "MethodDefinition", line: 1, column: 24, messageId: "unexpected", data: { name: "foo" } }
+            ]
+        },
+        {
+            code: "class A { static ['foo']() {} static foo() {} }",
+            errors: [
+                { type: "MethodDefinition", line: 1, column: 31, messageId: "unexpected", data: { name: "foo" } }
+            ]
+        },
+        {
+            code: "class A { ''() {} ['']() {} }",
+            errors: [
+                { type: "MethodDefinition", line: 1, column: 19, messageId: "unexpected", data: { name: "" } }
+            ]
+        },
+        {
+            code: "class A { [`foo`]() {} [`foo`]() {} }",
+            errors: [
+                { type: "MethodDefinition", line: 1, column: 24, messageId: "unexpected", data: { name: "foo" } }
+            ]
+        },
+        {
+            code: "class A { [`foo`]() {} ['foo']() {} }",
+            errors: [
+                { type: "MethodDefinition", line: 1, column: 24, messageId: "unexpected", data: { name: "foo" } }
+            ]
+        },
+        {
+            code: "class A { foo() {} [`foo`]() {} }",
+            errors: [
+                { type: "MethodDefinition", line: 1, column: 20, messageId: "unexpected", data: { name: "foo" } }
+            ]
+        },
+        {
+            code: "class A { static 'foo'() {} static [`foo`]() {} }",
+            errors: [
+                { type: "MethodDefinition", line: 1, column: 29, messageId: "unexpected", data: { name: "foo" } }
+            ]
+        },
+        {
+            code: "class A { [123]() {} [123]() {} }",
+            errors: [
+                { type: "MethodDefinition", line: 1, column: 22, messageId: "unexpected", data: { name: "123" } }
+            ]
+        },
+        {
+            code: "class A { [0x10]() {} 16() {} }",
+            errors: [
+                { type: "MethodDefinition", line: 1, column: 23, messageId: "unexpected", data: { name: "16" } }
+            ]
+        },
+        {
+            code: "class A { [100]() {} [1e2]() {} }",
+            errors: [
+                { type: "MethodDefinition", line: 1, column: 22, messageId: "unexpected", data: { name: "100" } }
+            ]
+        },
+        {
+            code: "class A { [123.00]() {} [`123`]() {} }",
+            errors: [
+                { type: "MethodDefinition", line: 1, column: 25, messageId: "unexpected", data: { name: "123" } }
+            ]
+        },
+        {
+            code: "class A { static '65'() {} static [0o101]() {} }",
+            errors: [
+                { type: "MethodDefinition", line: 1, column: 28, messageId: "unexpected", data: { name: "65" } }
+            ]
+        },
+        {
+            code: "class A { [123n]() {} 123() {} }",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [
+                { type: "MethodDefinition", line: 1, column: 23, messageId: "unexpected", data: { name: "123" } }
+            ]
+        },
+        {
+            code: "class A { [null]() {} 'null'() {} }",
+            errors: [
+                { type: "MethodDefinition", line: 1, column: 23, messageId: "unexpected", data: { name: "null" } }
             ]
         },
         {
