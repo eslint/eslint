@@ -262,6 +262,10 @@ ruleTester.run("no-constant-condition", rule, {
             errors: [{ messageId: "unexpected", type: "BinaryExpression" }]
         },
         {
+            code: "if(+[a]) {}",
+            errors: [{ messageId: "unexpected", type: "UnaryExpression" }]
+        },
+        {
             code: "if(+1) {}",
             errors: [{ messageId: "unexpected", type: "UnaryExpression" }]
         },
