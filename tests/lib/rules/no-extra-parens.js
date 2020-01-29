@@ -244,12 +244,19 @@ ruleTester.run("no-extra-parens", rule, {
 
         // "functions" enables reports for function nodes only
         { code: "(0)", options: ["functions"] },
+        { code: "((0))", options: ["functions"] },
         { code: "a + (b * c)", options: ["functions"] },
+        { code: "a + ((b * c))", options: ["functions"] },
         { code: "(a)(b)", options: ["functions"] },
+        { code: "((a))(b)", options: ["functions"] },
         { code: "a, (b = c)", options: ["functions"] },
+        { code: "a, ((b = c))", options: ["functions"] },
         { code: "for(a in (0));", options: ["functions"] },
+        { code: "for(a in ((0)));", options: ["functions"] },
         { code: "var a = (b = c)", options: ["functions"] },
+        { code: "var a = ((b = c))", options: ["functions"] },
         { code: "_ => (a = 0)", options: ["functions"] },
+        { code: "_ => ((a = 0))", options: ["functions"] },
 
         // ["all", { conditionalAssign: false }] enables extra parens around conditional assignments
         { code: "while ((foo = bar())) {}", options: ["all", { conditionalAssign: false }] },
@@ -257,6 +264,8 @@ ruleTester.run("no-extra-parens", rule, {
         { code: "do; while ((foo = bar()))", options: ["all", { conditionalAssign: false }] },
         { code: "for (;(a = b););", options: ["all", { conditionalAssign: false }] },
         { code: "var a = ((b = c)) ? foo : bar;", options: ["all", { conditionalAssign: false }] },
+        { code: "while (((foo = bar()))) {}", options: ["all", { conditionalAssign: false }] },
+        { code: "var a = (((b = c))) ? foo : bar;", options: ["all", { conditionalAssign: false }] },
 
         // ["all", { nestedBinaryExpressions: false }] enables extra parens around conditional assignments
         { code: "a + (b * c)", options: ["all", { nestedBinaryExpressions: false }] },
@@ -369,11 +378,20 @@ ruleTester.run("no-extra-parens", rule, {
 
         // ["all", { ignoreJSX: "all" }]
         { code: "const Component = (<div />)", options: ["all", { ignoreJSX: "all" }] },
+        { code: "const Component = ((<div />))", options: ["all", { ignoreJSX: "all" }] },
         {
             code: [
                 "const Component = (<>",
                 "  <p />",
                 "</>);"
+            ].join("\n"),
+            options: ["all", { ignoreJSX: "all" }]
+        },
+        {
+            code: [
+                "const Component = ((<>",
+                "  <p />",
+                "</>));"
             ].join("\n"),
             options: ["all", { ignoreJSX: "all" }]
         },
@@ -403,6 +421,7 @@ ruleTester.run("no-extra-parens", rule, {
 
         // ["all", { ignoreJSX: "single-line" }]
         { code: "const Component = (<div />);", options: ["all", { ignoreJSX: "single-line" }] },
+        { code: "const Component = ((<div />));", options: ["all", { ignoreJSX: "single-line" }] },
         {
             code: [
                 "const Component = (",
@@ -427,6 +446,16 @@ ruleTester.run("no-extra-parens", rule, {
                 "  <p />",
                 "</div>",
                 ");"
+            ].join("\n"),
+            options: ["all", { ignoreJSX: "multi-line" }]
+        },
+        {
+            code: [
+                "const Component = ((",
+                "<div>",
+                "  <p />",
+                "</div>",
+                "));"
             ].join("\n"),
             options: ["all", { ignoreJSX: "multi-line" }]
         },
@@ -459,6 +488,7 @@ ruleTester.run("no-extra-parens", rule, {
         // ["all", { enforceForArrowConditionals: false }]
         { code: "var a = b => 1 ? 2 : 3", options: ["all", { enforceForArrowConditionals: false }] },
         { code: "var a = (b) => (1 ? 2 : 3)", options: ["all", { enforceForArrowConditionals: false }] },
+        { code: "var a = (b) => ((1 ? 2 : 3))", options: ["all", { enforceForArrowConditionals: false }] },
 
         // ["all", { enforceForSequenceExpressions: false }]
         { code: "(a, b)", options: ["all", { enforceForSequenceExpressions: false }] },
@@ -466,6 +496,7 @@ ruleTester.run("no-extra-parens", rule, {
         { code: "(foo(), bar());", options: ["all", { enforceForSequenceExpressions: false }] },
         { code: "((foo(), bar()));", options: ["all", { enforceForSequenceExpressions: false }] },
         { code: "if((a, b)){}", options: ["all", { enforceForSequenceExpressions: false }] },
+        { code: "if(((a, b))){}", options: ["all", { enforceForSequenceExpressions: false }] },
         { code: "while ((val = foo(), val < 10));", options: ["all", { enforceForSequenceExpressions: false }] },
 
         // ["all", { enforceForNewInMemberExpressions: false }]
@@ -1122,12 +1153,10 @@ ruleTester.run("no-extra-parens", rule, {
                 }
             ]
         },
-
-        // ["all", { enforceForArrowConditionals: false }]
         {
             code: "var a = (b) => ((1 ? 2 : 3))",
             output: "var a = (b) => (1 ? 2 : 3)",
-            options: ["all", { enforceForArrowConditionals: false }],
+            options: ["all", { enforceForArrowConditionals: true }],
             errors: [
                 {
                     messageId: "unexpected"
