@@ -9,8 +9,9 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const rule = require("../../../lib/rules/constructor-super");
-const { RuleTester } = require("../../../lib/rule-tester");
+const parser = require("../../fixtures/fixture-parser"),
+    rule = require("../../../lib/rules/constructor-super"),
+    { RuleTester } = require("../../../lib/rule-tester");
 
 //------------------------------------------------------------------------------
 // Tests
@@ -40,6 +41,10 @@ ruleTester.run("constructor-super", rule, {
         "class A extends (B || C) { constructor() { super(); } }",
         "class A extends (a ? B : C) { constructor() { super(); } }",
         "class A extends (B, C) { constructor() { super(); } }",
+        {
+            code: "class A extends (B as any) { constructor() { super(); } }",
+            parser: parser("typescript-parsers/constructor-super")
+        },
 
         // nested.
         "class A { constructor() { class B extends C { constructor() { super(); } } } }",
