@@ -170,45 +170,155 @@ ruleTester.run("sort-keys", rule, {
         // default (asc)
         {
             code: "var obj = {a:1, '':2} // default",
-            errors: ["Expected object keys to be in ascending order. '' should be before 'a'."]
+            errors: [
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "",
+                        prevName: "a"
+                    }
+                }
+            ]
         },
         {
             code: "var obj = {a:1, [``]:2} // default",
             parserOptions: { ecmaVersion: 6 },
-            errors: ["Expected object keys to be in ascending order. '' should be before 'a'."]
+            errors: [
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "",
+                        prevName: "a"
+                    }
+                }
+            ]
         },
         {
             code: "var obj = {a:1, _:2, b:3} // default",
-            errors: ["Expected object keys to be in ascending order. '_' should be before 'a'."]
+            errors: [
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "_",
+                        prevName: "a"
+                    }
+                }
+            ]
         },
         {
             code: "var obj = {a:1, c:2, b:3}",
-            errors: ["Expected object keys to be in ascending order. 'b' should be before 'c'."]
+            errors: [
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "b",
+                        prevName: "c"
+                    }
+                }
+            ]
         },
         {
             code: "var obj = {b_:1, a:2, b:3}",
-            errors: ["Expected object keys to be in ascending order. 'a' should be before 'b_'."]
+            errors: [
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "a",
+                        prevName: "b_"
+                    }
+                }
+            ]
         },
         {
             code: "var obj = {b_:1, c:2, C:3}",
-            errors: ["Expected object keys to be in ascending order. 'C' should be before 'c'."]
+            errors: [
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "C",
+                        prevName: "c"
+                    }
+                }
+            ]
         },
         {
             code: "var obj = {$:1, _:2, A:3, a:4}",
-            errors: ["Expected object keys to be in ascending order. 'A' should be before '_'."]
+            errors: [
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "A",
+                        prevName: "_"
+                    }
+                }
+            ]
         },
         {
             code: "var obj = {1:1, 2:4, A:3, '11':2}",
-            errors: ["Expected object keys to be in ascending order. '11' should be before 'A'."]
+            errors: [
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "11",
+                        prevName: "A"
+                    }
+                }
+            ]
         },
         {
             code: "var obj = {'#':1, À:3, 'Z':2, è:4}",
-            errors: ["Expected object keys to be in ascending order. 'Z' should be before 'À'."]
+            errors: [
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "Z",
+                        prevName: "À"
+                    }
+                }
+            ]
         },
         {
             code: "var obj = { null: 1, [/(?<zero>0)/]: 2 }",
             parserOptions: { ecmaVersion: 2018 },
-            errors: ["Expected object keys to be in ascending order. '/(?<zero>0)/' should be before 'null'."]
+            errors: [
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "/(?<zero>0)/",
+                        prevName: "null"
+                    }
+                }
+            ]
         },
 
         // not ignore properties not separated by spread properties
@@ -216,86 +326,243 @@ ruleTester.run("sort-keys", rule, {
             code: "var obj = {...z, c:1, b:1}",
             options: [],
             parserOptions: { ecmaVersion: 2018 },
-            errors: ["Expected object keys to be in ascending order. 'b' should be before 'c'."]
+            errors: [
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "b",
+                        prevName: "c"
+                    }
+                }
+            ]
         },
         {
             code: "var obj = {...z, ...c, d:4, b:1, ...y, ...f, e:2, a:1}",
             options: [],
             parserOptions: { ecmaVersion: 2018 },
             errors: [
-                "Expected object keys to be in ascending order. 'b' should be before 'd'.",
-                "Expected object keys to be in ascending order. 'a' should be before 'e'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "b",
+                        prevName: "d"
+                    }
+                },
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "a",
+                        prevName: "e"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {c:1, b:1, ...a}",
             options: [],
             parserOptions: { ecmaVersion: 2018 },
-            errors: ["Expected object keys to be in ascending order. 'b' should be before 'c'."]
+            errors: [
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "b",
+                        prevName: "c"
+                    }
+                }
+            ]
         },
         {
             code: "var obj = {...z, ...a, c:1, b:1}",
             options: [],
             parserOptions: { ecmaVersion: 2018 },
-            errors: ["Expected object keys to be in ascending order. 'b' should be before 'c'."]
+            errors: [
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "b",
+                        prevName: "c"
+                    }
+                }
+            ]
         },
         {
             code: "var obj = {...z, b:1, a:1, ...d, ...c}",
             options: [],
             parserOptions: { ecmaVersion: 2018 },
-            errors: ["Expected object keys to be in ascending order. 'a' should be before 'b'."]
+            errors: [
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "a",
+                        prevName: "b"
+                    }
+                }
+            ]
         },
         {
             code: "var obj = {...z, a:2, b:0, ...x, ...c}",
             options: ["desc"],
             parserOptions: { ecmaVersion: 2018 },
-            errors: ["Expected object keys to be in descending order. 'b' should be before 'a'."]
+            errors: [
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "desc",
+                        thisName: "b",
+                        prevName: "a"
+                    }
+                }
+            ]
         },
         {
             code: "var obj = {...z, a:2, b:0, ...x}",
             options: ["desc"],
             parserOptions: { ecmaVersion: 2018 },
-            errors: ["Expected object keys to be in descending order. 'b' should be before 'a'."]
+            errors: [
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "desc",
+                        thisName: "b",
+                        prevName: "a"
+                    }
+                }
+            ]
         },
         {
             code: "var obj = {...z, '':1, a:2}",
             options: ["desc"],
             parserOptions: { ecmaVersion: 2018 },
-            errors: ["Expected object keys to be in descending order. 'a' should be before ''."]
+            errors: [
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "desc",
+                        thisName: "a",
+                        prevName: ""
+                    }
+                }
+            ]
         },
 
         // ignore non-simple computed properties, but their position shouldn't affect other comparisons.
         {
             code: "var obj = {a:1, [b+c]:2, '':3}",
             parserOptions: { ecmaVersion: 6 },
-            errors: ["Expected object keys to be in ascending order. '' should be before 'a'."]
+            errors: [
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "",
+                        prevName: "a"
+                    }
+                }
+            ]
         },
         {
             code: "var obj = {'':1, [b+c]:2, a:3}",
             options: ["desc"],
             parserOptions: { ecmaVersion: 6 },
-            errors: ["Expected object keys to be in descending order. 'a' should be before ''."]
+            errors: [
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "desc",
+                        thisName: "a",
+                        prevName: ""
+                    }
+                }
+            ]
         },
         {
             code: "var obj = {b:1, [f()]:2, '':3, a:4}",
             options: ["desc"],
             parserOptions: { ecmaVersion: 6 },
-            errors: ["Expected object keys to be in descending order. 'a' should be before ''."]
+            errors: [
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "desc",
+                        thisName: "a",
+                        prevName: ""
+                    }
+                }
+            ]
         },
 
         // not ignore simple computed properties.
         {
             code: "var obj = {a:1, b:3, [a]: -1, c:2}",
             parserOptions: { ecmaVersion: 6 },
-            errors: ["Expected object keys to be in ascending order. 'a' should be before 'b'."]
+            errors: [
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "a",
+                        prevName: "b"
+                    }
+                }
+            ]
         },
 
         // nested
         {
             code: "var obj = {a:1, c:{y:1, x:1}, b:1}",
             errors: [
-                "Expected object keys to be in ascending order. 'x' should be before 'y'.",
-                "Expected object keys to be in ascending order. 'b' should be before 'c'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "x",
+                        prevName: "y"
+                    }
+                },
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "b",
+                        prevName: "c"
+                    }
+                }
             ]
         },
 
@@ -304,49 +571,112 @@ ruleTester.run("sort-keys", rule, {
             code: "var obj = {a:1, _:2, b:3} // asc",
             options: ["asc"],
             errors: [
-                "Expected object keys to be in ascending order. '_' should be before 'a'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "_",
+                        prevName: "a"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {a:1, c:2, b:3}",
             options: ["asc"],
             errors: [
-                "Expected object keys to be in ascending order. 'b' should be before 'c'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "b",
+                        prevName: "c"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {b_:1, a:2, b:3}",
             options: ["asc"],
             errors: [
-                "Expected object keys to be in ascending order. 'a' should be before 'b_'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "a",
+                        prevName: "b_"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {b_:1, c:2, C:3}",
             options: ["asc"],
             errors: [
-                "Expected object keys to be in ascending order. 'C' should be before 'c'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "C",
+                        prevName: "c"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {$:1, _:2, A:3, a:4}",
             options: ["asc"],
             errors: [
-                "Expected object keys to be in ascending order. 'A' should be before '_'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "A",
+                        prevName: "_"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {1:1, 2:4, A:3, '11':2}",
             options: ["asc"],
             errors: [
-                "Expected object keys to be in ascending order. '11' should be before 'A'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "11",
+                        prevName: "A"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {'#':1, À:3, 'Z':2, è:4}",
             options: ["asc"],
             errors: [
-                "Expected object keys to be in ascending order. 'Z' should be before 'À'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "Z",
+                        prevName: "À"
+                    }
+                }
             ]
         },
 
@@ -355,7 +685,16 @@ ruleTester.run("sort-keys", rule, {
             code: "var obj = {a:1, _:2, b:3}",
             options: ["asc", { minKeys: 3 }],
             errors: [
-                "Expected object keys to be in ascending order. '_' should be before 'a'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "_",
+                        prevName: "a"
+                    }
+                }
             ]
         },
 
@@ -364,42 +703,96 @@ ruleTester.run("sort-keys", rule, {
             code: "var obj = {a:1, _:2, b:3} // asc, insensitive",
             options: ["asc", { caseSensitive: false }],
             errors: [
-                "Expected object keys to be in insensitive ascending order. '_' should be before 'a'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "insensitive ",
+                        order: "asc",
+                        thisName: "_",
+                        prevName: "a"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {a:1, c:2, b:3}",
             options: ["asc", { caseSensitive: false }],
             errors: [
-                "Expected object keys to be in insensitive ascending order. 'b' should be before 'c'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "insensitive ",
+                        order: "asc",
+                        thisName: "b",
+                        prevName: "c"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {b_:1, a:2, b:3}",
             options: ["asc", { caseSensitive: false }],
             errors: [
-                "Expected object keys to be in insensitive ascending order. 'a' should be before 'b_'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "insensitive ",
+                        order: "asc",
+                        thisName: "a",
+                        prevName: "b_"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {$:1, A:3, _:2, a:4}",
             options: ["asc", { caseSensitive: false }],
             errors: [
-                "Expected object keys to be in insensitive ascending order. '_' should be before 'A'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "insensitive ",
+                        order: "asc",
+                        thisName: "_",
+                        prevName: "A"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {1:1, 2:4, A:3, '11':2}",
             options: ["asc", { caseSensitive: false }],
             errors: [
-                "Expected object keys to be in insensitive ascending order. '11' should be before 'A'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "insensitive ",
+                        order: "asc",
+                        thisName: "11",
+                        prevName: "A"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {'#':1, À:3, 'Z':2, è:4}",
             options: ["asc", { caseSensitive: false }],
             errors: [
-                "Expected object keys to be in insensitive ascending order. 'Z' should be before 'À'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "insensitive ",
+                        order: "asc",
+                        thisName: "Z",
+                        prevName: "À"
+                    }
+                }
             ]
         },
 
@@ -408,7 +801,16 @@ ruleTester.run("sort-keys", rule, {
             code: "var obj = {a:1, _:2, b:3}",
             options: ["asc", { caseSensitive: false, minKeys: 3 }],
             errors: [
-                "Expected object keys to be in insensitive ascending order. '_' should be before 'a'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "insensitive ",
+                        order: "asc",
+                        thisName: "_",
+                        prevName: "a"
+                    }
+                }
             ]
         },
 
@@ -417,49 +819,112 @@ ruleTester.run("sort-keys", rule, {
             code: "var obj = {a:1, _:2, b:3} // asc, natural",
             options: ["asc", { natural: true }],
             errors: [
-                "Expected object keys to be in natural ascending order. '_' should be before 'a'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "natural ",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "_",
+                        prevName: "a"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {a:1, c:2, b:3}",
             options: ["asc", { natural: true }],
             errors: [
-                "Expected object keys to be in natural ascending order. 'b' should be before 'c'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "natural ",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "b",
+                        prevName: "c"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {b_:1, a:2, b:3}",
             options: ["asc", { natural: true }],
             errors: [
-                "Expected object keys to be in natural ascending order. 'a' should be before 'b_'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "natural ",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "a",
+                        prevName: "b_"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {b_:1, c:2, C:3}",
             options: ["asc", { natural: true }],
             errors: [
-                "Expected object keys to be in natural ascending order. 'C' should be before 'c'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "natural ",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "C",
+                        prevName: "c"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {$:1, A:3, _:2, a:4}",
             options: ["asc", { natural: true }],
             errors: [
-                "Expected object keys to be in natural ascending order. '_' should be before 'A'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "natural ",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "_",
+                        prevName: "A"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {1:1, 2:4, A:3, '11':2}",
             options: ["asc", { natural: true }],
             errors: [
-                "Expected object keys to be in natural ascending order. '11' should be before 'A'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "natural ",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "11",
+                        prevName: "A"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {'#':1, À:3, 'Z':2, è:4}",
             options: ["asc", { natural: true }],
             errors: [
-                "Expected object keys to be in natural ascending order. 'Z' should be before 'À'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "natural ",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "Z",
+                        prevName: "À"
+                    }
+                }
             ]
         },
 
@@ -468,7 +933,16 @@ ruleTester.run("sort-keys", rule, {
             code: "var obj = {a:1, _:2, b:3}",
             options: ["asc", { natural: true, minKeys: 2 }],
             errors: [
-                "Expected object keys to be in natural ascending order. '_' should be before 'a'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "natural ",
+                        insensitive: "",
+                        order: "asc",
+                        thisName: "_",
+                        prevName: "a"
+                    }
+                }
             ]
         },
 
@@ -477,42 +951,96 @@ ruleTester.run("sort-keys", rule, {
             code: "var obj = {a:1, _:2, b:3} // asc, natural, insensitive",
             options: ["asc", { natural: true, caseSensitive: false }],
             errors: [
-                "Expected object keys to be in natural insensitive ascending order. '_' should be before 'a'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "natural ",
+                        insensitive: "insensitive ",
+                        order: "asc",
+                        thisName: "_",
+                        prevName: "a"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {a:1, c:2, b:3}",
             options: ["asc", { natural: true, caseSensitive: false }],
             errors: [
-                "Expected object keys to be in natural insensitive ascending order. 'b' should be before 'c'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "natural ",
+                        insensitive: "insensitive ",
+                        order: "asc",
+                        thisName: "b",
+                        prevName: "c"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {b_:1, a:2, b:3}",
             options: ["asc", { natural: true, caseSensitive: false }],
             errors: [
-                "Expected object keys to be in natural insensitive ascending order. 'a' should be before 'b_'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "natural ",
+                        insensitive: "insensitive ",
+                        order: "asc",
+                        thisName: "a",
+                        prevName: "b_"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {$:1, A:3, _:2, a:4}",
             options: ["asc", { natural: true, caseSensitive: false }],
             errors: [
-                "Expected object keys to be in natural insensitive ascending order. '_' should be before 'A'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "natural ",
+                        insensitive: "insensitive ",
+                        order: "asc",
+                        thisName: "_",
+                        prevName: "A"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {1:1, '11':2, 2:4, A:3}",
             options: ["asc", { natural: true, caseSensitive: false }],
             errors: [
-                "Expected object keys to be in natural insensitive ascending order. '2' should be before '11'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "natural ",
+                        insensitive: "insensitive ",
+                        order: "asc",
+                        thisName: "2",
+                        prevName: "11"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {'#':1, À:3, 'Z':2, è:4}",
             options: ["asc", { natural: true, caseSensitive: false }],
             errors: [
-                "Expected object keys to be in natural insensitive ascending order. 'Z' should be before 'À'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "natural ",
+                        insensitive: "insensitive ",
+                        order: "asc",
+                        thisName: "Z",
+                        prevName: "À"
+                    }
+                }
             ]
         },
 
@@ -521,7 +1049,16 @@ ruleTester.run("sort-keys", rule, {
             code: "var obj = {a:1, _:2, b:3}",
             options: ["asc", { natural: true, caseSensitive: false, minKeys: 3 }],
             errors: [
-                "Expected object keys to be in natural insensitive ascending order. '_' should be before 'a'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "natural ",
+                        insensitive: "insensitive ",
+                        order: "asc",
+                        thisName: "_",
+                        prevName: "a"
+                    }
+                }
             ]
         },
 
@@ -530,7 +1067,16 @@ ruleTester.run("sort-keys", rule, {
             code: "var obj = {'':1, a:'2'} // desc",
             options: ["desc"],
             errors: [
-                "Expected object keys to be in descending order. 'a' should be before ''."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "desc",
+                        thisName: "a",
+                        prevName: ""
+                    }
+                }
             ]
         },
         {
@@ -538,59 +1084,158 @@ ruleTester.run("sort-keys", rule, {
             options: ["desc"],
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                "Expected object keys to be in descending order. 'a' should be before ''."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "desc",
+                        thisName: "a",
+                        prevName: ""
+                    }
+                }
             ]
         },
         {
             code: "var obj = {a:1, _:2, b:3} // desc",
             options: ["desc"],
             errors: [
-                "Expected object keys to be in descending order. 'b' should be before '_'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "desc",
+                        thisName: "b",
+                        prevName: "_"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {a:1, c:2, b:3}",
             options: ["desc"],
             errors: [
-                "Expected object keys to be in descending order. 'c' should be before 'a'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "desc",
+                        thisName: "c",
+                        prevName: "a"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {b_:1, a:2, b:3}",
             options: ["desc"],
             errors: [
-                "Expected object keys to be in descending order. 'b' should be before 'a'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "desc",
+                        thisName: "b",
+                        prevName: "a"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {b_:1, c:2, C:3}",
             options: ["desc"],
             errors: [
-                "Expected object keys to be in descending order. 'c' should be before 'b_'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "desc",
+                        thisName: "c",
+                        prevName: "b_"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {$:1, _:2, A:3, a:4}",
             options: ["desc"],
             errors: [
-                "Expected object keys to be in descending order. '_' should be before '$'.",
-                "Expected object keys to be in descending order. 'a' should be before 'A'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "desc",
+                        thisName: "_",
+                        prevName: "$"
+                    }
+                },
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "desc",
+                        thisName: "a",
+                        prevName: "A"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {1:1, 2:4, A:3, '11':2}",
             options: ["desc"],
             errors: [
-                "Expected object keys to be in descending order. '2' should be before '1'.",
-                "Expected object keys to be in descending order. 'A' should be before '2'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "desc",
+                        thisName: "2",
+                        prevName: "1"
+                    }
+                },
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "desc",
+                        thisName: "A",
+                        prevName: "2"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {'#':1, À:3, 'Z':2, è:4}",
             options: ["desc"],
             errors: [
-                "Expected object keys to be in descending order. 'À' should be before '#'.",
-                "Expected object keys to be in descending order. 'è' should be before 'Z'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "desc",
+                        thisName: "À",
+                        prevName: "#"
+                    }
+                },
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "desc",
+                        thisName: "è",
+                        prevName: "Z"
+                    }
+                }
             ]
         },
 
@@ -599,7 +1244,16 @@ ruleTester.run("sort-keys", rule, {
             code: "var obj = {a:1, _:2, b:3}",
             options: ["desc", { minKeys: 3 }],
             errors: [
-                "Expected object keys to be in descending order. 'b' should be before '_'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "",
+                        order: "desc",
+                        thisName: "b",
+                        prevName: "_"
+                    }
+                }
             ]
         },
 
@@ -608,52 +1262,142 @@ ruleTester.run("sort-keys", rule, {
             code: "var obj = {a:1, _:2, b:3} // desc, insensitive",
             options: ["desc", { caseSensitive: false }],
             errors: [
-                "Expected object keys to be in insensitive descending order. 'b' should be before '_'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "insensitive ",
+                        order: "desc",
+                        thisName: "b",
+                        prevName: "_"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {a:1, c:2, b:3}",
             options: ["desc", { caseSensitive: false }],
             errors: [
-                "Expected object keys to be in insensitive descending order. 'c' should be before 'a'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "insensitive ",
+                        order: "desc",
+                        thisName: "c",
+                        prevName: "a"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {b_:1, a:2, b:3}",
             options: ["desc", { caseSensitive: false }],
             errors: [
-                "Expected object keys to be in insensitive descending order. 'b' should be before 'a'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "insensitive ",
+                        order: "desc",
+                        thisName: "b",
+                        prevName: "a"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {b_:1, c:2, C:3}",
             options: ["desc", { caseSensitive: false }],
             errors: [
-                "Expected object keys to be in insensitive descending order. 'c' should be before 'b_'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "insensitive ",
+                        order: "desc",
+                        thisName: "c",
+                        prevName: "b_"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {$:1, _:2, A:3, a:4}",
             options: ["desc", { caseSensitive: false }],
             errors: [
-                "Expected object keys to be in insensitive descending order. '_' should be before '$'.",
-                "Expected object keys to be in insensitive descending order. 'A' should be before '_'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "insensitive ",
+                        order: "desc",
+                        thisName: "_",
+                        prevName: "$"
+                    }
+                },
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "insensitive ",
+                        order: "desc",
+                        thisName: "A",
+                        prevName: "_"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {1:1, 2:4, A:3, '11':2}",
             options: ["desc", { caseSensitive: false }],
             errors: [
-                "Expected object keys to be in insensitive descending order. '2' should be before '1'.",
-                "Expected object keys to be in insensitive descending order. 'A' should be before '2'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "insensitive ",
+                        order: "desc",
+                        thisName: "2",
+                        prevName: "1"
+                    }
+                },
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "insensitive ",
+                        order: "desc",
+                        thisName: "A",
+                        prevName: "2"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {'#':1, À:3, 'Z':2, è:4}",
             options: ["desc", { caseSensitive: false }],
             errors: [
-                "Expected object keys to be in insensitive descending order. 'À' should be before '#'.",
-                "Expected object keys to be in insensitive descending order. 'è' should be before 'Z'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "insensitive ",
+                        order: "desc",
+                        thisName: "À",
+                        prevName: "#"
+                    }
+                },
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "insensitive ",
+                        order: "desc",
+                        thisName: "è",
+                        prevName: "Z"
+                    }
+                }
             ]
         },
 
@@ -662,7 +1406,16 @@ ruleTester.run("sort-keys", rule, {
             code: "var obj = {a:1, _:2, b:3}",
             options: ["desc", { caseSensitive: false, minKeys: 2 }],
             errors: [
-                "Expected object keys to be in insensitive descending order. 'b' should be before '_'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "",
+                        insensitive: "insensitive ",
+                        order: "desc",
+                        thisName: "b",
+                        prevName: "_"
+                    }
+                }
             ]
         },
 
@@ -671,53 +1424,152 @@ ruleTester.run("sort-keys", rule, {
             code: "var obj = {a:1, _:2, b:3} // desc, natural",
             options: ["desc", { natural: true }],
             errors: [
-                "Expected object keys to be in natural descending order. 'b' should be before '_'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "natural ",
+                        insensitive: "",
+                        order: "desc",
+                        thisName: "b",
+                        prevName: "_"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {a:1, c:2, b:3}",
             options: ["desc", { natural: true }],
             errors: [
-                "Expected object keys to be in natural descending order. 'c' should be before 'a'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "natural ",
+                        insensitive: "",
+                        order: "desc",
+                        thisName: "c",
+                        prevName: "a"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {b_:1, a:2, b:3}",
             options: ["desc", { natural: true }],
             errors: [
-                "Expected object keys to be in natural descending order. 'b' should be before 'a'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "natural ",
+                        insensitive: "",
+                        order: "desc",
+                        thisName: "b",
+                        prevName: "a"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {b_:1, c:2, C:3}",
             options: ["desc", { natural: true }],
             errors: [
-                "Expected object keys to be in natural descending order. 'c' should be before 'b_'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "natural ",
+                        insensitive: "",
+                        order: "desc",
+                        thisName: "c",
+                        prevName: "b_"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {$:1, _:2, A:3, a:4}",
             options: ["desc", { natural: true }],
             errors: [
-                "Expected object keys to be in natural descending order. '_' should be before '$'.",
-                "Expected object keys to be in natural descending order. 'A' should be before '_'.",
-                "Expected object keys to be in natural descending order. 'a' should be before 'A'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "natural ",
+                        insensitive: "",
+                        order: "desc",
+                        thisName: "_",
+                        prevName: "$"
+                    }
+                },
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "natural ",
+                        insensitive: "",
+                        order: "desc",
+                        thisName: "A",
+                        prevName: "_"
+                    }
+                },
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "natural ",
+                        insensitive: "",
+                        order: "desc",
+                        thisName: "a",
+                        prevName: "A"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {1:1, 2:4, A:3, '11':2}",
             options: ["desc", { natural: true }],
             errors: [
-                "Expected object keys to be in natural descending order. '2' should be before '1'.",
-                "Expected object keys to be in natural descending order. 'A' should be before '2'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "natural ",
+                        insensitive: "",
+                        order: "desc",
+                        thisName: "2",
+                        prevName: "1"
+                    }
+                },
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "natural ",
+                        insensitive: "",
+                        order: "desc",
+                        thisName: "A",
+                        prevName: "2"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {'#':1, À:3, 'Z':2, è:4}",
             options: ["desc", { natural: true }],
             errors: [
-                "Expected object keys to be in natural descending order. 'À' should be before '#'.",
-                "Expected object keys to be in natural descending order. 'è' should be before 'Z'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "natural ",
+                        insensitive: "",
+                        order: "desc",
+                        thisName: "À",
+                        prevName: "#"
+                    }
+                },
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "natural ",
+                        insensitive: "",
+                        order: "desc",
+                        thisName: "è",
+                        prevName: "Z"
+                    }
+                }
             ]
         },
 
@@ -726,7 +1578,16 @@ ruleTester.run("sort-keys", rule, {
             code: "var obj = {a:1, _:2, b:3}",
             options: ["desc", { natural: true, minKeys: 3 }],
             errors: [
-                "Expected object keys to be in natural descending order. 'b' should be before '_'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "natural ",
+                        insensitive: "",
+                        order: "desc",
+                        thisName: "b",
+                        prevName: "_"
+                    }
+                }
             ]
         },
 
@@ -735,53 +1596,152 @@ ruleTester.run("sort-keys", rule, {
             code: "var obj = {a:1, _:2, b:3} // desc, natural, insensitive",
             options: ["desc", { natural: true, caseSensitive: false }],
             errors: [
-                "Expected object keys to be in natural insensitive descending order. 'b' should be before '_'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "natural ",
+                        insensitive: "insensitive ",
+                        order: "desc",
+                        thisName: "b",
+                        prevName: "_"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {a:1, c:2, b:3}",
             options: ["desc", { natural: true, caseSensitive: false }],
             errors: [
-                "Expected object keys to be in natural insensitive descending order. 'c' should be before 'a'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "natural ",
+                        insensitive: "insensitive ",
+                        order: "desc",
+                        thisName: "c",
+                        prevName: "a"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {b_:1, a:2, b:3}",
             options: ["desc", { natural: true, caseSensitive: false }],
             errors: [
-                "Expected object keys to be in natural insensitive descending order. 'b' should be before 'a'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "natural ",
+                        insensitive: "insensitive ",
+                        order: "desc",
+                        thisName: "b",
+                        prevName: "a"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {b_:1, c:2, C:3}",
             options: ["desc", { natural: true, caseSensitive: false }],
             errors: [
-                "Expected object keys to be in natural insensitive descending order. 'c' should be before 'b_'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "natural ",
+                        insensitive: "insensitive ",
+                        order: "desc",
+                        thisName: "c",
+                        prevName: "b_"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {$:1, _:2, A:3, a:4}",
             options: ["desc", { natural: true, caseSensitive: false }],
             errors: [
-                "Expected object keys to be in natural insensitive descending order. '_' should be before '$'.",
-                "Expected object keys to be in natural insensitive descending order. 'A' should be before '_'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "natural ",
+                        insensitive: "insensitive ",
+                        order: "desc",
+                        thisName: "_",
+                        prevName: "$"
+                    }
+                },
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "natural ",
+                        insensitive: "insensitive ",
+                        order: "desc",
+                        thisName: "A",
+                        prevName: "_"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {1:1, 2:4, '11':2, A:3}",
             options: ["desc", { natural: true, caseSensitive: false }],
             errors: [
-                "Expected object keys to be in natural insensitive descending order. '2' should be before '1'.",
-                "Expected object keys to be in natural insensitive descending order. '11' should be before '2'.",
-                "Expected object keys to be in natural insensitive descending order. 'A' should be before '11'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "natural ",
+                        insensitive: "insensitive ",
+                        order: "desc",
+                        thisName: "2",
+                        prevName: "1"
+                    }
+                },
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "natural ",
+                        insensitive: "insensitive ",
+                        order: "desc",
+                        thisName: "11",
+                        prevName: "2"
+                    }
+                },
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "natural ",
+                        insensitive: "insensitive ",
+                        order: "desc",
+                        thisName: "A",
+                        prevName: "11"
+                    }
+                }
             ]
         },
         {
             code: "var obj = {'#':1, À:3, 'Z':2, è:4}",
             options: ["desc", { natural: true, caseSensitive: false }],
             errors: [
-                "Expected object keys to be in natural insensitive descending order. 'À' should be before '#'.",
-                "Expected object keys to be in natural insensitive descending order. 'è' should be before 'Z'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "natural ",
+                        insensitive: "insensitive ",
+                        order: "desc",
+                        thisName: "À",
+                        prevName: "#"
+                    }
+                },
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "natural ",
+                        insensitive: "insensitive ",
+                        order: "desc",
+                        thisName: "è",
+                        prevName: "Z"
+                    }
+                }
             ]
         },
 
@@ -790,7 +1750,16 @@ ruleTester.run("sort-keys", rule, {
             code: "var obj = {a:1, _:2, b:3}",
             options: ["desc", { natural: true, caseSensitive: false, minKeys: 2 }],
             errors: [
-                "Expected object keys to be in natural insensitive descending order. 'b' should be before '_'."
+                {
+                    messageId: "sortKeys",
+                    data: {
+                        natural: "natural ",
+                        insensitive: "insensitive ",
+                        order: "desc",
+                        thisName: "b",
+                        prevName: "_"
+                    }
+                }
             ]
         }
     ]
