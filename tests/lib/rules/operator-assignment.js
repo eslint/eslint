@@ -359,6 +359,11 @@ ruleTester.run("operator-assignment", rule, {
         options: ["never"],
         errors: UNEXPECTED_OPERATOR_ASSIGNMENT
     }, {
+        code: "foo/=bar",
+        output: "foo= foo/bar", // tokens can be adjacent
+        options: ["never"],
+        errors: UNEXPECTED_OPERATOR_ASSIGNMENT
+    }, {
         code: "foo+=+bar",
         output: "foo= foo+ +bar", // tokens cannot be adjacent, insert a space between
         options: ["never"],
