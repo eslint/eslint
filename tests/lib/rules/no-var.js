@@ -39,7 +39,7 @@ ruleTester.run("no-var", rule, {
             parserOptions: { ecmaFeatures: { globalReturn: true } },
             errors: [
                 {
-                    message: "Unexpected var, use let or const instead.",
+                    messageId: "unexpectedVar",
                     type: "VariableDeclaration"
                 }
             ]
@@ -50,7 +50,7 @@ ruleTester.run("no-var", rule, {
             parserOptions: { ecmaFeatures: { globalReturn: true } },
             errors: [
                 {
-                    message: "Unexpected var, use let or const instead.",
+                    messageId: "unexpectedVar",
                     type: "VariableDeclaration"
                 }
             ]
@@ -61,7 +61,7 @@ ruleTester.run("no-var", rule, {
             parserOptions: { ecmaFeatures: { globalReturn: true } },
             errors: [
                 {
-                    message: "Unexpected var, use let or const instead.",
+                    messageId: "unexpectedVar",
                     type: "VariableDeclaration"
                 }
             ]
@@ -72,7 +72,7 @@ ruleTester.run("no-var", rule, {
             parserOptions: { ecmaFeatures: { globalReturn: true } },
             errors: [
                 {
-                    message: "Unexpected var, use let or const instead.",
+                    messageId: "unexpectedVar",
                     type: "VariableDeclaration"
                 }
             ]
@@ -83,7 +83,7 @@ ruleTester.run("no-var", rule, {
             parserOptions: { ecmaFeatures: { globalReturn: true } },
             errors: [
                 {
-                    message: "Unexpected var, use let or const instead.",
+                    messageId: "unexpectedVar",
                     type: "VariableDeclaration"
                 }
             ]
@@ -94,7 +94,7 @@ ruleTester.run("no-var", rule, {
             parserOptions: { ecmaFeatures: { globalReturn: true } },
             errors: [
                 {
-                    message: "Unexpected var, use let or const instead.",
+                    messageId: "unexpectedVar",
                     type: "VariableDeclaration"
                 }
             ]
@@ -104,7 +104,7 @@ ruleTester.run("no-var", rule, {
             output: "for (let i = 0; i < list.length; ++i) { foo(i) }",
             parserOptions: { ecmaFeatures: { globalReturn: true } },
             errors: [
-                { message: "Unexpected var, use let or const instead.", type: "VariableDeclaration" }
+                { messageId: "unexpectedVar", type: "VariableDeclaration" }
             ]
         },
         {
@@ -112,7 +112,7 @@ ruleTester.run("no-var", rule, {
             output: null,
             parserOptions: { ecmaFeatures: { globalReturn: true } },
             errors: [
-                { message: "Unexpected var, use let or const instead.", type: "VariableDeclaration" }
+                { messageId: "unexpectedVar", type: "VariableDeclaration" }
             ]
         },
         {
@@ -120,8 +120,8 @@ ruleTester.run("no-var", rule, {
             output: null,
             parserOptions: { ecmaFeatures: { globalReturn: true } },
             errors: [
-                { message: "Unexpected var, use let or const instead.", type: "VariableDeclaration" },
-                { message: "Unexpected var, use let or const instead.", type: "VariableDeclaration" }
+                { messageId: "unexpectedVar", type: "VariableDeclaration" },
+                { messageId: "unexpectedVar", type: "VariableDeclaration" }
             ]
         },
 
@@ -131,8 +131,8 @@ ruleTester.run("no-var", rule, {
             output: null,
             parserOptions: { ecmaFeatures: { globalReturn: true } },
             errors: [
-                "Unexpected var, use let or const instead.",
-                "Unexpected var, use let or const instead."
+                { messageId: "unexpectedVar" },
+                { messageId: "unexpectedVar" }
             ]
         },
         {
@@ -140,8 +140,8 @@ ruleTester.run("no-var", rule, {
             output: null,
             parserOptions: { ecmaFeatures: { globalReturn: true } },
             errors: [
-                "Unexpected var, use let or const instead.",
-                "Unexpected var, use let or const instead."
+                { messageId: "unexpectedVar" },
+                { messageId: "unexpectedVar" }
             ]
         },
         {
@@ -149,7 +149,7 @@ ruleTester.run("no-var", rule, {
             output: null,
             parserOptions: { ecmaFeatures: { globalReturn: true } },
             errors: [
-                "Unexpected var, use let or const instead."
+                { messageId: "unexpectedVar" }
             ]
         },
         {
@@ -157,7 +157,7 @@ ruleTester.run("no-var", rule, {
             output: null,
             parserOptions: { ecmaFeatures: { globalReturn: true } },
             errors: [
-                "Unexpected var, use let or const instead."
+                { messageId: "unexpectedVar" }
             ]
         },
         {
@@ -165,7 +165,7 @@ ruleTester.run("no-var", rule, {
             output: null,
             parserOptions: { ecmaFeatures: { globalReturn: true } },
             errors: [
-                "Unexpected var, use let or const instead."
+                { messageId: "unexpectedVar" }
             ]
         },
         {
@@ -173,7 +173,7 @@ ruleTester.run("no-var", rule, {
             output: null,
             parserOptions: { ecmaFeatures: { globalReturn: true } },
             errors: [
-                "Unexpected var, use let or const instead."
+                { messageId: "unexpectedVar" }
             ]
         },
         {
@@ -181,7 +181,7 @@ ruleTester.run("no-var", rule, {
             output: null,
             parserOptions: { ecmaFeatures: { globalReturn: true } },
             errors: [
-                "Unexpected var, use let or const instead."
+                { messageId: "unexpectedVar" }
             ]
         },
 
@@ -191,7 +191,7 @@ ruleTester.run("no-var", rule, {
             output: null,
             parserOptions: { ecmaFeatures: { globalReturn: true } },
             errors: [
-                "Unexpected var, use let or const instead."
+                { messageId: "unexpectedVar" }
             ]
         },
         {
@@ -199,7 +199,7 @@ ruleTester.run("no-var", rule, {
             output: null,
             parserOptions: { ecmaFeatures: { globalReturn: true } },
             errors: [
-                "Unexpected var, use let or const instead."
+                { messageId: "unexpectedVar" }
             ]
         },
 
@@ -209,7 +209,7 @@ ruleTester.run("no-var", rule, {
             output: null,
             parserOptions: { ecmaFeatures: { globalReturn: true } },
             errors: [
-                "Unexpected var, use let or const instead."
+                { messageId: "unexpectedVar" }
             ]
         },
         {
@@ -217,7 +217,7 @@ ruleTester.run("no-var", rule, {
             output: null,
             parserOptions: { ecmaVersion: 2015, ecmaFeatures: { globalReturn: true } },
             errors: [
-                "Unexpected var, use let or const instead."
+                { messageId: "unexpectedVar" }
             ]
         },
         {
@@ -225,7 +225,7 @@ ruleTester.run("no-var", rule, {
             output: null,
             parserOptions: { ecmaVersion: 2015, ecmaFeatures: { globalReturn: true } },
             errors: [
-                "Unexpected var, use let or const instead."
+                { messageId: "unexpectedVar" }
             ]
         },
         {
@@ -233,7 +233,7 @@ ruleTester.run("no-var", rule, {
             output: "let {a, b = a} = {}",
             parserOptions: { ecmaVersion: 2015, ecmaFeatures: { globalReturn: true } },
             errors: [
-                "Unexpected var, use let or const instead."
+                { messageId: "unexpectedVar" }
             ]
         },
         {
@@ -241,7 +241,7 @@ ruleTester.run("no-var", rule, {
             output: null,
             parserOptions: { ecmaVersion: 2015, ecmaFeatures: { globalReturn: true } },
             errors: [
-                "Unexpected var, use let or const instead."
+                { messageId: "unexpectedVar" }
             ]
         },
         {
@@ -249,8 +249,8 @@ ruleTester.run("no-var", rule, {
             output: "let a = b; var b = 1",
             parserOptions: { ecmaVersion: 2015, ecmaFeatures: { globalReturn: true } },
             errors: [
-                "Unexpected var, use let or const instead.",
-                "Unexpected var, use let or const instead."
+                { messageId: "unexpectedVar" },
+                { messageId: "unexpectedVar" }
             ]
         },
 
@@ -263,7 +263,7 @@ ruleTester.run("no-var", rule, {
             output: null,
             parserOptions: { ecmaVersion: 2015, ecmaFeatures: { globalReturn: true } },
             errors: [
-                "Unexpected var, use let or const instead."
+                { messageId: "unexpectedVar" }
             ]
         },
 
@@ -273,7 +273,7 @@ ruleTester.run("no-var", rule, {
             output: null,
             parserOptions: { ecmaFeatures: { globalReturn: true } },
             errors: [
-                { message: "Unexpected var, use let or const instead.", type: "VariableDeclaration" }
+                { messageId: "unexpectedVar", type: "VariableDeclaration" }
             ]
         },
 
@@ -281,23 +281,23 @@ ruleTester.run("no-var", rule, {
         {
             code: "var foo = 1",
             output: null,
-            errors: ["Unexpected var, use let or const instead."]
+            errors: [{ messageId: "unexpectedVar" }]
         },
         {
             code: "{ var foo = 1 }",
             output: null,
-            errors: ["Unexpected var, use let or const instead."]
+            errors: [{ messageId: "unexpectedVar" }]
         },
         {
             code: "if (true) { var foo = 1 }",
             output: null,
-            errors: ["Unexpected var, use let or const instead."]
+            errors: [{ messageId: "unexpectedVar" }]
         },
         {
             code: "var foo = 1",
             output: "let foo = 1",
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: ["Unexpected var, use let or const instead."]
+            errors: [{ messageId: "unexpectedVar" }]
         },
 
         // https://github.com/eslint/eslint/issues/11594
@@ -306,19 +306,19 @@ ruleTester.run("no-var", rule, {
             output: "declare let foo = 2;",
             parser: require.resolve("../../fixtures/parsers/typescript-parsers/declare-var"),
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: ["Unexpected var, use let or const instead."]
+            errors: [{ messageId: "unexpectedVar" }]
         },
 
         // https://github.com/eslint/eslint/issues/11830
         {
             code: "function foo() { var let; }",
             output: null,
-            errors: ["Unexpected var, use let or const instead."]
+            errors: [{ messageId: "unexpectedVar" }]
         },
         {
             code: "function foo() { var { let } = {}; }",
             output: null,
-            errors: ["Unexpected var, use let or const instead."]
+            errors: [{ messageId: "unexpectedVar" }]
         }
     ]
 });
