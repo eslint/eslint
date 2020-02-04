@@ -10,9 +10,10 @@ var indexMap = myArray.reduce(function(memo, item, index) {
 }, {}); // Error: cannot set property 'b' of undefined
 ```
 
-This rule enforces usage of `return` statement in callbacks of array's methods.
-
 ## Rule Details
+
+This rule enforces usage of `return` statement in callbacks of array's methods.
+Additionaly, it may also enforce the `forEach` array method callback to __not__ return a value by using the `checkForEach` option.
 
 This rule finds callback functions of the following methods, then checks usage of `return` statement.
 
@@ -22,6 +23,7 @@ This rule finds callback functions of the following methods, then checks usage o
 * [`Array.prototype.find`](https://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.find)
 * [`Array.prototype.findIndex`](https://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.findindex)
 * [`Array.prototype.flatMap`](https://www.ecma-international.org/ecma-262/10.0/#sec-array.prototype.flatmap)
+* [`Array.prototype.forEach`](https://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.foreach) (optional, based on `checkForEach` parameter)
 * [`Array.prototype.map`](https://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.map)
 * [`Array.prototype.reduce`](https://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.reduce)
 * [`Array.prototype.reduceRight`](https://www.ecma-international.org/ecma-262/6.0/#sec-array.prototype.reduceright)
@@ -75,9 +77,12 @@ var bar = foo.map(node => node.getAttribute("id"));
 
 ## Options
 
-This rule has an object option:
+This rule accepts a configuration object with two options:
 
-* `"allowImplicit": false` (default) When set to true, allows implicitly returning `undefined` with a `return` statement containing no expression.
+* `"allowImplicit": false` (default) When set to `true`, allows callbacks of methods that require a return value to implicitly return `undefined` with a `return` statement containing no expression.
+* `"checkForEach": false` (default) When set to `true`, rule will also report `forEach` callbacks that return a value.
+
+### allowImplicit
 
 Examples of **correct** code for the `{ "allowImplicit": true }` option:
 
@@ -87,6 +92,58 @@ var undefAllTheThings = myArray.map(function(item) {
     return;
 });
 ```
+
+### checkForEach
+
+Examples of **incorrect** code for the `{ "checkForEach": true }` option:
+
+```js
+/*eslint array-callback-return: ["error", { checkForEach: true }]*/
+
+myArray.forEach(function(item) {
+    return handleItem(item)
+});
+
+myArray.forEach(function(item) {
+    if (item < 0) {
+        return x;
+    }
+    handleItem(item);
+});
+
+myArray.forEach(item => handleItem(item));
+
+myArray.forEach(item => {
+    return handleItem(item);
+});
+```
+
+Examples of **correct** code for the `{ "checkForEach": true }` option:
+
+```js
+/*eslint array-callback-return: ["error", { checkForEach: true }]*/
+
+myArray.forEach(function(item) {
+    handleItem(item)
+});
+
+myArray.forEach(function(item) {
+    if (item < 0) {
+        return;
+    }
+    handleItem(item);
+});
+
+myArray.forEach(function(item) {
+    handleItem(item);
+    return;
+});
+
+myArray.forEach(item => {
+    handleItem(item);
+});
+```
+
 
 ## Known Limitations
 
