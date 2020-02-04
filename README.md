@@ -185,16 +185,6 @@ The people who manage releases, review feature requests, and meet regularly to e
 Nicholas C. Zakas
 </a>
 </td><td align="center" valign="top" width="11%">
-<a href="https://github.com/platinumazure">
-<img src="https://github.com/platinumazure.png?s=75" width="75" height="75"><br />
-Kevin Partington
-</a>
-</td><td align="center" valign="top" width="11%">
-<a href="https://github.com/ilyavolodin">
-<img src="https://github.com/ilyavolodin.png?s=75" width="75" height="75"><br />
-Ilya Volodin
-</a>
-</td><td align="center" valign="top" width="11%">
 <a href="https://github.com/btmills">
 <img src="https://github.com/btmills.png?s=75" width="75" height="75"><br />
 Brandon Mills
@@ -208,11 +198,6 @@ Toru Nagashima
 <a href="https://github.com/kaicataldo">
 <img src="https://github.com/kaicataldo.png?s=75" width="75" height="75"><br />
 Kai Cataldo
-</a>
-</td><td align="center" valign="top" width="11%">
-<a href="https://github.com/not-an-aardvark">
-<img src="https://github.com/not-an-aardvark.png?s=75" width="75" height="75"><br />
-Teddy Katz
 </a>
 </td></tr></tbody></table>
 
@@ -236,14 +221,14 @@ The people who review and implement new features.
 The people who review and fix bugs and help triage issues.
 
 <table><tbody><tr><td align="center" valign="top" width="11%">
-<a href="https://github.com/gyandeeps">
-<img src="https://github.com/gyandeeps.png?s=75" width="75" height="75"><br />
-Gyandeep Singh
-</a>
-</td><td align="center" valign="top" width="11%">
 <a href="https://github.com/g-plane">
 <img src="https://github.com/g-plane.png?s=75" width="75" height="75"><br />
 Pig Fang
+</a>
+</td><td align="center" valign="top" width="11%">
+<a href="https://github.com/yeonjuan">
+<img src="https://github.com/yeonjuan.png?s=75" width="75" height="75"><br />
+YeonJuan
 </a>
 </td><td align="center" valign="top" width="11%">
 <a href="https://github.com/mdjermanovic">
