@@ -3898,7 +3898,7 @@ describe("CLIEngine", () => {
 
             it("should return false for files outside of the cwd (with no ignore file provided)", () => {
 
-                // Default ignore patterns should not inadvertantly ignore files in parent directories
+                // Default ignore patterns should not inadvertently ignore files in parent directories
                 const engine = new CLIEngine({ cwd: getFixturePath("ignored-paths", "no-ignore-file") });
 
                 assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "undef.js")));
@@ -4745,7 +4745,7 @@ describe("CLIEngine", () => {
 
     describe("mutability", () => {
         describe("plugins", () => {
-            it("Loading plugin in one instance doesnt mutate to another instance", () => {
+            it("Loading plugin in one instance doesn't mutate to another instance", () => {
                 const filePath = getFixturePath("single-quoted.js");
                 const engine1 = cliEngineWithPlugins({
                     cwd: path.join(fixtureDir, ".."),
@@ -4767,7 +4767,7 @@ describe("CLIEngine", () => {
         });
 
         describe("rules", () => {
-            it("Loading rules in one instance doesnt mutate to another instance", () => {
+            it("Loading rules in one instance doesn't mutate to another instance", () => {
                 const filePath = getFixturePath("single-quoted.js");
                 const engine1 = new CLIEngine({
                     cwd: path.join(fixtureDir, ".."),

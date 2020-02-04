@@ -1,5 +1,5 @@
 /**
- * @fileoverview disallow unncessary concatenation of literals or template literals
+ * @fileoverview disallow unnecessary concatenation of literals or template literals
  * @author Henry Zhu
  */
 "use strict";

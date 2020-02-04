@@ -4753,7 +4753,7 @@ describe("Linter", () => {
                 assert.sameDeepMembers(Array.from(linter1.getRules().keys()), Array.from(linter2.getRules().keys()));
             });
 
-            it("loading rule in one doesnt change the other", () => {
+            it("loading rule in one doesn't change the other", () => {
                 linter1.defineRule("mock-rule", () => ({}));
 
                 assert.isTrue(linter1.getRules().has("mock-rule"), "mock rule is present");
