@@ -551,7 +551,7 @@ ruleTester.run("no-unused-vars", rule, {
             errors: [{ message: "'err' is defined but never used." }]
         },
 
-        // no conclict in ignore patterns
+        // no conflict in ignore patterns
         {
             code: "try{}catch(err){};",
             options: [

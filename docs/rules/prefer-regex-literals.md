@@ -85,7 +85,7 @@ new RegExp(prefix + "abc");
 
 RegExp(`${prefix}abc`);
 
-new RegExp(String.raw`^\d\. ${sufix}`);
+new RegExp(String.raw`^\d\. ${suffix}`);
 ```
 
 ## Further Reading

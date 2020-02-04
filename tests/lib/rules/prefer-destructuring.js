@@ -25,13 +25,13 @@ ruleTester.run("prefer-destructuring", rule, {
         "var foo;",
         {
 
-            // Ensure that the default behavior does not require desturcturing when renaming
+            // Ensure that the default behavior does not require destructuring when renaming
             code: "var foo = object.bar;",
             options: [{ VariableDeclarator: { object: true } }]
         },
         {
 
-            // Ensure that the default behavior does not require desturcturing when renaming
+            // Ensure that the default behavior does not require destructuring when renaming
             code: "var foo = object.bar;",
             options: [{ object: true }]
         },

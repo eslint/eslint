@@ -298,7 +298,7 @@ ruleTester.run("no-regex-spaces", rule, {
             ]
         },
 
-        // report only the first occurence of consecutive spaces
+        // report only the first occurrence of consecutive spaces
         {
             code: "var foo = /  foo   /;",
             output: "var foo = / {2}foo   /;",

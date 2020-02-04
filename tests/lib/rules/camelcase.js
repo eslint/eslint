@@ -148,7 +148,7 @@ ruleTester.run("camelcase", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
-            code: "import { no_camelcased as camelCased, anoterCamelCased } from \"external-module\";",
+            code: "import { no_camelcased as camelCased, anotherCamelCased } from \"external-module\";",
             parserOptions: { ecmaVersion: 6, sourceType: "module" }
         },
         {
