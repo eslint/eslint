@@ -88,7 +88,7 @@ Bar.prototype.baz = function () {
 
 ### Read-only global variables
 
-This rule also disallows redeclarations of read-only global variables and assigments to read-only global variables.
+This rule also disallows redeclarations of read-only global variables and assignments to read-only global variables.
 
 A read-only global variable can be a built-in ES global (e.g. `Array`), an environment specific global
 (e.g. `window` in the browser environment), or a global variable defined as `readonly` in the configuration file
@@ -180,7 +180,7 @@ Examples of **incorrect** code for this rule with `"lexicalBindings"` option set
 ```js
 /*eslint no-implicit-globals: ["error", {"lexicalBindings": true}]*/
 
-const MyGobalFunction = (function() {
+const MyGlobalFunction = (function() {
     const a = 1;
     let b = 2;
     return function() {
@@ -194,7 +194,7 @@ Examples of **correct** code for this rule with `"lexicalBindings"` option set t
 ```js
 /*eslint no-implicit-globals: ["error", {"lexicalBindings": true}]*/
 
-window.MyGobalFunction = (function() {
+window.MyGlobalFunction = (function() {
     const a = 1;
     let b = 2;
     return function() {

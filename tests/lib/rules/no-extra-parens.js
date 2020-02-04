@@ -1403,7 +1403,7 @@ ruleTester.run("no-extra-parens", rule, {
         invalid("const [a = (b)] = []", "const [a = b] = []", "Identifier"),
         invalid("const {a = (b)} = {}", "const {a = b} = {}", "Identifier"),
 
-        // LHS of assigments/Assignment targets
+        // LHS of assignments/Assignment targets
         invalid("(a) = b", "a = b", "Identifier"),
         invalid("(a.b) = c", "a.b = c", "MemberExpression"),
         invalid("(a) += b", "a += b", "Identifier"),

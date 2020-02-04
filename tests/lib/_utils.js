@@ -1,5 +1,5 @@
 /**
- * @fileoverview uitls for rule tests.
+ * @fileoverview utils for rule tests.
  * @author 唯然<weiran.zsd@outlook.com>
  */
 
