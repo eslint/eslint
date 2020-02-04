@@ -41,15 +41,15 @@ ruleTester.defineRule("use-every-a", context => {
  * @param {string} [type] The node type (defaults to "Identifier")
  * @returns {Object} An expected error object
  */
-function definedError(varName, additional, type) {
+function definedError(varName, additional = "", type = "Identifier") {
     return {
         messageId: "unusedVar",
         data: {
             varName,
             action: "defined",
-            additional: additional || ""
+            additional
         },
-        type: type || "Identifier"
+        type
     };
 }
 
@@ -60,15 +60,15 @@ function definedError(varName, additional, type) {
  * @param {string} [type] The node type (defaults to "Identifier")
  * @returns {Object} An expected error object
  */
-function assignedError(varName, additional, type) {
+function assignedError(varName, additional = "", type = "Identifier") {
     return {
         messageId: "unusedVar",
         data: {
             varName,
             action: "assigned a value",
-            additional: additional || ""
+            additional
         },
-        type: type || "Identifier"
+        type
     };
 }
 
