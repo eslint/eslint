@@ -23,7 +23,7 @@ function awaitExit(exitingProcess) {
  * Asserts that the exit code of a given child process will equal the given value.
  * @param {ChildProcess} exitingProcess The child process
  * @param {number} expectedExitCode The expected exit code of the child process
- * @returns {Promise} A Promise that fufills if the exit code ends up matching, and rejects otherwise.
+ * @returns {Promise} A Promise that fulfills if the exit code ends up matching, and rejects otherwise.
  */
 function assertExitCode(exitingProcess, expectedExitCode) {
     return awaitExit(exitingProcess).then(exitCode => {
