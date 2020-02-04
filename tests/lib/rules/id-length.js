@@ -64,7 +64,7 @@ ruleTester.run("id-length", rule, {
         { code: "({ a: obj.x.y.z } = {});", options: [{ max: 4, properties: "never" }], parserOptions: { ecmaVersion: 6 } },
         { code: "({ prop: obj.xxxxx } = {});", options: [{ max: 4, properties: "never" }], parserOptions: { ecmaVersion: 6 } },
         { code: "var arr = [i,j,f,b]", parserOptions: { ecmaVersion: 6 } },
-        { code: "function foo([arr]) {}", parserOptions: { ecmaVersion: 6 }, errors: [tooShortError, tooShortError] }
+        { code: "function foo([arr]) {}", parserOptions: { ecmaVersion: 6 } }
     ],
     invalid: [
         { code: "var x = 1;", errors: [tooShortError] },
