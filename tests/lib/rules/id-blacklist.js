@@ -42,6 +42,16 @@ ruleTester.run("id-blacklist", rule, {
             options: ["f", "fo", "fooo", "bar"]
         },
         {
+            code: "import { foo as bar } from 'mod'",
+            options: ["foo"],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
+            code: "export { foo as bar } from 'mod'",
+            options: ["foo"],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" }
+        },
+        {
             code: "foo.bar()",
             options: ["f", "fo", "fooo", "b", "ba", "baz"]
         },
@@ -146,6 +156,260 @@ ruleTester.run("id-blacklist", rule, {
             errors: [
                 error
             ]
+        },
+        {
+            code: "import foo from 'mod'",
+            options: ["foo"],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [
+                error
+            ]
+        },
+        {
+            code: "import * as foo from 'mod'",
+            options: ["foo"],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [
+                error
+            ]
+        },
+        {
+            code: "import { foo } from 'mod'",
+            options: ["foo"],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [
+                error
+            ]
+        },
+        {
+            code: "import { foo as bar } from 'mod'",
+            options: ["bar"],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "blacklisted",
+                data: { name: "bar" },
+                type: "Identifier",
+                column: 17
+            }]
+        },
+        {
+            code: "import { foo as bar } from 'mod'",
+            options: ["foo", "bar"],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "blacklisted",
+                data: { name: "bar" },
+                type: "Identifier",
+                column: 17
+            }]
+        },
+        {
+            code: "import { foo as foo } from 'mod'",
+            options: ["foo"],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "blacklisted",
+                data: { name: "foo" },
+                type: "Identifier",
+                column: 17
+            }]
+        },
+        {
+            code: "import { foo, foo as bar } from 'mod'",
+            options: ["foo"],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "blacklisted",
+                data: { name: "foo" },
+                type: "Identifier",
+                column: 10
+            }]
+        },
+        {
+            code: "import { foo as bar, foo } from 'mod'",
+            options: ["foo"],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "blacklisted",
+                data: { name: "foo" },
+                type: "Identifier",
+                column: 22
+            }]
+        },
+        {
+            code: "import foo, { foo as bar } from 'mod'",
+            options: ["foo"],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "blacklisted",
+                data: { name: "foo" },
+                type: "Identifier",
+                column: 8
+            }]
+        },
+        {
+            code: "var foo; export { foo as bar };",
+            options: ["bar"],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "blacklisted",
+                data: { name: "bar" },
+                type: "Identifier",
+                column: 26
+            }]
+        },
+        {
+            code: "var foo; export { foo };",
+            options: ["foo"],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "foo" },
+                    type: "Identifier",
+                    column: 5
+                },
+                {
+                    messageId: "blacklisted",
+                    data: { name: "foo" },
+                    type: "Identifier",
+                    column: 19
+                }
+            ]
+        },
+        {
+            code: "var foo; export { foo as bar };",
+            options: ["foo"],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "foo" },
+                    type: "Identifier",
+                    column: 5
+                },
+
+                // reports each occurence of local identifier, although it's renamed in this export specifier
+                {
+                    messageId: "blacklisted",
+                    data: { name: "foo" },
+                    type: "Identifier",
+                    column: 19
+                }
+            ]
+        },
+        {
+            code: "var foo; export { foo as foo };",
+            options: ["foo"],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "foo" },
+                    type: "Identifier",
+                    column: 5
+                },
+                {
+                    messageId: "blacklisted",
+                    data: { name: "foo" },
+                    type: "Identifier",
+                    column: 19
+                },
+                {
+                    messageId: "blacklisted",
+                    data: { name: "foo" },
+                    type: "Identifier",
+                    column: 26
+                }
+            ]
+        },
+        {
+            code: "var foo; export { foo as bar };",
+            options: ["foo", "bar"],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "foo" },
+                    type: "Identifier",
+                    column: 5
+                },
+                {
+                    messageId: "blacklisted",
+                    data: { name: "foo" },
+                    type: "Identifier",
+                    column: 19
+                },
+                {
+                    messageId: "blacklisted",
+                    data: { name: "bar" },
+                    type: "Identifier",
+                    column: 26
+                }
+            ]
+        },
+        {
+            code: "export { foo } from 'mod'",
+            options: ["foo"],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [
+                error
+            ]
+        },
+        {
+            code: "export { foo as bar } from 'mod'",
+            options: ["bar"],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "blacklisted",
+                data: { name: "bar" },
+                type: "Identifier",
+                column: 17
+            }]
+        },
+        {
+            code: "export { foo as bar } from 'mod'",
+            options: ["foo", "bar"],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "blacklisted",
+                data: { name: "bar" },
+                type: "Identifier",
+                column: 17
+            }]
+        },
+        {
+            code: "export { foo as foo } from 'mod'",
+            options: ["foo"],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "blacklisted",
+                data: { name: "foo" },
+                type: "Identifier",
+                column: 17
+            }]
+        },
+        {
+            code: "export { foo, foo as bar } from 'mod'",
+            options: ["foo"],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "blacklisted",
+                data: { name: "foo" },
+                type: "Identifier",
+                column: 10
+            }]
+        },
+        {
+            code: "export { foo as bar, foo } from 'mod'",
+            options: ["foo"],
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "blacklisted",
+                data: { name: "foo" },
+                type: "Identifier",
+                column: 22
+            }]
         },
         {
             code: "foo.bar()",
