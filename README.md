@@ -1,7 +1,8 @@
-[![NPM version][npm-image]][npm-url]
-[![Downloads][downloads-image]][downloads-url]
+[![NPM version](https://img.shields.io/npm/v/eslint.svg)](https://www.npmjs.com/package/eslint)
+[![Downloads](https://img.shields.io/npm/dm/eslint.svg)](https://www.npmjs.com/package/eslint)
 [![Join the chat at https://gitter.im/eslint/eslint](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/eslint/eslint?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Open Collective][oc-badge-image]][oc-badge-url]  
+[![Follow us on Twitter](https://img.shields.io/twitter/follow/geteslint?label=Follow&style=social)](https://twitter.com/intent/user?screen_name=geteslint)
+[![Open Collective](https://img.shields.io/opencollective/all/eslint)](https://opencollective.com/eslint)
 [![Bountysource](https://www.bountysource.com/badge/tracker?tracker_id=282608)](https://www.bountysource.com/trackers/282608-eslint?utm_source=282608&utm_medium=shield&utm_campaign=TRACKER_BADGE)
 [![Build Status](https://github.com/eslint/eslint/workflows/CI/badge.svg)](https://github.com/eslint/eslint/actions)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Feslint%2Feslint.svg?type=shield)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Feslint%2Feslint?ref=badge_shield)
@@ -33,7 +34,7 @@ ESLint is a tool for identifying and reporting on patterns found in ECMAScript/J
 5. [Frequently Asked Questions](#faq)
 6. [Releases](#releases)
 7. [Semantic Versioning Policy](#semantic-versioning-policy)
-8. [License](#license)
+8. [License](#license
 9. [Team](#team)
 10. [Sponsors](#sponsors)
 11. [Technology Sponsors](#technology-sponsors)
@@ -256,11 +257,3 @@ The following companies, organizations, and individuals support ESLint's ongoing
 ## <a name="technology-sponsors"></a>Technology Sponsors
 
 * Site search ([eslint.org](https://eslint.org)) is sponsored by [Algolia](https://www.algolia.com)
-
-
-[npm-image]: https://img.shields.io/npm/v/eslint.svg
-[npm-url]: https://www.npmjs.com/package/eslint
-[downloads-image]: https://img.shields.io/npm/dm/eslint.svg
-[downloads-url]: https://www.npmjs.com/package/eslint
-[oc-badge-image]: https://img.shields.io/opencollective/all/eslint
-[oc-badge-url]: https://opencollective.com/eslint
