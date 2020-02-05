@@ -3864,6 +3864,7 @@ describe("Linter", () => {
                         endLine: 4,
                         line: 4,
                         message: "'bbb' is assigned a value but never used.",
+                        messageId: "unusedVar",
                         nodeType: "Identifier",
                         ruleId: "no-unused-vars",
                         severity: 2
@@ -3887,6 +3888,7 @@ describe("Linter", () => {
                         endColumn: 28,
                         line: 3,
                         message: "'aaa' is assigned a value but never used.",
+                        messageId: "unusedVar",
                         nodeType: "Identifier",
                         ruleId: "no-unused-vars",
                         severity: 2
@@ -3934,6 +3936,7 @@ describe("Linter", () => {
                         endColumn: 28,
                         line: 2,
                         message: "'aaa' is assigned a value but never used.",
+                        messageId: "unusedVar",
                         nodeType: "Identifier",
                         ruleId: "no-unused-vars",
                         severity: 2
@@ -3956,6 +3959,7 @@ describe("Linter", () => {
                         endColumn: 28,
                         line: 2,
                         message: "'aaa' is assigned a value but never used.",
+                        messageId: "unusedVar",
                         nodeType: "Identifier",
                         ruleId: "no-unused-vars",
                         severity: 2
@@ -3980,6 +3984,7 @@ describe("Linter", () => {
                         endColumn: 28,
                         line: 3,
                         message: "'aaa' is assigned a value but never used.",
+                        messageId: "unusedVar",
                         nodeType: "Identifier",
                         ruleId: "no-unused-vars",
                         severity: 2
@@ -4004,6 +4009,7 @@ describe("Linter", () => {
                         endColumn: 28,
                         line: 3,
                         message: "'aaa' is assigned a value but never used.",
+                        messageId: "unusedVar",
                         nodeType: "Identifier",
                         ruleId: "no-unused-vars",
                         severity: 2

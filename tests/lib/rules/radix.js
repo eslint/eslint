@@ -61,84 +61,84 @@ ruleTester.run("radix", rule, {
             code: "parseInt();",
             options: ["as-needed"],
             errors: [{
-                message: "Missing parameters.",
+                messageId: "missingParameters",
                 type: "CallExpression"
             }]
         },
         {
             code: "parseInt();",
             errors: [{
-                message: "Missing parameters.",
+                messageId: "missingParameters",
                 type: "CallExpression"
             }]
         },
         {
             code: "parseInt(\"10\");",
             errors: [{
-                message: "Missing radix parameter.",
+                messageId: "missingRadix",
                 type: "CallExpression"
             }]
         },
         {
             code: "parseInt(\"10\", null);",
             errors: [{
-                message: "Invalid radix parameter, must be an integer between 2 and 36.",
+                messageId: "invalidRadix",
                 type: "CallExpression"
             }]
         },
         {
             code: "parseInt(\"10\", undefined);",
             errors: [{
-                message: "Invalid radix parameter, must be an integer between 2 and 36.",
+                messageId: "invalidRadix",
                 type: "CallExpression"
             }]
         },
         {
             code: "parseInt(\"10\", true);",
             errors: [{
-                message: "Invalid radix parameter, must be an integer between 2 and 36.",
+                messageId: "invalidRadix",
                 type: "CallExpression"
             }]
         },
         {
             code: "parseInt(\"10\", \"foo\");",
             errors: [{
-                message: "Invalid radix parameter, must be an integer between 2 and 36.",
+                messageId: "invalidRadix",
                 type: "CallExpression"
             }]
         },
         {
             code: "parseInt(\"10\", \"123\");",
             errors: [{
-                message: "Invalid radix parameter, must be an integer between 2 and 36.",
+                messageId: "invalidRadix",
                 type: "CallExpression"
             }]
         },
         {
             code: "parseInt(\"10\", 1);",
             errors: [{
-                message: "Invalid radix parameter, must be an integer between 2 and 36.",
+                messageId: "invalidRadix",
                 type: "CallExpression"
             }]
         },
         {
             code: "parseInt(\"10\", 37);",
             errors: [{
-                message: "Invalid radix parameter, must be an integer between 2 and 36.",
+                messageId: "invalidRadix",
                 type: "CallExpression"
             }]
         },
         {
             code: "parseInt(\"10\", 10.5);",
             errors: [{
-                message: "Invalid radix parameter, must be an integer between 2 and 36.",
+                messageId: "invalidRadix",
                 type: "CallExpression"
             }]
         },
         {
             code: "Number.parseInt();",
             errors: [{
-                message: "Missing parameters.",
+                messageId: "missingParameters",
                 type: "CallExpression"
             }]
         },
@@ -146,35 +146,35 @@ ruleTester.run("radix", rule, {
             code: "Number.parseInt();",
             options: ["as-needed"],
             errors: [{
-                message: "Missing parameters.",
+                messageId: "missingParameters",
                 type: "CallExpression"
             }]
         },
         {
             code: "Number.parseInt(\"10\");",
             errors: [{
-                message: "Missing radix parameter.",
+                messageId: "missingRadix",
                 type: "CallExpression"
             }]
         },
         {
             code: "Number.parseInt(\"10\", 1);",
             errors: [{
-                message: "Invalid radix parameter, must be an integer between 2 and 36.",
+                messageId: "invalidRadix",
                 type: "CallExpression"
             }]
         },
         {
             code: "Number.parseInt(\"10\", 37);",
             errors: [{
-                message: "Invalid radix parameter, must be an integer between 2 and 36.",
+                messageId: "invalidRadix",
                 type: "CallExpression"
             }]
         },
         {
             code: "Number.parseInt(\"10\", 10.5);",
             errors: [{
-                message: "Invalid radix parameter, must be an integer between 2 and 36.",
+                messageId: "invalidRadix",
                 type: "CallExpression"
             }]
         },
@@ -182,7 +182,7 @@ ruleTester.run("radix", rule, {
             code: "parseInt(\"10\", 10);",
             options: ["as-needed"],
             errors: [{
-                message: "Redundant radix parameter.",
+                messageId: "redundantRadix",
                 type: "CallExpression"
             }]
         }

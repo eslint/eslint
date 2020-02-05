@@ -37,21 +37,39 @@ ruleTester.defineRule("use-every-a", context => {
 /**
  * Returns an expected error for defined-but-not-used variables.
  * @param {string} varName The name of the variable
+ * @param {string} [additional] The additional text for the message data
  * @param {string} [type] The node type (defaults to "Identifier")
  * @returns {Object} An expected error object
  */
-function definedError(varName, type) {
-    return { message: `'${varName}' is defined but never used.`, type: type || "Identifier" };
+function definedError(varName, additional = "", type = "Identifier") {
+    return {
+        messageId: "unusedVar",
+        data: {
+            varName,
+            action: "defined",
+            additional
+        },
+        type
+    };
 }
 
 /**
  * Returns an expected error for assigned-but-not-used variables.
  * @param {string} varName The name of the variable
+ * @param {string} [additional] The additional text for the message data
  * @param {string} [type] The node type (defaults to "Identifier")
  * @returns {Object} An expected error object
  */
-function assignedError(varName, type) {
-    return { message: `'${varName}' is assigned a value but never used.`, type: type || "Identifier" };
+function assignedError(varName, additional = "", type = "Identifier") {
+    return {
+        messageId: "unusedVar",
+        data: {
+            varName,
+            action: "assigned a value",
+            additional
+        },
+        type
+    };
 }
 
 ruleTester.run("no-unused-vars", rule, {
@@ -294,7 +312,7 @@ ruleTester.run("no-unused-vars", rule, {
         { code: "var a=10", errors: [assignedError("a")] },
         { code: "function f() { var a = 1; return function(){ f(a *= 2); }; }", errors: [definedError("f")] },
         { code: "function f() { var a = 1; return function(){ f(++a); }; }", errors: [definedError("f")] },
-        { code: "/*global a */", errors: [definedError("a", "Program")] },
+        { code: "/*global a */", errors: [definedError("a", "", "Program")] },
         { code: "function foo(first, second) {\ndoStuff(function() {\nconsole.log(second);});};", errors: [definedError("foo")] },
         { code: "var a=10;", options: ["all"], errors: [assignedError("a")] },
         { code: "var a=10; a=20;", options: ["all"], errors: [assignedError("a")] },
@@ -304,7 +322,15 @@ ruleTester.run("no-unused-vars", rule, {
         { code: "var a=10, b=0, c=null; setTimeout(function() { var b=2; var c=2; alert(a+b+c); }, 0);", options: ["all"], errors: [assignedError("b"), assignedError("c")] },
         { code: "function f(){var a=[];return a.map(function(){});}", options: ["all"], errors: [definedError("f")] },
         { code: "function f(){var a=[];return a.map(function g(){});}", options: ["all"], errors: [definedError("f")] },
-        { code: "function foo() {function foo(x) {\nreturn x; }; return function() {return foo; }; }", errors: [{ message: "'foo' is defined but never used.", line: 1, type: "Identifier" }] },
+        {
+            code: "function foo() {function foo(x) {\nreturn x; }; return function() {return foo; }; }",
+            errors: [{
+                messageId: "unusedVar",
+                data: { varName: "foo", action: "defined", additional: "" },
+                line: 1,
+                type: "Identifier"
+            }]
+        },
         { code: "function f(){var x;function a(){x=42;}function b(){alert(x);}}", options: ["all"], errors: 3 },
         { code: "function f(a) {}; f();", options: ["all"], errors: [definedError("a")] },
         { code: "function a(x, y, z){ return y; }; a();", options: ["all"], errors: [definedError("z")] },
@@ -317,7 +343,7 @@ ruleTester.run("no-unused-vars", rule, {
         { code: "(function(foo, baz, bar) { return baz; })();", options: [{ vars: "all", args: "all" }], errors: [definedError("foo"), definedError("bar")] },
         { code: "(function z(foo) { var bar = 33; })();", options: [{ vars: "all", args: "all" }], errors: [definedError("foo"), assignedError("bar")] },
         { code: "(function z(foo) { z(); })();", options: [{}], errors: [definedError("foo")] },
-        { code: "function f() { var a = 1; return function(){ f(a = 2); }; }", options: [{}], errors: [definedError("f"), { message: "'a' is assigned a value but never used." }] },
+        { code: "function f() { var a = 1; return function(){ f(a = 2); }; }", options: [{}], errors: [definedError("f"), assignedError("a")] },
         { code: "import x from \"y\";", parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [definedError("x")] },
         { code: "export function fn2({ x, y }) {\n console.log(x); \n};", parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [definedError("y")] },
         { code: "export function fn2( x, y ) {\n console.log(x); \n};", parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [definedError("y")] },
@@ -330,53 +356,179 @@ ruleTester.run("no-unused-vars", rule, {
         {
             code: "var _a; var b;",
             options: [{ vars: "all", varsIgnorePattern: "^_" }],
-            errors: [{ message: "'b' is defined but never used. Allowed unused vars must match /^_/u.", line: 1, column: 13 }]
+            errors: [{
+                line: 1,
+                column: 13,
+                messageId: "unusedVar",
+                data: {
+                    varName: "b",
+                    action: "defined",
+                    additional: ". Allowed unused vars must match /^_/u"
+                }
+            }]
         },
         {
             code: "var a; function foo() { var _b; var c_; } foo();",
             options: [{ vars: "local", varsIgnorePattern: "^_" }],
-            errors: [{ message: "'c_' is defined but never used. Allowed unused vars must match /^_/u.", line: 1, column: 37 }]
+            errors: [{
+                line: 1,
+                column: 37,
+                messageId: "unusedVar",
+                data: {
+                    varName: "c_",
+                    action: "defined",
+                    additional: ". Allowed unused vars must match /^_/u"
+                }
+            }]
         },
         {
             code: "function foo(a, _b) { } foo();",
             options: [{ args: "all", argsIgnorePattern: "^_" }],
-            errors: [{ message: "'a' is defined but never used. Allowed unused args must match /^_/u.", line: 1, column: 14 }]
+            errors: [{
+                line: 1,
+                column: 14,
+                messageId: "unusedVar",
+                data: {
+                    varName: "a",
+                    action: "defined",
+                    additional: ". Allowed unused args must match /^_/u"
+                }
+            }]
         },
         {
             code: "function foo(a, _b, c) { return a; } foo();",
             options: [{ args: "after-used", argsIgnorePattern: "^_" }],
-            errors: [{ message: "'c' is defined but never used. Allowed unused args must match /^_/u.", line: 1, column: 21 }]
+            errors: [{
+                line: 1,
+                column: 21,
+                messageId: "unusedVar",
+                data: {
+                    varName: "c",
+                    action: "defined",
+                    additional: ". Allowed unused args must match /^_/u"
+                }
+            }]
         },
         {
             code: "function foo(_a) { } foo();",
             options: [{ args: "all", argsIgnorePattern: "[iI]gnored" }],
-            errors: [{ message: "'_a' is defined but never used. Allowed unused args must match /[iI]gnored/u.", line: 1, column: 14 }]
+            errors: [{
+                line: 1,
+                column: 14,
+                messageId: "unusedVar",
+                data: {
+                    varName: "_a",
+                    action: "defined",
+                    additional: ". Allowed unused args must match /[iI]gnored/u"
+                }
+            }]
         },
         {
             code: "var [ firstItemIgnored, secondItem ] = items;",
             options: [{ vars: "all", varsIgnorePattern: "[iI]gnored" }],
             parserOptions: { ecmaVersion: 6 },
-            errors: [{ message: "'secondItem' is assigned a value but never used. Allowed unused vars must match /[iI]gnored/u.", line: 1, column: 25 }]
+            errors: [{
+                line: 1,
+                column: 25,
+                messageId: "unusedVar",
+                data: {
+                    varName: "secondItem",
+                    action: "assigned a value",
+                    additional: ". Allowed unused vars must match /[iI]gnored/u"
+                }
+            }]
         },
 
         // for-in loops (see #2342)
-        { code: "(function(obj) { var name; for ( name in obj ) { i(); return; } })({});", errors: [{ message: "'name' is assigned a value but never used.", line: 1, column: 22 }] },
-        { code: "(function(obj) { var name; for ( name in obj ) { } })({});", errors: [{ message: "'name' is assigned a value but never used.", line: 1, column: 22 }] },
-        { code: "(function(obj) { for ( var name in obj ) { } })({});", errors: [{ message: "'name' is assigned a value but never used.", line: 1, column: 28 }] },
+        {
+            code: "(function(obj) { var name; for ( name in obj ) { i(); return; } })({});",
+            errors: [{
+                line: 1,
+                column: 22,
+                messageId: "unusedVar",
+                data: {
+                    varName: "name",
+                    action: "assigned a value",
+                    additional: ""
+                }
+            }]
+        },
+        {
+            code: "(function(obj) { var name; for ( name in obj ) { } })({});",
+            errors: [{
+                line: 1,
+                column: 22,
+                messageId: "unusedVar",
+                data: {
+                    varName: "name",
+                    action: "assigned a value",
+                    additional: ""
+                }
+            }]
+        },
+        {
+            code: "(function(obj) { for ( var name in obj ) { } })({});",
+            errors: [{
+                line: 1,
+                column: 28,
+                messageId: "unusedVar",
+                data: {
+                    varName: "name",
+                    action: "assigned a value",
+                    additional: ""
+                }
+            }]
+        },
 
         // https://github.com/eslint/eslint/issues/3617
         {
             code: "\n/* global foobar, foo, bar */\nfoobar;",
             errors: [
-                { line: 2, column: 19, message: "'foo' is defined but never used." },
-                { line: 2, column: 24, message: "'bar' is defined but never used." }
+                {
+                    line: 2,
+                    column: 19,
+                    messageId: "unusedVar",
+                    data: {
+                        varName: "foo",
+                        action: "defined",
+                        additional: ""
+                    }
+                },
+                {
+                    line: 2,
+                    column: 24,
+                    messageId: "unusedVar",
+                    data: {
+                        varName: "bar",
+                        action: "defined",
+                        additional: ""
+                    }
+                }
             ]
         },
         {
             code: "\n/* global foobar,\n   foo,\n   bar\n */\nfoobar;",
             errors: [
-                { line: 3, column: 4, message: "'foo' is defined but never used." },
-                { line: 4, column: 4, message: "'bar' is defined but never used." }
+                {
+                    line: 3,
+                    column: 4,
+                    messageId: "unusedVar",
+                    data: {
+                        varName: "foo",
+                        action: "defined",
+                        additional: ""
+                    }
+                },
+                {
+                    line: 4,
+                    column: 4,
+                    messageId: "unusedVar",
+                    data: {
+                        varName: "bar",
+                        action: "defined",
+                        additional: ""
+                    }
+                }
             ]
         },
 
@@ -385,26 +537,53 @@ ruleTester.run("no-unused-vars", rule, {
             code: "const data = { type: 'coords', x: 1, y: 2 };\nconst { type, ...coords } = data;\n console.log(coords);",
             parserOptions: { ecmaVersion: 2018 },
             errors: [
-                { line: 2, column: 9, message: "'type' is assigned a value but never used." }
+                {
+                    line: 2,
+                    column: 9,
+                    messageId: "unusedVar",
+                    data: {
+                        varName: "type",
+                        action: "assigned a value",
+                        additional: ""
+                    }
+                }
             ]
         },
 
         // Unused rest property with ignoreRestSiblings
         {
-            code: "const data = { type: 'coords', x: 1, y: 2 };\nconst { type, ...coords } = data;\n console.log(type)",
+            code: "const data = { type: 'coords', x: 2, y: 2 };\nconst { type, ...coords } = data;\n console.log(type)",
             options: [{ ignoreRestSiblings: true }],
             parserOptions: { ecmaVersion: 2018 },
             errors: [
-                { line: 2, column: 18, message: "'coords' is assigned a value but never used." }
+                {
+                    line: 2,
+                    column: 18,
+                    messageId: "unusedVar",
+                    data: {
+                        varName: "coords",
+                        action: "assigned a value",
+                        additional: ""
+                    }
+                }
             ]
         },
 
         // Unused rest property without ignoreRestSiblings
         {
-            code: "const data = { type: 'coords', x: 1, y: 2 };\nconst { type, ...coords } = data;\n console.log(type)",
+            code: "const data = { type: 'coords', x: 3, y: 2 };\nconst { type, ...coords } = data;\n console.log(type)",
             parserOptions: { ecmaVersion: 2018 },
             errors: [
-                { line: 2, column: 18, message: "'coords' is assigned a value but never used." }
+                {
+                    line: 2,
+                    column: 18,
+                    messageId: "unusedVar",
+                    data: {
+                        varName: "coords",
+                        action: "assigned a value",
+                        additional: ""
+                    }
+                }
             ]
         },
 
@@ -413,7 +592,16 @@ ruleTester.run("no-unused-vars", rule, {
             code: "const data = { vars: ['x','y'], x: 1, y: 2 };\nconst { vars: [x], ...coords } = data;\n console.log(coords)",
             parserOptions: { ecmaVersion: 2018 },
             errors: [
-                { line: 2, column: 16, message: "'x' is assigned a value but never used." }
+                {
+                    line: 2,
+                    column: 16,
+                    messageId: "unusedVar",
+                    data: {
+                        varName: "x",
+                        action: "assigned a value",
+                        additional: ""
+                    }
+                }
             ]
         },
 
@@ -422,7 +610,16 @@ ruleTester.run("no-unused-vars", rule, {
             code: "const data = { defaults: { x: 0 }, x: 1, y: 2 };\nconst { defaults: { x }, ...coords } = data;\n console.log(coords)",
             parserOptions: { ecmaVersion: 2018 },
             errors: [
-                { line: 2, column: 21, message: "'x' is assigned a value but never used." }
+                {
+                    line: 2,
+                    column: 21,
+                    messageId: "unusedVar",
+                    data: {
+                        varName: "x",
+                        action: "assigned a value",
+                        additional: ""
+                    }
+                }
             ]
         },
 
@@ -431,38 +628,83 @@ ruleTester.run("no-unused-vars", rule, {
             code: "(({a, ...rest}) => {})",
             options: [{ args: "all", ignoreRestSiblings: true }],
             parserOptions: { ecmaVersion: 2018 },
-            errors: ["'rest' is defined but never used."]
+            errors: [definedError("rest")]
         },
 
         // https://github.com/eslint/eslint/issues/3714
         {
             code: "/* global a$fooz,$foo */\na$fooz;",
             errors: [
-                { line: 1, column: 18, message: "'$foo' is defined but never used." }
+                {
+                    line: 1,
+                    column: 18,
+                    messageId: "unusedVar",
+                    data: {
+                        varName: "$foo",
+                        action: "defined",
+                        additional: ""
+                    }
+                }
             ]
         },
         {
             code: "/* globals a$fooz, $ */\na$fooz;",
             errors: [
-                { line: 1, column: 20, message: "'$' is defined but never used." }
+                {
+                    line: 1,
+                    column: 20,
+                    messageId: "unusedVar",
+                    data: {
+                        varName: "$",
+                        action: "defined",
+                        additional: ""
+                    }
+                }
             ]
         },
         {
             code: "/*globals $foo*/",
             errors: [
-                { line: 1, column: 11, message: "'$foo' is defined but never used." }
+                {
+                    line: 1,
+                    column: 11,
+                    messageId: "unusedVar",
+                    data: {
+                        varName: "$foo",
+                        action: "defined",
+                        additional: ""
+                    }
+                }
             ]
         },
         {
             code: "/* global global*/",
             errors: [
-                { line: 1, column: 11, message: "'global' is defined but never used." }
+                {
+                    line: 1,
+                    column: 11,
+                    messageId: "unusedVar",
+                    data: {
+                        varName: "global",
+                        action: "defined",
+                        additional: ""
+                    }
+                }
             ]
         },
         {
             code: "/*global foo:true*/",
             errors: [
-                { line: 1, column: 10, message: "'foo' is defined but never used." }
+                {
+                    line: 1,
+                    column: 10,
+                    messageId: "unusedVar",
+                    data: {
+                        varName: "foo",
+                        action: "defined",
+                        additional: ""
+                    }
+                }
             ]
         },
 
@@ -470,7 +712,16 @@ ruleTester.run("no-unused-vars", rule, {
         {
             code: "/*global 変数, 数*/\n変数;",
             errors: [
-                { line: 1, column: 14, message: "'数' is defined but never used." }
+                {
+                    line: 1,
+                    column: 14,
+                    messageId: "unusedVar",
+                    data: {
+                        varName: "数",
+                        action: "defined",
+                        additional: ""
+                    }
+                }
             ]
         },
 
@@ -479,7 +730,16 @@ ruleTester.run("no-unused-vars", rule, {
             code: "/*global 𠮷𩸽, 𠮷*/\n\\u{20BB7}\\u{29E3D};",
             env: { es6: true },
             errors: [
-                { line: 1, column: 16, message: "'𠮷' is defined but never used." }
+                {
+                    line: 1,
+                    column: 16,
+                    messageId: "unusedVar",
+                    data: {
+                        varName: "𠮷",
+                        action: "defined",
+                        additional: ""
+                    }
+                }
             ]
         },
 
@@ -487,51 +747,51 @@ ruleTester.run("no-unused-vars", rule, {
         {
             code: "export default function(a) {}",
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [{ message: "'a' is defined but never used." }]
+            errors: [definedError("a")]
         },
         {
             code: "export default function(a, b) { console.log(a); }",
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [{ message: "'b' is defined but never used." }]
+            errors: [definedError("b")]
         },
         {
             code: "export default (function(a) {});",
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [{ message: "'a' is defined but never used." }]
+            errors: [definedError("a")]
         },
         {
             code: "export default (function(a, b) { console.log(a); });",
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [{ message: "'b' is defined but never used." }]
+            errors: [definedError("b")]
         },
         {
             code: "export default (a) => {};",
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [{ message: "'a' is defined but never used." }]
+            errors: [definedError("a")]
         },
         {
             code: "export default (a, b) => { console.log(a); };",
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [{ message: "'b' is defined but never used." }]
+            errors: [definedError("b")]
         },
 
         // caughtErrors
         {
             code: "try{}catch(err){};",
             options: [{ caughtErrors: "all" }],
-            errors: [{ message: "'err' is defined but never used." }]
+            errors: [definedError("err")]
         },
         {
             code: "try{}catch(err){};",
             options: [{ caughtErrors: "all", caughtErrorsIgnorePattern: "^ignore" }],
-            errors: [{ message: "'err' is defined but never used. Allowed unused args must match /^ignore/u." }]
+            errors: [definedError("err", ". Allowed unused args must match /^ignore/u")]
         },
 
         // multiple try catch with one success
         {
             code: "try{}catch(ignoreErr){}try{}catch(err){};",
             options: [{ caughtErrors: "all", caughtErrorsIgnorePattern: "^ignore" }],
-            errors: [{ message: "'err' is defined but never used. Allowed unused args must match /^ignore/u." }]
+            errors: [definedError("err", ". Allowed unused args must match /^ignore/u")]
         },
 
         // multiple try catch both fail
@@ -539,8 +799,8 @@ ruleTester.run("no-unused-vars", rule, {
             code: "try{}catch(error){}try{}catch(err){};",
             options: [{ caughtErrors: "all", caughtErrorsIgnorePattern: "^ignore" }],
             errors: [
-                { message: "'error' is defined but never used. Allowed unused args must match /^ignore/u." },
-                { message: "'err' is defined but never used. Allowed unused args must match /^ignore/u." }
+                definedError("error", ". Allowed unused args must match /^ignore/u"),
+                definedError("err", ". Allowed unused args must match /^ignore/u")
             ]
         },
 
@@ -548,7 +808,7 @@ ruleTester.run("no-unused-vars", rule, {
         {
             code: "try{}catch(err){};",
             options: [{ vars: "all", args: "all", caughtErrors: "all" }],
-            errors: [{ message: "'err' is defined but never used." }]
+            errors: [definedError("err")]
         },
 
         // no conflict in ignore patterns
@@ -562,36 +822,36 @@ ruleTester.run("no-unused-vars", rule, {
                     argsIgnorePattern: "^er"
                 }
             ],
-            errors: [{ message: "'err' is defined but never used." }]
+            errors: [definedError("err")]
         },
 
         // Ignore reads for modifications to itself: https://github.com/eslint/eslint/issues/6348
-        { code: "var a = 0; a = a + 1;", errors: [{ message: "'a' is assigned a value but never used." }] },
-        { code: "var a = 0; a = a + a;", errors: [{ message: "'a' is assigned a value but never used." }] },
-        { code: "var a = 0; a += a + 1;", errors: [{ message: "'a' is assigned a value but never used." }] },
-        { code: "var a = 0; a++;", errors: [{ message: "'a' is assigned a value but never used." }] },
-        { code: "function foo(a) { a = a + 1 } foo();", errors: [{ message: "'a' is assigned a value but never used." }] },
-        { code: "function foo(a) { a += a + 1 } foo();", errors: [{ message: "'a' is assigned a value but never used." }] },
-        { code: "function foo(a) { a++ } foo();", errors: [{ message: "'a' is assigned a value but never used." }] },
-        { code: "var a = 3; a = a * 5 + 6;", errors: [{ message: "'a' is assigned a value but never used." }] },
-        { code: "var a = 2, b = 4; a = a * 2 + b;", errors: [{ message: "'a' is assigned a value but never used." }] },
+        { code: "var a = 0; a = a + 1;", errors: [assignedError("a")] },
+        { code: "var a = 0; a = a + a;", errors: [assignedError("a")] },
+        { code: "var a = 0; a += a + 1;", errors: [assignedError("a")] },
+        { code: "var a = 0; a++;", errors: [assignedError("a")] },
+        { code: "function foo(a) { a = a + 1 } foo();", errors: [assignedError("a")] },
+        { code: "function foo(a) { a += a + 1 } foo();", errors: [assignedError("a")] },
+        { code: "function foo(a) { a++ } foo();", errors: [assignedError("a")] },
+        { code: "var a = 3; a = a * 5 + 6;", errors: [assignedError("a")] },
+        { code: "var a = 2, b = 4; a = a * 2 + b;", errors: [assignedError("a")] },
 
         // https://github.com/eslint/eslint/issues/6576 (For coverage)
         {
             code: "function foo(cb) { cb = function(a) { cb(1 + a); }; bar(not_cb); } foo();",
-            errors: [{ message: "'cb' is assigned a value but never used." }]
+            errors: [assignedError("cb")]
         },
         {
             code: "function foo(cb) { cb = function(a) { return cb(1 + a); }(); } foo();",
-            errors: [{ message: "'cb' is assigned a value but never used." }]
+            errors: [assignedError("cb")]
         },
         {
             code: "function foo(cb) { cb = (function(a) { cb(1 + a); }, cb); } foo();",
-            errors: [{ message: "'cb' is assigned a value but never used." }]
+            errors: [assignedError("cb")]
         },
         {
             code: "function foo(cb) { cb = (0, function(a) { cb(1 + a); }); } foo();",
-            errors: [{ message: "'cb' is assigned a value but never used." }]
+            errors: [assignedError("cb")]
         },
 
         // https://github.com/eslint/eslint/issues/6646
@@ -604,7 +864,7 @@ ruleTester.run("no-unused-vars", rule, {
                 "    foo()",
                 "}"
             ].join("\n"),
-            errors: [{ message: "'b' is assigned a value but never used." }]
+            errors: [assignedError("b")]
         },
 
         // https://github.com/eslint/eslint/issues/7124
@@ -612,12 +872,8 @@ ruleTester.run("no-unused-vars", rule, {
             code: "(function(a, b, c) {})",
             options: [{ argsIgnorePattern: "c" }],
             errors: [
-                {
-                    message: "'a' is defined but never used. Allowed unused args must match /c/u."
-                },
-                {
-                    message: "'b' is defined but never used. Allowed unused args must match /c/u."
-                }
+                definedError("a", ". Allowed unused args must match /c/u"),
+                definedError("b", ". Allowed unused args must match /c/u")
             ]
         },
         {
@@ -625,12 +881,8 @@ ruleTester.run("no-unused-vars", rule, {
             options: [{ argsIgnorePattern: "[cd]" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                {
-                    message: "'a' is defined but never used. Allowed unused args must match /[cd]/u."
-                },
-                {
-                    message: "'b' is defined but never used. Allowed unused args must match /[cd]/u."
-                }
+                definedError("a", ". Allowed unused args must match /[cd]/u"),
+                definedError("b", ". Allowed unused args must match /[cd]/u")
             ]
         },
         {
@@ -638,15 +890,9 @@ ruleTester.run("no-unused-vars", rule, {
             options: [{ argsIgnorePattern: "c" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                {
-                    message: "'a' is defined but never used. Allowed unused args must match /c/u."
-                },
-                {
-                    message: "'b' is defined but never used. Allowed unused args must match /c/u."
-                },
-                {
-                    message: "'d' is defined but never used. Allowed unused args must match /c/u."
-                }
+                definedError("a", ". Allowed unused args must match /c/u"),
+                definedError("b", ". Allowed unused args must match /c/u"),
+                definedError("d", ". Allowed unused args must match /c/u")
             ]
         },
         {
@@ -654,20 +900,23 @@ ruleTester.run("no-unused-vars", rule, {
             options: [{ argsIgnorePattern: "d" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                {
-                    message: "'a' is defined but never used. Allowed unused args must match /d/u."
-                },
-                {
-                    message: "'b' is defined but never used. Allowed unused args must match /d/u."
-                },
-                {
-                    message: "'c' is defined but never used. Allowed unused args must match /d/u."
-                }
+                definedError("a", ". Allowed unused args must match /d/u"),
+                definedError("b", ". Allowed unused args must match /d/u"),
+                definedError("c", ". Allowed unused args must match /d/u")
             ]
         },
         {
             code: "/*global\rfoo*/",
-            errors: [{ message: "'foo' is defined but never used.", line: 2, column: 1 }]
+            errors: [{
+                line: 2,
+                column: 1,
+                messageId: "unusedVar",
+                data: {
+                    varName: "foo",
+                    action: "defined",
+                    additional: ""
+                }
+            }]
         },
 
         // https://github.com/eslint/eslint/issues/8442
@@ -675,46 +924,46 @@ ruleTester.run("no-unused-vars", rule, {
             code: "(function ({ a }, b ) { return b; })();",
             parserOptions: { ecmaVersion: 2015 },
             errors: [
-                "'a' is defined but never used."
+                definedError("a")
             ]
         },
         {
             code: "(function ({ a }, { b, c } ) { return b; })();",
             parserOptions: { ecmaVersion: 2015 },
             errors: [
-                "'a' is defined but never used.",
-                "'c' is defined but never used."
+                definedError("a"),
+                definedError("c")
             ]
         },
         {
             code: "(function ({ a, b }, { c } ) { return b; })();",
             parserOptions: { ecmaVersion: 2015 },
             errors: [
-                "'a' is defined but never used.",
-                "'c' is defined but never used."
+                definedError("a"),
+                definedError("c")
             ]
         },
         {
             code: "(function ([ a ], b ) { return b; })();",
             parserOptions: { ecmaVersion: 2015 },
             errors: [
-                "'a' is defined but never used."
+                definedError("a")
             ]
         },
         {
             code: "(function ([ a ], [ b, c ] ) { return b; })();",
             parserOptions: { ecmaVersion: 2015 },
             errors: [
-                "'a' is defined but never used.",
-                "'c' is defined but never used."
+                definedError("a"),
+                definedError("c")
             ]
         },
         {
             code: "(function ([ a, b ], [ c ] ) { return b; })();",
             parserOptions: { ecmaVersion: 2015 },
             errors: [
-                "'a' is defined but never used.",
-                "'c' is defined but never used."
+                definedError("a"),
+                definedError("c")
             ]
         },
 
@@ -722,34 +971,32 @@ ruleTester.run("no-unused-vars", rule, {
         {
             code: "(function(_a) {})();",
             options: [{ args: "all", varsIgnorePattern: "^_" }],
-            errors: [{ message: "'_a' is defined but never used." }]
+            errors: [definedError("_a")]
         },
         {
             code: "(function(_a) {})();",
             options: [{ args: "all", caughtErrorsIgnorePattern: "^_" }],
-            errors: [{ message: "'_a' is defined but never used." }]
+            errors: [definedError("_a")]
         },
 
         // https://github.com/eslint/eslint/issues/10982
         {
             code: "var a = function() { a(); };",
-            errors: [{ message: "'a' is assigned a value but never used." }]
+            errors: [assignedError("a")]
         },
         {
             code: "var a = function(){ return function() { a(); } };",
-            errors: [
-                { message: "'a' is assigned a value but never used." }
-            ]
+            errors: [assignedError("a")]
         },
         {
             code: "const a = () => { a(); };",
             parserOptions: { ecmaVersion: 2015 },
-            errors: [{ message: "'a' is assigned a value but never used." }]
+            errors: [assignedError("a")]
         },
         {
             code: "const a = () => () => { a(); };",
             parserOptions: { ecmaVersion: 2015 },
-            errors: [{ message: "'a' is assigned a value but never used." }]
+            errors: [assignedError("a")]
         }
     ]
 });

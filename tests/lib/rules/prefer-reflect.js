@@ -74,7 +74,8 @@ ruleTester.run("prefer-reflect", rule, {
             code: "(function(){}).apply(null, [1, 2])",
             errors: [
                 {
-                    message: "Avoid using Function.prototype.apply, instead use Reflect.apply.",
+                    messageId: "preferReflect",
+                    data: { existing: "Function.prototype.apply", substitute: "Reflect.apply" },
                     type: "CallExpression"
                 }
             ]
@@ -84,7 +85,8 @@ ruleTester.run("prefer-reflect", rule, {
             options: [{ exceptions: ["defineProperty"] }],
             errors: [
                 {
-                    message: "Avoid using Function.prototype.apply, instead use Reflect.apply.",
+                    messageId: "preferReflect",
+                    data: { existing: "Function.prototype.apply", substitute: "Reflect.apply" },
                     type: "CallExpression"
                 }
             ]
@@ -93,7 +95,8 @@ ruleTester.run("prefer-reflect", rule, {
             code: "(function(){}).call(null, 1, 2)",
             errors: [
                 {
-                    message: "Avoid using Function.prototype.call, instead use Reflect.apply.",
+                    messageId: "preferReflect",
+                    data: { existing: "Function.prototype.call", substitute: "Reflect.apply" },
                     type: "CallExpression"
                 }
             ]
@@ -103,7 +106,8 @@ ruleTester.run("prefer-reflect", rule, {
             options: [{ exceptions: ["defineProperty"] }],
             errors: [
                 {
-                    message: "Avoid using Function.prototype.call, instead use Reflect.apply.",
+                    messageId: "preferReflect",
+                    data: { existing: "Function.prototype.call", substitute: "Reflect.apply" },
                     type: "CallExpression"
                 }
             ]
@@ -112,7 +116,8 @@ ruleTester.run("prefer-reflect", rule, {
             code: "Object.defineProperty({}, 'foo', { value: 1 })",
             errors: [
                 {
-                    message: "Avoid using Object.defineProperty, instead use Reflect.defineProperty.",
+                    messageId: "preferReflect",
+                    data: { existing: "Object.defineProperty", substitute: "Reflect.defineProperty" },
                     type: "CallExpression"
                 }
             ]
@@ -122,7 +127,8 @@ ruleTester.run("prefer-reflect", rule, {
             options: [{ exceptions: ["apply"] }],
             errors: [
                 {
-                    message: "Avoid using Object.defineProperty, instead use Reflect.defineProperty.",
+                    messageId: "preferReflect",
+                    data: { existing: "Object.defineProperty", substitute: "Reflect.defineProperty" },
                     type: "CallExpression"
                 }
             ]
@@ -131,7 +137,8 @@ ruleTester.run("prefer-reflect", rule, {
             code: "Object.getOwnPropertyDescriptor({}, 'foo')",
             errors: [
                 {
-                    message: "Avoid using Object.getOwnPropertyDescriptor, instead use Reflect.getOwnPropertyDescriptor.",
+                    messageId: "preferReflect",
+                    data: { existing: "Object.getOwnPropertyDescriptor", substitute: "Reflect.getOwnPropertyDescriptor" },
                     type: "CallExpression"
                 }
             ]
@@ -141,7 +148,8 @@ ruleTester.run("prefer-reflect", rule, {
             options: [{ exceptions: ["apply"] }],
             errors: [
                 {
-                    message: "Avoid using Object.getOwnPropertyDescriptor, instead use Reflect.getOwnPropertyDescriptor.",
+                    messageId: "preferReflect",
+                    data: { existing: "Object.getOwnPropertyDescriptor", substitute: "Reflect.getOwnPropertyDescriptor" },
                     type: "CallExpression"
                 }
             ]
@@ -150,7 +158,8 @@ ruleTester.run("prefer-reflect", rule, {
             code: "Object.getPrototypeOf({})",
             errors: [
                 {
-                    message: "Avoid using Object.getPrototypeOf, instead use Reflect.getPrototypeOf.",
+                    messageId: "preferReflect",
+                    data: { existing: "Object.getPrototypeOf", substitute: "Reflect.getPrototypeOf" },
                     type: "CallExpression"
                 }
             ]
@@ -160,7 +169,8 @@ ruleTester.run("prefer-reflect", rule, {
             options: [{ exceptions: ["apply"] }],
             errors: [
                 {
-                    message: "Avoid using Object.getPrototypeOf, instead use Reflect.getPrototypeOf.",
+                    messageId: "preferReflect",
+                    data: { existing: "Object.getPrototypeOf", substitute: "Reflect.getPrototypeOf" },
                     type: "CallExpression"
                 }
             ]
@@ -169,7 +179,8 @@ ruleTester.run("prefer-reflect", rule, {
             code: "Object.setPrototypeOf({}, Object.prototype)",
             errors: [
                 {
-                    message: "Avoid using Object.setPrototypeOf, instead use Reflect.setPrototypeOf.",
+                    messageId: "preferReflect",
+                    data: { existing: "Object.setPrototypeOf", substitute: "Reflect.setPrototypeOf" },
                     type: "CallExpression"
                 }
             ]
@@ -179,7 +190,8 @@ ruleTester.run("prefer-reflect", rule, {
             options: [{ exceptions: ["apply"] }],
             errors: [
                 {
-                    message: "Avoid using Object.setPrototypeOf, instead use Reflect.setPrototypeOf.",
+                    messageId: "preferReflect",
+                    data: { existing: "Object.setPrototypeOf", substitute: "Reflect.setPrototypeOf" },
                     type: "CallExpression"
                 }
             ]
@@ -188,7 +200,8 @@ ruleTester.run("prefer-reflect", rule, {
             code: "Object.isExtensible({})",
             errors: [
                 {
-                    message: "Avoid using Object.isExtensible, instead use Reflect.isExtensible.",
+                    messageId: "preferReflect",
+                    data: { existing: "Object.isExtensible", substitute: "Reflect.isExtensible" },
                     type: "CallExpression"
                 }
             ]
@@ -198,7 +211,8 @@ ruleTester.run("prefer-reflect", rule, {
             options: [{ exceptions: ["apply"] }],
             errors: [
                 {
-                    message: "Avoid using Object.isExtensible, instead use Reflect.isExtensible.",
+                    messageId: "preferReflect",
+                    data: { existing: "Object.isExtensible", substitute: "Reflect.isExtensible" },
                     type: "CallExpression"
                 }
             ]
@@ -207,7 +221,8 @@ ruleTester.run("prefer-reflect", rule, {
             code: "Object.getOwnPropertyNames({})",
             errors: [
                 {
-                    message: "Avoid using Object.getOwnPropertyNames, instead use Reflect.getOwnPropertyNames.",
+                    messageId: "preferReflect",
+                    data: { existing: "Object.getOwnPropertyNames", substitute: "Reflect.getOwnPropertyNames" },
                     type: "CallExpression"
                 }
             ]
@@ -217,7 +232,8 @@ ruleTester.run("prefer-reflect", rule, {
             options: [{ exceptions: ["apply"] }],
             errors: [
                 {
-                    message: "Avoid using Object.getOwnPropertyNames, instead use Reflect.getOwnPropertyNames.",
+                    messageId: "preferReflect",
+                    data: { existing: "Object.getOwnPropertyNames", substitute: "Reflect.getOwnPropertyNames" },
                     type: "CallExpression"
                 }
             ]
@@ -226,7 +242,8 @@ ruleTester.run("prefer-reflect", rule, {
             code: "Object.preventExtensions({})",
             errors: [
                 {
-                    message: "Avoid using Object.preventExtensions, instead use Reflect.preventExtensions.",
+                    messageId: "preferReflect",
+                    data: { existing: "Object.preventExtensions", substitute: "Reflect.preventExtensions" },
                     type: "CallExpression"
                 }
             ]
@@ -236,7 +253,8 @@ ruleTester.run("prefer-reflect", rule, {
             options: [{ exceptions: ["apply"] }],
             errors: [
                 {
-                    message: "Avoid using Object.preventExtensions, instead use Reflect.preventExtensions.",
+                    messageId: "preferReflect",
+                    data: { existing: "Object.preventExtensions", substitute: "Reflect.preventExtensions" },
                     type: "CallExpression"
                 }
             ]
@@ -245,7 +263,8 @@ ruleTester.run("prefer-reflect", rule, {
             code: "delete ({}).foo",
             errors: [
                 {
-                    message: "Avoid using the delete keyword, instead use Reflect.deleteProperty.",
+                    messageId: "preferReflect",
+                    data: { existing: "the delete keyword", substitute: "Reflect.deleteProperty" },
                     type: "UnaryExpression"
                 }
             ]
@@ -255,7 +274,8 @@ ruleTester.run("prefer-reflect", rule, {
             options: [{ exceptions: ["apply"] }],
             errors: [
                 {
-                    message: "Avoid using the delete keyword, instead use Reflect.deleteProperty.",
+                    messageId: "preferReflect",
+                    data: { existing: "the delete keyword", substitute: "Reflect.deleteProperty" },
                     type: "UnaryExpression"
                 }
             ]

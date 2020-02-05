@@ -41,7 +41,8 @@ const invalid = [
         errors: [{
             line: 1,
             column: 5,
-            message: "Do not access Object.prototype method 'hasOwnProperty' from target object.",
+            messageId: "prototypeBuildIn",
+            data: { prop: "hasOwnProperty" },
             type: "CallExpression"
         }]
     },
@@ -50,7 +51,8 @@ const invalid = [
         errors: [{
             line: 1,
             column: 5,
-            message: "Do not access Object.prototype method 'isPrototypeOf' from target object.",
+            messageId: "prototypeBuildIn",
+            data: { prop: "isPrototypeOf" },
             type: "CallExpression"
         }]
     },
@@ -59,7 +61,8 @@ const invalid = [
         errors: [{
             line: 1,
             column: 5,
-            message: "Do not access Object.prototype method 'propertyIsEnumerable' from target object."
+            messageId: "prototypeBuildIn",
+            data: { prop: "propertyIsEnumerable" }
         }]
     },
     {
@@ -67,7 +70,8 @@ const invalid = [
         errors: [{
             line: 1,
             column: 9,
-            message: "Do not access Object.prototype method 'hasOwnProperty' from target object.",
+            messageId: "prototypeBuildIn",
+            data: { prop: "hasOwnProperty" },
             type: "CallExpression"
         }]
     },
@@ -76,7 +80,8 @@ const invalid = [
         errors: [{
             line: 1,
             column: 13,
-            message: "Do not access Object.prototype method 'isPrototypeOf' from target object.",
+            messageId: "prototypeBuildIn",
+            data: { prop: "isPrototypeOf" },
             type: "CallExpression"
         }]
     }
