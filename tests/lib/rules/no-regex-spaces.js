@@ -69,7 +69,8 @@ ruleTester.run("no-regex-spaces", rule, {
             output: "var foo = /bar {2}baz/;",
             errors: [
                 {
-                    message: "Spaces are hard to count. Use {2}.",
+                    messageId: "multipleSpaces",
+                    data: { length: "2" },
                     type: "Literal"
                 }
             ]
@@ -79,7 +80,8 @@ ruleTester.run("no-regex-spaces", rule, {
             output: "var foo = /bar {4}baz/;",
             errors: [
                 {
-                    message: "Spaces are hard to count. Use {4}.",
+                    messageId: "multipleSpaces",
+                    data: { length: "4" },
                     type: "Literal"
                 }
             ]
@@ -89,7 +91,8 @@ ruleTester.run("no-regex-spaces", rule, {
             output: "var foo = / a b {2}c d /;",
             errors: [
                 {
-                    message: "Spaces are hard to count. Use {2}.",
+                    messageId: "multipleSpaces",
+                    data: { length: "2" },
                     type: "Literal"
                 }
             ]
@@ -99,7 +102,8 @@ ruleTester.run("no-regex-spaces", rule, {
             output: "var foo = RegExp(' a b c d {2}');",
             errors: [
                 {
-                    message: "Spaces are hard to count. Use {2}.",
+                    messageId: "multipleSpaces",
+                    data: { length: "2" },
                     type: "CallExpression"
                 }
             ]
@@ -109,7 +113,8 @@ ruleTester.run("no-regex-spaces", rule, {
             output: "var foo = RegExp('bar {4}baz');",
             errors: [
                 {
-                    message: "Spaces are hard to count. Use {4}.",
+                    messageId: "multipleSpaces",
+                    data: { length: "4" },
                     type: "CallExpression"
                 }
             ]
@@ -119,7 +124,8 @@ ruleTester.run("no-regex-spaces", rule, {
             output: "var foo = new RegExp('bar {4}baz');",
             errors: [
                 {
-                    message: "Spaces are hard to count. Use {4}.",
+                    messageId: "multipleSpaces",
+                    data: { length: "4" },
                     type: "NewExpression"
                 }
             ]
@@ -132,7 +138,8 @@ ruleTester.run("no-regex-spaces", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "Spaces are hard to count. Use {4}.",
+                    messageId: "multipleSpaces",
+                    data: { length: "4" },
                     type: "CallExpression"
                 }
             ]
@@ -142,7 +149,8 @@ ruleTester.run("no-regex-spaces", rule, {
             output: "var foo = /bar {2} {3}baz/;",
             errors: [
                 {
-                    message: "Spaces are hard to count. Use {2}.",
+                    messageId: "multipleSpaces",
+                    data: { length: "2" },
                     type: "Literal"
                 }
             ]
@@ -152,7 +160,8 @@ ruleTester.run("no-regex-spaces", rule, {
             output: "var foo = /bar {3} ?baz/;",
             errors: [
                 {
-                    message: "Spaces are hard to count. Use {3}.",
+                    messageId: "multipleSpaces",
+                    data: { length: "3" },
                     type: "Literal"
                 }
             ]
@@ -162,7 +171,8 @@ ruleTester.run("no-regex-spaces", rule, {
             output: "var foo = new RegExp('bar {2} *baz')",
             errors: [
                 {
-                    message: "Spaces are hard to count. Use {2}.",
+                    messageId: "multipleSpaces",
+                    data: { length: "2" },
                     type: "NewExpression"
                 }
             ]
@@ -172,7 +182,8 @@ ruleTester.run("no-regex-spaces", rule, {
             output: "var foo = RegExp('bar {2} +baz')",
             errors: [
                 {
-                    message: "Spaces are hard to count. Use {2}.",
+                    messageId: "multipleSpaces",
+                    data: { length: "2" },
                     type: "CallExpression"
                 }
             ]
@@ -182,7 +193,8 @@ ruleTester.run("no-regex-spaces", rule, {
             output: "var foo = new RegExp('bar {4}');",
             errors: [
                 {
-                    message: "Spaces are hard to count. Use {4}.",
+                    messageId: "multipleSpaces",
+                    data: { length: "4" },
                     type: "NewExpression"
                 }
             ]
@@ -192,7 +204,8 @@ ruleTester.run("no-regex-spaces", rule, {
             output: "var foo = /bar\\ {2}baz/;",
             errors: [
                 {
-                    message: "Spaces are hard to count. Use {2}.",
+                    messageId: "multipleSpaces",
+                    data: { length: "2" },
                     type: "Literal"
                 }
             ]
@@ -202,7 +215,8 @@ ruleTester.run("no-regex-spaces", rule, {
             output: "var foo = /[   ] {2}/;",
             errors: [
                 {
-                    message: "Spaces are hard to count. Use {2}.",
+                    messageId: "multipleSpaces",
+                    data: { length: "2" },
                     type: "Literal"
                 }
             ]
@@ -212,7 +226,8 @@ ruleTester.run("no-regex-spaces", rule, {
             output: "var foo = / {2}[   ] /;",
             errors: [
                 {
-                    message: "Spaces are hard to count. Use {2}.",
+                    messageId: "multipleSpaces",
+                    data: { length: "2" },
                     type: "Literal"
                 }
             ]
@@ -222,7 +237,8 @@ ruleTester.run("no-regex-spaces", rule, {
             output: "var foo = new RegExp('[   ] {2}');",
             errors: [
                 {
-                    message: "Spaces are hard to count. Use {2}.",
+                    messageId: "multipleSpaces",
+                    data: { length: "2" },
                     type: "NewExpression"
                 }
             ]
@@ -232,7 +248,8 @@ ruleTester.run("no-regex-spaces", rule, {
             output: "var foo = RegExp(' {2}[ ]');",
             errors: [
                 {
-                    message: "Spaces are hard to count. Use {2}.",
+                    messageId: "multipleSpaces",
+                    data: { length: "2" },
                     type: "CallExpression"
                 }
             ]
@@ -242,7 +259,8 @@ ruleTester.run("no-regex-spaces", rule, {
             output: "var foo = /\\[ {2}/;",
             errors: [
                 {
-                    message: "Spaces are hard to count. Use {2}.",
+                    messageId: "multipleSpaces",
+                    data: { length: "2" },
                     type: "Literal"
                 }
             ]
@@ -252,7 +270,8 @@ ruleTester.run("no-regex-spaces", rule, {
             output: "var foo = /\\[ {2}\\]/;",
             errors: [
                 {
-                    message: "Spaces are hard to count. Use {2}.",
+                    messageId: "multipleSpaces",
+                    data: { length: "2" },
                     type: "Literal"
                 }
             ]
@@ -262,7 +281,8 @@ ruleTester.run("no-regex-spaces", rule, {
             output: "var foo = /(?: {2})/;",
             errors: [
                 {
-                    message: "Spaces are hard to count. Use {2}.",
+                    messageId: "multipleSpaces",
+                    data: { length: "2" },
                     type: "Literal"
                 }
             ]
@@ -272,7 +292,8 @@ ruleTester.run("no-regex-spaces", rule, {
             output: "var foo = RegExp('^foo(?= {3})');",
             errors: [
                 {
-                    message: "Spaces are hard to count. Use {3}.",
+                    messageId: "multipleSpaces",
+                    data: { length: "3" },
                     type: "CallExpression"
                 }
             ]
@@ -282,7 +303,8 @@ ruleTester.run("no-regex-spaces", rule, {
             output: "var foo = /\\ {2}/",
             errors: [
                 {
-                    message: "Spaces are hard to count. Use {2}.",
+                    messageId: "multipleSpaces",
+                    data: { length: "2" },
                     type: "Literal"
                 }
             ]
@@ -292,7 +314,8 @@ ruleTester.run("no-regex-spaces", rule, {
             output: "var foo = / \\ {2}/",
             errors: [
                 {
-                    message: "Spaces are hard to count. Use {2}.",
+                    messageId: "multipleSpaces",
+                    data: { length: "2" },
                     type: "Literal"
                 }
             ]
@@ -304,7 +327,8 @@ ruleTester.run("no-regex-spaces", rule, {
             output: "var foo = / {2}foo   /;",
             errors: [
                 {
-                    message: "Spaces are hard to count. Use {2}.",
+                    messageId: "multipleSpaces",
+                    data: { length: "2" },
                     type: "Literal"
                 }
             ]
@@ -316,7 +340,8 @@ ruleTester.run("no-regex-spaces", rule, {
             output: null,
             errors: [
                 {
-                    message: "Spaces are hard to count. Use {2}.",
+                    messageId: "multipleSpaces",
+                    data: { length: "2" },
                     type: "NewExpression"
                 }
             ]
@@ -326,7 +351,8 @@ ruleTester.run("no-regex-spaces", rule, {
             output: null,
             errors: [
                 {
-                    message: "Spaces are hard to count. Use {3}.",
+                    messageId: "multipleSpaces",
+                    data: { length: "3" },
                     type: "CallExpression"
                 }
             ]
@@ -336,7 +362,8 @@ ruleTester.run("no-regex-spaces", rule, {
             output: null,
             errors: [
                 {
-                    message: "Spaces are hard to count. Use {2}.",
+                    messageId: "multipleSpaces",
+                    data: { length: "2" },
                     type: "NewExpression"
                 }
             ]

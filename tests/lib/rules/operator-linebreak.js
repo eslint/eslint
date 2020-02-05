@@ -8,14 +8,8 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-const util = require("util");
 const rule = require("../../../lib/rules/operator-linebreak"),
     { RuleTester } = require("../../../lib/rule-tester");
-
-const BAD_LN_BRK_MSG = "Bad line breaking before and after '%s'.",
-    BEFORE_MSG = "'%s' should be placed at the beginning of the line.",
-    AFTER_MSG = "'%s' should be placed at the end of the line.",
-    NONE_MSG = "There should be no line break before or after '%s'.";
 
 //------------------------------------------------------------------------------
 // Tests
@@ -71,7 +65,8 @@ ruleTester.run("operator-linebreak", rule, {
             code: "1\n+ 1",
             output: "1 +\n1",
             errors: [{
-                message: util.format(AFTER_MSG, "+"),
+                messageId: "operatorAtEnd",
+                data: { operator: "+" },
                 type: "BinaryExpression",
                 line: 2,
                 column: 2
@@ -81,7 +76,8 @@ ruleTester.run("operator-linebreak", rule, {
             code: "1 + 2 \n + 3",
             output: "1 + 2 + \n 3",
             errors: [{
-                message: util.format(AFTER_MSG, "+"),
+                messageId: "operatorAtEnd",
+                data: { operator: "+" },
                 type: "BinaryExpression",
                 line: 2,
                 column: 3
@@ -91,7 +87,8 @@ ruleTester.run("operator-linebreak", rule, {
             code: "1\n+\n1",
             output: "1+\n1",
             errors: [{
-                message: util.format(BAD_LN_BRK_MSG, "+"),
+                messageId: "badLinebreak",
+                data: { operator: "+" },
                 type: "BinaryExpression",
                 line: 2,
                 column: 2
@@ -101,7 +98,8 @@ ruleTester.run("operator-linebreak", rule, {
             code: "1 + (1\n+ 1)",
             output: "1 + (1 +\n1)",
             errors: [{
-                message: util.format(AFTER_MSG, "+"),
+                messageId: "operatorAtEnd",
+                data: { operator: "+" },
                 type: "BinaryExpression",
                 line: 2,
                 column: 2
@@ -111,7 +109,8 @@ ruleTester.run("operator-linebreak", rule, {
             code: "f(1\n+ 1);",
             output: "f(1 +\n1);",
             errors: [{
-                message: util.format(AFTER_MSG, "+"),
+                messageId: "operatorAtEnd",
+                data: { operator: "+" },
                 type: "BinaryExpression",
                 line: 2,
                 column: 2
@@ -121,7 +120,8 @@ ruleTester.run("operator-linebreak", rule, {
             code: "1 \n || 1",
             output: "1 || \n 1",
             errors: [{
-                message: util.format(AFTER_MSG, "||"),
+                messageId: "operatorAtEnd",
+                data: { operator: "||" },
                 type: "LogicalExpression",
                 line: 2,
                 column: 4
@@ -131,7 +131,8 @@ ruleTester.run("operator-linebreak", rule, {
             code: "a\n += 1",
             output: "a +=\n 1",
             errors: [{
-                message: util.format(AFTER_MSG, "+="),
+                messageId: "operatorAtEnd",
+                data: { operator: "+=" },
                 type: "AssignmentExpression",
                 line: 2,
                 column: 4
@@ -141,7 +142,8 @@ ruleTester.run("operator-linebreak", rule, {
             code: "var a\n = 1",
             output: "var a =\n 1",
             errors: [{
-                message: util.format(AFTER_MSG, "="),
+                messageId: "operatorAtEnd",
+                data: { operator: "=" },
                 type: "VariableDeclarator",
                 line: 2,
                 column: 3
@@ -151,7 +153,8 @@ ruleTester.run("operator-linebreak", rule, {
             code: "(b)\n*\n(c)",
             output: "(b)*\n(c)",
             errors: [{
-                message: util.format(BAD_LN_BRK_MSG, "*"),
+                messageId: "badLinebreak",
+                data: { operator: "*" },
                 type: "BinaryExpression",
                 line: 2,
                 column: 2
@@ -161,13 +164,15 @@ ruleTester.run("operator-linebreak", rule, {
             code: "answer = everything ?\n  42 :\n  foo;",
             output: "answer = everything\n  ? 42\n  : foo;",
             errors: [{
-                message: util.format(BEFORE_MSG, "?"),
+                messageId: "operatorAtBeginning",
+                data: { operator: "?" },
                 type: "ConditionalExpression",
                 line: 1,
                 column: 22
             },
             {
-                message: util.format(BEFORE_MSG, ":"),
+                messageId: "operatorAtBeginning",
+                data: { operator: ":" },
                 type: "ConditionalExpression",
                 line: 2,
                 column: 7
@@ -179,13 +184,15 @@ ruleTester.run("operator-linebreak", rule, {
             output: "answer = everything  ? \n42  : \nfoo;",
             options: ["after"],
             errors: [{
-                message: util.format(AFTER_MSG, "?"),
+                messageId: "operatorAtEnd",
+                data: { operator: "?" },
                 type: "ConditionalExpression",
                 line: 2,
                 column: 2
             },
             {
-                message: util.format(AFTER_MSG, ":"),
+                messageId: "operatorAtEnd",
+                data: { operator: ":" },
                 type: "ConditionalExpression",
                 line: 3,
                 column: 2
@@ -197,7 +204,8 @@ ruleTester.run("operator-linebreak", rule, {
             output: "1\n+ 1",
             options: ["before"],
             errors: [{
-                message: util.format(BEFORE_MSG, "+"),
+                messageId: "operatorAtBeginning",
+                data: { operator: "+" },
                 type: "BinaryExpression",
                 line: 1,
                 column: 4
@@ -208,7 +216,8 @@ ruleTester.run("operator-linebreak", rule, {
             output: "f(1\n+ 1);",
             options: ["before"],
             errors: [{
-                message: util.format(BEFORE_MSG, "+"),
+                messageId: "operatorAtBeginning",
+                data: { operator: "+" },
                 type: "BinaryExpression",
                 line: 1,
                 column: 6
@@ -219,7 +228,8 @@ ruleTester.run("operator-linebreak", rule, {
             output: "1 \n || 1",
             options: ["before"],
             errors: [{
-                message: util.format(BEFORE_MSG, "||"),
+                messageId: "operatorAtBeginning",
+                data: { operator: "||" },
                 type: "LogicalExpression",
                 line: 1,
                 column: 5
@@ -230,7 +240,8 @@ ruleTester.run("operator-linebreak", rule, {
             output: "a \n+= 1",
             options: ["before"],
             errors: [{
-                message: util.format(BEFORE_MSG, "+="),
+                messageId: "operatorAtBeginning",
+                data: { operator: "+=" },
                 type: "AssignmentExpression",
                 line: 1,
                 column: 5
@@ -241,7 +252,8 @@ ruleTester.run("operator-linebreak", rule, {
             output: "var a \n= 1",
             options: ["before"],
             errors: [{
-                message: util.format(BEFORE_MSG, "="),
+                messageId: "operatorAtBeginning",
+                data: { operator: "=" },
                 type: "VariableDeclarator",
                 line: 1,
                 column: 8
@@ -252,13 +264,15 @@ ruleTester.run("operator-linebreak", rule, {
             output: "answer = everything\n  ? 42\n  : foo;",
             options: ["before"],
             errors: [{
-                message: util.format(BEFORE_MSG, "?"),
+                messageId: "operatorAtBeginning",
+                data: { operator: "?" },
                 type: "ConditionalExpression",
                 line: 1,
                 column: 22
             },
             {
-                message: util.format(BEFORE_MSG, ":"),
+                messageId: "operatorAtBeginning",
+                data: { operator: ":" },
                 type: "ConditionalExpression",
                 line: 2,
                 column: 7
@@ -270,7 +284,8 @@ ruleTester.run("operator-linebreak", rule, {
             output: "1 +1",
             options: ["none"],
             errors: [{
-                message: util.format(NONE_MSG, "+"),
+                messageId: "noLinebreak",
+                data: { operator: "+" },
                 type: "BinaryExpression",
                 line: 1,
                 column: 4
@@ -281,7 +296,8 @@ ruleTester.run("operator-linebreak", rule, {
             output: "1+1",
             options: ["none"],
             errors: [{
-                message: util.format(NONE_MSG, "+"),
+                messageId: "noLinebreak",
+                data: { operator: "+" },
                 type: "BinaryExpression",
                 line: 2,
                 column: 2
@@ -292,7 +308,8 @@ ruleTester.run("operator-linebreak", rule, {
             output: "f(1 +1);",
             options: ["none"],
             errors: [{
-                message: util.format(NONE_MSG, "+"),
+                messageId: "noLinebreak",
+                data: { operator: "+" },
                 type: "BinaryExpression",
                 line: 1,
                 column: 6
@@ -303,7 +320,8 @@ ruleTester.run("operator-linebreak", rule, {
             output: "f(1+ 1);",
             options: ["none"],
             errors: [{
-                message: util.format(NONE_MSG, "+"),
+                messageId: "noLinebreak",
+                data: { operator: "+" },
                 type: "BinaryExpression",
                 line: 2,
                 column: 2
@@ -314,7 +332,8 @@ ruleTester.run("operator-linebreak", rule, {
             output: "1 ||  1",
             options: ["none"],
             errors: [{
-                message: util.format(NONE_MSG, "||"),
+                messageId: "noLinebreak",
+                data: { operator: "||" },
                 type: "LogicalExpression",
                 line: 1,
                 column: 5
@@ -325,7 +344,8 @@ ruleTester.run("operator-linebreak", rule, {
             output: "1  || 1",
             options: ["none"],
             errors: [{
-                message: util.format(NONE_MSG, "||"),
+                messageId: "noLinebreak",
+                data: { operator: "||" },
                 type: "LogicalExpression",
                 line: 2,
                 column: 4
@@ -336,7 +356,8 @@ ruleTester.run("operator-linebreak", rule, {
             output: "a += 1",
             options: ["none"],
             errors: [{
-                message: util.format(NONE_MSG, "+="),
+                messageId: "noLinebreak",
+                data: { operator: "+=" },
                 type: "AssignmentExpression",
                 line: 1,
                 column: 5
@@ -347,7 +368,8 @@ ruleTester.run("operator-linebreak", rule, {
             output: "a += 1",
             options: ["none"],
             errors: [{
-                message: util.format(NONE_MSG, "+="),
+                messageId: "noLinebreak",
+                data: { operator: "+=" },
                 type: "AssignmentExpression",
                 line: 2,
                 column: 3
@@ -358,7 +380,8 @@ ruleTester.run("operator-linebreak", rule, {
             output: "var a = 1",
             options: ["none"],
             errors: [{
-                message: util.format(NONE_MSG, "="),
+                messageId: "noLinebreak",
+                data: { operator: "=" },
                 type: "VariableDeclarator",
                 line: 1,
                 column: 8
@@ -369,7 +392,8 @@ ruleTester.run("operator-linebreak", rule, {
             output: "var a  = 1",
             options: ["none"],
             errors: [{
-                message: util.format(NONE_MSG, "="),
+                messageId: "noLinebreak",
+                data: { operator: "=" },
                 type: "VariableDeclarator",
                 line: 2,
                 column: 3
@@ -380,13 +404,15 @@ ruleTester.run("operator-linebreak", rule, {
             output: "answer = everything ?  42 :  foo;",
             options: ["none"],
             errors: [{
-                message: util.format(NONE_MSG, "?"),
+                messageId: "noLinebreak",
+                data: { operator: "?" },
                 type: "ConditionalExpression",
                 line: 1,
                 column: 22
             },
             {
-                message: util.format(NONE_MSG, ":"),
+                messageId: "noLinebreak",
+                data: { operator: ":" },
                 type: "ConditionalExpression",
                 line: 3,
                 column: 2
@@ -397,13 +423,15 @@ ruleTester.run("operator-linebreak", rule, {
             output: "answer = everything?42 + 43:foo;",
             options: ["none"],
             errors: [{
-                message: util.format(BAD_LN_BRK_MSG, "?"),
+                messageId: "badLinebreak",
+                data: { operator: "?" },
                 type: "ConditionalExpression",
                 line: 2,
                 column: 2
             },
             {
-                message: util.format(BAD_LN_BRK_MSG, ":"),
+                messageId: "badLinebreak",
+                data: { operator: ":" },
                 type: "ConditionalExpression",
                 line: 4,
                 column: 2
@@ -414,7 +442,8 @@ ruleTester.run("operator-linebreak", rule, {
             output: "foo +=42;\nbar -=\n12\n+ 5;",
             options: ["after", { overrides: { "+=": "none", "+": "before" } }],
             errors: [{
-                message: util.format(NONE_MSG, "+="),
+                messageId: "noLinebreak",
+                data: { operator: "+=" },
                 type: "AssignmentExpression",
                 line: 1,
                 column: 7
@@ -425,7 +454,8 @@ ruleTester.run("operator-linebreak", rule, {
             output: "answer = everything\n?\n42\n:foo;",
             options: ["after", { overrides: { "?": "ignore", ":": "before" } }],
             errors: [{
-                message: util.format(BAD_LN_BRK_MSG, ":"),
+                messageId: "badLinebreak",
+                data: { operator: ":" },
                 type: "ConditionalExpression",
                 line: 4,
                 column: 2
@@ -437,34 +467,70 @@ ruleTester.run("operator-linebreak", rule, {
             code: "foo+\n+bar",
             output: "foo\n+ +bar",
             options: ["before"],
-            errors: [{ message: util.format(BEFORE_MSG, "+"), type: "BinaryExpression", line: 1, column: 5 }]
+            errors: [{
+                messageId: "operatorAtBeginning",
+                data: { operator: "+" },
+                type: "BinaryExpression",
+                line: 1,
+                column: 5
+            }]
         },
         {
             code: "foo //comment\n&& bar",
             output: "foo && //comment\nbar",
-            errors: [{ message: util.format(AFTER_MSG, "&&"), type: "LogicalExpression", line: 2, column: 3 }]
+            errors: [{
+                messageId: "operatorAtEnd",
+                data: { operator: "&&" },
+                type: "LogicalExpression",
+                line: 2,
+                column: 3
+            }]
         },
         {
             code: "foo//comment\n+\nbar",
             output: null,
-            errors: [{ message: util.format(BAD_LN_BRK_MSG, "+"), type: "BinaryExpression", line: 2, column: 2 }]
+            errors: [{
+                messageId: "badLinebreak",
+                data: { operator: "+" },
+                type: "BinaryExpression",
+                line: 2,
+                column: 2
+            }]
         },
         {
             code: "foo\n+//comment\nbar",
             output: null,
             options: ["before"],
-            errors: [{ message: util.format(BAD_LN_BRK_MSG, "+"), type: "BinaryExpression", line: 2, column: 2 }]
+            errors: [{
+                messageId: "badLinebreak",
+                data: { operator: "+" },
+                type: "BinaryExpression",
+                line: 2,
+                column: 2
+            }]
         },
         {
             code: "foo /* a */ \n+ /* b */ bar",
             output: null, // Not fixed because there is a comment on both sides
-            errors: [{ message: util.format(AFTER_MSG, "+"), type: "BinaryExpression", line: 2, column: 2 }]
+            errors: [{
+                messageId: "operatorAtEnd",
+                data: { operator: "+" },
+                type: "BinaryExpression",
+                line: 2,
+                column: 2
+            }]
         },
         {
             code: "foo /* a */ +\n /* b */ bar",
             output: null, // Not fixed because there is a comment on both sides
             options: ["before"],
-            errors: [{ message: util.format(BEFORE_MSG, "+"), type: "BinaryExpression", line: 1, column: 14 }]
+            errors: [{
+                messageId: "operatorAtBeginning",
+                data: { operator: "+" },
+                type: "BinaryExpression",
+                line: 1,
+                column: 14
+            }]
         }
     ]
 });
