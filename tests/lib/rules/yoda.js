@@ -30,6 +30,7 @@ ruleTester.run("yoda", rule, {
         { code: "if (`red` === `red`) {}", options: ["never"], parserOptions: { ecmaVersion: 2015 } },
         { code: "if (`${foo}` === `red`) {}", options: ["never"], parserOptions: { ecmaVersion: 2015 } },
         { code: "if (`${\"\"}` === `red`) {}", options: ["never"], parserOptions: { ecmaVersion: 2015 } },
+        { code: "if (`${\"red\"}` === foo) {}", options: ["never"], parserOptions: { ecmaVersion: 2015 } },
         { code: "if (b > `a` && b > `a`) {}", options: ["never"], parserOptions: { ecmaVersion: 2015 } },
         { code: "if (`b` > `a` && \"b\" > \"a\") {}", options: ["never"], parserOptions: { ecmaVersion: 2015 } },
 
@@ -43,7 +44,9 @@ ruleTester.run("yoda", rule, {
         { code: "if (`red` === `red`) {}", options: ["always"], parserOptions: { ecmaVersion: 2015 } },
         { code: "if (`red` === `${foo}`) {}", options: ["always"], parserOptions: { ecmaVersion: 2015 } },
         { code: "if (`red` === `${\"\"}`) {}", options: ["always"], parserOptions: { ecmaVersion: 2015 } },
+        { code: "if (foo === `${\"red\"}`) {}", options: ["always"], parserOptions: { ecmaVersion: 2015 } },
         { code: "if (`a` > b && `a` > b) {}", options: ["always"], parserOptions: { ecmaVersion: 2015 } },
+        { code: "if (`b` > `a` && \"b\" > \"a\") {}", options: ["always"], parserOptions: { ecmaVersion: 2015 } },
 
         // Range exception
         {
