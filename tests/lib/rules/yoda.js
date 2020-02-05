@@ -260,6 +260,19 @@ ruleTester.run("yoda", rule, {
             ]
         },
         {
+            code: "if (`red` <= `${\"red\"}`) {}",
+            output: "if (`${\"red\"}` >= `red`) {}",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                {
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: "<=" },
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
             code: "if (true >= value) {}",
             output: "if (value <= true) {}",
             options: ["never"],
@@ -353,6 +366,19 @@ ruleTester.run("yoda", rule, {
                 {
                     messageId: "expected",
                     data: { expectedSide: "left", operator: "===" },
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "if (`${\"red\"}` <= `red`) {}",
+            output: "if (`red` >= `${\"red\"}`) {}",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                {
+                    messageId: "expected",
+                    data: { expectedSide: "left", operator: "<=" },
                     type: "BinaryExpression"
                 }
             ]
