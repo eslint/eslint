@@ -257,7 +257,7 @@ The following companies, organizations, and individuals support ESLint's ongoing
 * Site search ([eslint.org](https://eslint.org)) is sponsored by [Algolia](https://www.algolia.com)
 
 
-[npm-image]: https://img.shields.io/npm/v/eslint.svg?style=flat-square
+[npm-image]: https://img.shields.io/npm/v/eslint.svg
 [npm-url]: https://www.npmjs.com/package/eslint
-[downloads-image]: https://img.shields.io/npm/dm/eslint.svg?style=flat-square
+[downloads-image]: https://img.shields.io/npm/dm/eslint.svg
 [downloads-url]: https://www.npmjs.com/package/eslint
