@@ -17,13 +17,13 @@ const { unIndent } = require("../_utils");
 // Tests
 //------------------------------------------------------------------------------
 
-const PROPERTY_ERROR = { message: "Expected property shorthand.", type: "Property" };
-const METHOD_ERROR = { message: "Expected method shorthand.", type: "Property" };
-const LONGFORM_PROPERTY_ERROR = { message: "Expected longform property syntax.", type: "Property" };
-const LONGFORM_METHOD_ERROR = { message: "Expected longform method syntax.", type: "Property" };
-const LONGFORM_METHOD_STRING_LITERAL_ERROR = { message: "Expected longform method syntax for string literal keys.", type: "Property" };
-const ALL_SHORTHAND_ERROR = { message: "Expected shorthand for all properties.", type: "ObjectExpression" };
-const MIXED_SHORTHAND_ERROR = { message: "Unexpected mix of shorthand and non-shorthand properties.", type: "ObjectExpression" };
+const PROPERTY_ERROR = { messageId: "expectedPropertyShorthand", type: "Property" };
+const METHOD_ERROR = { messageId: "expectedMethodShorthand", type: "Property" };
+const LONGFORM_PROPERTY_ERROR = { messageId: "expectedPropertyLongform", type: "Property" };
+const LONGFORM_METHOD_ERROR = { messageId: "expectedMethodLongform", type: "Property" };
+const LONGFORM_METHOD_STRING_LITERAL_ERROR = { messageId: "expectedLiteralMethodLongform", type: "Property" };
+const ALL_SHORTHAND_ERROR = { messageId: "expectedAllPropertiesShorthanded", type: "ObjectExpression" };
+const MIXED_SHORTHAND_ERROR = { messageId: "unexpectedMix", type: "ObjectExpression" };
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2018 } });
 

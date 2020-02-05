@@ -207,7 +207,7 @@ ruleTester.run("no-magic-numbers", rule, {
         {
             code: "function getSecondsInMinute() {return 60;}",
             errors: [
-                { message: "No magic number: 60." }
+                { messageId: "noMagic", data: { raw: "60" } }
             ]
         },
         {
