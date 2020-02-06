@@ -1,9 +1,12 @@
-[![NPM version][npm-image]][npm-url]
+[![NPM version](https://img.shields.io/npm/v/eslint.svg)](https://www.npmjs.com/package/eslint)
+[![Downloads](https://img.shields.io/npm/dm/eslint.svg)](https://www.npmjs.com/package/eslint)
 [![Build Status](https://github.com/eslint/eslint/workflows/CI/badge.svg)](https://github.com/eslint/eslint/actions)
-[![Downloads][downloads-image]][downloads-url]
-[![Bountysource](https://www.bountysource.com/badge/tracker?tracker_id=282608)](https://www.bountysource.com/trackers/282608-eslint?utm_source=282608&utm_medium=shield&utm_campaign=TRACKER_BADGE)
-[![Join the chat at https://gitter.im/eslint/eslint](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/eslint/eslint?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Feslint%2Feslint.svg?type=shield)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Feslint%2Feslint?ref=badge_shield)
+<br />
+[![Open Collective Backers](https://img.shields.io/opencollective/backers/eslint)](https://opencollective.com/eslint)
+[![Open Collective Sponsors](https://img.shields.io/opencollective/sponsors/eslint)](https://opencollective.com/eslint)
+[![Join the chat at https://gitter.im/eslint/eslint](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/eslint/eslint?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Follow us on Twitter](https://img.shields.io/twitter/follow/geteslint?label=Follow&style=social)](https://twitter.com/intent/user?screen_name=geteslint)
 
 # ESLint
 
@@ -255,9 +258,3 @@ The following companies, organizations, and individuals support ESLint's ongoing
 ## <a name="technology-sponsors"></a>Technology Sponsors
 
 * Site search ([eslint.org](https://eslint.org)) is sponsored by [Algolia](https://www.algolia.com)
-
-
-[npm-image]: https://img.shields.io/npm/v/eslint.svg
-[npm-url]: https://www.npmjs.com/package/eslint
-[downloads-image]: https://img.shields.io/npm/dm/eslint.svg
-[downloads-url]: https://www.npmjs.com/package/eslint
