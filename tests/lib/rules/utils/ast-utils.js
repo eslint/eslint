@@ -1342,7 +1342,21 @@ describe("ast-utils", () => {
             [["++", "+"], false],
             [["--", "-"], false],
             [["+", "++"], false],
-            [["-", "--"], false]
+            [["-", "--"], false],
+            [["a/", "b"], true],
+            [["a/", "+b"], true],
+            [["a+", "/^regex$/"], true],
+            [["a/", "/^regex$/"], false],
+            [["a+", "/**/b"], true],
+            [["a/", "/**/b"], false],
+            [["a+", "//\nb"], true],
+            [["a/", "//\nb"], false],
+            [["a/**/", "b"], true],
+            [["/**/a", "b"], false],
+            [["a", "/**/b"], true],
+            [["a", "b/**/"], false],
+            [["a", "//\nb"], true],
+            [["a", "b//"], false]
         ]);
 
         CASES.forEach((expectedResult, tokenStrings) => {

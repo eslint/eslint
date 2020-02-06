@@ -2192,6 +2192,20 @@ ruleTester.run("no-extra-parens", rule, {
             code: "var foo = { [((bar1, bar2))]: baz };",
             output: "var foo = { [(bar1, bar2)]: baz };",
             errors: [{ messageId: "unexpected" }]
-        }
+        },
+
+        // adjacent tokens tests for division operator, comments and regular expressions
+        invalid("a+/**/(/**/b)", "a+/**//**/b", "Identifier"),
+        invalid("a+/**/(//\nb)", "a+/**///\nb", "Identifier"),
+        invalid("a in(/**/b)", "a in/**/b", "Identifier"),
+        invalid("a in(//\nb)", "a in//\nb", "Identifier"),
+        invalid("a+(/**/b)", "a+/**/b", "Identifier"),
+        invalid("a+/**/(b)", "a+/**/b", "Identifier"),
+        invalid("a+(//\nb)", "a+//\nb", "Identifier"),
+        invalid("a+//\n(b)", "a+//\nb", "Identifier"),
+        invalid("a+(/^b$/)", "a+/^b$/", "Literal"),
+        invalid("a/(/**/b)", "a/ /**/b", "Identifier"),
+        invalid("a/(//\nb)", "a/ //\nb", "Identifier"),
+        invalid("a/(/^b$/)", "a/ /^b$/", "Literal")
     ]
 });
