@@ -173,7 +173,7 @@ ruleTester.run("id-length", rule, {
             options: [{ exceptions: ["a"] }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                tooLongError
+                tooShortError
             ]
         },
         {
