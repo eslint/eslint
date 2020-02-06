@@ -31,6 +31,7 @@ var myObj = { a: 1 };
 class x { }
 class Foo { x() {} }
 function foo(...x) { }
+function foo({x}) { }
 var { x } = {};
 var { x: a} = {};
 var { a: [x]} = {};
@@ -59,8 +60,10 @@ function foo(num = 0) { }
 class MyClass { }
 class Foo { method() {} }
 function foo(...args) { }
+function foo({ prop }) { }
+function foo({ a: prop }) { }
 var { prop } = {};
-var { prop: a } = {};
+var { a: prop } = {};
 var { prop: [x] } = {};
 ({ prop: obj.longName } = {});
 var data = { "x": 1 };  // excused because of quotes
@@ -116,7 +119,7 @@ class MyClass { }
 class Foobar { method() {} }
 function foobar(...args) { }
 var { prop } = {};
-var { prop: a } = {};
+var { a: longName } = {};
 var { prop: [x] } = {};
 ({ prop: obj.name } = {});
 var data = { "x": 1 };  // excused because of quotes
