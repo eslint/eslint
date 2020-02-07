@@ -69,10 +69,9 @@ ruleTester.run("no-obj-calls", rule, {
     ],
     invalid: [
 
-        // test full message
         {
             code: "Math();",
-            errors: [{ message: "'Math' is not a function.", type: "CallExpression" }]
+            errors: [{ messageId: "unexpectedCall", data: { name: "Math" }, type: "CallExpression" }]
         },
 
         {

@@ -25,9 +25,9 @@ ruleTester.run("prefer-rest-params", rule, {
         "function foo() { arguments.callee; }"
     ],
     invalid: [
-        { code: "function foo() { arguments; }", errors: [{ type: "Identifier", message: "Use the rest parameters instead of 'arguments'." }] },
-        { code: "function foo() { arguments[0]; }", errors: [{ type: "Identifier", message: "Use the rest parameters instead of 'arguments'." }] },
-        { code: "function foo() { arguments[1]; }", errors: [{ type: "Identifier", message: "Use the rest parameters instead of 'arguments'." }] },
-        { code: "function foo() { arguments[Symbol.iterator]; }", errors: [{ type: "Identifier", message: "Use the rest parameters instead of 'arguments'." }] }
+        { code: "function foo() { arguments; }", errors: [{ type: "Identifier", messageId: "preferRestParams" }] },
+        { code: "function foo() { arguments[0]; }", errors: [{ type: "Identifier", messageId: "preferRestParams" }] },
+        { code: "function foo() { arguments[1]; }", errors: [{ type: "Identifier", messageId: "preferRestParams" }] },
+        { code: "function foo() { arguments[Symbol.iterator]; }", errors: [{ type: "Identifier", messageId: "preferRestParams" }] }
     ]
 });

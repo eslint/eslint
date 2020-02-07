@@ -135,9 +135,13 @@ ruleTester.run("array-element-newline", rule, {
         { code: "var [] = foo;", options: [{ minItems: 3 }], parserOptions: { ecmaVersion: 6 } },
         { code: "var [a] = foo;", options: [{ minItems: 3 }], parserOptions: { ecmaVersion: 6 } },
         { code: "var [a, b] = foo;", options: [{ minItems: 3 }], parserOptions: { ecmaVersion: 6 } },
-        { code: "var [a,\nb,\nc] = foo;", options: [{ minItems: 3 }], parserOptions: { ecmaVersion: 6 } }
+        { code: "var [a,\nb,\nc] = foo;", options: [{ minItems: 3 }], parserOptions: { ecmaVersion: 6 } },
 
-    ],
+        /*
+         * ArrayExpression & ArrayPattern
+         * { ArrayExpression: "always", ArrayPattern: "never" }
+         */
+        { code: "var [a, b] = [1,\n2]", options: [{ ArrayExpression: "always", ArrayPattern: "never" }], parserOptions: { ecmaVersion: 6 } }],
 
     invalid: [
 
@@ -824,6 +828,55 @@ ruleTester.run("array-element-newline", rule, {
                     messageId: "missingLineBreak",
                     line: 1,
                     column: 11
+                }
+            ]
+        },
+
+        /*
+         * ArrayExpression & ArrayPattern
+         * { ArrayExpression: "always", ArrayPattern: "never" }
+         */
+        {
+            code: "var [a,\nb] = [1, 2]",
+            output: "var [a, b] = [1,\n2]",
+            options: [{ ArrayExpression: "always", ArrayPattern: "never" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "unexpectedLineBreak",
+                    line: 1,
+                    column: 8
+                },
+                {
+                    messageId: "missingLineBreak",
+                    line: 2,
+                    column: 9
+                }
+            ]
+        },
+        {
+            code: "var [a, b] = [1, 2]",
+            output: "var [a, b] = [1,\n2]",
+            options: [{ ArrayExpression: "always", ArrayPattern: "never" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "missingLineBreak",
+                    line: 1,
+                    column: 17
+                }
+            ]
+        },
+        {
+            code: "var [a,\nb] = [1,\n2]",
+            output: "var [a, b] = [1,\n2]",
+            options: [{ ArrayExpression: "always", ArrayPattern: "never" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "unexpectedLineBreak",
+                    line: 1,
+                    column: 8
                 }
             ]
         }

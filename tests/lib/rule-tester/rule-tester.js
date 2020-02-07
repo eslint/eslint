@@ -1281,6 +1281,20 @@ describe("RuleTester", () => {
             });
             sinon.assert.calledWith(spyRuleTesterIt, "\\u0000");
         });
+        it("should present the pipe character correctly", () => {
+            const code = "var foo = bar || baz;";
+
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: [],
+                invalid: [
+                    {
+                        code,
+                        errors: [/^Bad var/u]
+                    }
+                ]
+            });
+            sinon.assert.calledWith(spyRuleTesterIt, code);
+        });
 
     });
 });

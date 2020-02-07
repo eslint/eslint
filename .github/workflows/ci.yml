@@ -26,20 +26,16 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macOS-latest]
-        node: [13.x, 12.x, 10.x, 8.x, "8.10.0"]
+        node: [13.x, 12.x, 10.x, "10.12.0"]
         exclude:
         - os: windows-latest
-          node: "8.10.0"
-        - os: windows-latest
-          node: 8.x
+          node: "10.12.0"
         - os: windows-latest
           node: 10.x
         - os: windows-latest
           node: 13.x
         - os: macOS-latest
-          node: "8.10.0"
-        - os: macOS-latest
-          node: 8.x
+          node: "10.12.0"
         - os: macOS-latest
           node: 10.x
         - os: macOS-latest

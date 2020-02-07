@@ -19,12 +19,16 @@ module.exports = {
         "eslint",
         "plugin:eslint-plugin/recommended"
     ],
+    parserOptions: {
+        ecmaVersion: 2020
+    },
     rules: {
         "eslint-plugin/consistent-output": "error",
         "eslint-plugin/no-deprecated-context-methods": "error",
         "eslint-plugin/prefer-output-null": "error",
         "eslint-plugin/prefer-placeholders": "error",
         "eslint-plugin/report-message-format": ["error", "[^a-z].*\\.$"],
+        "eslint-plugin/require-meta-docs-description": "error",
         "eslint-plugin/require-meta-type": "error",
         "eslint-plugin/test-case-property-ordering": [
             "error",
@@ -50,8 +54,7 @@ module.exports = {
             files: ["lib/rules/*", "tools/internal-rules/*"],
             excludedFiles: ["index.js"],
             rules: {
-                "internal-rules/no-invalid-meta": "error",
-                "internal-rules/consistent-docs-description": "error"
+                "internal-rules/no-invalid-meta": "error"
 
                 /*
                  * TODO: enable it when all the rules using meta.messages

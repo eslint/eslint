@@ -40,6 +40,7 @@ function assertConfigArrayElement(actual, providedExpected) {
         root: void 0,
         rules: void 0,
         settings: void 0,
+        type: "config",
         ...providedExpected
     };
 
@@ -1705,7 +1706,7 @@ describe("ConfigArrayFactory", () => {
                 .toCompatibleObjectAsConfigFileContent();
         }
 
-        it("should throw error if file doesnt exist", () => {
+        it("should throw error if file doesn't exist", () => {
             const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem();
             const factory = new ConfigArrayFactory();
 

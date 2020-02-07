@@ -23,6 +23,12 @@ ruleTester.run("no-new-object", rule, {
         "var foo = new foo.Object()"
     ],
     invalid: [
-        { code: "var foo = new Object()", errors: [{ message: "The object literal notation {} is preferrable.", type: "NewExpression" }] }
+        {
+            code: "var foo = new Object()",
+            errors: [{
+                messageId: "preferLiteral",
+                type: "NewExpression"
+            }]
+        }
     ]
 });
