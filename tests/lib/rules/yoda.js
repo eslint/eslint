@@ -642,6 +642,19 @@ ruleTester.run("yoda", rule, {
             ]
         },
         {
+            code: "if (`green` < x.y && x.y < `blue`) {}",
+            output: "if (x.y > `green` && x.y < `blue`) {}",
+            options: ["never", { exceptRange: true }],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                {
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: "<" },
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
             code: "if (3 == a) {}",
             output: "if (a == 3) {}",
             options: ["never", { onlyEquality: true }],
