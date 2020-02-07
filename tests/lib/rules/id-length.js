@@ -73,7 +73,9 @@ ruleTester.run("id-length", rule, {
         { code: "var obj = { aaaaa: 1 };", options: [{ max: 4, properties: "never" }] },
         { code: "var obj = {}; obj.aaaaa = 1;", options: [{ max: 4, properties: "never" }] },
         { code: "({ a: obj.x.y.z } = {});", options: [{ max: 4, properties: "never" }], parserOptions: { ecmaVersion: 6 } },
-        { code: "({ prop: obj.xxxxx } = {});", options: [{ max: 4, properties: "never" }], parserOptions: { ecmaVersion: 6 } }
+        { code: "({ prop: obj.xxxxx } = {});", options: [{ max: 4, properties: "never" }], parserOptions: { ecmaVersion: 6 } },
+        { code: "let foo = { [a]: 1 };", options: [{ properties: "always" }], parserOptions: { ecmaVersion: 6 } },
+        { code: "let foo = { [a + b]: 1 };", options: [{ properties: "always" }], parserOptions: { ecmaVersion: 6 } }
     ],
     invalid: [
         { code: "var x = 1;", errors: [tooShortError] },
@@ -325,6 +327,14 @@ ruleTester.run("id-length", rule, {
         {
             code: "var {prop: x} = foo;",
             options: [{ properties: "never" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                tooShortError
+            ]
+        },
+        {
+            code: "var foo = {x: prop};",
+            options: [{ properties: "always" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 tooShortError
