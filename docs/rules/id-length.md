@@ -33,7 +33,7 @@ class Foo { x() {} }
 function foo(...x) { }
 function foo({x}) { }
 var { x } = {};
-var { x: a} = {};
+var { prop: a} = {};
 var { a: [x]} = {};
 ({ prop: obj.x } = {});
 ```

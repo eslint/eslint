@@ -40,6 +40,8 @@ ruleTester.run("id-length", rule, {
         "var query = location.query.q || '';",
         "var query = location.query.q ? location.query.q : ''",
         { code: "let {a: foo} = bar;", parserOptions: { ecmaVersion: 6 } },
+        { code: "let foo = { [a]: 1 };", parserOptions: { ecmaVersion: 6 } },
+        { code: "let foo = { [a + b]: 1 };", parserOptions: { ecmaVersion: 6 } },
         { code: "var x = Foo(42)", options: [{ min: 1 }] },
         { code: "var x = Foo(42)", options: [{ min: 0 }] },
         { code: "foo.$x = Foo(42)", options: [{ min: 1 }] },
@@ -51,6 +53,7 @@ ruleTester.run("id-length", rule, {
         { code: "class Foo { method() {} }", parserOptions: { ecmaVersion: 6 } },
         { code: "function foo(...args) { }", parserOptions: { ecmaVersion: 6 } },
         { code: "var { prop } = {};", parserOptions: { ecmaVersion: 6 } },
+        { code: "var { [a]: prop } = {};", parserOptions: { ecmaVersion: 6 } },
         { code: "var { a: foo } = {};", options: [{ min: 3 }], parserOptions: { ecmaVersion: 6 } },
         { code: "var { prop: foo } = {};", options: [{ max: 3 }], parserOptions: { ecmaVersion: 6 } },
         { code: "var { longName: foo } = {};", options: [{ min: 3, max: 5 }], parserOptions: { ecmaVersion: 6 } },
@@ -64,6 +67,7 @@ ruleTester.run("id-length", rule, {
         { code: "({ prop: obj.x.y.something } = {});", parserOptions: { ecmaVersion: 6 } },
         { code: "({ prop: obj.longName } = {});", parserOptions: { ecmaVersion: 6 } },
         { code: "var obj = { a: 1, bc: 2 };", options: [{ properties: "never" }] },
+        { code: "var obj = { [a]: 2 };", options: [{ properties: "never" }], parserOptions: { ecmaVersion: 6 } },
         { code: "var obj = {}; obj.a = 1; obj.bc = 2;", options: [{ properties: "never" }] },
         { code: "({ prop: obj.x } = {});", options: [{ properties: "never" }], parserOptions: { ecmaVersion: 6 } },
         { code: "var obj = { aaaaa: 1 };", options: [{ max: 4, properties: "never" }] },
@@ -142,7 +146,11 @@ ruleTester.run("id-length", rule, {
             code: "function foo({x: a}) { }",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                tooShortError
+                {
+                    messageId: "tooShort",
+                    data: { name: "a", min: 2 },
+                    type: "Identifier"
+                }
             ]
         },
         {
@@ -193,6 +201,17 @@ ruleTester.run("id-length", rule, {
         },
         {
             code: "var { x: a} = {};",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "tooShort",
+                    data: { name: "a", min: 2 },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "var { a: a} = {};",
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 tooShortError
@@ -294,6 +313,22 @@ ruleTester.run("id-length", rule, {
                 tooShortError
             ]
         },
-        { code: "var x = 1;", options: [{ properties: "never" }], errors: [tooShortError] }
+        { code: "var x = 1;", options: [{ properties: "never" }], errors: [tooShortError] },
+        {
+            code: "var {x} = foo;",
+            options: [{ properties: "never" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                tooShortError
+            ]
+        },
+        {
+            code: "var {prop: x} = foo;",
+            options: [{ properties: "never" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                tooShortError
+            ]
+        }
     ]
 });
