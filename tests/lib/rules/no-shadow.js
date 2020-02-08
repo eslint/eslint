@@ -57,7 +57,13 @@ ruleTester.run("no-shadow", rule, {
         { code: "function foo() { var top = 0; }", env: { browser: true } },
         { code: "var Object = 0;", options: [{ builtinGlobals: true }] },
         { code: "var top = 0;", options: [{ builtinGlobals: true }], env: { browser: true } },
-        { code: "function foo(cb) { (function (cb) { cb(42); })(cb); }", options: [{ allow: ["cb"] }] }
+        { code: "function foo(cb) { (function (cb) { cb(42); })(cb); }", options: [{ allow: ["cb"] }] },
+        { code: "const a = [].find(a=>a)", parserOptions: { ecmaVersion: 6 } },
+        { code: "const [a = [].find(a => true)] = dummy", parserOptions: { ecmaVersion: 6 } },
+        { code: "const { a = [].find(a => true) } = dummy", parserOptions: { ecmaVersion: 6 } },
+        { code: "function func(a = [].find(a => true)) {}", parserOptions: { ecmaVersion: 6 } },
+        { code: "for (const a in [].find(a => true)) {}", parserOptions: { ecmaVersion: 6 } },
+        { code: "for (const a of [].find(a => true)) {}", parserOptions: { ecmaVersion: 6 } }
     ],
     invalid: [
         {
