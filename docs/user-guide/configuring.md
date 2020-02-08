@@ -1061,19 +1061,17 @@ Of particular note is that like `.gitignore` files, all paths used as patterns f
 
 Please see `.gitignore`'s specification for further examples of valid syntax.
 
-In addition to any patterns in a `.eslintignore` file, ESLint always ignores files in `/node_modules/*` and `/bower_components/*`.
+In addition to any patterns in a `.eslintignore` file, ESLint always ignores files in `/**/node_modules/*`.
 
-For example, placing the following `.eslintignore` file in the current working directory will ignore all of `node_modules`, `bower_components` in the project root and anything in the `build/` directory except `build/index.js`:
+For example, placing the following `.eslintignore` file in the current working directory will ignore all of `node_modules/*` and anything in the `build/` directory except `build/index.js`:
 
 ```text
-# /node_modules/* and /bower_components/* in the project root are ignored by default
+# node_modules/* are ignored by default
 
 # Ignore built files except build/index.js
 build/*
 !build/index.js
 ```
-
-**Important**: Note that `node_modules` directories in, for example, a `packages` directory in a mono repo are *not* ignored by default and need to be added to `.eslintignore` explicitly.
 
 ### Using an Alternate File
 
