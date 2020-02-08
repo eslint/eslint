@@ -968,6 +968,8 @@ project-root
 
 The config in `app/.eslintrc.json` defines the glob pattern `**/*Spec.js`. This pattern is relative to the base directory of `app/.eslintrc.json`. So, this pattern would match `app/lib/fooSpec.js` and `app/components/barSpec.js` but **NOT** `server/serverSpec.js`. If you defined the same pattern in the `.eslintrc.json` file within in the `project-root` folder, it would match all three of the `*Spec` files.
 
+If `--config` option provides a config, the glob patterns in the config are relative to the current working directory rather than the base directory of the given config. For example, if `--config configs/.eslintrc.json` is present, the glob patterns in the config are relative to `.` rather than `./configs`.
+
 ### Example configuration
 
 In your `.eslintrc.json`:
@@ -1032,6 +1034,10 @@ You can tell ESLint to ignore specific files and directories by `ignorePatterns`
 * You cannot write `ignorePatterns` property under `overrides` property.
 * `.eslintignore` can override `ignorePatterns` property of config files.
 
+If a glob pattern starts with `/`, the pattern is relative to the base directory of the config file. For example, `/foo.js` in `lib/.eslintrc.json` matches to `lib/foo.js` but not `lib/subdir/foo.js`.
+
+If `--config` option provides a config, the ignore patterns that start with `/` in the config are relative to the current working directory rather than the base directory of the given config. For example, if `--config configs/.eslintrc.json` is present, the ignore patterns in the config are relative to `.` rather than `./configs`.
+
 ### `.eslintignore`
 
 You can tell ESLint to ignore specific files and directories by creating an `.eslintignore` file in your project's root directory. The `.eslintignore` file is a plain text file where each line is a glob pattern indicating which paths should be omitted from linting. For example, the following will omit all JavaScript files:
@@ -1045,7 +1051,7 @@ When ESLint is run, it looks in the current working directory to find an `.eslin
 Globs are matched using [node-ignore](https://github.com/kaelzhang/node-ignore), so a number of features are available:
 
 * Lines beginning with `#` are treated as comments and do not affect ignore patterns.
-* Paths are relative to `.eslintignore` location or the current working directory. This is also true of paths passed in via the `--ignore-pattern` [command](./command-line-interface.md#--ignore-pattern).
+* Paths are relative to the current working directory. This is also true of paths passed in via the `--ignore-pattern` [command](./command-line-interface.md#--ignore-pattern).
 * Lines preceded by `!` are negated patterns that re-include a pattern that was ignored by an earlier pattern.
 * Ignore patterns behave according to the `.gitignore` [specification](https://git-scm.com/docs/gitignore).
 
