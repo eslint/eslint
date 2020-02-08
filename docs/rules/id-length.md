@@ -71,62 +71,6 @@ var data = { "x": 1 };  // excused because of quotes
 data["y"] = 3;  // excused because of calculated property access
 ```
 
-This rule has a shorthand integer option for the `"min"` object property.
-
-Examples of **incorrect** code for this rule with a minimum of 4:
-
-```js
-/*eslint id-length: ["error", { "min": 4 }]*/
-/*eslint-env es6*/
-
-var val = 5;
-obj.e = document.body;
-function foo (e) { };
-try {
-    dangerousStuff();
-} catch (e) {
-    // ignore as many do
-}
-var myObj = { a: 1 };
-(val) => { val * val };
-class x { }
-class Foo { x() {} }
-function foo(...x) { }
-var { x } = {};
-var { x: a} = {};
-var { a: [x]} = {};
-({ prop: obj.x } = {});
-```
-
-Examples of **correct** code for this rule with a minimum of 4:
-
-```js
-/*eslint id-length: ["error", { "min": 4 }]*/
-/*eslint-env es6*/
-
-var value = 5;
-function func() { return 42; }
-obj.element = document.body;
-var foo = function (event) { /* do stuff */ };
-try {
-    dangerousStuff();
-} catch (error) {
-    // ignore as many do
-}
-var myObj = { apple: 1 };
-(value) => { value * value };
-function foobar(value = 0) { }
-class MyClass { }
-class Foobar { method() {} }
-function foobar(...args) { }
-var { prop } = {};
-var { prop: a } = {};
-var { prop: [x] } = {};
-({ prop: obj.name } = {});
-var data = { "x": 1 };  // excused because of quotes
-data["y"] = 3;  // excused because of calculated property access
-```
-
 This rule has an object option:
 
 * `"min"` (default: 2) enforces a minimum identifier length
@@ -158,7 +102,8 @@ class Foo { x() {} }
 function foo(...x) { }
 var { x } = {};
 var { x: a} = {};
-var { a: [x]} = {};
+var [x] = arr;
+var { prop: [x]} = {};
 ({ prop: obj.x } = {});
 ```
 
@@ -185,7 +130,8 @@ class Foobar { method() {} }
 function foobar(...args) { }
 var { prop } = {};
 var { prop: a } = {};
-var { prop: [x] } = {};
+var [longName] = foo;
+var { a: [prop] } = {};
 ({ prop: obj.name } = {});
 var data = { "x": 1 };  // excused because of quotes
 data["y"] = 3;  // excused because of calculated property access
@@ -209,6 +155,7 @@ try {
     // ignore as many do
 }
 (reallyLongArgName) => { return !reallyLongArgName; };
+var [reallyLongFirstElementName] = arr;
 ```
 
 Examples of **correct** code for this rule with the `{ "max": 10 }` option:
@@ -227,6 +174,7 @@ try {
     // ignore as many do
 }
 (arg) => { return !arg; };
+var [first] = arr;
 ```
 
 ### properties
@@ -260,6 +208,7 @@ try {
     // ignore as many do
 }
 (x) => { return x * x; };
+var [x] = arr;
 ```
 
 ## Related Rules
