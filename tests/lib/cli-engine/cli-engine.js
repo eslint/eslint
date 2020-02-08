@@ -4098,37 +4098,37 @@ describe("CLIEngine", () => {
                 assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "undef.js")));
             });
 
-            it("should resolve relative paths from the ignorePath, not cwd", () => {
+            it("should resolve relative paths from CWD", () => {
                 const cwd = getFixturePath("ignored-paths", "subdir");
                 const ignorePath = getFixturePath("ignored-paths", ".eslintignoreForDifferentCwd");
                 const engine = new CLIEngine({ ignorePath, cwd });
 
-                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "subdir/undef.js")));
-                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "undef.js")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "subdir/undef.js")));
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "undef.js")));
             });
 
-            it("should resolve relative paths from the ignorePath when it's in a child directory", () => {
+            it("should resolve relative paths from CWD when it's in a child directory", () => {
                 const cwd = getFixturePath("ignored-paths");
                 const ignorePath = getFixturePath("ignored-paths", "subdir/.eslintignoreInChildDir");
                 const engine = new CLIEngine({ ignorePath, cwd });
 
-                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "subdir/undef.js")));
-                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "undef.js")));
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "subdir/undef.js")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "undef.js")));
                 assert(engine.isPathIgnored(getFixturePath("ignored-paths", "foo.js")));
                 assert(engine.isPathIgnored(getFixturePath("ignored-paths", "subdir/foo.js")));
 
                 assert(engine.isPathIgnored(getFixturePath("ignored-paths", "node_modules/bar.js")));
             });
 
-            it("should resolve relative paths from the ignorePath when it contains negated globs", () => {
+            it("should resolve relative paths from CWD when it contains negated globs", () => {
                 const cwd = getFixturePath("ignored-paths");
                 const ignorePath = getFixturePath("ignored-paths", "subdir/.eslintignoreInChildDir");
                 const engine = new CLIEngine({ ignorePath, cwd });
 
                 assert(engine.isPathIgnored("subdir/blah.txt"));
                 assert(engine.isPathIgnored("blah.txt"));
-                assert(!engine.isPathIgnored("subdir/bar.txt"));
-                assert(engine.isPathIgnored("bar.txt"));
+                assert(engine.isPathIgnored("subdir/bar.txt"));
+                assert(!engine.isPathIgnored("bar.txt"));
                 assert(!engine.isPathIgnored("subdir/baz.txt"));
                 assert(!engine.isPathIgnored("baz.txt"));
             });
@@ -5708,6 +5708,206 @@ describe("CLIEngine", () => {
                     path.join(root, "foo/test.js"),
                     path.join(root, "foo/test.txt"),
                     path.join(root, "test.js")
+                ]);
+            });
+        });
+    });
+
+    describe("'ignorePatterns', 'overrides[].files', and 'overrides[].excludedFiles' of the configuration that the '--config' option provided should be resolved from CWD.", () => {
+        const root = getFixturePath("cli-engine/config-and-overrides-files");
+
+        /** @type {CLIEngine} */
+        let InMemoryCLIEngine;
+
+        describe("if { files: 'foo/*.txt', ... } is present by '--config node_modules/myconf/.eslintrc.json',", () => {
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        "node_modules/myconf/.eslintrc.json": JSON.stringify({
+                            overrides: [
+                                {
+                                    files: "foo/*.js",
+                                    rules: {
+                                        eqeqeq: "error"
+                                    }
+                                }
+                            ]
+                        }),
+                        "node_modules/myconf/foo/test.js": "a == b",
+                        "foo/test.js": "a == b"
+                    }
+                }).CLIEngine;
+            });
+
+            it("'executeOnFiles()' with 'foo/test.js' should use the override entry.", () => {
+                const engine = new InMemoryCLIEngine({
+                    configFile: "node_modules/myconf/.eslintrc.json",
+                    cwd: root,
+                    ignore: false,
+                    useEslintrc: false
+                });
+                const { results } = engine.executeOnFiles("foo/test.js");
+
+                // Expected to be an 'eqeqeq' error because the file matches to `$CWD/foo/*.js`.
+                assert.deepStrictEqual(results, [
+                    {
+                        errorCount: 1,
+                        filePath: path.join(root, "foo/test.js"),
+                        fixableErrorCount: 0,
+                        fixableWarningCount: 0,
+                        messages: [
+                            {
+                                column: 3,
+                                endColumn: 5,
+                                endLine: 1,
+                                line: 1,
+                                message: "Expected '===' and instead saw '=='.",
+                                messageId: "unexpected",
+                                nodeType: "BinaryExpression",
+                                ruleId: "eqeqeq",
+                                severity: 2
+                            }
+                        ],
+                        source: "a == b",
+                        warningCount: 0
+                    }
+                ]);
+            });
+
+            it("'executeOnFiles()' with 'node_modules/myconf/foo/test.js' should NOT use the override entry.", () => {
+                const engine = new InMemoryCLIEngine({
+                    configFile: "node_modules/myconf/.eslintrc.json",
+                    cwd: root,
+                    ignore: false,
+                    useEslintrc: false
+                });
+                const { results } = engine.executeOnFiles("node_modules/myconf/foo/test.js");
+
+                // Expected to be no errors because the file doesn't match to `$CWD/foo/*.js`.
+                assert.deepStrictEqual(results, [
+                    {
+                        errorCount: 0,
+                        filePath: path.join(root, "node_modules/myconf/foo/test.js"),
+                        fixableErrorCount: 0,
+                        fixableWarningCount: 0,
+                        messages: [],
+                        warningCount: 0
+                    }
+                ]);
+            });
+        });
+
+        describe("if { files: '*', excludedFiles: 'foo/*.txt', ... } is present by '--config node_modules/myconf/.eslintrc.json',", () => {
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        "node_modules/myconf/.eslintrc.json": JSON.stringify({
+                            overrides: [
+                                {
+                                    files: "*",
+                                    excludedFiles: "foo/*.js",
+                                    rules: {
+                                        eqeqeq: "error"
+                                    }
+                                }
+                            ]
+                        }),
+                        "node_modules/myconf/foo/test.js": "a == b",
+                        "foo/test.js": "a == b"
+                    }
+                }).CLIEngine;
+            });
+
+            it("'executeOnFiles()' with 'foo/test.js' should NOT use the override entry.", () => {
+                const engine = new InMemoryCLIEngine({
+                    configFile: "node_modules/myconf/.eslintrc.json",
+                    cwd: root,
+                    ignore: false,
+                    useEslintrc: false
+                });
+                const { results } = engine.executeOnFiles("foo/test.js");
+
+                // Expected to be no errors because the file matches to `$CWD/foo/*.js`.
+                assert.deepStrictEqual(results, [
+                    {
+                        errorCount: 0,
+                        filePath: path.join(root, "foo/test.js"),
+                        fixableErrorCount: 0,
+                        fixableWarningCount: 0,
+                        messages: [],
+                        warningCount: 0
+                    }
+                ]);
+            });
+
+            it("'executeOnFiles()' with 'node_modules/myconf/foo/test.js' should use the override entry.", () => {
+                const engine = new InMemoryCLIEngine({
+                    configFile: "node_modules/myconf/.eslintrc.json",
+                    cwd: root,
+                    ignore: false,
+                    useEslintrc: false
+                });
+                const { results } = engine.executeOnFiles("node_modules/myconf/foo/test.js");
+
+                // Expected to be an 'eqeqeq' error because the file doesn't match to `$CWD/foo/*.js`.
+                assert.deepStrictEqual(results, [
+                    {
+                        errorCount: 1,
+                        filePath: path.join(root, "node_modules/myconf/foo/test.js"),
+                        fixableErrorCount: 0,
+                        fixableWarningCount: 0,
+                        messages: [
+                            {
+                                column: 3,
+                                endColumn: 5,
+                                endLine: 1,
+                                line: 1,
+                                message: "Expected '===' and instead saw '=='.",
+                                messageId: "unexpected",
+                                nodeType: "BinaryExpression",
+                                ruleId: "eqeqeq",
+                                severity: 2
+                            }
+                        ],
+                        source: "a == b",
+                        warningCount: 0
+                    }
+                ]);
+            });
+        });
+
+        describe("if { ignorePatterns: 'foo/*.txt', ... } is present by '--config node_modules/myconf/.eslintrc.json',", () => {
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        "node_modules/myconf/.eslintrc.json": JSON.stringify({
+                            ignorePatterns: ["!/node_modules/myconf", "foo/*.js"],
+                            rules: {
+                                eqeqeq: "error"
+                            }
+                        }),
+                        "node_modules/myconf/foo/test.js": "a == b",
+                        "foo/test.js": "a == b"
+                    }
+                }).CLIEngine;
+            });
+
+            it("'executeOnFiles()' with '**/*.js' should iterate 'node_modules/myconf/foo/test.js' but not 'foo/test.js'.", () => {
+                const engine = new InMemoryCLIEngine({
+                    configFile: "node_modules/myconf/.eslintrc.json",
+                    cwd: root,
+                    useEslintrc: false
+                });
+                const files = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(files, [
+                    path.join(root, "node_modules/myconf/foo/test.js")
                 ]);
             });
         });
