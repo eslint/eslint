@@ -1356,13 +1356,26 @@ describe("ast-utils", () => {
             [["a", "/**/b"], true],
             [["a", "b/**/"], false],
             [["a", "//\nb"], true],
-            [["a", "b//"], false]
+            [["a", "b//"], false],
+            [["#!/usr/bin/env node", "("], false],
+            [["123invalidtoken", "("], false],
+            [["(", "123invalidtoken"], false]
         ]);
 
         CASES.forEach((expectedResult, tokenStrings) => {
             it(tokenStrings.join(", "), () => {
                 assert.strictEqual(astUtils.canTokensBeAdjacent(tokenStrings[0], tokenStrings[1]), expectedResult);
             });
+        });
+
+        it("#!/usr/bin/env node, (", () => {
+            assert.strictEqual(
+                astUtils.canTokensBeAdjacent(
+                    { type: "Shebang", value: "#!/usr/bin/env node" },
+                    { type: "Punctuator", value: "(" }
+                ),
+                false
+            );
         });
     });
 
