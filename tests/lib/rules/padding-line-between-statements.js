@@ -16,9 +16,6 @@ const { RuleTester } = require("../../../lib/rule-tester");
 // Tests
 //------------------------------------------------------------------------------
 
-const MESSAGE_NEVER = "Unexpected blank line before this statement.";
-const MESSAGE_ALWAYS = "Expected blank line before this statement.";
-
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2017 } });
 
 ruleTester.run("padding-line-between-statements", rule, {
@@ -2643,7 +2640,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "*", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "foo();\n\n//comment\nfoo();",
@@ -2651,7 +2648,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "*", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "    foo();\n    \n    //comment\n    foo();",
@@ -2659,7 +2656,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "*", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "if (a) {}\n\nfor (;;) {}",
@@ -2667,7 +2664,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "*", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "foo();\nfoo();",
@@ -2675,7 +2672,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "    function a() {}\n    do {} while (a)",
@@ -2683,7 +2680,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "foo();//trailing-comment\n//comment\n//comment\nfoo();",
@@ -2691,7 +2688,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -2704,7 +2701,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "{}\nfoo()",
@@ -2712,7 +2709,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "if(a){}\nfoo()",
@@ -2720,7 +2717,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "if(a){}else{}\nfoo()",
@@ -2728,7 +2725,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "if(a){}else if(b){}\nfoo()",
@@ -2736,7 +2733,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "if(a){}else if(b){}else{}\nfoo()",
@@ -2744,7 +2741,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "switch(a){}\nfoo()",
@@ -2752,7 +2749,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "switch(a){case 0:}\nfoo()",
@@ -2760,7 +2757,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "try{}catch(e){}\nfoo()",
@@ -2768,7 +2765,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "try{}finally{}\nfoo()",
@@ -2776,7 +2773,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "try{}catch(e){}finally{}\nfoo()",
@@ -2784,7 +2781,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "while(a){}\nfoo()",
@@ -2792,7 +2789,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "do{}while(a)\nfoo()",
@@ -2800,7 +2797,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "for(;;){}\nfoo()",
@@ -2808,7 +2805,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "for(a in b){}\nfoo()",
@@ -2816,7 +2813,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "for(a of b){}\nfoo()",
@@ -2824,7 +2821,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "a=function(){}\nfoo()",
@@ -2832,7 +2829,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "a=()=>{}\nfoo()",
@@ -2840,7 +2837,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "function a(){}\nfoo()",
@@ -2848,7 +2845,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "let a=function(){}\nfoo()",
@@ -2856,7 +2853,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -2869,7 +2866,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "cjs-export", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "module.exports=1\nfoo()",
@@ -2877,7 +2874,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "cjs-export", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "module.exports.foo=1\nfoo()",
@@ -2885,7 +2882,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "cjs-export", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "module.exports[foo]=1\nfoo()",
@@ -2893,7 +2890,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "cjs-export", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "exports.foo=1\nfoo()",
@@ -2901,7 +2898,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "cjs-export", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "exports[foo]=1\nfoo()",
@@ -2909,7 +2906,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "cjs-export", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -2922,7 +2919,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "cjs-import", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "const foo=require(\"foo\")\nfoo()",
@@ -2930,7 +2927,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "cjs-import", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "const foo=require(\"foo\").Foo\nfoo()",
@@ -2938,7 +2935,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "cjs-import", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "const foo=require(\"foo\")[a]\nfoo()",
@@ -2946,7 +2943,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "cjs-import", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -2959,7 +2956,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "directive", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "\"use strict\"\nfoo()",
@@ -2967,7 +2964,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "directive", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "'use strict'\nfoo()",
@@ -2975,7 +2972,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "directive", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "'use asm'\nfoo()",
@@ -2983,7 +2980,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "directive", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -2996,7 +2993,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "{\n}\nfoo()",
@@ -3004,7 +3001,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "if(a){\n}\nfoo()",
@@ -3012,7 +3009,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "if(a){\n}else{\n}\nfoo()",
@@ -3020,7 +3017,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "if(a){\n}else if(b){\n}\nfoo()",
@@ -3028,7 +3025,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "if(a){\n}else if(b){\n}else{\n}\nfoo()",
@@ -3036,7 +3033,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "switch(a){\n}\nfoo()",
@@ -3044,7 +3041,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "try{\n}catch(e){\n}\nfoo()",
@@ -3052,7 +3049,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "try{\n}finally{\n}\nfoo()",
@@ -3060,7 +3057,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "try{\n}catch(e){\n}finally{\n}\nfoo()",
@@ -3068,7 +3065,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "while(a){\n}\nfoo()",
@@ -3076,7 +3073,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "do{\n}while(a)\nfoo()",
@@ -3084,7 +3081,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "for(;;){\n}\nfoo()",
@@ -3092,7 +3089,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "for(a in b){\n}\nfoo()",
@@ -3100,7 +3097,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "for(a of b){\n}\nfoo()",
@@ -3108,7 +3105,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "a=function(){\n}\nfoo()",
@@ -3116,7 +3113,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "a=()=>{\n}\nfoo()",
@@ -3124,7 +3121,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "function a(){\n}\nfoo()",
@@ -3132,7 +3129,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "let a=function(){\n}\nfoo()",
@@ -3140,7 +3137,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -3153,7 +3150,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "block", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "{}\nfoo()",
@@ -3161,7 +3158,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "block", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -3174,7 +3171,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "empty", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: ";\nfoo()",
@@ -3182,7 +3179,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "empty", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -3195,7 +3192,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "expression", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "foo()\nfoo()",
@@ -3203,7 +3200,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "expression", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -3216,7 +3213,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "*", next: "multiline-expression" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "foo()\nfoo(\n\tx,\n\ty\n)",
@@ -3224,7 +3221,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: "multiline-expression" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "() => {\n\tsomeArray.forEach(\n\t\tx => doSomething(x)\n\t);\n\treturn theThing;\n}",
@@ -3232,7 +3229,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "multiline-expression", next: "return" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -3245,7 +3242,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "break", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "switch(a){case 0:break\n\nfoo()}",
@@ -3253,7 +3250,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "break", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "while(a){break\nfoo()}",
@@ -3261,7 +3258,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "break", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "switch(a){case 0:break\nfoo()}",
@@ -3269,7 +3266,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "break", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -3282,7 +3279,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "case", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "switch(a){case 0:\nfoo()\ndefault:}",
@@ -3290,7 +3287,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "case", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -3303,7 +3300,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "class", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "class A{}\nfoo()",
@@ -3311,7 +3308,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "class", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -3324,7 +3321,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "const", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "const a=1\nfoo()",
@@ -3332,7 +3329,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "const", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -3345,7 +3342,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "continue", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "while(a){continue\nfoo()}",
@@ -3353,7 +3350,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "continue", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -3366,7 +3363,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "debugger", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "debugger\nfoo()",
@@ -3374,7 +3371,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "debugger", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -3387,7 +3384,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "default", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "switch(a){default:\nfoo()\ncase 0:}",
@@ -3395,7 +3392,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "default", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -3408,7 +3405,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "do", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "do;while(a)\nfoo()",
@@ -3416,7 +3413,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "do", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -3430,7 +3427,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "never", prev: "export", next: "*" }
             ],
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "export let a=1\n\nfoo()",
@@ -3439,7 +3436,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "never", prev: "export", next: "*" }
             ],
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "var a = 0;export {a}\n\nfoo()",
@@ -3448,7 +3445,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "never", prev: "export", next: "*" }
             ],
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "export default 1\nfoo()",
@@ -3457,7 +3454,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "always", prev: "export", next: "*" }
             ],
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "export let a=1\nfoo()",
@@ -3466,7 +3463,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "always", prev: "export", next: "*" }
             ],
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "var a = 0;export {a}\nfoo()",
@@ -3475,7 +3472,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "always", prev: "export", next: "*" }
             ],
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -3488,7 +3485,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "for", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "for(a in b);\n\nfoo()",
@@ -3496,7 +3493,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "for", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "for(a of b);\n\nfoo()",
@@ -3504,7 +3501,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "for", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "for(;;);\nfoo()",
@@ -3512,7 +3509,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "for", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "for(a in b);\nfoo()",
@@ -3520,7 +3517,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "for", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "for(a of b);\nfoo()",
@@ -3528,7 +3525,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "for", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -3541,7 +3538,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "function", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "function foo(){}\nfoo()",
@@ -3549,7 +3546,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "function", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "async function foo(){}\nfoo()",
@@ -3558,7 +3555,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "never", prev: "*", next: "*" },
                 { blankLine: "always", prev: "function", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -3571,7 +3568,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "if", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "if(a);else;\n\nfoo()",
@@ -3579,7 +3576,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "if", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "if(a);\nfoo()",
@@ -3587,7 +3584,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "if", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "if(a);else;\nfoo()",
@@ -3595,7 +3592,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "if", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -3608,7 +3605,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "iife", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "+(function(){\n})()\n\nvar a = 2;",
@@ -3616,7 +3613,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "iife", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "(function(){\n})()\nvar a = 2;",
@@ -3624,7 +3621,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "iife", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "+(function(){\n})()\nvar a = 2;",
@@ -3632,7 +3629,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "iife", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -3646,7 +3643,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "never", prev: "import", next: "*" }
             ],
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "import * as a from 'a'\n\nfoo()",
@@ -3655,7 +3652,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "never", prev: "import", next: "*" }
             ],
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "import {a} from 'a'\n\nfoo()",
@@ -3664,7 +3661,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "never", prev: "import", next: "*" }
             ],
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "import a from 'a'\nfoo()",
@@ -3673,7 +3670,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "always", prev: "import", next: "*" }
             ],
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "import * as a from 'a'\nfoo()",
@@ -3682,7 +3679,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "always", prev: "import", next: "*" }
             ],
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "import {a} from 'a'\nfoo()",
@@ -3691,7 +3688,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "always", prev: "import", next: "*" }
             ],
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -3704,7 +3701,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "let", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "let a\nfoo()",
@@ -3712,7 +3709,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "let", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -3725,7 +3722,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "return", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "function foo(){return\nfoo()}",
@@ -3733,7 +3730,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "return", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -3746,7 +3743,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "switch", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "switch(a){}\nfoo()",
@@ -3754,7 +3751,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "switch", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -3767,7 +3764,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "throw", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "throw a\nfoo()",
@@ -3775,7 +3772,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "throw", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -3788,7 +3785,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "try", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "try{}finally{}\n\nfoo()",
@@ -3796,7 +3793,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "try", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "try{}catch(e){}finally{}\n\nfoo()",
@@ -3804,7 +3801,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "try", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "try{}catch(e){}\nfoo()",
@@ -3812,7 +3809,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "try", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "try{}finally{}\nfoo()",
@@ -3820,7 +3817,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "try", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "try{}catch(e){}finally{}\nfoo()",
@@ -3828,7 +3825,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "try", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -3841,7 +3838,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "var", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "var a\nfoo()",
@@ -3849,7 +3846,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "var", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -3862,7 +3859,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "while", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "while(a);\nfoo()",
@@ -3870,7 +3867,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "while", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -3883,7 +3880,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "with", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "with(a);\nfoo()",
@@ -3891,7 +3888,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "with", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -3904,7 +3901,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "multiline-const", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "const a={\nb:1,\nc:2\n}\nconst d=3",
@@ -3912,7 +3909,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "multiline-const", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "const a=1\n\nconst b={\nc:2,\nd:3\n}",
@@ -3920,7 +3917,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "*", next: "multiline-const" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "const a=1\nconst b={\nc:2,\nd:3\n}",
@@ -3928,7 +3925,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: "multiline-const" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -3941,7 +3938,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "multiline-let", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "let a={\nb:1,\nc:2\n}\nlet d=3",
@@ -3949,7 +3946,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "multiline-let", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "let a=1\n\nlet b={\nc:2,\nd:3\n}",
@@ -3957,7 +3954,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "*", next: "multiline-let" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "let a=1\nlet b={\nc:2,\nd:3\n}",
@@ -3965,7 +3962,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: "multiline-let" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -3978,7 +3975,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "multiline-var", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "var a={\nb:1,\nc:2\n}\nvar d=3",
@@ -3986,7 +3983,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "multiline-var", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "var a=1\n\nvar b={\nc:2,\nd:3\n}",
@@ -3994,7 +3991,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "*", next: "multiline-var" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "var a=1\nvar b={\nc:2,\nd:3\n}",
@@ -4002,7 +3999,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: "multiline-var" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -4015,7 +4012,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "singleline-const", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "const a=1\nconst b=2",
@@ -4023,7 +4020,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "singleline-const", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "const a=1\n\nconst b=2",
@@ -4031,7 +4028,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "*", next: "singleline-const" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "const a=1\nconst b=2",
@@ -4039,7 +4036,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: "singleline-const" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -4052,7 +4049,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "singleline-let", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "let a=1\nlet b=2",
@@ -4060,7 +4057,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "singleline-let", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "let a=1\n\nlet b=2",
@@ -4068,7 +4065,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "*", next: "singleline-let" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "let a=1\nlet b=2",
@@ -4076,7 +4073,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: "singleline-let" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -4089,7 +4086,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "singleline-var", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "var a=1\nvar b=2",
@@ -4097,7 +4094,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "singleline-var", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "var a=1\n\nvar b=2",
@@ -4105,7 +4102,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "*", next: "singleline-var" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "var a=1\nvar b=2",
@@ -4113,7 +4110,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: "singleline-var" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -4128,7 +4125,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "always", prev: ["const", "let", "var"], next: "*" },
                 { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "var greet = 'hello';var name = 'world';console.log(greet, name);",
@@ -4137,7 +4134,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "always", prev: ["const", "let", "var"], next: "*" },
                 { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "var greet = 'hello', name = 'world';console.log(greet, name);",
@@ -4146,7 +4143,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "always", prev: ["const", "let", "var"], next: "*" },
                 { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         // should disallow no blank line in "always" mode
@@ -4157,7 +4154,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "always", prev: ["const", "let", "var"], next: "*" },
                 { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "var greet = 'hello';    \nconsole.log(greet);",
@@ -4166,7 +4163,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "always", prev: ["const", "let", "var"], next: "*" },
                 { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "var greet = 'hello'; // inline comment\nconsole.log(greet);",
@@ -4175,7 +4172,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "always", prev: ["const", "let", "var"], next: "*" },
                 { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "var greet = 'hello';\nvar name = 'world';\nconsole.log(greet, name);",
@@ -4184,7 +4181,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "always", prev: ["const", "let", "var"], next: "*" },
                 { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "var greet = 'hello', name = 'world';\nconsole.log(greet, name);",
@@ -4193,7 +4190,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "always", prev: ["const", "let", "var"], next: "*" },
                 { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "var greet = 'hello',\nname = 'world';\nconsole.log(greet, name);",
@@ -4202,7 +4199,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "always", prev: ["const", "let", "var"], next: "*" },
                 { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "let greet = 'hello';\nconsole.log(greet);",
@@ -4211,7 +4208,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "always", prev: ["const", "let", "var"], next: "*" },
                 { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "const greet = 'hello';\nconsole.log(greet);",
@@ -4220,7 +4217,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "always", prev: ["const", "let", "var"], next: "*" },
                 { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "function example() {\nvar greet = 'hello';\nconsole.log(greet);\n}",
@@ -4229,7 +4226,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "always", prev: ["const", "let", "var"], next: "*" },
                 { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "var f = function() {\nvar greet = 'hello';\nconsole.log(greet);\n};",
@@ -4238,7 +4235,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "always", prev: ["const", "let", "var"], next: "*" },
                 { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "() => {\nvar greet = 'hello';\nconsole.log(greet);\n}",
@@ -4247,7 +4244,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "always", prev: ["const", "let", "var"], next: "*" },
                 { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         // should disallow blank lines in "never" mode
@@ -4258,7 +4255,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "never", prev: ["const", "let", "var"], next: "*" },
                 { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "var greet = 'hello';\n\n\nconsole.log(greet);",
@@ -4267,7 +4264,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "never", prev: ["const", "let", "var"], next: "*" },
                 { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "var greet = 'hello';\n\n\n\nconsole.log(greet);",
@@ -4276,7 +4273,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "never", prev: ["const", "let", "var"], next: "*" },
                 { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "var greet = 'hello';    \n\nconsole.log(greet);",
@@ -4285,7 +4282,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "never", prev: ["const", "let", "var"], next: "*" },
                 { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "var greet = 'hello'; // inline comment\n\nconsole.log(greet);",
@@ -4294,7 +4291,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "never", prev: ["const", "let", "var"], next: "*" },
                 { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "var greet = 'hello';\nvar name = 'world';\n\nconsole.log(greet, name);",
@@ -4303,7 +4300,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "never", prev: ["const", "let", "var"], next: "*" },
                 { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "var greet = 'hello', name = 'world';\n\nconsole.log(greet, name);",
@@ -4312,7 +4309,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "never", prev: ["const", "let", "var"], next: "*" },
                 { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "var greet = 'hello',\nname = 'world';\n\nconsole.log(greet, name);",
@@ -4321,7 +4318,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "never", prev: ["const", "let", "var"], next: "*" },
                 { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "var greet = 'hello', // inline comment\nname = 'world'; // inline comment\n\nconsole.log(greet, name);",
@@ -4330,7 +4327,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "never", prev: ["const", "let", "var"], next: "*" },
                 { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "let greet = 'hello';\n\nconsole.log(greet);",
@@ -4339,7 +4336,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "never", prev: ["const", "let", "var"], next: "*" },
                 { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "const greet = 'hello';\n\nconsole.log(greet);",
@@ -4348,7 +4345,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "never", prev: ["const", "let", "var"], next: "*" },
                 { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
 
         // should disallow a comment on the next line that's not in turn followed by a blank in "always" mode
@@ -4359,7 +4356,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "always", prev: ["const", "let", "var"], next: "*" },
                 { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "var greet = 'hello';\n/* block comment\nblock comment */\nconsole.log(greet);",
@@ -4368,7 +4365,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "always", prev: ["const", "let", "var"], next: "*" },
                 { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "var greet = 'hello',\nname = 'world';\n// next-line comment\nconsole.log(greet);",
@@ -4377,7 +4374,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "always", prev: ["const", "let", "var"], next: "*" },
                 { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "var greet = 'hello',\nname = 'world';\n/* block comment\nblock comment */\nconsole.log(greet);",
@@ -4386,7 +4383,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "always", prev: ["const", "let", "var"], next: "*" },
                 { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "var greet = 'hello';\n// next-line comment\n// second-line comment\nconsole.log(greet);",
@@ -4395,7 +4392,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "always", prev: ["const", "let", "var"], next: "*" },
                 { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "var greet = 'hello';\n// next-line comment\n/* block comment\nblock comment */\nconsole.log(greet);",
@@ -4404,7 +4401,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "always", prev: ["const", "let", "var"], next: "*" },
                 { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         // https://github.com/eslint/eslint/issues/6834
@@ -4422,7 +4419,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "always", prev: ["const", "let", "var"], next: "*" },
                 { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: `
@@ -4438,7 +4435,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "never", prev: ["const", "let", "var"], next: "*" },
                 { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"] }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -4451,7 +4448,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "function a() {\nvar b;\nreturn;\n}",
@@ -4459,7 +4456,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "function a() {\nif (b) return b;\nelse if (c) return c;\nelse {\ne();\nreturn d;\n}\n}",
@@ -4467,7 +4464,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "function a() {\nif (b) return b;\nelse if (c) return c;\nelse {\ne(); return d;\n}\n}",
@@ -4475,7 +4472,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "function a() {\n while (b) {\nc();\nreturn;\n}\n}",
@@ -4483,7 +4480,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "function a() {\ndo {\nc();\nreturn;\n} while (b);\n}",
@@ -4491,7 +4488,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "function a() {\nfor (var b; b < c; b++) {\nc();\nreturn;\n}\n}",
@@ -4499,7 +4496,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "function a() {\nfor (b in c) {\nd();\nreturn;\n}\n}",
@@ -4507,7 +4504,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "function a() {\nfor (b of c) {\nd();\nreturn;\n}\n}",
@@ -4515,7 +4512,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "function a() {\nif (b) {\nc();\n}\n//comment\nreturn b;\n}",
@@ -4523,7 +4520,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "function a() {\n/*comment\ncomment*/\nif (b) {\nc();\nreturn b;\n} else {\n//comment\n\nreturn d;\n}\n/*multi-line\ncomment*/\nreturn e;\n}",
@@ -4531,7 +4528,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
             ],
-            errors: [MESSAGE_ALWAYS, MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }, { messageId: "expectedBlankLine" }]
         },
         {
             code: "function a() {\nif (b) { return; } //comment\nreturn c;\n}",
@@ -4539,7 +4536,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "function a() {\nif (b) { return; } /*multi-line\ncomment*/\nreturn c;\n}",
@@ -4547,7 +4544,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "function a() {\nif (b) { return; }\n/*multi-line\ncomment*/ return c;\n}",
@@ -4555,7 +4552,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "function a() {\nif (b) { return; } /*multi-line\ncomment*/ return c;\n}",
@@ -4563,7 +4560,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "var a;\nreturn;",
@@ -4572,7 +4569,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "always", prev: "*", next: "return" }
             ],
             parserOptions: { ecmaFeatures: { globalReturn: true } },
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "var a; return;",
@@ -4581,7 +4578,7 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "always", prev: "*", next: "return" }
             ],
             parserOptions: { ecmaFeatures: { globalReturn: true } },
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "function a() {\n{\n//comment\n}\nreturn\n}",
@@ -4589,7 +4586,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "function a() {\n{\n//comment\n} return\n}",
@@ -4597,7 +4594,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "function a() {\nvar c;\nwhile (b) {\n c = d; //comment\n}\nreturn c;\n}",
@@ -4605,7 +4602,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "function a() {\nfor (var b; b < c; b++) {\nif (d) {\nbreak; //comment\n}\nreturn;\n}\n}",
@@ -4613,7 +4610,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "function a() {\nvar b; /*multi-line\ncomment*/\nreturn c;\n}",
@@ -4621,7 +4618,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "function a() {\nvar b;\n/*multi-line\ncomment*/ return c;\n}",
@@ -4629,7 +4626,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "function a() {\nvar b; /*multi-line\ncomment*/ return c;\n}",
@@ -4637,7 +4634,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "function a() {\nvar b;\n//comment\nreturn;\n}",
@@ -4645,7 +4642,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "function a() {\nvar b; //comment\nreturn;\n}",
@@ -4653,7 +4650,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "function a() {\nvar b;\n/* comment */ return;\n}",
@@ -4661,7 +4658,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "function a() {\nvar b;\n//comment\n/* comment */ return;\n}",
@@ -4669,7 +4666,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "function a() {\nvar b; /* comment */ return;\n}",
@@ -4677,7 +4674,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "function a() {\nvar b; /* comment */\nreturn;\n}",
@@ -4685,7 +4682,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "function a() {\nvar b;\nreturn; //comment\n}",
@@ -4693,7 +4690,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "function a() {\nvar b; return; //comment\n}",
@@ -4701,7 +4698,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: "return" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -4715,7 +4712,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "if(true){\nif(true) {}\n\nvar a = 2;}",
@@ -4723,7 +4720,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "(function(){\n})()\n\nvar a = 2;",
@@ -4731,7 +4728,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "+(function(){\n})()\n\nvar a = 2;",
@@ -4739,7 +4736,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "var a = function() {};\n\nvar b = 2;",
@@ -4747,7 +4744,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -4761,7 +4758,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "*", next: "cjs-export" }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -4775,7 +4772,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "*", next: ["if", "for", "return", "switch", "case", "break", "throw"] }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "function x() { var a = true;\n\nif (a) { a = !a; }; }",
@@ -4783,7 +4780,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "*", next: ["if", "for", "return", "switch", "case", "break", "throw"] }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "function x() { var a = true;\n\nfor (var i = 0; i < 10; i++) { a = !a; }; }",
@@ -4791,7 +4788,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "never", prev: "*", next: ["if", "for", "return", "switch", "case", "break", "throw"] }
             ],
-            errors: [MESSAGE_NEVER]
+            errors: [{ messageId: "unexpectedBlankLine" }]
         },
         {
             code: "function x() { var y = true;\n\nswitch (\"Oranges\") { case \"Oranges\": y = !y;\n\nbreak;\n\ncase \"Apples\": y = !y;\n\nbreak; default: y = !y; } }",
@@ -4800,10 +4797,10 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "never", prev: "*", next: ["if", "for", "return", "switch", "case", "break", "throw"] }
             ],
             errors: [
-                MESSAGE_NEVER,
-                MESSAGE_NEVER,
-                MESSAGE_NEVER,
-                MESSAGE_NEVER
+                { messageId: "unexpectedBlankLine" },
+                { messageId: "unexpectedBlankLine" },
+                { messageId: "unexpectedBlankLine" },
+                { messageId: "unexpectedBlankLine" }
             ]
         },
         {
@@ -4813,8 +4810,8 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "never", prev: "*", next: ["if", "for", "return", "switch", "case", "break", "throw"] }
             ],
             errors: [
-                MESSAGE_NEVER,
-                MESSAGE_NEVER
+                { messageId: "unexpectedBlankLine" },
+                { messageId: "unexpectedBlankLine" }
             ]
         },
         {
@@ -4824,9 +4821,9 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "never", prev: "*", next: ["if", "for", "return", "switch", "case", "break", "throw"] }
             ],
             errors: [
-                MESSAGE_NEVER,
-                MESSAGE_NEVER,
-                MESSAGE_NEVER
+                { messageId: "unexpectedBlankLine" },
+                { messageId: "unexpectedBlankLine" },
+                { messageId: "unexpectedBlankLine" }
             ]
         },
 
@@ -4841,7 +4838,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "var a = function() {\n};\nvar b = 2;",
@@ -4849,7 +4846,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "if(true){\nif(true) {}\nvar a = 2;}",
@@ -4857,7 +4854,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "(function(){\n})()\nvar a = 2;",
@@ -4865,7 +4862,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "block-like", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "var a = function() {\n};\nvar b = 2;",
@@ -4873,7 +4870,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "multiline-block-like", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "(function(){\n})()\nvar a = 2;",
@@ -4881,7 +4878,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "multiline-block-like", next: "*" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -4895,7 +4892,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: "cjs-export" }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
 
         //----------------------------------------------------------------------
@@ -4909,7 +4906,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: ["if", "for", "return", "switch", "case", "break", "throw", "while", "default"] }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "function x() { var a = true; for (var i = 0; i < 10; i++) { a = !a; }; }",
@@ -4917,7 +4914,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: ["if", "for", "return", "switch", "case", "break", "throw", "while", "default"] }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "function x() { var y = true; switch (\"Oranges\") { case \"Oranges\": y = !y; break; case \"Apples\": y = !y; break; default: y = !y; } }",
@@ -4926,11 +4923,11 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "always", prev: "*", next: ["if", "for", "return", "switch", "case", "break", "throw", "while", "default"] }
             ],
             errors: [
-                MESSAGE_ALWAYS,
-                MESSAGE_ALWAYS,
-                MESSAGE_ALWAYS,
-                MESSAGE_ALWAYS,
-                MESSAGE_ALWAYS
+                { messageId: "expectedBlankLine" },
+                { messageId: "expectedBlankLine" },
+                { messageId: "expectedBlankLine" },
+                { messageId: "expectedBlankLine" },
+                { messageId: "expectedBlankLine" }
             ]
         },
         {
@@ -4939,7 +4936,7 @@ ruleTester.run("padding-line-between-statements", rule, {
             options: [
                 { blankLine: "always", prev: "*", next: ["if", "for", "return", "switch", "case", "break", "throw", "while", "default"] }
             ],
-            errors: [MESSAGE_ALWAYS]
+            errors: [{ messageId: "expectedBlankLine" }]
         },
         {
             code: "function x() {try { var a; throw 0; } catch (e) { var b = 0; throw e; } }",
@@ -4948,8 +4945,8 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "always", prev: "*", next: ["if", "for", "return", "switch", "case", "break", "throw", "while", "default"] }
             ],
             errors: [
-                MESSAGE_ALWAYS,
-                MESSAGE_ALWAYS
+                { messageId: "expectedBlankLine" },
+                { messageId: "expectedBlankLine" }
             ]
         },
         {
@@ -4959,9 +4956,9 @@ ruleTester.run("padding-line-between-statements", rule, {
                 { blankLine: "always", prev: "*", next: ["if", "for", "return", "switch", "case", "break", "throw", "while", "default"] }
             ],
             errors: [
-                MESSAGE_ALWAYS,
-                MESSAGE_ALWAYS,
-                MESSAGE_ALWAYS
+                { messageId: "expectedBlankLine" },
+                { messageId: "expectedBlankLine" },
+                { messageId: "expectedBlankLine" }
             ]
         }
     ]

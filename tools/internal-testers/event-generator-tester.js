@@ -19,7 +19,7 @@ const assert = require("assert");
 module.exports = {
 
     /**
-     * Overrideable `describe` function to test.
+     * Overridable `describe` function to test.
      * @param {string} text A description.
      * @param {Function} method A test logic.
      * @returns {any} The returned value with the test logic.
@@ -29,7 +29,7 @@ module.exports = {
     },
 
     /**
-     * Overrideable `it` function to test.
+     * Overridable `it` function to test.
      * @param {string} text A description.
      * @param {Function} method A test logic.
      * @returns {any} The returned value with the test logic.

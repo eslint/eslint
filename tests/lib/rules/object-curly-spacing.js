@@ -187,7 +187,8 @@ ruleTester.run("object-curly-spacing", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
-                    message: "A space is required after '{'.",
+                    messageId: "requireSpaceAfter",
+                    data: { token: "{" },
                     type: "ImportDeclaration",
                     line: 1,
                     column: 8,
@@ -195,7 +196,8 @@ ruleTester.run("object-curly-spacing", rule, {
                     endColumn: 9
                 },
                 {
-                    message: "A space is required before '}'.",
+                    messageId: "requireSpaceBefore",
+                    data: { token: "}" },
                     type: "ImportDeclaration",
                     line: 1,
                     column: 12,
@@ -211,7 +213,8 @@ ruleTester.run("object-curly-spacing", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
-                    message: "A space is required before '}'.",
+                    messageId: "requireSpaceBefore",
+                    data: { token: "}" },
                     type: "ImportDeclaration",
                     line: 1,
                     column: 18,
@@ -227,7 +230,8 @@ ruleTester.run("object-curly-spacing", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
-                    message: "A space is required after '{'.",
+                    messageId: "requireSpaceAfter",
+                    data: { token: "{" },
                     type: "ImportDeclaration",
                     line: 1,
                     column: 8,
@@ -235,7 +239,8 @@ ruleTester.run("object-curly-spacing", rule, {
                     endColumn: 9
                 },
                 {
-                    message: "A space is required before '}'.",
+                    messageId: "requireSpaceBefore",
+                    data: { token: "}" },
                     type: "ImportDeclaration",
                     line: 1,
                     column: 17,
@@ -251,7 +256,8 @@ ruleTester.run("object-curly-spacing", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
-                    message: "A space is required before '}'.",
+                    messageId: "requireSpaceBefore",
+                    data: { token: "}" },
                     type: "ImportDeclaration",
                     line: 1,
                     column: 13,
@@ -267,7 +273,8 @@ ruleTester.run("object-curly-spacing", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
-                    message: "A space is required before '}'.",
+                    messageId: "requireSpaceBefore",
+                    data: { token: "}" },
                     type: "ImportDeclaration",
                     line: 1,
                     column: 16,
@@ -284,7 +291,8 @@ ruleTester.run("object-curly-spacing", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
-                    message: "A space is required before '}'.",
+                    messageId: "requireSpaceBefore",
+                    data: { token: "}" },
                     type: "ImportDeclaration",
                     line: 1,
                     column: 21,
@@ -300,7 +308,8 @@ ruleTester.run("object-curly-spacing", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
-                    message: "A space is required after '{'.",
+                    messageId: "requireSpaceAfter",
+                    data: { token: "{" },
                     type: "ImportDeclaration",
                     line: 1,
                     column: 11,
@@ -316,7 +325,8 @@ ruleTester.run("object-curly-spacing", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
-                    message: "A space is required after '{'.",
+                    messageId: "requireSpaceAfter",
+                    data: { token: "{" },
                     type: "ImportDeclaration",
                     line: 1,
                     column: 11,
@@ -332,7 +342,8 @@ ruleTester.run("object-curly-spacing", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
-                    message: "A space is required before '}'.",
+                    messageId: "requireSpaceBefore",
+                    data: { token: "}" },
                     type: "ImportDeclaration",
                     line: 1,
                     column: 21,
@@ -349,7 +360,8 @@ ruleTester.run("object-curly-spacing", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
-                    message: "A space is required after '{'.",
+                    messageId: "requireSpaceAfter",
+                    data: { token: "{" },
                     type: "ImportDeclaration",
                     line: 1,
                     column: 11,
@@ -357,7 +369,8 @@ ruleTester.run("object-curly-spacing", rule, {
                     endColumn: 12
                 },
                 {
-                    message: "A space is required before '}'.",
+                    messageId: "requireSpaceBefore",
+                    data: { token: "}" },
                     type: "ImportDeclaration",
                     line: 1,
                     column: 15,
@@ -374,7 +387,8 @@ ruleTester.run("object-curly-spacing", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
-                    message: "A space is required after '{'.",
+                    messageId: "requireSpaceAfter",
+                    data: { token: "{" },
                     type: "ImportDeclaration",
                     line: 1,
                     column: 11,
@@ -382,7 +396,8 @@ ruleTester.run("object-curly-spacing", rule, {
                     endColumn: 12
                 },
                 {
-                    message: "A space is required before '}'.",
+                    messageId: "requireSpaceBefore",
+                    data: { token: "}" },
                     type: "ImportDeclaration",
                     line: 1,
                     column: 20,
@@ -398,7 +413,8 @@ ruleTester.run("object-curly-spacing", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
-                    message: "A space is required after '{'.",
+                    messageId: "requireSpaceAfter",
+                    data: { token: "{" },
                     type: "ImportDeclaration",
                     line: 1,
                     column: 8,
@@ -406,7 +422,8 @@ ruleTester.run("object-curly-spacing", rule, {
                     endColumn: 9
                 },
                 {
-                    message: "A space is required before '}'.",
+                    messageId: "requireSpaceBefore",
+                    data: { token: "}" },
                     type: "ImportDeclaration",
                     line: 1,
                     column: 13,
@@ -423,7 +440,8 @@ ruleTester.run("object-curly-spacing", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
-                    message: "There should be no space after '{'.",
+                    messageId: "unexpectedSpaceAfter",
+                    data: { token: "{" },
                     type: "ImportDeclaration",
                     line: 1,
                     column: 9,
@@ -431,7 +449,8 @@ ruleTester.run("object-curly-spacing", rule, {
                     endColumn: 10
                 },
                 {
-                    message: "There should be no space before '}'.",
+                    messageId: "unexpectedSpaceBefore",
+                    data: { token: "}" },
                     type: "ImportDeclaration",
                     line: 1,
                     column: 14,
@@ -447,7 +466,8 @@ ruleTester.run("object-curly-spacing", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
-                    message: "There should be no space after '{'.",
+                    messageId: "unexpectedSpaceAfter",
+                    data: { token: "{" },
                     type: "ImportDeclaration",
                     line: 1,
                     column: 9,
@@ -455,7 +475,8 @@ ruleTester.run("object-curly-spacing", rule, {
                     endColumn: 10
                 },
                 {
-                    message: "There should be no space before '}'.",
+                    messageId: "unexpectedSpaceBefore",
+                    data: { token: "}" },
                     type: "ImportDeclaration",
                     line: 1,
                     column: 26,
@@ -471,7 +492,8 @@ ruleTester.run("object-curly-spacing", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
-                    message: "A space is required after '{'.",
+                    messageId: "requireSpaceAfter",
+                    data: { token: "{" },
                     type: "ExportNamedDeclaration",
                     line: 2,
                     column: 8,
@@ -479,7 +501,8 @@ ruleTester.run("object-curly-spacing", rule, {
                     endColumn: 9
                 },
                 {
-                    message: "A space is required before '}'.",
+                    messageId: "requireSpaceBefore",
+                    data: { token: "}" },
                     type: "ExportNamedDeclaration",
                     line: 2,
                     column: 12
@@ -493,7 +516,8 @@ ruleTester.run("object-curly-spacing", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
-                    message: "A space is required after '{'.",
+                    messageId: "requireSpaceAfter",
+                    data: { token: "{" },
                     type: "ExportNamedDeclaration",
                     line: 2,
                     column: 8,
@@ -501,7 +525,8 @@ ruleTester.run("object-curly-spacing", rule, {
                     endColumn: 9
                 },
                 {
-                    message: "A space is required before '}'.",
+                    messageId: "requireSpaceBefore",
+                    data: { token: "}" },
                     type: "ExportNamedDeclaration",
                     line: 2,
                     column: 24,
@@ -517,7 +542,8 @@ ruleTester.run("object-curly-spacing", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
-                    message: "A space is required after '{'.",
+                    messageId: "requireSpaceAfter",
+                    data: { token: "{" },
                     type: "ExportNamedDeclaration",
                     line: 2,
                     column: 8,
@@ -533,7 +559,8 @@ ruleTester.run("object-curly-spacing", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
-                    message: "There should be no space after '{'.",
+                    messageId: "unexpectedSpaceAfter",
+                    data: { token: "{" },
                     type: "ExportNamedDeclaration",
                     line: 2,
                     column: 9,
@@ -541,7 +568,8 @@ ruleTester.run("object-curly-spacing", rule, {
                     endColumn: 10
                 },
                 {
-                    message: "There should be no space before '}'.",
+                    messageId: "unexpectedSpaceBefore",
+                    data: { token: "}" },
                     type: "ExportNamedDeclaration",
                     line: 2,
                     column: 25,
@@ -558,7 +586,8 @@ ruleTester.run("object-curly-spacing", rule, {
             options: ["always", { arraysInObjects: false }],
             errors: [
                 {
-                    message: "There should be no space before '}'.",
+                    messageId: "unexpectedSpaceBefore",
+                    data: { token: "}" },
                     type: "ObjectExpression",
                     line: 1,
                     column: 28,
@@ -573,7 +602,8 @@ ruleTester.run("object-curly-spacing", rule, {
             options: ["always", { arraysInObjects: false }],
             errors: [
                 {
-                    message: "There should be no space before '}'.",
+                    messageId: "unexpectedSpaceBefore",
+                    data: { token: "}" },
                     type: "ObjectExpression",
                     line: 1,
                     column: 54,
@@ -590,7 +620,8 @@ ruleTester.run("object-curly-spacing", rule, {
             options: ["always", { objectsInObjects: false }],
             errors: [
                 {
-                    message: "There should be no space before '}'.",
+                    messageId: "unexpectedSpaceBefore",
+                    data: { token: "}" },
                     type: "ObjectExpression",
                     line: 1,
                     column: 42,
@@ -605,7 +636,8 @@ ruleTester.run("object-curly-spacing", rule, {
             options: ["always", { objectsInObjects: false }],
             errors: [
                 {
-                    message: "There should be no space before '}'.",
+                    messageId: "unexpectedSpaceBefore",
+                    data: { token: "}" },
                     type: "ObjectExpression",
                     line: 1,
                     column: 60,
@@ -623,7 +655,8 @@ ruleTester.run("object-curly-spacing", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "A space is required before '}'.",
+                    messageId: "requireSpaceBefore",
+                    data: { token: "}" },
                     type: "ObjectPattern",
                     line: 1,
                     column: 9,
@@ -639,7 +672,8 @@ ruleTester.run("object-curly-spacing", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "There should be no space before '}'.",
+                    messageId: "unexpectedSpaceBefore",
+                    data: { token: "}" },
                     type: "ObjectPattern",
                     line: 1,
                     column: 8,
@@ -655,7 +689,8 @@ ruleTester.run("object-curly-spacing", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "There should be no space before '}'.",
+                    messageId: "unexpectedSpaceBefore",
+                    data: { token: "}" },
                     type: "ObjectPattern",
                     line: 1,
                     column: 9,
@@ -671,7 +706,8 @@ ruleTester.run("object-curly-spacing", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "There should be no space after '{'.",
+                    messageId: "unexpectedSpaceAfter",
+                    data: { token: "{" },
                     type: "ObjectPattern",
                     line: 1,
                     column: 6,
@@ -679,7 +715,8 @@ ruleTester.run("object-curly-spacing", rule, {
                     endColumn: 7
                 },
                 {
-                    message: "There should be no space before '}'.",
+                    messageId: "unexpectedSpaceBefore",
+                    data: { token: "}" },
                     type: "ObjectPattern",
                     line: 1,
                     column: 10,
@@ -695,7 +732,8 @@ ruleTester.run("object-curly-spacing", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "There should be no space after '{'.",
+                    messageId: "unexpectedSpaceAfter",
+                    data: { token: "{" },
                     type: "ObjectPattern",
                     line: 1,
                     column: 6,
@@ -703,7 +741,8 @@ ruleTester.run("object-curly-spacing", rule, {
                     endColumn: 8
                 },
                 {
-                    message: "There should be no space before '}'.",
+                    messageId: "unexpectedSpaceBefore",
+                    data: { token: "}" },
                     type: "ObjectPattern",
                     line: 1,
                     column: 11,
@@ -719,7 +758,8 @@ ruleTester.run("object-curly-spacing", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "There should be no space after '{'.",
+                    messageId: "unexpectedSpaceAfter",
+                    data: { token: "{" },
                     type: "ObjectPattern",
                     line: 1,
                     column: 6,
@@ -727,7 +767,8 @@ ruleTester.run("object-curly-spacing", rule, {
                     endColumn: 9
                 },
                 {
-                    message: "There should be no space before '}'.",
+                    messageId: "unexpectedSpaceBefore",
+                    data: { token: "}" },
                     type: "ObjectPattern",
                     line: 1,
                     column: 12,
@@ -744,7 +785,8 @@ ruleTester.run("object-curly-spacing", rule, {
             options: ["never", { objectsInObjects: true }],
             errors: [
                 {
-                    message: "A space is required before '}'.",
+                    messageId: "requireSpaceBefore",
+                    data: { token: "}" },
                     type: "ObjectExpression",
                     line: 1,
                     column: 39,
@@ -759,7 +801,8 @@ ruleTester.run("object-curly-spacing", rule, {
             options: ["never", { objectsInObjects: true }],
             errors: [
                 {
-                    message: "A space is required before '}'.",
+                    messageId: "requireSpaceBefore",
+                    data: { token: "}" },
                     type: "ObjectExpression",
                     line: 1,
                     column: 55,
@@ -776,7 +819,8 @@ ruleTester.run("object-curly-spacing", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: "A space is required after '{'.",
+                    messageId: "requireSpaceAfter",
+                    data: { token: "{" },
                     type: "ObjectExpression",
                     line: 1,
                     column: 11,
@@ -784,7 +828,8 @@ ruleTester.run("object-curly-spacing", rule, {
                     endColumn: 12
                 },
                 {
-                    message: "A space is required before '}'.",
+                    messageId: "requireSpaceBefore",
+                    data: { token: "}" },
                     type: "ObjectExpression",
                     line: 1,
                     column: 30,
@@ -799,7 +844,8 @@ ruleTester.run("object-curly-spacing", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: "A space is required after '{'.",
+                    messageId: "requireSpaceAfter",
+                    data: { token: "{" },
                     type: "ObjectExpression",
                     line: 1,
                     column: 11,
@@ -814,7 +860,8 @@ ruleTester.run("object-curly-spacing", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: "A space is required after '{'.",
+                    messageId: "requireSpaceAfter",
+                    data: { token: "{" },
                     type: "ObjectExpression",
                     line: 1,
                     column: 11,
@@ -829,7 +876,8 @@ ruleTester.run("object-curly-spacing", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: "A space is required after '{'.",
+                    messageId: "requireSpaceAfter",
+                    data: { token: "{" },
                     type: "ObjectExpression",
                     line: 1,
                     column: 11,
@@ -844,7 +892,8 @@ ruleTester.run("object-curly-spacing", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: "A space is required before '}'.",
+                    messageId: "requireSpaceBefore",
+                    data: { token: "}" },
                     type: "ObjectExpression",
                     line: 1,
                     column: 31,
@@ -859,7 +908,8 @@ ruleTester.run("object-curly-spacing", rule, {
             options: ["always"],
             errors: [
                 {
-                    message: "A space is required before '}'.",
+                    messageId: "requireSpaceBefore",
+                    data: { token: "}" },
                     type: "ObjectExpression",
                     line: 1,
                     column: 36,
@@ -874,7 +924,8 @@ ruleTester.run("object-curly-spacing", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: "There should be no space after '{'.",
+                    messageId: "unexpectedSpaceAfter",
+                    data: { token: "{" },
                     type: "ObjectExpression",
                     line: 1,
                     column: 12,
@@ -882,7 +933,8 @@ ruleTester.run("object-curly-spacing", rule, {
                     endColumn: 13
                 },
                 {
-                    message: "There should be no space before '}'.",
+                    messageId: "unexpectedSpaceBefore",
+                    data: { token: "}" },
                     type: "ObjectExpression",
                     line: 1,
                     column: 31,
@@ -897,7 +949,8 @@ ruleTester.run("object-curly-spacing", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: "There should be no space after '{'.",
+                    messageId: "unexpectedSpaceAfter",
+                    data: { token: "{" },
                     type: "ObjectExpression",
                     line: 1,
                     column: 12,
@@ -905,7 +958,8 @@ ruleTester.run("object-curly-spacing", rule, {
                     endColumn: 14
                 },
                 {
-                    message: "There should be no space before '}'.",
+                    messageId: "unexpectedSpaceBefore",
+                    data: { token: "}" },
                     type: "ObjectExpression",
                     line: 1,
                     column: 32,
@@ -920,7 +974,8 @@ ruleTester.run("object-curly-spacing", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: "There should be no space before '}'.",
+                    messageId: "unexpectedSpaceBefore",
+                    data: { token: "}" },
                     type: "ObjectExpression",
                     line: 1,
                     column: 30,
@@ -935,7 +990,8 @@ ruleTester.run("object-curly-spacing", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: "There should be no space before '}'.",
+                    messageId: "unexpectedSpaceBefore",
+                    data: { token: "}" },
                     type: "ObjectExpression",
                     line: 1,
                     column: 30,
@@ -950,7 +1006,8 @@ ruleTester.run("object-curly-spacing", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: "There should be no space before '}'.",
+                    messageId: "unexpectedSpaceBefore",
+                    data: { token: "}" },
                     type: "ObjectExpression",
                     line: 1,
                     column: 36,
@@ -965,7 +1022,8 @@ ruleTester.run("object-curly-spacing", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: "There should be no space after '{'.",
+                    messageId: "unexpectedSpaceAfter",
+                    data: { token: "{" },
                     type: "ObjectExpression",
                     line: 1,
                     column: 12,
@@ -980,7 +1038,8 @@ ruleTester.run("object-curly-spacing", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: "There should be no space after '{'.",
+                    messageId: "unexpectedSpaceAfter",
+                    data: { token: "{" },
                     type: "ObjectExpression",
                     line: 1,
                     column: 12,
@@ -995,7 +1054,8 @@ ruleTester.run("object-curly-spacing", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: "There should be no space after '{'.",
+                    messageId: "unexpectedSpaceAfter",
+                    data: { token: "{" },
                     type: "ObjectExpression",
                     line: 1,
                     column: 12,
@@ -1010,7 +1070,8 @@ ruleTester.run("object-curly-spacing", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: "There should be no space before '}'.",
+                    messageId: "unexpectedSpaceBefore",
+                    data: { token: "}" },
                     type: "ObjectExpression",
                     line: 2,
                     column: 10,
@@ -1025,7 +1086,8 @@ ruleTester.run("object-curly-spacing", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: "There should be no space after '{'.",
+                    messageId: "unexpectedSpaceAfter",
+                    data: { token: "{" },
                     type: "ObjectExpression",
                     line: 1,
                     column: 12,
@@ -1033,7 +1095,8 @@ ruleTester.run("object-curly-spacing", rule, {
                     endColumn: 13
                 },
                 {
-                    message: "There should be no space after '{'.",
+                    messageId: "unexpectedSpaceAfter",
+                    data: { token: "{" },
                     type: "ObjectExpression",
                     line: 1,
                     column: 19,
@@ -1048,7 +1111,8 @@ ruleTester.run("object-curly-spacing", rule, {
             options: ["never"],
             errors: [
                 {
-                    message: "There should be no space before '}'.",
+                    messageId: "unexpectedSpaceBefore",
+                    data: { token: "}" },
                     type: "ObjectExpression",
                     line: 1,
                     column: 27,
@@ -1056,7 +1120,8 @@ ruleTester.run("object-curly-spacing", rule, {
                     endColumn: 28
                 },
                 {
-                    message: "There should be no space before '}'.",
+                    messageId: "unexpectedSpaceBefore",
+                    data: { token: "}" },
                     type: "ObjectExpression",
                     line: 1,
                     column: 39,
@@ -1072,7 +1137,8 @@ ruleTester.run("object-curly-spacing", rule, {
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [
                 {
-                    message: "A space is required after '{'.",
+                    messageId: "requireSpaceAfter",
+                    data: { token: "{" },
                     type: "ObjectExpression",
                     line: 1,
                     column: 22,
@@ -1090,7 +1156,8 @@ ruleTester.run("object-curly-spacing", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "A space is required after '{'.",
+                    messageId: "requireSpaceAfter",
+                    data: { token: "{" },
                     type: "ObjectPattern",
                     line: 1,
                     column: 5,
@@ -1098,7 +1165,8 @@ ruleTester.run("object-curly-spacing", rule, {
                     endColumn: 6
                 },
                 {
-                    message: "A space is required before '}'.",
+                    messageId: "requireSpaceBefore",
+                    data: { token: "}" },
                     type: "ObjectPattern",
                     line: 1,
                     column: 10,
@@ -1114,7 +1182,8 @@ ruleTester.run("object-curly-spacing", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "A space is required before '}'.",
+                    messageId: "requireSpaceBefore",
+                    data: { token: "}" },
                     type: "ObjectPattern",
                     line: 1,
                     column: 11,
@@ -1130,7 +1199,8 @@ ruleTester.run("object-curly-spacing", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "A space is required before '}'.",
+                    messageId: "requireSpaceBefore",
+                    data: { token: "}" },
                     type: "ObjectPattern",
                     line: 1,
                     column: 16,
@@ -1146,7 +1216,8 @@ ruleTester.run("object-curly-spacing", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "A space is required after '{'.",
+                    messageId: "requireSpaceAfter",
+                    data: { token: "{" },
                     type: "ObjectPattern",
                     line: 1,
                     column: 5,
@@ -1162,7 +1233,8 @@ ruleTester.run("object-curly-spacing", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "A space is required after '{'.",
+                    messageId: "requireSpaceAfter",
+                    data: { token: "{" },
                     type: "ObjectPattern",
                     line: 1,
                     column: 5,
@@ -1178,7 +1250,8 @@ ruleTester.run("object-curly-spacing", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "There should be no space after '{'.",
+                    messageId: "unexpectedSpaceAfter",
+                    data: { token: "{" },
                     type: "ObjectPattern",
                     line: 1,
                     column: 6,
@@ -1186,7 +1259,8 @@ ruleTester.run("object-curly-spacing", rule, {
                     endColumn: 7
                 },
                 {
-                    message: "There should be no space before '}'.",
+                    messageId: "unexpectedSpaceBefore",
+                    data: { token: "}" },
                     type: "ObjectPattern",
                     line: 1,
                     column: 11,
@@ -1202,7 +1276,8 @@ ruleTester.run("object-curly-spacing", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "There should be no space before '}'.",
+                    messageId: "unexpectedSpaceBefore",
+                    data: { token: "}" },
                     type: "ObjectPattern",
                     line: 1,
                     column: 10,
@@ -1218,7 +1293,8 @@ ruleTester.run("object-curly-spacing", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "There should be no space before '}'.",
+                    messageId: "unexpectedSpaceBefore",
+                    data: { token: "}" },
                     type: "ObjectPattern",
                     line: 1,
                     column: 15,
@@ -1234,7 +1310,8 @@ ruleTester.run("object-curly-spacing", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "There should be no space after '{'.",
+                    messageId: "unexpectedSpaceAfter",
+                    data: { token: "{" },
                     type: "ObjectPattern",
                     line: 1,
                     column: 6,
@@ -1250,7 +1327,8 @@ ruleTester.run("object-curly-spacing", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "A space is required before '}'.",
+                    messageId: "requireSpaceBefore",
+                    data: { token: "}" },
                     type: "ObjectPattern",
                     line: 1,
                     column: 11,
@@ -1266,7 +1344,8 @@ ruleTester.run("object-curly-spacing", rule, {
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
-                    message: "A space is required after '{'.",
+                    messageId: "requireSpaceAfter",
+                    data: { token: "{" },
                     type: "ObjectPattern",
                     line: 1,
                     column: 5,
@@ -1283,7 +1362,8 @@ ruleTester.run("object-curly-spacing", rule, {
             options: ["never", { arraysInObjects: true }],
             errors: [
                 {
-                    message: "A space is required before '}'.",
+                    messageId: "requireSpaceBefore",
+                    data: { token: "}" },
                     type: "ObjectExpression",
                     line: 1,
                     column: 25,
@@ -1298,7 +1378,8 @@ ruleTester.run("object-curly-spacing", rule, {
             options: ["never", { arraysInObjects: true }],
             errors: [
                 {
-                    message: "A space is required before '}'.",
+                    messageId: "requireSpaceBefore",
+                    data: { token: "}" },
                     type: "ObjectExpression",
                     line: 1,
                     column: 49,
@@ -1316,7 +1397,8 @@ ruleTester.run("object-curly-spacing", rule, {
             parser: resolvePath(__dirname, "../../fixtures/parsers/object-curly-spacing/flow-stub-parser-never-invalid"),
             errors: [
                 {
-                    message: "There should be no space before '}'.",
+                    messageId: "unexpectedSpaceBefore",
+                    data: { token: "}" },
                     type: "ObjectPattern",
                     line: 1,
                     column: 20,

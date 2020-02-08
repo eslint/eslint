@@ -134,7 +134,7 @@ ruleTester.run("space-before-function-paren", rule, {
             errors: [
                 {
                     type: "FunctionDeclaration",
-                    message: "Missing space before function parentheses.",
+                    messageId: "missingSpace",
                     line: 1,
                     column: 13
                 }
@@ -146,7 +146,7 @@ ruleTester.run("space-before-function-paren", rule, {
             errors: [
                 {
                     type: "FunctionDeclaration",
-                    message: "Missing space before function parentheses.",
+                    messageId: "missingSpace",
                     line: 1,
                     column: 13
                 }
@@ -158,7 +158,7 @@ ruleTester.run("space-before-function-paren", rule, {
             errors: [
                 {
                     type: "FunctionExpression",
-                    message: "Missing space before function parentheses.",
+                    messageId: "missingSpace",
                     line: 1,
                     column: 19
                 }
@@ -170,7 +170,7 @@ ruleTester.run("space-before-function-paren", rule, {
             errors: [
                 {
                     type: "FunctionExpression",
-                    message: "Missing space before function parentheses.",
+                    messageId: "missingSpace",
                     line: 1,
                     column: 23
                 }
@@ -182,13 +182,13 @@ ruleTester.run("space-before-function-paren", rule, {
             errors: [
                 {
                     type: "FunctionExpression",
-                    message: "Missing space before function parentheses.",
+                    messageId: "missingSpace",
                     line: 1,
                     column: 20
                 },
                 {
                     type: "FunctionExpression",
-                    message: "Missing space before function parentheses.",
+                    messageId: "missingSpace",
                     line: 1,
                     column: 34
                 }
@@ -201,7 +201,7 @@ ruleTester.run("space-before-function-paren", rule, {
             errors: [
                 {
                     type: "FunctionExpression",
-                    message: "Missing space before function parentheses.",
+                    messageId: "missingSpace",
                     line: 1,
                     column: 16
                 }
@@ -214,7 +214,7 @@ ruleTester.run("space-before-function-paren", rule, {
             errors: [
                 {
                     type: "FunctionDeclaration",
-                    message: "Missing space before function parentheses.",
+                    messageId: "missingSpace",
                     line: 1,
                     column: 14
                 }
@@ -228,7 +228,7 @@ ruleTester.run("space-before-function-paren", rule, {
             errors: [
                 {
                     type: "FunctionDeclaration",
-                    message: "Unexpected space before function parentheses.",
+                    messageId: "unexpectedSpace",
                     line: 1,
                     column: 13
                 }
@@ -241,7 +241,7 @@ ruleTester.run("space-before-function-paren", rule, {
             errors: [
                 {
                     type: "FunctionDeclaration",
-                    message: "Unexpected space before function parentheses.",
+                    messageId: "unexpectedSpace",
                     line: 1,
                     column: 13
                 }
@@ -254,7 +254,7 @@ ruleTester.run("space-before-function-paren", rule, {
             errors: [
                 {
                     type: "FunctionDeclaration",
-                    message: "Unexpected space before function parentheses.",
+                    messageId: "unexpectedSpace",
                     line: 1,
                     column: 13
                 }
@@ -267,7 +267,7 @@ ruleTester.run("space-before-function-paren", rule, {
             errors: [
                 {
                     type: "FunctionDeclaration",
-                    message: "Unexpected space before function parentheses.",
+                    messageId: "unexpectedSpace",
                     line: 1,
                     column: 13
                 }
@@ -280,7 +280,7 @@ ruleTester.run("space-before-function-paren", rule, {
             errors: [
                 {
                     type: "FunctionDeclaration",
-                    message: "Unexpected space before function parentheses.",
+                    messageId: "unexpectedSpace",
                     line: 1,
                     column: 13
                 }
@@ -293,7 +293,7 @@ ruleTester.run("space-before-function-paren", rule, {
             errors: [
                 {
                     type: "FunctionDeclaration",
-                    message: "Unexpected space before function parentheses.",
+                    messageId: "unexpectedSpace",
                     line: 1,
                     column: 13
                 }
@@ -306,7 +306,7 @@ ruleTester.run("space-before-function-paren", rule, {
             errors: [
                 {
                     type: "FunctionDeclaration",
-                    message: "Unexpected space before function parentheses.",
+                    messageId: "unexpectedSpace",
                     line: 1,
                     column: 13
                 }
@@ -319,7 +319,7 @@ ruleTester.run("space-before-function-paren", rule, {
             errors: [
                 {
                     type: "FunctionExpression",
-                    message: "Unexpected space before function parentheses.",
+                    messageId: "unexpectedSpace",
                     line: 1,
                     column: 19
                 }
@@ -332,7 +332,7 @@ ruleTester.run("space-before-function-paren", rule, {
             errors: [
                 {
                     type: "FunctionExpression",
-                    message: "Unexpected space before function parentheses.",
+                    messageId: "unexpectedSpace",
                     line: 1,
                     column: 23
                 }
@@ -345,13 +345,13 @@ ruleTester.run("space-before-function-paren", rule, {
             errors: [
                 {
                     type: "FunctionExpression",
-                    message: "Unexpected space before function parentheses.",
+                    messageId: "unexpectedSpace",
                     line: 1,
                     column: 20
                 },
                 {
                     type: "FunctionExpression",
-                    message: "Unexpected space before function parentheses.",
+                    messageId: "unexpectedSpace",
                     line: 1,
                     column: 35
                 }
@@ -365,7 +365,7 @@ ruleTester.run("space-before-function-paren", rule, {
             errors: [
                 {
                     type: "FunctionExpression",
-                    message: "Unexpected space before function parentheses.",
+                    messageId: "unexpectedSpace",
                     line: 1,
                     column: 16
                 }
@@ -379,7 +379,7 @@ ruleTester.run("space-before-function-paren", rule, {
             errors: [
                 {
                     type: "FunctionDeclaration",
-                    message: "Unexpected space before function parentheses.",
+                    messageId: "unexpectedSpace",
                     line: 1,
                     column: 14
                 }
@@ -402,31 +402,31 @@ ruleTester.run("space-before-function-paren", rule, {
             errors: [
                 {
                     type: "FunctionDeclaration",
-                    message: "Unexpected space before function parentheses.",
+                    messageId: "unexpectedSpace",
                     line: 1,
                     column: 13
                 },
                 {
                     type: "FunctionExpression",
-                    message: "Missing space before function parentheses.",
+                    messageId: "missingSpace",
                     line: 2,
                     column: 19
                 },
                 {
                     type: "FunctionExpression",
-                    message: "Unexpected space before function parentheses.",
+                    messageId: "unexpectedSpace",
                     line: 3,
                     column: 20
                 },
                 {
                     type: "FunctionExpression",
-                    message: "Unexpected space before function parentheses.",
+                    messageId: "unexpectedSpace",
                     line: 3,
                     column: 35
                 },
                 {
                     type: "FunctionExpression",
-                    message: "Unexpected space before function parentheses.",
+                    messageId: "unexpectedSpace",
                     line: 3,
                     column: 49
                 }
@@ -440,13 +440,13 @@ ruleTester.run("space-before-function-paren", rule, {
             errors: [
                 {
                     type: "FunctionExpression",
-                    message: "Unexpected space before function parentheses.",
+                    messageId: "unexpectedSpace",
                     line: 1,
                     column: 24
                 },
                 {
                     type: "FunctionExpression",
-                    message: "Unexpected space before function parentheses.",
+                    messageId: "unexpectedSpace",
                     line: 1,
                     column: 38
                 }
@@ -460,7 +460,7 @@ ruleTester.run("space-before-function-paren", rule, {
             errors: [
                 {
                     type: "FunctionExpression",
-                    message: "Unexpected space before function parentheses.",
+                    messageId: "unexpectedSpace",
                     line: 1,
                     column: 16
                 }
@@ -482,31 +482,31 @@ ruleTester.run("space-before-function-paren", rule, {
             errors: [
                 {
                     type: "FunctionDeclaration",
-                    message: "Missing space before function parentheses.",
+                    messageId: "missingSpace",
                     line: 1,
                     column: 13
                 },
                 {
                     type: "FunctionExpression",
-                    message: "Unexpected space before function parentheses.",
+                    messageId: "unexpectedSpace",
                     line: 2,
                     column: 19
                 },
                 {
                     type: "FunctionExpression",
-                    message: "Missing space before function parentheses.",
+                    messageId: "missingSpace",
                     line: 3,
                     column: 20
                 },
                 {
                     type: "FunctionExpression",
-                    message: "Missing space before function parentheses.",
+                    messageId: "missingSpace",
                     line: 3,
                     column: 34
                 },
                 {
                     type: "FunctionExpression",
-                    message: "Missing space before function parentheses.",
+                    messageId: "missingSpace",
                     line: 3,
                     column: 47
                 }
@@ -519,7 +519,7 @@ ruleTester.run("space-before-function-paren", rule, {
             errors: [
                 {
                     type: "FunctionExpression",
-                    message: "Missing space before function parentheses.",
+                    messageId: "missingSpace",
                     line: 1,
                     column: 19
                 }
@@ -532,7 +532,7 @@ ruleTester.run("space-before-function-paren", rule, {
             errors: [
                 {
                     type: "FunctionExpression",
-                    message: "Unexpected space before function parentheses.",
+                    messageId: "unexpectedSpace",
                     line: 1,
                     column: 19
                 }
@@ -545,7 +545,7 @@ ruleTester.run("space-before-function-paren", rule, {
             errors: [
                 {
                     type: "FunctionExpression",
-                    message: "Missing space before function parentheses.",
+                    messageId: "missingSpace",
                     line: 1,
                     column: 23
                 }
@@ -558,7 +558,7 @@ ruleTester.run("space-before-function-paren", rule, {
             errors: [
                 {
                     type: "FunctionExpression",
-                    message: "Unexpected space before function parentheses.",
+                    messageId: "unexpectedSpace",
                     line: 1,
                     column: 23
                 }
@@ -584,21 +584,21 @@ ruleTester.run("space-before-function-paren", rule, {
             code: "async() => 1",
             output: "async () => 1",
             parserOptions: { ecmaVersion: 8 },
-            errors: [{ message: "Missing space before function parentheses.", type: "ArrowFunctionExpression" }]
+            errors: [{ messageId: "missingSpace", type: "ArrowFunctionExpression" }]
         },
         {
             code: "async() => 1",
             output: "async () => 1",
             options: ["always"],
             parserOptions: { ecmaVersion: 8 },
-            errors: [{ message: "Missing space before function parentheses.", type: "ArrowFunctionExpression" }]
+            errors: [{ messageId: "missingSpace", type: "ArrowFunctionExpression" }]
         },
         {
             code: "async () => 1",
             output: "async() => 1",
             options: ["never"],
             parserOptions: { ecmaVersion: 8 },
-            errors: [{ message: "Unexpected space before function parentheses.", type: "ArrowFunctionExpression" }]
+            errors: [{ messageId: "unexpectedSpace", type: "ArrowFunctionExpression" }]
         }
     ]
 });

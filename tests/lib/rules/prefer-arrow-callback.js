@@ -17,7 +17,7 @@ const { RuleTester } = require("../../../lib/rule-tester");
 //------------------------------------------------------------------------------
 
 const errors = [{
-    message: "Unexpected function expression.",
+    messageId: "preferArrowCallback",
     type: "FunctionExpression"
 }];
 

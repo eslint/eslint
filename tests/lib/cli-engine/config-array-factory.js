@@ -1625,7 +1625,7 @@ describe("ConfigArrayFactory", () => {
                 .toCompatibleObjectAsConfigFileContent();
         }
 
-        it("should throw error if file doesnt exist", () => {
+        it("should throw error if file doesn't exist", () => {
             const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem();
             const factory = new ConfigArrayFactory();
 

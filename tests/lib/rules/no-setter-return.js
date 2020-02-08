@@ -252,7 +252,7 @@ ruleTester.run("no-setter-return", rule, {
         // full error test
         {
             code: "({ set a(val){ return val + 1; } })",
-            errors: [{ message: "Setter cannot return a value.", type: "ReturnStatement", column: 16, endColumn: 31 }]
+            errors: [{ messageId: "returnsValue", type: "ReturnStatement", column: 16, endColumn: 31 }]
         },
 
         // basic tests

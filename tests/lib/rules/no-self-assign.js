@@ -82,59 +82,59 @@ ruleTester.run("no-self-assign", rule, {
         }
     ],
     invalid: [
-        { code: "a = a", errors: ["'a' is assigned to itself."] },
-        { code: "[a] = [a]", parserOptions: { ecmaVersion: 6 }, errors: ["'a' is assigned to itself."] },
-        { code: "[a, b] = [a, b]", parserOptions: { ecmaVersion: 6 }, errors: ["'a' is assigned to itself.", "'b' is assigned to itself."] },
-        { code: "[a, b] = [a, c]", parserOptions: { ecmaVersion: 6 }, errors: ["'a' is assigned to itself."] },
-        { code: "[a, b] = [, b]", parserOptions: { ecmaVersion: 6 }, errors: ["'b' is assigned to itself."] },
-        { code: "[a, ...b] = [a, ...b]", parserOptions: { ecmaVersion: 6 }, errors: ["'a' is assigned to itself.", "'b' is assigned to itself."] },
-        { code: "[[a], {b}] = [[a], {b}]", parserOptions: { ecmaVersion: 6 }, errors: ["'a' is assigned to itself.", "'b' is assigned to itself."] },
-        { code: "({a} = {a})", parserOptions: { ecmaVersion: 6 }, errors: ["'a' is assigned to itself."] },
-        { code: "({a: b} = {a: b})", parserOptions: { ecmaVersion: 6 }, errors: ["'b' is assigned to itself."] },
-        { code: "({'a': b} = {'a': b})", parserOptions: { ecmaVersion: 6 }, errors: ["'b' is assigned to itself."] },
-        { code: "({a: b} = {'a': b})", parserOptions: { ecmaVersion: 6 }, errors: ["'b' is assigned to itself."] },
-        { code: "({'a': b} = {a: b})", parserOptions: { ecmaVersion: 6 }, errors: ["'b' is assigned to itself."] },
-        { code: "({1: b} = {1: b})", parserOptions: { ecmaVersion: 6 }, errors: ["'b' is assigned to itself."] },
-        { code: "({1: b} = {'1': b})", parserOptions: { ecmaVersion: 6 }, errors: ["'b' is assigned to itself."] },
-        { code: "({'1': b} = {1: b})", parserOptions: { ecmaVersion: 6 }, errors: ["'b' is assigned to itself."] },
-        { code: "({['a']: b} = {a: b})", parserOptions: { ecmaVersion: 6 }, errors: ["'b' is assigned to itself."] },
-        { code: "({'a': b} = {[`a`]: b})", parserOptions: { ecmaVersion: 6 }, errors: ["'b' is assigned to itself."] },
-        { code: "({1: b} = {[1]: b})", parserOptions: { ecmaVersion: 6 }, errors: ["'b' is assigned to itself."] },
-        { code: "({a, b} = {a, b})", parserOptions: { ecmaVersion: 6 }, errors: ["'a' is assigned to itself.", "'b' is assigned to itself."] },
-        { code: "({a, b} = {b, a})", parserOptions: { ecmaVersion: 6 }, errors: ["'b' is assigned to itself.", "'a' is assigned to itself."] },
-        { code: "({a, b} = {c, a})", parserOptions: { ecmaVersion: 6 }, errors: ["'a' is assigned to itself."] },
-        { code: "({a: {b}, c: [d]} = {a: {b}, c: [d]})", parserOptions: { ecmaVersion: 6 }, errors: ["'b' is assigned to itself.", "'d' is assigned to itself."] },
-        { code: "({a, b} = {a, ...x, b})", parserOptions: { ecmaVersion: 2018 }, errors: ["'b' is assigned to itself."] },
+        { code: "a = a", errors: [{ messageId: "selfAssignment", data: { name: "a" } }] },
+        { code: "[a] = [a]", parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "selfAssignment", data: { name: "a" } }] },
+        { code: "[a, b] = [a, b]", parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "selfAssignment", data: { name: "a" } }, { messageId: "selfAssignment", data: { name: "b" } }] },
+        { code: "[a, b] = [a, c]", parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "selfAssignment", data: { name: "a" } }] },
+        { code: "[a, b] = [, b]", parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "selfAssignment", data: { name: "b" } }] },
+        { code: "[a, ...b] = [a, ...b]", parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "selfAssignment", data: { name: "a" } }, { messageId: "selfAssignment", data: { name: "b" } }] },
+        { code: "[[a], {b}] = [[a], {b}]", parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "selfAssignment", data: { name: "a" } }, { messageId: "selfAssignment", data: { name: "b" } }] },
+        { code: "({a} = {a})", parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "selfAssignment", data: { name: "a" } }] },
+        { code: "({a: b} = {a: b})", parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "selfAssignment", data: { name: "b" } }] },
+        { code: "({'a': b} = {'a': b})", parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "selfAssignment", data: { name: "b" } }] },
+        { code: "({a: b} = {'a': b})", parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "selfAssignment", data: { name: "b" } }] },
+        { code: "({'a': b} = {a: b})", parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "selfAssignment", data: { name: "b" } }] },
+        { code: "({1: b} = {1: b})", parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "selfAssignment", data: { name: "b" } }] },
+        { code: "({1: b} = {'1': b})", parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "selfAssignment", data: { name: "b" } }] },
+        { code: "({'1': b} = {1: b})", parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "selfAssignment", data: { name: "b" } }] },
+        { code: "({['a']: b} = {a: b})", parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "selfAssignment", data: { name: "b" } }] },
+        { code: "({'a': b} = {[`a`]: b})", parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "selfAssignment", data: { name: "b" } }] },
+        { code: "({1: b} = {[1]: b})", parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "selfAssignment", data: { name: "b" } }] },
+        { code: "({a, b} = {a, b})", parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "selfAssignment", data: { name: "a" } }, { messageId: "selfAssignment", data: { name: "b" } }] },
+        { code: "({a, b} = {b, a})", parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "selfAssignment", data: { name: "b" } }, { messageId: "selfAssignment", data: { name: "a" } }] },
+        { code: "({a, b} = {c, a})", parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "selfAssignment", data: { name: "a" } }] },
+        { code: "({a: {b}, c: [d]} = {a: {b}, c: [d]})", parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "selfAssignment", data: { name: "b" } }, { messageId: "selfAssignment", data: { name: "d" } }] },
+        { code: "({a, b} = {a, ...x, b})", parserOptions: { ecmaVersion: 2018 }, errors: [{ messageId: "selfAssignment", data: { name: "b" } }] },
         {
             code: "a.b = a.b",
-            errors: ["'a.b' is assigned to itself."]
+            errors: [{ messageId: "selfAssignment", data: { name: "a.b" } }]
         },
         {
             code: "a.b.c = a.b.c",
-            errors: ["'a.b.c' is assigned to itself."]
+            errors: [{ messageId: "selfAssignment", data: { name: "a.b.c" } }]
         },
         {
             code: "a[b] = a[b]",
-            errors: ["'a[b]' is assigned to itself."]
+            errors: [{ messageId: "selfAssignment", data: { name: "a[b]" } }]
         },
         {
             code: "a['b'] = a['b']",
-            errors: ["'a['b']' is assigned to itself."]
+            errors: [{ messageId: "selfAssignment", data: { name: "a['b']" } }]
         },
         {
             code: "a[\n    'b'\n] = a[\n    'b'\n]",
-            errors: ["'a['b']' is assigned to itself."]
+            errors: [{ messageId: "selfAssignment", data: { name: "a['b']" } }]
         },
-        { code: "a.b = a.b", options: [{ props: true }], errors: ["'a.b' is assigned to itself."] },
-        { code: "a.b.c = a.b.c", options: [{ props: true }], errors: ["'a.b.c' is assigned to itself."] },
-        { code: "a[b] = a[b]", options: [{ props: true }], errors: ["'a[b]' is assigned to itself."] },
-        { code: "a['b'] = a['b']", options: [{ props: true }], errors: ["'a['b']' is assigned to itself."] },
-        { code: "a[\n    'b'\n] = a[\n    'b'\n]", options: [{ props: true }], errors: ["'a['b']' is assigned to itself."] },
+        { code: "a.b = a.b", options: [{ props: true }], errors: [{ messageId: "selfAssignment", data: { name: "a.b" } }] },
+        { code: "a.b.c = a.b.c", options: [{ props: true }], errors: [{ messageId: "selfAssignment", data: { name: "a.b.c" } }] },
+        { code: "a[b] = a[b]", options: [{ props: true }], errors: [{ messageId: "selfAssignment", data: { name: "a[b]" } }] },
+        { code: "a['b'] = a['b']", options: [{ props: true }], errors: [{ messageId: "selfAssignment", data: { name: "a['b']" } }] },
+        { code: "a[\n    'b'\n] = a[\n    'b'\n]", options: [{ props: true }], errors: [{ messageId: "selfAssignment", data: { name: "a['b']" } }] },
         {
             code: "this.x = this.x",
             options: [{ props: true }],
-            errors: ["'this.x' is assigned to itself."]
+            errors: [{ messageId: "selfAssignment", data: { name: "this.x" } }]
         },
-        { code: "a['/(?<zero>0)/'] = a[/(?<zero>0)/]", options: [{ props: true }], parserOptions: { ecmaVersion: 2018 }, errors: ["'a[/(?<zero>0)/]' is assigned to itself."] }
+        { code: "a['/(?<zero>0)/'] = a[/(?<zero>0)/]", options: [{ props: true }], parserOptions: { ecmaVersion: 2018 }, errors: [{ messageId: "selfAssignment", data: { name: "a[/(?<zero>0)/]" } }] }
     ]
 });

@@ -85,70 +85,88 @@ ruleTester.run("quote-props", rule, {
         code: "({ a: 0 })",
         output: "({ \"a\": 0 })",
         errors: [{
-            message: "Unquoted property 'a' found.", type: "Property"
+            messageId: "unquotedPropertyFound",
+            data: { property: "a" },
+            type: "Property"
         }]
     }, {
         code: "({ 0: '0' })",
         output: "({ \"0\": '0' })",
         errors: [{
-            message: "Unquoted property '0' found.", type: "Property"
+            messageId: "unquotedPropertyFound",
+            data: { property: "0" },
+            type: "Property"
         }]
     }, {
         code: "({ 'a': 0 })",
         output: "({ a: 0 })",
         options: ["as-needed"],
         errors: [{
-            message: "Unnecessarily quoted property 'a' found.", type: "Property"
+            messageId: "unnecessarilyQuotedProperty",
+            data: { property: "a" },
+            type: "Property"
         }]
     }, {
         code: "({ 'null': 0 })",
         output: "({ null: 0 })",
         options: ["as-needed"],
         errors: [{
-            message: "Unnecessarily quoted property 'null' found.", type: "Property"
+            messageId: "unnecessarilyQuotedProperty",
+            data: { property: "null" },
+            type: "Property"
         }]
     }, {
         code: "({ 'true': 0 })",
         output: "({ true: 0 })",
         options: ["as-needed"],
         errors: [{
-            message: "Unnecessarily quoted property 'true' found.", type: "Property"
+            messageId: "unnecessarilyQuotedProperty",
+            data: { property: "true" },
+            type: "Property"
         }]
     }, {
         code: "({ '0': 0 })",
         output: "({ 0: 0 })",
         options: ["as-needed"],
         errors: [{
-            message: "Unnecessarily quoted property '0' found.", type: "Property"
+            messageId: "unnecessarilyQuotedProperty",
+            data: { property: "0" },
+            type: "Property"
         }]
     }, {
         code: "({ '-a': 0, b: 0 })",
         output: "({ '-a': 0, \"b\": 0 })",
         options: ["consistent"],
         errors: [{
-            message: "Inconsistently quoted property 'b' found.", type: "Property"
+            messageId: "inconsistentlyQuotedProperty",
+            data: { key: "b" },
+            type: "Property"
         }]
     }, {
         code: "({ a: 0, 'b': 0 })",
         output: "({ \"a\": 0, 'b': 0 })",
         options: ["consistent"],
         errors: [{
-            message: "Inconsistently quoted property 'a' found.", type: "Property"
+            messageId: "inconsistentlyQuotedProperty",
+            data: { key: "a" },
+            type: "Property"
         }]
     }, {
         code: "({ '-a': 0, b: 0 })",
         output: "({ '-a': 0, \"b\": 0 })",
         options: ["consistent-as-needed"],
         errors: [{
-            message: "Inconsistently quoted property 'b' found.", type: "Property"
+            messageId: "inconsistentlyQuotedProperty",
+            data: { key: "b" },
+            type: "Property"
         }]
     }, {
         code: "({ 'a': 0, 'b': 0 })",
         output: "({ a: 0, b: 0 })",
         options: ["consistent-as-needed"],
         errors: [
-            { message: "Properties shouldn't be quoted as all quotes are redundant.", type: "Property" },
-            { message: "Properties shouldn't be quoted as all quotes are redundant.", type: "Property" }
+            { messageId: "redundantQuoting", type: "Property" },
+            { messageId: "redundantQuoting", type: "Property" }
         ]
     }, {
         code: "({ 'a': 0, [x]: 0 })",
@@ -156,7 +174,7 @@ ruleTester.run("quote-props", rule, {
         options: ["consistent-as-needed"],
         env: { es6: true },
         errors: [
-            { message: "Properties shouldn't be quoted as all quotes are redundant.", type: "Property" }
+            { messageId: "redundantQuoting", type: "Property" }
         ]
     }, {
         code: "({ 'a': 0, x })",
@@ -164,52 +182,65 @@ ruleTester.run("quote-props", rule, {
         options: ["consistent-as-needed"],
         env: { es6: true },
         errors: [{
-            message: "Properties shouldn't be quoted as all quotes are redundant.", type: "Property"
+            messageId: "redundantQuoting", type: "Property"
         }]
     }, {
         code: "({ 'true': 0, 'null': 0 })",
         output: "({ true: 0, null: 0 })",
         options: ["consistent-as-needed"],
         errors: [
-            { message: "Properties shouldn't be quoted as all quotes are redundant.", type: "Property" },
-            { message: "Properties shouldn't be quoted as all quotes are redundant.", type: "Property" }
+            { messageId: "redundantQuoting", type: "Property" },
+            { messageId: "redundantQuoting", type: "Property" }
         ]
     }, {
         code: "({ true: 0, 'null': 0 })",
         output: "({ \"true\": 0, 'null': 0 })",
         options: ["consistent"],
         errors: [{
-            message: "Inconsistently quoted property 'true' found.", type: "Property"
+            messageId: "inconsistentlyQuotedProperty",
+            data: { key: "true" },
+            type: "Property"
         }]
     }, {
         code: "({ 'a': 0, 'b': 0 })",
         output: "({ a: 0, b: 0 })",
         options: ["consistent-as-needed", { keywords: true }],
         errors: [
-            { message: "Properties shouldn't be quoted as all quotes are redundant.", type: "Property" },
-            { message: "Properties shouldn't be quoted as all quotes are redundant.", type: "Property" }
+            { messageId: "redundantQuoting", type: "Property" },
+            { messageId: "redundantQuoting", type: "Property" }
         ]
     }, {
         code: "({ while: 0, b: 0 })",
         output: "({ \"while\": 0, \"b\": 0 })",
         options: ["consistent-as-needed", { keywords: true }],
         errors: [
-            { message: "Properties should be quoted as 'while' is a reserved word.", type: "Property" },
-            { message: "Properties should be quoted as 'while' is a reserved word.", type: "Property" }
+            {
+                messageId: "requireQuotesDueToReservedWord",
+                data: { property: "while" },
+                type: "Property"
+            },
+            {
+                messageId: "requireQuotesDueToReservedWord",
+                data: { property: "while" },
+                type: "Property"
+            }
         ]
     }, {
         code: "({ while: 0, 'b': 0 })",
         output: "({ \"while\": 0, 'b': 0 })",
         options: ["consistent-as-needed", { keywords: true }],
         errors: [{
-            message: "Properties should be quoted as 'while' is a reserved word.", type: "Property"
+            messageId: "requireQuotesDueToReservedWord",
+            data: { property: "while" },
+            type: "Property"
+
         }]
     }, {
         code: "({ foo: 0, 'bar': 0 })",
         output: "({ foo: 0, bar: 0 })",
         options: ["consistent-as-needed", { keywords: true }],
         errors: [
-            { message: "Properties shouldn't be quoted as all quotes are redundant.", type: "Property" }
+            { messageId: "redundantQuoting", type: "Property" }
         ]
     }, {
         code:
@@ -226,7 +257,9 @@ ruleTester.run("quote-props", rule, {
         "})",
         options: ["consistent"],
         errors: [{
-            message: "Inconsistently quoted property 'prop2' found.", type: "Property"
+            messageId: "inconsistentlyQuotedProperty",
+            data: { key: "prop2" },
+            type: "Property"
         }]
     }, {
         code:
@@ -243,84 +276,109 @@ ruleTester.run("quote-props", rule, {
         "})",
         options: ["consistent-as-needed"],
         errors: [
-            { message: "Properties shouldn't be quoted as all quotes are redundant.", type: "Property" },
-            { message: "Properties shouldn't be quoted as all quotes are redundant.", type: "Property" },
-            { message: "Properties shouldn't be quoted as all quotes are redundant.", type: "Property" }
+            { messageId: "redundantQuoting", type: "Property" },
+            { messageId: "redundantQuoting", type: "Property" },
+            { messageId: "redundantQuoting", type: "Property" }
         ]
     }, {
         code: "({'if': 0})",
         output: "({if: 0})",
         options: ["as-needed"],
         errors: [{
-            message: "Unnecessarily quoted property 'if' found.", type: "Property"
+            messageId: "unnecessarilyQuotedProperty",
+            data: { property: "if" },
+            type: "Property"
         }]
     }, {
         code: "({'synchronized': 0})",
         output: "({synchronized: 0})",
         options: ["as-needed"],
         errors: [{
-            message: "Unnecessarily quoted property 'synchronized' found.", type: "Property"
+            messageId: "unnecessarilyQuotedProperty",
+            data: { property: "synchronized" },
+            type: "Property"
         }]
     }, {
         code: "({while: 0})",
         output: "({\"while\": 0})",
         options: ["as-needed", { keywords: true }],
         errors: [{
-            message: "Unquoted reserved word 'while' used as key.", type: "Property"
+            messageId: "unquotedReservedProperty",
+            data: { property: "while" },
+            type: "Property"
         }]
     }, {
         code: "({'unnecessary': 1, if: 0})",
         output: "({'unnecessary': 1, \"if\": 0})",
         options: ["as-needed", { keywords: true, unnecessary: false }],
         errors: [{
-            message: "Unquoted reserved word 'if' used as key.", type: "Property"
+            messageId: "unquotedReservedProperty",
+            data: { property: "if" },
+            type: "Property"
         }]
     }, {
         code: "({1: 1})",
         output: "({\"1\": 1})",
         options: ["as-needed", { numbers: true }],
         errors: [{
-            message: "Unquoted number literal '1' used as key.", type: "Property"
+            messageId: "unquotedNumericProperty",
+            data: { property: "1" },
+            type: "Property"
         }]
     }, {
         code: "({1: 1})",
         output: "({\"1\": 1})",
         options: ["always", { numbers: false }],
         errors: [{
-            message: "Unquoted property '1' found.", type: "Property"
+            messageId: "unquotedPropertyFound",
+            data: { property: "1" },
+            type: "Property"
         }]
     }, {
         code: "({0x123: 1})",
         output: "({\"291\": 1})", // 0x123 === 291
         options: ["always"],
         errors: [{
-            message: "Unquoted property '291' found."
+            messageId: "unquotedPropertyFound",
+            data: { property: "291" }
+
         }]
     }, {
         code: "({1e2: 1})",
         output: "({\"100\": 1})",
         options: ["always", { numbers: false }],
         errors: [{
-            message: "Unquoted property '100' found."
+            messageId: "unquotedPropertyFound",
+            data: { property: "100" }
+
         }]
     }, {
         code: "({5.: 1})",
         output: "({\"5\": 1})",
         options: ["always", { numbers: false }],
         errors: [{
-            message: "Unquoted property '5' found."
+            messageId: "unquotedPropertyFound",
+            data: { property: "5" }
+
         }]
     }, {
         code: "({ 1n: 1 })",
         output: "({ \"1\": 1 })",
         options: ["always"],
         parserOptions: { ecmaVersion: 2020 },
-        errors: [{ message: "Unquoted property '1' found." }]
+        errors: [{
+            messageId: "unquotedPropertyFound",
+            data: { property: "1" }
+        }
+        ]
     }, {
         code: "({ 1n: 1 })",
         output: "({ \"1\": 1 })",
         options: ["as-needed", { numbers: true }],
         parserOptions: { ecmaVersion: 2020 },
-        errors: [{ message: "Unquoted number literal '1' used as key." }]
+        errors: [{
+            messageId: "unquotedNumericProperty",
+            data: { property: "1" }
+        }]
     }]
 });
