@@ -938,7 +938,8 @@ describe("CascadingConfigArrayFactory", () => {
                     cliConfig: {
                         plugins: ["another-plugin"]
                     },
-                    cwd: getFixturePath("plugins")
+                    cwd: getFixturePath("plugins"),
+                    resolvePluginsRelativeTo: getFixturePath("plugins")
                 });
                 const file = getFixturePath("broken", "plugins", "console-wrong-quotes.js");
                 const expected = {
