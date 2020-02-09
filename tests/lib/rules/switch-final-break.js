@@ -107,6 +107,29 @@ switch (x) {
               }
   }`,
             options: ["always"]
+        },
+        {
+            code: `function a() { switch (foo) {
+                  case bar:
+                    if (baz) {
+                      return 1;
+                    } else {
+                      return 2;
+                    }
+                }
+                }`,
+            options: ["always"]
+        },
+        {
+            code: `function a() { switch (foo) {
+                  case bar:
+                    console.log(1);
+                  case baz:
+                    console.log(2);
+                    break;
+                }
+                }`,
+            options: ["always"]
         }
     ],
     invalid: [
