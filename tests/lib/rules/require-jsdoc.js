@@ -232,7 +232,7 @@ ruleTester.run("require-jsdoc", rule, {
         {
             code: "function myFunction() {}",
             errors: [{
-                message: "Missing JSDoc comment.",
+                messageId: "missingJSDocComment",
                 type: "FunctionDeclaration"
             }]
         },
@@ -254,7 +254,7 @@ ruleTester.run("require-jsdoc", rule, {
             }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Missing JSDoc comment.",
+                messageId: "missingJSDocComment",
                 type: "FunctionExpression"
             }]
         },
@@ -277,7 +277,7 @@ ruleTester.run("require-jsdoc", rule, {
             }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Missing JSDoc comment.",
+                messageId: "missingJSDocComment",
                 type: "ClassDeclaration"
             }]
         },
@@ -300,7 +300,7 @@ ruleTester.run("require-jsdoc", rule, {
             }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Missing JSDoc comment.",
+                messageId: "missingJSDocComment",
                 type: "ClassDeclaration"
             }]
         },
@@ -323,7 +323,7 @@ ruleTester.run("require-jsdoc", rule, {
             }],
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
-                message: "Missing JSDoc comment.",
+                messageId: "missingJSDocComment",
                 type: "ClassDeclaration"
             }]
         },
@@ -346,7 +346,7 @@ ruleTester.run("require-jsdoc", rule, {
             }],
             parserOptions: { ecmaVersion: 6, sourceType: "module" },
             errors: [{
-                message: "Missing JSDoc comment.",
+                messageId: "missingJSDocComment",
                 type: "ClassDeclaration"
             }]
         },
@@ -359,7 +359,7 @@ ruleTester.run("require-jsdoc", rule, {
             }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Missing JSDoc comment.",
+                messageId: "missingJSDocComment",
                 type: "ArrowFunctionExpression"
             }]
         },
@@ -372,7 +372,7 @@ ruleTester.run("require-jsdoc", rule, {
             }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Missing JSDoc comment.",
+                messageId: "missingJSDocComment",
                 type: "ArrowFunctionExpression"
             }]
         },
@@ -384,7 +384,7 @@ ruleTester.run("require-jsdoc", rule, {
                 }
             }],
             errors: [{
-                message: "Missing JSDoc comment.",
+                messageId: "missingJSDocComment",
                 type: "FunctionExpression"
             }]
         },
@@ -397,7 +397,7 @@ ruleTester.run("require-jsdoc", rule, {
             }],
             parserOptions: { ecmaVersion: 6 },
             errors: [{
-                message: "Missing JSDoc comment.",
+                messageId: "missingJSDocComment",
                 type: "FunctionExpression"
             }]
         },
@@ -409,7 +409,7 @@ ruleTester.run("require-jsdoc", rule, {
                 }
             }],
             errors: [{
-                message: "Missing JSDoc comment.",
+                messageId: "missingJSDocComment",
                 type: "FunctionExpression"
             }]
         }

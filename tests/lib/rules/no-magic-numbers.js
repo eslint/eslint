@@ -85,6 +85,27 @@ ruleTester.run("no-magic-numbers", rule, {
             code: "f(-100n)",
             options: [{ ignore: ["-100n"] }],
             parserOptions: { ecmaVersion: 2020 }
+        },
+
+        // Regression tests to preserve the behavior of ignoreArrayIndexes.
+        {
+            code: "var foo = bar[-100];",
+            options: [{
+                ignoreArrayIndexes: true
+            }]
+        },
+        {
+            code: "var foo = bar[1.5];",
+            options: [{
+                ignoreArrayIndexes: true
+            }]
+        },
+        {
+            code: "var foo = bar[100n];",
+            options: [{
+                ignoreArrayIndexes: true
+            }],
+            parserOptions: { ecmaVersion: 2020 }
         }
     ],
     invalid: [
@@ -186,7 +207,7 @@ ruleTester.run("no-magic-numbers", rule, {
         {
             code: "function getSecondsInMinute() {return 60;}",
             errors: [
-                { message: "No magic number: 60." }
+                { messageId: "noMagic", data: { raw: "60" } }
             ]
         },
         {
@@ -234,6 +255,24 @@ ruleTester.run("no-magic-numbers", rule, {
             options: [{}],
             errors: [{
                 messageId: "noMagic", data: { raw: "3" }, line: 1
+            }]
+        },
+        {
+            code: "100 .toString()",
+            options: [{
+                ignoreArrayIndexes: true
+            }],
+            errors: [{
+                messageId: "noMagic", data: { raw: "100" }, line: 1
+            }]
+        },
+        {
+            code: "200[100]",
+            options: [{
+                ignoreArrayIndexes: true
+            }],
+            errors: [{
+                messageId: "noMagic", data: { raw: "200" }, line: 1
             }]
         },
         {

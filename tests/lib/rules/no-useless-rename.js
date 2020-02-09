@@ -129,357 +129,408 @@ ruleTester.run("no-useless-rename", rule, {
         {
             code: "let {foo: foo} = obj;",
             output: "let {foo} = obj;",
-            errors: ["Destructuring assignment foo unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "foo" } }]
         },
         {
             code: "let {a, foo: foo} = obj;",
             output: "let {a, foo} = obj;",
-            errors: ["Destructuring assignment foo unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "foo" } }]
         },
         {
             code: "let {foo: foo, bar: baz} = obj;",
             output: "let {foo, bar: baz} = obj;",
-            errors: ["Destructuring assignment foo unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "foo" } }]
         },
         {
             code: "let {foo: bar, baz: baz} = obj;",
             output: "let {foo: bar, baz} = obj;",
-            errors: ["Destructuring assignment baz unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "baz" } }]
         },
         {
             code: "let {foo: foo, bar: bar} = obj;",
             output: "let {foo, bar} = obj;",
-            errors: ["Destructuring assignment foo unnecessarily renamed.", "Destructuring assignment bar unnecessarily renamed."]
+            errors: [
+                { messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "foo" } },
+                { messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "bar" } }
+            ]
         },
         {
             code: "let {foo: {bar: bar}} = obj;",
             output: "let {foo: {bar}} = obj;",
-            errors: ["Destructuring assignment bar unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "bar" } }]
         },
         {
             code: "let {foo: {bar: bar}, baz: baz} = obj;",
             output: "let {foo: {bar}, baz} = obj;",
-            errors: ["Destructuring assignment bar unnecessarily renamed.", "Destructuring assignment baz unnecessarily renamed."]
+            errors: [
+                { messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "bar" } },
+                { messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "baz" } }
+            ]
         },
         {
             code: "let {'foo': foo} = obj;",
             output: "let {foo} = obj;",
-            errors: ["Destructuring assignment foo unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "foo" } }]
         },
         {
             code: "let {'foo': foo, 'bar': baz} = obj;",
             output: "let {foo, 'bar': baz} = obj;",
-            errors: ["Destructuring assignment foo unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "foo" } }]
         },
         {
             code: "let {'foo': bar, 'baz': baz} = obj;",
             output: "let {'foo': bar, baz} = obj;",
-            errors: ["Destructuring assignment baz unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "baz" } }]
         },
         {
             code: "let {'foo': foo, 'bar': bar} = obj;",
             output: "let {foo, bar} = obj;",
-            errors: ["Destructuring assignment foo unnecessarily renamed.", "Destructuring assignment bar unnecessarily renamed."]
+            errors: [
+                { messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "foo" } },
+                { messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "bar" } }
+            ]
         },
         {
             code: "let {'foo': {'bar': bar}} = obj;",
             output: "let {'foo': {bar}} = obj;",
-            errors: ["Destructuring assignment bar unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "bar" } }]
         },
         {
             code: "let {'foo': {'bar': bar}, 'baz': baz} = obj;",
             output: "let {'foo': {bar}, baz} = obj;",
-            errors: ["Destructuring assignment bar unnecessarily renamed.", "Destructuring assignment baz unnecessarily renamed."]
+            errors: [
+                { messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "bar" } },
+                { messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "baz" } }
+            ]
         },
         {
             code: "let {foo: foo = 1, 'bar': bar = 1, baz: baz} = obj;",
             output: "let {foo = 1, bar = 1, baz} = obj;",
-            errors: ["Destructuring assignment foo unnecessarily renamed.", "Destructuring assignment bar unnecessarily renamed.", "Destructuring assignment baz unnecessarily renamed."]
+            errors: [
+                { messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "foo" } },
+                { messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "bar" } },
+                { messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "baz" } }
+            ]
         },
         {
             code: "let {foo: {bar: bar = 1, 'baz': baz = 1}} = obj;",
             output: "let {foo: {bar = 1, baz = 1}} = obj;",
-            errors: ["Destructuring assignment bar unnecessarily renamed.", "Destructuring assignment baz unnecessarily renamed."]
+            errors: [
+                { messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "bar" } },
+                { messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "baz" } }
+            ]
         },
         {
             code: "let {foo: {bar: bar = {}} = {}} = obj;",
             output: "let {foo: {bar = {}} = {}} = obj;",
-            errors: ["Destructuring assignment bar unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "bar" } }]
         },
         {
             code: "function func({foo: foo}) {}",
             output: "function func({foo}) {}",
-            errors: ["Destructuring assignment foo unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "foo" } }]
         },
         {
             code: "function func({foo: foo, bar: baz}) {}",
             output: "function func({foo, bar: baz}) {}",
-            errors: ["Destructuring assignment foo unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "foo" } }]
         },
         {
             code: "function func({foo: bar, baz: baz}) {}",
             output: "function func({foo: bar, baz}) {}",
-            errors: ["Destructuring assignment baz unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "baz" } }]
         },
         {
             code: "function func({foo: foo, bar: bar}) {}",
             output: "function func({foo, bar}) {}",
-            errors: ["Destructuring assignment foo unnecessarily renamed.", "Destructuring assignment bar unnecessarily renamed."]
+            errors: [
+                { messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "foo" } },
+                { messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "bar" } }
+            ]
         },
         {
             code: "function func({foo: foo = 1, 'bar': bar = 1, baz: baz}) {}",
             output: "function func({foo = 1, bar = 1, baz}) {}",
-            errors: ["Destructuring assignment foo unnecessarily renamed.", "Destructuring assignment bar unnecessarily renamed.", "Destructuring assignment baz unnecessarily renamed."]
+            errors: [
+                { messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "foo" } },
+                { messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "bar" } },
+                { messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "baz" } }
+            ]
         },
         {
             code: "function func({foo: {bar: bar = 1, 'baz': baz = 1}}) {}",
             output: "function func({foo: {bar = 1, baz = 1}}) {}",
-            errors: ["Destructuring assignment bar unnecessarily renamed.", "Destructuring assignment baz unnecessarily renamed."]
+            errors: [
+                { messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "bar" } },
+                { messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "baz" } }
+            ]
         },
         {
             code: "function func({foo: {bar: bar = {}} = {}}) {}",
             output: "function func({foo: {bar = {}} = {}}) {}",
-            errors: ["Destructuring assignment bar unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "bar" } }]
         },
         {
             code: "({foo: foo}) => {}",
             output: "({foo}) => {}",
-            errors: ["Destructuring assignment foo unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "foo" } }]
         },
         {
             code: "({foo: foo, bar: baz}) => {}",
             output: "({foo, bar: baz}) => {}",
-            errors: ["Destructuring assignment foo unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "foo" } }]
         },
         {
             code: "({foo: bar, baz: baz}) => {}",
             output: "({foo: bar, baz}) => {}",
-            errors: ["Destructuring assignment baz unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "baz" } }]
         },
         {
             code: "({foo: foo, bar: bar}) => {}",
             output: "({foo, bar}) => {}",
-            errors: ["Destructuring assignment foo unnecessarily renamed.", "Destructuring assignment bar unnecessarily renamed."]
+            errors: [
+                { messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "foo" } },
+                { messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "bar" } }
+            ]
         },
         {
             code: "({foo: foo = 1, 'bar': bar = 1, baz: baz}) => {}",
             output: "({foo = 1, bar = 1, baz}) => {}",
-            errors: ["Destructuring assignment foo unnecessarily renamed.", "Destructuring assignment bar unnecessarily renamed.", "Destructuring assignment baz unnecessarily renamed."]
+            errors: [
+                { messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "foo" } },
+                { messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "bar" } },
+                { messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "baz" } }
+            ]
         },
         {
             code: "({foo: {bar: bar = 1, 'baz': baz = 1}}) => {}",
             output: "({foo: {bar = 1, baz = 1}}) => {}",
-            errors: ["Destructuring assignment bar unnecessarily renamed.", "Destructuring assignment baz unnecessarily renamed."]
+            errors: [
+                { messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "bar" } },
+                { messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "baz" } }
+            ]
         },
         {
             code: "({foo: {bar: bar = {}} = {}}) => {}",
             output: "({foo: {bar = {}} = {}}) => {}",
-            errors: ["Destructuring assignment bar unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "bar" } }]
         },
         {
             code: "const {foo: foo, ...stuff} = myObject;",
             output: "const {foo, ...stuff} = myObject;",
             parserOptions: { ecmaVersion: 2018 },
-            errors: ["Destructuring assignment foo unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "foo" } }]
         },
         {
             code: "const {foo: foo, bar: baz, ...stuff} = myObject;",
             output: "const {foo, bar: baz, ...stuff} = myObject;",
             parserOptions: { ecmaVersion: 2018 },
-            errors: ["Destructuring assignment foo unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "foo" } }]
         },
         {
             code: "const {foo: foo, bar: bar, ...stuff} = myObject;",
             output: "const {foo, bar, ...stuff} = myObject;",
             parserOptions: { ecmaVersion: 2018 },
-            errors: ["Destructuring assignment foo unnecessarily renamed.", "Destructuring assignment bar unnecessarily renamed."]
+            errors: [
+                { messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "foo" } },
+                { messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "bar" } }
+            ]
         },
         {
             code: "import {foo as foo} from 'foo';",
             output: "import {foo} from 'foo';",
-            errors: ["Import foo unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Import", name: "foo" } }]
         },
         {
             code: "import {foo as foo, bar as baz} from 'foo';",
             output: "import {foo, bar as baz} from 'foo';",
-            errors: ["Import foo unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Import", name: "foo" } }]
         },
         {
             code: "import {foo as bar, baz as baz} from 'foo';",
             output: "import {foo as bar, baz} from 'foo';",
-            errors: ["Import baz unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Import", name: "baz" } }]
         },
         {
             code: "import {foo as foo, bar as bar} from 'foo';",
             output: "import {foo, bar} from 'foo';",
-            errors: ["Import foo unnecessarily renamed.", "Import bar unnecessarily renamed."]
+            errors: [
+                { messageId: "unnecessarilyRenamed", data: { type: "Import", name: "foo" } },
+                { messageId: "unnecessarilyRenamed", data: { type: "Import", name: "bar" } }
+            ]
         },
         {
             code: "var foo = 0; export {foo as foo};",
             output: "var foo = 0; export {foo};",
-            errors: ["Export foo unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Export", name: "foo" } }]
         },
         {
             code: "var foo = 0; var bar = 0; export {foo as foo, bar as baz};",
             output: "var foo = 0; var bar = 0; export {foo, bar as baz};",
-            errors: ["Export foo unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Export", name: "foo" } }]
         },
         {
             code: "var foo = 0; var baz = 0; export {foo as bar, baz as baz};",
             output: "var foo = 0; var baz = 0; export {foo as bar, baz};",
-            errors: ["Export baz unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Export", name: "baz" } }]
         },
         {
             code: "var foo = 0; var bar = 0;export {foo as foo, bar as bar};",
             output: "var foo = 0; var bar = 0;export {foo, bar};",
-            errors: ["Export foo unnecessarily renamed.", "Export bar unnecessarily renamed."]
+            errors: [
+                { messageId: "unnecessarilyRenamed", data: { type: "Export", name: "foo" } },
+                { messageId: "unnecessarilyRenamed", data: { type: "Export", name: "bar" } }
+            ]
         },
         {
             code: "export {foo as foo} from 'foo';",
             output: "export {foo} from 'foo';",
-            errors: ["Export foo unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Export", name: "foo" } }]
         },
         {
             code: "export {foo as foo, bar as baz} from 'foo';",
             output: "export {foo, bar as baz} from 'foo';",
-            errors: ["Export foo unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Export", name: "foo" } }]
         },
         {
             code: "var foo = 0; var bar = 0; export {foo as bar, baz as baz} from 'foo';",
             output: "var foo = 0; var bar = 0; export {foo as bar, baz} from 'foo';",
-            errors: ["Export baz unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Export", name: "baz" } }]
         },
         {
             code: "export {foo as foo, bar as bar} from 'foo';",
             output: "export {foo, bar} from 'foo';",
-            errors: ["Export foo unnecessarily renamed.", "Export bar unnecessarily renamed."]
+            errors: [
+                { messageId: "unnecessarilyRenamed", data: { type: "Export", name: "foo" } },
+                { messageId: "unnecessarilyRenamed", data: { type: "Export", name: "bar" } }
+            ]
         },
 
         // Should not autofix if it would remove comments
         {
             code: "({/* comment */foo: foo} = {});",
             output: "({/* comment */foo} = {});",
-            errors: ["Destructuring assignment foo unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "foo" } }]
         },
         {
             code: "({foo, /* comment */bar: bar} = {});",
             output: "({foo, /* comment */bar} = {});",
-            errors: ["Destructuring assignment bar unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "bar" } }]
         },
         {
             code: "({foo/**/ : foo} = {});",
             output: null,
-            errors: ["Destructuring assignment foo unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "foo" } }]
         },
         {
             code: "({foo /**/: foo} = {});",
             output: null,
-            errors: ["Destructuring assignment foo unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "foo" } }]
         },
         {
             code: "({foo://\nfoo} = {});",
             output: null,
-            errors: ["Destructuring assignment foo unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "foo" } }]
         },
         {
             code: "({foo: /**/foo} = {});",
             output: null,
-            errors: ["Destructuring assignment foo unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "foo" } }]
         },
         {
             code: "({foo: foo/* comment */} = {});",
             output: "({foo/* comment */} = {});",
-            errors: ["Destructuring assignment foo unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "foo" } }]
         },
         {
             code: "({foo: foo//comment\n,bar} = {});",
             output: "({foo//comment\n,bar} = {});",
-            errors: ["Destructuring assignment foo unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Destructuring assignment", name: "foo" } }]
         },
         {
             code: "import {/* comment */foo as foo} from 'foo';",
             output: "import {/* comment */foo} from 'foo';",
-            errors: ["Import foo unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Import", name: "foo" } }]
         },
         {
             code: "import {foo,/* comment */bar as bar} from 'foo';",
             output: "import {foo,/* comment */bar} from 'foo';",
-            errors: ["Import bar unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Import", name: "bar" } }]
         },
         {
             code: "import {foo/**/ as foo} from 'foo';",
             output: null,
-            errors: ["Import foo unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Import", name: "foo" } }]
         },
         {
             code: "import {foo /**/as foo} from 'foo';",
             output: null,
-            errors: ["Import foo unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Import", name: "foo" } }]
         },
         {
             code: "import {foo //\nas foo} from 'foo';",
             output: null,
-            errors: ["Import foo unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Import", name: "foo" } }]
         },
         {
             code: "import {foo as/**/foo} from 'foo';",
             output: null,
-            errors: ["Import foo unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Import", name: "foo" } }]
         },
         {
             code: "import {foo as foo/* comment */} from 'foo';",
             output: "import {foo/* comment */} from 'foo';",
-            errors: ["Import foo unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Import", name: "foo" } }]
         },
         {
             code: "import {foo as foo/* comment */,bar} from 'foo';",
             output: "import {foo/* comment */,bar} from 'foo';",
-            errors: ["Import foo unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Import", name: "foo" } }]
         },
         {
             code: "let foo; export {/* comment */foo as foo};",
             output: "let foo; export {/* comment */foo};",
-            errors: ["Export foo unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Export", name: "foo" } }]
         },
         {
             code: "let foo, bar; export {foo,/* comment */bar as bar};",
             output: "let foo, bar; export {foo,/* comment */bar};",
-            errors: ["Export bar unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Export", name: "bar" } }]
         },
         {
             code: "let foo; export {foo/**/as foo};",
             output: null,
-            errors: ["Export foo unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Export", name: "foo" } }]
         },
         {
             code: "let foo; export {foo as/**/ foo};",
             output: null,
-            errors: ["Export foo unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Export", name: "foo" } }]
         },
         {
             code: "let foo; export {foo as /**/foo};",
             output: null,
-            errors: ["Export foo unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Export", name: "foo" } }]
         },
         {
             code: "let foo; export {foo as//comment\n foo};",
             output: null,
-            errors: ["Export foo unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Export", name: "foo" } }]
         },
         {
             code: "let foo; export {foo as foo/* comment*/};",
             output: "let foo; export {foo/* comment*/};",
-            errors: ["Export foo unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Export", name: "foo" } }]
         },
         {
             code: "let foo, bar; export {foo as foo/* comment*/,bar};",
             output: "let foo, bar; export {foo/* comment*/,bar};",
-            errors: ["Export foo unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Export", name: "foo" } }]
         },
         {
             code: "let foo, bar; export {foo as foo//comment\n,bar};",
             output: "let foo, bar; export {foo//comment\n,bar};",
-            errors: ["Export foo unnecessarily renamed."]
+            errors: [{ messageId: "unnecessarilyRenamed", data: { type: "Export", name: "foo" } }]
         }
     ]
 });

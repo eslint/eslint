@@ -27,14 +27,14 @@ ruleTester.run("no-sparse-arrays", rule, {
         {
             code: "var a = [,];",
             errors: [{
-                message: "Unexpected comma in middle of array.",
+                messageId: "unexpectedSparseArray",
                 type: "ArrayExpression"
             }]
         },
         {
             code: "var a = [ 1,, 2];",
             errors: [{
-                message: "Unexpected comma in middle of array.",
+                messageId: "unexpectedSparseArray",
                 type: "ArrayExpression"
             }]
         }
