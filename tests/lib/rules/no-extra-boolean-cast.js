@@ -1,6 +1,6 @@
 /**
- *@fileoverview Tests for no-extra-boolean-cast rule.
- *@author Brandon Mills
+ * @fileoverview Tests for no-extra-boolean-cast rule.
+ * @author Brandon Mills
  */
 
 "use strict";
