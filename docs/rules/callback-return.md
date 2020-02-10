@@ -1,5 +1,7 @@
 # Enforce Return After Callback (callback-return)
 
+This rule was **deprecated** in ESLint v7.0.0.
+
 The callback pattern is at the heart of most I/O and event-driven programming
  in JavaScript.
 
