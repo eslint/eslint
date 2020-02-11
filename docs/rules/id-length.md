@@ -34,7 +34,6 @@ function foo(...x) { }
 function foo({x}) { }
 var { x } = {};
 var { prop: a} = {};
-var { a: [x]} = {};
 ({ prop: obj.x } = {});
 ```
 
@@ -92,8 +91,7 @@ class x { }
 class Foo { x() {} }
 function foo(...x) { }
 var { x } = {};
-var { x: a} = {};
-var { a: [x]} = {};
+var { x: longName} = {};
 ({ prop: obj.x } = {});
 ```
 
@@ -106,7 +104,7 @@ Examples of **correct** code for this rule with a minimum of 4:
 var value = 5;
 function func() { return 42; }
 obj.element = document.body;
-var foo = function (event) { /* do stuff */ };
+var foobar = function (event) { /* do stuff */ };
 try {
     dangerousStuff();
 } catch (error) {
@@ -156,8 +154,7 @@ class x { }
 class Foo { x() {} }
 function foo(...x) { }
 var { x } = {};
-var { x: a} = {};
-var { a: [x]} = {};
+var { prop: a} = {};
 ({ prop: obj.x } = {});
 ```
 
@@ -183,7 +180,7 @@ class MyClass { }
 class Foobar { method() {} }
 function foobar(...args) { }
 var { prop } = {};
-var { prop: a } = {};
+var { a: longName } = {};
 var { prop: [x] } = {};
 ({ prop: obj.name } = {});
 var data = { "x": 1 };  // excused because of quotes
@@ -259,6 +256,8 @@ try {
     // ignore as many do
 }
 (x) => { return x * x; };
+const { x } = foo;
+const { a: x } = foo;
 ```
 
 ## Related Rules
