@@ -167,7 +167,7 @@ Examples of **correct** code for this rule with the `{ "min": 4 }` option:
 var value = 5;
 function func() { return 42; }
 obj.element = document.body;
-var foo = function (event) { /* do stuff */ };
+var foobar = function (event) { /* do stuff */ };
 try {
     dangerousStuff();
 } catch (error) {
