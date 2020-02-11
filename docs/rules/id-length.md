@@ -91,7 +91,7 @@ class x { }
 class Foo { x() {} }
 function foo(...x) { }
 var { x } = {};
-var { x: longName} = {};
+var { prop: x} = {};
 ({ prop: obj.x } = {});
 ```
 
