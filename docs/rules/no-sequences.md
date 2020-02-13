@@ -3,7 +3,7 @@
 The comma operator includes multiple expressions where only one is expected. It evaluates each operand from left to right and returns the value of the last operand. However, this frequently obscures side effects, and its use is often an accident. Here are some examples of sequences:
 
 ```js
-var a = (3, 5); // a = 5
+let a = (3, 5); // a = 5
 
 a = b += 5, a + b;
 
@@ -23,6 +23,8 @@ Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-sequences: "error"*/
+
+let a = (b = 1, c = 2);
 
 foo = doSomething(), val;
 
@@ -45,6 +47,10 @@ Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-sequences: "error"*/
+
+let a = 1, b = 2, c = 3;
+
+let a = ((b = 1, c = 2));
 
 foo = (doSomething(), val);
 
