@@ -68,3 +68,57 @@ function foo() {
 
 var foo = bar ? !!baz : !!bat;
 ```
+
+## Options
+
+This rule has an object option:
+
+* `"enforceForLogicalOperands"` when set to `true`, in addition to checking default contexts, checks whether the extra boolean cast is contained within a logical expression. Default is `false`, meaning that this rule by default does not warn about extra booleans cast inside logical expression.
+
+### enforceForLogicalOperands
+
+Examples of **incorrect** code for this rule with `"enforceForLogicalOperands"` option set to `true`:
+
+```js
+/*eslint no-extra-boolean-cast: ["error", {"enforceForLogicalOperands": true}]*/
+
+if (!!foo || bar) {
+    //...
+}
+
+while (!!foo && bar) {
+    //...
+}
+
+if ((!!foo || bar) && baz) {
+    //...
+}
+
+foo && Boolean(bar) ? baz : bat
+
+var foo = new Boolean(!!bar || baz)
+```
+
+Examples of **correct** code for this rule with `"enforceForLogicalOperands"` option set to `true`:
+
+```js
+/*eslint no-extra-boolean-cast: ["error", {"enforceForLogicalOperands": true}]*/
+
+if (foo || bar) {
+    //...
+}
+
+while (foo && bar) {
+    //...
+}
+
+if ((foo || bar) && baz) {
+    //...
+}
+
+foo && bar ? baz : bat
+
+var foo = new Boolean(bar || baz)
+
+var foo = !!bar || baz;
+```
