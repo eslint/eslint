@@ -3796,24 +3796,16 @@ describe("CLIEngine", () => {
                 const cwd = getFixturePath("ignored-paths");
                 const engine = new CLIEngine({ cwd });
 
-                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "bower_components/package/file.js")));
                 assert(engine.isPathIgnored(getFixturePath("ignored-paths", "node_modules/package/file.js")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "subdir/node_modules/package/file.js")));
             });
 
             it("should still apply defaultPatterns if ignore option is is false", () => {
                 const cwd = getFixturePath("ignored-paths");
                 const engine = new CLIEngine({ ignore: false, cwd });
 
-                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "bower_components/package/file.js")));
                 assert(engine.isPathIgnored(getFixturePath("ignored-paths", "node_modules/package/file.js")));
-            });
-
-            it("should not ignore files in defaultPatterns within a subdirectory", () => {
-                const cwd = getFixturePath("ignored-paths");
-                const engine = new CLIEngine({ cwd });
-
-                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "subdir/bower_components/package/file.js")));
-                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "subdir/node_modules/package/file.js")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "subdir/node_modules/package/file.js")));
             });
 
             it("should allow subfolders of defaultPatterns to be unignored by ignorePattern", () => {
@@ -3869,20 +3861,20 @@ describe("CLIEngine", () => {
                 assert(!engine.isPathIgnored(`${getFixturePath("ignored-paths", "foo")}/../unignored.js`));
             });
 
-            it("should ignore /node_modules/ at top level relative to .eslintignore when loaded", () => {
+            it("should ignore /node_modules/ relative to .eslintignore when loaded", () => {
                 const cwd = getFixturePath("ignored-paths");
                 const engine = new CLIEngine({ ignorePath: getFixturePath("ignored-paths", ".eslintignore"), cwd });
 
                 assert(engine.isPathIgnored(getFixturePath("ignored-paths", "node_modules", "existing.js")));
-                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "foo", "node_modules", "existing.js")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "foo", "node_modules", "existing.js")));
             });
 
-            it("should ignore /node_modules/ at top level relative to cwd without an .eslintignore", () => {
+            it("should ignore /node_modules/ relative to cwd without an .eslintignore", () => {
                 const cwd = getFixturePath("ignored-paths", "no-ignore-file");
                 const engine = new CLIEngine({ cwd });
 
                 assert(engine.isPathIgnored(getFixturePath("ignored-paths", "no-ignore-file", "node_modules", "existing.js")));
-                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "no-ignore-file", "foo", "node_modules", "existing.js")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "no-ignore-file", "foo", "node_modules", "existing.js")));
             });
         });
 
@@ -5052,12 +5044,12 @@ describe("CLIEngine", () => {
                 InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
                     cwd: () => root,
                     files: {
-                        ".eslintrc.js": `module.exports = ${JSON.stringify({
+                        ".eslintrc.json": JSON.stringify({
                             ignorePatterns: "foo.js"
-                        })}`,
-                        "subdir/.eslintrc.js": `module.exports = ${JSON.stringify({
+                        }),
+                        "subdir/.eslintrc.json": JSON.stringify({
                             ignorePatterns: "bar.js"
-                        })}`,
+                        }),
                         "foo.js": "",
                         "bar.js": "",
                         "subdir/foo.js": "",
@@ -5107,12 +5099,12 @@ describe("CLIEngine", () => {
                 InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
                     cwd: () => root,
                     files: {
-                        ".eslintrc.js": `module.exports = ${JSON.stringify({
+                        ".eslintrc.json": JSON.stringify({
                             ignorePatterns: "foo.js"
-                        })}`,
-                        "subdir/.eslintrc.js": `module.exports = ${JSON.stringify({
+                        }),
+                        "subdir/.eslintrc.json": JSON.stringify({
                             ignorePatterns: "!foo.js"
-                        })}`,
+                        }),
                         "foo.js": "",
                         "subdir/foo.js": ""
                     }
@@ -5193,13 +5185,13 @@ describe("CLIEngine", () => {
                 InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
                     cwd: () => root,
                     files: {
-                        ".eslintrc.js": `module.exports = ${JSON.stringify({
+                        ".eslintrc.json": JSON.stringify({
                             ignorePatterns: "foo.js"
-                        })}`,
-                        "subdir/.eslintrc.js": `module.exports = ${JSON.stringify({
+                        }),
+                        "subdir/.eslintrc.json": JSON.stringify({
                             root: true,
                             ignorePatterns: "bar.js"
-                        })}`,
+                        }),
                         "foo.js": "",
                         "bar.js": "",
                         "subdir/foo.js": "",
@@ -5251,11 +5243,11 @@ describe("CLIEngine", () => {
                 InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
                     cwd: () => root,
                     files: {
-                        ".eslintrc.js": `module.exports = ${JSON.stringify({})}`,
-                        "subdir/.eslintrc.js": `module.exports = ${JSON.stringify({
+                        ".eslintrc.json": JSON.stringify({}),
+                        "subdir/.eslintrc.json": JSON.stringify({
                             root: true,
                             ignorePatterns: "bar.js"
-                        })}`,
+                        }),
                         ".eslintignore": "foo.js",
                         "foo.js": "",
                         "bar.js": "",
@@ -5305,9 +5297,9 @@ describe("CLIEngine", () => {
                         "node_modules/eslint-config-one/index.js": `module.exports = ${JSON.stringify({
                             ignorePatterns: "foo.js"
                         })}`,
-                        ".eslintrc.js": `module.exports = ${JSON.stringify({
+                        ".eslintrc.json": JSON.stringify({
                             extends: "one"
-                        })}`,
+                        }),
                         "foo.js": "",
                         "bar.js": ""
                     }
@@ -5347,9 +5339,9 @@ describe("CLIEngine", () => {
                         "node_modules/eslint-config-one/index.js": `module.exports = ${JSON.stringify({
                             ignorePatterns: "/foo.js"
                         })}`,
-                        ".eslintrc.js": `module.exports = ${JSON.stringify({
+                        ".eslintrc.json": JSON.stringify({
                             extends: "one"
-                        })}`,
+                        }),
                         "foo.js": "",
                         "subdir/foo.js": ""
                     }
@@ -5389,10 +5381,10 @@ describe("CLIEngine", () => {
                         "node_modules/eslint-config-one/index.js": `module.exports = ${JSON.stringify({
                             ignorePatterns: "*.js"
                         })}`,
-                        ".eslintrc.js": `module.exports = ${JSON.stringify({
+                        ".eslintrc.json": JSON.stringify({
                             extends: "one",
                             ignorePatterns: "!bar.js"
-                        })}`,
+                        }),
                         "foo.js": "",
                         "bar.js": ""
                     }
@@ -5429,9 +5421,9 @@ describe("CLIEngine", () => {
                 InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
                     cwd: () => root,
                     files: {
-                        ".eslintrc.js": `module.exports = ${JSON.stringify({
+                        ".eslintrc.json": JSON.stringify({
                             ignorePatterns: "*.js"
-                        })}`,
+                        }),
                         "foo.js": ""
                     }
                 }).CLIEngine;
