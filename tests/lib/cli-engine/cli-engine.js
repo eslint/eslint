@@ -307,7 +307,8 @@ describe("CLIEngine", () => {
                         warningCount: 0,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
-                        output: "var bar = foo;"
+                        output: "var bar = foo;",
+                        usedDeprecatedRules: []
                     }
                 ],
                 errorCount: 0,
@@ -516,7 +517,8 @@ describe("CLIEngine", () => {
                         warningCount: 0,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
-                        source: "var bar = foo"
+                        source: "var bar = foo",
+                        usedDeprecatedRules: []
                     }
                 ],
                 errorCount: 1,
@@ -559,7 +561,8 @@ describe("CLIEngine", () => {
                         warningCount: 0,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
-                        output: "var bar = foothis is a syntax error."
+                        output: "var bar = foothis is a syntax error.",
+                        usedDeprecatedRules: []
                     }
                 ],
                 errorCount: 1,
@@ -601,7 +604,8 @@ describe("CLIEngine", () => {
                         warningCount: 0,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
-                        source: "var bar ="
+                        source: "var bar =",
+                        usedDeprecatedRules: []
                     }
                 ],
                 errorCount: 1,
@@ -689,7 +693,8 @@ describe("CLIEngine", () => {
                         warningCount: 0,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
-                        source: "var bar = foothis is a syntax error.\n return bar;"
+                        source: "var bar = foothis is a syntax error.\n return bar;",
+                        usedDeprecatedRules: []
                     }
                 ],
                 errorCount: 1,
@@ -754,6 +759,7 @@ describe("CLIEngine", () => {
                 assert.strictEqual(report.messages[0].message, "OK");
             });
         });
+
         it("should warn when deprecated rules are found in a config", () => {
             engine = new CLIEngine({
                 cwd: originalDir,
@@ -764,9 +770,37 @@ describe("CLIEngine", () => {
             const report = engine.executeOnText("foo");
 
             assert.deepStrictEqual(
-                report.usedDeprecatedRules,
+                report.results[0].usedDeprecatedRules,
                 [{ ruleId: "indent-legacy", replacedBy: ["indent"] }]
             );
+        });
+
+        it("should emit deprecation warning on 'report.usedDeprecatedRules'.", async() => {
+            resetDeprecationWarning();
+            const warningListener = sinon.spy();
+
+            process.on("warning", warningListener);
+            try {
+                engine = new CLIEngine({
+                    cwd: originalDir,
+                    useEslintrc: false,
+                    configFile: "tests/fixtures/cli-engine/deprecated-rule-config/.eslintrc.yml"
+                });
+                const report = engine.executeOnText("foo");
+
+                // Wait for event emission.
+                await new Promise(resolve => setTimeout(resolve, 0));
+                assert.strictEqual(warningListener.callCount, 0);
+
+                report.usedDeprecatedRules; // eslint-disable-line no-unused-expressions
+
+                // Wait for event emission.
+                await new Promise(resolve => setTimeout(resolve, 0));
+                assert.strictEqual(warningListener.callCount, 1);
+                assert.strictEqual(warningListener.args[0][0].code, "ESLINT_LEGACY_USED_DEPRECATED_RULES");
+            } finally {
+                process.removeListener("warning", warningListener);
+            }
         });
     });
 
@@ -1555,7 +1589,7 @@ describe("CLIEngine", () => {
             const report = engine.executeOnFiles(["lib/cli*.js"]);
 
             assert.sameDeepMembers(
-                report.usedDeprecatedRules,
+                report.results[0].usedDeprecatedRules,
                 [
                     { ruleId: "indent-legacy", replacedBy: ["indent"] },
                     { ruleId: "require-jsdoc", replacedBy: [] },
@@ -1573,7 +1607,7 @@ describe("CLIEngine", () => {
 
             const report = engine.executeOnFiles(["lib/cli*.js"]);
 
-            assert.deepStrictEqual(report.usedDeprecatedRules, []);
+            assert.deepStrictEqual(report.results[0].usedDeprecatedRules, []);
         });
 
         it("should warn when deprecated rules are found in a config", () => {
@@ -1586,9 +1620,192 @@ describe("CLIEngine", () => {
             const report = engine.executeOnFiles(["lib/cli*.js"]);
 
             assert.deepStrictEqual(
-                report.usedDeprecatedRules,
+                report.results[0].usedDeprecatedRules,
                 [{ ruleId: "indent-legacy", replacedBy: ["indent"] }]
             );
+        });
+
+        it("should emit deprecation warning on 'report.usedDeprecatedRules'.", async() => {
+            resetDeprecationWarning();
+            const warningListener = sinon.spy();
+
+            process.on("warning", warningListener);
+            try {
+                engine = new CLIEngine({
+                    cwd: originalDir,
+                    useEslintrc: false,
+                    configFile: "tests/fixtures/cli-engine/deprecated-rule-config/.eslintrc.yml"
+                });
+                const report = engine.executeOnFiles("lib/cli*.js");
+
+                // Wait for event emission.
+                await new Promise(resolve => setTimeout(resolve, 0));
+                assert.strictEqual(warningListener.callCount, 0);
+
+                report.usedDeprecatedRules; // eslint-disable-line no-unused-expressions
+
+                // Wait for event emission.
+                await new Promise(resolve => setTimeout(resolve, 0));
+                assert.strictEqual(warningListener.callCount, 1);
+                assert.strictEqual(warningListener.args[0][0].code, "ESLINT_LEGACY_USED_DEPRECATED_RULES");
+            } finally {
+                process.removeListener("warning", warningListener);
+            }
+        });
+
+        describe("when each file uses different deprecated rules,", () => {
+
+            /** @type {typeof CLIEngine} */
+            let InMemoryCLIEngine;
+
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: process.cwd,
+                    files: {
+                        "one/test.js": "",
+                        "two/test.js": "",
+                        ".eslintrc.json": JSON.stringify({
+                            overrides: [
+                                {
+                                    files: "one/*",
+                                    rules: { "indent-legacy": "error" }
+                                },
+                                {
+                                    files: "two/*",
+                                    rules: { "require-jsdoc": "error" }
+                                }
+                            ]
+                        })
+                    }
+                }).CLIEngine;
+            });
+
+            it("should report used deprecated rules for each file.", () => {
+                engine = new InMemoryCLIEngine();
+                const report = engine.executeOnFiles("**/*.js");
+                const results = report.results.sort((a, b) => {
+                    if (a.filePath < b.filePath) {
+                        return -1;
+                    }
+                    if (a.filePath > b.filePath) {
+                        return 1;
+                    }
+                    return 0;
+                });
+
+                assert.deepStrictEqual(
+                    results[0].filePath,
+                    path.resolve("one/test.js")
+                );
+                assert.deepStrictEqual(
+                    results[0].usedDeprecatedRules,
+                    [{ ruleId: "indent-legacy", replacedBy: ["indent"] }]
+                );
+                assert.deepStrictEqual(
+                    results[1].filePath,
+                    path.resolve("two/test.js")
+                );
+                assert.deepStrictEqual(
+                    results[1].usedDeprecatedRules,
+                    [{ ruleId: "require-jsdoc", replacedBy: [] }]
+                );
+
+                // And `report.usedDeprecatedRules` contains the merged data.
+                assert.deepStrictEqual(
+                    report.usedDeprecatedRules.sort((a, b) => {
+                        if (a.ruleId < b.ruleId) {
+                            return -1;
+                        }
+                        if (a.ruleId > b.ruleId) {
+                            return 1;
+                        }
+                        return 0;
+                    }),
+                    [
+                        { ruleId: "indent-legacy", replacedBy: ["indent"] },
+                        { ruleId: "require-jsdoc", replacedBy: [] }
+                    ]
+                );
+            });
+        });
+
+        describe("when each file uses different deprecated rules of the same name (but different) plugins,", () => {
+
+            /** @type {typeof CLIEngine} */
+            let InMemoryCLIEngine;
+
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: process.cwd,
+                    files: {
+                        ".eslintignore": "/**/node_modules/*",
+
+                        // `one` directory has own deprecated rule `foo/bar`
+                        "one/node_modules/eslint-plugin-foo/index.js": `exports.rules = {
+                            bar: {
+                                meta: { deprecated: true, replacedBy: ["rep-one"] },
+                                create: () => ({})
+                            }
+                        }`,
+                        "one/.eslintrc.json": JSON.stringify({
+                            plugins: ["foo"],
+                            rules: { "foo/bar": "error" }
+                        }),
+                        "one/test.js": "",
+
+                        // `two` directory has own deprecated rule `foo/bar`
+                        "two/node_modules/eslint-plugin-foo/index.js": `exports.rules = {
+                            bar: {
+                                meta: { deprecated: true, replacedBy: ["rep-two"] },
+                                create: () => ({})
+                            }
+                        }`,
+                        "two/.eslintrc.json": JSON.stringify({
+                            plugins: ["foo"],
+                            rules: { "foo/bar": "error" }
+                        }),
+                        "two/test.js": ""
+                    }
+                }).CLIEngine;
+            });
+
+            it("should report used deprecated rules for each file.", () => {
+                engine = new InMemoryCLIEngine();
+                const report = engine.executeOnFiles("**/*.js");
+                const results = report.results.sort((a, b) => {
+                    if (a.filePath < b.filePath) {
+                        return -1;
+                    }
+                    if (a.filePath > b.filePath) {
+                        return 1;
+                    }
+                    return 0;
+                });
+
+                assert.deepStrictEqual(
+                    results[0].filePath,
+                    path.resolve("one/test.js")
+                );
+                assert.deepStrictEqual(
+                    results[0].usedDeprecatedRules,
+                    [{ ruleId: "foo/bar", replacedBy: ["rep-one"] }]
+                );
+                assert.deepStrictEqual(
+                    results[1].filePath,
+                    path.resolve("two/test.js")
+                );
+                assert.deepStrictEqual(
+                    results[1].usedDeprecatedRules,
+                    [{ ruleId: "foo/bar", replacedBy: ["rep-two"] }]
+                );
+
+                /*
+                 * And `report.usedDeprecatedRules` contains the merged data,
+                 * but it contains only the first one if `ruleId` conflicted.
+                 */
+                assert.strictEqual(report.usedDeprecatedRules.length, 1);
+                assert.strictEqual(report.usedDeprecatedRules[0].ruleId, "foo/bar");
+            });
         });
 
         describe("Fix Mode", () => {
@@ -1631,7 +1848,8 @@ describe("CLIEngine", () => {
                         warningCount: 0,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
-                        output: "true ? \"yes\" : \"no\";\n"
+                        output: "true ? \"yes\" : \"no\";\n",
+                        usedDeprecatedRules: []
                     },
                     {
                         filePath: fs.realpathSync(path.resolve(fixtureDir, "fixmode/ok.js")),
@@ -1639,7 +1857,8 @@ describe("CLIEngine", () => {
                         errorCount: 0,
                         warningCount: 0,
                         fixableErrorCount: 0,
-                        fixableWarningCount: 0
+                        fixableWarningCount: 0,
+                        usedDeprecatedRules: []
                     },
                     {
                         filePath: fs.realpathSync(path.resolve(fixtureDir, "fixmode/quotes-semi-eqeqeq.js")),
@@ -1660,7 +1879,8 @@ describe("CLIEngine", () => {
                         warningCount: 0,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
-                        output: "var msg = \"hi\";\nif (msg == \"hi\") {\n\n}\n"
+                        output: "var msg = \"hi\";\nif (msg == \"hi\") {\n\n}\n",
+                        usedDeprecatedRules: []
                     },
                     {
                         filePath: fs.realpathSync(path.resolve(fixtureDir, "fixmode/quotes.js")),
@@ -1681,7 +1901,8 @@ describe("CLIEngine", () => {
                         warningCount: 0,
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
-                        output: "var msg = \"hi\" + foo;\n"
+                        output: "var msg = \"hi\" + foo;\n",
+                        usedDeprecatedRules: []
                     }
                 ]);
                 assert.strictEqual(report.errorCount, 2);
@@ -4799,7 +5020,8 @@ describe("CLIEngine", () => {
                             warningCount: 0,
                             fixableErrorCount: 0,
                             fixableWarningCount: 0,
-                            source: "/* eslint-disable */"
+                            source: "/* eslint-disable */",
+                            usedDeprecatedRules: []
                         }
                     ],
                     errorCount: 1,
@@ -5849,7 +6071,8 @@ describe("CLIEngine", () => {
                             }
                         ],
                         source: "a == b",
-                        warningCount: 0
+                        warningCount: 0,
+                        usedDeprecatedRules: []
                     }
                 ]);
             });
@@ -5871,7 +6094,8 @@ describe("CLIEngine", () => {
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         messages: [],
-                        warningCount: 0
+                        warningCount: 0,
+                        usedDeprecatedRules: []
                     }
                 ]);
             });
@@ -5916,7 +6140,8 @@ describe("CLIEngine", () => {
                         fixableErrorCount: 0,
                         fixableWarningCount: 0,
                         messages: [],
-                        warningCount: 0
+                        warningCount: 0,
+                        usedDeprecatedRules: []
                     }
                 ]);
             });
@@ -5951,7 +6176,8 @@ describe("CLIEngine", () => {
                             }
                         ],
                         source: "a == b",
-                        warningCount: 0
+                        warningCount: 0,
+                        usedDeprecatedRules: []
                     }
                 ]);
             });
