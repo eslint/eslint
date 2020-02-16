@@ -15,7 +15,8 @@
 //------------------------------------------------------------------------------
 
 const assert = require("chai").assert,
-    CLIEngine = require("../../lib/cli-engine/index").CLIEngine,
+    { CLIEngine, FormatterMetadata } = require("../../lib/cli-engine"),
+    { resetDeprecationWarning } = require("../../lib/shared/deprecation-warnings"),
     path = require("path"),
     sinon = require("sinon"),
     fs = require("fs"),
@@ -59,7 +60,7 @@ describe("cli", () => {
         sinon.stub(fakeCLIEngine.prototype, "getFormatter").returns(sinon.spy());
 
         const localCLI = proxyquire("../../lib/cli", {
-            "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+            "./cli-engine/index": { CLIEngine: fakeCLIEngine, FormatterMetadata },
             "./shared/logging": log
         });
 
@@ -231,6 +232,28 @@ describe("cli", () => {
     });
 
     describe("when given a valid built-in formatter name that uses rules meta.", () => {
+        it("should emit deprecation warning on 'rulesMeta' is used.", async() => {
+            resetDeprecationWarning();
+            const warningListener = sinon.spy();
+
+            process.on("warning", warningListener);
+            try {
+                const filePath = getFixturePath("passing.js");
+
+                cli.execute(`-f json-with-metadata ${filePath} --no-eslintrc`);
+
+                // Wait for event emission.
+                await new Promise(resolve => setTimeout(resolve, 0));
+
+                // deprecated `rulesMeta` calls deprecated `getRules()` as well.
+                assert.strictEqual(warningListener.callCount, 2);
+                assert.strictEqual(warningListener.args[0][0].code, "ESLINT_LEGACY_RULES_META");
+                assert.strictEqual(warningListener.args[1][0].code, "ESLINT_LEGACY_GET_RULES");
+            } finally {
+                process.removeListener("warning", warningListener);
+            }
+        });
+
         it("should execute without any errors", () => {
             const filePath = getFixturePath("passing.js");
             const exit = cli.execute(`-f json-with-metadata ${filePath} --no-eslintrc`);
@@ -811,7 +834,7 @@ describe("cli", () => {
             fakeCLIEngine.outputFixes = sinon.stub();
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./cli-engine/index": { CLIEngine: fakeCLIEngine, FormatterMetadata },
                 "./shared/logging": log
             });
 
@@ -834,7 +857,7 @@ describe("cli", () => {
             fakeCLIEngine.outputFixes = sinon.stub();
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./cli-engine/index": { CLIEngine: fakeCLIEngine, FormatterMetadata },
                 "./shared/logging": log
             });
 
@@ -869,7 +892,7 @@ describe("cli", () => {
             fakeCLIEngine.outputFixes = sinon.mock().once();
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./cli-engine/index": { CLIEngine: fakeCLIEngine, FormatterMetadata },
                 "./shared/logging": log
             });
 
@@ -907,7 +930,7 @@ describe("cli", () => {
             fakeCLIEngine.outputFixes = sinon.mock().withExactArgs(report);
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./cli-engine/index": { CLIEngine: fakeCLIEngine, FormatterMetadata },
                 "./shared/logging": log
             });
 
@@ -945,7 +968,7 @@ describe("cli", () => {
             fakeCLIEngine.outputFixes = sinon.mock().withExactArgs(report);
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./cli-engine/index": { CLIEngine: fakeCLIEngine, FormatterMetadata },
                 "./shared/logging": log
             });
 
@@ -961,7 +984,7 @@ describe("cli", () => {
             const fakeCLIEngine = sinon.mock().never();
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./cli-engine/index": { CLIEngine: fakeCLIEngine, FormatterMetadata },
                 "./shared/logging": log
             });
 
@@ -995,7 +1018,7 @@ describe("cli", () => {
             fakeCLIEngine.outputFixes = sinon.mock().never();
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./cli-engine/index": { CLIEngine: fakeCLIEngine, FormatterMetadata },
                 "./shared/logging": log
             });
 
@@ -1026,7 +1049,7 @@ describe("cli", () => {
             fakeCLIEngine.outputFixes = sinon.stub();
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./cli-engine/index": { CLIEngine: fakeCLIEngine, FormatterMetadata },
                 "./shared/logging": log
             });
 
@@ -1062,7 +1085,7 @@ describe("cli", () => {
             fakeCLIEngine.outputFixes = sinon.mock().never();
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./cli-engine/index": { CLIEngine: fakeCLIEngine, FormatterMetadata },
                 "./shared/logging": log
             });
 
@@ -1100,7 +1123,7 @@ describe("cli", () => {
             fakeCLIEngine.outputFixes = sinon.mock().never();
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./cli-engine/index": { CLIEngine: fakeCLIEngine, FormatterMetadata },
                 "./shared/logging": log
             });
 
@@ -1137,7 +1160,7 @@ describe("cli", () => {
             fakeCLIEngine.outputFixes = sinon.mock().never();
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./cli-engine/index": { CLIEngine: fakeCLIEngine, FormatterMetadata },
                 "./shared/logging": log
             });
 
@@ -1152,7 +1175,7 @@ describe("cli", () => {
             const fakeCLIEngine = sinon.mock().never();
 
             localCLI = proxyquire("../../lib/cli", {
-                "./cli-engine/index": { CLIEngine: fakeCLIEngine },
+                "./cli-engine/index": { CLIEngine: fakeCLIEngine, FormatterMetadata },
                 "./shared/logging": log
             });
 
