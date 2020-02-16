@@ -183,15 +183,33 @@ ruleTester.run("id-length", rule, {
             options: [{ exceptions: ["a"] }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                tooShortError
+                {
+                    messageId: "tooShort",
+                    data: { name: "b", min: 2 },
+                    line: 1,
+                    column: 19,
+                    type: "Identifier"
+                }
             ]
         },
         {
             code: "function foo({ a: { b: { c: d, e } } }) { }",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                tooShortError,
-                tooShortError
+                {
+                    messageId: "tooShort",
+                    data: { name: "d", min: 2 },
+                    line: 1,
+                    column: 29,
+                    type: "Identifier"
+                },
+                {
+                    messageId: "tooShort",
+                    data: { name: "e", min: 2 },
+                    line: 1,
+                    column: 32,
+                    type: "Identifier"
+                }
             ]
         },
         {
@@ -239,7 +257,13 @@ ruleTester.run("id-length", rule, {
             options: [{ min: 3, max: 5 }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                tooLongError
+                {
+                    messageId: "tooLong",
+                    data: { name: "longName", max: 5 },
+                    line: 1,
+                    column: 13,
+                    type: "Identifier"
+                }
             ]
         },
         {
@@ -247,44 +271,92 @@ ruleTester.run("id-length", rule, {
             options: [{ exceptions: ["x"] }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                tooShortError
+                {
+                    messageId: "tooShort",
+                    data: { name: "a", min: 2 },
+                    line: 1,
+                    column: 10,
+                    type: "Identifier"
+                }
             ]
         },
         {
             code: "var { a: { b: { c: d } } } = {};",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                tooShortError
+                {
+                    messageId: "tooShort",
+                    data: { name: "d", min: 2 },
+                    line: 1,
+                    column: 20,
+                    type: "Identifier"
+                }
             ]
         },
         {
             code: "var { a: { b: { c: d, e } } } = {};",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                tooShortError,
-                tooShortError
+                {
+                    messageId: "tooShort",
+                    data: { name: "d", min: 2 },
+                    line: 1,
+                    column: 20,
+                    type: "Identifier"
+                },
+                {
+                    messageId: "tooShort",
+                    data: { name: "e", min: 2 },
+                    line: 1,
+                    column: 23,
+                    type: "Identifier"
+                }
             ]
         },
         {
             code: "var { a: { b: { c, e: longName } } } = {};",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                tooShortError
+                {
+                    messageId: "tooShort",
+                    data: { name: "c", min: 2 },
+                    line: 1,
+                    column: 17,
+                    type: "Identifier"
+                }
             ]
         },
         {
             code: "var { a: { b: { c: d, e: longName } } } = {};",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                tooShortError
+                {
+                    messageId: "tooShort",
+                    data: { name: "d", min: 2 },
+                    line: 1,
+                    column: 20,
+                    type: "Identifier"
+                }
             ]
         },
         {
             code: "var { a, b: { c: d, e: longName } } = {};",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                tooShortError,
-                tooShortError
+                {
+                    messageId: "tooShort",
+                    data: { name: "a", min: 2 },
+                    line: 1,
+                    column: 7,
+                    type: "Identifier"
+                },
+                {
+                    messageId: "tooShort",
+                    data: { name: "d", min: 2 },
+                    line: 1,
+                    column: 18,
+                    type: "Identifier"
+                }
             ]
         },
         {
@@ -305,14 +377,26 @@ ruleTester.run("id-length", rule, {
             code: "({ a: obj.x.y.z } = {});",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                tooShortError
+                {
+                    messageId: "tooShort",
+                    data: { name: "z", min: 2 },
+                    line: 1,
+                    column: 15,
+                    type: "Identifier"
+                }
             ]
         },
         {
             code: "({ prop: obj.x } = {});",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                tooShortError
+                {
+                    messageId: "tooShort",
+                    data: { name: "x", min: 2 },
+                    line: 1,
+                    column: 14,
+                    type: "Identifier"
+                }
             ]
         },
         { code: "var x = 1;", options: [{ properties: "never" }], errors: [tooShortError] },
@@ -321,7 +405,13 @@ ruleTester.run("id-length", rule, {
             options: [{ properties: "never" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                tooShortError
+                {
+                    messageId: "tooShort",
+                    data: { name: "x", min: 2 },
+                    line: 1,
+                    column: 12,
+                    type: "Identifier"
+                }
             ]
         },
         {
