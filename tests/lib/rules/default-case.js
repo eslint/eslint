@@ -21,6 +21,7 @@ ruleTester.run("default-case", rule, {
 
     valid: [
         "switch (a) { case 1: break; default: break; }",
+        "switch (a) { default: break; case 1: break; }",
         "switch (a) { case 1: break; case 2: default: break; }",
         "switch (a) { case 1: break; default: break; \n //no default \n }",
         "switch (a) { \n    case 1: break; \n\n//oh-oh \n // no default\n }",
