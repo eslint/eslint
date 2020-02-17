@@ -56,10 +56,10 @@ describe("naming", () => {
     });
 
     describe("getNamespaceFromTerm()", () => {
-        it("should remove namepace when passed with namepace", () => {
-            const namespace = naming.getNamespaceFromTerm("@namepace/eslint-plugin-test");
+        it("should remove namespace when passed with namespace", () => {
+            const namespace = naming.getNamespaceFromTerm("@namespace/eslint-plugin-test");
 
-            assert.strictEqual(namespace, "@namepace/");
+            assert.strictEqual(namespace, "@namespace/");
         });
     });
 });

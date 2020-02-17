@@ -63,7 +63,8 @@ ruleTester.run("no-unsafe-negation", rule, {
         {
             code: "!a in b",
             errors: [{
-                message: "Unexpected negating the left operand of 'in' operator.",
+                messageId: "unexpected",
+                data: { operator: "in" },
                 suggestions: [
                     {
                         desc: "Negate 'in' expression instead of its left operand. This changes the current behavior.",

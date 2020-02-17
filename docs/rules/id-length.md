@@ -32,10 +32,11 @@ class x { }
 class Foo { x() {} }
 function foo(...x) { }
 function foo([x]) { }
-var { x } = {};
-var { x: a} = {};
-var { a: [x]} = {};
 var [x] = arr;
+var { prop: [x]} = {};
+function foo({x}) { }
+var { x } = {};
+var { prop: a} = {};
 ({ prop: obj.x } = {});
 ```
 
@@ -63,9 +64,12 @@ class Foo { method() {} }
 function foo(...args) { }
 function foo([longName]) { }
 var { prop } = {};
-var { prop: a } = {};
 var { prop: [longName] } = {};
 var [longName] = arr;
+function foo({ prop }) { }
+function foo({ a: prop }) { }
+var { prop } = {};
+var { a: prop } = {};
 ({ prop: obj.longName } = {});
 var data = { "x": 1 };  // excused because of quotes
 data["y"] = 3;  // excused because of calculated property access
@@ -101,7 +105,7 @@ class x { }
 class Foo { x() {} }
 function foo(...x) { }
 var { x } = {};
-var { x: a} = {};
+var { prop: a} = {};
 var [x] = arr;
 var { prop: [x]} = {};
 ({ prop: obj.x } = {});
@@ -116,7 +120,7 @@ Examples of **correct** code for this rule with the `{ "min": 4 }` option:
 var value = 5;
 function func() { return 42; }
 obj.element = document.body;
-var foo = function (event) { /* do stuff */ };
+var foobar = function (event) { /* do stuff */ };
 try {
     dangerousStuff();
 } catch (error) {
@@ -129,9 +133,9 @@ class MyClass { }
 class Foobar { method() {} }
 function foobar(...args) { }
 var { prop } = {};
-var { prop: a } = {};
 var [longName] = foo;
 var { a: [prop] } = {};
+var { a: longName } = {};
 ({ prop: obj.name } = {});
 var data = { "x": 1 };  // excused because of quotes
 data["y"] = 3;  // excused because of calculated property access
@@ -209,6 +213,8 @@ try {
 }
 (x) => { return x * x; };
 var [x] = arr;
+const { x } = foo;
+const { a: x } = foo;
 ```
 
 ## Related Rules

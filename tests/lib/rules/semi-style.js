@@ -129,141 +129,261 @@ ruleTester.run("semi-style", rule, {
         {
             code: "foo\n;bar",
             output: "foo;\nbar",
-            errors: ["Expected this semicolon to be at the end of the previous line."]
+            errors: [{
+                messageId: "expectedSemiColon",
+                data: {
+                    pos: "the end of the previous line"
+                }
+            }]
         },
         {
             code: "if(a)foo\n;bar",
             output: "if(a)foo;\nbar",
-            errors: ["Expected this semicolon to be at the end of the previous line."]
+            errors: [{
+                messageId: "expectedSemiColon",
+                data: {
+                    pos: "the end of the previous line"
+                }
+            }]
         },
         {
             code: "var foo\n;bar",
             output: "var foo;\nbar",
-            errors: ["Expected this semicolon to be at the end of the previous line."]
+            errors: [{
+                messageId: "expectedSemiColon",
+                data: {
+                    pos: "the end of the previous line"
+                }
+            }]
         },
         {
             code: "foo\n;\nbar",
             output: "foo;\nbar",
-            errors: ["Expected this semicolon to be at the end of the previous line."]
+            errors: [{
+                messageId: "expectedSemiColon",
+                data: {
+                    pos: "the end of the previous line"
+                }
+            }]
         },
         {
             code: "for(a\n;b;c)d",
             output: "for(a;\nb;c)d",
-            errors: ["Expected this semicolon to be at the end of the previous line."]
+            errors: [{
+                messageId: "expectedSemiColon",
+                data: {
+                    pos: "the end of the previous line"
+                }
+            }]
         },
         {
             code: "for(a;b\n;c)d",
             output: "for(a;b;\nc)d",
-            errors: ["Expected this semicolon to be at the end of the previous line."]
+            errors: [{
+                messageId: "expectedSemiColon",
+                data: {
+                    pos: "the end of the previous line"
+                }
+            }]
         },
         {
             code: "do;while(a)\n;b",
             output: "do;while(a);\nb",
-            errors: ["Expected this semicolon to be at the end of the previous line."]
+            errors: [{
+                messageId: "expectedSemiColon",
+                data: {
+                    pos: "the end of the previous line"
+                }
+            }]
         },
 
         {
             code: "foo\n;bar",
             output: "foo;\nbar",
             options: ["last"],
-            errors: ["Expected this semicolon to be at the end of the previous line."]
+            errors: [{
+                messageId: "expectedSemiColon",
+                data: {
+                    pos: "the end of the previous line"
+                }
+            }]
         },
         {
             code: "if(a)foo\n;bar",
             output: "if(a)foo;\nbar",
             options: ["last"],
-            errors: ["Expected this semicolon to be at the end of the previous line."]
+            errors: [{
+                messageId: "expectedSemiColon",
+                data: {
+                    pos: "the end of the previous line"
+                }
+            }]
         },
         {
             code: "var foo\n;bar",
             output: "var foo;\nbar",
             options: ["last"],
-            errors: ["Expected this semicolon to be at the end of the previous line."]
+            errors: [{
+                messageId: "expectedSemiColon",
+                data: {
+                    pos: "the end of the previous line"
+                }
+            }]
         },
         {
             code: "foo\n;\nbar",
             output: "foo;\nbar",
             options: ["last"],
-            errors: ["Expected this semicolon to be at the end of the previous line."]
+            errors: [{
+                messageId: "expectedSemiColon",
+                data: {
+                    pos: "the end of the previous line"
+                }
+            }]
         },
         {
             code: "for(a\n;b;c)d",
             output: "for(a;\nb;c)d",
             options: ["last"],
-            errors: ["Expected this semicolon to be at the end of the previous line."]
+            errors: [{
+                messageId: "expectedSemiColon",
+                data: {
+                    pos: "the end of the previous line"
+                }
+            }]
         },
         {
             code: "for(a;b\n;c)d",
             output: "for(a;b;\nc)d",
             options: ["last"],
-            errors: ["Expected this semicolon to be at the end of the previous line."]
+            errors: [{
+                messageId: "expectedSemiColon",
+                data: {
+                    pos: "the end of the previous line"
+                }
+            }]
         },
         {
             code: "foo()\n;",
             output: "foo();\n",
             options: ["last"],
-            errors: ["Expected this semicolon to be at the end of the previous line."]
+            errors: [{
+                messageId: "expectedSemiColon",
+                data: {
+                    pos: "the end of the previous line"
+                }
+            }]
         },
 
         {
             code: "foo;\nbar",
             output: "foo\n;bar",
             options: ["first"],
-            errors: ["Expected this semicolon to be at the beginning of the next line."]
+            errors: [{
+                messageId: "expectedSemiColon",
+                data: {
+                    pos: "the beginning of the next line"
+                }
+            }]
         },
         {
             code: "if(a)foo;\nbar",
             output: "if(a)foo\n;bar",
             options: ["first"],
-            errors: ["Expected this semicolon to be at the beginning of the next line."]
+            errors: [{
+                messageId: "expectedSemiColon",
+                data: {
+                    pos: "the beginning of the next line"
+                }
+            }]
         },
         {
             code: "var foo;\nbar",
             output: "var foo\n;bar",
             options: ["first"],
-            errors: ["Expected this semicolon to be at the beginning of the next line."]
+            errors: [{
+                messageId: "expectedSemiColon",
+                data: {
+                    pos: "the beginning of the next line"
+                }
+            }]
         },
         {
             code: "foo\n;\nbar",
             output: "foo\n;bar",
             options: ["first"],
-            errors: ["Expected this semicolon to be at the beginning of the next line."]
+            errors: [{
+                messageId: "expectedSemiColon",
+                data: {
+                    pos: "the beginning of the next line"
+                }
+            }]
         },
         {
             code: "for(a\n;b;c)d",
             output: "for(a;\nb;c)d",
             options: ["first"],
-            errors: ["Expected this semicolon to be at the end of the previous line."]
+            errors: [{
+                messageId: "expectedSemiColon",
+                data: {
+                    pos: "the end of the previous line"
+                }
+            }]
         },
         {
             code: "for(a;b\n;c)d",
             output: "for(a;b;\nc)d",
             options: ["first"],
-            errors: ["Expected this semicolon to be at the end of the previous line."]
+            errors: [{
+                messageId: "expectedSemiColon",
+                data: {
+                    pos: "the end of the previous line"
+                }
+            }]
         },
 
         {
             code: "foo\n;/**/bar",
             output: null,
-            errors: ["Expected this semicolon to be at the end of the previous line."]
+            errors: [{
+                messageId: "expectedSemiColon",
+                data: {
+                    pos: "the end of the previous line"
+                }
+            }]
         },
         {
             code: "foo\n/**/;bar",
             output: null,
-            errors: ["Expected this semicolon to be at the end of the previous line."]
+            errors: [{
+                messageId: "expectedSemiColon",
+                data: {
+                    pos: "the end of the previous line"
+                }
+            }]
         },
 
         {
             code: "foo;\n/**/bar",
             output: null,
             options: ["first"],
-            errors: ["Expected this semicolon to be at the beginning of the next line."]
+            errors: [{
+                messageId: "expectedSemiColon",
+                data: {
+                    pos: "the beginning of the next line"
+                }
+            }]
         },
         {
             code: "foo/**/;\nbar",
             output: null,
             options: ["first"],
-            errors: ["Expected this semicolon to be at the beginning of the next line."]
+            errors: [{
+                messageId: "expectedSemiColon",
+                data: {
+                    pos: "the beginning of the next line"
+                }
+            }]
         }
     ]
 });

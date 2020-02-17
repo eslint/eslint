@@ -212,13 +212,12 @@ ruleTester.run("prefer-exponentiation-operator", rule, {
         invalid("+Math.pow(++a, b)", "+(++a**b)"),
         invalid("Math.pow(a, b + c)in d", "a**(b + c)in d"),
 
-        // multiple invalid and full message and location test
         {
             code: "Math.pow(a, b) + Math.pow(c,\n d)",
             output: "a**b + c**d",
             errors: [
                 {
-                    message: "Use the '**' operator instead of 'Math.pow'.",
+                    messageId: "useExponentiation",
                     type: "CallExpression",
                     line: 1,
                     column: 1,
@@ -226,7 +225,7 @@ ruleTester.run("prefer-exponentiation-operator", rule, {
                     endColumn: 15
                 },
                 {
-                    message: "Use the '**' operator instead of 'Math.pow'.",
+                    messageId: "useExponentiation",
                     type: "CallExpression",
                     line: 1,
                     column: 18,

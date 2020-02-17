@@ -16,11 +16,6 @@ const rule = require("../../../lib/rules/no-return-assign"),
 // Tests
 //------------------------------------------------------------------------------
 
-const error = {
-    message: "Return statement should not contain assignment.",
-    type: "ReturnStatement"
-};
-
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 
 ruleTester.run("no-return-assign", rule, {
@@ -62,44 +57,44 @@ ruleTester.run("no-return-assign", rule, {
     invalid: [
         {
             code: "function x() { return result = a * b; };",
-            errors: [error]
+            errors: [{ messageId: "returnAssignment", type: "ReturnStatement" }]
         },
         {
             code: "function x() { return (result) = (a * b); };",
-            errors: [error]
+            errors: [{ messageId: "returnAssignment", type: "ReturnStatement" }]
         },
         {
             code: "function x() { return result = a * b; };",
             options: ["except-parens"],
-            errors: [error]
+            errors: [{ messageId: "returnAssignment", type: "ReturnStatement" }]
         },
         {
             code: "function x() { return (result) = (a * b); };",
             options: ["except-parens"],
-            errors: [error]
+            errors: [{ messageId: "returnAssignment", type: "ReturnStatement" }]
         },
         {
             code: "() => { return result = a * b; }",
-            errors: [error]
+            errors: [{ messageId: "returnAssignment", type: "ReturnStatement" }]
         },
         {
             code: "() => result = a * b",
-            errors: ["Arrow function should not return assignment."]
+            errors: [{ messageId: "arrowAssignment", type: "ArrowFunctionExpression" }]
         },
         {
             code: "function x() { return result = a * b; };",
             options: ["always"],
-            errors: [error]
+            errors: [{ messageId: "returnAssignment", type: "ReturnStatement" }]
         },
         {
             code: "function x() { return (result = a * b); };",
             options: ["always"],
-            errors: [error]
+            errors: [{ messageId: "returnAssignment", type: "ReturnStatement" }]
         },
         {
             code: "function x() { return result || (result = a * b); };",
             options: ["always"],
-            errors: [error]
+            errors: [{ messageId: "returnAssignment", type: "ReturnStatement" }]
         }
     ]
 });

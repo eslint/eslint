@@ -104,11 +104,10 @@ ruleTester.run("no-restricted-exports", rule, {
 
     invalid: [
 
-        // full message test
         {
             code: "export function someFunction() {}",
             options: [{ restrictedNamedExports: ["someFunction"] }],
-            errors: [{ message: "'someFunction' is restricted from being used as an exported name.", type: "Identifier" }]
+            errors: [{ messageId: "restrictedNamed", data: { name: "someFunction" }, type: "Identifier" }]
         },
 
         // basic tests

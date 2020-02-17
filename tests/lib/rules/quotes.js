@@ -603,7 +603,7 @@ ruleTester.run("quotes", rule, {
             ]
         },
         {
-            code: "var foo = 'prefix \\75 sufix'",
+            code: "var foo = 'prefix \\75 suffix'",
             output: null,
             options: ["backtick"],
             parserOptions: { ecmaVersion: 6 },
