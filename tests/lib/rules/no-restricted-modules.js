@@ -107,9 +107,9 @@ ruleTester.run("no-restricted-modules", rule, {
         parserOptions: { ecmaVersion: 6 },
         errors: [{ messageId: "defaultMessage", data: { name: "fs" }, type: "CallExpression" }]
     }, {
-        code: "require(`foo\\\\bar`);",
-        options: ["foo\\bar"],
+        code: "require(`crypt\\o`);",
+        options: ["crypto"],
         parserOptions: { ecmaVersion: 6 },
-        errors: [{ messageId: "defaultMessage", data: { name: "foo\\bar" }, type: "CallExpression" }]
+        errors: [{ messageId: "defaultMessage", data: { name: "crypto" }, type: "CallExpression" }]
     }]
 });
