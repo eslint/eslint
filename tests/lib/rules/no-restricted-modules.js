@@ -107,10 +107,9 @@ ruleTester.run("no-restricted-modules", rule, {
         parserOptions: { ecmaVersion: 6 },
         errors: [{ messageId: "defaultMessage", data: { name: "fs" }, type: "CallExpression" }]
     }, {
-        // eslint-disable-next-line no-useless-escape
-        code: "require(`crypt\o`)",
-        options: ["crypto"],
+        code: "require(`foo\\\\bar`);",
+        options: ["foo\\bar"],
         parserOptions: { ecmaVersion: 6 },
-        errors: [{ messageId: "defaultMessage", data: { name: "crypto" }, type: "CallExpression" }]
+        errors: [{ messageId: "defaultMessage", data: { name: "foo\\bar" }, type: "CallExpression" }]
     }]
 });
