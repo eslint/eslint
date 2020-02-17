@@ -16,8 +16,8 @@ This rule can enforce or disallow the use of named function expressions.
 
 This rule has a string option:
 
-* `"always"` (default) requires function expressions and default export functions to have a name
-* `"as-needed"` requires function expressions and default export functions to have a name, if the name cannot be assigned automatically in an ES6 environment
+* `"always"` (default) requires function expressions to have a name
+* `"as-needed"` requires function expressions to have a name, if the name cannot be assigned automatically in an ES6 environment
 * `"never"` disallows named function expressions, except in recursive functions, where a name is needed
 
 This rule has an object option:
