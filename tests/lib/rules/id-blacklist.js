@@ -595,7 +595,7 @@ ruleTester.run("id-blacklist", rule, {
         },
         {
             code: "({foo: obj.bar} = baz);",
-            options: ["bar"],
+            options: ["foo", "bar"],
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
@@ -608,7 +608,7 @@ ruleTester.run("id-blacklist", rule, {
         },
         {
             code: "({foo: obj.bar.bar.bar.baz} = {});",
-            options: ["bar", "baz"],
+            options: ["foo", "bar", "baz"],
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
@@ -616,6 +616,84 @@ ruleTester.run("id-blacklist", rule, {
                     data: { name: "baz" },
                     type: "Identifier",
                     column: 24
+                }
+            ]
+        },
+        {
+            code: "({[foo]: obj.bar} = baz);",
+            options: ["bar"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "bar" },
+                    type: "Identifier",
+                    column: 14
+                }
+            ]
+        },
+        {
+            code: "({foo: { a: obj.bar }} = baz);",
+            options: ["bar"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "bar" },
+                    type: "Identifier",
+                    column: 17
+                }
+            ]
+        },
+        {
+            code: "({foo: { [a]: obj.bar }} = baz);",
+            options: ["bar"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "bar" },
+                    type: "Identifier",
+                    column: 19
+                }
+            ]
+        },
+        {
+            code: "({...obj.bar} = baz);",
+            options: ["bar"],
+            parserOptions: { ecmaVersion: 9 },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "bar" },
+                    type: "Identifier",
+                    column: 10
+                }
+            ]
+        },
+        {
+            code: "([obj.bar] = baz);",
+            options: ["bar"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "bar" },
+                    type: "Identifier",
+                    column: 7
+                }
+            ]
+        },
+        {
+            code: "const [bar] = baz;",
+            options: ["bar"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "bar" },
+                    type: "Identifier",
+                    column: 8
                 }
             ]
         }
