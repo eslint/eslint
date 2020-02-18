@@ -12,7 +12,9 @@ import { find } from 'module';
 
 ## Rule Details
 
-This rule requires that all imports from a single module exists in a single `import` statement.
+an import that can be merged with another is a duplicate of that other
+
+This rule requires that all imports from a single module that can be merged exists in a single `import` statement.
 
 Example of **incorrect** code for this rule:
 
@@ -30,6 +32,16 @@ Example of **correct** code for this rule:
 /*eslint no-duplicate-imports: "error"*/
 
 import { merge, find } from 'module';
+import something from 'another-module';
+```
+
+Example of **correct** code for this rule (namespace imports can't be merged):
+
+```js
+/*eslint no-duplicate-imports: "error"*/
+
+import * as Namespace from 'module';
+import { merge } from 'module';
 import something from 'another-module';
 ```
 
