@@ -20,6 +20,7 @@ const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6, sourceType:
 
 ruleTester.run("no-duplicate-imports", rule, {
     valid: [
+        "import * as Lodash from \"lodash-es\";import { merge } from \"lodash-es\";;",
         "import os from \"os\";\nimport fs from \"fs\";",
         "import { merge } from \"lodash-es\";",
         "import _, { merge } from \"lodash-es\";",
