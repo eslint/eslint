@@ -709,9 +709,15 @@ ruleTester.run("id-blacklist", rule, {
         },
         {
             code: "({[foo]: obj.bar} = baz);",
-            options: ["bar"],
+            options: ["foo", "bar"],
             parserOptions: { ecmaVersion: 6 },
             errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "foo" },
+                    type: "Identifier",
+                    column: 4
+                },
                 {
                     messageId: "blacklisted",
                     data: { name: "bar" },
