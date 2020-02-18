@@ -100,7 +100,10 @@ ruleTester.run("no-implied-eval", rule, {
         "setTimeout(function() { return 'foobar'; }, 10)",
 
         // https://github.com/eslint/eslint/issues/7821
-        "setTimeoutFooBar('Foo Bar')"
+        "setTimeoutFooBar('Foo Bar')",
+
+        { code: "var window; window.setTimeout('foo', 100);", env: { browser: true } },
+        { code: "var global; global.setTimeout('foo', 100);", env: { node: true } }
     ],
 
     invalid: [
