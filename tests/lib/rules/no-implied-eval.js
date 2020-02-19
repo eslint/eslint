@@ -102,8 +102,14 @@ ruleTester.run("no-implied-eval", rule, {
         // https://github.com/eslint/eslint/issues/7821
         "setTimeoutFooBar('Foo Bar')",
 
+        { code: "foo.window.setTimeout('foo', 100);", env: { browser: true } },
+        { code: "foo.global.setTimeout('foo', 100);", env: { node: true } },
         { code: "var window; window.setTimeout('foo', 100);", env: { browser: true } },
-        { code: "var global; global.setTimeout('foo', 100);", env: { node: true } }
+        { code: "var global; global.setTimeout('foo', 100);", env: { node: true } },
+        { code: "function foo(window) { window.setTimeout('foo', 100); }", env: { browser: true } },
+        { code: "function foo(global) { global.setTimeout('foo', 100); }", env: { node: true } },
+        { code: "foo('', window.setTimeout);", env: { browser: true } },
+        { code: "foo('', global.setTimeout);", env: { node: true } }
     ],
 
     invalid: [
