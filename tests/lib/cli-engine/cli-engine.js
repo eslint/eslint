@@ -868,6 +868,29 @@ describe("CLIEngine", () => {
             assert.strictEqual(report.results[0].messages.length, 0);
         });
 
+        it("should fall back to defaults when extensions is set to an empty array", () => {
+
+            engine = new CLIEngine({
+                cwd: getFixturePath("configurations"),
+                configFile: getFixturePath("configurations", "quotes-error.json"),
+                extensions: []
+            });
+            const report = engine.executeOnFiles([getFixturePath("single-quoted.js")]);
+
+            assert.strictEqual(report.results.length, 1);
+            assert.strictEqual(report.results[0].messages.length, 1);
+            assert.strictEqual(report.errorCount, 1);
+            assert.strictEqual(report.warningCount, 0);
+            assert.strictEqual(report.fixableErrorCount, 1);
+            assert.strictEqual(report.fixableWarningCount, 0);
+            assert.strictEqual(report.results[0].messages[0].ruleId, "quotes");
+            assert.strictEqual(report.results[0].messages[0].severity, 2);
+            assert.strictEqual(report.results[0].errorCount, 1);
+            assert.strictEqual(report.results[0].warningCount, 0);
+            assert.strictEqual(report.results[0].fixableErrorCount, 1);
+            assert.strictEqual(report.results[0].fixableWarningCount, 0);
+        });
+
         it("should report zero messages when given a directory with a .js and a .js2 file", () => {
 
             engine = new CLIEngine({
