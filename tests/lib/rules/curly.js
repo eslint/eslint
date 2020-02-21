@@ -453,6 +453,30 @@ ruleTester.run("curly", rule, {
             ]
         },
         {
+            code: "if (foo) if (bar) { baz() }",
+            output: "if (foo) if (bar)  baz() ",
+            options: ["multi"],
+            errors: [
+                {
+                    messageId: "unexpectedCurlyAfterCondition",
+                    data: { name: "if" },
+                    type: "IfStatement"
+                }
+            ]
+        },
+        {
+            code: "if (foo) if (bar) baz(); else if (quux) { quuux(); }",
+            output: "if (foo) if (bar) baz(); else if (quux)  quuux(); ",
+            options: ["multi"],
+            errors: [
+                {
+                    messageId: "unexpectedCurlyAfterCondition",
+                    data: { name: "if" },
+                    type: "IfStatement"
+                }
+            ]
+        },
+        {
             code: "while (foo) { bar() }",
             output: "while (foo)  bar() ",
             options: ["multi"],
@@ -467,6 +491,18 @@ ruleTester.run("curly", rule, {
         {
             code: "if (foo) baz(); else { bar() }",
             output: "if (foo) baz(); else  bar() ",
+            options: ["multi"],
+            errors: [
+                {
+                    messageId: "unexpectedCurlyAfter",
+                    data: { name: "else" },
+                    type: "IfStatement"
+                }
+            ]
+        },
+        {
+            code: "if (foo) if (bar); else { baz() }",
+            output: "if (foo) if (bar); else  baz() ",
             options: ["multi"],
             errors: [
                 {
@@ -891,6 +927,18 @@ ruleTester.run("curly", rule, {
                     data: { name: "if" },
                     type: "IfStatement"
                 },
+                {
+                    messageId: "missingCurlyAfterCondition",
+                    data: { name: "if" },
+                    type: "IfStatement"
+                }
+            ]
+        },
+        {
+            code: "if (true) if (true) foo(); else { bar(); baz(); }",
+            output: "if (true) if (true) {foo();} else { bar(); baz(); }",
+            options: ["multi", "consistent"],
+            errors: [
                 {
                     messageId: "missingCurlyAfterCondition",
                     data: { name: "if" },
