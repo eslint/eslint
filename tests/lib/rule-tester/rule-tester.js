@@ -182,6 +182,21 @@ describe("RuleTester", () => {
         }, /Error should be a string, object, or RegExp/u);
     });
 
+    it("should throw an error when any of the errors is not a supported type", () => {
+        assert.throws(() => {
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+
+                // Only the invalid test matters here
+                valid: [
+                    "bar = baz;"
+                ],
+                invalid: [
+                    { code: "var foo = bar; var baz = quux", errors: [{ type: "VariableDeclaration" }, null] }
+                ]
+            });
+        }, /Error should be a string, object, or RegExp/u);
+    });
+
     it("should throw an error when the error is a string and it does not match error message", () => {
         assert.throws(() => {
             ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
@@ -230,6 +245,38 @@ describe("RuleTester", () => {
                 { code: "var foo = bar;", errors: [/^Bad var/u] }
             ]
         });
+    });
+
+    it("should throw an error when the error is an object with an unknown property name", () => {
+        assert.throws(() => {
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: [
+                    "bar = baz;"
+                ],
+                invalid: [
+                    { code: "var foo = bar;", errors: [{ Message: "Bad var." }] }
+                ]
+            });
+        }, /Invalid error property name 'Message'/u);
+    });
+
+    it("should throw an error when any of the errors is an object with an unknown property name", () => {
+        assert.throws(() => {
+            ruleTester.run("no-var", require("../../fixtures/testers/rule-tester/no-var"), {
+                valid: [
+                    "bar = baz;"
+                ],
+                invalid: [
+                    {
+                        code: "var foo = bar; var baz = quux",
+                        errors: [
+                            { message: "Bad var.", type: "VariableDeclaration" },
+                            { message: "Bad var.", typo: "VariableDeclaration" }
+                        ]
+                    }
+                ]
+            });
+        }, /Invalid error property name 'typo'/u);
     });
 
     it("should not throw an error when the error is a regex in an object and it matches error message", () => {
