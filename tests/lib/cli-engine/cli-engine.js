@@ -18,7 +18,6 @@ const assert = require("chai").assert,
     os = require("os"),
     hash = require("../../../lib/cli-engine/hash"),
     { CascadingConfigArrayFactory } = require("../../../lib/cli-engine/cascading-config-array-factory"),
-    { resetDeprecationWarning } = require("../../../lib/shared/deprecation-warnings"),
     { unIndent } = require("../_utils"),
     { defineCLIEngineWithInMemoryFileSystem } = require("./_utils");
 
@@ -4554,7 +4553,6 @@ describe("CLIEngine", () => {
 
     describe("getRules()", () => {
         it("should emit deprecation warning on called.", async() => {
-            resetDeprecationWarning();
             const warningListener = sinon.spy();
 
             process.on("warning", warningListener);
