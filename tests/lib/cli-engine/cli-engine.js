@@ -3760,63 +3760,6 @@ describe("CLIEngine", () => {
         });
     });
 
-    describe("getRulesForFile()", () => {
-        const root = getFixturePath("get-rules-for-file");
-
-        /** @type {typeof CLIEngine} */
-        let InMemoryCLIEngine;
-
-        beforeEach(() => {
-            InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
-                cwd: () => root,
-                files: {
-
-                    // `one` directory has own `eslint-plugin-foo`.
-                    "one/node_modules/eslint-plugin-foo/index.js": `exports.rules = {
-                        one: () => ({})
-                    }`,
-                    "one/.eslintrc.json": JSON.stringify({ plugins: ["foo"] }),
-
-                    // `two` directory has own `eslint-plugin-foo`.
-                    "two/node_modules/eslint-plugin-foo/index.js": `exports.rules = {
-                        two: () => ({})
-                    }`,
-                    "two/.eslintrc.json": JSON.stringify({ plugins: ["foo"] }),
-
-                    // for `--plugin` test.
-                    "node_modules/eslint-plugin-bar/index.js": `exports.rules = {
-                        bar: () => ({})
-                    }`
-                }
-            }).CLIEngine;
-        });
-
-        it("should expose the list of built-in rules, and should not throw not-found error even if no config file.", () => {
-            const engine = new InMemoryCLIEngine({ cwd: root });
-
-            assert(engine.getRulesForFile("test.js").has("no-eval"), "'no-eval' rule is present");
-            assert(engine.getRulesForFile("test.js").has("eqeqeq"), "'eqeqeq' rule is present");
-        });
-
-        it("should expose the list of plugin rules that '--plugin' option provided.", () => {
-            const engine = new InMemoryCLIEngine({ cwd: root, plugins: ["bar"] });
-
-            assert(engine.getRulesForFile("test.js").has("bar/bar"), "'bar/bar' rule is present");
-        });
-
-        it("should expose the list of plugin rules as being relative to the file.", () => {
-            const engine = new InMemoryCLIEngine({ cwd: root });
-
-            assert(!engine.getRulesForFile("test.js").has("foo/one"), "'foo/one' rule is NOT present for 'test.js'");
-            assert(!engine.getRulesForFile("test.js").has("foo/two"), "'foo/two' rule is NOT present for 'test.js'");
-            assert(engine.getRulesForFile("one/test.js").has("foo/one"), "'foo/one' rule is present for 'one/test.js'");
-            assert(!engine.getRulesForFile("one/test.js").has("foo/two"), "'foo/two' rule is NOT present for 'one/test.js'");
-            assert(!engine.getRulesForFile("two/test.js").has("foo/one"), "'foo/one' rule is NOT present for 'two/test.js'");
-            assert(engine.getRulesForFile("two/test.js").has("foo/two"), "'foo/two' rule is present for 'two/test.js'");
-        });
-
-    });
-
     describe("isPathIgnored", () => {
         it("should check if the given path is ignored", () => {
             const engine = new CLIEngine({
@@ -4552,26 +4495,6 @@ describe("CLIEngine", () => {
     });
 
     describe("getRules()", () => {
-        it("should emit deprecation warning on called.", async() => {
-            const warningListener = sinon.spy();
-
-            process.on("warning", warningListener);
-            try {
-                const engine = new CLIEngine();
-
-                engine.getRules();
-                engine.getRules();
-
-                // Wait for event emission.
-                await new Promise(resolve => setTimeout(resolve, 0));
-
-                assert.strictEqual(warningListener.callCount, 1);
-                assert.strictEqual(warningListener.args[0][0].code, "ESLINT_LEGACY_GET_RULES");
-            } finally {
-                process.removeListener("warning", warningListener);
-            }
-        });
-
         it("should expose the list of rules", () => {
             const engine = new CLIEngine();
 
