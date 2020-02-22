@@ -90,8 +90,7 @@ describe("bin/eslint.js", () => {
                     warningCount: 0,
                     fixableErrorCount: 0,
                     fixableWarningCount: 0,
-                    output: "var foo = bar;\n",
-                    usedDeprecatedRules: []
+                    output: "var foo = bar;\n"
                 }
             ]);
 
