@@ -101,7 +101,17 @@ ruleTester.run("sort-imports", rule, {
         },
 
         // https://github.com/eslint/eslint/issues/5305
-        "import React, {Component} from 'react';"
+        "import React, {Component} from 'react';",
+
+        // https://github.com/eslint/eslint/issues/12951
+        {
+            code:
+                "import b from 'foo.js';\n\n" +
+                "import a from 'bar.js';",
+            options: [{
+                ignoreBlankLines: false
+            }]
+        }
     ],
     invalid: [
         {
@@ -287,6 +297,15 @@ ruleTester.run("sort-imports", rule, {
                 data: { memberName: "qux" },
                 type: "ImportSpecifier"
             }]
+        },
+
+        // https://github.com/eslint/eslint/issues/12951
+        {
+            code:
+                "import b from 'foo.js';\n\n" +
+                "import a from 'bar.js';",
+            output: null,
+            errors: [expectedError]
         }
     ]
 });

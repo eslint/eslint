@@ -36,6 +36,7 @@ This rule accepts an object with its properties as
 * `ignoreCase` (default: `false`)
 * `ignoreDeclarationSort` (default: `false`)
 * `ignoreMemberSort` (default: `false`)
+* `ignoreBlankLines` (default: `true`)
 * `memberSyntaxSortOrder` (default: `["none", "all", "multiple", "single"]`); all 4 items must be present in the array, but you can change the order:
     * `none` = import module without exported bindings.
     * `all` = import all members provided by exported bindings.
@@ -50,6 +51,7 @@ Default option settings are:
         "ignoreCase": false,
         "ignoreDeclarationSort": false,
         "ignoreMemberSort": false,
+        "ignoreBlankLines": true,
         "memberSyntaxSortOrder": ["none", "all", "multiple", "single"]
     }]
 }
@@ -84,6 +86,13 @@ import c from 'qux.js';
 
 /*eslint sort-imports: "error"*/
 import {a, b, c} from 'foo.js'
+
+/*eslint sort-imports: "error"*/
+import a from 'bar.js';
+
+import b from 'foo.js';
+
+import c from 'baz.js';
 ```
 
 Examples of **incorrect** code for this rule when using default options:
@@ -91,6 +100,11 @@ Examples of **incorrect** code for this rule when using default options:
 ```js
 /*eslint sort-imports: "error"*/
 import b from 'foo.js';
+import a from 'bar.js';
+
+/*eslint sort-imports: "error"*/
+import b from 'foo.js';
+
 import a from 'bar.js';
 
 /*eslint sort-imports: "error"*/
@@ -185,6 +199,45 @@ import {b, a, c} from 'foo.js'
 ```
 
 Default is `false`.
+
+### `ignoreBlankLines`
+
+When `true` the rule ignores the blank lines between the imports.
+
+Examples of **incorrect** code for this rule with the default `{ "ignoreBlankLines": true }` option:
+
+```js
+/*eslint sort-imports: ["error", { "ignoreBlankLines": true }]*/
+import b from 'foo.js'
+
+import a from 'bar.js'
+
+
+/*eslint sort-imports: ["error", { "ignoreBlankLines": true }]*/
+import b from 'foo.js';
+import c from 'baz.js';
+
+import a from 'bar.js';
+import x from 'qux.js';
+```
+
+Examples of **correct** code for this rule with the `{ "ignoreBlankLines": false }` option:
+
+```js
+/*eslint sort-imports: ["error", { "ignoreDeclarationSort": true }]*/
+import b from 'bar.js'
+
+import a from 'foo.js'
+
+/*eslint sort-imports: ["error", { "ignoreBlankLines": false }]*/
+import b from 'foo.js';
+import c from 'baz.js';
+
+import a from 'bar.js';
+import x from 'qux.js';
+```
+
+Default is `true`.
 
 ### `memberSyntaxSortOrder`
 
