@@ -8,8 +8,7 @@ const rule = require("../../../lib/rules/spaced-comment"),
     { RuleTester } = require("../../../lib/rule-tester");
 
 const ruleTester = new RuleTester(),
-    validShebangProgram = "#!/path/to/node\nvar a = 3;",
-    invalidShebangProgram = "#!/path/to/node\n#!/second/shebang\nvar a = 3;";
+    validShebangProgram = "#!/path/to/node\nvar a = 3;";
 
 ruleTester.run("spaced-comment", rule, {
 
@@ -635,20 +634,6 @@ ruleTester.run("spaced-comment", rule, {
                 data: { refChar: "*/" },
                 type: "Block"
             }]
-        },
-
-        // Parser errors
-        {
-            code: invalidShebangProgram,
-            output: null,
-            options: ["always"],
-            errors: 1
-        },
-        {
-            code: invalidShebangProgram,
-            output: null,
-            options: ["never"],
-            errors: 1
         },
 
         // not a marker-only comment, regression tests for https://github.com/eslint/eslint/issues/12036
