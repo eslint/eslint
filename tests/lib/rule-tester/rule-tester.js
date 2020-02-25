@@ -1163,6 +1163,76 @@ describe("RuleTester", () => {
                 });
             }, "Expected the applied suggestion fix to match the test suggestion output");
         });
+
+        it("should fail when specified suggestion isn't an object", () => {
+            assert.throws(() => {
+                ruleTester.run("suggestions-basic", require("../../fixtures/testers/rule-tester/suggestions").basic, {
+                    valid: [],
+                    invalid: [{
+                        code: "var foo;",
+                        errors: [{
+                            suggestions: [null]
+                        }]
+                    }]
+                });
+            }, "Test suggestion in 'suggestions' array must be an object.");
+
+            assert.throws(() => {
+                ruleTester.run("suggestions-messageIds", require("../../fixtures/testers/rule-tester/suggestions").withMessageIds, {
+                    valid: [],
+                    invalid: [{
+                        code: "var foo;",
+                        errors: [{
+                            suggestions: [
+                                {
+                                    messageId: "renameFoo",
+                                    output: "var bar;"
+                                },
+                                "Rename identifier 'foo' to 'baz'"
+                            ]
+                        }]
+                    }]
+                });
+            }, "Test suggestion in 'suggestions' array must be an object.");
+        });
+
+        it("should fail when the suggestion is an object with an unknown property name", () => {
+            assert.throws(() => {
+                ruleTester.run("suggestions-basic", require("../../fixtures/testers/rule-tester/suggestions").basic, {
+                    valid: [
+                        "var boo;"
+                    ],
+                    invalid: [{
+                        code: "var foo;",
+                        errors: [{
+                            suggestions: [{
+                                message: "Rename identifier 'foo' to 'bar'"
+                            }]
+                        }]
+                    }]
+                });
+            }, /Invalid suggestion property name 'message'/u);
+        });
+
+        it("should fail when any of the suggestions is an object with an unknown property name", () => {
+            assert.throws(() => {
+                ruleTester.run("suggestions-messageIds", require("../../fixtures/testers/rule-tester/suggestions").withMessageIds, {
+                    valid: [],
+                    invalid: [{
+                        code: "var foo;",
+                        errors: [{
+                            suggestions: [{
+                                messageId: "renameFoo",
+                                output: "var bar;"
+                            }, {
+                                messageId: "renameFoo",
+                                outpt: "var baz;"
+                            }]
+                        }]
+                    }]
+                });
+            }, /Invalid suggestion property name 'outpt'/u);
+        });
     });
 
     describe("naming test cases", () => {
