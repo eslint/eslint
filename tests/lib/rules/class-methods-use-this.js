@@ -37,49 +37,49 @@ ruleTester.run("class-methods-use-this", rule, {
             code: "class A { foo() {} }",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { type: "FunctionExpression", line: 1, column: 14, messageId: "missingThis", data: { name: "foo" } }
+                { type: "FunctionExpression", line: 1, column: 14, messageId: "missingThis", data: { name: "method 'foo'" } }
             ]
         },
         {
             code: "class A { foo() {/**this**/} }",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { type: "FunctionExpression", line: 1, column: 14, messageId: "missingThis", data: { name: "foo" } }
+                { type: "FunctionExpression", line: 1, column: 14, messageId: "missingThis", data: { name: "method 'foo'" } }
             ]
         },
         {
             code: "class A { foo() {var a = function () {this};} }",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { type: "FunctionExpression", line: 1, column: 14, messageId: "missingThis", data: { name: "foo" } }
+                { type: "FunctionExpression", line: 1, column: 14, messageId: "missingThis", data: { name: "method 'foo'" } }
             ]
         },
         {
             code: "class A { foo() {var a = function () {var b = function(){this}};} }",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { type: "FunctionExpression", line: 1, column: 14, messageId: "missingThis", data: { name: "foo" } }
+                { type: "FunctionExpression", line: 1, column: 14, messageId: "missingThis", data: { name: "method 'foo'" } }
             ]
         },
         {
             code: "class A { foo() {window.this} }",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { type: "FunctionExpression", line: 1, column: 14, messageId: "missingThis", data: { name: "foo" } }
+                { type: "FunctionExpression", line: 1, column: 14, messageId: "missingThis", data: { name: "method 'foo'" } }
             ]
         },
         {
             code: "class A { foo() {that.this = 'this';} }",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { type: "FunctionExpression", line: 1, column: 14, messageId: "missingThis", data: { name: "foo" } }
+                { type: "FunctionExpression", line: 1, column: 14, messageId: "missingThis", data: { name: "method 'foo'" } }
             ]
         },
         {
             code: "class A { foo() { () => undefined; } }",
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { type: "FunctionExpression", line: 1, column: 14, messageId: "missingThis", data: { name: "foo" } }
+                { type: "FunctionExpression", line: 1, column: 14, messageId: "missingThis", data: { name: "method 'foo'" } }
             ]
         },
         {
@@ -87,7 +87,7 @@ ruleTester.run("class-methods-use-this", rule, {
             options: [{ exceptMethods: ["bar"] }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { type: "FunctionExpression", line: 1, column: 14, messageId: "missingThis", data: { name: "foo" } }
+                { type: "FunctionExpression", line: 1, column: 14, messageId: "missingThis", data: { name: "method 'foo'" } }
             ]
         },
         {
@@ -95,7 +95,30 @@ ruleTester.run("class-methods-use-this", rule, {
             options: [{ exceptMethods: ["foo"] }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
-                { type: "FunctionExpression", line: 1, column: 34, messageId: "missingThis", data: { name: "hasOwnProperty" } }
+                { type: "FunctionExpression", line: 1, column: 34, messageId: "missingThis", data: { name: "method 'hasOwnProperty'" } }
+            ]
+        },
+        {
+            code: "class A { [foo]() {} }",
+            options: [{ exceptMethods: ["foo"] }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                { type: "FunctionExpression", line: 1, column: 16, messageId: "missingThis", data: { name: "method" } }
+            ]
+        },
+        {
+            code: "class A { foo(){} 'bar'(){} 123(){} [`baz`](){} [a](){} [f(a)](){} get quux(){} set[a](b){} *quuux(){} }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                { messageId: "missingThis", data: { name: "method 'foo'" }, type: "FunctionExpression", column: 14 },
+                { messageId: "missingThis", data: { name: "method 'bar'" }, type: "FunctionExpression", column: 24 },
+                { messageId: "missingThis", data: { name: "method '123'" }, type: "FunctionExpression", column: 32 },
+                { messageId: "missingThis", data: { name: "method 'baz'" }, type: "FunctionExpression", column: 44 },
+                { messageId: "missingThis", data: { name: "method" }, type: "FunctionExpression", column: 52 },
+                { messageId: "missingThis", data: { name: "method" }, type: "FunctionExpression", column: 63 },
+                { messageId: "missingThis", data: { name: "getter 'quux'" }, type: "FunctionExpression", column: 76 },
+                { messageId: "missingThis", data: { name: "setter" }, type: "FunctionExpression", column: 87 },
+                { messageId: "missingThis", data: { name: "generator method 'quuux'" }, type: "FunctionExpression", column: 99 }
             ]
         }
     ]

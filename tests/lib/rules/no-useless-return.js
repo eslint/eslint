@@ -197,6 +197,14 @@ ruleTester.run("no-useless-return", rule, {
             output: "function foo() { if (foo) return; }"
         },
         {
+            code: "function foo() { bar(); return/**/; }",
+            output: null
+        },
+        {
+            code: "function foo() { bar(); return//\n; }",
+            output: null
+        },
+        {
             code: "foo(); return;",
             output: "foo(); ",
             parserOptions: { ecmaFeatures: { globalReturn: true } }
@@ -224,8 +232,8 @@ ruleTester.run("no-useless-return", rule, {
               }
             `, // Other case is fixed in the second pass.
             errors: [
-                { message: "Unnecessary return statement.", type: "ReturnStatement" },
-                { message: "Unnecessary return statement.", type: "ReturnStatement" }
+                { messageId: "unnecessaryReturn", type: "ReturnStatement" },
+                { messageId: "unnecessaryReturn", type: "ReturnStatement" }
             ]
         },
         {
@@ -431,10 +439,10 @@ ruleTester.run("no-useless-return", rule, {
             code: "function foo() { return; return; }",
             output: "function foo() {  return; }",
             errors: [{
-                message: "Unnecessary return statement.",
+                messageId: "unnecessaryReturn",
                 type: "ReturnStatement",
                 column: 18
             }]
         }
-    ].map(invalidCase => Object.assign({ errors: [{ message: "Unnecessary return statement.", type: "ReturnStatement" }] }, invalidCase))
+    ].map(invalidCase => Object.assign({ errors: [{ messageId: "unnecessaryReturn", type: "ReturnStatement" }] }, invalidCase))
 });

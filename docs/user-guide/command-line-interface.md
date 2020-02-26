@@ -78,6 +78,8 @@ Caching:
 
 Miscellaneous:
   --init                         Run config initialization wizard - default: false
+  --env-info                     Output execution environment information - default: false
+  --no-error-on-unmatched-pattern  Prevent errors when pattern is unmatched - default: false
   --debug                        Output debugging information
   -h, --help                     Show help
   -v, --version                  Output the version number
@@ -125,19 +127,19 @@ Examples:
 
 #### `--ext`
 
-This option allows you to specify which file extensions ESLint will use when searching for JavaScript files in the directories you specify.
-By default, it uses `.js` as the only file extension.
+This option allows you to specify which file extensions ESLint will use when searching for target files in the directories you specify.
+By default, ESLint lints `*.js` files and the files that match the `overrides` entries of your configuration.
 
 Examples:
 
-    # Use only .js2 extension
-    eslint . --ext .js2
+    # Use only .ts extension
+    eslint . --ext .ts
 
-    # Use both .js and .js2
-    eslint . --ext .js --ext .js2
+    # Use both .js and .ts
+    eslint . --ext .js --ext .ts
 
-    # Also use both .js and .js2
-    eslint . --ext .js,.js2
+    # Also use both .js and .ts
+    eslint . --ext .js,.ts
 
 **Note:** `--ext` is only used when the arguments are directories. If you use glob patterns or file names, then `--ext` is ignored.
 
@@ -265,7 +267,7 @@ Example:
 
 #### `--no-ignore`
 
-Disables excluding of files from `.eslintignore`, `--ignore-path` and `--ignore-pattern`.
+Disables excluding of files from `.eslintignore`, `--ignore-path`, `--ignore-pattern`, and `ignorePatterns` property in config files.
 
 Example:
 
@@ -445,6 +447,14 @@ Example:
 This option will start config initialization wizard. It's designed to help new users quickly create .eslintrc file by answering a few questions, choosing a popular style guide, or inspecting your source files and attempting to automatically generate a suitable configuration.
 
 The resulting configuration file will be created in the current directory.
+
+#### `--env-info`
+
+This option outputs information about the execution environment, including the version of Node, npm, and local and global installations of ESLint. The ESLint team may ask for this information to help solve bugs.
+
+#### `--no-error-on-unmatched-pattern`
+
+This option prevents errors when a quoted glob pattern or `--ext` is unmatched. This will not prevent errors when your shell can't match a glob.
 
 #### `--debug`
 

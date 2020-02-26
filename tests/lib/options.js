@@ -265,7 +265,7 @@ describe("options", () => {
             assert.strictEqual(currentOptions.plugin[0], "single");
         });
 
-        it("should return an array when passed a comma-delimiated string", () => {
+        it("should return an array when passed a comma-delimited string", () => {
             const currentOptions = options.parse("--plugin foo,bar");
 
             assert.isArray(currentOptions.plugin);

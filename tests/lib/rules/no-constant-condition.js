@@ -25,19 +25,37 @@ ruleTester.run("no-constant-condition", rule, {
         "if(a = f());",
         "if(1, a);",
         "if ('every' in []);",
+        "if (`\\\n${a}`) {}",
+        "if (`${a}`);",
+        "if (`${foo()}`);",
+        "if (`${a === 'b' && b==='a'}`);",
+        "if (`foo${a}` === 'fooa');",
+        "if (tag`a`);",
+        "if (tag`${a}`);",
         "while(~!a);",
         "while(a = b);",
+        "while(`${a}`);",
         "for(;x < 10;);",
         "for(;;);",
+        "for(;`${a}`;);",
         "do{ }while(x)",
         "q > 0 ? 1 : 2;",
+        "`${a}` === a ? 1 : 2",
+        "`foo${a}` === a ? 1 : 2",
+        "tag`a` === a ? 1 : 2",
+        "tag`${a}` === a ? 1 : 2",
         "while(x += 3) {}",
+        "while(tag`a`) {}",
+        "while(tag`${a}`) {}",
+        "while(`\\\n${a}`) {}",
 
         // #5228, typeof conditions
         "if(typeof x === 'undefined'){}",
+        "if(`${typeof x}` === 'undefined'){}",
         "if(a === 'str' && typeof b){}",
         "typeof a == typeof b",
         "typeof 'a' === 'string'|| typeof b === 'string'",
+        "`${typeof 'a'}` === 'string'|| `${typeof b}` === 'string'",
 
         // #5726, void conditions
         "if (void a || a);",
@@ -73,6 +91,15 @@ ruleTester.run("no-constant-condition", rule, {
         "if ((key || 'k') in obj) {}",
         "if ((foo || {}) instanceof obj) {}",
 
+        // #12225
+        "if ('' + [y] === '' + [ty]) {}",
+        "if ('a' === '' + [ty]) {}",
+        "if ('' + [y, m, d] === 'a') {}",
+        "if ('' + [y, 'm'] === '' + [ty, 'tm']) {}",
+        "if ('' + [y, 'm'] === '' + ['ty']) {}",
+        "if ([,] in\n\n($2))\n ;\nelse\n ;",
+        "if ([...x]+'' === 'y'){}",
+
         // { checkLoops: false }
         { code: "while(true);", options: [{ checkLoops: false }] },
         { code: "for(;true;);", options: [{ checkLoops: false }] },
@@ -90,17 +117,35 @@ ruleTester.run("no-constant-condition", rule, {
     ],
     invalid: [
         { code: "for(;true;);", errors: [{ messageId: "unexpected", type: "Literal" }] },
+        { code: "for(;``;);", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
+        { code: "for(;`foo`;);", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
+        { code: "for(;`foo${bar}`;);", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
         { code: "do{}while(true)", errors: [{ messageId: "unexpected", type: "Literal" }] },
         { code: "do{}while(t = -2)", errors: [{ messageId: "unexpected", type: "AssignmentExpression" }] },
+        { code: "do{}while(``)", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
+        { code: "do{}while(`foo`)", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
+        { code: "do{}while(`foo${bar}`)", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
         { code: "true ? 1 : 2;", errors: [{ messageId: "unexpected", type: "Literal" }] },
         { code: "q = 0 ? 1 : 2;", errors: [{ messageId: "unexpected", type: "Literal" }] },
         { code: "(q = 0) ? 1 : 2;", errors: [{ messageId: "unexpected", type: "AssignmentExpression" }] },
+        { code: "`` ? 1 : 2;", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
+        { code: "`foo` ? 1 : 2;", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
+        { code: "`foo${bar}` ? 1 : 2;", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
         { code: "if(-2);", errors: [{ messageId: "unexpected", type: "UnaryExpression" }] },
         { code: "if(true);", errors: [{ messageId: "unexpected", type: "Literal" }] },
         { code: "if({});", errors: [{ messageId: "unexpected", type: "ObjectExpression" }] },
         { code: "if(0 < 1);", errors: [{ messageId: "unexpected", type: "BinaryExpression" }] },
         { code: "if(0 || 1);", errors: [{ messageId: "unexpected", type: "LogicalExpression" }] },
         { code: "if(a, 1);", errors: [{ messageId: "unexpected", type: "SequenceExpression" }] },
+        { code: "if(`foo`);", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
+        { code: "if(``);", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
+        { code: "if(`\\\n`);", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
+        { code: "if(`${'bar'}`);", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
+        { code: "if(`${'bar' + `foo`}`);", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
+        { code: "if(`foo${false || true}`);", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
+        { code: "if(`foo${bar}`);", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
+        { code: "if(`${bar}foo`);", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
+
 
         { code: "while([]);", errors: [{ messageId: "unexpected", type: "ArrayExpression" }] },
         { code: "while(~!0);", errors: [{ messageId: "unexpected", type: "UnaryExpression" }] },
@@ -108,9 +153,15 @@ ruleTester.run("no-constant-condition", rule, {
         { code: "while(function(){});", errors: [{ messageId: "unexpected", type: "FunctionExpression" }] },
         { code: "while(true);", errors: [{ messageId: "unexpected", type: "Literal" }] },
         { code: "while(() => {});", errors: [{ messageId: "unexpected", type: "ArrowFunctionExpression" }] },
+        { code: "while(`foo`);", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
+        { code: "while(``);", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
+        { code: "while(`${'foo'}`);", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
+        { code: "while(`${'foo' + 'bar'}`);", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
 
         // #5228 , typeof conditions
         { code: "if(typeof x){}", errors: [{ messageId: "unexpected", type: "UnaryExpression" }] },
+        { code: "if(`${typeof x}`){}", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
+        { code: "if(`${''}${typeof x}`){}", errors: [{ messageId: "unexpected", type: "TemplateLiteral" }] },
         { code: "if(typeof 'abc' === 'string'){}", errors: [{ messageId: "unexpected", type: "BinaryExpression" }] },
         { code: "if(a = typeof b){}", errors: [{ messageId: "unexpected", type: "AssignmentExpression" }] },
         { code: "if(a, typeof b){}", errors: [{ messageId: "unexpected", type: "SequenceExpression" }] },
@@ -183,6 +234,44 @@ ruleTester.run("no-constant-condition", rule, {
         {
             code: "function* foo() { for (let foo = 1 + 2 + 3 + (yield); true; baz) {}}",
             errors: [{ messageId: "unexpected", type: "Literal" }]
+        },
+
+        // #12225
+        {
+            code: "if([a]) {}",
+            errors: [{ messageId: "unexpected", type: "ArrayExpression" }]
+        },
+        {
+            code: "if([]) {}",
+            errors: [{ messageId: "unexpected", type: "ArrayExpression" }]
+        },
+        {
+            code: "if(''+['a']) {}",
+            errors: [{ messageId: "unexpected", type: "BinaryExpression" }]
+        },
+        {
+            code: "if(''+[]) {}",
+            errors: [{ messageId: "unexpected", type: "BinaryExpression" }]
+        },
+        {
+            code: "if([a]==[a]) {}",
+            errors: [{ messageId: "unexpected", type: "BinaryExpression" }]
+        },
+        {
+            code: "if([a] - '') {}",
+            errors: [{ messageId: "unexpected", type: "BinaryExpression" }]
+        },
+        {
+            code: "if(+[a]) {}",
+            errors: [{ messageId: "unexpected", type: "UnaryExpression" }]
+        },
+        {
+            code: "if(+1) {}",
+            errors: [{ messageId: "unexpected", type: "UnaryExpression" }]
+        },
+        {
+            code: "if ([,] + ''){}",
+            errors: [{ messageId: "unexpected", type: "BinaryExpression" }]
         }
     ]
 });

@@ -357,7 +357,6 @@ describe("ast-utils", () => {
         /**
          * Asserts that the unique node of the given type in the code is either
          * in a loop or not in a loop.
-         *
          * @param {string} code the code to check.
          * @param {string} nodeType the type of the node to consider. The code
          *      must have exactly one node of ths type.
@@ -401,6 +400,83 @@ describe("ast-utils", () => {
 
         it("should return false when the loop is not in the current function", () => {
             assertNodeTypeInLoop("while (true) { funcs.push(() => { var a; }); }", "VariableDeclaration", false);
+        });
+    });
+
+    describe("getStaticStringValue", () => {
+
+        /* eslint-disable quote-props */
+        const expectedResults = {
+
+            // string literals
+            "''": "",
+            "'foo'": "foo",
+
+            // boolean literals
+            "false": "false",
+            "true": "true",
+
+            // null literal
+            "null": "null",
+
+            // number literals
+            "0": "0",
+            "0.": "0",
+            ".0": "0",
+            "1": "1",
+            "1.": "1",
+            ".1": "0.1",
+            "12": "12",
+            ".12": "0.12",
+            "0.12": "0.12",
+            "12.34": "12.34",
+            "12e3": "12000",
+            "12e-3": "0.012",
+            "12.34e5": "1234000",
+            "12.34e-5": "0.0001234",
+            "011": "9",
+            "081": "81",
+            "0b11": "3",
+            "0b011": "3",
+            "0o11": "9",
+            "0o011": "9",
+            "0x11": "17",
+            "0x011": "17",
+
+            // regexp literals
+            "/a/": "/a/",
+            "/a/i": "/a/i",
+            "/[0-9]/": "/[0-9]/",
+            "/(?<zero>0)/": "/(?<zero>0)/",
+            "/(?<zero>0)/s": "/(?<zero>0)/s",
+            "/(?<=a)b/s": "/(?<=a)b/s",
+
+            // simple template literals
+            "``": "",
+            "`foo`": "foo",
+
+            // unsupported
+            "`${''}`": null,
+            "`${0}`": null,
+            "tag``": null,
+            "-0": null,
+            "-1": null,
+            "1 + 2": null,
+            "[]": null,
+            "({})": null,
+            "foo": null,
+            "undefined": null,
+            "this": null,
+            "(function () {})": null
+        };
+        /* eslint-enable quote-props */
+
+        Object.keys(expectedResults).forEach(key => {
+            it(`should return ${expectedResults[key]} for ${key}`, () => {
+                const ast = espree.parse(key, { ecmaVersion: 2018 });
+
+                assert.strictEqual(astUtils.getStaticStringValue(ast.body[0].expression), expectedResults[key]);
+            });
         });
     });
 
@@ -508,6 +584,13 @@ describe("ast-utils", () => {
             const node = ast.body[0].expression.properties[0];
 
             assert.strictEqual(astUtils.getStaticPropertyName(node), "100");
+        });
+
+        it("should return '/(?<zero>0)/' for `[/(?<zero>0)/]: 1`", () => {
+            const ast = espree.parse("({[/(?<zero>0)/]: 1})", { ecmaVersion: 2018 });
+            const node = ast.body[0].expression.properties[0];
+
+            assert.strictEqual(astUtils.getStaticPropertyName(node), "/(?<zero>0)/");
         });
 
         it("should return null for `[b]: 1`", () => {
@@ -629,7 +712,7 @@ describe("ast-utils", () => {
         });
     });
 
-    describe("isDecimalInteger", () => {
+    {
         const expectedResults = {
             5: true,
             0: true,
@@ -642,12 +725,22 @@ describe("ast-utils", () => {
             "'5'": false
         };
 
-        Object.keys(expectedResults).forEach(key => {
-            it(`should return ${expectedResults[key]} for ${key}`, () => {
-                assert.strictEqual(astUtils.isDecimalInteger(espree.parse(key).body[0].expression), expectedResults[key]);
+        describe("isDecimalInteger", () => {
+            Object.keys(expectedResults).forEach(key => {
+                it(`should return ${expectedResults[key]} for ${key}`, () => {
+                    assert.strictEqual(astUtils.isDecimalInteger(espree.parse(key).body[0].expression), expectedResults[key]);
+                });
             });
         });
-    });
+
+        describe("isDecimalIntegerNumericToken", () => {
+            Object.keys(expectedResults).forEach(key => {
+                it(`should return ${expectedResults[key]} for ${key}`, () => {
+                    assert.strictEqual(astUtils.isDecimalIntegerNumericToken(espree.tokenize(key)[0]), expectedResults[key]);
+                });
+            });
+        });
+    }
 
     describe("getFunctionNameWithKind", () => {
         const expectedResults = {
@@ -661,7 +754,9 @@ describe("ast-utils", () => {
             "async () => {}": "async arrow function",
             "({ foo: function foo() {} })": "method 'foo'",
             "({ foo: function() {} })": "method 'foo'",
+            "({ '': function() {} })": "method ''",
             "({ ['foo']: function() {} })": "method 'foo'",
+            "({ ['']: function() {} })": "method ''",
             "({ [foo]: function() {} })": "method",
             "({ foo() {} })": "method 'foo'",
             "({ foo: function* foo() {} })": "generator method 'foo'",
@@ -815,6 +910,42 @@ describe("ast-utils", () => {
 
                 assert.strictEqual(astUtils.isEmptyFunction(ast.body[0].expression), expectedResults[key]);
             });
+        });
+    });
+
+    describe("getNextLocation", () => {
+        const code = "foo;\n";
+        const ast = espree.parse(code, ESPREE_CONFIG);
+        const sourceCode = new SourceCode(code, ast);
+
+        it("should handle normal case", () => {
+            assert.deepStrictEqual(
+                astUtils.getNextLocation(
+                    sourceCode,
+                    { line: 1, column: 0 }
+                ),
+                { line: 1, column: 1 }
+            );
+        });
+
+        it("should handle linebreaks", () => {
+            assert.deepStrictEqual(
+                astUtils.getNextLocation(
+                    sourceCode,
+                    { line: 1, column: 4 }
+                ),
+                { line: 2, column: 0 }
+            );
+        });
+
+        it("should return null when result is out of bound", () => {
+            assert.strictEqual(
+                astUtils.getNextLocation(
+                    sourceCode,
+                    { line: 2, column: 0 }
+                ),
+                null
+            );
         });
     });
 
@@ -988,6 +1119,28 @@ describe("ast-utils", () => {
             tokens.forEach((token, index) => {
                 it(`should return ${expected[index]} for '${token.value}'.`, () => {
                     assert.strictEqual(astUtils.isNotCommaToken(token), !expected[index]);
+                });
+            });
+        });
+    }
+
+    {
+        const code = "const obj = {foo: 1.5, bar: a.b};";
+        const tokens = espree.parse(code, { ecmaVersion: 6, tokens: true }).tokens;
+        const expected = [false, false, false, false, false, false, false, false, false, false, false, true, false, false, false];
+
+        describe("isDotToken", () => {
+            tokens.forEach((token, index) => {
+                it(`should return ${expected[index]} for '${token.value}'.`, () => {
+                    assert.strictEqual(astUtils.isDotToken(token), expected[index]);
+                });
+            });
+        });
+
+        describe("isNotDotToken", () => {
+            tokens.forEach((token, index) => {
+                it(`should return ${!expected[index]} for '${token.value}'.`, () => {
+                    assert.strictEqual(astUtils.isNotDotToken(token), !expected[index]);
                 });
             });
         });
@@ -1214,6 +1367,84 @@ describe("ast-utils", () => {
             const sourceCode = new SourceCode(code, ast);
 
             assert.strictEqual(astUtils.equalTokens(ast.body[0], ast.body[1], sourceCode), false);
+        });
+    });
+
+    describe("hasOctalEscapeSequence", () => {
+
+        /* eslint-disable quote-props */
+        const expectedResults = {
+            "\\1": true,
+            "\\2": true,
+            "\\7": true,
+            "\\00": true,
+            "\\01": true,
+            "\\02": true,
+            "\\07": true,
+            "\\08": true,
+            "\\09": true,
+            "\\10": true,
+            "\\12": true,
+            " \\1": true,
+            "\\1 ": true,
+            "a\\1": true,
+            "\\1a": true,
+            "a\\1a": true,
+            " \\01": true,
+            "\\01 ": true,
+            "a\\01": true,
+            "\\01a": true,
+            "a\\01a": true,
+            "a\\08a": true,
+            "\\0\\1": true,
+            "\\0\\01": true,
+            "\\0\\08": true,
+            "\\n\\1": true,
+            "\\n\\01": true,
+            "\\n\\08": true,
+            "\\\\\\1": true,
+            "\\\\\\01": true,
+            "\\\\\\08": true,
+
+            "\\0": false,
+            "\\8": false,
+            "\\9": false,
+            " \\0": false,
+            "\\0 ": false,
+            "a\\0": false,
+            "\\0a": false,
+            "a\\8a": false,
+            "\\0\\8": false,
+            "\\8\\0": false,
+            "\\80": false,
+            "\\81": false,
+            "\\\\": false,
+            "\\\\0": false,
+            "\\\\01": false,
+            "\\\\08": false,
+            "\\\\1": false,
+            "\\\\12": false,
+            "\\\\\\0": false,
+            "\\\\\\8": false,
+            "\\0\\\\": false,
+            "0": false,
+            "1": false,
+            "8": false,
+            "01": false,
+            "08": false,
+            "80": false,
+            "12": false,
+            "\\a": false,
+            "\\n": false
+        };
+        /* eslint-enable quote-props */
+
+        Object.keys(expectedResults).forEach(key => {
+            it(`should return ${expectedResults[key]} for ${key}`, () => {
+                const ast = espree.parse(`"${key}"`);
+
+                assert.strictEqual(astUtils.hasOctalEscapeSequence(ast.body[0].expression.raw), expectedResults[key]);
+            });
         });
     });
 });

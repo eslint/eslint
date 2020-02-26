@@ -44,16 +44,28 @@ ruleTester.run("no-unmodified-loop-condition", rule, {
         "var a = [1, 2, 3]; var len = a.length; for (var i = 0; i < len - 1; i++) {}"
     ],
     invalid: [
-        { code: "var foo = 0; while (foo) { } foo = 1;", errors: ["'foo' is not modified in this loop."] },
-        { code: "var foo = 0; while (!foo) { } foo = 1;", errors: ["'foo' is not modified in this loop."] },
-        { code: "var foo = 0; while (foo != null) { } foo = 1;", errors: ["'foo' is not modified in this loop."] },
-        { code: "var foo = 0, bar = 9; while (foo < bar) { } foo = 1;", errors: ["'foo' is not modified in this loop.", "'bar' is not modified in this loop."] },
-        { code: "var foo = 0, bar = 0; while (foo && bar) { ++bar; } foo = 1;", errors: ["'foo' is not modified in this loop."] },
-        { code: "var foo = 0, bar = 0; while (foo && bar) { ++foo; } foo = 1;", errors: ["'bar' is not modified in this loop."] },
-        { code: "var a, b, c; while (a < c && b < c) { ++a; } foo = 1;", errors: ["'b' is not modified in this loop.", "'c' is not modified in this loop."] },
-        { code: "var foo = 0; while (foo ? 1 : 0) { } foo = 1;", errors: ["'foo' is not modified in this loop."] },
-        { code: "var foo = 0; while (foo) { update(); } function update(foo) { ++foo; }", errors: ["'foo' is not modified in this loop."] },
-        { code: "var foo; do { } while (foo);", errors: ["'foo' is not modified in this loop."] },
-        { code: "for (var foo = 0; foo < 10; ) { } foo = 1;", errors: ["'foo' is not modified in this loop."] }
+        { code: "var foo = 0; while (foo) { } foo = 1;", errors: [{ messageId: "loopConditionNotModified", data: { name: "foo" } }] },
+        { code: "var foo = 0; while (!foo) { } foo = 1;", errors: [{ messageId: "loopConditionNotModified", data: { name: "foo" } }] },
+        { code: "var foo = 0; while (foo != null) { } foo = 1;", errors: [{ messageId: "loopConditionNotModified", data: { name: "foo" } }] },
+        {
+            code: "var foo = 0, bar = 9; while (foo < bar) { } foo = 1;",
+            errors: [
+                { messageId: "loopConditionNotModified", data: { name: "foo" } },
+                { messageId: "loopConditionNotModified", data: { name: "bar" } }
+            ]
+        },
+        { code: "var foo = 0, bar = 0; while (foo && bar) { ++bar; } foo = 1;", errors: [{ messageId: "loopConditionNotModified", data: { name: "foo" } }] },
+        { code: "var foo = 0, bar = 0; while (foo && bar) { ++foo; } foo = 1;", errors: [{ messageId: "loopConditionNotModified", data: { name: "bar" } }] },
+        {
+            code: "var a, b, c; while (a < c && b < c) { ++a; } foo = 1;",
+            errors: [
+                { messageId: "loopConditionNotModified", data: { name: "b" } },
+                { messageId: "loopConditionNotModified", data: { name: "c" } }
+            ]
+        },
+        { code: "var foo = 0; while (foo ? 1 : 0) { } foo = 1;", errors: [{ messageId: "loopConditionNotModified", data: { name: "foo" } }] },
+        { code: "var foo = 0; while (foo) { update(); } function update(foo) { ++foo; }", errors: [{ messageId: "loopConditionNotModified", data: { name: "foo" } }] },
+        { code: "var foo; do { } while (foo);", errors: [{ messageId: "loopConditionNotModified", data: { name: "foo" } }] },
+        { code: "for (var foo = 0; foo < 10; ) { } foo = 1;", errors: [{ messageId: "loopConditionNotModified", data: { name: "foo" } }] }
     ]
 });

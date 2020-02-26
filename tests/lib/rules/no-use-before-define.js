@@ -59,109 +59,442 @@ ruleTester.run("no-use-before-define", rule, {
         }
     ],
     invalid: [
-        { code: "a++; var a=19;", parserOptions: { ecmaVersion: 6, sourceType: "module" }, errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
-        { code: "a++; var a=19;", parserOptions: { parserOptions: { ecmaVersion: 6 } }, errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
-        { code: "a++; var a=19;", errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
-        { code: "a(); var a=function() {};", errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
-        { code: "alert(a[1]); var a=[1,3];", errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
-        { code: "a(); function a() { alert(b); var b=10; a(); }", errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }, { message: "'b' was used before it was defined.", type: "Identifier" }] },
-        { code: "a(); var a=function() {};", options: ["nofunc"], errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
-        { code: "(() => { alert(a); var a = 42; })();", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
-        { code: "(() => a())(); function a() { }", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
-        { code: "\"use strict\"; a(); { function a() {} }", errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
-        { code: "a(); try { throw new Error() } catch (foo) {var a;}", errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
-        { code: "var f = () => a; var a;", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
-        { code: "new A(); class A {};", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'A' was used before it was defined.", type: "Identifier" }] },
-        { code: "function foo() { new A(); } class A {};", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'A' was used before it was defined.", type: "Identifier" }] },
-        { code: "new A(); var A = class {};", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'A' was used before it was defined.", type: "Identifier" }] },
-        { code: "function foo() { new A(); } var A = class {};", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'A' was used before it was defined.", type: "Identifier" }] },
+        {
+            code: "a++; var a=19;",
+            parserOptions: { ecmaVersion: 6, sourceType: "module" },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "a" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "a++; var a=19;",
+            parserOptions: { parserOptions: { ecmaVersion: 6 } },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "a" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "a++; var a=19;",
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "a" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "a(); var a=function() {};",
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "a" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "alert(a[1]); var a=[1,3];",
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "a" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "a(); function a() { alert(b); var b=10; a(); }",
+            errors: [
+                {
+                    messageId: "usedBeforeDefined",
+                    data: { name: "a" },
+                    type: "Identifier"
+                },
+                {
+                    messageId: "usedBeforeDefined",
+                    data: { name: "b" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "a(); var a=function() {};",
+            options: ["nofunc"],
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "a" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "(() => { alert(a); var a = 42; })();",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "a" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "(() => a())(); function a() { }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "a" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "\"use strict\"; a(); { function a() {} }",
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "a" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "a(); try { throw new Error() } catch (foo) {var a;}",
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "a" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "var f = () => a; var a;",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "a" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "new A(); class A {};",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "A" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "function foo() { new A(); } class A {};",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "A" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "new A(); var A = class {};",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "A" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "function foo() { new A(); } var A = class {};",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "A" },
+                type: "Identifier"
+            }]
+        },
 
         // Block-level bindings
-        { code: "a++; { var a; }", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
-        { code: "\"use strict\"; { a(); function a() {} }", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
-        { code: "{a; let a = 1}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
-        { code: "switch (foo) { case 1: a();\n default: \n let a;}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
-        { code: "if (true) { function foo() { a; } let a;}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
+        {
+            code: "a++; { var a; }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "a" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "\"use strict\"; { a(); function a() {} }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "a" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "{a; let a = 1}",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "a" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "switch (foo) { case 1: a();\n default: \n let a;}",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "a" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "if (true) { function foo() { a; } let a;}",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "a" },
+                type: "Identifier"
+            }]
+        },
 
         // object style options
-        { code: "a(); var a=function() {};", options: [{ functions: false, classes: false }], errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
-        { code: "new A(); class A {};", options: [{ functions: false, classes: false }], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'A' was used before it was defined.", type: "Identifier" }] },
-        { code: "new A(); var A = class {};", options: [{ classes: false }], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'A' was used before it was defined.", type: "Identifier" }] },
-        { code: "function foo() { new A(); } var A = class {};", options: [{ classes: false }], parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'A' was used before it was defined.", type: "Identifier" }] },
+        {
+            code: "a(); var a=function() {};",
+            options: [{ functions: false, classes: false }],
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "a" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "new A(); class A {};",
+            options: [{ functions: false, classes: false }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "A" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "new A(); var A = class {};",
+            options: [{ classes: false }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "A" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "function foo() { new A(); } var A = class {};",
+            options: [{ classes: false }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "A" },
+                type: "Identifier"
+            }]
+        },
 
         // invalid initializers
-        { code: "var a = a;", errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
-        { code: "let a = a + b;", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
-        { code: "const a = foo(a);", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
-        { code: "function foo(a = a) {}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
-        { code: "var {a = a} = [];", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
-        { code: "var [a = a] = [];", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
-        { code: "var {b = a, a} = {};", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
-        { code: "var [b = a, a] = {};", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
-        { code: "var {a = 0} = a;", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
-        { code: "var [a = 0] = a;", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
-        { code: "for (var a in a) {}", errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
-        { code: "for (var a of a) {}", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "'a' was used before it was defined.", type: "Identifier" }] },
+        {
+            code: "var a = a;",
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "a" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "let a = a + b;",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "a" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "const a = foo(a);",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "a" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "function foo(a = a) {}",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "a" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "var {a = a} = [];",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "a" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "var [a = a] = [];",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "a" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "var {b = a, a} = {};",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "a" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "var [b = a, a] = {};",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "a" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "var {a = 0} = a;",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "a" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "var [a = 0] = a;",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "a" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "for (var a in a) {}",
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "a" },
+                type: "Identifier"
+            }]
+        },
+        {
+            code: "for (var a of a) {}",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "a" },
+                type: "Identifier"
+            }]
+        },
 
         // "variables" option
         {
             code: "function foo() { bar; var bar = 1; } var bar;",
             options: [{ variables: false }],
-            errors: [{ message: "'bar' was used before it was defined.", type: "Identifier" }]
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "bar" },
+                type: "Identifier"
+            }]
         },
         {
             code: "foo; var foo;",
             options: [{ variables: false }],
-            errors: [{ message: "'foo' was used before it was defined.", type: "Identifier" }]
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "foo" },
+                type: "Identifier"
+            }]
         },
 
         // https://github.com/eslint/eslint/issues/10227
         {
             code: "for (let x = x;;); let x = 0",
             parserOptions: { ecmaVersion: 2015 },
-            errors: ["'x' was used before it was defined."]
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "x" }
+            }]
         },
         {
             code: "for (let x in xs); let xs = []",
             parserOptions: { ecmaVersion: 2015 },
-            errors: ["'xs' was used before it was defined."]
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "xs" }
+            }]
         },
         {
             code: "for (let x of xs); let xs = []",
             parserOptions: { ecmaVersion: 2015 },
-            errors: ["'xs' was used before it was defined."]
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "xs" }
+            }]
         },
         {
             code: "try {} catch ({message = x}) {} let x = ''",
             parserOptions: { ecmaVersion: 2015 },
-            errors: ["'x' was used before it was defined."]
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "x" }
+            }]
         },
         {
             code: "with (obj) x; let x = {}",
             parserOptions: { ecmaVersion: 2015 },
-            errors: ["'x' was used before it was defined."]
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "x" }
+            }]
         },
 
         // WithStatements.
         {
             code: "with (x); let x = {}",
             parserOptions: { ecmaVersion: 2015 },
-            errors: ["'x' was used before it was defined."]
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "x" }
+            }]
         },
         {
             code: "with (obj) { x } let x = {}",
             parserOptions: { ecmaVersion: 2015 },
-            errors: ["'x' was used before it was defined."]
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "x" }
+            }]
         },
         {
             code: "with (obj) { if (a) { x } } let x = {}",
             parserOptions: { ecmaVersion: 2015 },
-            errors: ["'x' was used before it was defined."]
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "x" }
+            }]
         },
         {
             code: "with (obj) { (() => { if (a) { x } })() } let x = {}",
             parserOptions: { ecmaVersion: 2015 },
-            errors: ["'x' was used before it was defined."]
+            errors: [{
+                messageId: "usedBeforeDefined",
+                data: { name: "x" }
+            }]
         }
     ]
 });

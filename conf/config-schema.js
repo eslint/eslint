@@ -6,6 +6,7 @@
 "use strict";
 
 const baseConfigProperties = {
+    $schema: { type: "string" },
     env: { type: "object" },
     extends: { $ref: "#/definitions/stringOrStrings" },
     globals: { type: "object" },
@@ -20,6 +21,8 @@ const baseConfigProperties = {
     processor: { type: "string" },
     rules: { type: "object" },
     settings: { type: "object" },
+    noInlineConfig: { type: "boolean" },
+    reportUnusedDisableDirectives: { type: "boolean" },
 
     ecmaFeatures: { type: "object" } // deprecated; logs a warning when used
 };
@@ -53,6 +56,7 @@ const configSchema = {
             type: "object",
             properties: {
                 root: { type: "boolean" },
+                ignorePatterns: { $ref: "#/definitions/stringOrStrings" },
                 ...baseConfigProperties
             },
             additionalProperties: false

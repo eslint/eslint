@@ -14,6 +14,14 @@ const { ConfigArrayFactory } = require("../../../lib/cli-engine/config-array-fac
 const { ExtractedConfig } = require("../../../lib/cli-engine/config-array/extracted-config");
 const { defineCascadingConfigArrayFactoryWithInMemoryFileSystem } = require("./_utils");
 
+/** @typedef {InstanceType<ReturnType<defineCascadingConfigArrayFactoryWithInMemoryFileSystem>["CascadingConfigArrayFactory"]>} CascadingConfigArrayFactory */
+/** @typedef {ReturnType<CascadingConfigArrayFactory["getConfigArrayForFile"]>} ConfigArray */
+
+const cwdIgnorePatterns = new ConfigArrayFactory()
+    .loadDefaultESLintIgnore()[0]
+    .ignorePattern
+    .patterns;
+
 describe("CascadingConfigArrayFactory", () => {
     describe("'getConfigArrayForFile(filePath)' method should retrieve the proper configuration.", () => {
         describe("with three directories ('lib', 'lib/nested', 'test') that contains 'one.js' and 'two.js'", () => {
@@ -56,23 +64,387 @@ describe("CascadingConfigArrayFactory", () => {
             it("should retrieve the config '.eslintrc.json' if 'lib/one.js' was given.", () => {
                 const config = factory.getConfigArrayForFile("lib/one.js");
 
-                assert.strictEqual(config.length, 1);
-                assert.strictEqual(config[0].filePath, path.join(root, ".eslintrc.json"));
+                assert.strictEqual(config.length, 3);
+                assert.strictEqual(config[0].name, "DefaultIgnorePattern");
+                assert.strictEqual(config[1].filePath, path.join(root, ".eslintrc.json"));
+                assert.strictEqual(config[2].filePath, path.join(root, ".eslintignore"));
             });
 
             it("should retrieve the merged config of '.eslintrc.json' and 'lib/nested/.eslintrc.yml' if 'lib/nested/one.js' was given.", () => {
                 const config = factory.getConfigArrayForFile("lib/nested/one.js");
 
-                assert.strictEqual(config.length, 2);
-                assert.strictEqual(config[0].filePath, path.join(root, ".eslintrc.json"));
-                assert.strictEqual(config[1].filePath, path.join(root, "lib/nested/.eslintrc.yml"));
+                assert.strictEqual(config.length, 4);
+                assert.strictEqual(config[0].name, "DefaultIgnorePattern");
+                assert.strictEqual(config[1].filePath, path.join(root, ".eslintrc.json"));
+                assert.strictEqual(config[2].filePath, path.join(root, "lib/nested/.eslintrc.yml"));
+                assert.strictEqual(config[3].filePath, path.join(root, ".eslintignore"));
             });
 
             it("should retrieve the config '.eslintrc.json' if 'lib/non-exist.js' was given.", () => {
                 const config = factory.getConfigArrayForFile("lib/non-exist.js");
 
-                assert.strictEqual(config.length, 1);
-                assert.strictEqual(config[0].filePath, path.join(root, ".eslintrc.json"));
+                assert.strictEqual(config.length, 3);
+                assert.strictEqual(config[0].name, "DefaultIgnorePattern");
+                assert.strictEqual(config[1].filePath, path.join(root, ".eslintrc.json"));
+                assert.strictEqual(config[2].filePath, path.join(root, ".eslintignore"));
+            });
+        });
+
+        describe("deprecation warnings", () => {
+            let uid = 0;
+            let uniqueHomeDirName = "";
+            let homeDir = "";
+            let cwd = "";
+
+            /** @type {{code:string, message:string}[]} */
+            let warnings = [];
+
+            /** @type {CascadingConfigArrayFactory} */
+            let factory = null;
+
+            /** @type {ConfigArray} */
+            let config = null;
+
+            /**
+             * Store a reported warning object if that code starts with `ESLINT_`.
+             * @param {{code:string, message:string}} w The warning object to store.
+             * @returns {void}
+             */
+            function onWarning(w) {
+                if (w.code.startsWith("ESLINT_")) {
+                    warnings.push({ code: w.code, message: w.message });
+                }
+            }
+
+            /**
+             * Delay to wait for 'warning' events.
+             * @returns {Promise<void>} The promise that will be fulfilled after wait a timer.
+             */
+            function delay() {
+                return new Promise(resolve => setTimeout(resolve, 0));
+            }
+
+            beforeEach(() => {
+                uniqueHomeDirName = `home_${++uid}`;
+                homeDir = path.join(__dirname, `../../../${uniqueHomeDirName}`);
+                warnings = [];
+                sinon.stub(os, "homedir").returns(homeDir);
+                process.on("warning", onWarning);
+            });
+            afterEach(() => {
+                os.homedir.restore();
+                process.removeListener("warning", onWarning);
+            });
+
+            describe("when '~/.eslintrc.json' exists and CWD is `~/`", () => {
+                beforeEach(() => {
+                    cwd = homeDir;
+                    const { CascadingConfigArrayFactory } = defineCascadingConfigArrayFactoryWithInMemoryFileSystem({
+                        cwd: () => cwd,
+                        files: {
+
+                            // ~/.eslintrc.json
+                            ".eslintrc.json": JSON.stringify({ rules: { eqeqeq: "error" } }),
+
+                            // other files
+                            "exist-with-root/test.js": "",
+                            "exist-with-root/.eslintrc.json": JSON.stringify({ root: true, rules: { yoda: "error" } }),
+                            "exist/test.js": "",
+                            "exist/.eslintrc.json": JSON.stringify({ rules: { yoda: "error" } }),
+                            "not-exist/test.js": ""
+                        }
+                    });
+
+                    factory = new CascadingConfigArrayFactory({ cwd });
+                });
+
+                // no warning.
+                describe("when it lints 'subdir/exist-with-root/test.js'", () => {
+                    beforeEach(async() => {
+                        config = factory.getConfigArrayForFile("exist-with-root/test.js");
+                        await delay();
+                    });
+
+                    it("should not raise any warnings.", () => {
+                        assert.deepStrictEqual(warnings, []);
+                    });
+
+                    it("should not load '~/.eslintrc.json'.", () => {
+                        assert.deepStrictEqual(
+                            config.extractConfig("a.js").rules,
+                            { yoda: ["error"] }
+                        );
+                    });
+                });
+
+                // no warning.
+                describe("when it lints 'subdir/exist/test.js'", () => {
+                    beforeEach(async() => {
+                        config = factory.getConfigArrayForFile("exist/test.js");
+                        await delay();
+                    });
+
+                    it("should not raise any warnings.", () => {
+                        assert.deepStrictEqual(warnings, []);
+                    });
+
+                    it("should load '~/.eslintrc.json'.", () => {
+                        assert.deepStrictEqual(
+                            config.extractConfig("a.js").rules,
+                            { eqeqeq: ["error"], yoda: ["error"] }
+                        );
+                    });
+                });
+
+                // no warning
+                describe("when it lints 'subdir/not-exist/test.js'", () => {
+                    beforeEach(async() => {
+                        config = factory.getConfigArrayForFile("not-exist/test.js");
+                        await delay();
+                    });
+
+                    it("should not raise any warnings.", () => {
+                        assert.deepStrictEqual(warnings, []);
+                    });
+
+                    it("should load '~/.eslintrc.json'.", () => {
+                        assert.deepStrictEqual(
+                            config.extractConfig("a.js").rules,
+                            { eqeqeq: ["error"] }
+                        );
+                    });
+                });
+            });
+
+            describe("when '~/.eslintrc.json' exists and CWD is `~/subdir`", () => {
+                beforeEach(() => {
+                    cwd = path.join(homeDir, "subdir");
+                    const { CascadingConfigArrayFactory } = defineCascadingConfigArrayFactoryWithInMemoryFileSystem({
+                        cwd: () => cwd,
+                        files: {
+
+                            // ~/.eslintrc.json
+                            "../.eslintrc.json": JSON.stringify({ rules: { eqeqeq: "error" } }),
+
+                            // other files
+                            "exist-with-root/test.js": "",
+                            "exist-with-root/.eslintrc.json": JSON.stringify({ root: true, rules: { yoda: "error" } }),
+                            "exist/test.js": "",
+                            "exist/.eslintrc.json": JSON.stringify({ rules: { yoda: "error" } }),
+                            "not-exist/test.js": ""
+                        }
+                    });
+
+                    factory = new CascadingConfigArrayFactory({ cwd });
+                });
+
+                // Project's config file has `root:true`, then no warning.
+                describe("when it lints 'subdir/exist-with-root/test.js'", () => {
+                    beforeEach(async() => {
+                        config = factory.getConfigArrayForFile("exist-with-root/test.js");
+                        await delay();
+                    });
+
+                    it("should not raise any warnings.", () => {
+                        assert.deepStrictEqual(warnings, []);
+                    });
+
+                    it("should not load '~/.eslintrc.json'.", () => {
+                        assert.deepStrictEqual(
+                            config.extractConfig("a.js").rules,
+                            { yoda: ["error"] }
+                        );
+                    });
+                });
+
+                // Project's config file doesn't have `root:true` and home is ancestor, then ESLINT_PERSONAL_CONFIG_SUPPRESS.
+                describe("when it lints 'subdir/exist/test.js'", () => {
+                    beforeEach(async() => {
+                        config = factory.getConfigArrayForFile("exist/test.js");
+                        await delay();
+                    });
+
+                    it("should raise an ESLINT_PERSONAL_CONFIG_SUPPRESS warning.", () => {
+                        assert.deepStrictEqual(warnings, [
+                            {
+                                code: "ESLINT_PERSONAL_CONFIG_SUPPRESS",
+                                message: `'~/.eslintrc.*' config files have been deprecated. Please remove it or add 'root:true' to the config files in your projects in order to avoid loading '~/.eslintrc.*' accidentally. (found in "${uniqueHomeDirName}${path.sep}.eslintrc.json")`
+                            }
+                        ]);
+                    });
+
+                    it("should not load '~/.eslintrc.json'.", () => {
+                        assert.deepStrictEqual(
+                            config.extractConfig("a.js").rules,
+                            { yoda: ["error"] }
+                        );
+                    });
+                });
+
+                /*
+                 * Project's config file doesn't exist and home is ancestor, then no warning.
+                 * In this case, ESLint will continue to use `~/.eslintrc.json` even if personal config file feature is removed.
+                 */
+                describe("when it lints 'subdir/not-exist/test.js'", () => {
+                    beforeEach(async() => {
+                        config = factory.getConfigArrayForFile("not-exist/test.js");
+                        await delay();
+                    });
+
+                    it("should not raise any warnings.", () => {
+                        assert.deepStrictEqual(warnings, []);
+                    });
+
+                    it("should load '~/.eslintrc.json'.", () => {
+                        assert.deepStrictEqual(
+                            config.extractConfig("a.js").rules,
+                            { eqeqeq: ["error"] }
+                        );
+                    });
+                });
+            });
+
+            describe("when '~/.eslintrc.json' exists and CWD is `~/../another`", () => {
+                beforeEach(() => {
+                    cwd = path.join(homeDir, "../another");
+                    const { CascadingConfigArrayFactory } = defineCascadingConfigArrayFactoryWithInMemoryFileSystem({
+                        cwd: () => cwd,
+                        files: {
+
+                            // ~/.eslintrc.json
+                            [`../${uniqueHomeDirName}/.eslintrc.json`]: JSON.stringify({ rules: { eqeqeq: "error" } }),
+
+                            // other files
+                            "exist-with-root/test.js": "",
+                            "exist-with-root/.eslintrc.json": JSON.stringify({ root: true, rules: { yoda: "error" } }),
+                            "exist/test.js": "",
+                            "exist/.eslintrc.json": JSON.stringify({ rules: { yoda: "error" } }),
+                            "not-exist/test.js": ""
+                        }
+                    });
+
+                    factory = new CascadingConfigArrayFactory({ cwd });
+                });
+
+                // Project's config file has `root:true`, then no warning.
+                describe("when it lints 'exist-with-root/test.js'", () => {
+                    beforeEach(async() => {
+                        config = factory.getConfigArrayForFile("exist-with-root/test.js");
+                        await delay();
+                    });
+
+                    it("should not raise any warnings.", () => {
+                        assert.deepStrictEqual(warnings, []);
+                    });
+
+                    it("should not load '~/.eslintrc.json'.", () => {
+                        assert.deepStrictEqual(
+                            config.extractConfig("a.js").rules,
+                            { yoda: ["error"] }
+                        );
+                    });
+                });
+
+                // Project's config file doesn't have `root:true` but home is not ancestor, then no warning.
+                describe("when it lints 'exist/test.js'", () => {
+                    beforeEach(async() => {
+                        config = factory.getConfigArrayForFile("exist/test.js");
+                        await delay();
+                    });
+
+                    it("should not raise any warnings.", () => {
+                        assert.deepStrictEqual(warnings, []);
+                    });
+
+                    it("should not load '~/.eslintrc.json'.", () => {
+                        assert.deepStrictEqual(
+                            config.extractConfig("a.js").rules,
+                            { yoda: ["error"] }
+                        );
+                    });
+                });
+
+                // Project's config file doesn't exist and home is not ancestor, then ESLINT_PERSONAL_CONFIG_LOAD.
+                describe("when it lints 'not-exist/test.js'", () => {
+                    beforeEach(async() => {
+                        config = factory.getConfigArrayForFile("not-exist/test.js");
+                        await delay();
+                    });
+
+                    it("should raise an ESLINT_PERSONAL_CONFIG_LOAD warning.", () => {
+                        assert.deepStrictEqual(warnings, [
+                            {
+                                code: "ESLINT_PERSONAL_CONFIG_LOAD",
+                                message: `'~/.eslintrc.*' config files have been deprecated. Please use a config file per project or the '--config' option. (found in "${uniqueHomeDirName}${path.sep}.eslintrc.json")`
+                            }
+                        ]);
+                    });
+
+                    it("should load '~/.eslintrc.json'.", () => {
+                        assert.deepStrictEqual(
+                            config.extractConfig("a.js").rules,
+                            { eqeqeq: ["error"] }
+                        );
+                    });
+                });
+            });
+
+            describe("when '~/.eslintrc.json' doesn't exist and CWD is `~/subdir`", () => {
+                beforeEach(() => {
+                    cwd = path.join(homeDir, "subdir");
+                    const { CascadingConfigArrayFactory } = defineCascadingConfigArrayFactoryWithInMemoryFileSystem({
+                        cwd: () => cwd,
+                        files: {
+                            "exist-with-root/test.js": "",
+                            "exist-with-root/.eslintrc.json": JSON.stringify({ root: true, rules: { yoda: "error" } }),
+                            "exist/test.js": "",
+                            "exist/.eslintrc.json": JSON.stringify({ rules: { yoda: "error" } }),
+                            "not-exist/test.js": ""
+                        }
+                    });
+
+                    factory = new CascadingConfigArrayFactory({ cwd });
+                });
+
+                describe("when it lints 'subdir/exist/test.js'", () => {
+                    beforeEach(async() => {
+                        config = factory.getConfigArrayForFile("exist/test.js");
+                        await delay();
+                    });
+
+                    it("should not raise any warnings.", () => {
+                        assert.deepStrictEqual(warnings, []);
+                    });
+                });
+            });
+
+            describe("when '~/.eslintrc.json' doesn't exist and CWD is `~/../another`", () => {
+                beforeEach(() => {
+                    cwd = path.join(homeDir, "../another");
+                    const { CascadingConfigArrayFactory } = defineCascadingConfigArrayFactoryWithInMemoryFileSystem({
+                        cwd: () => cwd,
+                        files: {
+                            "exist-with-root/test.js": "",
+                            "exist-with-root/.eslintrc.json": JSON.stringify({ root: true, rules: { yoda: "error" } }),
+                            "exist/test.js": "",
+                            "exist/.eslintrc.json": JSON.stringify({ rules: { yoda: "error" } }),
+                            "not-exist/test.js": ""
+                        }
+                    });
+
+                    factory = new CascadingConfigArrayFactory({ cwd });
+                });
+
+                describe("when it lints 'not-exist/test.js'", () => {
+                    beforeEach(async() => {
+                        config = factory.getConfigArrayForFile("not-exist/test.js", { ignoreNotFoundError: true });
+                        await delay();
+                    });
+
+                    it("should not raise any warnings.", () => {
+                        assert.deepStrictEqual(warnings, []);
+                    });
+                });
             });
         });
 
@@ -85,6 +457,7 @@ describe("CascadingConfigArrayFactory", () => {
 
             /**
              * Returns the path inside of the fixture directory.
+             * @param {...string} args file path segments.
              * @returns {string} The path inside the fixture directory.
              * @private
              */
@@ -94,7 +467,7 @@ describe("CascadingConfigArrayFactory", () => {
 
             /**
              * Mocks the current user's home path
-             * @param {string} fakeUserHomePath - fake user's home path
+             * @param {string} fakeUserHomePath fake user's home path
              * @returns {void}
              * @private
              */
@@ -110,7 +483,6 @@ describe("CascadingConfigArrayFactory", () => {
              * The `expected` object is merged with the default values of config
              * data before comparing, so you can specify only the properties you
              * focus on.
-             *
              * @param {Object} actual The config object to check.
              * @param {Object} expected What the config object should look like.
              * @returns {void}
@@ -282,7 +654,8 @@ describe("CascadingConfigArrayFactory", () => {
                     env: {
                         browser: true,
                         node: false
-                    }
+                    },
+                    ignorePatterns: cwdIgnorePatterns
                 };
                 const actual = getConfig(factory, file);
 
@@ -296,7 +669,8 @@ describe("CascadingConfigArrayFactory", () => {
                 const expected = {
                     rules: {},
                     globals: {},
-                    env: {}
+                    env: {},
+                    ignorePatterns: cwdIgnorePatterns
                 };
                 const actual = getConfig(factory, file);
 
@@ -309,7 +683,8 @@ describe("CascadingConfigArrayFactory", () => {
                 const expected = {
                     rules: {},
                     globals: {},
-                    env: {}
+                    env: {},
+                    ignorePatterns: cwdIgnorePatterns
                 };
                 const actual = getConfig(factory, file);
 
@@ -322,7 +697,7 @@ describe("CascadingConfigArrayFactory", () => {
                 const file = getFixturePath("broken", "console-wrong-quotes.js");
                 const actual = getConfig(factory, file);
 
-                assertConfigsEqual(actual, {});
+                assertConfigsEqual(actual, { ignorePatterns: cwdIgnorePatterns });
             });
 
             it("should return a modified config when baseConfig is set to an object and no .eslintrc", () => {
@@ -344,7 +719,8 @@ describe("CascadingConfigArrayFactory", () => {
                     },
                     rules: {
                         quotes: [2, "single"]
-                    }
+                    },
+                    ignorePatterns: cwdIgnorePatterns
                 };
                 const actual = getConfig(factory, file);
 
@@ -391,7 +767,8 @@ describe("CascadingConfigArrayFactory", () => {
                     rules: {
                         "no-console": [1],
                         quotes: [2, "single"]
-                    }
+                    },
+                    ignorePatterns: cwdIgnorePatterns
                 };
                 const actual = getConfig(factory, file);
 
@@ -409,7 +786,8 @@ describe("CascadingConfigArrayFactory", () => {
                     rules: {
                         "no-console": [0],
                         quotes: [1, "double"]
-                    }
+                    },
+                    ignorePatterns: cwdIgnorePatterns
                 };
                 const actual = getConfig(factory, file);
 
@@ -423,7 +801,8 @@ describe("CascadingConfigArrayFactory", () => {
                 const expected = {
                     rules: {
                         semi: [2, "never"]
-                    }
+                    },
+                    ignorePatterns: cwdIgnorePatterns
                 };
                 const actual = getConfig(factory, file);
 
@@ -457,7 +836,8 @@ describe("CascadingConfigArrayFactory", () => {
                     rules: {
                         quotes: [2, "double"],
                         semi: [1, "never"]
-                    }
+                    },
+                    ignorePatterns: cwdIgnorePatterns
                 };
                 const actual = getConfig(factory, file);
 
@@ -476,7 +856,8 @@ describe("CascadingConfigArrayFactory", () => {
                     },
                     rules: {
                         quotes: [0, "double"]
-                    }
+                    },
+                    ignorePatterns: cwdIgnorePatterns
                 };
                 const actual = getConfig(factory, file);
 
@@ -497,7 +878,8 @@ describe("CascadingConfigArrayFactory", () => {
                         quotes: [2, "single"],
                         "no-console": [1],
                         semi: [1, "never"]
-                    }
+                    },
+                    ignorePatterns: cwdIgnorePatterns
                 };
                 const actual = getConfig(factory, file);
 
@@ -517,7 +899,8 @@ describe("CascadingConfigArrayFactory", () => {
                     rules: {
                         quotes: [0, "single"],
                         "no-console": [1]
-                    }
+                    },
+                    ignorePatterns: cwdIgnorePatterns
                 };
                 const actual = getConfig(factory, file);
 
@@ -541,7 +924,8 @@ describe("CascadingConfigArrayFactory", () => {
                     },
                     rules: {
                         quotes: [1, "double"]
-                    }
+                    },
+                    ignorePatterns: cwdIgnorePatterns
                 };
                 const actual = getConfig(factory, file);
 
@@ -585,7 +969,8 @@ describe("CascadingConfigArrayFactory", () => {
                     rules: {
                         semi: [2, "always"],
                         eqeqeq: [2]
-                    }
+                    },
+                    ignorePatterns: cwdIgnorePatterns
                 };
                 const actual = getConfig(factory, file);
 
@@ -599,7 +984,8 @@ describe("CascadingConfigArrayFactory", () => {
                 const expected = {
                     globals: {
                         foo: true
-                    }
+                    },
+                    ignorePatterns: cwdIgnorePatterns
                 };
                 const actual = getConfig(factory, configPath);
 
@@ -638,7 +1024,8 @@ describe("CascadingConfigArrayFactory", () => {
                 const factory = new CascadingConfigArrayFactory({ useEslintrc: false, specificConfigPath: configPath });
                 const expected = {
                     rules: { "no-empty": [1], "comma-dangle": [2], "no-console": [2] },
-                    env: { browser: false, node: true, es6: true }
+                    env: { browser: false, node: true, es6: true },
+                    ignorePatterns: cwdIgnorePatterns
                 };
                 const actual = getConfig(factory, configPath);
 
@@ -652,7 +1039,8 @@ describe("CascadingConfigArrayFactory", () => {
                     const expected = {
                         rules: {},
                         env: { commonjs: true },
-                        parserOptions: { ecmaFeatures: { globalReturn: false } }
+                        parserOptions: { ecmaFeatures: { globalReturn: false } },
+                        ignorePatterns: cwdIgnorePatterns
                     };
                     const actual = getConfig(factory, targetPath);
 
@@ -671,6 +1059,7 @@ describe("CascadingConfigArrayFactory", () => {
 
                 /**
                  * Returns the path inside of the fixture directory.
+                 * @param {...string} args file path segments.
                  * @returns {string} The path inside the fixture directory.
                  * @private
                  */
@@ -766,6 +1155,7 @@ describe("CascadingConfigArrayFactory", () => {
 
                 /**
                  * Returns the path inside of the fixture directory.
+                 * @param {...string} args file path segments.
                  * @returns {string} The path inside the fixture directory.
                  * @private
                  */
@@ -1133,7 +1523,7 @@ describe("CascadingConfigArrayFactory", () => {
                     assert.notStrictEqual(warning, null);
                     assert.strictEqual(
                         warning.message,
-                        `The 'ecmaFeatures' config file property is deprecated, and has no effect. (found in "ecma-features${path.sep}.eslintrc.yml")`
+                        `The 'ecmaFeatures' config file property is deprecated and has no effect. (found in "ecma-features${path.sep}.eslintrc.yml")`
                     );
                 });
             });
@@ -1183,7 +1573,7 @@ describe("CascadingConfigArrayFactory", () => {
             it("should have a loading error in CLI config.", () => {
                 const config = factory.getConfigArrayForFile("a.js");
 
-                assert.strictEqual(config[1].plugins.test.definition, null);
+                assert.strictEqual(config[2].plugins.test.definition, null);
             });
 
             it("should not have a loading error in CLI config after adding 'test' plugin to the additional plugin pool then calling 'clearCache()'.", () => {
@@ -1196,7 +1586,7 @@ describe("CascadingConfigArrayFactory", () => {
                 const config = factory.getConfigArrayForFile("a.js");
 
                 assert.deepStrictEqual(
-                    config[1].plugins.test.definition,
+                    config[2].plugins.test.definition,
                     {
                         configs: { name: "test" },
                         environments: {},

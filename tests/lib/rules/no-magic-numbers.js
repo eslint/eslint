@@ -75,6 +75,37 @@ ruleTester.run("no-magic-numbers", rule, {
                     jsx: true
                 }
             }
+        },
+        {
+            code: "f(100n)",
+            options: [{ ignore: ["100n"] }],
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "f(-100n)",
+            options: [{ ignore: ["-100n"] }],
+            parserOptions: { ecmaVersion: 2020 }
+        },
+
+        // Regression tests to preserve the behavior of ignoreArrayIndexes.
+        {
+            code: "var foo = bar[-100];",
+            options: [{
+                ignoreArrayIndexes: true
+            }]
+        },
+        {
+            code: "var foo = bar[1.5];",
+            options: [{
+                ignoreArrayIndexes: true
+            }]
+        },
+        {
+            code: "var foo = bar[100n];",
+            options: [{
+                ignoreArrayIndexes: true
+            }],
+            parserOptions: { ecmaVersion: 2020 }
         }
     ],
     invalid: [
@@ -91,6 +122,26 @@ ruleTester.run("no-magic-numbers", rule, {
             errors: [
                 { messageId: "noMagic", data: { raw: "0" } },
                 { messageId: "noMagic", data: { raw: "1" } }
+            ]
+        },
+        {
+            code: "var foo = 42n",
+            options: [{
+                enforceConst: true
+            }],
+            parserOptions: {
+                ecmaVersion: 2020
+            },
+            errors: [{ messageId: "useConst" }]
+        },
+        {
+            code: "var foo = 0n + 1n;",
+            parserOptions: {
+                ecmaVersion: 2020
+            },
+            errors: [
+                { messageId: "noMagic", data: { raw: "0n" } },
+                { messageId: "noMagic", data: { raw: "1n" } }
             ]
         },
         {
@@ -156,7 +207,7 @@ ruleTester.run("no-magic-numbers", rule, {
         {
             code: "function getSecondsInMinute() {return 60;}",
             errors: [
-                { message: "No magic number: 60." }
+                { messageId: "noMagic", data: { raw: "60" } }
             ]
         },
         {
@@ -207,6 +258,24 @@ ruleTester.run("no-magic-numbers", rule, {
             }]
         },
         {
+            code: "100 .toString()",
+            options: [{
+                ignoreArrayIndexes: true
+            }],
+            errors: [{
+                messageId: "noMagic", data: { raw: "100" }, line: 1
+            }]
+        },
+        {
+            code: "200[100]",
+            options: [{
+                ignoreArrayIndexes: true
+            }],
+            errors: [{
+                messageId: "noMagic", data: { raw: "200" }, line: 1
+            }]
+        },
+        {
             code: "var a = <div arrayProp={[1,2,3]}></div>;",
             parserOptions: {
                 ecmaFeatures: {
@@ -226,6 +295,37 @@ ruleTester.run("no-magic-numbers", rule, {
                 { messageId: "noMagic", data: { raw: "1" }, line: 1 },
                 { messageId: "noMagic", data: { raw: "10" }, line: 1 },
                 { messageId: "noMagic", data: { raw: "4" }, line: 1 }
+            ]
+        },
+        {
+            code: "f(100n)",
+            options: [{ ignore: [100] }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [
+                { messageId: "noMagic", data: { raw: "100n" }, line: 1 }
+            ]
+        },
+        {
+            code: "f(-100n)",
+            options: [{ ignore: ["100n"] }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [
+                { messageId: "noMagic", data: { raw: "-100n" }, line: 1 }
+            ]
+        },
+        {
+            code: "f(100n)",
+            options: [{ ignore: ["-100n"] }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [
+                { messageId: "noMagic", data: { raw: "100n" }, line: 1 }
+            ]
+        },
+        {
+            code: "f(100)",
+            options: [{ ignore: ["100n"] }],
+            errors: [
+                { messageId: "noMagic", data: { raw: "100" }, line: 1 }
             ]
         }
     ]

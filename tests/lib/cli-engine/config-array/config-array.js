@@ -357,7 +357,6 @@ describe("ConfigArray", () => {
          * Previously, the merging logic of multiple config data had been
          * implemented in `ConfigOps.merge()` function. But currently, it's
          * implemented in `ConfigArray#extractConfig()` method.
-         *
          * @param {Object} target A config data.
          * @param {Object} source Another config data.
          * @returns {Object} The merged config data.
@@ -423,8 +422,11 @@ describe("ConfigArray", () => {
             const result = merge(config[0], config[1]);
 
             assert.deepStrictEqual(result, {
+                configNameOfNoInlineConfig: "",
                 env: {},
                 globals: {},
+                ignores: void 0,
+                noInlineConfig: void 0,
                 parser: null,
                 parserOptions: {
                     ecmaFeatures: {
@@ -434,6 +436,7 @@ describe("ConfigArray", () => {
                 },
                 plugins: {},
                 processor: null,
+                reportUnusedDisableDirectives: void 0,
                 rules: {},
                 settings: {}
             });
@@ -452,8 +455,11 @@ describe("ConfigArray", () => {
             const result = merge(config[0], config[1]);
 
             assert.deepStrictEqual(result, {
+                configNameOfNoInlineConfig: "",
                 env: {},
                 globals: {},
+                ignores: void 0,
+                noInlineConfig: void 0,
                 parser: null,
                 parserOptions: {
                     ecmaFeatures: {
@@ -462,6 +468,7 @@ describe("ConfigArray", () => {
                 },
                 plugins: {},
                 processor: null,
+                reportUnusedDisableDirectives: void 0,
                 rules: {},
                 settings: {}
             });
@@ -565,6 +572,7 @@ describe("ConfigArray", () => {
             const result = merge(config[0], config[1]);
 
             assert.deepStrictEqual(result, {
+                configNameOfNoInlineConfig: "",
                 parser: null,
                 parserOptions: {
                     ecmaFeatures: {
@@ -601,7 +609,10 @@ describe("ConfigArray", () => {
                     "valid-jsdoc": [2]
                 },
                 settings: {},
-                processor: null
+                processor: null,
+                noInlineConfig: void 0,
+                reportUnusedDisableDirectives: void 0,
+                ignores: void 0
             });
             assert.deepStrictEqual(config[0], {
                 rules: {

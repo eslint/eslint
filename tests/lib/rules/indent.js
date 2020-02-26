@@ -1788,6 +1788,49 @@ ruleTester.run("indent", rule, {
             options: [2, { outerIIFEBody: 0 }]
         },
         {
+            code: unIndent`
+                (function(x) {
+                    return x + 1;
+                })();
+            `,
+            options: [4, { outerIIFEBody: "off" }]
+        },
+        {
+            code: unIndent`
+                (function(x) {
+                return x + 1;
+                })();
+            `,
+            options: [4, { outerIIFEBody: "off" }]
+        },
+        {
+            code: unIndent`
+                ;(() => {
+                    function x(y) {
+                        return y + 1;
+                    }
+                })();
+            `,
+            options: [4, { outerIIFEBody: "off" }]
+        },
+        {
+            code: unIndent`
+                ;(() => {
+                function x(y) {
+                    return y + 1;
+                }
+                })();
+            `,
+            options: [4, { outerIIFEBody: "off" }]
+        },
+        {
+            code: unIndent`
+                function foo() {
+                }
+            `,
+            options: [4, { outerIIFEBody: "off" }]
+        },
+        {
             code: "Buffer.length",
             options: [4, { MemberExpression: 1 }]
         },
@@ -2096,6 +2139,86 @@ ruleTester.run("indent", rule, {
                 );
             `,
             options: [2]
+        },
+        {
+            code: unIndent`
+              condition
+                ? () => {
+                  return true
+                }
+                : condition2
+                  ? () => {
+                    return true
+                  }
+                  : () => {
+                    return false
+                  }
+            `,
+            options: [2]
+        },
+        {
+            code: unIndent`
+              condition
+                ? () => {
+                  return true
+                }
+                : condition2
+                  ? () => {
+                    return true
+                  }
+                  : () => {
+                    return false
+                  }
+            `,
+            options: [2, { offsetTernaryExpressions: false }]
+        },
+        {
+            code: unIndent`
+              condition
+                ? () => {
+                    return true
+                  }
+                : condition2
+                  ? () => {
+                      return true
+                    }
+                  : () => {
+                      return false
+                    }
+            `,
+            options: [2, { offsetTernaryExpressions: true }]
+        },
+        {
+            code: unIndent`
+              condition
+                  ? () => {
+                          return true
+                      }
+                  : condition2
+                      ? () => {
+                              return true
+                          }
+                      : () => {
+                              return false
+                          }
+            `,
+            options: [4, { offsetTernaryExpressions: true }]
+        },
+        {
+            code: unIndent`
+              condition
+              \t? () => {
+              \t\t\treturn true
+              \t\t}
+              \t: condition2
+              \t\t? () => {
+              \t\t\t\treturn true
+              \t\t\t}
+              \t\t: () => {
+              \t\t\t\treturn false
+              \t\t\t}
+            `,
+            options: ["tab", { offsetTernaryExpressions: true }]
         },
         unIndent`
             [
@@ -4651,6 +4774,210 @@ ruleTester.run("indent", rule, {
                 </div>
             `,
 
+        /*
+         * JSX Fragments
+         * https://github.com/eslint/eslint/issues/12208
+         */
+        unIndent`
+            <>
+                <A />
+            </>
+        `,
+        unIndent`
+            <
+            >
+                <A />
+            </>
+        `,
+        unIndent`
+            <>
+                <A />
+            <
+            />
+        `,
+        unIndent`
+            <>
+                <A />
+            </
+            >
+        `,
+        unIndent`
+            <
+            >
+                <A />
+            </
+            >
+        `,
+        unIndent`
+            <
+            >
+                <A />
+            <
+            />
+        `,
+        unIndent`
+            < // Comment
+            >
+                <A />
+            </>
+        `,
+        unIndent`
+            <
+                // Comment
+            >
+                <A />
+            </>
+        `,
+        unIndent`
+            <
+            // Comment
+            >
+                <A />
+            </>
+        `,
+        unIndent`
+            <>
+                <A />
+            < // Comment
+            />
+        `,
+        unIndent`
+            <>
+                <A />
+            <
+                // Comment
+            />
+        `,
+        unIndent`
+            <>
+                <A />
+            <
+            // Comment
+            />
+        `,
+        unIndent`
+            <>
+                <A />
+            </ // Comment
+            >
+        `,
+        unIndent`
+            <>
+                <A />
+            </
+                // Comment
+            >
+        `,
+        unIndent`
+            <>
+                <A />
+            </
+            // Comment
+            >
+        `,
+        unIndent`
+            < /* Comment */
+            >
+                <A />
+            </>
+        `,
+        unIndent`
+            <
+                /* Comment */
+            >
+                <A />
+            </>
+        `,
+        unIndent`
+            <
+            /* Comment */
+            >
+                <A />
+            </>
+        `,
+        unIndent`
+            <
+                /*
+                 * Comment
+                 */
+            >
+                <A />
+            </>
+        `,
+        unIndent`
+            <
+            /*
+             * Comment
+             */
+            >
+                <A />
+            </>
+        `,
+        unIndent`
+            <>
+                <A />
+            < /* Comment */
+            />
+        `,
+        unIndent`
+            <>
+                <A />
+            <
+                /* Comment */ />
+        `,
+        unIndent`
+            <>
+                <A />
+            <
+            /* Comment */ />
+        `,
+        unIndent`
+            <>
+                <A />
+            <
+                /* Comment */
+            />
+        `,
+        unIndent`
+            <>
+                <A />
+            <
+            /* Comment */
+            />
+        `,
+        unIndent`
+            <>
+                <A />
+            </ /* Comment */
+            >
+        `,
+        unIndent`
+            <>
+                <A />
+            </
+                /* Comment */ >
+        `,
+        unIndent`
+            <>
+                <A />
+            </
+            /* Comment */ >
+        `,
+        unIndent`
+            <>
+                <A />
+            </
+                /* Comment */
+            >
+        `,
+        unIndent`
+            <>
+                <A />
+            </
+            /* Comment */
+            >
+        `,
+
         // https://github.com/eslint/eslint/issues/8832
         unIndent`
                 <div>
@@ -4684,6 +5011,18 @@ ruleTester.run("indent", rule, {
             <small>Foo bar&nbsp;
                 <a>baz qux</a>.
             </small>
+        `,
+        unIndent`
+            <div
+                {...props}
+            />
+        `,
+        unIndent`
+            <div
+                {
+                    ...props
+                }
+            />
         `,
         {
             code: unIndent`
@@ -4949,7 +5288,443 @@ ruleTester.run("indent", rule, {
             { // comment
                 bar
             }];
-        `
+        `,
+        unIndent`
+            let foo
+
+            // comment
+
+            ;(async () => {})()
+        `,
+        unIndent`
+            let foo
+            // comment
+
+            ;(async () => {})()
+        `,
+        unIndent`
+            let foo
+
+            // comment
+            ;(async () => {})()
+        `,
+        unIndent`
+            let foo
+            // comment
+            ;(async () => {})()
+        `,
+        unIndent`
+            let foo
+
+                /* comment */;
+
+            (async () => {})()
+        `,
+        unIndent`
+            let foo
+                /* comment */;
+
+            (async () => {})()
+        `,
+        unIndent`
+            let foo
+
+                /* comment */;
+            (async () => {})()
+        `,
+        unIndent`
+            let foo
+                /* comment */;
+            (async () => {})()
+        `,
+        unIndent`
+            let foo
+            /* comment */;
+
+            (async () => {})()
+        `,
+        unIndent`
+            let foo
+            /* comment */;
+            (async () => {})()
+        `,
+        unIndent`
+            // comment
+
+            ;(async () => {})()
+        `,
+        unIndent`
+            // comment
+            ;(async () => {})()
+        `,
+        unIndent`
+            {
+                let foo
+
+                // comment
+
+                ;(async () => {})()
+            }
+        `,
+        unIndent`
+            {
+                let foo
+                // comment
+                ;(async () => {})()
+            }
+        `,
+        unIndent`
+            {
+                // comment
+
+                ;(async () => {})()
+            }
+        `,
+        unIndent`
+            {
+                // comment
+                ;(async () => {})()
+            }
+        `,
+        unIndent`
+            const foo = 1
+            const bar = foo
+
+            /* comment */
+
+            ;[1, 2, 3].forEach(() => {})
+        `,
+        unIndent`
+            const foo = 1
+            const bar = foo
+            /* comment */
+
+            ;[1, 2, 3].forEach(() => {})
+        `,
+        unIndent`
+            const foo = 1
+            const bar = foo
+
+            /* comment */
+            ;[1, 2, 3].forEach(() => {})
+        `,
+        unIndent`
+            const foo = 1
+            const bar = foo
+            /* comment */
+            ;[1, 2, 3].forEach(() => {})
+        `,
+        unIndent`
+            const foo = 1
+            const bar = foo
+
+                /* comment */;
+
+            [1, 2, 3].forEach(() => {})
+        `,
+        unIndent`
+            const foo = 1
+            const bar = foo
+                /* comment */;
+
+            [1, 2, 3].forEach(() => {})
+        `,
+        unIndent`
+            const foo = 1
+            const bar = foo
+
+                /* comment */;
+            [1, 2, 3].forEach(() => {})
+        `,
+        unIndent`
+            const foo = 1
+            const bar = foo
+                /* comment */;
+            [1, 2, 3].forEach(() => {})
+        `,
+        unIndent`
+            const foo = 1
+            const bar = foo
+            /* comment */;
+
+            [1, 2, 3].forEach(() => {})
+        `,
+        unIndent`
+            const foo = 1
+            const bar = foo
+            /* comment */;
+            [1, 2, 3].forEach(() => {})
+        `,
+        unIndent`
+            /* comment */
+
+            ;[1, 2, 3].forEach(() => {})
+        `,
+        unIndent`
+            /* comment */
+            ;[1, 2, 3].forEach(() => {})
+        `,
+        unIndent`
+            {
+                const foo = 1
+                const bar = foo
+
+                /* comment */
+
+                ;[1, 2, 3].forEach(() => {})
+            }
+        `,
+        unIndent`
+            {
+                const foo = 1
+                const bar = foo
+                /* comment */
+                ;[1, 2, 3].forEach(() => {})
+            }
+        `,
+        unIndent`
+            {
+                /* comment */
+
+                ;[1, 2, 3].forEach(() => {})
+            }
+        `,
+        unIndent`
+            {
+                /* comment */
+                ;[1, 2, 3].forEach(() => {})
+            }
+        `,
+
+        // import expressions
+        {
+            code: unIndent`
+                import(
+                    // before
+                    source
+                    // after
+                )
+            `,
+            parserOptions: { ecmaVersion: 2020 }
+        },
+
+        // https://github.com/eslint/eslint/issues/12122
+        {
+            code: unIndent`
+                foo(() => {
+                    tag\`
+                    multiline
+                    template
+                    literal
+                    \`(() => {
+                        bar();
+                    });
+                });
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                {
+                    tag\`
+                    multiline
+                    template
+                    \${a} \${b}
+                    literal
+                    \`(() => {
+                        bar();
+                    });
+                }
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                foo(() => {
+                    tagOne\`
+                    multiline
+                    template
+                    literal
+                    \${a} \${b}
+                    \`(() => {
+                        tagTwo\`
+                        multiline
+                        template
+                        literal
+                        \`(() => {
+                            bar();
+                        });
+
+                        baz();
+                    });
+                });
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                {
+                    tagOne\`
+                    \${a} \${b}
+                    multiline
+                    template
+                    literal
+                    \`(() => {
+                        tagTwo\`
+                        multiline
+                        template
+                        literal
+                        \`(() => {
+                            bar();
+                        });
+
+                        baz();
+                    });
+                };
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                tagOne\`multiline
+                        \${a} \${b}
+                        template
+                        literal
+                        \`(() => {        
+                    foo();
+                    
+                    tagTwo\`multiline
+                            template
+                            literal
+                        \`({
+                        bar: 1,
+                        baz: 2
+                    });
+                });
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                tagOne\`multiline
+                    template
+                    literal
+                    \${a} \${b}\`({        
+                    foo: 1,
+                    bar: tagTwo\`multiline
+                        template
+                        literal\`(() => {
+                        
+                        baz();
+                    })
+                });
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                foo.bar\` template literal \`(() => {
+                    baz();
+                })
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                foo.bar.baz\` template literal \`(() => {
+                    baz();
+                })
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                foo
+                    .bar\` template
+                        literal \`(() => {
+                        baz();
+                    })
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                foo
+                    .bar
+                    .baz\` template 
+                        literal \`(() => {
+                        baz();
+                    })
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                foo.bar\`
+                    \${a} \${b}
+                    \`(() => {
+                    baz();
+                })
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                foo.bar1.bar2\`
+                    \${a} \${b}
+                    \`(() => {
+                    baz();
+                })
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                foo
+                    .bar1
+                    .bar2\`
+                    \${a} \${b}
+                    \`(() => {
+                        baz();
+                    })
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                foo
+                    .bar\`
+                    \${a} \${b}
+                    \`(() => {
+                        baz();
+                    })
+            `,
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                foo
+                .test\`
+                    \${a} \${b}
+                    \`(() => {
+                    baz();
+                })
+            `,
+            options: [4, { MemberExpression: 0 }],
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: unIndent`
+                foo
+                        .test\`
+                    \${a} \${b}
+                    \`(() => {
+                            baz();
+                        })
+            `,
+            options: [4, { MemberExpression: 2 }],
+            parserOptions: { ecmaVersion: 2015 }
+        }
     ],
 
     invalid: [
@@ -6474,6 +7249,78 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                (function(){
+                    function foo(x) {
+                    return x + 1;
+                    }
+                })();
+            `,
+            output: unIndent`
+                (function(){
+                    function foo(x) {
+                        return x + 1;
+                    }
+                })();
+            `,
+            options: [4, { outerIIFEBody: "off" }],
+            errors: expectedErrors([[3, 8, 4, "Keyword"]])
+        },
+        {
+            code: unIndent`
+                (function(){
+                function foo(x) {
+                return x + 1;
+                }
+                })();
+            `,
+            output: unIndent`
+                (function(){
+                function foo(x) {
+                    return x + 1;
+                }
+                })();
+            `,
+            options: [4, { outerIIFEBody: "off" }],
+            errors: expectedErrors([[3, 4, 0, "Keyword"]])
+        },
+        {
+            code: unIndent`
+                (() => {
+                    function foo(x) {
+                    return x + 1;
+                    }
+                })();
+            `,
+            output: unIndent`
+                (() => {
+                    function foo(x) {
+                        return x + 1;
+                    }
+                })();
+            `,
+            options: [4, { outerIIFEBody: "off" }],
+            errors: expectedErrors([[3, 8, 4, "Keyword"]])
+        },
+        {
+            code: unIndent`
+                (() => {
+                function foo(x) {
+                return x + 1;
+                }
+                })();
+            `,
+            output: unIndent`
+                (() => {
+                function foo(x) {
+                    return x + 1;
+                }
+                })();
+            `,
+            options: [4, { outerIIFEBody: "off" }],
+            errors: expectedErrors([[3, 4, 0, "Keyword"]])
+        },
+        {
+            code: unIndent`
                 Buffer
                 .toString()
             `,
@@ -7270,6 +8117,88 @@ ruleTester.run("indent", rule, {
                 ]
             `,
             errors: expectedErrors([5, 4, 8, "Identifier"])
+        },
+        {
+            code: unIndent`
+              condition
+              ? () => {
+              return true
+              }
+              : condition2
+              ? () => {
+              return true
+              }
+              : () => {
+              return false
+              }
+            `,
+            output: unIndent`
+              condition
+                ? () => {
+                    return true
+                  }
+                : condition2
+                  ? () => {
+                      return true
+                    }
+                  : () => {
+                      return false
+                    }
+            `,
+            options: [2, { offsetTernaryExpressions: true }],
+            errors: expectedErrors([
+                [2, 2, 0, "Punctuator"],
+                [3, 6, 0, "Keyword"],
+                [4, 4, 0, "Punctuator"],
+                [5, 2, 0, "Punctuator"],
+                [6, 4, 0, "Punctuator"],
+                [7, 8, 0, "Keyword"],
+                [8, 6, 0, "Punctuator"],
+                [9, 4, 0, "Punctuator"],
+                [10, 8, 0, "Keyword"],
+                [11, 6, 0, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+              condition
+              ? () => {
+              return true
+              }
+              : condition2
+              ? () => {
+              return true
+              }
+              : () => {
+              return false
+              }
+            `,
+            output: unIndent`
+              condition
+                ? () => {
+                  return true
+                }
+                : condition2
+                  ? () => {
+                    return true
+                  }
+                  : () => {
+                    return false
+                  }
+            `,
+            options: [2, { offsetTernaryExpressions: false }],
+            errors: expectedErrors([
+                [2, 2, 0, "Punctuator"],
+                [3, 4, 0, "Keyword"],
+                [4, 2, 0, "Punctuator"],
+                [5, 2, 0, "Punctuator"],
+                [6, 4, 0, "Punctuator"],
+                [7, 6, 0, "Keyword"],
+                [8, 4, 0, "Punctuator"],
+                [9, 4, 0, "Punctuator"],
+                [10, 6, 0, "Keyword"],
+                [11, 4, 0, "Punctuator"]
+            ])
         },
         {
 
@@ -9334,6 +10263,36 @@ ruleTester.run("indent", rule, {
         },
         {
             code: unIndent`
+                <div
+                {...props}
+                />
+            `,
+            output: unIndent`
+                <div
+                    {...props}
+                />
+            `,
+            errors: expectedErrors([2, 4, 0, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                <div
+                    {
+                      ...props
+                    }
+                />
+            `,
+            output: unIndent`
+                <div
+                    {
+                        ...props
+                    }
+                />
+            `,
+            errors: expectedErrors([3, 8, 6, "Punctuator"])
+        },
+        {
+            code: unIndent`
                 <div>foo
                 <div>bar</div>
                 </div>
@@ -9358,6 +10317,200 @@ ruleTester.run("indent", rule, {
             `,
             errors: expectedErrors([2, 4, 0, "Punctuator"])
         },
+
+        /*
+         * JSX Fragments
+         * https://github.com/eslint/eslint/issues/12208
+         */
+        {
+            code: unIndent`
+                <>
+                <A />
+                </>
+            `,
+            output: unIndent`
+                <>
+                    <A />
+                </>
+            `,
+            errors: expectedErrors([2, 4, 0, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                <
+                    >
+                    <A />
+                </>
+            `,
+            output: unIndent`
+                <
+                >
+                    <A />
+                </>
+            `,
+            errors: expectedErrors([2, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                <>
+                    <A />
+                <
+                    />
+            `,
+            output: unIndent`
+                <>
+                    <A />
+                <
+                />
+            `,
+            errors: expectedErrors([4, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                <>
+                    <A />
+                </
+                    >
+            `,
+            output: unIndent`
+                <>
+                    <A />
+                </
+                >
+            `,
+            errors: expectedErrors([4, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                <
+                    >
+                    <A />
+                </
+                    >
+            `,
+            output: unIndent`
+                <
+                >
+                    <A />
+                </
+                >
+            `,
+            errors: expectedErrors([
+                [2, 0, 4, "Punctuator"],
+                [5, 0, 4, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                <
+                    >
+                    <A />
+                <
+                    />
+            `,
+            output: unIndent`
+                <
+                >
+                    <A />
+                <
+                />
+            `,
+            errors: expectedErrors([
+                [2, 0, 4, "Punctuator"],
+                [5, 0, 4, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                < // Comment
+                    >
+                    <A />
+                </>
+            `,
+            output: unIndent`
+                < // Comment
+                >
+                    <A />
+                </>
+            `,
+            errors: expectedErrors([2, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                <>
+                    <A />
+                < // Comment
+                    />
+            `,
+            output: unIndent`
+                <>
+                    <A />
+                < // Comment
+                />
+            `,
+            errors: expectedErrors([4, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                <>
+                    <A />
+                </ // Comment
+                    >
+            `,
+            output: unIndent`
+                <>
+                    <A />
+                </ // Comment
+                >
+            `,
+            errors: expectedErrors([4, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                < /* Comment */
+                    >
+                    <A />
+                </>
+            `,
+            output: unIndent`
+                < /* Comment */
+                >
+                    <A />
+                </>
+            `,
+            errors: expectedErrors([2, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                <>
+                    <A />
+                < /* Comment */
+                    />
+            `,
+            output: unIndent`
+                <>
+                    <A />
+                < /* Comment */
+                />
+            `,
+            errors: expectedErrors([4, 0, 4, "Punctuator"])
+        },
+        {
+            code: unIndent`
+                <>
+                    <A />
+                </ /* Comment */
+                    >
+            `,
+            output: unIndent`
+                <>
+                    <A />
+                </ /* Comment */
+                >
+            `,
+            errors: expectedErrors([4, 0, 4, "Punctuator"])
+        },
+
         {
             code: unIndent`
                 ({
@@ -9593,6 +10746,634 @@ ruleTester.run("indent", rule, {
                 }];
             `,
             errors: expectedErrors([5, 0, 4, "Line"])
+        },
+        {
+            code: unIndent`
+                let foo
+
+                    // comment
+
+                ;(async () => {})()
+            `,
+            output: unIndent`
+                let foo
+
+                // comment
+
+                ;(async () => {})()
+            `,
+            errors: expectedErrors([3, 0, 4, "Line"])
+        },
+        {
+            code: unIndent`
+                let foo
+                    // comment
+                ;(async () => {})()
+            `,
+            output: unIndent`
+                let foo
+                // comment
+                ;(async () => {})()
+            `,
+            errors: expectedErrors([2, 0, 4, "Line"])
+        },
+        {
+            code: unIndent`
+                let foo
+
+                /* comment */;
+
+                (async () => {})()
+            `,
+            output: unIndent`
+                let foo
+
+                    /* comment */;
+
+                (async () => {})()
+            `,
+            errors: expectedErrors([3, 4, 0, "Block"])
+        },
+        {
+            code: unIndent`
+                    // comment
+
+                ;(async () => {})()
+            `,
+            output: unIndent`
+                // comment
+
+                ;(async () => {})()
+            `,
+            errors: expectedErrors([1, 0, 4, "Line"])
+        },
+        {
+            code: unIndent`
+                    // comment
+                ;(async () => {})()
+            `,
+            output: unIndent`
+                // comment
+                ;(async () => {})()
+            `,
+            errors: expectedErrors([1, 0, 4, "Line"])
+        },
+        {
+            code: unIndent`
+                {
+                    let foo
+
+                        // comment
+
+                    ;(async () => {})()
+
+                }
+            `,
+            output: unIndent`
+                {
+                    let foo
+
+                    // comment
+
+                    ;(async () => {})()
+
+                }
+            `,
+            errors: expectedErrors([4, 4, 8, "Line"])
+        },
+        {
+            code: unIndent`
+                {
+                    let foo
+                        // comment
+                    ;(async () => {})()
+
+                }
+            `,
+            output: unIndent`
+                {
+                    let foo
+                    // comment
+                    ;(async () => {})()
+
+                }
+            `,
+            errors: expectedErrors([3, 4, 8, "Line"])
+        },
+        {
+            code: unIndent`
+                {
+                    let foo
+
+                    /* comment */;
+
+                    (async () => {})()
+
+                }
+            `,
+            output: unIndent`
+                {
+                    let foo
+
+                        /* comment */;
+
+                    (async () => {})()
+
+                }
+            `,
+            errors: expectedErrors([4, 8, 4, "Block"])
+        },
+        {
+            code: unIndent`
+                const foo = 1
+                const bar = foo
+
+                    /* comment */
+
+                ;[1, 2, 3].forEach(() => {})
+            `,
+            output: unIndent`
+                const foo = 1
+                const bar = foo
+
+                /* comment */
+
+                ;[1, 2, 3].forEach(() => {})
+            `,
+            errors: expectedErrors([4, 0, 4, "Block"])
+        },
+        {
+            code: unIndent`
+                const foo = 1
+                const bar = foo
+                    /* comment */
+                ;[1, 2, 3].forEach(() => {})
+            `,
+            output: unIndent`
+                const foo = 1
+                const bar = foo
+                /* comment */
+                ;[1, 2, 3].forEach(() => {})
+            `,
+            errors: expectedErrors([3, 0, 4, "Block"])
+        },
+        {
+            code: unIndent`
+                const foo = 1
+                const bar = foo
+
+                /* comment */;
+
+                [1, 2, 3].forEach(() => {})
+            `,
+            output: unIndent`
+                const foo = 1
+                const bar = foo
+
+                    /* comment */;
+
+                [1, 2, 3].forEach(() => {})
+            `,
+            errors: expectedErrors([4, 4, 0, "Block"])
+        },
+        {
+            code: unIndent`
+                    /* comment */
+
+                ;[1, 2, 3].forEach(() => {})
+            `,
+            output: unIndent`
+                /* comment */
+
+                ;[1, 2, 3].forEach(() => {})
+            `,
+            errors: expectedErrors([1, 0, 4, "Block"])
+        },
+        {
+            code: unIndent`
+                    /* comment */
+                ;[1, 2, 3].forEach(() => {})
+            `,
+            output: unIndent`
+                /* comment */
+                ;[1, 2, 3].forEach(() => {})
+            `,
+            errors: expectedErrors([1, 0, 4, "Block"])
+        },
+        {
+            code: unIndent`
+                {
+                    const foo = 1
+                    const bar = foo
+
+                        /* comment */
+
+                    ;[1, 2, 3].forEach(() => {})
+
+                }
+            `,
+            output: unIndent`
+                {
+                    const foo = 1
+                    const bar = foo
+
+                    /* comment */
+
+                    ;[1, 2, 3].forEach(() => {})
+
+                }
+            `,
+            errors: expectedErrors([5, 4, 8, "Block"])
+        },
+        {
+            code: unIndent`
+                {
+                    const foo = 1
+                    const bar = foo
+                        /* comment */
+                    ;[1, 2, 3].forEach(() => {})
+
+                }
+            `,
+            output: unIndent`
+                {
+                    const foo = 1
+                    const bar = foo
+                    /* comment */
+                    ;[1, 2, 3].forEach(() => {})
+
+                }
+            `,
+            errors: expectedErrors([4, 4, 8, "Block"])
+        },
+        {
+            code: unIndent`
+                {
+                    const foo = 1
+                    const bar = foo
+
+                    /* comment */;
+
+                    [1, 2, 3].forEach(() => {})
+
+                }
+            `,
+            output: unIndent`
+                {
+                    const foo = 1
+                    const bar = foo
+
+                        /* comment */;
+
+                    [1, 2, 3].forEach(() => {})
+
+                }
+            `,
+            errors: expectedErrors([5, 8, 4, "Block"])
+        },
+
+        // import expressions
+        {
+            code: unIndent`
+                import(
+                source
+                    )
+            `,
+            output: unIndent`
+                import(
+                    source
+                )
+            `,
+            parserOptions: { ecmaVersion: 2020 },
+            errors: expectedErrors([
+                [2, 4, 0, "Identifier"],
+                [3, 0, 4, "Punctuator"]
+            ])
+        },
+
+        // https://github.com/eslint/eslint/issues/12122
+        {
+            code: unIndent`
+                foo(() => {
+                    tag\`
+                    multiline
+                    template\${a} \${b}
+                    literal
+                    \`(() => {
+                    bar();
+                    });
+                });
+            `,
+            output: unIndent`
+                foo(() => {
+                    tag\`
+                    multiline
+                    template\${a} \${b}
+                    literal
+                    \`(() => {
+                        bar();
+                    });
+                });
+            `,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: expectedErrors([
+                [7, 8, 4, "Identifier"]
+            ])
+        },
+        {
+            code: unIndent`
+                {
+                        tag\`
+                    multiline
+                    template
+                    literal
+                    \${a} \${b}\`(() => {
+                            bar();
+                        });
+                }
+            `,
+            output: unIndent`
+                {
+                    tag\`
+                    multiline
+                    template
+                    literal
+                    \${a} \${b}\`(() => {
+                        bar();
+                    });
+                }
+            `,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: expectedErrors([
+                [2, 4, 8, "Identifier"],
+                [7, 8, 12, "Identifier"],
+                [8, 4, 8, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                foo(() => {
+                    tagOne\`\${a} \${b}
+                    multiline
+                    template
+                    literal
+                    \`(() => {
+                            tagTwo\`
+                        multiline
+                        template
+                        literal
+                        \`(() => {
+                            bar();
+                        });
+
+                            baz();
+                });
+                });
+            `,
+            output: unIndent`
+                foo(() => {
+                    tagOne\`\${a} \${b}
+                    multiline
+                    template
+                    literal
+                    \`(() => {
+                        tagTwo\`
+                        multiline
+                        template
+                        literal
+                        \`(() => {
+                            bar();
+                        });
+
+                        baz();
+                    });
+                });
+            `,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: expectedErrors([
+                [7, 8, 12, "Identifier"],
+                [15, 8, 12, "Identifier"],
+                [16, 4, 0, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                {
+                    tagOne\`
+                    multiline
+                    template
+                    literal
+                    \${a} \${b}\`(() => {
+                            tagTwo\`
+                        multiline
+                        template
+                        literal
+                        \`(() => {
+                            bar();
+                        });
+
+                            baz();
+                });
+                }
+            `,
+            output: unIndent`
+                {
+                    tagOne\`
+                    multiline
+                    template
+                    literal
+                    \${a} \${b}\`(() => {
+                        tagTwo\`
+                        multiline
+                        template
+                        literal
+                        \`(() => {
+                            bar();
+                        });
+
+                        baz();
+                    });
+                }
+            `,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: expectedErrors([
+                [7, 8, 12, "Identifier"],
+                [15, 8, 12, "Identifier"],
+                [16, 4, 0, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                tagOne\`multiline \${a} \${b}
+                        template
+                        literal
+                        \`(() => {        
+                foo();
+                    
+                    tagTwo\`multiline
+                            template
+                            literal
+                        \`({
+                    bar: 1,
+                        baz: 2
+                    });
+                });
+            `,
+            output: unIndent`
+                tagOne\`multiline \${a} \${b}
+                        template
+                        literal
+                        \`(() => {        
+                    foo();
+                    
+                    tagTwo\`multiline
+                            template
+                            literal
+                        \`({
+                        bar: 1,
+                        baz: 2
+                    });
+                });
+            `,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: expectedErrors([
+                [5, 4, 0, "Identifier"],
+                [11, 8, 4, "Identifier"]
+            ])
+        },
+        {
+            code: unIndent`
+                tagOne\`multiline
+                    template \${a} \${b}
+                    literal\`({
+                        foo: 1,
+                bar: tagTwo\`multiline
+                        template
+                        literal\`(() => {
+                        
+                baz();
+                    })
+                });
+            `,
+            output: unIndent`
+                tagOne\`multiline
+                    template \${a} \${b}
+                    literal\`({
+                    foo: 1,
+                    bar: tagTwo\`multiline
+                        template
+                        literal\`(() => {
+                        
+                        baz();
+                    })
+                });
+            `,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: expectedErrors([
+                [4, 4, 8, "Identifier"],
+                [5, 4, 0, "Identifier"],
+                [9, 8, 0, "Identifier"]
+            ])
+        },
+        {
+            code: unIndent`
+                foo.bar\` template literal \`(() => {
+                        baz();
+                })
+            `,
+            output: unIndent`
+                foo.bar\` template literal \`(() => {
+                    baz();
+                })
+            `,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: expectedErrors([
+                [2, 4, 8, "Identifier"]
+            ])
+        },
+        {
+            code: unIndent`
+                foo.bar.baz\` template literal \`(() => {
+                baz();
+                    })
+            `,
+            output: unIndent`
+                foo.bar.baz\` template literal \`(() => {
+                    baz();
+                })
+            `,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: expectedErrors([
+                [2, 4, 0, "Identifier"],
+                [3, 0, 4, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                foo
+                    .bar\` template
+                        literal \`(() => {
+                        baz();
+                })
+            `,
+            output: unIndent`
+                foo
+                    .bar\` template
+                        literal \`(() => {
+                        baz();
+                    })
+            `,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: expectedErrors([
+                [5, 4, 0, "Punctuator"]
+            ])
+        },
+        {
+            code: unIndent`
+                foo
+                    .test\`
+                    \${a} \${b}
+                    \`(() => {
+                bar();
+                    })
+            `,
+            output: unIndent`
+                foo
+                    .test\`
+                    \${a} \${b}
+                    \`(() => {
+                        bar();
+                    })
+            `,
+            parserOptions: { ecmaVersion: 2015 },
+            errors: expectedErrors([
+                [5, 8, 0, "Identifier"]
+            ])
+        },
+        {
+            code: unIndent`
+                foo
+                    .test\`
+                    \${a} \${b}
+                    \`(() => {
+                bar();
+                    })
+            `,
+            output: unIndent`
+                foo
+                .test\`
+                    \${a} \${b}
+                    \`(() => {
+                    bar();
+                })
+            `,
+            options: [4, { MemberExpression: 0 }],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: expectedErrors([
+                [2, 0, 4, "Punctuator"],
+                [5, 4, 0, "Identifier"],
+                [6, 0, 4, "Punctuator"]
+            ])
         }
     ]
 });

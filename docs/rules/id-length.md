@@ -31,9 +31,9 @@ var myObj = { a: 1 };
 class x { }
 class Foo { x() {} }
 function foo(...x) { }
+function foo({x}) { }
 var { x } = {};
-var { x: a} = {};
-var { a: [x]} = {};
+var { prop: a} = {};
 ({ prop: obj.x } = {});
 ```
 
@@ -59,8 +59,10 @@ function foo(num = 0) { }
 class MyClass { }
 class Foo { method() {} }
 function foo(...args) { }
+function foo({ prop }) { }
+function foo({ a: prop }) { }
 var { prop } = {};
-var { prop: a } = {};
+var { a: prop } = {};
 var { prop: [x] } = {};
 ({ prop: obj.longName } = {});
 var data = { "x": 1 };  // excused because of quotes
@@ -89,8 +91,7 @@ class x { }
 class Foo { x() {} }
 function foo(...x) { }
 var { x } = {};
-var { x: a} = {};
-var { a: [x]} = {};
+var { prop: x} = {};
 ({ prop: obj.x } = {});
 ```
 
@@ -103,7 +104,7 @@ Examples of **correct** code for this rule with a minimum of 4:
 var value = 5;
 function func() { return 42; }
 obj.element = document.body;
-var foo = function (event) { /* do stuff */ };
+var foobar = function (event) { /* do stuff */ };
 try {
     dangerousStuff();
 } catch (error) {
@@ -116,7 +117,7 @@ class MyClass { }
 class Foobar { method() {} }
 function foobar(...args) { }
 var { prop } = {};
-var { prop: a } = {};
+var { a: longName } = {};
 var { prop: [x] } = {};
 ({ prop: obj.name } = {});
 var data = { "x": 1 };  // excused because of quotes
@@ -153,8 +154,7 @@ class x { }
 class Foo { x() {} }
 function foo(...x) { }
 var { x } = {};
-var { x: a} = {};
-var { a: [x]} = {};
+var { prop: a} = {};
 ({ prop: obj.x } = {});
 ```
 
@@ -167,7 +167,7 @@ Examples of **correct** code for this rule with the `{ "min": 4 }` option:
 var value = 5;
 function func() { return 42; }
 obj.element = document.body;
-var foo = function (event) { /* do stuff */ };
+var foobar = function (event) { /* do stuff */ };
 try {
     dangerousStuff();
 } catch (error) {
@@ -180,7 +180,7 @@ class MyClass { }
 class Foobar { method() {} }
 function foobar(...args) { }
 var { prop } = {};
-var { prop: a } = {};
+var { a: longName } = {};
 var { prop: [x] } = {};
 ({ prop: obj.name } = {});
 var data = { "x": 1 };  // excused because of quotes
@@ -256,6 +256,8 @@ try {
     // ignore as many do
 }
 (x) => { return x * x; };
+const { x } = foo;
+const { a: x } = foo;
 ```
 
 ## Related Rules

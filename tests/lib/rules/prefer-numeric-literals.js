@@ -31,7 +31,28 @@ ruleTester.run("prefer-numeric-literals", rule, {
         "parseInt(foo);",
         "parseInt(foo, 2);",
         "Number.parseInt(foo);",
-        "Number.parseInt(foo, 2);"
+        "Number.parseInt(foo, 2);",
+        "parseInt(11, 2);",
+        "Number.parseInt(1, 8);",
+        "parseInt(1e5, 16);",
+        "parseInt('11', '2');",
+        "Number.parseInt('11', '8');",
+        {
+            code: "parseInt('11', 2n);",
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "Number.parseInt('11', 8n);",
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "parseInt('11', 16n);",
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "parseInt(1n, 2);",
+            parserOptions: { ecmaVersion: 2020 }
+        }
     ],
     invalid: [
         {
@@ -90,6 +111,166 @@ ruleTester.run("prefer-numeric-literals", rule, {
             code: "Number.parseInt('1️⃣3️⃣3️⃣7️⃣', 16);",
             output: null, // not fixed, javascript doesn't support emoji literals
             errors: [{ message: "Use hexadecimal literals instead of Number.parseInt()." }]
+        },
+
+        // Adjacent tokens tests
+        {
+            code: "parseInt('11', 2)",
+            output: "0b11",
+            errors: [{ message: "Use binary literals instead of parseInt()." }]
+        },
+        {
+            code: "Number.parseInt('67', 8)",
+            output: "0o67",
+            errors: [{ message: "Use octal literals instead of Number.parseInt()." }]
+        },
+        {
+            code: "5+parseInt('A', 16)",
+            output: "5+0xA",
+            errors: [{ message: "Use hexadecimal literals instead of parseInt()." }]
+        },
+        {
+            code: "function *f(){ yield(Number).parseInt('11', 2) }",
+            output: "function *f(){ yield 0b11 }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "Use binary literals instead of (Number).parseInt()." }]
+        },
+        {
+            code: "function *f(){ yield(Number.parseInt)('67', 8) }",
+            output: "function *f(){ yield 0o67 }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "Use octal literals instead of Number.parseInt()." }]
+        },
+        {
+            code: "function *f(){ yield(parseInt)('A', 16) }",
+            output: "function *f(){ yield 0xA }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "Use hexadecimal literals instead of parseInt()." }]
+        },
+        {
+            code: "function *f(){ yield Number.parseInt('11', 2) }",
+            output: "function *f(){ yield 0b11 }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "Use binary literals instead of Number.parseInt()." }]
+        },
+        {
+            code: "function *f(){ yield/**/Number.parseInt('67', 8) }",
+            output: "function *f(){ yield/**/0o67 }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "Use octal literals instead of Number.parseInt()." }]
+        },
+        {
+            code: "function *f(){ yield(parseInt('A', 16)) }",
+            output: "function *f(){ yield(0xA) }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{ message: "Use hexadecimal literals instead of parseInt()." }]
+        },
+        {
+            code: "parseInt('11', 2)+5",
+            output: "0b11+5",
+            errors: [{ message: "Use binary literals instead of parseInt()." }]
+        },
+        {
+            code: "Number.parseInt('17', 8)+5",
+            output: "0o17+5",
+            errors: [{ message: "Use octal literals instead of Number.parseInt()." }]
+        },
+        {
+            code: "parseInt('A', 16)+5",
+            output: "0xA+5",
+            errors: [{ message: "Use hexadecimal literals instead of parseInt()." }]
+        },
+        {
+            code: "parseInt('11', 2)in foo",
+            output: "0b11 in foo",
+            errors: [{ message: "Use binary literals instead of parseInt()." }]
+        },
+        {
+            code: "Number.parseInt('17', 8)in foo",
+            output: "0o17 in foo",
+            errors: [{ message: "Use octal literals instead of Number.parseInt()." }]
+        },
+        {
+            code: "parseInt('A', 16)in foo",
+            output: "0xA in foo",
+            errors: [{ message: "Use hexadecimal literals instead of parseInt()." }]
+        },
+        {
+            code: "parseInt('11', 2) in foo",
+            output: "0b11 in foo",
+            errors: [{ message: "Use binary literals instead of parseInt()." }]
+        },
+        {
+            code: "Number.parseInt('17', 8)/**/in foo",
+            output: "0o17/**/in foo",
+            errors: [{ message: "Use octal literals instead of Number.parseInt()." }]
+        },
+        {
+            code: "(parseInt('A', 16))in foo",
+            output: "(0xA)in foo",
+            errors: [{ message: "Use hexadecimal literals instead of parseInt()." }]
+        },
+
+        // Should not autofix if it would remove comments
+        {
+            code: "/* comment */Number.parseInt('11', 2);",
+            output: "/* comment */0b11;",
+            errors: 1
+        },
+        {
+            code: "Number/**/.parseInt('11', 2);",
+            output: null,
+            errors: 1
+        },
+        {
+            code: "Number//\n.parseInt('11', 2);",
+            output: null,
+            errors: 1
+        },
+        {
+            code: "Number./**/parseInt('11', 2);",
+            output: null,
+            errors: 1
+        },
+        {
+            code: "Number.parseInt(/**/'11', 2);",
+            output: null,
+            errors: 1
+        },
+        {
+            code: "Number.parseInt('11', /**/2);",
+            output: null,
+            errors: 1
+        },
+        {
+            code: "Number.parseInt('11', 2)/* comment */;",
+            output: "0b11/* comment */;",
+            errors: 1
+        },
+        {
+            code: "parseInt/**/('11', 2);",
+            output: null,
+            errors: 1
+        },
+        {
+            code: "parseInt(//\n'11', 2);",
+            output: null,
+            errors: 1
+        },
+        {
+            code: "parseInt('11'/**/, 2);",
+            output: null,
+            errors: 1
+        },
+        {
+            code: "parseInt('11', 2 /**/);",
+            output: null,
+            errors: 1
+        },
+        {
+            code: "parseInt('11', 2)//comment\n;",
+            output: "0b11//comment\n;",
+            errors: 1
         }
     ]
 });

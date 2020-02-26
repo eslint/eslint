@@ -57,6 +57,7 @@ describe("configInitializer", () => {
 
     /**
      * Returns the path inside of the fixture directory.
+     * @param {...string} args file path segments.
      * @returns {string} The path inside the fixture directory.
      * @private
      */
@@ -166,6 +167,24 @@ describe("configInitializer", () => {
                 assert.strictEqual(config.parserOptions.ecmaVersion, 2018);
                 assert.deepStrictEqual(config.plugins, ["vue"]);
                 assert.deepStrictEqual(config.extends, ["eslint:recommended", "plugin:vue/essential"]);
+            });
+
+            it("should enable typescript parser and plugin", () => {
+                answers.typescript = true;
+                const config = init.processAnswers(answers);
+
+                assert.strictEqual(config.parser, "@typescript-eslint/parser");
+                assert.deepStrictEqual(config.plugins, ["@typescript-eslint"]);
+                assert.deepStrictEqual(config.extends, ["eslint:recommended", "plugin:@typescript-eslint/eslint-recommended"]);
+            });
+
+            it("should enable typescript parser and plugin with vue", () => {
+                answers.framework = "vue";
+                answers.typescript = true;
+                const config = init.processAnswers(answers);
+
+                assert.strictEqual(config.parserOptions.parser, "@typescript-eslint/parser");
+                assert.deepStrictEqual(config.plugins, ["vue", "@typescript-eslint"]);
             });
 
             it("should extend eslint:recommended", () => {
@@ -305,6 +324,39 @@ describe("configInitializer", () => {
                         assert.strictEqual(result, true);
                     });
                 });
+            });
+
+            it("should support the standard style guide with Vue.js", () => {
+                const config = {
+                    plugins: ["vue"],
+                    extends: ["plugin:vue/essential", "standard"]
+                };
+                const modules = init.getModulesList(config);
+
+                assert.include(modules, "eslint-plugin-vue@latest");
+                assert.include(modules, "eslint-config-standard@latest");
+            });
+
+            it("should support custom parser", () => {
+                const config = {
+                    parser: "@typescript-eslint/parser"
+                };
+                const modules = init.getModulesList(config);
+
+                assert.include(modules, "@typescript-eslint/parser@latest");
+            });
+
+            it("should support custom parser with Vue.js", () => {
+                const config = {
+
+                    // We should declare the parser at `parserOptions` when using with `eslint-plugin-vue`.
+                    parserOptions: {
+                        parser: "@typescript-eslint/parser"
+                    }
+                };
+                const modules = init.getModulesList(config);
+
+                assert.include(modules, "@typescript-eslint/parser@latest");
             });
         });
 

@@ -30,13 +30,17 @@ function assertConfigArrayElement(actual, providedExpected) {
         criteria: null,
         env: void 0,
         globals: void 0,
+        ignorePattern: void 0,
+        noInlineConfig: void 0,
         parser: void 0,
         parserOptions: void 0,
         plugins: void 0,
         processor: void 0,
+        reportUnusedDisableDirectives: void 0,
         root: void 0,
         rules: void 0,
         settings: void 0,
+        type: "config",
         ...providedExpected
     };
 
@@ -53,9 +57,12 @@ function assertConfig(actual, providedExpected) {
     const expected = {
         env: {},
         globals: {},
+        ignorePatterns: [],
+        noInlineConfig: void 0,
         parser: null,
         parserOptions: {},
         plugins: [],
+        reportUnusedDisableDirectives: void 0,
         rules: {},
         settings: {},
         ...providedExpected
@@ -165,6 +172,7 @@ describe("ConfigArrayFactory", () => {
     describe("'loadFile(filePath, options)' method should load a config file.", () => {
         const basicFiles = {
             "js/.eslintrc.js": "exports.settings = { name: 'js/.eslintrc.js' }",
+            "cjs/.eslintrc.cjs": "exports.settings = { name: 'cjs/.eslintrc.cjs' }",
             "json/.eslintrc.json": "{ \"settings\": { \"name\": \"json/.eslintrc.json\" } }",
             "legacy-json/.eslintrc": "{ \"settings\": { \"name\": \"legacy-json/.eslintrc\" } }",
             "legacy-yml/.eslintrc": "settings:\n  name: legacy-yml/.eslintrc",
@@ -282,6 +290,7 @@ describe("ConfigArrayFactory", () => {
     describe("'loadInDirectory(directoryPath, options)' method should load the config file of a directory.", () => {
         const basicFiles = {
             "js/.eslintrc.js": "exports.settings = { name: 'js/.eslintrc.js' }",
+            "cjs/.eslintrc.cjs": "exports.settings = { name: 'cjs/.eslintrc.cjs' }",
             "json/.eslintrc.json": "{ \"settings\": { \"name\": \"json/.eslintrc.json\" } }",
             "legacy-json/.eslintrc": "{ \"settings\": { \"name\": \"legacy-json/.eslintrc\" } }",
             "legacy-yml/.eslintrc": "settings:\n  name: legacy-yml/.eslintrc",
@@ -1491,6 +1500,7 @@ describe("ConfigArrayFactory", () => {
             "node_modules/eslint-plugin-invalid-parser/index.js": "exports.configs = { foo: { parser: 'nonexistent-parser' } }",
             "node_modules/eslint-plugin-invalid-config/index.js": "exports.configs = { foo: {} }",
             "js/.eslintrc.js": "module.exports = { rules: { semi: [2, 'always'] } };",
+            "cjs/.eslintrc.cjs": "module.exports = { rules: { semi: [2, 'always'] } };",
             "json/.eslintrc.json": "{ \"rules\": { \"quotes\": [2, \"double\"] } }",
             "package-json/package.json": "{ \"eslintConfig\": { \"env\": { \"es6\": true } } }",
             "yaml/.eslintrc.yaml": "env:\n    browser: true"
@@ -1696,7 +1706,7 @@ describe("ConfigArrayFactory", () => {
                 .toCompatibleObjectAsConfigFileContent();
         }
 
-        it("should throw error if file doesnt exist", () => {
+        it("should throw error if file doesn't exist", () => {
             const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem();
             const factory = new ConfigArrayFactory();
 
@@ -1733,6 +1743,22 @@ describe("ConfigArrayFactory", () => {
             });
             const factory = new ConfigArrayFactory();
             const config = load(factory, "js/.eslintrc.js");
+
+            assertConfig(config, {
+                rules: {
+                    semi: [2, "always"]
+                }
+            });
+        });
+
+        it("should load information from a JavaScript file with a .cjs extension", () => {
+            const { ConfigArrayFactory } = defineConfigArrayFactoryWithInMemoryFileSystem({
+                files: {
+                    "cjs/.eslintrc.cjs": "module.exports = { rules: { semi: [2, 'always'] } };"
+                }
+            });
+            const factory = new ConfigArrayFactory();
+            const config = load(factory, "cjs/.eslintrc.cjs");
 
             assertConfig(config, {
                 rules: {

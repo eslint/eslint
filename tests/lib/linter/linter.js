@@ -74,7 +74,7 @@ const ESLINT_ENV = "eslint-env";
 describe("Linter", () => {
     const filename = "filename.js";
 
-    /** @type {InstanceType<import("../../lib/linter.js")["Linter"]>} */
+    /** @type {InstanceType<import("../../../lib/linter/linter.js")["Linter"]>} */
     let linter;
 
     beforeEach(() => {
@@ -3134,37 +3134,116 @@ describe("Linter", () => {
 
         it("should report a violation for env changes", () => {
             const code = [
-                `/*${ESLINT_ENV} browser*/`
+                `/*${ESLINT_ENV} browser*/ window`
             ].join("\n");
             const config = {
                 rules: {
-                    test: 2
+                    "no-undef": 2
                 }
             };
-            let ok = false;
+            const messages = linter.verify(code, config, { allowInlineConfig: false });
 
-            linter.defineRules({
-                test(context) {
-                    return {
-                        Program() {
-                            const scope = context.getScope();
-                            const sourceCode = context.getSourceCode();
-                            const comments = sourceCode.getAllComments();
+            assert.strictEqual(messages.length, 1);
+            assert.strictEqual(messages[0].ruleId, "no-undef");
+        });
+    });
 
-                            assert.strictEqual(1, comments.length);
+    describe("when evaluating code with 'noInlineComment'", () => {
+        for (const directive of [
+            "globals foo",
+            "global foo",
+            "exported foo",
+            "eslint eqeqeq: error",
+            "eslint-disable eqeqeq",
+            "eslint-disable-line eqeqeq",
+            "eslint-disable-next-line eqeqeq",
+            "eslint-enable eqeqeq",
+            "eslint-env es6"
+        ]) {
+            // eslint-disable-next-line no-loop-func
+            it(`should warn '/* ${directive} */' if 'noInlineConfig' was given.`, () => {
+                const messages = linter.verify(`/* ${directive} */`, { noInlineConfig: true });
 
-                            const windowVar = getVariable(scope, "window");
+                assert.deepStrictEqual(messages.length, 1);
+                assert.deepStrictEqual(messages[0].fatal, void 0);
+                assert.deepStrictEqual(messages[0].ruleId, null);
+                assert.deepStrictEqual(messages[0].severity, 1);
+                assert.deepStrictEqual(messages[0].message, `'/*${directive.split(" ")[0]}*/' has no effect because you have 'noInlineConfig' setting in your config.`);
+            });
+        }
 
-                            assert.notOk(windowVar.eslintExplicitGlobal);
+        for (const directive of [
+            "eslint-disable-line eqeqeq",
+            "eslint-disable-next-line eqeqeq"
+        ]) {
+            // eslint-disable-next-line no-loop-func
+            it(`should warn '// ${directive}' if 'noInlineConfig' was given.`, () => {
+                const messages = linter.verify(`// ${directive}`, { noInlineConfig: true });
 
-                            ok = true;
-                        }
-                    };
-                }
+                assert.deepStrictEqual(messages.length, 1);
+                assert.deepStrictEqual(messages[0].fatal, void 0);
+                assert.deepStrictEqual(messages[0].ruleId, null);
+                assert.deepStrictEqual(messages[0].severity, 1);
+                assert.deepStrictEqual(messages[0].message, `'//${directive.split(" ")[0]}' has no effect because you have 'noInlineConfig' setting in your config.`);
+            });
+        }
+
+        it("should not warn if 'noInlineConfig' and '--no-inline-config' were given.", () => {
+            const messages = linter.verify("/* globals foo */", { noInlineConfig: true }, { allowInlineConfig: false });
+
+            assert.deepStrictEqual(messages.length, 0);
+        });
+    });
+
+    describe("when receiving cwd in options during instantiation", () => {
+        const code = "a;\nb;";
+        const config = { rules: { checker: "error" } };
+
+        it("should get cwd correctly in the context", () => {
+            const cwd = "cwd";
+            const linterWithOption = new Linter({ cwd });
+            let spy;
+
+            linterWithOption.defineRule("checker", context => {
+                spy = sinon.spy(() => {
+                    assert.strictEqual(context.getCwd(), cwd);
+                });
+                return { Program: spy };
             });
 
-            linter.verify(code, config, { allowInlineConfig: false });
-            assert(ok);
+            linterWithOption.verify(code, config);
+            assert(spy && spy.calledOnce);
+        });
+
+        it("should assign process.cwd() to it if cwd is undefined", () => {
+            let spy;
+            const linterWithOption = new Linter({ });
+
+            linterWithOption.defineRule("checker", context => {
+
+                spy = sinon.spy(() => {
+                    assert.strictEqual(context.getCwd(), process.cwd());
+                });
+                return { Program: spy };
+            });
+
+            linterWithOption.verify(code, config);
+            assert(spy && spy.calledOnce);
+        });
+
+        it("should assign process.cwd() to it if the option is undefined", () => {
+            let spy;
+
+            linter.defineRule("checker", context => {
+
+                spy = sinon.spy(() => {
+                    assert.strictEqual(context.getCwd(), process.cwd());
+                });
+                return { Program: spy };
+            });
+
+            linter.verify(code, config);
+            assert(spy && spy.calledOnce);
         });
     });
 
@@ -3179,6 +3258,54 @@ describe("Linter", () => {
                         line: 1,
                         column: 1,
                         severity: 2,
+                        nodeType: null
+                    }
+                ]
+            );
+        });
+
+        it("reports problems for unused eslint-disable comments (error)", () => {
+            assert.deepStrictEqual(
+                linter.verify("/* eslint-disable */", {}, { reportUnusedDisableDirectives: "error" }),
+                [
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-disable directive (no problems were reported).",
+                        line: 1,
+                        column: 1,
+                        severity: 2,
+                        nodeType: null
+                    }
+                ]
+            );
+        });
+
+        it("reports problems for unused eslint-disable comments (warn)", () => {
+            assert.deepStrictEqual(
+                linter.verify("/* eslint-disable */", {}, { reportUnusedDisableDirectives: "warn" }),
+                [
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-disable directive (no problems were reported).",
+                        line: 1,
+                        column: 1,
+                        severity: 1,
+                        nodeType: null
+                    }
+                ]
+            );
+        });
+
+        it("reports problems for unused eslint-disable comments (in config)", () => {
+            assert.deepStrictEqual(
+                linter.verify("/* eslint-disable */", { reportUnusedDisableDirectives: true }),
+                [
+                    {
+                        ruleId: null,
+                        message: "Unused eslint-disable directive (no problems were reported).",
+                        line: 1,
+                        column: 1,
+                        severity: 1,
                         nodeType: null
                     }
                 ]
@@ -3632,6 +3759,320 @@ describe("Linter", () => {
             linter.verify("x", { rules: { "foo-bar-baz": "error" } });
             assert(spy.calledOnce);
         });
+
+        describe("descriptions in directive comments", () => {
+            it("should ignore the part preceded by '--' in '/*eslint*/'.", () => {
+                const aaa = sinon.stub().returns({});
+                const bbb = sinon.stub().returns({});
+
+                linter.defineRule("aaa", { create: aaa });
+                linter.defineRule("bbb", { create: bbb });
+                const messages = linter.verify(`
+                    /*eslint aaa:error -- bbb:error */
+                    console.log("hello")
+                `, {});
+
+                // Don't include syntax error of the comment.
+                assert.deepStrictEqual(messages, []);
+
+                // Use only `aaa`.
+                assert.strictEqual(aaa.callCount, 1);
+                assert.strictEqual(bbb.callCount, 0);
+            });
+
+            it("should ignore the part preceded by '--' in '/*eslint-env*/'.", () => {
+                const messages = linter.verify(`
+                    /*eslint-env es2015 -- es2017 */
+                    var Promise = {}
+                    var Atomics = {}
+                `, { rules: { "no-redeclare": "error" } });
+
+                // Don't include `Atomics`
+                assert.deepStrictEqual(
+                    messages,
+                    [{
+                        column: 25,
+                        endColumn: 32,
+                        endLine: 3,
+                        line: 3,
+                        message: "'Promise' is already defined as a built-in global variable.",
+                        messageId: "redeclaredAsBuiltin",
+                        nodeType: "Identifier",
+                        ruleId: "no-redeclare",
+                        severity: 2
+                    }]
+                );
+            });
+
+            it("should ignore the part preceded by '--' in '/*global*/'.", () => {
+                const messages = linter.verify(`
+                    /*global aaa -- bbb */
+                    var aaa = {}
+                    var bbb = {}
+                `, { rules: { "no-redeclare": "error" } });
+
+                // Don't include `bbb`
+                assert.deepStrictEqual(
+                    messages,
+                    [{
+                        column: 30,
+                        line: 2,
+                        message: "'aaa' is already defined by a variable declaration.",
+                        messageId: "redeclaredBySyntax",
+                        nodeType: "Block",
+                        ruleId: "no-redeclare",
+                        severity: 2
+                    }]
+                );
+            });
+
+            it("should ignore the part preceded by '--' in '/*globals*/'.", () => {
+                const messages = linter.verify(`
+                    /*globals aaa -- bbb */
+                    var aaa = {}
+                    var bbb = {}
+                `, { rules: { "no-redeclare": "error" } });
+
+                // Don't include `bbb`
+                assert.deepStrictEqual(
+                    messages,
+                    [{
+                        column: 31,
+                        line: 2,
+                        message: "'aaa' is already defined by a variable declaration.",
+                        messageId: "redeclaredBySyntax",
+                        nodeType: "Block",
+                        ruleId: "no-redeclare",
+                        severity: 2
+                    }]
+                );
+            });
+
+            it("should ignore the part preceded by '--' in '/*exported*/'.", () => {
+                const messages = linter.verify(`
+                    /*exported aaa -- bbb */
+                    var aaa = {}
+                    var bbb = {}
+                `, { rules: { "no-unused-vars": "error" } });
+
+                // Don't include `aaa`
+                assert.deepStrictEqual(
+                    messages,
+                    [{
+                        column: 25,
+                        endColumn: 28,
+                        endLine: 4,
+                        line: 4,
+                        message: "'bbb' is assigned a value but never used.",
+                        messageId: "unusedVar",
+                        nodeType: "Identifier",
+                        ruleId: "no-unused-vars",
+                        severity: 2
+                    }]
+                );
+            });
+
+            it("should ignore the part preceded by '--' in '/*eslint-disable*/'.", () => {
+                const messages = linter.verify(`
+                    /*eslint-disable no-redeclare -- no-unused-vars */
+                    var aaa = {}
+                    var aaa = {}
+                `, { rules: { "no-redeclare": "error", "no-unused-vars": "error" } });
+
+                // Do include `no-unused-vars` but not `no-redeclare`
+                assert.deepStrictEqual(
+                    messages,
+                    [{
+                        column: 25,
+                        endLine: 3,
+                        endColumn: 28,
+                        line: 3,
+                        message: "'aaa' is assigned a value but never used.",
+                        messageId: "unusedVar",
+                        nodeType: "Identifier",
+                        ruleId: "no-unused-vars",
+                        severity: 2
+                    }]
+                );
+            });
+
+            it("should ignore the part preceded by '--' in '/*eslint-enable*/'.", () => {
+                const messages = linter.verify(`
+                    /*eslint-disable no-redeclare, no-unused-vars */
+                    /*eslint-enable no-redeclare -- no-unused-vars */
+                    var aaa = {}
+                    var aaa = {}
+                `, { rules: { "no-redeclare": "error", "no-unused-vars": "error" } });
+
+                // Do include `no-redeclare` but not `no-unused-vars`
+                assert.deepStrictEqual(
+                    messages,
+                    [{
+                        column: 25,
+                        endLine: 5,
+                        endColumn: 28,
+                        line: 5,
+                        message: "'aaa' is already defined.",
+                        messageId: "redeclared",
+                        nodeType: "Identifier",
+                        ruleId: "no-redeclare",
+                        severity: 2
+                    }]
+                );
+            });
+
+            it("should ignore the part preceded by '--' in '//eslint-disable-line'.", () => {
+                const messages = linter.verify(`
+                    var aaa = {} //eslint-disable-line no-redeclare -- no-unused-vars
+                    var aaa = {} //eslint-disable-line no-redeclare -- no-unused-vars
+                `, { rules: { "no-redeclare": "error", "no-unused-vars": "error" } });
+
+                // Do include `no-unused-vars` but not `no-redeclare`
+                assert.deepStrictEqual(
+                    messages,
+                    [{
+                        column: 25,
+                        endLine: 2,
+                        endColumn: 28,
+                        line: 2,
+                        message: "'aaa' is assigned a value but never used.",
+                        messageId: "unusedVar",
+                        nodeType: "Identifier",
+                        ruleId: "no-unused-vars",
+                        severity: 2
+                    }]
+                );
+            });
+
+            it("should ignore the part preceded by '--' in '/*eslint-disable-line*/'.", () => {
+                const messages = linter.verify(`
+                    var aaa = {} /*eslint-disable-line no-redeclare -- no-unused-vars */
+                    var aaa = {} /*eslint-disable-line no-redeclare -- no-unused-vars */
+                `, { rules: { "no-redeclare": "error", "no-unused-vars": "error" } });
+
+                // Do include `no-unused-vars` but not `no-redeclare`
+                assert.deepStrictEqual(
+                    messages,
+                    [{
+                        column: 25,
+                        endLine: 2,
+                        endColumn: 28,
+                        line: 2,
+                        message: "'aaa' is assigned a value but never used.",
+                        messageId: "unusedVar",
+                        nodeType: "Identifier",
+                        ruleId: "no-unused-vars",
+                        severity: 2
+                    }]
+                );
+            });
+
+            it("should ignore the part preceded by '--' in '//eslint-disable-next-line'.", () => {
+                const messages = linter.verify(`
+                    //eslint-disable-next-line no-redeclare -- no-unused-vars
+                    var aaa = {}
+                    //eslint-disable-next-line no-redeclare -- no-unused-vars
+                    var aaa = {}
+                `, { rules: { "no-redeclare": "error", "no-unused-vars": "error" } });
+
+                // Do include `no-unused-vars` but not `no-redeclare`
+                assert.deepStrictEqual(
+                    messages,
+                    [{
+                        column: 25,
+                        endLine: 3,
+                        endColumn: 28,
+                        line: 3,
+                        message: "'aaa' is assigned a value but never used.",
+                        messageId: "unusedVar",
+                        nodeType: "Identifier",
+                        ruleId: "no-unused-vars",
+                        severity: 2
+                    }]
+                );
+            });
+
+            it("should ignore the part preceded by '--' in '/*eslint-disable-next-line*/'.", () => {
+                const messages = linter.verify(`
+                    /*eslint-disable-next-line no-redeclare -- no-unused-vars */
+                    var aaa = {}
+                    /*eslint-disable-next-line no-redeclare -- no-unused-vars */
+                    var aaa = {}
+                `, { rules: { "no-redeclare": "error", "no-unused-vars": "error" } });
+
+                // Do include `no-unused-vars` but not `no-redeclare`
+                assert.deepStrictEqual(
+                    messages,
+                    [{
+                        column: 25,
+                        endLine: 3,
+                        endColumn: 28,
+                        line: 3,
+                        message: "'aaa' is assigned a value but never used.",
+                        messageId: "unusedVar",
+                        nodeType: "Identifier",
+                        ruleId: "no-unused-vars",
+                        severity: 2
+                    }]
+                );
+            });
+
+            it("should not ignore the part preceded by '--' if the '--' is not surrounded by whitespaces.", () => {
+                const rule = sinon.stub().returns({});
+
+                linter.defineRule("a--rule", { create: rule });
+                const messages = linter.verify(`
+                    /*eslint a--rule:error */
+                    console.log("hello")
+                `, {});
+
+                // Don't include syntax error of the comment.
+                assert.deepStrictEqual(messages, []);
+
+                // Use `a--rule`.
+                assert.strictEqual(rule.callCount, 1);
+            });
+
+            it("should ignore the part preceded by '--' even if the '--' is longer than 2.", () => {
+                const aaa = sinon.stub().returns({});
+                const bbb = sinon.stub().returns({});
+
+                linter.defineRule("aaa", { create: aaa });
+                linter.defineRule("bbb", { create: bbb });
+                const messages = linter.verify(`
+                    /*eslint aaa:error -------- bbb:error */
+                    console.log("hello")
+                `, {});
+
+                // Don't include syntax error of the comment.
+                assert.deepStrictEqual(messages, []);
+
+                // Use only `aaa`.
+                assert.strictEqual(aaa.callCount, 1);
+                assert.strictEqual(bbb.callCount, 0);
+            });
+
+            it("should ignore the part preceded by '--' with line breaks.", () => {
+                const aaa = sinon.stub().returns({});
+                const bbb = sinon.stub().returns({});
+
+                linter.defineRule("aaa", { create: aaa });
+                linter.defineRule("bbb", { create: bbb });
+                const messages = linter.verify(`
+                    /*eslint aaa:error
+                        --------
+                        bbb:error */
+                    console.log("hello")
+                `, {});
+
+                // Don't include syntax error of the comment.
+                assert.deepStrictEqual(messages, []);
+
+                // Use only `aaa`.
+                assert.strictEqual(aaa.callCount, 1);
+                assert.strictEqual(bbb.callCount, 0);
+            });
+        });
     });
 
     describe("context.getScope()", () => {
@@ -3989,9 +4430,9 @@ describe("Linter", () => {
 
         /**
          * Assert `context.getDeclaredVariables(node)` is valid.
-         * @param {string} code - A code to check.
-         * @param {string} type - A type string of ASTNode. This method checks variables on the node of the type.
-         * @param {Array<Array<string>>} expectedNamesList - An array of expected variable names. The expected variable names is an array of string.
+         * @param {string} code A code to check.
+         * @param {string} type A type string of ASTNode. This method checks variables on the node of the type.
+         * @param {Array<Array<string>>} expectedNamesList An array of expected variable names. The expected variable names is an array of string.
          * @returns {void}
          */
         function verify(code, type, expectedNamesList) {
@@ -4000,7 +4441,7 @@ describe("Linter", () => {
 
                     /**
                      * Assert `context.getDeclaredVariables(node)` is empty.
-                     * @param {ASTNode} node - A node to check.
+                     * @param {ASTNode} node A node to check.
                      * @returns {void}
                      */
                     function checkEmpty(node) {
@@ -4224,6 +4665,86 @@ describe("Linter", () => {
         });
     });
 
+    describe("suggestions", () => {
+        it("provides suggestion information for tools to use", () => {
+            linter.defineRule("rule-with-suggestions", context => ({
+                Program(node) {
+                    context.report({
+                        node,
+                        message: "Incorrect spacing",
+                        suggest: [{
+                            desc: "Insert space at the beginning",
+                            fix: fixer => fixer.insertTextBefore(node, " ")
+                        }, {
+                            desc: "Insert space at the end",
+                            fix: fixer => fixer.insertTextAfter(node, " ")
+                        }]
+                    });
+                }
+            }));
+
+            const messages = linter.verify("var a = 1;", { rules: { "rule-with-suggestions": "error" } });
+
+            assert.deepStrictEqual(messages[0].suggestions, [{
+                desc: "Insert space at the beginning",
+                fix: {
+                    range: [0, 0],
+                    text: " "
+                }
+            }, {
+                desc: "Insert space at the end",
+                fix: {
+                    range: [10, 10],
+                    text: " "
+                }
+            }]);
+        });
+
+        it("supports messageIds for suggestions", () => {
+            linter.defineRule("rule-with-suggestions", {
+                meta: {
+                    messages: {
+                        suggestion1: "Insert space at the beginning",
+                        suggestion2: "Insert space at the end"
+                    }
+                },
+                create: context => ({
+                    Program(node) {
+                        context.report({
+                            node,
+                            message: "Incorrect spacing",
+                            suggest: [{
+                                messageId: "suggestion1",
+                                fix: fixer => fixer.insertTextBefore(node, " ")
+                            }, {
+                                messageId: "suggestion2",
+                                fix: fixer => fixer.insertTextAfter(node, " ")
+                            }]
+                        });
+                    }
+                })
+            });
+
+            const messages = linter.verify("var a = 1;", { rules: { "rule-with-suggestions": "error" } });
+
+            assert.deepStrictEqual(messages[0].suggestions, [{
+                messageId: "suggestion1",
+                desc: "Insert space at the beginning",
+                fix: {
+                    range: [0, 0],
+                    text: " "
+                }
+            }, {
+                messageId: "suggestion2",
+                desc: "Insert space at the end",
+                fix: {
+                    range: [10, 10],
+                    text: " "
+                }
+            }]);
+        });
+    });
+
     describe("mutability", () => {
         let linter1 = null;
         let linter2 = null;
@@ -4238,7 +4759,7 @@ describe("Linter", () => {
                 assert.sameDeepMembers(Array.from(linter1.getRules().keys()), Array.from(linter2.getRules().keys()));
             });
 
-            it("loading rule in one doesnt change the other", () => {
+            it("loading rule in one doesn't change the other", () => {
                 linter1.defineRule("mock-rule", () => ({}));
 
                 assert.isTrue(linter1.getRules().has("mock-rule"), "mock rule is present");
@@ -4473,6 +4994,19 @@ describe("Linter", () => {
                 messages: [],
                 output: "var a;"
             });
+        });
+
+        it("does not include suggestions in autofix results", () => {
+            const fixResult = linter.verifyAndFix("var foo = /\\#/", {
+                rules: {
+                    semi: 2,
+                    "no-useless-escape": 2
+                }
+            });
+
+            assert.strictEqual(fixResult.output, "var foo = /\\#/;");
+            assert.strictEqual(fixResult.fixed, true);
+            assert.strictEqual(fixResult.messages[0].suggestions.length > 0, true);
         });
 
         it("does not apply autofixes when fix argument is `false`", () => {

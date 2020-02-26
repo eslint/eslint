@@ -19,14 +19,14 @@ const rule = require("../../../lib/rules/no-multi-assign"),
 /**
  * Returns an error object at the specified line and column
  * @private
- * @param {int} line - line number
- * @param {int} column - column number
- * @param {string} type - Type of node
- * @returns {Oject} Error object
+ * @param {int} line line number
+ * @param {int} column column number
+ * @param {string} type Type of node
+ * @returns {Object} Error object
  */
 function errorAt(line, column, type) {
     return {
-        message: "Unexpected chained assignment.",
+        messageId: "unexpectedChain",
         type,
         line,
         column

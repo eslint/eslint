@@ -56,8 +56,8 @@ const NODE = "node ", // intentional extra space
     TEMP_DIR = "./tmp/",
     DEBUG_DIR = "./debug/",
     BUILD_DIR = "build",
-    DOCS_DIR = "../eslint.github.io/docs",
-    SITE_DIR = "../eslint.github.io/",
+    DOCS_DIR = "../website/docs",
+    SITE_DIR = "../website/",
     PERF_TMP_DIR = path.join(TEMP_DIR, "eslint", "performance"),
 
     // Utilities - intentional extra space at the end of each string
@@ -139,7 +139,7 @@ function generateBlogPost(releaseInfo, prereleaseMajorVersion) {
         now = new Date(),
         month = now.getMonth() + 1,
         day = now.getDate(),
-        filename = `../eslint.github.io/_posts/${now.getFullYear()}-${
+        filename = `../website/_posts/${now.getFullYear()}-${
             month < 10 ? `0${month}` : month}-${
             day < 10 ? `0${day}` : day}-eslint-v${
             releaseInfo.version}-released.md`;
@@ -156,8 +156,8 @@ function generateBlogPost(releaseInfo, prereleaseMajorVersion) {
  */
 function generateFormatterExamples(formatterInfo, prereleaseVersion) {
     const output = ejs.render(cat("./templates/formatter-examples.md.ejs"), formatterInfo);
-    let filename = "../eslint.github.io/docs/user-guide/formatters/index.md",
-        htmlFilename = "../eslint.github.io/docs/user-guide/formatters/html-formatter-example.html";
+    let filename = "../website/docs/user-guide/formatters/index.md",
+        htmlFilename = "../website/docs/user-guide/formatters/html-formatter-example.html";
 
     if (prereleaseVersion) {
         filename = filename.replace("/docs", `/docs/${prereleaseVersion}`);
@@ -176,7 +176,7 @@ function generateFormatterExamples(formatterInfo, prereleaseVersion) {
  * @returns {void}
  */
 function generateRuleIndexPage() {
-    const outputFile = "../eslint.github.io/_data/rules.yml",
+    const outputFile = "../website/_data/rules.yml",
         categoryList = "conf/category-list.json",
         categoriesData = JSON.parse(cat(path.resolve(categoryList)));
 
@@ -216,7 +216,7 @@ function generateRuleIndexPage() {
 }
 
 /**
- * Creates a git commit and tag in an adjacent `eslint.github.io` repository, without pushing it to
+ * Creates a git commit and tag in an adjacent `website` repository, without pushing it to
  * the remote. This assumes that the repository has already been modified somehow (e.g. by adding a blogpost).
  * @param {string} [tag] The string to tag the commit with
  * @returns {void}
@@ -237,7 +237,7 @@ function commitSiteToGit(tag) {
 }
 
 /**
- * Publishes the changes in an adjacent `eslint.github.io` repository to the remote. The
+ * Publishes the changes in an adjacent `website` repository to the remote. The
  * site should already have local commits (e.g. from running `commitSiteToGit`).
  * @returns {void}
  */
@@ -251,7 +251,7 @@ function publishSite() {
 
 /**
  * Updates the changelog, bumps the version number in package.json, creates a local git commit and tag,
- * and generates the site in an adjacent `eslint.github.io` folder.
+ * and generates the site in an adjacent `website` folder.
  * @returns {void}
  */
 function generateRelease() {
@@ -266,7 +266,7 @@ function generateRelease() {
 
 /**
  * Updates the changelog, bumps the version number in package.json, creates a local git commit and tag,
- * and generates the site in an adjacent `eslint.github.io` folder.
+ * and generates the site in an adjacent `website` folder.
  * @param {string} prereleaseId The prerelease identifier (alpha, beta, etc.)
  * @returns {void}
  */
@@ -303,7 +303,7 @@ function generatePrerelease(prereleaseId) {
 }
 
 /**
- * Publishes a generated release to npm and GitHub, and pushes changes to the adjacent `eslint.github.io` repo
+ * Publishes a generated release to npm and GitHub, and pushes changes to the adjacent `website` repo
  * to remote repo.
  * @returns {void}
  */
@@ -473,12 +473,12 @@ target.all = function() {
     target.test();
 };
 
-target.lint = function() {
+target.lint = function([fix = false] = []) {
     let errors = 0,
         lastReturn;
 
     echo("Validating JavaScript files");
-    lastReturn = exec(`${ESLINT} .`);
+    lastReturn = exec(`${ESLINT}${fix ? "--fix" : ""} .`);
     if (lastReturn.code !== 0) {
         errors++;
     }
@@ -497,7 +497,7 @@ target.lint = function() {
     }
 };
 
-target.fuzz = function({ amount = process.env.CI ? 1000 : 300, fuzzBrokenAutofixes = true } = {}) {
+target.fuzz = function({ amount = 1000, fuzzBrokenAutofixes = false } = {}) {
     const fuzzerRunner = require("./tools/fuzzer-runner");
     const fuzzResults = fuzzerRunner.run({ amount, fuzzBrokenAutofixes });
 
@@ -536,18 +536,13 @@ target.fuzz = function({ amount = process.env.CI ? 1000 : 300, fuzzBrokenAutofix
     }
 };
 
-target.test = function() {
-    target.lint();
-    target.checkRuleFiles();
+target.mocha = () => {
     let errors = 0,
         lastReturn;
 
     echo("Running unit tests");
 
-    // In CI (Azure Pipelines), use JUnit reporter.
-    const reporter = process.env.TF_BUILD ? "mocha-junit-reporter" : "progress";
-
-    lastReturn = exec(`${getBinFile("nyc")} -- ${MOCHA} -R ${reporter} -t ${MOCHA_TIMEOUT} -c ${TEST_FILES}`);
+    lastReturn = exec(`${getBinFile("nyc")} -- ${MOCHA} -R progress -t ${MOCHA_TIMEOUT} -c ${TEST_FILES}`);
     if (lastReturn.code !== 0) {
         errors++;
     }
@@ -557,32 +552,29 @@ target.test = function() {
         errors++;
     }
 
-    target.webpack();
-
-    const browserFileLintOutput = new CLIEngine({
-        useEslintrc: false,
-        ignore: false,
-        allowInlineConfig: false,
-        baseConfig: { parserOptions: { ecmaVersion: 5 } }
-    }).executeOnFiles([`${BUILD_DIR}/eslint.js`]);
-
-    if (browserFileLintOutput.errorCount > 0) {
-        echo(`error: Failed to lint ${BUILD_DIR}/eslint.js as ES5 code`);
-        echo(CLIEngine.getFormatter("stylish")(browserFileLintOutput.results));
-        errors++;
-    }
-
-    lastReturn = exec(`${getBinFile("karma")} start karma.conf.js`);
-    if (lastReturn.code !== 0) {
-        errors++;
-    }
-
     if (errors) {
         exit(1);
     }
+};
 
+target.karma = () => {
+    echo("Running unit tests on browsers");
+
+    target.webpack("production");
+
+    const lastReturn = exec(`${getBinFile("karma")} start karma.conf.js`);
+
+    if (lastReturn.code !== 0) {
+        exit(1);
+    }
+};
+
+target.test = function() {
+    target.lint();
+    target.checkRuleFiles();
+    target.mocha();
+    target.karma();
     target.fuzz({ amount: 150, fuzzBrokenAutofixes: false });
-
     target.checkLicenses();
 };
 
@@ -770,17 +762,7 @@ target.gensite = function(prereleaseVersion) {
     echo("> Removing the temporary directory (Step 12)");
     rm("-rf", TEMP_DIR);
 
-    // 13. Update demos, but only for non-prereleases
-    if (!prereleaseVersion) {
-        echo("> Updating the demos (Step 13)");
-        target.webpack("production");
-        cp("-f", "build/eslint.js", `${SITE_DIR}js/app/eslint.js`);
-        cp("-f", "build/espree.js", `${SITE_DIR}js/app/espree.js`);
-    } else {
-        echo("> Skipped updating the demos (Step 13)");
-    }
-
-    // 14. Create Example Formatter Output Page
+    // 13. Create Example Formatter Output Page
     echo("> Creating the formatter examples (Step 14)");
     generateFormatterExamples(getFormatterResults(), prereleaseVersion);
 
@@ -936,7 +918,7 @@ target.checkLicenses = function() {
 /**
  * Downloads a repository which has many js files to test performance with multi files.
  * Here, it's eslint@1.10.3 (450 files)
- * @param {Function} cb - A callback function.
+ * @param {Function} cb A callback function.
  * @returns {void}
  */
 function downloadMultifilesTestTarget(cb) {
@@ -983,7 +965,7 @@ function createConfigForPerformanceTest() {
 function time(cmd, runs, runNumber, results, cb) {
     const start = process.hrtime();
 
-    exec(cmd, { silent: true }, (code, stdout, stderr) => {
+    exec(cmd, { maxBuffer: 64 * 1024 * 1024, silent: true }, (code, stdout, stderr) => {
         const diff = process.hrtime(start),
             actual = (diff[0] * 1e3 + diff[1] / 1e6); // ms
 
@@ -1012,11 +994,10 @@ function time(cmd, runs, runNumber, results, cb) {
 
 /**
  * Run a performance test.
- *
- * @param {string} title - A title.
- * @param {string} targets - Test targets.
- * @param {number} multiplier - A multiplier for limitation.
- * @param {Function} cb - A callback function.
+ * @param {string} title A title.
+ * @param {string} targets Test targets.
+ * @param {number} multiplier A multiplier for limitation.
+ * @param {Function} cb A callback function.
  * @returns {void}
  */
 function runPerformanceTest(title, targets, multiplier, cb) {

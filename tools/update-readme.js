@@ -1,6 +1,6 @@
 /**
  * @fileoverview Script to update the README with team and sponsors.
- * Note that this requires eslint.github.io to be available in the same
+ * Note that this requires eslint/website to be available in the same
  * directory as the eslint repo.
  *
  *   node tools/update-readme.js
@@ -23,7 +23,7 @@ const ejs = require("ejs");
 //-----------------------------------------------------------------------------
 
 const README_FILE_PATH = path.resolve(__dirname, "../README.md");
-const WEBSITE_DATA_PATH = path.resolve(__dirname, "../../eslint.github.io/_data");
+const WEBSITE_DATA_PATH = path.resolve(__dirname, "../../website/_data");
 
 const team = JSON.parse(fs.readFileSync(path.join(WEBSITE_DATA_PATH, "team.json")));
 const allSponsors = JSON.parse(fs.readFileSync(path.join(WEBSITE_DATA_PATH, "sponsors.json")));

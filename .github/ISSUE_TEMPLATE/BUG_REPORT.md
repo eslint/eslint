@@ -22,6 +22,10 @@ assignees: ''
 
 **Tell us about your environment**
 
+<!--
+    If you are using ESLint v6.5.0 or later, you can run ESLint with the `--env-info` flag and paste the output here.
+-->
+
 * **ESLint Version:**
 * **Node Version:**
 * **npm Version:**

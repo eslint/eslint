@@ -38,7 +38,7 @@ The default configuration is `"after", { "overrides": { "?": "before", ":": "bef
 
 ### after
 
-Examples of **incorrect** code for this rule with the default `"after"` option:
+Examples of **incorrect** code for this rule with the `"after"` option:
 
 ```js
 /*eslint operator-linebreak: ["error", "after"]*/
@@ -62,7 +62,7 @@ answer = everything
   : foo;
 ```
 
-Examples of **correct** code for this rule with the default `"after"` option:
+Examples of **correct** code for this rule with the `"after"` option:
 
 ```js
 /*eslint operator-linebreak: ["error", "after"]*/
@@ -175,6 +175,16 @@ answer = everything ? 42 : foo;
 
 ### overrides
 
+Examples of additional **incorrect** code for this rule with the `{ "overrides": { "+=": "before" } }` option:
+
+```js
+/*eslint operator-linebreak: ["error", "after", { "overrides": { "+=": "before" } }]*/
+
+var thing = 'thing';
+thing +=
+  's';
+```
+
 Examples of additional **correct** code for this rule with the `{ "overrides": { "+=": "before" } }` option:
 
 ```js
@@ -199,6 +209,52 @@ answer = everything
   42
   :
   foo;
+```
+
+Examples of **incorrect** code for this rule with the default `"after", { "overrides": { "?": "before", ":": "before" } }` option:
+
+```js
+/*eslint operator-linebreak: ["error", "after", { "overrides": { "?": "before", ":": "before" } }]*/
+
+foo = 1
++
+2;
+
+foo = 1
+    + 2;
+
+foo
+    = 5;
+
+if (someCondition
+    || otherCondition) {
+}
+
+answer = everything ?
+  42 :
+  foo;
+```
+
+Examples of **correct** code for this rule with the default `"after", { "overrides": { "?": "before", ":": "before" } }` option:
+
+```js
+/*eslint operator-linebreak: ["error", "after", { "overrides": { "?": "before", ":": "before" } }]*/
+
+foo = 1 + 2;
+
+foo = 1 +
+      2;
+
+foo =
+    5;
+
+if (someCondition ||
+    otherCondition) {
+}
+
+answer = everything
+  ? 42
+  : foo;
 ```
 
 ## When Not To Use It

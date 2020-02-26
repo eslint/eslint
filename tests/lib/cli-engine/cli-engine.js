@@ -50,6 +50,7 @@ describe("CLIEngine", () => {
 
     /**
      * Returns the path inside of the fixture directory.
+     * @param {...string} args file path segments.
      * @returns {string} The path inside the fixture directory.
      * @private
      */
@@ -65,7 +66,7 @@ describe("CLIEngine", () => {
 
     /**
      * Create the CLIEngine object by mocking some of the plugins
-     * @param {Object} options - options for CLIEngine
+     * @param {Object} options options for CLIEngine
      * @returns {CLIEngine} engine object
      * @private
      */
@@ -111,7 +112,7 @@ describe("CLIEngine", () => {
             assert.throws(() => {
                 // eslint-disable-next-line no-new
                 new CLIEngine({ ignorePath: fixtureDir });
-            }, `Cannot read ignore file: ${fixtureDir}\nError: ${fixtureDir} is not a file`);
+            }, `Cannot read .eslintignore file: ${fixtureDir}\nError: EISDIR: illegal operation on a directory, read`);
         });
 
         // https://github.com/eslint/eslint/issues/2380
@@ -1287,7 +1288,7 @@ describe("CLIEngine", () => {
 
             assert.throws(() => {
                 engine.executeOnFiles(["./tests/fixtures/cli-engine/"]);
-            }, "No files matching './tests/fixtures/cli-engine/' were found.");
+            }, "All files matched by './tests/fixtures/cli-engine/' are ignored.");
         });
 
         it("should throw an error when all given files are ignored via ignore-pattern", () => {
@@ -1543,7 +1544,11 @@ describe("CLIEngine", () => {
             engine = new CLIEngine({
                 cwd: originalDir,
                 configFile: ".eslintrc.js",
-                rules: { "indent-legacy": 1 }
+                rules: {
+                    "indent-legacy": 1,
+                    "require-jsdoc": 1,
+                    "valid-jsdoc": 1
+                }
             });
 
             const report = engine.executeOnFiles(["lib/cli*.js"]);
@@ -1592,7 +1597,7 @@ describe("CLIEngine", () => {
                 /**
                  * Converts CRLF to LF in output.
                  * This is a workaround for git's autocrlf option on Windows.
-                 * @param {Object} result - A result object to convert.
+                 * @param {Object} result A result object to convert.
                  * @returns {void}
                  */
                 function convertCRLF(result) {
@@ -1641,6 +1646,8 @@ describe("CLIEngine", () => {
                             {
                                 column: 9,
                                 line: 2,
+                                endColumn: 11,
+                                endLine: 2,
                                 message: "Expected '===' and instead saw '=='.",
                                 messageId: "unexpected",
                                 nodeType: "BinaryExpression",
@@ -2103,7 +2110,6 @@ describe("CLIEngine", () => {
 
             /**
              * helper method to delete a file without caring about exceptions
-             *
              * @param {string} filePath The file path
              * @returns {void}
              */
@@ -3323,6 +3329,39 @@ describe("CLIEngine", () => {
                     engine.executeOnFiles(["test.md"]);
                 }, /ESLint configuration of processor in '\.eslintrc\.json' is invalid: 'markdown\/unknown' was not found\./u);
             });
+
+            it("should lint HTML blocks as well with multiple processors if 'overrides[].files' is present.", () => {
+                CLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        ...commonFiles,
+                        ".eslintrc.json": JSON.stringify({
+                            plugins: ["markdown", "html"],
+                            rules: { semi: "error" },
+                            overrides: [
+                                {
+                                    files: "*.html",
+                                    processor: "html/.html"
+                                },
+                                {
+                                    files: "*.md",
+                                    processor: "markdown/.md"
+                                }
+                            ]
+                        })
+                    }
+                }).CLIEngine;
+                engine = new CLIEngine({ cwd: root });
+
+                const { results } = engine.executeOnFiles(["test.md"]);
+
+                assert.strictEqual(results.length, 1);
+                assert.strictEqual(results[0].messages.length, 2);
+                assert.strictEqual(results[0].messages[0].ruleId, "semi"); // JS block
+                assert.strictEqual(results[0].messages[0].line, 2);
+                assert.strictEqual(results[0].messages[1].ruleId, "semi"); // JS block in HTML block
+                assert.strictEqual(results[0].messages[1].line, 7);
+            });
         });
 
         describe("MODULE_NOT_FOUND error handling", () => {
@@ -3454,6 +3493,223 @@ describe("CLIEngine", () => {
                 assert.strictEqual(report.results[0].messages[0].message, "ok");
             });
         });
+
+        describe("glob pattern '[ab].js'", () => {
+            const root = getFixturePath("cli-engine/unmatched-glob");
+
+            it("should match '[ab].js' if existed.", () => {
+                CLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        "a.js": "",
+                        "b.js": "",
+                        "ab.js": "",
+                        "[ab].js": "",
+                        ".eslintrc.yml": "root: true"
+                    }
+                }).CLIEngine;
+                engine = new CLIEngine();
+
+                const { results } = engine.executeOnFiles(["[ab].js"]);
+                const filenames = results.map(r => path.basename(r.filePath));
+
+                assert.deepStrictEqual(filenames, ["[ab].js"]);
+            });
+
+            it("should match 'a.js' and 'b.js' if '[ab].js' didn't existed.", () => {
+                CLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        "a.js": "",
+                        "b.js": "",
+                        "ab.js": "",
+                        ".eslintrc.yml": "root: true"
+                    }
+                }).CLIEngine;
+                engine = new CLIEngine();
+
+                const { results } = engine.executeOnFiles(["[ab].js"]);
+                const filenames = results.map(r => path.basename(r.filePath));
+
+                assert.deepStrictEqual(filenames, ["a.js", "b.js"]);
+            });
+        });
+
+        describe("with 'noInlineConfig' setting", () => {
+            const root = getFixturePath("cli-engine/noInlineConfig");
+
+            it("should warn directive comments if 'noInlineConfig' was given.", () => {
+                CLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        "test.js": "/* globals foo */",
+                        ".eslintrc.yml": "noInlineConfig: true"
+                    }
+                }).CLIEngine;
+                engine = new CLIEngine();
+
+                const { results } = engine.executeOnFiles(["test.js"]);
+                const messages = results[0].messages;
+
+                assert.strictEqual(messages.length, 1);
+                assert.strictEqual(messages[0].message, "'/*globals*/' has no effect because you have 'noInlineConfig' setting in your config (.eslintrc.yml).");
+            });
+
+            it("should show the config file what the 'noInlineConfig' came from.", () => {
+                CLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        "node_modules/eslint-config-foo/index.js": "module.exports = {noInlineConfig: true}",
+                        "test.js": "/* globals foo */",
+                        ".eslintrc.yml": "extends: foo"
+                    }
+                }).CLIEngine;
+                engine = new CLIEngine();
+
+                const { results } = engine.executeOnFiles(["test.js"]);
+                const messages = results[0].messages;
+
+                assert.strictEqual(messages.length, 1);
+                assert.strictEqual(messages[0].message, "'/*globals*/' has no effect because you have 'noInlineConfig' setting in your config (.eslintrc.yml » eslint-config-foo).");
+            });
+        });
+
+        describe("with 'reportUnusedDisableDirectives' setting", () => {
+            const root = getFixturePath("cli-engine/reportUnusedDisableDirectives");
+
+            it("should warn unused 'eslint-disable' comments if 'reportUnusedDisableDirectives' was given.", () => {
+                CLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        "test.js": "/* eslint-disable eqeqeq */",
+                        ".eslintrc.yml": "reportUnusedDisableDirectives: true"
+                    }
+                }).CLIEngine;
+                engine = new CLIEngine();
+
+                const { results } = engine.executeOnFiles(["test.js"]);
+                const messages = results[0].messages;
+
+                assert.strictEqual(messages.length, 1);
+                assert.strictEqual(messages[0].severity, 1);
+                assert.strictEqual(messages[0].message, "Unused eslint-disable directive (no problems were reported from 'eqeqeq').");
+            });
+
+            describe("the runtime option overrides config files.", () => {
+                it("should not warn unused 'eslint-disable' comments if 'reportUnusedDisableDirectives=off' was given in runtime.", () => {
+                    CLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                        cwd: () => root,
+                        files: {
+                            "test.js": "/* eslint-disable eqeqeq */",
+                            ".eslintrc.yml": "reportUnusedDisableDirectives: true"
+                        }
+                    }).CLIEngine;
+                    engine = new CLIEngine({ reportUnusedDisableDirectives: "off" });
+
+                    const { results } = engine.executeOnFiles(["test.js"]);
+                    const messages = results[0].messages;
+
+                    assert.strictEqual(messages.length, 0);
+                });
+
+                it("should warn unused 'eslint-disable' comments as error if 'reportUnusedDisableDirectives=error' was given in runtime.", () => {
+                    CLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                        cwd: () => root,
+                        files: {
+                            "test.js": "/* eslint-disable eqeqeq */",
+                            ".eslintrc.yml": "reportUnusedDisableDirectives: true"
+                        }
+                    }).CLIEngine;
+                    engine = new CLIEngine({ reportUnusedDisableDirectives: "error" });
+
+                    const { results } = engine.executeOnFiles(["test.js"]);
+                    const messages = results[0].messages;
+
+                    assert.strictEqual(messages.length, 1);
+                    assert.strictEqual(messages[0].severity, 2);
+                    assert.strictEqual(messages[0].message, "Unused eslint-disable directive (no problems were reported from 'eqeqeq').");
+                });
+            });
+        });
+
+        describe("with 'overrides[*].extends' setting on deep locations", () => {
+            const root = getFixturePath("cli-engine/deeply-overrides-i-extends");
+
+            it("should not throw.", () => {
+                CLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        "node_modules/eslint-config-one/index.js": `module.exports = ${JSON.stringify({
+                            overrides: [{ files: ["*test*"], extends: "two" }]
+                        })}`,
+                        "node_modules/eslint-config-two/index.js": `module.exports = ${JSON.stringify({
+                            overrides: [{ files: ["*.js"], extends: "three" }]
+                        })}`,
+                        "node_modules/eslint-config-three/index.js": `module.exports = ${JSON.stringify({
+                            rules: { "no-console": "error" }
+                        })}`,
+                        "test.js": "console.log('hello')",
+                        ".eslintrc.yml": "extends: one"
+                    }
+                }).CLIEngine;
+                engine = new CLIEngine();
+
+                const { results } = engine.executeOnFiles(["test.js"]);
+                const messages = results[0].messages;
+
+                assert.strictEqual(messages.length, 1);
+                assert.strictEqual(messages[0].ruleId, "no-console");
+            });
+        });
+
+        describe("don't ignore the entry directory.", () => {
+            const root = getFixturePath("cli-engine/dont-ignore-entry-dir");
+
+            it("'executeOnFiles(\".\")' should not load config files from outside of \".\".", () => {
+                CLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        "../.eslintrc.json": "BROKEN FILE",
+                        ".eslintrc.json": JSON.stringify({ root: true }),
+                        "index.js": "console.log(\"hello\")"
+                    }
+                }).CLIEngine;
+                engine = new CLIEngine();
+
+                // Don't throw "failed to load config file" error.
+                engine.executeOnFiles(".");
+            });
+
+            it("'executeOnFiles(\".\")' should not ignore '.' even if 'ignorePatterns' contains it.", () => {
+                CLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        "../.eslintrc.json": JSON.stringify({ ignorePatterns: ["/dont-ignore-entry-dir"] }),
+                        ".eslintrc.json": JSON.stringify({ root: true }),
+                        "index.js": "console.log(\"hello\")"
+                    }
+                }).CLIEngine;
+                engine = new CLIEngine();
+
+                // Don't throw "file not found" error.
+                engine.executeOnFiles(".");
+            });
+
+            it("'executeOnFiles(\"subdir\")' should not ignore './subdir' even if 'ignorePatterns' contains it.", () => {
+                CLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        ".eslintrc.json": JSON.stringify({ ignorePatterns: ["/subdir"] }),
+                        "subdir/.eslintrc.json": JSON.stringify({ root: true }),
+                        "subdir/index.js": "console.log(\"hello\")"
+                    }
+                }).CLIEngine;
+                engine = new CLIEngine();
+
+                // Don't throw "file not found" error.
+                engine.executeOnFiles("subdir");
+            });
+        });
     });
 
     describe("getConfigForFile", () => {
@@ -3505,14 +3761,6 @@ describe("CLIEngine", () => {
     });
 
     describe("isPathIgnored", () => {
-        beforeEach(() => {
-            sinon.stub(console, "info").returns(void 0);
-        });
-
-        afterEach(() => {
-            sinon.restore();
-        });
-
         it("should check if the given path is ignored", () => {
             const engine = new CLIEngine({
                 ignorePath: getFixturePath(".eslintignore2"),
@@ -3543,6 +3791,408 @@ describe("CLIEngine", () => {
             assert.isTrue(engine.isPathIgnored("node_modules/foo.js"));
         });
 
+        describe("about the default ignore patterns", () => {
+            it("should always apply defaultPatterns if ignore option is true", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ cwd });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "node_modules/package/file.js")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "subdir/node_modules/package/file.js")));
+            });
+
+            it("should still apply defaultPatterns if ignore option is is false", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ ignore: false, cwd });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "node_modules/package/file.js")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "subdir/node_modules/package/file.js")));
+            });
+
+            it("should allow subfolders of defaultPatterns to be unignored by ignorePattern", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ cwd, ignorePattern: "!/node_modules/package" });
+
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "node_modules", "package", "file.js")));
+            });
+
+            it("should allow subfolders of defaultPatterns to be unignored by ignorePath", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ cwd, ignorePath: getFixturePath("ignored-paths", ".eslintignoreWithUnignoredDefaults") });
+
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "node_modules", "package", "file.js")));
+            });
+
+            it("should ignore dotfiles", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ cwd });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", ".foo")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "foo/.bar")));
+            });
+
+            it("should ignore directories beginning with a dot", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ cwd });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", ".foo/bar")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "foo/.bar/baz")));
+            });
+
+            it("should still ignore dotfiles when ignore option disabled", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ ignore: false, cwd });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", ".foo")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "foo/.bar")));
+            });
+
+            it("should still ignore directories beginning with a dot when ignore option disabled", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ ignore: false, cwd });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", ".foo/bar")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "foo/.bar/baz")));
+            });
+
+            it("should not ignore absolute paths containing '..'", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ cwd });
+
+                assert(!engine.isPathIgnored(`${getFixturePath("ignored-paths", "foo")}/../unignored.js`));
+            });
+
+            it("should ignore /node_modules/ relative to .eslintignore when loaded", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ ignorePath: getFixturePath("ignored-paths", ".eslintignore"), cwd });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "node_modules", "existing.js")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "foo", "node_modules", "existing.js")));
+            });
+
+            it("should ignore /node_modules/ relative to cwd without an .eslintignore", () => {
+                const cwd = getFixturePath("ignored-paths", "no-ignore-file");
+                const engine = new CLIEngine({ cwd });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "no-ignore-file", "node_modules", "existing.js")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "no-ignore-file", "foo", "node_modules", "existing.js")));
+            });
+        });
+
+        describe("with no .eslintignore file", () => {
+            it("should not travel to parent directories to find .eslintignore when it's missing and cwd is provided", () => {
+                const cwd = getFixturePath("ignored-paths", "configurations");
+                const engine = new CLIEngine({ cwd });
+
+                // a .eslintignore in parent directories includes `*.js`, but don't load it.
+                assert(!engine.isPathIgnored("foo.js"));
+                assert(engine.isPathIgnored("node_modules/foo.js"));
+            });
+
+            it("should return false for files outside of the cwd (with no ignore file provided)", () => {
+
+                // Default ignore patterns should not inadvertently ignore files in parent directories
+                const engine = new CLIEngine({ cwd: getFixturePath("ignored-paths", "no-ignore-file") });
+
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "undef.js")));
+            });
+        });
+
+        describe("with .eslintignore file or package.json file", () => {
+            it("should load .eslintignore from cwd when explicitly passed", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ cwd });
+
+                // `${cwd}/.eslintignore` includes `sampleignorepattern`.
+                assert(engine.isPathIgnored("sampleignorepattern"));
+            });
+
+            it("should use package.json's eslintIgnore files if no specified .eslintignore file", () => {
+                const cwd = getFixturePath("ignored-paths", "package-json-ignore");
+                const engine = new CLIEngine({ cwd });
+
+                assert(engine.isPathIgnored("hello.js"));
+                assert(engine.isPathIgnored("world.js"));
+            });
+
+            it("should use correct message template if failed to parse package.json", () => {
+                const cwd = getFixturePath("ignored-paths", "broken-package-json");
+
+                assert.throw(() => {
+                    try {
+                        // eslint-disable-next-line no-new
+                        new CLIEngine({ cwd });
+                    } catch (error) {
+                        assert.strictEqual(error.messageTemplate, "failed-to-read-json");
+                        throw error;
+                    }
+                });
+            });
+
+            it("should not use package.json's eslintIgnore files if specified .eslintignore file", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ cwd });
+
+                /*
+                 * package.json includes `hello.js` and `world.js`.
+                 * .eslintignore includes `sampleignorepattern`.
+                 */
+                assert(!engine.isPathIgnored("hello.js"));
+                assert(!engine.isPathIgnored("world.js"));
+                assert(engine.isPathIgnored("sampleignorepattern"));
+            });
+
+            it("should error if package.json's eslintIgnore is not an array of file paths", () => {
+                const cwd = getFixturePath("ignored-paths", "bad-package-json-ignore");
+
+                assert.throws(() => {
+                    // eslint-disable-next-line no-new
+                    new CLIEngine({ cwd });
+                }, "Package.json eslintIgnore property requires an array of paths");
+            });
+        });
+
+        describe("with --ignore-pattern option", () => {
+            it("should accept a string for options.ignorePattern", () => {
+                const cwd = getFixturePath("ignored-paths", "ignore-pattern");
+                const engine = new CLIEngine({
+                    ignorePattern: "ignore-me.txt",
+                    cwd
+                });
+
+                assert(engine.isPathIgnored("ignore-me.txt"));
+            });
+
+            it("should accept an array for options.ignorePattern", () => {
+                const engine = new CLIEngine({
+                    ignorePattern: ["a", "b"],
+                    useEslintrc: false
+                });
+
+                assert(engine.isPathIgnored("a"));
+                assert(engine.isPathIgnored("b"));
+                assert(!engine.isPathIgnored("c"));
+            });
+
+            it("should return true for files which match an ignorePattern even if they do not exist on the filesystem", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({
+                    ignorePattern: "not-a-file",
+                    cwd
+                });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "not-a-file")));
+            });
+
+            it("should return true for file matching an ignore pattern exactly", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ ignorePattern: "undef.js", cwd });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "undef.js")));
+            });
+
+            it("should return false for file matching an invalid ignore pattern with leading './'", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ ignorePattern: "./undef.js", cwd });
+
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "undef.js")));
+            });
+
+            it("should return false for file in subfolder of cwd matching an ignore pattern with leading '/'", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ ignorePattern: "/undef.js", cwd });
+
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "subdir", "undef.js")));
+            });
+
+            it("should return true for file matching a child of an ignore pattern", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ ignorePattern: "ignore-pattern", cwd });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "ignore-pattern", "ignore-me.txt")));
+            });
+
+            it("should return true for file matching a grandchild of an ignore pattern", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ ignorePattern: "ignore-pattern", cwd });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "ignore-pattern", "subdir", "ignore-me.txt")));
+            });
+
+            it("should return false for file not matching any ignore pattern", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ ignorePattern: "failing.js", cwd });
+
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "unignored.js")));
+            });
+
+            it("two globstar '**' ignore pattern should ignore files in nested directories", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({ ignorePattern: "**/*.js", cwd });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "foo.js")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "foo/bar.js")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "foo/bar/baz.js")));
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "foo.j2")));
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "foo/bar.j2")));
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "foo/bar/baz.j2")));
+            });
+        });
+
+        describe("with --ignore-path option", () => {
+            it("should load empty array with ignorePath set to false", () => {
+                const cwd = getFixturePath("ignored-paths", "no-ignore-file");
+                const engine = new CLIEngine({ ignorePath: false, cwd });
+
+                // a .eslintignore in parent directories includes `*.js`, but don't load it.
+                assert(!engine.isPathIgnored("foo.js"));
+                assert(engine.isPathIgnored("node_modules/foo.js"));
+            });
+
+            it("initialization with ignorePath should work when cwd is a parent directory", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const ignorePath = getFixturePath("ignored-paths", "custom-name", "ignore-file");
+                const engine = new CLIEngine({ ignorePath, cwd });
+
+                assert(engine.isPathIgnored("custom-name/foo.js"));
+            });
+
+            it("initialization with ignorePath should work when the file is in the cwd", () => {
+                const cwd = getFixturePath("ignored-paths", "custom-name");
+                const ignorePath = getFixturePath("ignored-paths", "custom-name", "ignore-file");
+                const engine = new CLIEngine({ ignorePath, cwd });
+
+                assert(engine.isPathIgnored("foo.js"));
+            });
+
+            it("initialization with ignorePath should work when cwd is a subdirectory", () => {
+                const cwd = getFixturePath("ignored-paths", "custom-name", "subdirectory");
+                const ignorePath = getFixturePath("ignored-paths", "custom-name", "ignore-file");
+                const engine = new CLIEngine({ ignorePath, cwd });
+
+                assert(engine.isPathIgnored("../custom-name/foo.js"));
+            });
+
+            it("initialization with invalid file should throw error", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const ignorePath = getFixturePath("ignored-paths", "not-a-directory", ".foobaz");
+
+                assert.throws(() => {
+                    // eslint-disable-next-line no-new
+                    new CLIEngine({ ignorePath, cwd });
+                }, "Cannot read .eslintignore file");
+            });
+
+            it("should return false for files outside of ignorePath's directory", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const ignorePath = getFixturePath("ignored-paths", "custom-name", "ignore-file");
+                const engine = new CLIEngine({ ignorePath, cwd });
+
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "undef.js")));
+            });
+
+            it("should resolve relative paths from the ignorePath, not cwd", () => {
+                const cwd = getFixturePath("ignored-paths", "subdir");
+                const ignorePath = getFixturePath("ignored-paths", ".eslintignoreForDifferentCwd");
+                const engine = new CLIEngine({ ignorePath, cwd });
+
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "subdir/undef.js")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "undef.js")));
+            });
+
+            it("should resolve relative paths from the ignorePath when it's in a child directory", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const ignorePath = getFixturePath("ignored-paths", "subdir/.eslintignoreInChildDir");
+                const engine = new CLIEngine({ ignorePath, cwd });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "subdir/undef.js")));
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "undef.js")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "foo.js")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "subdir/foo.js")));
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "node_modules/bar.js")));
+            });
+
+            it("should resolve relative paths from the ignorePath when it contains negated globs", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const ignorePath = getFixturePath("ignored-paths", "subdir/.eslintignoreInChildDir");
+                const engine = new CLIEngine({ ignorePath, cwd });
+
+                assert(engine.isPathIgnored("subdir/blah.txt"));
+                assert(engine.isPathIgnored("blah.txt"));
+                assert(!engine.isPathIgnored("subdir/bar.txt"));
+                assert(engine.isPathIgnored("bar.txt"));
+                assert(!engine.isPathIgnored("subdir/baz.txt"));
+                assert(!engine.isPathIgnored("baz.txt"));
+            });
+
+            it("should resolve default ignore patterns from the CWD even when the ignorePath is in a subdirectory", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const ignorePath = getFixturePath("ignored-paths", "subdir/.eslintignoreInChildDir");
+                const engine = new CLIEngine({ ignorePath, cwd });
+
+                assert(engine.isPathIgnored("node_modules/blah.js"));
+            });
+
+            it("should resolve default ignore patterns from the CWD even when the ignorePath is in a parent directory", () => {
+                const cwd = getFixturePath("ignored-paths", "subdir");
+                const ignorePath = getFixturePath("ignored-paths", ".eslintignoreForDifferentCwd");
+                const engine = new CLIEngine({ ignorePath, cwd });
+
+                assert(engine.isPathIgnored("node_modules/blah.js"));
+            });
+
+            it("should handle .eslintignore which contains CRLF correctly.", () => {
+                const ignoreFileContent = fs.readFileSync(getFixturePath("ignored-paths", "crlf/.eslintignore"), "utf8");
+
+                assert(ignoreFileContent.includes("\r"), "crlf/.eslintignore should contains CR.");
+
+                const cwd = getFixturePath("ignored-paths");
+                const ignorePath = getFixturePath("ignored-paths", "crlf/.eslintignore");
+                const engine = new CLIEngine({ ignorePath, cwd });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "crlf/hide1/a.js")));
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "crlf/hide2/a.js")));
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "crlf/hide3/a.js")));
+            });
+
+            it("should not include comments in ignore rules", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const ignorePath = getFixturePath("ignored-paths", ".eslintignoreWithComments");
+                const engine = new CLIEngine({ ignorePath, cwd });
+
+                assert(!engine.isPathIgnored("# should be ignored"));
+                assert(engine.isPathIgnored("this_one_not"));
+            });
+
+            it("should ignore a non-negated pattern", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const ignorePath = getFixturePath("ignored-paths", ".eslintignoreWithNegation");
+                const engine = new CLIEngine({ ignorePath, cwd });
+
+                assert(engine.isPathIgnored(getFixturePath("ignored-paths", "negation", "ignore.js")));
+            });
+
+            it("should not ignore a negated pattern", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const ignorePath = getFixturePath("ignored-paths", ".eslintignoreWithNegation");
+                const engine = new CLIEngine({ ignorePath, cwd });
+
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "negation", "unignore.js")));
+            });
+        });
+
+        describe("with --ignore-path option and --ignore-pattern option", () => {
+            it("should return false for ignored file when unignored with ignore pattern", () => {
+                const cwd = getFixturePath("ignored-paths");
+                const engine = new CLIEngine({
+                    ignorePath: getFixturePath("ignored-paths", ".eslintignore"),
+                    ignorePattern: "!sampleignorepattern",
+                    cwd
+                });
+
+                assert(!engine.isPathIgnored(getFixturePath("ignored-paths", "sampleignorepattern")));
+            });
+        });
     });
 
     describe("getFormatter()", () => {
@@ -3848,6 +4498,14 @@ describe("CLIEngine", () => {
 
             assert(engine.getRules().has("node/no-deprecated-api"), "node/no-deprecated-api is present");
         });
+
+        it("should expose the rules of the plugin that is added by 'addPlugin'.", () => {
+            const engine = new CLIEngine({ plugins: ["foo"] });
+
+            engine.addPlugin("foo", require("eslint-plugin-node"));
+
+            assert(engine.getRules().has("foo/no-deprecated-api"), "foo/no-deprecated-api is present");
+        });
     });
 
     describe("resolveFileGlobPatterns", () => {
@@ -4079,7 +4737,7 @@ describe("CLIEngine", () => {
 
     describe("mutability", () => {
         describe("plugins", () => {
-            it("Loading plugin in one instance doesnt mutate to another instance", () => {
+            it("Loading plugin in one instance doesn't mutate to another instance", () => {
                 const filePath = getFixturePath("single-quoted.js");
                 const engine1 = cliEngineWithPlugins({
                     cwd: path.join(fixtureDir, ".."),
@@ -4101,7 +4759,7 @@ describe("CLIEngine", () => {
         });
 
         describe("rules", () => {
-            it("Loading rules in one instance doesnt mutate to another instance", () => {
+            it("Loading rules in one instance doesn't mutate to another instance", () => {
                 const filePath = getFixturePath("single-quoted.js");
                 const engine1 = new CLIEngine({
                     cwd: path.join(fixtureDir, ".."),
@@ -4118,6 +4776,931 @@ describe("CLIEngine", () => {
                 // plugin
                 assert.deepStrictEqual(fileConfig1.rules["example/example-rule"], [1], "example is present for engine 1");
                 assert.isUndefined(fileConfig2.rules["example/example-rule"], "example is not present for engine 2");
+            });
+        });
+    });
+
+    describe("with ignorePatterns config", () => {
+        const root = getFixturePath("cli-engine/ignore-patterns");
+
+        /** @type {typeof CLIEngine} */
+        let InMemoryCLIEngine;
+
+        describe("ignorePatterns can add an ignore pattern ('foo.js').", () => {
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        ".eslintrc.json": JSON.stringify({
+                            ignorePatterns: "foo.js"
+                        }),
+                        "foo.js": "",
+                        "bar.js": "",
+                        "subdir/foo.js": "",
+                        "subdir/bar.js": ""
+                    }
+                }).CLIEngine;
+            });
+
+            it("'isPathIgnored()' should return 'true' for 'foo.js'.", () => {
+                const engine = new InMemoryCLIEngine();
+
+                assert.strictEqual(engine.isPathIgnored("foo.js"), true);
+                assert.strictEqual(engine.isPathIgnored("subdir/foo.js"), true);
+            });
+
+            it("'isPathIgnored()' should return 'false' for 'bar.js'.", () => {
+                const engine = new InMemoryCLIEngine();
+
+                assert.strictEqual(engine.isPathIgnored("bar.js"), false);
+                assert.strictEqual(engine.isPathIgnored("subdir/bar.js"), false);
+            });
+
+            it("'executeOnFiles()' should not verify 'foo.js'.", () => {
+                const engine = new InMemoryCLIEngine();
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "bar.js"),
+                    path.join(root, "subdir/bar.js")
+                ]);
+            });
+        });
+
+        describe("ignorePatterns can add ignore patterns ('foo.js', '/bar.js').", () => {
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        ".eslintrc.json": JSON.stringify({
+                            ignorePatterns: ["foo.js", "/bar.js"]
+                        }),
+                        "foo.js": "",
+                        "bar.js": "",
+                        "baz.js": "",
+                        "subdir/foo.js": "",
+                        "subdir/bar.js": "",
+                        "subdir/baz.js": ""
+                    }
+                }).CLIEngine;
+            });
+
+            it("'isPathIgnored()' should return 'true' for 'foo.js'.", () => {
+                const engine = new InMemoryCLIEngine();
+
+                assert.strictEqual(engine.isPathIgnored("foo.js"), true);
+                assert.strictEqual(engine.isPathIgnored("subdir/foo.js"), true);
+            });
+
+            it("'isPathIgnored()' should return 'true' for '/bar.js'.", () => {
+                const engine = new InMemoryCLIEngine();
+
+                assert.strictEqual(engine.isPathIgnored("bar.js"), true);
+                assert.strictEqual(engine.isPathIgnored("subdir/bar.js"), false);
+            });
+
+            it("'executeOnFiles()' should not verify 'foo.js' and '/bar.js'.", () => {
+                const engine = new InMemoryCLIEngine();
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "baz.js"),
+                    path.join(root, "subdir/bar.js"),
+                    path.join(root, "subdir/baz.js")
+                ]);
+            });
+        });
+
+        describe("ignorePatterns can unignore '/node_modules/foo'.", () => {
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        ".eslintrc.json": JSON.stringify({
+                            ignorePatterns: "!/node_modules/foo"
+                        }),
+                        "node_modules/foo/index.js": "",
+                        "node_modules/foo/.dot.js": "",
+                        "node_modules/bar/index.js": "",
+                        "foo.js": ""
+                    }
+                }).CLIEngine;
+            });
+
+            it("'isPathIgnored()' should return 'false' for 'node_modules/foo/index.js'.", () => {
+                const engine = new InMemoryCLIEngine();
+
+                assert.strictEqual(engine.isPathIgnored("node_modules/foo/index.js"), false);
+            });
+
+            it("'isPathIgnored()' should return 'true' for 'node_modules/foo/.dot.js'.", () => {
+                const engine = new InMemoryCLIEngine();
+
+                assert.strictEqual(engine.isPathIgnored("node_modules/foo/.dot.js"), true);
+            });
+
+            it("'isPathIgnored()' should return 'true' for 'node_modules/bar/index.js'.", () => {
+                const engine = new InMemoryCLIEngine();
+
+                assert.strictEqual(engine.isPathIgnored("node_modules/bar/index.js"), true);
+            });
+
+            it("'executeOnFiles()' should verify 'node_modules/foo/index.js'.", () => {
+                const engine = new InMemoryCLIEngine();
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "foo.js"),
+                    path.join(root, "node_modules/foo/index.js")
+                ]);
+            });
+        });
+
+        describe("ignorePatterns can unignore '.eslintrc.js'.", () => {
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        ".eslintrc.js": `module.exports = ${JSON.stringify({
+                            ignorePatterns: "!.eslintrc.js"
+                        })}`,
+                        "foo.js": ""
+                    }
+                }).CLIEngine;
+            });
+
+            it("'isPathIgnored()' should return 'false' for '.eslintrc.js'.", () => {
+                const engine = new InMemoryCLIEngine();
+
+                assert.strictEqual(engine.isPathIgnored(".eslintrc.js"), false);
+            });
+
+            it("'executeOnFiles()' should verify '.eslintrc.js'.", () => {
+                const engine = new InMemoryCLIEngine();
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, ".eslintrc.js"),
+                    path.join(root, "foo.js")
+                ]);
+            });
+        });
+
+        describe(".eslintignore can re-ignore files that are unignored by ignorePatterns.", () => {
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        ".eslintrc.js": `module.exports = ${JSON.stringify({
+                            ignorePatterns: "!.*"
+                        })}`,
+                        ".eslintignore": ".foo*",
+                        ".foo.js": "",
+                        ".bar.js": ""
+                    }
+                }).CLIEngine;
+            });
+
+            it("'isPathIgnored()' should return 'true' for re-ignored '.foo.js'.", () => {
+                const engine = new InMemoryCLIEngine();
+
+                assert.strictEqual(engine.isPathIgnored(".foo.js"), true);
+            });
+
+            it("'isPathIgnored()' should return 'false' for unignored '.bar.js'.", () => {
+                const engine = new InMemoryCLIEngine();
+
+                assert.strictEqual(engine.isPathIgnored(".bar.js"), false);
+            });
+
+            it("'executeOnFiles()' should not verify re-ignored '.foo.js'.", () => {
+                const engine = new InMemoryCLIEngine();
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, ".bar.js"),
+                    path.join(root, ".eslintrc.js")
+                ]);
+            });
+        });
+
+        describe(".eslintignore can unignore files that are ignored by ignorePatterns.", () => {
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        ".eslintrc.js": `module.exports = ${JSON.stringify({
+                            ignorePatterns: "*.js"
+                        })}`,
+                        ".eslintignore": "!foo.js",
+                        "foo.js": "",
+                        "bar.js": ""
+                    }
+                }).CLIEngine;
+            });
+
+            it("'isPathIgnored()' should return 'false' for unignored 'foo.js'.", () => {
+                const engine = new InMemoryCLIEngine();
+
+                assert.strictEqual(engine.isPathIgnored("foo.js"), false);
+            });
+
+            it("'isPathIgnored()' should return 'true' for ignored 'bar.js'.", () => {
+                const engine = new InMemoryCLIEngine();
+
+                assert.strictEqual(engine.isPathIgnored("bar.js"), true);
+            });
+
+            it("'executeOnFiles()' should verify unignored 'foo.js'.", () => {
+                const engine = new InMemoryCLIEngine();
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "foo.js")
+                ]);
+            });
+        });
+
+        describe("ignorePatterns in the config file in a child directory affects to only in the directory.", () => {
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        ".eslintrc.json": JSON.stringify({
+                            ignorePatterns: "foo.js"
+                        }),
+                        "subdir/.eslintrc.json": JSON.stringify({
+                            ignorePatterns: "bar.js"
+                        }),
+                        "foo.js": "",
+                        "bar.js": "",
+                        "subdir/foo.js": "",
+                        "subdir/bar.js": "",
+                        "subdir/subsubdir/foo.js": "",
+                        "subdir/subsubdir/bar.js": ""
+                    }
+                }).CLIEngine;
+            });
+
+            it("'isPathIgnored()' should return 'true' for 'foo.js'.", () => {
+                const engine = new InMemoryCLIEngine();
+
+                assert.strictEqual(engine.isPathIgnored("foo.js"), true);
+                assert.strictEqual(engine.isPathIgnored("subdir/foo.js"), true);
+                assert.strictEqual(engine.isPathIgnored("subdir/subsubdir/foo.js"), true);
+            });
+
+            it("'isPathIgnored()' should return 'true' for 'bar.js' in 'subdir'.", () => {
+                const engine = new InMemoryCLIEngine();
+
+                assert.strictEqual(engine.isPathIgnored("subdir/bar.js"), true);
+                assert.strictEqual(engine.isPathIgnored("subdir/subsubdir/bar.js"), true);
+            });
+
+            it("'isPathIgnored()' should return 'false' for 'bar.js' in the outside of 'subdir'.", () => {
+                const engine = new InMemoryCLIEngine();
+
+                assert.strictEqual(engine.isPathIgnored("bar.js"), false);
+            });
+
+            it("'executeOnFiles()' should verify 'bar.js' in the outside of 'subdir'.", () => {
+                const engine = new InMemoryCLIEngine();
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "bar.js")
+                ]);
+            });
+        });
+
+        describe("ignorePatterns in the config file in a child directory can unignore the ignored files in the parent directory's config.", () => {
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        ".eslintrc.json": JSON.stringify({
+                            ignorePatterns: "foo.js"
+                        }),
+                        "subdir/.eslintrc.json": JSON.stringify({
+                            ignorePatterns: "!foo.js"
+                        }),
+                        "foo.js": "",
+                        "subdir/foo.js": ""
+                    }
+                }).CLIEngine;
+            });
+
+            it("'isPathIgnored()' should return 'true' for 'foo.js' in the root directory.", () => {
+                const engine = new InMemoryCLIEngine();
+
+                assert.strictEqual(engine.isPathIgnored("foo.js"), true);
+            });
+
+            it("'isPathIgnored()' should return 'false' for 'foo.js' in the child directory.", () => {
+                const engine = new InMemoryCLIEngine();
+
+                assert.strictEqual(engine.isPathIgnored("subdir/foo.js"), false);
+            });
+
+            it("'executeOnFiles()' should verify 'foo.js' in the child directory.", () => {
+                const engine = new InMemoryCLIEngine();
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "subdir/foo.js")
+                ]);
+            });
+        });
+
+        describe(".eslintignore can unignore files that are ignored by ignorePatterns in the config file in the child directory.", () => {
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        ".eslintrc.json": JSON.stringify({}),
+                        "subdir/.eslintrc.json": JSON.stringify({
+                            ignorePatterns: "*.js"
+                        }),
+                        ".eslintignore": "!foo.js",
+                        "foo.js": "",
+                        "subdir/foo.js": "",
+                        "subdir/bar.js": ""
+                    }
+                }).CLIEngine;
+            });
+
+            it("'isPathIgnored()' should return 'false' for unignored 'foo.js'.", () => {
+                const engine = new InMemoryCLIEngine();
+
+                assert.strictEqual(engine.isPathIgnored("foo.js"), false);
+                assert.strictEqual(engine.isPathIgnored("subdir/foo.js"), false);
+            });
+
+            it("'isPathIgnored()' should return 'true' for ignored 'bar.js'.", () => {
+                const engine = new InMemoryCLIEngine();
+
+                assert.strictEqual(engine.isPathIgnored("subdir/bar.js"), true);
+            });
+
+            it("'executeOnFiles()' should verify unignored 'foo.js'.", () => {
+                const engine = new InMemoryCLIEngine();
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "foo.js"),
+                    path.join(root, "subdir/foo.js")
+                ]);
+            });
+        });
+
+        describe("if the config in a child directory has 'root:true', ignorePatterns in the config file in the parent directory should not be used.", () => {
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        ".eslintrc.json": JSON.stringify({
+                            ignorePatterns: "foo.js"
+                        }),
+                        "subdir/.eslintrc.json": JSON.stringify({
+                            root: true,
+                            ignorePatterns: "bar.js"
+                        }),
+                        "foo.js": "",
+                        "bar.js": "",
+                        "subdir/foo.js": "",
+                        "subdir/bar.js": ""
+                    }
+                }).CLIEngine;
+            });
+
+            it("'isPathIgnored()' should return 'true' for 'foo.js' in the root directory.", () => {
+                const engine = new InMemoryCLIEngine();
+
+                assert.strictEqual(engine.isPathIgnored("foo.js"), true);
+            });
+
+            it("'isPathIgnored()' should return 'false' for 'bar.js' in the root directory.", () => {
+                const engine = new InMemoryCLIEngine();
+
+                assert.strictEqual(engine.isPathIgnored("bar.js"), false);
+            });
+
+            it("'isPathIgnored()' should return 'false' for 'foo.js' in the child directory.", () => {
+                const engine = new InMemoryCLIEngine();
+
+                assert.strictEqual(engine.isPathIgnored("subdir/foo.js"), false);
+            });
+
+            it("'isPathIgnored()' should return 'true' for 'bar.js' in the child directory.", () => {
+                const engine = new InMemoryCLIEngine();
+
+                assert.strictEqual(engine.isPathIgnored("subdir/bar.js"), true);
+            });
+
+            it("'executeOnFiles()' should verify 'bar.js' in the root directory and 'foo.js' in the child directory.", () => {
+                const engine = new InMemoryCLIEngine();
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "bar.js"),
+                    path.join(root, "subdir/foo.js")
+                ]);
+            });
+        });
+
+        describe("even if the config in a child directory has 'root:true', .eslintignore should be used.", () => {
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        ".eslintrc.json": JSON.stringify({}),
+                        "subdir/.eslintrc.json": JSON.stringify({
+                            root: true,
+                            ignorePatterns: "bar.js"
+                        }),
+                        ".eslintignore": "foo.js",
+                        "foo.js": "",
+                        "bar.js": "",
+                        "subdir/foo.js": "",
+                        "subdir/bar.js": ""
+                    }
+                }).CLIEngine;
+            });
+
+            it("'isPathIgnored()' should return 'true' for 'foo.js'.", () => {
+                const engine = new InMemoryCLIEngine();
+
+                assert.strictEqual(engine.isPathIgnored("foo.js"), true);
+                assert.strictEqual(engine.isPathIgnored("subdir/foo.js"), true);
+            });
+
+            it("'isPathIgnored()' should return 'false' for 'bar.js' in the root directory.", () => {
+                const engine = new InMemoryCLIEngine();
+
+                assert.strictEqual(engine.isPathIgnored("bar.js"), false);
+            });
+
+            it("'isPathIgnored()' should return 'true' for 'bar.js' in the child directory.", () => {
+                const engine = new InMemoryCLIEngine();
+
+                assert.strictEqual(engine.isPathIgnored("subdir/bar.js"), true);
+            });
+
+            it("'executeOnFiles()' should verify 'bar.js' in the root directory.", () => {
+                const engine = new InMemoryCLIEngine();
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "bar.js")
+                ]);
+            });
+        });
+
+        describe("ignorePatterns in the shareable config should be used.", () => {
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        "node_modules/eslint-config-one/index.js": `module.exports = ${JSON.stringify({
+                            ignorePatterns: "foo.js"
+                        })}`,
+                        ".eslintrc.json": JSON.stringify({
+                            extends: "one"
+                        }),
+                        "foo.js": "",
+                        "bar.js": ""
+                    }
+                }).CLIEngine;
+            });
+
+            it("'isPathIgnored()' should return 'true' for 'foo.js'.", () => {
+                const engine = new InMemoryCLIEngine();
+
+                assert.strictEqual(engine.isPathIgnored("foo.js"), true);
+            });
+
+            it("'isPathIgnored()' should return 'false' for 'bar.js'.", () => {
+                const engine = new InMemoryCLIEngine();
+
+                assert.strictEqual(engine.isPathIgnored("bar.js"), false);
+            });
+
+            it("'executeOnFiles()' should verify 'bar.js'.", () => {
+                const engine = new InMemoryCLIEngine();
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "bar.js")
+                ]);
+            });
+        });
+
+        describe("ignorePatterns in the shareable config should be relative to the entry config file.", () => {
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        "node_modules/eslint-config-one/index.js": `module.exports = ${JSON.stringify({
+                            ignorePatterns: "/foo.js"
+                        })}`,
+                        ".eslintrc.json": JSON.stringify({
+                            extends: "one"
+                        }),
+                        "foo.js": "",
+                        "subdir/foo.js": ""
+                    }
+                }).CLIEngine;
+            });
+
+            it("'isPathIgnored()' should return 'true' for 'foo.js'.", () => {
+                const engine = new InMemoryCLIEngine();
+
+                assert.strictEqual(engine.isPathIgnored("foo.js"), true);
+            });
+
+            it("'isPathIgnored()' should return 'false' for 'subdir/foo.js'.", () => {
+                const engine = new InMemoryCLIEngine();
+
+                assert.strictEqual(engine.isPathIgnored("subdir/foo.js"), false);
+            });
+
+            it("'executeOnFiles()' should verify 'subdir/foo.js'.", () => {
+                const engine = new InMemoryCLIEngine();
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "subdir/foo.js")
+                ]);
+            });
+        });
+
+        describe("ignorePatterns in a config file can unignore the files which are ignored by ignorePatterns in the shareable config.", () => {
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        "node_modules/eslint-config-one/index.js": `module.exports = ${JSON.stringify({
+                            ignorePatterns: "*.js"
+                        })}`,
+                        ".eslintrc.json": JSON.stringify({
+                            extends: "one",
+                            ignorePatterns: "!bar.js"
+                        }),
+                        "foo.js": "",
+                        "bar.js": ""
+                    }
+                }).CLIEngine;
+            });
+
+            it("'isPathIgnored()' should return 'true' for 'foo.js'.", () => {
+                const engine = new InMemoryCLIEngine();
+
+                assert.strictEqual(engine.isPathIgnored("foo.js"), true);
+            });
+
+            it("'isPathIgnored()' should return 'false' for 'bar.js'.", () => {
+                const engine = new InMemoryCLIEngine();
+
+                assert.strictEqual(engine.isPathIgnored("bar.js"), false);
+            });
+
+            it("'executeOnFiles()' should verify 'bar.js'.", () => {
+                const engine = new InMemoryCLIEngine();
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "bar.js")
+                ]);
+            });
+        });
+
+        describe("ignorePatterns in a config file should not be used if --no-ignore option was given.", () => {
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        ".eslintrc.json": JSON.stringify({
+                            ignorePatterns: "*.js"
+                        }),
+                        "foo.js": ""
+                    }
+                }).CLIEngine;
+            });
+
+            it("'isPathIgnored()' should return 'false' for 'foo.js'.", () => {
+                const engine = new InMemoryCLIEngine({ ignore: false });
+
+                assert.strictEqual(engine.isPathIgnored("foo.js"), false);
+            });
+
+            it("'executeOnFiles()' should verify 'foo.js'.", () => {
+                const engine = new InMemoryCLIEngine({ ignore: false });
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "foo.js")
+                ]);
+            });
+        });
+
+        describe("ignorePatterns in overrides section is not allowed.", () => {
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        ".eslintrc.js": `module.exports = ${JSON.stringify({
+                            overrides: [
+                                {
+                                    files: "*.js",
+                                    ignorePatterns: "foo.js"
+                                }
+                            ]
+                        })}`,
+                        "foo.js": ""
+                    }
+                }).CLIEngine;
+            });
+
+            it("should throw a configuration error.", () => {
+                assert.throws(() => {
+                    const engine = new InMemoryCLIEngine();
+
+                    engine.executeOnFiles("*.js");
+                }, "Unexpected top-level property \"overrides[0].ignorePatterns\"");
+            });
+        });
+
+    });
+
+    describe("'overrides[].files' adds lint targets", () => {
+        const root = getFixturePath("cli-engine/additional-lint-targets");
+        let InMemoryCLIEngine;
+
+        describe("if { files: 'foo/*.txt', excludedFiles: '**/ignore.txt' } is present,", () => {
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        ".eslintrc.json": JSON.stringify({
+                            overrides: [
+                                {
+                                    files: "foo/*.txt",
+                                    excludedFiles: "**/ignore.txt"
+                                }
+                            ]
+                        }),
+                        "foo/nested/test.txt": "",
+                        "foo/test.js": "",
+                        "foo/test.txt": "",
+                        "foo/ignore.txt": "",
+                        "bar/test.js": "",
+                        "bar/test.txt": "",
+                        "bar/ignore.txt": "",
+                        "test.js": "",
+                        "test.txt": "",
+                        "ignore.txt": ""
+                    }
+                }).CLIEngine;
+            });
+
+            it("'executeOnFiles()' with a directory path should contain 'foo/test.txt'.", () => {
+                const engine = new InMemoryCLIEngine();
+                const filePaths = engine.executeOnFiles(".")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "bar/test.js"),
+                    path.join(root, "foo/test.js"),
+                    path.join(root, "foo/test.txt"),
+                    path.join(root, "test.js")
+                ]);
+            });
+
+            it("'executeOnFiles()' with a glob pattern '*.js' should not contain 'foo/test.txt'.", () => {
+                const engine = new InMemoryCLIEngine();
+                const filePaths = engine.executeOnFiles("**/*.js")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "bar/test.js"),
+                    path.join(root, "foo/test.js"),
+                    path.join(root, "test.js")
+                ]);
+            });
+        });
+
+        describe("if { files: 'foo/**/*.txt' } is present,", () => {
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        ".eslintrc.json": JSON.stringify({
+                            overrides: [
+                                {
+                                    files: "foo/**/*.txt"
+                                }
+                            ]
+                        }),
+                        "foo/nested/test.txt": "",
+                        "foo/test.js": "",
+                        "foo/test.txt": "",
+                        "bar/test.js": "",
+                        "bar/test.txt": "",
+                        "test.js": "",
+                        "test.txt": ""
+                    }
+                }).CLIEngine;
+            });
+
+            it("'executeOnFiles()' with a directory path should contain 'foo/test.txt' and 'foo/nested/test.txt'.", () => {
+                const engine = new InMemoryCLIEngine();
+                const filePaths = engine.executeOnFiles(".")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "bar/test.js"),
+                    path.join(root, "foo/nested/test.txt"),
+                    path.join(root, "foo/test.js"),
+                    path.join(root, "foo/test.txt"),
+                    path.join(root, "test.js")
+                ]);
+            });
+        });
+
+        describe("if { files: 'foo/**/*' } is present,", () => {
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        ".eslintrc.json": JSON.stringify({
+                            overrides: [
+                                {
+                                    files: "foo/**/*"
+                                }
+                            ]
+                        }),
+                        "foo/nested/test.txt": "",
+                        "foo/test.js": "",
+                        "foo/test.txt": "",
+                        "bar/test.js": "",
+                        "bar/test.txt": "",
+                        "test.js": "",
+                        "test.txt": ""
+                    }
+                }).CLIEngine;
+            });
+
+            it("'executeOnFiles()' with a directory path should NOT contain 'foo/test.txt' and 'foo/nested/test.txt'.", () => {
+                const engine = new InMemoryCLIEngine();
+                const filePaths = engine.executeOnFiles(".")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "bar/test.js"),
+                    path.join(root, "foo/test.js"),
+                    path.join(root, "test.js")
+                ]);
+            });
+        });
+
+        describe("if { files: 'foo/**/*.txt' } is present in a shareable config,", () => {
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        "node_modules/eslint-config-foo/index.js": `module.exports = ${JSON.stringify({
+                            overrides: [
+                                {
+                                    files: "foo/**/*.txt"
+                                }
+                            ]
+                        })}`,
+                        ".eslintrc.json": JSON.stringify({
+                            extends: "foo"
+                        }),
+                        "foo/nested/test.txt": "",
+                        "foo/test.js": "",
+                        "foo/test.txt": "",
+                        "bar/test.js": "",
+                        "bar/test.txt": "",
+                        "test.js": "",
+                        "test.txt": ""
+                    }
+                }).CLIEngine;
+            });
+
+            it("'executeOnFiles()' with a directory path should contain 'foo/test.txt' and 'foo/nested/test.txt'.", () => {
+                const engine = new InMemoryCLIEngine();
+                const filePaths = engine.executeOnFiles(".")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "bar/test.js"),
+                    path.join(root, "foo/nested/test.txt"),
+                    path.join(root, "foo/test.js"),
+                    path.join(root, "foo/test.txt"),
+                    path.join(root, "test.js")
+                ]);
+            });
+        });
+
+        describe("if { files: 'foo/**/*.txt' } is present in a plugin config,", () => {
+            beforeEach(() => {
+                InMemoryCLIEngine = defineCLIEngineWithInMemoryFileSystem({
+                    cwd: () => root,
+                    files: {
+                        "node_modules/eslint-plugin-foo/index.js": `exports.configs = ${JSON.stringify({
+                            bar: {
+                                overrides: [
+                                    {
+                                        files: "foo/**/*.txt"
+                                    }
+                                ]
+                            }
+                        })}`,
+                        ".eslintrc.json": JSON.stringify({
+                            extends: "plugin:foo/bar"
+                        }),
+                        "foo/nested/test.txt": "",
+                        "foo/test.js": "",
+                        "foo/test.txt": "",
+                        "bar/test.js": "",
+                        "bar/test.txt": "",
+                        "test.js": "",
+                        "test.txt": ""
+                    }
+                }).CLIEngine;
+            });
+
+            it("'executeOnFiles()' with a directory path should contain 'foo/test.txt' and 'foo/nested/test.txt'.", () => {
+                const engine = new InMemoryCLIEngine();
+                const filePaths = engine.executeOnFiles(".")
+                    .results
+                    .map(r => r.filePath)
+                    .sort();
+
+                assert.deepStrictEqual(filePaths, [
+                    path.join(root, "bar/test.js"),
+                    path.join(root, "foo/nested/test.txt"),
+                    path.join(root, "foo/test.js"),
+                    path.join(root, "foo/test.txt"),
+                    path.join(root, "test.js")
+                ]);
             });
         });
     });

@@ -23,7 +23,7 @@ const ES6_MODULE = { ecmaVersion: 6, sourceType: "module" };
 // Tests
 //------------------------------------------------------------------------------
 
-const errors = [{ message: "Unexpected use of undefined.", type: "Identifier" }];
+const errors = [{ messageId: "unexpectedUndefined", type: "Identifier" }];
 
 const ruleTester = new RuleTester({ parserOptions: ES6_SCRIPT });
 
@@ -84,10 +84,10 @@ ruleTester.run("no-undefined", rule, {
         {
             code: "var undefined = true; undefined = false;",
             errors: [{
-                message: "Unexpected use of undefined.",
+                messageId: "unexpectedUndefined",
                 column: 5
             }, {
-                message: "Unexpected use of undefined.",
+                messageId: "unexpectedUndefined",
                 column: 23
             }]
         },

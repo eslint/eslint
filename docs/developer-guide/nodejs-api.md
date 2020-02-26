@@ -7,28 +7,28 @@ While ESLint is designed to be run on the command line, it's possible to use ESL
 ## Table of Contents
 
 * [SourceCode](#sourcecode)
-    * [splitLines()](#sourcecodesplitlines)
+    * [splitLines()](#sourcecode-splitlines)
 * [Linter](#linter)
-    * [verify()](#linterverify)
-    * [verifyAndFix()](#linterverifyandfix)
-    * [defineRule()](#linterdefinerule)
-    * [defineRules()](#linterdefinerules)
-    * [getRules()](#lintergetrules)
-    * [defineParser()](#linterdefineparser)
-    * [version](#linterversion)
+    * [verify()](#linter-verify)
+    * [verifyAndFix()](#linter-verifyandfix)
+    * [defineRule()](#linter-definerule)
+    * [defineRules()](#linter-definerules)
+    * [getRules()](#linter-getrules)
+    * [defineParser()](#linter-defineparser)
+    * [version](#linter-version)
 * [linter (deprecated)](#linter-1)
 * [CLIEngine](#cliengine)
-    * [executeOnFiles()](#cliengineexecuteonfiles)
-    * [resolveFileGlobPatterns()](#cliengineresolvefileglobpatterns)
-    * [getConfigForFile()](#clienginegetconfigforfile)
-    * [executeOnText()](#cliengineexecuteontext)
-    * [addPlugin()](#cliengineaddplugin)
-    * [isPathIgnored()](#cliengineispathignored)
-    * [getFormatter()](#clienginegetformatter)
-    * [getErrorResults()](#clienginegeterrorresults)
-    * [outputFixes()](#cliengineoutputfixes)
-    * [getRules()](#clienginegetrules)
-    * [version](#cliengineversion)
+    * [executeOnFiles()](#cliengine-executeonfiles)
+    * [resolveFileGlobPatterns()](#cliengine-resolvefileglobpatterns)
+    * [getConfigForFile()](#cliengine-getconfigforfile)
+    * [executeOnText()](#cliengine-executeontext)
+    * [addPlugin()](#cliengine-addplugin)
+    * [isPathIgnored()](#cliengine-ispathignored)
+    * [getFormatter()](#cliengine-getformatter)
+    * [getErrorResults()](#cliengine-geterrorresults)
+    * [outputFixes()](#cliengine-outputfixes)
+    * [getRules()](#cliengine-getrules)
+    * [version](#cliengine-version)
 * [RuleTester](#ruletester)
     * [Customizing RuleTester](#customizing-ruletester)
 * [Deprecated APIs](#deprecated-apis)
@@ -80,12 +80,21 @@ const codeLines = SourceCode.splitLines(code);
 
 ## Linter
 
-The `Linter` object does the actual evaluation of the JavaScript code. It doesn't do any filesystem operations, it simply parses and reports on the code. In particular, the `Linter` object does not process configuration objects or files. You can retrieve instances of `Linter` like this:
+The `Linter` object does the actual evaluation of the JavaScript code. It doesn't do any filesystem operations, it simply parses and reports on the code. In particular, the `Linter` object does not process configuration objects or files.
+The `Linter` is a constructor, and you can create a new instance by passing in the options you want to use. The available options are:
+
+* `cwd` - Path to a directory that should be considered as the current working directory. It is accessible to rules by calling `context.getCwd()` (see [The Context Object](./working-with-rules.md#The-Context-Object)). If `cwd` is `undefined`, it will be normalized to `process.cwd()` if the global `process` object is defined (for example, in the Node.js runtime) , or `undefined` otherwise.
+
+For example:
 
 ```js
 const Linter = require("eslint").Linter;
-const linter = new Linter();
+const linter1 = new Linter({ cwd: 'path/to/project' });
+const linter2 = new Linter();
 ```
+
+In this example, rules run on `linter1` will get `path/to/project` when calling `context.getCwd()`.
+Those run on `linter2` will get `process.cwd()` if the global `process` object is defined or `undefined` otherwise (e.g. on the browser https://eslint.org/demo).
 
 ### Linter#verify
 
@@ -99,7 +108,7 @@ The most important method on `Linter` is `verify()`, which initiates linting of 
     * `preprocess` - (optional) A function that [Processors in Plugins](/docs/developer-guide/working-with-plugins.md#processors-in-plugins) documentation describes as the `preprocess` method.
     * `postprocess` - (optional) A function that [Processors in Plugins](/docs/developer-guide/working-with-plugins.md#processors-in-plugins) documentation describes as the `postprocess` method.
     * `filterCodeBlock` - (optional) A function that decides which code blocks the linter should adopt. The function receives two arguments. The first argument is the virtual filename of a code block. The second argument is the text of the code block. If the function returned `true` then the linter adopts the code block. If the function was omitted, the linter adopts only `*.js` code blocks. If you provided a `filterCodeBlock` function, it overrides this default behavior, so the linter doesn't adopt `*.js` code blocks automatically.
-    * `disableFixes` - (optional) when set to `true`, the linter doesn't make the `fix` property of the lint result.
+    * `disableFixes` - (optional) when set to `true`, the linter doesn't make either the `fix` or `suggestions` property of the lint result.
     * `allowInlineConfig` - (optional) set to `false` to disable inline comments from changing ESLint rules.
     * `reportUnusedDisableDirectives` - (optional) when set to `true`, adds reported errors for unused `eslint-disable` directives when no problems would be reported in the disabled area anyway.
 
@@ -161,6 +170,7 @@ The information available for each linting message is:
 * `endColumn` - the end column of the range on which the error occurred (this property is omitted if it's not range).
 * `endLine` - the end line of the range on which the error occurred (this property is omitted if it's not range).
 * `fix` - an object describing the fix for the problem (this property is omitted if no fix is available).
+* `suggestions` - an array of objects describing possible lint fixes for editors to programmatically enable (see details in the [Working with Rules docs](./working-with-rules.md#providing-suggestions)).
 
 Linting message objects have a deprecated `source` property. This property **will be removed** from linting messages in an upcoming breaking release. If you depend on this property, you should now use the `SourceCode` instance provided by the linter.
 
@@ -346,6 +356,7 @@ The `CLIEngine` is a constructor, and you can create a new instance by passing i
 * `configFile` - The configuration file to use (default: null). If `useEslintrc` is true or not specified, this configuration will be merged with any configuration defined in `.eslintrc.*` files, with options in this configuration having precedence. Corresponds to `-c`.
 * `cwd` - Path to a directory that should be considered as the current working directory.
 * `envs` - An array of environments to load (default: empty array). Corresponds to `--env`. Note: This differs from `.eslintrc.*` / `baseConfig`, where instead the option is called `env` and is an object.
+* `errorOnUnmatchedPattern` - Set to `false` to prevent errors when pattern is unmatched. Corresponds to `--no-error-on-unmatched-pattern`.
 * `extensions` - An array of filename extensions that should be checked for code. The default is an array containing just `".js"`. Corresponds to `--ext`. It is only used in conjunction with directories, not with filenames, glob patterns or when using `executeOnText()`.
 * `fix` - A boolean or a function (default: `false`). If a function, it will be passed each linting message and should return a boolean indicating whether the fix should be included with the output report (errors and warnings will not be listed if fixed). Files on disk are never changed regardless of the value of `fix`. To persist changes to disk, call [`outputFixes()`](#cliengineoutputfixes).
 * `fixTypes` - An array of rule types for which fixes should be applied (default: `null`). This array acts like a filter, only allowing rules of the given types to apply fixes. Possible array values are `"problem"`, `"suggestion"`, and `"layout"`.
@@ -428,9 +439,23 @@ The return value is an object containing the results of the linting operation. H
                 column: 13,
                 nodeType: "ExpressionStatement",
                 fix: { range: [12, 12], text: ";" }
+            }, {
+                ruleId: "no-useless-escape",
+                severity: 1,
+                message: "disallow unnecessary escape characters",
+                line: 1,
+                column: 10,
+                nodeType: "ExpressionStatement",
+                suggestions: [{
+                    desc: "Remove unnecessary escape. This maintains the current functionality.",
+                    fix: { range: [9, 10], text: "" }
+                }, {
+                    desc: "Escape backslash to include it in the RegExp.",
+                    fix: { range: [9, 9], text: "\\" }
+                }]
             }],
             errorCount: 1,
-            warningCount: 0,
+            warningCount: 1,
             fixableErrorCount: 1,
             fixableWarningCount: 0,
             source: "\"use strict\"\n"
@@ -586,8 +611,9 @@ Once you have the configuration information, you can pass it into the `linter` o
 
 ```js
 const CLIEngine = require("eslint").CLIEngine,
-    linter = require("eslint").linter;
+    Linter = require("eslint").Linter;
 
+const linter = new Linter();
 const cli = new CLIEngine({
     envs: ["browser", "mocha"],
     useEslintrc: false,
@@ -616,14 +642,16 @@ const cli = new CLIEngine({
     }
 });
 
-// lint the supplied text and optionally set
-// a filename that is displayed in the report
+// Lint the supplied text and optionally set a filename that is displayed in the report
 const report = cli.executeOnText("var foo = 'bar';", "foo.js");
+
+// In addition to the above, warn if the resolved file name is ignored.
+const reportAndWarnOnIgnoredFile = cli.executeOnText("var foo = 'bar';", "foo.js", true);
 ```
 
 The `report` returned from `executeOnText()` is in the same format as from `executeOnFiles()`, but there is only ever one result in `report.results`.
 
-If a filename in the optional second parameter matches a file that is configured to be ignored, then this function returns no errors or warnings. To return a warning instead, call the method with true as the optional third parameter.
+If a filename in the optional second parameter matches a file that is configured to be ignored, then this function returns no errors or warnings. The method includes an additional optional boolean third parameter. When `true`, a resolved file name that is ignored will return a warning.
 
 ### CLIEngine#addPlugin()
 
@@ -853,6 +881,7 @@ In addition to the properties above, invalid test cases can also have the follow
     * `column` (number): The 1-based column number of the reported location
     * `endLine` (number): The 1-based line number of the end of the reported location
     * `endColumn` (number): The 1-based column number of the end of the reported location
+    * `suggestions` (array): An array of objects with suggestion details to check. See [Testing Suggestions](#testing-suggestions) for details
 
     If a string is provided as an error instead of an object, the string is used to assert the `message` of the error.
 * `output` (string, optional): Asserts the output that will be produced when using this rule for a single pass of autofixing (e.g. with the `--fix` command line flag). If this is `null`, asserts that none of the reported problems suggest autofixes.
@@ -867,6 +896,31 @@ Any additional properties of a test case will be passed directly to the linter a
 ```
 
 If a valid test case only uses the `code` property, it can optionally be provided as a string containing the code, rather than an object with a `code` key.
+
+#### Testing Suggestions
+
+Suggestions can be tested by defining a `suggestions` key on an errors object. The options to check for the suggestions are the following (all are optional):
+    * `desc` (string): The suggestion `desc` value
+    * `messageId` (string): The suggestion `messageId` value for suggestions that use `messageId`s
+    * `output` (string): A code string representing the result of applying the suggestion fix to the input code
+
+Example:
+
+```js
+ruleTester.run("my-rule-for-no-foo", rule, {
+    valid: [],
+    invalid: [{
+        code: "var foo;",
+        errors: [{
+            suggestions: [{
+                desc: "Rename identifier 'foo' to 'bar'",
+                messageId: "renameFoo",
+                output: "var bar;"
+            }]
+        }]
+    }]
+})
+```
 
 ### Customizing RuleTester
 

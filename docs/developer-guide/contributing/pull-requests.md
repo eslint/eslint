@@ -112,7 +112,7 @@ With your code ready to go, this is a good time to double-check your submission 
 * Make separate pull requests for unrelated changes. Large pull requests with multiple unrelated changes may be closed without merging.
 * All changes must be accompanied by tests, even if the feature you're working on previously had no tests.
 * All user-facing changes must be accompanied by appropriate documentation.
-* Follow the [Code Conventions](../code-conventions.html).
+* Follow the [Code Conventions](../code-conventions.md).
 
 ### Step 6: Push your changes<a name="step6"></a>
 

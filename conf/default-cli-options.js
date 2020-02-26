@@ -12,9 +12,9 @@ module.exports = {
     useEslintrc: true,
     envs: [],
     globals: [],
-    extensions: [".js"],
+    extensions: null,
     ignore: true,
-    ignorePath: null,
+    ignorePath: void 0,
     cache: false,
 
     /*
@@ -26,6 +26,6 @@ module.exports = {
     cacheFile: ".eslintcache",
     fix: false,
     allowInlineConfig: true,
-    reportUnusedDisableDirectives: false,
+    reportUnusedDisableDirectives: void 0,
     globInputPaths: true
 };

@@ -23,7 +23,7 @@ function awaitExit(exitingProcess) {
  * Asserts that the exit code of a given child process will equal the given value.
  * @param {ChildProcess} exitingProcess The child process
  * @param {number} expectedExitCode The expected exit code of the child process
- * @returns {Promise} A Promise that fufills if the exit code ends up matching, and rejects otherwise.
+ * @returns {Promise} A Promise that fulfills if the exit code ends up matching, and rejects otherwise.
  */
 function assertExitCode(exitingProcess, expectedExitCode) {
     return awaitExit(exitingProcess).then(exitCode => {
@@ -162,6 +162,15 @@ describe("bin/eslint.js", () => {
 
                 return assertExitCode(child, 0);
             });
+        });
+
+        it("successfully handles more than 4k data via stdin", () => {
+            const child = runESLint(["--stdin", "--no-eslintrc"]);
+            const large = fs.createReadStream(`${__dirname}/../bench/large.js`, "utf8");
+
+            large.pipe(child.stdin);
+
+            return assertExitCode(child, 0);
         });
     });
 
@@ -379,7 +388,7 @@ describe("bin/eslint.js", () => {
 
             const exitCodePromise = assertExitCode(child, 0);
             const outputPromise = getOutput(child).then(output => {
-                assert.include(output.stderr, "The 'ecmaFeatures' config file property is deprecated, and has no effect.");
+                assert.include(output.stderr, "The 'ecmaFeatures' config file property is deprecated and has no effect.");
             });
 
             return Promise.all([exitCodePromise, outputPromise]);

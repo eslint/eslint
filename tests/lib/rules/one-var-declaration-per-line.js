@@ -19,13 +19,13 @@ const rule = require("../../../lib/rules/one-var-declaration-per-line"),
 /**
  * Returns an error object at the specified line and column
  * @private
- * @param {int} line - line number
- * @param {int} column - column number
- * @returns {Oject} Error object
+ * @param {int} line line number
+ * @param {int} column column number
+ * @returns {Object} Error object
  */
 function errorAt(line, column) {
     return {
-        message: "Expected variable declaration to be on a new line.",
+        messageId: "expectVarOnNewline",
         type: "VariableDeclaration",
         line,
         column
