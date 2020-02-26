@@ -71,7 +71,23 @@ describe("ConfigFile", () => {
 
                 sinon.mock(fakeFS).expects("writeFileSync").withExactArgs(
                     filename,
-                    sinon.match(value => !!validate(value) && value.endsWith("\n")),
+                    sinon.match(value => !!validate(value)),
+                    "utf8"
+                );
+
+                const StubbedConfigFile = proxyquire("../../../lib/init/config-file", {
+                    fs: fakeFS
+                });
+
+                StubbedConfigFile.write(config, filename);
+            });
+
+            it("should include a newline character at EOF", () => {
+                const fakeFS = leche.fake(fs);
+
+                sinon.mock(fakeFS).expects("writeFileSync").withExactArgs(
+                    filename,
+                    sinon.match(value => value.endsWith("\n")),
                     "utf8"
                 );
 
