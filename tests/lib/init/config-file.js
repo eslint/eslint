@@ -71,7 +71,7 @@ describe("ConfigFile", () => {
 
                 sinon.mock(fakeFS).expects("writeFileSync").withExactArgs(
                     filename,
-                    sinon.match(value => !!validate(value)),
+                    sinon.match(value => !!validate(value) && value.endsWith("\n")),
                     "utf8"
                 );
 
@@ -81,7 +81,6 @@ describe("ConfigFile", () => {
 
                 StubbedConfigFile.write(config, filename);
             });
-
         });
 
         it("should make sure js config files match linting rules", () => {
