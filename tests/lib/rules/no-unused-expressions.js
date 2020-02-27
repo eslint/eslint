@@ -73,56 +73,56 @@ ruleTester.run("no-unused-expressions", rule, {
         }
     ],
     invalid: [
-        { code: "0", errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement" }] },
-        { code: "a", errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement" }] },
-        { code: "f(), 0", errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement" }] },
-        { code: "{0}", errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement" }] },
-        { code: "[]", errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement" }] },
-        { code: "a && b();", errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement" }] },
-        { code: "a() || false", errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement" }] },
-        { code: "a || (b = c)", errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement" }] },
-        { code: "a ? b() || (c = d) : e", errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement" }] },
+        { code: "0", errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }] },
+        { code: "a", errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }] },
+        { code: "f(), 0", errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }] },
+        { code: "{0}", errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }] },
+        { code: "[]", errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }] },
+        { code: "a && b();", errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }] },
+        { code: "a() || false", errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }] },
+        { code: "a || (b = c)", errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }] },
+        { code: "a ? b() || (c = d) : e", errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }] },
         {
             code: "`untagged template literal`",
             parserOptions: { ecmaVersion: 6 },
-            errors: ["Expected an assignment or function call and instead saw an expression."]
+            errors: [{ messageId: "unusedExpression" }]
         },
         {
             code: "tag`tagged template literal`",
             parserOptions: { ecmaVersion: 6 },
-            errors: ["Expected an assignment or function call and instead saw an expression."]
+            errors: [{ messageId: "unusedExpression" }]
         },
-        { code: "a && b()", options: [{ allowTernary: true }], errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement" }] },
-        { code: "a ? b() : c()", options: [{ allowShortCircuit: true }], errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement" }] },
-        { code: "a || b", options: [{ allowShortCircuit: true }], errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement" }] },
-        { code: "a() && b", options: [{ allowShortCircuit: true }], errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement" }] },
-        { code: "a ? b : 0", options: [{ allowTernary: true }], errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement" }] },
-        { code: "a ? b : c()", options: [{ allowTernary: true }], errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement" }] },
-        { code: "foo.bar;", errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement" }] },
-        { code: "!a", errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement" }] },
-        { code: "+a", errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement" }] },
-        { code: "\"directive one\"; f(); \"directive two\";", errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement" }] },
-        { code: "function foo() {\"directive one\"; f(); \"directive two\"; }", errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement" }] },
-        { code: "if (0) { \"not a directive\"; f(); }", errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement" }] },
-        { code: "function foo() { var foo = true; \"use strict\"; }", errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement" }] },
-        { code: "var foo = () => { var foo = true; \"use strict\"; }", parserOptions: { ecmaVersion: 6 }, errors: [{ message: "Expected an assignment or function call and instead saw an expression.", type: "ExpressionStatement" }] },
+        { code: "a && b()", options: [{ allowTernary: true }], errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }] },
+        { code: "a ? b() : c()", options: [{ allowShortCircuit: true }], errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }] },
+        { code: "a || b", options: [{ allowShortCircuit: true }], errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }] },
+        { code: "a() && b", options: [{ allowShortCircuit: true }], errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }] },
+        { code: "a ? b : 0", options: [{ allowTernary: true }], errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }] },
+        { code: "a ? b : c()", options: [{ allowTernary: true }], errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }] },
+        { code: "foo.bar;", errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }] },
+        { code: "!a", errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }] },
+        { code: "+a", errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }] },
+        { code: "\"directive one\"; f(); \"directive two\";", errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }] },
+        { code: "function foo() {\"directive one\"; f(); \"directive two\"; }", errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }] },
+        { code: "if (0) { \"not a directive\"; f(); }", errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }] },
+        { code: "function foo() { var foo = true; \"use strict\"; }", errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }] },
+        { code: "var foo = () => { var foo = true; \"use strict\"; }", parserOptions: { ecmaVersion: 6 }, errors: [{ messageId: "unusedExpression", type: "ExpressionStatement" }] },
         {
             code: "`untagged template literal`",
             options: [{ allowTaggedTemplates: true }],
             parserOptions: { ecmaVersion: 6 },
-            errors: ["Expected an assignment or function call and instead saw an expression."]
+            errors: [{ messageId: "unusedExpression" }]
         },
         {
             code: "`untagged template literal`",
             options: [{ allowTaggedTemplates: false }],
             parserOptions: { ecmaVersion: 6 },
-            errors: ["Expected an assignment or function call and instead saw an expression."]
+            errors: [{ messageId: "unusedExpression" }]
         },
         {
             code: "tag`tagged template literal`",
             options: [{ allowTaggedTemplates: false }],
             parserOptions: { ecmaVersion: 6 },
-            errors: ["Expected an assignment or function call and instead saw an expression."]
+            errors: [{ messageId: "unusedExpression" }]
         }
     ]
 });

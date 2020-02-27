@@ -46,7 +46,7 @@ All nodes must have `range` property.
 * `range` (`number[]`) is an array of two numbers. Both numbers are a 0-based index which is the position in the array of source code characters. The first is the start position of the node, the second is the end position of the node. `code.slice(node.range[0], node.range[1])` must be the text of the node. This range does not include spaces/parentheses which are around the node.
 * `loc` (`SourceLocation`) must not be `null`. [The `loc` property is defined as nullable by ESTree](https://github.com/estree/estree/blob/25834f7247d44d3156030f8e8a2d07644d771fdb/es5.md#node-objects), but ESLint requires this property. On the other hand, `SourceLocation#source` property can be `undefined`. ESLint does not use the `SourceLocation#source` property.
 
-The `parent` property of all nodes must be rewriteable. ESLint sets each node's `parent` property to its parent node while traversing, before any rules have access to the AST.
+The `parent` property of all nodes must be rewritable. ESLint sets each node's `parent` property to its parent node while traversing, before any rules have access to the AST.
 
 ### The `Program` node:
 

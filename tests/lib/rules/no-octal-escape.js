@@ -58,9 +58,7 @@ ruleTester.run("no-octal-escape", rule, {
     ],
     invalid: [
 
-        // Test full message
-        { code: "var foo = \"foo \\01 bar\";", errors: [{ message: "Don't use octal: '\\01'. Use '\\u....' instead.", type: "Literal" }] },
-
+        { code: "var foo = \"foo \\01 bar\";", errors: [{ messageId: "octalEscapeSequence", data: { sequence: "01" }, type: "Literal" }] },
         { code: "var foo = \"foo \\000 bar\";", errors: [{ messageId: "octalEscapeSequence", data: { sequence: "000" }, type: "Literal" }] },
         { code: "var foo = \"foo \\377 bar\";", errors: [{ messageId: "octalEscapeSequence", data: { sequence: "377" }, type: "Literal" }] },
         { code: "var foo = \"foo \\378 bar\";", errors: [{ messageId: "octalEscapeSequence", data: { sequence: "37" }, type: "Literal" }] },

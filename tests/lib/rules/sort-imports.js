@@ -18,7 +18,7 @@ const rule = require("../../../lib/rules/sort-imports"),
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6, sourceType: "module" } }),
     expectedError = {
-        message: "Imports should be sorted alphabetically.",
+        messageId: "sortImportsAlphabetically",
         type: "ImportDeclaration"
     },
     ignoreCaseArgs = [{ ignoreCase: true }];
@@ -138,7 +138,11 @@ ruleTester.run("sort-imports", rule, {
                 "import {b, c} from 'bar.js';",
             output: null,
             errors: [{
-                message: "Expected 'multiple' syntax before 'single' syntax.",
+                messageId: "unexpectedSyntaxOrder",
+                data: {
+                    syntaxA: "multiple",
+                    syntaxB: "single"
+                },
                 type: "ImportDeclaration"
             }]
         },
@@ -148,7 +152,11 @@ ruleTester.run("sort-imports", rule, {
                 "import * as b from 'bar.js';",
             output: null,
             errors: [{
-                message: "Expected 'all' syntax before 'single' syntax.",
+                messageId: "unexpectedSyntaxOrder",
+                data: {
+                    syntaxA: "all",
+                    syntaxB: "single"
+                },
                 type: "ImportDeclaration"
             }]
         },
@@ -158,7 +166,11 @@ ruleTester.run("sort-imports", rule, {
                 "import 'bar.js';",
             output: null,
             errors: [{
-                message: "Expected 'none' syntax before 'single' syntax.",
+                messageId: "unexpectedSyntaxOrder",
+                data: {
+                    syntaxA: "none",
+                    syntaxB: "single"
+                },
                 type: "ImportDeclaration"
             }]
         },
@@ -171,7 +183,11 @@ ruleTester.run("sort-imports", rule, {
                 memberSyntaxSortOrder: ["all", "single", "multiple", "none"]
             }],
             errors: [{
-                message: "Expected 'all' syntax before 'single' syntax.",
+                messageId: "unexpectedSyntaxOrder",
+                data: {
+                    syntaxA: "all",
+                    syntaxB: "single"
+                },
                 type: "ImportDeclaration"
             }]
         },
@@ -179,7 +195,8 @@ ruleTester.run("sort-imports", rule, {
             code: "import {b, a, d, c} from 'foo.js';",
             output: "import {a, b, c, d} from 'foo.js';",
             errors: [{
-                message: "Member 'a' of the import declaration should be sorted alphabetically.",
+                messageId: "sortMembersAlphabetically",
+                data: { memberName: "a" },
                 type: "ImportSpecifier"
             }]
         },
@@ -194,7 +211,8 @@ ruleTester.run("sort-imports", rule, {
                 ignoreDeclarationSort: true
             }],
             errors: [{
-                message: "Member 'a' of the import declaration should be sorted alphabetically.",
+                messageId: "sortMembersAlphabetically",
+                data: { memberName: "a" },
                 type: "ImportSpecifier"
             }]
         },
@@ -202,7 +220,8 @@ ruleTester.run("sort-imports", rule, {
             code: "import {a, B, c, D} from 'foo.js';",
             output: "import {B, D, a, c} from 'foo.js';",
             errors: [{
-                message: "Member 'B' of the import declaration should be sorted alphabetically.",
+                messageId: "sortMembersAlphabetically",
+                data: { memberName: "B" },
                 type: "ImportSpecifier"
             }]
         },
@@ -210,7 +229,8 @@ ruleTester.run("sort-imports", rule, {
             code: "import {zzzzz, /* comment */ aaaaa} from 'foo.js';",
             output: null, // not fixed due to comment
             errors: [{
-                message: "Member 'aaaaa' of the import declaration should be sorted alphabetically.",
+                messageId: "sortMembersAlphabetically",
+                data: { memberName: "aaaaa" },
                 type: "ImportSpecifier"
             }]
         },
@@ -218,7 +238,8 @@ ruleTester.run("sort-imports", rule, {
             code: "import {zzzzz /* comment */, aaaaa} from 'foo.js';",
             output: null, // not fixed due to comment
             errors: [{
-                message: "Member 'aaaaa' of the import declaration should be sorted alphabetically.",
+                messageId: "sortMembersAlphabetically",
+                data: { memberName: "aaaaa" },
                 type: "ImportSpecifier"
             }]
         },
@@ -226,7 +247,8 @@ ruleTester.run("sort-imports", rule, {
             code: "import {/* comment */ zzzzz, aaaaa} from 'foo.js';",
             output: null, // not fixed due to comment
             errors: [{
-                message: "Member 'aaaaa' of the import declaration should be sorted alphabetically.",
+                messageId: "sortMembersAlphabetically",
+                data: { memberName: "aaaaa" },
                 type: "ImportSpecifier"
             }]
         },
@@ -234,7 +256,8 @@ ruleTester.run("sort-imports", rule, {
             code: "import {zzzzz, aaaaa /* comment */} from 'foo.js';",
             output: null, // not fixed due to comment
             errors: [{
-                message: "Member 'aaaaa' of the import declaration should be sorted alphabetically.",
+                messageId: "sortMembersAlphabetically",
+                data: { memberName: "aaaaa" },
                 type: "ImportSpecifier"
             }]
         },
@@ -260,7 +283,8 @@ ruleTester.run("sort-imports", rule, {
               } from 'foo.js';
             `,
             errors: [{
-                message: "Member 'qux' of the import declaration should be sorted alphabetically.",
+                messageId: "sortMembersAlphabetically",
+                data: { memberName: "qux" },
                 type: "ImportSpecifier"
             }]
         }
