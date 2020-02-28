@@ -1289,7 +1289,7 @@ ${"                   "}
                 // bar${" "}
             `,
             options: ["separate-lines"],
-            errors: [{ messageid: "expectedlines", line: 2 }]
+            errors: [{ messageId: "expectedLines", line: 2 }]
         },
         {
             code: `
@@ -1303,7 +1303,7 @@ ${"                   "}
                 // bar${" "}
             `,
             options: ["separate-lines"],
-            errors: [{ messageid: "expectedlines", line: 2 }]
+            errors: [{ messageId: "expectedLines", line: 2 }]
         },
         {
             code: `
