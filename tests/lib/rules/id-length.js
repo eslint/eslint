@@ -72,6 +72,8 @@ ruleTester.run("id-length", rule, {
         { code: "var obj = {}; obj.aaaaa = 1;", options: [{ max: 4, properties: "never" }] },
         { code: "({ a: obj.x.y.z } = {});", options: [{ max: 4, properties: "never" }], parserOptions: { ecmaVersion: 6 } },
         { code: "({ prop: obj.xxxxx } = {});", options: [{ max: 4, properties: "never" }], parserOptions: { ecmaVersion: 6 } },
+        { code: "var arr = [i,j,f,b]", parserOptions: { ecmaVersion: 6 } },
+        { code: "function foo([arr]) {}", parserOptions: { ecmaVersion: 6 } },
         { code: "var {x} = foo;", options: [{ properties: "never" }], parserOptions: { ecmaVersion: 6 } },
         { code: "var {x, y: {z}} = foo;", options: [{ properties: "never" }], parserOptions: { ecmaVersion: 6 } },
         { code: "let foo = { [a]: 1 };", options: [{ properties: "always" }], parserOptions: { ecmaVersion: 6 } },
@@ -88,6 +90,9 @@ ruleTester.run("id-length", rule, {
         { code: "var handler = function (e) {};", errors: [tooShortError] },
         { code: "for (var i=0; i < 10; i++) { console.log(i); }", errors: [tooShortError] },
         { code: "var j=0; while (j > -10) { console.log(--j); }", errors: [tooShortError] },
+        { code: "var [i] = arr;", parserOptions: { ecmaVersion: 6 }, errors: [tooShortError] },
+        { code: "var [,i,a] = arr;", parserOptions: { ecmaVersion: 6 }, errors: [tooShortError, tooShortError] },
+        { code: "function foo([a]) {}", parserOptions: { ecmaVersion: 6 }, errors: [tooShortError] },
         {
             code: "var _$xt_$ = Foo(42)",
             options: [{ min: 2, max: 4 }],
@@ -247,6 +252,20 @@ ruleTester.run("id-length", rule, {
         {
             code: "var { longName: a } = {};",
             options: [{ min: 3, max: 5 }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                tooShortError
+            ]
+        },
+        {
+            code: "var { prop: [x] } = {};",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                tooShortError
+            ]
+        },
+        {
+            code: "var { prop: [[x]] } = {};",
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 tooShortError
