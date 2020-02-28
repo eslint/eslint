@@ -393,6 +393,54 @@ ruleTester.run("func-names", rule, {
             }]
         },
         {
+            code: "({ a: obj.prop = function(){} } = foo);",
+            options: ["as-needed"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "unnamed",
+                type: "FunctionExpression",
+                line: 1,
+                column: 18,
+                endColumn: 26
+            }]
+        },
+        {
+            code: "[obj.prop = function(){}] = foo;",
+            options: ["as-needed"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "unnamed",
+                type: "FunctionExpression",
+                line: 1,
+                column: 13,
+                endColumn: 21
+            }]
+        },
+        {
+            code: "var { a: [b] = function(){} } = foo;",
+            options: ["as-needed"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "unnamed",
+                type: "FunctionExpression",
+                line: 1,
+                column: 16,
+                endColumn: 24
+            }]
+        },
+        {
+            code: "function foo({ a } = function(){}) {};",
+            options: ["as-needed"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "unnamed",
+                type: "FunctionExpression",
+                line: 1,
+                column: 22,
+                endColumn: 30
+            }]
+        },
+        {
             code: "var x = function foo() {};",
             options: ["never"],
             errors: [{
