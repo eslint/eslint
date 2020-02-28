@@ -136,6 +136,62 @@ foo > bar ? value1 : value2;
 foo > bar ? (baz > qux ? value1 : value2) : value3;
 ```
 
+### --fix
+
+If this rule is invoked with the command-line `--fix` option, it's recommended to define both `indent` and `operator-linebreak` if you want to have sensible results when using the `always` and `always-multiline` options.
+
+For instance, this code:
+
+```js
+const func = () => {
+    const items = hasStuff ? [
+        ...stuff.items,
+        ...previousStuff.items,
+    ] : previousStuff.items
+}
+```
+
+Is converted to:
+
+```js
+const func = () => {
+    const items = hasStuff
+? [
+        ...stuff.items,
+        ...previousStuff.items,
+    ]
+: previousStuff.items
+}
+```
+
+But can be converted to depending on your `indent` value:
+
+```js
+const func = () => {
+    const items = hasStuff
+    ? [
+        ...stuff.items,
+        ...previousStuff.items,
+    ]
+    : previousStuff.items
+}
+```
+
+Or even this way depending on your `operator-linebreak` value:
+
+```js
+const func = () => {
+    const items = hasStuff ?
+        [
+            ...stuff.items,
+            ...previousStuff.items,
+        ] :
+        previousStuff.items
+}
+```
+
+The way it choses how to automatically fix depends on how your ternaries were formatted prior to running `--fix`, but with `indent` and `operator-linebreak`, you'll achieve consistent results.
+
 ## When Not To Use It
 
 You can safely disable this rule if you do not have any strict conventions about whether the operands of a ternary expression should be separated by newlines.
