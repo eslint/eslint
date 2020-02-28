@@ -1,3 +1,29 @@
+v7.0.0-alpha.2 - February 28, 2020
+
+* [`a5b41a7`](https://github.com/eslint/eslint/commit/a5b41a75b57572e97476b06ad39b768e15b9d844) Update: no-restricted-modules handle TemplateLiteral (fixes #12926) (#12927) (Michal Piechowiak)
+* [`051567a`](https://github.com/eslint/eslint/commit/051567adca7ca56d691bcda76f54ed72e3eae367) Update: check identifier in array pattern in id-length (fixes #12832) (#12839) (YeonJuan)
+* [`4af06fc`](https://github.com/eslint/eslint/commit/4af06fc49029dac5c9acfd53f01fd9527bfbb4aa) Breaking: Test with an unknown error property should fail in RuleTester (#12096) (Milos Djermanovic)
+* [`9038a29`](https://github.com/eslint/eslint/commit/9038a29569548c0563c29dbe9f7dae280ff3addd) Update: func-names `as-needed` false negative with AssignmentPattern (#12932) (Milos Djermanovic)
+* [`afde78b`](https://github.com/eslint/eslint/commit/afde78b125747ce5ad9e5f871122a0d370dd0152) Fix: curly removes necessary braces between if and else (fixes #12928) (#12943) (Milos Djermanovic)
+* [`4797fb2`](https://github.com/eslint/eslint/commit/4797fb2c29db97bc5cd23b40e5a9235fef1ea06a) Fix: arrow-body-style crash with object literal body (fixes #12884) (#12886) (Milos Djermanovic)
+* [`afa9aac`](https://github.com/eslint/eslint/commit/afa9aac6de9444e935a55b46311e5b5a58f86063) Breaking: class default `true` computed-property-spacing (fixes #12812) (#12915) (Milos Djermanovic)
+* [`b8e20d3`](https://github.com/eslint/eslint/commit/b8e20d33b7d6645266beef09cd231afaf5054328) Docs: Mention TypeScript's compiler check (#12903) (Benny Neugebauer)
+* [`de14d1c`](https://github.com/eslint/eslint/commit/de14d1ce0cf422b4100a686abb906f53fbf905b3) Fix: wrap-iife autofix removes mandatory parentheses (#12905) (Milos Djermanovic)
+* [`5775b06`](https://github.com/eslint/eslint/commit/5775b06a74573cbe068bea56b1d2376421f5e831) Fix: Optionally allow underscores in member names (#11972) (Edgardo Avilés)
+* [`e997f32`](https://github.com/eslint/eslint/commit/e997f32b936463ac38e8b0034f764c47502e56a8) Docs: Updated arrow-parens for minor grammar issue (#12962) (Tom)
+* [`7d52151`](https://github.com/eslint/eslint/commit/7d52151bcd5d5524f240588436a8808162be187f) Breaking: classes default `true` in accessor-pairs (fixes #12811) (#12919) (Milos Djermanovic)
+* [`cf14355`](https://github.com/eslint/eslint/commit/cf14355e34a6757e15806f8e493553bd7110fb36) Docs: Fix links to custom parsers doc (#12965) (Brandon Mills)
+* [`0dfc3ff`](https://github.com/eslint/eslint/commit/0dfc3ff9fb228e1d9b1df99de50033ce9140ac24) Fix: add end location to report in no-eval (#12960) (Milos Djermanovic)
+* [`f479f6f`](https://github.com/eslint/eslint/commit/f479f6fe2eb95156e22bebfccb39a7fc1f19e9c0) Docs: References correct config file name (#12885) (Patrick Kilgore)
+* [`78182e4`](https://github.com/eslint/eslint/commit/78182e45e0178d9eac2591944ef4daee21d2cb44) Breaking: Add new rules to eslint:recommended (fixes #12911) (#12920) (Milos Djermanovic)
+* [`8d5c434`](https://github.com/eslint/eslint/commit/8d5c434f721142be74c7515aaa935668a15b79b1) Docs: fix category descriptions for site generation (fixes #12894) (#12930) (Kai Cataldo)
+* [`05380e6`](https://github.com/eslint/eslint/commit/05380e6e7e19a79d26ea6d6b44a8d5ee7cde51c8) Docs: Remove claim about semicolons from docs (#12944) (Luke Sikina)
+* [`aa9d725`](https://github.com/eslint/eslint/commit/aa9d72525054e641231a2960a2e37b3716228056) Sponsors: Sync README with website (ESLint Jenkins)
+* [`7747177`](https://github.com/eslint/eslint/commit/7747177f8504961059b7c56bdb70a820bd1114c1) Update: report rename id destructuring in id-blacklist (fixes #12807) (#12923) (YeonJuan)
+* [`6423e11`](https://github.com/eslint/eslint/commit/6423e11c0bedd3b4e661ab554316bdeb1fc1ee3c) Breaking: check unnamed default export in func-names (fixes #12194) (#12195) (Chiawen Chen)
+* [`77df505`](https://github.com/eslint/eslint/commit/77df505d9a08496a8eaefeca4f885f54a21d5c5e) Update: check renaming identifier in object destructuring (fixes 12827) (#12881) (YeonJuan)
+* [`41de9df`](https://github.com/eslint/eslint/commit/41de9df41a30a4300243bfe4ca26f716a787b2fc) Update: enforceForLogicalOperands no-extra-boolean-cast (fixes #12137) (#12734) (jmoore914)
+
 v7.0.0-alpha.1 - February 14, 2020
 
 * [`f702b1a`](https://github.com/eslint/eslint/commit/f702b1a54820d2b4e4993dcded99f551a98b490f) Add missing plugin reference (#12796) (Eduard Bardají Puig)
