@@ -116,6 +116,7 @@ ruleTester.run("multiline-ternary", rule, {
         // default "always"
         {
             code: "a ? b : c",
+            output: "a\n? b\n: c",
             errors: [{
                 messageId: "expectedTestCons",
                 line: 1,
@@ -129,6 +130,7 @@ ruleTester.run("multiline-ternary", rule, {
         },
         {
             code: "a\n? b : c",
+            output: "a\n? b\n: c",
             errors: [{
                 messageId: "expectedConsAlt",
                 line: 2,
@@ -137,6 +139,7 @@ ruleTester.run("multiline-ternary", rule, {
         },
         {
             code: "a ? b\n: c",
+            output: "a\n? b\n: c",
             errors: [{
                 messageId: "expectedTestCons",
                 line: 1,
@@ -145,6 +148,7 @@ ruleTester.run("multiline-ternary", rule, {
         },
         {
             code: "a ? (b ? c : d) : e",
+            output: "a\n? (b\n? c\n: d)\n: e",
             errors: [{
                 messageId: "expectedTestCons",
                 line: 1,
@@ -170,6 +174,7 @@ ruleTester.run("multiline-ternary", rule, {
         },
         {
             code: "a ?\n(b ? c : d) :\ne",
+            output: "a ?\n(b\n? c\n: d) :\ne",
             errors: [{
                 messageId: "expectedTestCons",
                 line: 2,
@@ -183,6 +188,7 @@ ruleTester.run("multiline-ternary", rule, {
         },
         {
             code: "a ? (b\n? c\n: d) : e",
+            output: "a\n? (b\n? c\n: d)\n: e",
             errors: [{
                 messageId: "expectedTestCons",
                 line: 1,
@@ -198,6 +204,7 @@ ruleTester.run("multiline-ternary", rule, {
         },
         {
             code: "a ?\n(b? c\n: d) : e",
+            output: "a ?\n(b\n? c\n: d)\n: e",
             errors: [{
                 messageId: "expectedConsAlt",
                 line: 2,
@@ -213,6 +220,7 @@ ruleTester.run("multiline-ternary", rule, {
         },
         {
             code: "a ?\n(b\n? c : d) : e",
+            output: "a ?\n(b\n? c\n: d)\n: e",
             errors: [{
                 messageId: "expectedConsAlt",
                 line: 2,
@@ -228,6 +236,7 @@ ruleTester.run("multiline-ternary", rule, {
         },
         {
             code: "a ?\n(b\n? c\n : d) : e",
+            output: "a ?\n(b\n? c\n : d)\n: e",
             errors: [{
                 messageId: "expectedConsAlt",
                 line: 2,
@@ -240,6 +249,7 @@ ruleTester.run("multiline-ternary", rule, {
         // "always"
         {
             code: "a ? b : c",
+            output: "a\n? b\n: c",
             options: ["always"],
             errors: [{
                 messageId: "expectedTestCons",
@@ -276,6 +286,7 @@ ruleTester.run("multiline-ternary", rule, {
         },
         {
             code: "a\n? b : c",
+            output: "a\n? b\n: c",
             options: ["always"],
             errors: [{
                 messageId: "expectedConsAlt",
@@ -285,6 +296,7 @@ ruleTester.run("multiline-ternary", rule, {
         },
         {
             code: "a ? b\n: c",
+            output: "a\n? b\n: c",
             options: ["always"],
             errors: [{
                 messageId: "expectedTestCons",
@@ -294,6 +306,7 @@ ruleTester.run("multiline-ternary", rule, {
         },
         {
             code: "a ? (b ? c : d) : e",
+            output: "a\n? (b\n? c\n: d)\n: e",
             options: ["always"],
             errors: [{
                 messageId: "expectedTestCons",
@@ -320,6 +333,7 @@ ruleTester.run("multiline-ternary", rule, {
         },
         {
             code: "a ?\n(b ? c : d) :\ne",
+            output: "a ?\n(b\n? c\n: d) :\ne",
             options: ["always"],
             errors: [{
                 messageId: "expectedTestCons",
@@ -334,6 +348,7 @@ ruleTester.run("multiline-ternary", rule, {
         },
         {
             code: "a ? (b\n? c\n: d) : e",
+            output: "a\n? (b\n? c\n: d)\n: e",
             options: ["always"],
             errors: [{
                 messageId: "expectedTestCons",
@@ -350,6 +365,7 @@ ruleTester.run("multiline-ternary", rule, {
         },
         {
             code: "a ?\n(b? c\n: d) : e",
+            output: "a ?\n(b\n? c\n: d)\n: e",
             options: ["always"],
             errors: [{
                 messageId: "expectedConsAlt",
@@ -366,6 +382,7 @@ ruleTester.run("multiline-ternary", rule, {
         },
         {
             code: "a ?\n(b\n? c : d) : e",
+            output: "a ?\n(b\n? c\n: d)\n: e",
             options: ["always"],
             errors: [{
                 messageId: "expectedConsAlt",
@@ -382,6 +399,7 @@ ruleTester.run("multiline-ternary", rule, {
         },
         {
             code: "a ?\n(b\n? c\n : d) : e",
+            output: "a ?\n(b\n? c\n : d)\n: e",
             options: ["always"],
             errors: [{
                 messageId: "expectedConsAlt",
@@ -519,6 +537,7 @@ ruleTester.run("multiline-ternary", rule, {
         // "always-multiline"
         {
             code: "a\n? b : c",
+            output: "a\n? b\n: c",
             options: ["always-multiline"],
             errors: [{
                 messageId: "expectedConsAlt",
@@ -528,6 +547,7 @@ ruleTester.run("multiline-ternary", rule, {
         },
         {
             code: "a ? b\n: c",
+            output: "a\n? b\n: c",
             options: ["always-multiline"],
             errors: [{
                 messageId: "expectedTestCons",
@@ -537,6 +557,7 @@ ruleTester.run("multiline-ternary", rule, {
         },
         {
             code: "a &&\nb ? c : d",
+            output: "a &&\nb\n? c\n: d",
             options: ["always-multiline"],
             errors: [{
                 messageId: "expectedTestCons",
@@ -553,6 +574,7 @@ ruleTester.run("multiline-ternary", rule, {
         },
         {
             code: "a ? b +\nc : d",
+            output: "a\n? b +\nc\n: d",
             options: ["always-multiline"],
             errors: [{
                 messageId: "expectedTestCons",
@@ -567,6 +589,7 @@ ruleTester.run("multiline-ternary", rule, {
         },
         {
             code: "a ? b : c +\nd",
+            output: "a\n? b\n: c +\nd",
             options: ["always-multiline"],
             errors: [{
                 messageId: "expectedTestCons",
@@ -581,6 +604,7 @@ ruleTester.run("multiline-ternary", rule, {
         },
         {
             code: "a ?\n(b ? c : d) : e",
+            output: "a ?\n(b ? c : d)\n: e",
             options: ["always-multiline"],
             errors: [{
                 messageId: "expectedConsAlt",
@@ -592,6 +616,7 @@ ruleTester.run("multiline-ternary", rule, {
         },
         {
             code: "a ? (b ? c : d) :\ne",
+            output: "a\n? (b ? c : d) :\ne",
             options: ["always-multiline"],
             errors: [{
                 messageId: "expectedTestCons",
@@ -601,6 +626,7 @@ ruleTester.run("multiline-ternary", rule, {
         },
         {
             code: "a ? (b\n? c\n: d) : e",
+            output: "a\n? (b\n? c\n: d)\n: e",
             options: ["always-multiline"],
             errors: [{
                 messageId: "expectedTestCons",
@@ -617,6 +643,7 @@ ruleTester.run("multiline-ternary", rule, {
         },
         {
             code: "a ?\n(b ? c\n: d) : e",
+            output: "a ?\n(b\n? c\n: d)\n: e",
             options: ["always-multiline"],
             errors: [{
                 messageId: "expectedConsAlt",
@@ -633,6 +660,7 @@ ruleTester.run("multiline-ternary", rule, {
         },
         {
             code: "a ?\n(b\n? c : d) : e",
+            output: "a ?\n(b\n? c\n: d)\n: e",
             options: ["always-multiline"],
             errors: [{
                 messageId: "expectedConsAlt",
@@ -649,6 +677,7 @@ ruleTester.run("multiline-ternary", rule, {
         },
         {
             code: "a ?\n(b\n? c\n : d) : e",
+            output: "a ?\n(b\n? c\n : d)\n: e",
             options: ["always-multiline"],
             errors: [{
                 messageId: "expectedConsAlt",
@@ -786,6 +815,7 @@ ruleTester.run("multiline-ternary", rule, {
         // "never"
         {
             code: "a\n? b : c",
+            output: "a ? b : c",
             options: ["never"],
             errors: [{
                 messageId: "unexpectedTestCons",
@@ -795,6 +825,7 @@ ruleTester.run("multiline-ternary", rule, {
         },
         {
             code: "a ? b\n: c",
+            output: "a ? b : c",
             options: ["never"],
             errors: [{
                 messageId: "unexpectedConsAlt",
@@ -804,6 +835,7 @@ ruleTester.run("multiline-ternary", rule, {
         },
         {
             code: "a ?\n(b ? c : d) :\ne",
+            output: "a ? (b ? c : d) : e",
             options: ["never"],
             errors: [{
                 messageId: "unexpectedTestCons",
@@ -820,6 +852,7 @@ ruleTester.run("multiline-ternary", rule, {
         },
         {
             code: "a ? (b\n? c\n: d) : e",
+            output: "a ? (b ? c : d) : e",
             options: ["never"],
             errors: [{
                 messageId: "unexpectedTestCons",
@@ -834,6 +867,7 @@ ruleTester.run("multiline-ternary", rule, {
         },
         {
             code: "a ?\n(b? c\n: d) : e",
+            output: "a ? (b? c : d) : e",
             options: ["never"],
             errors: [{
                 messageId: "unexpectedTestCons",
@@ -848,6 +882,7 @@ ruleTester.run("multiline-ternary", rule, {
         },
         {
             code: "a ?\n(b\n? c : d) : e",
+            output: "a ? (b ? c : d) : e",
             options: ["never"],
             errors: [{
                 messageId: "unexpectedTestCons",
@@ -862,6 +897,7 @@ ruleTester.run("multiline-ternary", rule, {
         },
         {
             code: "a ?\n(b\n? c\n : d) : e",
+            output: "a ? (b ? c : d) : e",
             options: ["never"],
             errors: [{
                 messageId: "unexpectedTestCons",
@@ -881,6 +917,7 @@ ruleTester.run("multiline-ternary", rule, {
         },
         {
             code: "a ? (b\n? c\n: d)\n: e",
+            output: "a ? (b ? c : d) : e",
             options: ["never"],
             errors: [{
                 messageId: "unexpectedConsAlt",
@@ -902,6 +939,7 @@ ruleTester.run("multiline-ternary", rule, {
         },
         {
             code: "a\n?\n(b\n?\nc\n:\nd)\n:\ne",
+            output: "a ? (b ? c : d) : e",
             options: ["never"],
             errors: [{
                 messageId: "unexpectedTestCons",
