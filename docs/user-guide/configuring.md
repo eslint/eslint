@@ -55,7 +55,7 @@ Setting parser options helps ESLint determine what is a parsing error. All langu
 By default, ESLint uses [Espree](https://github.com/eslint/espree) as its parser. You can optionally specify that a different parser should be used in your configuration file so long as the parser meets the following requirements:
 
 1. It must be a Node module loadable from the config file where it appears. Usually, this means you should install the parser package separately using npm.
-1. It must conform to the [parser interface](/docs/developer-guide/working-with-plugins.md#working-with-custom-parsers).
+1. It must conform to the [parser interface](/docs/developer-guide/working-with-custom-parsers.md).
 
 Note that even with these compatibilities, there are no guarantees that an external parser will work correctly with ESLint and ESLint will not fix bugs related to incompatibilities with other parsers.
 

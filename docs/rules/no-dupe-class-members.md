@@ -70,3 +70,5 @@ class Foo {
 This rule should not be used in ES3/5 environments.
 
 In ES2015 (ES6) or later, if you don't want to be notified about duplicate names in class members, you can safely disable this rule.
+
+It's also safe to disable this rule when using TypeScript because TypeScript's compiler already checks for duplicate function implementations.
