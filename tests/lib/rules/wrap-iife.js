@@ -65,6 +65,137 @@ ruleTester.run("wrap-iife", rule, {
             options: ["any"]
         },
         {
+            code: "var a = ((function(){return 1;})());", // always allows existing extra parens (parens both inside and outside)
+            options: ["any"]
+        },
+        {
+            code: "var a = ((function(){return 1;})());", // always allows existing extra parens (parens both inside and outside)
+            options: ["inside"]
+        },
+        {
+            code: "var a = ((function(){return 1;})());", // always allows existing extra parens (parens both inside and outside)
+            options: ["outside"]
+        },
+        {
+            code: "if (function (){}()) {}",
+            options: ["any"]
+        },
+        {
+            code: "while (function (){}()) {}",
+            options: ["any"]
+        },
+        {
+            code: "do {} while (function (){}())",
+            options: ["any"]
+        },
+        {
+            code: "switch (function (){}()) {}",
+            options: ["any"]
+        },
+        {
+            code: "with (function (){}()) {}",
+            options: ["any"]
+        },
+        {
+            code: "foo(function (){}());",
+            options: ["any"]
+        },
+        {
+            code: "new foo(function (){}());",
+            options: ["any"]
+        },
+        {
+            code: "import(function (){}());",
+            options: ["any"],
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "if ((function (){})()) {}",
+            options: ["any"]
+        },
+        {
+            code: "while (((function (){})())) {}",
+            options: ["any"]
+        },
+        {
+            code: "if (function (){}()) {}",
+            options: ["outside"]
+        },
+        {
+            code: "while (function (){}()) {}",
+            options: ["outside"]
+        },
+        {
+            code: "do {} while (function (){}())",
+            options: ["outside"]
+        },
+        {
+            code: "switch (function (){}()) {}",
+            options: ["outside"]
+        },
+        {
+            code: "with (function (){}()) {}",
+            options: ["outside"]
+        },
+        {
+            code: "foo(function (){}());",
+            options: ["outside"]
+        },
+        {
+            code: "new foo(function (){}());",
+            options: ["outside"]
+        },
+        {
+            code: "import(function (){}());",
+            options: ["outside"],
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "if ((function (){})()) {}",
+            options: ["outside"]
+        },
+        {
+            code: "while (((function (){})())) {}",
+            options: ["outside"]
+        },
+        {
+            code: "if ((function (){})()) {}",
+            options: ["inside"]
+        },
+        {
+            code: "while ((function (){})()) {}",
+            options: ["inside"]
+        },
+        {
+            code: "do {} while ((function (){})())",
+            options: ["inside"]
+        },
+        {
+            code: "switch ((function (){})()) {}",
+            options: ["inside"]
+        },
+        {
+            code: "with ((function (){})()) {}",
+            options: ["inside"]
+        },
+        {
+            code: "foo((function (){})());",
+            options: ["inside"]
+        },
+        {
+            code: "new foo((function (){})());",
+            options: ["inside"]
+        },
+        {
+            code: "import((function (){})());",
+            options: ["inside"],
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "while (((function (){})())) {}",
+            options: ["inside"]
+        },
+        {
             code: "window.bar = (function() { return 3; }.call(this, arg1));",
             options: ["outside", { functionPrototypeMethods: true }]
         },
@@ -83,6 +214,10 @@ ruleTester.run("wrap-iife", rule, {
         {
             code: "window.bar = function() { return 3; }.call(this, arg1);",
             options: ["inside"]
+        },
+        {
+            code: "window.bar = function() { return 3; }.call(this, arg1);",
+            options: ["inside", {}]
         },
         {
             code: "window.bar = function() { return 3; }.call(this, arg1);",
@@ -106,6 +241,137 @@ ruleTester.run("wrap-iife", rule, {
         },
         {
             code: "var a = function(){return 1;}.bind(this).apply(that);",
+            options: ["inside", { functionPrototypeMethods: true }]
+        },
+        {
+            code: "var a = ((function(){return 1;}).call());", // always allows existing extra parens (parens both inside and outside)
+            options: ["any", { functionPrototypeMethods: true }]
+        },
+        {
+            code: "var a = ((function(){return 1;}).call());", // always allows existing extra parens (parens both inside and outside)
+            options: ["inside", { functionPrototypeMethods: true }]
+        },
+        {
+            code: "var a = ((function(){return 1;}).call());", // always allows existing extra parens (parens both inside and outside)
+            options: ["outside", { functionPrototypeMethods: true }]
+        },
+        {
+            code: "if (function (){}.call()) {}",
+            options: ["any", { functionPrototypeMethods: true }]
+        },
+        {
+            code: "while (function (){}.call()) {}",
+            options: ["any", { functionPrototypeMethods: true }]
+        },
+        {
+            code: "do {} while (function (){}.call())",
+            options: ["any", { functionPrototypeMethods: true }]
+        },
+        {
+            code: "switch (function (){}.call()) {}",
+            options: ["any", { functionPrototypeMethods: true }]
+        },
+        {
+            code: "with (function (){}.call()) {}",
+            options: ["any", { functionPrototypeMethods: true }]
+        },
+        {
+            code: "foo(function (){}.call())",
+            options: ["any", { functionPrototypeMethods: true }]
+        },
+        {
+            code: "new foo(function (){}.call())",
+            options: ["any", { functionPrototypeMethods: true }]
+        },
+        {
+            code: "import(function (){}.call())",
+            options: ["any", { functionPrototypeMethods: true }],
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "if ((function (){}).call()) {}",
+            options: ["any", { functionPrototypeMethods: true }]
+        },
+        {
+            code: "while (((function (){}).call())) {}",
+            options: ["any", { functionPrototypeMethods: true }]
+        },
+        {
+            code: "if (function (){}.call()) {}",
+            options: ["outside", { functionPrototypeMethods: true }]
+        },
+        {
+            code: "while (function (){}.call()) {}",
+            options: ["outside", { functionPrototypeMethods: true }]
+        },
+        {
+            code: "do {} while (function (){}.call())",
+            options: ["outside", { functionPrototypeMethods: true }]
+        },
+        {
+            code: "switch (function (){}.call()) {}",
+            options: ["outside", { functionPrototypeMethods: true }]
+        },
+        {
+            code: "with (function (){}.call()) {}",
+            options: ["outside", { functionPrototypeMethods: true }]
+        },
+        {
+            code: "foo(function (){}.call())",
+            options: ["outside", { functionPrototypeMethods: true }]
+        },
+        {
+            code: "new foo(function (){}.call())",
+            options: ["outside", { functionPrototypeMethods: true }]
+        },
+        {
+            code: "import(function (){}.call())",
+            options: ["outside", { functionPrototypeMethods: true }],
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "if ((function (){}).call()) {}",
+            options: ["outside", { functionPrototypeMethods: true }]
+        },
+        {
+            code: "while (((function (){}).call())) {}",
+            options: ["outside", { functionPrototypeMethods: true }]
+        },
+        {
+            code: "if ((function (){}).call()) {}",
+            options: ["inside", { functionPrototypeMethods: true }]
+        },
+        {
+            code: "while ((function (){}).call()) {}",
+            options: ["inside", { functionPrototypeMethods: true }]
+        },
+        {
+            code: "do {} while ((function (){}).call())",
+            options: ["inside", { functionPrototypeMethods: true }]
+        },
+        {
+            code: "switch ((function (){}).call()) {}",
+            options: ["inside", { functionPrototypeMethods: true }]
+        },
+        {
+            code: "with ((function (){}).call()) {}",
+            options: ["inside", { functionPrototypeMethods: true }]
+        },
+        {
+            code: "foo((function (){}).call())",
+            options: ["inside", { functionPrototypeMethods: true }]
+        },
+        {
+            code: "new foo((function (){}).call())",
+            options: ["inside", { functionPrototypeMethods: true }]
+        },
+        {
+            code: "import((function (){}).call())",
+            options: ["inside", { functionPrototypeMethods: true }],
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "if (((function (){}).call())) {}",
             options: ["inside", { functionPrototypeMethods: true }]
         }
     ],
@@ -140,6 +406,79 @@ ruleTester.run("wrap-iife", rule, {
             code: "(function a(){ }());",
             output: "(function a(){ })();",
             options: ["inside"],
+            errors: [wrapExpressionError]
+        },
+        {
+            code: "new foo((function (){}()))",
+            output: "new foo((function (){})())",
+            options: ["inside"],
+            errors: [wrapExpressionError]
+        },
+        {
+            code: "new (function (){}())",
+            output: "new ((function (){})())", // wrap function expression, but don't remove necessary grouping parens
+            options: ["inside"],
+            errors: [wrapExpressionError]
+        },
+        {
+            code: "new (function (){}())()",
+            output: "new ((function (){})())()", // wrap function expression, but don't remove necessary grouping parens
+            options: ["inside"],
+            errors: [wrapExpressionError]
+        },
+        {
+            code: "if (function (){}()) {}",
+            output: "if ((function (){})()) {}", // wrap function expression, but don't remove mandatory parens
+            options: ["inside"],
+            errors: [wrapExpressionError]
+        },
+        {
+            code: "if ((function (){}())) {}",
+            output: "if ((function (){})()) {}", // wrap function expression and remove unnecessary grouping parens aroung the call expression
+            options: ["inside"],
+            errors: [wrapExpressionError]
+        },
+        {
+            code: "while (function (){}()) {}",
+            output: "while ((function (){})()) {}", // wrap function expression, but don't remove mandatory parens
+            options: ["inside"],
+            errors: [wrapExpressionError]
+        },
+        {
+            code: "do {} while (function (){}())",
+            output: "do {} while ((function (){})())", // wrap function expression, but don't remove mandatory parens
+            options: ["inside"],
+            errors: [wrapExpressionError]
+        },
+        {
+            code: "switch (function (){}()) {}",
+            output: "switch ((function (){})()) {}", // wrap function expression, but don't remove mandatory parens
+            options: ["inside"],
+            errors: [wrapExpressionError]
+        },
+        {
+            code: "with (function (){}()) {}",
+            output: "with ((function (){})()) {}", // wrap function expression, but don't remove mandatory parens
+            options: ["inside"],
+            errors: [wrapExpressionError]
+        },
+        {
+            code: "foo(function (){}())",
+            output: "foo((function (){})())", // wrap function expression, but don't remove mandatory parens
+            options: ["inside"],
+            errors: [wrapExpressionError]
+        },
+        {
+            code: "new foo(function (){}())",
+            output: "new foo((function (){})())", // wrap function expression, but don't remove mandatory parens
+            options: ["inside"],
+            errors: [wrapExpressionError]
+        },
+        {
+            code: "import(function (){}())",
+            output: "import((function (){})())", // wrap function expression, but don't remove mandatory parens
+            options: ["inside"],
+            parserOptions: { ecmaVersion: 2020 },
             errors: [wrapExpressionError]
         },
         {
@@ -197,6 +536,73 @@ ruleTester.run("wrap-iife", rule, {
             output: "window.bar = (function() { return 3; }.call(this, arg1));",
             options: ["outside", { functionPrototypeMethods: true }],
             errors: [moveInvocationError]
+        },
+        {
+            code: "new (function (){}.call())",
+            output: "new ((function (){}).call())", // wrap function expression, but don't remove necessary grouping parens
+            options: ["inside", { functionPrototypeMethods: true }],
+            errors: [wrapExpressionError]
+        },
+        {
+            code: "new (function (){}.call())()",
+            output: "new ((function (){}).call())()", // wrap function expression, but don't remove necessary grouping parens
+            options: ["inside", { functionPrototypeMethods: true }],
+            errors: [wrapExpressionError]
+        },
+        {
+            code: "if (function (){}.call()) {}",
+            output: "if ((function (){}).call()) {}", // wrap function expression, but don't remove mandatory parens
+            options: ["inside", { functionPrototypeMethods: true }],
+            errors: [wrapExpressionError]
+        },
+        {
+            code: "if ((function (){}.call())) {}",
+            output: "if ((function (){}).call()) {}", // wrap function expression and remove unnecessary grouping parens aroung the call expression
+            options: ["inside", { functionPrototypeMethods: true }],
+            errors: [wrapExpressionError]
+        },
+        {
+            code: "while (function (){}.call()) {}",
+            output: "while ((function (){}).call()) {}", // wrap function expression, but don't remove mandatory parens
+            options: ["inside", { functionPrototypeMethods: true }],
+            errors: [wrapExpressionError]
+        },
+        {
+            code: "do {} while (function (){}.call())",
+            output: "do {} while ((function (){}).call())", // wrap function expression, but don't remove mandatory parens
+            options: ["inside", { functionPrototypeMethods: true }],
+            errors: [wrapExpressionError]
+        },
+        {
+            code: "switch (function (){}.call()) {}",
+            output: "switch ((function (){}).call()) {}", // wrap function expression, but don't remove mandatory parens
+            options: ["inside", { functionPrototypeMethods: true }],
+            errors: [wrapExpressionError]
+        },
+        {
+            code: "with (function (){}.call()) {}",
+            output: "with ((function (){}).call()) {}", // wrap function expression, but don't remove mandatory parens
+            options: ["inside", { functionPrototypeMethods: true }],
+            errors: [wrapExpressionError]
+        },
+        {
+            code: "foo(function (){}.call())",
+            output: "foo((function (){}).call())", // wrap function expression, but don't remove mandatory parens
+            options: ["inside", { functionPrototypeMethods: true }],
+            errors: [wrapExpressionError]
+        },
+        {
+            code: "new foo(function (){}.call())",
+            output: "new foo((function (){}).call())", // wrap function expression, but don't remove mandatory parens
+            options: ["inside", { functionPrototypeMethods: true }],
+            errors: [wrapExpressionError]
+        },
+        {
+            code: "import(function (){}.call())",
+            output: "import((function (){}).call())", // wrap function expression, but don't remove mandatory parens
+            options: ["inside", { functionPrototypeMethods: true }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [wrapExpressionError]
         }
     ]
 });

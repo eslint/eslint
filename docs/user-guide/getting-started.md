@@ -38,7 +38,7 @@ It is also possible to install ESLint globally rather than locally (using `npm i
 
 **Note:** If you are coming from a version before 1.0.0 please see the [migration guide](migrating-to-1.0.0.md).
 
-After running `eslint --init`, you'll have a `.eslintrc` file in your directory. In it, you'll see some rules configured like this:
+After running `eslint --init`, you'll have a `.eslintrc.{js,yml,json}` file in your directory. In it, you'll see some rules configured like this:
 
 ```json
 {
@@ -57,7 +57,7 @@ The names `"semi"` and `"quotes"` are the names of [rules](/docs/rules) in ESLin
 
 The three error levels allow you fine-grained control over how ESLint applies rules (for more configuration options and details, see the [configuration docs](configuring.md)).
 
-Your `.eslintrc` configuration file will also include the line:
+Your `.eslintrc.{js,yml,json}` configuration file will also include the line:
 
 ```json
 {

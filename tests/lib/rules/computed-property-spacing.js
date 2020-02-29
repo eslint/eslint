@@ -78,37 +78,6 @@ ruleTester.run("computed-property-spacing", rule, {
         // Classes
         //------------------------------------------------------------------------------
 
-        // test default settings
-        {
-            code: "class A { [ a ](){} }",
-            parserOptions: { ecmaVersion: 6 }
-        },
-        {
-            code: "class A { [ a ](){} get [ b ](){} set [ c ](foo){} static [ d ](){} static get [ e ](){} static set [ f ](bar){} }",
-            options: ["never"],
-            parserOptions: { ecmaVersion: 6 }
-        },
-        {
-            code: "A = class { [ a ](){} get [ b ](){} set [ c ](foo){} static [ d ](){} static get [ e ](){} static set [ f ](bar){} }",
-            options: ["never", {}],
-            parserOptions: { ecmaVersion: 6 }
-        },
-        {
-            code: "A = class { [a](){} }",
-            options: ["always"],
-            parserOptions: { ecmaVersion: 6 }
-        },
-        {
-            code: "A = class { [a](){} get [b](){} set [c](foo){} static [d](){} static get [e](){} static set [f](bar){} }",
-            options: ["always"],
-            parserOptions: { ecmaVersion: 6 }
-        },
-        {
-            code: "class A { [a](){} get [b](){} set [c](foo){} static [d](){} static get [e](){} static set [f](bar){} }",
-            options: ["always", {}],
-            parserOptions: { ecmaVersion: 6 }
-        },
-
         // explicitly disabled option
         {
             code: "class A { [ a ](){} }",
@@ -664,6 +633,523 @@ ruleTester.run("computed-property-spacing", rule, {
                     column: 11,
                     endLine: 1,
                     endColumn: 12
+                }
+            ]
+        },
+
+        // test default settings for classes
+        {
+            code: "class A { [ a ](){} }",
+            output: "class A { [a](){} }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: { tokenValue: "[" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 13
+                },
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: { tokenValue: "]" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 14,
+                    endLine: 1,
+                    endColumn: 15
+                }
+            ]
+        },
+        {
+            code: "class A { [ a ](){} get [ b ](){} set [ c ](foo){} static [ d ](){} static get [ e ](){} static set [ f ](bar){} }",
+            output: "class A { [a](){} get [b](){} set [c](foo){} static [d](){} static get [e](){} static set [f](bar){} }",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: { tokenValue: "[" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 12,
+                    endLine: 1,
+                    endColumn: 13
+                },
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: { tokenValue: "]" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 14,
+                    endLine: 1,
+                    endColumn: 15
+                },
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: { tokenValue: "[" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 26,
+                    endLine: 1,
+                    endColumn: 27
+                },
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: { tokenValue: "]" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 28,
+                    endLine: 1,
+                    endColumn: 29
+                },
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: { tokenValue: "[" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 40,
+                    endLine: 1,
+                    endColumn: 41
+                },
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: { tokenValue: "]" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 42,
+                    endLine: 1,
+                    endColumn: 43
+                },
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: { tokenValue: "[" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 60,
+                    endLine: 1,
+                    endColumn: 61
+                },
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: { tokenValue: "]" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 62,
+                    endLine: 1,
+                    endColumn: 63
+                },
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: { tokenValue: "[" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 81,
+                    endLine: 1,
+                    endColumn: 82
+                },
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: { tokenValue: "]" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 83,
+                    endLine: 1,
+                    endColumn: 84
+                },
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: { tokenValue: "[" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 102,
+                    endLine: 1,
+                    endColumn: 103
+                },
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: { tokenValue: "]" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 104,
+                    endLine: 1,
+                    endColumn: 105
+                }
+            ]
+        },
+        {
+            code: "A = class { [ a ](){} get [ b ](){} set [ c ](foo){} static [ d ](){} static get [ e ](){} static set [ f ](bar){} }",
+            output: "A = class { [a](){} get [b](){} set [c](foo){} static [d](){} static get [e](){} static set [f](bar){} }",
+            options: ["never", {}],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: { tokenValue: "[" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 14,
+                    endLine: 1,
+                    endColumn: 15
+                },
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: { tokenValue: "]" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 16,
+                    endLine: 1,
+                    endColumn: 17
+                },
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: { tokenValue: "[" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 28,
+                    endLine: 1,
+                    endColumn: 29
+                },
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: { tokenValue: "]" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 30,
+                    endLine: 1,
+                    endColumn: 31
+                },
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: { tokenValue: "[" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 42,
+                    endLine: 1,
+                    endColumn: 43
+                },
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: { tokenValue: "]" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 44,
+                    endLine: 1,
+                    endColumn: 45
+                },
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: { tokenValue: "[" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 62,
+                    endLine: 1,
+                    endColumn: 63
+                },
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: { tokenValue: "]" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 64,
+                    endLine: 1,
+                    endColumn: 65
+                },
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: { tokenValue: "[" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 83,
+                    endLine: 1,
+                    endColumn: 84
+                },
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: { tokenValue: "]" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 85,
+                    endLine: 1,
+                    endColumn: 86
+                },
+                {
+                    messageId: "unexpectedSpaceAfter",
+                    data: { tokenValue: "[" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 104,
+                    endLine: 1,
+                    endColumn: 105
+                },
+                {
+                    messageId: "unexpectedSpaceBefore",
+                    data: { tokenValue: "]" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 106,
+                    endLine: 1,
+                    endColumn: 107
+                }
+            ]
+        },
+        {
+            code: "A = class { [a](){} }",
+            output: "A = class { [ a ](){} }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "missingSpaceAfter",
+                    data: { tokenValue: "[" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 13,
+                    endLine: 1,
+                    endColumn: 14
+                },
+                {
+                    messageId: "missingSpaceBefore",
+                    data: { tokenValue: "]" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 15,
+                    endLine: 1,
+                    endColumn: 16
+                }
+            ]
+        },
+        {
+            code: "A = class { [a](){} get [b](){} set [c](foo){} static [d](){} static get [e](){} static set [f](bar){} }",
+            output: "A = class { [ a ](){} get [ b ](){} set [ c ](foo){} static [ d ](){} static get [ e ](){} static set [ f ](bar){} }",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "missingSpaceAfter",
+                    data: { tokenValue: "[" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 13,
+                    endLine: 1,
+                    endColumn: 14
+                },
+                {
+                    messageId: "missingSpaceBefore",
+                    data: { tokenValue: "]" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 15,
+                    endLine: 1,
+                    endColumn: 16
+                },
+                {
+                    messageId: "missingSpaceAfter",
+                    data: { tokenValue: "[" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 25,
+                    endLine: 1,
+                    endColumn: 26
+                },
+                {
+                    messageId: "missingSpaceBefore",
+                    data: { tokenValue: "]" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 27,
+                    endLine: 1,
+                    endColumn: 28
+                },
+                {
+                    messageId: "missingSpaceAfter",
+                    data: { tokenValue: "[" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 37,
+                    endLine: 1,
+                    endColumn: 38
+                },
+                {
+                    messageId: "missingSpaceBefore",
+                    data: { tokenValue: "]" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 39,
+                    endLine: 1,
+                    endColumn: 40
+                },
+                {
+                    messageId: "missingSpaceAfter",
+                    data: { tokenValue: "[" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 55,
+                    endLine: 1,
+                    endColumn: 56
+                },
+                {
+                    messageId: "missingSpaceBefore",
+                    data: { tokenValue: "]" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 57,
+                    endLine: 1,
+                    endColumn: 58
+                },
+                {
+                    messageId: "missingSpaceAfter",
+                    data: { tokenValue: "[" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 74,
+                    endLine: 1,
+                    endColumn: 75
+                },
+                {
+                    messageId: "missingSpaceBefore",
+                    data: { tokenValue: "]" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 76,
+                    endLine: 1,
+                    endColumn: 77
+                },
+                {
+                    messageId: "missingSpaceAfter",
+                    data: { tokenValue: "[" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 93,
+                    endLine: 1,
+                    endColumn: 94
+                },
+                {
+                    messageId: "missingSpaceBefore",
+                    data: { tokenValue: "]" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 95,
+                    endLine: 1,
+                    endColumn: 96
+                }
+            ]
+        },
+        {
+            code: "class A { [a](){} get [b](){} set [c](foo){} static [d](){} static get [e](){} static set [f](bar){} }",
+            output: "class A { [ a ](){} get [ b ](){} set [ c ](foo){} static [ d ](){} static get [ e ](){} static set [ f ](bar){} }",
+            options: ["always", {}],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "missingSpaceAfter",
+                    data: { tokenValue: "[" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 11,
+                    endLine: 1,
+                    endColumn: 12
+                },
+                {
+                    messageId: "missingSpaceBefore",
+                    data: { tokenValue: "]" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 13,
+                    endLine: 1,
+                    endColumn: 14
+                },
+                {
+                    messageId: "missingSpaceAfter",
+                    data: { tokenValue: "[" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 23,
+                    endLine: 1,
+                    endColumn: 24
+                },
+                {
+                    messageId: "missingSpaceBefore",
+                    data: { tokenValue: "]" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 25,
+                    endLine: 1,
+                    endColumn: 26
+                },
+                {
+                    messageId: "missingSpaceAfter",
+                    data: { tokenValue: "[" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 35,
+                    endLine: 1,
+                    endColumn: 36
+                },
+                {
+                    messageId: "missingSpaceBefore",
+                    data: { tokenValue: "]" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 37,
+                    endLine: 1,
+                    endColumn: 38
+                },
+                {
+                    messageId: "missingSpaceAfter",
+                    data: { tokenValue: "[" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 53,
+                    endLine: 1,
+                    endColumn: 54
+                },
+                {
+                    messageId: "missingSpaceBefore",
+                    data: { tokenValue: "]" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 55,
+                    endLine: 1,
+                    endColumn: 56
+                },
+                {
+                    messageId: "missingSpaceAfter",
+                    data: { tokenValue: "[" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 72,
+                    endLine: 1,
+                    endColumn: 73
+                },
+                {
+                    messageId: "missingSpaceBefore",
+                    data: { tokenValue: "]" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 74,
+                    endLine: 1,
+                    endColumn: 75
+                },
+                {
+                    messageId: "missingSpaceAfter",
+                    data: { tokenValue: "[" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 91,
+                    endLine: 1,
+                    endColumn: 92
+                },
+                {
+                    messageId: "missingSpaceBefore",
+                    data: { tokenValue: "]" },
+                    type: "MethodDefinition",
+                    line: 1,
+                    column: 93,
+                    endLine: 1,
+                    endColumn: 94
                 }
             ]
         },
