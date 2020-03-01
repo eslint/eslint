@@ -68,7 +68,7 @@ ruleTester.run("block-scoped-var", rule, {
         "foo: while (true) { bar: for (var i = 0; i < 13; ++i) {if (i === 7) break foo; } }",
         "foo: while (true) { bar: for (var i = 0; i < 13; ++i) {if (i === 7) continue foo; } }",
         { code: "const React = require(\"react/addons\");const cx = React.addons.classSet;", parserOptions: { ecmaVersion: 6, sourceType: "module" }, globals: { require: false } },
-        { code: "var v = 1;  function x() { return v; };", parserOptions: { parserOptions: { ecmaVersion: 6 } } },
+        { code: "var v = 1;  function x() { return v; };", parserOptions: { ecmaVersion: 6 } },
         { code: "import * as y from \"./other.js\"; y();", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "import y from \"./other.js\"; y();", parserOptions: { ecmaVersion: 6, sourceType: "module" } },
         { code: "import {x as y} from \"./other.js\"; y();", parserOptions: { ecmaVersion: 6, sourceType: "module" } },

@@ -70,7 +70,7 @@ ruleTester.run("no-use-before-define", rule, {
         },
         {
             code: "a++; var a=19;",
-            parserOptions: { parserOptions: { ecmaVersion: 6 } },
+            parserOptions: { ecmaVersion: 6  },
             errors: [{
                 messageId: "usedBeforeDefined",
                 data: { name: "a" },
