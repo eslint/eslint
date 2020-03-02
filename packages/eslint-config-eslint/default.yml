@@ -188,7 +188,11 @@ rules:
     semi-spacing: ["error", {before: false, after: true}]
     semi-style: "error"
     space-before-blocks: "error"
-    space-before-function-paren: ["error", "never"]
+    space-before-function-paren: ["error", {
+        "anonymous": "never",
+        "named": "never",
+        "asyncArrow": "always"
+    }]
     space-in-parens: "error"
     space-infix-ops: "error"
     space-unary-ops: ["error", {words: true, nonwords: false}]
