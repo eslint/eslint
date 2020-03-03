@@ -118,6 +118,9 @@ ruleTester.run("no-implied-eval", rule, {
         { code: "setInterval(\"x = 1;\");", errors: [expectedError] },
         { code: "execScript(\"x = 1;\");", errors: [expectedError] },
 
+        { code: "const s = 'x=1'; setTimeout(s, 100);", parserOptions: { ecmaVersion: 6 }, errors: [expectedError] },
+        { code: "setTimeout(String('x=1'), 100);", parserOptions: { ecmaVersion: 6 }, errors: [expectedError] },
+
         // member expressions
         { code: "window.setTimeout('foo')", env: { browser: true }, errors: [expectedError] },
         { code: "window.setInterval('foo')", env: { browser: true }, errors: [expectedError] },
