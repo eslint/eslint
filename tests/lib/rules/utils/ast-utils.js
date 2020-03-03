@@ -1359,7 +1359,10 @@ describe("ast-utils", () => {
             [["a", "b//"], false],
             [["#!/usr/bin/env node", "("], false],
             [["123invalidtoken", "("], false],
-            [["(", "123invalidtoken"], false]
+            [["(", "123invalidtoken"], false],
+            [["(", "1n"], true],
+            [["1n", "+"], true],
+            [["1n", "in"], false]
         ]);
 
         CASES.forEach((expectedResult, tokenStrings) => {
