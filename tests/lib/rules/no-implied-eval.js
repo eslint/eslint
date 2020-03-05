@@ -21,6 +21,8 @@ const ruleTester = new RuleTester(),
 
 ruleTester.run("no-implied-eval", rule, {
     valid: [
+        "setTimeout();",
+
         { code: "setTimeout;", env: { browser: true } },
         { code: "setTimeout = foo;", env: { browser: true } },
         { code: "window.setTimeout;", env: { browser: true } },
