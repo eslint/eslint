@@ -10,7 +10,7 @@ const { assert } = require("chai");
 const { spy } = require("sinon");
 const { ConfigArray } = require("../../../lib/cli-engine/config-array");
 const { OverrideTester } = require("../../../lib/cli-engine/config-array");
-const { defineConfigArrayFactoryWithInMemoryFileSystem } = require("./_utils");
+const { defineConfigArrayFactoryWithInMemoryFileSystem } = require("../../_utils");
 
 const tempDir = path.join(os.tmpdir(), "eslint/config-array-factory");
 

@@ -18,8 +18,7 @@ const assert = require("chai").assert,
     os = require("os"),
     hash = require("../../../lib/cli-engine/hash"),
     { CascadingConfigArrayFactory } = require("../../../lib/cli-engine/cascading-config-array-factory"),
-    { unIndent } = require("../_utils"),
-    { defineCLIEngineWithInMemoryFileSystem } = require("./_utils");
+    { unIndent, defineCLIEngineWithInMemoryFileSystem } = require("../../_utils");
 
 const proxyquire = require("proxyquire").noCallThru().noPreserveCache();
 const fCache = require("file-entry-cache");

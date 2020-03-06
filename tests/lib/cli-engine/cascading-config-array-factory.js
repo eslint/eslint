@@ -12,7 +12,7 @@ const sh = require("shelljs");
 const sinon = require("sinon");
 const { ConfigArrayFactory } = require("../../../lib/cli-engine/config-array-factory");
 const { ExtractedConfig } = require("../../../lib/cli-engine/config-array/extracted-config");
-const { defineCascadingConfigArrayFactoryWithInMemoryFileSystem } = require("./_utils");
+const { defineCascadingConfigArrayFactoryWithInMemoryFileSystem } = require("../../_utils");
 
 /** @typedef {InstanceType<ReturnType<defineCascadingConfigArrayFactoryWithInMemoryFileSystem>["CascadingConfigArrayFactory"]>} CascadingConfigArrayFactory */
 /** @typedef {ReturnType<CascadingConfigArrayFactory["getConfigArrayForFile"]>} ConfigArray */

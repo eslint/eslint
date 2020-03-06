@@ -2,12 +2,13 @@
  * @fileoverview Define classes what use the in-memory file system.
  *
  * This provides utilities to test `ConfigArrayFactory`,
- * `CascadingConfigArrayFactory`, `FileEnumerator`, and `CLIEngine`.
+ * `CascadingConfigArrayFactory`, `FileEnumerator`, `CLIEngine`, and `ESLint`.
  *
  * - `defineConfigArrayFactoryWithInMemoryFileSystem({ cwd, files })`
  * - `defineCascadingConfigArrayFactoryWithInMemoryFileSystem({ cwd, files })`
  * - `defineFileEnumeratorWithInMemoryFileSystem({ cwd, files })`
  * - `defineCLIEngineWithInMemoryFileSystem({ cwd, files })`
+ * - `defineESLintWithInMemoryFileSystem({ cwd, files })`
  *
  * Those functions define correspond classes with the in-memory file system.
  * Those search config files, parsers, and plugins in the `files` option via the
@@ -55,23 +56,25 @@
 
 const path = require("path");
 const vm = require("vm");
+const { Volume, createFsFromVolume } = require("memfs");
 const Proxyquire = require("proxyquire/lib/proxyquire");
-const { defineInMemoryFs } = require("../_utils");
 
 const CascadingConfigArrayFactoryPath =
-    require.resolve("../../../lib/cli-engine/cascading-config-array-factory");
+    require.resolve("../../lib/cli-engine/cascading-config-array-factory");
 const CLIEnginePath =
-    require.resolve("../../../lib/cli-engine/cli-engine");
+    require.resolve("../../lib/cli-engine/cli-engine");
 const ConfigArrayFactoryPath =
-    require.resolve("../../../lib/cli-engine/config-array-factory");
+    require.resolve("../../lib/cli-engine/config-array-factory");
 const FileEnumeratorPath =
-    require.resolve("../../../lib/cli-engine/file-enumerator");
+    require.resolve("../../lib/cli-engine/file-enumerator");
 const LoadRulesPath =
-    require.resolve("../../../lib/cli-engine/load-rules");
+    require.resolve("../../lib/cli-engine/load-rules");
+const ESLintPath =
+    require.resolve("../../lib/eslint/eslint");
 const ESLintAllPath =
-    require.resolve("../../../conf/eslint-all");
+    require.resolve("../../conf/eslint-all");
 const ESLintRecommendedPath =
-    require.resolve("../../../conf/eslint-recommended");
+    require.resolve("../../conf/eslint-recommended");
 
 // Ensure the needed files has been loaded and cached.
 require(CascadingConfigArrayFactoryPath);
@@ -79,6 +82,7 @@ require(CLIEnginePath);
 require(ConfigArrayFactoryPath);
 require(FileEnumeratorPath);
 require(LoadRulesPath);
+require(ESLintPath);
 require("js-yaml");
 require("espree");
 
@@ -237,11 +241,56 @@ function fsImportFresh(fs, stubs, absolutePath) {
 }
 
 /**
+ * Define in-memory file system.
+ * @param {Object} options The options.
+ * @param {() => string} [options.cwd] The current working directory.
+ * @param {Object} [options.files] The initial files definition in the in-memory file system.
+ * @returns {import("fs")} The stubbed `ConfigArrayFactory` class.
+ */
+function defineInMemoryFs({
+    cwd = process.cwd,
+    files = {}
+} = {}) {
+
+    /**
+     * The in-memory file system for this mock.
+     * @type {import("fs")}
+     */
+    const fs = createFsFromVolume(new Volume());
+
+    fs.mkdirSync(cwd(), { recursive: true });
+
+    /*
+     * Write all files to the in-memory file system and compile all JavaScript
+     * files then set to `stubs`.
+     */
+    (function initFiles(directoryPath, definition) {
+        for (const [filename, content] of Object.entries(definition)) {
+            const filePath = path.resolve(directoryPath, filename);
+            const parentPath = path.dirname(filePath);
+
+            if (typeof content === "object") {
+                initFiles(filePath, content);
+            } else if (typeof content === "string") {
+                if (!fs.existsSync(parentPath)) {
+                    fs.mkdirSync(parentPath, { recursive: true });
+                }
+                fs.writeFileSync(filePath, content);
+            } else {
+                throw new Error(`Invalid content: ${typeof content}`);
+            }
+        }
+    }(cwd(), files));
+
+    return fs;
+}
+
+/**
  * Define stubbed `ConfigArrayFactory` class what uses the in-memory file system.
  * @param {Object} options The options.
  * @param {() => string} [options.cwd] The current working directory.
  * @param {Object} [options.files] The initial files definition in the in-memory file system.
- * @returns {{ fs: import("fs"), RelativeModuleResolver: import("../../../lib/shared/relative-module-resolver"), ConfigArrayFactory: import("../../../lib/cli-engine/config-array-factory")["ConfigArrayFactory"] }} The stubbed `ConfigArrayFactory` class.
+ * @returns {{ fs: import("fs"), RelativeModuleResolver: import("../../lib/shared/relative-module-resolver"), ConfigArrayFactory: import("../../lib/cli-engine/config-array-factory")["ConfigArrayFactory"] }} The stubbed `ConfigArrayFactory` class.
  */
 function defineConfigArrayFactoryWithInMemoryFileSystem({
     cwd = process.cwd,
@@ -438,9 +487,52 @@ function defineCLIEngineWithInMemoryFileSystem({
     };
 }
 
+/**
+ * Define stubbed `ESLint` class that uses the in-memory file system.
+ * @param {Object} options The options.
+ * @param {() => string} [options.cwd] The current working directory.
+ * @param {Object} [options.files] The initial files definition in the in-memory file system.
+ * @returns {{ fs: import("fs"), RelativeModuleResolver: import("../../lib/shared/relative-module-resolver"), ConfigArrayFactory: import("../../lib/cli-engine/config-array-factory")["ConfigArrayFactory"], CascadingConfigArrayFactory: import("../../lib/cli-engine/cascading-config-array-factory")["CascadingConfigArrayFactory"], FileEnumerator: import("../../lib/cli-engine/file-enumerator")["FileEnumerator"], ESLint: import("../../lib/eslint/eslint")["ESLint"], getCLIEngineInternalSlots: import("../../lib//eslint/eslint")["getESLintInternalSlots"] }} The stubbed `ESLint` class.
+ */
+function defineESLintWithInMemoryFileSystem({
+    cwd = process.cwd,
+    files = {}
+} = {}) {
+    const {
+        fs,
+        RelativeModuleResolver,
+        ConfigArrayFactory,
+        CascadingConfigArrayFactory,
+        FileEnumerator,
+        CLIEngine
+    } = defineCLIEngineWithInMemoryFileSystem({ cwd, files });
+    const { ESLint, getESLintInternalSlots } = proxyquire(ESLintPath, {
+        "../cli-engine": { CLIEngine }
+    });
+
+    // Override the default cwd.
+    return {
+        fs,
+        RelativeModuleResolver,
+        ConfigArrayFactory,
+        CascadingConfigArrayFactory,
+        FileEnumerator,
+        ESLint: cwd === process.cwd
+            ? ESLint
+            : class extends ESLint {
+                constructor(options) {
+                    super({ cwd: cwd(), ...options });
+                }
+            },
+        getESLintInternalSlots
+    };
+}
+
 module.exports = {
+    defineInMemoryFs,
     defineConfigArrayFactoryWithInMemoryFileSystem,
     defineCascadingConfigArrayFactoryWithInMemoryFileSystem,
     defineFileEnumeratorWithInMemoryFileSystem,
-    defineCLIEngineWithInMemoryFileSystem
+    defineCLIEngineWithInMemoryFileSystem,
+    defineESLintWithInMemoryFileSystem
 };
