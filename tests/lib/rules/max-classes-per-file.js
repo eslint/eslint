@@ -23,6 +23,10 @@ ruleTester.run("max-classes-per-file", rule, {
         "var x = class {};",
         "var x = 5;",
         {
+            code: "var x = 5;",
+            options: [0]
+        },
+        {
             code: "class Foo {}",
             options: [1]
         },
@@ -43,6 +47,16 @@ ruleTester.run("max-classes-per-file", rule, {
         },
         {
             code: "class Foo {}\nvar x = class {};",
+            errors: [{ messageId: "maximumExceeded", type: "Program" }]
+        },
+        {
+            code: "var x = class {};",
+            options: [0],
+            errors: [{ messageId: "maximumExceeded", type: "Program" }]
+        },
+        {
+            code: "class Foo {}",
+            options: [0],
             errors: [{ messageId: "maximumExceeded", type: "Program" }]
         },
         {
