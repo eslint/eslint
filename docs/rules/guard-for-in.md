@@ -10,6 +10,8 @@ for (key in foo) {
 
 Note that simply checking `foo.hasOwnProperty(key)` is likely to cause an error in some cases; see [no-prototype-builtins](no-prototype-builtins.md).
 
+As an alternative, you can use the [no-extend-native](no-extend-native.md) rule to prevent the `Object` prototype from being modified. This will ensure that it's safe to use a `for in` on bare objects, but you will still have to be careful using `for in` on other objects.
+
 ## Rule Details
 
 This rule is aimed at preventing unexpected behavior that could arise from using a `for in` loop without filtering the results in the loop. As such, it will warn when `for in` loops do not filter their results with an `if` statement.
