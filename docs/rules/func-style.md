@@ -55,7 +55,7 @@ This rule has a string option:
 
 This rule has an object option for an exception:
 
-* `"allowArrowFunctions": true` (default `false`) allows the use of arrow functions (works only when using `declaration` in `func-style`'s options)
+* `"allowArrowFunctions"`: `true` (default `false`) allows the use of arrow functions. This option applies only when the string option is set to `"declaration"` (arrow functions are always allowed when the string option is set to `"expression"`, regardless of this option)
 
 ### expression
 
