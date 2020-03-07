@@ -86,7 +86,7 @@
   "devDependencies": {
     "@babel/core": "^7.4.3",
     "@babel/preset-env": "^7.4.3",
-    "acorn": "^7.1.0",
+    "acorn": "^7.1.1",
     "babel-loader": "^8.0.5",
     "chai": "^4.0.1",
     "cheerio": "^0.22.0",
