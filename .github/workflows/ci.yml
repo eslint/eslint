@@ -10,7 +10,7 @@ jobs:
     name: Verify Files
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - uses: actions/setup-node@v1
     - name: Install Packages
       run: npm install
@@ -42,7 +42,7 @@ jobs:
           node: 13.x
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node }}
@@ -57,7 +57,7 @@ jobs:
     name: Browser Test
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - uses: actions/setup-node@v1
     - name: Install Packages
       run: npm install
