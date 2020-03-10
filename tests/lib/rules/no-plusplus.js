@@ -28,7 +28,11 @@ ruleTester.run("no-plusplus", rule, {
         { code: "for (var i = 0, j = i + 1; j < example.length; i++, j++) {}", options: [{ allowForLoopAfterthoughts: true }] },
         { code: "for (;; i--, foo());", options: [{ allowForLoopAfterthoughts: true }] },
         { code: "for (;; foo(), --i);", options: [{ allowForLoopAfterthoughts: true }] },
-        { code: "for (;; foo(), ++i, bar);", options: [{ allowForLoopAfterthoughts: true }] }
+        { code: "for (;; foo(), ++i, bar);", options: [{ allowForLoopAfterthoughts: true }] },
+        { code: "for (;; i++, (++j, k--));", options: [{ allowForLoopAfterthoughts: true }] },
+        { code: "for (;; foo(), (bar(), i++), baz());", options: [{ allowForLoopAfterthoughts: true }] },
+        { code: "for (;; (--i, j += 2), bar = j + 1);", options: [{ allowForLoopAfterthoughts: true }] },
+        { code: "for (;; a, (i--, (b, ++j, c)), d);", options: [{ allowForLoopAfterthoughts: true }] }
     ],
 
     invalid: [
@@ -54,6 +58,16 @@ ruleTester.run("no-plusplus", rule, {
         },
         {
             code: "for (i = 0; i < l; i++) { console.log(i); }",
+            errors: [{
+                messageId: "unexpectedUnaryOp",
+                data: {
+                    operator: "++"
+                },
+                type: "UpdateExpression"
+            }]
+        },
+        {
+            code: "for (i = 0; i < l; foo, i++) { console.log(i); }",
             errors: [{
                 messageId: "unexpectedUnaryOp",
                 data: {
@@ -137,6 +151,17 @@ ruleTester.run("no-plusplus", rule, {
                 messageId: "unexpectedUnaryOp",
                 data: {
                     operator: "--"
+                },
+                type: "UpdateExpression"
+            }]
+        },
+        {
+            code: "for (;; foo + (i++, bar));",
+            options: [{ allowForLoopAfterthoughts: true }],
+            errors: [{
+                messageId: "unexpectedUnaryOp",
+                data: {
+                    operator: "++"
                 },
                 type: "UpdateExpression"
             }]
