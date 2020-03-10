@@ -24,7 +24,11 @@ ruleTester.run("no-plusplus", rule, {
 
         // With "allowForLoopAfterthoughts" allowed
         { code: "var foo = 0; foo=+1;", options: [{ allowForLoopAfterthoughts: true }] },
-        { code: "for (i = 0; i < l; i++) { console.log(i); }", options: [{ allowForLoopAfterthoughts: true }] }
+        { code: "for (i = 0; i < l; i++) { console.log(i); }", options: [{ allowForLoopAfterthoughts: true }] },
+        { code: "for (var i = 0, j = i + 1; j < example.length; i++, j++) {}", options: [{ allowForLoopAfterthoughts: true }] },
+        { code: "for (;; i--, foo());", options: [{ allowForLoopAfterthoughts: true }] },
+        { code: "for (;; foo(), --i);", options: [{ allowForLoopAfterthoughts: true }] },
+        { code: "for (;; foo(), ++i, bar);", options: [{ allowForLoopAfterthoughts: true }] }
     ],
 
     invalid: [
@@ -78,6 +82,61 @@ ruleTester.run("no-plusplus", rule, {
                 messageId: "unexpectedUnaryOp",
                 data: {
                     operator: "++"
+                },
+                type: "UpdateExpression"
+            }]
+        },
+        {
+            code: "for (i++;;);",
+            options: [{ allowForLoopAfterthoughts: true }],
+            errors: [{
+                messageId: "unexpectedUnaryOp",
+                data: {
+                    operator: "++"
+                },
+                type: "UpdateExpression"
+            }]
+        },
+        {
+            code: "for (;--i;);",
+            options: [{ allowForLoopAfterthoughts: true }],
+            errors: [{
+                messageId: "unexpectedUnaryOp",
+                data: {
+                    operator: "--"
+                },
+                type: "UpdateExpression"
+            }]
+        },
+        {
+            code: "for (;;) ++i;",
+            options: [{ allowForLoopAfterthoughts: true }],
+            errors: [{
+                messageId: "unexpectedUnaryOp",
+                data: {
+                    operator: "++"
+                },
+                type: "UpdateExpression"
+            }]
+        },
+        {
+            code: "for (;; i = j++);",
+            options: [{ allowForLoopAfterthoughts: true }],
+            errors: [{
+                messageId: "unexpectedUnaryOp",
+                data: {
+                    operator: "++"
+                },
+                type: "UpdateExpression"
+            }]
+        },
+        {
+            code: "for (;; i++, f(--j));",
+            options: [{ allowForLoopAfterthoughts: true }],
+            errors: [{
+                messageId: "unexpectedUnaryOp",
+                data: {
+                    operator: "--"
                 },
                 type: "UpdateExpression"
             }]
