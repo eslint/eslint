@@ -232,6 +232,11 @@ ruleTester.run("camelcase", rule, {
             parserOptions: { ecmaVersion: 6 }
         },
         {
+            code: "({ a: obj.foo } = bar);",
+            options: [{ allow: ["fo_o"] }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
             code: "({ a: obj.fo_o } = bar);",
             options: [{ properties: "never" }],
             parserOptions: { ecmaVersion: 6 }
