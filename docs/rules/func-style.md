@@ -55,7 +55,7 @@ This rule has a string option:
 
 This rule has an object option for an exception:
 
-* `"allowArrowFunctions": true` (default `false`) allows the use of arrow functions (honoured only when using `declaration`)
+* `"allowArrowFunctions"`: `true` (default `false`) allows the use of arrow functions. This option applies only when the string option is set to `"declaration"` (arrow functions are always allowed when the string option is set to `"expression"`, regardless of this option)
 
 ### expression
 
@@ -79,6 +79,8 @@ var foo = function() {
 };
 
 var foo = () => {};
+
+// allowed as allowArrowFunctions : false is applied only for declaration
 ```
 
 ### declaration
