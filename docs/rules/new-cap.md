@@ -33,7 +33,7 @@ function foo(arg) {
 
 ## Options
 
-This rule has an object option:
+This rule has an object, `option`. This object can be used to define exceptions by property name, object name, or even both at the same time. Here are the properties one can define on the `option` object:
 
 * `"newIsCap": true` (default) requires all `new` operators to be called with uppercase-started functions.
 * `"newIsCap": false` allows `new` operators to be called with lowercase-started or uppercase-started functions.
@@ -135,13 +135,20 @@ function foo(arg) {
 
 ### capIsNewExceptionPattern
 
-Examples of additional **correct** code for this rule with the `{ "capIsNewExceptionPattern": "^Person\.." }` option:
+Examples of additional **correct** code for this rule with the `{ "capIsNewExceptionPattern": "^person\.." }` option:
 
 ```js
-/*eslint new-cap: ["error", { "capIsNewExceptionPattern": "^Person\.." }]*/
+/*eslint new-cap: ["error", { "capIsNewExceptionPattern": "^person\.." }]*/
 
 var friend = person.Acquaintance();
 var bestFriend = person.Friend();
+```
+Examples of additional **correct** code for this rule with the `{ "capIsNewExceptionPattern": "\.Bar$" }` option:
+
+```js
+/*eslint new-cap: ["error", { "capIsNewExceptionPattern": "\.Bar$" }]*/
+
+foo.Bar(); // Lint-Free!
 ```
 
 ### properties
