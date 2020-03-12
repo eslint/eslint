@@ -76,7 +76,7 @@ function g() {
   Class declarations are not hoisted, so it might be danger.
   Default is `true`.
 * `variables` (`boolean`) -
-  This flag determines whether or not the rule checks variable and function (arrow functions) declarations in upper scopes.
+  This flag determines whether or not the rule checks variable declarations in upper scopes.
   If this is `true`, the rule warns every reference to a variable before the variable declaration.
   Otherwise, the rule ignores a reference if the declaration is in an upper scope, while still reporting the reference if it's in the same scope as the declaration.
   Default is `true`.
@@ -131,6 +131,13 @@ Examples of **incorrect** code for the `{ "variables": false }` option:
 
 console.log(foo);
 var foo = 1;
+
+f();
+const f = () => {};
+
+function a(){ return b() };
+const c = () => b()
+function b(){ }
 ```
 
 Examples of **correct** code for the `{ "variables": false }` option:
@@ -141,12 +148,14 @@ Examples of **correct** code for the `{ "variables": false }` option:
 function baz() {
     console.log(foo);
 }
-
 var foo = 1;
 
+const a = () => f();
+function b() { return f(); }
+const c = function() { return f(); }
+const f = () => {};
 
-const a = () => b(); // ok
-
-const b = () => {};
-
+const e = function() { return g(); }
+const g = function() {}
 ```
+
