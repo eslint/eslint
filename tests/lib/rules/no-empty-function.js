@@ -269,6 +269,16 @@ ruleTester.run("no-empty-function", rule, [
         {
             code: "var foo = () => 0;",
             parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "const foo = { async method() {} }",
+            options: [{ allow: ["asyncMethods"] }],
+            parserOptions: { ecmaVersion: 8 }
+        },
+        {
+            code: "async function a(){}",
+            options: [{ allow: ["asyncFunctions"] }],
+            parserOptions: { ecmaVersion: 8 }
         }
     ],
     invalid: []
