@@ -92,6 +92,36 @@ void foo;
 void someFunction();
 ```
 
+### allowAtStartOfConciseArrowFunctions
+
+When `allowAtStartOfConciseArrowFunctions` is set to true, the rule will not error if the void operator is used at the start of concise arrow functions.
+This can be used as a way of explicitly marking concise arrow functions as not returning a value without having to add braces, which formatters often expand
+with newlines.
+
+Examples of **incorrect** code for `{ "allowAtStartOfConciseArrowFunctions": true }`:
+
+```js
+const log = function(message) { return void console.log(message); };
+
+const warn = message => {
+  return void console.warn(message);
+};
+
+const error = message => void (message ? console.error(message) : void 0);
+```
+
+Examples of **correct** code for `{ "allowAtStartOfConciseArrowFunctions": true }`:
+
+```js
+const log = message => void console.log(message);
+
+const warn = message => {
+  console.warn(message);
+}
+
+const error = message => void (message ? console.error(message) : 0);
+```
+
 ## When Not To Use It
 
 If you intentionally use the `void` operator then you can disable this rule.

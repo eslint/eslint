@@ -15,7 +15,7 @@ const { RuleTester } = require("../../../lib/rule-tester");
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = new RuleTester();
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } });
 
 ruleTester.run("no-void", rule, {
     valid: [
@@ -30,6 +30,10 @@ ruleTester.run("no-void", rule, {
         {
             code: "void(0)",
             options: [{ allowAsStatement: true }]
+        },
+        {
+            code: "const log = x => void console.log(x);",
+            options: [{ allowAtStartOfConciseArrowFunctions: true }]
         }
     ],
 
@@ -59,6 +63,25 @@ ruleTester.run("no-void", rule, {
         {
             code: "var foo = void 0",
             options: [{ allowAsStatement: true }],
+            errors: [{ messageId: "noVoid" }]
+        },
+        {
+            code: "const log = x => void console.log(x);",
+            options: [{ allowAtStartOfConciseArrowFunctions: false }],
+            errors: [{ messageId: "noVoid" }]
+        },
+        {
+            code: "const log = x => void (x ? console.log(x) : void 0);",
+            options: [{ allowAtStartOfConciseArrowFunctions: true }],
+            errors: [{ messageId: "noVoid" }]
+        },
+        {
+            code: `
+              const log = x => {
+                return void console.log(x);
+              }
+            `,
+            options: [{ allowAtStartOfConciseArrowFunctions: true }],
             errors: [{ messageId: "noVoid" }]
         }
     ]
