@@ -95,6 +95,8 @@ f();
 function f() {}
 ```
 
+This option allows references to function declarations. For function expressions and arrow functions, please see the [`variables`](#variables) option.
+
 ### classes
 
 Examples of **incorrect** code for the `{ "classes": false }` option:
@@ -135,9 +137,8 @@ var foo = 1;
 f();
 const f = () => {};
 
-function a(){ return b() };
-const c = () => b()
-function b(){ }
+g();
+const g = function() {};
 ```
 
 Examples of **correct** code for the `{ "variables": false }` option:
