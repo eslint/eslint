@@ -18,6 +18,7 @@ async function fetchData(processDataItem) {
 
 Asynchronous functions that don't use `await` might not need to be asynchronous functions and could be the unintentional result of refactoring.
 
+> This rule doesnt report for non `await` async generator functions
 
 ## Rule Details
 
