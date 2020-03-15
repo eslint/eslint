@@ -177,6 +177,8 @@ This rule has an option to allow specific kinds of functions to be empty.
     * `"getters"` - Getters.
     * `"setters"` - Setters.
     * `"constructors"` - Class constructors.
+    * `"asyncFunctions"` -  Async Functions.
+    * `"asyncMethods"` - Class methods and method shorthands of object literals with async
 
 #### allow: functions
 
@@ -304,6 +306,35 @@ Examples of **correct** code for the `{ "allow": ["constructors"] }` option:
 
 class A {
     constructor() {}
+}
+```
+
+#### allow: asyncFunctions
+
+Examples of **correct** code for  `{ "allow": ["asyncFunctions"] }` options:
+
+```js
+/*eslint no-empty-function: ["error", { "allow": ["asyncFunctions"] }]*/
+/*eslint-env es6*/
+
+async function a(){}
+```
+
+#### allow: asyncMethods
+
+Examples of **correct** code for  `{ "allow": ["asyncMethods"] }` options:
+
+```js
+/*eslint no-empty-function: ["error", { "allow": ["asyncMethods"] }]*/
+/*eslint-env es6*/
+
+var obj = {
+    async foo() {}
+};
+
+class A {
+    async foo() {}
+    static  async foo() {}
 }
 ```
 
