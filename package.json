@@ -72,7 +72,6 @@
     "levn": "^0.3.0",
     "lodash": "^4.17.14",
     "minimatch": "^3.0.4",
-    "mkdirp": "^0.5.1",
     "natural-compare": "^1.4.0",
     "optionator": "^0.8.3",
     "progress": "^2.0.0",
