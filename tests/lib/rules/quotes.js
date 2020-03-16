@@ -22,7 +22,9 @@ ruleTester.run("quotes", rule, {
         { code: "var foo = 1;", options: ["single"] },
         { code: "var foo = 1;", options: ["double"] },
         { code: "var foo = \"'\";", options: ["single", { avoidEscape: true }] },
+        { code: "var foo = `\"'`;", options: ["single", { avoidEscape: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "var foo = '\"';", options: ["double", { avoidEscape: true }] },
+        { code: "var foo = `\"'`;", options: ["double", { avoidEscape: true }], parserOptions: { ecmaVersion: 6 } },
         { code: "var foo = <>Hello world</>;", options: ["single"], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
         { code: "var foo = <>Hello world</>;", options: ["double"], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
         { code: "var foo = <>Hello world</>;", options: ["double", { avoidEscape: true }], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
@@ -188,6 +190,50 @@ ruleTester.run("quotes", rule, {
                 messageId: "wrongQuotes",
                 data: { description: "doublequote" },
                 type: "Literal"
+            }]
+        },
+        {
+            code: "var foo = `bar'baz`;",
+            output: "var foo = 'bar\\'baz';",
+            options: ["single", { avoidEscape: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "wrongQuotes",
+                data: { description: "singlequote" },
+                type: "TemplateLiteral"
+            }]
+        },
+        {
+            code: "var foo = `bar'\"baz`;",
+            output: "var foo = 'bar\\'\"baz';",
+            options: ["single"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "wrongQuotes",
+                data: { description: "singlequote" },
+                type: "TemplateLiteral"
+            }]
+        },
+        {
+            code: "var foo = `bar\"baz`;",
+            output: "var foo = \"bar\\\"baz\";",
+            options: ["double", { avoidEscape: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "wrongQuotes",
+                data: { description: "doublequote" },
+                type: "TemplateLiteral"
+            }]
+        },
+        {
+            code: "var foo = `bar'\"baz`;",
+            output: "var foo = \"bar'\\\"baz\";",
+            options: ["double"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "wrongQuotes",
+                data: { description: "doublequote" },
+                type: "TemplateLiteral"
             }]
         },
         {
