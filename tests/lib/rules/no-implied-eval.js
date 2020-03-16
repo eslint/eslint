@@ -75,7 +75,7 @@ ruleTester.run("no-implied-eval", rule, {
 
         // identifiers are fine
         "setTimeout(foo, 10)",
-        "setInteval(1, 10)",
+        "setInterval(1, 10)",
         "execScript(2)",
 
         // as are function expressions
