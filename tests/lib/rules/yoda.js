@@ -50,6 +50,19 @@ ruleTester.run("yoda", rule, {
 
         // Range exception
         {
+            code: "if (\"a\" < x && x < MAX ) {}",
+            options: ["never", { exceptRange: true }]
+        },
+        {
+            code: "if (1 < x && x < MAX ) {}",
+            options: ["never", { exceptRange: true }]
+        },
+        {
+            code: "if (`green` < x.y && x.y < `blue`) {}",
+            options: ["never", { exceptRange: true }],
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
             code: "if (0 < x && x <= 1) {}",
             options: ["never", { exceptRange: true }]
         }, {
@@ -637,19 +650,6 @@ ruleTester.run("yoda", rule, {
                 {
                     messageId: "expected",
                     data: { expectedSide: "right", operator: "<=" },
-                    type: "BinaryExpression"
-                }
-            ]
-        },
-        {
-            code: "if (`green` < x.y && x.y < `blue`) {}",
-            output: "if (x.y > `green` && x.y < `blue`) {}",
-            options: ["never", { exceptRange: true }],
-            parserOptions: { ecmaVersion: 2015 },
-            errors: [
-                {
-                    messageId: "expected",
-                    data: { expectedSide: "right", operator: "<" },
                     type: "BinaryExpression"
                 }
             ]
