@@ -109,6 +109,7 @@ Examples of additional **correct** code for this rule with the `"double", { "avo
 /*eslint quotes: ["error", "double", { "avoidEscape": true }]*/
 
 var single = 'a string containing "double" quotes';
+var backtick = `a string containing 'single' and "double" quotes`;
 ```
 
 Examples of additional **correct** code for this rule with the `"single", { "avoidEscape": true }` options:
@@ -117,6 +118,7 @@ Examples of additional **correct** code for this rule with the `"single", { "avo
 /*eslint quotes: ["error", "single", { "avoidEscape": true }]*/
 
 var double = "a string containing 'single' quotes";
+var backtick = `a string containing 'single' and "double" quotes`;
 ```
 
 Examples of additional **correct** code for this rule with the `"backtick", { "avoidEscape": true }` options:
