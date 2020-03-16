@@ -58,6 +58,11 @@ ruleTester.run("yoda", rule, {
             options: ["never", { exceptRange: true }]
         },
         {
+            code: "if (x < `x` || `x` <= x) {}",
+            options: ["never", { exceptRange: true }],
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
             code: "if (`green` < x.y && x.y < `blue`) {}",
             options: ["never", { exceptRange: true }],
             parserOptions: { ecmaVersion: 2015 }
