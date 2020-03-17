@@ -177,8 +177,8 @@ This rule has an option to allow specific kinds of functions to be empty.
     * `"getters"` - Getters.
     * `"setters"` - Setters.
     * `"constructors"` - Class constructors.
-    * `"asyncFunctions"` -  Async Functions.
-    * `"asyncMethods"` - Class methods and method shorthands of object literals with async
+    * `"asyncFunctions"` - Async Functions.
+    * `"asyncMethods"` - Async class methods and method shorthands of object literals.
 
 #### allow: functions
 
