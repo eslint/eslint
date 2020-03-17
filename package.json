@@ -55,7 +55,7 @@
     "eslint-scope": "^5.0.0",
     "eslint-utils": "^1.4.3",
     "eslint-visitor-keys": "^1.1.0",
-    "espree": "^6.2.0",
+    "espree": "^6.2.1",
     "esquery": "^1.0.1",
     "esutils": "^2.0.2",
     "file-entry-cache": "^5.0.1",
