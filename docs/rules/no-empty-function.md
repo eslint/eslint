@@ -311,7 +311,7 @@ class A {
 
 #### allow: asyncFunctions
 
-Examples of **correct** code for  `{ "allow": ["asyncFunctions"] }` options:
+Examples of **correct** code for the `{ "allow": ["asyncFunctions"] }` options:
 
 ```js
 /*eslint no-empty-function: ["error", { "allow": ["asyncFunctions"] }]*/
