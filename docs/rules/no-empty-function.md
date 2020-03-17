@@ -322,7 +322,7 @@ async function a(){}
 
 #### allow: asyncMethods
 
-Examples of **correct** code for  `{ "allow": ["asyncMethods"] }` options:
+Examples of **correct** code for the `{ "allow": ["asyncMethods"] }` options:
 
 ```js
 /*eslint no-empty-function: ["error", { "allow": ["asyncMethods"] }]*/
