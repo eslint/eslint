@@ -315,7 +315,7 @@ Examples of **correct** code for the `{ "allow": ["asyncFunctions"] }` options:
 
 ```js
 /*eslint no-empty-function: ["error", { "allow": ["asyncFunctions"] }]*/
-/*eslint-env es6*/
+/*eslint-env es2017*/
 
 async function a(){}
 ```
@@ -326,7 +326,7 @@ Examples of **correct** code for the `{ "allow": ["asyncMethods"] }` options:
 
 ```js
 /*eslint no-empty-function: ["error", { "allow": ["asyncMethods"] }]*/
-/*eslint-env es6*/
+/*eslint-env es2017*/
 
 var obj = {
     async foo() {}
@@ -334,7 +334,7 @@ var obj = {
 
 class A {
     async foo() {}
-    static  async foo() {}
+    static async foo() {}
 }
 ```
 
