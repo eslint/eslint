@@ -57,7 +57,7 @@ ruleTester.run("require-await", rule, {
             parser: require.resolve("../../fixtures/parsers/typescript-parsers/global-for-await-of")
         },
         {
-            code: "async function* run() { anotherAsyncGenerator() }",
+            code: "async function* run() { yield * anotherAsyncGenerator() }",
             parserOptions: { ecmaVersion: 9 }
         },
         {
