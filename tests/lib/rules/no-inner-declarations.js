@@ -62,6 +62,65 @@ ruleTester.run("no-inner-declarations", rule, {
             type: "FunctionDeclaration"
         }]
     }, {
+        code: "if (foo) var a; ",
+        options: ["both"],
+        errors: [{
+            messageId: "moveDeclToRoot",
+            data: {
+                type: "variable",
+                body: "program"
+            },
+            type: "VariableDeclaration"
+        }]
+    },
+    {
+        code: "if (foo)  function f(){} ",
+        options: ["both"],
+        errors: [{
+            messageId: "moveDeclToRoot",
+            data: {
+                type: "function",
+                body: "program"
+            },
+            type: "FunctionDeclaration"
+        }]
+    },
+    {
+        code: "function bar() { if (foo) function f(){}; }",
+        options: ["both"],
+        errors: [{
+            messageId: "moveDeclToRoot",
+            data: {
+                type: "function",
+                body: "function body"
+            },
+            type: "FunctionDeclaration"
+        }]
+    },
+    {
+        code: "function bar() { if (foo) var a; }",
+        options: ["both"],
+        errors: [{
+            messageId: "moveDeclToRoot",
+            data: {
+                type: "variable",
+                body: "function body"
+            },
+            type: "VariableDeclaration"
+        }]
+    },
+    {
+        code: "if (foo){ var a; }",
+        options: ["both"],
+        errors: [{
+            messageId: "moveDeclToRoot",
+            data: {
+                type: "variable",
+                body: "program"
+            },
+            type: "VariableDeclaration"
+        }]
+    }, {
         code: "function doSomething() { do { function somethingElse() { } } while (test); }",
         errors: [{
             messageId: "moveDeclToRoot",
