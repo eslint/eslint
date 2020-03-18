@@ -61,8 +61,7 @@ Examples of **incorrect** code for this rule with the default `"always"` option:
 
 var object = {
     foo: "bar",
-    baz: 42,
-    "qux-lorem": true
+    baz: 42
 };
 ```
 
