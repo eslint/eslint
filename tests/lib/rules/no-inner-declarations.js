@@ -72,6 +72,64 @@ ruleTester.run("no-inner-declarations", rule, {
             },
             type: "VariableDeclaration"
         }]
+    }, {
+        code: "if (foo) /* some comments */ var a; ",
+        options: ["both"],
+        errors: [{
+            messageId: "moveDeclToRoot",
+            data: {
+                type: "variable",
+                body: "program"
+            },
+            type: "VariableDeclaration"
+        }]
+    }, {
+        code: "if (foo){ function f(){ if(bar){ var a; } } }",
+        options: ["both"],
+        errors: [{
+            messageId: "moveDeclToRoot",
+            data: {
+                type: "function",
+                body: "program"
+            },
+            type: "FunctionDeclaration"
+        }, {
+            messageId: "moveDeclToRoot",
+            data: {
+                type: "variable",
+                body: "function body"
+            },
+            type: "VariableDeclaration"
+        }]
+    }, {
+        code: "if (foo) function f(){ if(bar) var a; } ",
+        options: ["both"],
+        errors: [{
+            messageId: "moveDeclToRoot",
+            data: {
+                type: "function",
+                body: "program"
+            },
+            type: "FunctionDeclaration"
+        }, {
+            messageId: "moveDeclToRoot",
+            data: {
+                type: "variable",
+                body: "function body"
+            },
+            type: "VariableDeclaration"
+        }]
+    }, {
+        code: "if (foo) { var fn = function(){} } ",
+        options: ["both"],
+        errors: [{
+            messageId: "moveDeclToRoot",
+            data: {
+                type: "variable",
+                body: "program"
+            },
+            type: "VariableDeclaration"
+        }]
     },
     {
         code: "if (foo)  function f(){} ",
