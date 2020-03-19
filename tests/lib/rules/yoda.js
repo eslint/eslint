@@ -58,12 +58,11 @@ ruleTester.run("yoda", rule, {
             options: ["never", { exceptRange: true }]
         },
         {
-            code: "if (x < `x` || `x` <= x) {}",
-            options: ["never", { exceptRange: true }],
-            parserOptions: { ecmaVersion: 2015 }
+            code: "if ('a' < x && x < MAX ) {}",
+            options: ["never", { exceptRange: true }]
         },
         {
-            code: "if (`green` < x.y && x.y < `blue`) {}",
+            code: "if (x < `x` || `x` <= x) {}",
             options: ["never", { exceptRange: true }],
             parserOptions: { ecmaVersion: 2015 }
         },
@@ -71,13 +70,7 @@ ruleTester.run("yoda", rule, {
             code: "if (0 < x && x <= 1) {}",
             options: ["never", { exceptRange: true }]
         }, {
-            code: "if (x < 0 || 1 <= x) {}",
-            options: ["never", { exceptRange: true }]
-        }, {
             code: "if (0 <= x && x < 1) {}",
-            options: ["always", { exceptRange: true }]
-        }, {
-            code: "if (x <= 'bar' || 'foo' < x) {}",
             options: ["always", { exceptRange: true }]
         }, {
             code: "if ('blue' < x.y && x.y < 'green') {}",
@@ -98,9 +91,6 @@ ruleTester.run("yoda", rule, {
             options: ["never", { exceptRange: true }]
         }, {
             code: "if ((0 < a && a < 1) && b < 0) {}",
-            options: ["never", { exceptRange: true }]
-        }, {
-            code: "if (a < 4 || (b[c[0]].d['e'] < 0 || 1 <= b[c[0]].d['e'])) {}",
             options: ["never", { exceptRange: true }]
         }, {
             code: "if (-1 < x && x < 0) {}",
@@ -132,15 +122,7 @@ ruleTester.run("yoda", rule, {
             options: ["never", { exceptRange: true }],
             parserOptions: { ecmaVersion: 2020 }
         }, {
-            code: "if (x < -1n || 1n <= x) {}",
-            options: ["never", { exceptRange: true }],
-            parserOptions: { ecmaVersion: 2020 }
-        }, {
             code: "if (-1n <= x && x < 1n) {}",
-            options: ["always", { exceptRange: true }],
-            parserOptions: { ecmaVersion: 2020 }
-        }, {
-            code: "if (x < -1n || 1n <= x) {}",
             options: ["always", { exceptRange: true }],
             parserOptions: { ecmaVersion: 2020 }
         }, {
@@ -152,14 +134,37 @@ ruleTester.run("yoda", rule, {
             options: ["never", { exceptRange: true }],
             parserOptions: { ecmaVersion: 2018 }
         }, {
-            code: "if (x <= `bar` || `foo` < x) {}",
+            code: "if ('a' < x && x < MAX ) {}",
             options: ["always", { exceptRange: true }],
             parserOptions: { ecmaVersion: 2015 }
         }, {
-            code: "if (`blue` < x.y && x.y < `green`) {}",
+            code: "if ('a' < x && x < MAX ) {}",
+            options: ["always"],
+            parserOptions: { ecmaVersion: 2015 }
+        }, {
+            code: "if (x <= 'foo' || 'bar' < x) {}",
+            options: ["always", { exceptRange: true }],
+            parserOptions: { ecmaVersion: 2015 }
+        }, {
+            code: "if (MIN < x && x < 'a' ) {}",
             options: ["never", { exceptRange: true }],
             parserOptions: { ecmaVersion: 2015 }
         }, {
+            code: "if (MIN < x && x < 'a' ) {}",
+            options: ["never"],
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: "if (`blue` < x.y && x.y < `green`) {}",
+            options: ["never", { exceptRange: true }],
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
+            code: "if ('a' < x && x < MAX ) {}",
+            options: ["never", { exceptRange: true }],
+            parserOptions: { ecmaVersion: 2015 }
+        },
+        {
             code: "if (0 <= x[`y`] && x[`y`] <= 100) {}",
             options: ["never", { exceptRange: true }],
             parserOptions: { ecmaVersion: 2015 }
@@ -167,7 +172,11 @@ ruleTester.run("yoda", rule, {
             code: "if (0 <= x[`y`] && x[\"y\"] <= 100) {}",
             options: ["never", { exceptRange: true }],
             parserOptions: { ecmaVersion: 2015 }
+        }, {
+            code: "if ('a' <= x && x < 'b') {}",
+            options: ["never", { exceptRange: true }]
         },
+
 
         // onlyEquality
         { code: "if (0 < x && x <= 1) {}", options: ["never", { onlyEquality: true }] },
@@ -177,7 +186,18 @@ ruleTester.run("yoda", rule, {
         { code: "if (x < `2` && x !== `-3`) {}", options: ["always", { onlyEquality: true }], parserOptions: { ecmaVersion: 2015 } }
     ],
     invalid: [
-
+        {
+            code: "if (x <= 'bar' || 'foo' < x) {}",
+            output: "if ('bar' >= x || 'foo' < x) {}",
+            options: ["always", { exceptRange: true }],
+            errors: [
+                {
+                    messageId: "expected",
+                    data: { expectedSide: "left", operator: "<=" },
+                    type: "BinaryExpression"
+                }
+            ]
+        },
         {
             code: "if (\"red\" == value) {}",
             output: "if (value == \"red\") {}",
@@ -991,6 +1011,110 @@ ruleTester.run("yoda", rule, {
             output: "x=1 > a",
             options: ["always"],
             errors: [
+                {
+                    messageId: "expected",
+                    data: { expectedSide: "left", operator: "<" },
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "if (`green` < x.y && x.y < `blue`) {}",
+            output: "if (`green` < x.y && `blue` > x.y) {}",
+            options: ["always", { exceptRange: true }],
+            parserOptions: { ecmaVersion: 2015 },
+            errors: [
+                {
+                    messageId: "expected",
+                    data: { expectedSide: "left", operator: "<" },
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "if (x < -1n || 1n <= x) {}",
+            output: "if (x < -1n || x >= 1n) {}",
+            options: ["never", { exceptRange: true }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [
+                {
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: "<=" },
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "if('a' <= x && x < 'b') {}",
+            output: "if('a' <= x && 'b' > x) {}",
+            options: ["always"],
+            errors: [
+                {
+                    messageId: "expected",
+                    data: { expectedSide: "left", operator: "<" },
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "if (x < -1n || 1n <= x) {}",
+            output: "if (-1n > x || 1n <= x) {}",
+            options: ["always", { exceptRange: true }],
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [
+                {
+                    messageId: "expected",
+                    data: { expectedSide: "left", operator: "<" },
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "if (x < 0 || 1 <= x) {}",
+            output: "if (x < 0 || x >= 1) {}",
+            options: ["never", { exceptRange: true }],
+            errors: [
+                {
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: "<=" },
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "if ('b' <= x && x < 'a') {}",
+            output: "if (x >= 'b' && x < 'a') {}",
+            options: ["never", { exceptRange: true }],
+            errors: [
+                {
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: "<=" },
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "if (a < 4 || (b[c[0]].d['e'] < 0 || 1 <= b[c[0]].d['e'])) {}",
+            output: "if (a < 4 || (b[c[0]].d['e'] < 0 || b[c[0]].d['e'] >= 1)) {}",
+            options: ["never", { exceptRange: true }],
+            errors: [
+                {
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: "<=" },
+                    type: "BinaryExpression"
+                }
+            ]
+        },
+        {
+            code: "if (a < 4 || (b[c[0]].d['e'] < 0 || 1 <= b[c[0]].d['e'])) {}",
+            output: "if (4 > a || (0 > b[c[0]].d['e'] || 1 <= b[c[0]].d['e'])) {}",
+            options: ["always", { exceptRange: true }],
+            errors: [
+                {
+                    messageId: "expected",
+                    data: { expectedSide: "left", operator: "<" },
+                    type: "BinaryExpression"
+                },
                 {
                     messageId: "expected",
                     data: { expectedSide: "left", operator: "<" },
