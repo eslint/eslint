@@ -84,6 +84,9 @@ ruleTester.run("yoda", rule, {
             options: ["never", { exceptRange: true }],
             parserOptions: { ecmaVersion: 2015 }
         }, {
+            code: "if (a < 4 || (b[c[0]].d['e'] < 0 || 1 <= b[c[0]].d['e'])) {}",
+            options: ["never", { exceptRange: true }]
+        }, {
             code: "if (0 <= x['y'] && x['y'] <= 100) {}",
             options: ["never", { exceptRange: true }]
         }, {
@@ -104,10 +107,12 @@ ruleTester.run("yoda", rule, {
         }, {
             code: "if (ZERO <= index && index < 100) {}",
             options: ["never", { exceptRange: true }]
-        }, {
+        },
+        {
             code: "if (value <= MIN || 10 < value) {}",
             options: ["never", { exceptRange: true }]
-        }, {
+        },
+        {
             code: "if (value <= 0 || MAX < value) {}",
             options: ["never", { exceptRange: true }]
         }, {
@@ -141,11 +146,8 @@ ruleTester.run("yoda", rule, {
             code: "if ('a' < x && x < MAX ) {}",
             options: ["always"],
             parserOptions: { ecmaVersion: 2015 }
-        }, {
-            code: "if (x <= 'foo' || 'bar' < x) {}",
-            options: ["always", { exceptRange: true }],
-            parserOptions: { ecmaVersion: 2015 }
-        }, {
+        },
+        {
             code: "if (MIN < x && x < 'a' ) {}",
             options: ["never", { exceptRange: true }],
             parserOptions: { ecmaVersion: 2015 }
@@ -156,11 +158,6 @@ ruleTester.run("yoda", rule, {
         },
         {
             code: "if (`blue` < x.y && x.y < `green`) {}",
-            options: ["never", { exceptRange: true }],
-            parserOptions: { ecmaVersion: 2015 }
-        },
-        {
-            code: "if ('a' < x && x < MAX ) {}",
             options: ["never", { exceptRange: true }],
             parserOptions: { ecmaVersion: 2015 }
         },
@@ -176,6 +173,32 @@ ruleTester.run("yoda", rule, {
             code: "if ('a' <= x && x < 'b') {}",
             options: ["never", { exceptRange: true }]
         },
+        {
+            code: "if (x < -1n || 1n <= x) {}",
+            options: ["never", { exceptRange: true }],
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "if (x < -1n || 1n <= x) {}",
+            options: ["always", { exceptRange: true }],
+            parserOptions: { ecmaVersion: 2020 }
+        },
+        {
+            code: "if (1 < a && a <= 2) {}",
+            options: ["never", { exceptRange: true }]
+        },
+        {
+            code: "if (x < -1 || 1 < x) {}",
+            options: ["never", { exceptRange: true }]
+        },
+        {
+            code: "if (x <= 'bar' || 'foo' < x) {}",
+            options: ["always", { exceptRange: true }]
+        },
+        {
+            code: "if (x < 0 || 1 <= x) {}",
+            options: ["never", { exceptRange: true }]
+        },
 
 
         // onlyEquality
@@ -187,8 +210,8 @@ ruleTester.run("yoda", rule, {
     ],
     invalid: [
         {
-            code: "if (x <= 'bar' || 'foo' < x) {}",
-            output: "if ('bar' >= x || 'foo' < x) {}",
+            code: "if (x <= 'foo' || 'bar' < x) {}",
+            output: "if ('foo' >= x || 'bar' < x) {}",
             options: ["always", { exceptRange: true }],
             errors: [
                 {
@@ -197,6 +220,7 @@ ruleTester.run("yoda", rule, {
                     type: "BinaryExpression"
                 }
             ]
+
         },
         {
             code: "if (\"red\" == value) {}",
@@ -1032,19 +1056,6 @@ ruleTester.run("yoda", rule, {
             ]
         },
         {
-            code: "if (x < -1n || 1n <= x) {}",
-            output: "if (x < -1n || x >= 1n) {}",
-            options: ["never", { exceptRange: true }],
-            parserOptions: { ecmaVersion: 2020 },
-            errors: [
-                {
-                    messageId: "expected",
-                    data: { expectedSide: "right", operator: "<=" },
-                    type: "BinaryExpression"
-                }
-            ]
-        },
-        {
             code: "if('a' <= x && x < 'b') {}",
             output: "if('a' <= x && 'b' > x) {}",
             options: ["always"],
@@ -1057,31 +1068,6 @@ ruleTester.run("yoda", rule, {
             ]
         },
         {
-            code: "if (x < -1n || 1n <= x) {}",
-            output: "if (-1n > x || 1n <= x) {}",
-            options: ["always", { exceptRange: true }],
-            parserOptions: { ecmaVersion: 2020 },
-            errors: [
-                {
-                    messageId: "expected",
-                    data: { expectedSide: "left", operator: "<" },
-                    type: "BinaryExpression"
-                }
-            ]
-        },
-        {
-            code: "if (x < 0 || 1 <= x) {}",
-            output: "if (x < 0 || x >= 1) {}",
-            options: ["never", { exceptRange: true }],
-            errors: [
-                {
-                    messageId: "expected",
-                    data: { expectedSide: "right", operator: "<=" },
-                    type: "BinaryExpression"
-                }
-            ]
-        },
-        {
             code: "if ('b' <= x && x < 'a') {}",
             output: "if (x >= 'b' && x < 'a') {}",
             options: ["never", { exceptRange: true }],
@@ -1089,35 +1075,6 @@ ruleTester.run("yoda", rule, {
                 {
                     messageId: "expected",
                     data: { expectedSide: "right", operator: "<=" },
-                    type: "BinaryExpression"
-                }
-            ]
-        },
-        {
-            code: "if (a < 4 || (b[c[0]].d['e'] < 0 || 1 <= b[c[0]].d['e'])) {}",
-            output: "if (a < 4 || (b[c[0]].d['e'] < 0 || b[c[0]].d['e'] >= 1)) {}",
-            options: ["never", { exceptRange: true }],
-            errors: [
-                {
-                    messageId: "expected",
-                    data: { expectedSide: "right", operator: "<=" },
-                    type: "BinaryExpression"
-                }
-            ]
-        },
-        {
-            code: "if (a < 4 || (b[c[0]].d['e'] < 0 || 1 <= b[c[0]].d['e'])) {}",
-            output: "if (4 > a || (0 > b[c[0]].d['e'] || 1 <= b[c[0]].d['e'])) {}",
-            options: ["always", { exceptRange: true }],
-            errors: [
-                {
-                    messageId: "expected",
-                    data: { expectedSide: "left", operator: "<" },
-                    type: "BinaryExpression"
-                },
-                {
-                    messageId: "expected",
-                    data: { expectedSide: "left", operator: "<" },
                     type: "BinaryExpression"
                 }
             ]
