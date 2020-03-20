@@ -199,6 +199,10 @@ ruleTester.run("yoda", rule, {
             code: "if (x < 0 || 1 <= x) {}",
             options: ["never", { exceptRange: true }]
         },
+        {
+            code: "if('a' <= x && x < MAX) {}",
+            options: ["never", { exceptRange: true }]
+        },
 
 
         // onlyEquality
@@ -1078,6 +1082,19 @@ ruleTester.run("yoda", rule, {
                     type: "BinaryExpression"
                 }
             ]
+        },
+        {
+            code: "if('a' <= x && x < 1) {}",
+            output: "if(x >= 'a' && x < 1) {}",
+            options: ["never", { exceptRange: true }],
+            errors: [
+                {
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: "<=" },
+                    type: "BinaryExpression"
+                }
+            ]
         }
+
     ]
 });
