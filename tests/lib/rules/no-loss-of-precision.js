@@ -64,7 +64,8 @@ ruleTester.run("no-loss-of-precision", rule, {
         "var x = undefined",
         "var x = {}",
         "var x = ['a', 'b']",
-        "var x = new Date()"
+        "var x = new Date()",
+        "var x = '9007199254740993'"
 
     ],
     invalid: [
