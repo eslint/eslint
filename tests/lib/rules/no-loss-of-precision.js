@@ -56,7 +56,15 @@ ruleTester.run("no-loss-of-precision", rule, {
         "var x = 0377777777777777777",
 
         "var x = 0x1FFFFFFFFFFFFF",
-        "var x = 0X1FFFFFFFFFFFFF"
+        "var x = 0X1FFFFFFFFFFFFF",
+        "var x = true",
+        "var x = 'abc'",
+        "var x = ''",
+        "var x = null",
+        "var x = undefined",
+        "var x = {}",
+        "var x = ['a', 'b']",
+        "var x = new Date()"
 
     ],
     invalid: [
