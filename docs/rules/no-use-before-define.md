@@ -82,7 +82,7 @@ function g() {
   Default is `true`.
 
 This rule accepts `"nofunc"` string as an option.
-`"nofunc"` is the same as `{ "functions": false }`.
+`"nofunc"` is the same as `{ "functions": false, "classes": true, "variables": true }`.
 
 ### functions
 
