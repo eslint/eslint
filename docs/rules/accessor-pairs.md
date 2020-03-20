@@ -32,14 +32,13 @@ This rule enforces a style where it requires to have a getter for every property
 
 By activating the option `getWithoutSet` it enforces the presence of a setter for every property which has a getter defined.
 
-By default, this rule checks only object literals and property descriptors. If you want this rule
-to also check class declarations and class expressions, activate the option `enforceForClassMembers`.
+This rule always checks object literals and property descriptors. By default, it also checks class declarations and class expressions.
 
 ## Options
 
 * `setWithoutGet` set to `true` will warn for setters without getters (Default `true`).
 * `getWithoutSet` set to `true` will warn for getters without setters (Default `false`).
-* `enforceForClassMembers` set to `true` additionally applies this rule to class getters/setters (Default `false`).
+* `enforceForClassMembers` set to `true` additionally applies this rule to class getters/setters (Default `true`). Set `enforceForClassMembers` to `false` if you want this rule to ignore class declarations and class expressions.
 
 ### setWithoutGet
 
@@ -149,10 +148,7 @@ Object.defineProperty(o, 'c', {
 
 ### enforceForClassMembers
 
-By default, this rule does not enforce getter/setter pairs in class declarations and class expressions,
-as the default value for `enforceForClassMembers` is `false`.
-
-When `enforceForClassMembers` is set to `true`:
+When `enforceForClassMembers` is set to `true` (default):
 
 * `"getWithoutSet": true` will also warn for getters without setters in classes.
 * `"setWithoutGet": true` will also warn for setters without getters in classes.
@@ -201,6 +197,41 @@ const Bar = class {
     }
 }
 ```
+
+When `enforceForClassMembers` is set to `false`, this rule ignores classes.
+
+Examples of **correct** code for `{ "getWithoutSet": true, "setWithoutGet": true, "enforceForClassMembers": false }`:
+
+```js
+/*eslint accessor-pairs: ["error", {
+    "getWithoutSet": true, "setWithoutGet": true, "enforceForClassMembers": false
+}]*/
+
+class Foo {
+    get a() {
+        return this.val;
+    }
+}
+
+class Bar {
+    static set a(value) {
+        this.val = value;
+    }
+}
+
+const Baz = class {
+    static get a() {
+        return this.val;
+    }
+}
+
+const Quux = class {
+    set a(value) {
+        this.val = value;
+    }
+}
+```
+
 
 ## Known Limitations
 

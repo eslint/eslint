@@ -60,6 +60,22 @@ ruleTester.run("prefer-object-spread", rule, {
         import { Object, Array } from 'globals';
         Object.assign({ foo: 'bar' });
         `,
+        "globalThis.Object.assign({}, foo)",
+        {
+            code: "globalThis.Object.assign({}, { foo: 'bar' })",
+            env: { es6: true }
+        },
+        {
+            code: "globalThis.Object.assign({}, baz, { foo: 'bar' })",
+            env: { es2017: true }
+        },
+        {
+            code: `
+                var globalThis = foo;
+                globalThis.Object.assign({}, foo)
+                `,
+            env: { es2020: true }
+        },
 
         // ignore Object.assign() with > 1 arguments if any of the arguments is an object expression with a getter/setter
         "Object.assign({ get a() {} }, {})",
@@ -844,6 +860,70 @@ ruleTester.run("prefer-object-spread", rule, {
                     type: "CallExpression",
                     line: 1,
                     column: 1
+                }
+            ]
+        },
+        {
+            code: "globalThis.Object.assign({ });",
+            output: "({});",
+            env: { es2020: true },
+            errors: [
+                {
+                    messageId: "useLiteralMessage",
+                    type: "CallExpression",
+                    line: 1,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: "globalThis.Object.assign({\n});",
+            output: "({});",
+            env: { es2020: true },
+            errors: [
+                {
+                    messageId: "useLiteralMessage",
+                    type: "CallExpression",
+                    line: 1,
+                    column: 1
+                }
+            ]
+        },
+        {
+            code: `
+                function foo () { var globalThis = bar; }
+                globalThis.Object.assign({ });
+            `,
+            output: `
+                function foo () { var globalThis = bar; }
+                ({});
+            `,
+            env: { es2020: true },
+            errors: [
+                {
+                    messageId: "useLiteralMessage",
+                    type: "CallExpression",
+                    line: 3,
+                    column: 17
+                }
+            ]
+        },
+        {
+            code: `
+                const Foo = require('foo');
+                globalThis.Object.assign({ foo: Foo });
+            `,
+            output: `
+                const Foo = require('foo');
+                ({foo: Foo});
+            `,
+            env: { es2020: true },
+            errors: [
+                {
+                    messageId: "useLiteralMessage",
+                    type: "CallExpression",
+                    line: 3,
+                    column: 17
                 }
             ]
         },

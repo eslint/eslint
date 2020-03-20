@@ -77,22 +77,42 @@ ruleTester.run("id-blacklist", rule, {
         },
         {
             code: "const {foo: bar} = baz",
-            options: ["foo", "bar"],
+            options: ["foo"],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "const {foo: {bar: baz}} = qux",
-            options: ["foo", "bar", "baz"],
+            options: ["foo", "bar"],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "function foo({ bar: baz }) {}",
-            options: ["bar", "baz"],
+            options: ["bar"],
             parserOptions: { ecmaVersion: 6 }
         },
         {
             code: "function foo({ bar: {baz: qux} }) {}",
-            options: ["bar", "baz", "qux"],
+            options: ["bar", "baz"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "function foo({baz} = obj.qux) {}",
+            options: ["qux"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "function foo({ foo: {baz} = obj.qux }) {}",
+            options: ["qux"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "({a: bar = obj.baz});",
+            options: ["baz"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "({foo: {a: bar = obj.baz}} = qux);",
+            options: ["baz"],
             parserOptions: { ecmaVersion: 6 }
         },
         {
@@ -126,6 +146,16 @@ ruleTester.run("id-blacklist", rule, {
         {
             code: "foo.bar",
             options: ["bar"]
+        },
+        {
+            code: "({foo: obj.bar.bar.bar.baz} = {});",
+            options: ["foo", "bar"],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "({[obj.bar]: a = baz} = qux);",
+            options: ["bar"],
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
     invalid: [
@@ -521,6 +551,309 @@ ruleTester.run("id-blacklist", rule, {
             options: ["bar", "baz"],
             errors: [
                 error
+            ]
+        },
+        {
+            code: "const {foo} = baz",
+            options: ["foo"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "foo" },
+                    type: "Identifier",
+                    column: 8
+                }
+            ]
+        },
+        {
+            code: "const {foo: bar} = baz",
+            options: ["foo", "bar"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "bar" },
+                    type: "Identifier",
+                    column: 13
+                }
+            ]
+        },
+        {
+            code: "const {[foo]: bar} = baz",
+            options: ["foo", "bar"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "foo" },
+                    type: "Identifier",
+                    column: 9
+                },
+                {
+                    messageId: "blacklisted",
+                    data: { name: "bar" },
+                    type: "Identifier",
+                    column: 15
+                }
+            ]
+        },
+        {
+            code: "const {foo: {bar: baz}} = qux",
+            options: ["foo", "bar", "baz"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "baz" },
+                    type: "Identifier",
+                    column: 19
+                }
+            ]
+        },
+        {
+            code: "const {foo: {[bar]: baz}} = qux",
+            options: ["foo", "bar", "baz"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "bar" },
+                    type: "Identifier",
+                    column: 15
+                },
+                {
+                    messageId: "blacklisted",
+                    data: { name: "baz" },
+                    type: "Identifier",
+                    column: 21
+                }
+            ]
+        },
+        {
+            code: "const {[foo]: {[bar]: baz}} = qux",
+            options: ["foo", "bar", "baz"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "foo" },
+                    type: "Identifier",
+                    column: 9
+                },
+                {
+                    messageId: "blacklisted",
+                    data: { name: "bar" },
+                    type: "Identifier",
+                    column: 17
+                },
+                {
+                    messageId: "blacklisted",
+                    data: { name: "baz" },
+                    type: "Identifier",
+                    column: 23
+                }
+            ]
+        },
+        {
+            code: "function foo({ bar: baz }) {}",
+            options: ["bar", "baz"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "baz" },
+                    type: "Identifier",
+                    column: 21
+                }
+            ]
+        },
+        {
+            code: "function foo({ bar: {baz: qux} }) {}",
+            options: ["bar", "baz", "qux"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "qux" },
+                    type: "Identifier",
+                    column: 27
+                }
+            ]
+        },
+        {
+            code: "({foo: obj.bar} = baz);",
+            options: ["foo", "bar"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "bar" },
+                    type: "Identifier",
+                    column: 12
+                }
+            ]
+        },
+        {
+            code: "({foo: obj.bar.bar.bar.baz} = {});",
+            options: ["foo", "bar", "baz"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "baz" },
+                    type: "Identifier",
+                    column: 24
+                }
+            ]
+        },
+        {
+            code: "({[foo]: obj.bar} = baz);",
+            options: ["foo", "bar"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "foo" },
+                    type: "Identifier",
+                    column: 4
+                },
+                {
+                    messageId: "blacklisted",
+                    data: { name: "bar" },
+                    type: "Identifier",
+                    column: 14
+                }
+            ]
+        },
+        {
+            code: "({foo: { a: obj.bar }} = baz);",
+            options: ["bar"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "bar" },
+                    type: "Identifier",
+                    column: 17
+                }
+            ]
+        },
+        {
+            code: "({a: obj.bar = baz} = qux);",
+            options: ["bar"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "bar" },
+                    type: "Identifier",
+                    column: 10
+                }
+            ]
+        },
+        {
+            code: "({a: obj.bar.bar.baz = obj.qux} = obj.qux);",
+            options: ["a", "bar", "baz", "qux"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "baz" },
+                    type: "Identifier",
+                    column: 18
+                }
+            ]
+        },
+        {
+            code: "({a: obj[bar] = obj.qux} = obj.qux);",
+            options: ["a", "bar", "baz", "qux"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "bar" },
+                    type: "Identifier",
+                    column: 10
+                }
+            ]
+        },
+        {
+            code: "({a: [obj.bar] = baz} = qux);",
+            options: ["bar"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "bar" },
+                    type: "Identifier",
+                    column: 11
+                }
+            ]
+        },
+        {
+            code: "({foo: { a: obj.bar = baz}} = qux);",
+            options: ["bar"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "bar" },
+                    type: "Identifier",
+                    column: 17
+                }
+            ]
+        },
+        {
+            code: "({foo: { [a]: obj.bar }} = baz);",
+            options: ["bar"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "bar" },
+                    type: "Identifier",
+                    column: 19
+                }
+            ]
+        },
+        {
+            code: "({...obj.bar} = baz);",
+            options: ["bar"],
+            parserOptions: { ecmaVersion: 9 },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "bar" },
+                    type: "Identifier",
+                    column: 10
+                }
+            ]
+        },
+        {
+            code: "([obj.bar] = baz);",
+            options: ["bar"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "bar" },
+                    type: "Identifier",
+                    column: 7
+                }
+            ]
+        },
+        {
+            code: "const [bar] = baz;",
+            options: ["bar"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "blacklisted",
+                    data: { name: "bar" },
+                    type: "Identifier",
+                    column: 8
+                }
             ]
         }
     ]

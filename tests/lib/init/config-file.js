@@ -82,6 +82,21 @@ describe("ConfigFile", () => {
                 StubbedConfigFile.write(config, filename);
             });
 
+            it("should include a newline character at EOF", () => {
+                const fakeFS = leche.fake(fs);
+
+                sinon.mock(fakeFS).expects("writeFileSync").withExactArgs(
+                    filename,
+                    sinon.match(value => value.endsWith("\n")),
+                    "utf8"
+                );
+
+                const StubbedConfigFile = proxyquire("../../../lib/init/config-file", {
+                    fs: fakeFS
+                });
+
+                StubbedConfigFile.write(config, filename);
+            });
         });
 
         it("should make sure js config files match linting rules", () => {

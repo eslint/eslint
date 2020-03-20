@@ -55,7 +55,7 @@ Setting parser options helps ESLint determine what is a parsing error. All langu
 By default, ESLint uses [Espree](https://github.com/eslint/espree) as its parser. You can optionally specify that a different parser should be used in your configuration file so long as the parser meets the following requirements:
 
 1. It must be a Node module loadable from the config file where it appears. Usually, this means you should install the parser package separately using npm.
-1. It must conform to the [parser interface](/docs/developer-guide/working-with-plugins.md#working-with-custom-parsers).
+1. It must conform to the [parser interface](/docs/developer-guide/working-with-custom-parsers.md).
 
 Note that even with these compatibilities, there are no guarantees that an external parser will work correctly with ESLint and ESLint will not fix bugs related to incompatibilities with other parsers.
 
@@ -876,7 +876,7 @@ Example of a configuration file in JSON format:
         "plugin:react/recommended"
     ],
     "rules": {
-       "no-set-state": "off"
+       "react/no-set-state": "off"
     }
 }
 ```
@@ -1061,19 +1061,17 @@ Of particular note is that like `.gitignore` files, all paths used as patterns f
 
 Please see `.gitignore`'s specification for further examples of valid syntax.
 
-In addition to any patterns in a `.eslintignore` file, ESLint always ignores files in `/node_modules/*` and `/bower_components/*`.
+In addition to any patterns in a `.eslintignore` file, ESLint always ignores files in `/**/node_modules/*`.
 
-For example, placing the following `.eslintignore` file in the current working directory will ignore all of `node_modules`, `bower_components` in the project root and anything in the `build/` directory except `build/index.js`:
+For example, placing the following `.eslintignore` file in the current working directory will ignore all of `node_modules/*` and anything in the `build/` directory except `build/index.js`:
 
 ```text
-# /node_modules/* and /bower_components/* in the project root are ignored by default
+# node_modules/* are ignored by default
 
 # Ignore built files except build/index.js
 build/*
 !build/index.js
 ```
-
-**Important**: Note that `node_modules` directories in, for example, a `packages` directory in a mono repo are *not* ignored by default and need to be added to `.eslintignore` explicitly.
 
 ### Using an Alternate File
 
