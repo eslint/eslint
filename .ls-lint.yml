@@ -1,5 +1,6 @@
 ls:
     '{bin,conf,lib,messages,packages,templates,tools}':
+        .dir: kebab-case
         .js: kebab-case
         .json: kebab-case
         .htm: kebab-case
