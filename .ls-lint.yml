@@ -1,0 +1,7 @@
+ls:
+    '{bin,conf,lib,messages,packages,templates,tools}':
+        .js: kebab-case
+        .json: kebab-case
+        .htm: kebab-case
+        .html: kebab-case
+        .txt: kebab-case

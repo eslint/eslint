@@ -569,8 +569,19 @@ target.karma = () => {
     }
 };
 
+target.lsLint = () => {
+    echo("Running ls-lint");
+
+    const lastReturn = exec(`${getBinFile("ls-lint")}`);
+
+    if (lastReturn.code !== 0) {
+        exit(1);
+    }
+};
+
 target.test = function() {
     target.lint();
+    target.lsLint();
     target.checkRuleFiles();
     target.mocha();
     target.karma();
