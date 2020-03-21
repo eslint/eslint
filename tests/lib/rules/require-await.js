@@ -68,7 +68,24 @@ ruleTester.run("require-await", rule, {
             }
             `,
             parserOptions: { ecmaVersion: 9 }
+        },
+        {
+            code: "async function* run() { }",
+            parserOptions: { ecmaVersion: 9 }
+        },
+        {
+            code: "const foo = async function *(){}",
+            parserOptions: { ecmaVersion: 9 }
+        },
+        {
+            code: 'const foo = async function *(){ console.log("bar") }',
+            parserOptions: { ecmaVersion: 9 }
+        },
+        {
+            code: 'async function* run() { console.log("bar") }',
+            parserOptions: { ecmaVersion: 9 }
         }
+
     ],
     invalid: [
         {
