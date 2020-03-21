@@ -1021,7 +1021,7 @@ You can tell ESLint to ignore specific files and directories by `ignorePatterns`
 
 ```json
 {
-    "ignorePatterns": ["temp.js", "node_modules/"],
+    "ignorePatterns": ["temp.js", "**/vendor/*.js"],
     "rules": {
         //...
     }
@@ -1061,12 +1061,13 @@ Of particular note is that like `.gitignore` files, all paths used as patterns f
 
 Please see `.gitignore`'s specification for further examples of valid syntax.
 
-In addition to any patterns in a `.eslintignore` file, ESLint always ignores files in `/**/node_modules/*`.
+In addition to any patterns in a `.eslintignore` file, ESLint ignores files in `/**/node_modules/*` by default. It can still be added using `!`.
 
-For example, placing the following `.eslintignore` file in the current working directory will ignore all of `node_modules/*` and anything in the `build/` directory except `build/index.js`:
+For example, placing the following `.eslintignore` file in the current working directory will not ignore `node_modules/*` and ignore anything in the `build/` directory except `build/index.js`:
 
 ```text
-# node_modules/* are ignored by default
+# node_modules/* is ignored by default, but can be added using !
+!node_modules/*
 
 # Ignore built files except build/index.js
 build/*
