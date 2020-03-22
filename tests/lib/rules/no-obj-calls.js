@@ -231,6 +231,11 @@ ruleTester.run("no-obj-calls", rule, {
             errors: [{ messageId: "unexpectedCall", data: { name: "Math" }, type: "CallExpression" }]
         },
         {
+            code: "var x = new globalThis.Math();",
+            env: { es2020: true },
+            errors: [{ messageId: "unexpectedCall", data: { name: "Math" }, type: "NewExpression" }]
+        },
+        {
             code: "f(globalThis.Math());",
             env: { es2020: true },
             errors: [{ messageId: "unexpectedCall", data: { name: "Math" }, type: "CallExpression", column: 3, endColumn: 20 }]
@@ -239,6 +244,11 @@ ruleTester.run("no-obj-calls", rule, {
             code: "globalThis.Math().foo;",
             env: { es2020: true },
             errors: [{ messageId: "unexpectedCall", data: { name: "Math" }, type: "CallExpression", column: 1, endColumn: 18 }]
+        },
+        {
+            code: "new globalThis.Math().foo;",
+            env: { es2020: true },
+            errors: [{ messageId: "unexpectedCall", data: { name: "Math" }, type: "NewExpression", column: 1, endColumn: 22 }]
         },
         {
             code: "var x = globalThis.JSON();",
@@ -264,6 +274,11 @@ ruleTester.run("no-obj-calls", rule, {
             errors: [{ messageId: "unexpectedCall", data: { name: "Reflect" }, type: "CallExpression" }]
         },
         {
+            code: "var x = new globalThis.Reflect;",
+            env: { es2020: true },
+            errors: [{ messageId: "unexpectedCall", data: { name: "Reflect" }, type: "NewExpression" }]
+        },
+        {
             code: "/*globals Reflect: true*/ Reflect();",
             env: { es2020: true },
             errors: [{ messageId: "unexpectedCall", data: { name: "Reflect" }, type: "CallExpression" }]
@@ -278,14 +293,28 @@ ruleTester.run("no-obj-calls", rule, {
             errors: [{ messageId: "unexpectedRefCall", data: { name: "foo", ref: "JSON" }, type: "CallExpression" }]
         },
         {
+            code: "var foo = bar ? baz: JSON; new foo();",
+            errors: [{ messageId: "unexpectedRefCall", data: { name: "foo", ref: "JSON" }, type: "NewExpression" }]
+        },
+        {
             code: "var foo = bar ? baz: globalThis.JSON; foo();",
             env: { es2020: true },
             errors: [{ messageId: "unexpectedRefCall", data: { name: "foo", ref: "JSON" }, type: "CallExpression" }]
         },
         {
+            code: "var foo = bar ? baz: globalThis.JSON; new foo();",
+            env: { es2020: true },
+            errors: [{ messageId: "unexpectedRefCall", data: { name: "foo", ref: "JSON" }, type: "NewExpression" }]
+        },
+        {
             code: "var foo = window.Atomics; foo();",
             env: { es2020: true, browser: true },
             errors: [{ messageId: "unexpectedRefCall", data: { name: "foo", ref: "Atomics" }, type: "CallExpression" }]
+        },
+        {
+            code: "var foo = window.Atomics; new foo;",
+            env: { es2020: true, browser: true },
+            errors: [{ messageId: "unexpectedRefCall", data: { name: "foo", ref: "Atomics" }, type: "NewExpression" }]
         }
     ]
 });
