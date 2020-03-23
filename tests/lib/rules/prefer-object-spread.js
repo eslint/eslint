@@ -103,7 +103,18 @@ ruleTester.run("prefer-object-spread", rule, {
                 }
             ]
         },
-
+        {
+            code: "Object.assign  ({}, foo)",
+            output: "({ ...foo})",
+            errors: [
+                {
+                    messageId: "useSpreadMessage",
+                    type: "CallExpression",
+                    line: 1,
+                    column: 1
+                }
+            ]
+        },
         {
             code: "Object.assign({}, { foo: 'bar' })",
             output: "({ foo: 'bar'})",
@@ -463,6 +474,18 @@ ruleTester.run("prefer-object-spread", rule, {
         },
         {
             code: "let a = Object.assign({}, a)",
+            output: "let a = { ...a}",
+            errors: [
+                {
+                    messageId: "useSpreadMessage",
+                    type: "CallExpression",
+                    line: 1,
+                    column: 9
+                }
+            ]
+        },
+        {
+            code: "let a = Object.assign   ({}, a)",
             output: "let a = { ...a}",
             errors: [
                 {
@@ -935,6 +958,34 @@ ruleTester.run("prefer-object-spread", rule, {
             errors: [
                 {
                     messageId: "useLiteralMessage",
+                    type: "CallExpression",
+                    line: 1,
+                    column: 1
+                }
+            ]
+        },
+
+        // https://github.com/eslint/eslint/issues/13058
+        {
+            code: "const obj = Object.assign<{}, Record<string, string[]>>({}, getObject());",
+            output: "const obj = { ...getObject()};",
+            parser: require.resolve("../../fixtures/parsers/typescript-parsers/object-assign-with-generic/object-assign-with-generic-1"),
+            errors: [
+                {
+                    messageId: "useSpreadMessage",
+                    type: "CallExpression",
+                    line: 1,
+                    column: 13
+                }
+            ]
+        },
+        {
+            code: "Object.assign<{}, A>({}, foo);",
+            output: "({ ...foo});",
+            parser: require.resolve("../../fixtures/parsers/typescript-parsers/object-assign-with-generic/object-assign-with-generic-2"),
+            errors: [
+                {
+                    messageId: "useSpreadMessage",
                     type: "CallExpression",
                     line: 1,
                     column: 1
