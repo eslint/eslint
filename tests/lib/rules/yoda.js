@@ -1094,6 +1094,18 @@ ruleTester.run("yoda", rule, {
                     type: "BinaryExpression"
                 }
             ]
+        },
+        {
+            code: "if (0 < a && b < max) {}",
+            output: "if (a > 0 && b < max) {}",
+            options: ["never", { exceptRange: true }],
+            errors: [
+                {
+                    messageId: "expected",
+                    data: { expectedSide: "right", operator: "<" },
+                    type: "BinaryExpression"
+                }
+            ]
         }
 
     ]
