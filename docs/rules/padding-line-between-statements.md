@@ -76,6 +76,7 @@ You can supply any number of configurations. If a statement pair matches multipl
     - `"singleline-const"` is single-line `const` variable declarations.
     - `"singleline-let"` is single-line `let` variable declarations.
     - `"singleline-var"` is single-line `var` variable declarations.
+    - `"singleline-if"` is single-line `if` statements.
     - `"switch"` is `switch` statements.
     - `"throw"` is `throw` statements.
     - `"try"` is `try` statements.
