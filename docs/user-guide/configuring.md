@@ -55,7 +55,7 @@ Setting parser options helps ESLint determine what is a parsing error. All langu
 By default, ESLint uses [Espree](https://github.com/eslint/espree) as its parser. You can optionally specify that a different parser should be used in your configuration file so long as the parser meets the following requirements:
 
 1. It must be a Node module loadable from the config file where it appears. Usually, this means you should install the parser package separately using npm.
-1. It must conform to the [parser interface](/docs/developer-guide/working-with-plugins.md#working-with-custom-parsers).
+1. It must conform to the [parser interface](/docs/developer-guide/working-with-custom-parsers.md).
 
 Note that even with these compatibilities, there are no guarantees that an external parser will work correctly with ESLint and ESLint will not fix bugs related to incompatibilities with other parsers.
 
@@ -877,7 +877,7 @@ Example of a configuration file in JSON format:
         "plugin:react/recommended"
     ],
     "rules": {
-       "no-set-state": "off"
+       "react/no-set-state": "off"
     }
 }
 ```
@@ -969,7 +969,7 @@ project-root
 
 The config in `app/.eslintrc.json` defines the glob pattern `**/*Spec.js`. This pattern is relative to the base directory of `app/.eslintrc.json`. So, this pattern would match `app/lib/fooSpec.js` and `app/components/barSpec.js` but **NOT** `server/serverSpec.js`. If you defined the same pattern in the `.eslintrc.json` file within in the `project-root` folder, it would match all three of the `*Spec` files.
 
-If `--config` option provides a config, the glob patterns in the config are relative to the current working directory rather than the base directory of the given config. For example, if `--config configs/.eslintrc.json` is present, the glob patterns in the config are relative to `.` rather than `./configs`.
+If a config is provided via the `--config` CLI option, the glob patterns in the config are relative to the current working directory rather than the base directory of the given config. For example, if `--config configs/.eslintrc.json` is present, the glob patterns in the config are relative to `.` rather than `./configs`.
 
 ### Example configuration
 
@@ -1024,7 +1024,7 @@ You can tell ESLint to ignore specific files and directories by `ignorePatterns`
 
 ```json
 {
-    "ignorePatterns": ["temp.js", "node_modules/"],
+    "ignorePatterns": ["temp.js", "**/vendor/*.js"],
     "rules": {
         //...
     }
@@ -1037,7 +1037,7 @@ You can tell ESLint to ignore specific files and directories by `ignorePatterns`
 
 If a glob pattern starts with `/`, the pattern is relative to the base directory of the config file. For example, `/foo.js` in `lib/.eslintrc.json` matches to `lib/foo.js` but not `lib/subdir/foo.js`.
 
-If `--config` option provides a config, the ignore patterns that start with `/` in the config are relative to the current working directory rather than the base directory of the given config. For example, if `--config configs/.eslintrc.json` is present, the ignore patterns in the config are relative to `.` rather than `./configs`.
+If a config is provided via the `--config` CLI option, the ignore patterns that start with `/` in the config are relative to the current working directory rather than the base directory of the given config. For example, if `--config configs/.eslintrc.json` is present, the ignore patterns in the config are relative to `.` rather than `./configs`.
 
 ### `.eslintignore`
 
@@ -1068,19 +1068,18 @@ Of particular note is that like `.gitignore` files, all paths used as patterns f
 
 Please see `.gitignore`'s specification for further examples of valid syntax.
 
-In addition to any patterns in a `.eslintignore` file, ESLint always ignores files in `/node_modules/*` and `/bower_components/*`.
+In addition to any patterns in a `.eslintignore` file, ESLint ignores files in `/**/node_modules/*` by default. It can still be added using `!`.
 
-For example, placing the following `.eslintignore` file in the current working directory will ignore all of `node_modules`, `bower_components` in the project root and anything in the `build/` directory except `build/index.js`:
+For example, placing the following `.eslintignore` file in the current working directory will not ignore `node_modules/*` and ignore anything in the `build/` directory except `build/index.js`:
 
 ```text
-# /node_modules/* and /bower_components/* in the project root are ignored by default
+# node_modules/* is ignored by default, but can be added using !
+!node_modules/*
 
 # Ignore built files except build/index.js
 build/*
 !build/index.js
 ```
-
-**Important**: Note that `node_modules` directories in, for example, a `packages` directory in a mono repo are *not* ignored by default and need to be added to `.eslintignore` explicitly.
 
 ### Using an Alternate File
 

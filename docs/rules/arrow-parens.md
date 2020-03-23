@@ -90,7 +90,7 @@ a.then((foo) => { if (true) {} });
 
 #### If Statements
 
-One of benefits of this option is that it prevents the incorrect use of arrow functions in conditionals:
+One of the benefits of this option is that it prevents the incorrect use of arrow functions in conditionals:
 
 ```js
 /*eslint-env es6*/

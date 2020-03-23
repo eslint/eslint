@@ -345,6 +345,16 @@ ruleTester.run("no-implicit-coercion", rule, {
                 data: { recommendation: "Number(foo)" },
                 type: "UnaryExpression"
             }]
+        },
+        {
+            code: "let x ='' + 1n;",
+            output: "let x =String(1n);",
+            parserOptions: { ecmaVersion: 2020 },
+            errors: [{
+                messageId: "useRecommendation",
+                data: { recommendation: "String(1n)" },
+                type: "BinaryExpression"
+            }]
         }
     ]
 });

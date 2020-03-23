@@ -92,6 +92,14 @@ ruleTester.run("camelcase", rule, {
             options: [{ properties: "never" }]
         },
         {
+            code: "const { ['foo']: _foo } = obj;",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "const { [_foo_]: foo } = obj;",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
             code: "var { category_id } = query;",
             options: [{ ignoreDestructuring: true }],
             parserOptions: { ecmaVersion: 6 }

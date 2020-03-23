@@ -286,7 +286,7 @@ Map {
 ### Linter#defineParser
 
 Each instance of `Linter` holds a map of custom parsers. If you want to define a parser programmatically, you can add this function
-with the name of the parser as first argument and the [parser object](/docs/developer-guide/working-with-plugins.md#working-with-custom-parsers) as second argument. The default `"espree"` parser will already be loaded for every `Linter` instance.
+with the name of the parser as first argument and the [parser object](/docs/developer-guide/working-with-custom-parsers.md) as second argument. The default `"espree"` parser will already be loaded for every `Linter` instance.
 
 ```js
 const Linter = require("eslint").Linter;
@@ -876,6 +876,8 @@ In addition to the properties above, invalid test cases can also have the follow
 
 * `errors` (number or array, required): Asserts some properties of the errors that the rule is expected to produce when run on this code. If this is a number, asserts the number of errors produced. Otherwise, this should be a list of objects, each containing information about a single reported error. The following properties can be used for an error (all are optional):
     * `message` (string/regexp): The message for the error
+    * `messageId` (string): The Id for the error. See [testing errors with messageId](#testing-errors-with-messageid) for details
+    * `data` (object): Placeholder data which can be used in combination with `messageId`
     * `type` (string): The type of the reported AST node
     * `line` (number): The 1-based line number of the reported location
     * `column` (number): The 1-based column number of the reported location
@@ -897,12 +899,36 @@ Any additional properties of a test case will be passed directly to the linter a
 
 If a valid test case only uses the `code` property, it can optionally be provided as a string containing the code, rather than an object with a `code` key.
 
+#### Testing errors with `messageId`
+
+If the rule under test uses `messageId`s, you can use `messageId` property in a test case to assert reported error's `messageId` instead of its `message`.
+
+```js
+{
+    code: "let foo;",
+    errors: [{ messageId: "unexpected" }]
+}
+```
+
+For messages with placeholders, a test case can also use `data` property to additionally assert reported error's `message`.
+
+```js
+{
+    code: "let foo;",
+    errors: [{ messageId: "unexpected", data: { name: "foo" } }]
+}
+```
+
+Please note that `data` in a test case does not assert `data` passed to `context.report`. Instead, it is used to form the expected message text which is then compared with the received `message`.
+
 #### Testing Suggestions
 
 Suggestions can be tested by defining a `suggestions` key on an errors object. The options to check for the suggestions are the following (all are optional):
-    * `desc` (string): The suggestion `desc` value
-    * `messageId` (string): The suggestion `messageId` value for suggestions that use `messageId`s
-    * `output` (string): A code string representing the result of applying the suggestion fix to the input code
+
+* `desc` (string): The suggestion `desc` value
+* `messageId` (string): The suggestion `messageId` value for suggestions that use `messageId`s
+* `data` (object): Placeholder data which can be used in combination with `messageId`
+* `output` (string): A code string representing the result of applying the suggestion fix to the input code
 
 Example:
 
@@ -914,7 +940,24 @@ ruleTester.run("my-rule-for-no-foo", rule, {
         errors: [{
             suggestions: [{
                 desc: "Rename identifier 'foo' to 'bar'",
+                output: "var bar;"
+            }]
+        }]
+    }]
+})
+```
+
+`messageId` and `data` properties in suggestion test objects work the same way as in error test objects. See [testing errors with messageId](#testing-errors-with-messageid) for details.
+
+```js
+ruleTester.run("my-rule-for-no-foo", rule, {
+    valid: [],
+    invalid: [{
+        code: "var foo;",
+        errors: [{
+            suggestions: [{
                 messageId: "renameFoo",
+                data: { newName: "bar" },
                 output: "var bar;"
             }]
         }]
