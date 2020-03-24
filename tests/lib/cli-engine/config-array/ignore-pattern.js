@@ -52,74 +52,79 @@ describe("IgnorePattern", () => {
 
     describe("static createIgnore(ignorePatterns)", () => {
         describe("with two patterns should return a function, and the function", () => {
-            const cwd = process.cwd();
-            const basePath1 = path.join(cwd, "foo/bar");
-            const basePath2 = path.join(cwd, "abc/");
-            const ignores = IgnorePattern.createIgnore([
-                new IgnorePattern(["*.js", "/*.ts", "!a.*", "!/b.*"], basePath1),
-                new IgnorePattern(["*.js", "/*.ts", "!a.*", "!/b.*"], basePath2)
-            ]);
-            const patterns = [
-                ["a.js", false],
-                ["a.ts", false],
-                ["b.js", false],
-                ["b.ts", false],
-                ["c.js", false],
-                ["c.ts", false],
-                ["dir/a.js", false],
-                ["dir/a.ts", false],
-                ["dir/b.js", false],
-                ["dir/b.ts", false],
-                ["dir/c.js", false],
-                ["dir/c.ts", false],
-                ["foo/bar/a.js", false],
-                ["foo/bar/a.ts", false],
-                ["foo/bar/b.js", false],
-                ["foo/bar/b.ts", false],
-                ["foo/bar/c.js", true],
-                ["foo/bar/c.ts", true],
-                ["foo/bar/dir/a.js", false],
-                ["foo/bar/dir/a.ts", false],
-                ["foo/bar/dir/b.js", true],
-                ["foo/bar/dir/b.ts", false],
-                ["foo/bar/dir/c.js", true],
-                ["foo/bar/dir/c.ts", false],
-                ["abc/a.js", false],
-                ["abc/a.ts", false],
-                ["abc/b.js", false],
-                ["abc/b.ts", false],
-                ["abc/c.js", true],
-                ["abc/c.ts", true],
-                ["abc/dir/a.js", false],
-                ["abc/dir/a.ts", false],
-                ["abc/dir/b.js", true],
-                ["abc/dir/b.ts", false],
-                ["abc/dir/c.js", true],
-                ["abc/dir/c.ts", false]
-            ];
+            // eslint-disable-next-line func-style
+            const assertions = cwd => {
+                const basePath1 = path.join(cwd, "foo/bar");
+                const basePath2 = path.join(cwd, "abc/");
+                const ignores = IgnorePattern.createIgnore([
+                    new IgnorePattern(["*.js", "/*.ts", "!a.*", "!/b.*"], basePath1),
+                    new IgnorePattern(["*.js", "/*.ts", "!a.*", "!/b.*"], basePath2)
+                ]);
+                const patterns = [
+                    ["a.js", false],
+                    ["a.ts", false],
+                    ["b.js", false],
+                    ["b.ts", false],
+                    ["c.js", false],
+                    ["c.ts", false],
+                    ["dir/a.js", false],
+                    ["dir/a.ts", false],
+                    ["dir/b.js", false],
+                    ["dir/b.ts", false],
+                    ["dir/c.js", false],
+                    ["dir/c.ts", false],
+                    ["foo/bar/a.js", false],
+                    ["foo/bar/a.ts", false],
+                    ["foo/bar/b.js", false],
+                    ["foo/bar/b.ts", false],
+                    ["foo/bar/c.js", true],
+                    ["foo/bar/c.ts", true],
+                    ["foo/bar/dir/a.js", false],
+                    ["foo/bar/dir/a.ts", false],
+                    ["foo/bar/dir/b.js", true],
+                    ["foo/bar/dir/b.ts", false],
+                    ["foo/bar/dir/c.js", true],
+                    ["foo/bar/dir/c.ts", false],
+                    ["abc/a.js", false],
+                    ["abc/a.ts", false],
+                    ["abc/b.js", false],
+                    ["abc/b.ts", false],
+                    ["abc/c.js", true],
+                    ["abc/c.ts", true],
+                    ["abc/dir/a.js", false],
+                    ["abc/dir/a.ts", false],
+                    ["abc/dir/b.js", true],
+                    ["abc/dir/b.ts", false],
+                    ["abc/dir/c.js", true],
+                    ["abc/dir/c.ts", false]
+                ];
 
-            for (const [filename, expected] of patterns) {
-                it(`should return ${expected} if '${filename}' was given.`, () => {
-                    assert.strictEqual(ignores(path.join(cwd, filename)), expected);
+                for (const [filename, expected] of patterns) {
+                    it(`should return ${expected} if '${filename}' was given.`, () => {
+                        assert.strictEqual(ignores(path.join(cwd, filename)), expected);
+                    });
+                }
+
+                it("should return false if '.dot.js' and false was given.", () => {
+                    assert.strictEqual(ignores(path.join(cwd, ".dot.js"), false), true);
                 });
-            }
 
-            it("should return false if '.dot.js' and false was given.", () => {
-                assert.strictEqual(ignores(path.join(cwd, ".dot.js"), false), true);
-            });
+                it("should return true if '.dot.js' and true were given.", () => {
+                    assert.strictEqual(ignores(path.join(cwd, ".dot.js"), true), false);
+                });
 
-            it("should return true if '.dot.js' and true were given.", () => {
-                assert.strictEqual(ignores(path.join(cwd, ".dot.js"), true), false);
-            });
+                it("should return false if '.dot/foo.js' and false was given.", () => {
+                    assert.strictEqual(ignores(path.join(cwd, ".dot/foo.js"), false), true);
+                });
 
+                it("should return true if '.dot/foo.js' and true were given.", () => {
+                    assert.strictEqual(ignores(path.join(cwd, ".dot/foo.js"), true), false);
+                });
+            };
 
-            it("should return false if '.dot/foo.js' and false was given.", () => {
-                assert.strictEqual(ignores(path.join(cwd, ".dot/foo.js"), false), true);
-            });
-
-            it("should return true if '.dot/foo.js' and true were given.", () => {
-                assert.strictEqual(ignores(path.join(cwd, ".dot/foo.js"), true), false);
-            });
+            assertions(process.cwd());
+            // eslint-disable-next-line no-restricted-syntax
+            assert.doesNotThrow(() => assertions(path.parse(process.cwd()).root), "with two patterns the common ancestor is the root of the drive should not throw exception \"'newBasePath' should be an absolute path\"");
         });
     });
 });
