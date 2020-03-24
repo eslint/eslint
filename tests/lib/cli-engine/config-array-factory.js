@@ -878,6 +878,36 @@ describe("ConfigArrayFactory", () => {
                 });
             });
 
+            describe("if 'extends' property was 'eslint:off', the returned value", () => {
+                let configArray;
+
+                beforeEach(() => {
+                    configArray = create(
+                        { extends: "eslint:off", rules: { eqeqeq: 1 } },
+                        { name: ".eslintrc" }
+                    );
+                });
+
+                it("should have two elements.", () => {
+                    assert.strictEqual(configArray.length, 2);
+                });
+
+                it("should have the config data of 'eslint:off' at the first element.", () => {
+                    assertConfigArrayElement(configArray[0], {
+                        name: ".eslintrc » eslint:off",
+                        filePath: require.resolve("../../../conf/eslint-off.js"),
+                        ...require("../../../conf/eslint-off.js")
+                    });
+                });
+
+                it("should have the given config data at the second element.", () => {
+                    assertConfigArrayElement(configArray[1], {
+                        name: ".eslintrc",
+                        rules: { eqeqeq: 1 }
+                    });
+                });
+            });
+
             describe("if 'extends' property was 'eslint:recommended', the returned value", () => {
                 let configArray;
 

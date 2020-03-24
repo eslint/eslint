@@ -70,6 +70,8 @@ const LoadRulesPath =
     require.resolve("../../../lib/cli-engine/load-rules");
 const ESLintAllPath =
     require.resolve("../../../conf/eslint-all");
+const ESLintOffPath =
+    require.resolve("../../../conf/eslint-off");
 const ESLintRecommendedPath =
     require.resolve("../../../conf/eslint-recommended");
 
@@ -216,6 +218,9 @@ function compile(fs, stubs, filePath, content) {
 function fsImportFresh(fs, stubs, absolutePath) {
     if (absolutePath === ESLintAllPath) {
         return require(ESLintAllPath);
+    }
+    if (absolutePath === ESLintOffPath) {
+        return require(ESLintOffPath);
     }
     if (absolutePath === ESLintRecommendedPath) {
         return require(ESLintRecommendedPath);
