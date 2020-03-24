@@ -18,27 +18,45 @@ And the [ECMAScript 2017 specification](https://www.ecma-international.org/ecma-
 
 This rule disallows calling the `Math`, `JSON`, `Reflect` and `Atomics` objects as functions.
 
+This rule also disallows using these objects as constructors with the `new` operator.
+
 Examples of **incorrect** code for this rule:
 
 ```js
 /*eslint no-obj-calls: "error"*/
+/*eslint-env es2017*/
 
 var math = Math();
+
+var newMath = new Math();
+
 var json = JSON();
+
+var newJSON = new JSON();
+
 var reflect = Reflect();
+
+var newReflect = new Reflect();
+
 var atomics = Atomics();
+
+var newAtomics = new Atomics();
 ```
 
 Examples of **correct** code for this rule:
 
 ```js
 /*eslint no-obj-calls: "error"*/
+/*eslint-env es2017*/
 
 function area(r) {
     return Math.PI * r * r;
 }
+
 var object = JSON.parse("{}");
+
 var value = Reflect.get({ x: 1, y: 2 }, "x");
+
 var first = Atomics.load(foo, 0);
 ```
 
