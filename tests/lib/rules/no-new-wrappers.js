@@ -53,26 +53,6 @@ ruleTester.run("no-new-wrappers", rule, {
                 },
                 type: "NewExpression"
             }]
-        },
-        {
-            code: "var a = new Math();",
-            errors: [{
-                messageId: "noConstructor",
-                data: {
-                    fn: "Math"
-                },
-                type: "NewExpression"
-            }]
-        },
-        {
-            code: "var a = new JSON({ myProp: 10 });",
-            errors: [{
-                messageId: "noConstructor",
-                data: {
-                    fn: "JSON"
-                },
-                type: "NewExpression"
-            }]
         }
     ]
 });
