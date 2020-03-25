@@ -6,6 +6,7 @@
 
 const assert = require("assert");
 const path = require("path");
+const sinon = require("sinon");
 const { IgnorePattern } = require("../../../../lib/cli-engine/config-array/ignore-pattern");
 
 describe("IgnorePattern", () => {
@@ -52,8 +53,13 @@ describe("IgnorePattern", () => {
 
     describe("static createIgnore(ignorePatterns)", () => {
         describe("with two patterns should return a function, and the function", () => {
-            // eslint-disable-next-line func-style
-            const assertions = cwd => {
+
+            /**
+             * performs static createIgnre assertions against the cwd.
+             * @param {string} cwd cwd to be the base path for assertions
+             * @returns {void}
+             */
+            function assertions(cwd) {
                 const basePath1 = path.join(cwd, "foo/bar");
                 const basePath2 = path.join(cwd, "abc/");
                 const ignores = IgnorePattern.createIgnore([
@@ -120,11 +126,34 @@ describe("IgnorePattern", () => {
                 it("should return true if '.dot/foo.js' and true were given.", () => {
                     assert.strictEqual(ignores(path.join(cwd, ".dot/foo.js"), true), false);
                 });
-            };
+            }
 
             assertions(process.cwd());
-            // eslint-disable-next-line no-restricted-syntax
-            assert.doesNotThrow(() => assertions(path.parse(process.cwd()).root), "with two patterns the common ancestor is the root of the drive should not throw exception \"'newBasePath' should be an absolute path\"");
+            assertions(path.parse(process.cwd()).root);
+        });
+    });
+
+    describe("static createIgnore(ignorePatterns)", () => {
+        it("with common ancestor of drive root on windows should not throw", () => {
+            try {
+
+                // when not on windows return win32 values so local runs on linux produce the same issue as windows.
+                if (process.platform !== "win32") {
+                    sinon.stub(process, "platform").value("win32");
+                    sinon.stub(path, "sep").value(path.win32.sep);
+                    sinon.replace(path, "isAbsolute", path.win32.isAbsolute);
+                }
+
+                const ignores = IgnorePattern.createIgnore([
+                    new IgnorePattern(["*.js"], "C:\\foo\\bar"),
+                    new IgnorePattern(["*.js"], "C:\\abc\\")
+                ]);
+
+                // calls to this should not throw when getCommonAncestor returns root of drive
+                ignores("C:\\abc\\contract.d.ts");
+            } finally {
+                sinon.restore();
+            }
         });
     });
 });
