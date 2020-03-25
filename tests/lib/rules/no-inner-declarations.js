@@ -164,7 +164,6 @@ ruleTester.run("no-inner-declarations", rule, {
         },
         {
             code: "if (foo)  function f(){} ",
-            options: ["both"],
             errors: [{
                 messageId: "moveDeclToRoot",
                 data: {
@@ -262,6 +261,19 @@ ruleTester.run("no-inner-declarations", rule, {
                 },
                 type: "VariableDeclaration"
             }]
+        }, {
+            code: "const doSomething = () => { if (test) { var foo = 42; } }",
+            options: ["both"],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "moveDeclToRoot",
+                data: {
+                    type: "variable",
+                    body: "function body"
+                },
+                type: "VariableDeclaration"
+            }]
         }
+
     ]
 });
