@@ -968,6 +968,8 @@ project-root
 
 The config in `app/.eslintrc.json` defines the glob pattern `**/*Spec.js`. This pattern is relative to the base directory of `app/.eslintrc.json`. So, this pattern would match `app/lib/fooSpec.js` and `app/components/barSpec.js` but **NOT** `server/serverSpec.js`. If you defined the same pattern in the `.eslintrc.json` file within in the `project-root` folder, it would match all three of the `*Spec` files.
 
+If a config is provided via the `--config` CLI option, the glob patterns in the config are relative to the current working directory rather than the base directory of the given config. For example, if `--config configs/.eslintrc.json` is present, the glob patterns in the config are relative to `.` rather than `./configs`.
+
 ### Example configuration
 
 In your `.eslintrc.json`:
@@ -1021,7 +1023,7 @@ You can tell ESLint to ignore specific files and directories by `ignorePatterns`
 
 ```json
 {
-    "ignorePatterns": ["temp.js", "node_modules/"],
+    "ignorePatterns": ["temp.js", "**/vendor/*.js"],
     "rules": {
         //...
     }
@@ -1031,6 +1033,10 @@ You can tell ESLint to ignore specific files and directories by `ignorePatterns`
 * The `ignorePatterns` property affects only the directory that the config file placed.
 * You cannot write `ignorePatterns` property under `overrides` property.
 * `.eslintignore` can override `ignorePatterns` property of config files.
+
+If a glob pattern starts with `/`, the pattern is relative to the base directory of the config file. For example, `/foo.js` in `lib/.eslintrc.json` matches to `lib/foo.js` but not `lib/subdir/foo.js`.
+
+If a config is provided via the `--config` CLI option, the ignore patterns that start with `/` in the config are relative to the current working directory rather than the base directory of the given config. For example, if `--config configs/.eslintrc.json` is present, the ignore patterns in the config are relative to `.` rather than `./configs`.
 
 ### `.eslintignore`
 
@@ -1045,7 +1051,7 @@ When ESLint is run, it looks in the current working directory to find an `.eslin
 Globs are matched using [node-ignore](https://github.com/kaelzhang/node-ignore), so a number of features are available:
 
 * Lines beginning with `#` are treated as comments and do not affect ignore patterns.
-* Paths are relative to `.eslintignore` location or the current working directory. This is also true of paths passed in via the `--ignore-pattern` [command](./command-line-interface.md#--ignore-pattern).
+* Paths are relative to the current working directory. This is also true of paths passed in via the `--ignore-pattern` [command](./command-line-interface.md#--ignore-pattern).
 * Lines preceded by `!` are negated patterns that re-include a pattern that was ignored by an earlier pattern.
 * Ignore patterns behave according to the `.gitignore` [specification](https://git-scm.com/docs/gitignore).
 
@@ -1061,12 +1067,13 @@ Of particular note is that like `.gitignore` files, all paths used as patterns f
 
 Please see `.gitignore`'s specification for further examples of valid syntax.
 
-In addition to any patterns in a `.eslintignore` file, ESLint always ignores files in `/**/node_modules/*`.
+In addition to any patterns in a `.eslintignore` file, ESLint ignores files in `/**/node_modules/*` by default. It can still be added using `!`.
 
-For example, placing the following `.eslintignore` file in the current working directory will ignore all of `node_modules/*` and anything in the `build/` directory except `build/index.js`:
+For example, placing the following `.eslintignore` file in the current working directory will not ignore `node_modules/*` and ignore anything in the `build/` directory except `build/index.js`:
 
 ```text
-# node_modules/* are ignored by default
+# node_modules/* is ignored by default, but can be added using !
+!node_modules/*
 
 # Ignore built files except build/index.js
 build/*
