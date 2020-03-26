@@ -273,6 +273,11 @@ ruleTester.run("camelcase", rule, {
         {
             code: "([obj] = baz.fo_o);",
             parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "([obj.foo = obj.fo_o] = bar);",
+            options: [{ properties: "always" }],
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
     invalid: [
@@ -797,17 +802,6 @@ ruleTester.run("camelcase", rule, {
             ]
         },
         {
-            code: "({ a: obj[fo_o] } = bar);",
-            parserOptions: { ecmaVersion: 6 },
-            errors: [
-                {
-                    messageId: "notCamelCase",
-                    data: { name: "fo_o" },
-                    type: "Identifier"
-                }
-            ]
-        },
-        {
             code: "({ a: obj.fo_o } = bar);",
             options: [{ ignoreDestructuring: true }],
             parserOptions: { ecmaVersion: 6 },
@@ -864,7 +858,8 @@ ruleTester.run("camelcase", rule, {
             ]
         },
         {
-            code: "([obj[fo_o]] = bar);",
+            code: "([obj.fo_o] = bar);",
+            options: [{ ignoreDestructuring: true }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
@@ -875,8 +870,8 @@ ruleTester.run("camelcase", rule, {
             ]
         },
         {
-            code: "([obj.fo_o] = bar);",
-            options: [{ ignoreDestructuring: true }],
+            code: "([obj.fo_o = 1] = bar);",
+            options: [{ properties: "always" }],
             parserOptions: { ecmaVersion: 6 },
             errors: [
                 {
@@ -943,17 +938,6 @@ ruleTester.run("camelcase", rule, {
         },
         {
             code: "({c: {...obj.fo_o }} = baz);",
-            parserOptions: { ecmaVersion: 9 },
-            errors: [
-                {
-                    messageId: "notCamelCase",
-                    data: { name: "fo_o" },
-                    type: "Identifier"
-                }
-            ]
-        },
-        {
-            code: "({c: {...obj[fo_o] }} = baz);",
             parserOptions: { ecmaVersion: 9 },
             errors: [
                 {
