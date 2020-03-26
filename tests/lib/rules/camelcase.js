@@ -225,6 +225,59 @@ ruleTester.run("camelcase", rule, {
             code: "foo = { [computedBar]: 0 };",
             options: [{ ignoreDestructuring: true }],
             parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "({ a: obj.fo_o } = bar);",
+            options: [{ allow: ["fo_o"] }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "({ a: obj.foo } = bar);",
+            options: [{ allow: ["fo_o"] }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "({ a: obj.fo_o } = bar);",
+            options: [{ properties: "never" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "({ a: obj.fo_o.b_ar } = bar);",
+            options: [{ properties: "never" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "({ a: { b: obj.fo_o } } = bar);",
+            options: [{ properties: "never" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "([obj.fo_o] = bar);",
+            options: [{ properties: "never" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "({ c: [ob.fo_o]} = bar);",
+            options: [{ properties: "never" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "([obj.fo_o.b_ar] = bar);",
+            options: [{ properties: "never" }],
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "({obj} = baz.fo_o);",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "([obj] = baz.fo_o);",
+            parserOptions: { ecmaVersion: 6 }
+        },
+        {
+            code: "([obj.foo = obj.fo_o] = bar);",
+            options: [{ properties: "always" }],
+            parserOptions: { ecmaVersion: 6 }
         }
     ],
     invalid: [
@@ -733,6 +786,163 @@ ruleTester.run("camelcase", rule, {
                 {
                     messageId: "notCamelCase",
                     data: { name: "computed_bar" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "({ a: obj.fo_o } = bar);",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "fo_o" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "({ a: obj.fo_o } = bar);",
+            options: [{ ignoreDestructuring: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "fo_o" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "({ a: obj.fo_o.b_ar } = baz);",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "b_ar" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "({ a: { b: { c: obj.fo_o } } } = bar);",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "fo_o" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "({ a: { b: { c: obj.fo_o.b_ar } } } = baz);",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "b_ar" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "([obj.fo_o] = bar);",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "fo_o" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "([obj.fo_o] = bar);",
+            options: [{ ignoreDestructuring: true }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "fo_o" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "([obj.fo_o = 1] = bar);",
+            options: [{ properties: "always" }],
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "fo_o" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "({ a: [obj.fo_o] } = bar);",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "fo_o" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "({ a: { b: [obj.fo_o] } } = bar);",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "fo_o" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "([obj.fo_o.ba_r] = baz);",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "ba_r" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "({...obj.fo_o} = baz);",
+            parserOptions: { ecmaVersion: 9 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "fo_o" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "({...obj.fo_o.ba_r} = baz);",
+            parserOptions: { ecmaVersion: 9 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "ba_r" },
+                    type: "Identifier"
+                }
+            ]
+        },
+        {
+            code: "({c: {...obj.fo_o }} = baz);",
+            parserOptions: { ecmaVersion: 9 },
+            errors: [
+                {
+                    messageId: "notCamelCase",
+                    data: { name: "fo_o" },
                     type: "Identifier"
                 }
             ]
