@@ -41,6 +41,8 @@ const invalid = [
         errors: [{
             line: 1,
             column: 5,
+            endLine: 1,
+            endColumn: 19,
             messageId: "prototypeBuildIn",
             data: { prop: "hasOwnProperty" },
             type: "CallExpression"
@@ -51,6 +53,8 @@ const invalid = [
         errors: [{
             line: 1,
             column: 5,
+            endLine: 1,
+            endColumn: 18,
             messageId: "prototypeBuildIn",
             data: { prop: "isPrototypeOf" },
             type: "CallExpression"
@@ -61,6 +65,8 @@ const invalid = [
         errors: [{
             line: 1,
             column: 5,
+            endLine: 1,
+            endColumn: 25,
             messageId: "prototypeBuildIn",
             data: { prop: "propertyIsEnumerable" }
         }]
@@ -70,6 +76,8 @@ const invalid = [
         errors: [{
             line: 1,
             column: 9,
+            endLine: 1,
+            endColumn: 23,
             messageId: "prototypeBuildIn",
             data: { prop: "hasOwnProperty" },
             type: "CallExpression"
@@ -80,6 +88,8 @@ const invalid = [
         errors: [{
             line: 1,
             column: 13,
+            endLine: 1,
+            endColumn: 26,
             messageId: "prototypeBuildIn",
             data: { prop: "isPrototypeOf" },
             type: "CallExpression"
