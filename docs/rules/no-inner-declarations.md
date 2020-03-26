@@ -137,6 +137,10 @@ if (test) {
 function doAnotherThing() {
     var baz = 81;
 }
+
+if (foo) var a;
+
+if (foo) function f(){}
 ```
 
 ## When Not To Use It
