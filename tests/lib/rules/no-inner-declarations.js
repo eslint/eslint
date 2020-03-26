@@ -68,13 +68,11 @@ ruleTester.run("no-inner-declarations", rule, {
         },
         {
             code: "exports.foo = function(){}",
-            options: ["both"],
-            parserOptions: { ecmaVersion: 6 }
+            options: ["both"]
         },
         {
             code: "module.exports = function foo(){}",
-            options: ["both"],
-            parserOptions: { ecmaVersion: 6 }
+            options: ["both"]
         }
 
     ],
