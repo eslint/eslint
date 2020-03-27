@@ -321,7 +321,10 @@ And in YAML:
     - eslint-plugin-plugin2
 ```
 
-**Note:** Plugins are resolved relative to the current working directory of the ESLint process. In other words, ESLint will load the same plugin as a user would obtain by running `require('eslint-plugin-pluginname')` in a Node REPL from their project root.
+**Notes:**
+
+1. Plugins are resolved relative to the config file. In other words, ESLint will load the plugin as a user would obtain by running `require('eslint-plugin-pluginname')` in the config file.
+2. Plugins in the base configuration (loaded by `extends` setting) are relative to the derived config file. For example, if `./.eslintrc` has `extends: ["foo"]` and the `eslint-config-foo` has `plugins: ["bar"]`, ESLint finds the `eslint-plugin-bar` from `./node_modules/` (rather than `./node_modules/eslint-config-foo/node_modules/`) or ancestor directories. Thus every plugin in the config file and base configurations is resolved uniquely.
 
 ### Naming Convention
 
