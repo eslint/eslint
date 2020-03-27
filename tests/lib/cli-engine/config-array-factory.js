@@ -125,7 +125,7 @@ describe("ConfigArrayFactory", () => {
             assert.strictEqual(normalizeConfigData.callCount, 1);
             assert.deepStrictEqual(normalizeConfigData.args[0], [
                 configData,
-                createContext(tempDir, void 0, name, filePath, basePath)
+                createContext({ cwd: tempDir }, void 0, name, filePath, basePath)
             ]);
         });
 
@@ -215,7 +215,7 @@ describe("ConfigArrayFactory", () => {
             assert.strictEqual(normalizeConfigData.callCount, 1);
             assert.deepStrictEqual(normalizeConfigData.args[0], [
                 { settings: { name: filePath } },
-                createContext(tempDir, void 0, name, filePath, basePath)
+                createContext({ cwd: tempDir }, void 0, name, filePath, basePath)
             ]);
         });
 
@@ -303,7 +303,7 @@ describe("ConfigArrayFactory", () => {
             assert.strictEqual(normalizeConfigData.callCount, 1);
             assert.deepStrictEqual(normalizeConfigData.args[0], [
                 { settings: { name: `${directoryPath}/.eslintrc.js` } },
-                createContext(tempDir, void 0, name, path.join(directoryPath, ".eslintrc.js"), basePath)
+                createContext({ cwd: tempDir }, void 0, name, path.join(directoryPath, ".eslintrc.js"), basePath)
             ]);
         });
 
@@ -338,7 +338,7 @@ describe("ConfigArrayFactory", () => {
          * @returns {ConfigArray} The created config array.
          */
         function create(configData, { filePath, name } = {}) {
-            const ctx = createContext(tempDir, void 0, name, filePath, void 0);
+            const ctx = createContext({ cwd: tempDir }, void 0, name, filePath, void 0);
 
             return new ConfigArray(...factory._normalizeConfigData(configData, ctx)); // eslint-disable-line no-underscore-dangle
         }
@@ -682,7 +682,7 @@ describe("ConfigArrayFactory", () => {
             });
 
             describe("even if 'plugins' property was given and 'filePath' option was given,", () => {
-                it("should load the plugin from the project root.", () => {
+                it("should load the plugin from 'subdir'.", () => {
                     const configArray = create(
                         { plugins: ["subdir"] },
                         { filePath: path.resolve(tempDir, "subdir/a.js") }
@@ -690,9 +690,7 @@ describe("ConfigArrayFactory", () => {
 
                     assert.strictEqual(
                         configArray[0].plugins.subdir.filePath,
-
-                        // "subdir/node_modules/eslint-plugin-subdir/index.js" exists, but not it.
-                        path.resolve(tempDir, "node_modules/eslint-plugin-subdir/index.js")
+                        path.resolve(tempDir, "subdir/node_modules/eslint-plugin-subdir/index.js")
                     );
                 });
             });
