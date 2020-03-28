@@ -214,6 +214,11 @@ The people who review and implement new features.
 <img src="https://github.com/aladdin-add.png?s=75" width="75" height="75"><br />
 薛定谔的猫
 </a>
+</td><td align="center" valign="top" width="11%">
+<a href="https://github.com/mdjermanovic">
+<img src="https://github.com/mdjermanovic.png?s=75" width="75" height="75"><br />
+Milos Djermanovic
+</a>
 </td></tr></tbody></table>
 
 
@@ -232,11 +237,6 @@ Pig Fang
 <a href="https://github.com/yeonjuan">
 <img src="https://github.com/yeonjuan.png?s=75" width="75" height="75"><br />
 YeonJuan
-</a>
-</td><td align="center" valign="top" width="11%">
-<a href="https://github.com/mdjermanovic">
-<img src="https://github.com/mdjermanovic.png?s=75" width="75" height="75"><br />
-Milos Djermanovic
 </a>
 </td></tr></tbody></table>
 
