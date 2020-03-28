@@ -3816,7 +3816,9 @@ describe("Linter", () => {
                     messages,
                     [{
                         column: 30,
+                        endColumn: 33,
                         line: 2,
+                        endLine: 2,
                         message: "'aaa' is already defined by a variable declaration.",
                         messageId: "redeclaredBySyntax",
                         nodeType: "Block",
@@ -3838,7 +3840,9 @@ describe("Linter", () => {
                     messages,
                     [{
                         column: 31,
+                        endColumn: 34,
                         line: 2,
+                        endLine: 2,
                         message: "'aaa' is already defined by a variable declaration.",
                         messageId: "redeclaredBySyntax",
                         nodeType: "Block",
