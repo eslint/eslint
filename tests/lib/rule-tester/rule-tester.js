@@ -1002,13 +1002,13 @@ describe("RuleTester", () => {
                 valid: ["function f() { /* comment */ }"],
                 invalid: []
             });
-        }, "Use comment.range[0] instead of comment.start");
+        }, "Use token.range[0] instead of token.start");
         assert.throws(() => {
             ruleTester.run("uses-start-end", usesStartEndRule, {
                 valid: [],
                 invalid: [{ code: "var x = //\n {\n //comment\n //\n}", errors: 1 }]
             });
-        }, "Use comment.range[1] instead of comment.end");
+        }, "Use token.range[1] instead of token.end");
 
         const enhancedParserPath = require.resolve("../../fixtures/parsers/enhanced-parser");
 
@@ -1041,13 +1041,13 @@ describe("RuleTester", () => {
                 valid: [{ code: "function f() { /* comment */ }", parser: enhancedParserPath }],
                 invalid: []
             });
-        }, "Use comment.range[0] instead of comment.start");
+        }, "Use token.range[0] instead of token.start");
         assert.throws(() => {
             ruleTester.run("uses-start-end", usesStartEndRule, {
                 valid: [],
                 invalid: [{ code: "var x = //\n {\n //comment\n //\n}", parser: enhancedParserPath, errors: 1 }]
             });
-        }, "Use comment.range[1] instead of comment.end");
+        }, "Use token.range[1] instead of token.end");
 
         assert.throws(() => {
             ruleTester.run("uses-start-end", usesStartEndRule, {
