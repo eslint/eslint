@@ -486,7 +486,9 @@ ruleTester.run("no-unused-vars", rule, {
             errors: [
                 {
                     line: 2,
+                    endLine: 2,
                     column: 19,
+                    endColumn: 22,
                     messageId: "unusedVar",
                     data: {
                         varName: "foo",
@@ -496,7 +498,9 @@ ruleTester.run("no-unused-vars", rule, {
                 },
                 {
                     line: 2,
+                    endLine: 2,
                     column: 24,
+                    endColumn: 27,
                     messageId: "unusedVar",
                     data: {
                         varName: "bar",
@@ -512,6 +516,8 @@ ruleTester.run("no-unused-vars", rule, {
                 {
                     line: 3,
                     column: 4,
+                    endLine: 3,
+                    endColumn: 7,
                     messageId: "unusedVar",
                     data: {
                         varName: "foo",
@@ -522,6 +528,8 @@ ruleTester.run("no-unused-vars", rule, {
                 {
                     line: 4,
                     column: 4,
+                    endLine: 4,
+                    endColumn: 7,
                     messageId: "unusedVar",
                     data: {
                         varName: "bar",
@@ -638,6 +646,8 @@ ruleTester.run("no-unused-vars", rule, {
                 {
                     line: 1,
                     column: 18,
+                    endLine: 1,
+                    endColumn: 22,
                     messageId: "unusedVar",
                     data: {
                         varName: "$foo",
@@ -653,6 +663,8 @@ ruleTester.run("no-unused-vars", rule, {
                 {
                     line: 1,
                     column: 20,
+                    endLine: 1,
+                    endColumn: 21,
                     messageId: "unusedVar",
                     data: {
                         varName: "$",
@@ -668,6 +680,8 @@ ruleTester.run("no-unused-vars", rule, {
                 {
                     line: 1,
                     column: 11,
+                    endLine: 1,
+                    endColumn: 15,
                     messageId: "unusedVar",
                     data: {
                         varName: "$foo",
@@ -683,6 +697,8 @@ ruleTester.run("no-unused-vars", rule, {
                 {
                     line: 1,
                     column: 11,
+                    endLine: 1,
+                    endColumn: 17,
                     messageId: "unusedVar",
                     data: {
                         varName: "global",
@@ -698,6 +714,8 @@ ruleTester.run("no-unused-vars", rule, {
                 {
                     line: 1,
                     column: 10,
+                    endLine: 1,
+                    endColumn: 13,
                     messageId: "unusedVar",
                     data: {
                         varName: "foo",
@@ -715,6 +733,8 @@ ruleTester.run("no-unused-vars", rule, {
                 {
                     line: 1,
                     column: 14,
+                    endLine: 1,
+                    endColumn: 15,
                     messageId: "unusedVar",
                     data: {
                         varName: "数",
@@ -733,6 +753,8 @@ ruleTester.run("no-unused-vars", rule, {
                 {
                     line: 1,
                     column: 16,
+                    endLine: 1,
+                    endColumn: 18,
                     messageId: "unusedVar",
                     data: {
                         varName: "𠮷",
@@ -910,6 +932,8 @@ ruleTester.run("no-unused-vars", rule, {
             errors: [{
                 line: 2,
                 column: 1,
+                endLine: 2,
+                endColumn: 4,
                 messageId: "unusedVar",
                 data: {
                     varName: "foo",
