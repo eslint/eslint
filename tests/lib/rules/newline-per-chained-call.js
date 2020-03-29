@@ -30,47 +30,92 @@ ruleTester.run("newline-per-chained-call", rule, {
         code: "_\n.chain({}).map(foo).filter(bar).value();",
         output: "_\n.chain({}).map(foo)\n.filter(bar)\n.value();",
         errors: [{
-            messageId: "expected", data: { callee: ".filter" }
+            messageId: "expected",
+            data: { callee: ".filter" },
+            line: 2,
+            column: 20,
+            endLine: 2,
+            endColumn: 21
         }, {
-            messageId: "expected", data: { callee: ".value" }
+            messageId: "expected",
+            data: { callee: ".value" },
+            line: 2,
+            column: 32,
+            endLine: 2,
+            endColumn: 33
         }]
     }, {
         code: "_\n.chain({})\n.map(foo)\n.filter(bar).value();",
         output: "_\n.chain({})\n.map(foo)\n.filter(bar)\n.value();",
         errors: [{
-            messageId: "expected", data: { callee: ".value" }
+            messageId: "expected",
+            data: { callee: ".value" },
+            line: 4,
+            column: 13,
+            endLine: 4,
+            endColumn: 14
         }]
     }, {
         code: "a().b().c().e.d()",
         output: "a().b()\n.c().e.d()",
         errors: [{
-            messageId: "expected", data: { callee: ".c" }
+            messageId: "expected",
+            data: { callee: ".c" },
+            line: 1,
+            column: 8,
+            endLine: 1,
+            endColumn: 9
         }]
     }, {
         code: "a.b.c().e().d()",
         output: "a.b.c().e()\n.d()",
         errors: [{
-            messageId: "expected", data: { callee: ".d" }
+            messageId: "expected",
+            data: { callee: ".d" },
+            line: 1,
+            column: 12,
+            endLine: 1,
+            endColumn: 13
         }]
     }, {
         code: "_.chain({}).map(a).value(); ",
         output: "_.chain({}).map(a)\n.value(); ",
         errors: [{
-            messageId: "expected", data: { callee: ".value" }
+            messageId: "expected",
+            data: { callee: ".value" },
+            line: 1,
+            column: 19,
+            endLine: 1,
+            endColumn: 20
         }]
     }, {
         code: "var a = m1.m2();\n var b = m1.m2().m3().m4().m5();",
         output: "var a = m1.m2();\n var b = m1.m2().m3()\n.m4()\n.m5();",
         errors: [{
-            messageId: "expected", data: { callee: ".m4" }
+            messageId: "expected",
+            data: { callee: ".m4" },
+            line: 2,
+            column: 22,
+            endLine: 2,
+            endColumn: 23
         }, {
-            messageId: "expected", data: { callee: ".m5" }
+            messageId: "expected",
+            data: { callee: ".m5" },
+            line: 2,
+            column: 27,
+            endLine: 2,
+            endColumn: 28
         }]
     }, {
         code: "var a = m1.m2();\n var b = m1.m2().m3()\n.m4().m5();",
         output: "var a = m1.m2();\n var b = m1.m2().m3()\n.m4()\n.m5();",
         errors: [{
-            messageId: "expected", data: { callee: ".m5" }
+            messageId: "expected",
+            data: { callee: ".m5" },
+            line: 3,
+            column: 6,
+            endLine: 3,
+            endColumn: 7
         }]
     }, {
         code: "var a = m1().m2\n.m3().m4().m5().m6().m7();",
@@ -79,9 +124,19 @@ ruleTester.run("newline-per-chained-call", rule, {
             ignoreChainWithDepth: 3
         }],
         errors: [{
-            messageId: "expected", data: { callee: ".m6" }
+            messageId: "expected",
+            data: { callee: ".m6" },
+            line: 2,
+            column: 16,
+            endLine: 2,
+            endColumn: 17
         }, {
-            messageId: "expected", data: { callee: ".m7" }
+            messageId: "expected",
+            data: { callee: ".m7" },
+            line: 2,
+            column: 21,
+            endLine: 2,
+            endColumn: 22
         }]
     }, {
         code: [
@@ -145,9 +200,19 @@ ruleTester.run("newline-per-chained-call", rule, {
             ".end();"
         ].join("\n"),
         errors: [{
-            messageId: "expected", data: { callee: ".on" }
+            messageId: "expected",
+            data: { callee: ".on" },
+            line: 16,
+            column: 3,
+            endLine: 16,
+            endColumn: 4
         }, {
-            messageId: "expected", data: { callee: ".end" }
+            messageId: "expected",
+            data: { callee: ".end" },
+            line: 27,
+            column: 3,
+            endLine: 27,
+            endColumn: 4
         }]
     }, {
         code: [
@@ -163,34 +228,117 @@ ruleTester.run("newline-per-chained-call", rule, {
             "    'method4']()"
         ].join("\n"),
         errors: [{
-            messageId: "expected", data: { callee: "['method' + n]" }
+            messageId: "expected",
+            data: { callee: "['method' + n]" },
+            line: 1,
+            column: 29,
+            endLine: 1,
+            endColumn: 30
         }, {
-            messageId: "expected", data: { callee: "[aCondition ?" }
+            messageId: "expected",
+            data: { callee: "[aCondition ?" },
+            line: 1,
+            column: 45,
+            endLine: 1,
+            endColumn: 46
         }]
     }, {
         code: "foo.bar()['foo' + \u2029 + 'bar']()",
         output: "foo.bar()\n['foo' + \u2029 + 'bar']()",
         options: [{ ignoreChainWithDepth: 1 }],
-        errors: [{ messageId: "expected", data: { callee: "['foo' + " } }]
+        errors: [{
+            messageId: "expected",
+            data: { callee: "['foo' + " },
+            line: 1,
+            column: 10,
+            endLine: 1,
+            endColumn: 11
+        }]
     }, {
         code: "foo.bar()[(biz)]()",
         output: "foo.bar()\n[(biz)]()",
         options: [{ ignoreChainWithDepth: 1 }],
-        errors: [{ messageId: "expected", data: { callee: "[biz]" } }]
+        errors: [{
+            messageId: "expected",
+            data: { callee: "[biz]" },
+            line: 1,
+            column: 10,
+            endLine: 1,
+            endColumn: 11
+        }]
     }, {
         code: "(foo).bar().biz()",
         output: "(foo).bar()\n.biz()",
         options: [{ ignoreChainWithDepth: 1 }],
-        errors: [{ messageId: "expected", data: { callee: ".biz" } }]
+        errors: [{
+            messageId: "expected",
+            data: { callee: ".biz" },
+            line: 1,
+            column: 12,
+            endLine: 1,
+            endColumn: 13
+        }]
     }, {
         code: "foo.bar(). /* comment */ biz()",
         output: "foo.bar()\n. /* comment */ biz()",
         options: [{ ignoreChainWithDepth: 1 }],
-        errors: [{ messageId: "expected", data: { callee: ".biz" } }]
+        errors: [{
+            messageId: "expected",
+            data: { callee: ".biz" },
+            line: 1,
+            column: 10,
+            endLine: 1,
+            endColumn: 11
+        }]
     }, {
         code: "foo.bar() /* comment */ .biz()",
         output: "foo.bar() /* comment */ \n.biz()",
         options: [{ ignoreChainWithDepth: 1 }],
-        errors: [{ messageId: "expected", data: { callee: ".biz" } }]
+        errors: [{
+            messageId: "expected",
+            data: { callee: ".biz" },
+            line: 1,
+            column: 25,
+            endLine: 1,
+            endColumn: 26
+        }]
+    }, {
+        code: "((foo.bar()) . baz()).quux();",
+        output: "((foo.bar()) \n. baz())\n.quux();",
+        options: [{ ignoreChainWithDepth: 1 }],
+        errors: [{
+            messageId: "expected",
+            data: { callee: ".baz" },
+            line: 1,
+            column: 14,
+            endLine: 1,
+            endColumn: 15
+        }, {
+            messageId: "expected",
+            data: { callee: ".quux" },
+            line: 1,
+            column: 22,
+            endLine: 1,
+            endColumn: 23
+        }]
+    }, {
+        code: "((foo.bar()) [a + b] ()) [(c + d)]()",
+        output: "((foo.bar()) \n[a + b] ()) \n[(c + d)]()",
+        options: [{ ignoreChainWithDepth: 1 }],
+        errors: [{
+            messageId: "expected",
+            data: { callee: "[a + b]" },
+            line: 1,
+            column: 14,
+            endLine: 1,
+            endColumn: 15
+        }, {
+            messageId: "expected",
+            data: { callee: "[c + d]" },
+            line: 1,
+            column: 26,
+            endLine: 1,
+            endColumn: 27
+        }]
     }]
 });
