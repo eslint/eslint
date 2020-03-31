@@ -22,7 +22,7 @@ The rule takes two options.
 * This rule can also take a 2nd option, an object with any of the following keys: `"exceptions"` and `"markers"`.
 
     * The `"exceptions"` value is an array of string patterns which are considered exceptions to the rule.
-    Please note that exceptions are ignored if the first argument is `"never"`.
+    Please note that exceptions are ignored if the first argument is `"never"`. It starts from the beginning of the line and checks untill the end of line or `*/` if its in same line
 
     ```
     "spaced-comment": ["error", "always", { "exceptions": ["-", "+"] }]
@@ -173,6 +173,12 @@ Examples of **incorrect** code for this rule with the `"always"` option combined
 /*-+-+-+-+-+-+-+*/
 // Comment block
 /*-+-+-+-+-+-+-+*/
+```
+
+```js
+/* eslint spaced-comment: ["error", "always", { "line": { "exceptions": ["*"] } }] */
+
+/******** COMMENT *******/
 ```
 
 Examples of **correct** code for this rule with the `"always"` option combined with `"exceptions"`:
