@@ -312,5 +312,66 @@ ruleTester.run("no-empty-function", rule, [
         }
 
     ],
-    invalid: []
+    invalid: [
+
+        // location tests
+        {
+            code: "function foo() {}",
+            errors: [{
+                messageId: "unexpected",
+                data: { name: "function 'foo'" },
+                line: 1,
+                column: 16,
+                endLine: 1,
+                endColumn: 18
+            }]
+        },
+        {
+            code: "var foo = function () {\n}",
+            errors: [{
+                messageId: "unexpected",
+                data: { name: "function" },
+                line: 1,
+                column: 23,
+                endLine: 2,
+                endColumn: 2
+            }]
+        },
+        {
+            code: "var foo = () => { \n\n  }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "unexpected",
+                data: { name: "arrow function" },
+                line: 1,
+                column: 17,
+                endLine: 3,
+                endColumn: 4
+            }]
+        },
+        {
+            code: "var obj = {\n\tfoo() {\n\t}\n}",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "unexpected",
+                data: { name: "method 'foo'" },
+                line: 2,
+                column: 8,
+                endLine: 3,
+                endColumn: 3
+            }]
+        },
+        {
+            code: "class A { foo() { } }",
+            parserOptions: { ecmaVersion: 6 },
+            errors: [{
+                messageId: "unexpected",
+                data: { name: "method 'foo'" },
+                line: 1,
+                column: 17,
+                endLine: 1,
+                endColumn: 20
+            }]
+        }
+    ]
 }));
