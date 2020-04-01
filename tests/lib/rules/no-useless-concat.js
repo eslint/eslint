@@ -42,7 +42,25 @@ ruleTester.run("no-useless-concat", rule, {
         {
             code: "'a' + 'b'",
             errors: [
-                { messageId: "unexpectedConcat" }
+                {
+                    messageId: "unexpectedConcat",
+                    line: 1,
+                    column: 5,
+                    endLine: 1,
+                    endColumn: 6
+                }
+            ]
+        },
+        {
+            code: "'a' +\n'b' + 'c'",
+            errors: [
+                {
+                    messageId: "unexpectedConcat",
+                    line: 2,
+                    column: 5,
+                    endLine: 2,
+                    endColumn: 6
+                }
             ]
         },
         {
@@ -57,12 +75,16 @@ ruleTester.run("no-useless-concat", rule, {
                 {
                     messageId: "unexpectedConcat",
                     line: 1,
-                    column: 5
+                    column: 5,
+                    endLine: 1,
+                    endColumn: 6
                 },
                 {
                     messageId: "unexpectedConcat",
                     line: 1,
-                    column: 11
+                    column: 11,
+                    endLine: 1,
+                    endColumn: 12
                 }
             ]
         },
