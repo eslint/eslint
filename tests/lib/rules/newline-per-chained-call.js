@@ -35,14 +35,14 @@ ruleTester.run("newline-per-chained-call", rule, {
             line: 2,
             column: 20,
             endLine: 2,
-            endColumn: 21
+            endColumn: 27
         }, {
             messageId: "expected",
             data: { callee: ".value" },
             line: 2,
             column: 32,
             endLine: 2,
-            endColumn: 33
+            endColumn: 38
         }]
     }, {
         code: "_\n.chain({})\n.map(foo)\n.filter(bar).value();",
@@ -53,7 +53,7 @@ ruleTester.run("newline-per-chained-call", rule, {
             line: 4,
             column: 13,
             endLine: 4,
-            endColumn: 14
+            endColumn: 19
         }]
     }, {
         code: "a().b().c().e.d()",
@@ -64,7 +64,7 @@ ruleTester.run("newline-per-chained-call", rule, {
             line: 1,
             column: 8,
             endLine: 1,
-            endColumn: 9
+            endColumn: 10
         }]
     }, {
         code: "a.b.c().e().d()",
@@ -75,7 +75,7 @@ ruleTester.run("newline-per-chained-call", rule, {
             line: 1,
             column: 12,
             endLine: 1,
-            endColumn: 13
+            endColumn: 14
         }]
     }, {
         code: "_.chain({}).map(a).value(); ",
@@ -86,7 +86,7 @@ ruleTester.run("newline-per-chained-call", rule, {
             line: 1,
             column: 19,
             endLine: 1,
-            endColumn: 20
+            endColumn: 25
         }]
     }, {
         code: "var a = m1.m2();\n var b = m1.m2().m3().m4().m5();",
@@ -97,14 +97,14 @@ ruleTester.run("newline-per-chained-call", rule, {
             line: 2,
             column: 22,
             endLine: 2,
-            endColumn: 23
+            endColumn: 25
         }, {
             messageId: "expected",
             data: { callee: ".m5" },
             line: 2,
             column: 27,
             endLine: 2,
-            endColumn: 28
+            endColumn: 30
         }]
     }, {
         code: "var a = m1.m2();\n var b = m1.m2().m3()\n.m4().m5();",
@@ -115,7 +115,7 @@ ruleTester.run("newline-per-chained-call", rule, {
             line: 3,
             column: 6,
             endLine: 3,
-            endColumn: 7
+            endColumn: 9
         }]
     }, {
         code: "var a = m1().m2\n.m3().m4().m5().m6().m7();",
@@ -129,14 +129,14 @@ ruleTester.run("newline-per-chained-call", rule, {
             line: 2,
             column: 16,
             endLine: 2,
-            endColumn: 17
+            endColumn: 19
         }, {
             messageId: "expected",
             data: { callee: ".m7" },
             line: 2,
             column: 21,
             endLine: 2,
-            endColumn: 22
+            endColumn: 24
         }]
     }, {
         code: [
@@ -205,14 +205,14 @@ ruleTester.run("newline-per-chained-call", rule, {
             line: 16,
             column: 3,
             endLine: 16,
-            endColumn: 4
+            endColumn: 6
         }, {
             messageId: "expected",
             data: { callee: ".end" },
             line: 27,
             column: 3,
             endLine: 27,
-            endColumn: 4
+            endColumn: 7
         }]
     }, {
         code: [
@@ -233,14 +233,14 @@ ruleTester.run("newline-per-chained-call", rule, {
             line: 1,
             column: 29,
             endLine: 1,
-            endColumn: 30
+            endColumn: 43
         }, {
             messageId: "expected",
             data: { callee: "[aCondition ?" },
             line: 1,
             column: 45,
-            endLine: 1,
-            endColumn: 46
+            endLine: 3,
+            endColumn: 15
         }]
     }, {
         code: "foo.bar()['foo' + \u2029 + 'bar']()",
@@ -251,8 +251,8 @@ ruleTester.run("newline-per-chained-call", rule, {
             data: { callee: "['foo' + " },
             line: 1,
             column: 10,
-            endLine: 1,
-            endColumn: 11
+            endLine: 2,
+            endColumn: 10
         }]
     }, {
         code: "foo.bar()[(biz)]()",
@@ -264,7 +264,7 @@ ruleTester.run("newline-per-chained-call", rule, {
             line: 1,
             column: 10,
             endLine: 1,
-            endColumn: 11
+            endColumn: 17
         }]
     }, {
         code: "(foo).bar().biz()",
@@ -276,7 +276,7 @@ ruleTester.run("newline-per-chained-call", rule, {
             line: 1,
             column: 12,
             endLine: 1,
-            endColumn: 13
+            endColumn: 16
         }]
     }, {
         code: "foo.bar(). /* comment */ biz()",
@@ -288,7 +288,7 @@ ruleTester.run("newline-per-chained-call", rule, {
             line: 1,
             column: 10,
             endLine: 1,
-            endColumn: 11
+            endColumn: 29
         }]
     }, {
         code: "foo.bar() /* comment */ .biz()",
@@ -300,7 +300,7 @@ ruleTester.run("newline-per-chained-call", rule, {
             line: 1,
             column: 25,
             endLine: 1,
-            endColumn: 26
+            endColumn: 29
         }]
     }, {
         code: "((foo.bar()) . baz()).quux();",
@@ -312,14 +312,14 @@ ruleTester.run("newline-per-chained-call", rule, {
             line: 1,
             column: 14,
             endLine: 1,
-            endColumn: 15
+            endColumn: 19
         }, {
             messageId: "expected",
             data: { callee: ".quux" },
             line: 1,
             column: 22,
             endLine: 1,
-            endColumn: 23
+            endColumn: 27
         }]
     }, {
         code: "((foo.bar()) [a + b] ()) [(c + d)]()",
@@ -331,14 +331,14 @@ ruleTester.run("newline-per-chained-call", rule, {
             line: 1,
             column: 14,
             endLine: 1,
-            endColumn: 15
+            endColumn: 21
         }, {
             messageId: "expected",
             data: { callee: "[c + d]" },
             line: 1,
             column: 26,
             endLine: 1,
-            endColumn: 27
+            endColumn: 35
         }]
     }]
 });
