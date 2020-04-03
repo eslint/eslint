@@ -136,7 +136,8 @@ ruleTester.run("space-before-function-paren", rule, {
                     type: "FunctionDeclaration",
                     messageId: "missingSpace",
                     line: 1,
-                    column: 13
+                    column: 13,
+                    endColumn: 14
                 }
             ]
         },
@@ -148,7 +149,8 @@ ruleTester.run("space-before-function-paren", rule, {
                     type: "FunctionDeclaration",
                     messageId: "missingSpace",
                     line: 1,
-                    column: 13
+                    column: 18,
+                    endColumn: 19
                 }
             ]
         },
@@ -230,7 +232,8 @@ ruleTester.run("space-before-function-paren", rule, {
                     type: "FunctionDeclaration",
                     messageId: "unexpectedSpace",
                     line: 1,
-                    column: 13
+                    column: 13,
+                    endColumn: 14
                 }
             ]
         },
@@ -274,6 +277,20 @@ ruleTester.run("space-before-function-paren", rule, {
             ]
         },
         {
+            code: "function foo  () {}",
+            output: "function foo() {}",
+            options: ["never"],
+            errors: [
+                {
+                    type: "FunctionDeclaration",
+                    messageId: "unexpectedSpace",
+                    line: 1,
+                    column: 13,
+                    endColumn: 15
+                }
+            ]
+        },
+        {
             code: "function foo//\n() {}",
             output: null,
             options: ["never"],
@@ -282,7 +299,9 @@ ruleTester.run("space-before-function-paren", rule, {
                     type: "FunctionDeclaration",
                     messageId: "unexpectedSpace",
                     line: 1,
-                    column: 13
+                    column: 13,
+                    endLine: 2,
+                    endColumn: 1
                 }
             ]
         },
@@ -321,7 +340,8 @@ ruleTester.run("space-before-function-paren", rule, {
                     type: "FunctionExpression",
                     messageId: "unexpectedSpace",
                     line: 1,
-                    column: 19
+                    column: 19,
+                    endColumn: 20
                 }
             ]
         },
